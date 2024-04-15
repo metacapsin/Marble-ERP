@@ -1,0 +1,166 @@
+<div class="page-wrapper">
+  <div class="content">
+
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/patient/patients-list']">Patient List</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Flowsheets</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+
+            <div class="page-table-header mb-2">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="doctor-table-blk">
+                    <h3>Flowsheets List</h3>
+                    <div class="doctor-search-blk">
+                      <!-- <div class="add-group textbtn">
+                        <a class="btn btn-primary add-pluss ms-2" (click)="openAddProblems()"><img
+                                src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto text-end float-end ms-auto download-grp">
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-5 m-l-5">
+
+              <!-- <div class="col-md-3">
+                <div class="form-group local-forms">
+                  <label for="">Flowsheets</label>
+                  <p-dropdown [options]="flowsheets" styleClass="" optionLabel="label" optionValue="value"
+                    [style]="{'width':'100%'}" placeholder="Select flowsheets" [showClear]="true"
+                    [(ngModel)]="selectedflowsheets">
+                  </p-dropdown>
+
+                </div>
+              </div> -->
+
+              <!-- <div class="col-md-3">
+                <div class="form-group local-forms">
+                  <label for="">Start Date</label>
+                  <p-calendar appendTo="body" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group local-forms">
+                  <label for="">End Date</label>
+                  <p-calendar appendTo="body" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"></p-calendar>
+                </div>
+              </div> -->
+
+
+              <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                      <label for="">Flowsheets</label>
+                  <p-dropdown [options]="flowsheets" styleClass="" optionLabel="label" optionValue="value"
+                    [style]="{'width':'100%'}" placeholder="Select flowsheets" [showClear]="true"
+                    [(ngModel)]="selectedflowsheets">
+                  </p-dropdown>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="" class="me-3">Start Date:</label>
+                        <p-calendar
+                            [inputStyle]="{ width: '400px' }" dateFormat="dd/mm/yy"
+                            placeholder="dd/mm/yyyy"></p-calendar>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="" class="me-5">to</label>
+                        <p-calendar
+                            [inputStyle]="{ width: '400px' }" dateFormat="dd/mm/yy"
+                            placeholder="dd/mm/yyyy"></p-calendar>
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
+
+            <div *ngIf="selectedflowsheets === 'AdultPreventativeCareflowsheetslist'"
+              class="page-table-header mb-2 m-3">
+              <div class="row practice-card">
+                <div class="col-xl-6 col-lg-6 col-sm-6" *ngFor="let data of AdultPreventativeCareflowsheetslist">
+                  <div class="form-group row mb-2">
+                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">{{ data.title }}</h5>
+                    <div class="col-lg-9 col-md-9 col-xl-9">
+                      <p class="col-lg-9 col-form-label">{{ data.value }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="selectedflowsheets === 'Diabetesflowsheetslist'"
+              class="page-table-header mb-2 m-3">
+              <div class="row practice-card">
+                <div class="col-xl-6 col-lg-6 col-sm-6" *ngFor="let data of Diabetesflowsheetslist">
+                  <div class="form-group row mb-2">
+                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">{{ data.title }}</h5>
+                    <div class="col-lg-9 col-md-9 col-xl-9">
+                      <p class="col-lg-9 col-form-label">{{ data.value }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="selectedflowsheets === 'Hypertentionflowsheetslist'"
+              class="page-table-header mb-2 m-3">
+              <div class="row practice-card">
+                <div class="col-xl-6 col-lg-6 col-sm-6" *ngFor="let data of Hypertentionflowsheetslist">
+                  <div class="form-group row mb-2">
+                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">{{ data.title }}</h5>
+                    <div class="col-lg-9 col-md-9 col-xl-9">
+                      <p class="col-lg-9 col-form-label">{{ data.value }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="selectedflowsheets === 'vitalsflowsheetslist'"
+              class="page-table-header mb-2 m-3">
+              <div class="row practice-card">
+                <div class="col-xl-6 col-lg-6 col-sm-6" *ngFor="let data of vitalsflowsheetslist">
+                  <div class="form-group row mb-2">
+                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">{{ data.title }}</h5>
+                    <div class="col-lg-9 col-md-9 col-xl-9">
+                      <p class="col-lg-9 col-form-label">{{ data.value }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

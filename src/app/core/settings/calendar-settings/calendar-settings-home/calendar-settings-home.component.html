@@ -1,0 +1,988 @@
+<p-toast></p-toast>
+<div class="page-wrapper">
+  <!-- Page Content -->
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Settings</li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Calender Settings</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+              <div
+                class="p-1 d-flex mb-3"
+                style="justify-content: space-between"
+              >
+                <h3>Calender Settings</h3>
+              </div>
+              <div class="row align-items-start">
+                <div class="col-xl-3 d-flex">
+                  <div class="card chat-box p-0">
+                    <div class="chat-widgets">
+                      <div class="email-menu-blk">
+                        <ul>
+                          <li [class]="settingCategory === 'G' ? 'active' : ''">
+                            <a
+                              href="javascript:;"
+                              (click)="changeCalendarSettingCategory('G')"
+                              >General</a
+                            >
+                          </li>
+                          <li
+                            [class]="settingCategory === 'OH' ? 'active' : ''"
+                          >
+                            <a
+                              href="javascript:;"
+                              (click)="changeCalendarSettingCategory('OH')"
+                              >Office Hours</a
+                            >
+                          </li>
+                          <li
+                            [class]="settingCategory === 'TOH' ? 'active' : ''"
+                          >
+                            <a
+                              href="javascript:;"
+                              (click)="changeCalendarSettingCategory('TOH')"
+                              >Time Off & Holidays</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-9">
+                  <div class="card">
+                    <div class="card-body p-3">
+                      <ng-container *ngIf="settingCategory === 'G'">
+                        <div>
+                          <h4 class="page-title">General</h4>
+                          <div class="form-group row">
+                            <label for="Website" class="col-lg-3 col-form-label"
+                              >Time Zone</label
+                            >
+                            <div class="col-lg-9">
+                              <p-dropdown
+                                [options]="timeZonesList"
+                                styleClass=""
+                                [(ngModel)]="selectedTimeZone"
+                                optionLabel="label"
+                                optionValue="value"
+                                appendTo="body"
+                                [filter]="true"
+                                filterBy="value"
+                                [showClear]="true"
+                              >
+                              </p-dropdown>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="Website" class="col-lg-3 col-form-label"
+                              >Calendar Increment</label
+                            >
+                            <div class="col-lg-9">
+                              <p-dropdown
+                                [options]="calendarIncrementList"
+                                styleClass=""
+                                [(ngModel)]="selectedCalendarIncrement"
+                                optionLabel="label"
+                                optionValue="value"
+                                [showClear]="true"
+                                appendTo="body"
+                              >
+                              </p-dropdown>
+                            </div>
+                          </div>
+
+                          <div class="m-t-20 text-center">
+                            <button
+                              class="border-0 btn btn-primary btn-gradient-primary btnwidth"
+                              (click)="createGeneralCalendarSetting()"
+                            >
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="settingCategory === 'OH'">
+                        <h4 class="page-title">Provider Office Hours</h4>
+                        <div class="row">
+                          <ng-container
+                            *ngFor="let provider of providerHoursData"
+                          >
+                            <div class="col-lg-4">
+                              <div
+                                class="card ribbon-wrapper page-table-header mb-0"
+                              >
+                                <div class="card-body">
+                                  <div class="ribbon ribbon-primary">
+                                    {{ provider?.lastName | uppercase }},
+                                    {{ provider?.firstName | uppercase }}
+                                  </div>
+                                  <ng-container
+                                    *ngFor="
+                                      let day of provider.officeHours | keyvalue
+                                    "
+                                  >
+                                    <div
+                                      class="form-group row custom-row-margin"
+                                    >
+                                      <label
+                                        for="Website"
+                                        class="col-lg-3 col-form-label text-capitalize text-nowrap"
+                                        >{{ getTrimmedDays(day?.key) }} -
+                                      </label>
+                                      <ng-container
+                                        *ngFor="
+                                          let dayHours of day.value[
+                                            'workingTime'
+                                          ];
+                                          let workIndex = index
+                                        "
+                                      >
+                                        <label
+                                          for="Website"
+                                          *ngIf="workIndex > 0"
+                                          class="col-lg-3 col-form-label text-nowrap"
+                                        ></label>
+                                        <label
+                                          for="Website"
+                                          class="col-lg-9 col-form-label"
+                                          >{{ dayHours?.startTime }} -
+                                          {{ dayHours?.endTime }}</label
+                                        >
+                                      </ng-container>
+                                    </div>
+                                  </ng-container>
+                                </div>
+                                <div
+                                  class="d-flex justify-content-center py-2 editcol cursor-pointer"
+                                >
+                                  <button  class="border-0 btn float-end patient-views"
+                                  style="
+    text-align: center;
+    width: 100%;
+    height: 100%;
+"
+                                    (click)="editProviderHours(provider)"
+                                    >Edit</button
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="settingCategory === 'TOH'">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="d-flex justify-content-between">
+                              <h4 class="p-2 m-0">Staff Time Off</h4>
+                              <a
+                                class="float-end patient-views d-flex align-items-center p-2 cursor-pointer"
+                                (click)="openTimeOffDialog()"
+                                ><i class="fa-solid fa-plus">&nbsp;</i>New Time
+                                Off Event</a
+                              >
+                            </div>
+                            <p-divider styleClass="custom-divider"></p-divider>
+                            <div
+                              class="card-body p-2"
+                              *ngIf="
+                                !staffTimeOffList ||
+                                staffTimeOffList.length === 0
+                              "
+                            >
+                              <p>No staff time off events listed.</p>
+                            </div>
+                            <div
+                              class="card-body p-2"
+                              *ngIf="
+                                staffTimeOffList || staffTimeOffList.length > 0
+                              "
+                            >
+                              <div class="card-body p-3">
+                                <ng-container
+                                  *ngFor="let timeOff of staffTimeOffList"
+                                >
+                                  <div class="row">
+                                    <div class="col-xl-3">
+                                      <label
+                                        for="Website"
+                                        class="col-form-label"
+                                        >{{ timeOff?.name }}
+                                      </label>
+                                    </div>
+                                    <div class="col-xl-3">
+                                      <label
+                                        for="Website"
+                                        class="col-form-label"
+                                        >{{ timeOff?.reason }}
+                                      </label>
+                                    </div>
+                                    <div class="col-xl-4">
+                                      <label
+                                        for="Website"
+                                        class="col-form-label"
+                                        >{{
+                                          timeOff?.startDate
+                                            | date : "fullDate"
+                                        }}, {{ timeOff?.startTime }} -
+                                        {{
+                                          timeOff?.endDate | date : "fullDate"
+                                        }}, {{ timeOff?.endTime }}</label
+                                      >
+                                    </div>
+                                    <div class="col-xl-2">
+                                      <p-button
+                                        [text]="true"
+                                        icon="fa-solid fa-trash"
+                                        (click)="
+                                          deleteStaffTimeOff(timeOff._id)
+                                        "
+                                      ></p-button>
+                                    </div>
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="d-flex justify-content-between">
+                              <h4 class="p-2 m-0">Practice Holidays</h4>
+                              <a
+                                class="float-end patient-views d-flex align-items-center p-2 cursor-pointer"
+                                (click)="openHolidayDialog()"
+                                ><i class="fa-solid fa-plus">&nbsp;</i>New
+                                Custom Holiday</a
+                              >
+                            </div>
+                            <p-divider styleClass="custom-divider"></p-divider>
+                            <div class="card-body p-3">
+                              <ng-container
+                                *ngFor="let holiday of holidaysList"
+                              >
+                                <div class="row">
+                                  <div class="col-xl-3">
+                                    <label for="Website" class="col-form-label"
+                                      >{{ holiday?.name }}
+                                    </label>
+                                  </div>
+                                  <div class="col-xl-3">
+                                    <label
+                                      for="Website"
+                                      class="col-form-label"
+                                    ></label>
+                                  </div>
+                                  <div class="col-xl-4">
+                                    <label
+                                      for="Website"
+                                      class="col-form-label"
+                                      >{{
+                                        holiday?.date | date : "fullDate"
+                                      }}</label
+                                    >
+                                  </div>
+                                  <div class="col-xl-2">
+                                    <p-button
+                                      [text]="true"
+                                      icon="fa-solid fa-trash"
+                                      (click)="
+                                        deletePracticeHoliday(holiday._id)
+                                      "
+                                    ></p-button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /Page Content -->
+          </div>
+
+          <p-dialog
+            [(visible)]="providerHoursDialog"
+            [modal]="true"
+            [style]="{ width: '50vw' }"
+            (onHide)="closeProviderHoursDialog()"
+            [draggable]="false"
+            [resizable]="false"
+          >
+            <ng-template pTemplate="header">
+              <h4 class="mb-0">
+                Office Hours - {{ selectedProviderData?.firstName }}
+                {{ selectedProviderData?.lastName }}
+              </h4>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="row mt-2">
+                    <div
+                      class="col flex flex-row justify-content-start align-items-center"
+                    >
+                      <h4 class="card-title mb-2">Quick Pre-sets</h4>
+                    </div>
+                    <div class="col" style="text-align: right">
+                      <div class="flex flex-row justify-content-end mb-2">
+                        <p-button
+                          label="M - F, 9am  -5pm"
+                          [size]="'small'"
+                          (onClick)="preSetTime()"
+                          styleClass="group-left-button"
+                          [outlined]="true"
+                        ></p-button>
+                        <p-button
+                          label="Blank Slate"
+                          [size]="'small'"
+                          (onClick)="resetTime($event)"
+                          styleClass="group-right-button"
+                          [outlined]="true"
+                        ></p-button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" [formGroup]="providerHourForm">
+                <ng-container formArrayName="Days">
+                  <div class="">
+                    <p>Time slots These are the hours you work</p>
+                  </div>
+                  <ng-container
+                    *ngFor="let form of Days.controls; let i = index"
+                  >
+                    <div class="col-lg-12" [formGroupName]="i">
+                      <h4 class="card-tile mb-4">
+                        {{ Days.at(i).value.DayName | uppercase }}
+                      </h4>
+                      <div class="">
+                        <div class="row" formArrayName="WorkHours">
+                          <ng-container
+                            *ngFor="
+                              let wh of getWorkHours(i).controls;
+                              let wIndex = index
+                            "
+                          >
+                            <ng-container [formGroupName]="wIndex">
+                              <div class="col-3">
+                                <div class="col-md-12">
+                                  <div
+                                    class="d-flex gap-2 form-group local-forms m-0"
+                                  >
+                                    <label for="fromHours">From</label>
+
+                                    <p-dropdown
+                                    [options]="staticTimeSlots"
+                                    formControlName="startTime"
+                                     placeholder="Select"
+                                     [style]="{width: '200px','margin-bottom':'10px'}"
+                                  >
+                                   
+                                  </p-dropdown>
+                                  <br>
+
+                                    
+                                    <!-- <select
+                                      class="form-control select"
+                                      formControlName="startTime"
+                                      requiredid="fromHours"
+                                    >
+                                      <ng-container
+                                        *ngFor="let slot of staticTimeSlots"
+                                      >
+                                        <option [value]="slot">
+                                          {{ slot }}
+                                        </option>
+                                      </ng-container>
+                                    </select> -->
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3">
+                                <div class="col-md-12">
+                                  <div
+                                    class="d-flex gap-2 form-group local-forms m-0"
+                                  >
+                                    <label for="fromHours">To</label>
+
+                                    <p-dropdown
+                                    [options]="staticTimeSlots"
+                                    formControlName="endTime"
+                                    placeholder="Select"
+                                                                         [style]="{width: '200px','margin-bottom':'10px'}"
+
+                                  >
+                                   
+                                  </p-dropdown>
+                                  <br>
+
+
+
+                                    <!-- <select
+                                      class="form-control select"
+                                      formControlName="endTime"
+                                      required
+                                      id="fromHours"
+                                    >
+                                      <ng-container
+                                        *ngFor="let slot of staticTimeSlots"
+                                      >
+                                        <option [value]="slot">
+                                          {{ slot }}
+                                        </option>
+                                      </ng-container>
+                                    </select> -->
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-4">
+                                <div class="col-md-12">
+                                  <div
+                                    class="d-flex gap-2 form-group local-forms m-0"
+                                  >
+                                    <label for="fromHours"
+                                      >Service Location</label
+                                    >
+                                    <!-- <select
+                                      class="form-control select"
+                                      (change)="
+                                        patchServiceLocationName(i, wIndex)
+                                      "
+                                      formControlName="serrviceLocationId"
+                                      required
+                                      id="fromHours"
+                                    >
+                                      <ng-container
+                                        *ngFor="
+                                          let location of serviceLocationOptions
+                                        "
+                                      >
+                                        <option
+                                          [value]="location.key"
+                                          class=""
+                                          selected="selected"
+                                        >
+                                          {{ location.value }}
+                                        </option>
+                                      </ng-container>
+                                    </select> -->
+                                    <p-dropdown [options]="serviceLocationOptions" formControlName="serrviceLocationId" optionLabel="value"  placeholder="Select"
+                                    [style]="{width: '300px','margin-bottom':'10px'}"
+
+                                    ></p-dropdown>
+                                    <br>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-2">
+                                <div class="col-md-12">
+                                  <div
+                                    class="d-flex gap-2 form-group local-forms m-0"
+                                  >
+                                    <p-button
+                                      class="p-button-sm"
+                                      [text]="true"
+                                      size="small"
+                                      (onClick)="removeWorkHours(i, wIndex)"
+                                      icon="fa-solid fa-trash"
+                                    ></p-button>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </ng-container>
+                        </div>
+                        <div
+                          class="d-flex justify-content-start cursor-pointer mb-4"
+                        >
+                          <a
+                            class="float-end patient-views d-flex align-items-center p-2"
+                            (click)="addWorkHours(i)"
+                            ><i class="fa-solid fa-plus">&nbsp;</i>Time Slot</a
+                          >
+                        </div>
+                        <div class="">
+                          <p>Breaks Lunches, coffee breaks, etc</p>
+                        </div>
+                        <div class="row" formArrayName="BreakHours">
+                          <ng-container
+                            *ngFor="
+                              let bh of getBreakHours(i).controls;
+                              let bIndex = index
+                            "
+                          >
+                            <ng-container [formGroupName]="bIndex">
+                              <div class="col-3">
+                                <div class="col-md-12">
+                                  <div
+                                    class="d-flex gap-2 form-group local-forms m-0"
+                                  >
+                                    <label for="fromHours">Duration</label>
+                                    <!-- <select
+                                      class="form-control select"
+                                      formControlName="duration"
+                                      required
+                                      id="fromHours"
+                                    >
+                                      <option
+                                        value=""
+                                        class=""
+                                        selected="selected"
+                                      >
+                                        Select one
+                                      </option>
+                                      <option>15 mins</option>
+                                      <option>30 mins</option>
+                                      <option>45 mins</option>
+                                      <option>1 hr</option>
+                                      <option>1.5 hr</option>
+                                      <option>5:15 AM</option>
+                                    </select> -->
+
+                                    <p-dropdown [options]="breaksDuration" 
+                                 
+                                    formControlName="duration"  placeholder="Select Duration"
+                                                                         [style]="{width: '200px','margin-bottom':'10px'}"
+></p-dropdown>
+                                    <br>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-3">
+                                <div class="col-md-12">
+                                  <div
+                                    class="d-flex gap-2 form-group local-forms m-0"
+                                  >
+                                  <!-- bIndex -->
+                                    <label for="breakDescription"
+                                      >Description</label
+                                    >
+                                      <input
+                                      class="form-control"
+                                      name="breakDescription"
+                                      formControlName="title"
+                                      type="text"
+                                      placeholder=""
+                                      [style]="{width: '200px','margin-bottom':'10px'}"
+                                      
+                                    />
+                                    <div *ngIf="getBreakHours(i).controls[bIndex].get('title').invalid && getBreakHours(i).controls[bIndex].get('title').touched">
+                                      class="login-danger">Input must be between 5 and 50 characters
+                                    </div>
+                                    
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-4">
+                                <div class="col-md-12">
+                                  <div
+                                    class="d-flex gap-2 form-group local-forms m-0"
+                                  >
+                                    <label for="breakTime">At</label>
+                                    <!-- <select
+                                      class="form-control select"
+                                      formControlName="atOclock"
+                                      required
+                                      id="fromHours"
+                                    >
+                                      <ng-container
+                                        *ngFor="let slot of breakSlotsOptions"
+                                      >
+                                        <option [value]="slot">
+                                          {{ slot }}
+                                        </option>
+                                      </ng-container>
+                                    </select> -->
+                                    <p-dropdown [options]="breakSlotsOptions" 
+                                 
+                                    formControlName="atOclock"  placeholder="Select Time At"
+                                    [style]="{width: '300px','margin-bottom':'10px'}"
+                                    ></p-dropdown>
+
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-2">
+                                <div class="col-md-12">
+                                  <div
+                                    class="d-flex gap-2 form-group local-forms m-0"
+                                  >
+                                    <p-button
+                                      icon="fa-solid fa-trash"
+                                      [text]="true"
+                                      (onClick)="removeBreakHours(i, bIndex)"
+                                    ></p-button>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </ng-container>
+                        </div>
+                        <div
+                          class="d-flex justify-content-start cursor-pointer mb-2"
+                        >
+                          <a
+                            class="float-end patient-views d-flex align-items-center p-2"
+                            (click)="addBreakHours(i)"
+                            ><i class="fa-solid fa-plus">&nbsp;</i>Break</a
+                          >
+                        </div>
+                      </div>
+                      <ng-container *ngIf="i !== Days.controls.length - 1">
+                        <p-divider></p-divider>
+                      </ng-container>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <div class="d-flex justify-content-end gap-2 pt-2">
+                <button
+                  class="btn btn-secondary"
+                  (click)="providerHoursDialog = false"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="border-0 btn btn-primary btn-gradient-primary"
+                  (click)="updateProviderHours()"
+                >
+                  Save
+                </button>
+              </div>
+            </ng-template>
+          </p-dialog>
+
+          <!-- New Time Off event creation dialog -->
+          <p-dialog
+            [(visible)]="newTimeOffDialog"
+            [modal]="true"
+            [style]="{ width: '50vw' }"
+            (onHide)="closeTimeOffDialog()"
+            [draggable]="false"
+            [resizable]="false"
+          >
+            <ng-template pTemplate="header">
+              <h4 class="mb-0">New Time Off Event</h4>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <div class="row mt-2" [formGroup]="timeOffForm">
+                <div class="col-12 col-md-12 col-xl-12">
+                  <div class="form-group local-forms">
+                    <label for="departmet"
+                      >Staff <span class="login-danger">*</span></label
+                    >
+                    <p-dropdown
+                      [options]="providerHoursData"
+                      [styleClass]="
+                        getTimeOffControl('Staff').hasError('required') &&
+                        getTimeOffControl('Staff')?.touched
+                          ? 'invalid-input'
+                          : ''
+                      "
+                      optionLabel="firstName"
+                      optionValue="userId"
+                      appendTo="body"
+                      formControlName="Staff"
+                    >
+                      <ng-template
+                        pTemplate="selectedItem"
+                        *ngIf="timeOffForm.value.Staff"
+                      >
+                        <div class="">
+                          <div>
+                            {{ timeOffForm.value.Staff.firstName }}
+                            {{ timeOffForm.value.Staff.lastName }}
+                          </div>
+                        </div>
+                      </ng-template>
+                      <ng-template let-staff pTemplate="item">
+                        <div class="">
+                          <div>{{ staff.firstName }} {{ staff.lastName }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-12 col-md-12 col-xl-12">
+                  <div class="form-group local-forms">
+                    <label for="departmenthead"
+                      >Reason<span class="login-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      [class]="
+                        getTimeOffControl('Reason').hasError('required') &&
+                        getTimeOffControl('Reason')?.touched
+                          ? 'invalid-input'
+                          : ''
+                      "
+                      formControlName="Reason"
+                      type="text"
+                    />
+                    <div *ngIf="getTimeOffControl('Reason')?.hasError('required') && getTimeOffControl('Reason')?.touched">
+                      <span class="login-danger">This field is required.</span>
+                    </div>
+                    <div *ngIf="getTimeOffControl('Reason')?.hasError('pattern') && getTimeOffControl('Reason')?.touched">
+                      <span class="login-danger">Input must be between 5 and 50 characters.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-6 col-md-6 col-xl-6">
+                      <div class="form-group local-forms">
+                        <label for="departmenthead"
+                          >Start Date<span class="login-danger">*</span></label
+                        >
+                        <p-calendar
+                          formControlName="StartDate"
+                          [styleClass]="
+                            getTimeOffControl('StartDate').hasError(
+                              'required'
+                            ) && getTimeOffControl('StartDate')?.touched
+                              ? 'invalid-input'
+                              : ''
+                          "
+                          dataType="string"
+                          dateMask
+                          appendTo="body"
+                          dateFormat="mm/dd/yy"
+                          placeholder="mm/dd/yyyy"
+                          styleClass="col-12"
+                        ></p-calendar>
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-6 col-xl-6">
+                      <div class="form-group local-forms">
+                        <label for="departmenthead"
+                          >Start Time<span class="login-danger">*</span></label
+                        >
+                        <p-calendar
+                          [showTime]="true"
+                          [styleClass]="
+                            getTimeOffControl('StartTime').hasError(
+                              'required'
+                            ) && getTimeOffControl('StartTime')?.touched
+                              ? 'invalid-input'
+                              : ''
+                          "
+                          [timeOnly]="true"
+                          dataType="string"
+                          dateMask
+                          appendTo="body"
+                          formControlName="StartTime"
+                          styleClass="col-12"
+                        ></p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 col-md-6 col-xl-6">
+                      <div class="form-group local-forms mb-0">
+                        <label for="departmenthead"
+                          >End Date<span class="login-danger">*</span></label
+                        >
+                        <p-calendar
+                          formControlName="EndDate"
+                          [styleClass]="
+                            getTimeOffControl('EndDate').hasError('required') &&
+                            getTimeOffControl('EndDate')?.touched
+                              ? 'invalid-input'
+                              : ''
+                          "
+                          dataType="string"
+                          dateMask
+                          appendTo="body"
+                          dateFormat="mm/dd/yy"
+                          placeholder="mm/dd/yyyy"
+                          styleClass="col-12"
+                        ></p-calendar>
+                        <!-- <div class="invalid-feedback" *ngIf="timeOffForm.get('EndDate').errors['endDateError']">End date should be greater then start date</div> -->
+                      </div>
+                    </div>
+                    <div class="col-6 col-md-6 col-xl-6">
+                      <div class="form-group local-forms mb-0">
+                        <label for="departmenthead"
+                          >End Time<span class="login-danger">*</span></label
+                        >
+                        <p-calendar
+                          [showTime]="true"
+                          [styleClass]="
+                            getTimeOffControl('EndTime').hasError('required') &&
+                            getTimeOffControl('EndTime')?.touched
+                              ? 'invalid-input'
+                              : ''
+                          "
+                          [timeOnly]="true"
+                          dataType="string"
+                          dateMask
+                          appendTo="body"
+                          formControlName="EndTime"
+                          styleClass="col-12"
+                        ></p-calendar>
+                      </div>
+                    </div>
+                    <div
+                      class="invalid-feedback"
+                      style="display: block"
+                      *ngIf="
+                        (timeOffForm.get('EndDate').errors &&
+                          timeOffForm.get('EndDate').errors['endDateError']) ||
+                        (timeOffForm.get('EndTime').errors &&
+                          timeOffForm.get('EndTime').errors['endTimeError'])
+                      "
+                    >
+                      End date & time should be greater then start date & time
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <div class="d-flex justify-content-end gap-2 pb-2">
+                <button
+                  class="btn btn-secondary"
+                  (click)="newTimeOffDialog = false"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="border-0 btn btn-primary btn-gradient-primary"
+                  *ngIf="!selectedTimeOff"
+                  (click)="createNewTimeOff()"
+                  [disabled]="timeOffForm.invalid"
+                >
+                  Create Event
+                </button>
+                <button
+                  class="border-0 btn btn-primary btn-gradient-primary"
+                  *ngIf="selectedTimeOff"
+                  (click)="updateTimeOff()"
+                  [disabled]="timeOffForm.invalid"
+                >
+                  Update Event
+                </button>
+              </div>
+            </ng-template>
+          </p-dialog>
+          <!-- New Time Off event creation dialog -->
+
+          <!-- New Holiday dialog -->
+          <p-dialog
+            [(visible)]="newHolidayDialog"
+            [modal]="true"
+            [style]="{ width: '50vw' }"
+            (onHide)="closeHolidayDialog()"
+            [draggable]="false"
+            [resizable]="false"
+          >
+            <ng-template pTemplate="header">
+              <h4 class="mb-0">New Custom Holiday</h4>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <div class="row mt-2" [formGroup]="holidayForm">
+                <div class="col-12 col-md-12 col-xl-12">
+                  <div class="form-group local-forms">
+                    <label for="departmenthead"
+                      >Name<span class="login-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      [class]="
+                        getHolidayControl('name').hasError('required') &&
+                        getHolidayControl('name')?.touched
+                          ? 'invalid-input'
+                          : ''
+                      "
+                      formControlName="name"
+                      type="text"
+                    />
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-12 col-md-12 col-xl-12">
+                      <div class="form-group local-forms">
+                        <label for="departmenthead"
+                          >Date<span class="login-danger">*</span></label
+                        >
+                        <p-calendar
+                          dateMask
+                          formControlName="date"
+                          [styleClass]="
+                            getHolidayControl('date').hasError('required') &&
+                            getHolidayControl('date')?.touched
+                              ? 'invalid-input col-12'
+                              : 'col-12'
+                          "
+                          appendTo="body"
+                          styleClass="col-12"
+                          [showSeconds]="true"
+                        ></p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <div class="d-flex justify-content-end gap-2">
+                <button
+                  class="btn btn-secondary"
+                  (click)="newHolidayDialog = false"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="border-0 btn btn-primary btn-gradient-primary"
+                  (click)="createPracticeHoliday()"
+                  [disabled]="holidayForm.invalid"
+                >
+                  Create Holiday
+                </button>
+              </div>
+            </ng-template>
+          </p-dialog>
+          <!-- New Holiday creation dialog -->
+
+          <app-confirm-dialog
+            [showDialog]="showDialog"
+            (callbackModal)="deleteConfirmation()"
+            (close)="close()"
+            [data]="modalData"
+          ></app-confirm-dialog>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

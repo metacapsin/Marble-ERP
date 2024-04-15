@@ -1,0 +1,64 @@
+<div class="page-wrapper">
+  <div class="content">
+
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/patient/patients-list']">Patient List</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Immunizations</li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Add Immunizations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body card-table">
+            <div class="page-table-header mb-2">
+
+              <div class="row">
+
+                <div class="col-12">
+                  <p-radioButton name="immunizationType" value="orderNow" [(ngModel)]="selectedOption" class="m-1"
+                    inputId="orderNow"></p-radioButton>
+                  <label for="orderNow" class="ml-2 m-1">Order Now</label>
+
+                  <p-radioButton name="immunizationType" value="administerNew" [(ngModel)]="selectedOption"
+                    class="m-l-5 m-1" inputId="administerNew"></p-radioButton>
+                  <label for="administerNew" class="m-1">Administer New</label>
+
+                  <p-radioButton name="immunizationType" value="addHistorical" [(ngModel)]="selectedOption" class="m-1"
+                    inputId="addHistorical"></p-radioButton>
+                  <label for="addHistorical" class="ml-2 m-1">Add Historical</label>
+
+                  <p-radioButton name="immunizationType" value="notAdministered" [(ngModel)]="selectedOption"
+                    class="m-l-5 m-1" inputId="notAdministered"></p-radioButton>
+                  <label for="notAdministered" class="m-1">Not Administered</label>
+                </div>
+
+              </div>
+
+              <app-order-now-form *ngIf="selectedOption == 'orderNow'"></app-order-now-form>
+              <app-administer-new-form *ngIf="selectedOption == 'administerNew'"></app-administer-new-form>
+              <app-add-historical-form *ngIf="selectedOption == 'addHistorical'"></app-add-historical-form>
+              <app-not-administered-form *ngIf="selectedOption == 'notAdministered'"></app-not-administered-form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

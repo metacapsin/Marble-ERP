@@ -1,0 +1,288 @@
+<div class="page-wrapper">
+    <div class="content">
+    
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.appointmentList">Appointment </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Book Appointment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        <div class="row">
+            <div class="col-sm-12">
+            
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row"    [formGroup]="appointmentForm" >
+                            <div class="row col-12">
+                                <div class="col-12">
+                                    <div class="form-heading">
+                                        <h4>Create Appointment</h4>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-12 col-md-6 col-xl-6">  
+                                    <div class="form-group local-forms">
+                                        <label for="name">Provider<span class="login-danger">*</span></label>
+                                        <p-dropdown [options]="providerList" formControlName="Provider" optionLabel="providerName"  appendTo="body"
+                                        styleClass="col-12">
+                                        </p-dropdown>
+                                    </div>
+                                </div> -->
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label  for="last">Patient <span class="login-danger">*</span></label>
+                                        <p-dropdown [options]="patientsList" placeholder="Select a patient" [styleClass]="'col-12 ' + (getApptFormControls('Patient').hasError('required')&&isAppointmentSubmit?'invalid-input':'')"  [filter]="true" filterBy="fullName" [showClear]="false"  (onChange)="selectPatient()" formControlName="Patient" optionLabel="fullName" appendTo="body"
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label  for="provider">Provider <span class="login-danger">*</span></label>
+                                        <p-dropdown [options]="providerList" [styleClass]="'col-12 ' + (getApptFormControls('Provider').hasError('required')&&isAppointmentSubmit?'invalid-input':'')" [filter]="true" filterBy="firstName" [showClear]="false"   inputId="provider" formControlName="Provider" placeholder="Select a provider" appendTo="body"
+                                        >
+                                            <ng-template
+                                                pTemplate="selectedItem"
+                                                
+                                            >
+                                                <div class="flex align-items-center gap-2" >
+                                                    
+                                                    <div *ngIf="appointmentForm.value.Provider" >
+                                                        {{ appointmentForm.value.Provider.firstName }}
+                                                        {{ appointmentForm.value.Provider.lastName }}
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                      <ng-template let-staff pTemplate="item">
+                                        <div class="">
+                                          <div>{{ staff.firstName }} {{ staff.lastName }}</div>
+                                        </div>
+                                      </ng-template>
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-12 col-xl-12">
+                                    <div class="form-group local-forms">
+                                        <label for="departmenthead">Visit Reason </label>
+                                        <p-dropdown [options]="visitReason" placeholder="Select visit reason" [styleClass]="'col-12 ' + (getApptFormControls('VisitReason').hasError('required')&&isAppointmentSubmit?'invalid-input':'')" [filter]="true" filterBy="visitReasonName" [showClear]="false"   formControlName="VisitReason" optionLabel="visitReasonName" appendTo="body"
+                                            ></p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-6 col-md-4 col-xl-4">
+                                            <div class="form-group local-forms">
+                                                <label for="departmenthead">Start Date<span
+                                                        class="login-danger">*</span></label>
+                                                <p-calendar  dataType="string" [styleClass]="'col-12 ' + (getApptFormControls('StartDate').hasError('required')&&isAppointmentSubmit?'invalid-input':'')"  dateMask (onSelect)="startDateChange()" (onInput)="startDateChange()"
+                                                    appendTo="body" dateFormat="mm/dd/yy" formControlName="StartDate" placeholder="mm/dd/yyyy" [minDate]="minDate"
+                                                    ></p-calendar>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-4 col-xl-3">
+                                            <div class="form-group local-forms">
+                                                <label for="departmenthead">Start TIme <span class="login-danger">*</span></label>
+                                                <p-dropdown [options]="appointmentSlots" (onChange)="checkAppointmentConflict()" [styleClass]="'col-12 ' + (getApptFormControls('StartTime').hasError('required')&&isAppointmentSubmit?'invalid-input':'')"  formControlName="StartTime" appendTo="body"
+                                                    ></p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-5 col-xl-5">
+                                            <div class="form-group local-forms">
+                                                <label for="departmenthead">Duration (in mins)<span
+                                                        class="login-danger">*</span></label>
+                                                <p-inputNumber inputId="duration" [styleClass]="'col-12 ' + (getApptFormControls('Duration').hasError('required')&&isAppointmentSubmit?'invalid-input':'')"  formControlName="Duration" [min]="0"> </p-inputNumber>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-12 col-xl-12">
+                                    <div class="form-group local-forms">
+                                        <label for="recurrence">Recurrence</label>
+                                        <p-dropdown [options]="scheduleOptions" [styleClass]="'col-12 ' + (getApptFormControls('Recurrence').hasError('required')&&isAppointmentSubmit?'invalid-input':'')"  optionLabel="label" optionValue="value" (onChange)="toggleEndSectionVisibility()" formControlName="Recurrence"  appendTo="body"
+                                           ></p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-12 col-xl-12" *ngIf="endSectionVisible">
+                                    <div class="form-group select-gender">
+                                        <label for="appointmentMOde" class="gen-label">Ends<span class="login-danger">*</span></label>
+                                        <!-- <div class="form-check col-12 p-0 row">
+                                            <label class="form-check-label col-12">
+                                                <p-radioButton name="RecurrenceValue" formControlName="RecurrenceValue" value="never" ></p-radioButton>
+                                                Never
+                                            </label>
+                                        </div> -->
+                                        <div class="p-0 mt-2 row align-items-center">
+                                            <label class="form-check-label col-4 ">
+                                                <p-radioButton name="RecurrenceValue" formControlName="RecurrenceValue" value="onDate" ></p-radioButton> On
+                                            </label>
+                                            <div class="col-8">
+                                                <p-calendar  dataType="string" dateMask appendTo="body" dateFormat="mm/dd/yy"  formControlName="EndDate" placeholder="mm/dd/yyyy"
+                                                [styleClass]="'col-12 ' + (getApptFormControls('EndDate').hasError('required')&&isAppointmentSubmit?'invalid-input':'')"></p-calendar>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 p-0 row  align-items-center">
+                                            <label class="form-check-label col-4 col-md-4">
+                                                <p-radioButton name="RecurrenceValue" formControlName="RecurrenceValue" value="after" ></p-radioButton> After
+                                            </label>
+                                            <div class="col-8 col-md-8  ml-0 p-l-0">
+                                                <span class="col-6" style="display: inline-block;">
+                                                    <p-inputNumber inputId="duration" [styleClass]="'col-4 ' + (getApptFormControls('After').hasError('required')&&isAppointmentSubmit?'invalid-input':'')" formControlName="After" styleClass="col-12" [min]="0"> </p-inputNumber>
+                                                </span>
+                                                <span class="col-5 ml-2" style="display: inline-block;">
+                                                    <label  class="col-12 align-items-center " >appointments</label>
+                                                </span>
+                                                <!-- <input type="text" class="col-4" pInputText> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 col-xl-6">
+                                            <div class="form-group local-forms">
+                                                <label for="email">Email<span
+                                                        class="login-danger">*</span></label>
+                                                <input inputId="email" [class]="'col-12 ' + (getApptFormControls('Email').hasError('required')&&isAppointmentSubmit?'invalid-input':'')"   formControlName="Email" pInputText >
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-xl-6">
+                                            <div class="form-group local-forms">
+                                                <label for="departmenthead">Phone Number <span
+                                                    class="login-danger">*</span></label>
+                                                <input inputId="phoneNumber" [class]="'col-12 ' + (getApptFormControls('Phone').hasError('required')&&isAppointmentSubmit?'invalid-input':'')"  pInputText  formControlName="Phone" >
+                                                <small class="ng-dirty ng-invalid " style="color: red" *ngIf="appointmentForm.get('Phone').errors &&( appointmentForm.get('Phone').errors['pattern']|| appointmentForm.get('Phone').errors['minlength']||appointmentForm.get('Phone').errors['maxlength'])">Please enter a valid phone number. </small>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12">
+                                    <div class="form-group local-forms">
+                                        <label for="departmenthead">Service Location <span
+                                            class="login-danger">*</span></label>
+                                        <p-dropdown [options]="serviceLocationOptions" [filter]="true" filterBy="name" [showClear]="false"  [styleClass]="'col-12 ' + (getApptFormControls('ServiceLocation').hasError('required')&&isAppointmentSubmit?'invalid-input':'')"  formControlName="ServiceLocation" optionLabel="name"  appendTo="body"
+                                            ></p-dropdown>
+                                    </div>
+                                </div>
+                               
+                                <div class="col-12 col-sm-12">
+                                    <div class="form-group local-forms">
+                                        <label for="Notes">Notes </label>
+                                        <textarea class="form-control" rows="3" formControlName="Note" cols="30"></textarea>
+                                    </div>
+                                </div>
+                                <ng-container *ngIf="isEditMode">
+                                    <div class="flex flex-wrap gap-3">
+                                        <div class="col-12">
+                                            <label for="">Apply changes to all upcoming appointments? (Yes to apply to all, No to apply only to this occurrence)</label>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <p-radioButton name="upcomingRecurrence" [value]="true" formControlName="upcomingRecurrence" inputId="ingredient1"></p-radioButton>
+                                            <label for="ingredient1" class="ml-2">Yes</label>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <p-radioButton name="upcomingRecurrence" [value]="false" formControlName="upcomingRecurrence" inputId="ingredient2"></p-radioButton>
+                                            <label for="ingredient2" class="ml-2">No (only this one)</label>
+                                        </div>
+                                        
+                                    </div>
+                                </ng-container>
+                                <div class="col-12">
+                                    <div class="doctor-submit text-end">
+                                        <button type="submit" class="btn btn-primary submit-form me-2" (click)="createAppointment($event)">Submit</button>
+                                        <button type="submit" class="btn btn-primary cancel-form" (click)="cancelAddAppointment()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>							
+            </div>					
+        </div>
+    </div>
+</div>
+
+
+<p-dialog [(visible)]="customEventDialog" [modal]="true" [style]="{ width: '50vw' }"
+(onHide)="closeCustomDialog()" [draggable]="false" [resizable]="false">
+<ng-template pTemplate="header">
+    <h4 class="mb-0">Custom Recurrence</h4>
+</ng-template>
+<ng-template pTemplate="content">
+    <div class="row mt-2" [formGroup]="customRecurrenceForm">
+        <div class="col-12 row">
+            <div class="col-3">Repeat Every</div>
+            <div class="col-3">
+                <div class="form-group local-forms">
+                    <p-inputNumber inputId="duration" [styleClass]="'col-12 ' + (getCustomRecurrenceControls('Interval').hasError('required')&&isCustomRecurrenceSubmit?'invalid-input':'')" formControlName="Interval" [min]="0"> </p-inputNumber>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group local-forms">
+                    <p-dropdown [options]="recurrenceTypeOptions"  formControlName="RepeatType" (onChange)="toggleRecurrenceTypeSelection()"  appendTo="body"
+                        styleClass="col-12"></p-dropdown>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 row" *ngIf="customRecurrenceForm.value.RepeatType==='Week'">
+            <div class="col-3">Repeat On</div>
+            <div class="form-group col-9 select-gender d-flex justify-content-between gap-2" >
+                <div class="d-flex align-items-center" *ngFor="let  day of weekDays; let i = index;">
+                    <p-checkbox [label]="day.label" #multiCheck name="weekDays" [(ngModel)]="daySelected" [ngModelOptions]="{standalone: true}"  [value]="day.value" ></p-checkbox>
+                </div>
+            </div>
+          
+        </div>
+        <div class="col-12 row">
+            <div class="col-3">Ends</div>
+            <div class="col-9 col-md-9 col-xl-9">
+                <div class="form-group select-gender" [formGroup]="customRecurrenceForm">
+                    <!-- <div class="form-check col-12 p-0 row">
+                        <label class="form-check-label col-12">
+                            <p-radioButton name="RecurrenceValue" formControlName="RecurrenceValue" value="never" ></p-radioButton>
+                            Never
+                        </label>
+                    </div> -->
+                    <div class="p-0 mt-2 row align-items-center">
+                        <label class="form-check-label col-4 ">
+                            <p-radioButton name="RecurrenceValue" formControlName="RecurrenceValue" value="onDate" ></p-radioButton> On
+                        </label>
+                        <div class="col-8">
+                            <p-calendar  dataType="string" formControlName="EndDate" dateMask appendTo="body" dateFormat="mm/dd/yy" formControlName="EndDate" placeholder="mm/dd/yyyy"
+                            styleClass="col-12"></p-calendar>
+                        </div>
+                    </div>
+                    <div class="mt-2 p-0 row  align-items-center">
+                        <label class="form-check-label col-4 col-md-4">
+                            <p-radioButton name="RecurrenceValue" formControlName="RecurrenceValue" value="after" ></p-radioButton> After
+                        </label>
+                        <div class="col-8 col-md-8  ml-0 p-l-0">
+                            <span class="col-6 inline-block">
+                                <p-inputNumber inputId="duration" formControlName="After" styleClass="col-4" formControlName="After" styleClass="col-12" [min]="0"> </p-inputNumber>
+                            </span>
+                            <span class="col-5 ml-2 inline-block">
+                                <label  class="col-12 align-items-center " >appointments</label>
+                            </span>
+                            <!-- <input type="text" class="col-4" pInputText> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template pTemplate="footer">
+    <div class="d-flex justify-content-end gap-2">
+        <button class="btn btn-secondary" (click)="customEventDialog=false">Cancel</button>
+        <button class="border-0 btn btn-primary btn-gradient-primary"
+            (click)="createCustomEvent()" [disabled]="customRecurrenceForm.invalid">Done</button>
+    </div>
+</ng-template>
+</p-dialog>
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>

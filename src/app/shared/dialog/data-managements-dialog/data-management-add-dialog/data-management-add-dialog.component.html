@@ -1,0 +1,63 @@
+<mat-dialog-content class="mat-typography mat-lg" style="width: 800px;">
+  <h3 class="m-b-50px">Run Export</h3>
+  <div class="modal-body">
+    <form [formGroup]="RunExportForm" (ngSubmit)="RunExportFormSubmit()">
+      <div class="row">
+
+        <div class="col-12 col-md-12">
+          <div class="form-group ">
+            <label>
+              <input type="radio" name="gender" />
+              Since the beginning of time </label>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="form-group ">
+            <label>
+              <input type="radio" name="gender" />Date Range:
+            </label>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="form-group local-forms">
+            <label for="From">From <span class="login-danger">*</span></label>
+            <input class="form-control " type="text" matInput [matDatepicker]="picker1">
+            <mat-datepicker #picker1></mat-datepicker>
+            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="form-group local-forms">
+            <label for="To">To <span class="login-danger">*</span></label>
+            <input class="form-control " type="text" matInput [matDatepicker]="picker2">
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="form-group local-forms">
+            <label for="city">Seen by Providers <span class="login-danger">*</span></label>
+            <mat-select class="form-control select" placeholder="Select  colors">
+              <mat-option *ngFor="let provider of providers" [value]="provider.value">
+                {{provider.value}}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+
+        <div class=" col-12">
+          <div class="doctor-submit text-end">
+            <button type="submit" class="btn btn-primary submit-form me-2" [disabled]="!RunExportForm.valid">Run
+              Export</button>
+            <button class="btn btn-primary cancel-form mat-dialog-close" [mat-dialog-close]="true">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>

@@ -1,0 +1,306 @@
+<div class="page-wrapper">
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.patientsList">Patients </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Add Patient</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <form [formGroup]="PatientFrom" (ngSubmit)="PatientFromSubmit()">
+              <div class="row">
+                <div class="col-12  d-flex justify-content-between">
+                  <div class="form-heading">
+                    <h4>Add Patient</h4>
+                  </div>
+
+                  <div class="settings-btns text-end m-b-10">
+                    <button type="submit" [disabled]="!PatientFrom.valid"
+                      class="border-0 btn btn-primary btn-gradient-primary m-r-10">
+                      Submit
+                    </button>
+                    <button [routerLink]="routes.patientsList" class="btn btn-secondary">
+                      Cancel
+                    </button>
+                  </div>
+
+                </div>
+                <!-- First Name -->
+                <div class="col-12 col-md-3 col-xl-3">
+                  <div class="form-group local-forms">
+                    <label for="firstName">First Name <span class="login-danger">*</span></label>
+                    <input class="form-control" formControlName="firstName" type="text" placeholder=""
+                      name="firstName" />
+                    <div class="login-danger Font_size" *ngIf="
+                                      PatientFrom.get('firstName')?.hasError('required') &&
+                                      PatientFrom.get('firstName')?.touched
+                                    ">
+                      This field is required
+                    </div>
+                  </div>
+                </div>
+                <!-- Middle Name -->
+                <div class="col-12 col-md-3 col-xl-3">
+                  <div class="form-group local-forms">
+                    <label for="middleName">Middle Name</label>
+                    <input class="form-control" formControlName="middleName" type="text" placeholder=""
+                      name="middleName" />
+                  </div>
+                </div>
+                <!-- Last Name   -->
+                <div class="col-12 col-md-3 col-xl-3">
+                  <div class="form-group local-forms">
+                    <label for="lastName">Last Name <span class="login-danger">*</span></label>
+                    <input class="form-control" formControlName="lastName" type="text" placeholder="" name="lastName" />
+                    <div class="login-danger Font_size" *ngIf="
+                                      PatientFrom.get('lastName')?.hasError('required') &&
+                                      PatientFrom.get('lastName')?.touched
+                                    ">
+                      This field is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-2">
+                  <div class="form-group select-gender">
+                    <div class="form-check-inline">
+                      <label class="form-check-label">
+                        <input type="radio" name="sex" formControlName="sex" value="male" class="form-check-input">Male
+                      </label>
+                    </div>
+                    <div class="form-check-inline">
+                      <label class="form-check-label">
+                        <input type="radio" name="sex" formControlName="sex" value="female"
+                          class="form-check-input">Female
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <!-- Date Of Birth -->
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="dob">Date Of Birth <span class="login-danger">*</span></label>
+                    <input class="form-control datetimepicker" formControlName="dob" type="text" placeholder="" matInput
+                      name="dob" [matDatepicker]="picker" />
+                    <div class="login-danger Font_size" *ngIf="
+                                    PatientFrom.get('dob')?.hasError('required') &&
+                                    PatientFrom.get('dob')?.touched
+                                  ">
+                      This field is required
+                    </div>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  </div>
+                </div>
+                <!-- Phone Number -->
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="phone">Phone Number<span class="login-danger">*</span></label>
+                    <input class="form-control" formControlName="phone" type="text" placeholder="" name="phone" />
+                    <div class="login-danger Font_size" *ngIf="
+                                    PatientFrom.get('phone')?.hasError('required') &&
+                                    PatientFrom.get('phone')?.touched
+                                  ">
+                      This field is required
+                    </div>
+                    <div class="login-danger Font_size" *ngIf="
+                                  PatientFrom.get('phone')?.hasError(
+                                                'pattern'
+                                              ) && PatientFrom.get('phone')?.touched
+                                  ">
+                      Enter A Valid Phone Number
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Email -->
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="email">Email<span class="login-danger">*</span></label>
+                    <input class="form-control" formControlName="email" type="email" placeholder="" name="email" />
+                    <div *ngIf="
+                                  PatientFrom.get('email')?.hasError(
+                                                'required'
+                                              ) && PatientFrom.get('email')?.touched
+                                            " class="login-danger Font_size">
+                      Email field is reqiured
+                    </div>
+                    <div *ngIf="PatientFrom.get('email')?.errors?.['email']" class="login-danger Font_size">
+                      Please enter a valid email address
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Ssn Code -->
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="ssn">Social Security Number<span class="login-danger">*</span></label>
+                    <input formControlName="ssn" class="form-control" type="text" name="ssn" placeholder="xxxxxxxxx" />
+                    <div *ngIf="
+    PatientFrom.get('ssn')?.hasError(
+                  'required'
+                ) && PatientFrom.get('ssn')?.touched
+              " class="login-danger Font_size">
+                      This field is reqiured
+                    </div>
+                    <div class="login-danger Font_size" *ngIf="
+    PatientFrom.get('ssn')?.hasError(
+                  'pattern'
+                ) && PatientFrom.get('ssn')?.touched
+    ">
+                      Match the pattern
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- medicalID Code -->
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="medicalID">Medical ID</label>
+                    <input formControlName="medicalID" class="form-control" type="text" name="medicalID" />
+                    <div *ngIf="
+    PatientFrom.get('medicalID')?.hasError(
+                  'required'
+                ) && PatientFrom.get('medicalID')?.touched
+              " class="login-danger Font_size">
+                      This field is reqiured
+                    </div>
+                  </div>
+                </div>
+                <!-- State -->
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="state">State/Province<span class="login-danger">*</span></label>
+                    <!-- <select class="form-control select" formControlName="state">
+                      <option value="" disabled selected>
+                        -- Select State--
+                      </option>
+                      <option *ngFor="let state of states" [value]="state.state_code">
+                        {{ state.name }}
+                      </option>
+                    </select> -->
+                    <p-dropdown [options]="states" styleClass="" optionLabel="name" optionValue="state_code"
+                      appendTo="body" placeholder="--Select State--" formControlName="state" [style]="{'width':'100%'}"
+                      [filter]="true" filterBy="name" [showClear]="true">
+                    </p-dropdown>
+                  </div>
+                </div>
+
+
+
+                <!-- City -->
+                <div class="col-12 col-sm-12 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="city">City<span class="login-danger">*</span></label>
+                    <input name="city" formControlName="city" class="form-control" />
+                    <div *ngIf="
+                                  PatientFrom.get('city')?.hasError(
+                                                'required'
+                                              ) && PatientFrom.get('city')?.touched
+                                            " class="login-danger Font_size">
+                      This field is reqiured
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="zipCode">Zip Code <span class="login-danger">*</span></label>
+                    <input formControlName="zipCode" class="form-control" type="text" placeholder="xxxxx"
+                      name="zipCode" />
+                    <div *ngIf="
+                                  PatientFrom.get('zipCode')?.hasError(
+                                                'required'
+                                              ) && PatientFrom.get('zipCode')?.touched
+                                            " class="login-danger Font_size">
+                      This field is reqiured
+                    </div>
+                    <div class="login-danger Font_size" *ngIf="
+                                  PatientFrom.get('zipCode')?.hasError(
+                                                'pattern'
+                                              ) && PatientFrom.get('zipCode')?.touched
+                                  ">
+                      Match the pattern
+                    </div>
+                  </div>
+                </div>
+                <!-- AptSuite Name -->
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="aptSuite">Apt/Suite<span class="login-danger">*</span></label>
+                    <input class="form-control" formControlName="aptSuite" type="text" placeholder="" name="aptSuite" />
+                    <div class="login-danger Font_size" *ngIf="
+                      PatientFrom.get('aptSuite')?.hasError('required') &&
+                      PatientFrom.get('aptSuite')?.touched
+                    ">
+                      This field is required
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Address  -->
+                <div class="col-12 col-sm-12 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="address1">Address <span class="login-danger">*</span></label>
+                    <textarea formControlName="address1" class="form-control" name="address1" rows="3"
+                      cols="30"></textarea>
+                    <div *ngIf="
+                                  PatientFrom.get('address1')?.hasError(
+                                                'required'
+                                              ) && PatientFrom.get('address1')?.touched
+                                            " class="login-danger Font_size">
+                      This field is reqiured
+                    </div>
+                    <div class="login-danger Font_size" *ngIf="
+                                  PatientFrom.get('address1')?.hasError(
+                                                'pattern'
+                                              ) && PatientFrom.get('address1')?.touched
+                                  ">
+                      Min length is 5 and max length is 50
+                    </div>
+                  </div>
+                </div>
+                <!-- Street Address -->
+                <div class="col-12 col-sm-12 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="address2">Second Address</label>
+                    <textarea name="address2" formControlName="address2" class="form-control" rows="3"
+                      cols="30"></textarea>
+                    <div *ngIf="
+                                  PatientFrom.get('address2')?.hasError(
+                                                'required'
+                                              ) && PatientFrom.get('address2')?.touched
+                                            " class="login-danger Font_size">
+                      This field is reqiured
+                    </div>
+                    <div class="login-danger Font_size" *ngIf="
+                                  PatientFrom.get('address2')?.hasError(
+                                                'pattern'
+                                              ) && PatientFrom.get('address2')?.touched
+                                  ">
+                      Min length is 5 and max length is 50
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

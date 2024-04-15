@@ -1,0 +1,110 @@
+<form [formGroup]="AdditionalInfoEditGroup" (ngSubmit)="AdditionalInfoEdit()">
+<div class="d-flex justify-content-end">
+    <button class="border-0 btn btn-primary btn-gradient-primary m-r-10 mb-2" type="submit" (click)="toggleEditMode()">{{ EditButton ? 'Save' : 'Edit' }}</button>
+</div>
+<div class="row" >
+    <div class="col-md-6">
+        <div class="">
+            <div class="about-me-list">
+                <ul class="list-space">
+                    <li>
+                        <h4 class="ResSet">Mother's First Name:</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormOne[0].motherFirstName}}</span>
+                        <input *ngIf="EditButton"formControlName="motherFirstName" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Birth Order</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormOne[0].dateofBirth}}</span>
+                        <input *ngIf="EditButton"formControlName="birthOrder" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Multiple Birth Members:</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormOne[0].multipleBirthMembers}}</span>
+                        <input *ngIf="EditButton"formControlName="multipleBirthMembers" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Citizenship</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{this.GridFormOne[0].citizenship}}</span>
+                        <input *ngIf="EditButton"formControlName="citizenship" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Education</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormOne[0].education}}</span>
+                        <input *ngIf="EditButton"formControlName="education" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Date and Time of Death:</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{this.GridFormOne[0].dateandTimeofDeath}}</span>
+                        <input *ngIf="EditButton"formControlName="dateandTimeofDeath" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Pharmacies</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormOne[0].pharmacies}}</span>
+                        <input *ngIf="EditButton"formControlName="pharmacies" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Primary Provider:</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormOne[0].primaryProvider}}</span>
+                        <input *ngIf="EditButton"formControlName="primaryProvider" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Referred By</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormOne[0].referredBy}}</span>
+                        <input *ngIf="EditButton"formControlName="referredBy" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Referring Provider</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormOne[0].referringProvider}}</span>
+                        <input *ngIf="EditButton"formControlName="referringProvider" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Referral Source</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormOne[0].referralSource}}</span>
+                        <input *ngIf="EditButton"formControlName="referralSource" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Notes</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormOne[0].notes}}</span>
+                        <input *ngIf="EditButton"formControlName="notes" class="form-control" type="text" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="">
+            <div class="about-me-list">
+                <ul class="list-space">
+                    <li>
+                        <h4 class="ResSet">Mother's Maiden Name:</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormSecond[0].motherMaidenName}}</span>
+                        <input *ngIf="EditButton"formControlName="notes" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Birth Place:</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormSecond[0].birthPlace}}</span>
+                        <input *ngIf="EditButton"formControlName="notes" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Nationality:</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormSecond[0].nationality}}</span>
+                        <input *ngIf="EditButton"formControlName="notes" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Religious Affiliation:</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormSecond[0].religiousAffiliation}}</span>
+                        <input *ngIf="EditButton"formControlName="notes" class="form-control" type="text" />
+                    </li>
+                    <li>
+                        <h4 class="ResSet">Cause of Death:</h4>
+                        <span *ngIf="!EditButton" class="ResSet">{{GridFormSecond[0].causeOfDeath}}</span>
+                        <input *ngIf="EditButton"formControlName="notes" class="form-control" type="text" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+

@@ -1,0 +1,212 @@
+<div class="page-wrapper">
+  <div class="content">
+
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a [routerLink]="['/patient/patients-list']">Patient List</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Allergies</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="doctor-table-blk">
+                    <h3>Allergies List</h3>
+                    <div class="doctor-search-blk">
+                      <div class="top-nav-search table-search-blk">
+                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
+                          (ngModelChange)="searchData(searchDataValue)">
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                      </div>
+                      <div class="add-group textbtn">
+                        <a class="btn btn-primary add-pluss ms-2" (click)="openAddAllergy()"><img
+                                src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto text-end float-end ms-auto download-grp">
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                </div>
+              </div>
+            </div>
+            <div class="page-table-header mb-2">
+              <div class="col-12 m-l-5 ">
+                <div class="checkbox mt-1">
+                  <p-checkbox [binary]="true" class="m-1" />
+                  <label class="m-1">
+                    No Known allergies
+                  </label>
+                </div>
+                <div class="checkbox mt-1">
+                  <p-checkbox [binary]="true"  class="m-1" />
+                  <label class="m-1">
+                    No Known medication allergies
+                  </label>
+                </div>
+                <div class="checkbox mt-1">
+                  <p-checkbox [binary]="true"  class="m-1" />
+                  <label class="m-1">
+                    Allergies reconclliation performed
+                  </label>
+                </div>
+              </div>
+              <div class="col-12 m-1">
+
+                <p-radioButton name="pizza" value="active" [(ngModel)]="status" class="m-1"
+                  inputId="active"></p-radioButton>
+                <label for="active" class="ml-2 m-1">Active</label>
+
+                <p-radioButton name="pizza" value="Inactive" [(ngModel)]="status" class="m-l-5 m-1"
+                  inputId="Inactive"></p-radioButton>
+                <label for="Inactive" class="m-1">Inactive</label>
+              </div>
+          </div>
+            <div class="table-responsive">
+              <p-table [value]="AllergiesList" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
+                <ng-template pTemplate="header">
+                  <tr>
+
+                    <th pSortableColumn="allergyAllergen">Allergen<p-sortIcon field="allergyAllergen"></p-sortIcon>
+                      <p-columnFilter type="text" field="allergyAllergen" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="allergyReaction">Reaction<p-sortIcon field="allergyReaction"></p-sortIcon>
+                      <p-columnFilter type="text" field="allergyReaction" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="allergySeverities">Severities<p-sortIcon field="allergySeverities"></p-sortIcon>
+                      <p-columnFilter type="text" field="allergySeverities" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="allergyDateOfOnset">DateOfOnset<p-sortIcon field="allergyDateOfOnset"></p-sortIcon>
+                      <p-columnFilter type="text" field="allergyDateOfOnset" display="menu"></p-columnFilter>
+                    </th>
+                    <th appShowHide [roles]="['admin', 'super-admin']">Action</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data>
+                  <tr>
+                    <td>{{data.allergyAllergen}}</td>
+                    <td>{{data.allergyReaction}}</td>
+                    <td>{{data.allergySeverities}}</td>
+                    <td>{{data.allergyDateOfOnset}}</td>
+
+                    <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
+                      <p-button [text]=" true" icon="fa fa-trash" (click)="deleteProblem(1)"></p-button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog> -->
+
+
+
+<!-- --add problem popup Patient-- -->
+
+<p-dialog [(visible)]="addAllergyDialog" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false"
+  [resizable]="false">
+  <ng-template pTemplate="header">
+    <h4 class="mb-0">Add New Allergy</h4>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="allergyForm" (ngSubmit)="allergyFormSubmit()">
+      <div class="row">
+
+        <div class="col-md-6 mt-2">
+          <div class="form-group local-forms">
+            <label for="">Allergen</label>
+            <p-autoComplete formControlName="allergyAllergen" [suggestions]="suggestions" (completeMethod)="search($event)"
+              [inputStyle]="{ 'width': '420px'}">
+            </p-autoComplete>
+            <div
+              *ngIf="allergyForm.get('allergyAllergen')?.hasError('required') && allergyForm.get('allergyAllergen')?.touched">
+              <span class="login-danger">Field is required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-2">
+          <div class="form-group local-forms">
+            <label for="">Reaction(s)</label>
+            <p-autoComplete formControlName="allergyReaction" [suggestions]="suggestions" (completeMethod)="search($event)"
+              [inputStyle]="{ 'width': '420px'}">
+            </p-autoComplete>
+            <div
+              *ngIf="allergyForm.get('allergyReaction')?.hasError('required') && allergyForm.get('allergyReaction')?.touched">
+              <span class="login-danger">Field is required</span>
+            </div>
+          </div>
+        </div>
+
+
+        
+        <div class="col-6 mt-2">
+          <div class="form-group local-forms">
+            <label for="">Date Of Onset</label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy" class="m-r-10 m-l-5"
+              formControlName="allergyDateOfOnset" [inputStyle]="{ 'width': '420px'}">
+            </p-calendar>
+            <div *ngIf="allergyForm.get('allergyDateOfOnset')?.hasError('required') && allergyForm.get('allergyDateOfOnset')?.touched">
+              <span class="login-danger">Field is required</span>
+            </div>
+          </div>
+        </div>
+
+       <div class="col-6 mt-2">
+        <div class="form-group local-forms">
+          <label for="">Severities</label>
+          <p-dropdown [options]="severities" styleClass="" optionLabel="label" optionValue="value"
+                        appendTo="body" placeholder="Select Severities" formControlName="allergySeverities"
+                        [style]="{'width':'420px'}" [filter]="true" filterBy="name" [showClear]="true">
+          </p-dropdown>
+          <div *ngIf="allergyForm.get('allergySeverities')?.hasError('required') && allergyForm.get('allergySeverities')?.touched">
+            <span class="login-danger">Field is required</span>
+          </div>
+        </div>
+       </div>
+
+        <div class="col-12 ">
+          <div class="form-group local-forms">
+            <label for="">Comments</label>
+            <textarea class="form-control" rows="3" cols="30" formControlName="allergyComments"></textarea>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class=" settings-btns text-end m-b-10">
+            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+              [disabled]="!allergyForm.valid">Submit</button>
+            <button class="btn btn-secondary" (click)="addAllergyDialog=false">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+  </ng-template>
+</p-dialog>

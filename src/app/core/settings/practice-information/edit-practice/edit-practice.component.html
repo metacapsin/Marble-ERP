@@ -1,0 +1,204 @@
+<p-toast></p-toast>
+
+<div class="page-wrapper">
+  <div class="content">
+
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item">Settings</li>
+            <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/settings/practice-information']">Practice-Information</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Edit Practice Information</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+
+              <form [formGroup]="form" (ngSubmit)="PracticeFormSubmit()">
+                <div class="row">
+                  <div class="d-flex m-b-10" style="justify-content: space-between;">
+                    <h4>Edit Practice Information </h4>
+                    <div class=" settings-btns text-end m-b-10">
+                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                        [disabled]="!form.valid">Submit</button>
+                      <button class="btn btn-secondary"
+                        [routerLink]="['/settings/practice-information']">Cancel</button>
+                    </div>
+
+                  </div>
+
+                  <div class="col-12 col-md-12 ">
+                    <div class="form-group local-forms">
+                      <label for="name">Name <span class="login-danger">*</span></label>
+                      <input class="form-control" type="text" placeholder="" formControlName="name">
+
+                      <div *ngIf="form.get('name')?.hasError('pattern') && form.get('name')?.touched">
+                        <span class="login-danger">Name field is reqiured</span>
+                      </div>
+                      <div *ngIf="form.get('name')?.hasError('pattern') && form.get('name')?.touched">
+                        <span class="login-danger">Input must be between 5 and 50 characters.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 ">
+                    <div class="form-group local-forms">
+                      <label for="address">Address <span class="login-danger">*</span></label>
+                      <input class="form-control" type="text" placeholder="" formControlName="address">
+
+                      <div *ngIf="form.get('address')?.hasError('required') && form.get('address')?.touched">
+                        <span class="login-danger">Field is reqiured</span>
+                      </div>
+                      <div *ngIf="form.get('address')?.hasError('pattern') && form.get('address')?.touched">
+                        <span class="login-danger">Input must be between 5 and 50 characters.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 ">
+                    <div class="form-group local-forms">
+                      <label for="address2">Address(2)</label>
+                      <input class="form-control" type="text" placeholder="" formControlName="address2">
+                      <div *ngIf="form.get('address2')?.hasError('pattern') && form.get('address2')?.touched">
+                        <span class="login-danger">Input must be between 5 and 50 characters.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 ">
+                    <div class="form-group local-forms">
+                      <label for="city">City <span class="login-danger">*</span></label>
+                      <input class="form-control" type="text" placeholder="" formControlName="city">
+                      <div *ngIf="form.get('city')?.hasError('required') && form.get('city')?.touched">
+                        <span class="login-danger">Field is reqiured</span>
+                      </div>
+                      <div *ngIf="form.get('city')?.hasError('pattern') && form.get('city')?.touched">
+                        <span class="login-danger">Input must be between 5 and 50 characters.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 ">
+                    <div class="form-group local-forms">
+                      <label for="state">State <span class="login-danger">*</span></label>
+                      <p-dropdown [options]="states" styleClass="" optionLabel="name" optionValue="name"
+                        appendTo="body" placeholder="--Select State--" formControlName="state"
+                        [style]="{'width':'100%'}" [filter]="true" filterBy="name" [showClear]="true">
+                      </p-dropdown>
+
+                      <div *ngIf="form.get('state')?.hasError('required') && form.get('state')?.touched">
+                        <span class="login-danger">Field is reqiured</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 ">
+                    <div class="form-group local-forms">
+                      <label for="phone">Phone No. <span class="login-danger">*</span></label>
+                      <input class="form-control" type="text" placeholder="xxx-xxx-xxxx" formControlName="phone">
+
+                      <div *ngIf="form.get('phone')?.hasError('required') && form.get('phone')?.touched">
+                        <span class="login-danger">Field is reqiured</span>
+                      </div>
+                      <div *ngIf="form.get('phone')?.hasError('pattern') && form.get('phone')?.touched">
+                        <span class="login-danger">Enter a valid USA number</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 ">
+                    <div class="form-group local-forms">
+                      <label for="zip">Zip <span class="login-danger">*</span></label>
+                      <input class="form-control" type="text" placeholder="XXXXX or XXXXX-XXXX" formControlName="zip">
+
+                      <div *ngIf="form.get('zip')?.hasError('required') && form.get('zip')?.touched">
+                        <span class="login-danger">Field is reqiured</span>
+                      </div>
+                      <div *ngIf="form.get('zip')?.hasError('pattern') && form.get('zip')?.touched">
+                        <span class="login-danger">Please enter valid zip code</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 ">
+                    <div class="form-group local-forms">
+                      <label for="fax">Fax </label>
+                      <input class="form-control" type="text" placeholder="xxx-xxx-xxxx" formControlName="fax">
+                      
+                      <div *ngIf="form.get('fax')?.hasError('pattern') && form.get('fax')?.touched">
+                        <span class="login-danger">Enter a valid USA fax number</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 ">
+                    <div class="form-group local-forms">
+                      <label for="locationContact">Location Contact</label>
+                      <input class="form-control" type="text" placeholder="" formControlName="locationContact">
+
+                      <div
+                        *ngIf="form.get('locationContact')?.hasError('pattern') && form.get('locationContact')?.touched">
+                        <span class="login-danger">Input must be between 0 and 100 characters.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 ">
+                    <div class="form-group local-forms">
+                      <label for="ein">EIN </label>
+                      <input class="form-control" type="text" placeholder="XXXXXXXXX" formControlName="ein">
+
+                      <div *ngIf="form.get('ein')?.hasError('pattern') && form.get('ein')?.touched">
+                        <span class="login-danger">Input must be 9 characters.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 ">
+                    <div class="form-group local-forms">
+                      <label for="groupNpi">Group NPI </label>
+                      <input class="form-control" type="text" placeholder="XXXXXXXXXX" formControlName="groupNpi">
+
+                      <div *ngIf="form.get('groupNpi')?.hasError('pattern') && form.get('groupNpi')?.touched">
+                        <span class="login-danger">Input must be 10 characters.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class=" col-12">
+                    <!-- <div class="doctor-submit text-end">
+            <button type="submit" class="btn btn-primary submit-form me-2" [disabled]="!form.valid">Submit</button>
+            <button class="btn btn-primary cancel-form dialog-close" [dialog-close]="true"
+              [routerLink]="['/settings/practice-information']">Cancel</button>
+          </div> -->
+                    <!-- <div class="  settings-btns text-end">
+                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary btn-rounded m-r-10"
+                        [disabled]="!form.valid">Submit</button>
+                      <button class="btn btn-secondary btn-rounded"
+                        [routerLink]="['/settings/practice-information']">Cancel</button> -->
+                    <!-- </div> -->
+                  </div>
+
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div>
+    <form class="flex align-items-center gap-1" [formGroup]="formGroup" (ngSubmit)="submitFrom()">
+        <div class="card">
+            <div class="card-body card-table">
+                <div class="row p-2">
+                    <div class="d-flex justify-content-between">
+                        <h3>Implantable Devices</h3>
+                        <div class="d-flex gap-2">
+                            <button class="btn-primary btn mb-3" (click)="goBack()">Back</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class=" d-flex justify-content-end gap-2">
+                            <button type="submit" class="btn-primary btn mb-3">Save</button>
+                            <button class="btn-primary btn mb-3" (click)="addImplantableDevicesItem()">+
+                                Device</button>
+                        </div>
+                        <div formArrayName="ImplantableDevices">
+                            <div *ngFor="let ImplantableDevicesForm of ImplantableDevices.controls; let i = index"
+                                [formGroupName]="i" class="row">
+
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label for="status">Status</label>
+                                        <p-dropdown [options]="status" placeholder="--Select Status--"
+                                            formControlName="status" optionLabel="status"
+                                             [style]="{'width':'100%'}"
+                                             [showClear]="true">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="row">
+                                        <div class="form-group local-forms col-md-10 col-xl-10 col-10">
+                                            <label for="UDI">UDI</label>
+                                            <input class="form-control" formControlName="UDI" type="number"
+                                                placeholder="Type Unique Device Identifer" />
+                                        </div>
+                                        <div class="col-md-2 col-2 col-xl-2 pt-2">
+                                            <button type="submit" class="btn-primary btn mb-3">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-10 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label for="Comments">Comments</label>
+                                        <textarea class="form-control" formControlName="Comments"
+                                            type="text"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-2 col-md-6 col-xl-6">
+                                    <p-button [text]="true" icon="fa fa-trash"
+                                        (click)="deleteImplantableDevices(i)"></p-button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

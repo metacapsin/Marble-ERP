@@ -1,0 +1,615 @@
+<p-toast></p-toast>
+
+<div class="page-wrapper">
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item"><a>Settings </a></li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/settings/providers-profiles']">Providers profile</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Profile Edit</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <form [formGroup]="ProviderProfileEditForm" (ngSubmit)="ProviderProfileEditSubmit()">
+              <div class="d-flex m-b-10" style="justify-content: space-between;">
+                <h4>Edit Provider Profile </h4>
+                <div class=" settings-btns text-end m-b-10">
+                  <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                  [disabled]="!ProviderProfileEditForm.valid">Submit</button>
+                  <button class="btn btn-secondary"
+                  [routerLink]="['/settings/providers-profiles']">Cancel</button>
+                </div>
+
+              </div>
+
+
+              <!-- <div class="form-group local-top-form">
+                <label for="avator" class="local-top">Profile Picture
+                  <span class="login-danger">*</span></label>
+                <div class="settings-btn upload-files-avator">
+                  <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)"
+                    class="hide-input" formControlName="profileUrl" />
+                  <label for="file" class="upload">Choose File</label>
+                </div>
+              </div> -->
+              <div class="row">
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="prefix">Prefix <span class="login-danger">*</span></label>
+                    <p-dropdown [options]="providerPrefix" optionLabel="label" optionValue="value" appendTo="body"
+                      formControlName="prefix" [style]="{'width':'100%'}">
+                    </p-dropdown>
+                    <!-- <select class="form-control select" placeholder="Select Prefix" formControlName="prefix">
+                      <option value="">Choose a Prefix</option>
+                      <option value="Mr.">Mr.</option>
+                      <option value="Mrs.">Mrs.</option>
+                      <option value="Ms.">Ms.</option>
+                      <option value="Dr.">Dr.</option>
+                    </select> -->
+                    <!-- <input class="form-control" type="text" formControlName="prefix" /> -->
+
+                    <div *ngIf="
+                        ProviderProfileEditForm.get('prefix')?.hasError(
+                          'required'
+                        ) && ProviderProfileEditForm.get('prefix')?.touched
+                      ">
+                      <span class="login-danger">This field is required.</span>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="suffix">Suffix <span class="login-danger">*</span></label>
+                    <p-dropdown [options]="providerSuffix" optionLabel="label" optionValue="value" appendTo="body"
+                    formControlName="suffix" [style]="{'width':'100%'}">
+                  </p-dropdown>
+
+                    <!-- <select class="form-control select" placeholder="Select Prefix" formControlName="suffix">
+                      <option value="">Choose a Suffix</option>
+                      <option value="Jr.">Jr.</option>
+                      <option value="Sr.">Sr.</option>
+                      <option value="II">II</option>
+                      <option value="III">III</option>
+                      <option value="IV">IV</option>
+                    </select> -->
+
+                    <div *ngIf="
+                        ProviderProfileEditForm.get('suffix')?.hasError(
+                          'required'
+                        ) && ProviderProfileEditForm.get('suffix')?.touched
+                      ">
+                      <span class="login-danger">This field is required.</span>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="firstName">First Name <span class="login-danger">*</span></label>
+                    <input class="form-control" type="text" formControlName="firstName" />
+
+                    <div *ngIf="
+                        ProviderProfileEditForm.get('firstName')?.hasError(
+                          'required'
+                        ) && ProviderProfileEditForm.get('firstName')?.touched
+                      ">
+                      <span class="login-danger">Field is required!</span>
+                    </div>
+                    <div *ngIf="
+                        ProviderProfileEditForm.get('firstName')?.hasError(
+                          'pattern'
+                        ) && ProviderProfileEditForm.get('firstName')?.touched
+                      ">
+                      <span class="login-danger">Input must be between 1 and 50 characters.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="lastName">Last Name <span class="login-danger">*</span></label>
+                    <input class="form-control" type="text" formControlName="lastName" />
+
+                    <div *ngIf="
+                    ProviderProfileEditForm.get('lastName')?.hasError(
+                      'required'
+                    ) && ProviderProfileEditForm.get('lastName')?.touched
+                  ">
+                      <span class="login-danger">Field is required!</span>
+                    </div>
+                    <div *ngIf="
+                    ProviderProfileEditForm.get('lastName')?.hasError(
+                      'pattern'
+                    ) && ProviderProfileEditForm.get('lastName')?.touched
+                  ">
+                      <span class="login-danger">Input must be between 1 and 50 characters.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="practicingYear">Years Practicing
+                    </label>
+                    <input class="form-control" type="number" formControlName="practicingYear" LocationInformation />
+                    <div
+                    *ngIf="ProviderProfileEditForm.get('practicingYear')?.hasError('max') && ProviderProfileEditForm.get('practicingYear')?.touched">
+                      <span class="login-danger">Input must be between 1 and 50 years.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="npi">Licensing</label>
+                    <input class="form-control" type="text" formControlName="npi" placeholder="Enter 10-Digit Number"/>
+                    
+                    <div *ngIf="
+                        ProviderProfileEditForm.get('npi')?.hasError(
+                          'pattern'
+                        ) && ProviderProfileEditForm.get('npi')?.touched
+                      ">
+
+                      <span class="login-danger">Please input valid 10-Digit License No.</span>
+
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="speciality">Specialty <span class="login-danger">*</span></label>
+                    <input class="form-control" type="text" formControlName="speciality" />
+
+                    <div *ngIf="
+                        ProviderProfileEditForm.get('speciality')?.hasError(
+                          'pattern'
+                        ) && ProviderProfileEditForm.get('speciality')?.touched
+                      ">
+                      <span class="login-danger">Input must be between 5 and 50 characters.</span>
+                    </div>
+                  </div>
+                </div> -->
+
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="Specialty">Specialty
+                      <span class="login-danger">*</span></label>
+                    <p-dropdown [options]="providerSpeciality" optionLabel="label" optionValue="value" appendTo="body"
+                      formControlName="speciality" [style]="{'width':'100%'}" [filter]="true" filterBy="value"
+                      [showClear]="true">
+                    </p-dropdown>
+                    <div *ngIf="
+                        ProviderProfileEditForm.get('speciality')?.hasError(
+                          'required'
+                        ) && ProviderProfileEditForm.get('speciality')?.touched
+                      ">
+                      <span class="login-danger">Feild is required.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group select-gender">
+                    <label for="gender" class="gen-label">Gender<span class="login-danger">*</span></label>
+                    <div class="form-check-inline">
+                      <label class="form-check-label">
+
+                        <input type="radio" name="gender" formControlName="gender" value="male" class="form-check-input"
+                          checked />Male
+
+
+                      </label>
+                    </div>
+                    <div class="form-check-inline">
+                      <label class="form-check-label">
+                        <input type="radio" name="gender" formControlName="gender" value="female"
+                          class="form-check-input" />Female
+                      </label>
+                    </div>
+                    <div class="form-check-inline">
+                      <label class="form-check-label">
+                        <input type="radio" name="gender" formControlName="gender" value="Other"
+                          class="form-check-input" />Other
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-heading">
+                    <h4>Social Media</h4>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="firstName">Google</label>
+                    <input class="form-control" type="text" formControlName="google" 
+                    placeholder="https://www.example.com"/><div *ngIf="
+                        ProviderProfileEditForm.get('google')?.hasError(
+                          'required'
+                        ) && ProviderProfileEditForm.get('google')?.touched
+                      ">
+                      <span class="login-danger">Feild is required.</span>
+                    </div>
+                    <div *ngIf="
+                        ProviderProfileEditForm.get('google')?.hasError(
+                          'pattern'
+                        ) && ProviderProfileEditForm.get('google')?.touched
+                      ">
+
+                      <span class="login-danger"> Please enter a valid URL for the website.</span>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="firstName">Twitter</label>
+                    <input class="form-control" type="text" formControlName="twitter" 
+                    placeholder="https://www.example.com"/><div *ngIf="
+                        ProviderProfileEditForm.get('twitter')?.hasError(
+                          'required'
+                        ) && ProviderProfileEditForm.get('twitter')?.touched
+                      ">
+                      <span class="login-danger">Feild is required.</span>
+                    </div>
+                    <div *ngIf="
+                        ProviderProfileEditForm.get('twitter')?.hasError(
+                          'pattern'
+                        ) && ProviderProfileEditForm.get('twitter')?.touched
+                      ">
+
+                      <span class="login-danger"> Please enter a valid URL for the website.</span>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="firstName">Facebook</label>
+                    <input class="form-control" type="text" formControlName="facebook" placeholder="https://www.example.com"/><div *ngIf="
+                        ProviderProfileEditForm.get('facebook')?.hasError(
+                          'required'
+                        ) && ProviderProfileEditForm.get('facebook')?.touched
+                      ">
+                      <span class="login-danger">Feild is required.</span>
+                    </div>
+                    <div *ngIf="
+                        ProviderProfileEditForm.get('facebook')?.hasError(
+                          'pattern'
+                        ) && ProviderProfileEditForm.get('facebook')?.touched
+                      ">
+
+                      <span class="login-danger"> Please enter a valid URL for the website.</span>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="firstName">Website</label>
+                    <input class="form-control" type="text" formControlName="website" placeholder="https://www.example.com"/><div *ngIf="
+                        ProviderProfileEditForm.get('website')?.hasError(
+                          'required'
+                        ) && ProviderProfileEditForm.get('website')?.touched
+                      ">
+                      <span class="login-danger">Feild is required.</span>
+                    </div>
+                    <div *ngIf="
+                        ProviderProfileEditForm.get('website')?.hasError(
+                          'pattern'
+                        ) && ProviderProfileEditForm.get('website')?.touched
+                      ">
+
+                      <span class="login-danger"> Please enter a valid URL for the website.</span>
+
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Education Feild Is comlpete 🤘 -->
+                <div>
+                  <div class="col-12">
+                    <div class="form-heading d-flex gap-2">
+                      <h4 class="mt-2">Educations</h4>
+                      <p-button [text]="true" icon="fa fa-plus" (click)="addEducationItem()"></p-button>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <ng-container formArrayName="education">
+                      <ng-container *ngFor="let educationForm of education.controls; let i = index" [formGroupName]="i">
+                        <div class="row">
+                          <!-- Update the formControlName to use the specific control name -->
+                          <div class="col-12 col-md-6 col-xl-4">
+                            <div class="form-group local-forms">
+                              <label for="graduatedyear">Graduated year</label>
+                              <input class="form-control" type="number" formControlName="graduatedyear" />
+                              <div
+                                *ngIf="educationForm.get('graduatedyear')?.hasError('required') && educationForm.get('graduatedyear')?.touched"
+                                class="login-danger">
+                                This field is required.
+                              </div>
+                              <div *ngIf="educationForm.get('graduatedyear')?.hasError('pattern') && educationForm.get('graduatedyear')?.touched"
+                              class="login-danger">
+                              Please enter a valid year between 1950 to current year
+                            </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-6 col-xl-4">
+                            <div class="form-group local-forms">
+                              <label for="areaOfStudy">Area Of Study</label>
+                              <input class="form-control" type="text" formControlName="areaOfStudy" />
+                              <div
+                                *ngIf="educationForm.get('areaOfStudy')?.hasError('required') && educationForm.get('areaOfStudy')?.touched"
+                                class="login-danger">
+                                This field is required.
+                              </div>
+                              <div
+                                *ngIf="educationForm.get('areaOfStudy')?.hasError('pattern') && educationForm.get('areaOfStudy')?.touched"
+                                class="login-danger">
+                                Input must be between 5 and 50 characters.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-11 col-md-5 col-xl-3">
+                            <div class="form-group local-forms">
+                              <label for="instuteName">Institute</label>
+                              <input class="form-control" type="text" formControlName="instuteName" />
+                              <div
+                                *ngIf="educationForm.get('instuteName')?.hasError('required') && educationForm.get('instuteName')?.touched"
+                                class="login-danger">
+                                This field is required.
+                              </div>
+                              <div
+                                *ngIf="educationForm.get('instuteName')?.hasError('pattern') && educationForm.get('instuteName')?.touched"
+                                class="login-danger">
+                                Input must be between 5 and 50 characters.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-1 col-1">
+                            <p-button [text]="true" icon="fa fa-trash" (click)="deleteEducation(i)"></p-button>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </div>
+                <!-- Awards Feild Is comlpete 🤘 -->
+                <div class="col-12">
+                  <div class="form-heading d-flex gap-2">
+                    <h4 class="mt-2">Awards</h4>
+                    <p-button [text]="true" icon="fa fa-plus" (click)="addAwardsItem()"></p-button>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <ng-container formArrayName="award">
+                    <ng-container *ngFor="let AwardsForm of award.controls; let i = index" [formGroupName]="i">
+                      <div class="row">
+                        <!-- Update the formControlName to use the specific control name -->
+                        <div class="col-12 col-md-6 col-xl-6">
+                          <div class="form-group local-forms">
+                            <label for="title">Award title</label>
+                            <input class="form-control" type="text" formControlName="title" />
+                            <div
+                              *ngIf="AwardsForm.get('title')?.hasError('required') && AwardsForm.get('title')?.touched"
+                              class="login-danger">
+                              This field is required.
+                            </div>
+                            <div
+                              *ngIf="AwardsForm.get('title')?.hasError('pattern') && AwardsForm.get('title')?.touched"
+                              class="login-danger">
+                              Input must be between 5 and 50 characters.                          
+                              </div>
+                           
+                          </div>
+                        </div>
+                        <div class="col-11 col-md-5 col-xl-5">
+                          <div class="form-group local-forms">
+                            <label for="year">Awarded-Year</label>
+                            <input class="form-control" type="number" formControlName="year" />
+                            <div *ngIf="AwardsForm.get('year')?.hasError('required') && AwardsForm.get('year')?.touched"
+                              class="login-danger">
+                              This field is required.
+                            </div>
+                            <div *ngIf="AwardsForm.get('year')?.hasError('pattern') && AwardsForm.get('year')?.touched"
+                              class="login-danger">
+                              Please enter a valid year between 1950 to current year
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-1 col-1">
+                          <p-button [text]="true" icon="fa fa-trash" (click)="deleteAwarded(i)"></p-button>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+
+                <!-- Language Feild Is comlpete 🤘 -->
+                <div class="col-12">
+                  <div class="form-heading d-flex gap-2">
+                    <h4 class="mt-2">Languages</h4>
+                    <p-button [text]="true" icon="fa fa-plus" (click)="addLanguageItem()"></p-button>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <ng-container formArrayName="language">
+                    <ng-container *ngFor="let languagesForm of language.controls; let i = index" [formGroupName]="i">
+                      <div class="row">
+                        <!-- Update the formControlName to use the specific control name -->
+                        <div class="col-12 col-md-6 col-xl-6">
+                          <div class="form-group local-forms">
+                            <label for="code">Language Code</label>
+                            <input class="form-control" type="text" formControlName="code" />
+                            <div
+                              *ngIf="languagesForm.get('code')?.hasError('required') && languagesForm.get('code')?.touched"
+                              class="login-danger">
+                              This field is required.
+                            </div>
+                            <div
+                              *ngIf="languagesForm.get('code')?.hasError('pattern') && languagesForm.get('code')?.touched"
+                              class="login-danger">
+                              Please Enter valid language code.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-11 col-md-5 col-xl-5">
+                          <div class="form-group local-forms">
+                            <label for="name">Language Name</label>
+                            <input class="form-control" type="text" formControlName="name" />
+                            <div
+                              *ngIf="languagesForm.get('name')?.hasError('required') && languagesForm.get('name')?.touched"
+                              class="login-danger">
+                              This field is required.
+                            </div>
+                            <div
+                            *ngIf="languagesForm.get('name')?.hasError('pattern') && languagesForm.get('name')?.touched"
+                            class="login-danger">
+                            Please Enter valid language name.
+                          </div>
+                          </div>
+                        </div>
+                        <div class="col-md-1 col-1">
+                          <p-button [text]="true" icon="fa fa-trash" (click)="deleteLanguage(i)"></p-button>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+
+
+
+
+
+
+                <div class="col-12">
+                  <div class="form-heading d-flex gap-2">
+                    <h4 class="mt-2">Hospital Affiliations</h4>
+                    <p-button [text]="true" icon="fa fa-plus" (click)="affiliationItem()"></p-button>
+                  </div>
+                </div>
+
+
+                <div class="col-md-12">
+                  <ng-container formArrayName="affiliationHospital">
+                    <ng-container *ngFor="let affiliationForm of affiliationHospital.controls; let i = index"
+                      [formGroupName]="i">
+                      <div class="row">
+
+                        <div class="col-12 col-md-6 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="name">
+                              Affiliation Name<span class="login-danger">*</span></label>
+                            <input class="form-control" type="text" formControlName="name" />
+
+                            <div *ngIf="
+                            affiliationForm.get('name')?.hasError(
+                              'required'
+                            ) && affiliationForm.get('name')?.touched
+                          ">
+                              <span class="login-danger">This field is required.</span>
+                            </div>
+                            <div *ngIf="
+                            affiliationForm.get('name')?.hasError(
+                              'pattern'
+                            ) && affiliationForm.get('name')?.touched
+                          ">
+                              <span class="login-danger">Input must be between 5 and 50 characters.</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="year">
+                              Affiliation Year <span class="login-danger">*</span></label>
+                            <input class="form-control" type="number" formControlName="year" />
+
+                            <div *ngIf="
+                            affiliationForm.get('year')?.hasError(
+                              'required'
+                            ) && affiliationForm.get('year')?.touched
+                          ">
+                              <span class="login-danger">This field is required.</span>
+                            </div>
+                            <div *ngIf="
+                            affiliationForm.get('year')?.hasError(
+                              'pattern'
+                            ) && affiliationForm.get('year')?.touched
+                          ">
+                              <span class="login-danger">Please enter a valid year between 1950 to current year</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-md-5 col-xl-3">
+                          <div class="form-group local-forms">
+                            <label for="address">
+                              Affiliation Address<span class="login-danger">*</span></label>
+                            <input class="form-control" type="text" formControlName="address" />
+
+                            <div *ngIf="
+                            affiliationForm.get('address')?.hasError(
+                                  'required'
+                                ) && affiliationForm.get('address')?.touched
+                              ">
+                              <span class="login-danger">This field is required!</span>
+                            </div>
+                            <div *ngIf="
+                            affiliationForm.get('address')?.hasError(
+                                  'pattern'
+                                ) && affiliationForm.get('address')?.touched
+                              ">
+                              <span class="login-danger">Input must be between 5 and 50 characters.</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-1 col-1 d-flex">
+                          <p-button [text]="true" icon="fa fa-trash" (click)="deleteaffiliation(i)"></p-button>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+
+                <!-- <div class="col-12">
+                  <div class="doctor-submit text-end">
+                    <button type="submit" class="btn btn-primary submit-form me-2" [disabled]="!ProviderProfileEditForm.valid">Submit</button>
+                    <button type="button" class="btn btn-primary cancel-form  mat-dialog-close"
+                      [routerLink]="['/settings/providers-profiles']">
+                      Cancel
+                    </button>
+                  </div>
+                </div> -->
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

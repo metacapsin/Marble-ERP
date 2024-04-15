@@ -1,0 +1,9 @@
+<p-dialog [(visible)]="showDialog" [modal]="true" [responsive]="true" [baseZIndex]="10000" [closeOnEscape]="true"
+    [closable]="false" position="top">
+    <h3>{{data?.title}}</h3>
+    <p>{{data?.messege}}</p>
+    <button type="button"  label="Delete" class="btn btn-primary" (click)="okay()">Okay</button>
+    &nbsp;
+    <button type="button"  label="Cancel" class="btn" (click)="closeTheWindow()">Cancel</button>
+
+</p-dialog>

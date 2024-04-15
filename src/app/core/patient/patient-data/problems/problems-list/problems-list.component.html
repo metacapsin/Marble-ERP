@@ -1,0 +1,230 @@
+<div class="page-wrapper">
+  <div class="content">
+
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a [routerLink]="['/patient/patients-list']">Patient List</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Problems</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="doctor-table-blk">
+                    <h3>Problems List</h3>
+                    <div class="doctor-search-blk">
+                      <div class="top-nav-search table-search-blk">
+                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
+                          (ngModelChange)="searchData(searchDataValue)">
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                      </div>
+                      <div class="add-group textbtn">
+                        <a class="btn btn-primary add-pluss ms-2" (click)="openAddProblems()"><img
+                                src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto text-end float-end ms-auto download-grp">
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                </div>
+              </div>
+            </div>
+            <div class="page-table-header mb-2">
+            <div class="col-12 m-l-5 ">
+              <div class="checkbox mt-1">
+                <p-checkbox [binary]="true" class="m-1" />
+                <label class="m-1">
+                  No Known Problems
+                </label>
+              </div>
+              <div class="checkbox mt-1">
+                <p-checkbox [binary]="true"  class="m-1" />
+                <label class="m-1">
+                  Problem reconclliation beformed
+                </label>
+              </div>
+            </div>
+            <div class="col-12 m-1">
+
+              <p-radioButton name="status" value="active" [(ngModel)]="status" class="m-1"
+                inputId="active"></p-radioButton>
+              <label for="active" class="ml-2 m-1">Active</label>
+
+              <p-radioButton name="status" value="Inactive" [(ngModel)]="status" class="m-l-5 m-1"
+                inputId="Inactive"></p-radioButton>
+              <label for="Inactive" class="m-1">Inactive</label>
+            </div>
+          </div>
+            <div class="table-responsive">
+              <p-table [value]="problemsList" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
+                <ng-template pTemplate="header">
+                  <tr>
+
+                    <th pSortableColumn="problemIssue">Problem/Issue<p-sortIcon field="problemIssue"></p-sortIcon>
+                      <p-columnFilter type="text" field="problemIssue" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="problemICD10">ICD-10<p-sortIcon field="problemICD10"></p-sortIcon>
+                      <p-columnFilter type="text" field="problemICD10" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="problemStartDate">Start Date<p-sortIcon field="problemStartDate"></p-sortIcon>
+                      <p-columnFilter type="text" field="problemStartDate" display="menu"></p-columnFilter>
+                    </th>
+                    <th appShowHide [roles]="['admin', 'super-admin']">Action</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data>
+                  <tr>
+                    <td>{{data.problemIssue}}</td>
+                    <td>{{data.problemICD10}}</td>
+                    <td>{{data.problemStartDate}}</td>
+
+                    <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
+                      <p-button [text]=" true" icon="fa fa-trash" (click)="deleteProblem(1)"></p-button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog>
+
+
+
+<!-- --add problem popup Patient-- -->
+
+<p-dialog [(visible)]="addProblemsDialog" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false"
+  [resizable]="false">
+  <ng-template pTemplate="header">
+    <h4 class="mb-0">New Problem</h4>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="problemsForm" (ngSubmit)="problemsFormSubmit()">
+      <div class="row">
+
+        <div class="col-12 mb-2 mt-1">
+          <p-radioButton name="problemStatus" value="active" formControlName="problemStatus" class="m-r-5"
+            inputId="Active"></p-radioButton>
+          <label for="Active" class="ml-2 m-r-5">Active</label>
+
+          <p-radioButton name="problemStatus" value="Inactive" class="m-l-5 m-r-5" formControlName="problemStatus"
+            inputId="inActive"></p-radioButton>
+          <label for="inActive" class="ml-2">Inactive</label>
+
+        </div>
+
+        <div class="col-md-6 mt-2">
+          <div class="form-group local-forms">
+            <label for="">Problem/Issue<span class="login-danger">*</span></label>
+            <p-autoComplete formControlName="problemIssue" [suggestions]="suggestions" (completeMethod)="search($event)"
+            [inputStyle]="{ 'width': '420px'}"></p-autoComplete>
+            <div
+              *ngIf="problemsForm.get('problemIssue')?.hasError('required') && problemsForm.get('problemIssue')?.touched">
+              <span class="login-danger">Field is required</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-6 mt-2">
+          <div class="form-group local-forms">
+            <label for="">ICD-10 Problem<span class="login-danger">*</span></label>
+            <p-autoComplete formControlName="problemICD10" [suggestions]="suggestions" (completeMethod)="search($event)"
+              [inputStyle]="{ 'width': '420px'}"></p-autoComplete>
+            <div
+              *ngIf="problemsForm.get('problemICD10')?.hasError('required') && problemsForm.get('problemICD10')?.touched">
+              <span class="login-danger">Field is required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="form-group local-forms">
+            <label for="">ICD-9 (optional)</label>
+            <p-autoComplete formControlName="problemICD9" [suggestions]="suggestions" (completeMethod)="search($event)"
+              [inputStyle]="{ 'width': '420px'}"></p-autoComplete>
+          </div>
+        </div>
+
+
+        <div class="col-12 mb-2">
+          <span class="m-r-5">Type:</span>
+          <p-radioButton name="problemType" value="acute" formControlName="problemType" class="m-r-5"
+            inputId="acute"></p-radioButton>
+          <label for="acute" class="ml-2 m-r-5">Acute</label>
+
+          <p-radioButton name="problemType" value="chronic" class="m-l-5 m-r-5" formControlName="problemType"
+            inputId="chronic"></p-radioButton>
+          <label for="chronic" class="ml-2">Chronic</label>
+        </div>
+
+        <div class="col-6 mt-2">
+          <div class="form-group local-forms">
+            <label for="">Start Date <span class="login-danger">*</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy" class="m-r-10 m-l-5"
+              formControlName="problemStartDate" [inputStyle]="{ 'width': '420px'}"></p-calendar>
+            <div
+              *ngIf="problemsForm.get('problemStartDate')?.hasError('required') && problemsForm.get('problemStartDate')?.touched">
+              <span class="login-danger">Field is required</span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="problemsForm.get('problemType').value === 'chronic'" class="col-6 mt-2">
+          <div class="form-group local-forms">
+            <label for="">End Date <span class="login-danger">*</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy" class="m-r-10 m-l-5"
+              formControlName="problemEndDate" [inputStyle]="{ 'width': '420px'}"></p-calendar>
+            <div
+              *ngIf="problemsForm.get('problemEndDate')?.hasError('required') && problemsForm.get('problemEndDate')?.touched">
+              <span class="login-danger">Field is required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 ">
+          <div class="form-group local-forms">
+            <label for="">Comments</label>
+            <textarea class="form-control" rows="3" cols="30" formControlName="ProblemComments"></textarea>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class=" settings-btns text-end m-b-10">
+            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+              [disabled]="!problemsForm.valid">Submit</button>
+            <button class="btn btn-secondary" (click)="addProblemsDialog=false">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+
+
+    </form>
+  </ng-template>
+</p-dialog>

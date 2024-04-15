@@ -1,0 +1,328 @@
+<div class="header">
+    <div class="header-left d-flex">
+        <a [routerLink]="routes.adminDashboard" class="logo">
+            <img src="assets/img/logo.png" width="35" height="35" alt=""> <span>MD Care Providers</span>
+        </a>
+        <div class="sidebar-menu align-self-center">
+            <ul class="nav float-start">
+                <ng-container *ngFor="let menu of sidebarData">
+                    <li *ngIf="menu.hasSubRoute === false" class="nav-item dropdown d-none d-sm-block">
+                        <a [class.active]="base === menu.base" [routerLink]="menu.route"><span class="menu-side"><i
+                                    class="fa" [class]="menu.icon" *ngIf="menu.faIcon === true"></i><img [src]="menu.img"
+                                    alt="" /></span> &nbsp;
+                            <span style="padding-left: 5px;">{{ menu.menuValue | titlecase }}</span></a>
+                    </li>
+                    <li class="nav-item dropdown has-arrow d-none d-sm-block" *ngIf="menu.hasSubRoute === true">
+                        <a [class.active]="base === menu.base" href="javascript:void(0)" data-bs-toggle="dropdown">
+                            <span class="menu-side"><i class="fa" [class]="menu.icon" *ngIf="menu.faIcon === true"></i><img
+                                    [src]="menu.img" alt="" /></span>
+                            <span> {{ menu.menuValue | titlecase }}</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <ul>
+                                <ng-container *ngFor="let subMenus of menu.subMenus">
+                                    <li>
+                                        <a [routerLink]="subMenus.route" [class.active]="currentUrl === subMenus.base">
+                                           <span class=""> {{ subMenus.menuValue | titlecase }} </span>
+                                        </a>
+                                    </li>
+                                </ng-container>
+    
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- </ng-container> -->
+                </ng-container>
+            </ul>
+        </div>
+    </div>
+    <!-- <a (click)="toggleSideBar()" id="toggle_btn" href="javascript:void(0);"><img src="assets/img/icons/bar-icon.svg"
+            alt=""></a>
+    <a (click)="toggleMobileSideBar()" (keyup.enter)="toggleMobileSideBar()" id="mobile_btn"
+        class="mobile_btn float-start" tabindex="0"><img src="assets/img/icons/bar-icon.svg" alt=""></a> -->
+        <div class="d-flex">
+
+            <div class="top-nav-search mob-view">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search here">
+                    <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                </form>
+            </div>
+            <ul class="nav user-menu float-end">
+                <li class="nav-item dropdown has-arrow user-profile-list">
+                    <a href="javascript:void(0);" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
+                        <div class="user-names">
+                            <h5>{{userData?.firstName}} {{userData?.lastName}}</h5>
+                            <span class="text-uppercase">{{userData?.role[0]}} </span>
+                        </div>
+                        <span class="user-img">
+                            <img src="assets/img/user-vector.png" alt="Admin">
+                            
+                        </span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" [routerLink]="routes.profile">My Profile</a>
+                        <a class="dropdown-item" (click)="logout()">Logout</a>
+                    </div>
+                </li>
+                <!-- <li class="nav-item ">
+                    <a [routerLink]="routes.settings" class="hasnotifications nav-link"><img
+                            src="assets/img/icons/setting-icon-01.svg" alt=""> </a>
+                </li> -->
+            </ul>
+        </div>
+   
+
+   
+    <div class="dropdown mobile-user-menu float-end">
+        <a href="javascript:void(0);" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
+                class="fa-solid fa-ellipsis-vertical"></i></a>
+        <div class="dropdown-menu dropdown-menu-end">
+            <a class="dropdown-item" [routerLink]="routes.profile">My Profile</a>
+            <a class="dropdown-item" [routerLink]="routes.login">Logout</a>
+        </div>
+    </div>
+</div>
+<!--<div class="leftheader" style="background-color: white;">
+    <div class="sidebar-menu">
+        <ul class="nav float-start">
+            <ng-container *ngFor="let menu of sidebarData">
+                <li *ngIf="menu.hasSubRoute === false" class="nav-item dropdown d-none d-sm-block">
+                    <a [class.active]="base === menu.base" [routerLink]="menu.route"><span class="menu-side"><i
+                                class="fa" [class]="menu.icon" *ngIf="menu.faIcon === true"></i><img [src]="menu.img"
+                                alt="" /></span> &nbsp;
+                        <span style="padding-left: 5px;">{{ menu.menuValue | titlecase }}</span></a>
+                </li>
+                <li class="nav-item dropdown has-arrow d-none d-sm-block" *ngIf="menu.hasSubRoute === true">
+                    <a [class.active]="base === menu.base" href="javascript:void(0)" data-bs-toggle="dropdown">
+                        <span class="menu-side"><i class="fa" [class]="menu.icon" *ngIf="menu.faIcon === true"></i><img
+                                [src]="menu.img" alt="" /></span>&nbsp;
+                        <span> {{ menu.menuValue | titlecase }}</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <ul>
+                            <ng-container *ngFor="let subMenus of menu.subMenus">
+                                <li>
+                                    <a [routerLink]="subMenus.route" [class.active]="currentUrl === subMenus.base">
+                                       <span class=""> {{ subMenus.menuValue | titlecase }} </span>
+                                    </a>
+                                </li>
+                            </ng-container>
+
+                        </ul>
+                    </div>
+                </li>
+            </ng-container>
+        </ul>
+    </div>
+
+</div> -->
+<div class="notification-box">
+    <div class="msg-sidebar notifications msg-noti">
+        <div class="topnav-dropdown-header">
+            <span>Messages</span>
+        </div>
+        <div class="drop-scroll msg-list-scroll" id="msg_list">
+            <ul class="list-box">
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">R</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author">Richard Miles </span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item new-message">
+                            <div class="list-left">
+                                <span class="avatar">J</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author">John Doe</span>
+                                <span class="message-time">1 Aug</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">T</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author"> Tarah Shropshire </span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">M</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author">Mike Litorus</span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">C</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author"> Catherine Manseau </span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">D</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author"> Domenic Houston </span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">B</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author"> Buster Wigton </span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">R</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author"> Rolland Webber </span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">C</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author"> Claire Mapes </span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">M</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author">Melita Faucher</span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">J</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author">Jeffery Lalor</span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">L</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author">Loren Gatlin</span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.chat">
+                        <div class="list-item">
+                            <div class="list-left">
+                                <span class="avatar">T</span>
+                            </div>
+                            <div class="list-body">
+                                <span class="message-author">Tarah Shropshire</span>
+                                <span class="message-time">12:28 AM</span>
+                                <div class="clearfix"></div>
+                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="topnav-dropdown-footer">
+            <a [routerLink]="routes.chat">See all messages</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+<p-toast></p-toast>
+<div class="page-wrapper">
+  <!-- Page Content -->
+  <div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active">Settings</li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Labs Settings</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="doctor-table-blk">
+                    <h3>Labs List</h3>
+                    <div class="doctor-search-blk">
+                      <div class="top-nav-search table-search-blk">
+                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
+                          (ngModelChange)="searchData(searchDataValue)">
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                      </div>
+                      <div class="add-group textbtn">
+                        <a appShowHide [roles]="['admin', 'super-admin', 'help-desk']" (click)="openAddDialog()" class="btn btn-primary add-pluss ms-2"><img
+                            src="assets/img/icons/plus.svg" alt="">Add New</a>
+                        <!-- <a href="javascript:;" (click)="getLabsLists()" class="btn btn-primary doctor-refresh ms-2"><img
+                            src="assets/img/icons/re-fresh.svg" alt=""></a> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                  <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+
+                </div>
+              </div>
+            </div>
+
+
+            <p-table [(selection)]="selectedProducts" key="_id" [value]="Labdata" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+              [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"
+              [globalFilterFields]="['labCategory', 'labName', 'labDiscription']">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th>
+                  <th pSortableColumn="labCategory" style="width: 30%;">Category <p-sortIcon
+                      field="labCategory"></p-sortIcon><p-columnFilter type="text" field="labCategory"
+                      display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="labName" style="width: 30%;">Name <p-sortIcon field="labName"></p-sortIcon>
+                    <p-columnFilter type="text" field="labName" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="labDiscription" style="width: 50%;">Description <p-sortIcon
+                      field="labDiscription"></p-sortIcon><p-columnFilter type="text" field="labDiscription"
+                      display="menu"></p-columnFilter>
+                  </th>
+                  <th appShowHide [roles]="['admin', 'super-admin', 'help-desk']">Action</th>
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-Lab>
+                <tr>
+                  <td appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
+                    <p-tableCheckbox [value]="Lab"></p-tableCheckbox>
+                  </td>
+                  <td class="">
+                    {{Lab.labCategory}}
+                  </td>
+                  <td>
+                    {{Lab.labName}}
+                  </td>
+                  <td>
+                    {{Lab.labDiscription}}
+                  </td>
+                  <!-- <td>
+                    <a> <i class="fa fa-edit" (click)="openEditDialog(Lab._id)" style="cursor: pointer;"></i>
+                    </a>
+                    <a> <i class="fa fa-trash" (click)="deleteLab(Lab._id)"
+                        style="margin-left: 7px; cursor: pointer;"></i> </a>
+                  </td> -->
+                  <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
+                    <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(Lab._id)"></p-button>
+                    <p-button [text]=" true" icon="fa fa-trash" (click)="deleteLab(Lab._id)"></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="data"></app-confirm-dialog>

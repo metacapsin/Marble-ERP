@@ -1,0 +1,103 @@
+<div class="page-wrapper">
+    <div class="content">
+    
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.patientsList">Patients </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Patient List</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        
+        <div class="row">
+            <div class="col-sm-12">
+            
+                <div class="card card-table show-entire">
+                    <div class="card-body">
+                    
+                        <!-- Table Header -->
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk">
+                                        <h3>Patient List</h3>
+                                        <div class="doctor-search-blk">
+                                            <div class="top-nav-search table-search-blk">
+                                                    <input type="text" class="form-control" 
+                                                    [(ngModel)]="searchDataValue"
+                                                    (ngModelChange)="searchData(searchDataValue)" placeholder="Search here" >
+                                                    <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                                    
+                                            </div>
+                                            <div class="add-group textbtn">
+                                                <a [routerLink]="routes.addPatient" class="btn btn-primary add-pluss ms-2">
+                                                    <img src="assets/img/icons/plus.svg" alt="">Add New
+                                                </a>
+                                                <!-- <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2">
+                                                    <img src="assets/img/icons/re-fresh.svg" alt=""></a> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto text-end float-end ms-auto download-grp">
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                                    <!-- <a href="javascript:;" ><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Table Header -->
+                         <!-- Table Body -->
+                        <div>
+                          <p-table [value]="data" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                          [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
+
+                            <ng-template pTemplate="header">
+                              <tr>
+                                <th appShowHide [roles]="['admin', 'super-admin']">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                  </th>
+                                <th pSortableColumn="fullName">Name <p-sortIcon field="fullName"></p-sortIcon></th>
+                                <th pSortableColumn="city">City<p-sortIcon field="city"></p-sortIcon></th>
+                                <th pSortableColumn="address1">Address<p-sortIcon field="address1"></p-sortIcon></th>
+                                <th pSortableColumn="phone">Phone Number<p-sortIcon field="phone"></p-sortIcon></th>
+                                <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon></th>
+                                <th>Action</th>
+
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-patient>
+                              <tr>
+                                <td appShowHide [roles]="['admin', 'super-admin']">
+                                    <p-tableCheckbox [value]="patient"></p-tableCheckbox>
+                                  </td>
+                                <td class="">{{patient.fullName}}</td>
+                                <td class="">{{patient.city}}</td>
+                                <td class="">{{patient.address1}}</td>
+                                <td class="">{{patient.phone}}</td>
+                                <td class="">{{patient.email}}</td>
+                                <td style="display: flex;">
+                                    <!-- <p-button [text]=" true" icon="fa fa-edit" (click)="patientEdit(patient._id)"></p-button> -->
+                                    <p-button [text]=" true" icon="fa-solid fa-eye" (click)="patientView(patient._id)"></p-button>
+                                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="patientDelete(patient._id)"></p-button>
+                                </td>
+                              </tr>
+                            </ng-template>
+                      
+                          </p-table>
+                        </div>
+                         <!-- /Table Body -->
+                </div>							
+            </div>					
+        </div>
+    </div>
+</div>
+<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>

@@ -1,0 +1,104 @@
+<style>
+  input[type='checkbox'] {
+    accent-color: #004852;
+  }
+</style>
+<p-toast></p-toast>
+<div class="page-wrapper">
+  <!-- Page Content -->
+  <div class="content container-fluid">
+
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active">Settings</li>
+            <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active">Receipt Settings</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- <button type="button" pButton pRipple (click)="show()" label="Show" class="p-button-success"></button> -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+            <form [formGroup]="ReceiptForm" (ngsubmit)="ReceiptFormSubmit()">
+              <div class="row">
+                <div class="p-3 d-flex m-b-15" style="justify-content: space-between;">
+                  <h3>Receipt on Patient Portal </h3>
+                  <div class="settings-btns text-end" appShowHide [roles]="['admin', 'super-admin']">
+                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary  m-r-10"
+                      (click)="ReceiptFormSubmit()">Save</button>
+                  </div>
+                </div>
+                <div class="col-12 col-md-12 ">
+                  <div class="form-group local-forms checkbox">
+                    <label>
+                      <h4>
+                          <p-checkbox [binary]="true" formControlName="receiptSettingsEnable" [(ngModel)]="EnableisChecked"   />
+                        Enable
+                      </h4>
+                    </label>
+                  </div>
+                </div>
+                @if(EnableisChecked){
+                <ng-container>
+                  <hr>
+                  <div class="col-12 col-md-12 pl-3">
+                    <div class="form-group local-forms">
+                      <p class="m-l-10">Please, select the default set of features you would like to include on the receipts when they
+                        are
+                        sent
+                        to the patient though the Patient Portal</p>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-12 m-b-20">
+                    <div class="form-group local-forms">
+                      <label>
+                        <h4>
+                          <p-checkbox [binary]="true" formControlName="receiptSettingsIncludeNotes" />
+                          Include Notes
+                        </h4>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-12 m-b-20">
+                    <div class="form-group local-forms">
+                      <label>
+                        <h4>
+                          <p-checkbox [binary]="true" formControlName="receiptSettingsIncludeNpi" />
+                          Include NPI from charge
+                        </h4>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-12 ">
+                    <div class="form-group local-forms">
+                      <label>
+                        <h4>
+                          <p-checkbox [binary]="true" formControlName="receiptSettingsIncludeTax" />
+                          Include TAX ID
+                        </h4>
+                      </label>
+                    </div>
+                  </div>
+                </ng-container>
+                }
+
+              </div>
+            </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

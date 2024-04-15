@@ -1,0 +1,319 @@
+<div class="page-wrapper">
+  <div class="content">
+
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/patient/patients-list']">Patient List</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Documents</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="doctor-table-blk">
+                    <h3>Documents List</h3>
+                    <div class="doctor-search-blk">
+                      <div class="top-nav-search table-search-blk">
+                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
+                          (ngModelChange)="searchData(searchDataValue)">
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                      </div>
+                      <div class="add-group textbtn">
+                        <input type="file" id="fileInput" style="display: none;" accept="image/*">
+                        <a class="btn btn-primary add-pluss ms-2" (click)="uploadDocumentsDialog=true"><img
+                            src="assets/img/icons/plus.svg" alt=""> Upload</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto text-end float-end ms-auto download-grp">
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+
+                </div>
+              </div>
+            </div>
+
+            <p-tabView>
+              <p-tabPanel header="Documents">
+                <h4 class="p-tab-heading">Patient Documents</h4>
+                <div class="table-responsive">
+                  <p-table [value]="documentsList" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                    [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
+                    <ng-template pTemplate="header">
+                      <tr>
+
+                        <th pSortableColumn="documentsDate">Date<p-sortIcon field="documentsDate"></p-sortIcon>
+                          <p-columnFilter type="text" field="documentsDate" display="menu"></p-columnFilter>
+                        </th>
+                        <th pSortableColumn="documentsName">Name<p-sortIcon field="documentsName"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsName" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th pSortableColumn="documentsStatus">Status<p-sortIcon field="documentsStatus"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsStatus" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th pSortableColumn="documentsLabel">Label<p-sortIcon field="documentsLabel"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsLabel" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th pSortableColumn="documentsNotes">Notes<p-sortIcon field="documentsNotes"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsNotes" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th pSortableColumn="documentsSentPatient">Sent To Patient<p-sortIcon
+                            field="documentsSentPatient"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsSentPatient" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th appShowHide [roles]="['admin', 'super-admin']">Action</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-data>
+                      <tr>
+                        <td>{{data.documentsDate}}</td>
+                        <td>{{data.documentsName}}</td>
+                        <td>{{data.documentsStatus}}</td>
+                        <td>{{data.documentsLabel}}</td>
+                        <td>{{data.documentsNotes}}</td>
+                        <td>{{data.documentsSentPatient}}</td>
+                        <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
+                          <p-button [text]=" true" icon="fa fa-download"></p-button>
+                          <p-button [text]=" true" icon="fa fa-trash"></p-button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Refferrals">
+                <h4 class="p-tab-heading">Patient Refferrals</h4>
+
+                <div class="table-responsive">
+                  <p-table [value]="documentsList" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                    [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
+                    <ng-template pTemplate="header">
+                      <tr>
+
+                        <th pSortableColumn="documentsDate">Date<p-sortIcon field="documentsDate"></p-sortIcon>
+                          <p-columnFilter type="text" field="documentsDate" display="menu"></p-columnFilter>
+                        </th>
+                        <th pSortableColumn="documentsName">Name<p-sortIcon field="documentsName"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsName" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th pSortableColumn="documentsStatus">Status<p-sortIcon field="documentsStatus"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsStatus" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th pSortableColumn="documentsLabel">Label<p-sortIcon field="documentsLabel"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsLabel" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th pSortableColumn="documentsNotes">Notes<p-sortIcon field="documentsNotes"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsNotes" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th pSortableColumn="documentsSentPatient">Sent To Patient<p-sortIcon
+                            field="documentsSentPatient"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsSentPatient" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th appShowHide [roles]="['admin', 'super-admin']">Action</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-data>
+                      <tr>
+                        <td>{{data.documentsDate}}</td>
+                        <td>{{data.documentsName}}</td>
+                        <td>{{data.documentsStatus}}</td>
+                        <td>{{data.documentsLabel}}</td>
+                        <td>{{data.documentsNotes}}</td>
+                        <td>{{data.documentsSentPatient}}</td>
+                        <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
+                          <p-button [text]=" true" icon="fa fa-download"></p-button>
+                          <p-button [text]=" true" icon="fa fa-trash"></p-button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+
+              </p-tabPanel>
+              <p-tabPanel header="Patient Education">
+                <h4 class="p-tab-heading">Patient Education</h4>
+                <div class="table-responsive">
+                  <p-table [value]="documentsList" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                    [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
+                    <ng-template pTemplate="header">
+                      <tr>
+
+                        <th pSortableColumn="documentsDate">Date<p-sortIcon field="documentsDate"></p-sortIcon>
+                          <p-columnFilter type="text" field="documentsDate" display="menu"></p-columnFilter>
+                        </th>
+                        <th pSortableColumn="documentsName">Name<p-sortIcon field="documentsName"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsName" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th pSortableColumn="documentsStatus">Status<p-sortIcon field="documentsStatus"></p-sortIcon>
+                          <!-- <p-columnFilter type="text" field="documentsStatus" display="menu"></p-columnFilter> -->
+                        </th>
+                        <th appShowHide [roles]="['admin', 'super-admin']">Action</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-data>
+                      <tr>
+                        <td>{{data.documentsDate}}</td>
+                        <td>{{data.documentsName}}</td>
+                        <td>{{data.documentsStatus}}</td>
+
+                        <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
+
+                          <p-button [text]=" true" icon="fa fa-download"></p-button>
+                          <p-button [text]=" true" icon="fa fa-trash"></p-button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+
+              </p-tabPanel>
+            </p-tabView>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- --- upload document --- -->
+<p-dialog [(visible)]="uploadDocumentsDialog" [modal]="true" [style]="{ width: '25vw' }" [draggable]="false"
+  [resizable]="false">
+  <ng-template pTemplate="header">
+    <h4 class="mb-0">Upload Document</h4>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="uploadDocumentsForm" (ngSubmit)="uploadDocumentsFormSubmit()">
+      <div class="row">
+
+        <div class="form-group local-top-form mt-2">
+          <label for="" class="local-top">Upload Document
+            <span class="login-danger">*</span></label>
+          <div class="settings-btn upload-files-avator">
+            <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" class="hide-input"
+              placeholder="" formControlName="documentsUpload" />
+            <label for="file" class="upload">Choose File</label>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class=" settings-btns text-end m-b-10">
+            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+              [disabled]="!uploadDocumentsForm.valid">Submit</button>
+            <button class="btn btn-secondary" (click)="uploadDocumentsDialog=false">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </ng-template>
+</p-dialog>
+
+
+<!-- ---- docuents edit dialog ----- -->
+<!-- <p-dialog [(visible)]="editDocumentsDialog" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false"
+  [resizable]="false">
+  <ng-template pTemplate="header">
+    <h4 class="mb-0">Edit Document Information</h4>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="documentsForm" (ngSubmit)="documentsFormSubmit()">
+      <div class="row">
+
+
+        <div class="page-table-header mb-2 m-3 mt-0"> 
+        <div class="row practice-card">
+          <div class="col-xl-6 col-lg-6 col-sm-12">
+            <div class="form-group row mb-2">
+              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">File</h5>
+              <div class="col-lg-9 col-md-9 col-xl-9">
+                  <p class="col-lg-9 col-form-label">File Name.pdf</p>
+              </div>
+            </div>      
+          </div>
+          <div class="col-xl-6 col-lg-6 col-sm-12">
+            <div class="form-group row mb-2">
+              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Patient</h5>
+              <div class="col-lg-9 col-md-9 col-xl-9">
+                  <p class="col-lg-9 col-form-label">Patient Name</p>
+              </div>
+            </div>     
+          </div>
+        </div>
+        </div>
+
+
+        <div class="col-6 mt-2">
+          <div class="form-group local-forms">
+            <label for="">Date</label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy" class="m-r-10 m-l-5"
+              formControlName="documentsDate" [inputStyle]="{ 'width': '350px'}"></p-calendar>
+          </div>
+        </div>
+
+        <div class="col-6 mt-2">
+          <div class="form-group local-forms">
+            <label for="">Labels</label>
+            <p-dropdown [options]="documentsLabels" styleClass="" optionLabel="label" optionValue="value"
+              appendTo="body" placeholder="Select Label" formControlName="documentsLabel"
+              [style]="{'width':'100%'}" [filter]="true" filterBy="name" [showClear]="true">
+            </p-dropdown>
+
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-2">
+          <div class="form-group local-forms">
+            <label for="">Name</label>
+            <input type="text " class="form-control">
+          </div>
+        </div>
+
+        <div class="col-6 mt-2">
+          <div class="form-group local-forms">
+            <label for="">Satus</label>
+            <p-dropdown [options]="documentsStatus" styleClass="" optionLabel="label" optionValue="value"
+              appendTo="body" placeholder="Select Status" formControlName="documentsStatus"
+              [style]="{'width':'100%'}" [filter]="true" filterBy="name" [showClear]="true">
+            </p-dropdown>
+
+          </div>
+        </div>
+
+        <div class="col-12 ">
+          <div class="form-group local-forms">
+            <label for="">Notes</label>
+            <textarea class="form-control" rows="3" cols="30" formControlName="allergyComments"></textarea>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class=" settings-btns text-end m-b-10">
+            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+              [disabled]="!documentsForm.valid">Submit</button>
+            <button class="btn btn-secondary" (click)="editDocumentsDialog=false">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+  </ng-template>
+</p-dialog> -->

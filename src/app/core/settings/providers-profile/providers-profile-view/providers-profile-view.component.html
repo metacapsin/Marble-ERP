@@ -1,0 +1,231 @@
+<div class="page-wrapper">
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item"><a>Settings </a></li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/settings/providers-profiles']">Providers profile</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Profile View</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card" id="profilecard">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="about-info">
+                  <h4>
+                    Providers Profile
+                    <span><button mat-button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                        (click)="goToEdit(id)">Edit
+                      </button></span>
+                  </h4>
+                </div>
+                <div class="doctor-profile-head" id="profilesub">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                      <div class="profile-user-box">
+                        <div class="profile-user-img">
+                          <img mat-card-image
+                            src='https://toppng.com/public/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png'
+                            alt="Image is not found" style="
+                            margin-top: 60%;
+                            " />
+                        </div>
+                        <div class="names-profiles">
+                          <h4>{{ providerData?.profileDetails.firstName }} {{ providerData?.profileDetails.middleName }}
+                            {{ providerData?.profileDetails.lastName }}</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="doctor-personals-grp">
+              <div class="card">
+                <div class="card-body">
+                  <div class="heading-detail">
+                    <h3 class="mb-4">About me</h3>
+                  </div>
+                  <div class="about-me-list">
+                    <ul class="list-space">
+                      <li>
+                        <h4>Gender</h4>
+                        <span class="text-capitalize">{{ providerData?.profileDetails?.gender }}</span>
+                      </li>
+                      <li>
+                        <h4>Licensing</h4>
+                        <span>{{ providerData?.profileDetails.npi }}</span>
+                      </li>
+                      <li>
+                        <h4>Specialty</h4>
+                        <span>{{ providerData?.profileDetails.speciality }}</span>
+                      </li>
+                      <li>
+                        <h4>Years Practicing</h4>
+                        <span>{{ providerData?.profileDetails.practicingYear }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="doctor-personals-grp">
+              <div class="card">
+                <div class="card-body">
+                  <div class="heading-detail">
+                    <h3 class="mb-4">Social Media</h3>
+                  </div>
+                  <div class="about-me-list">
+                    <ul class="list-space">
+                      <li>
+                        <h4><i class="feather icon-google"></i> Google</h4>
+                        <span class="text-capitalize">{{ providerData?.socialMedia.google }}</span>
+                      </li>
+                      <li>
+                        <h4><i class="feather icon-twitter"></i>  Twitter</h4>
+                        <span class="text-capitalize">{{ providerData?.socialMedia.twitter }}</span>
+                      </li>
+                      <li>
+                        <h4> <i class="feather icon-facebook"></i> FaceBook</h4>
+                        <span class="text-capitalize">{{ providerData?.socialMedia.facebook }}</span>
+                      </li>
+                      <li>
+                        <h4><i class="feather icon-website"></i>  personal-website</h4>
+                        <span class="text-capitalize">{{ providerData?.socialMedia.personalWebsite }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="doctor-personals-grp">
+              <div class="card">
+                <div class="card-body">
+                  <div class="tab-content-set">
+                    <ul class="nav">
+                      <li>
+                        <a class=""><span class="set-about-icon me-2"><img src="assets/img/icons/menu-icon-02.svg"
+                              alt="" /></span>Additional Information</a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="hello-park mb-2">
+                    <h3>Languages</h3>
+                    <div class="table-responsive">
+                      <table class="table mb-0 border-0 custom-table profile-table">
+                        <thead>
+                          <th>Code</th>
+                          <th>Name</th>
+                        </thead>
+                        <tbody>
+                          @for(lang of providerData?.profileDetails?.language; track lang.code) {
+                          <tr>
+                            <td>{{ lang.code}}</td>
+                            <td>{{ lang.name}}</td>
+                          </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                    <hr />
+                  </div>
+
+
+                  <div class="hello-park mb-2">
+                    <h3>Education</h3>
+                    <div class="table-responsive">
+                      <table class="table mb-0 border-0 custom-table profile-table">
+                        <thead>
+                          <th>Graduated year</th>
+                          <th>Area Of Study</th>
+                          <th>Institute</th>
+                        </thead>
+                        <tbody>
+                          @for(edu of providerData?.otherInformation; track edu.graduatedyear){
+                          <tr>
+                            <td>{{ edu.graduatedyear}}</td>
+                            <td>{{ edu.areaOfStudy}}</td>
+                            <td>{{ edu.instuteName}}</td>
+                          </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                    <hr />
+                  </div>
+
+                  <div class="hello-park mb-2">
+                    <h3>Award</h3>
+                    <div class="table-responsive">
+                      <table class="table mb-0 border-0 custom-table profile-table">
+                        <thead>
+                          <th>Award year</th>
+                          <th>Award Title</th>
+                        </thead>
+                        <tbody>
+                          @for(award of providerData?.award; track award.year){
+                          <tr>
+                            <td width="30%">{{ award.year}}</td>
+                            <td width="30%">{{ award.title}}</td>
+                          </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                    <hr />
+                  </div>
+                  <div class="hello-park mb-2">
+                    <h3>Hospital Affiliations</h3>
+                    <div class="table-responsive">
+                      <table class="table mb-0 border-0 custom-table profile-table">
+                        <thead>
+                          <th>Name</th>
+                          <th>Year</th>
+                          <th>Address</th>
+                        </thead>
+                        <tbody>
+                          @for(affiliation of providerData?.affiliationHospital; track affiliation.year){
+                          <tr>
+                            <td>{{ affiliation.name}}</td>
+                            <td>{{ affiliation.year}}</td>
+                            <td>{{ affiliation.address}}</td>
+                          </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

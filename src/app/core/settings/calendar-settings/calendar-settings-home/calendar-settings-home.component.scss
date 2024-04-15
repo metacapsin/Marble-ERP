@@ -1,0 +1,56 @@
+.custom-card{
+    margin-bottom: 25px;
+    box-shadow: none;
+    border: 0;
+    border-radius: 12px;
+    width: 100%;
+    box-shadow:0 0 10px -5px grey;
+}
+
+.custom-row-margin{
+    margin-bottom: 0px;
+}
+
+.padding-right{
+    padding-right: 12px;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+:host ::ng-deep{
+    .group-left-button{
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
+        padding: 5px;
+        font-size: 14px;
+        padding-left: 10px;
+    }
+    .group-right-button{
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+        padding: 5px;
+        font-size: 14px;
+        padding-right:10px
+    }
+
+    .custom-divider.p-divider.p-divider-horizontal{
+        margin: 0;
+    }
+    .group-right-button.p-button.p-button-outlined, .group-left-button.p-button.p-button-outlined{
+        color:#97704F;
+    }
+    .group-right-button.p-button.p-button-outlined:not(:disabled):hover, .group-left-button.p-button.p-button-outlined:not(:disabled):hover{
+        color:#97704F;
+    }
+    
+    .group-left-button.p-button:focus, .group-right-button.p-button:focus{
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #97704F, 0 1px 2px 0 black;
+    }
+    .p-dropdown{
+        width: 100%;
+    }
+    .p-dropdown span{
+        padding:10px 15px;
+    }
+}

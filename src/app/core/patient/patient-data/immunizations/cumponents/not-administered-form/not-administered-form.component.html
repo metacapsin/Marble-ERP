@@ -1,0 +1,127 @@
+<form [formGroup]="notAdministeredForm" (ngSubmit)="notAdministeredFormSubmit()">
+  <div class="row mt-5">
+
+    <div class="col-md-6">
+      <div class="form-group local-forms">
+        <label for="">Vaccine<span class="login-danger">*</span></label>
+        <input type="text" class="form-control" formControlName="notAdministeredVaccineName">
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group local-forms">
+        <label for="">Type<span class="login-danger">*</span></label>
+        <input type="text" class="form-control" formControlName="notAdministeredVaccineType">
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group local-forms ">
+        <label for="">Recorded Date<span class="login-danger">*</span></label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy"
+          [style]="{'width': '100%'}"></p-calendar>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group local-forms ">
+        <label for="">Recorded Time<span class="login-danger">*</span></label>
+        <p-calendar [showTime]="true" [timeOnly]="true" dataType="string" dateMask appendTo="body"
+          [style]="{'width': '100%'}" placeholder="__:__"></p-calendar>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <label for="">Reason for non-administration <span class="login-danger">*</span> </label>
+    </div>
+
+    <div class="col-md-6">
+      <p-radioButton name="notAdministeredReason" class="m-2" value="patientParentGardianObjection"
+        formControlName="notAdministeredReason" inputId="patientParentGardianObjection"></p-radioButton>
+      <label for="patientParentGardianObjection" class="m-2">Patient/Parent/Guardian objection.</label>
+    </div>
+    <div class="col-md-6">
+      <p-radioButton name="notAdministeredReason" class="m-2" value="patientParentGardianPhilosophicalObjection"
+        formControlName="notAdministeredReason" inputId="patientParentGardianPhilosophicalObjection"></p-radioButton>
+      <label for="patientParentGardianPhilosophicalObjection" class="m-2">Patient/Parent/Guardian has philosophical
+        objection.</label>
+    </div>
+    <div class="col-md-6">
+      <p-radioButton name="notAdministeredReason" class="m-2" value="patientParentGardianReligiousObjection"
+        formControlName="notAdministeredReason" inputId="patientParentGardianReligiousObjection"></p-radioButton>
+      <label for="patientParentGardianReligiousObjection" class="m-2">Patient/Parent/Guardian has religious objection.
+      </label>
+    </div>
+    <div class="col-md-6">
+      <p-radioButton name="notAdministeredReason" class="m-2" value="patientParentGardianVaccineSafetyConcern"
+        formControlName="notAdministeredReason" inputId="patientParentGardianVaccineSafetyConcern"></p-radioButton>
+      <label for="patientParentGardianVaccineSafetyConcern" class="m-2">Patient/Parent/Guardian has vaccine safety
+        concerns.
+      </label>
+    </div>
+    <div class="col-md-6">
+      <p-radioButton name="notAdministeredReason" class="m-2" value="vaccineOutOfStock"
+        formControlName="notAdministeredReason" inputId="vaccineOutOfStock"></p-radioButton>
+      <label for="vaccineOutOfStock" class="m-2">Vaccine out of stock.
+      </label>
+    </div>
+    <div class="col-md-6">
+      <p-radioButton name="notAdministeredReason" class="m-2" value="vaccineEfficacyConcern"
+        formControlName="notAdministeredReason" inputId="vaccineEfficacyConcern"></p-radioButton>
+      <label for="vaccineEfficacyConcern" class="m-2">There are vaccine efficacy concerns.
+      </label>
+    </div>
+    <div class="col-md-6">
+      <p-radioButton name="notAdministeredReason" class="m-2" value="patientImmunity"
+        formControlName="notAdministeredReason" inputId="patientImmunity"></p-radioButton>
+      <label for="patientImmunity" class="m-2">Patient has immunity.
+      </label>
+    </div>
+    <div class="col-md-6">
+      <p-radioButton name="notAdministeredReason" class="m-2" value="patientEggAllergy"
+        formControlName="notAdministeredReason" inputId="patientEggAllergy"></p-radioButton>
+      <label for="patientEggAllergy" class="m-2">Patient has egg allergy.
+      </label>
+    </div>
+    <div class="col-md-6">
+      <p-radioButton name="notAdministeredReason" class="m-2" value="patientAnaphylaxisReaction"
+        formControlName="notAdministeredReason" inputId="patientAnaphylaxisReaction"></p-radioButton>
+      <label for="patientAnaphylaxisReaction" class="m-2">Patient had prior anaphylaxis reaction.
+      </label>
+    </div>
+    <div class="col-md-6">
+      <p-radioButton name="notAdministeredReason" class="m-2" value="patientAnaphylaxisAllergicReaction"
+        formControlName="notAdministeredReason" inputId="patientAnaphylaxisAllergicReaction"></p-radioButton>
+      <label for="patientAnaphylaxisAllergicReaction" class="m-2">Patient had prior non-anaphylaxis allergic reaction.
+      </label>
+    </div>
+    <div class="col-md-12">
+      <p-radioButton name="notAdministeredReason" class="m-2" value="otherReason"
+        formControlName="notAdministeredReason" inputId="otherReason"></p-radioButton>
+      <label for="otherReason" class="m-2">Other</label>
+    </div>
+
+    <div class="col-md-4 mt-1" *ngIf="notAdministeredForm.get('notAdministeredReason').value === 'otherReason'">
+      <div class="form-group local-forms">
+        <label for="">Other Reason</label>
+        <input type="text" class="form-control">
+      </div>
+    </div>
+
+    <div class="col-md-12 mt-1">
+      <div class="form-group local-forms">
+        <label for="">Comments</label>
+        <textarea class="form-control" rows="3" cols="30"></textarea>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class=" settings-btns text-end m-b-10">
+        <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+          [disabled]="!notAdministeredForm.valid">Submit</button>
+        <button class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</form>

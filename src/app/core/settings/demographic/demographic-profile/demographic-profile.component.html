@@ -1,0 +1,223 @@
+<form>
+    <div class="row border-1 border">
+
+        <div class="add-groupe d-flex justify-content-end">
+            <button class="btn-primary" (click)="toggleEditMode()">{{ isEditMode ? 'Save' : 'Edit' }}</button>
+        </div>
+
+        <!-- Section 1 -->
+        <div class="col-md-6">
+            <div class="about-me-list">
+                <ul class="list-space">
+                    <li>
+                        <!-- <a class="active"><span class="set-about-icon me-2"><img src="assets/img/icons/menu-icon-02.svg"
+                                alt="" /></span> </a> -->
+                        <h4>Name:</h4>
+                        <!-- <span>{{formData.personalInformation.name }}</span> -->
+
+                        <span *ngIf="!isEditMode">{{ formData.personalInformation.name }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.personalInformation.name">
+                    </li>
+                    <li>
+                        <h4>DOB:</h4>
+                        <span *ngIf="!isEditMode">{{formData.personalInformation.dob }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="date"
+                            [(ngModel)]="formData.personalInformation.dob">
+                    </li>
+                    <li>
+                        <h4>Martial Status:</h4>
+                        <span *ngIf="!isEditMode">{{formData.personalInformation.maritalStatus }} </span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.personalInformation.maritalStatus">
+                    </li>
+                    <li>
+                        <h4>Sex:</h4>
+                        <span *ngIf="!isEditMode">{{formData.personalInformation.sex }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.personalInformation.sex">
+                    </li>
+                    <li>
+                        <h4>Sexual Orientation:</h4>
+                        <span *ngIf="!isEditMode">{{formData.personalInformation.sexualOrientation }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.personalInformation.sexualOrientation">
+                    </li>
+                    <li>
+                        <h4>Gender Identity:</h4>
+                        <span *ngIf="!isEditMode">{{formData.personalInformation.genderIdentity }}</span>
+                        <input *ngIf="isEditMode" class="form-control" class="form-control" type="text"
+                            [(ngModel)]="formData.personalInformation.genderIdentity">
+                    </li>
+                    <li>
+                        <h4>Language:</h4>
+                        <span *ngIf="!isEditMode">{{formData.personalInformation.language }}</span>
+                        <input *ngIf="isEditMode" class="form-control" class="form-control" type="text"
+                            [(ngModel)]="formData.personalInformation.language">
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="about-me-list">
+
+                <ul class="list-space">
+                    <li>
+                        <h4>MRN:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.mrn }}
+                        </span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.mrn">
+                    </li>
+                    <li>
+                        <h4>Previous Last:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.previousLast }} </span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.previousLast">
+                    </li>
+                    <li>
+                        <h4>Maiden Last:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.maidenLast }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.maidenLast">
+                    </li>
+                    <li>
+                        <h4>SSN:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.ssn }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.ssn">
+                    </li>
+                    <li>
+                        <h4>Driver's License:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.driversLicense }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.driversLicense">
+                    </li>
+                    <li>
+                        <h4>Hispanic or Latino:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.hispanicOrLatino }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.hispanicOrLatino">
+                    </li>
+                    <li>
+                        <h4>Ethnicities :</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.ethnicities }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.ethnicities">
+                    </li>
+                    <li>
+                        <h4>Race:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.race }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.race">
+                    </li>
+                    <li>
+                        <h4>Specific Race(s):</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.specificRaces[0] }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.specificRaces">
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <hr class=" mt-5">
+        <!-- <Section 2 -->
+
+        <div class="col-md-6">
+            <div class="about-me-list">
+                <ul class="list-space">
+                    <li>
+                        <h4>Preferred Communication:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.preferredCommunication }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.preferredCommunication">
+                    </li>
+                    <li>
+                        <h4>Send Reminders By Last:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.sendRemindersBy }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.sendRemindersBy">
+                    </li>
+                    <li>
+                        <h4>Home Address:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.homeAddress }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.homeAddress">
+                    </li>
+                    <li>
+                        <h4>Home Phone:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.homePhone }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.homePhone">
+                    </li>
+                    <li>
+                        <h4>Mobile Phone:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.mobilePhone }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.mobilePhone">
+                    </li>
+                    <li>
+                        <h4>Personal Email:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.personalEmail }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.personalEmail">
+                    </li>
+                    <li>
+                        <h4>Other Email:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.otherEmail }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.otherEmail">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="about-me-list">
+
+                <ul class="list-space">
+                    <li>
+                        <h4>Prior Address:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.priorAddress }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.priorAddress">
+                    </li>
+                    <li>
+                        <h4>Disclosure Notes:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.disclosureNotes }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.disclosureNotes">
+                    </li>
+                    <li>
+                        <h4>Mail Address:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.mailAddress }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.mailAddress">
+                    </li>
+                    <li>
+                        <h4>Work Phone:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.workPhone }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.workPhone">
+                    </li>
+                    <li>
+                        <h4>Other Phone:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.otherPhone }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.otherPhone">
+                    </li>
+                    <li>
+                        <h4>Work Email:</h4>
+                        <span *ngIf="!isEditMode">{{formData.additionalInformation.workEmail }}</span>
+                        <input *ngIf="isEditMode" class="form-control" type="text"
+                            [(ngModel)]="formData.additionalInformation.workEmail">
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+</form>

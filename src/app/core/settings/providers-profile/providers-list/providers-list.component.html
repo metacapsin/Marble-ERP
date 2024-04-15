@@ -1,0 +1,110 @@
+<div class="page-wrapper">
+  <!-- Page Content -->
+  <div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active">Settings</li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Providers Profile</li>
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Table Header -->
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="doctor-table-blk">
+                    <h3>Providers Profile List</h3>
+                    <div class="doctor-search-blk">
+                      <div class="top-nav-search table-search-blk">
+                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
+                          (ngModelChange)="searchData(searchDataValue)">
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                      </div>
+                      <!-- <div class="add-group">
+                        <a href="javascript:;" (click)="getProvidersList()"
+                          class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg"
+                            alt=""></a>
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide [roles]="['admin', 'super-admin']">
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                  <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+
+                </div>
+              </div>
+            </div>
+            <p-table [value]="data" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
+
+              <ng-template pTemplate="header">
+                <tr>
+                  <th appShowHide [roles]="['admin', 'super-admin', 'provider']">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th>
+                  <th pSortableColumn="firstName">Name <p-sortIcon field="firstName"></p-sortIcon>
+                    <p-columnFilter type="text" field="firstName" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="providerType">Provider Type <p-sortIcon field="providerType"></p-sortIcon>
+                    <p-columnFilter type="text" field="providerType" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
+                    <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
+                  </th>
+
+                  <th appShowHide [roles]="['admin', 'super-admin', 'provider']">Action</th>
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-provider>
+                <tr>
+                  <td appShowHide [roles]="['admin', 'super-admin', 'provider']">
+                    <p-tableCheckbox [value]="provider"></p-tableCheckbox>
+                  </td>
+                  <td class="">
+                    <div class="d-flex align-items-center">
+                    <img
+                      src='https://toppng.com/public/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png'
+                      alt="" height="50" width="50"> 
+                      <span class="m-l-5">{{provider.firstName}} {{provider.lastName}}
+                    {{provider.middleName}}</span>
+                  </div>
+                  </td>
+                  <td class="">{{provider.providerType}}</td>
+                  <td class="">{{provider.email}}</td>
+
+                  <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin', 'provider']">
+                    <p-button [text]="true" icon="fa-solid fa-eye" (click)="providerView(provider._id)"></p-button>
+                    <p-button [text]=" true" icon="fa fa-edit" (click)="providerEdit(provider._id)"></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+
+            </p-table>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- /Page Content -->
+  </div>

@@ -1,0 +1,5 @@
+<div class="card flex justify-content-center loading-indicator" *ngIf="loading">
+    <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+</div>
+<router-outlet></router-outlet>
+<p-confirmDialog></p-confirmDialog>

@@ -1,0 +1,50 @@
+<form [formGroup]="orderNowForm" (ngSubmit)="orderNowFormSubmit()">
+  <div class="row mt-5">
+
+    <div class="col-md-6">
+      <div class="form-group local-forms">
+        <label for="">Vaccine<span class="login-danger">*</span></label>
+        <input type="text" class="form-control" formControlName="orderNowVaccineName">
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group local-forms">
+        <label for="">Type<span class="login-danger">*</span></label>
+        <input type="text" class="form-control" formControlName="orderNowVaccineType">
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="form-group local-forms">
+        <label for="">Ordered Date<span class="login-danger">*</span></label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy" formControlName="orderNowOrderedDate" [style]="{ width: '100%' }" ></p-calendar>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="form-group local-forms">
+        <label for="">Provider<span class="login-danger">*</span></label>
+        <p-dropdown [options]="provider" styleClass="" optionLabel="label" optionValue="value"
+        [style]="{'width':'100%'}" placeholder="Select provider" formControlName="orderNowProviderName" [showClear]="true">
+      </p-dropdown>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="form-group local-forms">
+        <label for="">Comments</label>
+        <textarea class="form-control" rows="3" cols="30"></textarea>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class=" settings-btns text-end m-b-10">
+        <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+          [disabled]="!orderNowForm.valid">Submit</button>
+        <button class="btn btn-secondary" >Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</form>

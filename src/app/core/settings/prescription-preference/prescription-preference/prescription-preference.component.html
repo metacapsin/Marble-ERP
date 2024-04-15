@@ -1,0 +1,198 @@
+
+<p-toast></p-toast>
+<div class="page-wrapper">
+  <!-- Page Content -->
+  <div class="content container-fluid">
+
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active">Settings</li>
+            <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active">Prescription Preference</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+
+            <div class="page-table-header mb-2">
+              <form [formGroup]="PrescriptionForm" (ngsubmit)="PrescriptionFormSubmit()">
+                <div class="row">
+                  <div class="p-3 d-flex m-b-10" style="justify-content: space-between;">
+                    <h3>Drug-to-Drug Interaction </h3>
+                    <div class="Settings-btn text-end" appShowHide [roles]="['admin', 'super-admin']">
+                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                        (click)="PrescriptionFormSubmit()">Save</button>
+                    </div>
+
+                  </div>
+
+                  <div class="col-12 col-md-12 m-b-20">
+                    <div class="form-group local-forms">
+                      <label>
+                        <h4 class="m-b-20">
+                          <p-checkbox [binary]="true" formControlName="overrideDrugToDrugAlertsWtdOverrideReason" />
+                          Allow prescribers to override Drug-to-Drug interaction alerts without providing an override
+                          reason.
+                        </h4>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-12 m-b-20">
+                    <div class="form-group local-forms">
+                      <label>
+                        <h4>
+
+                          <p-checkbox [binary]="true" formControlName="provideOverrideReasonForMultiDrugToDrugAlerts" />
+                          Allow prescribers to provide only one override reason for multiple Drug-to-Drug interaction
+                          alerts.
+                        </h4>
+                      </label>
+                    </div>
+                  </div>
+
+<hr>
+                  <div class="col-12 col-md-12 m-b-0">
+                    <div class="form-group local-forms m-b-0">
+                      <h3>Security level for Drug-to-Drug interaction alerts</h3>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-12 col-lg-6 col-xl-6">
+                    <div class="form-group local-forms">
+
+                      <!-- <p-dropdown [options]="DrugIteraction" styleClass="" [(ngModel)]="selectedDrugIteraction"
+                        optionLabel="label" optionValue="value" appendTo="body"
+                        formControlName="securityLevelForDrugToDrugInterectionAlerts">
+                      </p-dropdown> -->
+
+                      <p-dropdown [options]="DrugIteraction" styleClass="" optionLabel="label"
+                                                optionValue="value" appendTo="body" formControlName="securityLevelForDrugToDrugInterectionAlerts"
+                                                [style]="{'width':'100%'}" [filter]="true" filterBy="value"
+                                                [showClear]="true">
+                                            </p-dropdown>
+
+                    </div>
+                  </div>
+<hr>
+                  <div class="col-12 col-md-12 ">
+                    <div class="form-group local-forms">
+                      <h3> Allergy Interaction</h3>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-12 m-b-20">
+                    <div class="form-group local-forms">
+                      <label>
+                        <h4>
+                          <p-checkbox [binary]="true" formControlName="displayDrugAllergyInterectionAlerts" />
+                          Allow prescribers to override Drug-to-Drug interaction alerts without providing an override
+                          reason.
+                        </h4>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-12 m-b-20">
+                    <div class="form-group local-forms">
+                      <label>
+                        <h4>
+                          <p-checkbox [binary]="true"
+                            formControlName="allowOverrideDrugAllergyInteractionAlertsWtdReason" />
+                          Allow prescribers override Drug Allergy interaction alerts without providing an override
+                          reason.
+                        </h4>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-12 m-b-20">
+                    <div class="form-group local-forms">
+                      <label>
+                        <h4>
+                          <p-checkbox [binary]="true"
+                            formControlName="allowToProvideOneReasonForMultiDrugAllergyInterectionAlerts" />
+                          Allow prescribers to provide only one override reason for multiple Allergy interaction alerts.
+                        </h4>
+                      </label>
+                    </div>
+                  </div>
+<hr>
+                  <div class="col-12 col-md-12">
+                    <div class="form-group local-forms">
+                      <h3>Security level for Drug Allergy alerts </h3>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-12 col-lg-6 col-xl-6">
+                    <div class="form-group local-forms">
+
+
+                      <!-- <select class="form-control" placeholder=" Select Drug Allergy"
+                      formControlName="securityLevelForDrugToDrugAllergyAlerts">
+                      <option *ngFor="let drug of DrugAllergy" [value]="drug.value">
+                        {{drug.value}}
+                      </option>
+                    </select> -->
+
+                      <!-- <p-dropdown [options]="DrugAllergy" [(ngModel)]="selectedDrugAllergy" optionLabel="label"
+                        optionValue="value" appendTo="body" formControlName="securityLevelForDrugToDrugAllergyAlerts">
+                      </p-dropdown> -->
+
+                      <p-dropdown [options]="DrugAllergy" styleClass="" optionLabel="label"
+                      optionValue="value" appendTo="body" formControlName="securityLevelForDrugToDrugAllergyAlerts"
+                      [style]="{'width':'100%'}" [filter]="true" filterBy="value"
+                      [showClear]="true">
+                  </p-dropdown>
+                    </div>
+                  </div>
+
+<hr>
+                  <div class="col-12 col-md-12 ">
+                    <div class="form-group local-forms">
+                      <h3>Prescription Printing Adjustment</h3>
+                    </div>
+                  </div>
+
+
+
+                  <div class="col-md-12 col-lg-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="printingX">Prescription Printing X Adjust (inches)</label>
+                      <input class="form-control" type="text" placeholder="__.__"
+                        formControlName="priscriptionPrintingXAsix">
+                        <div
+                        *ngIf="PrescriptionForm.get('priscriptionPrintingXAsix')?.hasError('pattern') && PrescriptionForm.get('priscriptionPrintingXAsix')?.touched">
+                        <span class="login-danger">Please enter valid X-axis value in inches.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 col-lg-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="printingY">Prescription Printing Y Adjust (inches)</label>
+                      <input class="form-control" type="text" placeholder="__.__"
+                        formControlName="priscriptionPrintingYAsix">
+                        <div
+                        *ngIf="PrescriptionForm.get('priscriptionPrintingYAsix')?.hasError('pattern') && PrescriptionForm.get('priscriptionPrintingYAsix')?.touched">
+                        <span class="login-danger">Please enter valid Y-axis value in inches.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </form>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
