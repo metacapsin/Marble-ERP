@@ -71,14 +71,7 @@ export class WarehouseAddComponent {
           ),
         ],
       ],
-      TnC: [
-       '"1. Goods once sold will not be taken back or exchanged" "  2. All disputes are subject to [ENTER_YOUR_CITY_NAME] jurisdiction only"',
-        [
-          Validators.pattern(
-            new RegExp(/^.{10,500}$/)
-          ),
-        ],
-      ],
+     
     });
 
     this.service.getStateList().subscribe((resp: any) => {
