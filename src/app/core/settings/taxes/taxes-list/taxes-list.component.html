@@ -1,0 +1,109 @@
+<!-- <p-toast></p-toast> -->
+<div class="page-wrapper">
+    <!-- Page Content -->
+    <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Settings</li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Taxes </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk">
+                                        <h3>Taxes List</h3>
+                                        <div class="doctor-search-blk">
+                                            <div class="top-nav-search table-search-blk">
+                                                <input type="text" class="form-control" placeholder="Search here"
+                                                    [(ngModel)]="searchDataValue"
+                                                    (ngModelChange)="searchData(searchDataValue)">
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                            <div class="add-group textbtn">
+                                                <a appShowHide [roles]="['admin', 'super-admin']" (click)="openAddDialog()"
+                                                    class="btn btn-primary add-pluss ms-2"><img
+                                                        src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide [roles]="['admin', 'super-admin']">
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                            alt=""></a>
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                            alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                        <p-table [value]="taxesData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedTaxes">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th>
+                                    <th pSortableColumn="taxesName">Name <p-sortIcon field="taxesName"></p-sortIcon>
+                                        <p-columnFilter type="text" field="taxesName" display="menu"></p-columnFilter>
+
+                                    </th>
+                                    <th pSortableColumn="taxesType">Tax Type <p-sortIcon field="taxesType"></p-sortIcon>
+                                        <p-columnFilter type="text" field="taxesType" display="menu"></p-columnFilter>
+
+                                    </th>
+                                    <th pSortableColumn="taxesRate">Tax Rate <p-sortIcon field="taxesRate"></p-sortIcon>
+                                        <p-columnFilter type="text" field="taxesRate" display="menu"></p-columnFilter>
+
+                                    </th>
+                                    <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
+                                        <p-sortIcon></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-taxes>
+
+                                <tr>
+                                    <td appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableCheckbox [value]="taxes"></p-tableCheckbox>
+                                    </td>
+                                    <td class="">
+                                        {{taxes.taxesName}}
+                                    </td>
+                                    <td>
+                                        {{taxes.taxesType}}
+                                    </td>
+                                    <td>
+                                        {{taxes.taxesRate}}
+                                    </td>
+                                    <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
+                                        <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(taxes._id)"></p-button>
+                                        <p-button [text]=" true" icon="fa fa-trash"
+                                            (click)="deletetaxes(taxes._id)"></p-button>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>

@@ -1,0 +1,67 @@
+<mat-dialog-content class="mat-typography mat-lg" style="width: 800px;">
+
+    <div class="m-b-20">
+        <h3>Edit Sub-Category</h3>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="editSubCategoryForm" (ngSubmit)="editSubCategoryFormSubmit()">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group local-forms">
+                        <label for="name">Name <span class="login-danger">*</span></label>
+                        <input class="form-control" type="text" placeholder="" formControlName="subCategoriesName">
+
+                        <div *ngIf="editSubCategoryForm.get('subCategoriesName')?.hasError('required') && editSubCategoryForm.get('subCategoriesName')?.touched">
+                            <span class="login-danger">Name is reqiured</span>
+                          </div>
+                          <div *ngIf="editSubCategoryForm.get('subCategoriesName')?.hasError('pattern') && editSubCategoryForm.get('subCategoriesName')?.touched">
+                            <span class="login-danger">Input must be between 5 and 50 characters.</span>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group local-forms">
+                        <label for="name">Slug <span class="login-danger">*</span></label>
+                        <input class="form-control" type="text" placeholder="" formControlName="subCategoriesSlug">
+
+                        <div *ngIf="editSubCategoryForm.get('subCategoriesSlug')?.hasError('required') && editSubCategoryForm.get('subCategoriesSlug')?.touched">
+                            <span class="login-danger">Slug is reqiured</span>
+                          </div>
+                          <div *ngIf="editSubCategoryForm.get('subCategoriesSlug')?.hasError('pattern') && editSubCategoryForm.get('subCategoriesSlug')?.touched">
+                            <span class="login-danger">Input must be between 5 and 50 characters.</span>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-group local-forms">
+                        <label for="name">Category <span class="login-danger">*</span></label>
+                        <p-dropdown [options]="Categories" styleClass="" appendTo="body" optionLabel="value"
+                            optionValue="value" placeholder="Select  Category"
+                            formControlName="subCategoriesCategory" [style]="{'width':'100%'}" [filter]="true"
+                            filterBy="value" [showClear]="true">
+                        </p-dropdown>
+
+                        <div *ngIf="editSubCategoryForm.get('subCategoriesCategory')?.hasError('required') && editSubCategoryForm.get('subCategoriesCategory')?.touched">
+                            <span class="login-danger">Category is reqiured</span>
+                          </div>
+                    </div>
+                </div>
+
+                <div class=" col-12">
+
+                    <div class=" settings-btns text-end m-b-10">
+                        <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                            [disabled]="!editSubCategoryForm.valid">Submit</button>
+                        <button class="btn btn-secondary" [mat-dialog-close]="true">Cancel</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+</mat-dialog-content>

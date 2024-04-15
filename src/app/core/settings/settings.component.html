@@ -16,22 +16,31 @@
                             >
                             <a class="nav-link col-12" [routerLink]="routes.providersList">Providers Profiles</a>
                         </li>
-                        <li class="nav-item col-12 {{isRouteActive('service-locations')}}">
+                        <!-- <li class="nav-item col-12 {{isRouteActive('service-locations')}}">
                             <a class="nav-link col-12" [routerLink]="routes.serviceLocations">Service Location</a>
-                        </li>
+                        </li> -->
                         <li class="nav-item col-12 {{isRouteActive('warehouse')}}">
                             <a class="nav-link col-12" [routerLink]="routes.warehouse">Warehouse</a>
                         </li>
-                        <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.calendarSettings}">
+                        <!-- <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.calendarSettings}">
                             <a class="nav-link col-12" [routerLink]="routes.calendarSettings">Calendar Settings</a>
-                        </li>
+                        </li> -->
                         <li appShowHide [roles]="['admin', 'super-admin']" class="nav-item col-12 {{isRouteActive('users')}}" >
                             <a class="nav-link col-12" [routerLink]="routes.listUsers">Users Settings</a>
                         </li>
-                        <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.visitReasons}">
+                        <!-- <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.visitReasons}">
                             <a class="nav-link col-12" [routerLink]="routes.visitReasons">Visit Reasons</a>
+                        </li> -->
+                        <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.categories}">
+                            <a class="nav-link col-12" [routerLink]="routes.categories">Categories</a>
                         </li>
-                        <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.labssettings}">
+                        <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.subCategories}">
+                            <a class="nav-link col-12" [routerLink]="routes.subCategories">Sub Categories</a>
+                        </li>
+                        <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.taxes}">
+                            <a class="nav-link col-12" [routerLink]="routes.taxes">Taxes</a>
+                        </li>
+                        <!-- <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.labssettings}">
                             <a class="nav-link col-12" [routerLink]="routes.labssettings">Labs Settings</a>
                         </li>
                         <li appShowHide [roles]="['admin', 'super-admin', 'help-desk','provider']" class="nav-item col-12"
@@ -42,7 +51,7 @@
                         <li appShowHide [roles]="['admin', 'super-admin', 'help-desk', 'provider']" class="nav-item col-12"
                             [ngClass]="{'active': this.currentRoute===routes.receiptsettings}">
                             <a class="nav-link col-12" [routerLink]="routes.receiptsettings">Reciept Settings</a>
-                        </li>
+                        </li> -->
                        
                         <!-- <li class="nav-item col-12"
                             [ngClass]="{'active': this.currentRoute===routes.datamanagementsettings}">

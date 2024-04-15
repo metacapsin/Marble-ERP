@@ -67,7 +67,30 @@ const routes: Routes = [
             (m) => m.UsersModule
           ),
       },
+      {
+        path: 'categories',
+        loadChildren: () =>
+          import('./categories/categories.module').then(
+            (m) => m.CategoriesModule
 
+          ),
+      },
+      {
+        path: 'subCategories',
+        loadChildren: () =>
+          import('./sub-categories/sub-categories.module').then(
+            (m) => m.SubCategoriesModule
+
+          ),
+      },
+      {
+        path: 'taxes',
+        loadChildren: () =>
+          import('./taxes/taxes.module').then(
+            (m) => m.TaxesModule
+
+          ),
+      },
     ],
   },
 ];

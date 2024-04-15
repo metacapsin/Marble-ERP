@@ -53,7 +53,7 @@ export class routes {
   public static get editProvidentFund(): string {
     return this.baseUrl + '/accounts/edit-provident-fund';
   }
-  public static get taxes(): string {
+  public static get taxess(): string {
     return this.baseUrl + '/accounts/taxes';
   }
   public static get addTax(): string {
@@ -478,6 +478,15 @@ export class routes {
   }
   public static get account(): string {
     return this.baseUrl + '/patient-data/account';
+  }
+  public static get categories(): string {
+    return this.baseUrl + '/settings/categories';
+  }
+  public static get subCategories(): string {
+    return this.baseUrl + '/settings/subCategories';
+  }
+  public static get taxes(): string {
+    return this.baseUrl + '/settings/taxes';
   }
 
 }

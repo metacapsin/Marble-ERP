@@ -1,0 +1,68 @@
+<mat-dialog-content class="mat-typography mat-lg" style="width: 800px;">
+
+  <div class="m-b-20">
+    <h3>Add Taxes</h3>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="addTaxesForm" (ngSubmit)="addTaxesFormSubmit()">
+      <div class="row">
+
+        <div class="col-md-4">
+          <div class="form-group local-forms">
+            <label for="name">Tax Name <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="taxesName">
+
+            <div *ngIf="addTaxesForm.get('taxesName')?.hasError('required') && addTaxesForm.get('taxesName')?.touched">
+              <span class="login-danger">Tax Name is reqiured</span>
+            </div>
+            <div *ngIf="addTaxesForm.get('taxesName')?.hasError('pattern') && addTaxesForm.get('taxesName')?.touched">
+              <span class="login-danger">Input must be between 5 and 50 characters.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group local-forms">
+            <label for="name">Tax Type <span class="login-danger">*</span></label>
+            <!-- <input class="form-control" type="text" placeholder="" formControlName="taxesType"> -->
+            <p-dropdown [options]="taxesTypes" styleClass="" appendTo="body" optionLabel="value" optionValue="value"
+              placeholder="Select  Type" formControlName="taxesType" [style]="{'width':'100%'}" [showClear]="true">
+            </p-dropdown>
+
+            <div *ngIf="addTaxesForm.get('taxesType')?.hasError('required') && addTaxesForm.get('taxesType')?.touched">
+              <span class="login-danger">Tax Type is reqiured</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group local-forms">
+            <label for="name">Tax Rate <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="taxesRate">
+
+            <div *ngIf="addTaxesForm.get('taxesRate')?.hasError('required') && addTaxesForm.get('taxesRate')?.touched">
+              <span class="login-danger">Tax Rate is reqiured</span>
+            </div>
+            <div *ngIf="addTaxesForm.get('taxesRate')?.hasError('pattern') && addTaxesForm.get('taxesRate')?.touched">
+              <span class="login-danger">Input must be between 5 and 50 characters.</span>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class=" col-12">
+
+          <div class=" settings-btns text-end m-b-10">
+            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+              [disabled]="!addTaxesForm.valid">Submit</button>
+            <button class="btn btn-secondary" [mat-dialog-close]="true">Cancel</button>
+          </div>
+
+        </div>
+
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
