@@ -476,5 +476,10 @@ export class routes {
   public static get account(): string {
     return this.baseUrl + '/patient-data/account';
   }
-
+  public static get customers(): string {
+    return this.baseUrl + '/customers';
+  }
+  public static get AddCustomers(): string {
+    return this.baseUrl + '/customers/add-customers';
+  }
 }

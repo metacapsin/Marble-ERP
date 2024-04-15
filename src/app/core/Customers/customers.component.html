@@ -1,0 +1,145 @@
+<!-- <div class="col-xl-2 col-md-3 col-lg-4 d-flex">
+        <div class="card chat-box">
+            <div class="chat-widgets">
+                <div class="email-menu-blk">
+                    <ul class="nav nav-tabs menu-tabs">
+                        
+                        <li class="nav-item col-12 {{isRouteActive('practice-information')}}"
+                            >
+                            <a class="nav-link col-12" [routerLink]="routes.practiceInformation">Practice
+                                Information</a>
+                        </li>
+                        <li appShowHide [roles]="['admin', 'super-admin', 'provider']" class="nav-item col-12 {{isRouteActive('providers-profiles')}}"
+                            >
+                            <a class="nav-link col-12" [routerLink]="routes.providersList">Providers Profiles</a>
+                        </li>
+                        <li class="nav-item col-12 {{isRouteActive('service-locations')}}">
+                            <a class="nav-link col-12" [routerLink]="routes.serviceLocations">Service Location</a>
+                        </li>
+                        <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.calendarSettings}">
+                            <a class="nav-link col-12" [routerLink]="routes.calendarSettings">Calendar Settings</a>
+                        </li>
+                        <li appShowHide [roles]="['admin', 'super-admin']" class="nav-item col-12 {{isRouteActive('users')}}" >
+                            <a class="nav-link col-12" [routerLink]="routes.listUsers">Users Settings</a>
+                        </li>
+                        <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.visitReasons}">
+                            <a class="nav-link col-12" [routerLink]="routes.visitReasons">Visit Reasons</a>
+                        </li>
+                        <li class="nav-item col-12" [ngClass]="{'active': this.currentRoute===routes.labssettings}">
+                            <a class="nav-link col-12" [routerLink]="routes.labssettings">Labs Settings</a>
+                        </li>
+                        <li appShowHide [roles]="['admin', 'super-admin', 'help-desk','provider']" class="nav-item col-12"
+                            [ngClass]="{'active': this.currentRoute===routes.prescriptionprefrence}">
+                            <a class="nav-link col-12" [routerLink]="routes.prescriptionprefrence">Prescription
+                                Prefrence</a>
+                        </li>
+                        <li appShowHide [roles]="['admin', 'super-admin', 'help-desk', 'provider']" class="nav-item col-12"
+                            [ngClass]="{'active': this.currentRoute===routes.receiptsettings}">
+                            <a class="nav-link col-12" [routerLink]="routes.receiptsettings">Reciept Settings</a>
+                        </li>
+
+                    </ul>
+                    <div class="row">
+                        <div class="col-sm-12 col-12">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                                <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                                <li class="breadcrumb-item active">My Profile</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+<router-outlet></router-outlet>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Customers</li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                    <div class="card-body d-flex p-2 justify-content-between">
+                        <div class="d-flex gap-3">
+                            <button [routerLink]="routes.AddCustomers" type="submit"
+                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"><i
+                                    class="fa-solid fa-plus me-3"></i> Add New Customer</button>
+                            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"><i
+                                    class="fa-solid fa-cloud-arrow-up me-3"></i>Import Customers</button>
+                        </div>
+                        <div class="d-flex gap-3">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-table show-entire">
+                    <div class="card-body p-2">
+                        <p-table [value]="dataSource" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                            [rows]="5">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th>
+                                    <th pSortableColumn="firstName">Name <p-sortIcon field="firstName"></p-sortIcon>
+                                        <p-columnFilter type="text" field="firstName" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
+                                        <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon>
+                                        <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="role">Created At <p-sortIcon field="role"></p-sortIcon></th>
+                                    <!-- <th>Action</th> -->
+                                    <th pSortableColumn="role">Balance <p-sortIcon field="role"></p-sortIcon></th>
+                                    <th>Edit</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-product>
+                                <tr>
+                                    <td appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                                    </td>
+                                    <td class="bold">{{product.firstName}} {{product.lastName}}</td>
+                                    <td>{{product.email}}</td>
+
+                                    <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Active"></p-tag>
+                                    </td>
+                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag>
+                                    </td>
+                                    <td>{{product.createdAt}}</td>
+                                    <td>{{product.Balance}}</td>
+
+                                    <td  style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                                        <!-- <a (click)="goToEditPage(product._id)"
+                                            (keydown.enter)="goToEditPage(product._id)" class="p-link"
+                                            tabindex="0">Edit</a> -->
+                                            <a class="p-2 border-1 border" [routerLink]="routes.AddCustomers" href=""><i class="fa-solid fa-user-plus"></i></a>
+                                            <a class="p-2 border-1 border" href=""><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a class="p-2 border-1 border" href=""><i class="fa-solid fa-trash"></i></a>
+
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

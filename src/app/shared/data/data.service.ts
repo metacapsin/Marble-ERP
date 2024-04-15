@@ -508,7 +508,7 @@ export class DataService {
        
         {
           menuValue: 'Customers',
-          route: routes.practiceInformation,
+          route: routes.customers,
           hasSubRoute: false,
           showSubRoute: false,
           // img: 'assets/img/icons/menu-icon-16.svg',
@@ -518,6 +518,7 @@ export class DataService {
           subMenus: [],
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
         },
+        
         {
           menuValue: 'Sales',
           route: routes.practiceInformation,

@@ -1,0 +1,98 @@
+<div class="page-wrapper">
+  <div class="content">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">
+              <a [routerLink]="routes.customers">Customers</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Add Customers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body p-3">
+            <form [formGroup]="addcustomerGroup" (ngSubmit)="addcustomerForm()">
+              <div class="row">
+                <div
+                  class="d-flex m-b-10"
+                  style="justify-content: space-between"
+                >
+                  <h3>Add New Customer</h3>
+                  <div class="settings-btns text-end m-b-10">
+                    <button
+                      type="submit"
+                      class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                      [disabled]="!addcustomerGroup.valid"
+                    >
+                      Submit
+                    </button>
+                    <button class="btn btn-secondary">
+                      <a [routerLink]="routes.customers" class="text-white"></a
+                      >Cancel
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-12 col-md-4 col-xl-4">
+                        <div class="form-group local-forms">
+                          <label for="Email"
+                            >Name<span class="login-danger">*</span></label
+                          >
+                          <input
+                            class="form-control"
+                            type="email"
+                            placeholder
+                            formControlName="email"
+                          />
+                        </div>
+                      </div>
+
+                      
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="Email"
+                        >Email<span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control"
+                        type="email"
+                        placeholder
+                        formControlName="email"
+                      />
+                    </div>
+                  </div>
+                  <!-- <div *ngIf="
+                                                    editUserGroup.get('email')?.hasError(
+                                                      'required'
+                                                    ) && editUserGroup.get('email')?.touched
+                                                  " class="login-danger Font_size">
+                                            Email field is reqiured.
+                                          </div> -->
+                  <!-- <div *ngIf="editUserGroup.get('email')?.errors?.['email']" class="login-danger Font_size">
+                                            Please enter a valid email address.
+                                          </div> -->
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

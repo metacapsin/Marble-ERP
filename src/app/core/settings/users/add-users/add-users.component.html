@@ -33,14 +33,14 @@
           <div class="card-body card-table">
             <div class="page-table-header mb-2">
 
-              <form [formGroup]="ProviderGroup" (ngSubmit)="ProviderForm()">
+              <form [formGroup]="addUserGroup" (ngSubmit)="addUserForm()">
                 <div class="row">
 
                   <div class="d-flex m-b-10" style="justify-content: space-between;">
-                    <h3>Add User</h3>
+                    <h3>Edit User</h3>
                     <div class=" settings-btns text-end m-b-10">
                       <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                        [disabled]="!ProviderGroup.valid">Submit</button>
+                        [disabled]="!addUserGroup.valid">Submit</button>
                       <button class="btn btn-secondary" [routerLink]="['/settings/users']">Cancel</button>
                     </div>
 
@@ -51,19 +51,19 @@
                     <div>
                       <div class="row">
                         <div class="col-md-4 checkbox">
-                          <p-checkbox [binary]="true"  formControlName="SystemAdminCheckBox" class="m-r-10">
+                          <p-checkbox [binary]="true" formControlName="adminCheckBox" class="m-r-10">
                           </p-checkbox>
-                          <label for="">System Admin</label>
+                          <label for="adminCheckBox">Admin</label>
                         </div>
                         <div class="col-md-4 checkbox">
-                          <p-checkbox [binary]="true" formControlName="ProviderRole" class="m-r-10">
+                          <p-checkbox [binary]="true" formControlName="SalesmanCheckBox" class="m-r-10">
                           </p-checkbox>
-                          <label for="">Provider</label>
+                          <label for="">Salesman</label>
                         </div>
                         <div class="col-md-4 checkbox">
-                          <p-checkbox [binary]="true" formControlName="ClinicalAssistantCheckBox" class="m-r-10">
+                          <p-checkbox [binary]="true" formControlName="stockManagerCheckBox" class="m-r-10">
                           </p-checkbox>
-                         <label for=""> Help Desk</label>
+                          <label for="">Stock Manager</label>
                         </div>
                       </div>
                     </div>
@@ -74,212 +74,142 @@
                   <!-- second row -->
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="First Name">First Name
+                      <label for="name">Name
                         <span class="login-danger">*</span></label>
-                      <input class="form-control bor" type="text" formControlName="FirstName" required placeholder />
+                      <input class="form-control bor" type="text" formControlName="name"  placeholder />
                       <div *ngIf="
-                                ProviderGroup.get('FirstName')?.hasError(
+                                addUserGroup.get('name')?.hasError(
                                   'required'
-                                ) && ProviderGroup.get('FirstName')?.touched
+                                ) && addUserGroup.get('name')?.touched
                               " class="login-danger Font_size">
-                        This field is reqiured
+                        Name field is reqiured
                       </div>
                       <div *ngIf="
-                                ProviderGroup.get('FirstName')?.hasError(
+                                addUserGroup.get('name')?.hasError(
                                   'pattern'
-                                ) && ProviderGroup.get('FirstName')?.touched
+                                ) && addUserGroup.get('name')?.touched
                               " class="login-danger Font_size">
                         Input must be between 1 and 50 characters.
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                      <label for="Middle Name">Middle Name
-                      </label>
-                      <input class="form-control" formControlName="MiddleName" type="text" placeholder />
-                      <div *ngIf="
-                                ProviderGroup.get('MiddleName')?.hasError(
-                                  'pattern'
-                                ) && ProviderGroup.get('MiddleName')?.touched
-                              " class="login-danger Font_size">
-                        Input must be between 1 and 50 characters.
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                      <label for="Last Name">Last Name
-                        <span class="login-danger">*</span></label>
-                      <input class="form-control" formControlName="LastName" required type="text" placeholder />
-                      <div *ngIf="
-                                ProviderGroup.get('LastName')?.hasError(
-                                  'required'
-                                ) && ProviderGroup.get('LastName')?.touched
-                              " class="login-danger Font_size">
-                        This field is reqiured
-                      </div>
-                      <div *ngIf="
-                                ProviderGroup.get('LastName')?.hasError(
-                                  'pattern'
-                                ) && ProviderGroup.get('LastName')?.touched
-                              " class="login-danger Font_size">
-                       Input must be between 1 and 50 characters.
-                      </div>
-                    </div>
-                  </div>
+
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="PhoneNumber">Phone Number
                         <span class="login-danger">*</span></label>
-                      <input class="form-control" type="tel" formControlName="PhoneNumber" required
+                      <input class="form-control" type="tel" formControlName="phoneNumber" 
                         placeholder="xxx-xxx-xxxx" />
                       <div *ngIf="
-                                ProviderGroup.get('PhoneNumber')?.hasError(
+                                addUserGroup.get('phoneNumber')?.hasError(
                                   'reqiured'
-                                ) && ProviderGroup.get('PhoneNumber')?.touched
+                                ) && addUserGroup.get('phoneNumber')?.touched
                               " class="login-danger Font_size">
-                        This field is reqiured
+                        Phone Number field is reqiured
                       </div>
                       <div class="login-danger Font_size" *ngIf="
-                                ProviderGroup.get('PhoneNumber')?.hasError(
+                                addUserGroup.get('phoneNumber')?.hasError(
                                   'pattern'
-                                ) && ProviderGroup.get('PhoneNumber')?.touched
+                                ) && addUserGroup.get('phoneNumber')?.touched
                               ">
-                        Enter enter a valid USA number.
+                        Please enter a valid USA number.
                       </div>
                     </div>
                   </div>
-                  <!-- therd row -->
-                  <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                      <label for="SocialSecurityNumber">Social Security Number
-                        <span class="login-danger">*</span></label>
-                      <input formControlName="ssn" required class="form-control" type="text" placeholder="Enter 9-Digit Number"/>
-                      <div *ngIf="
-                                ProviderGroup.get(
-                                  'ssn'
-                                )?.hasError('required') &&
-                                ProviderGroup.get('ssn')
-                                  ?.touched
-                              " class="login-danger Font_size">
-                        This field is reqiured.
-                      </div>
-                      <div class="login-danger Font_size" *ngIf="
-                                ProviderGroup.get('ssn')?.hasError(
-                                  'pattern'
-                                ) && ProviderGroup.get('ssn')?.touched
-                              ">
-                        Please enter a valid SSN.
-                      </div>
-                    </div>
-                  </div>
-                  <!-- four row -->
+
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="Email">Email<span class="login-danger">*</span></label>
-                      <input class="form-control" type="email" placeholder formControlName="Email" required />
+                      <input class="form-control" type="email" placeholder formControlName="email" />
                       <div *ngIf="
-                                ProviderGroup.get('Email')?.hasError(
+                                addUserGroup.get('email')?.hasError(
                                   'required'
-                                ) && ProviderGroup.get('Email')?.touched
+                                ) && addUserGroup.get('email')?.touched
                               " class="login-danger Font_size">
-                        Email field is reqiured
+                        Email field is reqiured.
                       </div>
-                      <div *ngIf="ProviderGroup.get('Email')?.errors?.['email']" class="login-danger Font_size">
-                        Please enter a valid email address
+                      <div *ngIf="addUserGroup.get('email')?.errors?.['email']" class="login-danger Font_size">
+                        Please enter a valid email address.
                       </div>
                     </div>
                   </div>
 
+
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="Password">Password
+                      <label for="Status">Status
                         <span class="login-danger">*</span></label>
-                      <input class="form-control pass-input"
-                      [type]="passwordClass ? 'text' : 'password'" type="password" placeholder formControlName="Password" required
-                        minlength="3" />
-                        <span (click)="togglePassword()" (keyup.enter)="togglePassword()"  [ngClass] = "passwordClass ? 'feather icon-eye' : 'feather icon-eye-off'"
-                      class="profile-views toggle-password"  tabindex="0"
-                    ></span>
-
+                      <input class="form-control" formControlName="status" type="text" placeholder />
                       <div *ngIf="
-                                ProviderGroup.get('Password')?.hasError(
-                                  'required'
-                                ) && ProviderGroup.get('Password')?.touched
+                                addUserGroup.get('status')?.hasError(
+                                  'pattern'
+                                ) && addUserGroup.get('status')?.touched
                               " class="login-danger Font_size">
-                        Password field is reqiured
-                      </div>
-                      <div class="login-danger Font_size" *ngIf="ProviderGroup.get('Password')?.errors?.['minlength']">
-                        Password must be at least 3 characters long
-                      </div>
-                      <div class="login-danger Font_size" *ngIf="ProviderGroup.get('Password')?.errors?.['maxlength']">
-                        Password should not be more than 16 characters.
-                      </div>
-                      <div class="login-danger Font_size" *ngIf="
-                        ProviderGroup.get('Password')?.hasError(
-                          'pattern'
-                        )
-                      ">
-                        Must contain at least 1 of the following special characters (!$%^()_+*<>#&#64;)
-                      </div>
-
-                    </div>
-                  </div>
-                  @if(ProviderGroup.value.ProviderRole){
-                  <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                      <label for="NPI">Individual NPI<span class="login-danger">*</span></label>
-                      <input formControlName="NPI" class="form-control" type="text"
-                        placeholder="Enter 10-digit number" />
-                      <div class="login-danger Font_size" *ngIf="
-                                ProviderGroup.get('NPI')?.hasError(
-                                  'pattern'
-                                ) && ProviderGroup.get('NPI')?.touched
-                              ">
-                        Please enter a 10-digit NPI number.
+                        Input must be between 1 and 50 characters.
                       </div>
                     </div>
                   </div>
 
-                  <!-- first row -->
-                  <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                      <label for="Taxonomy Code">Taxonomy Code<span class="login-danger">*</span></label>
-                      <input class="form-control bor" formControlName="TaxonomyCode" type="text"
-                        placeholder="Enter 10-digit number" />
-                      <div class="login-danger Font_size" *ngIf="
-                                ProviderGroup.get('TaxonomyCode')?.hasError(
-                                  'pattern'
-                                ) && ProviderGroup.get('TaxonomyCode')?.touched
-                              ">
-                        Please enter a valid Taxanomy number.
-                      </div>
-                    </div>
-                  </div>
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="">Provider's Type
+                      <label for="password">Password
                         <span class="login-danger">*</span></label>
-                      <p-dropdown [options]="providerType" optionLabel="label" optionValue="value" appendTo="body"
-                        formControlName="ProviderSelect" [style]="{'width':'100%'}" [filter]="true" filterBy="value"
-                        [showClear]="true">
-                      </p-dropdown>
+                      <input class="form-control" formControlName="password" type="text" placeholder />
+                      <div *ngIf="
+                                addUserGroup.get('password')?.hasError(
+                                  'required'
+                                ) && addUserGroup.get('password')?.touched
+                              " class="login-danger Font_size">
+                        Password field is reqiured.
+                      </div>
+                      <div *ngIf="
+                                addUserGroup.get('password')?.hasError(
+                                  'pattern'
+                                ) && addUserGroup.get('password')?.touched
+                              " class="login-danger Font_size">
+                        Input must be between 1 and 50 characters.
+                      </div>
                     </div>
                   </div>
 
+                  
+
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="Specialty">Specialty
+                      <label for="wareHouse">Warehouse
                         <span class="login-danger">*</span></label>
-                      <p-dropdown [options]="providerSpeciality" optionLabel="label" optionValue="value" appendTo="body"
-                        formControlName="SpecialtySelect" [style]="{'width':'100%'}" [filter]="true" filterBy="value"
-                        [showClear]="true">
-                      </p-dropdown>
+                      <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select State--" [options]="cities"
+                        formControlName="wareHouse" optionLabel="name" display="chip"
+                        [showClear]="true"></p-multiSelect>
+                      <div *ngIf="
+                                addUserGroup.get('wareHouse')?.hasError(
+                                  'reqiured'
+                                ) && addUserGroup.get('wareHouse')?.touched
+                              " class="login-danger Font_size">
+                        Warehouse field is reqiured.
+                      </div>
                     </div>
                   </div>
-                  }
+
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="address">Address
+                        <span class="login-danger">*</span></label>
+                      <textarea class="form-control" formControlName="address" type="text" placeholder
+                        rows="1"></textarea>
+                      <div *ngIf="
+                                addUserGroup.get('address')?.hasError(
+                                  'pattern'
+                                ) && addUserGroup.get('address')?.touched
+                              " class="login-danger Font_size">
+                        Input must be between 1 and 50 characters.
+                      </div>
+                    </div>
+                  </div>
+
+
                 </div>
               </form>
 

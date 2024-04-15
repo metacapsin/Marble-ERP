@@ -58,6 +58,12 @@ const routes: Routes = [
       },
       
       {
+        path: 'customers',
+        loadChildren: () =>
+          import('./Customers/customers.module').then((m) => m.CustomersModule),
+      },
+
+      { 
         path: 'tables',
         loadChildren: () =>
           import('./tables/tables.module').then((m) => m.TablesModule),
@@ -72,7 +78,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./gallery/gallery.module').then((m) => m.GalleryModule),
       },
-      
       {
         path: 'edit-profile',
         loadChildren: () =>
