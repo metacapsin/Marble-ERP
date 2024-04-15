@@ -8,7 +8,7 @@ import { delay } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'EHR-angular';
+  title = 'ERP-angular';
   loading: any = false;
 
   constructor(

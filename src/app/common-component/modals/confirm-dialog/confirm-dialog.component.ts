@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SharedModule } from 'primeng/api';
 import { CoreModule } from 'src/app/core/core.module';
-import { LabsSettingsModule } from 'src/app/core/settings/labs-settings/labs-settings.module';
 import { ServiceLocationModule } from 'src/app/core/settings/service-location/service-location.module';
 import { DialogModule } from 'primeng/dialog';
 import { SettingsModule } from 'src/app/core/settings/settings.module';

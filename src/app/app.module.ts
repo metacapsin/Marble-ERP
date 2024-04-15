@@ -9,7 +9,6 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular
 import { JwtInterceptor } from './shared/interceptor/jwt.interceptor';
 import { ErrorInterceptor } from './shared/interceptor/error.interceptor';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './shared/store';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 
@@ -23,7 +22,6 @@ import { ConfirmationService } from 'primeng/api';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    StoreModule.forRoot(reducers, {  }),
     ConfirmDialogModule
   ],
   providers: [
