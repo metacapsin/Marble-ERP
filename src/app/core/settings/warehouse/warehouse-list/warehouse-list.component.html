@@ -38,9 +38,7 @@
                                                 <a appShowHide [roles]="['admin', 'super-admin']" [routerLink]="['/settings/warehouse/add']"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""> Add New</a>
-                                                <!-- <a href="javascript:;" (click)="getServiceLocationList()"
-                                                    class="btn btn-primary doctor-refresh ms-2"><img
-                                                        src="assets/img/icons/re-fresh.svg" alt=""></a> -->
+                                               
                                             </div>
                                         </div>
                                     </div>
@@ -93,35 +91,29 @@
                                     </th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-location>
+                            <ng-template pTemplate="body" let-warehouse>
 
                                 <tr>
                                     <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableCheckbox [value]="location"></p-tableCheckbox>
+                                        <p-tableCheckbox [value]="warehouse"></p-tableCheckbox>
                                     </td>
                                     <td class="">
-                                        {{location.name}}
+                                        {{warehouse.name}}
                                     </td>
                                     <td>
-                                        {{location.email}}
-                                    </td>
-                                    <!-- <td>
-                                        {{location.city}}
+                                        {{warehouse.email}}
                                     </td>
                                     <td>
-                                        {{location.zip}}
-                                    </td> -->
-                                    <td>
-                                        {{location.phone}}
+                                        {{warehouse.phone}}
                                     </td>
                                     <td>
-                                        {{location.onlineStore}}
+                                        {{warehouse.onlineStore}}
                                     </td>
                                     <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
                                         <p-button [text]="true" icon="fa fa-edit"
-                                            [routerLink]="['/settings/Warehouse/edit', location._id]"></p-button>
+                                            [routerLink]="['/settings/Warehouse/edit', warehouse._id]"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"
-                                            (click)="deleteLocation(location._id)"></p-button>
+                                            (click)="deleteLocation(warehouse._id)"></p-button>
                                     </td>
 
                                 </tr>

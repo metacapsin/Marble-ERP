@@ -33,10 +33,8 @@ export class WarehouseEditComponent {
 
   public routes = routes;
   warehouseForm!: FormGroup;
-  states: any;
-  countries: any;
   data: any;
-  locationId: any;
+  warehouseId: any;
 
   constructor(
     private service: SettingsService,
@@ -65,33 +63,24 @@ export class WarehouseEditComponent {
 
   ngOnInit(): void {
     this.activeRoute.params.subscribe(params => {
-      this.locationId = params['id']
-      console.log("user id ", this.locationId)
+      this.warehouseId = params['id']
+      console.log("user id ", this.warehouseId)
     })
-    this.service.getWarehouseById(this.locationId).subscribe((data: any) => {
+    this.service.getWarehouseById(this.warehouseId).subscribe((data: any) => {
       this.data = data.data; //assuming data is returned as expected
       console.log("User Data", this.data)
       this.warehouseForm.patchValue({
         name: this.data.name,
-        address: this.data.address,
-        address2: this.data.address2,
-        city: this.data.city,
-        state: this.data.state,
-        zip: this.data.zip,
-        country: this.data.country,
-        placeServiceCode: this.data.placeServiceCode,
+        slug: this.data.slug,
+        email: this.data.email,
+        showEmail: this.data.showEmail,
         phone: this.data.phone,
-        fax: this.data.fax,
-        allowAppointmentReminder: this.data.allowAppointmentReminder,
-        includeAddressAppointmentReminder: this.data.includeAddressAppointmentReminder,
-        displayLocationOnPracticeScheduling: this.data.displayLocationOnPracticeScheduling,
+        showPhone: this.data.showPhone,
+        billingAddress: this.data.billingAddress,
+        bankDetails: this.data.bankDetails,
 
       });
 
-    })
-
-    this.service.getStateList().subscribe((resp: any) => {
-      this.states = resp.data;
     })
 
   }
@@ -104,7 +93,7 @@ export class WarehouseEditComponent {
   WarehouseFormSubmit() {
     if (this.warehouseForm.valid) {
       const requestBody = { ...this.warehouseForm.value };
-      requestBody.id = this.locationId;
+      requestBody.id = this.warehouseId;
       this.service.updateWarehouseById(requestBody).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === 'success') {

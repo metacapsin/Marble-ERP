@@ -30,7 +30,6 @@ export class WarehouseAddComponent {
 
   public routes = routes;
   warehouseForm!: FormGroup;
-  states: any;
 
   constructor(
     private service: SettingsService,
@@ -55,11 +54,11 @@ export class WarehouseAddComponent {
       showPhone:[],
       billingAddress:[
         '',
-        [Validators.required, Validators.pattern(new RegExp(/^^\s*(\w+\s+){10,100}\w+.*$/))
+        [ Validators.pattern(new RegExp(/^^\s*(\w+\s+){10,100}\w+.*$/))
       ],
       ],
       bankDetails:[ '',
-      [Validators.required, Validators.pattern(new RegExp(/^[A-Za-z0-9\s-]+$/))
+      [Validators.pattern(new RegExp(/^[A-Za-z0-9\s-]+$/))
     ],],
       placeServiceCode: ['Default', []],
       phone: [
@@ -74,9 +73,7 @@ export class WarehouseAddComponent {
      
     });
 
-    this.service.getStateList().subscribe((resp: any) => {
-      this.states = resp.data;
-    });
+    
   }
 
   get f() {
