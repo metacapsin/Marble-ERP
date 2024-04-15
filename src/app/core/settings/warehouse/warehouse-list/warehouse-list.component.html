@@ -1,0 +1,138 @@
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <!-- Page Content -->
+    <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Settings</li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Warehouse</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk">
+                                        <h3>Warehouse List</h3>
+                                        <div class="doctor-search-blk">
+                                            <div class="top-nav-search table-search-blk">
+                                                <input type="text" class="form-control" placeholder="Search here"
+                                                    [(ngModel)]="searchDataValue"
+                                                    (ngModelChange)="searchData(searchDataValue)">
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                            <div class="add-group textbtn">
+                                                <a appShowHide [roles]="['admin', 'super-admin']" [routerLink]="['/settings/warehouse/add']"
+                                                    class="btn btn-primary add-pluss ms-2"><img
+                                                        src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                                                <!-- <a href="javascript:;" (click)="getServiceLocationList()"
+                                                    class="btn btn-primary doctor-refresh ms-2"><img
+                                                        src="assets/img/icons/re-fresh.svg" alt=""></a> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide [roles]="['admin', 'super-admin']">
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                            alt=""></a>
+                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
+                                            alt=""></a> -->
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                            alt=""></a>
+                                    <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <p-table [value]="data" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th>
+                                    <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
+                                        <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+
+                                    </th>
+                                    <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
+                                        <p-columnFilter type="email" field="emial" display="menu"></p-columnFilter>
+
+                                    </th>
+                                    <!-- <th pSortableColumn="city">City <p-sortIcon field="city"></p-sortIcon>
+                                        <p-columnFilter type="text" field="city" display="menu"></p-columnFilter>
+
+                                    </th>
+                                    <th pSortableColumn="zip">Zip <p-sortIcon field="zip"></p-sortIcon>
+                                        <p-columnFilter type="text" field="zip" display="menu"></p-columnFilter>
+
+                                    </th> -->
+                                    <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon>
+                                        <p-columnFilter type="text" field="phone" display="menu"></p-columnFilter>
+
+                                    </th>
+                                    <th pSortableColumn="onlineStore">Online Store <p-sortIcon field="onlineStore"></p-sortIcon>
+                                        <p-columnFilter field="onlineStore" display="menu"></p-columnFilter>
+
+                                    </th>
+                                    <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
+                                        <p-sortIcon></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-location>
+
+                                <tr>
+                                    <td appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableCheckbox [value]="location"></p-tableCheckbox>
+                                    </td>
+                                    <td class="">
+                                        {{location.name}}
+                                    </td>
+                                    <td>
+                                        {{location.email}}
+                                    </td>
+                                    <!-- <td>
+                                        {{location.city}}
+                                    </td>
+                                    <td>
+                                        {{location.zip}}
+                                    </td> -->
+                                    <td>
+                                        {{location.phone}}
+                                    </td>
+                                    <td>
+                                        {{location.onlineStore}}
+                                    </td>
+                                    <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
+                                        <p-button [text]="true" icon="fa fa-edit"
+                                            [routerLink]="['/settings/Warehouse/edit', location._id]"></p-button>
+                                        <p-button [text]=" true" icon="fa fa-trash"
+                                            (click)="deleteLocation(location._id)"></p-button>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>

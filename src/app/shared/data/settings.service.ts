@@ -44,10 +44,12 @@ export class SettingsService {
   getProviderProfileById(id: any) {
     return this.http.get(environment.apiUrl + "/providerProfile/getProviderProfileById/" + id);
   }
+
+//  service locations
+
   CreateServiceLocation(data: {} | null) {
     return this.http.post(environment.apiUrl + "/ServiceLocation/createServiceLocation", data);
   }
-
   getServiceLocationList() {
     return this.http.get(environment.apiUrl + "/ServiceLocation/getServiceLocationList");
   }
@@ -64,6 +66,28 @@ export class SettingsService {
   deleteServiceLocationById(id: string) {
     return this.http.delete(environment.apiUrl + "/ServiceLocation/deleteServiceLocationById/" + id, {});
   }
+
+// warehouse
+
+CreateWarehouse(data: {} | null) {
+  return this.http.post(environment.apiUrl + "/Warehouse/createWarehouse", data);
+}
+getWarehouseList() {
+  return this.http.get(environment.apiUrl + "/Warehouse/getWarehouseList");
+}
+
+getWarehouseById(locationId: string) {
+  return this.http.get(environment.apiUrl + "/Warehouse/getWarehouseById/" + locationId);
+}
+
+updateWarehouseById(data: {}) {
+  return this.http.put(environment.apiUrl + "/Warehouse/updateWarehouse" , data);
+}
+
+
+deleteWarehouseById(id: string) {
+  return this.http.delete(environment.apiUrl + "/Warehouse/deleteWarehouseById/" + id, {});
+}
 
   updateProviderProfileById(data: any) {
     return this.http.put(environment.apiUrl + "/ProviderProfile/updateProviderProfile/" , data);

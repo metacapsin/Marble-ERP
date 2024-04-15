@@ -374,6 +374,9 @@ export class routes {
   public static get serviceLocations(): string {
     return this.baseUrl + '/settings/service-locations';
   }
+  public static get warehouse(): string {
+    return this.baseUrl + '/settings/warehouse';
+  }
   public static get calendarSettings(): string {
     return this.baseUrl + '/settings/calendar-settings';
   }
