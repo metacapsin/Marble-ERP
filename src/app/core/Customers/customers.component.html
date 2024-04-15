@@ -71,7 +71,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <div class="card card-table show-entire">
+                <!-- <div class="card card-table show-entire">
                     <div class="card-body d-flex p-2 justify-content-between">
                         <div class="d-flex gap-3">
                             <button [routerLink]="routes.AddCustomers" type="submit"
@@ -84,9 +84,35 @@
 
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="card card-table show-entire">
+                    <div class="col p-3">
+                        <div class="doctor-table-blk">
+                            <h3>Add New Customer</h3>
+                            <div class="doctor-search-blk col-md-6">
+                                <div class="top-nav-search table-search-blk me-3">
+                                    <input type="text" class="form-control" placeholder="Search here"
+                                        [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
+                                    <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                </div>
+                                <div class="add-group textbtn">
+                                    <!-- <a appShowHide [roles]="['admin', 'super-admin']"
+                                        [routerLink]="['/settings/users/add-users']"
+                                        class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg"
+                                            alt="">Add New</a> -->
+                                    <a [routerLink]="routes.AddCustomers" class="btn btn-primary"><img src="assets/img/icons/plus.svg"
+                                        alt=""> Add Customer</a>
+                                     <a class="btn btn-primary ms-2"><!--<i
+                                            class="fa-solid fa-cloud-arrow-up"> </i>-->Import Customers</a>
+
+                                            <!-- <a href="javascript:;" (click)="getuserList()" class="btn btn-primary doctor-refresh ms-2"><img
+                                  src="assets/img/icons/re-fresh.svg" alt=""></a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card-body p-2">
                         <p-table [value]="dataSource" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="5">
@@ -125,13 +151,15 @@
                                     <td>{{product.createdAt}}</td>
                                     <td>{{product.Balance}}</td>
 
-                                    <td  style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                                         <!-- <a (click)="goToEditPage(product._id)"
                                             (keydown.enter)="goToEditPage(product._id)" class="p-link"
                                             tabindex="0">Edit</a> -->
-                                            <a class="p-2 border-1 border" [routerLink]="routes.AddCustomers" href=""><i class="fa-solid fa-user-plus"></i></a>
-                                            <a class="p-2 border-1 border" href=""><i class="fa-solid fa-pen-to-square"></i></a>
-                                            <a class="p-2 border-1 border" href=""><i class="fa-solid fa-trash"></i></a>
+                                        <a class="p-2 border-1 border" [routerLink]="routes.AddCustomers" href=""><i
+                                                class="fa-solid fa-user-plus"></i></a>
+                                        <a class="p-2 border-1 border" href=""><i
+                                                class="fa-solid fa-pen-to-square"></i></a>
+                                        <a class="p-2 border-1 border" href=""><i class="fa-solid fa-trash"></i></a>
 
                                     </td>
                                 </tr>

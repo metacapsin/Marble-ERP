@@ -16,6 +16,7 @@ export class CustomersComponent {
   currentRoute!: string;
   routerChangeSubscription: Subscription;
   selectedProducts= [];
+  searchDataValue:any
   constructor(private router: Router) {
     this.routerChangeSubscription = this.router.events.subscribe((event) => {
       this.currentRoute = this.router.url;
@@ -146,6 +147,13 @@ export class CustomersComponent {
   goToEditPage(value:any){
     this.router.navigate( ['/customers/add-customers/'+value])
   }
+  public searchData(value: any): void {
+    this.dataSource = this.dataSource.map(i => {
+        if(i.firstName.toLowerCase().includes(value.trim().toLowerCase())){
+          return i;
+        }
+    });
+} 
   dataSource: any[] = [
     {
       firstName: "John",
