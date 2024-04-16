@@ -32,10 +32,11 @@
                                                     class="btn btn-primary add-pluss ms-2"
                                                     *ngIf="data?.length == 0"><img src="assets/img/icons/plus.svg"
                                                         alt=""> Add New</a>
-                                                <a appShowHide [roles]="['admin', 'super-admin']" [routerLink]="['/settings/practice-information/edit-practice', data[0]._id]"
+                                                <a appShowHide [roles]="['admin', 'super-admin']"
+                                                    [routerLink]="['/settings/practice-information/edit-practice', data[0]._id]"
                                                     class="btn btn-primary add-pluss ms-2" *ngIf="data?.length > 0"><img
-                                                        src="assets/icons/fontawesome/svgs/solid/pencil.svg" class="editico"
-                                                        alt="" />Edit</a>
+                                                        src="assets/icons/fontawesome/svgs/solid/pencil.svg"
+                                                        class="editico" alt="" />Edit</a>
                                                 <!-- <a appShowHide [roles]="['admin', 'super-admin']" href="javascript:;" (click)="getPracticeListData()"
                                                     class="btn btn-primary doctor-refresh ms-2"><img
                                                         src="assets/img/icons/re-fresh.svg" alt=""></a> -->
@@ -75,73 +76,74 @@
                             </tbody>
                           </table>
                         </div> -->
-                        <div class="page-table-header mb-2 m-3" *ngIf="data?.length > 0"> 
-                        <div class="row practice-card">
-                        <div class="col-xl-6 col-lg-6 col-sm-12">                           
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Name</h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-lg-9 col-form-label">{{data[0].name}}</p>
+                        <div class="page-table-header mb-2 m-3" *ngIf="data?.length > 0">
+                            <div class="row practice-card">
+                                <div class="col-xl-6 col-lg-6 col-sm-12">
+                                    <div class="form-group row mb-2">
+                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Name</h5>
+                                        <div class="col-lg-9 col-md-9 col-xl-9">
+                                            <p class="col-lg-9 col-form-label">{{data[0].name}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mb-2">
+                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Address</h5>
+                                        <div class="col-lg-9 col-md-9 col-xl-9">
+                                            <p class="col-lg-9 col-form-label">{{data[0].address}} {{data[0].address2}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mb-2">
+                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">City</h5>
+                                        <div class="col-lg-9 col-md-9 col-xl-9">
+                                            <p class="col-form-label">{{data[0].city}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mb-2">
+                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">State</h5>
+                                        <div class="col-lg-9 col-md-9 col-xl-9">
+                                            <p class="col-form-label">{{data[0].state}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mb-2">
+                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone No.</h5>
+                                        <div class="col-lg-9 col-md-9 col-xl-9">
+                                            <p class="col-form-label">{{data[0].phone}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-sm-12">
+                                    <div class="form-group row mb-2">
+                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Zip</h5>
+                                        <div class="col-lg-9 col-md-9 col-xl-9">
+                                            <p class="col-form-label">{{data[0].zip}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mb-2">
+                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Fax No.</h5>
+                                        <div class="col-lg-9 col-md-9 col-xl-9">
+                                            <p class="col-form-label">{{data[0].fax}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mb-2">
+                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Location Contact</h5>
+                                        <div class="col-lg-9 col-md-9 col-xl-9">
+                                            <p class="col-form-label">{{data[0].locationContact}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mb-2">
+                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">EIN</h5>
+                                        <div class="col-lg-9 col-md-9 col-xl-9">
+                                            <p class="col-form-label">{{data[0].ein}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mb-2">
+                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Group NPI</h5>
+                                        <div class="col-lg-9 col-md-9 col-xl-9">
+                                            <p class="col-form-label">{{data[0].groupNpi}}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Address</h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-lg-9 col-form-label">{{data[0].address}} {{data[0].address2}}</p>
-                                </div>
-                            </div>                            
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">City</h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">{{data[0].city}}</p>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">State</h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">{{data[0].state}}</p>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone No.</h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">{{data[0].phone}}</p>
-                                </div>
-                            </div>  
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-12">
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Zip</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data[0].zip}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Fax No.</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data[0].fax}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Location Contact</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data[0].locationContact}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">EIN</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data[0].ein}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Group NPI</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data[0].groupNpi}}</p>
-                                    </div>
-                                </div>
-                            </div>  
-                        </div>                       
                         </div>
                     </div>
                 </div>

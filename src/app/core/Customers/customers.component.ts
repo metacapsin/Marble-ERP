@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { MenuItem } from "primeng/api";
 import { Subscription } from "rxjs";
 import { routes } from "src/app/shared/routes/routes";
+import { DialogModule } from "primeng/dialog";
 
 @Component({
   selector: "app-customers",
@@ -15,12 +16,12 @@ export class CustomersComponent {
   routes = routes;
   currentRoute!: string;
   routerChangeSubscription: Subscription;
-  selectedProducts= [];
-  searchDataValue:any
+  selectedProducts = [];
+  searchDataValue: any;
   constructor(private router: Router) {
     this.routerChangeSubscription = this.router.events.subscribe((event) => {
       this.currentRoute = this.router.url;
-      console.log(this.currentRoute);
+      // console.log(this.currentRoute);
     });
   }
   ngOnInit() {
@@ -144,16 +145,21 @@ export class CustomersComponent {
       },
     ];
   }
-  goToEditPage(value:any){
-    this.router.navigate( ['/customers/add-customers/'+value])
+  goToEditPage(value: any) {
+    this.router.navigate(["/customers/add-customers/" + value]);
   }
   public searchData(value: any): void {
-    this.dataSource = this.dataSource.map(i => {
-        if(i.firstName.toLowerCase().includes(value.trim().toLowerCase())){
-          return i;
-        }
+    this.dataSource = this.dataSource.map((i) => {
+      if (i.firstName.toLowerCase().includes(value.trim().toLowerCase())) {
+        return i;
+      }
     });
-} 
+  }
+  visible: boolean = false;
+
+  showDialog() {
+    this.visible = true;
+  }
   dataSource: any[] = [
     {
       firstName: "John",
@@ -161,30 +167,30 @@ export class CustomersComponent {
       email: "john.doe@example.com",
       status: "Active",
       isUserLocked: false,
-      createdAt:"15-04-2024 05:39 pm",
-      Balance:'$9,111.15',	
-      role: ["admin"]
+      createdAt: "15-04-2024 05:39 pm",
+      Balance: "$9,111.15",
+      role: ["admin"],
     },
     {
       firstName: "Jane",
       lastName: "Smith",
       email: "jane.smith@example.com",
       status: "Locked",
-      createdAt:"15-04-2024 05:39 pm",
-      Balance:'$9,111.15',	
+      createdAt: "15-04-2024 05:39 pm",
+      Balance: "$9,111.15",
       isUserLocked: true,
-      role: ["super-admin"]
+      role: ["super-admin"],
     },
     {
       firstName: "Alice",
       lastName: "Johnson",
       email: "alice.johnson@example.com",
       status: "Active",
-      createdAt:"15-04-2024 05:39 pm",
-      Balance:'$9,111.15',	
+      createdAt: "15-04-2024 05:39 pm",
+      Balance: "$9,111.15",
       isUserLocked: false,
-      role: ["admin", "user"]
-    }
+      role: ["admin", "user"],
+    },
   ];
   changeCalendarSettingCategory(type: string) {}
 
