@@ -32,7 +32,7 @@ export class EditCustomersComponent {
       phoneNumber: ['', [Validators.required,Validators.pattern(new RegExp(/^.{3,20}$/))],],
       email:['',[Validators.required,Validators.email]],
       status:['',[Validators.required]],
-      password:['', [Validators.required, Validators.pattern(new RegExp(/^.{3,20}$/))],],
+      // password:['', [Validators.required, Validators.pattern(new RegExp(/^.{3,20}$/))],],
       taxNumber:['',[]],
       openingBalance:['',[]],
       creditPeriod:['',[]],

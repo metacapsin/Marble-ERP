@@ -100,13 +100,13 @@
                         <span class="login-danger">*</span></label>
                       <input class="form-control" type="tel" formControlName="phoneNumber" 
                         placeholder="xxx-xxx-xxxx" />
-                      <div *ngIf="
-                                addUserGroup.get('phoneNumber')?.hasError(
-                                  'reqiured'
-                                ) && addUserGroup.get('phoneNumber')?.touched
-                              " class="login-danger Font_size">
-                        Phone Number field is reqiured
-                      </div>
+                        <div *ngIf="
+                        addUserGroup.get('phoneNumber')?.hasError(
+                          'required'
+                        ) && addUserGroup.get('phoneNumber')?.touched
+                      " class="login-danger Font_size">
+                      Phone Number field is reqiured.
+              </div>
                       <div class="login-danger Font_size" *ngIf="
                                 addUserGroup.get('phoneNumber')?.hasError(
                                   'pattern'
@@ -168,7 +168,7 @@
                                   'pattern'
                                 ) && addUserGroup.get('password')?.touched
                               " class="login-danger Font_size">
-                        Input must be between 1 and 50 characters.
+                        Input must be between 5 and 50 characters.
                       </div>
                     </div>
                   </div>
@@ -182,13 +182,13 @@
                       <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Warehouse--" [options]="cities"
                         formControlName="wareHouse" optionLabel="name" display="chip"
                         [showClear]="true"></p-multiSelect>
-                      <div *ngIf="
-                                addUserGroup.get('wareHouse')?.hasError(
-                                  'reqiured'
-                                ) && addUserGroup.get('wareHouse')?.touched
-                              " class="login-danger Font_size">
-                        Warehouse field is reqiured.
-                      </div>
+                        <div *ngIf="
+                        addUserGroup.get('wareHouse')?.hasError(
+                          'required'
+                        ) && addUserGroup.get('wareHouse')?.touched
+                      " class="login-danger Font_size">
+                      Warehouse field is reqiured.
+              </div>
                     </div>
                   </div>
 
@@ -199,12 +199,29 @@
                         <span class="login-danger">*</span></label>
                       <textarea class="form-control" formControlName="address" type="text" placeholder
                         rows="1"></textarea>
+                        <div *ngIf="
+                        addUserGroup.get('address')?.hasError(
+                          'required'
+                        ) && addUserGroup.get('address')?.touched
+                      " class="login-danger Font_size">
+                      Address field is reqiured.
+              </div>
                       <div *ngIf="
                                 addUserGroup.get('address')?.hasError(
                                   'pattern'
                                 ) && addUserGroup.get('address')?.touched
                               " class="login-danger Font_size">
-                        Input must be between 1 and 50 characters.
+                        Input must be between 2 and 50 characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="doctor-submit d-flex justify-content-between">
+                      <div class="status-toggle d-flex">
+                        <p class="mb-0 me-5">Lock User</p>
+                        <input type="checkbox" formControlName="isUserLocked" id="status_1" class="check">
+                        <label for="status_1" class="checktoggle">checkbox</label>
                       </div>
                     </div>
                   </div>
@@ -212,7 +229,6 @@
 
                 </div>
               </form>
-
             </div>
           </div>
         </div>
