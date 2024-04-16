@@ -11,25 +11,92 @@ import { DropdownModule } from 'primeng/dropdown';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
-  selector: 'app-warehouse-add',
+  selector: 'app-products-add',
   standalone: true,
+  templateUrl: './products-add.component.html',
+  styleUrl: './products-add.component.scss',
   imports: [CommonModule,
     SharedModule,
     MatButtonModule,
     ButtonModule,
     CheckboxModule,
     DropdownModule,
+    CalendarModule,
   ToastModule],
   providers: [MessageService],
-  templateUrl: './warehouse-add.component.html',
-  styleUrl: './warehouse-add.component.scss'
 })
-export class WarehouseAddComponent {
+export class ProductsAddComponent {
+
 
   public routes = routes;
-  warehouseForm!: FormGroup;
+  productForm!: FormGroup;
+
+
+  warehouseList = [
+    { label: 'Bijainagar Chanda Colony', value: 'Bijainagar Chanda Colony' },
+    { label: 'Pipli Chouraha', value: 'Pipli Chouraha' },
+    { label: 'Rajdarbar', value: 'Rajdarbar' },
+    { label: 'Pragya College', value: 'Ambulance' },
+    { label: 'Rajnagar', value: 'Rajnagar' },
+    { label: 'Sathana Bazar', value: 'Sathana Bazar' },
+    { label: 'Bapu Bazar', value: 'Bapu Bazar' },
+  ]
+
+  categoriesList:[
+    {
+      "name": "Electronics",
+      "subcategories": [
+        {
+          "name": "Audio",
+          "subcategories": [
+            { "name": "Headphones" },
+            { "name": "Soundbars" }
+          ]
+        },
+        { "name": "Mobiles" },
+        { "name": "Televisions" },
+        {
+          "name": "Computers",
+          "subcategories": [
+            { "name": "Laptops" },
+            { "name": "Desktops" },
+            {
+              "name": "Computer",
+              "subcategories": [
+                { "name": "Peripheral" },
+                { "name": "Monitors" },
+                { "name": "Printers" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fashion",
+      "subcategories": [
+        { "name": "Clothes" },
+        { "name": "Shoes" }
+      ]
+    },
+    { "name": "Grocery" },
+    { "name": "Home and Furnitures" },
+    { "name": "Baby & Kids" },
+    {
+      "name": "Main Category 1",
+      "subcategories": [
+        { "name": "Category 1" }
+      ]
+    }
+  ]
+
+  unitList:[]
+  barcodeSymbologyList:[]
+  taxList:[]
+
 
   constructor(
     private service: SettingsService,
@@ -37,7 +104,7 @@ export class WarehouseAddComponent {
     private router: Router,
     private messageService: MessageService
   ) {
-    this.warehouseForm = this.fb.group({
+    this.productForm = this.fb.group({
       name: [
         '',
         [Validators.required, Validators.pattern(new RegExp(/^.{2,50}$/))],
@@ -50,9 +117,20 @@ export class WarehouseAddComponent {
         '',
         [Validators.required, Validators.pattern(new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/))],
       ],
-      showEmail:[],
-      showPhone:[],
-      billingAddress:[
+      warehouse:[],
+      category:[],
+      unit:[],
+      quantityAlert:[],
+      barcodeSymbology:[],
+      itemCode:[],
+      tax:[],
+      openingStock:[],
+      openingStockDate:[],
+      purchasePrice:[],
+      salesPrice:[],
+      mRP:[],
+      expiryDate:[],
+      description:[
         '',
         [Validators.required, Validators.pattern(new RegExp(/^.{5,500}$/))],
       ],
@@ -74,21 +152,20 @@ export class WarehouseAddComponent {
 
     
   }
-
   get f() {
-    return this.warehouseForm.controls;
+    return this.productForm.controls;
   }
 
-  WarehouseFormSubmit() {
-    if (this.warehouseForm.valid) {
+  ProductFormSubmit() {
+    if (this.productForm.valid) {
       this.service
-        .CreateWarehouse(this.warehouseForm.value)
+        .CreateProduct(this.productForm.value)
         .subscribe((resp:any) => {
           if (resp.status === 'success') {
-            const message = "Warehouse has been added";
+            const message = "Product has been added";
             this.messageService.add({ severity: 'success', detail: message });
             setTimeout(() => {
-              this.router.navigate(['/settings/warehouse']);
+              this.router.navigate(['/settings/product']);
             }, 400);
           } else {
             const message = resp.message

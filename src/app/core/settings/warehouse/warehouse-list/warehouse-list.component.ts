@@ -28,6 +28,15 @@ export class WarehouseListComponent {
   warehouseID: any;
   searchDataValue = "";
   selectedProducts = [];
+  
+
+
+
+  staticValues = [
+    { name: 'Warehouse 1', email: 'warehouse1@example.com', phone: '123-456-7890',  },
+    { name: 'Warehouse 2', email: 'warehouse2@example.com', phone: '987-654-3210',},
+    { name: 'Warehouse 3', email: 'warehouse3@example.com', phone: '555-555-5555',}
+  ];
 
   constructor(public dialog: MatDialog, public router: Router, private service: SettingsService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
 
@@ -61,7 +70,7 @@ export class WarehouseListComponent {
 
   callBackModal() {
     this.service.deleteServiceLocationById(this.warehouseID).subscribe(resp => {
-      const message = "Service Location has been deleted"
+      const message = "Warehouse has been deleted"
       this.messageService.add({ severity: 'success', detail: message });
       this.getWarehouseList();
       this.showDialog = false;

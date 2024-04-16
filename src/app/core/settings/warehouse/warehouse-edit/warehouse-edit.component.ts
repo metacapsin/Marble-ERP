@@ -45,19 +45,37 @@ export class WarehouseEditComponent {
     private messageService: MessageService
   ) {
     this.warehouseForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-      address: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-      address2: ['', [Validators.pattern(new RegExp(/^.{5,50}$/))]],
-      city: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-      state: ['', Validators.required,],
-      zip: ['', [Validators.required, Validators.pattern(new RegExp(/^\d{5}(?:-\d{4})?$/))]],
-      country: [''],
-      allowAppointmentReminder: [''],
-      includeAddressAppointmentReminder: [''],
-      displayLocationOnPracticeScheduling: [''],
-      placeServiceCode: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-      phone: ['', [Validators.required, Validators.pattern(new RegExp(/^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/))]],
-      fax: ['', [Validators.pattern(new RegExp(/^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/))]],
+      name: [
+        '',
+        [Validators.required, Validators.pattern(new RegExp(/^.{2,50}$/))],
+      ],
+      slug: [
+        '',
+        [Validators.required, Validators.pattern(new RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/))],
+      ],
+      email: [
+        '',
+        [Validators.required, Validators.pattern(new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/))],
+      ],
+      showEmail:[],
+      showPhone:[],
+      billingAddress:[
+        '',
+        [Validators.required, Validators.pattern(new RegExp(/^.{5,500}$/))],
+      ],
+      bankDetails:[ '',
+      [Validators.pattern(new RegExp(/^[A-Za-z0-9\s-]+$/))
+    ],],
+      placeServiceCode: ['Default', []],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            new RegExp(/^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/)
+          ),
+        ],
+      ],
     });
   }
 

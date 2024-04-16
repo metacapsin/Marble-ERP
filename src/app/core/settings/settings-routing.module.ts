@@ -36,6 +36,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'product',
+        loadChildren: () =>
+          import('./products/products.module').then(
+            (m) => m.ProductsModule
+          ),
+      },
+      {
         path: 'practice-information',
         loadChildren: () =>
           import('./practice-information/practice-information.module').then(
