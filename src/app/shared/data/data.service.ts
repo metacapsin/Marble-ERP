@@ -521,10 +521,9 @@ export class DataService {
         
         {
           menuValue: 'Sales',
-          route: routes.practiceInformation,
+          route: routes.Sales,
           hasSubRoute: false,
           showSubRoute: false,
-          // img: 'assets/img/icons/menu-icon-16.svg',
           icon: 'fa-dollar',
           faIcon: true,
           base: 'sales',

@@ -85,6 +85,13 @@ const routes: Routes = [
             (m) => m.EditProfileModule
           ),
       },
+      {
+        path: 'sales',
+        loadChildren: () =>
+          import('./sales/sales.module').then(
+            (m) => m.SalesModule
+          ),
+      },
     ],
   },
 ];
