@@ -53,7 +53,7 @@ export class routes {
   public static get editProvidentFund(): string {
     return this.baseUrl + '/accounts/edit-provident-fund';
   }
-  public static get taxes(): string {
+  public static get taxess(): string {
     return this.baseUrl + '/accounts/taxes';
   }
   public static get addTax(): string {
@@ -374,6 +374,9 @@ export class routes {
   public static get serviceLocations(): string {
     return this.baseUrl + '/settings/service-locations';
   }
+  public static get warehouse(): string {
+    return this.baseUrl + '/settings/warehouse';
+  }
   public static get calendarSettings(): string {
     return this.baseUrl + '/settings/calendar-settings';
   }
@@ -485,4 +488,14 @@ export class routes {
   public static get Sales(): string {
     return this.baseUrl + '/sales';
   }
+  public static get categories(): string {
+    return this.baseUrl + '/settings/categories';
+  }
+  public static get subCategories(): string {
+    return this.baseUrl + '/settings/subCategories';
+  }
+  public static get taxes(): string {
+    return this.baseUrl + '/settings/taxes';
+  }
+
 }

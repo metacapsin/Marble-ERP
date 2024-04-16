@@ -11,6 +11,7 @@ import { ErrorInterceptor } from './shared/interceptor/error.interceptor';
 import { StoreModule } from '@ngrx/store';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { WarehouseRoutingModule } from './core/settings/warehouse/warehouse-routing.module';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ConfirmationService } from 'primeng/api';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    WarehouseRoutingModule
   ],
   providers: [
     ConfirmationService,

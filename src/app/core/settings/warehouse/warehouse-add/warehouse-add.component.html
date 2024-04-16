@@ -1,0 +1,229 @@
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item">Settings</li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="['/settings/warehouse']">
+                                Warehouse
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Add Warehouse</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <form [formGroup]="warehouseForm" (ngSubmit)="WarehouseFormSubmit()">
+                                <div class="row">
+                                    <div class="d-flex m-b-10" style="justify-content: space-between">
+                                        <h3>Add Warehouse</h3>
+                                        <div class="settings-btns text-end m-b-10">
+                                            <button type="submit"
+                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                [disabled]="!warehouseForm.valid">
+                                                Submit
+                                            </button>
+                                            <button class="btn btn-secondary" [routerLink]="['/settings/warehouse/']">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="name">Name <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder=""
+                                                formControlName="name" />
+
+                                            <div *ngIf="
+                        warehouseForm.get('name')?.hasError(
+                          'required'
+                        ) && warehouseForm.get('name')?.touched
+                      ">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                            <div *ngIf="
+                        warehouseForm.get('name')?.hasError('pattern') &&
+                        warehouseForm.get('name')?.touched
+                      ">
+                                                <span class="login-danger">Input must be between 5 and 50
+                                                    characters.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="slug">Slug <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder=""
+                                                formControlName="slug" />
+
+                                            <div *ngIf="
+                        warehouseForm.get('slug')?.hasError(
+                          'required'
+                        ) && warehouseForm.get('slug')?.touched
+                      ">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                            <div *ngIf="
+                        warehouseForm.get('slug')?.hasError(
+                          'pattern'
+                        ) && warehouseForm.get('slug')?.touched
+                      ">
+                                                <span class="login-danger">Slug can only contain lowercase letters,
+                                                    numbers, and hyphens.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="email">Email<span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder=""
+                                                formControlName="email" />
+                                            <div *ngIf="
+                                                warehouseForm.get('email')?.hasError(
+                                                  'required'
+                                                ) && warehouseForm.get('email')?.touched
+                                              ">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                            <div *ngIf="
+                        warehouseForm.get('email')?.hasError(
+                          'pattern'
+                        ) && warehouseForm.get('email')?.touched
+                      ">
+                                                <span class="login-danger">Input must be between 5 and 50
+                                                    characters.</span>
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="doctor-submit d-flex justify-content-between">
+                                            <div class="status-toggle d-flex">
+                                                <p class="mb-0 me-5">Show email on invoice</p>
+                                                <input type="checkbox" formControlName="showEmail" id="status_1"
+                                                    class="check">
+                                                <label for="status_1" class="checktoggle">checkbox</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="phone">Phone <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder="xxx-xxx-xxxx"
+                                                formControlName="phone" />
+
+                                            <div *ngIf="
+                        warehouseForm.get('phone')?.hasError(
+                          'required'
+                        ) && warehouseForm.get('phone')?.touched
+                      ">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                            <div *ngIf="
+                        warehouseForm.get('phone')?.hasError(
+                          'pattern'
+                        ) && warehouseForm.get('phone')?.touched
+                      ">
+                                                <span class="login-danger">Enter 10-Digit number</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="doctor-submit d-flex justify-content-between">
+                                            <div class="status-toggle d-flex">
+                                                <p class="mb-0 me-5">Show phone on invoice</p>
+                                                <input type="checkbox" formControlName="showPhone" id="status_2"
+                                                    class="check">
+                                                <label for="status_2" class="checktoggle">checkbox</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="billingAddress">Billing Address</label>
+                                            <textarea class="form-control" type="text"
+                                                placeholder="Please Enter Billing Address"
+                                                formControlName="billingAddress" ></textarea>
+                                            <div *ngIf="
+                        warehouseForm.get('billingAddress')?.hasError('pattern') &&
+                        warehouseForm.get('billingAddress')?.touched
+                      ">
+                                                <span class="login-danger">Input Must be between 10 to 100
+                                                    characters</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <strong><i class="fas fa-info-circle"></i>Note: Details added below will be
+                                            shown on
+                                            your invoices</strong>
+
+                                    </div>
+                                    <!-- <small> Note: Details added below will be shown on your invoices.</small> -->
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="bankDetails">Bank Details</label>
+                                            <textarea class="form-control" type="text"
+                                                placeholder="Please Enter Bank Details" formControlName="bankDetails" ></textarea>
+                                            <div *ngIf="
+                                warehouseForm.get('bankDetails')?.hasError('pattern') &&
+                                warehouseForm.get('bankDetails')?.touched
+                              ">
+                                                <span class="login-danger">Input Must be between 5 to 50
+                                                    characters</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="TnC">Terms & Conditions</label>
+                                            <textarea class="form-control" type="text"
+                                               placeholder="Please Enter Terms & Conditions" formControlName="TnC" ></textarea>
+                                            <div *ngIf="
+                        warehouseForm.get('TnC')?.hasError('pattern') &&
+                        warehouseForm.get('TnC')?.touched
+                      ">
+                                                <span class="login-danger">Input Must be between 10 to 500
+                                                    characters</span>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

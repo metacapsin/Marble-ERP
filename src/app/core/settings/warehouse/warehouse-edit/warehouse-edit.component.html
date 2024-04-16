@@ -1,0 +1,214 @@
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <div class="content">
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                                    <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item">Settings</li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="['/settings/warehouse']">
+                                Warehouse
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Edit Warehouse</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+
+                            <form [formGroup]="warehouseForm " (ngSubmit)="WarehouseFormSubmit()">
+                                <div class="row m-b-20">
+                                    <div class="d-flex m-b-10" style="justify-content: space-between;">
+                                        <h3>Edit Warehouse</h3>
+                                        <div class=" settings-btns text-end m-b-10">
+                                            <button type="submit"
+                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                [disabled]="!warehouseForm.valid">Submit</button>
+                                            <button class="btn btn-secondary"
+                                                [routerLink]="['/settings/Warehouse/']">Cancel</button>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group local-forms">
+                                            <label for="name">Name <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder=""
+                                                formControlName="name">
+
+                                            <div
+                                                *ngIf="warehouseForm.get('name')?.hasError('required') && warehouseForm.get('name')?.touched">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                            <div
+                                                *ngIf="warehouseForm.get('name')?.hasError('pattern') && warehouseForm.get('name')?.touched">
+                                                <span class="login-danger">Input must be between 5 and 50
+                                                    characters.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group local-forms">
+                                            <label for="name">Address <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder=""
+                                                formControlName="address">
+
+                                            <div
+                                                *ngIf="warehouseForm.get('address')?.hasError('required') && warehouseForm.get('address')?.touched">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                            <div
+                                                *ngIf="warehouseForm.get('address')?.hasError('pattern') && warehouseForm.get('address')?.touched">
+                                                <span class="login-danger">Input must be between 5 and 50
+                                                    characters.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group local-forms">
+                                            <label for="address2">Address 2(Optional)</label>
+                                            <input class="form-control" type="text" placeholder=""
+                                                formControlName="address2">
+                                            <div
+                                                *ngIf="warehouseForm.get('address2')?.hasError('pattern') && warehouseForm.get('address2')?.touched">
+                                                <span class="login-danger">Input must be between 5 and 50
+                                                    characters.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group local-forms">
+                                            <label for="city">City <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder=""
+                                                formControlName="city">
+                                            <div
+                                                *ngIf="warehouseForm.get('city')?.hasError('required') && warehouseForm.get('city')?.touched">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                            <div
+                                                *ngIf="warehouseForm.get('city')?.hasError('pattern') && warehouseForm.get('city')?.touched">
+                                                <span class="login-danger">Input must be between 5 and 50
+                                                    characters.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group local-forms">
+                                            <label for="state">State <span class="login-danger">*</span></label>
+
+                                            <p-dropdown [options]="states" optionLabel="name" optionValue="state_code"
+                                                appendTo="body" placeholder="--Select State--" formControlName="state"
+                                                [style]="{'width':'100%'}" [filter]="true" filterBy="name"
+                                                [showClear]="true">
+                                            </p-dropdown>
+
+                                            <div
+                                                *ngIf="warehouseForm.get('state')?.hasError('required') && warehouseForm.get('state')?.touched">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group local-forms">
+                                            <label for="name">Zip Code <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder="XXXXX or XXXXX-XXXX"
+                                                formControlName="zip">
+
+                                            <div
+                                                *ngIf="warehouseForm.get('zip')?.hasError('required') && warehouseForm.get('zip')?.touched">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                            <div
+                                                *ngIf="warehouseForm.get('zip')?.hasError('pattern') && warehouseForm.get('zip')?.touched">
+                                                <span class="login-danger">Please enter valid zip code</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group local-forms">
+                                            <label for="phone">Phone <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder="xxx-xxx-xxxx"
+                                                formControlName="phone">
+
+                                            <div
+                                                *ngIf="warehouseForm.get('phone')?.hasError('required') && warehouseForm.get('phone')?.touched">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                            <div
+                                                *ngIf="warehouseForm.get('phone')?.hasError('pattern') && warehouseForm.get('phone')?.touched">
+                                                <span class="login-danger">Enter a valid USA number</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group local-forms">
+                                            <label for="fax">Fax (Optional)</label>
+                                            <input class="form-control" type="text" placeholder="xxx-xxx-xxxx"
+                                                formControlName="fax">
+                                            <div
+                                                *ngIf="warehouseForm.get('fax')?.hasError('pattern') && warehouseForm.get('fax')?.touched">
+                                                <span class="login-danger">Enter a valid USA fax number</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-12 ">
+                                        <div class="checkbox mt-1 m-b-20">
+                                            <label>
+                                              <h4>
+                                                <p-checkbox [binary]="true"
+                                                    formControlName="allowAppointmentReminder" />
+                                                Allow Appointment Reminder
+                                              </h4>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox mt-1 m-b-20">
+                                            <label>
+                                            <h4>
+                                                <p-checkbox [binary]="true"
+                                                    formControlName="includeAddressAppointmentReminder" />
+                                                Include Address Appointment Reminder
+                                            </h4>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox mt-1 m-b-10">
+                                            <label>
+                                            <h4>
+                                                <p-checkbox [binary]="true"
+                                                    formControlName="displayLocationOnPracticeScheduling" />
+                                                Display Location On Practice Scheduling
+                                            </h4>
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
