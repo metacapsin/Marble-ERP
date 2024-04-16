@@ -484,59 +484,76 @@ export class DataService {
         //     },
         //   ],
         // },
-        // {
-        //   menuValue: 'Invoice',
-        //   hasSubRoute: true,
-        //   showSubRoute: false,
-        //   base: 'invoice',
-        //   img: 'assets/img/icons/menu-icon-15.svg',
-        //   subMenus: [
-        //     {
-        //       menuValue: 'Invoices List',
-        //       route: routes.allInvoice,
-        //       base: routes.allInvoice,
-        //     },
-        //     {
-        //       menuValue: 'Invoice Grid',
-        //       route: routes.invoicesGrid,
-        //       base: routes.invoicesGrid,
-        //     },
-        //     {
-        //       menuValue: 'Add Invoices',
-        //       route: routes.addInvoice,
-        //       base: routes.addInvoice,
-        //     },
-        //     {
-        //       menuValue: 'Edit Invoices',
-        //       route: routes.editInvoices,
-        //       base: routes.editInvoices,
-        //     },
-        //     {
-        //       menuValue: 'Invoices Details',
-        //       route: routes.viewInvoice,
-        //       base: routes.viewInvoice,
-        //     },
-        //     {
-        //       menuValue: 'Invoices Settings',
-        //       route: routes.invoicesSettings,
-        //       base: routes.invoicesSettings,
-        //     },
-        //   ],
-        // },
+        {
+          menuValue: 'Invoice',
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: 'invoice',
+          img: 'assets/img/icons/menu-icon-15.svg',
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: 'Invoices List',
+              route: routes.allInvoice,
+              base: routes.allInvoice,
+            },
+            {
+              menuValue: 'Invoice Grid',
+              route: routes.invoicesGrid,
+              base: routes.invoicesGrid,
+            },
+            {
+              menuValue: 'Add Invoices',
+              route: routes.addInvoice,
+              base: routes.addInvoice,
+            },
+            {
+              menuValue: 'Edit Invoices',
+              route: routes.editInvoices,
+              base: routes.editInvoices,
+            },
+            {
+              menuValue: 'Invoices Details',
+              route: routes.viewInvoice,
+              base: routes.viewInvoice,
+            },
+            {
+              menuValue: 'Invoices Settings',
+              route: routes.invoicesSettings,
+              base: routes.invoicesSettings,
+            },
+          ],
+        },
        
         
         
         {
           menuValue: 'Sales',
-          route: routes.Sales,
-          hasSubRoute: false,
+          hasSubRoute: true,
           showSubRoute: false,
+          base: 'Sales',
           icon: 'fa-dollar',
           faIcon: true,
-          base: 'sales',
-          subMenus: [],
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: 'Sales',
+              route: routes.Sales,
+              base: routes.Sales,
+            },
+            {
+              menuValue: 'Sales Return',
+              // route: routes.addSales,
+              // base: routes.addSales,
+            },
+            {
+              menuValue: 'Quotation ',
+              // route: routes.addSales,
+              // base: routes.addSales,
+            },
+          ],
         },
+
         {
           menuValue: 'Reports',
           route: routes.practiceInformation,

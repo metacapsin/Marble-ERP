@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SalesComponent } from './sales.component';
+import { AddsalesComponent } from './addsales/addsales.component';
 
 
 const routes: Routes = [
-  { path: '',
-  component: SalesComponent,},
+  {
+    path: '',
+    component: SalesComponent,
+  },
+  {
+    path: 'add-sales',
+    component: AddsalesComponent,
+  }
 
   // {
   //   path: '',
@@ -39,8 +46,8 @@ const routes: Routes = [
   //     //       (m) => m.PracticeInformationModule
   //     //     ),
   //     // },
-      
-      
+
+
   //     // {
   //     //   path: 'visit-reasons',
   //     //   loadChildren: () =>
@@ -48,7 +55,7 @@ const routes: Routes = [
   //     //       (m) => m.VisitReasonsModule
   //     //     ),
   //     // },
-      
+
   //     // {
   //     //   path: 'change-password',
   //     //   loadChildren: () =>
@@ -56,7 +63,7 @@ const routes: Routes = [
   //     //       (m) => m.ChangePasswordModule
   //     //     ),
   //     // },
-      
+
   //     // {
   //     //   path: 'users',
   //     //   loadChildren: () =>

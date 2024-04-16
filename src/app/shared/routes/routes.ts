@@ -494,6 +494,9 @@ export class routes {
   public static get Sales(): string {
     return this.baseUrl + '/sales';
   }
+  public static get addSales(): string {
+    return this.baseUrl + '/sales/add-sales';
+  }
   public static get categories(): string {
     return this.baseUrl + '/settings/categories';
   }
