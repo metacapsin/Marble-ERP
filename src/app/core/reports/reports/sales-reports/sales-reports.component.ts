@@ -7,13 +7,19 @@ import { routes } from 'src/app/shared/routes/routes';
 interface data {
   value: string ;
 }
+
 @Component({
-  selector: 'app-invoice-reports',
-  templateUrl: './invoice-reports.component.html',
-  styleUrls: ['./invoice-reports.component.scss']
+  selector: 'app-sales-reports',
+  // standalone: true,
+  // imports: [],
+  templateUrl: './sales-reports.component.html',
+  styleUrl: './sales-reports.component.scss'
 })
-export class InvoiceReportsComponent implements OnInit {
+export class SalesReportsComponent implements OnInit {
   public routes = routes;
+  picker1: any;
+
+
   public selectedValue !: string  ;
   public invoiceReports: Array<invoicereport> = [];
   dataSource!: MatTableDataSource<invoicereport>;
@@ -133,5 +139,97 @@ export class InvoiceReportsComponent implements OnInit {
     {value: 'Bernardo James'},
     {value: 'Galaviz Lalema'},
     {value: 'Tarah Williams'},
+  ];
+  SalesData = [
+    {
+      invoiceNumber: "SALE-107",
+      salesDate: "16-04-2024",
+      Customer: "Walk In Customer",
+      salesStatus: "Delivered",
+      paidAmount: "$0.00",
+      totalAmount: "$41.00",
+      paymentStatus: "Unpaid",
+    },
+    {
+      invoiceNumber: "SALE-106",
+      salesDate: "16-04-2024",
+      Customer: "Sanford Daugherty III",
+      salesStatus: "Delivered",
+      paidAmount: "$96.00",
+      totalAmount: "$96.00",
+      paymentStatus: "Paid",
+    },
+    {
+      invoiceNumber: "SALE-105",
+      salesDate: "16-04-2024",
+      Customer: "Walk In Customer",
+      salesStatus: "Delivered",
+      paidAmount: "$50.00",
+      totalAmount: "$47.00",
+      paymentStatus: "Paid",
+    },
+    {
+      invoiceNumber: "SALE-104",
+      salesDate: "16-04-2024",
+      Customer: "Walk In Customer",
+      salesStatus: "Delivered",
+      paidAmount: "$34.00",
+      totalAmount: "$34.00",
+      paymentStatus: "Paid",
+    },
+    {
+      invoiceNumber: "SALE-103",
+      salesDate: "15-04-2024",
+      Customer: "Walk In Customer",
+      salesStatus: "Delivered",
+      paidAmount: "$0.00",
+      totalAmount: "$75.00",
+      paymentStatus: "Unpaid",
+    },
+    {
+      invoiceNumber: "SALE-102",
+      salesDate: "15-04-2024",
+      Customer: "Walk In Customer",
+      salesStatus: "Delivered",
+      paidAmount: "$100.00",
+      totalAmount: "$91.00",
+      paymentStatus: "Paid",
+    },
+    {
+      invoiceNumber: "SALE-101",
+      salesDate: "15-04-2024",
+      Customer: "Walk In Customer",
+      salesStatus: "Delivered",
+      paidAmount: "$0.00",
+      totalAmount: "$234.00",
+      paymentStatus: "Unpaid",
+    },
+    {
+      invoiceNumber: "SALE-100",
+      salesDate: "15-04-2024",
+      Customer: "Walk In Customer",
+      salesStatus: "Delivered",
+      paidAmount: "$0.00",
+      totalAmount: "$20.00",
+      paymentStatus: "Unpaid",
+    },
+    {
+      invoiceNumber: "SALE-99",
+      salesDate: "15-04-2024",
+      Customer: "Walk In Customer",
+      salesStatus: "Delivered",
+      paidAmount: "$12.00",
+      totalAmount: "$41.00",
+      paymentStatus: "Partially Paid",
+    },
+    {
+      invoiceNumber: "SALE-98",
+      salesDate: "15-04-2024",
+      Customer: "goita",
+      salesStatus: "Delivered",
+      paidAmount: "$0.00",
+      totalAmount: "$180.00",
+      paymentStatus: "Unpaid",
+    },
   ];
 }

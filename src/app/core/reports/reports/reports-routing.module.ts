@@ -6,10 +6,17 @@ const routes: Routes = [
   { path: '', component: ReportsComponent,
   children: [
     {
-      path: 'expense-reports',
+      path: 'inventory-reports',
       loadChildren: () =>
-        import('./expense-reports/expense-reports.module').then(
-          (m) => m.ExpenseReportsModule
+        import('./inventory-reports/inventory-reports.module').then(
+          (m) => m.InventoryReportsModule
+        ),
+    },
+    {
+      path: 'sales-reports',
+      loadChildren: () =>
+        import('./sales-reports/sales-reports.module').then(
+          (m) => m.SalesReportsModule
         ),
     },
     {

@@ -2,21 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from 'src/app/shared/data/data.service';
-import { pageSelection, apiResultFormat, exponsesreport } from 'src/app/shared/models/models';
+import { pageSelection, apiResultFormat, invoicereport } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 interface data {
   value: string ;
 }
 @Component({
-  selector: 'app-expense-reports',
-  templateUrl: './expense-reports.component.html',
-  styleUrls: ['./expense-reports.component.scss']
+  selector: 'app-invoice-reports',
+  templateUrl: './invoice-reports.component.html',
+  styleUrls: ['./invoice-reports.component.scss']
 })
-export class ExpenseReportsComponent implements OnInit{
+export class InvoiceReportsComponent implements OnInit {
   public routes = routes;
   public selectedValue !: string  ;
-  public expenseReports: Array<exponsesreport> = [];
-  dataSource!: MatTableDataSource<exponsesreport>;
+  public invoiceReports: Array<invoicereport> = [];
+  dataSource!: MatTableDataSource<invoicereport>;
 
   public showFilter = false;
   public searchDataValue = '';
@@ -39,39 +39,39 @@ export class ExpenseReportsComponent implements OnInit{
     this.getTableData();
   }
   private getTableData(): void {
-    this.expenseReports = [];
+    this.invoiceReports = [];
     this.serialNumberArray = [];
 
-    this.data.getExpenseReports().subscribe((data: apiResultFormat) => {
+    this.data.getInvoiceReports().subscribe((data: apiResultFormat) => {
       this.totalData = data.totalData;
-      data.data.map((res: exponsesreport, index: number) => {
+      data.data.map((res: invoicereport, index: number) => {
         const serialNumber = index + 1;
         if (index >= this.skip && serialNumber <= this.limit) {
-          
-          this.expenseReports.push(res);
+        
+          this.invoiceReports.push(res);
           this.serialNumberArray.push(serialNumber);
         }
       });
-      this.dataSource = new MatTableDataSource<exponsesreport>(this.expenseReports);
+      this.dataSource = new MatTableDataSource<invoicereport>(this.invoiceReports);
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
-    this.expenseReports = this.dataSource.filteredData;
+    this.invoiceReports = this.dataSource.filteredData;
   }
 
   public sortData(sort: Sort) {
-    const data = this.expenseReports.slice();
+    const data = this.invoiceReports.slice();
 
     if (!sort.active || sort.direction === '') {
-      this.expenseReports = data;
+      this.invoiceReports = data;
     } else {
-      this.expenseReports = data.sort((a, b) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.invoiceReports = data.sort((a, b) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const aValue = (a as any)[sort.active];
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const bValue = (b as any)[sort.active];
         return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
       });
@@ -129,9 +129,37 @@ export class ExpenseReportsComponent implements OnInit{
     }
   }
   selectedList: data[] = [
-    {value: 'Select Purchase by'},
+    {value: 'Select Patient'},
     {value: 'Bernardo James'},
     {value: 'Galaviz Lalema'},
     {value: 'Tarah Williams'},
+  ];
+
+
+  invoiceData = [
+    {
+      "invoiceNumber": "INV001",
+      "Client": "ABC Company",
+      "createdDate": "2024-04-15",
+      "dueDate": "2024-05-15",
+      "Amount": "$500.00",
+      "Status": "Paid"
+    },
+    {
+      "invoiceNumber": "INV002",
+      "Client": "XYZ Corporation",
+      "createdDate": "2024-04-10",
+      "dueDate": "2024-05-10",
+      "Amount": "$800.00",
+      "Status": "Pending"
+    },
+    {
+      "invoiceNumber": "INV003",
+      "Client": "DEF Ltd.",
+      "createdDate": "2024-04-08",
+      "dueDate": "2024-05-08",
+      "Amount": "$300.00",
+      "Status": "Paid"
+    }
   ];
 }

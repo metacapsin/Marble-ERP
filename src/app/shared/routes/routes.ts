@@ -506,5 +506,14 @@ export class routes {
   public static get taxes(): string {
     return this.baseUrl + '/settings/taxes';
   }
+  public static get invoiceReport(): string {
+    return this.baseUrl + '/reports/invoice-reports';
+  }
+  public static get inventoryReport(): string {
+    return this.baseUrl + '/reports/inventory-reports';
+  }
+  public static get salesReport(): string {
+    return this.baseUrl + '/reports/sales-reports';
+  }
 
 }
