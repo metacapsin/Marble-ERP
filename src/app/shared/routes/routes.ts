@@ -485,6 +485,12 @@ export class routes {
   public static get AddCustomers(): string {
     return this.baseUrl + '/customers/add-customers';
   }
+  public static get EditCustomers(): string {
+    return this.baseUrl + '/customers/edit-customers';
+  }
+  public static get ViewCustomers(): string {
+    return this.baseUrl + '/customers/view-customers';
+  }
   public static get Sales(): string {
     return this.baseUrl + '/sales';
   }

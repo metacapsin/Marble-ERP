@@ -217,27 +217,45 @@ export class DataService {
             },
           ],
         },
+        {
+          menuValue: 'Parties',
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: 'parties',
+          icon: 'fa-person',
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: 'Customers',
+              route: routes.customers,
+              base: routes.patientsList,
+            },
+            {
+              menuValue: 'Suppliers',
+              route: routes.addPatient,
+              base: routes.addPatient,
+            },
+          ],
+        },
+
         // {
-        //   menuValue: 'Customers',
-        //   hasSubRoute: true,
+        //   menuValue: 'Parties',
+        //   hasSubRoute: false,
         //   showSubRoute: false,
-        //   base: 'customers',
-        //   icon: 'fa-person',
+        //   // img: 'assets/img/icons/menu-icon-16.svg',
+        //   icon: 'fa-users',
+        //   route: 'parties',
         //   faIcon: true,
-        //   role: [Role.Admin, Role.Provider, Role.HelpDesk],
-        //   // img: 'assets/img/icons/menu-icon-03.svg',
+        //   base: 'parties',
         //   subMenus: [
         //     {
-        //       menuValue: 'C List',
-        //       route: routes.patientsList,
-        //       base: routes.patientsList,
-        //     },
-        //     {
-        //       menuValue: 'Add Patients',
-        //       route: routes.addPatient,
-        //       base: routes.addPatient,
+        //       menuValue: 'Customers',
+        //       route: routes.customers,
+        //       base: routes.customers,
         //     },
         //   ],
+        //   role: [Role.Admin, Role.Provider, Role.HelpDesk],
         // },
        
         // {
@@ -506,18 +524,7 @@ export class DataService {
         //   ],
         // },
        
-        {
-          menuValue: 'Customers',
-          route: routes.customers,
-          hasSubRoute: false,
-          showSubRoute: false,
-          // img: 'assets/img/icons/menu-icon-16.svg',
-          icon: 'fa-users',
-          faIcon: true,
-          base: 'customers',
-          subMenus: [],
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-        },
+        
         
         {
           menuValue: 'Sales',
