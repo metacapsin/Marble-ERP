@@ -10,16 +10,29 @@ import { pageSelection, apiResultFormat, allInvoice } from 'src/app/shared/model
 import { routes } from "src/app/shared/routes/routes";
 
 @Component({
-  selector: "app-sales",
-  templateUrl: "./sales.component.html",
-  styleUrls: ["./sales.component.scss"],
+  selector: 'app-paid-sales',
+  templateUrl: './paid-sales.component.html',
+  styleUrl: './paid-sales.component.scss',  
   standalone: true,
   imports:[CommonModule, SharedModule, DropdownModule, CalendarModule]
 })
-export class SalesComponent  implements OnInit{
+export class PaidSalesComponent  implements OnInit{
   public routes = routes;
   public checkboxes: string[] = [];
 
+  customerData = [
+    {
+      name: "Supplier 1",
+      email: "Supplier@gmail.com",
+      phoneNumber: "234324",
+      openingBalance: "50.00",
+      billingAddress: "Supplier Billing Address",
+      creditPeriod: "30 day(s)",
+      creditLimit: "20.00",
+      balance: "300.00",
+      taxNumber: "12389524",
+    },
+  ];
   public allInvoice: Array<allInvoice> = [];
   dataSource!: MatTableDataSource<allInvoice>;
 
@@ -49,6 +62,15 @@ export class SalesComponent  implements OnInit{
     }
   ];
 
+  salesItem=[
+    {salesProduct:"Electronic",
+      salesQuantity:"3",
+      salesUnitPrice:"120",
+      salesDiscount:"20",
+      salesTax:"10",
+      salesSubTotal:"350"
+    },
+  ]
   CustomerList=[
     {customerName:"Adnan"},
     {customerName:"Nadim"},

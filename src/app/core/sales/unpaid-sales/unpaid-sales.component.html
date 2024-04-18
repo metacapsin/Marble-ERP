@@ -11,7 +11,7 @@
               <li class="breadcrumb-item">
                 <i class="feather icon-chevron-right"></i>
               </li>
-              <li class="breadcrumb-item active">Sales List</li>
+              <li class="breadcrumb-item active">Sales UnPaid</li>
             </ul>
           </div>
         </div>
@@ -75,12 +75,12 @@
                 <div class="invoices-tabs">
                   <ul>
                     <li>
-                      <a [routerLink]="routes.Sales" class="active"
+                      <a [routerLink]="routes.Sales"
                         >All Sales</a
                       >
                     </li>
                     <li><a [routerLink]="routes.paidSales">Paid</a></li>
-                    <li><a [routerLink]="routes.unpaidSales">Unpaid</a></li>
+                    <li><a class="active"  [routerLink]="routes.unpaidSales">Unpaid</a></li>
                   </ul>
                 </div>
               </div>
@@ -147,7 +147,7 @@
         <div class="col-sm-12">
           <div class="card card-table">
             <div class="card-body p-4">
-            <p-table [value]="salesData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+              <p-table [value]="salesData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="5">
                             <ng-template pTemplate="header">
                                 <tr>

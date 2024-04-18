@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SalesComponent } from './sales.component';
 import { AddsalesComponent } from './addsales/addsales.component';
+import { PaidSalesComponent } from './paid-sales/paid-sales.component';
+import { UnpaidSalesComponent } from './unpaid-sales/unpaid-sales.component';
 
 
 const routes: Routes = [
@@ -12,68 +14,15 @@ const routes: Routes = [
   {
     path: 'add-sales',
     component: AddsalesComponent,
+  },
+  {
+    path: 'paid-sales',
+    component: PaidSalesComponent,
+  },
+  {
+    path: 'unpaid-sales',
+    component: UnpaidSalesComponent,
   }
-
-  // {
-  //   path: '',
-  //   component: CustomersComponent,
-  //   children: [
-  //     // {
-  //     //   path: 'providers-profiles',
-  //     //   loadChildren: () =>
-  //     //     import('./providers-profile/providers-profile.').then(
-  //     //       (m) => m.ProvidersProfileModule
-  //     //     ),
-  //     // },
-  //     // {
-  //     //   path: 'providers-profiles',
-  //     //   loadChildren: () =>
-  //     //     import('./providers-profile/providers-profile.module').then(
-  //     //       (m) => m.ProvidersProfileModule
-  //     //     ),
-  //     // },
-  //     // {
-  //     //   path: 'service-locations',
-  //     //   loadChildren: () =>
-  //     //     import('./service-location/service-location.module').then(
-  //     //       (m) => m.ServiceLocationModule
-  //     //     ),
-  //     // },
-  //     // {
-  //     //   path: 'practice-information',
-  //     //   loadChildren: () =>
-  //     //     import('./practice-information/practice-information.module').then(
-  //     //       (m) => m.PracticeInformationModule
-  //     //     ),
-  //     // },
-
-
-  //     // {
-  //     //   path: 'visit-reasons',
-  //     //   loadChildren: () =>
-  //     //     import('./visit-reasons/visit-reasons.module').then(
-  //     //       (m) => m.VisitReasonsModule
-  //     //     ),
-  //     // },
-
-  //     // {
-  //     //   path: 'change-password',
-  //     //   loadChildren: () =>
-  //     //     import('./change-password/change-password.module').then(
-  //     //       (m) => m.ChangePasswordModule
-  //     //     ),
-  //     // },
-
-  //     // {
-  //     //   path: 'users',
-  //     //   loadChildren: () =>
-  //     //     import('./users/users.module').then(
-  //     //       (m) => m.UsersModule
-  //     //     ),
-  //     // },
-
-  //   ],
-  // },
 ];
 
 @NgModule({

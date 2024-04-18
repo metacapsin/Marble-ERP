@@ -10,13 +10,13 @@ import { pageSelection, apiResultFormat, allInvoice } from 'src/app/shared/model
 import { routes } from "src/app/shared/routes/routes";
 
 @Component({
-  selector: "app-sales",
-  templateUrl: "./sales.component.html",
-  styleUrls: ["./sales.component.scss"],
+  selector: 'app-unpaid-sales',
+  templateUrl: './unpaid-sales.component.html',
+  styleUrl: './unpaid-sales.component.scss',
   standalone: true,
   imports:[CommonModule, SharedModule, DropdownModule, CalendarModule]
 })
-export class SalesComponent  implements OnInit{
+export class UnpaidSalesComponent   implements OnInit{
   public routes = routes;
   public checkboxes: string[] = [];
 
@@ -158,4 +158,7 @@ export class SalesComponent  implements OnInit{
       this.checkboxes = [];
     }
   }
+}
+{
+
 }

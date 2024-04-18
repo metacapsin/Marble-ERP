@@ -13,20 +13,6 @@
                         </li>
                     </ul>
                 </div>
-                <!-- <div class="col-auto">
-                    <div class="invoices-create-btn">
-                        <a class="invoices-preview-link" href="javascript:void(0);" data-bs-toggle="modal"
-                            data-bs-target="#invoices_preview"><i class="fa fa-eye"></i> Preview</a>
-                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete_invoices_details"
-                            class="btn delete-invoice-btn">
-                            Delete Invoice
-                        </a>
-                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#save_invocies_details"
-                            class="btn save-invoice-btn">
-                            Save Draft
-                        </a>
-                    </div>
-                </div> -->
             </div>
         </div>
         <!-- /Page Header -->
@@ -35,20 +21,20 @@
             <div class="col-md-12">
                 <div class="card invoices-add-card">
                     <div class="card-body">
-                        <form action="#" class="invoices-form">
+                        <form [formGroup]="addSalesForm" (ngSubmit)="addSalesFormSubmit()" class="invoices-form">
                             <div class="invoices-main-form">
                                 <div class="row">
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="invoiceNumber">Invoice Number</label>
-                                            <input type="text" class="form-control">
+                                            <label for="salesInvoiceNumber">Invoice Number</label>
+                                            <input type="text" class="form-control" formControlName="salesInvoiceNumber">
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="customer">Customer Name</label>
+                                            <label for="salesCustomerName">Customer Name</label>
                                             <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Customer--"
-                                                [options]="CustomerList" formControlName="wareHouse"
+                                                [options]="CustomerList" formControlName="salesCustomerName"
                                                 optionLabel="customerName" optionValue="customerName" display="chip"
                                                 [showClear]="true"></p-multiSelect>
                                         </div>
@@ -57,7 +43,7 @@
                                         <div class="form-group local-forms">
                                             <label for="salesDate">Sales Date</label>
                                             <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                                formControlName="StartDate" placeholder="mm/dd/yyyy"
+                                                formControlName="salesDate" placeholder="mm/dd/yyyy"
                                                 [styleClass]="'col-12'"></p-calendar>
                                         </div>
                                     </div>
@@ -67,7 +53,7 @@
                             </div>
                             <div class="invoice-add-table">
                                 <h4 class="d-flex align-items-center">Item Details<p-button [text]=" true"
-                                        icon="fa fa-plus" (click)="addItem()"></p-button></h4>
+                                        icon="fa fa-plus" (click)="addsalesItemDetailsItem()"></p-button></h4>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-nowrap  mb-0 no-footer add-table-items">
                                         <thead>
@@ -81,44 +67,40 @@
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr class="add-row" *ngFor="let item of itemDetails;let i = index">
+                                        <tbody formArrayName="salesItemDetails" >
+                                            <tr class="add-row" *ngFor="let salesItemDetailsForm of salesItemDetails.controls; let i = index" [formGroupName]="i">
                                                 <td>
                                                     <p-dropdown [options]="productsList" styleClass="" appendTo="body"
                                                         optionLabel="productsName" optionValue="productsName"
                                                         placeholder="Select  Products" [style]="{'width':'100%'}"
-                                                        [filter]="true" filterBy="value" [showClear]="true">
+                                                        [filter]="true" filterBy="value" [showClear]="true"
+                                                        formControlName="salesItemProducts">
                                                     </p-dropdown>
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control">
+                                                    <input type="number" formControlName="salesItemQuantity" class="form-control">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control">
+                                                    <input type="number" formControlName="salesItemUnitPrice" class="form-control">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control">
+                                                    <input type="number" formControlName="salesItemDiscount" class="form-control">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" formControlName="salesItemTax" class="form-control">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control">
+                                                    <input type="number" formControlName="salesItemSubTotal" class="form-control">
                                                 </td>
                                                 <td class="add-remove text-end">
-                                                    <!-- <a  class="add-btns me-2"
-                                                        (click)="addItem()"><i class="fas fa-plus-circle"></i></a> -->
                                                     <p-button [text]=" true" icon="fa fa-plus"
-                                                        (click)="addItem()"></p-button>
-                                                    <!-- <a  class="remove-btn"><i
-                                                            class="fa fa-trash-alt" (click)="deleteItem(i)"
-                                                            (keyup.enter)="deleteItem(i)" tabindex="1"></i></a> -->
-                                                    <p-button [text]=" true" icon="fa fa-trash" (click)="deleteItem(i)"
-                                                        (keyup.enter)="deleteItem(i)"></p-button>
+                                                        (click)="addsalesItemDetailsItem()"></p-button>
+                                                    <p-button [text]=" true" icon="fa fa-trash" (click)="deletesalesItemDetails(i)"
+                                                        (keyup.enter)="deletesalesItemDetails(i)"></p-button>
                                                 </td>
                                             </tr>
                                         </tbody>
-                                    </table>
+                                    </table>                                 
                                 </div>
                             </div>
                             <div class="row">
@@ -146,7 +128,7 @@
                                                         role="tabpanel" aria-labelledby="headingTwo"
                                                         data-bs-parent="#accordion">
                                                         <div class="panel-body">
-                                                            <textarea class="form-control"></textarea>
+                                                            <textarea class="form-control" formControlName="salesTermsAndCondition"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -166,7 +148,7 @@
                                                         role="tabpanel" aria-labelledby="headingThree"
                                                         data-bs-parent="#accordion">
                                                         <div class="panel-body">
-                                                            <textarea class="form-control"></textarea>
+                                                            <textarea class="form-control" formControlName="salesNotes" ></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -181,46 +163,51 @@
                                             <div class="row p-3">
                                                 <div class="col-md-6 mt-3">
                                                     <div class="form-group local-forms">
-                                                        <label for="Po">Order Status</label>
+                                                        <label for="salesOrderStatus">Order Status</label>
                                                         <p-dropdown [options]="orderStatusList" styleClass="" appendTo="body"
-                                                        optionLabel="productsName" optionValue="productsName"
-                                                        placeholder="Select  Products" [style]="{'width':'100%'}"
+                                                        optionLabel="orderStatus" optionValue="orderStatus"
+                                                        placeholder="Select  Status" [style]="{'width':'100%'}"
+                                                        formControlName="salesOrderStatus"
                                                         [filter]="true" filterBy="value" [showClear]="true">
                                                     </p-dropdown>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 mt-3">
                                                     <div class="form-group local-forms">
-                                                        <label for="Po">Order Tax</label>
-                                                        <p-dropdown [options]="productsList" styleClass="" appendTo="body"
-                                                        optionLabel="orderStatus" optionValue="orderStatus"
-                                                        placeholder="Select  Status" [style]="{'width':'100%'}"
+                                                        <label for="salesOrderTax">Order Tax</label>
+                                                        <p-dropdown [options]="orderTaxList" styleClass="" appendTo="body"
+                                                        optionLabel="orderTax" optionValue="orderTax"
+                                                        placeholder="Select  Tax" [style]="{'width':'100%'}"
+                                                        formControlName="salesOrderTax"
                                                         [filter]="true" filterBy="value" [showClear]="true">
                                                     </p-dropdown>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 ml-3">
                                                     <div class="form-group local-forms">
-                                                        <label for="Po">Discount </label>
-                                                        <input class="form-control" type="text" placeholder="">
+                                                        <label for="salesDiscount">Discount </label>
+                                                        <input class="form-control" formControlName="salesDiscount" type="text" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 ml-3">
                                                     <div class="form-group local-forms">
-                                                        <label for="Po">Shipping</label>
-                                                        <input class="form-control" type="text" placeholder="">
+                                                        <label for="salesShipping">Shipping</label>
+                                                        <input class="form-control" formControlName="salesShipping" type="text" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="invoice-total-inner">
                                                 <p>Order Tax <span>$21</span></p>
-                                                <p>Discount<span>$54</span></p>
-                                                <p>Shipping<span>$80</span></p>
+                                                <p>Discount<span>₹ {{ addSalesForm.get('salesDiscount').value | number: '1.2-2' }}</span></p>
+                                                <p>Shipping<span>₹ {{ addSalesForm.get('salesShipping').value | number: '1.2-2' }}</span></p>
                                             </div>
 
-                                            <div class="invoice-total-footer">
+                                            <!-- <div class="invoice-total-footer">
                                                 <h4>Total Amount <span>$ 894.00</span></h4>
+                                            </div> -->
+                                            <div class="invoice-total-footer">
+                                                <h4>Total Amount <span>₹ {{ addSalesForm.get('salesTotalAmount').value | number: '1.2-2' }}</span></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -494,30 +481,3 @@
     </div>
 </div>
 <!-- /Delete Invoices Modal -->
-
-<!-- Save Invoices Modal -->
-<div class="modal custom-modal modal-bg fade" id="save_invocies_details" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="form-header">
-                    <h3>Save Invoice Details</h3>
-                    <p>Are you sure want to save?</p>
-                </div>
-                <div class="modal-btn delete-action">
-                    <div class="row">
-                        <div class="col-6">
-                            <a href="javascript:void(0);" data-bs-dismiss="modal"
-                                class="btn btn-primary paid-continue-btn">Save</a>
-                        </div>
-                        <div class="col-6">
-                            <a href="javascript:void(0);" data-bs-dismiss="modal"
-                                class="btn btn-primary paid-cancel-btn">Cancel</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /Save Invoices Modal -->
