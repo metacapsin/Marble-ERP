@@ -55,6 +55,29 @@ export class UnpaidSalesComponent   implements OnInit{
     {customerName:"Kavya"},
   ];
 
+  salesItem=[
+    {salesProduct:"Electronic",
+      salesQuantity:"3",
+      salesUnitPrice:"120",
+      salesDiscount:"20",
+      salesTax:"10",
+      salesSubTotal:"350"
+    },
+  ]
+  customerData = [
+    {
+      name: "Supplier 1",
+      email: "Supplier@gmail.com",
+      phoneNumber: "234324",
+      openingBalance: "50.00",
+      billingAddress: "Supplier Billing Address",
+      creditPeriod: "30 day(s)",
+      creditLimit: "20.00",
+      balance: "300.00",
+      taxNumber: "12389524",
+    },
+  ];
+
   constructor(public data : DataService){
 
   }

@@ -41,26 +41,25 @@
                                         [rowsPerPageOptions]="[5, 10, 20]" >
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th pSortableColumn="name">	
+                                                <th pSortableColumn="invoiceNumber">	
 
-                                                  Invoice Number <p-sortIcon field="name"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                                                  Invoice Number <p-sortIcon field="invoiceNumber"></p-sortIcon>
+                                                    <p-columnFilter type="text" field="invoiceNumber" display="menu"></p-columnFilter>
                                                 </th>
-                                                <th pSortableColumn="address">Client <p-sortIcon field="address"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="address" display="menu"></p-columnFilter>
+                                                <th pSortableColumn="Client">Client <p-sortIcon field="Client"></p-sortIcon>
+                                                    <p-columnFilter type="text" field="Client" display="menu"></p-columnFilter>
                                                 </th>
-                                                <th pSortableColumn="city">Created Date <p-sortIcon field="city"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="city" display="menu"></p-columnFilter>
+                                                <th pSortableColumn="createdDate">Created Date <p-sortIcon field="createdDate"></p-sortIcon>
+                                                    <p-columnFilter type="text" field="createdDate" display="menu"></p-columnFilter>
                                                 </th>
-                                                <th pSortableColumn="zip">Due Data <p-sortIcon field="zip"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="zip" display="menu"></p-columnFilter>
+                                                <th pSortableColumn="dueDate">Due Data <p-sortIcon field="dueDate"></p-sortIcon>
+                                                    <p-columnFilter type="text" field="dueDate" display="menu"></p-columnFilter>
                                                 </th>
-                                                <th pSortableColumn="phone">Amount<p-sortIcon field="phone"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="phone" display="menu"></p-columnFilter>
+                                                <th pSortableColumn="Amount">Amount<p-sortIcon field="Amount"></p-sortIcon>
+                                                    <p-columnFilter type="text" field="Amount" display="menu"></p-columnFilter>
                                                 </th>
-                                                
-                                                <th pSortableColumn="phone"> Status <p-sortIcon field="phone"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="phone" display="menu"></p-columnFilter>
+                                                <th pSortableColumn="Status"> Status <p-sortIcon field="Status"></p-sortIcon>
+                                                    <p-columnFilter type="text" field="Status" display="menu"></p-columnFilter>
                                                 </th>
                                                 <!-- <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
                                                     <p-sortIcon></p-sortIcon>
