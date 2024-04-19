@@ -20,8 +20,8 @@ export class AddCategoriesComponent {
     private dialogRef: MatDialogRef<AddCategoriesComponent>,
   ){
     this.addCategoryForm = this.fb.group({  
-    CategoriesName: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-    CategoriesSlug: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
+    name: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
+    // CategoriesSlug: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
     })
   }
   addCategoryFormSubmit(){

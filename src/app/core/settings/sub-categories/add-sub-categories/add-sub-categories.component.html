@@ -1,28 +1,30 @@
 <mat-dialog-content class="mat-typography mat-lg" style="width: 800px;">
 
-    <div class="m-b-20">
-      <h3>Add Sub-Category</h3>
-    </div>
-  
-    <div class="modal-body">
-      <form [formGroup]="addSubCategoryForm" (ngSubmit)="addSubCategoryFormSubmit()">
-        <div class="row">
-  
-          <div class="col-md-6">
-            <div class="form-group local-forms">
-              <label for="name">Name <span class="login-danger">*</span></label>
-              <input class="form-control" type="text" placeholder="" formControlName="subCategoriesName">
-  
-              <div *ngIf="addSubCategoryForm.get('subCategoriesName')?.hasError('required') && addSubCategoryForm.get('subCategoriesName')?.touched">
-                <span class="login-danger">Name is reqiured</span>
-              </div>
-              <div *ngIf="addSubCategoryForm.get('subCategoriesName')?.hasError('pattern') && addSubCategoryForm.get('subCategoriesName')?.touched">
-                <span class="login-danger">Input must be between 5 and 50 characters.</span>
-              </div>
+  <div class="m-b-20">
+    <h3>Add Sub-Category</h3>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="addSubCategoryForm" (ngSubmit)="addSubCategoryFormSubmit()">
+      <div class="row">
+
+        <div class="col-md-6">
+          <div class="form-group local-forms">
+            <label for="name">Name <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="name">
+
+            <div
+              *ngIf="addSubCategoryForm.get('name')?.hasError('required') && addSubCategoryForm.get('name')?.touched">
+              <span class="login-danger">Name is reqiured</span>
+            </div>
+            <div
+              *ngIf="addSubCategoryForm.get('name')?.hasError('pattern') && addSubCategoryForm.get('name')?.touched">
+              <span class="login-danger">Input must be between 5 and 50 characters.</span>
             </div>
           </div>
+        </div>
 
-          <div class="col-md-6">
+        <!-- <div class="col-md-6">
             <div class="form-group local-forms">
               <label for="name">Slug <span class="login-danger">*</span></label>
               <input class="form-control" type="text" placeholder="" formControlName="subCategoriesSlug">
@@ -34,34 +36,41 @@
                 <span class="login-danger">Input must be between 5 and 50 characters.</span>
               </div>
             </div>
+          </div> -->
+
+        <div class="col-md-6">
+          <div class="form-group local-forms">
+            <label for="name">Category <span class="login-danger">*</span></label>
+            <p-dropdown [options]="Categories" styleClass="" appendTo="body" optionLabel="value" optionValue="value"
+              placeholder="Select  Category" formControlName="categoryId" [style]="{'width':'100%'}"
+              [filter]="true" filterBy="value" [showClear]="true">
+            </p-dropdown>
+
+            <div
+              *ngIf="addSubCategoryForm.get('categoryId')?.hasError('required') && addSubCategoryForm.get('categoryId')?.touched">
+              <span class="login-danger">Category is reqiured</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="form-group local-forms">
+            <label for="name">Description</label>
+            <textarea class="form-control" type="text" placeholder=""></textarea>
+          </div>
+        </div>
+
+        <div class=" col-12">
+
+          <div class=" settings-btns text-end m-b-10">
+            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+              [disabled]="!addSubCategoryForm.valid">Submit</button>
+            <button class="btn btn-secondary" [mat-dialog-close]="true">Cancel</button>
           </div>
 
-          <div class="col-12">
-            <div class="form-group local-forms">
-                <label for="name">Category <span class="login-danger">*</span></label>
-                <p-dropdown [options]="Categories" styleClass="" appendTo="body" optionLabel="value"
-                    optionValue="value" placeholder="Select  Category"
-                    formControlName="subCategoriesCategory" [style]="{'width':'100%'}" [filter]="true"
-                    filterBy="value" [showClear]="true">
-                </p-dropdown>
+        </div>
 
-                <div *ngIf="addSubCategoryForm.get('subCategoriesCategory')?.hasError('required') && addSubCategoryForm.get('subCategoriesCategory')?.touched">
-                    <span class="login-danger">Category is reqiured</span>
-                  </div>
-            </div>
-        </div>
-  
-          <div class=" col-12">
-  
-            <div class=" settings-btns text-end m-b-10">
-              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                [disabled]="!addSubCategoryForm.valid">Submit</button>
-              <button class="btn btn-secondary" [mat-dialog-close]="true">Cancel</button>
-            </div>
-  
-          </div>
-  
-        </div>
-      </form>
-    </div>
-  </mat-dialog-content>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>

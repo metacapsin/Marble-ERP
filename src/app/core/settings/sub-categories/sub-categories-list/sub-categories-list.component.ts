@@ -17,6 +17,7 @@ import { ShowHideDirective } from 'src/app/common-component/show-hide-directive/
 import { ToastModule } from 'primeng/toast';
 import { AddSubCategoriesComponent } from '../add-sub-categories/add-sub-categories.component';
 import { EditSubCategoriesComponent } from '../edit-sub-categories/edit-sub-categories.component';
+import { SubCategoriesService } from '../sub-categories.service';
 
 @Component({
   selector: 'app-sub-categories-list',
@@ -35,6 +36,7 @@ export class SubCategoriesListComponent  {
   originalData: any = [];
   showDialog = false;
   modalData: any = {};
+  subCategoryId: any;
   subCategoriesData = [
     {
       subCategoriesName: "Mobiles",
@@ -50,7 +52,9 @@ export class SubCategoriesListComponent  {
     }
   ]
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog,
+    private service: SubCategoriesService,
+    private messageService: MessageService) {
 
   }
 
@@ -58,18 +62,17 @@ export class SubCategoriesListComponent  {
     
     const dialogRef = this.dialog.open(AddSubCategoriesComponent);
     dialogRef.afterClosed().subscribe(dialog => {
-      // debugger
-      // if (dialog === true) return;
-      // this.service.CreateVisitReason(dialog).subscribe((resp: any) => {
-      //   if (resp.status === 'success') {
-      //     const message = "Visit Reason has been added";
-      //     this.messageService.add({ severity: 'success', detail: message });
-      //     this.getVisitReasonData();
-      //   } else {
-      //     const message = resp.message
-      //     this.messageService.add({ severity: 'error', detail: message });
-      //   }
-      // })
+      if (dialog === true) return;
+      this.service.CreateSubCategories(dialog).subscribe((resp: any) => {
+        if (resp.status === 'success') {
+          const message = "Sub Category has been added";
+          this.messageService.add({ severity: 'success', detail: message });
+          this.getSubCategoriesData();
+        } else {
+          const message = resp.message
+          this.messageService.add({ severity: 'error', detail: message });
+        }
+      })
     })
   }
   openEditDialog(reasonId: string) {
@@ -81,11 +84,11 @@ export class SubCategoriesListComponent  {
     dialogRef.afterClosed().subscribe(dialog => {
       // if (dialog === true) return;
       // dialog.value.id = reasonId;
-      // this.service.updateVisitReason(dialog.value).subscribe((resp: any) => {
+      // this.service.updateSubCategories(dialog.value).subscribe((resp: any) => {
       //   if (resp.status === 'success') {
-      //     const message = "Visit Reason has been updated"
+      //     const message = "Sub Category has been updated"
       //     this.messageService.add({ severity: 'success', detail: message });
-      //     this.getVisitReasonData();
+      //     this.getSubCategoriesData();
       //   } else {
       //     const message = resp.message
       //     this.messageService.add({ severity: 'error', detail: message });
@@ -93,6 +96,19 @@ export class SubCategoriesListComponent  {
       // })
     })
   }
+
+  ngOnInit() {
+    this.getSubCategoriesData();
+  }
+
+  getSubCategoriesData(){
+    this.service.getSubCategories().subscribe((resp: any) => {
+      // this.categoriesListData = resp.data;
+      this.originalData = resp.data;
+    })
+
+  }
+
   deleteSubCategory(Id: any) {
     this.modalData = {
       title: "Delete",
@@ -107,12 +123,12 @@ export class SubCategoriesListComponent  {
   }
 
   callBackModal() {
-    // this.service.deleteVisitReasonById(this.reasonID).subscribe(resp => {
-    //   const message = "Visit Reason  has been deleted"
-    //   this.messageService.add({ severity: 'success', detail: message });
-    //   this.getVisitReasonData();
-    //   this.showDialog = false;
-    // })
+    this.service.deleteSubCategoriesById(this.subCategoryId).subscribe(resp => {
+      const message = "Sub Category has been deleted"
+      this.messageService.add({ severity: 'success', detail: message });
+      this.getSubCategoriesData();
+      this.showDialog = false;
+    })
   }
 
   close() {

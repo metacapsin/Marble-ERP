@@ -11,17 +11,19 @@
                 <div class="col-md-6">
                     <div class="form-group local-forms">
                         <label for="name">Name <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder="" formControlName="subCategoriesName">
+                        <input class="form-control" type="text" placeholder="" formControlName="name">
 
-                        <div *ngIf="editSubCategoryForm.get('subCategoriesName')?.hasError('required') && editSubCategoryForm.get('subCategoriesName')?.touched">
+                        <div
+                            *ngIf="editSubCategoryForm.get('name')?.hasError('required') && editSubCategoryForm.get('name')?.touched">
                             <span class="login-danger">Name is reqiured</span>
-                          </div>
-                          <div *ngIf="editSubCategoryForm.get('subCategoriesName')?.hasError('pattern') && editSubCategoryForm.get('subCategoriesName')?.touched">
+                        </div>
+                        <div
+                            *ngIf="editSubCategoryForm.get('name')?.hasError('pattern') && editSubCategoryForm.get('name')?.touched">
                             <span class="login-danger">Input must be between 5 and 50 characters.</span>
-                          </div>
+                        </div>
                     </div>
                 </div>
-
+                <!-- 
                 <div class="col-md-6">
                     <div class="form-group local-forms">
                         <label for="name">Slug <span class="login-danger">*</span></label>
@@ -34,20 +36,27 @@
                             <span class="login-danger">Input must be between 5 and 50 characters.</span>
                           </div>
                     </div>
+                </div> -->
+
+                <div class="col-md-6">
+                    <div class="form-group local-forms">
+                        <label for="name">Category <span class="login-danger">*</span></label>
+                        <p-dropdown [options]="Categories" styleClass="" appendTo="body" optionLabel="value"
+                            optionValue="value" placeholder="Select  Category" formControlName="categoryId"
+                            [style]="{'width':'100%'}" [filter]="true" filterBy="value" [showClear]="true">
+                        </p-dropdown>
+
+                        <div
+                            *ngIf="editSubCategoryForm.get('categoryId')?.hasError('required') && editSubCategoryForm.get('categoryId')?.touched">
+                            <span class="login-danger">Category is reqiured</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-12">
                     <div class="form-group local-forms">
-                        <label for="name">Category <span class="login-danger">*</span></label>
-                        <p-dropdown [options]="Categories" styleClass="" appendTo="body" optionLabel="value"
-                            optionValue="value" placeholder="Select  Category"
-                            formControlName="subCategoriesCategory" [style]="{'width':'100%'}" [filter]="true"
-                            filterBy="value" [showClear]="true">
-                        </p-dropdown>
-
-                        <div *ngIf="editSubCategoryForm.get('subCategoriesCategory')?.hasError('required') && editSubCategoryForm.get('subCategoriesCategory')?.touched">
-                            <span class="login-danger">Category is reqiured</span>
-                          </div>
+                        <label for="name">Description</label>
+                        <textarea class="form-control" type="text" placeholder=""></textarea>
                     </div>
                 </div>
 

@@ -25,9 +25,9 @@ export class AddSubCategoriesComponent {
     private dialogRef: MatDialogRef<AddSubCategoriesComponent>,
   ){
     this.addSubCategoryForm = this.fb.group({      
-      subCategoriesName: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-      subCategoriesSlug: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-      subCategoriesCategory: ['', [Validators.required,]]
+      name: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
+      categoryId: ['', [Validators.required,]],             
+      // description: [''],
     })
   }
   addSubCategoryFormSubmit(){
