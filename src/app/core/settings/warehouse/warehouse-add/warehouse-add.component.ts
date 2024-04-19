@@ -11,6 +11,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { WarehouseService } from '../warehouse.service';
 
 @Component({
   selector: 'app-warehouse-add',
@@ -32,7 +33,7 @@ export class WarehouseAddComponent {
   warehouseForm!: FormGroup;
 
   constructor(
-    private service: SettingsService,
+    private service: WarehouseService,
     private fb: FormBuilder,
     private router: Router,
     private messageService: MessageService
@@ -42,24 +43,25 @@ export class WarehouseAddComponent {
         '',
         [Validators.required, Validators.pattern(new RegExp(/^.{2,50}$/))],
       ],
-      slug: [
-        '',
-        [Validators.required, Validators.pattern(new RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/))],
-      ],
+      // slug: [
+      //   '',
+      //   [Validators.required, Validators.pattern(new RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/))],
+      // ],
       email: [
         '',
         [Validators.required, Validators.pattern(new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/))],
       ],
-      showEmail:[],
-      showPhone:[],
+      showEmailOnInvoice:[],
+      showPhoneOnInvoice:[],
+      termsCondition:['terms'],
+      singnatureUrl:['http:test.com'],
       billingAddress:[
         '',
-        [Validators.required, Validators.pattern(new RegExp(/^.{5,500}$/))],
+        [Validators.pattern(new RegExp(/^.{5,500}$/))],
       ],
-      bankDetails:[ '',
-      [Validators.pattern(new RegExp(/^[A-Za-z0-9\s-]+$/))
-    ],],
-      placeServiceCode: ['Default', []],
+    //   bankDetails:[ '',
+    //   [Validators.pattern(new RegExp(/^[A-Za-z0-9\s-]+$/))
+    // ],],
       phone: [
         '',
         [

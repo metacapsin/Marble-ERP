@@ -69,7 +69,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-md-6">
+                                    <!-- <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="slug">Slug <span class="login-danger">*</span></label>
                                             <input class="form-control" type="text" placeholder=""
@@ -92,7 +92,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="email">Email<span class="login-danger">*</span></label>
@@ -110,8 +110,7 @@
                           'pattern'
                         ) && warehouseForm.get('email')?.touched
                       ">
-                                                <span class="login-danger">Input must be between 5 and 50
-                                                    characters.</span>
+                                                <span class="login-danger">Please enter valid Email.</span>
                                             </div>
 
 
@@ -123,7 +122,7 @@
                                         <div class="doctor-submit d-flex justify-content-between">
                                             <div class="status-toggle d-flex">
                                                 <p class="mb-0 me-5">Show email on invoice</p>
-                                                <input type="checkbox" formControlName="showEmail" id="status_1"
+                                                <input type="checkbox" formControlName="showEmailOnInvoice" id="status_1"
                                                     class="check">
                                                 <label for="status_1" class="checktoggle">checkbox</label>
                                             </div>
@@ -156,7 +155,7 @@
                                         <div class="doctor-submit d-flex justify-content-between">
                                             <div class="status-toggle d-flex">
                                                 <p class="mb-0 me-5">Show phone on invoice</p>
-                                                <input type="checkbox" formControlName="showPhone" id="status_2"
+                                                <input type="checkbox" formControlName="showPhoneOnInvoice" id="status_2"
                                                     class="check">
                                                 <label for="status_2" class="checktoggle">checkbox</label>
                                             </div>

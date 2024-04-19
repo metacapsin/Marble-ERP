@@ -9,6 +9,7 @@ import { ToastModule } from 'primeng/toast';
 import { SettingsService } from 'src/app/shared/data/settings.service';
 import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ProductsService } from '../products.service';
 
 @Component({
   selector: 'app-products-list',
@@ -115,7 +116,7 @@ export class ProductsListComponent {
 
 
 
-  constructor(public dialog: MatDialog, public router: Router, private service: SettingsService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
+  constructor(public dialog: MatDialog, public router: Router, private service: ProductsService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
 
   getProductList(): void {
     this.service.getProductList().subscribe((resp: any) => {
@@ -131,12 +132,12 @@ export class ProductsListComponent {
     this.getProductList();
   }
 
-  deleteLocation(_id: any) {
+  deleteProduct(_id: any) {
     this.productsID = _id;
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure want to delete this Warehouse",
+      messege: "Are you sure want to delete this Product",
     }
     this.showDialog = true;
   }
@@ -146,7 +147,7 @@ export class ProductsListComponent {
   }
 
   callBackModal() {
-    this.service.deleteServiceLocationById(this.productsID).subscribe(resp => {
+    this.service.deleteProductById(this.productsID).subscribe(resp => {
       const message = "Product has been deleted"
       this.messageService.add({ severity: 'success', detail: message });
       this.getProductList();

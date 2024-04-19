@@ -67,51 +67,7 @@ export class SettingsService {
     return this.http.delete(environment.apiUrl + "/ServiceLocation/deleteServiceLocationById/" + id, {});
   }
 
-// setting warehouse
 
-CreateWarehouse(data: {} | null) {
-  return this.http.post(environment.apiUrl + "/Warehouse/createWarehouse", data);
-}
-getWarehouseList() {
-  return this.http.get(environment.apiUrl + "/Warehouse/getWarehouseList");
-}
-
-getWarehouseById(locationId: string) {
-  return this.http.get(environment.apiUrl + "/Warehouse/getWarehouseById/" + locationId);
-}
-
-updateWarehouseById(data: {}) {
-  return this.http.put(environment.apiUrl + "/Warehouse/updateWarehouse" , data);
-}
-
-
-deleteWarehouseById(id: string) {
-  return this.http.delete(environment.apiUrl + "/Warehouse/deleteWarehouseById/" + id, {});
-}
-
-
-
-// setting Product
-
-CreateProduct(data: {} | null) {
-  return this.http.post(environment.apiUrl + "/Product/createProduct", data);
-}
-getProductList() {
-  return this.http.get(environment.apiUrl + "/Product/getProductList");
-}
-
-getProductById(locationId: string) {
-  return this.http.get(environment.apiUrl + "/Product/getProductById/" + locationId);
-}
-
-updateProductById(data: {}) {
-  return this.http.put(environment.apiUrl + "/Product/updateProduct" , data);
-}
-
-
-deleteProductById(id: string) {
-  return this.http.delete(environment.apiUrl + "/Product/deleteProductById/" + id, {});
-}
   updateProviderProfileById(data: any) {
     return this.http.put(environment.apiUrl + "/ProviderProfile/updateProviderProfile/" , data);
   }

@@ -1,43 +1,65 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SettingsService } from 'src/app/shared/data/settings.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { routes } from 'src/app/shared/routes/routes';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
-import { DropdownModule } from 'primeng/dropdown';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
-
+import { Component } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { SettingsService } from "src/app/shared/data/settings.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { routes } from "src/app/shared/routes/routes";
+import { CommonModule } from "@angular/common";
+import { MatButtonModule } from "@angular/material/button";
+import { SharedModule } from "src/app/shared/shared.module";
+import { ButtonModule } from "primeng/button";
+import { CheckboxModule } from "primeng/checkbox";
+import { DropdownModule } from "primeng/dropdown";
+import { ToastModule } from "primeng/toast";
+import { MessageService } from "primeng/api";
+import { WarehouseService } from "../warehouse.service";
 
 @Component({
-  selector: 'app-warehouse-edit',
-  templateUrl: './warehouse-edit.component.html',
-  styleUrl: './warehouse-edit.component.scss',
+  selector: "app-warehouse-edit",
+  templateUrl: "./warehouse-edit.component.html",
+  styleUrl: "./warehouse-edit.component.scss",
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     SharedModule,
     MatButtonModule,
     ButtonModule,
     CheckboxModule,
     DropdownModule,
-    ToastModule],
-  providers: [MessageService]
+    ToastModule,
+  ],
+  providers: [MessageService],
 })
-
 export class WarehouseEditComponent {
-
   public routes = routes;
   warehouseForm!: FormGroup;
   data: any;
   warehouseId: any;
 
+  Body: {
+    warehouseId: "86856jfghgfjsg4542ghcvh";
+
+    name: "Test warehouse";
+
+    email: "test@hjhk.com";
+
+    phone: "";
+
+    showEmailOnInvoice: true;
+
+    showPhoneOnInvoice: false;
+
+    billingAddress: "test billing address";
+
+    termsCondition: "terms";
+
+    singnatureUrl: "http:test.com";
+    bankDetails:"Rajasthan Bank";
+    // slug:"warehouse slug";
+  };
+
   constructor(
-    private service: SettingsService,
+    private service: WarehouseService,
     private fb: FormBuilder,
     public router: Router,
     private activeRoute: ActivatedRoute,
@@ -46,29 +68,36 @@ export class WarehouseEditComponent {
   ) {
     this.warehouseForm = this.fb.group({
       name: [
-        '',
+        "",
         [Validators.required, Validators.pattern(new RegExp(/^.{2,50}$/))],
       ],
-      slug: [
-        '',
-        [Validators.required, Validators.pattern(new RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/))],
-      ],
+      // slug: [
+      //   "",
+      //   [
+      //     Validators.required,
+      //     Validators.pattern(new RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)),
+      //   ],
+      // ],
       email: [
-        '',
-        [Validators.required, Validators.pattern(new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/))],
+        "",
+        [
+          Validators.required,
+          Validators.pattern(
+            new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+          ),
+        ],
       ],
-      showEmail:[],
-      showPhone:[],
-      billingAddress:[
-        '',
-        [Validators.required, Validators.pattern(new RegExp(/^.{5,500}$/))],
+      showEmailOnInvoice: [],
+      showPhoneOnInvoice: [],
+      termsCondition: [],
+      singnatureUrl: [],
+      billingAddress: [
+        "",
+        [ Validators.pattern(new RegExp(/^.{5,500}$/))],
       ],
-      bankDetails:[ '',
-      [Validators.pattern(new RegExp(/^[A-Za-z0-9\s-]+$/))
-    ],],
-      placeServiceCode: ['Default', []],
+      // bankDetails: ["", [Validators.pattern(new RegExp(/^[A-Za-z0-9\s-]+$/))]],
       phone: [
-        '',
+        "",
         [
           Validators.required,
           Validators.pattern(
@@ -80,29 +109,27 @@ export class WarehouseEditComponent {
   }
 
   ngOnInit(): void {
-    this.activeRoute.params.subscribe(params => {
-      this.warehouseId = params['id']
-      console.log("user id ", this.warehouseId)
-    })
+    this.activeRoute.params.subscribe((params) => {
+      this.warehouseId = params["id"];
+      console.log("user id ", this.warehouseId);
+    });
     this.service.getWarehouseById(this.warehouseId).subscribe((data: any) => {
       this.data = data.data; //assuming data is returned as expected
-      console.log("User Data", this.data)
+      console.log("User Data", this.data);
       this.warehouseForm.patchValue({
-        name: this.data.name,
-        slug: this.data.slug,
-        email: this.data.email,
-        showEmail: this.data.showEmail,
-        phone: this.data.phone,
-        showPhone: this.data.showPhone,
-        billingAddress: this.data.billingAddress,
-        bankDetails: this.data.bankDetails,
-
+        name: this.Body.name,
+        // slug: this.Body.slug,
+        email: this.Body.email,
+        showEmailOnInvoice: this.Body.showEmailOnInvoice,
+        phone: this.Body.phone,
+        showPhoneOnInvoice: this.Body.showPhoneOnInvoice,
+        billingAddress: this.Body.billingAddress,
+        // bankDetails: this.Body.bankDetails,
+        termsCondition: this.Body.termsCondition,
+        singnatureUrl: this.Body.singnatureUrl,
       });
-
-    })
-
+    });
   }
-
 
   get f() {
     return this.warehouseForm.controls;
@@ -112,26 +139,27 @@ export class WarehouseEditComponent {
     if (this.warehouseForm.valid) {
       const requestBody = { ...this.warehouseForm.value };
       requestBody.id = this.warehouseId;
-      this.service.updateWarehouseById(requestBody).subscribe((resp: any) => {
-        if (resp) {
-          if (resp.status === 'success') {
-            const message = "Warehouse has been updated";
-            this.messageService.add({ severity: 'success', detail: message });
-            setTimeout(() => {
-              this.router.navigate(['/settings/warehouse']);
-            }, 400);
-          } else {
-            const message = resp.message
-            this.messageService.add({ severity: 'error', detail: message });
+      this.service.updateWarehouseById(requestBody).subscribe(
+        (resp: any) => {
+          if (resp) {
+            if (resp.status === "success") {
+              const message = "Warehouse has been updated";
+              this.messageService.add({ severity: "success", detail: message });
+              setTimeout(() => {
+                this.router.navigate(["/settings/warehouse"]);
+              }, 400);
+            } else {
+              const message = resp.message;
+              this.messageService.add({ severity: "error", detail: message });
+            }
           }
+        },
+        (error) => {
+          console.error("Error occured while updating Warehouse:", error);
         }
-      }, error => {
-        console.error("Error occured while updating Warehouse:", error);
-      });
-
+      );
     } else {
-      console.log('Form is invalid!');
+      console.log("Form is invalid!");
     }
   }
-
 }

@@ -1,1 +1,285 @@
-<p>products-edit works!</p>
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item">Settings</li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="['/settings/product']">
+                                Product
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Edit Product</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <form [formGroup]="productForm" (ngSubmit)="ProductFormSubmit()">
+                                <div class="row">
+                                    <div class="d-flex m-b-10" style="justify-content: space-between">
+                                        <h3>Edit Product</h3>
+                                        <div class="settings-btns text-end m-b-10">
+                                            <button type="submit"
+                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                [disabled]="!productForm.valid">
+                                                Submit
+                                            </button>
+                                            <button class="btn btn-secondary" [routerLink]="['/settings/product/']">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="warehouse">Warehouse
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="warehouseList" styleClass="" appendTo="body"
+                                                optionLabel="label" optionValue="value" placeholder="Select  Warehouse"
+                                                formControlName="warehouse" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="value" [showClear]="true">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="name">Name <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder=""
+                                                formControlName="name" />
+
+                                            <div *ngIf="
+                        productForm.get('name')?.hasError(
+                          'required'
+                        ) && productForm.get('name')?.touched
+                      ">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                            <div *ngIf="
+                        productForm.get('name')?.hasError(
+                          'pattern'
+                        ) && productForm.get('name')?.touched
+                      ">
+                                                <span class="login-danger">Input must be between 5 and 50 characters.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="slug">Slug <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder=""
+                                                formControlName="slug" />
+
+                                            <div *ngIf="
+                        productForm.get('slug')?.hasError(
+                          'required'
+                        ) && productForm.get('slug')?.touched
+                      ">
+                                                <span class="login-danger">Field is reqiured</span>
+                                            </div>
+                                            <div *ngIf="
+                        productForm.get('slug')?.hasError(
+                          'pattern'
+                        ) && productForm.get('slug')?.touched
+                      ">
+                                                <span class="login-danger">Slug can only contain lowercase letters,
+                                                    numbers, and hyphens.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="category">Category <span class="login-danger">*</span></label>
+                                            <p-treeSelect class="md:w-20rem w-full" containerStyleClass="w-full"
+                                                placeholder="Select item" [(ngModel)]="selectedCategeoryOption"
+                                                [options]="categeoryOptions" 
+                                                [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="value" [showClear]="true"
+                                                formControlName="category"></p-treeSelect>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="unit">Unit
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="unitList" styleClass="" appendTo="body"
+                                                optionLabel="label" optionValue="value" placeholder="Select  Unit"
+                                                formControlName="unit" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="value" [showClear]="true">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="quantityAlert">Quantity Alert <i class="fas fa-info-circle"
+                                                    pTooltip="After this stock quantity, it will enable low stock warning."
+                                                    tooltipPosition="right"></i> <span
+                                                    class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder="Enter quantity alert"
+                                                formControlName="quantityAlert" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="barcodeSymbology">Barcode Symbology
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="barcodeSymbologyList" styleClass="" appendTo="body"
+                                                optionLabel="label" optionValue="value"
+                                                placeholder="Select  Barcode Symbology"
+                                                formControlName="barcodeSymbology" [style]="{'width':'100%'}"
+                                                [filter]="true" filterBy="value" [showClear]="true">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="itemCode">Item Code</label>
+                                            <input class="form-control" type="text" placeholder="Please Enter Item Code"
+                                                formControlName="itemCode" />
+                                            <!-- <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                    (click)="generateBarcode()">
+                                                    <i class="fas fa-barcode"></i>
+                                                </button>
+                                            </div> -->
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-12 col-md-6" *ngIf="barcodeImage">
+                                        <img [src]="barcodeImage" alt="Barcode Image">
+                                    </div>
+ -->
+
+                                    <h3>
+
+                                        Price & Tax
+                                    </h3>
+                                    <hr>
+
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="tax">Tax
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="taxList" styleClass="" appendTo="body"
+                                                optionLabel="label" optionValue="value" placeholder="Select  Tax"
+                                                formControlName="tax" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="value" [showClear]="true">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="openingStock">Opening Stock</label>
+                                            <input class="form-control" type="text" placeholder="0"
+                                                formControlName="openingStock" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="openingStockDate">Opening Stock Date</label>
+                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                                formControlName="openingStockDate" placeholder="Select Date"
+                                                class="col-12"></p-calendar>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="purchasePrice">Purchase Price</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="text" placeholder="0"
+                                                    formControlName="purchasePrice" />
+                                            </div>
+
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="salesPrice">Sales Price</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="text" placeholder="0"
+                                                    formControlName="salesPrice" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="mRP">MRP</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="text" placeholder="0"
+                                                    formControlName="mRP" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <h3>Custom Fields</h3>
+                                    <hr>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="expiryDate">Expiry Date</label>
+                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                                formControlName="expiryDate" placeholder="Select Date"
+                                                class="col-12"></p-calendar>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="description">Description</label>
+                                            <textarea class="form-control" type="text" placeholder="0"
+                                                formControlName="description"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

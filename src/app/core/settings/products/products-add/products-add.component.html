@@ -48,15 +48,15 @@
 
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                          <label for="warehouse">Warehouse
-                                            <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="warehouseList" styleClass="" appendTo="body" optionLabel="label"
-                                            optionValue="value" placeholder="Select  Warehouse"
-                                            formControlName="warehouse" [style]="{'width':'100%'}" [filter]="true"
-                                            filterBy="value" [showClear]="true">
-                                        </p-dropdown>
+                                            <label for="warehouse">Warehouse
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="warehouseList" styleClass="" appendTo="body"
+                                                optionLabel="label" optionValue="value" placeholder="Select  Warehouse"
+                                                formControlName="warehouse" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="value" [showClear]="true">
+                                            </p-dropdown>
                                         </div>
-                                      </div>
+                                    </div>
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
@@ -81,7 +81,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-6">
+                                    <!-- <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="slug">Slug <span class="login-danger">*</span></label>
                                             <input class="form-control" type="text" placeholder=""
@@ -104,137 +104,160 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>
-                                   
-                                    <div class="col-12 col-md-6 col-xl-6">
+                                    </div> -->
+
+                                    <!-- <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                          <label for="category">Category
-                                            <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="categoriesList" styleClass="" appendTo="body" optionLabel="label"
-                                            optionValue="value" placeholder="Select  Category"
-                                            formControlName="category" [style]="{'width':'100%'}" [filter]="true"
-                                            filterBy="value" [showClear]="true">
-                                        </p-dropdown>
+                                          <label for="category">Category <span class="login-danger">*</span></label>
+                                          <p-treeselect [options]="categoriesList" [(ngModel)]="selectedCategory" [style]="{'width':'100%'}"
+                                            [placeholder]="'Select Category'" [filter]="true" [showClear]="true"></p-treeselect>
                                         </div>
-                                      </div>
+                                      </div> -->
 
                                       <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                          <label for="unit">Unit
-                                            <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="unitList" styleClass="" appendTo="body" optionLabel="label"
-                                            optionValue="value" placeholder="Select  Unit"
-                                            formControlName="unit" [style]="{'width':'100%'}" [filter]="true"
-                                            filterBy="value" [showClear]="true">
-                                        </p-dropdown>
+                                            <label for="category">Category <span class="login-danger">*</span></label>
+                                            <p-treeSelect class="md:w-20rem w-full" containerStyleClass="w-full"
+                                                placeholder="Select item" [(ngModel)]="selectedCategeoryOption"
+                                                [options]="categeoryOptions" 
+                                                [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="value" [showClear]="true"
+                                                formControlName="category"></p-treeSelect>
+
+
                                         </div>
-                                      </div>
-                                      
+                                    </div>
+
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="unit">Unit
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="unitList" styleClass="" appendTo="body"
+                                                optionLabel="label" optionValue="value" placeholder="Select  Unit"
+                                                formControlName="unit" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="value" [showClear]="true">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+
 
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="quantityAlert">Quantity Alert <i class="fas fa-info-circle"></i> <span class="login-danger">*</span></label>
+                                            <label for="quantityAlert">Quantity Alert <i class="fas fa-info-circle"
+                                                    pTooltip="After this stock quantity, it will enable low stock warning."
+                                                    tooltipPosition="right"></i> <span
+                                                    class="login-danger">*</span></label>
                                             <input class="form-control" type="text" placeholder="Enter quantity alert"
                                                 formControlName="quantityAlert" />
 
-                                            <div *ngIf="
-                        productForm.get('quantityAlert')?.hasError(
-                          'required'
-                        ) && productForm.get('quantityAlert')?.touched
-                      ">
-                                                <span class="login-danger">After this stock quantity it will enable low stock warning.</span>
-                                            </div>
-                                            
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                          <label for="barcodeSymbology">Barcode Symbology
-                                            <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="barcodeSymbologyList" styleClass="" appendTo="body" optionLabel="label"
-                                            optionValue="value" placeholder="Select  Barcode Symbology"
-                                            formControlName="barcodeSymbology" [style]="{'width':'100%'}" [filter]="true"
-                                            filterBy="value" [showClear]="true">
-                                        </p-dropdown>
+                                            <label for="barcodeSymbology">Barcode Symbology
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="barcodeSymbologyList" styleClass="" appendTo="body"
+                                                optionLabel="label" optionValue="value"
+                                                placeholder="Select  Barcode Symbology"
+                                                formControlName="barcodeSymbology" [style]="{'width':'100%'}"
+                                                [filter]="true" filterBy="value" [showClear]="true">
+                                            </p-dropdown>
                                         </div>
-                                      </div>
+                                    </div>
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="itemCode">Item Code</label>
-                                            <input class="form-control" type="text"
-                                                placeholder="Please Enter Item Code"
+                                            <input class="form-control" type="text" placeholder="Please Enter Item Code"
                                                 formControlName="itemCode" />
-                                            <div *ngIf="
-                        productForm.get('itemCode')?.hasError('required') &&
-                        productForm.get('itemCode')?.touched
-                      ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
+                                            <!-- <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                    (click)="generateBarcode()">
+                                                    <i class="fas fa-barcode"></i>
+                                                </button>
+                                            </div> -->
                                         </div>
                                     </div>
 
+                                    <!-- <div class="col-12 col-md-6" *ngIf="barcodeImage">
+                                        <img [src]="barcodeImage" alt="Barcode Image">
+                                    </div>
+ -->
+
                                     <h3>
-                                        
+
                                         Price & Tax
                                     </h3>
-                                <hr>
+                                    <hr>
 
 
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                          <label for="tax">Tax
-                                            <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="taxList" styleClass="" appendTo="body" optionLabel="label"
-                                            optionValue="value" placeholder="Select  Tax"
-                                            formControlName="tax" [style]="{'width':'100%'}" [filter]="true"
-                                            filterBy="value" [showClear]="true">
-                                        </p-dropdown>
-                                        </div>
-                                      </div>
-                                      
-                                      <div class="col-12 col-md-6">
-                                        <div class="form-group local-forms">
-                                            <label for="openingStock">Opening Stock</label>
-                                            <input class="form-control" type="text"
-                                                placeholder="0"
-                                                formControlName="itemCode" />
+                                            <label for="tax">Tax
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="taxList" styleClass="" appendTo="body"
+                                                optionLabel="label" optionValue="value" placeholder="Select  Tax"
+                                                formControlName="tax" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="value" [showClear]="true">
+                                            </p-dropdown>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-6">
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="openingStock">Opening Stock</label>
+                                            <input class="form-control" type="text" placeholder="0"
+                                                formControlName="openingStock" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
                                             <label for="openingStockDate">Opening Stock Date</label>
-                                            <p-calendar  dataType="string"
-                                                        appendTo="body" dateFormat="mm/dd/yy" formControlName="openingStockDate" placeholder="Select Date"
-                                                        class="col-12"
-                                                                ></p-calendar> 
-                                            
+                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                                formControlName="openingStockDate" placeholder="Select Date"
+                                                class="col-12"></p-calendar>
+
                                         </div>
                                     </div>
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="purchasePrice">Purchase Price</label>
-                                            <input class="form-control" type="text"
-                                                placeholder="0"
-                                                formControlName="purchasePrice" />
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="text" placeholder="0"
+                                                    formControlName="purchasePrice" />
+                                            </div>
+
+
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="salesPrice">Sales Price</label>
-                                            <input class="form-control" type="text"
-                                                placeholder="0"
-                                                formControlName="salesPrice" />
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="text" placeholder="0"
+                                                    formControlName="salesPrice" />
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="mRP">MRP</label>
-                                            <input class="form-control" type="text"
-                                                placeholder="0"
-                                                formControlName="mRP" />
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="text" placeholder="0"
+                                                    formControlName="mRP" />
+                                            </div>
                                         </div>
                                     </div>
 
@@ -242,22 +265,20 @@
                                     <h3>Custom Fields</h3>
                                     <hr>
 
-                                     <div class="col-12 col-md-6">
+                                    <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="expiryDate">Expiry Date</label>
-                                            <p-calendar  dataType="string"
-                                                        appendTo="body" dateFormat="mm/dd/yy" formControlName="expiryDate" placeholder="Select Date"
-                                                        class="col-12"
-                                                                ></p-calendar> 
-                                            
+                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                                formControlName="expiryDate" placeholder="Select Date"
+                                                class="col-12"></p-calendar>
+
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="description">Description</label>
-                                            <textarea class="form-control" type="text"
-                                                placeholder="0"
-                                                formControlName="description" ></textarea>
+                                            <textarea class="form-control" type="text" placeholder="0"
+                                                formControlName="description"></textarea>
                                         </div>
                                     </div>
 
