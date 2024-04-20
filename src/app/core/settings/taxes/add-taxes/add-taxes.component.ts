@@ -24,9 +24,9 @@ export class AddTaxesComponent {
     private dialogRef: MatDialogRef<AddTaxesComponent>,
   ){
     this.addTaxesForm = this.fb.group({      
-      taxesName: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-      taxesType: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-      taxesRate: ['', [Validators.required,]]
+      name: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
+      taxType: ['', [Validators.required]],
+      taxRate: ['', [Validators.required,]]
     })
   }
   addTaxesFormSubmit(){

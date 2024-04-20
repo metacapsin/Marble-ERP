@@ -37,20 +37,21 @@ export class SubCategoriesListComponent  {
   showDialog = false;
   modalData: any = {};
   subCategoryId: any;
-  subCategoriesData = [
-    {
-      subCategoriesName: "Mobiles",
-      subCategoriesSlug: ""
-    },
-    {
-      subCategoriesName: "Computer",
-      subCategoriesSlug: ""
-    },
-    {
-      subCategoriesName: "Electrics",
-      subCategoriesSlug: ""
-    }
-  ]
+  // subCategoriesData = [
+  //   {
+  //     subCategoriesName: "Mobiles",
+  //     subCategoriesSlug: ""
+  //   },
+  //   {
+  //     subCategoriesName: "Computer",
+  //     subCategoriesSlug: ""
+  //   },
+  //   {
+  //     subCategoriesName: "Electrics",
+  //     subCategoriesSlug: ""
+  //   }
+  // ]
+  subCategoriesListData = [];
 
   constructor(public dialog: MatDialog,
     private service: SubCategoriesService,
@@ -75,27 +76,30 @@ export class SubCategoriesListComponent  {
       })
     })
   }
-  openEditDialog(reasonId: string) {
-    // if (!reasonId) return;
+  openEditDialog(Id: string) {
+    if (!Id) return;
     const dialogRef = this.dialog.open(EditSubCategoriesComponent, {
-      data: reasonId
+      data: Id
     });
 
     dialogRef.afterClosed().subscribe(dialog => {
-      // if (dialog === true) return;
-      // dialog.value.id = reasonId;
-      // this.service.updateSubCategories(dialog.value).subscribe((resp: any) => {
-      //   if (resp.status === 'success') {
-      //     const message = "Sub Category has been updated"
-      //     this.messageService.add({ severity: 'success', detail: message });
-      //     this.getSubCategoriesData();
-      //   } else {
-      //     const message = resp.message
-      //     this.messageService.add({ severity: 'error', detail: message });
-      //   }
-      // })
+      if (dialog === true) return;
+      dialog.id = Id;
+      this.service.updateSubCategories(dialog).subscribe((resp: any) => {
+        if (resp.status === 'success') {
+          const message = "Sub Category has been updated"
+          this.messageService.add({ severity: 'success', detail: message });
+          this.getSubCategoriesData();
+        } else {
+          const message = resp.message
+          this.messageService.add({ severity: 'error', detail: message });
+        }
+      })
     })
   }
+
+  
+
 
   ngOnInit() {
     this.getSubCategoriesData();
@@ -103,13 +107,14 @@ export class SubCategoriesListComponent  {
 
   getSubCategoriesData(){
     this.service.getSubCategories().subscribe((resp: any) => {
-      // this.categoriesListData = resp.data;
+      this.subCategoriesListData = resp.data;
       this.originalData = resp.data;
     })
 
   }
 
   deleteSubCategory(Id: any) {
+    this.subCategoryId = Id;
     this.modalData = {
       title: "Delete",
       messege: "Are you sure you want to delete this Sub Category"

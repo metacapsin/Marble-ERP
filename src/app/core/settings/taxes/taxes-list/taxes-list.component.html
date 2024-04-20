@@ -50,23 +50,23 @@
                                 </div>
                             </div>
                         </div>
-                        <p-table [value]="taxesData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                        <p-table [value]="taxesListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
                             [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedTaxes">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th appShowHide [roles]="['admin', 'super-admin']">
                                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                     </th>
-                                    <th pSortableColumn="taxesName">Name <p-sortIcon field="taxesName"></p-sortIcon>
-                                        <p-columnFilter type="text" field="taxesName" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
+                                        <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
 
                                     </th>
-                                    <th pSortableColumn="taxesType">Tax Type <p-sortIcon field="taxesType"></p-sortIcon>
-                                        <p-columnFilter type="text" field="taxesType" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="taxType">Tax Type <p-sortIcon field="taxType"></p-sortIcon>
+                                        <p-columnFilter type="text" field="taxType" display="menu"></p-columnFilter>
 
                                     </th>
-                                    <th pSortableColumn="taxesRate">Tax Rate <p-sortIcon field="taxesRate"></p-sortIcon>
-                                        <p-columnFilter type="text" field="taxesRate" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="taxRate">Tax Rate <p-sortIcon field="taxRate"></p-sortIcon>
+                                        <p-columnFilter type="text" field="taxRate" display="menu"></p-columnFilter>
 
                                     </th>
                                     <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
@@ -81,18 +81,18 @@
                                         <p-tableCheckbox [value]="taxes"></p-tableCheckbox>
                                     </td>
                                     <td class="">
-                                        {{taxes.taxesName}}
+                                        {{taxes.name}}
                                     </td>
                                     <td>
-                                        {{taxes.taxesType}}
+                                        {{taxes.taxType}}
                                     </td>
                                     <td>
-                                        {{taxes.taxesRate}}
+                                        {{taxes.taxRate}}
                                     </td>
                                     <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
-                                        <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(taxes._id)"></p-button>
+                                        <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(taxes.id)"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"
-                                            (click)="deletetaxes(taxes._id)"></p-button>
+                                            (click)="deletetaxes(taxes.id)"></p-button>
                                     </td>
 
                                 </tr>

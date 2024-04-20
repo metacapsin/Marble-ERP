@@ -1,19 +1,13 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { Router, RouterModule } from '@angular/router';
+import {  RouterModule } from '@angular/router';
 import { MessageService, SharedModule } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { routes } from 'src/app/shared/routes/routes';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { VisitReasonsService } from 'src/app/shared/data/visit-reasons.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from 'src/app/common-component/modals/confirm-dialog/confirm-dialog.component';
@@ -21,6 +15,7 @@ import { ShowHideDirective } from 'src/app/common-component/show-hide-directive/
 import { ToastModule } from 'primeng/toast';
 import { AddTaxesComponent } from '../add-taxes/add-taxes.component';
 import { EditTaxesComponent } from '../edit-taxes/edit-taxes.component';
+import { TaxesService } from '../taxes.service';
 
 @Component({
   selector: 'app-taxes-list',
@@ -28,7 +23,7 @@ import { EditTaxesComponent } from '../edit-taxes/edit-taxes.component';
   styleUrl: './taxes-list.component.scss',
   
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, SharedModule, TableModule, CommonModule,
+  imports: [MatTableModule, MatButtonModule, SharedModule, TableModule, CommonModule,
     SharedModule, RouterModule, ButtonModule, FormsModule, ConfirmDialogComponent, ShowHideDirective, ToastModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageService]
@@ -59,7 +54,12 @@ export class TaxesListComponent {
     }
   ]
 
-  constructor(public dialog: MatDialog) {
+  taxesListData = [];
+
+  constructor(public dialog: MatDialog,
+    private service: TaxesService,
+    private messageService: MessageService
+  ) {
 
   }
 
@@ -67,18 +67,17 @@ export class TaxesListComponent {
     
     const dialogRef = this.dialog.open(AddTaxesComponent);
     dialogRef.afterClosed().subscribe(dialog => {
-      // debugger
-      // if (dialog === true) return;
-      // this.service.CreateVisitReason(dialog).subscribe((resp: any) => {
-      //   if (resp.status === 'success') {
-      //     const message = "Visit Reason has been added";
-      //     this.messageService.add({ severity: 'success', detail: message });
-      //     this.getVisitReasonData();
-      //   } else {
-      //     const message = resp.message
-      //     this.messageService.add({ severity: 'error', detail: message });
-      //   }
-      // })
+      if (dialog === true) return;
+      this.service.CreateTax(dialog).subscribe((resp: any) => {
+        if (resp.status === 'success') {
+          const message = "Tax has been added";
+          this.messageService.add({ severity: 'success', detail: message });
+          this.getTaxesList();
+        } else {
+          const message = resp.message
+          this.messageService.add({ severity: 'error', detail: message });
+        }
+      })
     })
   }
   openEditDialog(reasonId: string) {
@@ -102,6 +101,19 @@ export class TaxesListComponent {
       // })
     })
   }
+
+  getTaxesList(){
+    this.service.getAllTaxList().subscribe((resp:any)=>{
+      this.taxesListData = resp.data
+    })
+  }
+
+  ngOnInit(): void{
+    this.getTaxesList()
+  }
+
+
+
   deletetaxes(Id: any) {
     this.modalData = {
       title: "Delete",

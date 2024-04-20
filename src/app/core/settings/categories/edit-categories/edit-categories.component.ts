@@ -14,6 +14,7 @@ import { CategoriesService } from '../categories.service';
 })
 export class EditCategoriesComponent {
   editCategoryForm!:FormGroup;
+  categoryDataById = []
 
   constructor(private fb: FormBuilder,
     public service: CategoriesService,
@@ -30,16 +31,23 @@ export class EditCategoriesComponent {
   ngOnInit(): void {
 
     this.service.getCategoriesById(this._id).subscribe((resp: any) => {
-      // this.VisitReasonDataById = resp.data;
-      this.editCategoryForm.patchValue({
-        // name: data.name
-      })
+      this.categoryDataById = resp.data;
+      
+      this.fillFormValues(this.categoryDataById);
     });
+  }
+
+  fillFormValues(data){
+    this.editCategoryForm.patchValue({
+      name: data.name
+    })
   }
 
   editCategoryFormSubmit(){
     if (this.editCategoryForm.valid) {
       this.dialogRef.close(this.editCategoryForm.value);
+      console.log(this.editCategoryForm.value);
+      
     } else {
       console.log("Form is invalid!");
     }

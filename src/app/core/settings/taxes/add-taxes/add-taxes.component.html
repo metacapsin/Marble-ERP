@@ -11,12 +11,12 @@
         <div class="col-md-4">
           <div class="form-group local-forms">
             <label for="name">Tax Name <span class="login-danger">*</span></label>
-            <input class="form-control" type="text" placeholder="" formControlName="taxesName">
+            <input class="form-control" type="text" placeholder="" formControlName="name">
 
-            <div *ngIf="addTaxesForm.get('taxesName')?.hasError('required') && addTaxesForm.get('taxesName')?.touched">
+            <div *ngIf="addTaxesForm.get('name')?.hasError('required') && addTaxesForm.get('name')?.touched">
               <span class="login-danger">Tax Name is reqiured</span>
             </div>
-            <div *ngIf="addTaxesForm.get('taxesName')?.hasError('pattern') && addTaxesForm.get('taxesName')?.touched">
+            <div *ngIf="addTaxesForm.get('name')?.hasError('pattern') && addTaxesForm.get('name')?.touched">
               <span class="login-danger">Input must be between 5 and 50 characters.</span>
             </div>
           </div>
@@ -27,10 +27,10 @@
             <label for="name">Tax Type <span class="login-danger">*</span></label>
             <!-- <input class="form-control" type="text" placeholder="" formControlName="taxesType"> -->
             <p-dropdown [options]="taxesTypes" styleClass="" appendTo="body" optionLabel="value" optionValue="value"
-              placeholder="Select  Type" formControlName="taxesType" [style]="{'width':'100%'}" [showClear]="true">
+              placeholder="Select  Type" formControlName="taxType" [style]="{'width':'100%'}" [showClear]="true">
             </p-dropdown>
 
-            <div *ngIf="addTaxesForm.get('taxesType')?.hasError('required') && addTaxesForm.get('taxesType')?.touched">
+            <div *ngIf="addTaxesForm.get('taxType')?.hasError('required') && addTaxesForm.get('taxType')?.touched">
               <span class="login-danger">Tax Type is reqiured</span>
             </div>
           </div>
@@ -39,12 +39,12 @@
         <div class="col-md-4">
           <div class="form-group local-forms">
             <label for="name">Tax Rate <span class="login-danger">*</span></label>
-            <input class="form-control" type="text" placeholder="" formControlName="taxesRate">
+            <input class="form-control" type="text" placeholder="" formControlName="taxRate">
 
-            <div *ngIf="addTaxesForm.get('taxesRate')?.hasError('required') && addTaxesForm.get('taxesRate')?.touched">
+            <div *ngIf="addTaxesForm.get('taxRate')?.hasError('required') && addTaxesForm.get('taxRate')?.touched">
               <span class="login-danger">Tax Rate is reqiured</span>
             </div>
-            <div *ngIf="addTaxesForm.get('taxesRate')?.hasError('pattern') && addTaxesForm.get('taxesRate')?.touched">
+            <div *ngIf="addTaxesForm.get('taxRate')?.hasError('pattern') && addTaxesForm.get('taxRate')?.touched">
               <span class="login-danger">Input must be between 5 and 50 characters.</span>
             </div>
           </div>

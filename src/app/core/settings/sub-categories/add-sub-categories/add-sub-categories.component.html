@@ -41,7 +41,7 @@
         <div class="col-md-6">
           <div class="form-group local-forms">
             <label for="name">Category <span class="login-danger">*</span></label>
-            <p-dropdown [options]="Categories" styleClass="" appendTo="body" optionLabel="value" optionValue="value"
+            <p-dropdown [options]="categoriesListData" styleClass="" appendTo="body" optionLabel="name" optionValue="_id"
               placeholder="Select  Category" formControlName="categoryId" [style]="{'width':'100%'}"
               [filter]="true" filterBy="value" [showClear]="true">
             </p-dropdown>
@@ -56,7 +56,7 @@
         <div class="col-12">
           <div class="form-group local-forms">
             <label for="name">Description</label>
-            <textarea class="form-control" type="text" placeholder=""></textarea>
+            <textarea class="form-control" type="text" placeholder="" formControlName="description"></textarea>
           </div>
         </div>
 

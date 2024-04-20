@@ -11,24 +11,24 @@ export class CategoriesService {
 
 
   CreateCategories(data: {} | null) {
-      return this.http.post(environment.apiUrl + "Setting/createCategory", data);
+      return this.http.post(environment.apiUrl + "/Setting/createCategory", data);
     }
 
   getCategories() {
-    return this.http.get(environment.apiUrl + "Setting/getAllCategoryList");
+    return this.http.get(environment.apiUrl + "/Setting/getAllCategoryList");
   }
 
   
   getCategoriesById(id: string) {
-    return this.http.get(environment.apiUrl + "Setting/getCategoryById/" + id);
+    return this.http.get(environment.apiUrl + "/Setting/getCategoryById/" + id);
   }
 
-  updateCategories(data: {}, id: string) {
-      return this.http.put(environment.apiUrl + "Setting/updateCategory" +id , data);
+  updateCategories(data: {}) {
+      return this.http.put(environment.apiUrl + "/Setting/updateCategory", data);
   }
 
   deleteCategoriesById(id: any) {
-      return this.http.post(environment.apiUrl + " Setting/deleteCategory/" + id, {});
+      return this.http.delete(environment.apiUrl + "/Setting/deleteCategory/" + id, {});
   }
   
 

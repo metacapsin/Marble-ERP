@@ -14,6 +14,7 @@ import { AddCategoriesComponent } from '../add-categories/add-categories.compone
 import { EditCategoriesComponent } from '../edit-categories/edit-categories.component';
 import { CategoriesService } from '../categories.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { WarehouseService } from '../../warehouse/warehouse.service';
 
 @Component({
   selector: 'app-categories-list',
@@ -47,7 +48,7 @@ export class CategoriesListComponent {
   // ]
   categoriesListData = [];
   constructor(public dialog: MatDialog,
-    private service: CategoriesService,
+    public service: CategoriesService,
     private messageService: MessageService
   ) {
 
@@ -72,47 +73,50 @@ export class CategoriesListComponent {
     })
   }
   openEditDialog(categoryID: string) {
-    // if (!categoryID) return;
+    if (!categoryID) return;
     const dialogRef = this.dialog.open(EditCategoriesComponent, {
       data: categoryID
     });
 
     dialogRef.afterClosed().subscribe(dialog => {
-      // if (dialog === true) return;
-      dialog.value.id = categoryID;
-      // this.service.updateCategories(dialog.value).subscribe((resp: any) => {
-      //   if (resp.status === 'success') {
-      //     const message = "Category has been updated"
-      //     this.messageService.add({ severity: 'success', detail: message });
-      //     this.getCategoriesData();
-      //   } else {
-      //     const message = resp.message
-      //     this.messageService.add({ severity: 'error', detail: message });
-      //   }
-      // })
+      if (dialog === true) return;
+      dialog.id = categoryID;
+      this.service.updateCategories(dialog).subscribe((resp: any) => {
+        if (resp.status === 'success') {
+          const message = "Category has been updated"
+          this.messageService.add({ severity: 'success', detail: message });
+          this.getCategoriesData();
+        } else {
+          const message = resp.message
+          this.messageService.add({ severity: 'error', detail: message });
+        }
+      })
     })
   }
 
-  ngOnInit() {
-    this.getCategoriesData();
-  }
-
-  getCategoriesData(){
+  
+  getCategoriesData(): void {
+    console.log(this.service)
     this.service.getCategories().subscribe((resp: any) => {
       this.categoriesListData = resp.data;
-      // this.originalData = resp.data;
+      this.originalData = resp.data;
     })
-
+    
+  }
+  
+  ngOnInit() {
+this.getCategoriesData();
   }
 
-
   deleteCategory(Id: any) {
+
+    this.categoryID = Id;
+
     this.modalData = {
       title: "Delete",
       messege: "Are you sure you want to delete this Category"
     }
     this.showDialog = true;
-    
   }
 
   showNewDialog() {
@@ -134,11 +138,11 @@ export class CategoriesListComponent {
 
 
   public searchData(value: any): void {
-    // this.CategoryData = this.originalData.map(i => {
-    //   if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
-    //     return i;
-    //   }
-    // });
+    this.categoriesListData = this.originalData.map(i => {
+      if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
+        return i;
+      }
+    });
   }
 
 }

@@ -11,24 +11,24 @@ export class SubCategoriesService {
 
 
   CreateSubCategories(data: {} | null) {
-      return this.http.post(environment.apiUrl + "Setting/createSubCategory", data);
+      return this.http.post(environment.apiUrl + "/Setting/createSubCategory", data);
     }
 
   getSubCategories() {
-    return this.http.get(environment.apiUrl + "Setting/getAllSubCategoryList");
+    return this.http.get(environment.apiUrl + "/Setting/getAllSubCategoryList");
   }
 
   
   getSubCategoriesById(id: string) {
-    return this.http.get(environment.apiUrl + "Setting/getSubCategoryById/" + id);
+    return this.http.get(environment.apiUrl + "/Setting/getSubCategoryById/" + id);
   }
 
-  updateSubCategories(data: {}, id: string) {
-      return this.http.put(environment.apiUrl + "Setting/updateSubCategory" +id , data);
+  updateSubCategories(data: {}) {
+      return this.http.put(environment.apiUrl + "/Setting/updateSubCategory", data);
   }
 
   deleteSubCategoriesById(id: any) {
-      return this.http.post(environment.apiUrl + "Setting/deleteSubCategory/" + id, {});
+      return this.http.delete(environment.apiUrl + "/Setting/deleteSubCategory/" + id, {});
   }
   
 
