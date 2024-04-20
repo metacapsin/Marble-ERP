@@ -20,6 +20,7 @@ import { routes } from "src/app/shared/routes/routes";
 import { DropdownModule } from "primeng/dropdown";
 import { CheckboxModule } from "primeng/checkbox";
 import { MultiSelectModule } from 'primeng/multiselect';
+import { WarehouseService } from "../../warehouse/warehouse.service";
 
 
 @Component({
@@ -48,21 +49,20 @@ export class EditUserComponent implements OnInit {
   id = "";
   EditUserData: any;
   editUserGroup: UntypedFormGroup;
+  data: any = null;
+  wareHousedata:any = []
 
   ngOnInit(): void {
     this.UserEditData.GetUserDataByID(this.id).subscribe((resp: any) => {
       this.EditUserData = resp.data;
-      // this.patchForm();
+      this.patchForm();
     });
+
+    this.service.getAllWarehouseList().subscribe((resp: any) => {
+      this.wareHousedata = resp.data;
+    })
+
   }
-  
-  cities = [
-    {name: 'New York', code: 'NY'},
-    {name: 'Rome', code: 'RM'},
-    {name: 'London', code: 'LDN'},
-    {name: 'Istanbul', code: 'IST'},
-    {name: 'Paris', code: 'PRS'}
-];
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -71,7 +71,8 @@ export class EditUserComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router,
     private fb: UntypedFormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private service: WarehouseService
   ) {
     this.id = this.activeRoute.snapshot.params["id"];
     this.editUserGroup = this.fb.group({
@@ -90,10 +91,6 @@ export class EditUserComponent implements OnInit {
       ],
       email: ["", [Validators.required, Validators.email]],
       status: ["", [Validators.pattern(new RegExp(/^.{1,50}$/))]],
-      password: [
-        "",
-        [Validators.required, Validators.pattern(new RegExp(/^.{1,50}$/))],
-      ],
       address: ["", [Validators.pattern(new RegExp(/^.{1,50}$/))]],
       wareHouse:['',[Validators.required]],
       adminCheckBox: [""],
@@ -101,28 +98,23 @@ export class EditUserComponent implements OnInit {
       stockManagerCheckBox: [""],
     });
   }
-  // patchForm() {
-  //   this.ProviderGroup.patchValue({
-  //     TaxonomyCode: this.EditUserData[0].taxonomyCode,
-  //     FirstName: this.EditUserData[0].firstName,
-  //     MiddleName: this.EditUserData[0].middleName,
-  //     LastName: this.EditUserData[0].lastName,
-  //     NPI: this.EditUserData[0].npi,
-  //     ssn: this.EditUserData[0].ssn,
-  //     Email: this.EditUserData[0].email,
-  //     PhoneNumber: this.EditUserData[0].phoneNumber,
-  //     Password: null,
-  //     ProviderSelect: this.EditUserData[0].providerType,
-  //     SpecialtySelect: this.EditUserData[0].speciality,
-  //     SystemAdminCheckBox:
-  //       this.EditUserData[0].role.indexOf("admin") != -1 ? true : false,
-  //     ClinicalAssistantCheckBox:
-  //       this.EditUserData[0].role.indexOf("help-desk") > -1 ? true : false,
-  //     ProviderRole:
-  //       this.EditUserData[0].role.indexOf("provider") > -1 ? true : false,
-  //     isUserLocked: this.EditUserData[0].isUserLocked ? true : false,
-  //   });
-  // }
+  patchForm() {
+    this.editUserGroup.patchValue({
+      name: this.EditUserData[0].name,
+      phoneNo: this.EditUserData[0].phoneNumber,
+      email: this.EditUserData[0].email,
+      status: this.EditUserData[0].status,
+      address: this.EditUserData[0].address,
+      wareHouse: this.EditUserData[0].warehouse,
+      adminCheckBox:
+        this.EditUserData[0].role.indexOf("admin") != -1 ? true : false,
+        SalesmanCheckBox:
+        this.EditUserData[0].role.indexOf("Salesman") > -1 ? true : false,
+        stockManagerCheckBox:
+        this.EditUserData[0].role.indexOf("stockManager") > -1 ? true : false,
+      isUserLocked: this.EditUserData[0].isUserLocked ? true : false,
+    });
+  }
 
   editUserForm() {
     const formData = this.editUserGroup.value;
@@ -142,7 +134,6 @@ export class EditUserComponent implements OnInit {
       name: formData.name,
       phoneNumber: formData.phoneNumber,
       email: formData.email,
-      password: formData.password,
       role: _roles,
       status: formData.status,
       address: formData.address,
@@ -150,25 +141,25 @@ export class EditUserComponent implements OnInit {
     };
     console.log(payload);
 
-    // if (this.editUserGroup.value) {
-    //   this.UserEditData.UpDateUserApi(this.id, payload).subscribe(
-    //     (resp: any) => {
-    //       if (resp) {
-    //         if (resp.status === "success") {
-    //           const message = "User has been updated";
-    //           this.messageService.add({ severity: "success", detail: message });
-    //           setTimeout(() => {
-    //             this.router.navigate(["settings/users"]);
-    //           }, 400);
-    //         } else {
-    //           const message = resp.message;
-    //           this.messageService.add({ severity: "error", detail: message });
-    //         }
-    //       }
-    //     }
-    //   );
-    // } else {
-    //   console.log("Form is invalid!");
-    // }
+    if (this.editUserGroup.value) {
+      this.UserEditData.UpDateUserApi(this.id, payload).subscribe(
+        (resp: any) => {
+          if (resp) {
+            if (resp.status === "success") {
+              const message = "User has been updated";
+              this.messageService.add({ severity: "success", detail: message });
+              setTimeout(() => {
+                this.router.navigate(["settings/users"]);
+              }, 400);
+            } else {
+              const message = resp.message;
+              this.messageService.add({ severity: "error", detail: message });
+            }
+          }
+        }
+      );
+    } else {
+      console.log("Form is invalid!");
+    }
   }
 }

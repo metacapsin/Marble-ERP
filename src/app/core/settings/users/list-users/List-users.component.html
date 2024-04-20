@@ -57,8 +57,8 @@
                   <th appShowHide [roles]="['admin', 'super-admin']">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                   </th>
-                  <th pSortableColumn="firstName">Name <p-sortIcon field="firstName"></p-sortIcon>
-                    <p-columnFilter type="text" field="firstName" display="menu"></p-columnFilter>
+                  <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
+                    <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
                     <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
@@ -75,17 +75,17 @@
                   <td appShowHide [roles]="['admin', 'super-admin']">
                     <p-tableCheckbox [value]="product"></p-tableCheckbox>
                   </td>
-                  <td class="bold">{{product.firstName}} {{product.lastName}}</td>
+                  <td class="bold">{{product.name}}</td>
                   <td>{{product.email}}</td>
                   <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Active"></p-tag></td>
                   <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag></td>
                   <td><span class="text-uppercase">{{product.role.join(', ')}}</span></td>
 
                   <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
-                    <a (click)="goToEditPage(product._id)" (keydown.enter)="goToEditPage(product._id)" class="p-link"
-                      tabindex="0">Edit</a>
-                    <!-- <p-button [text]=" true" (keydown.enter)="deleteApiForAdd(product._id)"
-                      tabindex="0" (click)="deleteApiForAdd(product._id)">Edit</p-button> -->
+                    <!-- <p-button (click)="goToEditPage(product._id)" (keydown.enter)="goToEditPage(product._id)"
+                      tabindex="0">Edit</p-button> -->
+                    <p-button [text]="true" (keydown.enter)="goToEditPage(product._id)"
+                      tabindex="0" (click)="goToEditPage(product._id)">Edit</p-button>
                   </td>
                 </tr>
               </ng-template>
