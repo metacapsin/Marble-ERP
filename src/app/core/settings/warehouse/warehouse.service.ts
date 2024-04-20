@@ -15,7 +15,7 @@ CreateWarehouse(data: {} | null) {
   return this.http.post(environment.apiUrl + "/setting/createWarehouse", data);
 }
 getAllWarehouseList() {
-  return this.http.get(environment.apiUrl + "/Setting/getAllWarehouse");
+  return this.http.get(environment.apiUrl + "/Setting/getAllWarehouseList");
 }
 
 getWarehouseById(warehouseId: string) {

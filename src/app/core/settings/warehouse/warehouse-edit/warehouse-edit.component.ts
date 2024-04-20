@@ -36,27 +36,27 @@ export class WarehouseEditComponent {
   data: any;
   warehouseId: any;
 
-  Body: {
-    warehouseId: "86856jfghgfjsg4542ghcvh";
+  // Body: {
+  //   warehouseId: "";
 
-    name: "Test warehouse";
+  //   name: "Test warehouse";
 
-    email: "test@hjhk.com";
+  //   email: "test@hjhk.com";
 
-    phone: "";
+  //   phone: "";
 
-    showEmailOnInvoice: true;
+  //   showEmailOnInvoice: true;
 
-    showPhoneOnInvoice: false;
+  //   showPhoneOnInvoice: false;
 
-    billingAddress: "test billing address";
+  //   billingAddress: "test billing address";
 
-    termsCondition: "terms";
+  //   termsCondition: "terms";
 
-    singnatureUrl: "http:test.com";
-    bankDetails:"Rajasthan Bank";
-    // slug:"warehouse slug";
-  };
+  //   singnatureUrl: "http:test.com";
+  //   bankDetails:"Rajasthan Bank";
+  //   // slug:"warehouse slug";
+  // };
 
   constructor(
     private service: WarehouseService,
@@ -117,16 +117,16 @@ export class WarehouseEditComponent {
       this.data = data.data; //assuming data is returned as expected
       console.log("User Data", this.data);
       this.warehouseForm.patchValue({
-        name: this.Body.name,
-        // slug: this.Body.slug,
-        email: this.Body.email,
-        showEmailOnInvoice: this.Body.showEmailOnInvoice,
-        phone: this.Body.phone,
-        showPhoneOnInvoice: this.Body.showPhoneOnInvoice,
-        billingAddress: this.Body.billingAddress,
-        // bankDetails: this.Body.bankDetails,
-        termsCondition: this.Body.termsCondition,
-        singnatureUrl: this.Body.singnatureUrl,
+        name: this.data.name,
+        // slug: this.data.slug,
+        email: this.data.email,
+        showEmailOnInvoice: this.data.showEmailOnInvoice,
+        phone: this.data.phone,
+        showPhoneOnInvoice: this.data.showPhoneOnInvoice,
+        billingAddress: this.data.billingAddress,
+        // bankDetails: this.data.bankDetails,
+        termsCondition: this.data.termsCondition,
+        singnatureUrl: this.data.singnatureUrl,
       });
     });
   }

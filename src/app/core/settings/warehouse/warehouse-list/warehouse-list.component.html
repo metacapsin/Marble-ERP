@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p-table [value]="staticValues" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                        <p-table [value]="data" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -109,7 +109,7 @@
                                     <td>
                                         {{warehouse.phone}}
                                     </td>
-                                    <td >
+                                    <!-- <td >
 
 
 
@@ -122,7 +122,7 @@
                                             class="check">
                                         <label for="status_1" class="checktoggle">checkbox</label>
 
-                                    </td>
+                                    </td> -->
                                     <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
                                         <p-button [text]="true" icon="fa fa-edit"
                                             [routerLink]="['/settings/warehouse/edit', warehouse._id]"></p-button>
