@@ -31,21 +31,21 @@ export class CategoriesListComponent {
   showDialog = false;
   modalData: any = {};
   categoryID: any;
-  CategoriesData = [
-    {
-      CategoriesName: "Mobiles",
-      CategoriesSlug: ""
-    },
-    {
-      CategoriesName: "Computer",
-      CategoriesSlug: ""
-    },
-    {
-      CategoriesName: "Electrics",
-      CategoriesSlug: ""
-    }
-  ]
-
+  // categoriesListData = [
+  //   {
+  //     CategoriesName: "Mobiles",
+  //     CategoriesSlug: ""
+  //   },
+  //   {
+  //     CategoriesName: "Computer",
+  //     CategoriesSlug: ""
+  //   },
+  //   {
+  //     CategoriesName: "Electrics",
+  //     CategoriesSlug: ""
+  //   }
+  // ]
+  categoriesListData = [];
   constructor(public dialog: MatDialog,
     private service: CategoriesService,
     private messageService: MessageService
@@ -54,7 +54,7 @@ export class CategoriesListComponent {
   }
 
   openAddDialog() {
-    console.log(this.CategoriesData);
+    console.log(this.categoriesListData);
     
     const dialogRef = this.dialog.open(AddCategoriesComponent);
     dialogRef.afterClosed().subscribe(dialog => {
@@ -99,10 +99,9 @@ export class CategoriesListComponent {
 
   getCategoriesData(){
     this.service.getCategories().subscribe((resp: any) => {
-      // this.categoriesListData = resp.data;
-      this.originalData = resp.data;
+      this.categoriesListData = resp.data;
+      // this.originalData = resp.data;
     })
-
 
   }
 

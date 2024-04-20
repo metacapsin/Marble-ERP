@@ -13,7 +13,6 @@ import { ToastModule } from "primeng/toast";
 import { MessageService, SelectItem } from "primeng/api";
 import { CalendarModule } from "primeng/calendar";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
-import { NgxBarcode6Module } from "ngx-barcode6";
 import { ProductsService } from "../products.service";
 import { TreeSelectModule } from "primeng/treeselect";
 import { TreeNode } from "primeng/api";
@@ -39,7 +38,6 @@ interface CategoryItem {
     DropdownModule,
     CalendarModule,
     TooltipModule,
-    NgxBarcode6Module,
     TreeSelectModule, // Make sure to import TreeSelectModule
     ToastModule,
   ],

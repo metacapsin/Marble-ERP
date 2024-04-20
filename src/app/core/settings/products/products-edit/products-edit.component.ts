@@ -13,7 +13,6 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService, TreeNode } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { NgxBarcode6Module } from 'ngx-barcode6';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductsService } from '../products.service';
 import { TreeModule } from 'primeng/tree';
@@ -36,7 +35,6 @@ import { TreeSelectModule } from 'primeng/treeselect';
     DropdownModule,
     CalendarModule,
     TooltipModule,
-    NgxBarcode6Module,
     TreeSelectModule, // Make sure to import TreeSelectModule
     ToastModule,
 ],
