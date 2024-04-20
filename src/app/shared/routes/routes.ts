@@ -491,6 +491,18 @@ export class routes {
   public static get ViewCustomers(): string {
     return this.baseUrl + '/customers/view-customers';
   }
+  public static get suppliers(): string {
+    return this.baseUrl + '/suppliers';
+  }
+  public static get AddSuppliers(): string {
+    return this.baseUrl + '/suppliers/add-suppliers';
+  }
+  public static get EditSuppliers(): string {
+    return this.baseUrl + '/suppliers/edit-suppliers';
+  }
+  public static get ViewSuppliers(): string {
+    return this.baseUrl + '/suppliers/view-suppliers';
+  }
   public static get Sales(): string {
     return this.baseUrl + '/sales';
   }

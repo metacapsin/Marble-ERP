@@ -1,0 +1,105 @@
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Suppliers</li>
+                        <!-- <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div class="card card-table show-entire">
+                    <div class="col p-3">
+                        <div class="doctor-table-blk">
+                            <h3>Add New Suppliers</h3>
+                            <div class="doctor-search-blk col-md-6">
+                                <div class="top-nav-search table-search-blk me-3">
+                                    <input type="text" class="form-control" placeholder="Search here"
+                                        [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
+                                    <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                </div>
+                                <div class="add-group textbtn gap-3">
+                                    <a [routerLink]="['/suppliers/add-suppliers']" class="btn btn-primary"><img
+                                            src="assets/img/icons/plus.svg" alt=""> Add Suppliers</a>
+                                    <a class="btn btn-primary" (click)="showDialog()">Import Suppliers</a>
+                                    <!-- <button style="width: 100%;" class="border-0 btn btn-primary btn-gradient-primary m-r-10"><a href="">Add Customer</a></button>
+                                    <button style="width: 500%;" class="border-0 btn btn-primary btn-gradient-primary m-r-10"><a href="">Import Customers</a></button> -->
+                                </div>
+                                <p-dialog header="Import Customers" [(visible)]="visible" [modal]="true"
+                                    [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+                                    <ul>
+                                        <li><a href="">Click here to download sample csv file</a></li>
+                                    </ul>
+                                    <div>
+                                        <h5>File</h5>
+                                        <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"><i
+                                                class="fa-solid fa-upload me-2"></i> Uplode</button>
+                                    </div>
+                                </p-dialog>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-2">
+                        <p-table [value]="dataSource" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                            [rows]="5">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th>
+                                    <th pSortableColumn="firstName">Name <p-sortIcon field="firstName"></p-sortIcon>
+                                        <p-columnFilter type="text" field="firstName" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
+                                        <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon>
+                                        <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="role">Created At <p-sortIcon field="role"></p-sortIcon></th>
+                                    <!-- <th>Action</th> -->
+                                    <th pSortableColumn="role">Balance <p-sortIcon field="role"></p-sortIcon></th>
+                                    <th>Edit</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-product>
+                                <tr>
+                                    <td appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                                    </td>
+                                    <td class="bold">{{product.firstName}} {{product.lastName}}</td>
+                                    <td>{{product.email}}</td>
+
+                                    <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Active"></p-tag>
+                                    </td>
+                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag>
+                                    </td>
+                                    <td>{{product.createdAt}}</td>
+                                    <td>{{product.Balance}}</td>
+
+                                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                                        <a class="p-2 border-1 border" [routerLink]="['/suppliers/view-suppliers']" href=""><i class="fa-solid fa-eye"></i></a>
+                                        <a class="p-2 border-1 border" href="" [routerLink]="['/suppliers/edit-suppliers']"><i
+                                                class="fa-solid fa-pen-to-square"></i></a>
+                                        <a class="p-2 border-1 border" href=""><i class="fa-solid fa-trash"></i></a>
+                                  </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
