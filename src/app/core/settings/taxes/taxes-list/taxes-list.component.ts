@@ -36,23 +36,7 @@ export class TaxesListComponent {
   originalData: any = [];
   showDialog = false;
   modalData: any = {};
-  taxesData = [
-    {
-      taxesName: "Mobiles",
-      taxesType: "single",
-      taxesRate: 15,
-    },
-    {
-      taxesName: "Electronics",
-      taxesType: "single",
-      taxesRate: 10,
-    },
-    {
-      taxesName: "Books",
-      taxesType: "single",
-      taxesRate: 5,
-    }
-  ]
+  taxID: any;
 
   taxesListData = [];
 
@@ -80,25 +64,25 @@ export class TaxesListComponent {
       })
     })
   }
-  openEditDialog(reasonId: string) {
-    // if (!reasonId) return;
+  openEditDialog(Id: string) {
+    if (!Id) return;
     const dialogRef = this.dialog.open(EditTaxesComponent, {
-      data: reasonId
+      data: Id
     });
 
     dialogRef.afterClosed().subscribe(dialog => {
-      // if (dialog === true) return;
-      // dialog.value.id = reasonId;
-      // this.service.updateVisitReason(dialog.value).subscribe((resp: any) => {
-      //   if (resp.status === 'success') {
-      //     const message = "Visit Reason has been updated"
-      //     this.messageService.add({ severity: 'success', detail: message });
-      //     this.getVisitReasonData();
-      //   } else {
-      //     const message = resp.message
-      //     this.messageService.add({ severity: 'error', detail: message });
-      //   }
-      // })
+      if (dialog === true) return;
+      dialog.id = Id;
+      this.service.updateTaxById(dialog).subscribe((resp: any) => {
+        if (resp.status === 'success') {
+          const message = "Tax Details has been updated"
+          this.messageService.add({ severity: 'success', detail: message });
+          this.getTaxesList();
+        } else {
+          const message = resp.message
+          this.messageService.add({ severity: 'error', detail: message });
+        }
+      })
     })
   }
 
@@ -115,6 +99,7 @@ export class TaxesListComponent {
 
 
   deletetaxes(Id: any) {
+    this.taxID = Id;
     this.modalData = {
       title: "Delete",
       messege: "Are you sure you want to delete this Tax Details"
@@ -128,12 +113,12 @@ export class TaxesListComponent {
   }
 
   callBackModal() {
-    // this.service.deleteVisitReasonById(this.reasonID).subscribe(resp => {
-    //   const message = "Visit Reason  has been deleted"
-    //   this.messageService.add({ severity: 'success', detail: message });
-    //   this.getVisitReasonData();
-    //   this.showDialog = false;
-    // })
+    this.service.deleteTaxById(this.taxID).subscribe(resp => {
+      const message = "Visit Reason  has been deleted"
+      this.messageService.add({ severity: 'success', detail: message });
+      this.getTaxesList();
+      this.showDialog = false;
+    })
   }
 
   close() {
@@ -142,11 +127,11 @@ export class TaxesListComponent {
 
 
   public searchData(value: any): void {
-    // this.CategoryData = this.originalData.map(i => {
-    //   if (i.CategoriesName.toLowerCase().includes(value.trim().toLowerCase())) {
-    //     return i;
-    //   }
-    // });
+    this.taxesListData = this.originalData.map(i => {
+      if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
+        return i;
+      }
+    });
   }
 
 

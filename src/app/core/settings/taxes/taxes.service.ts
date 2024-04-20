@@ -18,15 +18,15 @@ getAllTaxList() {
 }
 
 getTaxById(TaxesId: string) {
-  return this.http.get(environment.apiUrl + "/Setting/getTaxById" + TaxesId);
+  return this.http.get(environment.apiUrl + "/Setting/getTaxById/" + TaxesId);
 }
 
 updateTaxById(data: {}) {
-  return this.http.put(environment.apiUrl + "/Setting/updateTax" , data);
+  return this.http.put(environment.apiUrl + "/Setting/updateTax/" , data);
 }
 
 
 deleteTaxById(id: string) {
-  return this.http.delete(environment.apiUrl + "/Setting/deleteTax" + id, {});
+  return this.http.delete(environment.apiUrl + "/Setting/deleteTax/" + id, {});
 }
 }

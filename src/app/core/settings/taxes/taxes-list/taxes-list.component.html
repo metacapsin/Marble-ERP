@@ -1,4 +1,4 @@
-<!-- <p-toast></p-toast> -->
+<p-toast></p-toast>
 <div class="page-wrapper">
     <!-- Page Content -->
     <div class="content container-fluid">
@@ -90,9 +90,9 @@
                                         {{taxes.taxRate}}
                                     </td>
                                     <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
-                                        <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(taxes.id)"></p-button>
+                                        <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(taxes._id)"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"
-                                            (click)="deletetaxes(taxes.id)"></p-button>
+                                            (click)="deletetaxes(taxes._id)"></p-button>
                                     </td>
 
                                 </tr>
