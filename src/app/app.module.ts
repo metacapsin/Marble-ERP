@@ -12,6 +12,8 @@ import { StoreModule } from '@ngrx/store';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { WarehouseRoutingModule } from './core/settings/warehouse/warehouse-routing.module';
+import { ProductsRoutingModule } from './core/settings/products/products-routing.module';
+import { ProductsModule } from './core/settings/products/products.module';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { WarehouseRoutingModule } from './core/settings/warehouse/warehouse-rout
     BrowserAnimationsModule,
     SharedModule,
     ConfirmDialogModule,
-    WarehouseRoutingModule
+    WarehouseRoutingModule,
+    ProductsRoutingModule,
+    ProductsModule
   ],
   providers: [
     ConfirmationService,

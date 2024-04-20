@@ -11,7 +11,7 @@
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
                         <li class="breadcrumb-item active">Settings</li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Warehouse</li>
+                        <li class="breadcrumb-item active">Products</li>
                     </ul>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Warehouse List</h3>
+                                        <h3>Product List</h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input type="text" class="form-control" placeholder="Search here"
@@ -36,7 +36,7 @@
                                             </div>
                                             <div class="add-group textbtn">
                                                 <a appShowHide [roles]="['admin', 'super-admin']"
-                                                    [routerLink]="['/settings/warehouse/add']"
+                                                    [routerLink]="['/settings/product/add']"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""> Add New</a>
 
@@ -57,36 +57,36 @@
                                 </div>
                             </div>
                         </div>
-                        <p-table [value]="data" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                        <p-table [value]="staticValues" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th appShowHide [roles]="['admin', 'super-admin']">
                                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                     </th>
-                                    <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
-                                        <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="product">Product <p-sortIcon field="product"></p-sortIcon>
+                                        <p-columnFilter type="text" field="product" display="menu"></p-columnFilter>
 
                                     </th>
-                                    <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
-                                        <p-columnFilter type="email" field="email" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon>
+                                        <p-columnFilter type="category" field="category" display="menu"></p-columnFilter>
 
                                     </th>
-                                    <!-- <th pSortableColumn="city">City <p-sortIcon field="city"></p-sortIcon>
-                                        <p-columnFilter type="text" field="city" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="brand">Brand <p-sortIcon field="brand"></p-sortIcon>
+                                        <p-columnFilter type="text" field="brand" display="menu"></p-columnFilter>
 
                                     </th>
-                                    <th pSortableColumn="zip">Zip <p-sortIcon field="zip"></p-sortIcon>
-                                        <p-columnFilter type="text" field="zip" display="menu"></p-columnFilter>
-
-                                    </th> -->
-                                    <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon>
-                                        <p-columnFilter type="text" field="phone" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="salesPrice">Sales Price <p-sortIcon field="salesPrice"></p-sortIcon>
+                                        <p-columnFilter type="text" field="salesPrice" display="menu"></p-columnFilter>
 
                                     </th>
-                                    <th pSortableColumn="onlineStore">Online Store <p-sortIcon
-                                            field="onlineStore"></p-sortIcon>
-                                        <p-columnFilter field="onlineStore" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="purchasePrice">Purchase Price <p-sortIcon field="purchasePrice"></p-sortIcon>
+                                        <p-columnFilter type="text" field="purchasePrice" display="menu"></p-columnFilter>
+
+                                    </th>
+                                    <th pSortableColumn="currentStock">Current Stock <p-sortIcon
+                                            field="currentStock"></p-sortIcon>
+                                        <p-columnFilter field="currentStock" display="menu"></p-columnFilter>
 
                                     </th>
                                     <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
@@ -94,40 +94,35 @@
                                     </th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-warehouse>
+                            <ng-template pTemplate="body" let-product>
 
                                 <tr>
                                     <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableCheckbox [value]="warehouse"></p-tableCheckbox>
+                                        <p-tableCheckbox [value]="product"></p-tableCheckbox>
                                     </td>
                                     <td>
-                                        {{warehouse.name}}
+                                        {{product.product}}
                                     </td>
                                     <td>
-                                        {{warehouse.email}}
+                                        {{product.category}}
                                     </td>
                                     <td>
-                                        {{warehouse.phone}}
+                                        {{product.brand}}
                                     </td>
-                                    <!-- <td >
-
-
-
-                                        <a [routerLink]="routes.viewInvoice" class="invoice-link">
-                                            <div class="status-toggle d-flex">
-                                                <p class="mb-0 me-5">Visit online store</p>
-                                            </div>
-                                        </a>
-                                        <input type="checkbox" formControlName="visitOnlineStore" id="status_1"
-                                            class="check">
-                                        <label for="status_1" class="checktoggle">checkbox</label>
-
-                                    </td> -->
+                                    <td>
+                                        {{product.salesPrice}}
+                                    </td>
+                                    <td>
+                                        {{product.purchasePrice}}
+                                    </td>
+                                    <td>
+                                        {{product.currentStock}}
+                                    </td>
                                     <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
                                         <p-button [text]="true" icon="fa fa-edit"
-                                            [routerLink]="['/settings/warehouse/edit', warehouse._id]"></p-button>
+                                            [routerLink]="['/settings/product/edit', product._id]"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"
-                                            (click)="deleteLocation(warehouse._id)"></p-button>
+                                            (click)="deleteProduct(product._id)"></p-button>
                                     </td>
 
                                 </tr>

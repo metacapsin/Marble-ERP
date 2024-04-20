@@ -1,0 +1,9 @@
+/* Override styles for p-treeSelect */
+:host ::ng-deep .p-treeselect {
+    width: 100% !important;
+  }
+  
+  /* Override styles for p-dropdown */
+  :host ::ng-deep .p-dropdown {
+    width: 100% !important;
+  }

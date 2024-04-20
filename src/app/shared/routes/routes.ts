@@ -377,6 +377,9 @@ export class routes {
   public static get warehouse(): string {
     return this.baseUrl + '/settings/warehouse';
   }
+  public static get product(): string {
+    return this.baseUrl + '/settings/product';
+  }
   public static get calendarSettings(): string {
     return this.baseUrl + '/settings/calendar-settings';
   }

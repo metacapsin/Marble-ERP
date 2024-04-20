@@ -63,13 +63,13 @@
                         warehouseForm.get('name')?.hasError('pattern') &&
                         warehouseForm.get('name')?.touched
                       ">
-                                                <span class="login-danger">Input must be between 5 and 50
+                                                <span class="login-danger">Input must be between 2 and 50
                                                     characters.</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-md-6">
+                                    <!-- <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="slug">Slug <span class="login-danger">*</span></label>
                                             <input class="form-control" type="text" placeholder=""
@@ -92,7 +92,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="email">Email<span class="login-danger">*</span></label>
@@ -110,8 +110,7 @@
                           'pattern'
                         ) && warehouseForm.get('email')?.touched
                       ">
-                                                <span class="login-danger">Input must be between 5 and 50
-                                                    characters.</span>
+                                                <span class="login-danger">Please enter valid Email.</span>
                                             </div>
 
 
@@ -119,16 +118,8 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-12 col-md-6">
-                                        <div class="doctor-submit d-flex justify-content-between">
-                                            <div class="status-toggle d-flex">
-                                                <p class="mb-0 me-5">Show email on invoice</p>
-                                                <input type="checkbox" formControlName="showEmail" id="status_1"
-                                                    class="check">
-                                                <label for="status_1" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                                    
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
@@ -152,70 +143,69 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-6">
-                                        <div class="doctor-submit d-flex justify-content-between">
-                                            <div class="status-toggle d-flex">
-                                                <p class="mb-0 me-5">Show phone on invoice</p>
-                                                <input type="checkbox" formControlName="showPhone" id="status_2"
-                                                    class="check">
-                                                <label for="status_2" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="billingAddress">Billing Address</label>
                                             <textarea class="form-control" type="text"
                                                 placeholder="Please Enter Billing Address"
-                                                formControlName="billingAddress" ></textarea>
+                                                formControlName="billingAddress"></textarea>
                                             <div *ngIf="
                         warehouseForm.get('billingAddress')?.hasError('pattern') &&
                         warehouseForm.get('billingAddress')?.touched
                       ">
-                                                <span class="login-danger">Input Must be between 10 to 100
+                                                <span class="login-danger">Input Must be between 5 to 500
                                                     characters</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-12 col-md-6">
-                                        <strong><i class="fas fa-info-circle"></i>Note: Details added below will be
-                                            shown on
-                                            your invoices</strong>
-
+                                        <div class="doctor-submit d-flex justify-content-between">
+                                            <div class="status-toggle d-flex">
+                                                <p class="mb-0 me-5">Show email on invoice</p>
+                                                <input type="checkbox" formControlName="showEmailOnInvoice" id="status_1"
+                                                    class="check">
+                                                <label for="status_1" class="checktoggle">checkbox</label>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <!-- <small> Note: Details added below will be shown on your invoices.</small> -->
-
                                     <div class="col-12 col-md-6">
-                                        <div class="form-group local-forms">
-                                            <label for="bankDetails">Bank Details</label>
-                                            <textarea class="form-control" type="text"
-                                                placeholder="Please Enter Bank Details" formControlName="bankDetails" ></textarea>
-                                            <div *ngIf="
-                                warehouseForm.get('bankDetails')?.hasError('pattern') &&
-                                warehouseForm.get('bankDetails')?.touched
-                              ">
-                                                <span class="login-danger">Input Must be between 5 to 50
-                                                    characters</span>
+                                        <div class="doctor-submit d-flex justify-content-between">
+                                            <div class="status-toggle d-flex">
+                                                <p class="mb-0 me-5">Show phone on invoice</p>
+                                                <input type="checkbox" formControlName="showPhoneOnInvoice"
+                                                    id="status_2" class="check">
+                                                <label for="status_2" class="checktoggle">checkbox</label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- <div class="col-12 col-md-6">
+                                        <strong><i class="fas fa-info-circle"></i>Note: Details added below will be
+                                            shown on
+                                            your invoices</strong>
+
+                                    </div>
+ -->
+
+                                    <!-- <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="TnC">Terms & Conditions</label>
+                                            <label for="bankDetails">Bank Details</label>
                                             <textarea class="form-control" type="text"
-                                               placeholder="Please Enter Terms & Conditions" formControlName="TnC" ></textarea>
+                                                placeholder="Please Enter Bank Details"
+                                                formControlName="bankDetails"></textarea>
                                             <div *ngIf="
-                        warehouseForm.get('TnC')?.hasError('pattern') &&
-                        warehouseForm.get('TnC')?.touched
-                      ">
-                                                <span class="login-danger">Input Must be between 10 to 500
-                                                    characters</span>
+                                warehouseForm.get('bankDetails')?.hasError('pattern') &&
+                                warehouseForm.get('bankDetails')?.touched
+                              ">
+                                                <span class="login-danger">Please Enter Vakid Bank Details.</span>
                                             </div>
                                         </div>
                                     </div> -->
+
+
 
                                 </div>
 

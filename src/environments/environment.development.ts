@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://api.metacaps.in',
+  apiUrl: 'http://localhost:1338',
 };
 
 /*

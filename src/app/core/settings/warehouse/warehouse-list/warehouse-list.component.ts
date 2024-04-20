@@ -6,9 +6,9 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
-import { SettingsService } from 'src/app/shared/data/settings.service';
 import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { WarehouseService } from '../warehouse.service';
 
 
 @Component({
@@ -28,11 +28,20 @@ export class WarehouseListComponent {
   warehouseID: any;
   searchDataValue = "";
   selectedProducts = [];
+  
 
-  constructor(public dialog: MatDialog, public router: Router, private service: SettingsService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
 
-  getWarehouseList(): void {
-    this.service.getWarehouseList().subscribe((resp: any) => {
+
+  // staticValues = [
+  //   { name: 'Warehouse 1', email: 'warehouse1@example.com', phone: '123-456-7890',  },
+  //   { name: 'Warehouse 2', email: 'warehouse2@example.com', phone: '987-654-3210',},
+  //   { name: 'Warehouse 3', email: 'warehouse3@example.com', phone: '555-555-5555',}
+  // ];
+
+  constructor(public dialog: MatDialog, public router: Router, private service: WarehouseService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
+
+  getAllWarehouseList(): void {
+    this.service.getAllWarehouseList().subscribe((resp: any) => {
       this.data = resp.data;
       this.originalData = resp.data;
 
@@ -42,7 +51,7 @@ export class WarehouseListComponent {
   }
 
   ngOnInit(): void {
-    this.getWarehouseList();
+    this.getAllWarehouseList();
   }
 
   deleteLocation(_id: any) {
@@ -60,10 +69,10 @@ export class WarehouseListComponent {
   }
 
   callBackModal() {
-    this.service.deleteServiceLocationById(this.warehouseID).subscribe(resp => {
-      const message = "Service Location has been deleted"
+    this.service.deleteWarehouseById(this.warehouseID).subscribe(resp => {
+      const message = "Warehouse has been deleted"
       this.messageService.add({ severity: 'success', detail: message });
-      this.getWarehouseList();
+      this.getAllWarehouseList();
       this.showDialog = false;
 
     })

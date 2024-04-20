@@ -67,27 +67,6 @@ export class SettingsService {
     return this.http.delete(environment.apiUrl + "/ServiceLocation/deleteServiceLocationById/" + id, {});
   }
 
-// warehouse
-
-CreateWarehouse(data: {} | null) {
-  return this.http.post(environment.apiUrl + "/Warehouse/createWarehouse", data);
-}
-getWarehouseList() {
-  return this.http.get(environment.apiUrl + "/Warehouse/getWarehouseList");
-}
-
-getWarehouseById(locationId: string) {
-  return this.http.get(environment.apiUrl + "/Warehouse/getWarehouseById/" + locationId);
-}
-
-updateWarehouseById(data: {}) {
-  return this.http.put(environment.apiUrl + "/Warehouse/updateWarehouse" , data);
-}
-
-
-deleteWarehouseById(id: string) {
-  return this.http.delete(environment.apiUrl + "/Warehouse/deleteWarehouseById/" + id, {});
-}
 
   updateProviderProfileById(data: any) {
     return this.http.put(environment.apiUrl + "/ProviderProfile/updateProviderProfile/" , data);
