@@ -124,7 +124,7 @@
                                   'pattern'
                                 ) && editUserGroup.get('phoneNumber')?.touched
                               ">
-                        Please enter a valid USA number.
+                        Please enter a valid number.
                       </div>
                     </div>
                   </div>
@@ -147,7 +147,10 @@
                   </div>
 
 
-                  <div class="col-12 col-md-6 col-xl-6">
+
+
+
+                  <!-- <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="Status">Status
                         <span class="login-danger">*</span></label>
@@ -167,10 +170,10 @@
                         Input must be between 1 and 50 characters.
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
 
-                  <div class="col-12 col-md-6 col-xl-6">
+                  <!-- <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="password">Password
                         <span class="login-danger">*</span></label>
@@ -190,7 +193,7 @@
                         Input must be between 1 and 50 characters.
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
 
 
@@ -198,8 +201,8 @@
                     <div class="form-group local-forms">
                       <label for="wareHouse">Warehouse
                         <span class="login-danger">*</span></label>
-                      <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Warehouse--" [options]="cities"
-                        formControlName="wareHouse" optionLabel="name" display="chip"
+                      <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Warehouse--" [options]="wareHousedata"
+                        formControlName="wareHouse" optionLabel="name" optionValue="_id" display="chip"
                         [showClear]="true"></p-multiSelect>
                       <div *ngIf="
                                 editUserGroup.get('wareHouse')?.hasError(
@@ -224,6 +227,17 @@
                                 ) && editUserGroup.get('address')?.touched
                               " class="login-danger Font_size">
                         Input must be between 1 and 50 characters.
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="doctor-submit d-flex justify-content-between">
+                      <div class="status-toggle d-flex p-2">
+                        <p class="mb-0 me-4">Status</p>
+                        <input type="checkbox" formControlName="status" id="status_1" class="check">
+                        <label for="status_1" class="checktoggle">checkbox</label>
                       </div>
                     </div>
                   </div>

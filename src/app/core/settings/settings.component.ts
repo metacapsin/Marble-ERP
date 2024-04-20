@@ -19,7 +19,7 @@ export class SettingsComponent {
         this.routerChangeSubscription = this.router.events.subscribe(
             (event) => {
                 this.currentRoute = this.router.url
-                console.log(this.currentRoute)
+                // console.log(this.currentRoute)
             }
         )
     }

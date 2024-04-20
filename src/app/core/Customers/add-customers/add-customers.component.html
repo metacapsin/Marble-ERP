@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="page-wrapper">
   <div class="content">
     <div class="page-header">
@@ -30,7 +31,8 @@
                 <div class="d-flex m-b-10" style="justify-content: space-between">
                   <h3>Add New Customer</h3>
                   <div class="settings-btns text-end m-b-10">
-                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10" [disabled]="!addcustomerGroup.valid" >
+                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                      [disabled]="!addcustomerGroup.valid">
                       Submit
                     </button>
                     <button class="btn btn-secondary" [routerLink]="['/customers']">
@@ -159,27 +161,65 @@
                   </div>
 
 
-                  <div class="col-12 col-md-4 col-xl-4">
+                  <!-- <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="openingBalance">Opening Balance<span class="login-danger"></span></label>
                       <input class="form-control" type="number" placeholder="$ 0" formControlName="openingBalance" />
                     </div>
                     <div>
+                    </div>
+                  </div> -->
 
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="openingBalance">Opening Balance<span class="login-danger"></span></label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">$</span>
+                        </div>
+                        <input class="form-control" type="number" placeholder="0" formControlName="openingBalance" />
+                      </div>
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4">
+                  <!-- <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
                       <input class="form-control" value="30" type="number" placeholder formControlName="creditPeriod" />
                     </div>
+                  </div> -->
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">$</span>
+                        </div>
+                        <input class="form-control" type="number" placeholder formControlName="creditPeriod" />
+                      </div>
+                    </div>
                   </div>
+
+                  <!-- <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
+                      <input class="form-control" type="text" placeholder="$ 0" formControlName="creditLimit" />
+                    </div>
+                  </div> -->
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
-                      <input class="form-control" type="text" placeholder="$ 0" formControlName="creditLimit" />
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">$</span>
+                        </div>
+                        <input class="form-control" type="number" placeholder="0" formControlName="creditLimit" />
+                      </div>
                     </div>
                   </div>
 

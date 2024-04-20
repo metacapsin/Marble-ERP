@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { MatTabsModule } from "@angular/material/tabs";
 import { Validators } from "@angular/forms";
@@ -16,6 +16,7 @@ import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
 import { CheckboxModule } from "primeng/checkbox";
 import { MultiSelectModule } from "primeng/multiselect";
+import { WarehouseService } from "../../warehouse/warehouse.service";
 
 @Component({
   selector: "app-add-users",
@@ -36,17 +37,19 @@ import { MultiSelectModule } from "primeng/multiselect";
   ],
   providers: [MessageService],
 })
-export class AddUsersComponent {
+export class AddUsersComponent implements OnInit{
   public routes = routes;
   addUserGroup: UntypedFormGroup;
   public passwordClass = false;
+  wareHousedata:any = []
 
   constructor(
     private fb: UntypedFormBuilder,
     private Addusersdata: UsersdataService,
     private router: Router,
     private _snackBar: MatSnackBar,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private service: WarehouseService
   ) {
     this.addUserGroup = this.fb.group({
       name: [
@@ -75,6 +78,11 @@ export class AddUsersComponent {
       stockManagerCheckBox: [""],
       isUserLocked:['']
     });
+  }
+  ngOnInit(): void {
+    this.service.getAllWarehouseList().subscribe((resp: any) => {
+      this.wareHousedata = resp.data;
+    })
   }
 
   cities = [
@@ -117,38 +125,14 @@ export class AddUsersComponent {
 
       role: _roles,
       name: formData.name,
-      phoneNo: formData.phoneNumber,
+      phoneNumber: formData.phoneNumber,
       email: formData.email,
       status: true,
       password: formData.password,
       address: formData.address,
       isUserLocked: formData.isUserLocked,
     };
-    // set = {
-    //   warehouse: [
-    //     {
-    //       id: "jgg",
-
-    //       name: "Test Ware",
-    //     },
-    //   ],
-
-    //   role: ["admin"],
-
-    //   name: "Test Admin",
-
-    //   phoneNo: "67668",
-
-    //   email: "test@test1.com",
-
-    //   status: true,
-
-    //   password: "admin@123",
-
-    //   address: "test address",
-
-    //   isUserLocked: false,
-    // };
+   
     console.log(payload);
 
     this.Addusersdata.AddUserdata(payload).subscribe((resp: any) => {
