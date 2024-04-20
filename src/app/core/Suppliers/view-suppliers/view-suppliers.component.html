@@ -1,0 +1,87 @@
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active"><a [routerLink]="routes.suppliers">Suppliers</a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">View Suppliers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                    <div class="page-table-header mb-2 m-3" >
+                        <div class="row practice-card" *ngFor="let data of customerData">
+                            <div class="col-xl-6 col-lg-6 col-sm-12">
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Name</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">{{data.name}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Email</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">{{data.email}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone Number</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{data.phoneNumber}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Opening Balance</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{data.openingBalance}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Billing Address</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{data.billingAddress}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-sm-12">
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Credit Period</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{data.creditPeriod}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Credit Limit</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{data.creditLimit}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Balance</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{data.balance}}</p>
+                                    </div>
+                                </div>  
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Tax Number</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{data.taxNumber}}</p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>        

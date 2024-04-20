@@ -229,12 +229,12 @@ export class DataService {
             {
               menuValue: 'Customers',
               route: routes.customers,
-              base: routes.patientsList,
+              base: routes.customers,
             },
             {
               menuValue: 'Suppliers',
-              route: routes.addPatient,
-              base: routes.addPatient,
+              route: routes.suppliers,
+              base: routes.suppliers,
             },
           ],
         },
