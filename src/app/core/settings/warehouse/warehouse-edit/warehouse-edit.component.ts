@@ -81,7 +81,6 @@ export class WarehouseEditComponent {
       email: [
         "",
         [
-          Validators.required,
           Validators.pattern(
             new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
           ),
@@ -99,7 +98,6 @@ export class WarehouseEditComponent {
       phone: [
         "",
         [
-          Validators.required,
           Validators.pattern(
             new RegExp(/^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/)
           ),

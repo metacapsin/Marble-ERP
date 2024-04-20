@@ -49,7 +49,7 @@ export class WarehouseAddComponent {
       // ],
       email: [
         '',
-        [Validators.required, Validators.pattern(new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/))],
+        [ Validators.pattern(new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/))],
       ],
       showEmailOnInvoice:[],
       showPhoneOnInvoice:[],
@@ -65,7 +65,7 @@ export class WarehouseAddComponent {
       phone: [
         '',
         [
-          Validators.required,
+         
           Validators.pattern(
             new RegExp(/^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/)
           ),
