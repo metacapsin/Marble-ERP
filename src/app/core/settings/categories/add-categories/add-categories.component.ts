@@ -21,7 +21,7 @@ export class AddCategoriesComponent {
   ){
     this.addCategoryForm = this.fb.group({  
     name: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-    // CategoriesSlug: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
+    description: ['']
     })
   }
   addCategoryFormSubmit(){

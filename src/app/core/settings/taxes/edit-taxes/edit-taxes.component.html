@@ -8,7 +8,7 @@
       <form [formGroup]="editTaxesForm" (ngSubmit)="editTaxesFormSubmit()">
         <div class="row">
   
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="form-group local-forms">
               <label for="name">Tax Name <span class="login-danger">*</span></label>
               <input class="form-control" type="text" placeholder="" formControlName="name">
@@ -16,13 +16,10 @@
               <div *ngIf="editTaxesForm.get('name')?.hasError('required') && editTaxesForm.get('name')?.touched">
                 <span class="login-danger">Tax Name is reqiured</span>
               </div>
-              <div *ngIf="editTaxesForm.get('name')?.hasError('pattern') && editTaxesForm.get('name')?.touched">
-                <span class="login-danger">Input must be between 5 and 50 characters.</span>
-              </div>
             </div>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="form-group local-forms">
               <label for="name">Tax Rate <span class="login-danger">*</span></label>
               <input class="form-control" type="text" placeholder="" formControlName="taxRate">
@@ -30,13 +27,10 @@
               <div *ngIf="editTaxesForm.get('taxRate')?.hasError('required') && editTaxesForm.get('taxRate')?.touched">
                 <span class="login-danger">Tax Rate is reqiured</span>
               </div>
-              <div *ngIf="editTaxesForm.get('taxRate')?.hasError('pattern') && editTaxesForm.get('taxRate')?.touched">
-                <span class="login-danger">Input must be between 5 and 50 characters.</span>
-              </div>
             </div>
           </div>
 
-          <div class="col-md-4">
+          <!-- <div class="col-md-4">
             <div class="form-group local-forms">
               <label for="name">Tax Type <span class="login-danger">*</span></label>
               <p-dropdown [options]="taxesTypes" styleClass="" appendTo="body" optionLabel="value" optionValue="value"
@@ -47,39 +41,7 @@
                 <span class="login-danger">Tax Type is reqiured</span>
               </div>
             </div>
-          </div>
-
-          <div class="row" *ngIf="editTaxesForm.get('taxType').value === 'Multiple'" formArrayName="multipleTax" >
-            <div >
-            <div class="col-md-4">
-              <div class="form-group local-forms">
-                <label for="name">Tax Name <span class="login-danger">*</span></label>
-                <input class="form-control" type="text" placeholder="" formControlName="name">
-    
-                <div *ngIf="editTaxesForm.get('name')?.hasError('required') && editTaxesForm.get('name')?.touched">
-                  <span class="login-danger">Tax Name is reqiured</span>
-                </div>
-                <div *ngIf="editTaxesForm.get('name')?.hasError('pattern') && editTaxesForm.get('name')?.touched">
-                  <span class="login-danger">Input must be between 5 and 50 characters.</span>
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-md-4">
-              <div class="form-group local-forms">
-                <label for="name">Tax Rate <span class="login-danger">*</span></label>
-                <input class="form-control" type="text" placeholder="" formControlName="taxRate">
-    
-                <div *ngIf="editTaxesForm.get('taxRate')?.hasError('required') && editTaxesForm.get('taxRate')?.touched">
-                  <span class="login-danger">Tax Rate is reqiured</span>
-                </div>
-                <div *ngIf="editTaxesForm.get('taxRate')?.hasError('pattern') && editTaxesForm.get('taxRate')?.touched">
-                  <span class="login-danger">Input must be between 5 and 50 characters.</span>
-                </div>
-              </div>
-            </div>
-            </div>
-          </div>
+          </div> -->
 
          
   

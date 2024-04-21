@@ -24,7 +24,7 @@ export class AddSubCategoriesComponent {
     private categoryService: CategoriesService,
   ){
     this.addSubCategoryForm = this.fb.group({      
-      name: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
+      name: ['',[Validators.required]],
       categoryId: ['', [Validators.required,]],             
       description: [''],
     })

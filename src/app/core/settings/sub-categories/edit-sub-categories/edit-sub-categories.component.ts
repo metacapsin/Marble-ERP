@@ -31,22 +31,19 @@ export class EditSubCategoriesComponent {
     @Inject(MAT_DIALOG_DATA) public _id: any,
     private categoryService: CategoriesService,
   ){
-    this.editSubCategoryForm = this.fb.group({ 
-      // subCategoriesSlug: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-      name: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
+    this.editSubCategoryForm = this.fb.group({
+      name: ['',[Validators.required]],
       categoryId: ['', [Validators.required,]],             
       description: [''],
     })
   }
 
   ngOnInit(): void {
-
     this.service.getSubCategoriesById(this._id).subscribe((resp: any) => {
       this.subCategoryDataById = resp.data;
       
       this.FillData(this.subCategoryDataById)
     });
-
     
     this.categoryService.getCategories().subscribe((resp: any) => {
       this.categoriesListData = resp.data;

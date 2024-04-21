@@ -23,8 +23,9 @@ export class EditCategoriesComponent {
     @Inject(MAT_DIALOG_DATA) public _id: any,
   ){
     this.editCategoryForm = this.fb.group({       
-    name: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-    // CategoriesSlug: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
+    name: ['',[Validators.required]],
+    description: ['']
+
     })
   }
 
@@ -39,7 +40,8 @@ export class EditCategoriesComponent {
 
   fillFormValues(data){
     this.editCategoryForm.patchValue({
-      name: data.name
+      name: data.name,
+      description: data.description
     })
   }
 

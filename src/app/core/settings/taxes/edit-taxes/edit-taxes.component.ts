@@ -15,10 +15,10 @@ import { TaxesService } from '../taxes.service';
 export class EditTaxesComponent {
 
   editTaxesForm!:FormGroup;
-  taxesTypes =[
-    {value:"Single"},
-    {value:"Multiple"}
-  ]
+  // taxesTypes =[
+  //   {value:"Single"},
+  //   {value:"Multiple"}
+  // ]
   taxDataById = []
   constructor(private fb: FormBuilder,
     public dialog: MatDialog,
@@ -30,23 +30,24 @@ export class EditTaxesComponent {
       name: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
       taxType: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
       taxRate: ['', [Validators.required,]],
-      multipleTax: this.fb.array([]),
+      // multipleTax: this.fb.array([]),
     })
   }
 
-  get multipleTax() {
-    return this.editTaxesForm.controls['multipleTax'] as FormArray;
-  }
-  deletesalesItemDetails(multipleTaxDetails: number) {
-    this.multipleTax.removeAt(multipleTaxDetails);
-  }
-  addsalesItemDetailsItem() {
-    const item = this.fb.group({
-      name: [''],
-      taxRate: ['']
-    });
-    this.multipleTax.push(item);
-  }
+  // get multipleTax() {
+  //   return this.editTaxesForm.controls['multipleTax'] as FormArray;
+  // }
+  // deletesalesItemDetails(multipleTaxDetails: number) {
+  //   this.multipleTax.removeAt(multipleTaxDetails);
+  // }
+  // addsalesItemDetailsItem() {
+  //   const item = this.fb.group({
+  //     name: ['', [Validators.required]],
+  //     taxRate: ['', [Validators.required]],
+  //     taxType: ['Single', [Validators.required]]
+  //   });
+  //   this.multipleTax.push(item);
+  // }
 
   ngOnInit(): void {
 
@@ -69,6 +70,8 @@ export class EditTaxesComponent {
   editTaxesFormSubmit(){
     if (this.editTaxesForm.valid) {
       this.dialogRef.close(this.editTaxesForm.value);
+      console.log(this.editTaxesForm.value);
+      
     } else {
       console.log("Form is invalid!");
     }

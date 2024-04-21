@@ -17,26 +17,9 @@
                             *ngIf="editSubCategoryForm.get('name')?.hasError('required') && editSubCategoryForm.get('name')?.touched">
                             <span class="login-danger">Name is reqiured</span>
                         </div>
-                        <div
-                            *ngIf="editSubCategoryForm.get('name')?.hasError('pattern') && editSubCategoryForm.get('name')?.touched">
-                            <span class="login-danger">Input must be between 5 and 50 characters.</span>
-                        </div>
+
                     </div>
                 </div>
-                <!-- 
-                <div class="col-md-6">
-                    <div class="form-group local-forms">
-                        <label for="name">Slug <span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder="" formControlName="subCategoriesSlug">
-
-                        <div *ngIf="editSubCategoryForm.get('subCategoriesSlug')?.hasError('required') && editSubCategoryForm.get('subCategoriesSlug')?.touched">
-                            <span class="login-danger">Slug is reqiured</span>
-                          </div>
-                          <div *ngIf="editSubCategoryForm.get('subCategoriesSlug')?.hasError('pattern') && editSubCategoryForm.get('subCategoriesSlug')?.touched">
-                            <span class="login-danger">Input must be between 5 and 50 characters.</span>
-                          </div>
-                    </div>
-                </div> -->
 
                 <div class="col-md-6">
                     <div class="form-group local-forms">
