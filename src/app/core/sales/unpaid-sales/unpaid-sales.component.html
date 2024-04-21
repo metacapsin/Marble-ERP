@@ -37,8 +37,8 @@
           <div class="col-md-3">
             <div class="form-group local-forms">
               <label for="">Customer</label>
-              <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--" [options]="CustomerList"
-                optionLabel="customerName" optionValue="customerName" display="chip" [showClear]="true">
+              <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--" [options]="customerList"
+                optionLabel="name" optionValue="name" display="chip" [showClear]="true">
               </p-dropdown>
             </div>
           </div>
@@ -202,7 +202,7 @@
                                                 class="fa-solid fa-user-plus"></i></a> -->
                     <p-button [text]="true" data-bs-toggle="modal" data-bs-target="#invoices_preview"
                       icon="fa-solid fa-eye"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-edit"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-edit" [routerLink]="routes.editSales"></p-button>
 
                     <!-- <a class="p-2 border-1 border" href=""><i
                                                 class="fa-solid fa-pen-to-square"></i></a> -->

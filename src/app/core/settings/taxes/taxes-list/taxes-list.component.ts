@@ -1,13 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableModule } from '@angular/material/table';
 import {  RouterModule } from '@angular/router';
 import { MessageService, SharedModule } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { routes } from 'src/app/shared/routes/routes';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from 'src/app/common-component/modals/confirm-dialog/confirm-dialog.component';
@@ -23,9 +20,7 @@ import { TaxesService } from '../taxes.service';
   styleUrl: './taxes-list.component.scss',
   
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, SharedModule, TableModule, CommonModule,
-    SharedModule, RouterModule, ButtonModule, FormsModule, ConfirmDialogComponent, ShowHideDirective, ToastModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [ SharedModule, TableModule, CommonModule,SharedModule, RouterModule, ButtonModule, FormsModule, ConfirmDialogComponent, ShowHideDirective, ToastModule],
   providers: [MessageService]
 })
 export class TaxesListComponent {
@@ -37,7 +32,6 @@ export class TaxesListComponent {
   showDialog = false;
   modalData: any = {};
   taxID: any;
-
   taxesListData = [];
 
   constructor(public dialog: MatDialog,
@@ -89,14 +83,13 @@ export class TaxesListComponent {
   getTaxesList(){
     this.service.getAllTaxList().subscribe((resp:any)=>{
       this.taxesListData = resp.data
+      this.originalData = resp.data;
     })
   }
 
   ngOnInit(): void{
     this.getTaxesList()
   }
-
-
 
   deletetaxes(Id: any) {
     this.taxID = Id;
@@ -114,7 +107,7 @@ export class TaxesListComponent {
 
   callBackModal() {
     this.service.deleteTaxById(this.taxID).subscribe(resp => {
-      const message = "Visit Reason  has been deleted"
+      const message = "Tax Details has been deleted"
       this.messageService.add({ severity: 'success', detail: message });
       this.getTaxesList();
       this.showDialog = false;

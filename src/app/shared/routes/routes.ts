@@ -512,6 +512,9 @@ export class routes {
   public static get addSales(): string {
     return this.baseUrl + '/sales/add-sales';
   }
+  public static get editSales(): string {
+    return this.baseUrl + '/sales/edit-sales';
+  }
   public static get paidSales(): string {
     return this.baseUrl + '/sales/paid-sales';
   }

@@ -4,6 +4,7 @@ import { SalesComponent } from './sales.component';
 import { AddsalesComponent } from './addsales/addsales.component';
 import { PaidSalesComponent } from './paid-sales/paid-sales.component';
 import { UnpaidSalesComponent } from './unpaid-sales/unpaid-sales.component';
+import { EditSalsComponent } from './edit-sals/edit-sals.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'add-sales',
     component: AddsalesComponent,
+  },
+  {
+    path: 'edit-sales',
+    component: EditSalsComponent,
   },
   {
     path: 'paid-sales',
