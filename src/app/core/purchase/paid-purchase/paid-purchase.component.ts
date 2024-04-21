@@ -10,16 +10,29 @@ import { pageSelection, apiResultFormat, allInvoice } from 'src/app/shared/model
 import { routes } from "src/app/shared/routes/routes";
 
 @Component({
-  selector: 'app-unpaid-sales',
-  templateUrl: './unpaid-sales.component.html',
-  styleUrl: './unpaid-sales.component.scss',
+  selector: 'app-paid-purchase',
   standalone: true,
-  imports:[CommonModule, SharedModule, DropdownModule, CalendarModule]
+  imports:[CommonModule, SharedModule, DropdownModule, CalendarModule],
+  templateUrl: './paid-purchase.component.html',
+  styleUrl: './paid-purchase.component.scss'
 })
-export class UnpaidSalesComponent   implements OnInit{
+export class PaidPurchaseComponent {
   public routes = routes;
   public checkboxes: string[] = [];
 
+  customerData = [
+    {
+      name: "Supplier 1",
+      email: "Supplier@gmail.com",
+      phoneNumber: "234324",
+      openingBalance: "50.00",
+      billingAddress: "Supplier Billing Address",
+      creditPeriod: "30 day(s)",
+      creditLimit: "20.00",
+      balance: "300.00",
+      taxNumber: "12389524",
+    },
+  ];
   public allInvoice: Array<allInvoice> = [];
   dataSource!: MatTableDataSource<allInvoice>;
 
@@ -49,12 +62,6 @@ export class UnpaidSalesComponent   implements OnInit{
     }
   ];
 
-  CustomerList=[
-    {customerName:"Adnan"},
-    {customerName:"Nadim"},
-    {customerName:"Kavya"},
-  ];
-
   salesItem=[
     {salesProduct:"Electronic",
       salesQuantity:"3",
@@ -64,18 +71,10 @@ export class UnpaidSalesComponent   implements OnInit{
       salesSubTotal:"350"
     },
   ]
-  customerData = [
-    {
-      name: "Supplier 1",
-      email: "Supplier@gmail.com",
-      phoneNumber: "234324",
-      openingBalance: "50.00",
-      billingAddress: "Supplier Billing Address",
-      creditPeriod: "30 day(s)",
-      creditLimit: "20.00",
-      balance: "300.00",
-      taxNumber: "12389524",
-    },
+  CustomerList=[
+    {customerName:"Adnan"},
+    {customerName:"Nadim"},
+    {customerName:"Kavya"},
   ];
 
   constructor(public data : DataService){
@@ -182,4 +181,3 @@ export class UnpaidSalesComponent   implements OnInit{
     }
   }
 }
-

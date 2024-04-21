@@ -10,13 +10,13 @@ import { pageSelection, apiResultFormat, allInvoice } from 'src/app/shared/model
 import { routes } from "src/app/shared/routes/routes";
 
 @Component({
-  selector: 'app-unpaid-sales',
-  templateUrl: './unpaid-sales.component.html',
-  styleUrl: './unpaid-sales.component.scss',
+  selector: 'app-purchase',
   standalone: true,
-  imports:[CommonModule, SharedModule, DropdownModule, CalendarModule]
+  imports: [CommonModule,SharedModule,  DropdownModule,CalendarModule ],
+  templateUrl: './purchase.component.html',
+  styleUrl: './purchase.component.scss'
 })
-export class UnpaidSalesComponent   implements OnInit{
+export class PurchaseComponent {
   public routes = routes;
   public checkboxes: string[] = [];
 
@@ -53,29 +53,6 @@ export class UnpaidSalesComponent   implements OnInit{
     {customerName:"Adnan"},
     {customerName:"Nadim"},
     {customerName:"Kavya"},
-  ];
-
-  salesItem=[
-    {salesProduct:"Electronic",
-      salesQuantity:"3",
-      salesUnitPrice:"120",
-      salesDiscount:"20",
-      salesTax:"10",
-      salesSubTotal:"350"
-    },
-  ]
-  customerData = [
-    {
-      name: "Supplier 1",
-      email: "Supplier@gmail.com",
-      phoneNumber: "234324",
-      openingBalance: "50.00",
-      billingAddress: "Supplier Billing Address",
-      creditPeriod: "30 day(s)",
-      creditLimit: "20.00",
-      balance: "300.00",
-      taxNumber: "12389524",
-    },
   ];
 
   constructor(public data : DataService){
@@ -182,4 +159,3 @@ export class UnpaidSalesComponent   implements OnInit{
     }
   }
 }
-
