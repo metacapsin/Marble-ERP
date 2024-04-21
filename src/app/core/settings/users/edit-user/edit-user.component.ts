@@ -92,7 +92,7 @@ export class EditUserComponent implements OnInit {
       email: ["", [Validators.required, Validators.email]],
       status: ["", [Validators.pattern(new RegExp(/^.{1,50}$/))]],
       address: ["", [Validators.pattern(new RegExp(/^.{1,50}$/))]],
-      wareHouse:['',[Validators.required]],
+      wareHouse:[''],
       adminCheckBox: [""],
       SalesmanCheckBox: [""],
       stockManagerCheckBox: [""],
@@ -101,7 +101,7 @@ export class EditUserComponent implements OnInit {
   patchForm() {
     this.editUserGroup.patchValue({
       name: this.EditUserData[0].name,
-      phoneNo: this.EditUserData[0].phoneNumber,
+      phoneNumber: this.EditUserData[0].phoneNumber,
       email: this.EditUserData[0].email,
       status: this.EditUserData[0].status,
       address: this.EditUserData[0].address,

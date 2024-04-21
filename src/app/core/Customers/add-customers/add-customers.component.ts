@@ -54,14 +54,11 @@ export class AddCustomersComponent {
   addcustomerForm() {
     console.log(this.addcustomerGroup.value);
     const payload = {
-      warehouse: {
-        _id: "jgg",
-        name: this.addcustomerGroup.value.wareHouse.name,
-      },
-      // name: this.addcustomerGroup.value.name,
+      warehouse: this.addcustomerGroup.value.wareHouse,//req
+      name: this.addcustomerGroup.value.name,//req
+      email: this.addcustomerGroup.value.email,//req
+      status: this.addcustomerGroup.value.status.name,//req
       phoneNo: this.addcustomerGroup.value.phoneNumber,
-      email: this.addcustomerGroup.value.email,
-      status: this.addcustomerGroup.value.status.name,
       taxNo: this.addcustomerGroup.value.taxNumber,
       creaditPeriod: this.addcustomerGroup.value.creditPeriod,
       creaditLimit: this.addcustomerGroup.value.creditLimit,
