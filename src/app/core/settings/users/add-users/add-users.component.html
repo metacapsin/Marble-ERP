@@ -180,7 +180,7 @@
                       <label for="wareHouse">Warehouse
                         <span class="login-danger">*</span></label>
                         <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Warehouse--" [options]="wareHousedata"
-                        formControlName="wareHouse" optionLabel="name" optionValue="_id" display="chip"
+                        formControlName="wareHouse" optionLabel="name" optionValue="name" display="chip"
                         [showClear]="true"></p-multiSelect>
                         <div *ngIf="
                         addUserGroup.get('wareHouse')?.hasError(
@@ -211,7 +211,7 @@
                                   'pattern'
                                 ) && addUserGroup.get('address')?.touched
                               " class="login-danger Font_size">
-                        Input must be between 2 and 50 characters.
+                        Input must be between 2 an  d 50 characters.
                       </div>
                     </div>
                   </div>

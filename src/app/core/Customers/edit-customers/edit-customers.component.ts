@@ -76,7 +76,7 @@ export class EditCustomersComponent {
   }
   patchForm() {
     this.editCustomerGroup.patchValue({
-      wareHouse: this.customerData.warehouse.name,
+      wareHouse: this.customerData.warehouse,
       name: this.customerData.name,
       phoneNumber: this.customerData.phoneNo,
       email: this.customerData.email,
