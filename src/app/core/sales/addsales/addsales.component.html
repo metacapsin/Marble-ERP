@@ -1,7 +1,27 @@
 <div class="page-wrapper">
-    <div class="content container-fluid">
+    <div class="content ">
 
         <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="routes.allInvoice">Dashboard </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Sales List</li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Sales Add</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div class="page-header invoices-page-header">
             <div class="row align-items-center">
                 <div class="col">
@@ -21,7 +41,7 @@
             <div class="col-md-12">
                 <div class="card invoices-add-card">
                     <div class="card-body">
-                        <form [formGroup]="addSalesForm" (ngSubmit)="addSalesFormSubmit()" class="invoices-form">
+                        <form [formGroup]="addSalesForm" (ngSubmit)="addSalesFormSubmit()" >
                             <div class="invoices-main-form">
                                 <div class="row">
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -34,8 +54,8 @@
                                         <div class="form-group local-forms">
                                             <label for="salesCustomerName">Customer Name</label>
                                             <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Customer--"
-                                                [options]="CustomerList" formControlName="salesCustomerName"
-                                                optionLabel="customerName" optionValue="customerName" display="chip"
+                                                [options]="customerList" formControlName="salesCustomerName"
+                                                optionLabel="name" optionValue="name" display="chip"
                                                 [showClear]="true"></p-multiSelect>
                                         </div>
                                     </div>
@@ -61,8 +81,8 @@
                                                 <th>Products</th>
                                                 <th>Quantity</th>
                                                 <th>Unit Price</th>
-                                                <th>Discount</th>
-                                                <th>Tax</th>
+                                                <!-- <th>Discount</th> -->
+                                                <!-- <th>Tax</th> -->
                                                 <th>Sub Total</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -78,19 +98,19 @@
                                                     </p-dropdown>
                                                 </td>
                                                 <td>
-                                                    <input type="number" formControlName="salesItemQuantity" class="form-control">
+                                                    <input type="number" formControlName="salesItemQuantity" (change)="calculateTotalAmount()" class="form-control">
                                                 </td>
                                                 <td>
-                                                    <input type="number" formControlName="salesItemUnitPrice" class="form-control">
+                                                    <input type="number" formControlName="salesItemUnitPrice" (change)="calculateTotalAmount()" class="form-control">
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <input type="number" formControlName="salesItemDiscount" class="form-control">
                                                 </td>
                                                 <td>
                                                     <input type="text" formControlName="salesItemTax" class="form-control">
-                                                </td>
+                                                </td> -->
                                                 <td>
-                                                    <input type="number" formControlName="salesItemSubTotal" class="form-control">
+                                                    <input type="number" formControlName="salesItemSubTotal" (change)="calculateTotalAmount()" class="form-control">
                                                 </td>
                                                 <td class="add-remove text-end">
                                                     <p-button [text]=" true" icon="fa fa-plus"
@@ -176,9 +196,9 @@
                                                     <div class="form-group local-forms">
                                                         <label for="salesOrderTax">Order Tax</label>
                                                         <p-dropdown [options]="orderTaxList" styleClass="" appendTo="body"
-                                                        optionLabel="orderTax" optionValue="orderTax"
+                                                        optionLabel="orderTaxName" optionValue="taxRate"
                                                         placeholder="Select  Tax" [style]="{'width':'100%'}"
-                                                        formControlName="salesOrderTax"
+                                                        formControlName="salesOrderTax" (change)="calculateTotalAmount()"
                                                         [filter]="true" filterBy="value" [showClear]="true">
                                                     </p-dropdown>
                                                     </div>
@@ -186,26 +206,33 @@
                                                 <div class="col-md-6 ml-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesDiscount">Discount </label>
-                                                        <input class="form-control" formControlName="salesDiscount" type="text" placeholder="">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                              <span class="input-group-text">₹</span>
+                                                            </div>
+                                                            <input class="form-control" (change)="calculateTotalAmount()" formControlName="salesDiscount" type="text" placeholder="">
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 ml-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesShipping">Shipping</label>
-                                                        <input class="form-control" formControlName="salesShipping" type="text" placeholder="">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                              <span class="input-group-text">₹</span>
+                                                            </div>
+                                                            <input class="form-control" (change)="calculateTotalAmount()" formControlName="salesShipping" type="text" placeholder="">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="invoice-total-inner">
-                                                <p>Order Tax <span>$21</span></p>
+                                                <p>Order Tax <span>₹ {{ addSalesForm.get('salesOrderTax').value | number: '1.2-2' }}</span></p>
                                                 <p>Discount<span>₹ {{ addSalesForm.get('salesDiscount').value | number: '1.2-2' }}</span></p>
                                                 <p>Shipping<span>₹ {{ addSalesForm.get('salesShipping').value | number: '1.2-2' }}</span></p>
                                             </div>
 
-                                            <!-- <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>$ 894.00</span></h4>
-                                            </div> -->
                                             <div class="invoice-total-footer">
                                                 <h4>Total Amount <span>₹ {{ addSalesForm.get('salesTotalAmount').value | number: '1.2-2' }}</span></h4>
                                             </div>

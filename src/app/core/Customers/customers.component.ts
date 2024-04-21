@@ -15,6 +15,7 @@ import { CustomersdataService } from "./customers.service";
 export class CustomersComponent {
   items: MenuItem[] = [];
   public dataSource: any = []
+  public originalData: any = []
   settingCategory = "";
   routes = routes;
   currentRoute!: string;
@@ -36,14 +37,15 @@ export class CustomersComponent {
   getCoustomers(){
     this.Service.GetCustomerData().subscribe((data) => {
       this.dataSource = data
+      this.originalData = data
     })
   }
   goToEditPage(value: any) {
     this.router.navigate(["/customers/add-customers/" + value]);
   }
   public searchData(value: any): void {
-    this.dataSource = this.dataSource.map((i) => {
-      if (i.firstName.toLowerCase().includes(value.trim().toLowerCase())) {
+    this.dataSource = this.originalData.map((i) => {
+      if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
         return i;
       }
     });

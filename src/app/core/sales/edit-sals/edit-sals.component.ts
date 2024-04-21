@@ -12,15 +12,15 @@ import { TaxesService } from '../../settings/taxes/taxes.service';
 import { debounceTime } from 'rxjs';
 import { CustomersdataService } from '../../Customers/customers.service';
 @Component({
-  selector: 'app-addsales',
+  selector: 'app-edit-sals',
   standalone: true,
   imports: [CommonModule,SharedModule, MultiSelectModule, DropdownModule,CalendarModule ],
-  templateUrl: './addsales.component.html',
-  styleUrl: './addsales.component.scss'
+  templateUrl: './edit-sals.component.html',
+  styleUrl: './edit-sals.component.scss'
 })
-export class AddsalesComponent {
+export class EditSalsComponent {
   
-  addSalesForm!: FormGroup;
+  editSalesForm!: FormGroup;
 public routes = routes;
 customerList=[];
 productsList=[
@@ -37,26 +37,17 @@ orderStatusList=[
 ];
 orderTaxList= []
 taxesListData = [];
-// public checkboxes: string[] = [];
 public itemDetails:  number[] = [0];
 public chargesArray: number[]= [0];
 public recurringInvoice   = false;
 public selectedValue! : string  ;
-date = new FormControl(new Date());
 
-// public openCheckBoxes(val: string) {
-//   if (this.checkboxes[0] != val) {
-//     this.checkboxes[0] = val;
-//   } else {
-//     this.checkboxes = [];
-//   }
-// }
 constructor(
   private customerService: CustomersdataService,
   private taxService: TaxesService,
 private fb: FormBuilder,
     ) {
-      this.addSalesForm = this.fb.group({
+      this.editSalesForm = this.fb.group({
         salesInvoiceNumber: [''],
         salesCustomerName: [''],
         salesDate: [''],
@@ -79,7 +70,7 @@ private fb: FormBuilder,
   }
 
   get salesItemDetails() {
-    return this.addSalesForm.controls['salesItemDetails'] as FormArray;
+    return this.editSalesForm.controls['salesItemDetails'] as FormArray;
   }
   deletesalesItemDetails(salesItemDetailsIndex: number) {
     this.salesItemDetails.removeAt(salesItemDetailsIndex);
@@ -95,23 +86,10 @@ private fb: FormBuilder,
   }
 
   ngOnInit(): void {
-    // const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
-    // salesItems.controls.forEach((item: FormGroup) => {
-    //   const salesItemQuantityControl = item.get('salesItemQuantity');
-  
-    //   salesItemQuantityControl.valueChanges
-    //     .subscribe(() => {
-    //       this.calculateTotalAmount();
-    //     });
-    // });
-    // const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
-    // salesItems.valueChanges.subscribe((any:void) => this.calculateTotalAmount());
-    // this.addSalesForm.get('salesDiscount').valueChanges.subscribe(() => this.calculateTotalAmount())
 
     this.taxService.getAllTaxList().subscribe((resp:any) => {
       this.taxesListData = resp.data;
     
-      // console.log(this.taxesListData); 
       this.orderTaxList = [];
       for (const obj of this.taxesListData) {
         this.orderTaxList.push({
@@ -120,8 +98,6 @@ private fb: FormBuilder,
           orderTaxName: obj.name +  ' (' + obj.taxRate + '%'+')',
         });
       }
-    
-      // console.log(this.orderTaxList);
     });
 
     this.customerService.GetCustomerData().subscribe((resp:any) => {
@@ -133,46 +109,15 @@ private fb: FormBuilder,
 
   }
   
-  // calculateTotalAmount() {
-  //   console.log("Enter in caltotal");
-  //   let totalAmount = 0;
-  //   let shipping = 0;
-  //   let Discount = 0;
-  //   let orderTax = 0;
-  //   let addtaxTotal = 0; 
-  //   const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
-    
-  //   salesItems.controls.forEach((item: FormGroup) => {
-  //     const quantity = +item.get('salesItemQuantity').value;
-  //     const unitPrice = +item.get('salesItemUnitPrice').value;
-  //     const subtotal = (quantity * unitPrice);
-
-  //     shipping = +this.addSalesForm.get('salesShipping').value;
-  //     Discount = +this.addSalesForm.get('salesDiscount').value;
-  //     orderTax = +this.addSalesForm.get('salesOrderTax').value;
-  //     totalAmount += ((shipping + subtotal) - Discount);
-  //     addtaxTotal += totalAmount * orderTax/100;
-  //     totalAmount += addtaxTotal;
-  
-  //     item.get('salesItemSubTotal').setValue(subtotal.toFixed(2)); 
-  //   });
-  
-  //   this.addSalesForm.patchValue({
-
-  //     salesDiscount: Discount.toFixed(2),
-  //     salesShipping: shipping.toFixed(2),
-  //     salesTotalAmount: totalAmount.toFixed(2)
-  //   });
-  // }
 
   calculateTotalAmount() {
     console.log("Enter in caltotal");
     let totalAmount = 0;
-    let shipping = +this.addSalesForm.get('salesShipping').value;
-    let Discount = +this.addSalesForm.get('salesDiscount').value;
-    let orderTax = +this.addSalesForm.get('salesOrderTax').value;
+    let shipping = +this.editSalesForm.get('salesShipping').value;
+    let Discount = +this.editSalesForm.get('salesDiscount').value;
+    let orderTax = +this.editSalesForm.get('salesOrderTax').value;
   
-    const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
+    const salesItems = this.editSalesForm.get('salesItemDetails') as FormArray;
     
     salesItems.controls.forEach((item: FormGroup) => {
       const quantity = +item.get('salesItemQuantity').value || 0;
@@ -187,44 +132,16 @@ private fb: FormBuilder,
     totalAmount += addTaxTotal;
     totalAmount += shipping - Discount;
     
-    this.addSalesForm.patchValue({
+    this.editSalesForm.patchValue({
       salesDiscount: Discount.toFixed(2),
       salesShipping: shipping.toFixed(2),
       salesTotalAmount: totalAmount.toFixed(2)
     });
   }
-  
-  
-  
-
-
-// addItem() {
-//   this.itemDetails.push(0);
-// }
-// deleteItem(index:number){
-//   this.itemDetails.splice(index,1)
-// }
-// addCharges(){
-//   this.chargesArray.push(1)
-// }
-// deleteCharges(index:number){
-//   this.chargesArray.splice(index, 1)
-// }
-// recurringInvoiceFunc(){
-//   this.recurringInvoice = !this.recurringInvoice
-// }
-// selecedList: data[] = [
-//   {value: 'By month'},
-//   {value: 'March'},
-//   {value: 'April'},
-//   {value: 'May'},
-//   {value: 'June'},
-//   {value: 'July'}
-// ];
-addSalesFormSubmit(){
-if(this.addSalesForm.valid){
+  editSalesFormSubmit(){
+if(this.editSalesForm.valid){
   console.log("valid form");
-  console.log(this.addSalesForm.value);
+  console.log(this.editSalesForm.value);
 }
 else{
   console.log("invalid form");

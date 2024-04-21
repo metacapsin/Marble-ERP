@@ -142,11 +142,11 @@ export class SubCategoriesListComponent  {
 
 
   public searchData(value: any): void {
-    // this.CategoryData = this.originalData.map(i => {
-    //   if (i.CategoriesName.toLowerCase().includes(value.trim().toLowerCase())) {
-    //     return i;
-    //   }
-    // });
+    this.subCategoriesListData = this.originalData.map(i => {
+      if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
+        return i;
+      }
+    });
   }
 
 }

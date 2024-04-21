@@ -28,7 +28,7 @@ export class ListUsersComponent implements  OnInit {
   usersApiData: any;
   searchDataValue="";
   selectedProducts = [];
-   originalData:any = []
+  originalData:any = []
    
    constructor(
      private userDataService: UsersdataService,
@@ -63,7 +63,7 @@ export class ListUsersComponent implements  OnInit {
 
   public searchData(value: any): void {
     this.dataSource = this.originalData.map(i => {
-        if(i.firstName.toLowerCase().includes(value.trim().toLowerCase())){
+        if(i.name.toLowerCase().includes(value.trim().toLowerCase())){
           return i;
         }
     });
