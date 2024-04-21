@@ -1,28 +1,36 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
+import { CustomersdataService } from "../customers.service";
 
 @Component({
   selector: "app-view-customers",
   standalone: true,
-  imports: [RouterModule,CommonModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: "./view-customers.component.html",
   styleUrl: "./view-customers.component.scss",
 })
 export class ViewCustomersComponent {
   routes = routes;
-  customerData = [
-    {
-      name: "Supplier 1",
-      email: "Supplier@gmail.com",
-      phoneNumber: "234324",
-      openingBalance: "50.00",
-      billingAddress: "Supplier Billing Address",
-      creditPeriod: "30 day(s)",
-      creditLimit: "20.00",
-      balance: "300.00",
-      taxNumber: "12389524",
-    },
-  ];
+  customerData: any[] = [];
+  id: any;
+  // this.socialLinks = this._data.socialLinks;
+
+  constructor(
+    private Service: CustomersdataService,
+    private activeRoute: ActivatedRoute
+  ) {
+    this.id = this.activeRoute.snapshot.params["id"];
+  }
+
+  ngOnInit() {
+    this.getCoustomers();
+  }
+  getCoustomers() {
+    this.Service.GetCustomerDataById(this.id).subscribe((data: any) => {
+      console.log(data);
+      this.customerData = [data];
+    });
+  }
 }

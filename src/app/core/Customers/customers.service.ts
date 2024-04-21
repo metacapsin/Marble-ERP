@@ -15,13 +15,14 @@ export class CustomersdataService {
   AddCustomerdata(data: any) {
     return this.http.post(environment.apiUrl + '/Customer/createCustomer', data);
   }
-
-
+  GetCustomerDataById(id: any) {
+    return this.http.get(environment.apiUrl + `/Customer/getCustomerById/${id}`);
+  }
 
   UpDataCustomerApi(data: any) {
-    return this.http.put(environment.apiUrl + '/Users/updateUser', data);
+    return this.http.put(environment.apiUrl + `/Customer/updateCustomer`, data);
   }
-  DeleteCustomerApi(){
-    return this.http.delete(environment.apiUrl);
+  DeleteCustomerApi(id: any){
+    return this.http.delete(environment.apiUrl + `/Customer/deleteCustomer/${id}`);
   }
 }

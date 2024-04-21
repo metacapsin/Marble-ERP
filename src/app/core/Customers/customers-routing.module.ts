@@ -10,9 +10,9 @@ const routes: Routes = [
   component: CustomersComponent,},
   {path: 'add-customers',
   component: AddCustomersComponent,},
-  {path: 'edit-customers',
+  {path: 'edit-customers/:id',
   component: EditCustomersComponent,},
-  {path: 'view-customers',
+  {path: 'view-customers/:id',
   component: ViewCustomersComponent,},
   // {
   //   path: '',

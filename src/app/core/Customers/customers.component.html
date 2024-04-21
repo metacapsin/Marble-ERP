@@ -1,4 +1,5 @@
 <router-outlet></router-outlet>
+<p-toast></p-toast>
 <div class="page-wrapper">
     <div class="content">
         <div class="page-header">
@@ -78,22 +79,29 @@
                                     <td appShowHide [roles]="['admin', 'super-admin']">
                                         <p-tableCheckbox [value]="product"></p-tableCheckbox>
                                     </td>
-                                    <td class="bold">{{product.firstName}} {{product.lastName}}</td>
-                                    <td>{{product.email}}</td>
-
+                                    <td class="bold">{{product.name}}</td>
+                                    <td class="bold">{{product.email}}</td>
                                     <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Active"></p-tag>
                                     </td>
                                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag>
                                     </td>
-                                    <td>{{product.createdAt}}</td>
-                                    <td>{{product.Balance}}</td>
-
+                                    <td>{{product.createdOn}}</td>
+                                    <td>{{product.openingBalance}}</td>
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                                        <a class="p-2 border-1 border" [routerLink]="['/customers/view-customers']" href=""><i class="fa-solid fa-eye"></i></a>
-                                        <a class="p-2 border-1 border" href="" [routerLink]="['/customers/edit-customers']"><i
+                                        <!-- <a class="p-2 border-1 border" style="cursor: pointer;" (click)="vewCustomer(product._id)"><i class="fa-solid fa-eye"></i></a>
+
+                                        <a class="p-2 border-1 border" style="cursor: pointer;" (click)="editCustomer(product._id)"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
-                                        <a class="p-2 border-1 border" href=""><i class="fa-solid fa-trash"></i></a>
-                                  </td>
+                                        <a class="p-2 border-1 border" style="cursor: pointer;" (click)="deleteCustomer(product._id)"><i class="fa-solid fa-trash"></i></a> -->
+
+                                        <p-button [text]=" true" icon="fa fa-eye"
+                                            (click)="vewCustomer(product._id)"></p-button>
+                                        <p-button [text]="true" icon="fa fa-edit"
+                                            (click)="editCustomer(product._id)"></p-button>
+                                        <p-button [text]=" true" icon="fa fa-trash"
+                                            (click)="deleteCustomer(product._id)"></p-button>
+
+                                    </td>
                                 </tr>
                             </ng-template>
                         </p-table>
@@ -103,3 +111,7 @@
         </div>
     </div>
 </div>
+
+
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>

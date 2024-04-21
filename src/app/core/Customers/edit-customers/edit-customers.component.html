@@ -1,135 +1,138 @@
+<p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-      <div class="page-header">
-        <div class="row">
-          <div class="col-sm-12">
-            <ul class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a [routerLink]="routes.adminDashboard">Dashboard </a>
-              </li>
-              <li class="breadcrumb-item">
-                <i class="feather icon-chevron-right"></i>
-              </li>
-              <li class="breadcrumb-item active">
-                <a [routerLink]="routes.customers">Customers</a>
-              </li>
-              <li class="breadcrumb-item">
-                <i class="feather icon-chevron-right"></i>
-              </li>
-              <li class="breadcrumb-item active">Edit Customers</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+  <div class="content">
+    <div class="page-header">
       <div class="row">
         <div class="col-sm-12">
-          <div class="card card-table show-entire">
-            <div class="card-body p-3">
-              <form [formGroup]="editCustomerGroup" (ngSubmit)="editCustomerForm()">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">
+              <a [routerLink]="routes.customers">Customers</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Edit Customers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body p-3">
+            <form [formGroup]="editCustomerGroup" (ngSubmit)="editCustomerForm()">
+              <div class="row">
+                <div class="d-flex m-b-10" style="justify-content: space-between">
+                  <h3>Edit New Customer</h3>
+                  <div class="settings-btns text-end m-b-10">
+                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                      [disabled]="!editCustomerGroup.valid">
+                      Submit
+                    </button>
+                    <button class="btn btn-secondary" [routerLink]="['/customers']">
+                      <a class="text-white"></a>Cancel
+                    </button>
+                  </div>
+                </div>
+
                 <div class="row">
-                  <div class="d-flex m-b-10" style="justify-content: space-between">
-                    <h3>Edit New Customer</h3>
-                    <div class="settings-btns text-end m-b-10">
-                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10" [disabled]="!editCustomerGroup.valid" >
-                        Submit
-                      </button>
-                      <button class="btn btn-secondary" [routerLink]="['/customers']">
-                        <a class="text-white"></a>Cancel
-                      </button>
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="wareHouse">Warehouse
+                        <span class="login-danger"></span></label>
+                      <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Warehouse--"
+                        [options]="wareHousedata" formControlName="wareHouse" optionLabel="name" optionValue="_id"
+                        display="chip" [showClear]="true"></p-multiSelect>
+                      <!-- <div *ngIf="
+                                  editUserGroup.get('wareHouse')?.hasError(
+                                    'reqiured'
+                                  ) && editUserGroup.get('wareHouse')?.touched
+                                " class="login-danger Font_size">
+                          Warehouse field is reqiured.
+                        </div> -->
                     </div>
                   </div>
-  
-                  <div class="row">
-  
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="wareHouse">Warehouse<span class="login-danger">*</span></label>
-                        <p-dropdown formControlName="wareHouse" [filter]="true" filterBy="name" [showClear]="true"
-                          [style]="{'width':'100%'}" [options]="wareHouseArray" optionLabel="name"
-                          placeholder="--Select Warehouse--"></p-dropdown>
-                        <div *ngIf="
-                                                        editCustomerGroup.get('wareHouse')?.hasError(
-                                                          'required'
-                                                        ) && editCustomerGroup.get('wareHouse')?.touched
-                                                      " class="login-danger Font_size">
-                          Warehouse field is reqiured.
-                        </div>
-                      </div>
-                    </div>
-  
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="name">Name<span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder="Please Enter Name" formControlName="name" />
-                        <div *ngIf="
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="name">Name<span class="login-danger">*</span></label>
+                      <input class="form-control" type="text" placeholder="Please Enter Name" formControlName="name" />
+                      <div *ngIf="
                                                         editCustomerGroup.get('name')?.hasError(
                                                           'required'
                                                         ) && editCustomerGroup.get('name')?.touched
                                                       " class="login-danger Font_size">
-                          Name field is reqiured.
-                        </div>
+                        Name field is reqiured.
                       </div>
                     </div>
-  
-  
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="phoneNumber">Phone Number<span class="login-danger">*</span></label>
-                        <input class="form-control" type="number" placeholder="Please Enter Phone Number"
-                          formControlName="phoneNumber" />
-                        <div *ngIf="
+                  </div>
+
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="phoneNumber">Phone Number<span class="login-danger">*</span></label>
+                      <input class="form-control" type="number" placeholder="Please Enter Phone Number"
+                        formControlName="phoneNumber" />
+                      <div *ngIf="
                                                         editCustomerGroup.get('phoneNumber')?.hasError(
                                                           'required'
                                                         ) && editCustomerGroup.get('phoneNumber')?.touched
                                                       " class="login-danger Font_size">
-                          Phone Number field is reqiured.
-                        </div>
-                        <div *ngIf="editCustomerGroup.get('phoneNumber')?.hasError(
+                        Phone Number field is reqiured.
+                      </div>
+                      <div *ngIf="editCustomerGroup.get('phoneNumber')?.hasError(
                           'pattern'
                         ) && editCustomerGroup.get('phoneNumber')?.touched
                       " class="login-danger Font_size">
-                          Phone number must be 10 digts
-                        </div>
+                        Phone number must be 10 digts
                       </div>
                     </div>
-  
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="Email">Email<span class="login-danger">*</span></label>
-                        <input class="form-control" type="email" placeholder="Please Enter Email"
-                          formControlName="email" />
-                        <div *ngIf="
+                  </div>
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="Email">Email<span class="login-danger">*</span></label>
+                      <input class="form-control" type="email" placeholder="Please Enter Email"
+                        formControlName="email" />
+                      <div *ngIf="
                                                         editCustomerGroup.get('email')?.hasError(
                                                           'required'
                                                         ) && editCustomerGroup.get('email')?.touched
                                                       " class="login-danger Font_size">
-                          Email field is reqiured.
-                        </div>
-                        <div *ngIf="editCustomerGroup.get('email').errors?.['email']" class="login-danger Font_size">
-                          Please enter a valid email address.
-                        </div>
-  
+                        Email field is reqiured.
                       </div>
+                      <div *ngIf="editCustomerGroup.get('email').errors?.['email']" class="login-danger Font_size">
+                        Please enter a valid email address.
+                      </div>
+
                     </div>
-  
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="status">Status<span class="login-danger">*</span></label>
-                        <p-dropdown [options]="statusArray" styleClass="" optionLabel="name"
-                          placeholder="--Select Status--" formControlName="status" [style]="{'width':'100%'}"
-                          filterBy="name" [showClear]="true">
-                        </p-dropdown>
-                        <div *ngIf="
+                  </div>
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="status">Status<span class="login-danger">*</span></label>
+                      <p-dropdown [options]="statusArray" styleClass="" optionLabel="name"
+                        placeholder="--Select Status--" formControlName="status" [style]="{'width':'100%'}"
+                        filterBy="name" [showClear]="true">
+                      </p-dropdown>
+                      <div *ngIf="
                                                         editCustomerGroup.get('status')?.hasError(
                                                           'required'
                                                         ) && editCustomerGroup.get('status')?.touched
                                                       " class="login-danger Font_size">
-                          Status field is reqiured.
-                        </div>
+                        Status field is reqiured.
                       </div>
                     </div>
-  
-                    <!-- <div class="col-12 col-md-4 col-xl-4">
+                  </div>
+
+                  <!-- <div class="col-12 col-md-4 col-xl-4">
                       <div class="form-group local-forms">
                         <label for="password">Password<span class="login-danger"></span></label>
                         <input class="form-control" type="password" placeholder="Please Enter Password"
@@ -149,62 +152,95 @@
                         </div>
                       </div>
                     </div> -->
-  
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
-                        <input class="form-control" type="number" placeholder="Please Enter Tex Number"
-                          formControlName="taxNumber" />
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
+                      <input class="form-control" type="number" placeholder="Please Enter Tex Number"
+                        formControlName="taxNumber" />
+                    </div>
+                  </div>
+
+
+                  <!-- <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="openingBalance">Opening Balance<span class="login-danger"></span></label>
+                      <input class="form-control" type="number" placeholder="$ 0" formControlName="openingBalance" />
+                    </div>
+                  </div> -->
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="openingBalance">Opening Balance<span class="login-danger"></span></label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">₹</span>
+                        </div>
+                        <input class="form-control" type="number" placeholder="0" formControlName="openingBalance" />
                       </div>
                     </div>
-  
-  
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="openingBalance">Opening Balance<span class="login-danger"></span></label>
-                        <input class="form-control" type="number" placeholder="$ 0" formControlName="openingBalance" />
-                      </div>
-                      <div>
-  
-                      </div>
-                    </div>
-  
-                    <div class="col-12 col-md-4 col-xl-4">
+                  </div>
+
+                  <!-- <div class="col-12 col-md-4 col-xl-4">
                       <div class="form-group local-forms">
                         <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
                         <input class="form-control" value="30" type="number" placeholder formControlName="creditPeriod" />
                       </div>
+                    </div> -->
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">₹</span>
+                        </div>
+                        <input class="form-control" type="number" placeholder formControlName="creditPeriod" />
+                      </div>
                     </div>
-  
-                    <div class="col-12 col-md-4 col-xl-4">
+                  </div>
+
+                  <!-- <div class="col-12 col-md-4 col-xl-4">
                       <div class="form-group local-forms">
                         <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
                         <input class="form-control" type="text" placeholder="$ 0" formControlName="creditLimit" />
                       </div>
-                    </div>
-  
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="billingAddress">Billing Address<span class="login-danger"></span></label>
-                        <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
-                          formControlName="billingAddress" rows="1"></textarea>
-                      </div>
-                    </div>
-  
-  
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="shippingAddress">Shipping Address<span class="login-danger"></span></label>
-                        <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
-                          formControlName="shippingAddress" rows="1"></textarea>
+                    </div> -->
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">₹</span>
+                        </div>
+                        <input class="form-control" type="number" placeholder="0" formControlName="creditLimit" />
                       </div>
                     </div>
                   </div>
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="billingAddress">Billing Address<span class="login-danger"></span></label>
+                      <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
+                        formControlName="billingAddress" rows="1"></textarea>
+                    </div>
+                  </div>
+
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="shippingAddress">Shipping Address<span class="login-danger"></span></label>
+                      <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
+                        formControlName="shippingAddress" rows="1"></textarea>
+                    </div>
+                  </div>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

@@ -1,37 +1,40 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
 import { CustomersdataService } from "../customers.service";
 import { ToastModule } from "primeng/toast";
+import { WarehouseService } from "../../settings/warehouse/warehouse.service";
+import { MultiSelectModule } from "primeng/multiselect";
 
 @Component({
   selector: "app-add-customers",
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, DropdownModule, CommonModule,ToastModule],
+  imports: [RouterModule, ReactiveFormsModule, DropdownModule, CommonModule,ToastModule,MultiSelectModule],
   templateUrl: "./add-customers.component.html",
   styleUrl: "./add-customers.component.scss",
   providers:[MessageService]
 })
-export class AddCustomersComponent {
+export class AddCustomersComponent implements OnInit{
   addcustomerGroup: UntypedFormGroup;
   public routes = routes;
-
-  wareHouseArray = [{ name: "Electronifly" }, { name: "Warehouse Gas" }];
+  wareHousedata:any
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
   constructor(
     private fb: UntypedFormBuilder,
     private messageService: MessageService,
-    private Service: CustomersdataService
+    private Service: CustomersdataService,
+    private router: Router,
+    private service: WarehouseService
   ) {
     this.addcustomerGroup = this.fb.group({
       wareHouse: ["", [Validators.required]],
@@ -51,6 +54,11 @@ export class AddCustomersComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.service.getAllWarehouseList().subscribe((resp: any) => {
+      this.wareHousedata = resp.data;
+    })
+  }
   addcustomerForm() {
     console.log(this.addcustomerGroup.value);
     const payload = {
@@ -76,7 +84,7 @@ export class AddCustomersComponent {
             const message = "User has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              // this.router.navigate(["settings/users"]);
+              this.router.navigate(["/customers"]);
             }, 400);
           } else {
             const message = resp.message;
@@ -86,4 +94,5 @@ export class AddCustomersComponent {
       });
     }
   }
+  // [routerLink]="['/customers/view-customers/', product._id]"
 }

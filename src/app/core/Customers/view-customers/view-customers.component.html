@@ -2,13 +2,18 @@
     <div class="content">
         <div class="page-header">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12 d-flex justify-content-between">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
                         <li class="breadcrumb-item active"><a [routerLink]="routes.customers">Customers</a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
                         <li class="breadcrumb-item active">View Customers</li>
+                    </ul>
+                    <ul>
+                        <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10" [routerLink]="routes.customers" >
+                            Back
+                          </button>
                     </ul>
                 </div>
             </div>
@@ -34,7 +39,7 @@
                                 <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone Number</h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.phoneNumber}}</p>
+                                        <p class="col-form-label">{{data.phoneNo}}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
@@ -54,25 +59,25 @@
                                 <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Credit Period</h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.creditPeriod}}</p>
+                                        <p class="col-form-label">{{data.creaditPeriod}}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Credit Limit</h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.creditLimit}}</p>
+                                        <p class="col-form-label">{{data.creaditLimit}}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Balance</h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.balance}}</p>
+                                        <p class="col-form-label">{{data.openingBalance}}</p>
                                     </div>
                                 </div>  
                                 <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Tax Number</h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.taxNumber}}</p>
+                                        <p class="col-form-label">{{data.taxNo}}</p>
                                     </div>
                                 </div>
                                 

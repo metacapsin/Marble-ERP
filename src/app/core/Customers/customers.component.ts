@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { MenuItem } from "primeng/api";
+import { MenuItem, MessageService } from "primeng/api";
 import { Subscription } from "rxjs";
 import { routes } from "src/app/shared/routes/routes";
 import { DialogModule } from "primeng/dialog";
@@ -10,6 +10,7 @@ import { CustomersdataService } from "./customers.service";
   selector: "app-customers",
   templateUrl: "./customers.component.html",
   styleUrls: ["./customers.component.scss"],
+  providers: [MessageService],
 })
 export class CustomersComponent {
   items: MenuItem[] = [];
@@ -20,7 +21,10 @@ export class CustomersComponent {
   routerChangeSubscription: Subscription;
   selectedProducts = [];
   searchDataValue: any;
-  constructor(private router: Router,private Service: CustomersdataService) {
+  showDialoge = false;
+  modalData: any = {};
+  customerId: any;
+  constructor(private router: Router,private Service: CustomersdataService,private messageService: MessageService) {
     this.routerChangeSubscription = this.router.events.subscribe((event) => {
       this.currentRoute = this.router.url;
       // console.log(this.currentRoute);
@@ -31,9 +35,7 @@ export class CustomersComponent {
   }
   getCoustomers(){
     this.Service.GetCustomerData().subscribe((data) => {
-      console.log(data);
       this.dataSource = data
-      console.log(this.dataSource);
     })
   }
   goToEditPage(value: any) {
@@ -51,38 +53,6 @@ export class CustomersComponent {
   showDialog() {
     this.visible = true;
   }
-  // dataSource: any[] = [
-  //   {
-  //     firstName: "John",
-  //     lastName: "Doe",
-  //     email: "john.doe@example.com",
-  //     status: "Active",
-  //     isUserLocked: false,
-  //     createdAt: "15-04-2024 05:39 pm",
-  //     Balance: "$9,111.15",
-  //     role: ["admin"],
-  //   },
-  //   {
-  //     firstName: "Jane",
-  //     lastName: "Smith",
-  //     email: "jane.smith@example.com",
-  //     status: "Locked",
-  //     createdAt: "15-04-2024 05:39 pm",
-  //     Balance: "$9,111.15",
-  //     isUserLocked: true,
-  //     role: ["super-admin"],
-  //   },
-  //   {
-  //     firstName: "Alice",
-  //     lastName: "Johnson",
-  //     email: "alice.johnson@example.com",
-  //     status: "Active",
-  //     createdAt: "15-04-2024 05:39 pm",
-  //     Balance: "$9,111.15",
-  //     isUserLocked: false,
-  //     role: ["admin", "user"],
-  //   },
-  // ];
   changeCalendarSettingCategory(type: string) {}
 
   ngOnDestroy() {
@@ -98,4 +68,58 @@ export class CustomersComponent {
       return "non-active";
     }
   }
+  vewCustomer(e: string){
+    console.log(e);
+    this.router.navigate(["/customers/view-customers/"+e]);
+  }
+  editCustomer(e){
+    console.log(e);
+    this.router.navigate(["/customers/edit-customers/"+e]);
+  }
+
+  deleteCustomer(Id: any) {
+this.customerId = Id;
+
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Customer"
+    }
+    this.showDialoge = true;
+  }
+
+  showNewDialog() {
+    this.showDialoge = true;
+  }
+
+  callBackModal() {
+    this.Service.DeleteCustomerApi(this.customerId).subscribe((resp:any) => {
+      // const message = "Cus has been deleted"
+      this.messageService.add({ severity: 'success', detail:  resp.message });
+      this.getCoustomers();
+      this.showDialoge = false;
+    })
+  }
+
+  close() {
+    this.showDialoge = false;
+  }
+
+
+  // deleteCustomer(e:any){
+  //   this.Service.DeleteCustomerApi(e).subscribe((resp:any) => {
+  //     if (resp) {
+  //       if (resp.status === "success") {
+  //         this.getCoustomers()
+  //         // const message = "User has been added";
+  //         this.messageService.add({ severity: "success", detail: resp.message });
+  //         setTimeout(() => {
+  //           // this.router.navigate(["/customers"]);
+  //         }, 400);
+  //       } else {
+  //         const message = resp.message;
+  //         this.messageService.add({ severity: "error", detail: message });
+  //       }
+  //     }
+  //   })
+  // }
 }

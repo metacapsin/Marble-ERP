@@ -45,17 +45,18 @@
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="wareHouse">Warehouse<span class="login-danger">*</span></label>
-                      <p-dropdown formControlName="wareHouse" [filter]="true" filterBy="name" [showClear]="true"
-                        [style]="{'width':'100%'}" [options]="wareHouseArray" optionLabel="name"
-                        placeholder="--Select Warehouse--"></p-dropdown>
-                      <div *ngIf="
-                                                      addcustomerGroup.get('wareHouse')?.hasError(
-                                                        'required'
-                                                      ) && addcustomerGroup.get('wareHouse')?.touched
-                                                    " class="login-danger Font_size">
+                      <label for="wareHouse">Warehouse
+                        <span class="login-danger"></span></label>
+                      <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Warehouse--" [options]="wareHousedata"
+                        formControlName="wareHouse" optionLabel="name" optionValue="_id" display="chip"
+                        [showClear]="true"></p-multiSelect>
+                      <!-- <div *ngIf="
+                                editUserGroup.get('wareHouse')?.hasError(
+                                  'reqiured'
+                                ) && editUserGroup.get('wareHouse')?.touched
+                              " class="login-danger Font_size">
                         Warehouse field is reqiured.
-                      </div>
+                      </div> -->
                     </div>
                   </div>
 
@@ -175,7 +176,7 @@
                       <label for="openingBalance">Opening Balance<span class="login-danger"></span></label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text">$</span>
+                          <span class="input-group-text">₹</span>
                         </div>
                         <input class="form-control" type="number" placeholder="0" formControlName="openingBalance" />
                       </div>
@@ -194,7 +195,7 @@
                       <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text">$</span>
+                          <span class="input-group-text">₹</span>
                         </div>
                         <input class="form-control" type="number" placeholder formControlName="creditPeriod" />
                       </div>
@@ -216,7 +217,7 @@
                       <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text">$</span>
+                          <span class="input-group-text">₹</span>
                         </div>
                         <input class="form-control" type="number" placeholder="0" formControlName="creditLimit" />
                       </div>

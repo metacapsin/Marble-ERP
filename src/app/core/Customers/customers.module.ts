@@ -6,6 +6,8 @@ import { CustomersComponent } from './customers.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { DialogModule } from 'primeng/dialog';
     CustomersRoutingModule,
     SharedModule,
     PanelMenuModule,
-    DialogModule
+    DialogModule,
+    ToastModule,
+    ButtonModule
   ]
 })
 export class CustomersModule { }
