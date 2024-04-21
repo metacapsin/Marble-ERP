@@ -27,8 +27,8 @@ export class EditTaxesComponent {
     @Inject(MAT_DIALOG_DATA) public _id: any,
   ){
     this.editTaxesForm = this.fb.group({      
-      name: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
-      taxType: ['', [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
+      name: ['',[Validators.required]],
+      taxType: ['Single', [Validators.required]],
       taxRate: ['', [Validators.required,]],
       // multipleTax: this.fb.array([]),
     })
