@@ -1,0 +1,339 @@
+<div class="page-wrapper">
+    <div class="content">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="row">
+          <div class="col-sm-12">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a [routerLink]="routes.allInvoice">Dashboard </a>
+              </li>
+              <li class="breadcrumb-item">
+                <i class="feather icon-chevron-right"></i>
+              </li>
+              <li class="breadcrumb-item active">Purchase Paid</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- /Page Header -->
+  
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="py-3 d-flex justify-content-end">
+            <a [routerLink]="routes.Sales" class="invoices-links active">
+              <i class="feather icon-list"></i>
+            </a>
+            <a [routerLink]="routes.invoicesGrid" class="invoices-links">
+              <i class="feather icon-grid"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Report Filter -->
+      <div class="card report-card">
+        <div class="card-body pb-0">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group local-forms">
+                <label for="">Supplier</label>
+                <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Supplier--" [options]="CustomerList"
+                  optionLabel="customerName" optionValue="customerName" display="chip" [showClear]="true">
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group local-forms">
+                <label for="">Invoice Number</label>
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group local-forms">
+                <label for="">Start Date</label>
+                <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="StartDate"
+                  placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group local-forms">
+                <div class="report-btn">
+                  <a href="" class="btn">
+                    <img src="assets/img/invoices-icon5.png" alt="" class="me-2" />
+                    Generate report
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card invoices-tabs-card">
+        <div class="card-body card-body pt-0 pb-0">
+          <div class="invoices-main-tabs">
+            <div class="row align-items-center">
+              <div class="col-lg-8 col-md-8">
+                <div class="invoices-tabs">
+                  <ul>
+                    <li>
+                      <a [routerLink]="routes.purchase">All Purchase</a>
+                    </li>
+                    <li><a class="active" [routerLink]="routes.paidPurchase">Paid</a></li>
+                    <li><a [routerLink]="routes.unpaidPurchase">Unpaid</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="invoices-settings-btn">
+                  <a [routerLink]="routes.addSales" class="btn">
+                    <i class="feather icon-plus-circle feather-circle me-2"></i>
+                    New Purchase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-4 col-sm-6 col-12">
+          <div class="card inovices-card">
+            <div class="card-body">
+              <div class="inovices-widget-header">
+                <span class="inovices-widget-icon">
+                  <img src="assets/img/invoices-icon1.svg" alt="" />
+                </span>
+                <div class="inovices-dash-count">
+                  <div class="inovices-amount">$8,78,797</div>
+                </div>
+              </div>
+              <p class="inovices-all">All Purchase <span>50</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-sm-6 col-12">
+          <div class="card inovices-card">
+            <div class="card-body">
+              <div class="inovices-widget-header">
+                <span class="inovices-widget-icon">
+                  <img src="assets/img/invoices-icon2.svg" alt="" />
+                </span>
+                <div class="inovices-dash-count">
+                  <div class="inovices-amount">$4,5884</div>
+                </div>
+              </div>
+              <p class="inovices-all">Paid Sales <span>60</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-sm-6 col-12">
+          <div class="card inovices-card">
+            <div class="card-body">
+              <div class="inovices-widget-header">
+                <span class="inovices-widget-icon">
+                  <img src="assets/img/invoices-icon3.svg" alt="" />
+                </span>
+                <div class="inovices-dash-count">
+                  <div class="inovices-amount">$2,05,545</div>
+                </div>
+              </div>
+              <p class="inovices-all">Unpaid Purchase <span>70</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card card-table">
+            <div class="card-body p-4">
+              <p-table [value]="salesData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th appShowHide [roles]="['admin', 'super-admin']">
+                      <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon
+                        field="salesInvoiceNumber"></p-sortIcon>
+                      <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="salesDate">Purchase Date <p-sortIcon field="salesDate"></p-sortIcon>
+                      <p-columnFilter type="text" field="salesDate" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="salesCustomer">Supplier <p-sortIcon field="salesCustomer"></p-sortIcon>
+                      <p-columnFilter type="text" field="salesCustomer" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="salesStatus">Purchase Status <p-sortIcon field="salesStatus"></p-sortIcon></th>
+                    <th pSortableColumn="salesPaidAmount">Paid Amount <p-sortIcon field="salesPaidAmount"></p-sortIcon>
+                      <p-columnFilter type="text" field="salesPaidAmount" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
+                      <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="salesPaymentStatus">Payment Status <p-sortIcon
+                        field="salesPaymentStatus"></p-sortIcon></th>
+  
+                    <th>Action</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-sales>
+                  <tr>
+                    <td appShowHide [roles]="['admin', 'super-admin']">
+                      <p-tableCheckbox [value]="sales"></p-tableCheckbox>
+                    </td>
+                    <td>{{sales.salesInvoiceNumber}}</td>
+                    <td>{{sales.salesDate}}</td>
+                    <td>{{sales.salesCustomer}}</td>
+                    <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Delivered"></p-tag>
+                                      </td>
+                                      <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Delivered"></p-tag>
+                                      </td> -->
+                    <td>{{sales.salesStatus}}</td>
+                    <td>{{sales.salesPaidAmount}}</td>
+                    <td>{{sales.salesTotalAmount}}</td>
+                    <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Unpaid"></p-tag>
+                                      </td>
+                                      <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Paid"></p-tag>
+                                      </td>
+                                      <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Partially Paid"></p-tag>
+                                      </td> -->
+                    <td>{{sales.salesPaymentStatus}}</td>
+                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                      <!-- <a class="p-2 border-1 border" [routerLink]="routes.AddCustomers" href=""><i
+                                                  class="fa-solid fa-user-plus"></i></a> -->
+                      <p-button [text]="true" data-bs-toggle="modal" data-bs-target="#invoices_preview"
+                        icon="fa-solid fa-eye"></p-button>
+                      <p-button [text]="true" icon="fa-solid fa-edit" [routerLink]="routes.editPurchase"></p-button>
+  
+                      <!-- <a class="p-2 border-1 border" href=""><i
+                                                  class="fa-solid fa-pen-to-square"></i></a> -->
+                      <!-- <a class="p-2 border-1 border" href=""><i class="fa-solid fa-trash"></i></a> -->
+  
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- -- Preview model -- -->
+  <div class="modal custom-modal modal-bg  fade invoices-preview" id="invoices_preview" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row justify-content-center">
+            <div class="col-lg-12">
+              <div class="card invoice-info-card">
+                <div class="card-body pb-0">
+                  <div class="invoice-item invoice-item-one">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="invoice-logo d-flex justify-content-start">
+                          <img src="assets/img/logo-dark.png" alt="logo">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="invoice-info">
+                          <div class="invoice-head">
+                            <h2 class="text-primary">Purchase</h2>
+                            <p>Invoice Number : In983248782</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="card card-table show-entire">
+                        <div class="page-table-header mb-2 m-3">
+                          <div class="row practice-card" *ngFor="let data of customerData">
+                            <div class="col-xl-6 col-lg-6 col-sm-12">
+                              <div class="form-group row mb-2">
+                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer</h5>
+                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                  <p class="col-lg-9 col-form-label">{{data.name}}</p>
+                                </div>
+                              </div>
+                              <div class="form-group row mb-2">
+                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Sales Date</h5>
+                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                  <p class="col-lg-9 col-form-label">{{data.email}}</p>
+                                </div>
+                              </div>
+                              <div class="form-group row mb-2">
+                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Status</h5>
+                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                  <p class="col-form-label">{{data.phoneNumber}}</p>
+                                </div>
+                              </div>
+  
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-sm-12">
+                              <div class="form-group row mb-2">
+                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Tax</h5>
+                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                  <p class="col-form-label">{{data.openingBalance}}</p>
+                                </div>
+                              </div>
+                              <div class="form-group row mb-2">
+                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Shipping</h5>
+                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                  <p class="col-form-label">{{data.billingAddress}}</p>
+                                </div>
+                              </div>
+  
+                            </div>
+                          </div>
+  
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <p-table [value]="salesItem" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                              [rows]="5">
+                              <ng-template pTemplate="header">
+                                  <tr>
+                                      <th pSortableColumn="salesProduct">Product <p-sortIcon field="salesProduct"></p-sortIcon>
+  
+                                      </th>
+                                      <th pSortableColumn="salesQuantity">Quantity <p-sortIcon field="salesQuantity"></p-sortIcon>
+                              </th>
+                                      <th pSortableColumn="salesUnitPrice">Unit Price<p-sortIcon field="salesUnitPrice"></p-sortIcon>
+                                  </th>
+                                      <th pSortableColumn="salesDiscount">Discount <p-sortIcon field="salesDiscount"></p-sortIcon></th>
+                                      <th pSortableColumn="salesTax">Tax <p-sortIcon field="salesTax"></p-sortIcon>
+                                    </th>
+                                      <th pSortableColumn="salesSubTotal">Sub Total <p-sortIcon field="salesSubTotal"></p-sortIcon>
+                                     </th>
+                                  </tr>
+                              </ng-template>
+                              <ng-template pTemplate="body" let-sales>
+                                  <tr>
+                                      <td>{{sales.salesProduct}}</td>
+                                      <td>{{sales.salesQuantity}}</td>
+                                      <td>{{sales.salesUnitPrice}}</td>
+                                      <td>{{sales.salesDiscount}}</td>
+                                      <td>{{sales.salesTax}}</td>
+                                      <td>{{sales.salesSubTotal}}</td>
+                                  </tr>
+                              </ng-template>
+                          </p-table>
+  
+  
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- -- end preview model --  -->

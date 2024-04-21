@@ -553,6 +553,30 @@ export class DataService {
             },
           ],
         },
+        {
+          menuValue: 'purchase',
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: 'Sales',
+          icon: 'fa-cart-shopping',
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: 'Purchase',
+              route: routes.purchase,
+              base: routes.purchase,
+            },
+            {
+              menuValue: 'Purchase Return',
+              route: routes.purchaseReturn,
+              base: routes.purchaseReturn,
+            },
+            
+            
+          ],
+        },
+
 
         // {
         //   menuValue: 'Reports',

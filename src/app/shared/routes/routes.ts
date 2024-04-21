@@ -535,6 +535,38 @@ export class routes {
   }
   public static get salesReport(): string {
     return this.baseUrl + '/reports/sales-reports';
+  }  
+  public static get purchase(): string {
+    return this.baseUrl + '/purchase';
+  }
+  public static get addPurchase(): string {
+    return this.baseUrl + '/purchase/add-purchase';
+  }
+  public static get editPurchase(): string {
+    return this.baseUrl + '/purchase/edit-purchase';
+  }
+  public static get paidPurchase(): string {
+    return this.baseUrl + '/purchase/paid-purchase';
+  }
+  public static get unpaidPurchase(): string {
+    return this.baseUrl + '/purchase/unpaid-purchases';
+  }
+  public static get purchaseReturn(): string {
+    return this.baseUrl + '/purchase-return';
   }
 
+  
+  public static get addPurchaseReturn(): string {
+    return this.baseUrl + '/purchase-return/add-purchase-return';
+  }
+  public static get editPurchaseReturn(): string {
+    return this.baseUrl + '/purchase-return/edit-purchase-return/:id';
+  }
+  public static get paidPurchaseReturn(): string {
+    return this.baseUrl + '/purchase-return/paid-purchase-return';
+  }
+  public static get unpaidPurchaseReturn(): string {
+    return this.baseUrl + '//purchase-return/unpaid-purchases-return';
+  }
+  
 }

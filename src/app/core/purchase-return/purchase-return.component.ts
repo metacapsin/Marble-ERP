@@ -1,22 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
+import { Validators } from 'ngx-editor';
+import { el } from '@fullcalendar/core/internal-common';
+import { allInvoice, apiResultFormat, pageSelection } from 'src/app/shared/models/models';
+import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from 'src/app/shared/data/data.service';
-import { pageSelection, apiResultFormat, allInvoice } from 'src/app/shared/models/models';
-import { routes } from "src/app/shared/routes/routes";
-
+import { Sort } from '@angular/material/sort';
 @Component({
-  selector: 'app-unpaid-sales',
-  templateUrl: './unpaid-sales.component.html',
-  styleUrl: './unpaid-sales.component.scss',
+  selector: 'app-purchase-return',
   standalone: true,
-  imports:[CommonModule, SharedModule, DropdownModule, CalendarModule]
+  imports: [CommonModule,SharedModule,  DropdownModule,CalendarModule ],
+  templateUrl: './purchase-return.component.html',
+  styleUrl: './purchase-return.component.scss'
 })
-export class UnpaidSalesComponent   implements OnInit{
+export class PurchaseReturnComponent {
   public routes = routes;
   public checkboxes: string[] = [];
 
@@ -53,29 +56,6 @@ export class UnpaidSalesComponent   implements OnInit{
     {customerName:"Adnan"},
     {customerName:"Nadim"},
     {customerName:"Kavya"},
-  ];
-
-  salesItem=[
-    {salesProduct:"Electronic",
-      salesQuantity:"3",
-      salesUnitPrice:"120",
-      salesDiscount:"20",
-      salesTax:"10",
-      salesSubTotal:"350"
-    },
-  ]
-  customerData = [
-    {
-      name: "Supplier 1",
-      email: "Supplier@gmail.com",
-      phoneNumber: "234324",
-      openingBalance: "50.00",
-      billingAddress: "Supplier Billing Address",
-      creditPeriod: "30 day(s)",
-      creditLimit: "20.00",
-      balance: "300.00",
-      taxNumber: "12389524",
-    },
   ];
 
   constructor(public data : DataService){
@@ -182,4 +162,3 @@ export class UnpaidSalesComponent   implements OnInit{
     }
   }
 }
-

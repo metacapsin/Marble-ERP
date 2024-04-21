@@ -99,6 +99,20 @@ const routes: Routes = [
             (m) => m.SalesModule
           ),
       },
+      {
+        path: 'purchase',
+        loadChildren: () =>
+          import('./purchase/purchase.module').then(
+            (m) => m.PurchaseModule
+          ),
+      },
+      {
+        path: 'purchase-return',
+        loadChildren: () =>
+          import('./purchase-return/purchase-return.module').then(
+            (m) => m.PurchaseReturnModule
+          ),
+      },
     ],
   },
 ];

@@ -10,13 +10,13 @@ import { pageSelection, apiResultFormat, allInvoice } from 'src/app/shared/model
 import { routes } from "src/app/shared/routes/routes";
 
 @Component({
-  selector: 'app-unpaid-sales',
-  templateUrl: './unpaid-sales.component.html',
-  styleUrl: './unpaid-sales.component.scss',
+  selector: 'app-unpaid-purchase-return',
   standalone: true,
-  imports:[CommonModule, SharedModule, DropdownModule, CalendarModule]
+  imports:[CommonModule, SharedModule, DropdownModule, CalendarModule],
+  templateUrl: './unpaid-purchase-return.component.html',
+  styleUrl: './unpaid-purchase-return.component.scss'
 })
-export class UnpaidSalesComponent   implements OnInit{
+export class UnpaidPurchaseReturnComponent {
   public routes = routes;
   public checkboxes: string[] = [];
 
