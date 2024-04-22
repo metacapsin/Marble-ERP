@@ -31,6 +31,20 @@ export class SalesComponent implements OnInit {
     }
   ];
 
+  salesItem=[
+    {salesProduct:"Electronic",
+      salesQuantity:"3",
+      salesUnitPrice:"120",
+      salesSubTotal:"350"
+    },
+    {salesProduct:"Electronic",
+      salesQuantity:"3",
+      salesUnitPrice:"120",
+      salesSubTotal:"350"
+    },
+  ]
+  
+
 
   constructor(
     private customerService: CustomersdataService,) { }
