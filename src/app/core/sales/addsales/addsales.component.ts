@@ -23,10 +23,10 @@ export class AddsalesComponent {
   addSalesForm!: FormGroup;
 public routes = routes;
 customerList=[];
-productsList=[
-  {productsName:'Earphone'},
-  {productsName:'Mobiles'},
-  {productsName:'Computers'}
+categoryList=[
+  {categoryName:'Earphone'},
+  {categoryName:'Mobiles'},
+  {categoryName:'Computers'}
 ]
 orderStatusList=[
   {orderStatus:"Ordered"},
@@ -69,7 +69,8 @@ private fb: FormBuilder,
         salesTotalAmount: [''],
         salesItemDetails: this.fb.array([
           this.fb.group({
-            salesItemProducts: [''],
+            salesItemCategory: [''],
+            salesItemName:[''],
             salesItemQuantity: [''],
             salesItemUnitPrice: [''],
             salesItemSubTotal: [''],
@@ -86,7 +87,7 @@ private fb: FormBuilder,
   }
   addsalesItemDetailsItem() {
     const item = this.fb.group({
-      salesItemProducts: [''],
+      salesItemCategory: [''],
       salesItemQuantity: [''],
       salesItemUnitPrice: [''],
       salesItemSubTotal: [''],
@@ -113,7 +114,7 @@ private fb: FormBuilder,
     
       // console.log(this.taxesListData); 
       this.orderTaxList = [];
-      for (const obj of this.taxesListData) {
+      for (const obj of this.taxesListData) { 
         this.orderTaxList.push({
           _id: obj._id,
           taxRate: obj.taxRate,

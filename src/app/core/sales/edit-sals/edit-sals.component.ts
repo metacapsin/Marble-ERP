@@ -23,10 +23,10 @@ export class EditSalsComponent {
   editSalesForm!: FormGroup;
 public routes = routes;
 customerList=[];
-productsList=[
-  {productsName:'Earphone'},
-  {productsName:'Mobiles'},
-  {productsName:'Computers'}
+categoryList=[
+  {categoryName:'Earphone'},
+  {categoryName:'Mobiles'},
+  {categoryName:'Computers'}
 ]
 orderStatusList=[
   {orderStatus:"Ordered"},
@@ -60,7 +60,8 @@ private fb: FormBuilder,
         salesTotalAmount: [''],
         salesItemDetails: this.fb.array([
           this.fb.group({
-            salesItemProducts: [''],
+            salesItemCategory: [''],
+            salesItemName:[''],
             salesItemQuantity: [''],
             salesItemUnitPrice: [''],
             salesItemSubTotal: [''],
