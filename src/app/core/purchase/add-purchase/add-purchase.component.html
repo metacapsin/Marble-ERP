@@ -2,13 +2,34 @@
     <div class="content container-fluid">
 
         <!-- Page Header -->
+ <!-- Page Header -->
+ <div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a [routerLink]="routes.adminDashboard">Dashboard </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <i class="feather icon-chevron-right"></i>
+                </li>
+                <li class="breadcrumb-item active">Purchase List</li>
+                <li class="breadcrumb-item">
+                    <i class="feather icon-chevron-right"></i>
+                </li>
+                <li class="breadcrumb-item active">Purchase Add</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
         <div class="page-header invoices-page-header">
             <div class="row align-items-center">
                 <div class="col">
                     <ul class="breadcrumb invoices-breadcrumb">
                         <li class="breadcrumb-item invoices-breadcrumb-item">
                             <a [routerLink]="routes.purchase">
-                                <i class="fa fa-chevron-left"></i> Back to purchase
+                                <i class="fa fa-chevron-left"></i> Back to purchase List
                             </a>
                         </li>
                     </ul>
