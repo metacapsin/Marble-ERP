@@ -14,7 +14,6 @@ import { AddCategoriesComponent } from '../add-categories/add-categories.compone
 import { EditCategoriesComponent } from '../edit-categories/edit-categories.component';
 import { CategoriesService } from '../categories.service';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { WarehouseService } from '../../warehouse/warehouse.service';
 
 @Component({
   selector: 'app-categories-list',
@@ -32,21 +31,8 @@ export class CategoriesListComponent {
   showDialog = false;
   modalData: any = {};
   categoryID: any;
-  // categoriesListData = [
-  //   {
-  //     CategoriesName: "Mobiles",
-  //     CategoriesSlug: ""
-  //   },
-  //   {
-  //     CategoriesName: "Computer",
-  //     CategoriesSlug: ""
-  //   },
-  //   {
-  //     CategoriesName: "Electrics",
-  //     CategoriesSlug: ""
-  //   }
-  // ]
   categoriesListData = [];
+
   constructor(public dialog: MatDialog,
     public service: CategoriesService,
     private messageService: MessageService

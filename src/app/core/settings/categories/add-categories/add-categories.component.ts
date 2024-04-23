@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-categories',
@@ -20,7 +19,7 @@ export class AddCategoriesComponent {
     private dialogRef: MatDialogRef<AddCategoriesComponent>,
   ){
     this.addCategoryForm = this.fb.group({  
-    name: ['',[Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))]],
+    name: ['',[Validators.required]],
     description: ['']
     })
   }

@@ -1,9 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoriesService } from '../categories.service';
 @Component({
   selector: 'app-edit-categories',
@@ -25,7 +24,6 @@ export class EditCategoriesComponent {
     this.editCategoryForm = this.fb.group({       
     name: ['',[Validators.required]],
     description: ['']
-
     })
   }
 
