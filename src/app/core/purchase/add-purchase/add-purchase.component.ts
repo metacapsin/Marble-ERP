@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AddPurchaseComponent {
 
-  addSalesForm!: FormGroup;
+  addPurchaseForm!: FormGroup;
 public routes = routes;
 CustomerList=[
   {customerName:"Adnan"},
@@ -58,46 +58,47 @@ date = new FormControl(new Date());
 constructor(
 private fb: FormBuilder,
     ) {
-      this.addSalesForm = this.fb.group({
-        salesInvoiceNumber: [''],
-        salesCustomerName: [''],
-        salesDate: [''],
-        salesOrderStatus: [''],
-        salesOrderTax: [''],
-        salesDiscount: [''],
-        salesShipping: [''],
-        salesTermsAndCondition: [''],
-        salesNotes: [''],
-        salesTotalAmount: [''],
-        salesItemDetails: this.fb.array([]),
+      this.addPurchaseForm = this.fb.group({
+        purchaseInvoiceNumber: [''],
+        purchaseCustomerName: [''],
+        purchaseDate: [''],
+        purchaseOrderStatus: [''],
+        purchaseOrderTax: [''],
+        purchaseDiscount: [''],
+        purchaseShipping: [''],
+        purchaseTermsAndCondition: [''],
+        purchaseNotes: [''],
+        purchaseTotalAmount: [''],
+        purchaseItemDetails: this.fb.array([]),
+        
     });
   }
 
-  get salesItemDetails() {
-    return this.addSalesForm.controls['salesItemDetails'] as FormArray;
+  get purchaseItemDetails() {
+    return this.addPurchaseForm.controls['purchaseItemDetails'] as FormArray;
   }
-  deletesalesItemDetails(salesItemDetailsIndex: number) {
-    this.salesItemDetails.removeAt(salesItemDetailsIndex);
+  deletePurchaseItemDetails(purchaseItemDetailsIndex: number) {
+    this.purchaseItemDetails.removeAt(purchaseItemDetailsIndex);
   }
-  addsalesItemDetailsItem() {
+  addPurchaseItemDetailsItem() {
     const item = this.fb.group({
-      salesItemProducts: [''],
-      salesItemQuantity: [''],
-      salesItemUnitPrice: [''],
-      salesItemDiscount: [''],
-      salesItemTax: [''],
-      salesItemSubTotal: [''],
+      purchaseItemProducts: [''],
+      purchaseItemQuantity: [''],
+      purchaseItemUnitPrice: [''],
+      purchaseItemDiscount: [''],
+      purchaseItemTax: [''],
+      purchaseItemSubTotal: [''],
     });
-    this.salesItemDetails.push(item);
+    this.purchaseItemDetails.push(item);
   }
 
   ngOnInit(): void {
-    // const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
-    // salesItems.valueChanges.subscribe(() => this.calculateTotalAmount());
-    // this.addSalesForm.get('salesShipping').valueChanges.subscribe(() => {
+    // const purchaseItems = this.addPurchaseForm.get('purchaseItemDetails') as FormArray;
+    // purchaseItems.valueChanges.subscribe(() => this.calculateTotalAmount());
+    // this.addPurchaseForm.get('purchaseShipping').valueChanges.subscribe(() => {
     //   this.calculateTotalAmount();
     // })
-    // this.addSalesForm.get('salesDiscount').valueChanges.subscribe(() => {
+    // this.addPurchaseForm.get('purchaseDiscount').valueChanges.subscribe(() => {
     //   this.calculateTotalAmount();
     // })
   }
@@ -107,29 +108,29 @@ private fb: FormBuilder,
   //   let totalAmount = 0;
   //   let shipping = 0;
   //   let Discount = 0;
-  //   const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
+  //   const purchaseItems = this.addPurchaseForm.get('purchaseItemDetails') as FormArray;
     
-  //   salesItems.controls.forEach((item: FormGroup) => {
-  //     const quantity = +item.get('salesItemQuantity').value;
-  //     const unitPrice = +item.get('salesItemUnitPrice').value;
-  //     const discount = +item.get('salesItemDiscount').value;
-  //     const tax = +item.get('salesItemTax').value;
+  //   purchaseItems.controls.forEach((item: FormGroup) => {
+  //     const quantity = +item.get('purchaseItemQuantity').value;
+  //     const unitPrice = +item.get('purchaseItemUnitPrice').value;
+  //     const discount = +item.get('purchaseItemDiscount').value;
+  //     const tax = +item.get('purchaseItemTax').value;
   //     const subtotal = (quantity * unitPrice) - discount + tax;
 
-  //     shipping = +this.addSalesForm.get('salesShipping').value;
-  //     Discount = +this.addSalesForm.get('salesDiscount').value;
+  //     shipping = +this.addPurchaseForm.get('purchaseShipping').value;
+  //     Discount = +this.addPurchaseForm.get('purchaseDiscount').value;
   //     totalAmount += (shipping + subtotal) - Discount;
   //     // totalAmount += subtotal;
   
-  //     item.get('salesItemSubTotal').setValue(subtotal.toFixed(2)); // Corrected the variable name
+  //     item.get('purchaseItemSubTotal').setValue(subtotal.toFixed(2)); // Corrected the variable name
   //   });
   
   //   // Update the total amount in the form
-  //   this.addSalesForm.patchValue({
+  //   this.addPurchaseForm.patchValue({
 
-  //     salesDiscount: Discount.toFixed(2),
-  //     salesShipping: shipping.toFixed(2),
-  //     salesTotalAmount: totalAmount.toFixed(2)
+  //     purchaseDiscount: Discount.toFixed(2),
+  //     purchaseShipping: shipping.toFixed(2),
+  //     purchaseTotalAmount: totalAmount.toFixed(2)
   //   });
   // }
   
@@ -159,10 +160,11 @@ recurringInvoiceFunc(){
 //   {value: 'June'},
 //   {value: 'July'}
 // ];
-addSalesFormSubmit(){
-if(this.addSalesForm.valid){
+addPurchaseFormSubmit(){
+  console.log(this.addPurchaseForm.value)
+if(this.addPurchaseForm.valid){
   console.log("valid form");
-  console.log(this.addSalesForm.value);
+  console.log(this.addPurchaseForm.value);
 }
 else{
   console.log("invalid form");
