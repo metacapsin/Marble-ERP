@@ -100,6 +100,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'sales-return',
+        loadChildren: () =>
+          import('./sales-return/sales-return.module').then(
+            (m) => m.SalesReturnModule
+          ),
+      },
+      {
         path: 'purchase',
         loadChildren: () =>
           import('./purchase/purchase.module').then(

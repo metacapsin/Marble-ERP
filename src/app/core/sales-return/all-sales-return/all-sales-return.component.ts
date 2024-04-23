@@ -4,16 +4,17 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { routes } from "src/app/shared/routes/routes";
-import { CustomersdataService } from '../Customers/customers.service';
+import { CustomersdataService } from '../../Customers/customers.service';
 
 @Component({
-  selector: "app-sales",
-  templateUrl: "./sales.component.html",
-  styleUrls: ["./sales.component.scss"],
+  selector: 'app-all-sales-return',
+  templateUrl: './all-sales-return.component.html',
+  styleUrl: './all-sales-return.component.scss',
+  
   standalone: true,
   imports: [CommonModule, SharedModule, DropdownModule, CalendarModule]
 })
-export class SalesComponent implements OnInit {
+export class AllSalesReturnComponent implements OnInit {
   public routes = routes;
 
   public searchDataValue = '';

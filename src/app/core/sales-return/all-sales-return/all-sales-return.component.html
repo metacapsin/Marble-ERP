@@ -6,12 +6,12 @@
           <div class="col-sm-12">
             <ul class="breadcrumb">
               <li class="breadcrumb-item">
-                <a [routerLink]="routes.allInvoice">Dashboard </a>
+                <a [routerLink]="routes.adminDashboard">Dashboard </a>
               </li>
               <li class="breadcrumb-item">
                 <i class="feather icon-chevron-right"></i>
               </li>
-              <li class="breadcrumb-item active">Sales List</li>
+              <li class="breadcrumb-item active">Sales Return List</li>
             </ul>
           </div>
         </div>
@@ -62,20 +62,20 @@
                 <div class="invoices-tabs">
                   <ul>
                     <li>
-                      <a [routerLink]="routes.Sales" class="active"
-                        >All Sales</a
+                      <a [routerLink]="routes.salesReturn" class="active"
+                        >All Sales Return</a
                       >
                     </li>
-                    <li><a [routerLink]="routes.paidSales">Paid</a></li>
-                    <li><a [routerLink]="routes.unpaidSales">Unpaid</a></li>
+                    <li><a >Paid</a></li>
+                    <li><a>Unpaid</a></li>
                   </ul>
                 </div>
               </div>
               <div class="col-lg-4 col-md-4">
                 <div class="invoices-settings-btn">
-                  <a [routerLink]="routes.addSales" class="btn">
+                  <a [routerLink]="routes.addSalesReturn" class="btn">
                     <i class="feather icon-plus-circle feather-circle me-2"></i>
-                    New Sales
+                    New Sales Return
                   </a>
                 </div>
               </div>
@@ -95,7 +95,7 @@
                   <div class="inovices-amount">$8,78,797</div>
                 </div>
               </div>
-              <p class="inovices-all">All Sales <span>50</span></p>
+              <p class="inovices-all">All Sales Return <span>50</span></p>
             </div>
           </div>
         </div>
@@ -110,7 +110,7 @@
                   <div class="inovices-amount">$4,5884</div>
                 </div>
               </div>
-              <p class="inovices-all">Paid Sales <span>60</span></p>
+              <p class="inovices-all">Paid Sales Return <span>60</span></p>
             </div>
           </div>
         </div>
@@ -125,7 +125,7 @@
                   <div class="inovices-amount">$2,05,545</div>
                 </div>
               </div>
-              <p class="inovices-all">Unpaid Sales <span>70</span></p>
+              <p class="inovices-all">Unpaid Sales Return <span>70</span></p>
             </div>
           </div>
         </div>
@@ -144,13 +144,13 @@
                                     <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
                                         <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="salesDate">Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
+                                    <th pSortableColumn="salesDate">Return Date <p-sortIcon field="salesDate"></p-sortIcon>
                                         <p-columnFilter type="text" field="salesDate" display="menu"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="salesCustomer">Customer <p-sortIcon field="salesCustomer"></p-sortIcon>
                                         <p-columnFilter type="text" field="salesCustomer" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="salesStatus">Sales Status <p-sortIcon field="salesStatus"></p-sortIcon></th>
+                                    <th pSortableColumn="salesStatus">Return Status <p-sortIcon field="salesStatus"></p-sortIcon></th>
                                     <th pSortableColumn="salesPaidAmount">Paid Amount <p-sortIcon field="salesPaidAmount"></p-sortIcon>
                                         <p-columnFilter type="text" field="salesPaidAmount" display="menu"></p-columnFilter>
                                     </th>
@@ -170,24 +170,14 @@
                                     <td>{{sales.salesInvoiceNumber}}</td>
                                     <td>{{sales.salesDate}}</td>
                                     <td>{{sales.salesCustomer}}</td>
-                                    <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Delivered"></p-tag>
-                                    </td>
-                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Delivered"></p-tag>
-                                    </td> -->
                                     <td>{{sales.salesStatus}}</td>
                                     <td>{{sales.salesPaidAmount}}</td>
                                     <td>{{sales.salesTotalAmount}}</td>
-                                    <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Unpaid"></p-tag>
-                                    </td>
-                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Paid"></p-tag>
-                                    </td>
-                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Partially Paid"></p-tag>
-                                    </td> -->
                                     <td>{{sales.salesPaymentStatus}}</td>
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                                                 <p-button [text]="true" data-bs-toggle="modal"
                                                 data-bs-target="#sales_preview" icon="fa-solid fa-eye" ></p-button>
-                                                <p-button [text]="true" icon="fa-solid fa-edit" [routerLink]="routes.editSales" ></p-button>
+                                                <p-button [text]="true" icon="fa-solid fa-edit" [routerLink]="routes.editSalesReturn" ></p-button>
                                     </td>
                                 </tr>
                             </ng-template>

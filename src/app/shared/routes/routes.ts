@@ -558,6 +558,7 @@ export class routes {
     return this.baseUrl + '/purchase-return';
   }
 
+
   
   public static get addPurchaseReturn(): string {
     return this.baseUrl + '/purchase-return/add-purchase-return';
@@ -570,6 +571,17 @@ export class routes {
   }
   public static get unpaidPurchaseReturn(): string {
     return this.baseUrl + '//purchase-return/unpaid-purchases-return';
+  }
+
+
+  public static get salesReturn(): string {
+    return this.baseUrl + '/sales-return';
+  }
+  public static get addSalesReturn(): string {
+    return this.baseUrl + '/sales-return/add-sales-return';
+  }
+  public static get editSalesReturn(): string {
+    return this.baseUrl + '/sales-return/edit-sales-return';
   }
   
 }

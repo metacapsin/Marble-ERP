@@ -543,13 +543,8 @@ export class DataService {
             },
             {
               menuValue: 'Sales Return',
-              // route: routes.addSales,
-              // base: routes.addSales,
-            },
-            {
-              menuValue: 'Quotation ',
-              // route: routes.addSales,
-              // base: routes.addSales,
+              route: routes.salesReturn,
+              base: routes.salesReturn,
             },
           ],
         },
