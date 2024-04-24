@@ -5,6 +5,9 @@ import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { TabViewModule } from 'primeng/tabview';
+import { WarehouseListComponent } from './warehouse/warehouse-list/warehouse-list.component';
+
 
 @NgModule({
   declarations: [
@@ -14,7 +17,9 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     CommonModule,
     SettingsRoutingModule,
     SharedModule,
-    PanelMenuModule
+    PanelMenuModule,
+    TabViewModule,
+    WarehouseListComponent
   ]
 })
 export class SettingsModule { }

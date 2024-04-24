@@ -1,28 +1,35 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
+import { SuppliersdataService } from "../suppliers.service";
+import { CustomersdataService } from "../../Customers/customers.service";
 
 @Component({
   selector: "app-view-suppliers",
   standalone: true,
-  imports: [RouterModule,CommonModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: "./view-suppliers.component.html",
   styleUrl: "./view-suppliers.component.scss",
 })
 export class ViewSuppliersComponent {
   routes = routes;
-  customerData = [
-    {
-      name: "Supplier 1",
-      email: "Supplier@gmail.com",
-      phoneNumber: "234324",
-      openingBalance: "50.00",
-      billingAddress: "Supplier Billing Address",
-      creditPeriod: "30 day(s)",
-      creditLimit: "20.00",
-      balance: "300.00",
-      taxNumber: "12389524",
-    },
-  ];
+  id: any;
+  customerData: any[] = [];
+  constructor(
+    private Service: SuppliersdataService,
+    private activeRoute: ActivatedRoute
+  ) {
+    this.id = this.activeRoute.snapshot.params["id"];
+  }
+
+  ngOnInit() {
+    this.getSupplier();
+  }
+  getSupplier() {
+    this.Service.GetSupplierDataById(this.id).subscribe((data: any) => {
+      console.log(data);
+      this.customerData = [data]; 
+    });
+  }
 }
