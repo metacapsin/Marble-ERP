@@ -209,13 +209,16 @@
 </div> -->
 
 <div class="header">
-    <div class="header-left">
-        <a [routerLink]="routes.adminDashboard" class="logo">
-            <img src="assets/img/logo.png" width="35" height="35" alt=""> <span>Pre Clinic</span>
-        </a>
+    <div>
+        <div class="header-left">
+            <a [routerLink]="routes.adminDashboard" class="logo">
+                <img src="assets/img/logo.png" width="35" height="35" alt=""> <span>Pre Clinic</span>
+            </a>
+        </div>
+        <a (click)="toggleSideBar()" id="toggle_btn" href="javascript:void(0);"><img src="assets/img/icons/bar-icon.svg"  alt=""></a>
     </div>
-    <a (click)="toggleSideBar()" id="toggle_btn" href="javascript:void(0);"><img src="assets/img/icons/bar-icon.svg"  alt=""></a>
-    <a (click)="toggleMobileSideBar()" (keyup.enter)="toggleMobileSideBar()" id="mobile_btn" class="mobile_btn float-start" tabindex="0"  ><img src="assets/img/icons/bar-icon.svg"  alt=""></a>
+    <div>
+        <a (click)="toggleMobileSideBar()" (keyup.enter)="toggleMobileSideBar()" id="mobile_btn" class="mobile_btn float-start" tabindex="0"  ><img src="assets/img/icons/bar-icon.svg"  alt=""></a>
     <div class="top-nav-search mob-view">
         <form>
             <input type="text" class="form-control" placeholder="Search here">
@@ -319,6 +322,7 @@
             <a [routerLink]="routes.settings"  class="hasnotifications nav-link"><img src="assets/img/icons/setting-icon-01.svg" alt=""> </a>
         </li>
     </ul>
+    </div>
     <div class="dropdown mobile-user-menu float-end">
         <a href="javascript:void(0);" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></a>
         <div class="dropdown-menu dropdown-menu-end">

@@ -42,7 +42,7 @@ export class SalesComponent implements OnInit {
 
   salesListData = [
 
-    {
+    { 
       salesCustomerName: "Harfol Gurjar",
       salesOrderTakenBy: "Adnan Hussain",
       salesDate: "20 April 2014",
