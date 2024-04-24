@@ -163,14 +163,10 @@
                     <p-columnFilter type="text" field="salesCustomer" display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="salesStatus">Sales Status <p-sortIcon field="salesStatus"></p-sortIcon></th>
-                  <th pSortableColumn="salesPaidAmount">Paid Amount <p-sortIcon field="salesPaidAmount"></p-sortIcon>
-                    <p-columnFilter type="text" field="salesPaidAmount" display="menu"></p-columnFilter>
-                  </th>
+                 
                   <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="salesPaymentStatus">Payment Status <p-sortIcon
-                      field="salesPaymentStatus"></p-sortIcon></th>
 
                   <th>Action</th>
                 </tr>
@@ -183,30 +179,12 @@
                   <td>{{sales.salesInvoiceNumber}}</td>
                   <td>{{sales.salesDate}}</td>
                   <td>{{sales.salesCustomer}}</td>
-                  <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Delivered"></p-tag>
-                                    </td>
-                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Delivered"></p-tag>
-                                    </td> -->
                   <td>{{sales.salesStatus}}</td>
-                  <td>{{sales.salesPaidAmount}}</td>
                   <td>{{sales.salesTotalAmount}}</td>
-                  <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Unpaid"></p-tag>
-                                    </td>
-                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Paid"></p-tag>
-                                    </td>
-                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Partially Paid"></p-tag>
-                                    </td> -->
-                  <td>{{sales.salesPaymentStatus}}</td>
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                    <!-- <a class="p-2 border-1 border" [routerLink]="routes.AddCustomers" href=""><i
-                                                class="fa-solid fa-user-plus"></i></a> -->
                     <p-button [text]="true" data-bs-toggle="modal" data-bs-target="#invoices_preview"
                       icon="fa-solid fa-eye"></p-button>
                     <p-button [text]="true" icon="fa-solid fa-edit" [routerLink]="routes.editSales"></p-button>
-
-                    <!-- <a class="p-2 border-1 border" href=""><i
-                                                class="fa-solid fa-pen-to-square"></i></a> -->
-                    <!-- <a class="p-2 border-1 border" href=""><i class="fa-solid fa-trash"></i></a> -->
 
                   </td>
                 </tr>
@@ -222,7 +200,7 @@
 
 
 <!-- -- Preview model -- -->
-<div class="modal custom-modal modal-bg  fade invoices-preview" id="invoices_preview" role="dialog">
+<div class="modal custom-modal modal-bg  fade invoices-preview" *ngFor="let sales of salesPopupData" id="invoices_preview" role="dialog">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-body">
@@ -241,7 +219,7 @@
                       <div class="invoice-info">
                         <div class="invoice-head">
                           <h2 class="text-primary">Sales</h2>
-                          <p>Invoice Number : In983248782</p>
+                          <p>Invoice Number : {{sales.salesInvoiceNumber}}</p>
                         </div>
                       </div>
                     </div>
@@ -252,41 +230,38 @@
                   <div class="col-sm-12">
                     <div class="card card-table show-entire">
                       <div class="page-table-header mb-2 m-3">
-                        <div class="row practice-card" *ngFor="let data of customerData">
+                        <div class="row practice-card" >
                           <div class="col-xl-6 col-lg-6 col-sm-12">
                             <div class="form-group row mb-2">
-                              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer</h5>
+                              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer:</h5>
                               <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-lg-9 col-form-label">{{data.name}}</p>
+                                <p class="col-lg-9 col-form-label">{{sales.salesCustomerName}}</p>
                               </div>
                             </div>
                             <div class="form-group row mb-2">
-                              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Sales Date</h5>
+                              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Sales Date:</h5>
                               <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-lg-9 col-form-label">{{data.email}}</p>
+                                <p class="col-lg-9 col-form-label">{{sales.salesDate}}</p>
                               </div>
                             </div>
-                            <div class="form-group row mb-2">
-                              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Status</h5>
-                              <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{data.phoneNumber}}</p>
-                              </div>
-                            </div>
+                           
 
                           </div>
                           <div class="col-xl-6 col-lg-6 col-sm-12">
                             <div class="form-group row mb-2">
-                              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Tax</h5>
+                              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Taken :</h5>
                               <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{data.openingBalance}}</p>
+                                <p class="col-form-label">{{sales.salesOrderTakenBy}}</p>
                               </div>
                             </div>
+
                             <div class="form-group row mb-2">
-                              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Shipping</h5>
+                              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Status:</h5>
                               <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{data.billingAddress}}</p>
+                                <p class="col-form-label">{{sales.salesOrderSatus}}</p>
                               </div>
                             </div>
+
 
                           </div>
                         </div>
@@ -296,37 +271,63 @@
                   </div>
                 </div>
 
-                <p-table [value]="salesItem" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                <p-table [value]="salesPopupData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="5">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th pSortableColumn="salesProduct">Product <p-sortIcon field="salesProduct"></p-sortIcon>
-
+                                    <th pSortableColumn="salesCategory">Category <p-sortIcon field="salesCategory"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="salesName">Name <p-sortIcon field="salesName"></p-sortIcon>
                                     </th>
                                     <th pSortableColumn="salesQuantity">Quantity <p-sortIcon field="salesQuantity"></p-sortIcon>
                             </th>
                                     <th pSortableColumn="salesUnitPrice">Unit Price<p-sortIcon field="salesUnitPrice"></p-sortIcon>
                                 </th>
-                                    <th pSortableColumn="salesDiscount">Discount <p-sortIcon field="salesDiscount"></p-sortIcon></th>
-                                    <th pSortableColumn="salesTax">Tax <p-sortIcon field="salesTax"></p-sortIcon>
-                                  </th>
                                     <th pSortableColumn="salesSubTotal">Sub Total <p-sortIcon field="salesSubTotal"></p-sortIcon>
                                    </th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-sales>
                                 <tr>
-                                    <td>{{sales.salesProduct}}</td>
+                                    <td>{{sales.salesCategory}}</td>
+                                    <td>{{sales.salesName}}</td>
                                     <td>{{sales.salesQuantity}}</td>
                                     <td>{{sales.salesUnitPrice}}</td>
-                                    <td>{{sales.salesDiscount}}</td>
-                                    <td>{{sales.salesTax}}</td>
                                     <td>{{sales.salesSubTotal}}</td>
                                 </tr>
                             </ng-template>
                         </p-table>
 
 
+                        <div class="row align-items-center justify-content-center invoice-sign-box">
+                          <div class="col-lg-6 col-md-6">
+                            <div class="col-lg-8 col-md-8">
+                              <div class="invoice-terms">
+                                  <h6>Notes:</h6>
+                                  <p class="mb-0">Enter customer notes or any other details</p>
+                              </div>
+                              <div class="invoice-terms mb-0">
+                                  <h6>Terms and Conditions:</h6>
+                                  <p class="mb-0">Enter customer notes or any other details</p>
+                              </div>
+                          </div>
+                          </div>
+                          <div class="col-lg-6 col-md-6">
+                              <div class="invoice-total-card">
+                                  <div class="invoice-total-box">
+                                      <div class="invoice-total-inner">
+                                          <p>Taxable <span>{{sales.salesOrderTax}} %</span></p>
+                                          <p>Shipping Charges <span>₹ {{sales.salesShipping}}</span></p>
+                                          <p>Discount <span>₹ {{sales.salesDiscount}}</span></p>
+                                          <p>Sub Total <span>₹ {{sales.salesSubTotal}}</span></p>
+                                      </div>
+                                      <div class="invoice-total-footer">
+                                          <h4>Total Amount <span>₹ {{sales.salesTotalAmount}}</span></h4>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
 
               </div>
             </div>

@@ -19,37 +19,32 @@ export class PaidSalesComponent  implements OnInit{
   public searchDataValue = '';
 
   customerList = [];
-  customerData = [
+  salesPopupData=[
     {
-      name: "Supplier 1",
-      email: "Supplier@gmail.com",
-      phoneNumber: "234324",
-      openingBalance: "50.00",
-      billingAddress: "Supplier Billing Address",
-      creditPeriod: "30 day(s)",
-      creditLimit: "20.00",
-      balance: "300.00",
-      taxNumber: "12389524",
-    },
-  ];
-  salesItem=[
-    {salesProduct:"Electronic",
+      salesInvoiceNumber:"abc@11234",
+      salesCustomerName: "Adnan Hussain",
+      salesDate: "25 April 2024",
+      salesOrderTakenBy: "Adnan Hussain",
+      salesOrderSatus: "Ordered",
+      salesCategory: "Electronics",
+      salesName: "Mobile",
       salesQuantity:"3",
       salesUnitPrice:"120",
-      salesDiscount:"20",
-      salesTax:"10",
-      salesSubTotal:"350"
-    },
-  ]
+      salesSubTotal:"350",
+      salesOrderTax: "20",
+      salesShipping: "200",
+      salesDiscount: "50",
+      salesTotalAmount: "1250",
+
+    }
+  ];
   salesData = [
     {
       salesInvoiceNumber: 1112,
       salesDate: "16 April 2024",
       salesCustomer: "Adnan",
       salesStatus: "Delivered",
-      salesPaidAmount: "$2250",
       salesTotalAmount: "$3000",
-      salesPaymentStatus: "Paid",
     }
   ];
 
