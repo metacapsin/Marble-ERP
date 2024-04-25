@@ -1,33 +1,32 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CalendarModule } from 'primeng/calendar';
-import { Validators } from 'ngx-editor';
-import { el } from '@fullcalendar/core/internal-common';
 import { TaxesService } from '../../settings/taxes/taxes.service';
-import { debounceTime } from 'rxjs';
 import { CustomersdataService } from '../../Customers/customers.service';
+import { SalesService } from '../sales.service';
+import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
+import { CategoriesService } from '../../settings/categories/categories.service';
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-addsales',
   standalone: true,
-  imports: [CommonModule,SharedModule, MultiSelectModule, DropdownModule,CalendarModule ],
+  imports: [CommonModule,SharedModule, MultiSelectModule, DropdownModule,CalendarModule, ToastModule ],
   templateUrl: './addsales.component.html',
-  styleUrl: './addsales.component.scss'
+  styleUrl: './addsales.component.scss',
+  providers:[MessageService]
 })
 export class AddsalesComponent {
   
   addSalesForm!: FormGroup;
 public routes = routes;
 customerList=[];
-categoryList=[
-  {categoryName:'Earphone'},
-  {categoryName:'Mobiles'},
-  {categoryName:'Computers'}
-]
+categoryList=[];
 orderStatusList=[
   {orderStatus:"Ordered"},
   {orderStatus:"Confirmed"},
@@ -37,45 +36,36 @@ orderStatusList=[
 ];
 orderTaxList= []
 taxesListData = [];
-// public checkboxes: string[] = [];
 public itemDetails:  number[] = [0];
-public chargesArray: number[]= [0];
-public recurringInvoice   = false;
-public selectedValue! : string  ;
-date = new FormControl(new Date());
 
-// public openCheckBoxes(val: string) {
-//   if (this.checkboxes[0] != val) {
-//     this.checkboxes[0] = val;
-//   } else {
-//     this.checkboxes = [];
-//   }
-// }
 constructor(
+  private router: Router,
+  private messageService: MessageService,
+  private Service: SalesService,
   private customerService: CustomersdataService,
+  private CategoriesService: CategoriesService,
   private taxService: TaxesService,
 private fb: FormBuilder,
     ) {
       this.addSalesForm = this.fb.group({
-        salesInvoiceNumber: [''],
-        salesCustomerName: [''],
+        customer: [''],
         salesDate: [''],
-        salesOrderStatus: [''],
-        salesOrderTax: [''],
         salesDiscount: [''],
-        salesShipping: [''],
-        salesTermsAndCondition: [''],
-        salesNotes: [''],
-        salesTotalAmount: [''],
+        salesInvoiceNumber: [''],
         salesItemDetails: this.fb.array([
           this.fb.group({
             salesItemCategory: [''],
-            salesItemName:[''],
             salesItemQuantity: [''],
             salesItemUnitPrice: [''],
             salesItemSubTotal: [''],
           })
         ]),
+        salesNotes: [''],
+        salesOrderStatus: [''],
+        salesOrderTax: [''],
+        salesShipping: [''],
+        salesTermsAndCondition: [''],
+        salesTotalAmount: [''],
     });
   }
 
@@ -96,23 +86,10 @@ private fb: FormBuilder,
   }
 
   ngOnInit(): void {
-    // const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
-    // salesItems.controls.forEach((item: FormGroup) => {
-    //   const salesItemQuantityControl = item.get('salesItemQuantity');
-  
-    //   salesItemQuantityControl.valueChanges
-    //     .subscribe(() => {
-    //       this.calculateTotalAmount();
-    //     });
-    // });
-    // const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
-    // salesItems.valueChanges.subscribe((any:void) => this.calculateTotalAmount());
-    // this.addSalesForm.get('salesDiscount').valueChanges.subscribe(() => this.calculateTotalAmount())
 
     this.taxService.getAllTaxList().subscribe((resp:any) => {
       this.taxesListData = resp.data;
     
-      // console.log(this.taxesListData); 
       this.orderTaxList = [];
       for (const obj of this.taxesListData) { 
         this.orderTaxList.push({
@@ -122,8 +99,11 @@ private fb: FormBuilder,
         });
       }
     
-      // console.log(this.orderTaxList);
     });
+
+    this.CategoriesService.getCategories().subscribe((resp: any) => {
+      this.categoryList = resp.data;
+    })
 
     this.customerService.GetCustomerData().subscribe((resp:any) => {
       this.customerList = resp;
@@ -134,37 +114,6 @@ private fb: FormBuilder,
 
   }
   
-  // calculateTotalAmount() {
-  //   console.log("Enter in caltotal");
-  //   let totalAmount = 0;
-  //   let shipping = 0;
-  //   let Discount = 0;
-  //   let orderTax = 0;
-  //   let addtaxTotal = 0; 
-  //   const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
-    
-  //   salesItems.controls.forEach((item: FormGroup) => {
-  //     const quantity = +item.get('salesItemQuantity').value;
-  //     const unitPrice = +item.get('salesItemUnitPrice').value;
-  //     const subtotal = (quantity * unitPrice);
-
-  //     shipping = +this.addSalesForm.get('salesShipping').value;
-  //     Discount = +this.addSalesForm.get('salesDiscount').value;
-  //     orderTax = +this.addSalesForm.get('salesOrderTax').value;
-  //     totalAmount += ((shipping + subtotal) - Discount);
-  //     addtaxTotal += totalAmount * orderTax/100;
-  //     totalAmount += addtaxTotal;
-  
-  //     item.get('salesItemSubTotal').setValue(subtotal.toFixed(2)); 
-  //   });
-  
-  //   this.addSalesForm.patchValue({
-
-  //     salesDiscount: Discount.toFixed(2),
-  //     salesShipping: shipping.toFixed(2),
-  //     salesTotalAmount: totalAmount.toFixed(2)
-  //   });
-  // }
 
   calculateTotalAmount() {
     console.log("Enter in caltotal");
@@ -196,40 +145,32 @@ private fb: FormBuilder,
   }
   
   
-  
 
-
-// addItem() {
-//   this.itemDetails.push(0);
-// }
-// deleteItem(index:number){
-//   this.itemDetails.splice(index,1)
-// }
-// addCharges(){
-//   this.chargesArray.push(1)
-// }
-// deleteCharges(index:number){
-//   this.chargesArray.splice(index, 1)
-// }
-// recurringInvoiceFunc(){
-//   this.recurringInvoice = !this.recurringInvoice
-// }
-// selecedList: data[] = [
-//   {value: 'By month'},
-//   {value: 'March'},
-//   {value: 'April'},
-//   {value: 'May'},
-//   {value: 'June'},
-//   {value: 'July'}
-// ];
 addSalesFormSubmit(){
 if(this.addSalesForm.valid){
   console.log("valid form");
   console.log(this.addSalesForm.value);
+
+  this.Service.AddSalesData(this.addSalesForm.value).subscribe((resp: any) => {
+    console.log(resp);
+    if (resp) {
+      if (resp.status === "success") {
+        const message = "Sales has been added";
+        this.messageService.add({ severity: "success", detail: message });
+        setTimeout(() => {
+          this.router.navigate(["/sales"]);
+        }, 400);
+      } else {
+        const message = resp.message;
+        this.messageService.add({ severity: "error", detail: message });
+      }
+    }
+  });
 }
 else{
   console.log("invalid form");
   
 }
 }
+
 }
