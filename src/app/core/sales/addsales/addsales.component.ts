@@ -86,10 +86,14 @@ private fb: FormBuilder,
   }
 
   ngOnInit(): void {
+    this.customerService.GetCustomerData().subscribe((resp:any) => {
+      this.customerList = resp;
+      console.log("customer", this.customerList);
+    });
+
 
     this.taxService.getAllTaxList().subscribe((resp:any) => {
       this.taxesListData = resp.data;
-    
       this.orderTaxList = [];
       for (const obj of this.taxesListData) { 
         this.orderTaxList.push({
@@ -98,19 +102,12 @@ private fb: FormBuilder,
           orderTaxName: obj.name +  ' (' + obj.taxRate + '%'+')',
         });
       }
-    
     });
 
     this.CategoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
-    })
+    });
 
-    this.customerService.GetCustomerData().subscribe((resp:any) => {
-      this.customerList = resp;
-
-      console.log("customer", this.customerList);
-      
-    })
 
   }
   
