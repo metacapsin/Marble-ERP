@@ -37,15 +37,51 @@ export class PurchaseComponent {
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
 
-  salesData = [
+  purchaseData = [
     {
-      salesInvoiceNumber:1112,
-      salesDate:"16 April 2024",
-      salesCustomer:"Adnan",
-      salesStatus:"Delivered",
-      salesPaidAmount:"$2250",
-      salesTotalAmount:"$3000",
-      salesPaymentStatus:"Paid",
+      purchaseInvoiceNumber:1112,
+      purchaseDate:"16 April 2024",
+      purchaseCustomer:"Adnan",
+      purchaseStatus:"Delivered",
+      purchasePaidAmount:"$2250",
+      purchaseTotalAmount:"$3000",
+      purchasePaymentStatus:"Paid",
+    },
+    {
+      purchaseInvoiceNumber:12,
+      purchaseDate:"16 march 2024",
+      purchaseCustomer:"harfool",
+      purchaseStatus:"panding",
+      purchasePaidAmount:"$22",
+      purchaseTotalAmount:"$3300",
+      purchasePaymentStatus:"unpaid",
+    },
+    {
+      purchaseInvoiceNumber:1112,
+      purchaseDate:"16 April 2024",
+      purchaseCustomer:"Adnan",
+      purchaseStatus:"Delivered",
+      purchasePaidAmount:"$2250",
+      purchaseTotalAmount:"$3000",
+      purchasePaymentStatus:"Paid",
+    },
+    {
+      purchaseInvoiceNumber:1112,
+      purchaseDate:"16 April 2024",
+      purchaseCustomer:"Adnan",
+      purchaseStatus:"Delivered",
+      purchasePaidAmount:"$2250",
+      purchaseTotalAmount:"$3000",
+      purchasePaymentStatus:"Paid",
+    },
+    {
+      purchaseInvoiceNumber:1112,
+      purchaseDate:"16 April 2024",
+      purchaseCustomer:"Adnan",
+      purchaseStatus:"Delivered",
+      purchasePaidAmount:"$2250",
+      purchaseTotalAmount:"$3000",
+      purchasePaymentStatus:"Paid",
     }
   ];
 

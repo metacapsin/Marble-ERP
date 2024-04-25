@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
@@ -7,7 +8,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CalendarModule } from 'primeng/calendar';
 import { Validators } from 'ngx-editor';
 import { el } from '@fullcalendar/core/internal-common';
-import { CommonModule } from '@angular/common';
+import { TaxesService } from '../../settings/taxes/taxes.service';
+import { debounceTime } from 'rxjs';
+import { CustomersdataService } from '../../Customers/customers.service';
+
 @Component({
   selector: 'app-add-purchase',
   standalone: true,
@@ -19,10 +23,15 @@ export class AddPurchaseComponent {
 
   addPurchaseForm!: FormGroup;
 public routes = routes;
-CustomerList=[
-  {customerName:"Adnan"},
-  {customerName:"Nadim"},
-  {customerName:"Kavya"},
+SupplierList=[
+  {SupplierName:"Adnan"},
+  {SupplierName:"Nadim"},
+  {SupplierName:"Kavya"},
+]
+categoryList=[
+  {categoryName:'Earphone'},
+  {categoryName:'Mobiles'},
+  {categoryName:'Computers'}
 ]
 productsList=[
   {productsName:'Earphone'},
@@ -36,31 +45,21 @@ orderStatusList=[
   {orderStatus:"Shipping"},
   {orderStatus:"Delivered"},
 ];
-orderTaxList=[
-  {orderTax:"GST"},
-  {orderTax:"GST"},
-  {orderTax:"GST"},
-]
-// public checkboxes: string[] = [];
+orderTaxList= []
+taxesListData = [];
+
 public itemDetails:  number[] = [0];
 public chargesArray: number[]= [0];
 public recurringInvoice   = false;
 public selectedValue! : string  ;
-date = new FormControl(new Date());
-
-// public openCheckBoxes(val: string) {
-//   if (this.checkboxes[0] != val) {
-//     this.checkboxes[0] = val;
-//   } else {
-//     this.checkboxes = [];
-//   }
-// }
-constructor(
+constructor( 
+  private customerService: CustomersdataService,
+  private taxService: TaxesService,
 private fb: FormBuilder,
     ) {
       this.addPurchaseForm = this.fb.group({
         purchaseInvoiceNumber: [''],
-        purchaseCustomerName: [''],
+        purchaseSupplierName: [''],
         purchaseDate: [''],
         purchaseOrderStatus: [''],
         purchaseOrderTax: [''],
@@ -70,7 +69,6 @@ private fb: FormBuilder,
         purchaseNotes: [''],
         purchaseTotalAmount: [''],
         purchaseItemDetails: this.fb.array([]),
-        
     });
   }
 
@@ -93,73 +91,57 @@ private fb: FormBuilder,
   }
 
   ngOnInit(): void {
-    // const purchaseItems = this.addPurchaseForm.get('purchaseItemDetails') as FormArray;
-    // purchaseItems.valueChanges.subscribe(() => this.calculateTotalAmount());
-    // this.addPurchaseForm.get('purchaseShipping').valueChanges.subscribe(() => {
-    //   this.calculateTotalAmount();
-    // })
-    // this.addPurchaseForm.get('purchaseDiscount').valueChanges.subscribe(() => {
-    //   this.calculateTotalAmount();
-    // })
+
+    this.taxService.getAllTaxList().subscribe((resp:any) => {
+      this.taxesListData = resp.data;
+    
+      // console.log(this.taxesListData); 
+      this.orderTaxList = [];
+      for (const obj of this.taxesListData) { 
+        this.orderTaxList.push({
+          _id: obj._id,
+          taxRate: obj.taxRate,
+          orderTaxName: obj.name +  ' (' + obj.taxRate + '%'+')',
+        });
+      }
+    
+    });
+
+
   }
   
-  // calculateTotalAmount() {
-  //   console.log("Enter in caltotal");
-  //   let totalAmount = 0;
-  //   let shipping = 0;
-  //   let Discount = 0;
-  //   const purchaseItems = this.addPurchaseForm.get('purchaseItemDetails') as FormArray;
+
+
+  calculateTotalAmount() {
+    console.log("Enter in caltotal");
+    let totalAmount = 0;
+    let shipping = +this.addPurchaseForm.get('purchaseShipping').value;
+    let Discount = +this.addPurchaseForm.get('purchaseDiscount').value;
+    let orderTax = +this.addPurchaseForm.get('purchaseOrderTax').value;
+  
+    const purchaseItems = this.addPurchaseForm.get('purchaseItemDetails') as FormArray;
     
-  //   purchaseItems.controls.forEach((item: FormGroup) => {
-  //     const quantity = +item.get('purchaseItemQuantity').value;
-  //     const unitPrice = +item.get('purchaseItemUnitPrice').value;
-  //     const discount = +item.get('purchaseItemDiscount').value;
-  //     const tax = +item.get('purchaseItemTax').value;
-  //     const subtotal = (quantity * unitPrice) - discount + tax;
-
-  //     shipping = +this.addPurchaseForm.get('purchaseShipping').value;
-  //     Discount = +this.addPurchaseForm.get('purchaseDiscount').value;
-  //     totalAmount += (shipping + subtotal) - Discount;
-  //     // totalAmount += subtotal;
+    purchaseItems.controls.forEach((item: FormGroup) => {
+      const quantity = +item.get('purchaseItemQuantity').value || 0;
+      const unitPrice = +item.get('purchaseItemUnitPrice').value || 0;
+      const subtotal = quantity * unitPrice;
   
-  //     item.get('purchaseItemSubTotal').setValue(subtotal.toFixed(2)); // Corrected the variable name
-  //   });
+      totalAmount += subtotal;
+      item.get('purchaseItemSubTotal').setValue(subtotal.toFixed(2)); 
+    });
   
-  //   // Update the total amount in the form
-  //   this.addPurchaseForm.patchValue({
-
-  //     purchaseDiscount: Discount.toFixed(2),
-  //     purchaseShipping: shipping.toFixed(2),
-  //     purchaseTotalAmount: totalAmount.toFixed(2)
-  //   });
-  // }
-  
-  
+    let addTaxTotal = totalAmount * orderTax / 100;
+    totalAmount += addTaxTotal;
+    totalAmount += shipping - Discount;
+    
+    this.addPurchaseForm.patchValue({
+      purchaseDiscount: Discount.toFixed(2),
+      purchaseShipping: shipping.toFixed(2),
+      purchaseTotalAmount: totalAmount.toFixed(2)
+    });
+  }
 
 
-addItem() {
-  this.itemDetails.push(0);
-}
-deleteItem(index:number){
-  this.itemDetails.splice(index,1)
-}
-addCharges(){
-  this.chargesArray.push(1)
-}
-deleteCharges(index:number){
-  this.chargesArray.splice(index, 1)
-}
-recurringInvoiceFunc(){
-  this.recurringInvoice = !this.recurringInvoice
-}
-// selecedList: data[] = [
-//   {value: 'By month'},
-//   {value: 'March'},
-//   {value: 'April'},
-//   {value: 'May'},
-//   {value: 'June'},
-//   {value: 'July'}
-// ];
 addPurchaseFormSubmit(){
   console.log(this.addPurchaseForm.value)
 if(this.addPurchaseForm.valid){

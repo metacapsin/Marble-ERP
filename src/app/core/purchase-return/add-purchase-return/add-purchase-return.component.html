@@ -1,14 +1,34 @@
 <div class="page-wrapper">
-    <div class="content container-fluid">
+    <div class="content ">
 
         <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="routes.adminDashboard">Dashboard </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">purchase List</li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">purchase Add</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div class="page-header invoices-page-header">
             <div class="row align-items-center">
                 <div class="col">
                     <ul class="breadcrumb invoices-breadcrumb">
                         <li class="breadcrumb-item invoices-breadcrumb-item">
                             <a [routerLink]="routes.purchaseReturn">
-                                <i class="fa fa-chevron-left"></i> Back to purchase return
+                                <i class="fa fa-chevron-left"></i> Back to purchase Return List
                             </a>
                         </li>
                     </ul>
@@ -21,29 +41,29 @@
             <div class="col-md-12">
                 <div class="card invoices-add-card">
                     <div class="card-body">
-                        <form [formGroup]="addSalesForm" (ngSubmit)="addSalesFormSubmit()" class="invoices-form">
+                        <form [formGroup]="addPurchaseReturnForm" (ngSubmit)="addPurchaseReturnFormSubmit()" >
                             <div class="invoices-main-form">
                                 <div class="row">
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesInvoiceNumber">Invoice Number</label>
-                                            <input type="text" class="form-control" formControlName="salesInvoiceNumber">
+                                            <label for="purchaseReturnInvoiceNumber">Invoice Number</label>
+                                            <input type="text" class="form-control" formControlName="purchaseReturnInvoiceNumber">
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesCustomerName">Supplier</label>
-                                            <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Customer--"
-                                                [options]="CustomerList" formControlName="salesCustomerName"
-                                                optionLabel="customerName" optionValue="customerName" display="chip"
-                                                [showClear]="true"></p-multiSelect>
+                                            <label for="purchaseReturnSupplierName">Supplier Name</label>
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Supplier--"
+                                                [options]="SupplierList" formControlName="purchaseReturnSupplierName"
+                                                optionLabel="name" optionValue="name" display="chip"
+                                                [showClear]="true"></p-dropdown>
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesDate">Purchase return Date</label>
+                                            <label for="purchaseReturnDate">purchase Return Date</label>
                                             <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                                formControlName="salesDate" placeholder="mm/dd/yyyy"
+                                                formControlName="purchaseReturnDate" placeholder="mm/dd/yyyy"
                                                 [styleClass]="'col-12'"></p-calendar>
                                         </div>
                                     </div>
@@ -52,51 +72,47 @@
                                 </div>
                             </div>
                             <div class="invoice-add-table">
-                                <h4 class="d-flex align-items-center">Product<p-button [text]=" true"
-                                        icon="fa fa-plus" (click)="addsalesItemDetailsItem()"></p-button></h4>
+                                <h4 class="d-flex align-items-center">Item Details<p-button [text]=" true"
+                                        icon="fa fa-plus" (click)="addpurchaseReturnDetailsItem()"></p-button></h4>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-nowrap  mb-0 no-footer add-table-items">
                                         <thead>
                                             <tr>
+                                                <th>Category</th>
                                                 <th>Name</th>
                                                 <th>Quantity</th>
                                                 <th>Unit Price</th>
-                                                <th>Discount</th>
-                                                <th>Tax</th>
                                                 <th>Sub Total</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody formArrayName="salesItemDetails" >
-                                            <tr class="add-row" *ngFor="let salesItemDetailsForm of salesItemDetails.controls; let i = index" [formGroupName]="i">
+                                        <tbody formArrayName="purchaseReturnDetails" >
+                                            <tr class="add-row" *ngFor="let purchaseItemDetailsForm of purchaseReturnDetails.controls; let i = index" [formGroupName]="i">
                                                 <td>
-                                                    <p-dropdown [options]="productsList" styleClass="" appendTo="body"
-                                                        optionLabel="productsName" optionValue="productsName"
-                                                        placeholder="Select  Products" [style]="{'width':'100%'}"
+                                                    <p-dropdown [options]="categoryList" styleClass="" appendTo="body"
+                                                        optionLabel="categoryName" optionValue="categoryName"
+                                                        placeholder="Select  Category" [style]="{'width':'100%'}"
                                                         [filter]="true" filterBy="value" [showClear]="true"
-                                                        formControlName="salesItemProducts">
+                                                        formControlName="purchaseReturnItemCategory">
                                                     </p-dropdown>
                                                 </td>
                                                 <td>
-                                                    <input type="number" formControlName="salesItemQuantity" class="form-control">
+                                                    <input type="text" formControlName="purchaseReturnItemName" class="form-control">
                                                 </td>
                                                 <td>
-                                                    <input type="number" formControlName="salesItemUnitPrice" class="form-control">
+                                                    <input type="number" formControlName="purchaseReturnQuantity" (change)="calculateTotalAmount()" class="form-control">
                                                 </td>
                                                 <td>
-                                                    <input type="number" formControlName="salesItemDiscount" class="form-control">
+                                                    <input type="number" formControlName="purchaseReturnUnitPrice" (change)="calculateTotalAmount()" class="form-control">
                                                 </td>
                                                 <td>
-                                                    <input type="text" formControlName="salesItemTax" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <input type="number" formControlName="salesItemSubTotal" class="form-control">
+                                                    <input type="number" formControlName="purchaseItemSubTotal" (change)="calculateTotalAmount()" class="form-control">
                                                 </td>
                                                 <td class="add-remove text-end">
                                                     <p-button [text]=" true" icon="fa fa-plus"
-                                                        (click)="addsalesItemDetailsItem()"></p-button>
-                                                    <p-button [text]=" true" icon="fa fa-trash" (click)="deletesalesItemDetails(i)"
-                                                        (keyup.enter)="deletesalesItemDetails(i)"></p-button>
+                                                        (click)="addpurchaseReturnDetailsItem()"></p-button>
+                                                    <p-button [text]=" true" icon="fa fa-trash" (click)="deletepurchaseReturnDetails(i)"
+                                                        (keyup.enter)="deletepurchaseReturnDetails(i)"></p-button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -128,7 +144,7 @@
                                                         role="tabpanel" aria-labelledby="headingTwo"
                                                         data-bs-parent="#accordion">
                                                         <div class="panel-body">
-                                                            <textarea class="form-control" formControlName="salesTermsAndCondition"></textarea>
+                                                            <textarea class="form-control" formControlName="purchaseReturnTermsAndCondition"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -148,7 +164,7 @@
                                                         role="tabpanel" aria-labelledby="headingThree"
                                                         data-bs-parent="#accordion">
                                                         <div class="panel-body">
-                                                            <textarea class="form-control" formControlName="salesNotes" ></textarea>
+                                                            <textarea class="form-control" formControlName="purchaseReturnNotes" ></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -163,57 +179,64 @@
                                             <div class="row p-3">
                                                 <div class="col-md-6 mt-3">
                                                     <div class="form-group local-forms">
-                                                        <label for="salesOrderStatus">Order Status</label>
+                                                        <label for="purchaseReturnOrderStatus">Order Status</label>
                                                         <p-dropdown [options]="orderStatusList" styleClass="" appendTo="body"
                                                         optionLabel="orderStatus" optionValue="orderStatus"
                                                         placeholder="Select  Status" [style]="{'width':'100%'}"
-                                                        formControlName="salesOrderStatus"
+                                                        formControlName="purchaseReturnOrderStatus"
                                                         [filter]="true" filterBy="value" [showClear]="true">
                                                     </p-dropdown>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 mt-3">
                                                     <div class="form-group local-forms">
-                                                        <label for="salesOrderTax">Order Tax</label>
+                                                        <label for="purchaseReturnOrderTax">Order Tax</label>
                                                         <p-dropdown [options]="orderTaxList" styleClass="" appendTo="body"
-                                                        optionLabel="orderTax" optionValue="orderTax"
+                                                        optionLabel="orderTaxName" optionValue="taxRate"
                                                         placeholder="Select  Tax" [style]="{'width':'100%'}"
-                                                        formControlName="salesOrderTax"
+                                                        formControlName="purchaseReturnOrderTax" (change)="calculateTotalAmount()"
                                                         [filter]="true" filterBy="value" [showClear]="true">
                                                     </p-dropdown>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 ml-3">
                                                     <div class="form-group local-forms">
-                                                        <label for="salesDiscount">Discount </label>
-                                                        <input class="form-control" formControlName="salesDiscount" type="text" placeholder="">
+                                                        <label for="purchaseReturnDiscount">Discount </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                              <span class="input-group-text">₹</span>
+                                                            </div>
+                                                            <input class="form-control" (change)="calculateTotalAmount()" formControlName="purchaseReturnDiscount" type="text" placeholder="">
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 ml-3">
                                                     <div class="form-group local-forms">
-                                                        <label for="salesShipping">Shipping</label>
-                                                        <input class="form-control" formControlName="salesShipping" type="text" placeholder="">
+                                                        <label for="purchaseReturnShipping">Shipping</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                              <span class="input-group-text">₹</span>
+                                                            </div>
+                                                            <input class="form-control" (change)="calculateTotalAmount()" formControlName="purchaseReturnShipping" type="text" placeholder="">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="invoice-total-inner">
-                                                <p>Order Tax <span>$21</span></p>
-                                                <p>Discount<span>₹ {{ addSalesForm.get('salesDiscount').value | number: '1.2-2' }}</span></p>
-                                                <p>Shipping<span>₹ {{ addSalesForm.get('salesShipping').value | number: '1.2-2' }}</span></p>
+                                                <p>Order Tax <span>₹ {{addPurchaseReturnForm.get('purchaseReturnOrderTax').value | number: '1.2-2' }}</span></p>
+                                                <p>Discount<span>₹ {{addPurchaseReturnForm.get('purchaseReturnDiscount').value | number: '1.2-2' }}</span></p>
+                                                <p>Shipping<span>₹ {{addPurchaseReturnForm.get('purchaseReturnShipping').value | number: '1.2-2' }}</span></p>
                                             </div>
 
-                                            <!-- <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>$ 894.00</span></h4>
-                                            </div> -->
                                             <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>₹ {{ addSalesForm.get('salesTotalAmount').value | number: '1.2-2' }}</span></h4>
+                                                <h4>Total Amount <span>₹ {{ addPurchaseReturnForm.get('purchaseReturnTotalAmount').value | number: '1.2-2' }}</span></h4>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="upload-sign">
                                         <div class="form-group float-end mb-0">
-                                            <button class="btn btn-primary" type="submit">Save purchase return</button>
+                                            <button class="btn btn-primary" type="submit">Save purchase</button>
                                         </div>
                                     </div>
                                 </div>
@@ -262,8 +285,8 @@
                                     <div class="row">
                                         <div class="col-lg-4 col-md-12">
                                             <div class="invoice-info">
-                                                <strong class="customer-text-one">Billed to</strong>
-                                                <h6 class="invoice-name">Customer Name</h6>
+                                                <strong class="Supplier-text-one">Billed to</strong>
+                                                <h6 class="invoice-name">Supplier Name</h6>
                                                 <p class="invoice-details invoice-details-two">
                                                     9087484288 <br>
                                                     Address line 1, <br>
@@ -274,7 +297,7 @@
                                         </div>
                                         <div class="col-lg-4 col-md-12">
                                             <div class="invoice-info">
-                                                <strong class="customer-text-one">Invoice From</strong>
+                                                <strong class="Supplier-text-one">Invoice From</strong>
                                                 <h6 class="invoice-name">Company Name</h6>
                                                 <p class="invoice-details invoice-details-two">
                                                     9087484288 <br>

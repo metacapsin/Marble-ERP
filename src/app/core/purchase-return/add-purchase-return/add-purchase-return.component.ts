@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
@@ -7,7 +8,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CalendarModule } from 'primeng/calendar';
 import { Validators } from 'ngx-editor';
 import { el } from '@fullcalendar/core/internal-common';
-import { CommonModule } from '@angular/common';
+import { TaxesService } from '../../settings/taxes/taxes.service';
+import { debounceTime } from 'rxjs';
+import { CustomersdataService } from '../../Customers/customers.service';
+
 @Component({
   selector: 'app-add-purchase-return',
   standalone: true,
@@ -17,12 +21,17 @@ import { CommonModule } from '@angular/common';
 })
 export class AddPurchaseReturnComponent {
  
-  addSalesForm!: FormGroup;
+  addPurchaseReturnForm!: FormGroup;
 public routes = routes;
-CustomerList=[
-  {customerName:"Adnan"},
-  {customerName:"Nadim"},
-  {customerName:"Kavya"},
+SupplierList=[
+  {SupplierName:"Adnan"},
+  {SupplierName:"Nadim"},
+  {SupplierName:"Kavya"},
+]
+categoryList=[
+  {categoryName:'Earphone'},
+  {categoryName:'Mobiles'},
+  {categoryName:'Computers'}
 ]
 productsList=[
   {productsName:'Earphone'},
@@ -36,133 +45,116 @@ orderStatusList=[
   {orderStatus:"Shipping"},
   {orderStatus:"Delivered"},
 ];
-orderTaxList=[
-  {orderTax:"GST"},
-  {orderTax:"GST"},
-  {orderTax:"GST"},
-]
-// public checkboxes: string[] = [];
+orderTaxList= []
+taxesListData = [];
+
 public itemDetails:  number[] = [0];
 public chargesArray: number[]= [0];
 public recurringInvoice   = false;
 public selectedValue! : string  ;
 date = new FormControl(new Date());
 
-// public openCheckBoxes(val: string) {
-//   if (this.checkboxes[0] != val) {
-//     this.checkboxes[0] = val;
-//   } else {
-//     this.checkboxes = [];
-//   }
-// }
 constructor(
-private fb: FormBuilder,
+  private customerService: CustomersdataService,
+  private taxService: TaxesService,
+  private fb: FormBuilder,
     ) {
-      this.addSalesForm = this.fb.group({
-        salesInvoiceNumber: [''],
-        salesCustomerName: [''],
-        salesDate: [''],
-        salesOrderStatus: [''],
-        salesOrderTax: [''],
-        salesDiscount: [''],
-        salesShipping: [''],
-        salesTermsAndCondition: [''],
-        salesNotes: [''],
-        salesTotalAmount: [''],
-        salesItemDetails: this.fb.array([]),
+      this.addPurchaseReturnForm = this.fb.group({
+        purchaseReturnInvoiceNumber: [''],
+        purchaseReturnSupplierName: [''],
+        purchaseReturnDate: [''],
+        purchaseReturnOrderStatus: [''],
+        purchaseReturnOrderTax: [''],
+        purchaseReturnDiscount: [''],
+        purchaseReturnShipping: [''],
+        purchaseReturnTermsAndCondition: [''],
+        purchaseReturnNotes: [''],
+        purchaseReturnTotalAmount: [''],
+        purchaseReturnDetails: this.fb.array([
+          this.fb.group({
+            purchaseReturnItemCategory: [''],
+            purchaseReturnQuantity: [''],
+            purchaseReturnUnitPrice: [''],
+            purchaseItemSubTotal: [''],
+            purchaseReturnItemName:[''],
+          
+          })
+        ]),
+        
+    
     });
   }
 
-  get salesItemDetails() {
-    return this.addSalesForm.controls['salesItemDetails'] as FormArray;
+  get purchaseReturnDetails() {
+    return this.addPurchaseReturnForm.controls['purchaseReturnDetails'] as FormArray;
   }
-  deletesalesItemDetails(salesItemDetailsIndex: number) {
-    this.salesItemDetails.removeAt(salesItemDetailsIndex);
+  deletepurchaseReturnDetails(purchaseReturnDetailsIndex: number) {
+    this.purchaseReturnDetails.removeAt(purchaseReturnDetailsIndex);
   }
-  addsalesItemDetailsItem() {
+  addpurchaseReturnDetailsItem() {
     const item = this.fb.group({
-      salesItemProducts: [''],
-      salesItemQuantity: [''],
-      salesItemUnitPrice: [''],
-      salesItemDiscount: [''],
-      salesItemTax: [''],
-      salesItemSubTotal: [''],
+      purchaseReturnItemCategory: [''],
+      purchaseReturnQuantity: [''],
+      purchaseReturnUnitPrice: [''],
+      purchaseItemSubTotal: [''],
+      purchaseReturnItemName:[''],
+    
     });
-    this.salesItemDetails.push(item);
+    this.purchaseReturnDetails.push(item);
   }
 
   ngOnInit(): void {
-    // const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
-    // salesItems.valueChanges.subscribe(() => this.calculateTotalAmount());
-    // this.addSalesForm.get('salesShipping').valueChanges.subscribe(() => {
-    //   this.calculateTotalAmount();
-    // })
-    // this.addSalesForm.get('salesDiscount').valueChanges.subscribe(() => {
-    //   this.calculateTotalAmount();
-    // })
-  }
-  
-  // calculateTotalAmount() {
-  //   console.log("Enter in caltotal");
-  //   let totalAmount = 0;
-  //   let shipping = 0;
-  //   let Discount = 0;
-  //   const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
+
+    this.taxService.getAllTaxList().subscribe((resp:any) => {
+      this.taxesListData = resp.data;
     
-  //   salesItems.controls.forEach((item: FormGroup) => {
-  //     const quantity = +item.get('salesItemQuantity').value;
-  //     const unitPrice = +item.get('salesItemUnitPrice').value;
-  //     const discount = +item.get('salesItemDiscount').value;
-  //     const tax = +item.get('salesItemTax').value;
-  //     const subtotal = (quantity * unitPrice) - discount + tax;
-
-  //     shipping = +this.addSalesForm.get('salesShipping').value;
-  //     Discount = +this.addSalesForm.get('salesDiscount').value;
-  //     totalAmount += (shipping + subtotal) - Discount;
-  //     // totalAmount += subtotal;
-  
-  //     item.get('salesItemSubTotal').setValue(subtotal.toFixed(2)); // Corrected the variable name
-  //   });
-  
-  //   // Update the total amount in the form
-  //   this.addSalesForm.patchValue({
-
-  //     salesDiscount: Discount.toFixed(2),
-  //     salesShipping: shipping.toFixed(2),
-  //     salesTotalAmount: totalAmount.toFixed(2)
-  //   });
-  // }
-  
-  
+      // console.log(this.taxesListData); 
+      this.orderTaxList = [];
+      for (const obj of this.taxesListData) { 
+        this.orderTaxList.push({
+          _id: obj._id,
+          taxRate: obj.taxRate,
+          orderTaxName: obj.name +  ' (' + obj.taxRate + '%'+')',
+        });
+      }
+    
+    });
 
 
-addItem() {
-  this.itemDetails.push(0);
-}
-deleteItem(index:number){
-  this.itemDetails.splice(index,1)
-}
-addCharges(){
-  this.chargesArray.push(1)
-}
-deleteCharges(index:number){
-  this.chargesArray.splice(index, 1)
-}
-recurringInvoiceFunc(){
-  this.recurringInvoice = !this.recurringInvoice
-}
-// selecedList: data[] = [
-//   {value: 'By month'},
-//   {value: 'March'},
-//   {value: 'April'},
-//   {value: 'May'},
-//   {value: 'June'},
-//   {value: 'July'}
-// ];
-addSalesFormSubmit(){
-if(this.addSalesForm.valid){
+  }
+
+    calculateTotalAmount() {
+      console.log("Enter in caltotal");
+      let totalAmount = 0;
+      let shipping = +this.addPurchaseReturnForm.get('purchaseShipping').value;
+      let Discount = +this.addPurchaseReturnForm.get('purchaseDiscount').value;
+      let orderTax = +this.addPurchaseReturnForm.get('purchaseOrderTax').value;
+    
+      const purchaseItems = this.addPurchaseReturnForm.get('purchaseReturnItemDetails') as FormArray;
+      
+      purchaseItems.controls.forEach((item: FormGroup) => {
+        const quantity = +item.get('purchaseItemQuantity').value || 0;
+        const unitPrice = +item.get('purchaseItemUnitPrice').value || 0;
+        const subtotal = quantity * unitPrice;
+    
+        totalAmount += subtotal;
+        item.get('purchaseItemSubTotal').setValue(subtotal.toFixed(2)); 
+      });
+    
+      let addTaxTotal = totalAmount * orderTax / 100;
+      totalAmount += addTaxTotal;
+      totalAmount += shipping - Discount;
+      
+      this.addPurchaseReturnForm.patchValue({
+        purchaseDiscount: Discount.toFixed(2),
+        purchaseShipping: shipping.toFixed(2),
+        purchaseTotalAmount: totalAmount.toFixed(2)
+      });
+    }
+addPurchaseReturnFormSubmit(){
+if(this.addPurchaseReturnForm.valid){
   console.log("valid form");
-  console.log(this.addSalesForm.value);
+  console.log(this.addPurchaseReturnForm.value);
 }
 else{
   console.log("invalid form");

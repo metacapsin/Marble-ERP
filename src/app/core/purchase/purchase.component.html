@@ -21,11 +21,8 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="py-3 d-flex justify-content-end">
-            <a [routerLink]="routes.Sales" class="invoices-links active">
+            <a [routerLink]="routes.purchase" class="invoices-links active">
               <i class="feather icon-list"></i>
-            </a>
-            <a [routerLink]="routes.invoicesGrid" class="invoices-links">
-              <i class="feather icon-grid"></i>
             </a>
           </div>
         </div>
@@ -147,56 +144,56 @@
         <div class="col-sm-12">
           <div class="card card-table">
             <div class="card-body p-4">
-            <p-table [value]="salesData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+            <p-table [value]="purchaseData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="5">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th appShowHide [roles]="['admin', 'super-admin']">
                                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                     </th>
-                                    <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
-                                        <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
+                                        <p-columnFilter type="text" field="purchaseInvoiceNumber" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="salesDate">	Purchase Date <p-sortIcon field="salesDate"></p-sortIcon>
-                                        <p-columnFilter type="text" field="salesDate" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="purchaseDate">	Purchase Date <p-sortIcon field="purchaseDate"></p-sortIcon>
+                                        <p-columnFilter type="text" field="purchaseDate" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="salesCustomer">Supplier <p-sortIcon field="salesCustomer"></p-sortIcon>
-                                        <p-columnFilter type="text" field="salesCustomer" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="purchaseCustomer">Supplier <p-sortIcon field="purchaseCustomer"></p-sortIcon>
+                                        <p-columnFilter type="text" field="purchaseCustomer" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="salesStatus">Purchase Status	 <p-sortIcon field="salesStatus"></p-sortIcon></th>
-                                    <th pSortableColumn="salesPaidAmount">Paid Amount <p-sortIcon field="salesPaidAmount"></p-sortIcon>
-                                        <p-columnFilter type="text" field="salesPaidAmount" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="purchaseStatus">Purchase Status	 <p-sortIcon field="purchaseStatus"></p-sortIcon></th>
+                                    <!-- <th pSortableColumn="purchasePaidAmount">Paid Amount <p-sortIcon field="purchasePaidAmount"></p-sortIcon> -->
+                                        <!-- <p-columnFilter type="text" field="purchasePaidAmount" display="menu"></p-columnFilter>
+                                    </th> -->
+                                    <th pSortableColumn="purchaseTotalAmount">Total Amount <p-sortIcon field="purchaseTotalAmount"></p-sortIcon>
+                                        <p-columnFilter type="text" field="purchaseTotalAmount" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
-                                        <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="salesPaymentStatus">Payment Status <p-sortIcon field="salesPaymentStatus"></p-sortIcon></th>
+                                    <!-- <th pSortableColumn="purchasePaymentStatus">Payment Status <p-sortIcon field="purchasePaymentStatus"></p-sortIcon></th> -->
 
                                     <th>Action</th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-sales>
+                            <ng-template pTemplate="body" let-purchase>
                                 <tr>
                                     <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableCheckbox [value]="sales"></p-tableCheckbox>
+                                        <p-tableCheckbox [value]="purchase"></p-tableCheckbox>
                                     </td>
-                                    <td>{{sales.salesInvoiceNumber}}</td>
-                                    <td>{{sales.salesDate}}</td>
-                                    <td>{{sales.salesCustomer}}</td>
+                                    <td>{{purchase.purchaseInvoiceNumber}}</td>
+                                    <td>{{purchase.purchaseDate}}</td>
+                                    <td>{{purchase.purchaseCustomer}}</td>
                                     <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Delivered"></p-tag>
                                     </td>
                                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Delivered"></p-tag>
                                     </td> -->
-                                    <td>{{sales.salesStatus}}</td>
-                                    <td>{{sales.salesPaidAmount}}</td>
-                                    <td>{{sales.salesTotalAmount}}</td>
+                                    <td>{{purchase.purchaseStatus}}</td>
+                                    <!-- <td>{{purchase.purchasePaidAmount}}</td> -->
+                                    <td>{{purchase.purchaseTotalAmount}}</td>
                                     <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Unpaid"></p-tag>
                                     </td>
                                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Paid"></p-tag>
                                     </td>
                                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Partially Paid"></p-tag>
                                     </td> -->
-                                    <td>{{sales.salesPaymentStatus}}</td>
+                                    <!-- <td>{{purchase.purchasePaymentStatus}}</td> -->
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                                         <!-- <a class="p-2 border-1 border" [routerLink]="routes.AddCustomers" href=""><i
                                                 class="fa-solid fa-user-plus"></i></a> -->
