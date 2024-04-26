@@ -72,7 +72,7 @@ export class AddUsersComponent implements OnInit{
         [Validators.required, Validators.pattern(new RegExp(/^.{5,50}$/))],
       ],
       address: ["", [Validators.required, Validators.pattern(new RegExp(/^.{2,50}$/))]],
-      wareHouse: ["", [Validators.required]],
+      wareHouse: [""],
       adminCheckBox: [""],
       SalesmanCheckBox: [""],
       stockManagerCheckBox: [""],

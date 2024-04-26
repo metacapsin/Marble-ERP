@@ -25,6 +25,7 @@ export class AddsalesComponent {
   
   addSalesForm!: FormGroup;
 public routes = routes;
+isDisabled: boolean = true; 
 customerList=[];
 categoryList=[];
 orderStatusList=[

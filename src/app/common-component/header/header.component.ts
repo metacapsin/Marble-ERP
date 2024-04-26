@@ -154,6 +154,7 @@ export class HeaderComponent {
   base = '';
   page = '';
   sidebarData: any;
+  userData: any = {};
 
   constructor(public router: Router,private sideBar: SideBarService, private data: DataService, private crypto: AESEncryptDecryptService, public auth: AuthService) {
     this.sideBar.toggleSideBar.subscribe((res: string) => {
@@ -163,10 +164,18 @@ export class HeaderComponent {
         this.miniSidebar = false;
       }
     });
+
+
+
+    this.userData = this.crypto.getData('currentUser');
+        let _menus: any = []
+        this.userData = this.crypto.getData('currentUser');
+
   }
     ngOnInit(): void {
     this.auth.getUserProfile().subscribe((user: any) => {
       this.crypto.setData("currentUser", user.data);
+      
     });
   }
 
