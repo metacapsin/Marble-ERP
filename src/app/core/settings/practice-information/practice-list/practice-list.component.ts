@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { SettingsService } from 'src/app/shared/data/settings.service';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AuthService } from 'src/app/shared/auth/auth.service';
 
 @Component({
   selector: 'app-practice-list',
@@ -19,8 +20,9 @@ export class PracticeListComponent {
   Editdata: any = null;
   loading = false;
   searchDataValue = "";
+  userData:any
 
-  constructor(public dialog: MatDialog, public router: Router, private service: SettingsService) { }
+  constructor(public dialog: MatDialog, public router: Router, private service: SettingsService,public auth: AuthService) { }
 
   getPracticeListData() {
     this.loading = true;
@@ -31,13 +33,16 @@ export class PracticeListComponent {
   }
 
   ngOnInit(): void {
-    this.getPracticeListData();
-  }
-
+    this.auth.getUserProfile().subscribe((user: any) => {
+      this.userData = user.data;
+      console.log(this.userData);
+            
+    });
   // deletePracticeInformation(id: string) {
   //   this.service.deletePracticeInformationById(id).subscribe(resp => {
   //   })
   // }
+  }
 
 }
 

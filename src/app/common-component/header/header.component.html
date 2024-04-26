@@ -212,7 +212,7 @@
     <div>
         <div class="header-left">
             <a [routerLink]="routes.adminDashboard" class="logo">
-                <img src="assets/img/logo.png" width="35" height="35" alt=""> <span>Pre Clinic</span>
+                <img src="assets/img/logo.png" width="35" height="35" alt=""> <span>Marble-ERP</span>
             </a>
         </div>
         <a (click)="toggleSideBar()" id="toggle_btn" href="javascript:void(0);"><img src="assets/img/icons/bar-icon.svg"
@@ -312,7 +312,7 @@
                 </div>
             </li>
             <li class="nav-item dropdown d-none d-sm-block">
-                <a (click)="openBoxFunc()" (keyup.enter)="openBoxFunc()" id="open_msg_box"
+                <a (click)="openBoxFunc()" style="cursor: pointer;" (keyup.enter)="openBoxFunc()" id="open_msg_box"
                     class="hasnotifications nav-link" tabindex="0"><img src="assets/img/icons/note-icon-01.svg"
                         alt=""><span class="pulse"></span> </a>
             </li>
@@ -327,16 +327,16 @@
                     </span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" [routerLink]="routes.profile">My Profile</a>
-                    <a class="dropdown-item" [routerLink]="routes.editProfile">Edit Profile</a>
-                    <a class="dropdown-item" [routerLink]="routes.settings">Settings</a>
+                    <a class="dropdown-item" [routerLink]="routes.practiceInformation">My Profile</a>
+                    <!-- <a class="dropdown-item" [routerLink]="routes.editProfile">Edit Profile</a> -->
+                    <a class="dropdown-item" [routerLink]="routes.setting">Settings</a>
                     <a class="dropdown-item" [routerLink]="routes.login">Logout</a>
                 </div>
             </li>
-            <li class="nav-item ">
+            <!-- <li class="nav-item ">
                 <a [routerLink]="routes.settings" class="hasnotifications nav-link"><img
                         src="assets/img/icons/setting-icon-01.svg" alt=""> </a>
-            </li>
+            </li> -->
         </ul>
         <div class="dropdown mobile-user-menu float-end">
             <a href="javascript:void(0);" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
