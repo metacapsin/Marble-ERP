@@ -37,7 +37,7 @@
                                 <p-dialog header="Import Customers" [(visible)]="visible" [modal]="true"
                                     [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
                                     <ul>
-                                        <li><a href="">Click here to download sample csv file</a></li>
+                                        <li><a [routerLink]="routes.customers">Click here to download sample csv file</a></li>
                                     </ul>
                                     <div>
                                         <h5>File</h5>
@@ -66,22 +66,10 @@
                                     <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon>
                                         <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
                                     </th>
-<<<<<<< HEAD
                                     <th pSortableColumn="role">Created At <p-sortIcon field="role"></p-sortIcon></th>
                                 
                                     <th pSortableColumn="role">Balance <p-sortIcon field="role"></p-sortIcon></th>
                                     <th>Action</th>
-=======
-                                    <th pSortableColumn="createdOn">Created At<p-sortIcon field="createdOn"></p-sortIcon>
-                                        <p-columnFilter type="text" field="createdOn" display="menu"></p-columnFilter>
-                                    </th>
-                                    
-                                    <!-- <th>Action</th> -->
-                                    <th pSortableColumn="openingBalance">Balance <p-sortIcon field="openingBalance"></p-sortIcon>
-                                        <p-columnFilter type="text" field="openingBalance" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th>Edit</th>
->>>>>>> a5fec88f1a0ff649170074c2ce50590d6cda8753
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-product>
