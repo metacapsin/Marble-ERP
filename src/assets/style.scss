@@ -1729,8 +1729,11 @@ table.table {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    margin-left: 15px;
     li {
+      span.menu-side{
+        i{
+          color:$color_3;
+        }
       .active {
         img {
           filter: invert(13%) sepia(85%) saturate(7478%) hue-rotate(266deg)
@@ -1746,9 +1749,10 @@ table.table {
         background: rgba(255, 255, 255, 0.15);
         span.menu-side{
           i{
-            color:$color_16;
+            color:$color_3;
           }
           }
+        } 
       }
       a {
         i {
@@ -1876,7 +1880,7 @@ table.table {
       height: auto;
       padding: 0 20px;
       &:hover {
-        color: $color_16;
+        color: black;
         img {
           filter: invert(13%) sepia(85%) saturate(7478%) hue-rotate(266deg)
             brightness(50%) contrast(340%);
@@ -1928,7 +1932,7 @@ table.table {
         justify-content: flex-start;
         position: relative;
         transition: all 0.2s ease-in-out 0s;
-        color: $color_16;
+        color: $color_3;
         font-weight: 500;
       }
     }
@@ -2063,8 +2067,9 @@ table.table {
 }
 .page-wrapper {
   left: 0;
-  //margin-left: 250px;
-  //padding-top: 70px;
+  margin-left: 250px;
+  // padding-top: 70px;
+  // padding: 10px 50px;
   position: relative;
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
@@ -11439,7 +11444,7 @@ form {
       white-space: nowrap;
     }
     .page-wrapper {
-      //margin-left: 60px;
+      margin-left: 60px;
     }
     .sidebar-menu {
       > ul {
@@ -11849,14 +11854,15 @@ app-header{
   .chat-main-row {
     left: 0;
   }
-  // .header {
-  //   .header-left {
-  //     position: absolute;
-  //     width: 100%;
-  //   }
-  // }
+  .header {
+    .header-left {
+      position: absolute;
+      width: 100%;
+    }
+  }
   .mobile_btn {
     display: block;
+    color: white;
   }
   .page-title-box {
     display: none;

@@ -9,6 +9,7 @@ import { ToastModule } from 'primeng/toast';
 import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { WarehouseService } from '../warehouse.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -28,17 +29,28 @@ export class WarehouseListComponent {
   warehouseID: any;
   searchDataValue = "";
   selectedProducts = [];
+  currentRoute!: string;
+  routerChangeSubscription: Subscription;
   
 
-
-
-  // staticValues = [
-  //   { name: 'Warehouse 1', email: 'warehouse1@example.com', phone: '123-456-7890',  },
-  //   { name: 'Warehouse 2', email: 'warehouse2@example.com', phone: '987-654-3210',},
-  //   { name: 'Warehouse 3', email: 'warehouse3@example.com', phone: '555-555-5555',}
-  // ];
-
-  constructor(public dialog: MatDialog, public router: Router, private service: WarehouseService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
+  
+  isRouteActive(text) {
+    if(!this.currentRoute) return ''
+    let str = this.currentRoute?.includes(text)
+        if (str) {
+        return 'active'
+    } else {
+        return 'non-active'
+    }
+}
+  constructor(public dialog: MatDialog, public router: Router, private service: WarehouseService, private _snackBar: MatSnackBar, private messageService: MessageService) {
+    this.routerChangeSubscription = this.router.events.subscribe(
+      (event) => {
+          this.currentRoute = this.router.url
+          // console.log(this.currentRoute)
+      }
+  )
+   }
 
   getAllWarehouseList(): void {
     this.service.getAllWarehouseList().subscribe((resp: any) => {

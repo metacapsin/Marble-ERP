@@ -50,7 +50,6 @@ const routes: Routes = [
           ),
       },
       
-      
       {
         path: 'visit-reasons',
         loadChildren: () =>

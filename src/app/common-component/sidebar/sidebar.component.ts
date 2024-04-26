@@ -26,7 +26,8 @@ export class SidebarComponent {
     private router: Router,
     private sideBar: SideBarService
   ) {
-    this.sidebarData = [] //this.data.sideBar;
+    this.sidebarData = this.data.sideBar;
+    
     router.events.subscribe((event: object) => {
       if (event instanceof NavigationEnd) {
         this.getRoutes(event);

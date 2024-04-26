@@ -95,7 +95,6 @@ this.customerId = Id;
 
   callBackModal() {
     this.Service.DeleteCustomerApi(this.customerId).subscribe((resp:any) => {
-      // const message = "Cus has been deleted"
       this.messageService.add({ severity: 'success', detail:  resp.message });
       this.getCoustomers();
       this.showDialoge = false;
@@ -107,21 +106,5 @@ this.customerId = Id;
   }
 
 
-  // deleteCustomer(e:any){
-  //   this.Service.DeleteCustomerApi(e).subscribe((resp:any) => {
-  //     if (resp) {
-  //       if (resp.status === "success") {
-  //         this.getCoustomers()
-  //         // const message = "User has been added";
-  //         this.messageService.add({ severity: "success", detail: resp.message });
-  //         setTimeout(() => {
-  //           // this.router.navigate(["/customers"]);
-  //         }, 400);
-  //       } else {
-  //         const message = resp.message;
-  //         this.messageService.add({ severity: "error", detail: message });
-  //       }
-  //     }
-  //   })
-  // }
+  
 }

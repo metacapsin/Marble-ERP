@@ -4,6 +4,7 @@ import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { routes } from 'src/app/shared/routes/routes';
 
+
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
