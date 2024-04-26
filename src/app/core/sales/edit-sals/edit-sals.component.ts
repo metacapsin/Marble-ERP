@@ -87,6 +87,7 @@ export class EditSalsComponent {
   addsalesItemDetailsItem() {
     const item = this.fb.group({
       salesItemCategory: [''],
+      salesItemName: [''],
       salesItemQuantity: [''],
       salesItemUnitPrice: [''],
       salesItemSubTotal: [''],

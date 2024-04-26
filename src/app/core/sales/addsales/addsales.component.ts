@@ -56,6 +56,7 @@ private fb: FormBuilder,
         salesItemDetails: this.fb.array([
           this.fb.group({
             salesItemCategory: [''],
+            salesItemName: [''],
             salesItemQuantity: [''],
             salesItemUnitPrice: [''],
             salesItemSubTotal: [''],
@@ -79,6 +80,7 @@ private fb: FormBuilder,
   addsalesItemDetailsItem() {
     const item = this.fb.group({
       salesItemCategory: [''],
+      salesItemName: [''],
       salesItemQuantity: [''],
       salesItemUnitPrice: [''],
       salesItemSubTotal: [''],

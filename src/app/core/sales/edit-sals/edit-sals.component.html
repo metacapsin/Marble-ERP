@@ -80,6 +80,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Category</th>
+                                                <th>Name</th>
                                                 <th>Quantity</th>
                                                 <th>Unit Price</th>
                                                 <th>Sub Total</th>
@@ -97,6 +98,9 @@
                                                         [filter]="true" filterBy="value" [showClear]="true"
                                                         formControlName="salesItemCategory">
                                                     </p-dropdown>
+                                                </td>
+                                                <td>
+                                                    <input type="text" formControlName="salesItemName" class="form-control">
                                                 </td>
                                                 <td>
                                                     <input type="number" formControlName="salesItemQuantity"
