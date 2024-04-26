@@ -3559,7 +3559,7 @@ table.dataTable {
     height: 10px;
     position: absolute;
     border-radius: 50%;
-    background: rgb(0 211 199 / 50%);
+    background: #2e38a42d;
     cursor: pointer;
     box-shadow: 0 0 0 rgb(0 211 199);
     animation: pulse 1s linear infinite;
@@ -6771,9 +6771,9 @@ a.voice-icon {
   background-color: $background-color_32;
   overflow: hidden;
 }
-.sidebar-overlay.opened {
-  display: block;
-}
+// .sidebar-overlay.opened {
+//   display: block;
+// }
 .menu-opened {
   .sidebar-overlay {
     display: block;
