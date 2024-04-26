@@ -56,6 +56,7 @@
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
                                                 [options]="customerList" formControlName="customer"
                                                 optionLabel="name" optionValue="name" display="chip"
+                                                [filter]="true" filterBy="name"
                                                 [showClear]="true"></p-dropdown>
                                         </div>
                                     </div>
@@ -91,8 +92,8 @@
                                                 <td>
                                                     <p-dropdown [options]="categoryList" styleClass="" appendTo="body"
                                                         optionLabel="name" optionValue="name"
-                                                        placeholder="Select  Category" [style]="{'width':'100%'}"
-                                                        [filter]="true" filterBy="value" [showClear]="true"
+                                                        placeholder="Select  Category" [style]="{'width':'220px'}"
+                                                        [filter]="true" filterBy="name" [showClear]="true"
                                                         formControlName="salesItemCategory">
                                                     </p-dropdown>
                                                 </td>
@@ -186,7 +187,7 @@
                                                         optionLabel="orderStatus" optionValue="orderStatus"
                                                         placeholder="Select  Status" [style]="{'width':'100%'}"
                                                         formControlName="salesOrderStatus"
-                                                        [filter]="true" filterBy="value" [showClear]="true">
+                                                        [filter]="true" filterBy="orderStatus" [showClear]="true">
                                                     </p-dropdown>
                                                     </div>
                                                 </div>
@@ -197,7 +198,7 @@
                                                         optionLabel="orderTaxName" optionValue="taxRate"
                                                         placeholder="Select  Tax" [style]="{'width':'100%'}"
                                                         formControlName="salesOrderTax" (change)="calculateTotalAmount()"
-                                                        [filter]="true" filterBy="value" [showClear]="true">
+                                                        [filter]="true" filterBy="orderTaxName" [showClear]="true">
                                                     </p-dropdown>
                                                     </div>
                                                 </div>

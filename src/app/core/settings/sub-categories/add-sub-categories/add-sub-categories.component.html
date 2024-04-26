@@ -1,4 +1,4 @@
-<mat-dialog-content class="mat-typography mat-lg" style="width: 800px;">
+<mat-dialog-content class="mat-typography mat-lg" style="width: 100%;">
 
   <div class="m-b-20">
     <h3>Add Sub-Category</h3>
@@ -25,7 +25,7 @@
             <label for="name">Category <span class="login-danger">*</span></label>
             <p-dropdown [options]="categoriesListData" styleClass="" appendTo="body" optionLabel="name" optionValue="_id"
               placeholder="Select  Category" formControlName="categoryId" [style]="{'width':'100%'}"
-              [filter]="true" filterBy="value" [showClear]="true">
+              [filter]="true" filterBy="name" [showClear]="true">
             </p-dropdown>
 
             <div

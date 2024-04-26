@@ -1,4 +1,4 @@
-<mat-dialog-content class="mat-typography mat-lg" style="width: 800px;">
+<mat-dialog-content class="mat-typography mat-lg" style="width: 100%;">
 
   <div class="m-b-20">
     <h3>Add Taxes</h3>
@@ -35,7 +35,7 @@
         <div class="col-md-6">
           <div class="form-group local-forms">
             <label for="name">Tax Rate <span class="login-danger">*</span></label>
-            <input class="form-control" type="text" placeholder="" formControlName="taxRate">
+            <input class="form-control" type="number" placeholder="" formControlName="taxRate">
 
             <div *ngIf="addTaxesForm.get('taxRate')?.hasError('required') && addTaxesForm.get('taxRate')?.touched">
               <span class="login-danger">Tax Rate is reqiured</span>

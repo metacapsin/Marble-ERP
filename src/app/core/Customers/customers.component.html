@@ -33,8 +33,6 @@
                                     <a [routerLink]="routes.AddCustomers" class="btn btn-primary"><img
                                             src="assets/img/icons/plus.svg" alt=""> Add Customer</a>
                                     <a class="btn btn-primary" (click)="showDialog()">Import Customers</a>
-                                    <!-- <button style="width: 100%;" class="border-0 btn btn-primary btn-gradient-primary m-r-10"><a href="">Add Customer</a></button>
-                                    <button style="width: 500%;" class="border-0 btn btn-primary btn-gradient-primary m-r-10"><a href="">Import Customers</a></button> -->
                                 </div>
                                 <p-dialog header="Import Customers" [(visible)]="visible" [modal]="true"
                                     [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
@@ -69,9 +67,9 @@
                                         <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="role">Created At <p-sortIcon field="role"></p-sortIcon></th>
-                                    <!-- <th>Action</th> -->
+                                
                                     <th pSortableColumn="role">Balance <p-sortIcon field="role"></p-sortIcon></th>
-                                    <th>Edit</th>
+                                    <th>Action</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-product>
@@ -85,14 +83,9 @@
                                     </td>
                                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag>
                                     </td>
-                                    <td>{{product.createdOn}}</td>
+                                    <td>{{product.createdOn | date: 'dd-MM-yyyy'}}</td>
                                     <td>{{product.openingBalance}}</td>
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                                        <!-- <a class="p-2 border-1 border" style="cursor: pointer;" (click)="vewCustomer(product._id)"><i class="fa-solid fa-eye"></i></a>
-
-                                        <a class="p-2 border-1 border" style="cursor: pointer;" (click)="editCustomer(product._id)"><i
-                                                class="fa-solid fa-pen-to-square"></i></a>
-                                        <a class="p-2 border-1 border" style="cursor: pointer;" (click)="deleteCustomer(product._id)"><i class="fa-solid fa-trash"></i></a> -->
 
                                         <p-button [text]=" true" icon="fa fa-eye"
                                             (click)="vewCustomer(product._id)"></p-button>

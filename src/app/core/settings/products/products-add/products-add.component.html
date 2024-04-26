@@ -114,16 +114,15 @@
                                         </div>
                                       </div> -->
 
-                                      <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
                                             <label for="category">Category <span class="login-danger">*</span></label>
-                                            <p-treeSelect class="md:w-20rem w-full" containerStyleClass="w-full"
+                                                <p-treeSelect class="md:w-20rem w-full" containerStyleClass="w-full"
                                                 placeholder="Select item" [(ngModel)]="selectedCategeoryOption"
-                                                [options]="categeoryOptions" 
-                                                [style]="{'width':'100%'}" [filter]="true"
-                                                filterBy="value" [showClear]="true"
-                                                formControlName="category"></p-treeSelect>
-
+                                                [options]="categeoryOptions" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="label" [showClear]="true"
+                                                formControlName="category">
+                                            </p-treeSelect>
 
                                         </div>
                                     </div>
@@ -136,7 +135,7 @@
                                             <p-dropdown [options]="unitList" styleClass="" appendTo="body"
                                                 optionLabel="label" optionValue="value" placeholder="Select  Unit"
                                                 formControlName="unit" [style]="{'width':'100%'}" [filter]="true"
-                                                filterBy="value" [showClear]="true">
+                                                filterBy="label" [showClear]="true">
                                             </p-dropdown>
                                         </div>
                                     </div>
@@ -162,7 +161,7 @@
                                                 optionLabel="label" optionValue="value"
                                                 placeholder="Select  Barcode Symbology"
                                                 formControlName="barcodeSymbology" [style]="{'width':'100%'}"
-                                                [filter]="true" filterBy="value" [showClear]="true">
+                                                [filter]="true" filterBy="label" [showClear]="true">
                                             </p-dropdown>
                                         </div>
                                     </div>
@@ -200,7 +199,7 @@
                                             <p-dropdown [options]="taxList" styleClass="" appendTo="body"
                                                 optionLabel="label" optionValue="value" placeholder="Select  Tax"
                                                 formControlName="tax" [style]="{'width':'100%'}" [filter]="true"
-                                                filterBy="value" [showClear]="true">
+                                                filterBy="label" [showClear]="true">
                                             </p-dropdown>
                                         </div>
                                     </div>
@@ -217,7 +216,7 @@
                                             <label for="openingStockDate">Opening Stock Date</label>
                                             <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                                 formControlName="openingStockDate" placeholder="Select Date"
-                                                class="col-12"></p-calendar>
+                                                [styleClass]="'col-12'" class="col-12"></p-calendar>
 
                                         </div>
                                     </div>
@@ -270,7 +269,7 @@
                                             <label for="expiryDate">Expiry Date</label>
                                             <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                                 formControlName="expiryDate" placeholder="Select Date"
-                                                class="col-12"></p-calendar>
+                                                [styleClass]="'col-12'" class="col-12"></p-calendar>
 
                                         </div>
                                     </div>
