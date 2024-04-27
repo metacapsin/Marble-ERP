@@ -20,7 +20,7 @@ export class CustomersComponent {
   routes = routes;
   currentRoute!: string;
   routerChangeSubscription: Subscription;
-  selectedProducts = [];
+  selectedCustomer = [];
   searchDataValue: any;
   showDialoge = false;
   modalData: any = {};

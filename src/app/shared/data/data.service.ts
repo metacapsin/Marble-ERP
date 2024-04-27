@@ -986,6 +986,11 @@ export class DataService {
               base: routes.Sales,
             },
             {
+              menuValue: "payment In",
+              route: routes.paymentIn,
+              base: routes.paymentIn,
+            },
+            {
               menuValue: 'Sales Return',
               route: routes.salesReturn,
               base: routes.salesReturn,

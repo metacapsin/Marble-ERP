@@ -1,0 +1,178 @@
+<!-- <router-outlet></router-outlet> -->
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <div class="content">
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Payment In </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Payment In Add</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <form [formGroup]="addPaymentInForm" (ngSubmit)="addPaymentInFormSubmit()">
+                                <div class="row">
+
+                                    <div class="d-flex m-b-10" style="justify-content: space-between">
+                                        <h3>Add Payment</h3>
+                                        <div class="settings-btns text-end m-b-10">
+                                            <button type="submit"
+                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                [disabled]="!addPaymentInForm.valid"
+                                                >
+                                                Submit
+                                            </button>
+                                            <button class="btn btn-secondary" [routerLink]="routes.paymentIn">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="name">Customer <span class="login-danger">*</span></label>
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Customer--"
+                                                [options]="customerList"  optionLabel="name"
+                                                optionValue="_id" display="chip" [filter]="true" filterBy="name"
+                                                [showClear]="true"></p-dropdown>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="name">Payment Date <span class="login-danger">*</span></label>
+                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                                formControlName="paymentDate" placeholder="mm/dd/yyyy"
+                                                [styleClass]="'col-12'"></p-calendar>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="paymentMode">Payment Mode <span class="login-danger">*</span></label>
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Payment Mode--"
+                                                [options]="paymentModeList" formControlName="paymentMode" optionLabel="paymentMode"
+                                                optionValue="paymentMode" display="chip" [filter]="true" filterBy="paymentMode"
+                                                [showClear]="true"></p-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="amount">Amount <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder=""
+                                                formControlName="amount">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="amount">Notes </label>
+                                            <textarea class="form-control" type="text" placeholder=""
+                                                formControlName="note"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <span class="bold">● Settle below invoices using this payment</span>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+
+                                <div class="invoice-add-table">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-nowrap  mb-0 no-footer add-table-items">
+                                            <thead>
+                                                <tr>
+                                                    <th>Invoice Number</th>
+                                                    <th>Date</th>
+                                                    <th>Invoice Amount</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+                                                <tr class="add-row">    
+                                                    <td>
+                                                        <span class="bold">123av5</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="bold">20-4-2024</span>
+                                                    </td>
+                                                    <td>
+                                                        <label for="">Adnan</label>
+                                                    </td>
+    
+                                                    <td>
+                                                        <input type="number"  class="form-control">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!-- <div class="card-body p-2">
+                            <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th>
+                                    <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
+                                        <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="customer">customer <p-sortIcon field="customer"></p-sortIcon>
+                                        <p-columnFilter type="text" field="customer" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
+                                        <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
+                                        <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-payment>
+                                <tr>
+                                    <td appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableCheckbox [value]="payment"></p-tableCheckbox>
+                                    </td>
+                                    <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
+                                    <td class="bold">{{payment.customer}}</td>
+                                    <td>{{payment.paymentMode}}</td>
+                                    <td>{{payment.amount}}</td>
+                                    
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        </div> -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

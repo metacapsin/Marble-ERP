@@ -583,5 +583,12 @@ export class routes {
   public static get editSalesReturn(): string {
     return this.baseUrl + '/sales-return/edit-sales-return';
   }
+
+  public static get paymentIn(): string {
+    return this.baseUrl + '/payment-in'
+  }
+  public static get addPaymentIn(): string {
+    return this.baseUrl + '/payment-in/add-payment-in'
+  }
   
 }

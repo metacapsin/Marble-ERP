@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoriesService } from '../../settings/categories/categories.service';
 import { ToastModule } from 'primeng/toast';
+import { SubCategoriesService } from '../../settings/sub-categories/sub-categories.service';
 
 @Component({
   selector: 'app-edit-sals',
@@ -28,6 +29,7 @@ export class EditSalsComponent {
   salesId = "";
   customerList = [];
   categoryList = []
+  subCategoryList = []
   orderStatusList = [
     { orderStatus: "Ordered" },
     { orderStatus: "Confirmed" },
@@ -50,6 +52,7 @@ export class EditSalsComponent {
     private Service: SalesService,
     private customerService: CustomersdataService,
     private CategoriesService: CategoriesService,
+    private subCategoriesService: SubCategoriesService,
     private taxService: TaxesService,
     private fb: FormBuilder,
   ) {
@@ -116,6 +119,10 @@ export class EditSalsComponent {
 
     this.CategoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
+    });
+
+    this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
+      this.subCategoryList = resp.data;
     });
 
     this.Service.GetSalesDataById(this.salesId).subscribe((resp: any) => {

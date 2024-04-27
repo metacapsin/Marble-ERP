@@ -13,61 +13,68 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { CategoriesService } from '../../settings/categories/categories.service';
 import { ToastModule } from 'primeng/toast';
+import { SubCategoriesService } from '../../settings/sub-categories/sub-categories.service';
 @Component({
   selector: 'app-addsales',
   standalone: true,
-  imports: [CommonModule,SharedModule, MultiSelectModule, DropdownModule,CalendarModule, ToastModule ],
+  imports: [CommonModule, SharedModule, MultiSelectModule, DropdownModule, CalendarModule, ToastModule],
   templateUrl: './addsales.component.html',
   styleUrl: './addsales.component.scss',
-  providers:[MessageService]
+  providers: [MessageService]
 })
 export class AddsalesComponent {
-  
-  addSalesForm!: FormGroup;
-public routes = routes;
-isDisabled: boolean = true; 
-customerList=[];
-categoryList=[];
-orderStatusList=[
-  {orderStatus:"Ordered"},
-  {orderStatus:"Confirmed"},
-  {orderStatus:"Processing"},
-  {orderStatus:"Shipping"},
-  {orderStatus:"Delivered"},
-];
-orderTaxList= []
-taxesListData = [];
-public itemDetails:  number[] = [0];
 
-constructor(
-  private router: Router,
-  private messageService: MessageService,
-  private Service: SalesService,
-  private customerService: CustomersdataService,
-  private CategoriesService: CategoriesService,
-  private taxService: TaxesService,
-private fb: FormBuilder,
-    ) {
-      this.addSalesForm = this.fb.group({
-        customer: [''],
-        salesDate: [''],
-        salesDiscount: [''],
-        salesInvoiceNumber: [''],
-        salesItemDetails: this.fb.array([
-          this.fb.group({
-            salesItemCategory: [''],
-            salesItemName: [''],
-            salesItemQuantity: [''],
-            salesItemUnitPrice: [''],
-            salesItemSubTotal: [''],
-          })
-        ]),
-        salesNotes: [''],
-        salesOrderStatus: [''],
-        salesOrderTax: [''],
-        salesShipping: [''],
-        salesTermsAndCondition: [''],
-        salesTotalAmount: [''],
+  addSalesForm!: FormGroup;
+  public routes = routes;
+  public searchData_id = '';
+  isDisabled: boolean = true;
+  customerList = [];
+  categoryList = [];
+  subCategoryList = [];
+  orderStatusList = [
+    { orderStatus: "Ordered" },
+    { orderStatus: "Confirmed" },
+    { orderStatus: "Processing" },
+    { orderStatus: "Shipping" },
+    { orderStatus: "Delivered" },
+  ];
+  orderTaxList = []
+  taxesListData = [];
+  customerById = {};
+  public itemDetails: number[] = [0];
+
+  constructor(
+    private customerByIdService: CustomersdataService,
+    private router: Router,
+    private messageService: MessageService,
+    private Service: SalesService,
+    private customerService: CustomersdataService,
+    private CategoriesService: CategoriesService,
+    private subCategoriesService: SubCategoriesService,
+    private taxService: TaxesService,
+    private fb: FormBuilder,
+  ) {
+    this.addSalesForm = this.fb.group({
+      customer: [''],
+      salesDate: [''],
+      salesDiscount: [''],
+      salesInvoiceNumber: [''],
+      salesItemDetails: this.fb.array([
+        this.fb.group({
+          salesItemCategory: [''],
+          salesItemSubCategory: [''],
+          salesItemName: [''],
+          salesItemQuantity: [''],
+          salesItemUnitPrice: [''],
+          salesItemSubTotal: [''],
+        })
+      ]),
+      salesNotes: [''],
+      salesOrderStatus: [''],
+      salesOrderTax: [''],
+      salesShipping: [''],
+      salesTermsAndCondition: [''],
+      salesTotalAmount: [''],
     });
   }
 
@@ -80,6 +87,7 @@ private fb: FormBuilder,
   addsalesItemDetailsItem() {
     const item = this.fb.group({
       salesItemCategory: [''],
+      salesItemSubCategory: [''],
       salesItemName: [''],
       salesItemQuantity: [''],
       salesItemUnitPrice: [''],
@@ -89,20 +97,20 @@ private fb: FormBuilder,
   }
 
   ngOnInit(): void {
-    this.customerService.GetCustomerData().subscribe((resp:any) => {
+    this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.customerList = resp;
       console.log("customer", this.customerList);
     });
 
 
-    this.taxService.getAllTaxList().subscribe((resp:any) => {
+    this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
       this.orderTaxList = [];
-      for (const obj of this.taxesListData) { 
+      for (const obj of this.taxesListData) {
         this.orderTaxList.push({
           _id: obj._id,
           taxRate: obj.taxRate,
-          orderTaxName: obj.name +  ' (' + obj.taxRate + '%'+')',
+          orderTaxName: obj.name + ' (' + obj.taxRate + '%' + ')',
         });
       }
     });
@@ -111,9 +119,13 @@ private fb: FormBuilder,
       this.categoryList = resp.data;
     });
 
+    this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
+      this.subCategoryList = resp.data;
+    });
+
 
   }
-  
+
 
   calculateTotalAmount() {
     console.log("Enter in caltotal");
@@ -121,56 +133,88 @@ private fb: FormBuilder,
     let shipping = +this.addSalesForm.get('salesShipping').value;
     let Discount = +this.addSalesForm.get('salesDiscount').value;
     let orderTax = +this.addSalesForm.get('salesOrderTax').value;
-  
+    console.log(orderTax);
+
     const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
-    
+
     salesItems.controls.forEach((item: FormGroup) => {
       const quantity = +item.get('salesItemQuantity').value || 0;
       const unitPrice = +item.get('salesItemUnitPrice').value || 0;
       const subtotal = quantity * unitPrice;
-  
+
       totalAmount += subtotal;
-      item.get('salesItemSubTotal').setValue(subtotal.toFixed(2)); 
+      item.get('salesItemSubTotal').setValue(subtotal.toFixed(2));
     });
-  
+
     let addTaxTotal = totalAmount * orderTax / 100;
     totalAmount += addTaxTotal;
     totalAmount += shipping - Discount;
-    
+
     this.addSalesForm.patchValue({
       salesDiscount: Discount.toFixed(2),
       salesShipping: shipping.toFixed(2),
       salesTotalAmount: totalAmount.toFixed(2)
     });
   }
-  
-  
 
-addSalesFormSubmit(){
-if(this.addSalesForm.valid){
-  console.log("valid form");
-  console.log(this.addSalesForm.value);
+  getCustomerById(value:any){
+    console.log("value",value);
+    
+    this.customerByIdService.GetCustomerDataById(value).subscribe((resp: any) => {
+      this.customerByIdService = resp
+    })
 
-  this.Service.AddSalesData(this.addSalesForm.value).subscribe((resp: any) => {
-    console.log(resp);
-    if (resp) {
-      if (resp.status === "success") {
-        const message = "Sales has been added";
-        this.messageService.add({ severity: "success", detail: message });
-        setTimeout(() => {
-          this.router.navigate(["/sales"]);
-        }, 400);
-      } else {
-        const message = resp.message;
-        this.messageService.add({ severity: "error", detail: message });
-      }
+  }
+
+
+
+  addSalesFormSubmit() {
+    const formData = this.addSalesForm.value;
+
+
+    const payload = {
+      customer: formData.customer,
+      salesDate: formData.salesDate,
+      salesDiscount: formData.salesDiscount,
+      salesInvoiceNumber: formData.salesInvoiceNumber,
+      salesItemDetails: formData.salesItemDetails,
+      salesNotes: formData.salesNotes,
+      salesOrderStatus: formData.salesOrderStatus,
+      salesOrderTax: formData.salesOrderTax,
+      salesShipping: formData.salesShipping,
+      // appliedTax : [
+      //   {_id : "kdhh", name : "GST"},
+      //   {_id : "kdhh", name : "SGST"}
+      //   ],
+      salesTermsAndCondition: formData.salesTermsAndCondition,
+      salesTotalAmount: formData.salesTotalAmount,
     }
-  });
-}
-else{
-  console.log("invalid form");
-  
-}
-}
+
+
+    if (this.addSalesForm.valid) {
+      console.log("valid form");
+      console.log("data by payload", payload);
+
+      this.Service.AddSalesData(payload).subscribe((resp: any) => {
+        console.log(resp);
+        if (resp) {
+          if (resp.status === "success") {
+            const message = "Sales has been added";
+            this.messageService.add({ severity: "success", detail: message });
+            setTimeout(() => {
+              this.router.navigate(["/sales"]);
+            }, 400);
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      });
+    }
+    else {
+      console.log("invalid form");
+
+    }
+  }
 
 }

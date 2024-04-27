@@ -24,6 +24,7 @@ export class SalesComponent implements OnInit {
   public routes = routes;
 
   public searchDataValue = '';
+  selectedSales = '';
   customerList = [];
   saleId: any;
   showDialoge = false;

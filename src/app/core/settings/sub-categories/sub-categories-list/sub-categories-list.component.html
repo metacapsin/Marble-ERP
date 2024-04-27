@@ -62,10 +62,14 @@
                     <th style="width: 10%;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
                       <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-                    <th pSortableColumn="name" style="width: 70%;">Name <p-sortIcon
+                    <th pSortableColumn="name" style="width: 70%;">Sub Category <p-sortIcon
                         field="name"></p-sortIcon>
                         <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
                     </th>
+                    <!-- <th pSortableColumn="category" style="width: 70%;">Category <p-sortIcon
+                        field="category"></p-sortIcon>
+                        <p-columnFilter type="text" field="category" display="menu"></p-columnFilter>
+                    </th> -->
                     <th style="width: 20%;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">Action</th>
                   </tr>
                 </ng-template>
@@ -75,6 +79,7 @@
                       <p-tableCheckbox [value]="subCategories"></p-tableCheckbox>
                     </td>
                     <td>{{subCategories.name}}</td>
+                    <!-- <td>{{subCategories.category}}</td> -->
                     <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
                       <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(subCategories._id)"></p-button>
                       <p-button [text]=" true" icon="fa fa-trash" (click)="deleteSubCategory(subCategories._id)"></p-button>

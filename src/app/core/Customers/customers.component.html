@@ -51,7 +51,7 @@
 
                     <div class="card-body p-2">
                         <p-table [value]="dataSource" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                            [rows]="5">
+                            [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCustomer">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th appShowHide [roles]="['admin', 'super-admin']">
