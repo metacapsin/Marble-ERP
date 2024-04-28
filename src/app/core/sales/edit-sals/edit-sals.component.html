@@ -231,6 +231,11 @@
                                                                 (change)="calculateTotalAmount()"
                                                                 formControlName="salesDiscount" type="number"
                                                                 placeholder="">
+                                                                <div
+                                                                *ngIf="editSalesForm.get('salesDiscount')?.hasError('min') && editSalesForm.get('salesDiscount')?.touched">
+                                                                <span class="login-danger">Shipping must be more than
+                                                                    0</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -245,6 +250,11 @@
                                                                 (change)="calculateTotalAmount()"
                                                                 formControlName="salesShipping" type="number"
                                                                 placeholder="">
+                                                                <div
+                                                                *ngIf="editSalesForm.get('salesShipping')?.hasError('min') && editSalesForm.get('salesShipping')?.touched">
+                                                                <span class="login-danger">Shipping must be more than
+                                                                    0</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -267,7 +277,7 @@
                                     </div>
                                     <div class="upload-sign">
                                         <div class="form-group float-end mb-0">
-                                            <button class="btn btn-primary" type="submit">Save Sales</button>
+                                            <button class="btn btn-primary" type="submit" [disabled]="!editSalesForm.valid">Save Sales</button>
                                         </div>
                                     </div>
                                 </div>

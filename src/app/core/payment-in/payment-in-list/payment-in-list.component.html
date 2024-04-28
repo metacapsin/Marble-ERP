@@ -83,13 +83,13 @@
                                         <p-tableCheckbox [value]="payment"></p-tableCheckbox>
                                     </td>
                                     <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
-                                    <td class="bold">{{payment.customer}}</td>
+                                    <td class="bold">{{payment.customer.name}}</td>
                                     <td>{{payment.paymentMode}}</td>
                                     <td>{{payment.amount}}</td>
                                     <td>
                                         <!-- <p-button [text]=" true" icon="fa fa-eye"></p-button> -->
-                                        <p-button [text]="true" icon="fa fa-edit"></p-button>
-                                        <p-button [text]=" true" icon="fa fa-trash"></p-button>
+                                        <!-- <p-button [text]="true" icon="fa fa-edit"></p-button> -->
+                                        <p-button [text]=" true" icon="fa fa-trash" (click)="  deletePayment(payment._id)"></p-button>
 
                                     </td>
                                 </tr>
@@ -107,5 +107,5 @@
 </div>
 
 
-<!-- <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-    [data]="modalData"></app-confirm-dialog> -->
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>

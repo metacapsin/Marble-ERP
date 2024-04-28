@@ -57,14 +57,16 @@ export class PaymentInAddComponent {
   ngOnInit(): void {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.customerList = resp;
-      // console.log("customer", this.customerList);
     });
   
   }
-
-  getsalesByID(){
-    this.Service.getSalesById(this.salesId).subscribe((resp:any) => {
-      this.salesDataById = resp;
+  onCustomerSelect(customerId: any){
+    
+    this.Service.getSalesByCustomerId(customerId).subscribe((resp:any) => {
+      this.salesDataById = resp.data;
+      this.salesId = resp.data[0]._id;
+      console.log("sales Data by id ",this.salesDataById);
+      
     })
   }
 
@@ -73,8 +75,7 @@ export class PaymentInAddComponent {
     const formData = this.addPaymentInForm.value;
 
     const payload = {
-      // salesId: formData.salesId,
-      salesId: "662cfc22cc15af9cf64a922c",
+      salesId: this.salesId,
       paymentDate: formData.paymentDate,
       paymentMode: formData.paymentMode,
       amount: formData.amount,
