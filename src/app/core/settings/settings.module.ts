@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { TabViewModule } from 'primeng/tabview';
 import { WarehouseListComponent } from './warehouse/warehouse-list/warehouse-list.component';
+import { UnitsModule } from './units/units.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { WarehouseListComponent } from './warehouse/warehouse-list/warehouse-lis
     SharedModule,
     PanelMenuModule,
     TabViewModule,
+    UnitsModule,
     WarehouseListComponent
   ]
 })

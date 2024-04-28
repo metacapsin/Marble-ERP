@@ -20,15 +20,15 @@ export class PaymentInService {
 
 
   getPaymentList() {
-    return this.http.get(environment.apiUrl + "'/Sales/getPaymentList'");
+    return this.http.get(environment.apiUrl + "/Sales/getPaymentList");
   }
 
-  getSalesById(id: any) {
-    return this.http.get(environment.apiUrl + "'/Sales/getSalesByCustomerId/'" + id)
+  getSalesByCustomerId(id: any) {
+    return this.http.get(environment.apiUrl + "/Sales/getSalesByCustomerId/" + id)
   }
 
   deletePaymentById(id: any) {
-    return this.http.delete(environment.apiUrl + "'/Sales/deletePayment/'" + id)
+    return this.http.delete(environment.apiUrl + "/Sales/deletePayment/" + id)
   }
 
 

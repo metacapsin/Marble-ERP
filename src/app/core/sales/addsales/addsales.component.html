@@ -44,34 +44,44 @@
                         <form [formGroup]="addSalesForm" (ngSubmit)="addSalesFormSubmit()">
                             <div class="invoices-main-form">
                                 <div class="row">
-                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class=" col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="salesInvoiceNumber">Invoice Number</label>
                                             <input type="text" class="form-control"
                                                 formControlName="salesInvoiceNumber">
                                         </div>
                                     </div>
-                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
-                                        <div class="form-group local-forms">
-                                            <label for="customer">Customer Name</label>
-                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
-                                                [options]="customerList" formControlName="customer" optionLabel="name"
-                                                optionValue="_id" display="chip" [filter]="true" filterBy="name"
-                                                [showClear]="true"></p-dropdown>
-                                            <!-- <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
-                                                [options]="customerList"  optionLabel="name"
-                                                optionValue="_id" display="chip" [filter]="true" filterBy="name"
-                                                [showClear]="true"
-                                                [(ngModel)]="searchData_id"
-                                                    (ngModelChange)="getCustomerById(searchData_id)"></p-dropdown> -->
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class=" col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="salesDate">Sales Date</label>
                                             <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                                 formControlName="salesDate" placeholder="mm/dd/yyyy"
                                                 [styleClass]="'col-12'"></p-calendar>
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-md-6 col-sm-12 col-12">
+                                        <div class="form-group local-forms">
+                                            <label for="customer">Customer Name</label>
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
+                                                [options]="customerList" formControlName="customer" optionLabel="name"
+                                                optionValue="_id" display="chip" [filter]="true" filterBy="name"
+                                                [showClear]="true" (onChange)="onCustomerSelect($event.value)">
+                                                <!-- Add onChange event to handle selection -->
+                                            </p-dropdown>
+
+                                        </div>
+                                    </div>
+                                    
+                                    <div class=" col-md-6 col-sm-12 col-12">
+                                        <div class="form-group local-forms">
+                                            <label for="unit">Unit</label>
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
+                                                [options]="unitListData" formControlName="unit" optionLabel="unitName"
+                                                optionValue="unitShortName" display="chip" [filter]="true" filterBy="name"
+                                                [showClear]="true" >                                                
+                                            </p-dropdown>
+
                                         </div>
                                     </div>
 
@@ -88,7 +98,7 @@
                                                 <th>Category</th>
                                                 <th>Sub Category</th>
                                                 <th>Name</th>
-                                                <th>Quantity</th>
+                                                <th>Quantity </th>
                                                 <th>Unit Price</th>
                                                 <th>Sub Total</th>
                                                 <th>Actions</th>
@@ -101,14 +111,15 @@
                                                 <td>
                                                     <p-dropdown [options]="categoryList" styleClass="" appendTo="body"
                                                         optionLabel="name" optionValue="name" placeholder="Category"
-                                                        [style]="{'width':'220px'}" [filter]="true" filterBy="name"
+                                                     [filter]="true" filterBy="name"
                                                         [showClear]="true" formControlName="salesItemCategory">
                                                     </p-dropdown>
+                                                    <!-- [style]="{'width':'220px'}" -->
                                                 </td>
                                                 <td>
                                                     <p-dropdown [options]="subCategoryList" styleClass=""
                                                         appendTo="body" optionLabel="name" optionValue="name"
-                                                        placeholder="Sub Category" [style]="{'width':'220px'}"
+                                                        placeholder="Sub Category"
                                                         [filter]="true" filterBy="name" [showClear]="true"
                                                         formControlName="salesItemSubCategory">
                                                     </p-dropdown>
@@ -119,19 +130,27 @@
                                                         class="form-control">
                                                 </td>
                                                 <td>
-                                                    <input type="number" formControlName="salesItemQuantity"
-                                                        (change)="calculateTotalAmount()" class="form-control">
+                                                    <input type="number" formControlName="salesItemQuantity" (change)="calculateTotalAmount()" class="form-control">
+                                                    <div *ngIf="getSalesItemQuantityError(i)" class="login-danger">
+                                                        Quantity must be more than 0
+                                                    </div>
                                                 </td>
+                                                
                                                 <td>
-                                                    <input type="number" formControlName="salesItemUnitPrice"
-                                                        (change)="calculateTotalAmount()" class="form-control">
+                                                    <input type="number" formControlName="salesItemUnitPrice" (change)="calculateTotalAmount()" class="form-control">
+                                                    <div *ngIf="getSalesItemUnitPriceError(i)" class="login-danger">
+                                                        Unit Price must be more than 0
+                                                    </div>
                                                 </td>
+                                                
+                                                <td>
+                                                    <input type="number" formControlName="salesItemSubTotal" (change)="calculateTotalAmount()" class="form-control" [disabled]="isSalesItemSubTotalDisabled">
 
-                                                <td>
-                                                    <input type="number" formControlName="salesItemSubTotal"
-                                                        (change)="calculateTotalAmount()" class="form-control"
-                                                        [disabled]="isDisabled">
+<div *ngIf="getSalesItemSubTotalError(i)" class="login-danger">
+                                                        Sub Total must be more than 0
+                                                    </div>
                                                 </td>
+                                                
                                                 <td class="add-remove text-end">
                                                     <p-button [text]=" true" icon="fa fa-plus"
                                                         (click)="addsalesItemDetailsItem()"></p-button>
@@ -204,7 +223,7 @@
                                         <h4 class="invoice-total-title">Summary</h4>
                                         <div class="invoice-total-box">
                                             <div class="row p-3">
-                                                <div class="col-md-6 mt-3">
+                                                <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesOrderStatus">Order Status</label>
                                                         <p-dropdown [options]="orderStatusList" styleClass=""
@@ -216,24 +235,25 @@
                                                         </p-dropdown>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mt-3">
+                                                <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesOrderTax">Order Tax</label>
-                                                        <p-dropdown [options]="orderTaxList" styleClass=""
+                                                        <!-- <p-dropdown [options]="orderTaxList" styleClass=""
                                                             appendTo="body" optionLabel="orderTaxName"
                                                             optionValue="taxRate" placeholder="Select Tax"
                                                             [style]="{'width':'100%'}" formControlName="salesOrderTax"
                                                             [filter]="true" filterBy="orderTaxName"
-                                                            (change)="calculateTotalAmount()" [showClear]="true">
-                                                        </p-dropdown>
+                                                            (change)="calculateTotalAmount()" [showClear]="true"
+                                                            (onChange)="onTaxSelect($event.value)">
+                                                        </p-dropdown> -->
 
-                                                        <!-- <p-multiSelect [style]="{'width':'100%'}"
+                                                        <p-multiSelect [style]="{'width':'100%'}"
                                                             placeholder="Select Tax" [options]="orderTaxList"
                                                             formControlName="salesOrderTax" optionLabel="orderTaxName" optionValue="taxRate" display="chip"
-                                                            [showClear]="true" (change)="calculateTotalAmount()"></p-multiSelect> -->
+                                                            [showClear]="true" (change)="calculateTotalAmount()"></p-multiSelect>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 ml-3">
+                                                <div class="col-12 ml-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesDiscount">Discount </label>
                                                         <div class="input-group">
@@ -244,10 +264,15 @@
                                                                 (change)="calculateTotalAmount()"
                                                                 formControlName="salesDiscount" type="number"
                                                                 placeholder="">
+                                                            <div
+                                                                *ngIf="addSalesForm.get('salesDiscount')?.hasError('min')  && addSalesForm.get('salesDiscount')?.touched">
+                                                                <span class="login-danger">Discount must be more than
+                                                                    0</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 ml-3">
+                                                <div class="col-12 ml-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesShipping">Shipping</label>
                                                         <div class="input-group">
@@ -258,13 +283,37 @@
                                                                 (change)="calculateTotalAmount()"
                                                                 formControlName="salesShipping" type="number"
                                                                 placeholder="">
+                                                            <div
+                                                                *ngIf="addSalesForm.get('salesShipping')?.hasError('min') && addSalesForm.get('salesShipping')?.touched">
+                                                                <span class="login-danger">Shipping must be more than
+                                                                    0</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 ml-3">
+                                                    <div class="form-group local-forms">
+                                                        <label for="otherCharges">Other Charges</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">₹</span>
+                                                            </div>
+                                                            <input class="form-control"
+                                                                (change)="calculateTotalAmount()"
+                                                                formControlName="otherCharges" type="number"
+                                                                placeholder="">
+                                                            <div
+                                                                *ngIf="addSalesForm.get('otherCharges')?.hasError('min') && addSalesForm.get('otherCharges')?.touched">
+                                                                <span class="login-danger">Other Charges must be more than
+                                                                    0</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                                                                                                                                                                                                   
+
                                             <div class="invoice-total-inner">
-                                                <p>Order Tax <span >₹ {{ addSalesForm.get('salesOrderTax').value |
+                                                <p>Order Tax <span>₹ {{ addSalesForm.get('salesOrderTax').value |
                                                         number: '1.2-2' }}</span></p>
                                                 <p>Discount<span>₹ {{ addSalesForm.get('salesDiscount').value | number:
                                                         '1.2-2' }}</span></p>
@@ -280,7 +329,8 @@
                                     </div>
                                     <div class="upload-sign">
                                         <div class="form-group float-end mb-0">
-                                            <button class="btn btn-primary" type="submit">Save Sales</button>
+                                            <button class="btn btn-primary" type="submit"
+                                                [disabled]="!addSalesForm.valid">Save Sales</button>
                                         </div>
                                     </div>
                                 </div>
