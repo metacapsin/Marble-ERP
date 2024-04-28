@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -63,8 +63,8 @@ export class EditSalsComponent {
       salesDate: [''],
       salesOrderStatus: [''],
       salesOrderTax: [''],
-      salesDiscount: [''],
-      salesShipping: [''],
+      salesDiscount: ['', [Validators.min(0)]],
+      salesShipping: ['', [Validators.min(0)]],
       salesTermsAndCondition: [''],
       salesNotes: [''],
       salesTotalAmount: [''],

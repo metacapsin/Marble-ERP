@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { routes } from 'src/app/shared/routes/routes';
@@ -38,10 +38,17 @@ export class AddsalesComponent {
     { orderStatus: "Shipping" },
     { orderStatus: "Delivered" },
   ];
+  unitListData= [
+    {
+      unitName:"Squre Per Feet",
+      unitShortName: "sqrt",
+    }
+  ]
   orderTaxList = []
   taxesListData = [];
   customerById = {};
   public itemDetails: number[] = [0];
+  isSalesItemSubTotalDisabled: boolean = true;
 
   constructor(
     private customerByIdService: CustomersdataService,
@@ -57,27 +64,29 @@ export class AddsalesComponent {
     this.addSalesForm = this.fb.group({
       customer: [''],
       salesDate: [''],
-      salesDiscount: [''],
+      salesDiscount: ['', [Validators.min(0)]],
       salesInvoiceNumber: [''],
       salesItemDetails: this.fb.array([
         this.fb.group({
           salesItemCategory: [''],
           salesItemSubCategory: [''],
           salesItemName: [''],
-          salesItemQuantity: [''],
-          salesItemUnitPrice: [''],
-          salesItemSubTotal: [''],
+          salesItemQuantity: ['', [Validators.min(0)]],
+          salesItemUnitPrice: ['', [Validators.min(0)]],
+          salesItemSubTotal: ['', [Validators.min(0)]],
         })
       ]),
       salesNotes: [''],
       salesOrderStatus: [''],
       salesOrderTax: [''],
-      salesShipping: [''],
+      appliedTax: [''],
+      salesShipping: ['', [Validators.min(0)]],
       salesTermsAndCondition: [''],
       salesTotalAmount: [''],
+      unit: [''],
+      otherCharges: ['', [Validators.min(0)]]
     });
   }
-
   get salesItemDetails() {
     return this.addSalesForm.controls['salesItemDetails'] as FormArray;
   }
@@ -89,14 +98,37 @@ export class AddsalesComponent {
       salesItemCategory: [''],
       salesItemSubCategory: [''],
       salesItemName: [''],
-      salesItemQuantity: [''],
-      salesItemUnitPrice: [''],
-      salesItemSubTotal: [''],
+      salesItemQuantity: ['', [Validators.min(0)]],
+      salesItemUnitPrice: ['', [Validators.min(0)]],
+      salesItemSubTotal: ['', [Validators.min(0)]],
     });
     this.salesItemDetails.push(item);
   }
 
+
+  getSalesItemQuantityError(index: number) {
+    const salesItemDetailsForm = this.addSalesForm.get('salesItemDetails') as FormArray;
+    const quantityControl = salesItemDetailsForm.at(index).get('salesItemQuantity');
+    return quantityControl && quantityControl.hasError('min') && quantityControl.touched;
+}
+
+getSalesItemUnitPriceError(index: number) {
+    const salesItemDetailsForm = this.addSalesForm.get('salesItemDetails') as FormArray;
+    const unitPriceControl = salesItemDetailsForm.at(index).get('salesItemUnitPrice');
+    return unitPriceControl && unitPriceControl.hasError('min') && unitPriceControl.touched;
+}
+
+getSalesItemSubTotalError(index: number) {
+    const salesItemDetailsForm = this.addSalesForm.get('salesItemDetails') as FormArray;
+    const subTotalControl = salesItemDetailsForm.at(index).get('salesItemSubTotal');
+    return subTotalControl && subTotalControl.hasError('min') && subTotalControl.touched;
+}
+
+
+
+
   ngOnInit(): void {
+    this.isSalesItemSubTotalDisabled = true;
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.customerList = resp;
       console.log("customer", this.customerList);
@@ -133,7 +165,7 @@ export class AddsalesComponent {
     let shipping = +this.addSalesForm.get('salesShipping').value;
     let Discount = +this.addSalesForm.get('salesDiscount').value;
     let orderTax = +this.addSalesForm.get('salesOrderTax').value;
-    console.log(orderTax);
+    console.log("calevulate tax",orderTax);
 
     const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
 
@@ -166,14 +198,39 @@ export class AddsalesComponent {
 
   }
 
+  onCustomerSelect(customerId: string) {
+    const selectedCustomer = this.customerList.find(customer => customer._id === customerId);
+  
+    this.addSalesForm.get('customer').setValue(selectedCustomer);
+  }
+
+  onTaxSelect(taxRate: any){
+    const selectedtax = this.taxesListData.find(tax => tax.taxRate === taxRate)
+    // this.addSalesForm.get('appliesTax').setValue(selectedtax);
+    console.log("Tex", selectedtax);
+    
+  }
+  
+
 
 
   addSalesFormSubmit() {
     const formData = this.addSalesForm.value;
+    const selectedCustomerId = this.addSalesForm.get('customer').value?._id;
+    const selectedCustomerName = this.addSalesForm.get('customer').value?.name;
 
+    const selectedTaxRate = this.addSalesForm.get('salesOrderTax').value?._id;
+    const selectedTaxName = this.addSalesForm.get('salesOrderTax').value?.name;
+
+
+  
 
     const payload = {
-      customer: formData.customer,
+      // customer: formData.customer,
+      customer: {
+        _id: selectedCustomerId,
+        name: selectedCustomerName
+      },
       salesDate: formData.salesDate,
       salesDiscount: formData.salesDiscount,
       salesInvoiceNumber: formData.salesInvoiceNumber,
