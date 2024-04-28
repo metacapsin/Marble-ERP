@@ -51,9 +51,9 @@ export class EditCustomersComponent {
       email: ["", [Validators.required, Validators.email]],
       status: ["", [Validators.required]],
       taxNumber: ["", []],
-      openingBalance: ["", []],
+      openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", []],
-      creditLimit: ["", []],
+      creditLimit: ["", [Validators.min(0)]],
       billingAddress: ["", []],
       shippingAddress: ["", []],
     });

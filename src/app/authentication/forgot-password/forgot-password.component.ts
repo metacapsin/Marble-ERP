@@ -43,6 +43,7 @@ export class ForgotPasswordComponent {
       this.error = 'Email is not valid !';
       return;
     } else {
+      console.log(this.f['email'].value);
       this.authService
         .forgotPassword(this.f['email'].value)
         .subscribe({

@@ -149,6 +149,9 @@
                         </div>
                         <input class="form-control" type="number" placeholder="0" formControlName="openingBalance" />
                       </div>
+                      <div *ngIf="editCustomerGroup.get('openingBalance').invalid && editCustomerGroup.get('openingBalance').touched" class="login-danger Font_size">
+                        Opening balance cannot be smaller than 0.
+                      </div>
                     </div>
                   </div>
 
@@ -186,6 +189,9 @@
                           <span class="input-group-text">₹</span>
                         </div>
                         <input class="form-control" type="number" placeholder="0" formControlName="creditLimit" />
+                      </div>
+                      <div *ngIf="editCustomerGroup.get('creditLimit').invalid && editCustomerGroup.get('creditLimit').touched" class="login-danger Font_size">
+                        Opening balance cannot be smaller than 0.
                       </div>
                     </div>
                   </div>

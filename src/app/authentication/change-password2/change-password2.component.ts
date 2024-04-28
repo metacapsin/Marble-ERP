@@ -33,23 +33,78 @@ export class ChangePassword2Component {
     return this.authForm.controls;
   }
 
-  onSubmit() {
-    this.submitted = true;
-    if (this.authForm.invalid) {
-      return;
-    }
-    this.loading = true;
-    if (this.authForm.invalid) {
-      this.error = 'Email is not valid !';
+  // onSubmit() {
+  //   this.submitted = true;
+  //   if (this.authForm.invalid) {
+  //     return;
+  //   }
+  //   this.loading = true;
+  //   if (this.authForm.invalid) {
+  //     this.error = 'Email is not valid !';
+  //     this._snackBar.open(this.error, '', {
+  //       duration: 2000,
+  //       verticalPosition: 'top',
+  //       horizontalPosition: 'right',
+  //       panelClass: "blue",
+  //     });
+  //     return;
+  //   } else {
+  //     this.authService
+  //       .resetPassword(this.f['password'].value, this.token)
+  //       .subscribe({
+  //         next: (res: any) => {
+  //           if (res.status !== 'error') {
+  //             this.router.navigate(['/login']);
+  //             this._snackBar.open("Password has been sent to your email", '', {
+  //               duration: 2000,
+  //               verticalPosition: 'top',
+  //               horizontalPosition: 'right',
+  //               panelClass: "blue",
+  //             });
+  //           } else {
+  //             this.error = 'Invalid Token';
+  //             this._snackBar.open(res.message, '', {
+  //               duration: 2000,
+  //               verticalPosition: 'top',
+  //               horizontalPosition: 'right',
+  //               panelClass: "blue",
+  //             });
+  //           }
+  //         },
+  //         error: (error) => {
+  //           this.error = error.error.message;
+  //           this.submitted = false;
+  //           this.loading = false;
+  //           this._snackBar.open(error.error.message ?? "Error Occured ", '', {
+  //             duration: 2000,
+  //             verticalPosition: 'top',
+  //             horizontalPosition: 'right',
+  //             panelClass: "blue",
+  //           });
+  //         },
+  //       });
+  //   }
+  // }
+
+  onSubmit(){
+    
+    if (this.authForm.value.password === "") {
+      this.error = 'Password is required!';
+      this._snackBar.open(this.error, '', {
+        duration: 2000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+        panelClass: "blue",
+      });
       return;
     } else {
       this.authService
-        .resetPassword(this.f['password'].value, this.token)
+        .resetPassword(this.authForm.value.password, this.token)
         .subscribe({
           next: (res: any) => {
             if (res.status !== 'error') {
               this.router.navigate(['/login']);
-              this._snackBar.open("Password has been sent to your email", '', {
+              this._snackBar.open(res.message, '', {
                 duration: 2000,
                 verticalPosition: 'top',
                 horizontalPosition: 'right',
@@ -78,5 +133,6 @@ export class ChangePassword2Component {
           },
         });
     }
+    
   }
 }

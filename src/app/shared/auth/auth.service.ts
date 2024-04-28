@@ -25,6 +25,7 @@ export class AuthService {
   }
 
   forgotPassword(email: string| null) {
+    console.log(email);
     return this.http.post(environment.apiUrl + "/forgotPassword", {
       "email":email,
     })
