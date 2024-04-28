@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { routes } from 'src/app/shared/routes/routes';
@@ -43,14 +43,22 @@ export class PaymentInAddComponent {
     private fb: FormBuilder
   ){
     this.addPaymentInForm = this.fb.group({
-      // customer: [''],
-      salesId: [''],
+      salesId: this.fb.array([
+        this.fb.group({
+          _id: [''],
+          amount: [''],
+          
+        })
+      ]),
+      customer: [''],
       paymentDate: [''],
       paymentMode: [''],
-      amount: [''],
       note: [''],
     })
 
+  }
+  get salesID() {
+    return this.addPaymentInForm.controls['salesId'] as FormArray;
   }
 
 
@@ -64,7 +72,7 @@ export class PaymentInAddComponent {
     
     this.Service.getSalesByCustomerId(customerId).subscribe((resp:any) => {
       this.salesDataById = resp.data;
-      this.salesId = resp.data[0]._id;
+      // this.salesId = resp.data[0]._id;
       console.log("sales Data by id ",this.salesDataById);
       
     })
@@ -75,7 +83,7 @@ export class PaymentInAddComponent {
     const formData = this.addPaymentInForm.value;
 
     const payload = {
-      salesId: this.salesId,
+      salesId: formData.salesId,
       paymentDate: formData.paymentDate,
       paymentMode: formData.paymentMode,
       amount: formData.amount,

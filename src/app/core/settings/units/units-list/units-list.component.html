@@ -1,4 +1,4 @@
-<!-- <p-toast></p-toast> -->
+<p-toast></p-toast>
 <div class="">
   <!-- Page Content -->
   <div class="content container-fluid">
@@ -35,52 +35,27 @@
                     <h3>Units List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Search here"
-                          [(ngModel)]="searchDataValue"
-                          (ngModelChange)="searchData(searchDataValue)"
-                        />
-                        <a class="btn"
-                          ><img src="assets/img/icons/search-normal.svg" alt=""
-                        /></a>
+                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
+                          (ngModelChange)="searchData(searchDataValue)" />
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                       <div class="add-group textbtn">
-                        <a
-                          appShowHide
-                          [roles]="['admin', 'super-admin']"
-                          (click)="openAddDialog()"
-                          class="btn btn-primary add-pluss ms-2"
-                          ><img src="assets/img/icons/plus.svg" alt="" /> Add
-                          New</a
-                        >
+                        <a appShowHide [roles]="['admin', 'super-admin']" (click)="openAddDialog()"
+                          class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt="" /> Add
+                          New</a>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div
-                  class="col-auto text-end float-end ms-auto download-grp"
-                  appShowHide
-                  [roles]="['admin', 'super-admin']"
-                >
-                  <a href="javascript:;" class="me-2"
-                    ><img src="assets/img/icons/pdf-icon-01.svg" alt=""
-                  /></a>
-                  <a href="javascript:;" class="me-2"
-                    ><img src="assets/img/icons/pdf-icon-03.svg" alt=""
-                  /></a>
+                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                  [roles]="['admin', 'super-admin']">
+                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt="" /></a>
+                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="" /></a>
                 </div>
               </div>
             </div>
-            <p-table
-              [value]="unitListData"
-              [tableStyle]="{ 'min-width': '60rem' }"
-              [paginator]="true"
-              [rows]="5"
-              [rowsPerPageOptions]="[5, 10, 20]"
-              [(selection)]="selectedUnit"
-            >
+            <p-table [value]="unitListData" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5"
+              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedUnit">
               <ng-template pTemplate="header">
                 <tr>
                   <th appShowHide [roles]="['admin', 'super-admin']">
@@ -88,25 +63,13 @@
                   </th>
                   <th pSortableColumn="unitName">
                     Name <p-sortIcon field="unitName"></p-sortIcon>
-                    <p-columnFilter
-                      type="text"
-                      field="unitName"
-                      display="menu"
-                    ></p-columnFilter>
+                    <p-columnFilter type="text" field="unitName" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="unitShortName">
-                    Short Name<p-sortIcon field="unitShortName"></p-sortIcon>
-                    <p-columnFilter
-                      type="text"
-                      field="unitShortName"
-                      display="menu"
-                    ></p-columnFilter>
+                  <th pSortableColumn="shortName">
+                    Short Name<p-sortIcon field="shortName"></p-sortIcon>
+                    <p-columnFilter type="text" field="shortName" display="menu"></p-columnFilter>
                   </th>
-                  <th
-                    appShowHide
-                    [roles]="['admin', 'super-admin']"
-                    style="width: 20%"
-                  >
+                  <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%">
                     Action
                   </th>
                 </tr>
@@ -120,15 +83,11 @@
                     {{ unit.unitName }}
                   </td>
                   <td>
-                    {{ unit.unitShortName }}
+                    {{ unit.shortName }}
                   </td>
-                  <td
-                    appShowHide
-                    [roles]="['admin', 'super-admin']"
-                    style="display: flex"
-                  >
-                    <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog()"></p-button>
-                    <p-button [text]="true" icon="fa fa-trash"></p-button>
+                  <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex">
+                    <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(unit._id)"></p-button>
+                    <p-button [text]="true" icon="fa fa-trash" (click)="deleteUnit(unit._id)"></p-button>
                   </td>
                 </tr>
               </ng-template>
@@ -140,91 +99,84 @@
   </div>
 </div>
 
-    <!-- -- add dialog -- -->
-<p-dialog
-  header="Add Units"
-  [(visible)]="addvisible"
-  [modal]="true"
-  [style]="{ width: '50%' }"
->
+
+
+<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>
+
+<!-- -- add dialog -- -->
+<p-dialog header="Add Units" [(visible)]="addvisible" [modal]="true" [style]="{ width: '50%' }">
   <div class="modal-content">
     <div class="modal-body">
-        <form [formGroup]="addUnitForm" (ngSubmit)="addUnitFormSubmit()">
-          <div class="row mt-2">
-    
-            <div class="col-md-6">
-              <div class="form-group local-forms">
-                <label for="unitName">Unit Name <span class="login-danger">*</span></label>
-                <input class="form-control" type="text" placeholder="" formControlName="unitName">
-              </div>
+      <form [formGroup]="addUnitForm" (ngSubmit)="addUnitFormSubmit()">
+        <div class="row mt-2">
+
+          <div class="col-md-6">
+            <div class="form-group local-forms">
+              <label for="unitName">Unit Name <span class="login-danger">*</span></label>
+              <input class="form-control" type="text" placeholder="" formControlName="unitName">
             </div>
-    
-            <div class="col-md-6">
-              <div class="form-group local-forms">
-                <label for="unitShorName">Unit Short Name <span class="login-danger">*</span></label>
-                <input class="form-control" type="text" placeholder="" formControlName="unitShorName">
-              </div>
-            </div>
-    
-    
-    
-            <div class=" col-12">
-    
-              <div class=" settings-btns text-end m-b-10">
-                <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                 >Submit</button>
-                <button class="btn btn-secondary" (click)="addvisible = false" >Cancel</button>
-              </div>
-    
-            </div>
-    
           </div>
-        </form>
-      </div>
+
+          <div class="col-md-6">
+            <div class="form-group local-forms">
+              <label for="shortName">Unit Short Name <span class="login-danger">*</span></label>
+              <input class="form-control" type="text" placeholder="" formControlName="shortName">
+            </div>
+          </div>
+
+
+
+          <div class=" col-12">
+
+            <div class=" settings-btns text-end m-b-10">
+              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
+              <button class="btn btn-secondary" (click)="addvisible = false">Cancel</button>
+            </div>
+
+          </div>
+
+        </div>
+      </form>
+    </div>
   </div>
 </p-dialog>
 
 
 <!-- --- edit dialog -- -->
-<p-dialog
-  header="Edit Units"
-  [(visible)]="editvisible"
-  [modal]="true"
-  [style]="{ width: '50%' }"
->
+<p-dialog header="Edit Units" [(visible)]="editvisible" [modal]="true" [style]="{ width: '50%' }">
   <div class="modal-content">
     <div class="modal-body">
-        <form [formGroup]="editUnitForm" (ngSubmit)="editUnitFormSubmit()">
-          <div class="row mt-2">
-    
-            <div class="col-md-6">
-              <div class="form-group local-forms">
-                <label for="unitName">Unit Name <span class="login-danger">*</span></label>
-                <input class="form-control" type="text" placeholder="" formControlName="unitName">
-              </div>
+      <form [formGroup]="editUnitForm" (ngSubmit)="editUnitFormSubmit()">
+        <div class="row mt-2">
+
+          <div class="col-md-6">
+            <div class="form-group local-forms">
+              <label for="unitName">Unit Name <span class="login-danger">*</span></label>
+              <input class="form-control" type="text" placeholder="" formControlName="unitName">
             </div>
-    
-            <div class="col-md-6">
-              <div class="form-group local-forms">
-                <label for="unitShorName">Unit Short Name <span class="login-danger">*</span></label>
-                <input class="form-control" type="text" placeholder="" formControlName="unitShorName">
-              </div>
-            </div>
-    
-    
-    
-            <div class=" col-12">
-    
-              <div class=" settings-btns text-end m-b-10">
-                <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                 >Submit</button>
-                <button class="btn btn-secondary" (click)="editvisible = false" >Cancel</button>
-              </div>
-    
-            </div>
-    
           </div>
-        </form>
-      </div>
+
+          <div class="col-md-6">
+            <div class="form-group local-forms">
+              <label for="shortName">Unit Short Name <span class="login-danger">*</span></label>
+              <input class="form-control" type="text" placeholder="" formControlName="shortName">
+            </div>
+          </div>
+
+
+
+          <div class=" col-12">
+
+            <div class=" settings-btns text-end m-b-10">
+              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
+              <button class="btn btn-secondary" (click)="editvisible = false">Cancel</button>
+            </div>
+
+          </div>
+
+        </div>
+      </form>
+    </div>
   </div>
 </p-dialog>

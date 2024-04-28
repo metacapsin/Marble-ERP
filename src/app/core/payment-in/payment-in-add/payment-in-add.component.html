@@ -100,25 +100,26 @@
                                                 <th>Amount</th>
                                               </tr>
                                             </thead>
-                                            <tbody>
-                                              <tr *ngFor="let data of salesDataById">
-                                                <td>
-                                                  <span class="bold">{{ data.salesInvoiceNumber }}</span>
-                                                </td>
-                                                <td>
-                                                  <span class="bold">{{ data.salesDate }}</span>
-                                                </td>
-                                                <td>
-                                                  <label>{{ data.salesTotalAmount }}</label>
-                                                </td>
-                                                <td class="input-group">
-                                                  <div class="input-group-prepend">
-                                                    <span class="input-group-text">₹</span>
-                                                  </div>
-                                                  <input type="number" class="form-control" formControlName="amount">
-                                                </td>
-                                              </tr>
+                                            <tbody formArrayName="salesId">
+                                                <tr *ngFor="let data of salesDataById; let i = index" [formGroupName]="i">
+                                                    <td>
+                                                        <span class="bold">{{ data.salesInvoiceNumber }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="bold">{{ data.salesDate }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <label>{{ data.salesTotalAmount }}</label>
+                                                    </td>
+                                                    <td class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">₹</span>
+                                                        </div>
+                                                        <input type="number" class="form-control" formControlName="amount">
+                                                    </td>
+                                                </tr>
                                             </tbody>
+                                            
                                           </table>
                                           
                                     </div>

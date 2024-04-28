@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { CategoriesService } from '../../settings/categories/categories.service';
 import { ToastModule } from 'primeng/toast';
 import { SubCategoriesService } from '../../settings/sub-categories/sub-categories.service';
+import { UnitsService } from '../../settings/units/units.service';
 @Component({
   selector: 'app-addsales',
   standalone: true,
@@ -27,6 +28,7 @@ export class AddsalesComponent {
   addSalesForm!: FormGroup;
   public routes = routes;
   public searchData_id = '';
+  addTaxTotal: any;
   isDisabled: boolean = true;
   customerList = [];
   categoryList = [];
@@ -38,12 +40,7 @@ export class AddsalesComponent {
     { orderStatus: "Shipping" },
     { orderStatus: "Delivered" },
   ];
-  unitListData= [
-    {
-      unitName:"Squre Per Feet",
-      unitShortName: "sqrt",
-    }
-  ]
+  unitListData= []
   orderTaxList = []
   taxesListData = [];
   customerById = {};
@@ -56,6 +53,7 @@ export class AddsalesComponent {
     private messageService: MessageService,
     private Service: SalesService,
     private customerService: CustomersdataService,
+    private unitService: UnitsService,
     private CategoriesService: CategoriesService,
     private subCategoriesService: SubCategoriesService,
     private taxService: TaxesService,
@@ -129,22 +127,34 @@ getSalesItemSubTotalError(index: number) {
 
   ngOnInit(): void {
     this.isSalesItemSubTotalDisabled = true;
+
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.customerList = resp;
       console.log("customer", this.customerList);
     });
 
+    this.unitService.getAllUnitList().subscribe((resp: any) => {
+      this.unitListData = resp.data;
+    })
+
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
       this.orderTaxList = [];
-      for (const obj of this.taxesListData) {
+      this.taxesListData.forEach(element => {
         this.orderTaxList.push({
-          _id: obj._id,
-          taxRate: obj.taxRate,
-          orderTaxName: obj.name + ' (' + obj.taxRate + '%' + ')',
+          orderTaxName: element.name + ' (' + element.taxRate + '%' + ')',
+          orderNamevalue : element
         });
-      }
+        
+      });
+      // for (const obj of this.taxesListData) {
+      //   this.orderTaxList.push({
+      //     _id: obj._id,
+      //     taxRate: obj.taxRate,
+      //     orderTaxName: obj.name + ' (' + obj.taxRate + '%' + ')',
+      //   });
+      // }
     });
 
     this.CategoriesService.getCategories().subscribe((resp: any) => {
@@ -161,11 +171,26 @@ getSalesItemSubTotalError(index: number) {
 
   calculateTotalAmount() {
     console.log("Enter in caltotal");
+    let totalTax = 0
     let totalAmount = 0;
+    // let salesOrderTax = this.addSalesForm.get('salesOrderTax').value;
+    // salesOrderTax.forEach(element => {
+    //     totalTax = totalTax + element.taxRate;
+    // });
+    if (Array.isArray(this.addSalesForm.get('salesOrderTax').value)) {
+      // Iterate over each element in the array and sum up the tax rates
+      this.addSalesForm.get('salesOrderTax').value.forEach(element => {
+          // Add the tax rate to totalTax
+          totalTax += Number(element.taxRate);
+      });
+  } else {
+      // Handle the case when salesOrderTax is not an array (e.g., single value)
+      // In this case, directly add the tax rate to totalTax
+      totalTax += Number(this.addSalesForm.get('salesOrderTax').value);
+  }
     let shipping = +this.addSalesForm.get('salesShipping').value;
     let Discount = +this.addSalesForm.get('salesDiscount').value;
-    let orderTax = +this.addSalesForm.get('salesOrderTax').value;
-    console.log("calevulate tax",orderTax);
+    let otherCharges = +this.addSalesForm.get('otherCharges').value;
 
     const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
 
@@ -178,13 +203,16 @@ getSalesItemSubTotalError(index: number) {
       item.get('salesItemSubTotal').setValue(subtotal.toFixed(2));
     });
 
-    let addTaxTotal = totalAmount * orderTax / 100;
-    totalAmount += addTaxTotal;
-    totalAmount += shipping - Discount;
+    this.addTaxTotal = totalAmount * totalTax / 100;
+    totalAmount += this.addTaxTotal;
+    totalAmount -=  Discount;
+    totalAmount += shipping;
+    totalAmount += otherCharges;
 
     this.addSalesForm.patchValue({
       salesDiscount: Discount.toFixed(2),
       salesShipping: shipping.toFixed(2),
+      otherCharges: otherCharges.toFixed(2),
       salesTotalAmount: totalAmount.toFixed(2)
     });
   }
@@ -213,17 +241,15 @@ getSalesItemSubTotalError(index: number) {
   
 
 
-
   addSalesFormSubmit() {
     const formData = this.addSalesForm.value;
     const selectedCustomerId = this.addSalesForm.get('customer').value?._id;
     const selectedCustomerName = this.addSalesForm.get('customer').value?.name;
 
-    const selectedTaxRate = this.addSalesForm.get('salesOrderTax').value?._id;
-    const selectedTaxName = this.addSalesForm.get('salesOrderTax').value?.name;
-
-
-  
+    let totalTax = 0
+    formData.salesOrderTax.forEach(element => {
+        totalTax =totalTax +  Number(element.taxRate);
+    });
 
     const payload = {
       // customer: formData.customer,
@@ -237,14 +263,18 @@ getSalesItemSubTotalError(index: number) {
       salesItemDetails: formData.salesItemDetails,
       salesNotes: formData.salesNotes,
       salesOrderStatus: formData.salesOrderStatus,
-      salesOrderTax: formData.salesOrderTax,
+      salesOrderTax: totalTax,
       salesShipping: formData.salesShipping,
-      // appliedTax : [
-      //   {_id : "kdhh", name : "GST"},
-      //   {_id : "kdhh", name : "SGST"}
-      //   ],
+      appliedTax : formData.salesOrderTax.map(i => {
+        return {
+          _id:i._id,
+          name:i.name
+        }
+      }),
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
+      unit: formData.unit,
+      otherCharges: formData.otherCharges
     }
 
 

@@ -67,7 +67,6 @@
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
                                                 optionValue="_id" display="chip" [filter]="true" filterBy="name"
                                                 [showClear]="true" (onChange)="onCustomerSelect($event.value)">
-                                                <!-- Add onChange event to handle selection -->
                                             </p-dropdown>
 
                                         </div>
@@ -76,9 +75,9 @@
                                     <div class=" col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="unit">Unit</label>
-                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Unit--"
                                                 [options]="unitListData" formControlName="unit" optionLabel="unitName"
-                                                optionValue="unitShortName" display="chip" [filter]="true" filterBy="name"
+                                                optionValue="shortName" display="chip" [filter]="true" filterBy="name"
                                                 [showClear]="true" >                                                
                                             </p-dropdown>
 
@@ -244,12 +243,12 @@
                                                             [style]="{'width':'100%'}" formControlName="salesOrderTax"
                                                             [filter]="true" filterBy="orderTaxName"
                                                             (change)="calculateTotalAmount()" [showClear]="true"
-                                                            (onChange)="onTaxSelect($event.value)">
+                                                            >
                                                         </p-dropdown> -->
 
                                                         <p-multiSelect [style]="{'width':'100%'}"
                                                             placeholder="Select Tax" [options]="orderTaxList"
-                                                            formControlName="salesOrderTax" optionLabel="orderTaxName" optionValue="taxRate" display="chip"
+                                                            formControlName="salesOrderTax" optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
                                                             [showClear]="true" (change)="calculateTotalAmount()"></p-multiSelect>
                                                     </div>
                                                 </div>
@@ -313,11 +312,14 @@
                                             </div>
 
                                             <div class="invoice-total-inner">
-                                                <p>Order Tax <span>₹ {{ addSalesForm.get('salesOrderTax').value |
-                                                        number: '1.2-2' }}</span></p>
+                                                <p>Order Tax <span>₹ {{ addTaxTotal}}</span></p>
+                                                <!-- <p>Order Tax <span>₹ {{ addSalesForm.get('salesOrderTax').value |
+                                                        number: '1.2-2' }}</span></p> -->
                                                 <p>Discount<span>₹ {{ addSalesForm.get('salesDiscount').value | number:
                                                         '1.2-2' }}</span></p>
                                                 <p>Shipping<span>₹ {{ addSalesForm.get('salesShipping').value | number:
+                                                        '1.2-2' }}</span></p>
+                                                <p>Other Charges<span>₹ {{ addSalesForm.get('otherCharges').value | number:
                                                         '1.2-2' }}</span></p>
                                             </div>
 
