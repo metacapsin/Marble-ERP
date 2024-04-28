@@ -97,6 +97,14 @@ const routes: Routes = [
 
           ),
       },
+      {
+        path: 'units',
+        loadChildren: () =>
+          import('./units/units.module').then(
+            (m) => m.UnitsModule
+
+          ),
+      },
     ],
   },
 ];
