@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
@@ -35,17 +35,25 @@ export class UnitsListComponent {
   unitListData = []
   unitDataById = []
 
+
+
+  unitNameRegex = /^(?:.{1,50})$/;
+
+ unitShortNameRegex = /^(?:.{1,10})$/;
+
   constructor(private fb: FormBuilder,
     private messageService: MessageService,
     private Service: UnitsService,
   ) {
     this.addUnitForm = this.fb.group({
-      unitName: [''],
-      shortName: ['']
+      unitName: ["", [Validators.required, Validators.pattern(this.unitNameRegex)]],
+      shortName: ["", [Validators.required, Validators.pattern(this.unitShortNameRegex)]],
+      
     });
     this.editUnitForm = this.fb.group({
-      unitName: [''],
-      shortName: ['']
+      unitName: ["", [Validators.required, Validators.pattern(this.unitNameRegex)]],
+      shortName: ["", [Validators.required, Validators.pattern(this.unitShortNameRegex)]],
+      
     })
   }
 

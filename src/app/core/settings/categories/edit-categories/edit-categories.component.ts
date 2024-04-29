@@ -15,6 +15,11 @@ export class EditCategoriesComponent {
   editCategoryForm!:FormGroup;
   categoryDataById = []
 
+  nameRegex = /^[a-zA-Z\s]{1,50}$/; // No specific regex for name field
+
+  descriptionRegex = /^(?:.{1,500})$/;
+  
+
   constructor(private fb: FormBuilder,
     public service: CategoriesService,
     public dialog: MatDialog,
@@ -22,8 +27,8 @@ export class EditCategoriesComponent {
     @Inject(MAT_DIALOG_DATA) public _id: any,
   ){
     this.editCategoryForm = this.fb.group({       
-    name: ['',[Validators.required]],
-    description: ['']
+    name: ['',[Validators.required,Validators.pattern(this.nameRegex)]],
+    description: ['',[Validators.pattern(this.descriptionRegex)]]
     })
   }
 

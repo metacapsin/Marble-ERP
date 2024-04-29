@@ -13,9 +13,11 @@
             <label for="name">Name <span class="login-danger">*</span></label>
             <input class="form-control" type="text" placeholder="" formControlName="name">
 
-            <div
-              *ngIf="addSubCategoryForm.get('name')?.hasError('required') && addSubCategoryForm.get('name')?.touched">
-              <span class="login-danger">Name is reqiured</span>
+            <div *ngIf="addSubCategoryForm.get('name')?.hasError('required') && addSubCategoryForm.get('name')?.touched">
+              <span class="login-danger">Field is required.</span>
+            </div>
+            <div *ngIf="addSubCategoryForm.get('name')?.hasError('pattern') && addSubCategoryForm.get('name')?.touched">
+              <span class="login-danger">Input must be between 1 to 50 characters.</span>
             </div>
           </div>
         </div>
@@ -30,15 +32,20 @@
 
             <div
               *ngIf="addSubCategoryForm.get('categoryId')?.hasError('required') && addSubCategoryForm.get('categoryId')?.touched">
-              <span class="login-danger">Category is reqiured</span>
+              <span class="login-danger">Field is required.</span>
             </div>
           </div>
         </div>
 
         <div class="col-12">
           <div class="form-group local-forms">
-            <label for="name">Description</label>
+            <label for="description">Description</label>
             <textarea class="form-control" type="text" placeholder="" formControlName="description"></textarea>
+            <div
+            *ngIf="addSubCategoryForm.get('description')?.hasError('pattern') && addSubCategoryForm.get('description')?.touched">
+            <span class="login-danger">Input must be between 1 to 500 characters.</span>
+          </div>
+
           </div>
         </div>
 

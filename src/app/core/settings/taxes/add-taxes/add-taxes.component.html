@@ -14,7 +14,10 @@
             <input class="form-control" type="text" placeholder="" formControlName="name">
 
             <div *ngIf="addTaxesForm.get('name')?.hasError('required') && addTaxesForm.get('name')?.touched">
-              <span class="login-danger">Tax Name is reqiured</span>
+              <span class="login-danger">Field is required.</span>
+            </div>
+            <div *ngIf="addTaxesForm.get('name')?.hasError('pattern') && addTaxesForm.get('name')?.touched">
+              <span class="login-danger">Input must be between 1 to 50 characters.</span>
             </div>
           </div>
         </div>
@@ -34,11 +37,14 @@
 
         <div class="col-md-6">
           <div class="form-group local-forms">
-            <label for="name">Tax Rate <span class="login-danger">*</span></label>
+            <label for="taxRate">Tax Rate <span class="login-danger">*</span></label>
             <input class="form-control" type="number" placeholder="" formControlName="taxRate">
 
             <div *ngIf="addTaxesForm.get('taxRate')?.hasError('required') && addTaxesForm.get('taxRate')?.touched">
-              <span class="login-danger">Tax Rate is reqiured</span>
+              <span class="login-danger">Field is required.</span>
+            </div>
+            <div *ngIf="addTaxesForm.get('taxRate')?.hasError('pattern') && addTaxesForm.get('taxRate')?.touched">
+              <span class="login-danger">Please Enter the number</span>
             </div>
           </div>
         </div>

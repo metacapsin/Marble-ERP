@@ -14,7 +14,10 @@
               <input class="form-control" type="text" placeholder="" formControlName="name">
   
               <div *ngIf="editTaxesForm.get('name')?.hasError('required') && editTaxesForm.get('name')?.touched">
-                <span class="login-danger">Tax Name is reqiured</span>
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div *ngIf="editTaxesForm.get('name')?.hasError('pattern') && editTaxesForm.get('name')?.touched">
+                <span class="login-danger">Input must be between 1 to 50 characters.</span>
               </div>
             </div>
           </div>
@@ -25,7 +28,10 @@
               <input class="form-control" type="number" placeholder="" formControlName="taxRate">
   
               <div *ngIf="editTaxesForm.get('taxRate')?.hasError('required') && editTaxesForm.get('taxRate')?.touched">
-                <span class="login-danger">Tax Rate is reqiured</span>
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div *ngIf="editTaxesForm.get('taxRate')?.hasError('pattern') && editTaxesForm.get('taxRate')?.touched">
+                <span class="login-danger">Please Enter the number</span>
               </div>
             </div>
           </div>

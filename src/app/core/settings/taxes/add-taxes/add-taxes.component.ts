@@ -19,14 +19,17 @@ export class AddTaxesComponent {
     {value:"Single"},
     {value:"Multiple"}
   ]
+
+  taxNameRegex = /^(?:.{1,50})$/;
+  taxRateRegex = /^[0-9]+$/;
   constructor(private fb: FormBuilder,
     public dialog: MatDialog,
     private dialogRef: MatDialogRef<AddTaxesComponent>,
   ){
     this.addTaxesForm = this.fb.group({      
-      name: ['',[Validators.required,]],
+      name: ['',[Validators.required,Validators.pattern(this.taxNameRegex)]],
       taxType: ['Single', [Validators.required]],
-      taxRate: ['', [Validators.required,]]
+      taxRate: ['', [Validators.required,Validators.pattern(this.taxRateRegex)]]
     })
   }
   addTaxesFormSubmit(){
