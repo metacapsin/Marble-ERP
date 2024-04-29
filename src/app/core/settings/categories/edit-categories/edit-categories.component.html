@@ -1,42 +1,54 @@
 <mat-dialog-content class="mat-typography mat-lg" style="width: 100%;">
 
-    <div class="m-b-20">
-      <h3>Edit Category</h3>
-    </div>
-  
-    <div class="modal-body">
-      <form [formGroup]="editCategoryForm" (ngSubmit)="editCategoryFormSubmit()">
-        <div class="row">
-  
-          <div class="col-12">
-            <div class="form-group local-forms">
-              <label for="name">Name <span class="login-danger">*</span></label>
-              <input class="form-control" type="text" placeholder="" formControlName="name">
-  
-              <div *ngIf="editCategoryForm.get('name')?.hasError('required') && editCategoryForm.get('name')?.touched">
-                <span class="login-danger">Name is reqiured</span>
-              </div>
+  <div class="m-b-20">
+    <h3>Edit Category</h3>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="editCategoryForm" (ngSubmit)="editCategoryFormSubmit()">
+      <div class="row">
+
+        <div class="col-12">
+          <div class="form-group local-forms">
+            <label for="name">Name <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="name">
+
+            <div *ngIf="editCategoryForm.get('name')?.hasError('required') && editCategoryForm.get('name')?.touched">
+              <span class="login-danger">Field is required</span>
             </div>
+            <div *ngIf="editCategoryForm.get('name')?.hasError('pattern') && editCategoryForm.get('name')?.touched">
+              <span class="login-danger">Input must be between 1 to 50 characters.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="form-group local-forms">
+            <label for="description">Description</label>
+            <textarea class="form-control" type="text" formControlName="description" placeholder=""></textarea>
+
+            <div
+              *ngIf="editCategoryForm.get('description')?.hasError('pattern') && editCategoryForm.get('description')?.touched">
+              <span class="login-danger">Input must be between 1 to 500 characters.</span>
+            </div>
+
+
+
+          </div>
+        </div>
+
+
+        <div class=" col-12">
+
+          <div class=" settings-btns text-end m-b-10">
+            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+              [disabled]="!editCategoryForm.valid">Submit</button>
+            <button class="btn btn-secondary" [mat-dialog-close]="true">Cancel</button>
           </div>
 
-          <div class="col-12">
-            <div class="form-group local-forms">
-              <label for="name">Description</label>
-              <textarea class="form-control" type="text" formControlName="description" placeholder=""></textarea>
-            </div>
-          </div>
-  
-          <div class=" col-12">
-  
-            <div class=" settings-btns text-end m-b-10">
-              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                [disabled]="!editCategoryForm.valid">Submit</button>
-              <button class="btn btn-secondary" [mat-dialog-close]="true">Cancel</button>
-            </div>
-  
-          </div>
-  
         </div>
-      </form>
-    </div>
-  </mat-dialog-content>
+
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>

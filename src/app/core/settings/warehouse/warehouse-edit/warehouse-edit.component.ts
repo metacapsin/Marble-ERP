@@ -58,6 +58,16 @@ export class WarehouseEditComponent {
   //   // slug:"warehouse slug";
   // };
 
+  
+  nameRegex = /^[a-zA-Z\s]{1,50}$/; // No specific regex for name field
+
+  emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  billingAddressRegex = /^(?:.{1,500})$/;
+
+  phoneRegex = /^[0-9]{10}$/;
+
+
   constructor(
     private service: WarehouseService,
     private fb: FormBuilder,
@@ -67,10 +77,7 @@ export class WarehouseEditComponent {
     private messageService: MessageService
   ) {
     this.warehouseForm = this.fb.group({
-      name: [
-        "",
-        [Validators.required, Validators.pattern(new RegExp(/^.{2,50}$/))],
-      ],
+      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
       // slug: [
       //   "",
       //   [
@@ -78,31 +85,17 @@ export class WarehouseEditComponent {
       //     Validators.pattern(new RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)),
       //   ],
       // ],
-      email: [
-        "",
-        [
-          Validators.pattern(
-            new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-          ),
-        ],
-      ],
+      email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
       showEmailOnInvoice: [],
       showPhoneOnInvoice: [],
       termsCondition: [],
       singnatureUrl: [],
       billingAddress: [
         "",
-        [ Validators.pattern(new RegExp(/^.{5,500}$/))],
+        [Validators.required, Validators.pattern(this.billingAddressRegex)],
       ],
       // bankDetails: ["", [Validators.pattern(new RegExp(/^[A-Za-z0-9\s-]+$/))]],
-      phone: [
-        "",
-        [
-          Validators.pattern(
-            new RegExp(/^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/)
-          ),
-        ],
-      ],
+      phone: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
     });
   }
 

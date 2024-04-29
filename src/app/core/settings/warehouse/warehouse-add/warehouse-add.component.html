@@ -57,13 +57,13 @@
                           'required'
                         ) && warehouseForm.get('name')?.touched
                       ">
-                                                <span class="login-danger">Field is reqiured</span>
+                                                <span class="login-danger">Field is required.</span>
                                             </div>
                                             <div *ngIf="
                         warehouseForm.get('name')?.hasError('pattern') &&
                         warehouseForm.get('name')?.touched
                       ">
-                                                <span class="login-danger">Input must be between 2 and 50
+                                                <span class="login-danger">Input must be between 1 to 50
                                                     characters.</span>
                                             </div>
                                         </div>
@@ -103,14 +103,14 @@
                                                   'required'
                                                 ) && warehouseForm.get('email')?.touched
                                               ">
-                                                <span class="login-danger">Field is reqiured</span>
+                                                <span class="login-danger">Field is required</span>
                                             </div>
                                             <div *ngIf="
                         warehouseForm.get('email')?.hasError(
                           'pattern'
                         ) && warehouseForm.get('email')?.touched
                       ">
-                                                <span class="login-danger">Please enter valid Email.</span>
+                                                <span class="login-danger">Please enter valid Email address.</span>
                                             </div>
 
 
@@ -119,12 +119,12 @@
 
                                     </div>
 
-                                    
+
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="phone">Phone </label>
-                                            <input class="form-control" type="text" placeholder="xxx-xxx-xxxx"
+                                            <input class="form-control" type="number" placeholder="xxx-xxx-xxxx"
                                                 formControlName="phone" />
 
                                             <div *ngIf="
@@ -132,18 +132,18 @@
                           'required'
                         ) && warehouseForm.get('phone')?.touched
                       ">
-                                                <span class="login-danger">Field is reqiured</span>
-                                            </div>
+                      <span class="login-danger">Field is required.</span>
+                    </div>
                                             <div *ngIf="
                         warehouseForm.get('phone')?.hasError(
                           'pattern'
                         ) && warehouseForm.get('phone')?.touched
                       ">
-                                                <span class="login-danger">Enter 10-Digit number</span>
+                                                <span class="login-danger">Please Enter 10-Digit number.</span>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
@@ -152,10 +152,17 @@
                                                 placeholder="Please Enter Billing Address"
                                                 formControlName="billingAddress"></textarea>
                                             <div *ngIf="
+                        warehouseForm.get('billingAddress')?.hasError(
+                          'required'
+                        ) && warehouseForm.get('billingAddress')?.touched
+                      ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
                         warehouseForm.get('billingAddress')?.hasError('pattern') &&
                         warehouseForm.get('billingAddress')?.touched
                       ">
-                                                <span class="login-danger">Input Must be between 5 to 500
+                                                <span class="login-danger">Input Must be between 1 to 500
                                                     characters</span>
                                             </div>
                                         </div>
@@ -165,8 +172,8 @@
                                         <div class="doctor-submit d-flex justify-content-between">
                                             <div class="status-toggle d-flex">
                                                 <p class="mb-0 me-5">Show email on invoice</p>
-                                                <input type="checkbox" formControlName="showEmailOnInvoice" id="status_1"
-                                                    class="check">
+                                                <input type="checkbox" formControlName="showEmailOnInvoice"
+                                                    id="status_1" class="check">
                                                 <label for="status_1" class="checktoggle">checkbox</label>
                                             </div>
                                         </div>

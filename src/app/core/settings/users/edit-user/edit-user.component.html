@@ -95,14 +95,14 @@
                                   'required'
                                 ) && editUserGroup.get('name')?.touched
                               " class="login-danger Font_size">
-                        Name field is reqiured
+                        Field is required.
                       </div>
                       <div *ngIf="
                                 editUserGroup.get('name')?.hasError(
                                   'pattern'
                                 ) && editUserGroup.get('name')?.touched
                               " class="login-danger Font_size">
-                        Input must be between 1 and 50 characters.
+                        Input must be between 1 to 50 characters.
                       </div>
                     </div>
                   </div>
@@ -111,20 +111,21 @@
                     <div class="form-group local-forms">
                       <label for="PhoneNumber">Phone Number
                         <span class="login-danger">*</span></label>
-                      <input class="form-control" type="tel" formControlName="phoneNumber" placeholder="xxx-xxx-xxxx" />
+                      <input class="form-control" type="number" formControlName="phoneNumber"
+                        placeholder="xxx-xxx-xxxx" />
                       <div *ngIf="
                         editUserGroup.get('phoneNumber')?.hasError(
                           'required'
                         ) && editUserGroup.get('phoneNumber')?.touched
                       " class="login-danger Font_size">
-                        Phone Number field is reqiured.
+                        Field is required.
                       </div>
                       <div class="login-danger Font_size" *ngIf="
                                 editUserGroup.get('phoneNumber')?.hasError(
                                   'pattern'
                                 ) && editUserGroup.get('phoneNumber')?.touched
                               ">
-                        Please enter a valid number.
+                        Please Enter 10-Digit number.
                       </div>
                     </div>
                   </div>
@@ -138,11 +139,15 @@
                                   'required'
                                 ) && editUserGroup.get('email')?.touched
                               " class="login-danger Font_size">
-                        Email field is reqiured.
+                        Field is required.
                       </div>
-                      <div *ngIf="editUserGroup.get('email')?.errors?.['email']" class="login-danger Font_size">
-                        Please enter a valid email address.
-                      </div>
+                      <div *ngIf="
+                                editUserGroup.get('email')?.hasError(
+                                  'pattern'
+                                ) && editUserGroup.get('email')?.touched
+                              " class="login-danger Font_size">
+                        Please enter a valid email address. </div>
+
                     </div>
                   </div>
 
@@ -201,16 +206,16 @@
                     <div class="form-group local-forms">
                       <label for="wareHouse">Warehouse
                         <span class="login-danger"></span></label>
-                      <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Warehouse--" [options]="wareHousedata"
-                        formControlName="wareHouse" optionLabel="name" optionValue="name" display="chip"
-                        [showClear]="true"></p-multiSelect>
-                      <!-- <div *ngIf="
+                      <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Warehouse--"
+                        [options]="wareHousedata" formControlName="wareHouse" optionLabel="name" optionValue="name"
+                        display="chip" [showClear]="true"></p-multiSelect>
+                      <div *ngIf="
                                 editUserGroup.get('wareHouse')?.hasError(
                                   'reqiured'
                                 ) && editUserGroup.get('wareHouse')?.touched
                               " class="login-danger Font_size">
-                        Warehouse field is reqiured.
-                      </div> -->
+                        Field is required.
+                      </div>
                     </div>
                   </div>
 
@@ -223,10 +228,17 @@
                         rows="1"></textarea>
                       <div *ngIf="
                                 editUserGroup.get('address')?.hasError(
+                                  'reqiured'
+                                ) && editUserGroup.get('address')?.touched
+                              " class="login-danger Font_size">
+                        Field is required.
+                      </div>
+                      <div *ngIf="
+                                editUserGroup.get('address')?.hasError(
                                   'pattern'
                                 ) && editUserGroup.get('address')?.touched
                               " class="login-danger Font_size">
-                        Input must be between 1 and 50 characters.
+                        Input must be between 1 and 500 characters.
                       </div>
                     </div>
                   </div>

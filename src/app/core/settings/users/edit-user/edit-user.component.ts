@@ -64,6 +64,13 @@ export class EditUserComponent implements OnInit {
 
   }
 
+  nameRegex = /^[a-zA-Z\s]{1,50}$/; // No specific regex for name field
+
+  emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  phoneRegex = /^[0-9]{10}$/;
+  addressRegex = /^(?:.{1,500})$/;
+
   constructor(
     private activeRoute: ActivatedRoute,
     private UserEditData: UsersdataService,
@@ -78,20 +85,19 @@ export class EditUserComponent implements OnInit {
     this.editUserGroup = this.fb.group({
       name: [
         "",
-        [Validators.required, Validators.pattern(new RegExp(/^.{1,50}$/))],
+        [Validators.required, Validators.pattern(this.nameRegex)],
       ],
       phoneNumber: [
         "",
         [
           Validators.required,
-          Validators.pattern(
-            new RegExp(/^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/)
+          Validators.pattern(this.phoneRegex           
           ),
         ],
       ],
-      email: ["", [Validators.required, Validators.email]],
-      status: ["", [Validators.pattern(new RegExp(/^.{1,50}$/))]],
-      address: ["", [Validators.pattern(new RegExp(/^.{1,50}$/))]],
+      email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
+      status: [""],
+      address: ["", [Validators.required, Validators.pattern(this.addressRegex)]],
       wareHouse:[''],
       adminCheckBox: [""],
       SalesmanCheckBox: [""],

@@ -15,7 +15,11 @@
 
                         <div
                             *ngIf="editSubCategoryForm.get('name')?.hasError('required') && editSubCategoryForm.get('name')?.touched">
-                            <span class="login-danger">Name is reqiured</span>
+                            <span class="login-danger">Field is required.</span>
+                        </div>
+                        <div
+                            *ngIf="editSubCategoryForm.get('name')?.hasError('pattern') && editSubCategoryForm.get('name')?.touched">
+                            <span class="login-danger">Input must be between 1 to 50 characters.</span>
                         </div>
 
                     </div>
@@ -31,15 +35,21 @@
 
                         <div
                             *ngIf="editSubCategoryForm.get('categoryId')?.hasError('required') && editSubCategoryForm.get('categoryId')?.touched">
-                            <span class="login-danger">Category is reqiured</span>
+                            <span class="login-danger">Field is required.</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-12">
                     <div class="form-group local-forms">
-                        <label for="name">Description</label>
-                        <textarea class="form-control" type="text" formControlName="description" placeholder=""></textarea>
+                        <label for="description">Description</label>
+                        <textarea class="form-control" type="text" formControlName="description"
+                            placeholder=""></textarea>
+                        
+                        <div
+                            *ngIf="editSubCategoryForm.get('description')?.hasError('pattern') && editSubCategoryForm.get('description')?.touched">
+                            <span class="login-danger">Input must be between 1 to 500 characters.</span>
+                        </div>
                     </div>
                 </div>
 

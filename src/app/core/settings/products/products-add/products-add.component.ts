@@ -1,5 +1,10 @@
 import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, FormsModule, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  Validators,
+} from "@angular/forms";
 import { SettingsService } from "src/app/shared/data/settings.service";
 import { Router } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
@@ -57,8 +62,7 @@ export class ProductsAddComponent {
     { label: "Bapu Bazar", value: "Bapu Bazar" },
   ];
 
-
-  selectedCategeoryOption:any;
+  selectedCategeoryOption: any;
   categeoryOptions: any = [
     {
       key: "0",
@@ -87,7 +91,7 @@ export class ProductsAddComponent {
             },
           ],
         },
-  
+
         // Mobile Section
         {
           key: "0-1",
@@ -95,7 +99,7 @@ export class ProductsAddComponent {
           data: "Mobiles Folder",
           // icon: "fa-solid fa-bolt-lightning",
         },
-  
+
         // Televisions Section
         {
           key: "0-2",
@@ -115,10 +119,10 @@ export class ProductsAddComponent {
           //         data: 'Soundbars Folder',
           //         icon: 'fa-solid fa-bolt-lightning',
           //     },
-  
+
           //         ]
         },
-  
+
         // Computers Section
         {
           key: "0-3",
@@ -168,7 +172,7 @@ export class ProductsAddComponent {
         },
       ],
     },
-  
+
     // Fashion section
     {
       key: "1",
@@ -195,10 +199,10 @@ export class ProductsAddComponent {
           //         data: 'Soundbars Folder',
           //         icon: 'fa-solid fa-bolt-lightning',
           //     },
-  
+
           // ]
         },
-  
+
         // Mobile Section
         {
           key: "1-1",
@@ -206,7 +210,7 @@ export class ProductsAddComponent {
           data: "Shoes Folder",
           // icon: "fa-solid fa-bolt-lightning",
         },
-  
+
         // Televisions Section
         // {
         //     key: '1-2',
@@ -226,12 +230,12 @@ export class ProductsAddComponent {
         //             data: 'Soundbars Folder',
         //             icon: 'fa-solid fa-bolt-lightning',
         //         },
-  
+
         //             ]
         // },
       ],
     },
-  
+
     // Grocery section
     {
       key: "2",
@@ -239,24 +243,24 @@ export class ProductsAddComponent {
       data: "Grocery Folder",
       // icon: "fa-solid fa-bolt-lightning",
     },
-  
-  //   Home and Furnitures Section
+
+    //   Home and Furnitures Section
     {
       key: "3",
       label: "Home and Furnitures",
       data: "Home and Furnitures Folder",
       // icon: "fa-solid fa-bolt-lightning",
     },
-  
-  //   Baby & Kids Section
+
+    //   Baby & Kids Section
     {
       key: "4",
       label: "Baby & Kids",
       data: "Baby & Kids Folder",
       // icon: "fa-solid fa-bolt-lightning",
     },
-  
-  //   Main Category 1 Section
+
+    //   Main Category 1 Section
     {
       key: "5",
       label: "Main Category 1",
@@ -282,13 +286,12 @@ export class ProductsAddComponent {
           //         data: 'Soundbars Folder',
           //         icon: 'fa-solid fa-bolt-lightning',
           //     },
-  
+
           // ]
         },
       ],
     },
   ];
-  
 
   unitList = [
     { label: "Meter", value: "m" },
@@ -316,6 +319,17 @@ export class ProductsAddComponent {
     { label: "Customs Duty", value: "CustomsDuty" },
   ];
 
+  nameRegex = /^[a-zA-Z\s]{1,50}$/; // No specific regex for name field
+
+  quantityAlertRegex = /^[0-9]+$/;
+  itemCodeRegex = /^(?:.{1,20})$/;
+  openingStockRegex = /^[0-9]+$/;
+
+  purchasePriceRegex = /^[0-9]+$/;
+  salesPriceRegex = /^[0-9]+$/;
+  mrpRegex = /^[0-9]+$/;
+  descriptionRegex = /^(?:.{1,500})$/;
+
   // itemCode: string;
   // barcodeImage: string | ArrayBuffer | null;
 
@@ -328,10 +342,7 @@ export class ProductsAddComponent {
     // this.itemCode = ''; // Initialize itemCode
     // this.barcodeImage = null; // Initialize barcodeImage
     this.productForm = this.fb.group({
-      name: [
-        "",
-        [Validators.pattern(new RegExp(/^.{2,50}$/))],
-      ],
+      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
       // slug: [
       //   '',
       //   [Validators.required, Validators.pattern(new RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/))],
@@ -339,17 +350,32 @@ export class ProductsAddComponent {
       warehouse: [],
       category: [],
       unit: [],
-      quantityAlert: [],
+      quantityAlert: [
+        "",
+        [Validators.required, Validators.pattern(this.quantityAlertRegex)],
+      ],
       barcodeSymbology: [],
-      itemCode: [],
+      itemCode: ["", [Validators.required, Validators.pattern(this.itemCodeRegex)]],
       tax: [],
-      openingStock: [],
+      openingStock: [
+        "",
+        [Validators.required, Validators.pattern(this.openingStockRegex)],
+      ],
       openingStockDate: [],
-      purchasePrice: [],
-      salesPrice: [],
-      mRP: [],
+      purchasePrice: [
+        "",
+        [Validators.required, Validators.pattern(this.purchasePriceRegex)],
+      ],
+      salesPrice: [
+        "",
+        [Validators.required, Validators.pattern(this.salesPriceRegex)],
+      ],
+      mRP: ["", [Validators.required, Validators.pattern(this.mrpRegex)]],
       expiryDate: [],
-      description: [ ],
+      description: [
+        "",
+        [Validators.required, Validators.pattern(this.descriptionRegex)],
+      ],
     });
   }
   get f() {
@@ -382,7 +408,7 @@ export class ProductsAddComponent {
   // }
 
   ProductFormSubmit() {
-    console.log(this.productForm.value)
+    console.log(this.productForm.value);
     if (this.productForm.valid) {
       this.service
         .CreateProduct(this.productForm.value)

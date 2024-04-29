@@ -14,14 +14,19 @@ import { SharedModule } from 'src/app/shared/shared.module';
 export class AddCategoriesComponent {
   addCategoryForm!:FormGroup;
 
+  
+  nameRegex = /^[a-zA-Z\s]{1,50}$/; // No specific regex for name field
+
+  descriptionRegex = /^(?:.{1,500})$/;
+  
   constructor(private fb: FormBuilder,
     public dialog: MatDialog,
     private dialogRef: MatDialogRef<AddCategoriesComponent>,
   ){
     this.addCategoryForm = this.fb.group({  
-    name: ['',[Validators.required]],
-    description: ['']
-    })
+      name: ['',[Validators.required,Validators.pattern(this.nameRegex)]],
+      description: ['',[Validators.pattern(this.descriptionRegex)]]
+      })
   }
   addCategoryFormSubmit(){
     if (this.addCategoryForm.valid) {
