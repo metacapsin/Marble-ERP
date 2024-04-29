@@ -29,7 +29,6 @@ export class AddsalesComponent {
   public routes = routes;
   public searchData_id = '';
   addTaxTotal: any;
-  isDisabled: boolean = true;
   customerList = [];
   categoryList = [];
   subCategoryList = [];
@@ -173,19 +172,11 @@ getSalesItemSubTotalError(index: number) {
     console.log("Enter in caltotal");
     let totalTax = 0
     let totalAmount = 0;
-    // let salesOrderTax = this.addSalesForm.get('salesOrderTax').value;
-    // salesOrderTax.forEach(element => {
-    //     totalTax = totalTax + element.taxRate;
-    // });
     if (Array.isArray(this.addSalesForm.get('salesOrderTax').value)) {
-      // Iterate over each element in the array and sum up the tax rates
       this.addSalesForm.get('salesOrderTax').value.forEach(element => {
-          // Add the tax rate to totalTax
           totalTax += Number(element.taxRate);
       });
   } else {
-      // Handle the case when salesOrderTax is not an array (e.g., single value)
-      // In this case, directly add the tax rate to totalTax
       totalTax += Number(this.addSalesForm.get('salesOrderTax').value);
   }
     let shipping = +this.addSalesForm.get('salesShipping').value;
@@ -217,18 +208,17 @@ getSalesItemSubTotalError(index: number) {
     });
   }
 
-  getCustomerById(value:any){
-    console.log("value",value);
+  // getCustomerById(value:any){
+  //   console.log("value",value);
     
-    this.customerByIdService.GetCustomerDataById(value).subscribe((resp: any) => {
-      this.customerByIdService = resp
-    })
+  //   this.customerService.GetCustomerDataById(value).subscribe((resp: any) => {
+  //     this.customerByIdService = resp
+  //   })
 
-  }
+  // }
 
   onCustomerSelect(customerId: string) {
     const selectedCustomer = this.customerList.find(customer => customer._id === customerId);
-  
     this.addSalesForm.get('customer').setValue(selectedCustomer);
   }
 
@@ -248,7 +238,7 @@ getSalesItemSubTotalError(index: number) {
 
     let totalTax = 0
     formData.salesOrderTax.forEach(element => {
-        totalTax =totalTax +  Number(element.taxRate);
+        totalTax =totalTax +  element.taxRate;
     });
 
     const payload = {
@@ -268,14 +258,16 @@ getSalesItemSubTotalError(index: number) {
       appliedTax : formData.salesOrderTax.map(i => {
         return {
           _id:i._id,
-          name:i.name
+          name:i.name,
+          taxRate:i.taxRate,
+          
         }
       }),
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
       unit: formData.unit,
       otherCharges: formData.otherCharges
-    }
+    }                             
 
 
     if (this.addSalesForm.valid) {

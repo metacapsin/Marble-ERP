@@ -18,42 +18,6 @@
       </div>
       <!-- /Page Header -->
 
-      <div class="card report-card">
-        <div class="card-body pb-0">
-          <div class="row">
-            <div class="col-md-3"><div class="form-group local-forms">
-              <label for="">Customer</label>
-              <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
-              [options]="customerList" 
-              optionLabel="name" optionValue="name" display="chip"
-              [showClear]="true">
-                                                    </p-dropdown>
-            </div></div>
-            <div class="col-md-3"><div class="form-group local-forms">
-              <label for="">Invoice Number</label>
-              <input type="text" class="form-control">
-            </div></div>
-            <div class="col-md-3"><div class="form-group local-forms">
-              <label for="">Start Date</label>
-              <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                                formControlName="StartDate" placeholder="mm/dd/yyyy"
-                                                [styleClass]="'col-12'"></p-calendar>
-            </div></div>
-            <div class="col-md-3"><div class="form-group local-forms">
-              <div class="report-btn">
-                <a href="" class="btn">
-                  <img
-                    src="assets/img/invoices-icon5.png"
-                    alt=""
-                    class="me-2"
-                  />
-                  Generate report
-                </a>
-              </div>
-            </div></div>
-          </div>
-        </div>
-      </div>
       <div class="card invoices-tabs-card">
         <div class="card-body card-body pt-0 pb-0">
           <div class="invoices-main-tabs">
@@ -66,8 +30,8 @@
                         >All Sales Return</a
                       >
                     </li>
-                    <li><a >Paid</a></li>
-                    <li><a>Unpaid</a></li>
+                    <!-- <li><a >Paid</a></li>
+                    <li><a>Unpaid</a></li> -->
                   </ul>
                 </div>
               </div>
@@ -82,59 +46,11 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xl-4 col-sm-6 col-12">
-          <div class="card inovices-card">
-            <div class="card-body">
-              <div class="inovices-widget-header">
-                <span class="inovices-widget-icon">
-                  <img src="assets/img/invoices-icon1.svg" alt="" />
-                </span>
-                <div class="inovices-dash-count">
-                  <div class="inovices-amount">$8,78,797</div>
-                </div>
-              </div>
-              <p class="inovices-all">All Sales Return <span>50</span></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4 col-sm-6 col-12">
-          <div class="card inovices-card">
-            <div class="card-body">
-              <div class="inovices-widget-header">
-                <span class="inovices-widget-icon">
-                  <img src="assets/img/invoices-icon2.svg" alt="" />
-                </span>
-                <div class="inovices-dash-count">
-                  <div class="inovices-amount">$4,5884</div>
-                </div>
-              </div>
-              <p class="inovices-all">Paid Sales Return <span>60</span></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4 col-sm-6 col-12">
-          <div class="card inovices-card">
-            <div class="card-body">
-              <div class="inovices-widget-header">
-                <span class="inovices-widget-icon">
-                  <img src="assets/img/invoices-icon3.svg" alt="" />
-                </span>
-                <div class="inovices-dash-count">
-                  <div class="inovices-amount">$2,05,545</div>
-                </div>
-              </div>
-              <p class="inovices-all">Unpaid Sales Return <span>70</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
+      </div><div class="row">
         <div class="col-sm-12">
           <div class="card card-table">
             <div class="card-body p-4">
-            <p-table [value]="salesData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+            <p-table [value]="salesReturnListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="5">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -144,20 +60,20 @@
                                     <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
                                         <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="salesDate">Return Date <p-sortIcon field="salesDate"></p-sortIcon>
-                                        <p-columnFilter type="text" field="salesDate" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="returnDate">Return Date <p-sortIcon field="returnDate"></p-sortIcon>
+                                        <p-columnFilter type="text" field="returnDate" display="menu"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="salesCustomer">Customer <p-sortIcon field="salesCustomer"></p-sortIcon>
                                         <p-columnFilter type="text" field="salesCustomer" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="salesStatus">Return Status <p-sortIcon field="salesStatus"></p-sortIcon></th>
-                                    <th pSortableColumn="salesPaidAmount">Paid Amount <p-sortIcon field="salesPaidAmount"></p-sortIcon>
-                                        <p-columnFilter type="text" field="salesPaidAmount" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="returnOrderStatus">Return Status <p-sortIcon field="returnOrderStatus"></p-sortIcon></th>
+                                    <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
+                                        <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
                                         <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="salesPaymentStatus">Payment Status <p-sortIcon field="salesPaymentStatus"></p-sortIcon></th>
+                                    <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon></th>
 
                                     <th>Action</th>
                                 </tr>
@@ -168,12 +84,12 @@
                                         <p-tableCheckbox [value]="sales"></p-tableCheckbox>
                                     </td>
                                     <td>{{sales.salesInvoiceNumber}}</td>
-                                    <td>{{sales.salesDate}}</td>
+                                    <td>{{sales.returnDate}}</td>
                                     <td>{{sales.salesCustomer}}</td>
-                                    <td>{{sales.salesStatus}}</td>
-                                    <td>{{sales.salesPaidAmount}}</td>
+                                    <td>{{sales.returnOrderStatus}}</td>
+                                    <td>{{sales.paidAmount}}</td>
                                     <td>{{sales.salesTotalAmount}}</td>
-                                    <td>{{sales.salesPaymentStatus}}</td>
+                                    <td>{{sales.paymentStatus}}</td>
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                                                 <p-button [text]="true" data-bs-toggle="modal"
                                                 data-bs-target="#sales_preview" icon="fa-solid fa-eye" ></p-button>
@@ -276,7 +192,7 @@
                                                             <th  class="text-end">Amount</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody *ngFor="let sales of salesItem">
+                                                    <!-- <tbody *ngFor="let sales of salesItem">
                                                       <tr>
                                                         <td>{{sales.salesCategory}}</td>
                                                         <td>{{sales.salesName}}</td>
@@ -284,7 +200,7 @@
                                                         <td>{{sales.salesUnitPrice}}</td>
                                                         <td  class="text-end"> ₹ {{sales.salesSubTotal}}</td>
                                                       </tr>
-                                                    </tbody>
+                                                    </tbody> -->
                                                 </table>
                                             </div>
                                         </div>

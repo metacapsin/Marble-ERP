@@ -44,29 +44,39 @@
                         <form [formGroup]="editSalesForm" (ngSubmit)="editSalesFormSubmit()">
                             <div class="invoices-main-form">
                                 <div class="row">
-                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class=" col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="salesInvoiceNumber">Invoice Number</label>
                                             <input type="text" class="form-control"
                                                 formControlName="salesInvoiceNumber">
                                         </div>
                                     </div>
-                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
-                                        <div class="form-group local-forms">
-                                            <label for="salesCustomerName">Customer Name</label>
-                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
-                                                [options]="customerList" formControlName="customer"
-                                                optionLabel="name" optionValue="_id" display="chip"
-                                                [filter]="true" filterBy="name"
-                                                [showClear]="true"></p-dropdown>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class=" col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="salesDate">Sales Date</label>
                                             <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                                 formControlName="salesDate" placeholder="mm/dd/yyyy"
                                                 [styleClass]="'col-12'"></p-calendar>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-6 col-sm-12 col-12">
+                                        <div class="form-group local-forms">
+                                            <label for="salesCustomerName">Customer Name</label>
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
+                                                [options]="customerList" formControlName="customer" optionLabel="name"
+                                                optionValue="_id" display="chip" [filter]="true" filterBy="name"
+                                                [showClear]="true" (onChange)="onCustomerSelect($event.value)"></p-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-6 col-sm-12 col-12">
+                                        <div class="form-group local-forms">
+                                            <label for="unit">Unit</label>
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Unit--"
+                                                [options]="unitListData" formControlName="unit" optionLabel="unitName"
+                                                optionValue="shortName" display="chip" [filter]="true" filterBy="name"
+                                                [showClear]="true">
+                                            </p-dropdown>
+
                                         </div>
                                     </div>
 
@@ -95,34 +105,43 @@
                                                 [formGroupName]="i">
                                                 <td>
                                                     <p-dropdown [options]="categoryList" styleClass="" appendTo="body"
-                                                        optionLabel="name" optionValue="name"
-                                                        placeholder="Category" [style]="{'width':'220px'}"
+                                                        optionLabel="name" optionValue="name" placeholder="Category"
                                                         [filter]="true" filterBy="name" [showClear]="true"
                                                         formControlName="salesItemCategory">
                                                     </p-dropdown>
                                                 </td>
                                                 <td>
-                                                    <p-dropdown [options]="subCategoryList" styleClass="" appendTo="body"
-                                                        optionLabel="name" optionValue="name"
-                                                        placeholder="Sub Category" [style]="{'width':'220px'}"
-                                                        [filter]="true" filterBy="name" [showClear]="true"
-                                                        formControlName="salesItemSubCategory">
+                                                    <p-dropdown [options]="subCategoryList" styleClass=""
+                                                        appendTo="body" optionLabel="name" optionValue="name"
+                                                        placeholder="Sub Category" [filter]="true" filterBy="name"
+                                                        [showClear]="true" formControlName="salesItemSubCategory">
                                                     </p-dropdown>
                                                 </td>
                                                 <td>
-                                                    <input type="text" formControlName="salesItemName" class="form-control">
+                                                    <input type="text" formControlName="salesItemName"
+                                                        class="form-control">
                                                 </td>
                                                 <td>
                                                     <input type="number" formControlName="salesItemQuantity"
                                                         (change)="calculateTotalAmount()" class="form-control">
+                                                    <div *ngIf="getSalesItemQuantityError(i)" class="login-danger">
+                                                        Quantity must be more than 0
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <input type="number" formControlName="salesItemUnitPrice"
                                                         (change)="calculateTotalAmount()" class="form-control">
+                                                    <div *ngIf="getSalesItemUnitPriceError(i)" class="login-danger">
+                                                        Unit Price must be more than 0
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <input type="number" formControlName="salesItemSubTotal"
                                                         (change)="calculateTotalAmount()" class="form-control">
+
+                                                    <div *ngIf="getSalesItemSubTotalError(i)" class="login-danger">
+                                                        Sub Total must be more than 0
+                                                    </div>
                                                 </td>
                                                 <td class="add-remove text-end">
                                                     <p-button [text]=" true" icon="fa fa-plus"
@@ -196,7 +215,7 @@
                                         <h4 class="invoice-total-title">Summary</h4>
                                         <div class="invoice-total-box">
                                             <div class="row p-3">
-                                                <div class="col-md-6 mt-3">
+                                                <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesOrderStatus">Order Status</label>
                                                         <p-dropdown [options]="orderStatusList" styleClass=""
@@ -208,19 +227,24 @@
                                                         </p-dropdown>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mt-3">
+                                                <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesOrderTax">Order Tax</label>
-                                                        <p-dropdown [options]="orderTaxList" styleClass=""
+                                                        <!-- <p-dropdown [options]="orderTaxList" styleClass=""
                                                             appendTo="body" optionLabel="orderTaxName"
                                                             optionValue="taxRate" placeholder="Select  Tax"
                                                             [style]="{'width':'100%'}" formControlName="salesOrderTax"
                                                             (change)="calculateTotalAmount()" [filter]="true"
                                                             filterBy="orderTaxName" [showClear]="true">
-                                                        </p-dropdown>
+                                                        </p-dropdown> -->
+                                                        <p-multiSelect [style]="{'width':'100%'}"
+                                                            placeholder="Select Tax" [options]="orderTaxList"
+                                                            formControlName="salesOrderTax" optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
+                                                            [showClear]="true" (change)="calculateTotalAmount()"></p-multiSelect>
+                                                    
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 ml-3">
+                                                <div class="col-12 ml-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesDiscount">Discount </label>
                                                         <div class="input-group">
@@ -231,7 +255,7 @@
                                                                 (change)="calculateTotalAmount()"
                                                                 formControlName="salesDiscount" type="number"
                                                                 placeholder="">
-                                                                <div
+                                                            <div
                                                                 *ngIf="editSalesForm.get('salesDiscount')?.hasError('min') && editSalesForm.get('salesDiscount')?.touched">
                                                                 <span class="login-danger">Shipping must be more than
                                                                     0</span>
@@ -239,7 +263,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 ml-3">
+                                                <div class="col-12 ml-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesShipping">Shipping</label>
                                                         <div class="input-group">
@@ -250,9 +274,28 @@
                                                                 (change)="calculateTotalAmount()"
                                                                 formControlName="salesShipping" type="number"
                                                                 placeholder="">
-                                                                <div
+                                                            <div
                                                                 *ngIf="editSalesForm.get('salesShipping')?.hasError('min') && editSalesForm.get('salesShipping')?.touched">
                                                                 <span class="login-danger">Shipping must be more than
+                                                                    0</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 ml-3">
+                                                    <div class="form-group local-forms">
+                                                        <label for="otherCharges">Other Charges</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">₹</span>
+                                                            </div>
+                                                            <input class="form-control"
+                                                                (change)="calculateTotalAmount()"
+                                                                formControlName="otherCharges" type="number"
+                                                                placeholder="">
+                                                            <div
+                                                                *ngIf="editSalesForm.get('otherCharges')?.hasError('min') && editSalesForm.get('otherCharges')?.touched">
+                                                                <span class="login-danger">Other Charges must be more than
                                                                     0</span>
                                                             </div>
                                                         </div>
@@ -261,23 +304,28 @@
                                             </div>
 
                                             <div class="invoice-total-inner">
-                                                <p>Order Tax <span>₹ {{ editSalesForm.get('salesOrderTax').value |
-                                                        number: '1.2-2' }}</span></p>
+                                                <p>Order Tax <span>₹ {{ addTaxTotal}}</span></p>
+                                                <!-- <p>Order Tax <span>₹ {{ editSalesForm.get('salesOrderTax').value |
+                                                        number: '1.2-2' }}</span></p> -->
                                                 <p>Discount<span>₹ {{ editSalesForm.get('salesDiscount').value | number:
                                                         '1.2-2' }}</span></p>
                                                 <p>Shipping<span>₹ {{ editSalesForm.get('salesShipping').value | number:
                                                         '1.2-2' }}</span></p>
+                                                        <p>Other Charges<span>₹ {{ editSalesForm.get('otherCharges').value | number:
+                                                            '1.2-2' }}</span></p>
                                             </div>
 
                                             <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>₹ {{ editSalesForm.get('salesTotalAmount').value |
+                                                <h4>Total Amount <span>₹ {{ editSalesForm.get('salesTotalAmount').value
+                                                        |
                                                         number: '1.2-2' }}</span></h4>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="upload-sign">
                                         <div class="form-group float-end mb-0">
-                                            <button class="btn btn-primary" type="submit" [disabled]="!editSalesForm.valid">Save Sales</button>
+                                            <button class="btn btn-primary" type="submit"
+                                                [disabled]="!editSalesForm.valid">Save Sales</button>
                                         </div>
                                     </div>
                                 </div>

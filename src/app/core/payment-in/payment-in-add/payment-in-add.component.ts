@@ -25,8 +25,8 @@ export class PaymentInAddComponent {
   customerList= [];
   selectedCustomer: any;
   salesDataById = [];
-  salesId: any;
-
+  // sales: any;
+  amount:any = {}
   paymentModeList = [{
     paymentMode: 'Cash'
   },
@@ -43,24 +43,24 @@ export class PaymentInAddComponent {
     private fb: FormBuilder
   ){
     this.addPaymentInForm = this.fb.group({
-      salesId: this.fb.array([
-        this.fb.group({
-          _id: [''],
-          amount: [''],
-          
-        })
-      ]),
+      sales: this.fb.array([]),
       customer: [''],
       paymentDate: [''],
       paymentMode: [''],
       note: [''],
-    })
-
+    });
+    
   }
-  get salesID() {
-    return this.addPaymentInForm.controls['salesId'] as FormArray;
+  addSalesControls() {
+    const salesArray = this.addPaymentInForm.get('sales') as FormArray;
+    this.salesDataById.forEach(sale => {
+      salesArray.push(this.fb.group({
+        _id: [sale._id],
+        amount: ['']
+      }));
+    });
   }
-
+  
 
   ngOnInit(): void {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
@@ -69,26 +69,37 @@ export class PaymentInAddComponent {
   
   }
   onCustomerSelect(customerId: any){
-    
+   
     this.Service.getSalesByCustomerId(customerId).subscribe((resp:any) => {
       this.salesDataById = resp.data;
-      // this.salesId = resp.data[0]._id;
       console.log("sales Data by id ",this.salesDataById);
-      
-    })
+      this.addSalesControls();
+      this.addPaymentInForm.get('customer').setValue(this.salesDataById[0].customer)
+      console.log("selcted ", this.salesDataById);
+    });
+    
   }
 
 
   addPaymentInFormSubmit(){
     const formData = this.addPaymentInForm.value;
+    console.log('Submitted data:', formData);
+
+    const selectedCustomerId = this.addPaymentInForm.get('customer').value?._id;
+    const selectedCustomerName = this.addPaymentInForm.get('customer').value?.name;
 
     const payload = {
-      salesId: formData.salesId,
+      customer: {
+        _id: selectedCustomerId,
+        name: selectedCustomerName
+      },
+      sales: formData.sales,
       paymentDate: formData.paymentDate,
       paymentMode: formData.paymentMode,
-      amount: formData.amount,
       note: formData.note
     }
+
+    console.log(this.amount)
 
     
     if (this.addPaymentInForm.valid) {
