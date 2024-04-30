@@ -44,27 +44,35 @@
                         <form [formGroup]="editReturnSalesForm" (ngSubmit)="editReturnSalesFormSubmit()" >
                             <div class="invoices-main-form">
                                 <div class="row">
-                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class=" col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesReturnInvoiceNumber">Invoice Number</label>
-                                            <input type="text" class="form-control" formControlName="salesReturnInvoiceNumber">
+                                            <label for="salesInvoiceNumber">Invoice Number</label>
+                                            <input type="text" class="form-control" formControlName="salesInvoiceNumber">
                                         </div>
                                     </div>
-                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class=" col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesReturnCustomerName">Customer Name</label>
-                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
-                                                [options]="customerList" formControlName="salesReturnCustomerName"
-                                                optionLabel="name" optionValue="name" display="chip"
-                                                [showClear]="true"></p-dropdown>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
-                                        <div class="form-group local-forms">
-                                            <label for="salesReturnDate">Return Date</label>
+                                            <label for="returnDate">Return Date</label>
                                             <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                                formControlName="salesReturnDate" placeholder="mm/dd/yyyy"
+                                                formControlName="returnDate" placeholder="mm/dd/yyyy"
                                                 [styleClass]="'col-12'"></p-calendar>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-6 col-sm-12 col-12">
+                                        <div class="form-group local-forms">
+                                            <label for="customer">Customer Name</label>
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
+                                                [options]="customerList" formControlName="customer"
+                                                optionLabel="name" optionValue="name" display="chip"
+                                                [showClear]="true" (onChange)="onCustomerSelect($event.value)"></p-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-6 col-sm-12 col-12">
+                                        <div class="form-group local-forms">
+                                            <label for="unit">Unit</label>
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
+                                                [options]="unitListData" formControlName="unit" optionLabel="shortName"
+                                                optionValue="unitName" display="chip" [showClear]="true"></p-dropdown>
                                         </div>
                                     </div>
 
@@ -79,39 +87,64 @@
                                         <thead>
                                             <tr>
                                                 <th>Category</th>
+                                                <th>Sub Category</th>
                                                 <th>Name</th>
-                                                <th>Quantity</th>
+                                                <th>Quantity </th>
                                                 <th>Unit Price</th>
                                                 <th>Sub Total</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody formArrayName="salesReturnItemDetails" >
-                                            <tr class="add-row" *ngFor="let salesItemDetailsForm of salesReturnItemDetails.controls; let i = index" [formGroupName]="i">
+                                        <tbody formArrayName="salesItemDetails" >
+                                            <tr class="add-row" *ngFor="let salesItemDetailsForm of salesItemDetails.controls; let i = index" [formGroupName]="i">
                                                 <td>
                                                     <p-dropdown [options]="categoryList" styleClass="" appendTo="body"
-                                                        optionLabel="name" optionValue="name"
-                                                        placeholder="Select  Category" [style]="{'width':'100%'}"
-                                                        [filter]="true" filterBy="value" [showClear]="true"
-                                                        formControlName="salesReturnItemCategory">
+                                                        optionLabel="name" optionValue="name" placeholder="Category"
+                                                        [filter]="true" filterBy="name" [showClear]="true"
+                                                        formControlName="salesItemCategory">
                                                     </p-dropdown>
                                                 </td>
                                                 <td>
-                                                    <input type="text" formControlName="salesReturnItemName" class="form-control">
+                                                    <p-dropdown [options]="subCategoryList" styleClass=""
+                                                        appendTo="body" optionLabel="name" optionValue="name"
+                                                        placeholder="Sub Category" [filter]="true" filterBy="name"
+                                                        [showClear]="true" formControlName="salesItemSubCategory">
+                                                    </p-dropdown>
                                                 </td>
                                                 <td>
-                                                    <input type="number" formControlName="salesReturnItemQuantity" (change)="calculateTotalAmount()" class="form-control">
+                                                    <input type="text" formControlName="salesItemName"
+                                                        class="form-control">
                                                 </td>
                                                 <td>
-                                                    <input type="number" formControlName="salesReturnItemUnitPrice" (change)="calculateTotalAmount()" class="form-control">
+                                                    
+                                                    <input type="number" formControlName="salesItemQuantity"
+                                                        (change)="calculateTotalAmount()" class="form-control">
+                                                    <div *ngIf="getSalesItemQuantityError(i)" class="login-danger">
+                                                        Quantity must be more than 0
+                                                    </div>
                                                 </td>
                                                 <td>
-                                                    <input type="number" formControlName="salesReturnItemSubTotal" (change)="calculateTotalAmount()" class="form-control">
+                                                    <input type="number" formControlName="salesItemUnitPrice"
+                                                        (change)="calculateTotalAmount()" class="form-control">
+                                                    <div *ngIf="getSalesItemUnitPriceError(i)" class="login-danger">
+                                                        Unit Price must be more than 0
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <input type="number" formControlName="salesItemSubTotal"
+                                                        (change)="calculateTotalAmount()" class="form-control"
+                                                        >
+
+                                                    <div *ngIf="getSalesItemSubTotalError(i)" class="login-danger">
+                                                        Sub Total must be more than 0
+                                                    </div>
                                                 </td>
                                                 <td class="add-remove text-end">
                                                     <p-button [text]=" true" icon="fa fa-plus"
                                                         (click)="addsalesReturnItemDetailsItem()"></p-button>
-                                                    <p-button [text]=" true" icon="fa fa-trash" (click)="deletesalesReturnItemDetails(i)"
+                                                    <p-button [text]=" true" icon="fa fa-trash"
+                                                        (click)="deletesalesReturnItemDetails(i)"
                                                         (keyup.enter)="deletesalesReturnItemDetails(i)"></p-button>
                                                 </td>
                                             </tr>
@@ -144,7 +177,7 @@
                                                         role="tabpanel" aria-labelledby="headingTwo"
                                                         data-bs-parent="#accordion">
                                                         <div class="panel-body">
-                                                            <textarea class="form-control" formControlName="salesReturnTermsAndCondition"></textarea>
+                                                            <textarea class="form-control" formControlName="salesTermsAndCondition"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -164,7 +197,7 @@
                                                         role="tabpanel" aria-labelledby="headingThree"
                                                         data-bs-parent="#accordion">
                                                         <div class="panel-body">
-                                                            <textarea class="form-control" formControlName="salesReturnNotes" ></textarea>
+                                                            <textarea class="form-control" formControlName="salesNotes" ></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -177,60 +210,95 @@
                                         <h4 class="invoice-total-title">Summary</h4>
                                         <div class="invoice-total-box">
                                             <div class="row p-3">
-                                                <div class="col-md-6 mt-3">
+                                                <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesReturnOrderStatus">Order Status</label>
-                                                        <p-dropdown [options]="orderStatusList" styleClass="" appendTo="body"
-                                                        optionLabel="orderStatus" optionValue="orderStatus"
-                                                        placeholder="Select  Status" [style]="{'width':'100%'}"
-                                                        formControlName="salesReturnOrderStatus"
-                                                        [filter]="true" filterBy="value" [showClear]="true">
-                                                    </p-dropdown>
+                                                        <p-dropdown [options]="orderStatusList" styleClass=""
+                                                            appendTo="body" optionLabel="orderStatus"
+                                                            optionValue="orderStatus" placeholder="Select  Status"
+                                                            [style]="{'width':'100%'}"
+                                                            formControlName="returnOrderStatus" [filter]="true"
+                                                            filterBy="orderStatus" [showClear]="true">
+                                                        </p-dropdown>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mt-3">
+                                                <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesReturnOrderTax">Order Tax</label>
-                                                        <p-dropdown [options]="orderTaxList" styleClass="" appendTo="body"
-                                                        optionLabel="orderTaxName" optionValue="taxRate"
-                                                        placeholder="Select  Tax" [style]="{'width':'100%'}"
-                                                        formControlName="salesReturnOrderTax" (change)="calculateTotalAmount()"
-                                                        [filter]="true" filterBy="value" [showClear]="true">
-                                                    </p-dropdown>
+                                                        <p-multiSelect [style]="{'width':'100%'}"
+                                                            placeholder="Select Tax" [options]="orderTaxList"
+                                                            formControlName="salesOrderTax" optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
+                                                            [showClear]="true" (change)="calculateTotalAmount()"></p-multiSelect>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 ml-3">
+                                                <div class="col-12 ml-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesDiscount">Discount </label>
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
-                                                              <span class="input-group-text">₹</span>
+                                                                <span class="input-group-text">₹</span>
                                                             </div>
-                                                            <input class="form-control" (change)="calculateTotalAmount()" formControlName="salesReturnDiscount" type="text" placeholder="">
+                                                            <input class="form-control"
+                                                            (change)="calculateTotalAmount()"
+                                                            formControlName="salesDiscount" type="number"
+                                                            placeholder="">
+                                                        <div
+                                                            *ngIf="editReturnSalesForm.get('salesDiscount')?.hasError('min')  && editReturnSalesForm.get('salesDiscount')?.touched">
+                                                            <span class="login-danger">Discount must be more than
+                                                                0</span>
+                                                        </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 ml-3">
+                                                <div class="col-12 ml-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesShipping">Shipping</label>
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
-                                                              <span class="input-group-text">₹</span>
+                                                                <span class="input-group-text">₹</span>
                                                             </div>
-                                                            <input class="form-control" (change)="calculateTotalAmount()" formControlName="salesReturnShipping" type="text" placeholder="">
+                                                            <input class="form-control"
+                                                            (change)="calculateTotalAmount()"
+                                                            formControlName="salesShipping" type="number"
+                                                            placeholder="">
+                                                        <div
+                                                            *ngIf="editReturnSalesForm.get('salesShipping')?.hasError('min') && editReturnSalesForm.get('salesShipping')?.touched">
+                                                            <span class="login-danger">Shipping must be more than
+                                                                0</span>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 ml-3">
+                                                    <div class="form-group local-forms">
+                                                        <label for="otherCharges">Other Charges</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">₹</span>
+                                                            </div>
+                                                            <input class="form-control"
+                                                            (change)="calculateTotalAmount()"
+                                                            formControlName="otherCharges" type="number"
+                                                            placeholder="">
+                                                        <div
+                                                            *ngIf="editReturnSalesForm.get('otherCharges')?.hasError('min') && editReturnSalesForm.get('otherCharges')?.touched">
+                                                            <span class="login-danger">Other Charges must be more than
+                                                                0</span>
+                                                        </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="invoice-total-inner">
-                                                <p>Order Tax <span>₹ {{ editReturnSalesForm.get('salesReturnOrderTax').value | number: '1.2-2' }}</span></p>
-                                                <p>Discount<span>₹ {{ editReturnSalesForm.get('salesReturnDiscount').value | number: '1.2-2' }}</span></p>
-                                                <p>Shipping<span>₹ {{ editReturnSalesForm.get('salesReturnShipping').value | number: '1.2-2' }}</span></p>
+                                                <p>Order Tax <span>₹ {{ addTaxTotal }}</span></p>
+                                                <p>Discount<span>₹ {{ editReturnSalesForm.get('salesDiscount').value | number: '1.2-2' }}</span></p>
+                                                <p>Shipping<span>₹ {{ editReturnSalesForm.get('salesShipping').value | number: '1.2-2' }}</span></p>
+                                                <p>Other Charges<span>₹ {{ editReturnSalesForm.get('otherCharges').value | number: '1.2-2' }}</span></p>
                                             </div>
 
                                             <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>₹ {{ editReturnSalesForm.get('salesReturnTotalAmount').value | number: '1.2-2' }}</span></h4>
+                                                <h4>Total Amount <span>₹ {{ editReturnSalesForm.get('salesTotalAmount').value | number: '1.2-2' }}</span></h4>
                                             </div>
                                         </div>
                                     </div>

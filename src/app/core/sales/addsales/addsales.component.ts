@@ -255,14 +255,7 @@ getSalesItemSubTotalError(index: number) {
       salesOrderStatus: formData.salesOrderStatus,
       salesOrderTax: totalTax,
       salesShipping: formData.salesShipping,
-      appliedTax : formData.salesOrderTax.map(i => {
-        return {
-          _id:i._id,
-          name:i.name,
-          taxRate:i.taxRate,
-          
-        }
-      }),
+      appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
       unit: formData.unit,

@@ -65,7 +65,7 @@
                                             <label for="customer">Customer Name</label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
-                                                optionValue="_id" display="chip" [showClear]="true"></p-dropdown>
+                                                optionValue="_id" display="chip" [showClear]="true" (onChange)="onCustomerSelect($event.value)"></p-dropdown>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12 col-12">
@@ -115,7 +115,7 @@
                                                     </p-dropdown>
                                                 </td>
                                                 <td>
-                                                    <input type="text" formControlName="salesReturnItemName"
+                                                    <input type="text" formControlName="salesItemName"
                                                         class="form-control">
                                                 </td>
                                                 <td>
@@ -217,12 +217,12 @@
                                             <div class="row p-3">
                                                 <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
-                                                        <label for="salesReturnOrderStatus">Order Status</label>
+                                                        <label for="returnOrderStatus">Order Status</label>
                                                         <p-dropdown [options]="orderStatusList" styleClass=""
                                                             appendTo="body" optionLabel="orderStatus"
                                                             optionValue="orderStatus" placeholder="Select  Status"
                                                             [style]="{'width':'100%'}"
-                                                            formControlName="salesOrderStatus" [filter]="true"
+                                                            formControlName="returnOrderStatus" [filter]="true"
                                                             filterBy="orderStatus" [showClear]="true">
                                                         </p-dropdown>
                                                     </div>
@@ -299,8 +299,6 @@
 
                                             <div class="invoice-total-inner">
                                                 <p>Order Tax <span>₹ {{ addTaxTotal}}</span></p>
-                                                <!-- <p>Order Tax <span>₹ {{ addReturnSalesForm.get('salesOrderTax').value |
-                                                        number: '1.2-2' }}</span></p> -->
                                                 <p>Discount<span>₹ {{ addReturnSalesForm.get('salesDiscount').value | number:
                                                         '1.2-2' }}</span></p>
                                                 <p>Shipping<span>₹ {{ addReturnSalesForm.get('salesShipping').value | number:

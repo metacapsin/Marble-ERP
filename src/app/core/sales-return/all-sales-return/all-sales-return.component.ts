@@ -9,6 +9,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { SalesReturnService } from '../sales-return.service';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-all-sales-return',
@@ -16,7 +17,7 @@ import { SalesReturnService } from '../sales-return.service';
   styleUrl: './all-sales-return.component.scss',
   providers: [MessageService],
   standalone: true,
-  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule]
+  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, ToastModule]
 })
 export class AllSalesReturnComponent implements OnInit {
   public routes = routes;
@@ -63,12 +64,12 @@ originalData = [];
 
   }
 
-  deleteSales(Id: any) {
+  deleteSalesReturn(Id: any) {
     this.saleId = Id;
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Sales Details"
+      messege: "Are you sure you want to delete this Sales Return Details"
     }
     this.showDialoge = true;
   }
@@ -97,8 +98,8 @@ originalData = [];
     })
   }
 
-  editSalesRout(id: any) {
-    // this.router.navigate(["/sales/edit-sales/" + id]);
+  editSalesRout(id) {
+    this.router.navigate(["/sales-return/edit-sales-return/" + id]);
   }
 
 

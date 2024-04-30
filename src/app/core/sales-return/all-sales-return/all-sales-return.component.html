@@ -85,7 +85,7 @@
                                     </td>
                                     <td>{{sales.salesInvoiceNumber}}</td>
                                     <td>{{sales.returnDate}}</td>
-                                    <td>{{sales.salesCustomer}}</td>
+                                    <td>{{sales.customer.name}}</td>
                                     <td>{{sales.returnOrderStatus}}</td>
                                     <td>{{sales.paidAmount}}</td>
                                     <td>{{sales.salesTotalAmount}}</td>
@@ -93,7 +93,8 @@
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                                                 <p-button [text]="true" data-bs-toggle="modal"
                                                 data-bs-target="#sales_preview" icon="fa-solid fa-eye" ></p-button>
-                                                <p-button [text]="true" icon="fa-solid fa-edit" [routerLink]="routes.editSalesReturn" ></p-button>
+                                                <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales.customer._id)" ></p-button>
+                                                <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(sales._id)" ></p-button>
                                     </td>
                                 </tr>
                             </ng-template>
@@ -106,6 +107,12 @@
     </div>
   </div>
 
+
+  <p-toast></p-toast>
+  
+
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+[data]="modalData"></app-confirm-dialog>
 
   <!-- -- Preview model -- -->
 

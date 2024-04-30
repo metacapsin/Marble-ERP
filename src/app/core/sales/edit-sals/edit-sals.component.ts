@@ -162,18 +162,11 @@ export class EditSalsComponent {
       resp.data?.salesItemDetails?.forEach(lang => {
         this.addsalesItemDetailsItem()
       });
-
-      // resp.data.appliedTax = resp.data.appliedTax.map(element => {
-      //   return {
-      //     orderTaxName: element.name + ' (' + element.taxRate + '%' + ')',
-      //     orderNamevalue: element
-      //   }
-      // }),
       resp.data.appliedTax.forEach(element => {
-        totalTax += Number(element.orderNamevalue.taxRate);
+        totalTax += Number(element.taxRate);
       });
       this.addTaxTotal = resp.data.salesTotalAmount * totalTax / 100;
-        console.log("applied tax", resp.data.appliedTax);
+      console.log("applied tax", resp.data.appliedTax);
 
 
       this.patchForm(resp.data)
@@ -229,7 +222,9 @@ export class EditSalsComponent {
   }
 
   patchForm(data) {
-    console.log(data);
+    data.appliedTax.forEach(element => {
+      delete element.tenantId;
+    });
     this.editSalesForm.patchValue({
       salesInvoiceNumber: data.salesInvoiceNumber,
       customer: data.customer,
@@ -274,12 +269,7 @@ export class EditSalsComponent {
       salesOrderStatus: formData.salesOrderStatus,
       salesOrderTax: totalTax,
       salesShipping: formData.salesShipping,
-      appliedTax: formData.salesOrderTax.map(i => {
-        return {
-          _id: i._id,
-          name: i.name
-        }
-      }),
+      appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
       unit: formData.unit,

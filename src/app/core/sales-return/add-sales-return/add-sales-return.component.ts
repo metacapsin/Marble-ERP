@@ -73,7 +73,7 @@ export class AddSalesReturnComponent {
         })
       ]),
       salesNotes: [''],
-      salesOrderStatus: [''],
+      returnOrderStatus: [''],
       salesOrderTax: [''],
       appliedTax: [''],
       salesShipping: ['', [Validators.min(0)]],
@@ -219,15 +219,10 @@ export class AddSalesReturnComponent {
       salesInvoiceNumber: formData.salesInvoiceNumber,
       salesItemDetails: formData.salesItemDetails,
       salesNotes: formData.salesNotes,
-      salesOrderStatus: formData.salesOrderStatus,
+      returnOrderStatus: formData.returnOrderStatus,
       salesOrderTax: totalTax,
       salesShipping: formData.salesShipping,
-      appliedTax: formData.salesOrderTax.map(i => {
-        return {
-          _id: i._id,
-          name: i.name
-        }
-      }),
+      appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
       unit: formData.unit,

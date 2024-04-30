@@ -16,7 +16,7 @@ export class SalesReturnService {
     return this.http.get(environment.apiUrl + '/Sales/getSalesReturnList');
   }
   getSalesReturnByCustomerId(id: any) {
-    return this.http.get(environment.apiUrl + `/Sales/getSalesReturnByCustomerId${id}`);
+    return this.http.get(environment.apiUrl + `/Sales/getSalesReturnByCustomerId/${id}`);
   }
   updateSalesReturn(data: any) {
     return this.http.put(environment.apiUrl + '/Sales/updateSalesReturn', data);

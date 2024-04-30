@@ -15,7 +15,7 @@ const routes: Routes = [
     component: AddSalesReturnComponent,
   },
   {
-    path: 'edit-sales-return',
+    path: 'edit-sales-return/:id',
     component: EditSalesReturnComponent,
   },
   // {
