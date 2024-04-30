@@ -43,13 +43,13 @@ export class CustomersComponent {
   goToEditPage(value: any) {
     this.router.navigate(["/customers/add-customers/" + value]);
   }
-  public searchData(value: any): void {
-    this.dataSource = this.originalData.map((i) => {
-      if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
-        return i;
-      }
-    });
-  }
+  // public searchData(value: any): void {
+  //   this.dataSource = this.originalData.map((i) => {
+  //     if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
+  //       return i;
+  //     }
+  //   });
+  // }
   visible: boolean = false;
 
   showDialog() {
@@ -105,6 +105,17 @@ this.customerId = Id;
     this.showDialoge = false;
   }
 
+  public searchData(value: any): void {
+    this.dataSource = this.originalData.filter(i =>
+    i.name.toLowerCase().includes(value.trim().toLowerCase())
+  );
+  }
+
+  onPageChange(event) {
+    const startIndex = event.first;
+    const endIndex = startIndex + event.rows; 
+    const currentPageData = this.dataSource.slice(startIndex, endIndex);
+  }
 
   
 }

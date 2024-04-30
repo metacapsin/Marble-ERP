@@ -94,17 +94,17 @@ export class WarehouseListComponent {
     this.showDialog = false;
   }
 
-  // public searchData(value: any): void {
-  //   // this.dataSource.filter = value.trim().toLowerCase();
-  //   // this.patientsList = this.dataSource.filteredData;
-  // }
+  
+public searchData(value: any): void {
+    this.data = this.originalData.filter(i =>
+    i.name.toLowerCase().includes(value.trim().toLowerCase())
+  );
+  }
 
-  public searchData(value: any): void {
-    this.data = this.originalData.map(i => {
-        if(i.name.toLowerCase().includes(value.trim().toLowerCase())){
-          return i;
-        }
-    });
-}
+  onPageChange(event) {
+    const startIndex = event.first;
+    const endIndex = startIndex + event.rows; 
+    const currentPageData = this.data.slice(startIndex, endIndex);
+  }
 
 }

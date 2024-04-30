@@ -34,7 +34,7 @@ export class UnitsListComponent {
   selectedUnit = ""
   unitListData = []
   unitDataById = []
-
+  originalData = []
 
 
   unitNameRegex = /^(?:.{1,50})$/;
@@ -76,6 +76,7 @@ export class UnitsListComponent {
   getUnitList() {
     this.Service.getAllUnitList().subscribe((resp: any) => {
       this.unitListData = resp.data;
+      this.originalData = resp.data;
     })
   }
 
@@ -115,11 +116,15 @@ export class UnitsListComponent {
   }
 
   public searchData(value: any): void {
-    // this.taxesListData = this.originalData.map(i => {
-    //   if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
-    //     return i;
-    //   }
-    // });
+    this.unitListData = this.originalData.filter(i =>
+    i.unitName.toLowerCase().includes(value.trim().toLowerCase())
+  );
+  }
+
+  onPageChange(event) {
+    const startIndex = event.first;
+    const endIndex = startIndex + event.rows; 
+    const currentPageData = this.unitListData.slice(startIndex, endIndex);
   }
 
   addUnitFormSubmit() {

@@ -56,7 +56,7 @@
   
               <!-- /Page content start -->
               <p-table [value]="categoriesListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
-              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory">
+              [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedCategory">
                 <ng-template pTemplate="header">
                   <tr>
                     <th style="width: 10%;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">

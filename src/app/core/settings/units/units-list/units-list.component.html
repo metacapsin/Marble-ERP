@@ -55,7 +55,7 @@
               </div>
             </div>
             <p-table [value]="unitListData" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5"
-              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedUnit">
+              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedUnit"  (onPage)="onPageChange($event)">
               <ng-template pTemplate="header">
                 <tr>
                   <th appShowHide [roles]="['admin', 'super-admin']">

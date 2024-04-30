@@ -124,11 +124,15 @@ this.getCategoriesData();
 
 
   public searchData(value: any): void {
-    this.categoriesListData = this.originalData.map(i => {
-      if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
-        return i;
-      }
-    });
+    this.categoriesListData = this.originalData.filter(i =>
+    i.name.toLowerCase().includes(value.trim().toLowerCase())
+  );
+  }
+
+  onPageChange(event) {
+    const startIndex = event.first;
+    const endIndex = startIndex + event.rows; 
+    const currentPageData = this.categoriesListData.slice(startIndex, endIndex);
   }
 
 }

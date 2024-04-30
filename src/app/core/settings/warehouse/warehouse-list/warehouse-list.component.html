@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         <p-table [value]="data" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                            [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
+                            [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"  (onPage)="onPageChange($event)" [(selection)]="selectedProducts">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th appShowHide [roles]="['admin', 'super-admin']">

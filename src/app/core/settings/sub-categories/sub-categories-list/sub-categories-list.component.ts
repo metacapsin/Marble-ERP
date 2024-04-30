@@ -142,11 +142,16 @@ export class SubCategoriesListComponent  {
 
 
   public searchData(value: any): void {
-    this.subCategoriesListData = this.originalData.map(i => {
-      if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
-        return i;
-      }
-    });
+    this.subCategoriesListData = this.originalData.filter(i =>
+    i.name.toLowerCase().includes(value.trim().toLowerCase())
+  );
+  }
+
+  onPageChange(event) {
+    const startIndex = event.first;
+    const endIndex = startIndex + event.rows; 
+    const currentPageData = this.subCategoriesListData.slice(startIndex, endIndex);
+    
   }
 
 }

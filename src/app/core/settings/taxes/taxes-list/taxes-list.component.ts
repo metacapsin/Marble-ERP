@@ -120,11 +120,15 @@ export class TaxesListComponent {
 
 
   public searchData(value: any): void {
-    this.taxesListData = this.originalData.map(i => {
-      if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
-        return i;
-      }
-    });
+    this.taxesListData = this.originalData.filter(i =>
+    i.name.toLowerCase().includes(value.trim().toLowerCase())
+  );
+  }
+
+  onPageChange(event) {
+    const startIndex = event.first;
+    const endIndex = startIndex + event.rows; 
+    const currentPageData = this.taxesListData.slice(startIndex, endIndex);
   }
 
 
