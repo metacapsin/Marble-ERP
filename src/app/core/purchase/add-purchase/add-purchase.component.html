@@ -46,7 +46,7 @@
             >
               <div class="invoices-main-form">
                 <div class="row">
-                  <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseInvoiceNumber">Invoice Number</label>
                       <input
@@ -56,20 +56,7 @@
                       />
                     </div>
                   </div>
-                  <div class="col-xl-6 col-md-6 col-sm-12 col-12">
-                    <div class="form-group local-forms">
-                      <label for="purchaseDate">purchase Date</label>
-                      <p-calendar
-                        dataType="string"
-                        appendTo="body"
-                        dateFormat="mm/dd/yy"
-                        formControlName="purchaseDate"
-                        placeholder="mm/dd/yyyy"
-                        [styleClass]="'col-12'"
-                      ></p-calendar>
-                    </div>
-                  </div>
-                  <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseCustomerName">Supplier Name</label>
                       <p-dropdown
@@ -82,6 +69,19 @@
                         display="chip"
                         [showClear]="true"
                       ></p-dropdown>
+                    </div>
+                  </div>  
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                    <div class="form-group local-forms">
+                      <label for="purchaseDate">purchase Date</label>
+                      <p-calendar
+                        dataType="string"
+                        appendTo="body"
+                        dateFormat="mm/dd/yy"
+                        formControlName="purchaseDate"
+                        placeholder="mm/dd/yyyy"
+                        [styleClass]="'col-12'"
+                      ></p-calendar>
                     </div>
                   </div>
                 </div>

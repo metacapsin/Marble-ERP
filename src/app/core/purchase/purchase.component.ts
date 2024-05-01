@@ -46,6 +46,9 @@ export class PurchaseComponent {
   purchase:any
   showDialoge:any
   modalData:any
+  PurchaseListData:any
+  visible:any
+  addTaxTotal:any
 
 
 
@@ -75,7 +78,28 @@ export class PurchaseComponent {
   }
 
 
+  showDialog(id: any) {
+    let totalTax = 0;
+    this.visible = true;
+    this.Service.GetPurchaseDataById(id).subscribe((resp: any) => {
+      this.PurchaseListData = [resp.data];
+      console.log(this.PurchaseListData);
+      
 
+      resp.data.appliedTax.forEach(element => {
+        totalTax += Number(element.taxRate);
+      });
+      this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
+      console.log("applied tax", resp.data.appliedTax);
+
+    });
+
+    // this.Service.GetPurchaseDataById(_id).subscribe((resp: any) => {
+    //   this.PurchaseListData = [resp.data];
+    //   console.log("payment id ser ", resp);
+
+    // })
+  }
 
 
 
