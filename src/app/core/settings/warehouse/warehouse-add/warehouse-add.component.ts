@@ -33,9 +33,9 @@ export class WarehouseAddComponent {
   public routes = routes;
   warehouseForm!: FormGroup;
 
-  nameRegex = /^[a-zA-Z\s]{1,50}$/; // No specific regex for name field
+nameRegex = /^[a-zA-Z\d\s]{3,50}$/;// alphanumeric regex
 
-  emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+ emailRegex = /^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
 
   billingAddressRegex = /^(?:.{1,500})$/;
 

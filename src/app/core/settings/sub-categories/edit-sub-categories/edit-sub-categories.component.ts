@@ -24,7 +24,7 @@ export class EditSubCategoriesComponent {
   categoriesListData = []
   subCategoryDataById = [];
 
-  nameRegex = /^[a-zA-Z\s]{1,50}$/; // No specific regex for name field
+nameRegex = /^[a-zA-Z\d\s]{3,50}$/;// alphanumeric regex
 
   descriptionRegex = /^(?:.{1,500})$/;
 

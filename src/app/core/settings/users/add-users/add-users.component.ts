@@ -1,5 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
+import {
+  AbstractControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from "@angular/forms";
 import { MatTabsModule } from "@angular/material/tabs";
 import { Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
@@ -45,9 +49,9 @@ export class AddUsersComponent implements OnInit {
 
   // Regex pattern
 
-  nameRegex = /^[a-zA-Z\s]{1,50}$/; // No specific regex for name field
+  nameRegex = /^[a-zA-Z\d\s]{3,50}$/; // alphanumeric regex
 
-  emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  emailRegex = /^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
 
   phoneRegex = /^[0-9]{10}$/;
   addressRegex = /^(?:.{1,500})$/;
@@ -112,51 +116,59 @@ export class AddUsersComponent implements OnInit {
     if (formData.stockManagerCheckBox) {
       _roles.push("stockManager");
     }
-    const payload = {
-      // name: formData.name,
-      // phoneNumber: formData.phoneNumber,
-      // email: formData.email,
-      // password: formData.password,
-      // role: _roles,
-      // status: formData.status.name,
-      // address: formData.address,
-      // wareHouse: formData.wareHouse.name,
+    if (!_roles.length) {
+      const message = "Please select at least one role.";
+      this.messageService.add({ severity: "error", detail: message });
+      console.log("hi");
+      
+    } else {
+      const payload = {
+        // name: formData.name,
+        // phoneNumber: formData.phoneNumber,
+        // email: formData.email,
+        // password: formData.password,
+        // role: _roles,
+        // status: formData.status.name,
+        // address: formData.address,
+        // wareHouse: formData.wareHouse.name,
 
-      warehouse: [
-        {
-          id: "jgg",
-          name: formData.name,
-        },
-      ],
+        warehouse: [
+          {
+            id: "jgg",
+            name: formData.name,
+          },
+        ],
 
-      role: _roles,
-      name: formData.name,
-      phoneNumber: formData.phoneNumber,
-      email: formData.email,
-      status: true,
-      password: formData.password,
-      address: formData.address,
-      isUserLocked: formData.isUserLocked,
-    };
+        role: _roles,
+        name: formData.name,
+        phoneNumber: formData.phoneNumber,
+        email: formData.email,
+        status: true,
+        password: formData.password,
+        address: formData.address,
+        isUserLocked: formData.isUserLocked,
+      };
 
-    console.log(payload);
+      console.log(payload);
 
-    this.Addusersdata.AddUserdata(payload).subscribe((resp: any) => {
-      console.log(resp);
-      if (resp) {
-        if (resp.status === "success") {
-          const message = "User has been added";
-          this.messageService.add({ severity: "success", detail: message });
-          setTimeout(() => {
-            this.router.navigate(["settings/users"]);
-          }, 400);
-        } else {
-          const message = resp.message;
-          this.messageService.add({ severity: "error", detail: message });
+      this.Addusersdata.AddUserdata(payload).subscribe((resp: any) => {
+        console.log(resp);
+        if (resp) {
+          if (resp.status === "success") {
+            const message = "User has been added";
+            this.messageService.add({ severity: "success", detail: message });
+            setTimeout(() => {
+              this.router.navigate(["settings/users"]);
+            }, 400);
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
         }
-      }
-    });
+      });
+    }
   }
+
   togglePassword() {
     this.passwordClass = !this.passwordClass;
   }

@@ -1,33 +1,39 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { routes } from 'src/app/shared/routes/routes';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { CalendarModule } from 'primeng/calendar';
-import { TaxesService } from '../../settings/taxes/taxes.service';
-import { CustomersdataService } from '../../Customers/customers.service';
-import { SalesService } from '../sales.service';
-import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
-import { CategoriesService } from '../../settings/categories/categories.service';
-import { ToastModule } from 'primeng/toast';
-import { SubCategoriesService } from '../../settings/sub-categories/sub-categories.service';
-import { UnitsService } from '../../settings/units/units.service';
+import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DropdownModule } from "primeng/dropdown";
+import { MultiSelectModule } from "primeng/multiselect";
+import { routes } from "src/app/shared/routes/routes";
+import { SharedModule } from "src/app/shared/shared.module";
+import { CalendarModule } from "primeng/calendar";
+import { TaxesService } from "../../settings/taxes/taxes.service";
+import { CustomersdataService } from "../../Customers/customers.service";
+import { SalesService } from "../sales.service";
+import { MessageService } from "primeng/api";
+import { Router } from "@angular/router";
+import { CategoriesService } from "../../settings/categories/categories.service";
+import { ToastModule } from "primeng/toast";
+import { SubCategoriesService } from "../../settings/sub-categories/sub-categories.service";
+import { UnitsService } from "../../settings/units/units.service";
 @Component({
-  selector: 'app-addsales',
+  selector: "app-addsales",
   standalone: true,
-  imports: [CommonModule, SharedModule, MultiSelectModule, DropdownModule, CalendarModule, ToastModule],
-  templateUrl: './addsales.component.html',
-  styleUrl: './addsales.component.scss',
-  providers: [MessageService]
+  imports: [
+    CommonModule,
+    SharedModule,
+    MultiSelectModule,
+    DropdownModule,
+    CalendarModule,
+    ToastModule,
+  ],
+  templateUrl: "./addsales.component.html",
+  styleUrl: "./addsales.component.scss",
+  providers: [MessageService],
 })
 export class AddsalesComponent {
-
   addSalesForm!: FormGroup;
   public routes = routes;
-  public searchData_id = '';
+  public searchData_id = "";
   addTaxTotal: any;
   customerList = [];
   originalCustomerData = [];
@@ -47,6 +53,10 @@ export class AddsalesComponent {
   public itemDetails: number[] = [0];
   isSalesItemSubTotalDisabled: boolean = true;
 
+  positiveNumberRegex = /^\d+$/;
+  nameRegex = /^[a-zA-Z\d\s]{3,50}$/;// alphanumeric regex
+
+
   constructor(
     private customerByIdService: CustomersdataService,
     private router: Router,
@@ -57,13 +67,13 @@ export class AddsalesComponent {
     private CategoriesService: CategoriesService,
     private subCategoriesService: SubCategoriesService,
     private taxService: TaxesService,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {
     this.addSalesForm = this.fb.group({
       customer: ['', [Validators.required]],
       salesDate: ['', [Validators.required]],
       salesDiscount: ['', [Validators.min(0)]],
-      salesInvoiceNumber: ['', [Validators.required]],
+      salesInvoiceNumber:["",[Validators.required,Validators.pattern(this.nameRegex)]],
       salesItemDetails: this.fb.array([
         this.fb.group({
           salesItemCategory: [''],
@@ -87,7 +97,7 @@ export class AddsalesComponent {
     });
   }
   get salesItemDetails() {
-    return this.addSalesForm.controls['salesItemDetails'] as FormArray;
+    return this.addSalesForm.controls["salesItemDetails"] as FormArray;
   }
   deletesalesItemDetails(salesItemDetailsIndex: number) {
     this.salesItemDetails.removeAt(salesItemDetailsIndex);
@@ -104,7 +114,6 @@ export class AddsalesComponent {
     });
     this.salesItemDetails.push(item);
   }
-
 
   getSalesItemQuantityError(index: number) {
     const salesItemDetailsForm = this.addSalesForm.get('salesItemDetails') as FormArray;
@@ -147,13 +156,12 @@ export class AddsalesComponent {
 
     this.unitService.getAllUnitList().subscribe((resp: any) => {
       this.unitListData = resp.data;
-    })
-
+    });
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
       this.orderTaxList = [];
-      this.taxesListData.forEach(element => {
+      this.taxesListData.forEach((element) => {
         this.orderTaxList.push({
           orderTaxName: element.name + ' (' + element.taxRate + '%' + ')',
           orderNamevalue: element
@@ -255,6 +263,7 @@ export class AddsalesComponent {
     totalAmount += salesGrossTotal;
     totalAmount += this.addTaxTotal;
     totalAmount -= Discount;
+    totalAmount -= Discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
 
@@ -321,11 +330,8 @@ export class AddsalesComponent {
           }
         }
       });
-    }
-    else {
+    } else {
       console.log("invalid form");
-
     }
   }
-
 }

@@ -19,9 +19,8 @@ import { ToastModule } from "primeng/toast";
 import { routes } from "src/app/shared/routes/routes";
 import { DropdownModule } from "primeng/dropdown";
 import { CheckboxModule } from "primeng/checkbox";
-import { MultiSelectModule } from 'primeng/multiselect';
+import { MultiSelectModule } from "primeng/multiselect";
 import { WarehouseService } from "../../warehouse/warehouse.service";
-
 
 @Component({
   selector: "app-edit-user",
@@ -35,12 +34,12 @@ import { WarehouseService } from "../../warehouse/warehouse.service";
     MatCheckboxModule,
     MatRadioModule,
     CommonModule,
-    ReactiveFormsModule,  
+    ReactiveFormsModule,
     RouterModule,
     ToastModule,
     DropdownModule,
     CheckboxModule,
-    MultiSelectModule
+    MultiSelectModule,
   ],
   providers: [MessageService],
 })
@@ -50,7 +49,7 @@ export class EditUserComponent implements OnInit {
   EditUserData: any;
   editUserGroup: UntypedFormGroup;
   data: any = null;
-  wareHousedata:any = []
+  wareHousedata: any = [];
 
   ngOnInit(): void {
     this.UserEditData.GetUserDataByID(this.id).subscribe((resp: any) => {
@@ -60,13 +59,12 @@ export class EditUserComponent implements OnInit {
 
     this.service.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
-    })
-
+    });
   }
 
-  nameRegex = /^[a-zA-Z\s]{1,50}$/; // No specific regex for name field
+  nameRegex = /^[a-zA-Z\d\s]{3,50}$/; // alphanumeric regex
 
-  emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  emailRegex = /^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
 
   phoneRegex = /^[0-9]{10}$/;
   addressRegex = /^(?:.{1,500})$/;
@@ -83,22 +81,18 @@ export class EditUserComponent implements OnInit {
   ) {
     this.id = this.activeRoute.snapshot.params["id"];
     this.editUserGroup = this.fb.group({
-      name: [
-        "",
-        [Validators.required, Validators.pattern(this.nameRegex)],
-      ],
+      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
       phoneNumber: [
         "",
-        [
-          Validators.required,
-          Validators.pattern(this.phoneRegex           
-          ),
-        ],
+        [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
       status: [""],
-      address: ["", [Validators.required, Validators.pattern(this.addressRegex)]],
-      wareHouse:[''],
+      address: [
+        "",
+        [Validators.required, Validators.pattern(this.addressRegex)],
+      ],
+      wareHouse: [""],
       adminCheckBox: [""],
       SalesmanCheckBox: [""],
       stockManagerCheckBox: [""],
@@ -114,9 +108,9 @@ export class EditUserComponent implements OnInit {
       wareHouse: this.EditUserData[0].warehouse,
       adminCheckBox:
         this.EditUserData[0].role.indexOf("admin") != -1 ? true : false,
-        SalesmanCheckBox:
+      SalesmanCheckBox:
         this.EditUserData[0].role.indexOf("Salesman") > -1 ? true : false,
-        stockManagerCheckBox:
+      stockManagerCheckBox:
         this.EditUserData[0].role.indexOf("stockManager") > -1 ? true : false,
       isUserLocked: this.EditUserData[0].isUserLocked ? true : false,
     });
@@ -135,37 +129,46 @@ export class EditUserComponent implements OnInit {
     if (formData.stockManagerCheckBox) {
       _roles.push("stockManager");
     }
-    const payload = {
-      id: this.id,
-      name: formData.name,
-      phoneNumber: formData.phoneNumber,
-      email: formData.email,
-      role: _roles,
-      status: formData.status,
-      address: formData.address,
-      wareHouse: formData.wareHouse,
-    };
-    console.log(payload);
+    if (!_roles.length) {
+      const message = "Please select at least one role.";
+      this.messageService.add({ severity: "error", detail: message });
+      console.log(message);
+    } else {
+      const payload = {
+        id: this.id,
+        name: formData.name,
+        phoneNumber: formData.phoneNumber,
+        email: formData.email,
+        role: _roles,
+        status: formData.status,
+        address: formData.address,
+        wareHouse: formData.wareHouse,
+      };
+      console.log(payload);
 
-    if (this.editUserGroup.value) {
-      this.UserEditData.UpDateUserApi(this.id, payload).subscribe(
-        (resp: any) => {
-          if (resp) {
-            if (resp.status === "success") {
-              const message = "User has been updated";
-              this.messageService.add({ severity: "success", detail: message });
-              setTimeout(() => {
-                this.router.navigate(["settings/users"]);
-              }, 400);
-            } else {
-              const message = resp.message;
-              this.messageService.add({ severity: "error", detail: message });
+      if (this.editUserGroup.value) {
+        this.UserEditData.UpDateUserApi(this.id, payload).subscribe(
+          (resp: any) => {
+            if (resp) {
+              if (resp.status === "success") {
+                const message = "User has been updated";
+                this.messageService.add({
+                  severity: "success",
+                  detail: message,
+                });
+                setTimeout(() => {
+                  this.router.navigate(["settings/users"]);
+                }, 400);
+              } else {
+                const message = resp.message;
+                this.messageService.add({ severity: "error", detail: message });
+              }
             }
           }
-        }
-      );
-    } else {
-      console.log("Form is invalid!");
+        );
+      } else {
+        console.log("Form is invalid!");
+      }
     }
   }
 }

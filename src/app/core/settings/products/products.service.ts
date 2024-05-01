@@ -12,23 +12,34 @@ export class ProductsService {
   // setting Product
 
 CreateProduct(data: {} | null) {
-  return this.http.post(environment.apiUrl + "/Product/createProduct", data);
+  return this.http.post(environment.apiUrl + "/Setting/createProduct", data);
 }
 getProductList() {
-  return this.http.get(environment.apiUrl + "/Product/getProductList");
+  return this.http.get(environment.apiUrl + "/Setting/getAllProductList");
 }
 
 getProductById(locationId: string) {
-  return this.http.get(environment.apiUrl + "/Product/getProductById/" + locationId);
+  return this.http.get(environment.apiUrl + "Setting/getProductById/" + locationId);
 }
 
 updateProductById(data: {}) {
-  return this.http.put(environment.apiUrl + "/Product/updateProduct" , data);
+  return this.http.put(environment.apiUrl + "/Setting/updateProduct" , data);
 }
 
 
 deleteProductById(id: string) {
-  return this.http.delete(environment.apiUrl + "/Product/deleteProductById/" + id, {});
+  return this.http.delete(environment.apiUrl + "/Setting/deleteProduct/" + id, {});
 }
 
+
+
 }
+
+
+
+
+// 'POST /Setting/createProduct': 'Setting/SettingController.createProduct',
+// 'GET /Setting/getAllProductList': 'Setting/SettingController.getAllProductList',
+// 'GET /Setting/getProductById/:id': 'Setting/SettingController.getProductById',
+// 'DELETE /Setting/deleteProduct/:id': 'Setting/SettingController.deleteProduct',
+// 'PUT /Setting/updateProduct': 'Setting/SettingController.updateProduct',

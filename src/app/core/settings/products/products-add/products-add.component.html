@@ -51,7 +51,7 @@
                                             <label for="warehouse">Warehouse
                                                 <span class="login-danger">*</span></label>
                                             <p-dropdown [options]="warehouseList" styleClass="" appendTo="body"
-                                                optionLabel="label" optionValue="value" placeholder="Select  Warehouse"
+                                                optionLabel="name" optionValue="value" placeholder="Select  Warehouse"
                                                 formControlName="warehouse" [style]="{'width':'100%'}" [filter]="true"
                                                 filterBy="value" [showClear]="true">
                                             </p-dropdown>
@@ -114,28 +114,43 @@
                                         </div>
                                       </div> -->
 
+
+
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                            <label for="category">Category <span class="login-danger">*</span></label>
-                                                <p-treeSelect class="md:w-20rem w-full" containerStyleClass="w-full"
-                                                placeholder="Select item" [(ngModel)]="selectedCategeoryOption"
-                                                [options]="categeoryOptions" [style]="{'width':'100%'}" [filter]="true"
-                                                filterBy="label" [showClear]="true"
-                                                formControlName="category">
-                                            </p-treeSelect>
-
+                                            <label for="Category">Category
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="categeoryList" styleClass="" appendTo="body"
+                                                optionLabel="name" optionValue="value" placeholder="Select Category"
+                                                optionValue="_id" formControlName="Category" [style]="{'width':'100%'}"
+                                                [filter]="true" filterBy="name" [showClear]="true">
+                                            </p-dropdown>
                                         </div>
                                     </div>
 
 
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="subCategory">Sub Category
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="subCategeoryList" styleClass="" appendTo="body"
+                                                optionLabel="name" optionValue="value" placeholder="Select subCategory"
+                                                optionValue="_id" formControlName="subCategory"
+                                                [style]="{'width':'100%'}" [filter]="true" filterBy="name"
+                                                [showClear]="true">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
                                             <label for="unit">Unit
                                                 <span class="login-danger">*</span></label>
                                             <p-dropdown [options]="unitList" styleClass="" appendTo="body"
-                                                optionLabel="label" optionValue="value" placeholder="Select  Unit"
-                                                formControlName="unit" [style]="{'width':'100%'}" [filter]="true"
-                                                filterBy="label" [showClear]="true">
+                                                optionLabel="unitName" optionValue="shortName"
+                                                placeholder="Select  Unit" formControlName="unit" display="chip"
+                                                [style]="{'width':'100%'}" [filter]="true" filterBy="name"
+                                                [showClear]="true">
                                             </p-dropdown>
                                         </div>
                                     </div>
@@ -197,7 +212,7 @@
                                             <label for="tax">Tax
                                                 <span class="login-danger">*</span></label>
                                             <p-dropdown [options]="taxList" styleClass="" appendTo="body"
-                                                optionLabel="label" optionValue="value" placeholder="Select  Tax"
+                                                optionLabel="name" optionValue="value" placeholder="Select  Tax"
                                                 formControlName="tax" [style]="{'width':'100%'}" [filter]="true"
                                                 filterBy="label" [showClear]="true">
                                             </p-dropdown>

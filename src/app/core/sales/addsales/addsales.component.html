@@ -95,6 +95,10 @@
                                                 optionValue="shortName" display="chip" [filter]="true" filterBy="name"
                                                 [showClear]="true">
                                             </p-dropdown>
+                                            <div
+                                            *ngIf="addSalesForm.get('unit')?.hasError('required') && addSalesForm.get('unit')?.touched">
+                                            <span class="login-danger">Field is required.</span>
+                                          </div>
 
                                         </div>
                                     </div> -->
@@ -136,6 +140,10 @@
                                                         placeholder="Sub Category" [filter]="true" filterBy="name"
                                                         [showClear]="true" formControlName="salesItemSubCategory">
                                                     </p-dropdown>
+                                                    <div
+                                            *ngIf="salesItemDetails.get('salesItemCategory')?.hasError('required') && salesItemDetails.get('salesItemCategory')?.touched">
+                                            <span class="login-danger">Field is required.</span>
+                                          </div>
                                                 </td>
 
                                                 <td>
@@ -148,6 +156,10 @@
                                                 <td>
                                                     <input type="text" formControlName="salesItemName"
                                                         class="form-control">
+                                                        <div
+                                            *ngIf="salesItemDetails.get('salesItemCategory')?.hasError('required') && salesItemDetails.get('salesItemCategory')?.touched">
+                                            <span class="login-danger">Field is required.</span>
+                                          </div>
                                                 </td>
                                                 <td>
                                                     <input type="number" formControlName="salesItemQuantity"

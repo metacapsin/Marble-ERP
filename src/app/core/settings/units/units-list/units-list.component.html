@@ -183,16 +183,16 @@
               <label for="unitName">Unit Name <span class="login-danger">*</span></label>
               <input class="form-control" type="text" placeholder="" formControlName="unitName">
               <div *ngIf="
-              editUnitForm.get('shortName')?.hasError(
+              editUnitForm.get('unitName')?.hasError(
                 'required'
-              ) && editUnitForm.get('shortName')?.touched
+              ) && editUnitForm.get('unitName')?.touched
             ">
                 <span class="login-danger">Field is required.</span>
               </div>
               <div *ngIf="
-              editUnitForm.get('shortName')?.hasError(
+              editUnitForm.get('unitName')?.hasError(
                 'pattern'
-              ) && editUnitForm.get('shortName')?.touched
+              ) && editUnitForm.get('unitName')?.touched
             ">
                 <span class="login-danger">Input should be between 1 to 50 characters.</span>
               </div>

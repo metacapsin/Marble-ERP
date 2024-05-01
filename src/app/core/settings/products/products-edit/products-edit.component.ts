@@ -17,6 +17,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductsService } from '../products.service';
 import { TreeModule } from 'primeng/tree';
 import { TreeSelectModule } from 'primeng/treeselect';
+import { UnitsService } from '../../units/units.service';
+import { CategoriesService } from '../../categories/categories.service';
+import { SubCategoriesService } from '../../sub-categories/sub-categories.service';
+import { TaxesService } from '../../taxes/taxes.service';
+import { WarehouseService } from '../../warehouse/warehouse.service';
 
 
 @Component({
@@ -49,256 +54,256 @@ export class ProductsEditComponent {
 
 
   warehouseList = [
-    { label: 'Bijainagar Chanda Colony', value: 'Bijainagar Chanda Colony' },
-    { label: 'Pipli Chouraha', value: 'Pipli Chouraha' },
-    { label: 'Rajdarbar', value: 'Rajdarbar' },
-    { label: 'Pragya College', value: 'Ambulance' },
-    { label: 'Rajnagar', value: 'Rajnagar' },
-    { label: 'Sathana Bazar', value: 'Sathana Bazar' },
-    { label: 'Bapu Bazar', value: 'Bapu Bazar' },
+    // { label: 'Bijainagar Chanda Colony', value: 'Bijainagar Chanda Colony' },
+    // { label: 'Pipli Chouraha', value: 'Pipli Chouraha' },
+    // { label: 'Rajdarbar', value: 'Rajdarbar' },
+    // { label: 'Pragya College', value: 'Ambulance' },
+    // { label: 'Rajnagar', value: 'Rajnagar' },
+    // { label: 'Sathana Bazar', value: 'Sathana Bazar' },
+    // { label: 'Bapu Bazar', value: 'Bapu Bazar' },
   ]
 
 
   
-  selectedCategeoryOption:any;
-  categeoryOptions: any = [
-    {
-      key: "0",
-      label: "Electronics",
-      data: "Electronics Folder",
-      // icon: "fa-solid fa-bolt-lightning",
-      children: [
-        // Audio section
-        {
-          key: "0-0",
-          label: "Audio",
-          data: "Audio Folder",
-          // icon: "fa-solid fa-bolt-lightning",
-          children: [
-            {
-              key: "0-0-0",
-              label: "Headphones",
-              data: "Headphones Folder",
-              // icon: "fa-solid fa-bolt-lightning",
-            },
-            {
-              key: "0-0-1",
-              label: "Soundbars",
-              data: "Soundbars Folder",
-              // icon: "fa-solid fa-bolt-lightning",
-            },
-          ],
-        },
+  subCategeoryList= []
+  categeoryList: any = [
+  //   {
+  //     key: "0",
+  //     label: "Electronics",
+  //     data: "Electronics Folder",
+  //     // icon: "fa-solid fa-bolt-lightning",
+  //     children: [
+  //       // Audio section
+  //       {
+  //         key: "0-0",
+  //         label: "Audio",
+  //         data: "Audio Folder",
+  //         // icon: "fa-solid fa-bolt-lightning",
+  //         children: [
+  //           {
+  //             key: "0-0-0",
+  //             label: "Headphones",
+  //             data: "Headphones Folder",
+  //             // icon: "fa-solid fa-bolt-lightning",
+  //           },
+  //           {
+  //             key: "0-0-1",
+  //             label: "Soundbars",
+  //             data: "Soundbars Folder",
+  //             // icon: "fa-solid fa-bolt-lightning",
+  //           },
+  //         ],
+  //       },
   
-        // Mobile Section
-        {
-          key: "0-1",
-          label: "Mobiles",
-          data: "Mobiles Folder",
-          // icon: "fa-solid fa-bolt-lightning",
-        },
+  //       // Mobile Section
+  //       {
+  //         key: "0-1",
+  //         label: "Mobiles",
+  //         data: "Mobiles Folder",
+  //         // icon: "fa-solid fa-bolt-lightning",
+  //       },
   
-        // Televisions Section
-        {
-          key: "0-2",
-          label: "Televisions",
-          data: "Televisions Folder",
-          // icon: "fa-solid fa-bolt-lightning",
-          // children: [
-          //     {
-          //         key: '0-2-0',
-          //         label: 'Headphones',
-          //         data: 'Headphones Folder',
-          //         icon: 'fa-solid fa-bolt-lightning',
-          //     },
-          //     {
-          //         key: '0-2-1',
-          //         label: 'Soundbars',
-          //         data: 'Soundbars Folder',
-          //         icon: 'fa-solid fa-bolt-lightning',
-          //     },
+  //       // Televisions Section
+  //       {
+  //         key: "0-2",
+  //         label: "Televisions",
+  //         data: "Televisions Folder",
+  //         // icon: "fa-solid fa-bolt-lightning",
+  //         // children: [
+  //         //     {
+  //         //         key: '0-2-0',
+  //         //         label: 'Headphones',
+  //         //         data: 'Headphones Folder',
+  //         //         icon: 'fa-solid fa-bolt-lightning',
+  //         //     },
+  //         //     {
+  //         //         key: '0-2-1',
+  //         //         label: 'Soundbars',
+  //         //         data: 'Soundbars Folder',
+  //         //         icon: 'fa-solid fa-bolt-lightning',
+  //         //     },
   
-          //         ]
-        },
+  //         //         ]
+  //       },
   
-        // Computers Section
-        {
-          key: "0-3",
-          label: "Computers",
-          data: "Computers Folder",
-          // icon: "fa-solid fa-bolt-lightning",
-          children: [
-            {
-              key: "0-3-0",
-              label: "Laptops",
-              data: "Laptops Folder",
-              // icon: "fa-solid fa-bolt-lightning",
-            },
-            {
-              key: "0-3-1",
-              label: "Desktops",
-              data: "Desktops Folder",
-              // icon: "fa-solid fa-bolt-lightning",
-            },
-            {
-              key: "0-3-2",
-              label: "Computer",
-              data: "Computer Folder",
-              // icon: "fa-solid fa-bolt-lightning",
-              children: [
-                {
-                  key: "0-3-2-0",
-                  label: "Peripheral",
-                  data: "Peripheral Folder",
-                  // icon: "fa-solid fa-bolt-lightning",
-                },
-                {
-                  key: "0-3-2-1",
-                  label: "Monitors",
-                  data: "Monitors Folder",
-                  // icon: "fa-solid fa-bolt-lightning",
-                },
-                {
-                  key: "0-3-2-2",
-                  label: "Printers",
-                  data: "Printers Folder",
-                  // icon: "fa-solid fa-bolt-lightning",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
+  //       // Computers Section
+  //       {
+  //         key: "0-3",
+  //         label: "Computers",
+  //         data: "Computers Folder",
+  //         // icon: "fa-solid fa-bolt-lightning",
+  //         children: [
+  //           {
+  //             key: "0-3-0",
+  //             label: "Laptops",
+  //             data: "Laptops Folder",
+  //             // icon: "fa-solid fa-bolt-lightning",
+  //           },
+  //           {
+  //             key: "0-3-1",
+  //             label: "Desktops",
+  //             data: "Desktops Folder",
+  //             // icon: "fa-solid fa-bolt-lightning",
+  //           },
+  //           {
+  //             key: "0-3-2",
+  //             label: "Computer",
+  //             data: "Computer Folder",
+  //             // icon: "fa-solid fa-bolt-lightning",
+  //             children: [
+  //               {
+  //                 key: "0-3-2-0",
+  //                 label: "Peripheral",
+  //                 data: "Peripheral Folder",
+  //                 // icon: "fa-solid fa-bolt-lightning",
+  //               },
+  //               {
+  //                 key: "0-3-2-1",
+  //                 label: "Monitors",
+  //                 data: "Monitors Folder",
+  //                 // icon: "fa-solid fa-bolt-lightning",
+  //               },
+  //               {
+  //                 key: "0-3-2-2",
+  //                 label: "Printers",
+  //                 data: "Printers Folder",
+  //                 // icon: "fa-solid fa-bolt-lightning",
+  //               },
+  //             ],
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
   
-    // Fashion section
-    {
-      key: "1",
-      label: "Fashion",
-      data: "Fashion Folder",
-      // icon: "fa-solid fa-bolt-lightning",
-      children: [
-        // Clothes section
-        {
-          key: "1-0",
-          label: "Clothes",
-          data: "Clothes Folder",
-          // icon: "fa-solid fa-bolt-lightning",
-          // children: [
-          //     {
-          //         key: '1-0-0',
-          //         label: 'Headphones',
-          //         data: 'Headphones Folder',
-          //         icon: 'fa-solid fa-bolt-lightning',
-          //     },
-          //     {
-          //         key: '1-0-1',
-          //         label: 'Soundbars',
-          //         data: 'Soundbars Folder',
-          //         icon: 'fa-solid fa-bolt-lightning',
-          //     },
+  //   // Fashion section
+  //   {
+  //     key: "1",
+  //     label: "Fashion",
+  //     data: "Fashion Folder",
+  //     // icon: "fa-solid fa-bolt-lightning",
+  //     children: [
+  //       // Clothes section
+  //       {
+  //         key: "1-0",
+  //         label: "Clothes",
+  //         data: "Clothes Folder",
+  //         // icon: "fa-solid fa-bolt-lightning",
+  //         // children: [
+  //         //     {
+  //         //         key: '1-0-0',
+  //         //         label: 'Headphones',
+  //         //         data: 'Headphones Folder',
+  //         //         icon: 'fa-solid fa-bolt-lightning',
+  //         //     },
+  //         //     {
+  //         //         key: '1-0-1',
+  //         //         label: 'Soundbars',
+  //         //         data: 'Soundbars Folder',
+  //         //         icon: 'fa-solid fa-bolt-lightning',
+  //         //     },
   
-          // ]
-        },
+  //         // ]
+  //       },
   
-        // Mobile Section
-        {
-          key: "1-1",
-          label: "Shoes",
-          data: "Shoes Folder",
-          // icon: "fa-solid fa-bolt-lightning",
-        },
+  //       // Mobile Section
+  //       {
+  //         key: "1-1",
+  //         label: "Shoes",
+  //         data: "Shoes Folder",
+  //         // icon: "fa-solid fa-bolt-lightning",
+  //       },
   
-        // Televisions Section
-        // {
-        //     key: '1-2',
-        //     label: 'Televisions',
-        //     data: 'Televisions Folder',
-        //     icon: 'fa-solid fa-bolt-lightning',
-        //     children: [
-        //         {
-        //             key: '1-2-0',
-        //             label: 'Headphones',
-        //             data: 'Headphones Folder',
-        //             icon: 'fa-solid fa-bolt-lightning',
-        //         },
-        //         {
-        //             key: '1-2-1',
-        //             label: 'Soundbars',
-        //             data: 'Soundbars Folder',
-        //             icon: 'fa-solid fa-bolt-lightning',
-        //         },
+  //       // Televisions Section
+  //       // {
+  //       //     key: '1-2',
+  //       //     label: 'Televisions',
+  //       //     data: 'Televisions Folder',
+  //       //     icon: 'fa-solid fa-bolt-lightning',
+  //       //     children: [
+  //       //         {
+  //       //             key: '1-2-0',
+  //       //             label: 'Headphones',
+  //       //             data: 'Headphones Folder',
+  //       //             icon: 'fa-solid fa-bolt-lightning',
+  //       //         },
+  //       //         {
+  //       //             key: '1-2-1',
+  //       //             label: 'Soundbars',
+  //       //             data: 'Soundbars Folder',
+  //       //             icon: 'fa-solid fa-bolt-lightning',
+  //       //         },
   
-        //             ]
-        // },
-      ],
-    },
+  //       //             ]
+  //       // },
+  //     ],
+  //   },
   
-    // Grocery section
-    {
-      key: "2",
-      label: "Grocery",
-      data: "Grocery Folder",
-      // icon: "fa-solid fa-bolt-lightning",
-    },
+  //   // Grocery section
+  //   {
+  //     key: "2",
+  //     label: "Grocery",
+  //     data: "Grocery Folder",
+  //     // icon: "fa-solid fa-bolt-lightning",
+  //   },
   
-  //   Home and Furnitures Section
-    {
-      key: "3",
-      label: "Home and Furnitures",
-      data: "Home and Furnitures Folder",
-      // icon: "fa-solid fa-bolt-lightning",
-    },
+  // //   Home and Furnitures Section
+  //   {
+  //     key: "3",
+  //     label: "Home and Furnitures",
+  //     data: "Home and Furnitures Folder",
+  //     // icon: "fa-solid fa-bolt-lightning",
+  //   },
   
   //   Baby & Kids Section
-    {
-      key: "4",
-      label: "Baby & Kids",
-      data: "Baby & Kids Folder",
-      // icon: "fa-solid fa-bolt-lightning",
-    },
+  //   {
+  //     key: "4",
+  //     label: "Baby & Kids",
+  //     data: "Baby & Kids Folder",
+  //     // icon: "fa-solid fa-bolt-lightning",
+  //   },
   
-  //   Main Category 1 Section
-    {
-      key: "5",
-      label: "Main Category 1",
-      data: "Main Category 1 Folder",
-      // icon: "fa-solid fa-bolt-lightning",
-      children: [
-        // Clothes section
-        {
-          key: "5-0",
-          label: "Category 1",
-          data: "Category 1 Folder",
-          // icon: "fa-solid fa-bolt-lightning",
-          // children: [
-          //     {
-          //         key: '1-0-0',
-          //         label: 'Headphones',
-          //         data: 'Headphones Folder',
-          //         icon: 'fa-solid fa-bolt-lightning',
-          //     },
-          //     {
-          //         key: '1-0-1',
-          //         label: 'Soundbars',
-          //         data: 'Soundbars Folder',
-          //         icon: 'fa-solid fa-bolt-lightning',
-          //     },
+  // //   Main Category 1 Section
+  //   {
+  //     key: "5",
+  //     label: "Main Category 1",
+  //     data: "Main Category 1 Folder",
+  //     // icon: "fa-solid fa-bolt-lightning",
+  //     children: [
+  //       // Clothes section
+  //       {
+  //         key: "5-0",
+  //         label: "Category 1",
+  //         data: "Category 1 Folder",
+  //         // icon: "fa-solid fa-bolt-lightning",
+  //         // children: [
+  //         //     {
+  //         //         key: '1-0-0',
+  //         //         label: 'Headphones',
+  //         //         data: 'Headphones Folder',
+  //         //         icon: 'fa-solid fa-bolt-lightning',
+  //         //     },
+  //         //     {
+  //         //         key: '1-0-1',
+  //         //         label: 'Soundbars',
+  //         //         data: 'Soundbars Folder',
+  //         //         icon: 'fa-solid fa-bolt-lightning',
+  //         //     },
   
-          // ]
-        },
-      ],
-    },
+  //         // ]
+  //       },
+  //     ],
+  //   },
   ];
 
   unitList= [
-    { label: "Meter", value: "m" },
-    { label: "Liter", value: "L" },
-    { label: "Kilogram", value: "kg" },
-    { label: "Gram", value: "g" },
-    { label: "Centimeter", value: "cm" },
-    { label: "Milliliter", value: "mL" },
-    { label: "Piece", value: "pcs" }
+    // { label: "Meter", value: "m" },
+    // { label: "Liter", value: "L" },
+    // { label: "Kilogram", value: "kg" },
+    // { label: "Gram", value: "g" },
+    // { label: "Centimeter", value: "cm" },
+    // { label: "Milliliter", value: "mL" },
+    // { label: "Piece", value: "pcs" }
   ]
   
   
@@ -311,11 +316,11 @@ export class ProductsEditComponent {
     { label: "UPC-E", value: "UPCE" }
   ]
   taxList= [
-    { label: "VAT (Value Added Tax)", value: "VAT" },
-    { label: "GST (Goods and Services Tax)", value: "GST" },
-    { label: "Sales Tax", value: "SalesTax" },
-    { label: "Excise Duty", value: "ExciseDuty" },
-    { label: "Customs Duty", value: "CustomsDuty" }
+    // { label: "VAT (Value Added Tax)", value: "VAT" },
+    // { label: "GST (Goods and Services Tax)", value: "GST" },
+    // { label: "Sales Tax", value: "SalesTax" },
+    // { label: "Excise Duty", value: "ExciseDuty" },
+    // { label: "Customs Duty", value: "CustomsDuty" }
   ]
   
 
@@ -327,7 +332,12 @@ export class ProductsEditComponent {
     public router: Router,
     private activeRoute: ActivatedRoute,
     private _snackBar: MatSnackBar,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private unitService: UnitsService,
+    private categoriesService: CategoriesService,
+    private subCategoriesService: SubCategoriesService,
+    private taxService: TaxesService,
+    private warehouseServices:WarehouseService,
   ) {
     this.productForm = this.fb.group({
       name: [
@@ -364,6 +374,27 @@ export class ProductsEditComponent {
       this.productId = params['id']
       console.log("user id ", this.productId)
     })
+
+    this.unitService.getAllUnitList().subscribe((resp: any) => {
+      this.unitList = resp.data;
+    });
+
+
+    this.warehouseServices.getAllWarehouseList().subscribe((resp: any) => {
+      this.warehouseList = resp.data;
+    });
+
+    this.categoriesService.getCategories().subscribe((resp: any) => {
+      this.categeoryList = resp.data;
+    });
+
+    this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
+      this.subCategeoryList = resp.data;
+    });
+    this.taxService.getAllTaxList().subscribe((resp: any) => {
+      this.taxList = resp.data;
+    });
+
     this.service.getProductById(this.productId).subscribe((data: any) => {
       this.data = data.data; //assuming data is returned as expected
       console.log("User Data", this.data)
