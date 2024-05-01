@@ -41,13 +41,14 @@
             <div class="col-md-12">
                 <div class="card invoices-add-card">
                     <div class="card-body">
-                        <form [formGroup]="editReturnSalesForm" (ngSubmit)="editReturnSalesFormSubmit()" >
+                        <form [formGroup]="editReturnSalesForm" (ngSubmit)="editReturnSalesFormSubmit()">
                             <div class="invoices-main-form">
                                 <div class="row">
                                     <div class=" col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="salesInvoiceNumber">Invoice Number</label>
-                                            <input type="text" class="form-control" formControlName="salesInvoiceNumber">
+                                            <input type="text" class="form-control"
+                                                formControlName="salesInvoiceNumber">
                                         </div>
                                     </div>
                                     <div class=" col-md-6 col-sm-12 col-12">
@@ -62,9 +63,8 @@
                                         <div class="form-group local-forms">
                                             <label for="customer">Customer Name</label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
-                                                [options]="customerList" formControlName="customer"
-                                                optionLabel="name" optionValue="name" display="chip"
-                                                [showClear]="true" (onChange)="onCustomerSelect($event.value)"></p-dropdown>
+                                                [options]="customerList" formControlName="customer" optionLabel="name"
+                                                optionValue="_id" display="chip" [showClear]="true"></p-dropdown>
                                         </div>
                                     </div>
                                     <div class=" col-md-6 col-sm-12 col-12">
@@ -95,8 +95,10 @@
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody formArrayName="salesItemDetails" >
-                                            <tr class="add-row" *ngFor="let salesItemDetailsForm of salesItemDetails.controls; let i = index" [formGroupName]="i">
+                                        <tbody formArrayName="salesItemDetails">
+                                            <tr class="add-row"
+                                                *ngFor="let salesItemDetailsForm of salesItemDetails.controls; let i = index"
+                                                [formGroupName]="i">
                                                 <td>
                                                     <p-dropdown [options]="categoryList" styleClass="" appendTo="body"
                                                         optionLabel="name" optionValue="name" placeholder="Category"
@@ -116,7 +118,7 @@
                                                         class="form-control">
                                                 </td>
                                                 <td>
-                                                    
+
                                                     <input type="number" formControlName="salesItemQuantity"
                                                         (change)="calculateTotalAmount()" class="form-control">
                                                     <div *ngIf="getSalesItemQuantityError(i)" class="login-danger">
@@ -133,8 +135,7 @@
 
                                                 <td>
                                                     <input type="number" formControlName="salesItemSubTotal"
-                                                        (change)="calculateTotalAmount()" class="form-control"
-                                                        >
+                                                        (change)="calculateTotalAmount()" class="form-control">
 
                                                     <div *ngIf="getSalesItemSubTotalError(i)" class="login-danger">
                                                         Sub Total must be more than 0
@@ -149,7 +150,7 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-                                    </table>                                 
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">
@@ -177,7 +178,8 @@
                                                         role="tabpanel" aria-labelledby="headingTwo"
                                                         data-bs-parent="#accordion">
                                                         <div class="panel-body">
-                                                            <textarea class="form-control" formControlName="salesTermsAndCondition"></textarea>
+                                                            <textarea class="form-control"
+                                                                formControlName="salesTermsAndCondition"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -197,7 +199,8 @@
                                                         role="tabpanel" aria-labelledby="headingThree"
                                                         data-bs-parent="#accordion">
                                                         <div class="panel-body">
-                                                            <textarea class="form-control" formControlName="salesNotes" ></textarea>
+                                                            <textarea class="form-control"
+                                                                formControlName="salesNotes"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -227,8 +230,10 @@
                                                         <label for="salesReturnOrderTax">Order Tax</label>
                                                         <p-multiSelect [style]="{'width':'100%'}"
                                                             placeholder="Select Tax" [options]="orderTaxList"
-                                                            formControlName="salesOrderTax" optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
-                                                            [showClear]="true" (change)="calculateTotalAmount()"></p-multiSelect>
+                                                            formControlName="salesOrderTax" optionLabel="orderTaxName"
+                                                            optionValue="orderNamevalue" display="chip"
+                                                            [showClear]="true" (onChange)="calculateTotalAmount()">
+                                                        </p-multiSelect>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 ml-3">
@@ -239,14 +244,14 @@
                                                                 <span class="input-group-text">₹</span>
                                                             </div>
                                                             <input class="form-control"
-                                                            (change)="calculateTotalAmount()"
-                                                            formControlName="salesDiscount" type="number"
-                                                            placeholder="">
-                                                        <div
-                                                            *ngIf="editReturnSalesForm.get('salesDiscount')?.hasError('min')  && editReturnSalesForm.get('salesDiscount')?.touched">
-                                                            <span class="login-danger">Discount must be more than
-                                                                0</span>
-                                                        </div>
+                                                                (change)="calculateTotalAmount()"
+                                                                formControlName="salesDiscount" type="number"
+                                                                placeholder="">
+                                                            <div
+                                                                *ngIf="editReturnSalesForm.get('salesDiscount')?.hasError('min')  && editReturnSalesForm.get('salesDiscount')?.touched">
+                                                                <span class="login-danger">Discount must be more than
+                                                                    0</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -258,14 +263,14 @@
                                                                 <span class="input-group-text">₹</span>
                                                             </div>
                                                             <input class="form-control"
-                                                            (change)="calculateTotalAmount()"
-                                                            formControlName="salesShipping" type="number"
-                                                            placeholder="">
-                                                        <div
-                                                            *ngIf="editReturnSalesForm.get('salesShipping')?.hasError('min') && editReturnSalesForm.get('salesShipping')?.touched">
-                                                            <span class="login-danger">Shipping must be more than
-                                                                0</span>
-                                                        </div>
+                                                                (change)="calculateTotalAmount()"
+                                                                formControlName="salesShipping" type="number"
+                                                                placeholder="">
+                                                            <div
+                                                                *ngIf="editReturnSalesForm.get('salesShipping')?.hasError('min') && editReturnSalesForm.get('salesShipping')?.touched">
+                                                                <span class="login-danger">Shipping must be more than
+                                                                    0</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -277,28 +282,36 @@
                                                                 <span class="input-group-text">₹</span>
                                                             </div>
                                                             <input class="form-control"
-                                                            (change)="calculateTotalAmount()"
-                                                            formControlName="otherCharges" type="number"
-                                                            placeholder="">
-                                                        <div
-                                                            *ngIf="editReturnSalesForm.get('otherCharges')?.hasError('min') && editReturnSalesForm.get('otherCharges')?.touched">
-                                                            <span class="login-danger">Other Charges must be more than
-                                                                0</span>
-                                                        </div>
+                                                                (change)="calculateTotalAmount()"
+                                                                formControlName="otherCharges" type="number"
+                                                                placeholder="">
+                                                            <div
+                                                                *ngIf="editReturnSalesForm.get('otherCharges')?.hasError('min') && editReturnSalesForm.get('otherCharges')?.touched">
+                                                                <span class="login-danger">Other Charges must be more
+                                                                    than
+                                                                    0</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="invoice-total-inner">
+                                                <p>Gross Total<span>₹ {{ editReturnSalesForm.get('salesGrossTotal').value |
+                                                        number: '1.2-2' }}</span></p>
                                                 <p>Order Tax <span>₹ {{ addTaxTotal }}</span></p>
-                                                <p>Discount<span>₹ {{ editReturnSalesForm.get('salesDiscount').value | number: '1.2-2' }}</span></p>
-                                                <p>Shipping<span>₹ {{ editReturnSalesForm.get('salesShipping').value | number: '1.2-2' }}</span></p>
-                                                <p>Other Charges<span>₹ {{ editReturnSalesForm.get('otherCharges').value | number: '1.2-2' }}</span></p>
+                                                <p>Discount<span>₹ {{ editReturnSalesForm.get('salesDiscount').value |
+                                                        number: '1.2-2' }}</span></p>
+                                                <p>Shipping<span>₹ {{ editReturnSalesForm.get('salesShipping').value |
+                                                        number: '1.2-2' }}</span></p>
+                                                <p>Other Charges<span>₹ {{ editReturnSalesForm.get('otherCharges').value
+                                                        | number: '1.2-2' }}</span></p>
                                             </div>
 
                                             <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>₹ {{ editReturnSalesForm.get('salesTotalAmount').value | number: '1.2-2' }}</span></h4>
+                                                <h4>Total Amount <span>₹ {{
+                                                        editReturnSalesForm.get('salesTotalAmount').value | number:
+                                                        '1.2-2' }}</span></h4>
                                             </div>
                                         </div>
                                     </div>

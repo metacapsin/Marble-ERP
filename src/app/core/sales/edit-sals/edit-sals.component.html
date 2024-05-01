@@ -65,7 +65,7 @@
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
                                                 optionValue="_id" display="chip" [filter]="true" filterBy="name"
-                                                [showClear]="true" (onChange)="onCustomerSelect($event.value)"></p-dropdown>
+                                                [showClear]="true"></p-dropdown>
                                         </div>
                                     </div>
                                     <div class=" col-md-6 col-sm-12 col-12">
@@ -230,18 +230,13 @@
                                                 <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesOrderTax">Order Tax</label>
-                                                        <!-- <p-dropdown [options]="orderTaxList" styleClass=""
-                                                            appendTo="body" optionLabel="orderTaxName"
-                                                            optionValue="taxRate" placeholder="Select  Tax"
-                                                            [style]="{'width':'100%'}" formControlName="salesOrderTax"
-                                                            (change)="calculateTotalAmount()" [filter]="true"
-                                                            filterBy="orderTaxName" [showClear]="true">
-                                                        </p-dropdown> -->
                                                         <p-multiSelect [style]="{'width':'100%'}"
                                                             placeholder="Select Tax" [options]="orderTaxList"
-                                                            formControlName="salesOrderTax" optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
-                                                            [showClear]="true" (change)="calculateTotalAmount()"></p-multiSelect>
-                                                    
+                                                            formControlName="salesOrderTax" optionLabel="orderTaxName"
+                                                            optionValue="orderNamevalue" display="chip"
+                                                            [showClear]="true" (onChange)="calculateTotalAmount()">
+                                                        </p-multiSelect>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-12 ml-3">
@@ -295,7 +290,8 @@
                                                                 placeholder="">
                                                             <div
                                                                 *ngIf="editSalesForm.get('otherCharges')?.hasError('min') && editSalesForm.get('otherCharges')?.touched">
-                                                                <span class="login-danger">Other Charges must be more than
+                                                                <span class="login-danger">Other Charges must be more
+                                                                    than
                                                                     0</span>
                                                             </div>
                                                         </div>
@@ -304,15 +300,16 @@
                                             </div>
 
                                             <div class="invoice-total-inner">
+                                                <p>Gross Total <span>₹ {{ editSalesForm.get('salesGrossTotal').value |
+                                                        number: '1.2-2' }}</span></p>
                                                 <p>Order Tax <span>₹ {{ addTaxTotal}}</span></p>
-                                                <!-- <p>Order Tax <span>₹ {{ editSalesForm.get('salesOrderTax').value |
-                                                        number: '1.2-2' }}</span></p> -->
                                                 <p>Discount<span>₹ {{ editSalesForm.get('salesDiscount').value | number:
                                                         '1.2-2' }}</span></p>
                                                 <p>Shipping<span>₹ {{ editSalesForm.get('salesShipping').value | number:
                                                         '1.2-2' }}</span></p>
-                                                        <p>Other Charges<span>₹ {{ editSalesForm.get('otherCharges').value | number:
-                                                            '1.2-2' }}</span></p>
+                                                <p>Other Charges<span>₹ {{ editSalesForm.get('otherCharges').value |
+                                                        number:
+                                                        '1.2-2' }}</span></p>
                                             </div>
 
                                             <div class="invoice-total-footer">

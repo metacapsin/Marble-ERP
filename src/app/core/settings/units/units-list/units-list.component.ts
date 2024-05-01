@@ -59,6 +59,7 @@ export class UnitsListComponent {
 
 
   openAddDialog() {
+    this.addUnitForm.reset();
     this.addvisible = true;
   }
   openEditDialog(_id: any) {

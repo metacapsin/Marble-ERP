@@ -30,6 +30,7 @@ export class EditSalsComponent {
   public routes = routes;
   salesId = "";
   customerList = [];
+  originalCustomerData = [];
   categoryList = []
   subCategoryList = []
   addTaxTotal: any;
@@ -68,6 +69,7 @@ export class EditSalsComponent {
       salesDate: [''],
       salesOrderStatus: [''],
       salesOrderTax: [''],
+      salesGrossTotal: [''],
       salesDiscount: ['', [Validators.min(0)]],
       salesShipping: ['', [Validators.min(0)]],
       salesTermsAndCondition: [''],
@@ -132,7 +134,18 @@ export class EditSalsComponent {
     let totalTax = 0;
 
     this.customerService.GetCustomerData().subscribe((resp: any) => {
-      this.customerList = resp;
+      this.originalCustomerData = resp;
+      this.customerList = [];
+      this.originalCustomerData.forEach(element => {
+        this.customerList.push({
+          name: element.name,
+          // _id: element
+          _id: {
+            _id: element._id,
+            name: element.name
+          }
+        })
+      });
     });
 
     this.unitService.getAllUnitList().subscribe((resp: any) => {
@@ -165,9 +178,8 @@ export class EditSalsComponent {
       resp.data.appliedTax.forEach(element => {
         totalTax += Number(element.taxRate);
       });
-      this.addTaxTotal = resp.data.salesTotalAmount * totalTax / 100;
+      this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
       console.log("applied tax", resp.data.appliedTax);
-
 
       this.patchForm(resp.data)
     })
@@ -176,50 +188,48 @@ export class EditSalsComponent {
 
   }
 
-
   calculateTotalAmount() {
-    console.log("Enter in caltotal");
-    let totalTax = 0;
     let totalAmount = 0;
-    if (Array.isArray(this.editSalesForm.get('salesOrderTax').value)) {
-      this.editSalesForm.get('salesOrderTax').value.forEach(element => {
-        totalTax += Number(element.taxRate);
-      });
-    } else {
-      totalTax += Number(this.editSalesForm.get('salesOrderTax').value);
-    }
-    let shipping = +this.editSalesForm.get('salesShipping').value;
-    let Discount = +this.editSalesForm.get('salesDiscount').value;
-    let otherCharges = +this.editSalesForm.get('otherCharges').value;
+    let salesGrossTotal = 0;
+    let totalTax = 0;
 
     const salesItems = this.editSalesForm.get('salesItemDetails') as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
-      const quantity = +item.get('salesItemQuantity').value || 0;
-      const unitPrice = +item.get('salesItemUnitPrice').value || 0;
-      const subtotal = quantity * unitPrice;
-
-      totalAmount += subtotal;
-      item.get('salesItemSubTotal').setValue(subtotal.toFixed(2));
+        const quantity = +item.get('salesItemQuantity').value || 0;
+        const unitPrice = +item.get('salesItemUnitPrice').value || 0;
+        const subtotal = quantity * unitPrice;
+        salesGrossTotal += subtotal;
+        item.get('salesItemSubTotal').setValue(subtotal.toFixed(2));
     });
-    this.addTaxTotal = totalAmount * totalTax / 100;
+
+    if (Array.isArray(this.editSalesForm.get('salesOrderTax').value)) {
+        this.editSalesForm.get('salesOrderTax').value.forEach(element => {
+            totalTax += Number(element.taxRate);
+        });
+    } else {
+        totalTax += Number(this.editSalesForm.get('salesOrderTax').value);
+    }
+    this.addTaxTotal = salesGrossTotal * totalTax / 100;
+
+    let shipping = +this.editSalesForm.get('salesShipping').value;
+    let Discount = +this.editSalesForm.get('salesDiscount').value;
+    let otherCharges = +this.editSalesForm.get('otherCharges').value;
+
+    totalAmount += salesGrossTotal;
     totalAmount += this.addTaxTotal;
     totalAmount -= Discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
 
     this.editSalesForm.patchValue({
-      salesDiscount: Discount.toFixed(2),
-      salesShipping: shipping.toFixed(2),
-      otherCharges: otherCharges.toFixed(2),
-      salesTotalAmount: totalAmount.toFixed(2)
+        salesGrossTotal: salesGrossTotal.toFixed(2),
+        salesDiscount: Discount.toFixed(2),
+        salesShipping: shipping.toFixed(2),
+        otherCharges: otherCharges.toFixed(2),
+        salesTotalAmount: totalAmount.toFixed(2)
     });
-  }
-
-  onCustomerSelect(customerId: string) {
-    const selectedCustomer = this.customerList.find(customer => customer._id === customerId);
-    this.editSalesForm.get('customer').setValue(selectedCustomer);
-  }
+}
 
   patchForm(data) {
     data.appliedTax.forEach(element => {
@@ -230,6 +240,7 @@ export class EditSalsComponent {
       customer: data.customer,
       salesDate: data.salesDate,
       salesOrderStatus: data.salesOrderStatus,
+      salesGrossTotal: data.salesGrossTotal,
       salesOrderTax: data.appliedTax,
       salesDiscount: data.salesDiscount,
       salesShipping: data.salesShipping,
@@ -247,8 +258,6 @@ export class EditSalsComponent {
 
   editSalesFormSubmit() {
     const formData = this.editSalesForm.value;
-    const selectedCustomerId = this.editSalesForm.get('customer').value?._id;
-    const selectedCustomerName = this.editSalesForm.get('customer').value?.name;
 
     let totalTax = 0
     formData.salesOrderTax.forEach(element => {
@@ -256,16 +265,13 @@ export class EditSalsComponent {
     });
 
     const payload = {
-      // customer: formData.customer,
-      customer: {
-        _id: selectedCustomerId,
-        name: selectedCustomerName
-      },
+      customer: formData.customer,
       salesDate: formData.salesDate,
       salesDiscount: formData.salesDiscount,
       salesInvoiceNumber: formData.salesInvoiceNumber,
       salesItemDetails: formData.salesItemDetails,
       salesNotes: formData.salesNotes,
+      salesGrossTotal: formData.salesGrossTotal,
       salesOrderStatus: formData.salesOrderStatus,
       salesOrderTax: totalTax,
       salesShipping: formData.salesShipping,

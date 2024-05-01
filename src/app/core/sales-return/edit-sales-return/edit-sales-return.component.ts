@@ -30,6 +30,7 @@ export class EditSalesReturnComponent {
   salesReturnId: any
   addTaxTotal: any;
   customerList = [];
+  originalCustomerData = [];
   categoryList = [];
   subCategoryList = [];
   unitListData = [];
@@ -73,6 +74,7 @@ export class EditSalesReturnComponent {
       ]),
       salesNotes: [''],
       returnOrderStatus: [''],
+      salesGrossTotal: [''],
       salesOrderTax: [''],
       appliedTax: [''],
       salesShipping: ['', [Validators.min(0)]],
@@ -127,8 +129,18 @@ export class EditSalesReturnComponent {
     let totalTax = 0;
 
     this.customerService.GetCustomerData().subscribe((resp: any) => {
-      this.customerList = resp;
-      console.log("customer", this.customerList);
+      this.originalCustomerData = resp;
+      this.customerList = [];
+      this.originalCustomerData.forEach(element => {
+        this.customerList.push({
+          name: element.name,
+          // _id: element
+          _id: {
+            _id: element._id,
+            name: element.name
+          }
+        })
+      });
     });
 
     this.unitService.getAllUnitList().subscribe((resp: any) => {
@@ -155,15 +167,15 @@ export class EditSalesReturnComponent {
     });
 
     this.Service.getSalesReturnByCustomerId(this.salesReturnId).subscribe((resp: any) => {
-      // debugger
+      
       resp.data[0]?.salesItemDetails?.forEach(lang => {
         this.addsalesReturnItemDetailsItem()
       });
       resp.data[0].appliedTax.forEach(element => {
         totalTax += Number(element.taxRate);
       });
-      this.addTaxTotal = resp.data.salesTotalAmount * totalTax / 100;
-      console.log("applied tax", resp.data.appliedTax);
+      this.addTaxTotal = resp.data[0].salesGrossTotal * totalTax / 100;
+      // console.log("applied tax", resp.data.appliedTax);
 
 
       this.patchForm(resp.data[0])
@@ -171,55 +183,51 @@ export class EditSalesReturnComponent {
 
     this.calculateTotalAmount()
 
-
-
   }
 
   calculateTotalAmount() {
-    console.log("Enter in caltotal");
-    let totalTax = 0
     let totalAmount = 0;
-    if (Array.isArray(this.editReturnSalesForm.get('salesOrderTax').value)) {
-      this.editReturnSalesForm.get('salesOrderTax').value.forEach(element => {
-        totalTax += Number(element.taxRate);
-      });
-    } else {
-      totalTax += Number(this.editReturnSalesForm.get('salesOrderTax').value);
-    }
-    let shipping = +this.editReturnSalesForm.get('salesShipping').value;
-    let Discount = +this.editReturnSalesForm.get('salesDiscount').value;
-    let otherCharges = +this.editReturnSalesForm.get('otherCharges').value;
+    let salesGrossTotal = 0;
+    let totalTax = 0;
 
     const salesItems = this.editReturnSalesForm.get('salesItemDetails') as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
-      const quantity = +item.get('salesItemQuantity').value || 0;
-      const unitPrice = +item.get('salesItemUnitPrice').value || 0;
-      const subtotal = quantity * unitPrice;
-
-      totalAmount += subtotal;
-      item.get('salesItemSubTotal').setValue(subtotal.toFixed(2));
+        const quantity = +item.get('salesItemQuantity').value || 0;
+        const unitPrice = +item.get('salesItemUnitPrice').value || 0;
+        const subtotal = quantity * unitPrice;
+        salesGrossTotal += subtotal;
+        item.get('salesItemSubTotal').setValue(subtotal.toFixed(2));
     });
 
-    this.addTaxTotal = totalAmount * totalTax / 100;
+    if (Array.isArray(this.editReturnSalesForm.get('salesOrderTax').value)) {
+        this.editReturnSalesForm.get('salesOrderTax').value.forEach(element => {
+            totalTax += Number(element.taxRate);
+        });
+    } else {
+        totalTax += Number(this.editReturnSalesForm.get('salesOrderTax').value);
+    }
+    this.addTaxTotal = salesGrossTotal * totalTax / 100;
+
+    // Other calculations remain unchanged
+    let shipping = +this.editReturnSalesForm.get('salesShipping').value;
+    let Discount = +this.editReturnSalesForm.get('salesDiscount').value;
+    let otherCharges = +this.editReturnSalesForm.get('otherCharges').value;
+
+    totalAmount += salesGrossTotal;
     totalAmount += this.addTaxTotal;
     totalAmount -= Discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
 
     this.editReturnSalesForm.patchValue({
-      salesDiscount: Discount.toFixed(2),
-      salesShipping: shipping.toFixed(2),
-      otherCharges: otherCharges.toFixed(2),
-      salesTotalAmount: totalAmount.toFixed(2)
+        salesGrossTotal: salesGrossTotal.toFixed(2),
+        salesDiscount: Discount.toFixed(2),
+        salesShipping: shipping.toFixed(2),
+        otherCharges: otherCharges.toFixed(2),
+        salesTotalAmount: totalAmount.toFixed(2)
     });
-  }
-
-  onCustomerSelect(customerId: string) {
-    const selectedCustomer = this.customerList.find(customer => customer._id === customerId);
-    this.editReturnSalesForm.get('customer').setValue(selectedCustomer);
-  }
-
+}
 
   patchForm(data) {
     data.appliedTax.forEach(element => {
@@ -229,8 +237,9 @@ export class EditSalesReturnComponent {
       salesInvoiceNumber: data.salesInvoiceNumber,
       customer: data.customer,
       returnDate: data.returnDate,
-      salesOrderStatus: data.salesOrderStatus,
+      returnOrderStatus: data.returnOrderStatus,
       salesOrderTax: data.appliedTax,
+      salesGrossTotal: data.salesGrossTotal,
       salesDiscount: data.salesDiscount,
       salesShipping: data.salesShipping,
       salesTermsAndCondition: data.salesTermsAndCondition,
@@ -246,24 +255,21 @@ export class EditSalesReturnComponent {
 
   editReturnSalesFormSubmit() {
     const formData = this.editReturnSalesForm.value;
-    const selectedCustomerId = this.editReturnSalesForm.get('customer').value?._id;
-    const selectedCustomerName = this.editReturnSalesForm.get('customer').value?.name;
+    // const selectedCustomerId = this.editReturnSalesForm.get('customer').value?._id;
+    // const selectedCustomerName = this.editReturnSalesForm.get('customer').value?.name;
 
     let totalTax = 0
     formData.salesOrderTax.forEach(element => {
       totalTax = totalTax + element.taxRate;
     });
     const payload = {
-      // customer: formData.customer,
-      customer: {
-        _id: selectedCustomerId,
-        name: selectedCustomerName
-      },
+      customer: formData.customer,
       returnDate: formData.returnDate,
       salesDiscount: formData.salesDiscount,
       salesInvoiceNumber: formData.salesInvoiceNumber,
       salesItemDetails: formData.salesItemDetails,
       salesNotes: formData.salesNotes,
+      salesGrossTotal: formData.salesGrossTotal,
       returnOrderStatus: formData.returnOrderStatus,
       salesOrderTax: totalTax,
       salesShipping: formData.salesShipping,
