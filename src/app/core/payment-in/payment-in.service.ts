@@ -26,10 +26,13 @@ export class PaymentInService {
   getSalesByCustomerId(id: any) {
     return this.http.get(environment.apiUrl + "/Sales/getSalesByCustomerId/" + id)
   }
-
+  
   deletePaymentById(id: any) {
     return this.http.delete(environment.apiUrl + "/Sales/deletePayment/" + id)
   }
-
-
+  
+  
+  getPaymentDetailById(id: any) {
+    return this.http.get(environment.apiUrl + "/Sales/getPaymentDetailById/" + id)
+  }
 }

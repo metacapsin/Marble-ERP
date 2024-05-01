@@ -11,51 +11,31 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
+import { TabViewModule } from 'primeng/tabview';
+import { PaymentInService } from '../payment-in/payment-in.service';
 
 @Component({
   selector: "app-sales",
   templateUrl: "./sales.component.html",
   styleUrls: ["./sales.component.scss"],
   standalone: true,
-  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, DialogModule, ToastModule],
+  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, DialogModule, ToastModule, TabViewModule],
   providers: [MessageService]
 })
 export class SalesComponent implements OnInit {
   public routes = routes;
-
+  addTaxTotal: any;
   public searchDataValue = '';
   selectedSales = '';
   customerList = [];
+  paymentListData = [];
   saleId: any;
   showDialoge = false;
   modalData: any = {};
-originalData = [];
+  originalData = [];
   visible: boolean = false;
-
-   
-
-
-  salesPopupData = [
-    {
-      salesInvoiceNumber: "abc@11234",
-      salesCustomerName: "Adnan Hussain",
-      salesDate: "25 April 2024",
-      salesOrderTakenBy: "Adnan Hussain",
-      salesOrderStatus: "Ordered",
-      salesCategory: "Electronics",
-      salesName: "Mobile",
-      salesQuantity: "3",
-      salesUnitPrice: "120",
-      salesSubTotal: "350",
-      salesOrderTax: "20",
-      salesShipping: "200",
-      salesDiscount: "50",
-      salesTotalAmount: "1250",
-
-    }
-  ];
-  salesDataById= []
-  salesListData = []
+  salesDataById = []
+  salesListData = [];
 
   constructor(
     private messageService: MessageService,
@@ -65,20 +45,29 @@ originalData = [];
     private Service: SalesService) { }
 
   ngOnInit() {
-
-    this.customerService.GetCustomerData().subscribe((resp: any) => {
-      this.customerList = resp;
-    });
-
     this.GetSalesData();
   }
 
   showDialog(_id: any) {
+    let totalTax = 0;
     this.visible = true;
     this.Service.GetSalesDataById(_id).subscribe((resp: any) => {
       this.salesDataById = [resp.data];
+
+      resp.data.appliedTax.forEach(element => {
+        totalTax += Number(element.taxRate);
+      });
+      this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
+      console.log("applied tax", resp.data.appliedTax);
+
+    });
+
+    this.Service.getSalesPaymentList(_id).subscribe((resp: any) => {
+      this.paymentListData = [resp.data];
+      console.log("payment id ser ", resp);
+
     })
-}
+  }
 
 
   deleteSales(Id: any) {
@@ -113,7 +102,7 @@ originalData = [];
     this.Service.GetSalesData().subscribe((resp: any) => {
       this.salesListData = resp.data;
       this.originalData = resp.data;
-      
+
     })
   }
   editSalesRout(id) {

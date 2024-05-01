@@ -166,19 +166,19 @@ export class EditSalesReturnComponent {
       this.subCategoryList = resp.data;
     });
 
-    this.Service.getSalesReturnByCustomerId(this.salesReturnId).subscribe((resp: any) => {
+    this.Service.getSalesReturnById(this.salesReturnId).subscribe((resp: any) => {
       
-      resp.data[0]?.salesItemDetails?.forEach(lang => {
+      resp.data?.salesItemDetails?.forEach(lang => {
         this.addsalesReturnItemDetailsItem()
       });
-      resp.data[0].appliedTax.forEach(element => {
+      resp.data.appliedTax.forEach(element => {
         totalTax += Number(element.taxRate);
       });
-      this.addTaxTotal = resp.data[0].salesGrossTotal * totalTax / 100;
+      this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
       // console.log("applied tax", resp.data.appliedTax);
 
 
-      this.patchForm(resp.data[0])
+      this.patchForm(resp.data)
     })
 
     this.calculateTotalAmount()
