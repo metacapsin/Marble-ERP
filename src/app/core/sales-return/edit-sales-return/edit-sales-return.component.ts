@@ -277,18 +277,19 @@ export class EditSalesReturnComponent {
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
       unit: formData.unit,
-      otherCharges: formData.otherCharges
+      otherCharges: formData.otherCharges,
+      id: ""
     }
 
     if (this.editReturnSalesForm.valid) {
       console.log("valid form");
       console.log(this.editReturnSalesForm.value);
-
-      this.Service.createSalesReturn(payload).subscribe((resp: any) => {
+      payload.id = this.salesReturnId,
+      this.Service.updateSalesReturn(payload).subscribe((resp: any) => {
         console.log(resp);
         if (resp) {
           if (resp.status === "success") {
-            const message = "Sales Return has been added";
+            const message = "Sales Return has been updated";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
               this.router.navigate(["/sales-return"]);

@@ -60,14 +60,15 @@ export class AddsalesComponent {
     private fb: FormBuilder,
   ) {
     this.addSalesForm = this.fb.group({
-      customer: [''],
-      salesDate: [''],
+      customer: ['', [Validators.required]],
+      salesDate: ['', [Validators.required]],
       salesDiscount: ['', [Validators.min(0)]],
-      salesInvoiceNumber: [''],
+      salesInvoiceNumber: ['', [Validators.required]],
       salesItemDetails: this.fb.array([
         this.fb.group({
           salesItemCategory: [''],
           salesItemSubCategory: [''],
+          unit: [''],
           salesItemName: [''],
           salesItemQuantity: ['', [Validators.min(0)]],
           salesItemUnitPrice: ['', [Validators.min(0)]],
@@ -82,7 +83,6 @@ export class AddsalesComponent {
       salesShipping: ['', [Validators.min(0)]],
       salesTermsAndCondition: [''],
       salesTotalAmount: [''],
-      unit: [''],
       otherCharges: ['', [Validators.min(0)]]
     });
   }
@@ -96,6 +96,7 @@ export class AddsalesComponent {
     const item = this.fb.group({
       salesItemCategory: [''],
       salesItemSubCategory: [''],
+      unit: [''],
       salesItemName: [''],
       salesItemQuantity: ['', [Validators.min(0)]],
       salesItemUnitPrice: ['', [Validators.min(0)]],
@@ -298,7 +299,6 @@ export class AddsalesComponent {
       appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
-      unit: formData.unit,
       otherCharges: formData.otherCharges
     }
 

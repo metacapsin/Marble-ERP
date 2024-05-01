@@ -44,31 +44,43 @@
                         <form [formGroup]="editSalesForm" (ngSubmit)="editSalesFormSubmit()">
                             <div class="invoices-main-form">
                                 <div class="row">
-                                    <div class=" col-md-6 col-sm-12 col-12">
+                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesInvoiceNumber">Invoice Number</label>
+                                            <label for="salesInvoiceNumber">Invoice Number  </label>
                                             <input type="text" class="form-control"
                                                 formControlName="salesInvoiceNumber">
+                                                <div
+                                                *ngIf="editSalesForm.get('salesInvoiceNumber')?.hasError('required')  && editSalesForm.get('salesInvoiceNumber')?.touched">
+                                                <span class="login-danger">Field is required. </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class=" col-md-6 col-sm-12 col-12">
+                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesDate">Sales Date</label>
-                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                                formControlName="salesDate" placeholder="mm/dd/yyyy"
-                                                [styleClass]="'col-12'"></p-calendar>
-                                        </div>
-                                    </div>
-                                    <div class=" col-md-6 col-sm-12 col-12">
-                                        <div class="form-group local-forms">
-                                            <label for="salesCustomerName">Customer Name</label>
+                                            <label for="salesCustomerName">Customer Name <span class="login-danger">*</span></label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
                                                 optionValue="_id" display="chip" [filter]="true" filterBy="name"
                                                 [showClear]="true"></p-dropdown>
+                                                <div
+                                                *ngIf="editSalesForm.get('customer')?.hasError('required')  && editSalesForm.get('customer')?.touched">
+                                                <span class="login-danger">Field is required. </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class=" col-md-6 col-sm-12 col-12">
+                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                        <div class="form-group local-forms">
+                                            <label for="salesDate">Sales Date <span class="login-danger">*</span></label>
+                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                                formControlName="salesDate" placeholder="mm/dd/yyyy"
+                                                [styleClass]="'col-12'"></p-calendar>
+                                                <div
+                                                *ngIf="editSalesForm.get('salesDate')?.hasError('required')  && editSalesForm.get('salesDate')?.touched">
+                                                <span class="login-danger">Field is required. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class=" col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="unit">Unit</label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Unit--"
@@ -78,7 +90,7 @@
                                             </p-dropdown>
 
                                         </div>
-                                    </div>
+                                    </div> -->
 
 
                                 </div>
@@ -92,6 +104,7 @@
                                             <tr>
                                                 <th>Category</th>
                                                 <th>Sub Category</th>
+                                                <th>Unit</th>
                                                 <th>Name</th>
                                                 <th>Quantity</th>
                                                 <th>Unit Price</th>
@@ -115,6 +128,13 @@
                                                         appendTo="body" optionLabel="name" optionValue="name"
                                                         placeholder="Sub Category" [filter]="true" filterBy="name"
                                                         [showClear]="true" formControlName="salesItemSubCategory">
+                                                    </p-dropdown>
+                                                </td>
+                                                <td>
+                                                    <p-dropdown [options]="unitListData" formControlName="unit"
+                                                        placeholder="Unit" appendTo="body" optionLabel="unitName"
+                                                        optionValue="shortName" [filter]="true" filterBy="name"
+                                                        [showClear]="true">
                                                     </p-dropdown>
                                                 </td>
                                                 <td>

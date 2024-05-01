@@ -44,35 +44,50 @@
                         <form [formGroup]="addSalesForm" (ngSubmit)="addSalesFormSubmit()">
                             <div class="invoices-main-form">
                                 <div class="row">
-                                    <div class=" col-md-6 col-sm-12 col-12">
+                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesInvoiceNumber">Invoice Number</label>
+                                            <label for="salesInvoiceNumber">Invoice Number <span
+                                                    class="login-danger">*</span></label>
                                             <input type="text" class="form-control"
                                                 formControlName="salesInvoiceNumber">
+                                            <div
+                                                *ngIf="addSalesForm.get('salesInvoiceNumber')?.hasError('required')  && addSalesForm.get('salesInvoiceNumber')?.touched">
+                                                <span class="login-danger">Field is required. </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class=" col-md-6 col-sm-12 col-12">
+                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesDate">Sales Date</label>
-                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                                formControlName="salesDate" placeholder="mm/dd/yyyy"
-                                                [styleClass]="'col-12'"></p-calendar>
-                                        </div>
-                                    </div>
-
-                                    <div class=" col-md-6 col-sm-12 col-12">
-                                        <div class="form-group local-forms">
-                                            <label for="customer">Customer Name</label>
+                                            <label for="customer">Customer Name <span
+                                                    class="login-danger">*</span></label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
                                                 optionValue="_id" display="chip" [filter]="true" filterBy="name"
                                                 [showClear]="true">
                                             </p-dropdown>
+                                            <div
+                                                *ngIf="addSalesForm.get('customer')?.hasError('required')  && addSalesForm.get('customer')?.touched">
+                                                <span class="login-danger">Field is required. </span>
+                                            </div>
 
                                         </div>
                                     </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                        <div class="form-group local-forms">
+                                            <label for="salesDate">Sales Date <span
+                                                    class="login-danger">*</span></label>
+                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                                formControlName="salesDate" placeholder="mm/dd/yyyy"
+                                                [styleClass]="'col-12'"></p-calendar>
+                                            <div
+                                                *ngIf="addSalesForm.get('salesDate')?.hasError('required')  && addSalesForm.get('salesDate')?.touched">
+                                                <span class="login-danger">Field is required. </span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                    <div class=" col-md-6 col-sm-12 col-12">
+
+                                    <!-- <div class=" col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="unit">Unit</label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Unit--"
@@ -82,7 +97,7 @@
                                             </p-dropdown>
 
                                         </div>
-                                    </div>
+                                    </div> -->
 
 
                                 </div>
@@ -96,6 +111,7 @@
                                             <tr>
                                                 <th>Category</th>
                                                 <th>Sub Category</th>
+                                                <th>unit</th>
                                                 <th>Name</th>
                                                 <th>Quantity </th>
                                                 <th>Unit Price</th>
@@ -113,7 +129,6 @@
                                                         [filter]="true" filterBy="name" [showClear]="true"
                                                         formControlName="salesItemCategory">
                                                     </p-dropdown>
-                                                    <!-- [style]="{'width':'220px'}" -->
                                                 </td>
                                                 <td>
                                                     <p-dropdown [options]="subCategoryList" styleClass=""
@@ -123,6 +138,13 @@
                                                     </p-dropdown>
                                                 </td>
 
+                                                <td>
+                                                    <p-dropdown [options]="unitListData" formControlName="unit"
+                                                        placeholder="Unit" appendTo="body" optionLabel="unitName"
+                                                        optionValue="shortName" [filter]="true" filterBy="name"
+                                                        [showClear]="true">
+                                                    </p-dropdown>
+                                                </td>
                                                 <td>
                                                     <input type="text" formControlName="salesItemName"
                                                         class="form-control">

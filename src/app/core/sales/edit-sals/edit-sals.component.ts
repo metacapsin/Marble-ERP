@@ -64,9 +64,9 @@ export class EditSalsComponent {
   ) {
     this.editSalesForm = this.fb.group({
       id: [''],
-      salesInvoiceNumber: [''],
-      customer: [''],
-      salesDate: [''],
+      salesInvoiceNumber: ['', [Validators.required]],
+      customer: ['', [Validators.required]],
+      salesDate: ['', [Validators.required]],
       salesOrderStatus: [''],
       salesOrderTax: [''],
       salesGrossTotal: [''],
@@ -75,12 +75,12 @@ export class EditSalsComponent {
       salesTermsAndCondition: [''],
       salesNotes: [''],
       salesTotalAmount: [''],
-      unit: [''],
       otherCharges: ['', [Validators.min(0)]],
       salesItemDetails: this.fb.array([
         this.fb.group({
           salesItemCategory: [''],
           salesItemSubCategory: [''],
+          unit:[''],
           salesItemName: [''],
           salesItemQuantity: ['', [Validators.min(0)]],
           salesItemUnitPrice: ['', [Validators.min(0)]],
@@ -101,6 +101,7 @@ export class EditSalsComponent {
     const item = this.fb.group({
       salesItemCategory: [''],
       salesItemSubCategory: [''],
+      unit:[''],
       salesItemName: [''],
       salesItemQuantity: [''],
       salesItemUnitPrice: [''],
@@ -247,7 +248,6 @@ export class EditSalsComponent {
       salesTermsAndCondition: data.salesTermsAndCondition,
       salesNotes: data.salesNotes,
       salesTotalAmount: data.salesTotalAmount,
-      unit: data.unit,
       otherCharges: data.otherCharges,
 
     });
@@ -278,15 +278,9 @@ export class EditSalsComponent {
       appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
-      unit: formData.unit,
       otherCharges: formData.otherCharges,
       id: "",
     }
-
-
-
-
-
 
     if (this.editSalesForm.valid) {
       console.log("valid form");
