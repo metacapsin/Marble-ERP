@@ -62,16 +62,7 @@ export class EditSalesReturnComponent {
       returnDate: [''],
       salesDiscount: ['', [Validators.min(0)]],
       salesInvoiceNumber: [''],
-      salesItemDetails: this.fb.array([
-        this.fb.group({
-          salesItemCategory: [''],
-          salesItemSubCategory: [''],
-          salesItemName: [''],
-          salesItemQuantity: ['', [Validators.min(0)]],
-          salesItemUnitPrice: ['', [Validators.min(0)]],
-          salesItemSubTotal: ['', [Validators.min(0)]],
-        })
-      ]),
+      salesItemDetails: this.fb.array([]),
       salesNotes: [''],
       returnOrderStatus: [''],
       salesGrossTotal: [''],
@@ -80,7 +71,6 @@ export class EditSalesReturnComponent {
       salesShipping: ['', [Validators.min(0)]],
       salesTermsAndCondition: [''],
       salesTotalAmount: [''],
-      unit: [''],
       otherCharges: ['', [Validators.min(0)]]
     });
 
@@ -98,6 +88,7 @@ export class EditSalesReturnComponent {
       salesItemCategory: [''],
           salesItemSubCategory: [''],
           salesItemName: [''],
+          unit: [''],
           salesItemQuantity: ['', [Validators.min(0)]],
           salesItemUnitPrice: ['', [Validators.min(0)]],
           salesItemSubTotal: ['', [Validators.min(0)]],
@@ -134,7 +125,6 @@ export class EditSalesReturnComponent {
       this.originalCustomerData.forEach(element => {
         this.customerList.push({
           name: element.name,
-          // _id: element
           _id: {
             _id: element._id,
             name: element.name
@@ -175,8 +165,6 @@ export class EditSalesReturnComponent {
         totalTax += Number(element.taxRate);
       });
       this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
-      // console.log("applied tax", resp.data.appliedTax);
-
 
       this.patchForm(resp.data)
     })
@@ -245,7 +233,6 @@ export class EditSalesReturnComponent {
       salesTermsAndCondition: data.salesTermsAndCondition,
       salesNotes: data.salesNotes,
       salesTotalAmount: data.salesTotalAmount,
-      unit: data.unit,
       otherCharges: data.otherCharges,
     });
 
@@ -255,8 +242,6 @@ export class EditSalesReturnComponent {
 
   editReturnSalesFormSubmit() {
     const formData = this.editReturnSalesForm.value;
-    // const selectedCustomerId = this.editReturnSalesForm.get('customer').value?._id;
-    // const selectedCustomerName = this.editReturnSalesForm.get('customer').value?.name;
 
     let totalTax = 0
     formData.salesOrderTax.forEach(element => {
@@ -276,7 +261,6 @@ export class EditSalesReturnComponent {
       appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
-      unit: formData.unit,
       otherCharges: formData.otherCharges,
       id: ""
     }

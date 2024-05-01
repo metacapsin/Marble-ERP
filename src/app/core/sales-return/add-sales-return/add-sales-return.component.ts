@@ -67,6 +67,7 @@ export class AddSalesReturnComponent {
         this.fb.group({
           salesItemCategory: [''],
           salesItemSubCategory: [''],
+          unit: [''],
           salesItemName: [''],
           salesItemQuantity: ['', [Validators.min(0)]],
           salesItemUnitPrice: ['', [Validators.min(0)]],
@@ -81,7 +82,6 @@ export class AddSalesReturnComponent {
       salesShipping: ['', [Validators.min(0)]],
       salesTermsAndCondition: [''],
       salesTotalAmount: [''],
-      unit: [''],
       otherCharges: ['', [Validators.min(0)]]
     });
   }
@@ -96,6 +96,7 @@ export class AddSalesReturnComponent {
     const item = this.fb.group({
       salesItemCategory: [''],
       salesItemSubCategory: [''],
+      unit: [''],
       salesItemName: [''],
       salesItemQuantity: ['', [Validators.min(0)]],
       salesItemUnitPrice: ['', [Validators.min(0)]],

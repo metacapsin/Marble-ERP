@@ -44,22 +44,14 @@
                         <form [formGroup]="editReturnSalesForm" (ngSubmit)="editReturnSalesFormSubmit()">
                             <div class="invoices-main-form">
                                 <div class="row">
-                                    <div class=" col-md-6 col-sm-12 col-12">
+                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="salesInvoiceNumber">Invoice Number</label>
                                             <input type="text" class="form-control"
                                                 formControlName="salesInvoiceNumber">
                                         </div>
                                     </div>
-                                    <div class=" col-md-6 col-sm-12 col-12">
-                                        <div class="form-group local-forms">
-                                            <label for="returnDate">Return Date</label>
-                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                                formControlName="returnDate" placeholder="mm/dd/yyyy"
-                                                [styleClass]="'col-12'"></p-calendar>
-                                        </div>
-                                    </div>
-                                    <div class=" col-md-6 col-sm-12 col-12">
+                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="customer">Customer Name</label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
@@ -67,15 +59,14 @@
                                                 optionValue="_id" display="chip" [showClear]="true"></p-dropdown>
                                         </div>
                                     </div>
-                                    <div class=" col-md-6 col-sm-12 col-12">
+                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="unit">Unit</label>
-                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
-                                                [options]="unitListData" formControlName="unit" optionLabel="shortName"
-                                                optionValue="unitName" display="chip" [showClear]="true"></p-dropdown>
+                                            <label for="returnDate">Return Date</label>
+                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                                formControlName="returnDate" placeholder="mm/dd/yyyy"
+                                                [styleClass]="'col-12'"></p-calendar>
                                         </div>
                                     </div>
-
 
                                 </div>
                             </div>
@@ -88,6 +79,7 @@
                                             <tr>
                                                 <th>Category</th>
                                                 <th>Sub Category</th>
+                                                <th>Unit</th>
                                                 <th>Name</th>
                                                 <th>Quantity </th>
                                                 <th>Unit Price</th>
@@ -111,6 +103,13 @@
                                                         appendTo="body" optionLabel="name" optionValue="name"
                                                         placeholder="Sub Category" [filter]="true" filterBy="name"
                                                         [showClear]="true" formControlName="salesItemSubCategory">
+                                                    </p-dropdown>
+                                                </td>
+                                                <td>
+                                                    <p-dropdown [options]="unitListData" styleClass=""
+                                                        appendTo="body" optionLabel="unitName" optionValue="shortName"
+                                                        placeholder="Sub Category" [filter]="true" filterBy="name"
+                                                        [showClear]="true" formControlName="unit">
                                                     </p-dropdown>
                                                 </td>
                                                 <td>

@@ -138,8 +138,8 @@
                                                         [filter]="true" filterBy="name" [showClear]="true"
                                                         formControlName="salesItemCategory">
                                                     </p-dropdown>
-                                                    <div *ngIf="getSalesItemCategoryError(i)" class="login-danger">
-                                                        Field is required.
+                                                    <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemCategory').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemCategory').touched">
+                                                        <span class="login-danger">Field is required.</span>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -148,8 +148,8 @@
                                                         placeholder="Sub Category" [filter]="true" filterBy="name"
                                                         [showClear]="true" formControlName="salesItemSubCategory">
                                                     </p-dropdown>
-                                                    <div *ngIf="getSalesItemSubCategoryError(i)" class="login-danger">
-                                                        Field is required.
+                                                    <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemSubCategory').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemSubCategory').touched">
+                                                        <span class="login-danger">Field is required.</span>
                                                     </div>
                                                 </td>
 
@@ -159,31 +159,41 @@
                                                         optionValue="shortName" [filter]="true" filterBy="name"
                                                         [showClear]="true">
                                                     </p-dropdown>
-                                                    <div *ngIf="getSalesItemUnitError(i)" class="login-danger">
-                                                        Field is required.
+                                                    <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.unit').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.unit').touched">
+                                                        <span class="login-danger">Field is required.</span>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <input type="text" formControlName="salesItemName"
                                                         class="form-control">
-                                                    <div *ngIf="getSalesItemNameError(i)" class="login-danger">
-                                                        Input must be between 3 to 50 characters.
-                                                    </div>
+                                                        <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemName').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemName').touched">
+                                                            <span class="login-danger">Field is required.</span>
+                                                        </div>
+                                                        <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemName').hasError('pattern') && addSalesForm.get('salesItemDetails').get(i + '.salesItemName').touched">
+                                                            <span class="login-danger">Input must be between 3 to 50.</span>
+                                                        </div>
                                                 </td>
                                                 <td>
                                                     <input type="number" formControlName="salesItemQuantity"
                                                         (change)="calculateTotalAmount()" class="form-control">
-                                                    <div *ngIf="getSalesItemQuantityError(i)" class="login-danger">
-                                                        Input must be more than 0
+                                                    <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
+                                                        <span class="login-danger">Field is required.</span>
+                                                    </div>
+                                                    <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('min') && addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
+                                                        <span class="login-danger">Input must be more than 0.</span>
                                                     </div>
                                                 </td>
+                                                
 
                                                 <td>
                                                     <input type="number" formControlName="salesItemUnitPrice"
                                                         (change)="calculateTotalAmount()" class="form-control">
-                                                    <div *ngIf="getSalesItemUnitPriceError(i)" class="login-danger">
-                                                        Input must be more than 0
-                                                    </div>
+                                                        <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').touched">
+                                                            <span class="login-danger">Field is required.</span>
+                                                        </div>
+                                                        <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').hasError('min') && addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').touched">
+                                                            <span class="login-danger">Input must be more than 0.</span>
+                                                        </div>
                                                 </td>
 
                                                 <td>
@@ -191,9 +201,12 @@
                                                         (change)="calculateTotalAmount()" class="form-control"
                                                         [disabled]="isSalesItemSubTotalDisabled">
 
-                                                    <div *ngIf="getSalesItemSubTotalError(i)" class="login-danger">
-                                                        Input must be more than 0
-                                                    </div>
+                                                        <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').touched">
+                                                            <span class="login-danger">Field is required.</span>
+                                                        </div>
+                                                        <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').hasError('min') && addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').touched">
+                                                            <span class="login-danger">Input must be more than 0.</span>
+                                                        </div>
                                                 </td>
 
                                                 <td class="add-remove text-end">

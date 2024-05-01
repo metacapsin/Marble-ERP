@@ -53,7 +53,7 @@ export class AddsalesComponent {
   public itemDetails: number[] = [0];
   isSalesItemSubTotalDisabled: boolean = true;
 
-nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
   tandCRegex = /^(?:.{2,200})$/;
 
@@ -86,9 +86,9 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
             "",
             [Validators.required, Validators.pattern(this.nameRegex)],
           ],
-          salesItemQuantity: ["", [Validators.min(0)]],
-          salesItemUnitPrice: ["", [Validators.min(0)]],
-          salesItemSubTotal: [""],
+          salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
+          salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+          salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
         }),
       ]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
@@ -114,101 +114,11 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
       salesItemSubCategory: ["", [Validators.required]],
       unit: ["", [Validators.required]],
       salesItemName: ["", [Validators.required]],
-      salesItemQuantity: ["", [Validators.min(0)]],
+      salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
       salesItemUnitPrice: ["", [Validators.min(0)]],
       salesItemSubTotal: [""],
     });
     this.salesItemDetails.push(item);
-  }
-
-  getSalesItemCategoryError(index: number) {
-    const salesItemDetailsForm = this.addSalesForm.get(
-      "salesItemDetails"
-    ) as FormArray;
-    const quantityControl = salesItemDetailsForm
-      .at(index)
-      .get("salesItemCategory");
-    return (
-      quantityControl &&
-      quantityControl.hasError("required") &&
-      quantityControl.touched
-    );
-  }
-  getSalesItemSubCategoryError(index: number) {
-    const salesItemDetailsForm = this.addSalesForm.get(
-      "salesItemDetails"
-    ) as FormArray;
-    const quantityControl = salesItemDetailsForm
-      .at(index)
-      .get("salesItemSubCategory");
-    return (
-      quantityControl &&
-      quantityControl.hasError("required") &&
-      quantityControl.touched
-    );
-  }
-  getSalesItemUnitError(index: number) {
-    const salesItemDetailsForm = this.addSalesForm.get(
-      "salesItemDetails"
-    ) as FormArray;
-    const quantityControl = salesItemDetailsForm.at(index).get("unit");
-    return (
-      quantityControl &&
-      quantityControl.hasError("required") &&
-      quantityControl.touched
-    );
-  }
-  getSalesItemNameError(index: number) {
-    const salesItemDetailsForm = this.addSalesForm.get(
-      "salesItemDetails"
-    ) as FormArray;
-    const quantityControl = salesItemDetailsForm.at(index).get("salesItemName");
-    return (
-      quantityControl &&
-      quantityControl.hasError("pattern") &&
-      quantityControl.touched
-    );
-  }
-
-  getSalesItemQuantityError(index: number) {
-    const salesItemDetailsForm = this.addSalesForm.get(
-      "salesItemDetails"
-    ) as FormArray;
-    const quantityControl = salesItemDetailsForm
-      .at(index)
-      .get("salesItemQuantity");
-    return (
-      quantityControl &&
-      quantityControl.hasError("min") &&
-      quantityControl.touched
-    );
-  }
-  getSalesItemUnitPriceError(index: number) {
-    const salesItemDetailsForm = this.addSalesForm.get(
-      "salesItemDetails"
-    ) as FormArray;
-    const unitPriceControl = salesItemDetailsForm
-      .at(index)
-      .get("salesItemUnitPrice");
-    return (
-      unitPriceControl &&
-      unitPriceControl.hasError("min") &&
-      unitPriceControl.touched
-    );
-  }
-
-  getSalesItemSubTotalError(index: number) {
-    const salesItemDetailsForm = this.addSalesForm.get(
-      "salesItemDetails"
-    ) as FormArray;
-    const subTotalControl = salesItemDetailsForm
-      .at(index)
-      .get("salesItemSubTotal");
-    return (
-      subTotalControl &&
-      subTotalControl.hasError("min") &&
-      subTotalControl.touched
-    );
   }
 
   ngOnInit(): void {

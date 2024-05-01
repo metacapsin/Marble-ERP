@@ -92,7 +92,7 @@
                                     <td>{{sales.paymentStatus}}</td>
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                                                 <p-button [text]="true" data-bs-toggle="modal"
-                                                data-bs-target="#sales_preview" icon="fa-solid fa-eye" ></p-button>
+                                                data-bs-target="#sales_preview" icon="fa-solid fa-eye" (click)="showDialog(sales._id)"></p-button>
                                                 <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)" ></p-button>
                                                 <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(sales._id)" ></p-button>
                                     </td>
@@ -115,143 +115,206 @@
 [data]="modalData"></app-confirm-dialog>
 
   <!-- -- Preview model -- -->
-
-  <div class="modal custom-modal modal-bg  fade invoices-preview" id="sales_preview" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row justify-content-center">
-                    <div class="col-lg-12">
-                        <div class="card invoice-info-card">
-                            <div class="card-body pb-0">
-                                <div class="invoice-item invoice-item-one">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="invoice-logo d-flex justify-content-start">
-                                                <img src="assets/img/logo-dark.png" alt="logo">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="invoice-info">
-                                                <div class="invoice-head">
-                                                    <h2 class="text-primary">Invoice</h2>
-                                                    <p>Invoice Number : In983248782</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Invoice Item -->
-                                <div class="invoice-item invoice-item-bg">
-                                    <div class="invoice-circle-img">
-                                        <img src="assets/img/invoice-circle1.png" alt="" class="invoice-circle1">
-                                        <img src="assets/img/invoice-circle2.png" alt="" class="invoice-circle2">
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-12">
-                                            <div class="invoice-info">
-                                                <strong class="customer-text-one">Billed to</strong>
-                                                <h6 class="invoice-name">Customer Name</h6>
-                                                <p class="invoice-details invoice-details-two">
-                                                    9087484288 <br>
-                                                    Address line 1, <br>
-                                                    Address line 2 <br>
-                                                    Zip code ,City - Country
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-12">
-                                            <div class="invoice-info">
-                                                <strong class="customer-text-one">Invoice From</strong>
-                                                <h6 class="invoice-name">Company Name</h6>
-                                                <p class="invoice-details invoice-details-two">
-                                                    9087484288 <br>
-                                                    Address line 1, <br>
-                                                    Address line 2 <br>
-                                                    Zip code ,City - Country
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-12">
-                                            <div class="invoice-info invoice-info-one border-0 justify-content-space-between">
-                                                <p>Issue Date : 27 Jul 2022</p>
-                                                <p>Order Status : Ordered</p>
-                                                <p>Order Taken By : Adnan</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /Invoice Item -->
-
-                                <!-- Invoice Item -->
-                                <div class="invoice-item invoice-table-wrap">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="table-responsive">
-                                                <table class="invoice-table table table-center mb-0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Category</th>
-                                                            <th>Name</th>
-                                                            <th>Quantity</th>
-                                                            <th>Unit Price</th>
-                                                            <th  class="text-end">Amount</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <!-- <tbody *ngFor="let sales of salesItem">
-                                                      <tr>
-                                                        <td>{{sales.salesCategory}}</td>
-                                                        <td>{{sales.salesName}}</td>
-                                                        <td>{{sales.salesQuantity}}</td>
-                                                        <td>{{sales.salesUnitPrice}}</td>
-                                                        <td  class="text-end"> ₹ {{sales.salesSubTotal}}</td>
-                                                      </tr>
-                                                    </tbody> -->
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /Invoice Item -->
-
-                                <div class="row align-items-center justify-content-center invoice-sign-box">
-                                    <div class="col-lg-6 col-md-6">
-                                      <div class="col-lg-8 col-md-8">
-                                        <div class="invoice-terms">
-                                            <h6>Notes:</h6>
-                                            <p class="mb-0">Enter customer notes or any other details</p>
-                                        </div>
-                                        <div class="invoice-terms mb-0">
-                                            <h6>Terms and Conditions:</h6>
-                                            <p class="mb-0">Enter customer notes or any other details</p>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="invoice-total-card">
-                                            <div class="invoice-total-box">
-                                                <div class="invoice-total-inner">
-                                                    <p>Taxable <span>21 %</span></p>
-                                                    <p>Shipping Charges <span>₹6,660.00</span></p>
-                                                    <p>Discount <span>₹3,300.00</span></p>
-                                                    <p>Sub Total <span>₹3,300.00</span></p>
-                                                </div>
-                                                <div class="invoice-total-footer">
-                                                    <h4>Total Amount <span>₹143,300.00</span></h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+  <p-dialog header="Sales Details" [(visible)]="visible" *ngFor="let sales of salesReturnDataById" [modal]="true"
+  [style]="{width: '80vw'}">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="row justify-content-center">
+        <div class="col-lg-12">
+          <div class="card invoice-info-card">
+            <div class="card-body pb-0">
+              <div class="invoice-item invoice-item-one">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="invoice-logo d-flex justify-content-start">
+                      <img src="assets/img/logo-dark.png" alt="logo">
                     </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="invoice-info">
+                      <div class="invoice-head">
+                        <h2 class="text-primary">Sales</h2>
+                        <p>Invoice Number : {{sales.salesInvoiceNumber}}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+              </div>
 
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="card card-table show-entire">
+                    <div class="page-table-header mb-2 m-3">
+                      <div class="row practice-card">
+                        <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">{{sales.customer.name}}</p>
+                            </div>
+                          </div>
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Date:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">{{sales.returnDate}}</p>
+                            </div>
+                          </div>
+
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">{{sales.paidAmount}}</p>
+                            </div>
+                          </div>
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">{{sales.dueAmount}}</p>
+                            </div>
+                          </div>
+
+
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Taken By:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-form-label">{{sales.createdByName}}</p>
+                            </div>
+                          </div>
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Order Status:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-form-label">{{sales.returnOrderStatus}}</p>
+                            </div>
+                          </div>
+
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Payment Status:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-form-label">{{sales.paymentStatus}}</p>
+                            </div>
+                          </div>
+
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="card">
+                <p-tabView>
+                  <p-tabPanel header="Payments">
+                    <!-- <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}">
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th pSortableColumn="transactionNo">Trnx No. <p-sortIcon field="transactionNo"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-payment>
+                        <tr>
+                          <td class="bold">{{payment.transactionNo}}</td>
+                          <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
+                          <td>{{payment.amount}}</td>
+                          <td>{{payment.paymentMode}}</td>
+                        </tr>
+                      </ng-template>
+                    </p-table> -->
+                  </p-tabPanel>
+                  <p-tabPanel header="Items">
+                    <p-table [value]="salesReturnDataById" [tableStyle]="{'min-width': '60rem'}">
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th pSortableColumn="salesItemCategory">Category <p-sortIcon
+                              field="salesItemCategory"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="salesItemSubCategory">Sub Category <p-sortIcon
+                              field="salesItemSubCategory"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="unit">Unit <p-sortIcon field="unit"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="salesItemName">Name <p-sortIcon field="salesItemName"></p-sortIcon>
+                          </th>
+
+                          <th pSortableColumn="salesItemQuantity">Quantity <p-sortIcon
+                              field="salesItemQuantity"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="salesItemUnitPrice">Unit Price<p-sortIcon
+                              field="salesItemUnitPrice"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="salesItemSubTotal">Sub Total <p-sortIcon
+                              field="salesItemSubTotal"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-data>
+                        <tr *ngFor="let sales of data.salesItemDetails">
+                          <td>{{sales.salesItemCategory}}</td>
+                          <td>{{sales.salesItemSubCategory}}</td>
+                          <td>{{sales.unit}}</td>
+                          <td>{{sales.salesItemName}}</td>
+                          <td>{{sales.salesItemQuantity}}</td>
+                          <td>{{sales.salesItemUnitPrice}}</td>
+                          <td>{{sales.salesItemSubTotal}}</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+
+                  </p-tabPanel>
+                </p-tabView>
+              </div>
+
+
+              <div class="row align-items-center justify-content-center invoice-sign-box">
+                <div class="col-lg-6 col-md-6">
+                  <div class="col-lg-8 col-md-8">
+                    <div class="invoice-terms">
+                      <h6>Notes:</h6>
+                      <p class="mb-0">{{sales.salesNotes}}</p>
+                    </div>
+                    <div class="invoice-terms mb-0">
+                      <h6>Terms and Conditions:</h6>
+                      <p class="mb-0">{{sales.salesTermsAndCondition}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <div class="invoice-total-card">
+                    <div class="invoice-total-box">
+                      <div class="invoice-total-inner">
+                        <p>Gross Total <span>₹ {{sales.salesGrossTotal}}</span></p>
+                        <p>Applied Tax Amount <span>₹ {{addTaxTotal}} </span></p>
+                        <p>Shipping Charges <span>₹ {{sales.salesShipping}}</span></p>
+                        <p>Discount <span>₹ {{sales.salesDiscount}}</span></p>
+                        <p>OtherCharges <span>₹ {{sales.otherCharges}}</span></p>
+                      </div>
+                      <div class="invoice-total-footer">
+                        <h4>Total Amount <span>₹ {{sales.salesTotalAmount}}</span></h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
 <!-- -- end preview model --  -->
   

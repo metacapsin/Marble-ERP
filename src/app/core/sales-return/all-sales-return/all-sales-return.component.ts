@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { SalesReturnService } from '../sales-return.service';
 import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+import { TabViewModule } from 'primeng/tabview';
 
 @Component({
   selector: 'app-all-sales-return',
@@ -17,7 +19,7 @@ import { ToastModule } from 'primeng/toast';
   styleUrl: './all-sales-return.component.scss',
   providers: [MessageService],
   standalone: true,
-  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, ToastModule]
+  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, ToastModule, DialogModule,TabViewModule]
 })
 export class AllSalesReturnComponent implements OnInit {
   public routes = routes;
@@ -30,21 +32,9 @@ export class AllSalesReturnComponent implements OnInit {
   modalData: any = {};
 originalData = [];
   visible: boolean = false;
+  addTaxTotal: any;
   salesReturnDataById= []
-  salesReturnListData = []
-  salesData = [
-    {
-      salesInvoiceNumber: 1112,
-      salesDate: "16 April 2024",
-      salesCustomer: "Adnan",
-      salesStatus: "Delivered",
-      salesPaidAmount: "$2250",
-      salesTotalAmount: "$3000",
-      salesPaymentStatus: "Paid",
-    }
-  ];
-
-  
+  salesReturnListData = []  
 
 
   constructor(
@@ -97,9 +87,23 @@ originalData = [];
       
     })
   }
-
   editSalesRout(id) {
     this.router.navigate(["/sales-return/edit-sales-return/" + id]);
+  }
+
+  showDialog(id:any ){
+    let totalTax =0;
+    this.visible = true;
+    this.Service.getSalesReturnById(id).subscribe((resp: any) => {
+      this.salesReturnDataById = [resp.data];
+
+      resp.data.appliedTax.forEach(element => {
+        totalTax += Number(element.taxRate);
+      });
+      this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
+      console.log("applied tax", resp.data.appliedTax);
+    })
+
   }
 
 
