@@ -327,7 +327,7 @@ export class ProductsAddComponent {
     // { label: "Customs Duty", value: "CustomsDuty" },
   ];
 
-  nameRegex = /^[a-zA-Z\d\s]{3,50}$/; // alphanumeric regex
+nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
   quantityAlertRegex = /^[0-9]+$/;
   itemCodeRegex = /^(?:.{1,20})$/;

@@ -46,16 +46,16 @@ export class AddsalesComponent {
     { orderStatus: "Shipping" },
     { orderStatus: "Delivered" },
   ];
-  unitListData = []
-  orderTaxList = []
+  unitListData = [];
+  orderTaxList = [];
   taxesListData = [];
   customerById = {};
   public itemDetails: number[] = [0];
   isSalesItemSubTotalDisabled: boolean = true;
 
-  positiveNumberRegex = /^\d+$/;
-  nameRegex = /^[a-zA-Z\d\s]{3,50}$/;// alphanumeric regex
-
+nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  notesRegex = /^(?:.{2,100})$/;
+  tandCRegex = /^(?:.{2,200})$/;
 
   constructor(
     private customerByIdService: CustomersdataService,
@@ -70,30 +70,36 @@ export class AddsalesComponent {
     private fb: FormBuilder
   ) {
     this.addSalesForm = this.fb.group({
-      customer: ['', [Validators.required]],
-      salesDate: ['', [Validators.required]],
-      salesDiscount: ['', [Validators.min(0)]],
-      salesInvoiceNumber:["",[Validators.required,Validators.pattern(this.nameRegex)]],
+      customer: ["", [Validators.required]],
+      salesDate: ["", [Validators.required]],
+      salesDiscount: ["", [Validators.min(0)]],
+      salesInvoiceNumber: [
+        "",
+        [Validators.required, Validators.pattern(this.nameRegex)],
+      ],
       salesItemDetails: this.fb.array([
         this.fb.group({
-          salesItemCategory: [''],
-          salesItemSubCategory: [''],
-          unit: [''],
-          salesItemName: [''],
-          salesItemQuantity: ['', [Validators.min(0)]],
-          salesItemUnitPrice: ['', [Validators.min(0)]],
-          salesItemSubTotal: [''],
-        })
+          salesItemCategory: ["", [Validators.required]],
+          salesItemSubCategory: ["", [Validators.required]],
+          unit: ["", [Validators.required]],
+          salesItemName: [
+            "",
+            [Validators.required, Validators.pattern(this.nameRegex)],
+          ],
+          salesItemQuantity: ["", [Validators.min(0)]],
+          salesItemUnitPrice: ["", [Validators.min(0)]],
+          salesItemSubTotal: [""],
+        }),
       ]),
-      salesNotes: [''],
-      salesGrossTotal: [''],
-      salesOrderStatus: [''],
-      salesOrderTax: [''],
-      appliedTax: [''],
-      salesShipping: ['', [Validators.min(0)]],
-      salesTermsAndCondition: [''],
-      salesTotalAmount: [''],
-      otherCharges: ['', [Validators.min(0)]]
+      salesNotes: ["", [Validators.pattern(this.notesRegex)]],
+      salesGrossTotal: [""],
+      salesOrderStatus: ["", [Validators.required]],
+      salesOrderTax: ["", []],
+      appliedTax: [""],
+      salesShipping: ["", [Validators.min(0)]],
+      salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
+      salesTotalAmount: [""],
+      otherCharges: ["", [Validators.min(0)]],
     });
   }
   get salesItemDetails() {
@@ -104,37 +110,106 @@ export class AddsalesComponent {
   }
   addsalesItemDetailsItem() {
     const item = this.fb.group({
-      salesItemCategory: [''],
-      salesItemSubCategory: [''],
-      unit: [''],
-      salesItemName: [''],
-      salesItemQuantity: ['', [Validators.min(0)]],
-      salesItemUnitPrice: ['', [Validators.min(0)]],
-      salesItemSubTotal: [''],
+      salesItemCategory: ["", [Validators.required]],
+      salesItemSubCategory: ["", [Validators.required]],
+      unit: ["", [Validators.required]],
+      salesItemName: ["", [Validators.required]],
+      salesItemQuantity: ["", [Validators.min(0)]],
+      salesItemUnitPrice: ["", [Validators.min(0)]],
+      salesItemSubTotal: [""],
     });
     this.salesItemDetails.push(item);
   }
 
-  getSalesItemQuantityError(index: number) {
-    const salesItemDetailsForm = this.addSalesForm.get('salesItemDetails') as FormArray;
-    const quantityControl = salesItemDetailsForm.at(index).get('salesItemQuantity');
-    return quantityControl && quantityControl.hasError('min') && quantityControl.touched;
+  getSalesItemCategoryError(index: number) {
+    const salesItemDetailsForm = this.addSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const quantityControl = salesItemDetailsForm
+      .at(index)
+      .get("salesItemCategory");
+    return (
+      quantityControl &&
+      quantityControl.hasError("required") &&
+      quantityControl.touched
+    );
+  }
+  getSalesItemSubCategoryError(index: number) {
+    const salesItemDetailsForm = this.addSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const quantityControl = salesItemDetailsForm
+      .at(index)
+      .get("salesItemSubCategory");
+    return (
+      quantityControl &&
+      quantityControl.hasError("required") &&
+      quantityControl.touched
+    );
+  }
+  getSalesItemUnitError(index: number) {
+    const salesItemDetailsForm = this.addSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const quantityControl = salesItemDetailsForm.at(index).get("unit");
+    return (
+      quantityControl &&
+      quantityControl.hasError("required") &&
+      quantityControl.touched
+    );
+  }
+  getSalesItemNameError(index: number) {
+    const salesItemDetailsForm = this.addSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const quantityControl = salesItemDetailsForm.at(index).get("salesItemName");
+    return (
+      quantityControl &&
+      quantityControl.hasError("pattern") &&
+      quantityControl.touched
+    );
   }
 
+  getSalesItemQuantityError(index: number) {
+    const salesItemDetailsForm = this.addSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const quantityControl = salesItemDetailsForm
+      .at(index)
+      .get("salesItemQuantity");
+    return (
+      quantityControl &&
+      quantityControl.hasError("min") &&
+      quantityControl.touched
+    );
+  }
   getSalesItemUnitPriceError(index: number) {
-    const salesItemDetailsForm = this.addSalesForm.get('salesItemDetails') as FormArray;
-    const unitPriceControl = salesItemDetailsForm.at(index).get('salesItemUnitPrice');
-    return unitPriceControl && unitPriceControl.hasError('min') && unitPriceControl.touched;
+    const salesItemDetailsForm = this.addSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const unitPriceControl = salesItemDetailsForm
+      .at(index)
+      .get("salesItemUnitPrice");
+    return (
+      unitPriceControl &&
+      unitPriceControl.hasError("min") &&
+      unitPriceControl.touched
+    );
   }
 
   getSalesItemSubTotalError(index: number) {
-    const salesItemDetailsForm = this.addSalesForm.get('salesItemDetails') as FormArray;
-    const subTotalControl = salesItemDetailsForm.at(index).get('salesItemSubTotal');
-    return subTotalControl && subTotalControl.hasError('min') && subTotalControl.touched;
+    const salesItemDetailsForm = this.addSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const subTotalControl = salesItemDetailsForm
+      .at(index)
+      .get("salesItemSubTotal");
+    return (
+      subTotalControl &&
+      subTotalControl.hasError("min") &&
+      subTotalControl.touched
+    );
   }
-
-
-
 
   ngOnInit(): void {
     this.isSalesItemSubTotalDisabled = true;
@@ -142,14 +217,14 @@ export class AddsalesComponent {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
       this.customerList = [];
-      this.originalCustomerData.forEach(element => {
+      this.originalCustomerData.forEach((element) => {
         this.customerList.push({
           name: element.name,
           _id: {
             _id: element._id,
-            name: element.name
-          }
-        })
+            name: element.name,
+          },
+        });
       });
       // console.log("customer", this.customerList);
     });
@@ -163,10 +238,9 @@ export class AddsalesComponent {
       this.orderTaxList = [];
       this.taxesListData.forEach((element) => {
         this.orderTaxList.push({
-          orderTaxName: element.name + ' (' + element.taxRate + '%' + ')',
-          orderNamevalue: element
+          orderTaxName: element.name + " (" + element.taxRate + "%" + ")",
+          orderNamevalue: element,
         });
-
       });
     });
 
@@ -177,17 +251,14 @@ export class AddsalesComponent {
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
     });
-
-
   }
-
 
   // calculateTotalAmount() {
   //   console.log("Enter in caltotal");
   //   let totalTax = 0
   //   let totalAmount = 0;
   //   let salesGrossTotal = 0
-    
+
   //   const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
 
   //   salesItems.controls.forEach((item: FormGroup) => {
@@ -202,7 +273,7 @@ export class AddsalesComponent {
   //   if (Array.isArray(this.addSalesForm.get('salesOrderTax').value)) {
   //     // debugger
   //     console.log("in loop");
-      
+
   //     this.addSalesForm.get('salesOrderTax').value.forEach(element => {
   //       totalTax += Number(element.taxRate);
   //       this.addTaxTotal = salesGrossTotal * totalTax / 100;
@@ -214,8 +285,7 @@ export class AddsalesComponent {
   //   let shipping = +this.addSalesForm.get('salesShipping').value;
   //   let Discount = +this.addSalesForm.get('salesDiscount').value;
   //   let otherCharges = +this.addSalesForm.get('otherCharges').value;
-    
-    
+
   //   // this.addTaxTotal = totalAmount * totalTax / 100;
   //   totalAmount += salesGrossTotal;
   //   totalAmount += this.addTaxTotal;
@@ -236,29 +306,29 @@ export class AddsalesComponent {
     let salesGrossTotal = 0;
     let totalTax = 0;
 
-    const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
+    const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
-        const quantity = +item.get('salesItemQuantity').value || 0;
-        const unitPrice = +item.get('salesItemUnitPrice').value || 0;
-        const subtotal = quantity * unitPrice;
-        salesGrossTotal += subtotal;
-        item.get('salesItemSubTotal').setValue(subtotal.toFixed(2));
+      const quantity = +item.get("salesItemQuantity").value || 0;
+      const unitPrice = +item.get("salesItemUnitPrice").value || 0;
+      const subtotal = quantity * unitPrice;
+      salesGrossTotal += subtotal;
+      item.get("salesItemSubTotal").setValue(subtotal.toFixed(2));
     });
 
-    if (Array.isArray(this.addSalesForm.get('salesOrderTax').value)) {
-        this.addSalesForm.get('salesOrderTax').value.forEach(element => {
-            totalTax += Number(element.taxRate);
-        });
+    if (Array.isArray(this.addSalesForm.get("salesOrderTax").value)) {
+      this.addSalesForm.get("salesOrderTax").value.forEach((element) => {
+        totalTax += Number(element.taxRate);
+      });
     } else {
-        totalTax += Number(this.addSalesForm.get('salesOrderTax').value);
+      totalTax += Number(this.addSalesForm.get("salesOrderTax").value);
     }
-    this.addTaxTotal = salesGrossTotal * totalTax / 100;
+    this.addTaxTotal = (salesGrossTotal * totalTax) / 100;
 
     // Other calculations remain unchanged
-    let shipping = +this.addSalesForm.get('salesShipping').value;
-    let Discount = +this.addSalesForm.get('salesDiscount').value;
-    let otherCharges = +this.addSalesForm.get('otherCharges').value;
+    let shipping = +this.addSalesForm.get("salesShipping").value;
+    let Discount = +this.addSalesForm.get("salesDiscount").value;
+    let otherCharges = +this.addSalesForm.get("otherCharges").value;
 
     totalAmount += salesGrossTotal;
     totalAmount += this.addTaxTotal;
@@ -268,32 +338,28 @@ export class AddsalesComponent {
     totalAmount += otherCharges;
 
     this.addSalesForm.patchValue({
-        salesGrossTotal: salesGrossTotal.toFixed(2),
-        salesDiscount: Discount.toFixed(2),
-        salesShipping: shipping.toFixed(2),
-        otherCharges: otherCharges.toFixed(2),
-        salesTotalAmount: totalAmount.toFixed(2)
+      salesGrossTotal: salesGrossTotal.toFixed(2),
+      salesDiscount: Discount.toFixed(2),
+      salesShipping: shipping.toFixed(2),
+      otherCharges: otherCharges.toFixed(2),
+      salesTotalAmount: totalAmount.toFixed(2),
     });
-}
-
-
-
-
+  }
 
   addSalesFormSubmit() {
     const formData = this.addSalesForm.value;
     // const selectedCustomerId = this.addSalesForm.get('customer').value?._id;
     // const selectedCustomerName = this.addSalesForm.get('customer').value?.name;
 
-    let totalTax = 0
-    formData.salesOrderTax.forEach(element => {
+    let totalTax = 0;
+    formData.salesOrderTax.forEach((element) => {
       totalTax = totalTax + element.taxRate;
     });
 
     const payload = {
       // customer: {
-        // _id: selectedCustomerId,
-        // name: selectedCustomerName
+      // _id: selectedCustomerId,
+      // name: selectedCustomerName
       // },
       customer: formData.customer,
       salesDate: formData.salesDate,
@@ -308,9 +374,8 @@ export class AddsalesComponent {
       appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
-      otherCharges: formData.otherCharges
-    }
-
+      otherCharges: formData.otherCharges,
+    };
 
     if (this.addSalesForm.valid) {
       console.log("valid form");

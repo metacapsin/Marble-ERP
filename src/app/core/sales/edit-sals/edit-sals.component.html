@@ -46,23 +46,29 @@
                                 <div class="row">
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesInvoiceNumber">Invoice Number  </label>
+                                            <label for="salesInvoiceNumber">Invoice Number </label>
                                             <input type="text" class="form-control"
                                                 formControlName="salesInvoiceNumber">
-                                                <div
+                                            <div
                                                 *ngIf="editSalesForm.get('salesInvoiceNumber')?.hasError('required')  && editSalesForm.get('salesInvoiceNumber')?.touched">
                                                 <span class="login-danger">Field is required. </span>
+                                            </div>
+                                            <div
+                                                *ngIf="editSalesForm.get('salesInvoiceNumber')?.hasError('pattern')  && editSalesForm.get('salesInvoiceNumber')?.touched">
+                                                <span class="login-danger">Input must be between 3 to 50
+                                                    character.</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesCustomerName">Customer Name <span class="login-danger">*</span></label>
+                                            <label for="salesCustomerName">Customer Name <span
+                                                    class="login-danger">*</span></label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
                                                 optionValue="_id" display="chip" [filter]="true" filterBy="name"
                                                 [showClear]="true"></p-dropdown>
-                                                <div
+                                            <div
                                                 *ngIf="editSalesForm.get('customer')?.hasError('required')  && editSalesForm.get('customer')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
@@ -70,11 +76,12 @@
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesDate">Sales Date <span class="login-danger">*</span></label>
+                                            <label for="salesDate">Sales Date <span
+                                                    class="login-danger">*</span></label>
                                             <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                                 formControlName="salesDate" placeholder="mm/dd/yyyy"
                                                 [styleClass]="'col-12'"></p-calendar>
-                                                <div
+                                            <div
                                                 *ngIf="editSalesForm.get('salesDate')?.hasError('required')  && editSalesForm.get('salesDate')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
@@ -122,6 +129,9 @@
                                                         [filter]="true" filterBy="name" [showClear]="true"
                                                         formControlName="salesItemCategory">
                                                     </p-dropdown>
+                                                    <div *ngIf="getSalesItemCategoryError(i)" class="login-danger">
+                                                        Field is required.
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <p-dropdown [options]="subCategoryList" styleClass=""
@@ -129,6 +139,9 @@
                                                         placeholder="Sub Category" [filter]="true" filterBy="name"
                                                         [showClear]="true" formControlName="salesItemSubCategory">
                                                     </p-dropdown>
+                                                    <div *ngIf="getSalesItemSubCategoryError(i)" class="login-danger">
+                                                        Field is required.
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <p-dropdown [options]="unitListData" formControlName="unit"
@@ -140,19 +153,22 @@
                                                 <td>
                                                     <input type="text" formControlName="salesItemName"
                                                         class="form-control">
+                                                    <div *ngIf="getSalesItemNameError(i)" class="login-danger">
+                                                        Input must be between 3 to 50 characters.
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <input type="number" formControlName="salesItemQuantity"
                                                         (change)="calculateTotalAmount()" class="form-control">
                                                     <div *ngIf="getSalesItemQuantityError(i)" class="login-danger">
-                                                        Quantity must be more than 0
+                                                        Input must be more than 0
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <input type="number" formControlName="salesItemUnitPrice"
                                                         (change)="calculateTotalAmount()" class="form-control">
                                                     <div *ngIf="getSalesItemUnitPriceError(i)" class="login-danger">
-                                                        Unit Price must be more than 0
+                                                        Input must be more than 0
                                                     </div>
                                                 </td>
                                                 <td>
@@ -160,7 +176,7 @@
                                                         (change)="calculateTotalAmount()" class="form-control">
 
                                                     <div *ngIf="getSalesItemSubTotalError(i)" class="login-danger">
-                                                        Sub Total must be more than 0
+                                                        Input must be more than 0
                                                     </div>
                                                 </td>
                                                 <td class="add-remove text-end">
@@ -202,6 +218,11 @@
                                                         <div class="panel-body">
                                                             <textarea class="form-control"
                                                                 formControlName="salesTermsAndCondition"></textarea>
+                                                            <div
+                                                                *ngIf="editSalesForm.get('salesTermsAndCondition')?.hasError('pattern')  && editSalesForm.get('salesTermsAndCondition')?.touched">
+                                                                <span class="login-danger">Input must be between 2 to
+                                                                    200 characters.</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -223,6 +244,11 @@
                                                         <div class="panel-body">
                                                             <textarea class="form-control"
                                                                 formControlName="salesNotes"></textarea>
+                                                            <div
+                                                                *ngIf="editSalesForm.get('salesNotes')?.hasError('pattern')  && editSalesForm.get('salesNotes')?.touched">
+                                                                <span class="login-danger">Input must be between 2 to
+                                                                    100 characters.</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -245,6 +271,10 @@
                                                             formControlName="salesOrderStatus" [filter]="true"
                                                             filterBy="orderStatus" [showClear]="true">
                                                         </p-dropdown>
+                                                        <div
+                                                            *ngIf="editSalesForm.get('salesOrderStatus')?.hasError('required')  && editSalesForm.get('salesOrderStatus')?.touched">
+                                                            <span class="login-danger">Field is required.</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 mt-3">
@@ -256,6 +286,10 @@
                                                             optionValue="orderNamevalue" display="chip"
                                                             [showClear]="true" (onChange)="calculateTotalAmount()">
                                                         </p-multiSelect>
+                                                        <!-- <div
+                                                            *ngIf="editSalesForm.get('salesOrderTax')?.hasError('required')  && editSalesForm.get('salesOrderTax')?.touched">
+                                                            <span class="login-danger">Field is required.</span>
+                                                        </div> -->
 
                                                     </div>
                                                 </div>
@@ -270,90 +304,89 @@
                                                                 (change)="calculateTotalAmount()"
                                                                 formControlName="salesDiscount" type="number"
                                                                 placeholder="">
-                                                            <div
-                                                                *ngIf="editSalesForm.get('salesDiscount')?.hasError('min') && editSalesForm.get('salesDiscount')?.touched">
-                                                                <span class="login-danger">Shipping must be more than
-                                                                    0</span>
-                                                            </div>
+
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 ml-3">
-                                                    <div class="form-group local-forms">
-                                                        <label for="salesShipping">Shipping</label>
-                                                        <div class="input-group">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">₹</span>
-                                                            </div>
-                                                            <input class="form-control"
-                                                                (change)="calculateTotalAmount()"
-                                                                formControlName="salesShipping" type="number"
-                                                                placeholder="">
-                                                            <div
-                                                                *ngIf="editSalesForm.get('salesShipping')?.hasError('min') && editSalesForm.get('salesShipping')?.touched">
-                                                                <span class="login-danger">Shipping must be more than
-                                                                    0</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 ml-3">
-                                                    <div class="form-group local-forms">
-                                                        <label for="otherCharges">Other Charges</label>
-                                                        <div class="input-group">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">₹</span>
-                                                            </div>
-                                                            <input class="form-control"
-                                                                (change)="calculateTotalAmount()"
-                                                                formControlName="otherCharges" type="number"
-                                                                placeholder="">
-                                                            <div
-                                                                *ngIf="editSalesForm.get('otherCharges')?.hasError('min') && editSalesForm.get('otherCharges')?.touched">
-                                                                <span class="login-danger">Other Charges must be more
-                                                                    than
-                                                                    0</span>
-                                                            </div>
+                                                        <div
+                                                            *ngIf="editSalesForm.get('salesDiscount')?.hasError('min')  && editSalesForm.get('salesDiscount')?.touched">
+                                                            <span class="login-danger">Input must be more than 0.</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-12 ml-3">
+                                                <div class="form-group local-forms">
+                                                    <label for="salesShipping">Shipping</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">₹</span>
+                                                        </div>
+                                                        <input class="form-control" (change)="calculateTotalAmount()"
+                                                            formControlName="salesShipping" type="number"
+                                                            placeholder="">
 
-                                            <div class="invoice-total-inner">
-                                                <p>Gross Total <span>₹ {{ editSalesForm.get('salesGrossTotal').value |
-                                                        number: '1.2-2' }}</span></p>
-                                                <p>Order Tax <span>₹ {{ addTaxTotal}}</span></p>
-                                                <p>Discount<span>₹ {{ editSalesForm.get('salesDiscount').value | number:
-                                                        '1.2-2' }}</span></p>
-                                                <p>Shipping<span>₹ {{ editSalesForm.get('salesShipping').value | number:
-                                                        '1.2-2' }}</span></p>
-                                                <p>Other Charges<span>₹ {{ editSalesForm.get('otherCharges').value |
-                                                        number:
-                                                        '1.2-2' }}</span></p>
+                                                    </div>
+                                                    <div
+                                                        *ngIf="editSalesForm.get('salesShipping')?.hasError('min') && editSalesForm.get('salesShipping')?.touched">
+                                                        <span class="login-danger">Input must be more than
+                                                            0.</span>
+                                                    </div>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="col-12 ml-3">
+                                            <div class="form-group local-forms">
+                                                <label for="otherCharges">Other Charges</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">₹</span>
+                                                    </div>
+                                                    <input class="form-control" (change)="calculateTotalAmount()"
+                                                        formControlName="otherCharges" type="number" placeholder="">
 
-                                            <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>₹ {{ editSalesForm.get('salesTotalAmount').value
-                                                        |
-                                                        number: '1.2-2' }}</span></h4>
+                                                </div>
+                                                <div
+                                                    *ngIf="editSalesForm.get('otherCharges')?.hasError('min') && editSalesForm.get('otherCharges')?.touched">
+                                                    <span class="login-danger">Input must be more than
+                                                        0.</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="upload-sign">
-                                        <div class="form-group float-end mb-0">
-                                            <button class="btn btn-primary" type="submit"
-                                                [disabled]="!editSalesForm.valid">Save Sales</button>
-                                        </div>
+
+                                    <div class="invoice-total-inner">
+                                        <p>Gross Total <span>₹ {{ editSalesForm.get('salesGrossTotal').value |
+                                                number: '1.2-2' }}</span></p>
+                                        <p>Order Tax <span>₹ {{ addTaxTotal}}</span></p>
+                                        <p>Discount<span>₹ {{ editSalesForm.get('salesDiscount').value | number:
+                                                '1.2-2' }}</span></p>
+                                        <p>Shipping<span>₹ {{ editSalesForm.get('salesShipping').value | number:
+                                                '1.2-2' }}</span></p>
+                                        <p>Other Charges<span>₹ {{ editSalesForm.get('otherCharges').value |
+                                                number:
+                                                '1.2-2' }}</span></p>
+                                    </div>
+
+                                    <div class="invoice-total-footer">
+                                        <h4>Total Amount <span>₹ {{ editSalesForm.get('salesTotalAmount').value
+                                                |
+                                                number: '1.2-2' }}</span></h4>
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                            <div class="upload-sign">
+                                <div class="form-group float-end mb-0">
+                                    <button class="btn btn-primary" type="submit" [disabled]="!editSalesForm.valid">Save
+                                        Sales</button>
+                                </div>
+                            </div>
 
+                            <!-- </div> -->
+                        </form>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
-</div>
 
-<p-toast></p-toast>
+    <p-toast></p-toast>

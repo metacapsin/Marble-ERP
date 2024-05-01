@@ -54,6 +54,11 @@
                                                 *ngIf="addSalesForm.get('salesInvoiceNumber')?.hasError('required')  && addSalesForm.get('salesInvoiceNumber')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
+                                            <div
+                                                *ngIf="addSalesForm.get('salesInvoiceNumber')?.hasError('pattern')  && addSalesForm.get('salesInvoiceNumber')?.touched">
+                                                <span class="login-danger">Input must be between 3 to 50
+                                                    character.</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -133,6 +138,9 @@
                                                         [filter]="true" filterBy="name" [showClear]="true"
                                                         formControlName="salesItemCategory">
                                                     </p-dropdown>
+                                                    <div *ngIf="getSalesItemCategoryError(i)" class="login-danger">
+                                                        Field is required.
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <p-dropdown [options]="subCategoryList" styleClass=""
@@ -140,10 +148,9 @@
                                                         placeholder="Sub Category" [filter]="true" filterBy="name"
                                                         [showClear]="true" formControlName="salesItemSubCategory">
                                                     </p-dropdown>
-                                                    <div
-                                            *ngIf="salesItemDetails.get('salesItemCategory')?.hasError('required') && salesItemDetails.get('salesItemCategory')?.touched">
-                                            <span class="login-danger">Field is required.</span>
-                                          </div>
+                                                    <div *ngIf="getSalesItemSubCategoryError(i)" class="login-danger">
+                                                        Field is required.
+                                                    </div>
                                                 </td>
 
                                                 <td>
@@ -152,20 +159,22 @@
                                                         optionValue="shortName" [filter]="true" filterBy="name"
                                                         [showClear]="true">
                                                     </p-dropdown>
+                                                    <div *ngIf="getSalesItemUnitError(i)" class="login-danger">
+                                                        Field is required.
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <input type="text" formControlName="salesItemName"
                                                         class="form-control">
-                                                        <div
-                                            *ngIf="salesItemDetails.get('salesItemCategory')?.hasError('required') && salesItemDetails.get('salesItemCategory')?.touched">
-                                            <span class="login-danger">Field is required.</span>
-                                          </div>
+                                                    <div *ngIf="getSalesItemNameError(i)" class="login-danger">
+                                                        Input must be between 3 to 50 characters.
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <input type="number" formControlName="salesItemQuantity"
                                                         (change)="calculateTotalAmount()" class="form-control">
                                                     <div *ngIf="getSalesItemQuantityError(i)" class="login-danger">
-                                                        Quantity must be more than 0
+                                                        Input must be more than 0
                                                     </div>
                                                 </td>
 
@@ -173,7 +182,7 @@
                                                     <input type="number" formControlName="salesItemUnitPrice"
                                                         (change)="calculateTotalAmount()" class="form-control">
                                                     <div *ngIf="getSalesItemUnitPriceError(i)" class="login-danger">
-                                                        Unit Price must be more than 0
+                                                        Input must be more than 0
                                                     </div>
                                                 </td>
 
@@ -183,7 +192,7 @@
                                                         [disabled]="isSalesItemSubTotalDisabled">
 
                                                     <div *ngIf="getSalesItemSubTotalError(i)" class="login-danger">
-                                                        Sub Total must be more than 0
+                                                        Input must be more than 0
                                                     </div>
                                                 </td>
 
@@ -226,6 +235,11 @@
                                                         <div class="panel-body">
                                                             <textarea class="form-control"
                                                                 formControlName="salesTermsAndCondition"></textarea>
+                                                            <div
+                                                                *ngIf="addSalesForm.get('salesTermsAndCondition')?.hasError('pattern')  && addSalesForm.get('salesTermsAndCondition')?.touched">
+                                                                <span class="login-danger">Input must be between 2 to
+                                                                    200 characters.</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -247,6 +261,11 @@
                                                         <div class="panel-body">
                                                             <textarea class="form-control"
                                                                 formControlName="salesNotes"></textarea>
+                                                            <div
+                                                                *ngIf="addSalesForm.get('salesNotes')?.hasError('pattern')  && addSalesForm.get('salesNotes')?.touched">
+                                                                <span class="login-danger">Input must be between 2 to
+                                                                    100 characters.</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -269,6 +288,10 @@
                                                             formControlName="salesOrderStatus" [filter]="true"
                                                             filterBy="orderStatus" [showClear]="true">
                                                         </p-dropdown>
+                                                        <div
+                                                            *ngIf="addSalesForm.get('salesOrderStatus')?.hasError('required')  && addSalesForm.get('salesOrderStatus')?.touched">
+                                                            <span class="login-danger">Field is required.</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 mt-3">
@@ -280,6 +303,10 @@
                                                             optionValue="orderNamevalue" display="chip"
                                                             [showClear]="true" (onChange)="calculateTotalAmount()">
                                                         </p-multiSelect>
+                                                        <!-- <div
+                                                            *ngIf="addSalesForm.get('salesOrderTax')?.hasError('required')  && addSalesForm.get('salesOrderTax')?.touched">
+                                                            <span class="login-danger">Field is required.</span>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="col-12 ml-3">
@@ -293,11 +320,10 @@
                                                                 (change)="calculateTotalAmount()"
                                                                 formControlName="salesDiscount" type="number"
                                                                 placeholder="">
-                                                            <div
-                                                                *ngIf="addSalesForm.get('salesDiscount')?.hasError('min')  && addSalesForm.get('salesDiscount')?.touched">
-                                                                <span class="login-danger">Discount must be more than
-                                                                    0</span>
-                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            *ngIf="addSalesForm.get('salesDiscount')?.hasError('min')  && addSalesForm.get('salesDiscount')?.touched">
+                                                            <span class="login-danger">Input must be more than 0.</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -312,12 +338,12 @@
                                                                 (change)="calculateTotalAmount()"
                                                                 formControlName="salesShipping" type="number"
                                                                 placeholder="">
+                                                            </div>
                                                             <div
                                                                 *ngIf="addSalesForm.get('salesShipping')?.hasError('min') && addSalesForm.get('salesShipping')?.touched">
-                                                                <span class="login-danger">Shipping must be more than
-                                                                    0</span>
+                                                                <span class="login-danger">Input must be more than
+                                                                    0.</span>
                                                             </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 ml-3">
@@ -331,13 +357,12 @@
                                                                 (change)="calculateTotalAmount()"
                                                                 formControlName="otherCharges" type="number"
                                                                 placeholder="">
+                                                            </div>
                                                             <div
                                                                 *ngIf="addSalesForm.get('otherCharges')?.hasError('min') && addSalesForm.get('otherCharges')?.touched">
-                                                                <span class="login-danger">Other Charges must be more
-                                                                    than
-                                                                    0</span>
+                                                                <span class="login-danger">Input must be more than
+                                                                    0.</span>
                                                             </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

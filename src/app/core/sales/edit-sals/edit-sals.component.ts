@@ -1,40 +1,46 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
-import { routes } from 'src/app/shared/routes/routes';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { CalendarModule } from 'primeng/calendar';
-import { TaxesService } from '../../settings/taxes/taxes.service';
-import { CustomersdataService } from '../../Customers/customers.service';
-import { SalesService } from '../sales.service';
-import { MessageService } from 'primeng/api';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CategoriesService } from '../../settings/categories/categories.service';
-import { ToastModule } from 'primeng/toast';
-import { SubCategoriesService } from '../../settings/sub-categories/sub-categories.service';
-import { UnitsService } from '../../settings/units/units.service';
-import { MultiSelectModule } from 'primeng/multiselect';
+import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DropdownModule } from "primeng/dropdown";
+import { routes } from "src/app/shared/routes/routes";
+import { SharedModule } from "src/app/shared/shared.module";
+import { CalendarModule } from "primeng/calendar";
+import { TaxesService } from "../../settings/taxes/taxes.service";
+import { CustomersdataService } from "../../Customers/customers.service";
+import { SalesService } from "../sales.service";
+import { MessageService } from "primeng/api";
+import { ActivatedRoute, Router } from "@angular/router";
+import { CategoriesService } from "../../settings/categories/categories.service";
+import { ToastModule } from "primeng/toast";
+import { SubCategoriesService } from "../../settings/sub-categories/sub-categories.service";
+import { UnitsService } from "../../settings/units/units.service";
+import { MultiSelectModule } from "primeng/multiselect";
 
 @Component({
-  selector: 'app-edit-sals',
+  selector: "app-edit-sals",
   standalone: true,
-  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, ToastModule, MultiSelectModule],
-  templateUrl: './edit-sals.component.html',
-  styleUrl: './edit-sals.component.scss',
-  providers: [MessageService]
+  imports: [
+    CommonModule,
+    SharedModule,
+    DropdownModule,
+    CalendarModule,
+    ToastModule,
+    MultiSelectModule,
+  ],
+  templateUrl: "./edit-sals.component.html",
+  styleUrl: "./edit-sals.component.scss",
+  providers: [MessageService],
 })
 export class EditSalsComponent {
-
   editSalesForm!: FormGroup;
   public routes = routes;
   salesId = "";
   customerList = [];
   originalCustomerData = [];
-  categoryList = []
-  subCategoryList = []
+  categoryList = [];
+  subCategoryList = [];
   addTaxTotal: any;
-  unitListData: []
+  unitListData: [];
   orderStatusList = [
     { orderStatus: "Ordered" },
     { orderStatus: "Confirmed" },
@@ -42,15 +48,17 @@ export class EditSalsComponent {
     { orderStatus: "Shipping" },
     { orderStatus: "Delivered" },
   ];
-  orderTaxList = []
+  orderTaxList = [];
   taxesListData = [];
   public itemDetails: number[] = [0];
   public chargesArray: number[] = [0];
   public recurringInvoice = false;
   public selectedValue!: string;
 
+nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  notesRegex = /^(?:.{2,100})$/;
+  tandCRegex = /^(?:.{2,200})$/;
   constructor(
-
     private activeRoute: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -60,76 +68,144 @@ export class EditSalsComponent {
     private CategoriesService: CategoriesService,
     private subCategoriesService: SubCategoriesService,
     private taxService: TaxesService,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {
     this.editSalesForm = this.fb.group({
-      id: [''],
-      salesInvoiceNumber: ['', [Validators.required]],
-      customer: ['', [Validators.required]],
-      salesDate: ['', [Validators.required]],
-      salesOrderStatus: [''],
-      salesOrderTax: [''],
-      salesGrossTotal: [''],
-      salesDiscount: ['', [Validators.min(0)]],
-      salesShipping: ['', [Validators.min(0)]],
-      salesTermsAndCondition: [''],
-      salesNotes: [''],
-      salesTotalAmount: [''],
-      otherCharges: ['', [Validators.min(0)]],
-      salesItemDetails: this.fb.array([
-        this.fb.group({
-          salesItemCategory: [''],
-          salesItemSubCategory: [''],
-          unit:[''],
-          salesItemName: [''],
-          salesItemQuantity: ['', [Validators.min(0)]],
-          salesItemUnitPrice: ['', [Validators.min(0)]],
-          salesItemSubTotal: ['', [Validators.min(0)]],
-        })
-      ]),
+      id: [""],
+      customer: ["", [Validators.required]],
+      salesDate: ["", [Validators.required]],
+      salesDiscount: ["", [Validators.min(0)]],
+      salesInvoiceNumber: [
+        "",
+        [Validators.required, Validators.pattern(this.nameRegex)],
+      ],
+      salesItemDetails: this.fb.array([]),
+      salesNotes: ["", [Validators.pattern(this.notesRegex)]],
+      salesGrossTotal: [""],
+      salesOrderStatus: ["", [Validators.required]],
+      salesOrderTax: ["", []],
+      appliedTax: [""],
+      salesShipping: ["", [Validators.min(0)]],
+      salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
+      salesTotalAmount: [""],
+      otherCharges: ["", [Validators.min(0)]],
     });
     this.salesId = this.activeRoute.snapshot.params["id"];
   }
 
   get salesItemDetails() {
-    return this.editSalesForm.controls['salesItemDetails'] as FormArray;
+    return this.editSalesForm.controls["salesItemDetails"] as FormArray;
   }
   deletesalesItemDetails(salesItemDetailsIndex: number) {
     this.salesItemDetails.removeAt(salesItemDetailsIndex);
   }
   addsalesItemDetailsItem() {
     const item = this.fb.group({
-      salesItemCategory: [''],
-      salesItemSubCategory: [''],
-      unit:[''],
-      salesItemName: [''],
-      salesItemQuantity: [''],
-      salesItemUnitPrice: [''],
-      salesItemSubTotal: [''],
-    });
+      salesItemCategory: ["", [Validators.required]],
+      salesItemSubCategory: ["", [Validators.required]],
+      unit: ["", [Validators.required]],
+      salesItemName: [
+        "",
+        [Validators.required, Validators.pattern(this.nameRegex)],
+      ],
+      salesItemQuantity: ["", [Validators.min(0)]],
+      salesItemUnitPrice: ["", [Validators.min(0)]],
+      salesItemSubTotal: [""],
+    })
     this.salesItemDetails.push(item);
+  }
 
+  getSalesItemCategoryError(index: number) {
+    const salesItemDetailsForm = this.editSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const quantityControl = salesItemDetailsForm
+      .at(index)
+      .get("salesItemCategory");
+    return (
+      quantityControl &&
+      quantityControl.hasError("required") &&
+      quantityControl.touched
+    );
+  }
+  getSalesItemSubCategoryError(index: number) {
+    const salesItemDetailsForm = this.editSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const quantityControl = salesItemDetailsForm
+      .at(index)
+      .get("salesItemSubCategory");
+    return (
+      quantityControl &&
+      quantityControl.hasError("required") &&
+      quantityControl.touched
+    );
+  }
+  getSalesItemUnitError(index: number) {
+    const salesItemDetailsForm = this.editSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const quantityControl = salesItemDetailsForm.at(index).get("unit");
+    return (
+      quantityControl &&
+      quantityControl.hasError("required") &&
+      quantityControl.touched
+    );
+  }
+  getSalesItemNameError(index: number) {
+    const salesItemDetailsForm = this.editSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const quantityControl = salesItemDetailsForm.at(index).get("salesItemName");
+    return (
+      quantityControl &&
+      quantityControl.hasError("pattern") &&
+      quantityControl.touched
+    );
   }
 
 
   getSalesItemQuantityError(index: number) {
-    const salesItemDetailsForm = this.editSalesForm.get('salesItemDetails') as FormArray;
-    const quantityControl = salesItemDetailsForm.at(index).get('salesItemQuantity');
-    return quantityControl && quantityControl.hasError('min') && quantityControl.touched;
+    const salesItemDetailsForm = this.editSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const quantityControl = salesItemDetailsForm
+      .at(index)
+      .get("salesItemQuantity");
+    return (
+      quantityControl &&
+      quantityControl.hasError("min") &&
+      quantityControl.touched
+    );
   }
 
   getSalesItemUnitPriceError(index: number) {
-    const salesItemDetailsForm = this.editSalesForm.get('salesItemDetails') as FormArray;
-    const unitPriceControl = salesItemDetailsForm.at(index).get('salesItemUnitPrice');
-    return unitPriceControl && unitPriceControl.hasError('min') && unitPriceControl.touched;
+    const salesItemDetailsForm = this.editSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const unitPriceControl = salesItemDetailsForm
+      .at(index)
+      .get("salesItemUnitPrice");
+    return (
+      unitPriceControl &&
+      unitPriceControl.hasError("min") &&
+      unitPriceControl.touched
+    );
   }
 
   getSalesItemSubTotalError(index: number) {
-    const salesItemDetailsForm = this.editSalesForm.get('salesItemDetails') as FormArray;
-    const subTotalControl = salesItemDetailsForm.at(index).get('salesItemSubTotal');
-    return subTotalControl && subTotalControl.hasError('min') && subTotalControl.touched;
+    const salesItemDetailsForm = this.editSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+    const subTotalControl = salesItemDetailsForm
+      .at(index)
+      .get("salesItemSubTotal");
+    return (
+      subTotalControl &&
+      subTotalControl.hasError("min") &&
+      subTotalControl.touched
+    );
   }
-
 
   ngOnInit(): void {
     let totalTax = 0;
@@ -137,29 +213,29 @@ export class EditSalsComponent {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
       this.customerList = [];
-      this.originalCustomerData.forEach(element => {
+      this.originalCustomerData.forEach((element) => {
         this.customerList.push({
           name: element.name,
           // _id: element
           _id: {
             _id: element._id,
-            name: element.name
-          }
-        })
+            name: element.name,
+          },
+        });
       });
     });
 
     this.unitService.getAllUnitList().subscribe((resp: any) => {
       this.unitListData = resp.data;
-    })
+    });
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
       this.orderTaxList = [];
-      this.taxesListData.forEach(element => {
+      this.taxesListData.forEach((element) => {
         this.orderTaxList.push({
-          orderTaxName: element.name + ' (' + element.taxRate + '%' + ')',
-          orderNamevalue: element
+          orderTaxName: element.name + " (" + element.taxRate + "%" + ")",
+          orderNamevalue: element,
         });
       });
     });
@@ -173,20 +249,19 @@ export class EditSalsComponent {
     });
 
     this.Service.GetSalesDataById(this.salesId).subscribe((resp: any) => {
-      resp.data?.salesItemDetails?.forEach(lang => {
-        this.addsalesItemDetailsItem()
+      resp.data?.salesItemDetails?.forEach((lang) => {
+        this.addsalesItemDetailsItem();
       });
-      resp.data.appliedTax.forEach(element => {
+      resp.data.appliedTax.forEach((element) => {
         totalTax += Number(element.taxRate);
       });
-      this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
+      this.addTaxTotal = (resp.data.salesGrossTotal * totalTax) / 100;
       console.log("applied tax", resp.data.appliedTax);
 
-      this.patchForm(resp.data)
-    })
+      this.patchForm(resp.data);
+    });
 
-    this.calculateTotalAmount()
-
+    this.calculateTotalAmount();
   }
 
   calculateTotalAmount() {
@@ -194,28 +269,28 @@ export class EditSalsComponent {
     let salesGrossTotal = 0;
     let totalTax = 0;
 
-    const salesItems = this.editSalesForm.get('salesItemDetails') as FormArray;
+    const salesItems = this.editSalesForm.get("salesItemDetails") as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
-        const quantity = +item.get('salesItemQuantity').value || 0;
-        const unitPrice = +item.get('salesItemUnitPrice').value || 0;
-        const subtotal = quantity * unitPrice;
-        salesGrossTotal += subtotal;
-        item.get('salesItemSubTotal').setValue(subtotal.toFixed(2));
+      const quantity = +item.get("salesItemQuantity").value || 0;
+      const unitPrice = +item.get("salesItemUnitPrice").value || 0;
+      const subtotal = quantity * unitPrice;
+      salesGrossTotal += subtotal;
+      item.get("salesItemSubTotal").setValue(subtotal.toFixed(2));
     });
 
-    if (Array.isArray(this.editSalesForm.get('salesOrderTax').value)) {
-        this.editSalesForm.get('salesOrderTax').value.forEach(element => {
-            totalTax += Number(element.taxRate);
-        });
+    if (Array.isArray(this.editSalesForm.get("salesOrderTax").value)) {
+      this.editSalesForm.get("salesOrderTax").value.forEach((element) => {
+        totalTax += Number(element.taxRate);
+      });
     } else {
-        totalTax += Number(this.editSalesForm.get('salesOrderTax').value);
+      totalTax += Number(this.editSalesForm.get("salesOrderTax").value);
     }
-    this.addTaxTotal = salesGrossTotal * totalTax / 100;
+    this.addTaxTotal = (salesGrossTotal * totalTax) / 100;
 
-    let shipping = +this.editSalesForm.get('salesShipping').value;
-    let Discount = +this.editSalesForm.get('salesDiscount').value;
-    let otherCharges = +this.editSalesForm.get('otherCharges').value;
+    let shipping = +this.editSalesForm.get("salesShipping").value;
+    let Discount = +this.editSalesForm.get("salesDiscount").value;
+    let otherCharges = +this.editSalesForm.get("otherCharges").value;
 
     totalAmount += salesGrossTotal;
     totalAmount += this.addTaxTotal;
@@ -224,16 +299,16 @@ export class EditSalsComponent {
     totalAmount += otherCharges;
 
     this.editSalesForm.patchValue({
-        salesGrossTotal: salesGrossTotal.toFixed(2),
-        salesDiscount: Discount.toFixed(2),
-        salesShipping: shipping.toFixed(2),
-        otherCharges: otherCharges.toFixed(2),
-        salesTotalAmount: totalAmount.toFixed(2)
+      salesGrossTotal: salesGrossTotal.toFixed(2),
+      salesDiscount: Discount.toFixed(2),
+      salesShipping: shipping.toFixed(2),
+      otherCharges: otherCharges.toFixed(2),
+      salesTotalAmount: totalAmount.toFixed(2),
     });
-}
+  }
 
   patchForm(data) {
-    data.appliedTax.forEach(element => {
+    data.appliedTax.forEach((element) => {
       delete element.tenantId;
     });
     this.editSalesForm.patchValue({
@@ -249,18 +324,16 @@ export class EditSalsComponent {
       salesNotes: data.salesNotes,
       salesTotalAmount: data.salesTotalAmount,
       otherCharges: data.otherCharges,
-
     });
 
     this.salesItemDetails.patchValue(data.salesItemDetails);
   }
 
-
   editSalesFormSubmit() {
     const formData = this.editSalesForm.value;
 
-    let totalTax = 0
-    formData.salesOrderTax.forEach(element => {
+    let totalTax = 0;
+    formData.salesOrderTax.forEach((element) => {
       totalTax = totalTax + Number(element.taxRate);
     });
 
@@ -280,12 +353,12 @@ export class EditSalsComponent {
       salesTotalAmount: formData.salesTotalAmount,
       otherCharges: formData.otherCharges,
       id: "",
-    }
+    };
 
     if (this.editSalesForm.valid) {
       console.log("valid form");
       console.log(payload);
-      payload.id = this.salesId
+      payload.id = this.salesId;
       this.Service.UpdateSalesData(payload).subscribe((resp: any) => {
         console.log(resp);
         if (resp) {
@@ -301,11 +374,8 @@ export class EditSalsComponent {
           }
         }
       });
-    }
-    else {
+    } else {
       console.log("invalid form");
     }
   }
-
-
 }

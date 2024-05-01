@@ -59,7 +59,7 @@ export class WarehouseEditComponent {
   // };
 
   
-nameRegex = /^[a-zA-Z\d\s]{3,50}$/;// alphanumeric regex
+nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
  emailRegex = /^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
 
