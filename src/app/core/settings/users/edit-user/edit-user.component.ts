@@ -64,7 +64,7 @@ export class EditUserComponent implements OnInit {
 
 nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-  emailRegex = /^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
+  emailRegex = /^[^\s]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
 
   phoneRegex = /^[0-9]{10}$/;
   addressRegex = /^(?:.{1,500})$/;

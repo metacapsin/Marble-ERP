@@ -61,7 +61,7 @@ export class WarehouseEditComponent {
   
 nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
- emailRegex = /^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
+ emailRegex = /^[^\s]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
 
   billingAddressRegex = /^(?:.{1,500})$/;
 
