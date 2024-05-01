@@ -25,4 +25,8 @@ export class SalesService {
   DeleteSalesData(id: any){
     return this.http.delete(environment.apiUrl + `/Sales/deleteSales/${id}`);
   }
+
+  getSalesPaymentList(id: any){
+    return this.http.get(environment.apiUrl + `/Sales/getSalesPaymentList/${id}`);
+  }
 }
