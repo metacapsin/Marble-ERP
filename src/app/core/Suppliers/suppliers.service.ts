@@ -10,7 +10,7 @@ export class SuppliersdataService {
   constructor(private http: HttpClient) { }
   // user APIS
   GetSupplierData() {
-    return this.http.get(environment.apiUrl + '/Suppliers/getAllSuppliers');
+    return this.http.get(environment.apiUrl + '/Supplier/getAllSupplier');
   }
   AddSupplierdata(data: any) {
     return this.http.post(environment.apiUrl + '/Supplier/createSupplier', data);
@@ -18,7 +18,6 @@ export class SuppliersdataService {
   GetSupplierDataById(id: any) {
     return this.http.get(environment.apiUrl + `/Supplier/getSupplierById/${id}`);
   }
-
   UpDataSupplierApi(data: any) {
     return this.http.put(environment.apiUrl + `/Supplier/updateSupplier`, data);
   }

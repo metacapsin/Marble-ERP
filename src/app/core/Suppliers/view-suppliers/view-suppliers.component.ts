@@ -3,7 +3,6 @@ import { Component } from "@angular/core";
 import { ActivatedRoute, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { SuppliersdataService } from "../suppliers.service";
-import { CustomersdataService } from "../../Customers/customers.service";
 
 @Component({
   selector: "app-view-suppliers",
@@ -15,7 +14,7 @@ import { CustomersdataService } from "../../Customers/customers.service";
 export class ViewSuppliersComponent {
   routes = routes;
   id: any;
-  customerData: any[] = [];
+  customerData:any;
   constructor(
     private Service: SuppliersdataService,
     private activeRoute: ActivatedRoute
@@ -28,8 +27,8 @@ export class ViewSuppliersComponent {
   }
   getSupplier() {
     this.Service.GetSupplierDataById(this.id).subscribe((data: any) => {
-      console.log(data);
       this.customerData = [data]; 
+      console.log(this.customerData);
     });
   }
 }

@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="page-wrapper">
     <div class="content">
       <div class="page-header">
@@ -44,9 +45,12 @@
                     <div class="col-12 col-md-4 col-xl-4">
                       <div class="form-group local-forms">
                         <label for="wareHouse">Warehouse<span class="login-danger">*</span></label>
-                        <p-dropdown formControlName="wareHouse" [filter]="true" filterBy="name" [showClear]="true"
-                          [style]="{'width':'100%'}" [options]="wareHouseArray" optionLabel="name"
-                          placeholder="--Select Warehouse--"></p-dropdown>
+                        <!-- <p-dropdown formControlName="wareHouse" [filter]="true" filterBy="name" [showClear]="true"
+                          [style]="{'width':'100%'}" [options]="wareHouseArray" optionLabel="name" optionValue="name"
+                          placeholder="--Select Warehouse--"></p-dropdown> -->
+                          <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Warehouse--"
+                        [options]="wareHousedata" formControlName="wareHouse" optionLabel="name" optionValue="name"
+                        display="chip" [showClear]="true"></p-multiSelect>
                         <div *ngIf="
                                                         editSupplierGroup.get('wareHouse')?.hasError(
                                                           'required'

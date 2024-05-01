@@ -1,6 +1,7 @@
+[2:36 PM] Adnan Hussain
 <div class="page-wrapper">
     <div class="content ">
-
+ 
         <!-- Page Header -->
         <div class="page-header">
             <div class="row">
@@ -21,7 +22,7 @@
                 </div>
             </div>
         </div>
-
+ 
         <div class="page-header invoices-page-header">
             <div class="row align-items-center">
                 <div class="col">
@@ -36,7 +37,7 @@
             </div>
         </div>
         <!-- /Page Header -->
-
+ 
         <div class="row">
             <div class="col-md-12">
                 <div class="card invoices-add-card">
@@ -74,7 +75,7 @@
                                                 *ngIf="addSalesForm.get('customer')?.hasError('required')  && addSalesForm.get('customer')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
-
+ 
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -90,8 +91,8 @@
                                             </div>
                                         </div>
                                     </div>
-
-
+ 
+ 
                                     <!-- <div class=" col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="unit">Unit</label>
@@ -100,15 +101,11 @@
                                                 optionValue="shortName" display="chip" [filter]="true" filterBy="name"
                                                 [showClear]="true">
                                             </p-dropdown>
-                                            <div
-                                            *ngIf="addSalesForm.get('unit')?.hasError('required') && addSalesForm.get('unit')?.touched">
-                                            <span class="login-danger">Field is required.</span>
-                                          </div>
 
                                         </div>
                                     </div> -->
-
-
+ 
+ 
                                 </div>
                             </div>
                             <div class="invoice-add-table">
@@ -152,7 +149,7 @@
                                                         <span class="login-danger">Field is required.</span>
                                                     </div>
                                                 </td>
-
+ 
                                                 <td>
                                                     <p-dropdown [options]="unitListData" formControlName="unit"
                                                         placeholder="Unit" appendTo="body" optionLabel="unitName"
@@ -183,7 +180,6 @@
                                                         <span class="login-danger">Input must be more than 0.</span>
                                                     </div>
                                                 </td>
-                                                
 
                                                 <td>
                                                     <input type="number" formControlName="salesItemUnitPrice"
@@ -195,20 +191,17 @@
                                                             <span class="login-danger">Input must be more than 0.</span>
                                                         </div>
                                                 </td>
-
+ 
                                                 <td>
                                                     <input type="number" formControlName="salesItemSubTotal"
                                                         (change)="calculateTotalAmount()" class="form-control"
                                                         [disabled]="isSalesItemSubTotalDisabled">
 
-                                                        <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').touched">
-                                                            <span class="login-danger">Field is required.</span>
-                                                        </div>
-                                                        <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').hasError('min') && addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').touched">
-                                                            <span class="login-danger">Input must be more than 0.</span>
-                                                        </div>
+                                                    <div *ngIf="getSalesItemSubTotalError(i)" class="login-danger">
+                                                        Sub Total must be more than 0
+                                                    </div>
                                                 </td>
-
+ 
                                                 <td class="add-remove text-end">
                                                     <p-button [text]=" true" icon="fa fa-plus"
                                                         (click)="addsalesItemDetailsItem()"></p-button>
@@ -225,7 +218,7 @@
                                 <div class="col-lg-7 col-md-6">
                                     <div class="invoice-fields">
                                         <h4 class="field-title">More Fields</h4>
-
+ 
                                     </div>
                                     <div class="invoice-faq">
                                         <div class="panel-group" id="accordion" role="tablist"
@@ -379,7 +372,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+ 
                                             <div class="invoice-total-inner">
                                                 <p>Gross Total<span>₹ {{ addSalesForm.get('salesGrossTotal').value |
                                                         number:
@@ -393,7 +386,7 @@
                                                         number:
                                                         '1.2-2' }}</span></p>
                                             </div>
-
+ 
                                             <div class="invoice-total-footer">
                                                 <h4>Total Amount <span>₹ {{ addSalesForm.get('salesTotalAmount').value |
                                                         number: '1.2-2' }}</span></h4>
@@ -409,12 +402,12 @@
                                 </div>
                             </div>
                         </form>
-
+ 
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+ 
 <p-toast></p-toast>

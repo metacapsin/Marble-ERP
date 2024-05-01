@@ -75,12 +75,18 @@ export class EditCustomersComponent {
     });
   }
   patchForm() {
+    let _status:any
+    if(this.customerData.status == true){
+      _status = "Enabled"
+    }else{
+      _status = "Disabled"
+    }
     this.editCustomerGroup.patchValue({
       wareHouse: this.customerData.warehouse,
       name: this.customerData.name,
       phoneNumber: this.customerData.phoneNo,
       email: this.customerData.email,
-      status: this.customerData.status,
+      status: _status,
       taxNumber: this.customerData.taxNo,
       openingBalance: this.customerData.openingBalance,
       creditPeriod: this.customerData.creaditPeriod,
@@ -106,7 +112,6 @@ export class EditCustomersComponent {
       openingBalance: this.editCustomerGroup.value.openingBalance,
     };
     console.log(payload);
-
     if (this.editCustomerGroup.value) {
       this.Service.UpDataCustomerApi(payload).subscribe(
         (resp: any) => {

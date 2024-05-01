@@ -8,13 +8,18 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DataService } from 'src/app/shared/data/data.service';
 import { pageSelection, apiResultFormat, allInvoice } from 'src/app/shared/models/models';
 import { routes } from "src/app/shared/routes/routes";
+import { PurchaseService } from './purchase.service';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-purchase',
   standalone: true,
-  imports: [CommonModule,SharedModule,  DropdownModule,CalendarModule ],
+  imports: [CommonModule,SharedModule,  DropdownModule,CalendarModule,ToastModule],
   templateUrl: './purchase.component.html',
-  styleUrl: './purchase.component.scss'
+  styleUrl: './purchase.component.scss',
+  providers: [MessageService],
 })
 export class PurchaseComponent {
   public routes = routes;
@@ -36,54 +41,13 @@ export class PurchaseComponent {
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
+  originalData:any
+  purchaseData:any
+  purchase:any
+  showDialoge:any
+  modalData:any
 
-  purchaseData = [
-    {
-      purchaseInvoiceNumber:1112,
-      purchaseDate:"16 April 2024",
-      purchaseCustomer:"Adnan",
-      purchaseStatus:"Delivered",
-      purchasePaidAmount:"$2250",
-      purchaseTotalAmount:"$3000",
-      purchasePaymentStatus:"Paid",
-    },
-    {
-      purchaseInvoiceNumber:12,
-      purchaseDate:"16 march 2024",
-      purchaseCustomer:"harfool",
-      purchaseStatus:"panding",
-      purchasePaidAmount:"$22",
-      purchaseTotalAmount:"$3300",
-      purchasePaymentStatus:"unpaid",
-    },
-    {
-      purchaseInvoiceNumber:1112,
-      purchaseDate:"16 April 2024",
-      purchaseCustomer:"Adnan",
-      purchaseStatus:"Delivered",
-      purchasePaidAmount:"$2250",
-      purchaseTotalAmount:"$3000",
-      purchasePaymentStatus:"Paid",
-    },
-    {
-      purchaseInvoiceNumber:1112,
-      purchaseDate:"16 April 2024",
-      purchaseCustomer:"Adnan",
-      purchaseStatus:"Delivered",
-      purchasePaidAmount:"$2250",
-      purchaseTotalAmount:"$3000",
-      purchasePaymentStatus:"Paid",
-    },
-    {
-      purchaseInvoiceNumber:1112,
-      purchaseDate:"16 April 2024",
-      purchaseCustomer:"Adnan",
-      purchaseStatus:"Delivered",
-      purchasePaidAmount:"$2250",
-      purchaseTotalAmount:"$3000",
-      purchasePaymentStatus:"Paid",
-    }
-  ];
+
 
   CustomerList=[
     {customerName:"Adnan"},
@@ -91,12 +55,65 @@ export class PurchaseComponent {
     {customerName:"Kavya"},
   ];
 
-  constructor(public data : DataService){
+  constructor(public data : DataService,private Service:PurchaseService,private router: Router,private messageService: MessageService){
 
   }
   ngOnInit() {
     this.getTableData();
+    this.getPurchase();
   }
+  getPurchase() {
+    this.Service.GetPurchaseData().subscribe((data:any) => {
+      this.purchaseData = data.data;
+      this.originalData = data
+      console.log(this.purchaseData);
+    });
+  }
+
+  purchaseUpdate(id:number){
+    this.router.navigate(['/purchase/edit-purchase/'+ id]);
+  }
+
+
+
+
+
+
+
+  purchaseDelete(id:number){
+      console.log("object");
+    this.purchase = id;
+
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Customer"
+    }
+    this.showDialoge = true;
+  }
+
+  showNewDialog() {
+    this.showDialoge = true;
+  }
+
+  callBackModal() {
+    this.Service.DeletePurchaseData(this.purchase).subscribe((resp:any) => {
+      let message = "Purchase has been Deleted"
+      this.messageService.add({ severity: 'success', detail:message });
+      this.getPurchase();
+      this.showDialoge = false;
+    })
+  }
+
+  close() {
+    this.showDialoge = false;
+  }
+
+
+
+
+
+
+
   private getTableData(): void {
     this.allInvoice = [];
     this.serialNumberArray = [];

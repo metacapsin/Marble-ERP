@@ -10,9 +10,9 @@ const routes: Routes = [
   component: SuppliersComponent,},
   {path: 'add-suppliers',
   component: AddSuppliersComponent,},
-  {path: 'edit-suppliers',
+  {path: 'edit-suppliers/:id',
   component: EditSuppliersComponent,},
-  {path: 'view-suppliers',
+  {path: 'view-suppliers/:id',
   component: ViewSuppliersComponent,},
  ];
 

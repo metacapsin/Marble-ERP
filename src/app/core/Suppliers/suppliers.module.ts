@@ -5,6 +5,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { DialogModule } from 'primeng/dialog';
 import { SuppliersComponent } from './suppliers.component';
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -18,7 +20,9 @@ import { SuppliersComponent } from './suppliers.component';
     SharedModule,
     PanelMenuModule,
     DialogModule,
-    SharedModule
+    SharedModule,
+    ButtonModule,
+    ToastModule
   ]
 })
 export class SuppliersModule { }
