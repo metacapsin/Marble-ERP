@@ -160,7 +160,7 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
       resp.data?.salesItemDetails?.forEach((lang) => {
         this.addsalesItemDetailsItem();
       });
-      resp.data.appliedTax.forEach((element) => {
+      resp.data?.appliedTax?.forEach((element) => {
         totalTax += Number(element.taxRate);
       });
       this.addTaxTotal = (resp.data.salesGrossTotal * totalTax) / 100;
@@ -216,7 +216,7 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   }
 
   patchForm(data) {
-    data.appliedTax.forEach((element) => {
+    data?.appliedTax?.forEach((element) => {
       delete element.tenantId;
     });
     this.editSalesForm.patchValue({
@@ -241,11 +241,9 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
     const formData = this.editSalesForm.value;
 
     let totalTax = 0;
-    if(formData.salesOrderTax){
-      formData.salesOrderTax.forEach((element) => {
+      formData.salesOrderTax?.forEach((element) => {
         totalTax = totalTax + element.taxRate;
       });
-    }
 
     const payload = {
       customer: formData.customer,

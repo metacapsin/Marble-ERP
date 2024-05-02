@@ -162,55 +162,7 @@ export class AddsalesComponent {
       this.subCategoryList = resp.data;
     });
   }
-
-  // calculateTotalAmount() {
-  //   console.log("Enter in caltotal");
-  //   let totalTax = 0
-  //   let totalAmount = 0;
-  //   let salesGrossTotal = 0
-
-  //   const salesItems = this.addSalesForm.get('salesItemDetails') as FormArray;
-
-  //   salesItems.controls.forEach((item: FormGroup) => {
-  //     const quantity = +item.get('salesItemQuantity').value || 0;
-  //     const unitPrice = +item.get('salesItemUnitPrice').value || 0;
-  //     const subtotal = quantity * unitPrice;
-  //     salesGrossTotal += subtotal;
-  //     // totalAmount += subtotal;
-  //     item.get('salesItemSubTotal').setValue(subtotal.toFixed(2));
-  //   });
-
-  //   if (Array.isArray(this.addSalesForm.get('salesOrderTax').value)) {
-  //     // debugger
-  //     console.log("in loop");
-
-  //     this.addSalesForm.get('salesOrderTax').value.forEach(element => {
-  //       totalTax += Number(element.taxRate);
-  //       this.addTaxTotal = salesGrossTotal * totalTax / 100;
-  //     });
-  //   } else {
-  //     totalTax += Number(this.addSalesForm.get('salesOrderTax').value);
-  //     this.addTaxTotal = salesGrossTotal * totalTax / 100;
-  //   }
-  //   let shipping = +this.addSalesForm.get('salesShipping').value;
-  //   let Discount = +this.addSalesForm.get('salesDiscount').value;
-  //   let otherCharges = +this.addSalesForm.get('otherCharges').value;
-
-  //   // this.addTaxTotal = totalAmount * totalTax / 100;
-  //   totalAmount += salesGrossTotal;
-  //   totalAmount += this.addTaxTotal;
-  //   totalAmount -= Discount;
-  //   totalAmount += shipping;
-  //   totalAmount += otherCharges;
-
-  //   this.addSalesForm.patchValue({
-  //     salesGrossTotal: salesGrossTotal.toFixed(2),
-  //     salesDiscount: Discount.toFixed(2),
-  //     salesShipping: shipping.toFixed(2),
-  //     otherCharges: otherCharges.toFixed(2),
-  //     salesTotalAmount: totalAmount.toFixed(2)
-  //   });
-  // };
+  
   calculateTotalAmount() {
     let totalAmount = 0;
     let salesGrossTotal = 0;
@@ -262,11 +214,9 @@ export class AddsalesComponent {
     // const selectedCustomerName = this.addSalesForm.get('customer').value?.name;
 
     let totalTax = 0;
-    if(formData.salesOrderTax){
-      formData.salesOrderTax.forEach((element) => {
+      formData.salesOrderTax?.forEach((element) => {
         totalTax = totalTax + element.taxRate;
       });
-    }
 
     const payload = {
       // customer: {
