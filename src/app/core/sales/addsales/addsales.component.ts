@@ -113,10 +113,13 @@ export class AddsalesComponent {
       salesItemCategory: ["", [Validators.required]],
       salesItemSubCategory: ["", [Validators.required]],
       unit: ["", [Validators.required]],
-      salesItemName: ["", [Validators.required]],
+      salesItemName: [
+        "",
+        [Validators.required, Validators.pattern(this.nameRegex)],
+      ],
       salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
-      salesItemUnitPrice: ["", [Validators.min(0)]],
-      salesItemSubTotal: [""],
+      salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+      salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
     });
     this.salesItemDetails.push(item);
   }
