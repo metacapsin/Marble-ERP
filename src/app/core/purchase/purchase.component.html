@@ -215,7 +215,7 @@
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>
 
-  <p-dialog header="Sales Details" [(visible)]="visible" *ngFor="let purchase of PurchaseListData" [modal]="true"
+  <p-dialog header="Purchase Details" [(visible)]="visible" *ngFor="let purchase of PurchaseListData" [modal]="true"
   [style]="{width: '80vw'}">
   <div class="modal-content">
     <div class="modal-body">
