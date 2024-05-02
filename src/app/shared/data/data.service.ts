@@ -1046,7 +1046,7 @@ export class DataService {
         },
         {
           menuValue: "Settings",
-          route: routes.warehouse,
+          route: routes.practiceInformation,
           hasSubRoute: false,
           showSubRoute: false,
           icon: "fa-gear",

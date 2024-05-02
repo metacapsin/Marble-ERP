@@ -241,9 +241,13 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
     const formData = this.editSalesForm.value;
 
     let totalTax = 0;
+    if(formData.salesOrderTax){
       formData.salesOrderTax?.forEach((element) => {
-        totalTax = totalTax + element.taxRate;
-      });
+          totalTax = totalTax + element.taxRate;
+        });
+
+    }  
+
 
     const payload = {
       customer: formData.customer,

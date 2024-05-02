@@ -135,9 +135,9 @@ export class EditPurchaseComponent implements OnInit {
           purchaseItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
           purchaseItemSubTotal: ["", [Validators.required, Validators.min(0)]],
           
-          purchaseItemDiscount: ["", [Validators.required, Validators.min(0)]],
-          purchaseItemTax: [""],
-          purchaseItemProducts: ["", [Validators.required, Validators.min(0)]],
+          // purchaseItemDiscount: ["", [Validators.required, Validators.min(0)]],
+          // purchaseItemTax: [""],
+          // purchaseItemProducts: ["", [Validators.required, Validators.min(0)]],
         }),
       ]),
     });
@@ -164,9 +164,9 @@ export class EditPurchaseComponent implements OnInit {
       purchaseItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
       purchaseItemSubTotal: ["", [Validators.required, Validators.min(0)]],
       
-      purchaseItemDiscount: ["", [Validators.required, Validators.min(0)]],
-      purchaseItemTax: [""],
-      purchaseItemProducts: ["", [Validators.required, Validators.min(0)]],
+      // purchaseItemDiscount: ["", [Validators.required, Validators.min(0)]],
+      // purchaseItemTax: [""],
+      // purchaseItemProducts: ["", [Validators.required, Validators.min(0)]],
     });
     this.purchaseItemDetails.push(item);
   }
@@ -287,6 +287,8 @@ export class EditPurchaseComponent implements OnInit {
   
 
   editPurchaseFormSubmit() {
+console.log(this.editPurchaseForm);
+console.log(this.editPurchaseForm.value);
 
     let totalTax = 0
     this.editPurchaseForm.value.purchaseOrderTax.forEach(element => {
