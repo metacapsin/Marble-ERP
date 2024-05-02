@@ -330,7 +330,7 @@
                             <label for="purchaseOrderTax">Order Tax</label>
                             <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax" [options]="orderTaxList"
                               formControlName="purchaseOrderTax" optionLabel="orderTaxName" optionValue="orderNamevalue"
-                              display="chip" [showClear]="true" (change)="calculateTotalAmount()"></p-multiSelect>
+                              display="chip" [showClear]="true" (onChange)="calculateTotalAmount()"></p-multiSelect>
                           </div>
                         </div>
                         <div class="col-12 ml-3">
