@@ -47,6 +47,10 @@ export class AddSalesReturnComponent {
   customerById = {};
   public itemDetails: number[] = [0];
   public selectedValue!: string;
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  notesRegex = /^(?:.{2,100})$/;
+  tandCRegex = /^(?:.{2,200})$/;
+
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -59,30 +63,36 @@ export class AddSalesReturnComponent {
     private fb: FormBuilder,
   ) {
     this.addReturnSalesForm = this.fb.group({
-      customer: [''],
-      returnDate: [''],
-      salesDiscount: ['', [Validators.min(0)]],
-      salesInvoiceNumber: [''],
+      customer: ["", [Validators.required]],
+      returnDate: ["", [Validators.required]],
+      salesDiscount: ["", [Validators.min(0)]],
+      salesInvoiceNumber: [
+        "",
+        [Validators.required, Validators.pattern(this.nameRegex)],
+      ],
       salesItemDetails: this.fb.array([
         this.fb.group({
-          salesItemCategory: [''],
-          salesItemSubCategory: [''],
-          unit: [''],
-          salesItemName: [''],
-          salesItemQuantity: ['', [Validators.min(0)]],
-          salesItemUnitPrice: ['', [Validators.min(0)]],
-          salesItemSubTotal: ['', [Validators.min(0)]],
-        })
+          salesItemCategory: ["", [Validators.required]],
+          salesItemSubCategory: ["", [Validators.required]],
+          unit: ["", [Validators.required]],
+          salesItemName: [
+            "",
+            [Validators.required, Validators.pattern(this.nameRegex)],
+          ],
+          salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
+          salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+          salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
+        }),
       ]),
-      salesNotes: [''],
+      salesNotes: ["", [Validators.pattern(this.notesRegex)]],
       salesGrossTotal: [''],
-      returnOrderStatus: [''],
+      returnOrderStatus:  ["", [Validators.required]],
       salesOrderTax: [''],
       appliedTax: [''],
-      salesShipping: ['', [Validators.min(0)]],
-      salesTermsAndCondition: [''],
-      salesTotalAmount: [''],
-      otherCharges: ['', [Validators.min(0)]]
+      salesShipping: ["", [Validators.min(0)]],
+      salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
+      salesTotalAmount: [""],
+      otherCharges: ["", [Validators.min(0)]],
     });
   }
 
@@ -91,38 +101,23 @@ export class AddSalesReturnComponent {
   }
   deletesalesReturnItemDetails(salesReturnItemDetailsIndex: number) {
     this.salesItemDetails.removeAt(salesReturnItemDetailsIndex);
+    this.calculateTotalAmount();
   }
   addsalesReturnItemDetailsItem() {
     const item = this.fb.group({
-      salesItemCategory: [''],
-      salesItemSubCategory: [''],
-      unit: [''],
-      salesItemName: [''],
-      salesItemQuantity: ['', [Validators.min(0)]],
-      salesItemUnitPrice: ['', [Validators.min(0)]],
-      salesItemSubTotal: ['', [Validators.min(0)]],
+      salesItemCategory: ["", [Validators.required]],
+      salesItemSubCategory: ["", [Validators.required]],
+      unit: ["", [Validators.required]],
+      salesItemName: [
+        "",
+        [Validators.required, Validators.pattern(this.nameRegex)],
+      ],
+      salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
+      salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+      salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
     });
     this.salesItemDetails.push(item);
   }
-
-  getSalesItemQuantityError(index: number) {
-    const salesItemDetailsForm = this.addReturnSalesForm.get('salesItemDetails') as FormArray;
-    const quantityControl = salesItemDetailsForm.at(index).get('salesItemQuantity');
-    return quantityControl && quantityControl.hasError('min') && quantityControl.touched;
-  }
-
-  getSalesItemUnitPriceError(index: number) {
-    const salesItemDetailsForm = this.addReturnSalesForm.get('salesItemDetails') as FormArray;
-    const unitPriceControl = salesItemDetailsForm.at(index).get('salesItemUnitPrice');
-    return unitPriceControl && unitPriceControl.hasError('min') && unitPriceControl.touched;
-  }
-
-  getSalesItemSubTotalError(index: number) {
-    const salesItemDetailsForm = this.addReturnSalesForm.get('salesItemDetails') as FormArray;
-    const subTotalControl = salesItemDetailsForm.at(index).get('salesItemSubTotal');
-    return subTotalControl && subTotalControl.hasError('min') && subTotalControl.touched;
-  }
-
 
   ngOnInit(): void {
 
@@ -132,7 +127,6 @@ export class AddSalesReturnComponent {
       this.originalCustomerData.forEach(element => {
         this.customerList.push({
           name: element.name,
-          // _id: element
           _id: {
             _id: element._id,
             name: element.name
@@ -213,9 +207,11 @@ export class AddSalesReturnComponent {
     const formData = this.addReturnSalesForm.value;
 
     let totalTax = 0
-    formData.salesOrderTax.forEach(element => {
-      totalTax = totalTax + element.taxRate;
-    });
+    if(formData.salesOrderTax){
+      formData.salesOrderTax.forEach((element) => {
+          totalTax = totalTax + element.taxRate;
+        });
+    }  
     const payload = {
       customer: formData.customer,
       returnDate: formData.returnDate,
@@ -235,8 +231,6 @@ export class AddSalesReturnComponent {
     }
     if (this.addReturnSalesForm.valid) {
       console.log("valid form");
-      console.log("data by payload", payload);
-
       this.Service.createSalesReturn(payload).subscribe((resp: any) => {
         console.log(resp);
         if (resp) {
@@ -255,7 +249,6 @@ export class AddSalesReturnComponent {
     }
     else {
       console.log("invalid form");
-
     }
   }
 }

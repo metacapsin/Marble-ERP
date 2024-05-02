@@ -1,4 +1,3 @@
-<!-- <router-outlet></router-outlet> -->
 <p-toast></p-toast>
 <div class="page-wrapper">
     <div class="content">
@@ -49,7 +48,7 @@
                                                 [options]="customerList" optionLabel="name" optionValue="_id"
                                                 display="chip" [filter]="true" filterBy="name"
                                                 formControlName="customer" [showClear]="true"
-                                                (onChange)="onCustomerSelect($event.value)"></p-dropdown>
+                                                (onChange)="onCustomerSelect($event.value._id)"></p-dropdown>
                                             <div
                                                 *ngIf="addPaymentInForm.get('customer')?.hasError('required')  && addPaymentInForm.get('customer')?.touched">
                                                 <span class="login-danger">Field is required. </span>
@@ -84,13 +83,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-12 col-md-6">
-                                        <div class="form-group local-forms">
-                                            <label for="amount">Amount <span class="login-danger">*</span></label>
-                                            <input class="form-control" type="text" placeholder=""
-                                                formControlName="amount">
-                                        </div>
-                                    </div> -->
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
@@ -156,44 +148,6 @@
                                     </div>
                                 </div>
                             </form>
-
-                            <!-- <div class="card-body p-2">
-                            <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
-                            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                    </th>
-                                    <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
-                                        <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="customer">customer <p-sortIcon field="customer"></p-sortIcon>
-                                        <p-columnFilter type="text" field="customer" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
-                                        <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
-                                        <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th>Action</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-payment>
-                                <tr>
-                                    <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableCheckbox [value]="payment"></p-tableCheckbox>
-                                    </td>
-                                    <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
-                                    <td class="bold">{{payment.customer}}</td>
-                                    <td>{{payment.paymentMode}}</td>
-                                    <td>{{payment.amount}}</td>
-                                    
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                        </div> -->
 
                         </div>
                     </div>

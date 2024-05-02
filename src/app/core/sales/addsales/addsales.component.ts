@@ -107,6 +107,7 @@ export class AddsalesComponent {
   }
   deletesalesItemDetails(salesItemDetailsIndex: number) {
     this.salesItemDetails.removeAt(salesItemDetailsIndex);
+    this.calculateTotalAmount();
   }
   addsalesItemDetailsItem() {
     const item = this.fb.group({
@@ -214,7 +215,7 @@ export class AddsalesComponent {
     const formData = this.addSalesForm.value;
     let totalTax = 0;
     if(formData.salesOrderTax){
-      formData.salesOrderTax?.forEach((element) => {
+      formData.salesOrderTax.forEach((element) => {
           totalTax = totalTax + element.taxRate;
         });
 

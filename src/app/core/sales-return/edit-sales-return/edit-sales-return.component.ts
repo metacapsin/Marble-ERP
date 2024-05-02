@@ -38,6 +38,10 @@ export class EditSalesReturnComponent {
   taxesListData = [];
   public itemDetails: number[] = [0];
   public selectedValue!: string;
+  
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  notesRegex = /^(?:.{2,100})$/;
+  tandCRegex = /^(?:.{2,200})$/;
   orderStatusList = [
     { orderStatus: "Ordered" },
     { orderStatus: "Confirmed" },
@@ -58,20 +62,23 @@ export class EditSalesReturnComponent {
     private fb: FormBuilder,
   ) {
     this.editReturnSalesForm = this.fb.group({
-      customer: [''],
-      returnDate: [''],
-      salesDiscount: ['', [Validators.min(0)]],
-      salesInvoiceNumber: [''],
+      customer: ["", [Validators.required]],
+      returnDate: ["", [Validators.required]],
+      salesDiscount: ["", [Validators.min(0)]],
+      salesInvoiceNumber: [
+        "",
+        [Validators.required, Validators.pattern(this.nameRegex)],
+      ],
       salesItemDetails: this.fb.array([]),
-      salesNotes: [''],
-      returnOrderStatus: [''],
+      salesNotes: ["", [Validators.pattern(this.notesRegex)]],
       salesGrossTotal: [''],
+      returnOrderStatus:  ["", [Validators.required]],
       salesOrderTax: [''],
       appliedTax: [''],
-      salesShipping: ['', [Validators.min(0)]],
-      salesTermsAndCondition: [''],
-      salesTotalAmount: [''],
-      otherCharges: ['', [Validators.min(0)]]
+      salesShipping: ["", [Validators.min(0)]],
+      salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
+      salesTotalAmount: [""],
+      otherCharges: ["", [Validators.min(0)]],
     });
 
     this.salesReturnId = this.activeRoute.snapshot.params["id"];
@@ -82,39 +89,23 @@ export class EditSalesReturnComponent {
   }
   deletesalesReturnItemDetails(salesReturnItemDetailsIndex: number) {
     this.salesItemDetails.removeAt(salesReturnItemDetailsIndex);
+    this.calculateTotalAmount();
   }
   addsalesReturnItemDetailsItem() {
     const item = this.fb.group({
-      salesItemCategory: [''],
-          salesItemSubCategory: [''],
-          salesItemName: [''],
-          unit: [''],
-          salesItemQuantity: ['', [Validators.min(0)]],
-          salesItemUnitPrice: ['', [Validators.min(0)]],
-          salesItemSubTotal: ['', [Validators.min(0)]],
+      salesItemCategory: ["", [Validators.required]],
+      salesItemSubCategory: ["", [Validators.required]],
+      unit: ["", [Validators.required]],
+      salesItemName: [
+        "",
+        [Validators.required, Validators.pattern(this.nameRegex)],
+      ],
+      salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
+      salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+      salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
     });
     this.salesItemDetails.push(item);
   }
-
-  
-  getSalesItemQuantityError(index: number) {
-    const salesItemDetailsForm = this.editReturnSalesForm.get('salesItemDetails') as FormArray;
-    const quantityControl = salesItemDetailsForm.at(index).get('salesItemQuantity');
-    return quantityControl && quantityControl.hasError('min') && quantityControl.touched;
-  }
-
-  getSalesItemUnitPriceError(index: number) {
-    const salesItemDetailsForm = this.editReturnSalesForm.get('salesItemDetails') as FormArray;
-    const unitPriceControl = salesItemDetailsForm.at(index).get('salesItemUnitPrice');
-    return unitPriceControl && unitPriceControl.hasError('min') && unitPriceControl.touched;
-  }
-
-  getSalesItemSubTotalError(index: number) {
-    const salesItemDetailsForm = this.editReturnSalesForm.get('salesItemDetails') as FormArray;
-    const subTotalControl = salesItemDetailsForm.at(index).get('salesItemSubTotal');
-    return subTotalControl && subTotalControl.hasError('min') && subTotalControl.touched;
-  }
-
 
   ngOnInit(): void {
     let totalTax = 0;
@@ -161,7 +152,7 @@ export class EditSalesReturnComponent {
       resp.data?.salesItemDetails?.forEach(lang => {
         this.addsalesReturnItemDetailsItem()
       });
-      resp.data.appliedTax.forEach(element => {
+      resp.data?.appliedTax?.forEach(element => {
         totalTax += Number(element.taxRate);
       });
       this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
@@ -218,7 +209,7 @@ export class EditSalesReturnComponent {
 }
 
   patchForm(data) {
-    data.appliedTax.forEach(element => {
+    data?.appliedTax?.forEach(element => {
       delete element.tenantId;
     });
     this.editReturnSalesForm.patchValue({
@@ -243,10 +234,13 @@ export class EditSalesReturnComponent {
   editReturnSalesFormSubmit() {
     const formData = this.editReturnSalesForm.value;
 
+    
     let totalTax = 0
-    formData.salesOrderTax.forEach(element => {
-      totalTax = totalTax + element.taxRate;
-    });
+    if(formData.salesOrderTax){
+      formData.salesOrderTax.forEach((element) => {
+          totalTax = totalTax + element.taxRate;
+        });
+    }  
     const payload = {
       customer: formData.customer,
       returnDate: formData.returnDate,

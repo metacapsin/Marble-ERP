@@ -24,10 +24,10 @@ export class PaymentInAddComponent {
   public routes = routes
   addPaymentInForm! : FormGroup;
   customerList= [];
+  originalCustomerData= [];
+  
   selectedCustomer: any;
   salesDataById = [];
-  // sales: any;
-  amount:any = {}
   paymentModeList = [{
     paymentMode: 'Cash'
   },
@@ -56,7 +56,7 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   }
   addSalesControls() {
     const salesArray = this.addPaymentInForm.get('sales') as FormArray;
-    this.salesDataById.forEach(sale => {
+    this.salesDataById?.forEach(sale => {
       salesArray.push(this.fb.group({
         _id: [sale._id],
         amount: ["", [Validators.required,Validators.min(0)]]
@@ -67,18 +67,25 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
   ngOnInit(): void {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
-      this.customerList = resp;
+      this.originalCustomerData = resp;
+      this.customerList = [];
+      this.originalCustomerData.forEach((element) => {
+        this.customerList.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name,
+          },
+        });
+      });
     });
-  
   }
   onCustomerSelect(customerId: any){
    
     this.Service.getSalesByCustomerId(customerId).subscribe((resp:any) => {
       this.salesDataById = resp.data;
-      console.log("sales Data by id ",this.salesDataById);
+      // console.log("sales Data by id ",this.salesDataById);
       this.addSalesControls();
-      this.addPaymentInForm.get('customer').setValue(this.salesDataById[0].customer)
-      console.log("selcted ", this.salesDataById);
     });
     
   }
@@ -88,22 +95,13 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
     const formData = this.addPaymentInForm.value;
     console.log('Submitted data:', formData);
 
-    const selectedCustomerId = this.addPaymentInForm.get('customer').value?._id;
-    const selectedCustomerName = this.addPaymentInForm.get('customer').value?.name;
-
     const payload = {
-      customer: {
-        _id: selectedCustomerId,
-        name: selectedCustomerName
-      },
+      customer: formData.customer,
       sales: formData.sales,
       paymentDate: formData.paymentDate,
       paymentMode: formData.paymentMode,
       note: formData.note
     }
-
-    console.log(this.amount)
-
     
     if (this.addPaymentInForm.valid) {
       console.log("valid form");
