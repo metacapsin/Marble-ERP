@@ -219,85 +219,50 @@ export class EditPurchaseComponent implements OnInit {
     })
   }
 
-  // calculateTotalAmount() {
-  //   console.log("Enter in caltotal");
-  //   let totalAmount = 0;
-  //   let salesGrossTotal = 0;
-  //   let totalTax = 0;
-
-  //   const purchaseItems = this.editPurchaseForm.get(
-  //     "purchaseItemDetails"
-  //   ) as FormArray;
-
-  //   purchaseItems.controls.forEach((item: FormGroup) => {
-  //     const quantity = +item.get("purchaseItemQuantity").value || 0;
-  //     const unitPrice = +item.get("purchaseItemUnitPrice").value || 0;
-  //     const subtotal = quantity * unitPrice;
-
-  //     totalAmount += subtotal;
-  //     item.get("purchaseItemSubTotal").setValue(subtotal.toFixed(2));
-  //   });
-
-  //   if (Array.isArray(this.editPurchaseForm.get("purchaseOrderTax").value)) {
-  //     this.editPurchaseForm.get("purchaseOrderTax").value.forEach((element) => {
-  //       totalTax += Number(element.taxRate);
-  //     });
-  //   } else {
-  //     totalTax += Number(this.editPurchaseForm.get("purchaseOrderTax").value);
-  //   }
-  //   this.addTaxTotal = (totalAmount * totalTax) / 100;
-
-  //   let shipping = +this.editPurchaseForm.get("purchaseShipping").value;
-  //   let Discount = +this.editPurchaseForm.get("purchaseDiscount").value;
-  //   let otherCharges = +this.editPurchaseForm.get("otherCharges").value;
-
-  //   totalAmount += salesGrossTotal;
-  //   totalAmount += this.addTaxTotal;
-  //   totalAmount -= Discount;
-  //   totalAmount += shipping;
-  //   totalAmount += otherCharges;
-
-  //   this.editPurchaseForm.patchValue({
-  //     salesGrossTotal: salesGrossTotal.toFixed(2),
-  //     purchaseDiscount: Discount.toFixed(2),
-  //     purchaseShipping: shipping.toFixed(2),
-  //     purchaseTotalAmount: totalAmount.toFixed(2),
-  //     otherCharges: otherCharges.toFixed(2),
-  //   });
-  // }
 
   calculateTotalAmount() {
+    console.log("Enter in caltotal");
     let totalAmount = 0;
-    let salesGrossTotal = 0;
+    let purchaseGrossTotal = 0;
     let totalTax = 0;
-    const purchaseItems = this.editPurchaseForm.get("purchaseItemDetails") as FormArray;
+
+    const purchaseItems = this.editPurchaseForm.get(
+      "purchaseItemDetails"
+    ) as FormArray;
+
     purchaseItems.controls.forEach((item: FormGroup) => {
       const quantity = +item.get("purchaseItemQuantity").value || 0;
       const unitPrice = +item.get("purchaseItemUnitPrice").value || 0;
       const subtotal = quantity * unitPrice;
-      totalAmount += subtotal;
+      purchaseGrossTotal += subtotal;
+      console.log(purchaseGrossTotal,"purchaseGrossTotal");
+      
       item.get("purchaseItemSubTotal").setValue(subtotal.toFixed(2));
     });
-    const purchaseOrderTax = this.editPurchaseForm.get("purchaseOrderTax").value;
-    if (Array.isArray(purchaseOrderTax)) {
-      purchaseOrderTax.forEach((element: any) => {
+
+    if (Array.isArray(this.editPurchaseForm.get("purchaseOrderTax").value)) {
+      this.editPurchaseForm.get("purchaseOrderTax").value.forEach((element) => {
         totalTax += Number(element.taxRate);
       });
     } else {
-      totalTax += Number(purchaseOrderTax);
+      totalTax += Number(this.editPurchaseForm.get("purchaseOrderTax").value);
     }
-    const addTaxTotal = (totalAmount * totalTax) / 100;
-    const shipping = +this.editPurchaseForm.get("purchaseShipping").value || 0;
-    const discount = +this.editPurchaseForm.get("purchaseDiscount").value || 0;
-    const otherCharges = +this.editPurchaseForm.get("otherCharges").value || 0;
-    totalAmount += salesGrossTotal;
-    totalAmount += addTaxTotal;
-    totalAmount -= discount;
+
+    this.addTaxTotal = (purchaseGrossTotal * totalTax) / 100;
+
+    let shipping = +this.editPurchaseForm.get("purchaseShipping").value;
+    let Discount = +this.editPurchaseForm.get("purchaseDiscount").value;
+    let otherCharges = +this.editPurchaseForm.get("otherCharges").value;
+
+    totalAmount += purchaseGrossTotal;
+    totalAmount += this.addTaxTotal;
+    totalAmount -= Discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
+
     this.editPurchaseForm.patchValue({
-      salesGrossTotal: salesGrossTotal.toFixed(2),
-      purchaseDiscount: discount.toFixed(2),
+      purchaseGrossTotal: purchaseGrossTotal.toFixed(2),
+      purchaseDiscount: Discount.toFixed(2),
       purchaseShipping: shipping.toFixed(2),
       purchaseTotalAmount: totalAmount.toFixed(2),
       otherCharges: otherCharges.toFixed(2),
