@@ -262,9 +262,11 @@ export class AddsalesComponent {
     // const selectedCustomerName = this.addSalesForm.get('customer').value?.name;
 
     let totalTax = 0;
-    formData.salesOrderTax.forEach((element) => {
-      totalTax = totalTax + element.taxRate;
-    });
+    if(formData.salesOrderTax){
+      formData.salesOrderTax.forEach((element) => {
+        totalTax = totalTax + element.taxRate;
+      });
+    }
 
     const payload = {
       // customer: {
