@@ -1,25 +1,25 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-      <!-- Page Header -->
-      <div class="page-header">
-        <div class="row">
-          <div class="col-sm-12">
-            <ul class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a [routerLink]="routes.adminDashboard">Dashboard </a>
-              </li>
-              <li class="breadcrumb-item">
-                <i class="feather icon-chevron-right"></i>
-              </li>
-              <li class="breadcrumb-item active">Purchase List</li>
-            </ul>
-          </div>
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Purchase List</li>
+          </ul>
         </div>
       </div>
-      <!-- /Page Header -->
-  
-      <!-- <div class="row">
+    </div>
+    <!-- /Page Header -->
+
+    <!-- <div class="row">
         <div class="col-lg-12">
           <div class="py-3 d-flex justify-content-end">
             <a [routerLink]="routes.purchase" class="invoices-links active">
@@ -28,8 +28,8 @@
           </div>
         </div>
       </div> -->
-      <!-- Report Filter -->
-      <!-- <div class="card report-card">
+    <!-- Report Filter -->
+    <!-- <div class="card report-card">
         <div class="card-body pb-0">
           <div class="row">
             <div class="col-md-3"><div class="form-group local-forms">
@@ -65,36 +65,34 @@
           </div>
         </div>
       </div> -->
-      <div class="card invoices-tabs-card">
-        <div class="card-body card-body pt-0 pb-0">
-          <div class="invoices-main-tabs">
-            <div class="row align-items-center">
-              <div class="col-lg-8 col-md-8">
-                <div class="invoices-tabs">
-                  <ul>
-                    <li>
-                      <a [routerLink]="routes.purchase" class="active"
-                        >All Purchases</a
-                      >
-                    </li>
-                    <!-- <li><a [routerLink]="routes.paidPurchase">Paid</a></li> -->
-                    <!-- <li><a [routerLink]="routes.unpaidPurchase">Unpaid</a></li> -->
-                  </ul>
-                </div>
+    <div class="card invoices-tabs-card">
+      <div class="card-body card-body pt-0 pb-0">
+        <div class="invoices-main-tabs">
+          <div class="row align-items-center">
+            <div class="col-lg-8 col-md-8">
+              <div class="invoices-tabs">
+                <ul>
+                  <li>
+                    <a [routerLink]="routes.purchase" class="active">All Purchases</a>
+                  </li>
+                  <!-- <li><a [routerLink]="routes.paidPurchase">Paid</a></li> -->
+                  <!-- <li><a [routerLink]="routes.unpaidPurchase">Unpaid</a></li> -->
+                </ul>
               </div>
-              <div class="col-lg-4 col-md-4">
-                <div class="invoices-settings-btn">
-                  <a [routerLink]="routes.addPurchase" class="btn">
-                    <i class="feather icon-plus-circle feather-circle me-2"></i>
-                    New Purchase
-                  </a>
-                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+              <div class="invoices-settings-btn">
+                <a [routerLink]="routes.addPurchase" class="btn">
+                  <i class="feather icon-plus-circle feather-circle me-2"></i>
+                  New Purchase
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- <div class="row">
+    </div>
+    <!-- <div class="row">
         <div class="col-xl-4 col-sm-6 col-12">
           <div class="card inovices-card">
             <div class="card-body">
@@ -141,70 +139,275 @@
           </div>
         </div>
       </div> -->
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="card card-table">
-            <div class="card-body p-4">
-            <p-table [value]="purchaseData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                            [rows]="5">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                    </th>
-                                    <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
-                                        <p-columnFilter type="text" field="purchaseInvoiceNumber" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="purchaseDate">	Purchase Date <p-sortIcon field="purchaseDate"></p-sortIcon>
-                                        <p-columnFilter type="text" field="purchaseDate" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="supplier.name">Supplier<p-sortIcon field="supplier.name"></p-sortIcon>
-                                        <p-columnFilter type="text" field="supplier.name" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="status">Purchase Status	 <p-sortIcon field="status"></p-sortIcon></th>
-                                    <!-- <th pSortableColumn="purchasePaidAmount">Paid Amount <p-sortIcon field="purchasePaidAmount"></p-sortIcon> -->
-                                        <!-- <p-columnFilter type="text" field="purchasePaidAmount" display="menu"></p-columnFilter>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table">
+          <div class="card-body p-4">
+            <p-table [value]="purchaseData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th appShowHide [roles]="['admin', 'super-admin']">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th>
+                  <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon
+                      field="purchaseInvoiceNumber"></p-sortIcon>
+                    <p-columnFilter type="text" field="purchaseInvoiceNumber" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="purchaseDate"> Purchase Date <p-sortIcon field="purchaseDate"></p-sortIcon>
+                    <p-columnFilter type="text" field="purchaseDate" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="supplier.name">Supplier<p-sortIcon field="supplier.name"></p-sortIcon>
+                    <p-columnFilter type="text" field="supplier.name" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="status">Purchase Status <p-sortIcon field="status"></p-sortIcon></th>
+                  <!-- <th pSortableColumn="purchasePaidAmount">Paid Amount <p-sortIcon field="purchasePaidAmount"></p-sortIcon> -->
+                  <!-- <p-columnFilter type="text" field="purchasePaidAmount" display="menu"></p-columnFilter>
                                     </th> -->
-                                    <th pSortableColumn="purchaseTotalAmount">Total Amount <p-sortIcon field="purchaseTotalAmount"></p-sortIcon>
-                                        <p-columnFilter type="text" field="purchaseTotalAmount" display="menu"></p-columnFilter>
-                                    </th>
-                                    <!-- <th pSortableColumn="purchasePaymentStatus">Payment Status <p-sortIcon field="purchasePaymentStatus"></p-sortIcon></th> -->
+                  <th pSortableColumn="purchaseTotalAmount">Total Amount <p-sortIcon
+                      field="purchaseTotalAmount"></p-sortIcon>
+                    <p-columnFilter type="text" field="purchaseTotalAmount" display="menu"></p-columnFilter>
+                  </th>
+                  <!-- <th pSortableColumn="purchasePaymentStatus">Payment Status <p-sortIcon field="purchasePaymentStatus"></p-sortIcon></th> -->
 
-                                    <th>Action</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-purchase>
-                                <tr>
-                                    <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableCheckbox [value]="purchase"></p-tableCheckbox>
-                                    </td>
-                                    <td>{{purchase.purchaseInvoiceNumber}}</td>
-                                    <td>{{purchase.purchaseDate}}</td>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-purchase>
+                <tr>
+                  <td appShowHide [roles]="['admin', 'super-admin']">
+                    <p-tableCheckbox [value]="purchase"></p-tableCheckbox>
+                  </td>
+                  <td>{{purchase.purchaseInvoiceNumber}}</td>
+                  <td>{{purchase.purchaseDate}}</td>
 
-                                    <td>{{purchase.supplier.name}}</td>
-                                    <td *ngIf="!purchase.status"><p-tag severity="success" value="Delivered"></p-tag>
-                                    </td>
-                                    <td *ngIf="purchase.status"><p-tag severity="danger" value="Delivered"></p-tag>
-                                    </td>
-                                    <!-- <td>{{purchase.status}}</td> -->
-                                    <!-- <td>{{purchase.purchasePaidAmount}}</td> -->
-                                    <td>{{purchase.purchaseTotalAmount}}</td>
-                                    <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Unpaid"></p-tag>
+                  <td>{{purchase.supplier.name}}</td>
+                  <td *ngIf="!purchase.status"><p-tag severity="success" value="Delivered"></p-tag>
+                  </td>
+                  <td *ngIf="purchase.status"><p-tag severity="danger" value="Delivered"></p-tag>
+                  </td>
+                  <!-- <td>{{purchase.status}}</td> -->
+                  <!-- <td>{{purchase.purchasePaidAmount}}</td> -->
+                  <td>{{purchase.purchaseTotalAmount}}</td>
+                  <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Unpaid"></p-tag>
                                     </td>
                                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Paid"></p-tag>
                                     </td>
                                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Partially Paid"></p-tag>
                                     </td> -->
-                                    <!-- <td>{{purchase.purchasePaymentStatus}}</td> -->
-                                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                                                <p-button [text]="true" data-bs-toggle="modal"
-                                                data-bs-target="#invoices_preview" icon="fa-solid fa-eye" ></p-button>
-                                                <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)" ></p-button>
-                                                <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)" ></p-button>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
+                  <!-- <td>{{purchase.purchasePaymentStatus}}</td> -->
+                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                    <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialogView(purchase._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)"></p-button>
+                    <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog>
+
+  <p-dialog header="Sales Details" [(visible)]="visible" *ngFor="let purchase of PurchaseListData" [modal]="true"
+  [style]="{width: '80vw'}">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="row justify-content-center">
+        <div class="col-lg-12">
+          <div class="card invoice-info-card">
+            <div class="card-body pb-0">
+              <div class="invoice-item invoice-item-one">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="invoice-logo d-flex justify-content-start">
+                      <img src="assets/img/logo-dark.png" alt="logo">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="invoice-info">
+                      <div class="invoice-head">
+                        <h2 class="text-primary">Sales</h2>
+                        <p>Invoice Number : {{purchase.purchaseInvoiceNumber}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="card card-table show-entire">
+                    <div class="page-table-header mb-2 m-3">
+                      <div class="row practice-card">
+                        <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">{{purchase.supplier.name}}</p>
+                            </div>
+                          </div>
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Sales Date:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">{{purchase.purchaseDate}}</p>
+                            </div>
+                          </div>
+
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">{{purchase.paidAmount}}</p>
+                            </div>
+                          </div>
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">{{purchase.dueAmount}}</p>
+                            </div>
+                          </div>
+
+
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Taken By:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <!-- <p class="col-form-label">{{purchase.purchaseInvoiceNumber}}</p> -->
+                            </div>
+                          </div>
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Status:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-form-label">{{purchase.purchaseOrderStatus}}</p>
+                            </div>
+                          </div>
+
+                          <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Payment Status:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-form-label">{{purchase.paymentStatus}}</p>
+                            </div>
+                          </div>
+
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="card">
+                <p-tabView>
+                  <!-- <p-tabPanel header="Payments">
+                    <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}">
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th pSortableColumn="transactionNo">Trnx No. <p-sortIcon field="transactionNo"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-payment>
+                        <tr>
+                          <td class="bold">{{payment.transactionNo}}</td>
+                          <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
+                          <td>{{payment.amount}}</td>
+                          <td>{{payment.paymentMode}}</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </p-tabPanel> -->
+                  <p-tabPanel header="Items">
+                    <p-table [value]="PurchaseListData" [tableStyle]="{'min-width': '60rem'}">
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th pSortableColumn="purchaseItemCategory">Category <p-sortIcon
+                              field="purchaseItemCategory"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="purchaseItemSubCategory">Sub Category <p-sortIcon
+                              field="purchaseItemSubCategory"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="unit">Unit <p-sortIcon field="unit"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="purchaseItemName">Name <p-sortIcon field="purchaseItemName"></p-sortIcon>
+                          </th>
+
+                          <th pSortableColumn="purchaseItemQuantity">Quantity <p-sortIcon
+                              field="purchaseItemQuantity"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="purchaseItemUnitPrice">Unit Price<p-sortIcon
+                              field="purchaseItemUnitPrice"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="purchaseItemSubTotal">Sub Total <p-sortIcon
+                              field="purchaseItemSubTotal"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-data>
+                        <tr *ngFor="let purchase of data.purchaseItemDetails">
+                          <td>{{purchase.purchaseItemCategory}}</td>
+                          <td>{{purchase.purchaseItemSubCategory}}</td>
+                          <td>{{purchase.unit}}</td>
+                          <td>{{purchase.purchaseItemName}}</td>
+                          <td>{{purchase.purchaseItemQuantity}}</td>
+                          <td>{{purchase.purchaseItemUnitPrice}}</td>
+                          <td>{{purchase.purchaseItemSubTotal}}</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+
+                  </p-tabPanel>
+                </p-tabView>
+              </div>
+
+
+              <div class="row align-items-center justify-content-center invoice-sign-box">
+                <div class="col-lg-6 col-md-6">
+                  <div class="col-lg-8 col-md-8">
+                    <div class="invoice-terms">
+                      <h6>Notes:</h6>
+                      <p class="mb-0">{{purchase.purchaseNotes}}</p>
+                    </div>
+                    <div class="invoice-terms mb-0">
+                      <h6>Terms and Conditions:</h6>
+                      <p class="mb-0">{{purchase.purchaseTermsAndCondition}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <div class="invoice-total-card">
+                    <div class="invoice-total-box">
+                       <div class="invoice-total-inner">
+                        <p>Gross Total <span>₹ {{purchase.purchaseGrossTotal}}</span></p>
+                        <p>Applied Tax Amount <span>₹ {{addTaxTotal}} </span></p>
+                        <p>Shipping Charges <span>₹ {{purchase.purchaseShipping}}</span></p>
+                        <p>Discount <span>₹ {{purchase.purchaseDiscount}}</span></p>
+                        <p>OtherCharges <span>₹ {{purchase.purchaseOtherCharges}}</span></p>
+                      </div>
+                      <div class="invoice-total-footer">
+                        <h4>Total Amount <span>₹ {{purchase.purchaseTotalAmount}}</span></h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             </div>
           </div>
@@ -212,184 +415,4 @@
       </div>
     </div>
   </div>
-
-
-  <!-- -- Preview model -- -->
-
-  <div class="modal custom-modal modal-bg  fade invoices-preview" id="invoices_preview" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row justify-content-center">
-                    <div class="col-lg-12">
-                        <div class="card invoice-info-card">
-                            <div class="card-body pb-0">
-                                <div class="invoice-item invoice-item-one">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="invoice-logo d-flex justify-content-start">
-                                                <img src="assets/img/logo-dark.png" alt="logo">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="invoice-info">
-                                                <div class="invoice-head">
-                                                    <h2 class="text-primary">Invoice</h2>
-                                                    <p>Invoice Number : In983248782</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Invoice Item -->
-                                <div class="invoice-item invoice-item-bg">
-                                    <div class="invoice-circle-img">
-                                        <img src="assets/img/invoice-circle1.png" alt="" class="invoice-circle1">
-                                        <img src="assets/img/invoice-circle2.png" alt="" class="invoice-circle2">
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-12">
-                                            <div class="invoice-info">
-                                                <strong class="customer-text-one">Billed to</strong>
-                                                <h6 class="invoice-name">Customer Name</h6>
-                                                <p class="invoice-details invoice-details-two">
-                                                    9087484288 <br>
-                                                    Address line 1, <br>
-                                                    Address line 2 <br>
-                                                    Zip code ,City - Country
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-12">
-                                            <div class="invoice-info">
-                                                <strong class="customer-text-one">Invoice From</strong>
-                                                <h6 class="invoice-name">Company Name</h6>
-                                                <p class="invoice-details invoice-details-two">
-                                                    9087484288 <br>
-                                                    Address line 1, <br>
-                                                    Address line 2 <br>
-                                                    Zip code ,City - Country
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-12">
-                                            <div class="invoice-info invoice-info-one border-0">
-                                                <p>Issue Date : 27 Jul 2022</p>
-                                                <p>Due Date : 27 Aug 2022</p>
-                                                <p>Due Amount : $ 1,54,22 </p>
-                                                <p>Recurring Invoice : 15 Months</p>
-                                                <p class="mb-0">PO Number : 54515454</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /Invoice Item -->
-
-                                <!-- Invoice Item -->
-                                <div class="invoice-item invoice-table-wrap">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="table-responsive">
-                                                <table class="invoice-table table table-center mb-0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Description</th>
-                                                            <th>Category</th>
-                                                            <th>Rate/Item</th>
-                                                            <th>Quantity</th>
-                                                            <th>Discount (%)</th>
-                                                            <th class="text-end">Amount</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Dell Laptop</td>
-                                                            <td>Laptop</td>
-                                                            <td>$1,110</td>
-                                                            <td>2</td>
-                                                            <td>2%</td>
-                                                            <td class="text-end">$400</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>HP Laptop</td>
-                                                            <td>Laptop</td>
-                                                            <td>$1,500</td>
-                                                            <td>3</td>
-                                                            <td>6%</td>
-                                                            <td class="text-end">$3,000</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Apple Ipad</td>
-                                                            <td>Ipad</td>
-                                                            <td>$11,500</td>
-                                                            <td>1</td>
-                                                            <td>10%</td>
-                                                            <td class="text-end">$11,000</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /Invoice Item -->
-
-                                <div class="row align-items-center justify-content-center">
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="invoice-payment-box">
-                                            <h4>Payment Details</h4>
-                                            <div class="payment-details">
-                                                <p>Debit Card XXXXXXXXXXXX-2541 HDFC Bank</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="invoice-total-card">
-                                            <div class="invoice-total-box">
-                                                <div class="invoice-total-inner">
-                                                    <p>Taxable <span>$6,660.00</span></p>
-                                                    <p>Additional Charges <span>$6,660.00</span></p>
-                                                    <p>Discount <span>$3,300.00</span></p>
-                                                    <p class="mb-0">Sub total <span>$3,300.00</span></p>
-                                                </div>
-                                                <div class="invoice-total-footer">
-                                                    <h4>Total Amount <span>$143,300.00</span></h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="invoice-sign-box">
-                                    <div class="row">
-                                        <div class="col-lg-8 col-md-8">
-                                            <div class="invoice-terms">
-                                                <h6>Notes:</h6>
-                                                <p class="mb-0">Enter customer notes or any other details</p>
-                                            </div>
-                                            <div class="invoice-terms mb-0">
-                                                <h6>Terms and Conditions:</h6>
-                                                <p class="mb-0">Enter customer notes or any other details</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4">
-                                            <div class="invoice-sign text-end">
-                                                <img class="img-fluid d-inline-block" src="assets/img/signature.png"
-                                                    alt="sign">
-                                                <span class="d-block">Harristemp</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- -- end preview model --  -->
-<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-[data]="modalData"></app-confirm-dialog>
+</p-dialog>

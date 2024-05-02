@@ -12,11 +12,13 @@ import { PurchaseService } from './purchase.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+import { TabViewModule } from 'primeng/tabview';
 
 @Component({
   selector: 'app-purchase',
   standalone: true,
-  imports: [CommonModule,SharedModule,  DropdownModule,CalendarModule,ToastModule],
+  imports: [CommonModule,SharedModule,DialogModule,DropdownModule,CalendarModule,ToastModule,TabViewModule],
   templateUrl: './purchase.component.html',
   styleUrl: './purchase.component.scss',
   providers: [MessageService],
@@ -47,8 +49,10 @@ export class PurchaseComponent {
   showDialoge:any
   modalData:any
   PurchaseListData:any
-  visible:any
+  visible: boolean = false
   addTaxTotal:any
+  setDataInPopPu:any
+
 
 
 
@@ -64,12 +68,14 @@ export class PurchaseComponent {
   ngOnInit() {
     this.getTableData();
     this.getPurchase();
+    // this.Service.GetPurchaseDataById("66321c9e409a10ebdff231e6").subscribe((resp: any) => {
+    //   this.PurchaseListData = [resp.data];
+    // })
   }
   getPurchase() {
     this.Service.GetPurchaseData().subscribe((data:any) => {
       this.purchaseData = data.data;
       this.originalData = data
-      console.log(this.purchaseData);
     });
   }
 
@@ -78,26 +84,21 @@ export class PurchaseComponent {
   }
 
 
-  showDialog(id: any) {
+  showDialogView(id:any) {
     let totalTax = 0;
     this.visible = true;
     this.Service.GetPurchaseDataById(id).subscribe((resp: any) => {
       this.PurchaseListData = [resp.data];
-      console.log(this.PurchaseListData);
-      
-
+      this.setDataInPopPu = this.PurchaseListData[0]
       resp.data.appliedTax.forEach(element => {
         totalTax += Number(element.taxRate);
       });
-      this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
-      console.log("applied tax", resp.data.appliedTax);
-
+      this.addTaxTotal = resp.data.purchaseGrossTotal * totalTax / 100;
     });
 
     // this.Service.GetPurchaseDataById(_id).subscribe((resp: any) => {
     //   this.PurchaseListData = [resp.data];
     //   console.log("payment id ser ", resp);
-
     // })
   }
 
@@ -105,7 +106,6 @@ export class PurchaseComponent {
 
 
   purchaseDelete(id:number){
-      console.log("object");
     this.purchase = id;
 
     this.modalData = {
