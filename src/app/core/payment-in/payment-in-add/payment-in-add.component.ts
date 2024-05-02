@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { routes } from 'src/app/shared/routes/routes';
@@ -10,6 +10,7 @@ import { PaymentInService } from '../payment-in.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
+import { min } from 'rxjs';
 
 @Component({
   selector: 'app-payment-in-add',
@@ -34,6 +35,8 @@ export class PaymentInAddComponent {
   paymentMode:'Online'
 }];
 
+notesRegex = /^(?:.{2,100})$/;
+nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
   constructor( 
     private customerService: CustomersdataService,
@@ -44,10 +47,10 @@ export class PaymentInAddComponent {
   ){
     this.addPaymentInForm = this.fb.group({
       sales: this.fb.array([]),
-      customer: [''],
-      paymentDate: [''],
-      paymentMode: [''],
-      note: [''],
+      customer: ['',[Validators.required]],
+      paymentDate: ['',[Validators.required]],
+      paymentMode: ['',[Validators.required]],
+      note: ['',[Validators.pattern(this.notesRegex)]],
     });
     
   }
@@ -56,7 +59,7 @@ export class PaymentInAddComponent {
     this.salesDataById.forEach(sale => {
       salesArray.push(this.fb.group({
         _id: [sale._id],
-        amount: ['']
+        amount: ["", [Validators.required,Validators.min(0)]]
       }));
     });
   }

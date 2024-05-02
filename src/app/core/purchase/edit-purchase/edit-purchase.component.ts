@@ -1,12 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup,Validators } from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
 import { MultiSelectModule } from "primeng/multiselect";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
 import { CalendarModule } from "primeng/calendar";
-import { Validators } from "ngx-editor";
 import { el } from "@fullcalendar/core/internal-common";
 import { TaxesService } from "../../settings/taxes/taxes.service";
 import { debounceTime } from "rxjs";
@@ -89,6 +88,15 @@ export class EditPurchaseComponent implements OnInit {
   public recurringInvoice = false;
   public selectedValue!: string;
   addTaxTotal: any;
+
+
+
+
+  
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  notesRegex = /^(?:.{2,100})$/;
+  tandCRegex = /^(?:.{2,200})$/;
+
   constructor(
     private taxService: TaxesService,
     private fb: FormBuilder,
@@ -102,30 +110,34 @@ export class EditPurchaseComponent implements OnInit {
     private messageService: MessageService,
   ) {
     this.editPurchaseForm = this.fb.group({
-      purchaseInvoiceNumber: [""],
-      purchaseSupplierName: [""],
-      purchaseDate: [""],
-      purchaseOrderStatus: [""],
+      purchaseInvoiceNumber: ["", [Validators.required,Validators.pattern(this.nameRegex)]],
+      purchaseSupplierName: ["", [Validators.required]],
+      purchaseDate: ["", [Validators.required]],
+      purchaseOrderStatus: ["", [Validators.required]],
       purchaseOrderTax: [""],
-      purchaseDiscount: [""],
-      purchaseShipping: [""],
-      purchaseTermsAndCondition: [""],
-      purchaseNotes: [""],
+      purchaseDiscount: ["", [Validators.min(0)]],
+      purchaseShipping: ["", [Validators.min(0)]],
+      purchaseTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
+      purchaseNotes: ["", [Validators.pattern(this.notesRegex)]],
       purchaseTotalAmount: [""],
-      purchaseGrossTotal:[''],
-      otherCharges: [""],
+      otherCharges: ["", [Validators.min(0)]],
+      purchaseGrossTotal: [""],
       purchaseItemDetails: this.fb.array([
         this.fb.group({
-          unit: [""],
-          purchaseItemProducts: [""],
-          purchaseItemQuantity: [""],
-          purchaseItemUnitPrice: [""],
-          purchaseItemDiscount: [""],
+          purchaseItemCategory: ["", [Validators.required]],
+          purchaseItemSubCategory: ["", [Validators.required]],
+          unit: ["", [Validators.required]],
+          purchaseItemName: [
+            "",
+            [Validators.required, Validators.pattern(this.nameRegex)],
+          ],
+          purchaseItemQuantity: ["", [Validators.required, Validators.min(0)]],
+          purchaseItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+          purchaseItemSubTotal: ["", [Validators.required, Validators.min(0)]],
+          
+          purchaseItemDiscount: ["", [Validators.required, Validators.min(0)]],
           purchaseItemTax: [""],
-          purchaseItemSubTotal: [""],
-          purchaseItemCategory: [""],
-          purchaseItemName: [""],
-          purchaseItemSubCategory: [""],
+          purchaseItemProducts: ["", [Validators.required, Validators.min(0)]],
         }),
       ]),
     });
@@ -141,16 +153,20 @@ export class EditPurchaseComponent implements OnInit {
   }
   addPurchaseItemDetailsItem() {
     const item = this.fb.group({
-      purchaseItemProducts: [""],
-      purchaseItemQuantity: [""],
-      purchaseItemUnitPrice: [""],
-      purchaseItemDiscount: [""],
+      purchaseItemCategory: ["", [Validators.required]],
+      purchaseItemSubCategory: ["", [Validators.required]],
+      unit: ["", [Validators.required]],
+      purchaseItemName: [
+        "",
+        [Validators.required, Validators.pattern(this.nameRegex)],
+      ],
+      purchaseItemQuantity: ["", [Validators.required, Validators.min(0)]],
+      purchaseItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+      purchaseItemSubTotal: ["", [Validators.required, Validators.min(0)]],
+      
+      purchaseItemDiscount: ["", [Validators.required, Validators.min(0)]],
       purchaseItemTax: [""],
-      purchaseItemSubTotal: [""],
-      purchaseItemCategory: [""],
-      purchaseItemName: [""],
-      purchaseItemSubCategory: [""],
-      unit: [""],
+      purchaseItemProducts: ["", [Validators.required, Validators.min(0)]],
     });
     this.purchaseItemDetails.push(item);
   }
