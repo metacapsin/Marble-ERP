@@ -195,7 +195,6 @@ export class AddsalesComponent {
     totalAmount += salesGrossTotal;
     totalAmount += this.addTaxTotal;
     totalAmount -= Discount;
-    totalAmount -= Discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
 
@@ -210,19 +209,15 @@ export class AddsalesComponent {
 
   addSalesFormSubmit() {
     const formData = this.addSalesForm.value;
-    // const selectedCustomerId = this.addSalesForm.get('customer').value?._id;
-    // const selectedCustomerName = this.addSalesForm.get('customer').value?.name;
-
     let totalTax = 0;
+    if(formData.salesOrderTax){
       formData.salesOrderTax?.forEach((element) => {
-        totalTax = totalTax + element.taxRate;
-      });
+          totalTax = totalTax + element.taxRate;
+        });
+
+    }  
 
     const payload = {
-      // customer: {
-      // _id: selectedCustomerId,
-      // name: selectedCustomerName
-      // },
       customer: formData.customer,
       salesDate: formData.salesDate,
       salesDiscount: formData.salesDiscount,

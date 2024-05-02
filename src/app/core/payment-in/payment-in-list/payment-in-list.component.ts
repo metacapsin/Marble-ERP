@@ -6,11 +6,12 @@ import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PaymentInService } from '../payment-in.service';
 import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-payment-in-list',
   standalone: true,
-  imports: [CommonModule, SharedModule, TableModule, ButtonModule],
+  imports: [CommonModule, SharedModule, TableModule, ButtonModule, ToastModule],
   templateUrl: './payment-in-list.component.html',
   styleUrl: './payment-in-list.component.scss',
   providers: [MessageService]
