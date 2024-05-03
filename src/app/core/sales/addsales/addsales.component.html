@@ -119,7 +119,7 @@
                                                 <td>
                                                     <p-dropdown [options]="categoryList" styleClass="" appendTo="body"
                                                         optionLabel="name" optionValue="name" placeholder="Category"
-                                                        [filter]="true" filterBy="name" [showClear]="true"
+                                                        [filter]="true" filterBy="name" 
                                                         formControlName="salesItemCategory">
                                                     </p-dropdown>
                                                     <div
@@ -131,7 +131,7 @@
                                                     <p-dropdown [options]="subCategoryList" styleClass=""
                                                         appendTo="body" optionLabel="name" optionValue="name"
                                                         placeholder="Sub Category" [filter]="true" filterBy="name"
-                                                        [showClear]="true" formControlName="salesItemSubCategory">
+                                                         formControlName="salesItemSubCategory">
                                                     </p-dropdown>
                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemSubCategory').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemSubCategory').touched">
@@ -143,7 +143,7 @@
                                                     <p-dropdown [options]="unitListData" formControlName="unit"
                                                         placeholder="Unit" appendTo="body" optionLabel="unitName"
                                                         optionValue="shortName" [filter]="true" filterBy="name"
-                                                        [showClear]="true">
+                                                        >
                                                     </p-dropdown>
                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.unit').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.unit').touched">

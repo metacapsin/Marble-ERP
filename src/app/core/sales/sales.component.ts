@@ -63,8 +63,8 @@ export class SalesComponent implements OnInit {
     });
 
     this.Service.getSalesPaymentList(_id).subscribe((resp: any) => {
-      // this.paymentListData = [resp.data];
-      this.paymentListData = Object.entries(resp.data);
+      this.paymentListData = [resp.data];
+      // this.paymentListData = Object.entries(resp.data);
       console.log("payment id ser ", this.paymentListData);
 
     })

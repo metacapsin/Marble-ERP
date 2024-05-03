@@ -116,7 +116,7 @@
                                                 <td>
                                                     <p-dropdown [options]="categoryList" styleClass="col-12" appendTo="body"
                                                         optionLabel="name" optionValue="name" placeholder="Category"
-                                                        [filter]="true" filterBy="name" [showClear]="true"
+                                                        [filter]="true" filterBy="name" 
                                                         formControlName="salesItemCategory">
                                                     </p-dropdown>
                                                     <div
@@ -128,7 +128,7 @@
                                                     <p-dropdown [options]="subCategoryList" styleClass="col-12"
                                                         appendTo="body" optionLabel="name" optionValue="name"
                                                         placeholder="Sub Category" [filter]="true" filterBy="name"
-                                                        [showClear]="true" formControlName="salesItemSubCategory">
+                                                         formControlName="salesItemSubCategory">
                                                     </p-dropdown>
                                                     <div
                                                     *ngIf="editReturnSalesForm.get('salesItemDetails').get(i + '.salesItemSubCategory').hasError('required') && editReturnSalesForm.get('salesItemDetails').get(i + '.salesItemSubCategory').touched">
@@ -139,7 +139,7 @@
                                                     <p-dropdown [options]="unitListData" styleClass="col-12"
                                                         appendTo="body" optionLabel="unitName" optionValue="shortName"
                                                         placeholder="Unit" [filter]="true" filterBy="name"
-                                                        [showClear]="true" formControlName="unit">
+                                                         formControlName="unit">
                                                     </p-dropdown>
                                                     <div
                                                     *ngIf="editReturnSalesForm.get('salesItemDetails').get(i + '.unit').hasError('required') && editReturnSalesForm.get('salesItemDetails').get(i + '.unit').touched">
@@ -299,8 +299,7 @@
                                                         <p-multiSelect [style]="{'width':'100%'}"
                                                             placeholder="Select Tax" [options]="orderTaxList"
                                                             formControlName="salesOrderTax" optionLabel="orderTaxName"
-                                                            optionValue="orderNamevalue" display="chip"
-                                                            [showClear]="true" (onChange)="calculateTotalAmount()">
+                                                            optionValue="orderNamevalue" display="chip" (onChange)="calculateTotalAmount()">
                                                         </p-multiSelect>
                                                     </div>
                                                 </div>
