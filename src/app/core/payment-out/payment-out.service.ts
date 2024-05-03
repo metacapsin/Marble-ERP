@@ -11,16 +11,16 @@ export class PaymentOutService {
 
 
   createPayment(data: {} | null) {
-    return this.http.post(environment.apiUrl + " /Purchase/createPurchasePayment", data);
+    return this.http.post(environment.apiUrl + "/Purchase/createPurchasePayment", data);
   }
   getPaymentList() {
     return this.http.get(environment.apiUrl + "/Purchase/getPurchasePaymentList");
   }
   getSalesBySupplierId(id: any) {
-    return this.http.get(environment.apiUrl + " /Purchase/getPurchasePaymentListBySupplierId/" + id)
+    return this.http.get(environment.apiUrl + "/Purchase/getPurchasePaymentListBySupplierId/" + id)
   }
   deletePaymentById(id: any) {
-    return this.http.delete(environment.apiUrl + " /Purchase/deletePurchasePayment/" + id)
+    return this.http.delete(environment.apiUrl + "/Purchase/deletePurchasePayment/" + id)
   }
   
   getPaymentById(id: string) {

@@ -90,7 +90,6 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
    
     this.Service.getSalesBySupplierId(customerId).subscribe((resp:any) => {
       this.purchaseDataById = resp.data;
-      // console.log("sales Data by id ",this.salesDataById);
       this.addpurchaseControls();
     });
     
@@ -130,7 +129,6 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
     }
     else {
       console.log("invalid form");
-
     }
 
   }
