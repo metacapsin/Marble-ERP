@@ -48,21 +48,7 @@ export class AddPurchaseComponent implements OnInit {
   unitListData: any;
   id: any;
   SupplierLists = [];
-  SupplierList = [
-    { SupplierName: "Adnan" },
-    { SupplierName: "Nadim" },
-    { SupplierName: "Kavya" },
-  ];
-  categoryList = [
-    { categoryName: "Earphone" },
-    { categoryName: "Mobiles" },
-    { categoryName: "Computers" },
-  ];
-  productsList = [
-    { productsName: "Earphone" },
-    { productsName: "Mobiles" },
-    { productsName: "Computers" },
-  ];
+  categoryList= [];
   orderStatusList = [
     { orderStatus: "Ordered" },
     { orderStatus: "Confirmed" },
@@ -72,24 +58,6 @@ export class AddPurchaseComponent implements OnInit {
   ];
   orderTaxList = [];
   taxesListData = [];
-
-  getSupplier() {
-    this.Service.GetSupplierData().subscribe((data: any) => {
-      this.getSupplierShow = data;
-      this.SupplierLists = [];
-      this.getSupplierShow.forEach((element: any) => {
-        this.SupplierLists.push({
-          name: element.name,
-          _id: {
-            _id: element._id,
-            name: element.name,
-          },
-        });
-        console.log(this.SupplierLists);
-      });
-    });
-  }
-
   public itemDetails: number[] = [0];
   public chargesArray: number[] = [0];
   public recurringInvoice = false;
@@ -97,9 +65,9 @@ export class AddPurchaseComponent implements OnInit {
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
-
   addTaxTotal: any;
   tandCRegex = /^(?:.{2,200})$/;
+
   constructor(
     private taxService: TaxesService,
     private fb: FormBuilder,
@@ -110,7 +78,6 @@ export class AddPurchaseComponent implements OnInit {
     private CategoriesService: CategoriesService,
     private subCategoriesService: SubCategoriesService,
     private unitService: UnitsService,
-    private activeRoute: ActivatedRoute
   ) {
     this.addPurchaseForm = this.fb.group({
       purchaseInvoiceNumber: ["", [Validators.required,Validators.pattern(this.nameRegex)]],
@@ -140,7 +107,6 @@ export class AddPurchaseComponent implements OnInit {
         }),
       ]),
     });
-    // this.id = this.activeRoute.snapshot.params["id"];
   }
 
   get purchaseItemDetails() {
@@ -148,7 +114,7 @@ export class AddPurchaseComponent implements OnInit {
   }
   deletePurchaseItemDetails(purchaseItemDetailsIndex: number) {
     this.purchaseItemDetails.removeAt(purchaseItemDetailsIndex);
-    this.addPurchaseForm.get("purchaseTotalAmount").patchValue(0);
+    this.calculateTotalAmount();
   }
   addPurchaseItemDetailsItem() {
     const item = this.fb.group({
@@ -165,8 +131,29 @@ export class AddPurchaseComponent implements OnInit {
     });
     this.purchaseItemDetails.push(item);
   }
+
+  getSupplier() {
+    this.Service.GetSupplierData().subscribe((data: any) => {
+      this.getSupplierShow = data;
+      this.SupplierLists = [];
+      this.getSupplierShow.forEach((element: any) => {
+        this.SupplierLists.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name,
+          },
+        });
+      });
+    });
+  }
+
   ngOnInit(): void {
     this.getSupplier();
+    this.unitService.getAllUnitList().subscribe((resp: any) => {
+      this.unitListData = resp.data;
+    });
+
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
       this.orderTaxList = [];
@@ -184,9 +171,6 @@ export class AddPurchaseComponent implements OnInit {
 
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
-    });
-    this.unitService.getAllUnitList().subscribe((resp: any) => {
-      this.unitListData = resp.data;
     });
   }
   calculateTotalAmount() {
@@ -228,21 +212,22 @@ export class AddPurchaseComponent implements OnInit {
     totalAmount += otherCharges;
 
     this.addPurchaseForm.patchValue({
-      purchaseGrossTotal: purchaseGrossTotal.toFixed(2),
-      purchaseDiscount: Discount.toFixed(2),
-      purchaseShipping: shipping.toFixed(2),
-      purchaseTotalAmount: totalAmount.toFixed(2),
-      otherCharges: otherCharges.toFixed(2),
+      purchaseGrossTotal: purchaseGrossTotal.toFixed(),
+      purchaseDiscount: Discount.toFixed(),
+      purchaseShipping: shipping.toFixed(),
+      purchaseTotalAmount: totalAmount.toFixed(),
+      otherCharges: otherCharges.toFixed(),
     });
   }
 
   addPurchaseFormSubmit() {
-    if (this.addPurchaseForm.valid) {
-      const formData = this.addPurchaseForm.value;
-      let totalTax = 0;
-      formData.purchaseOrderTax.forEach((element) => {
-        totalTax = totalTax + element.taxRate;
+    const formData = this.addPurchaseForm.value;
+    let totalTax = 0;
+    if(formData.purchaseOrderTax){
+      formData.purchaseOrderTax.forEach((e) => {
+        totalTax = totalTax + e.taxRate;
       });
+    }
       const payload = {
         supplier: formData.purchaseSupplierName,
         purchaseDate: formData.purchaseDate,
@@ -259,8 +244,9 @@ export class AddPurchaseComponent implements OnInit {
         purchaseTermsAndCondition: formData.purchaseTermsAndCondition,
         purchaseTotalAmount: formData.purchaseTotalAmount,
       };
-      console.log(this.addPurchaseForm.value);
-      console.log(payload);
+
+      if (this.addPurchaseForm.valid) {
+        console.log("valid form");
 
       this.PurchaseService.AddPurchaseData(payload).subscribe((resp: any) => {
         console.log(resp);

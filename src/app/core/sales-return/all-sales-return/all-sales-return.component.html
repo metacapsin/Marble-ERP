@@ -210,8 +210,8 @@
 
               <div class="card">
                 <p-tabView>
-                  <p-tabPanel header="Payments">
-                    <!-- <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}">
+                  <!-- <p-tabPanel header="Payments">
+                    <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
                         <tr>
                           <th pSortableColumn="transactionNo">Trnx No. <p-sortIcon field="transactionNo"></p-sortIcon>
@@ -232,31 +232,26 @@
                           <td>{{payment.paymentMode}}</td>
                         </tr>
                       </ng-template>
-                    </p-table> -->
-                  </p-tabPanel>
+                    </p-table>
+                  </p-tabPanel> -->
                   <p-tabPanel header="Items">
                     <p-table [value]="salesReturnDataById" [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
                         <tr>
-                          <th pSortableColumn="salesItemCategory">Category <p-sortIcon
-                              field="salesItemCategory"></p-sortIcon>
+                          <th pSortableColumn="salesItemCategory">Category 
                           </th>
-                          <th pSortableColumn="salesItemSubCategory">Sub Category <p-sortIcon
-                              field="salesItemSubCategory"></p-sortIcon>
+                          <th pSortableColumn="salesItemSubCategory">Sub Category 
                           </th>
-                          <th pSortableColumn="unit">Unit <p-sortIcon field="unit"></p-sortIcon>
+                          <th pSortableColumn="unit">Unit 
                           </th>
-                          <th pSortableColumn="salesItemName">Name <p-sortIcon field="salesItemName"></p-sortIcon>
+                          <th pSortableColumn="salesItemName">Name 
                           </th>
 
-                          <th pSortableColumn="salesItemQuantity">Quantity <p-sortIcon
-                              field="salesItemQuantity"></p-sortIcon>
+                          <th pSortableColumn="salesItemQuantity">Quantity 
                           </th>
-                          <th pSortableColumn="salesItemUnitPrice">Unit Price<p-sortIcon
-                              field="salesItemUnitPrice"></p-sortIcon>
+                          <th pSortableColumn="salesItemUnitPrice">Unit Price
                           </th>
-                          <th pSortableColumn="salesItemSubTotal">Sub Total <p-sortIcon
-                              field="salesItemSubTotal"></p-sortIcon>
+                          <th pSortableColumn="salesItemSubTotal">Sub Total 
                           </th>
                         </tr>
                       </ng-template>

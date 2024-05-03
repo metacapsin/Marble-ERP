@@ -159,15 +159,15 @@
                   <th pSortableColumn="supplier.name">Supplier<p-sortIcon field="supplier.name"></p-sortIcon>
                     <p-columnFilter type="text" field="supplier.name" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="status">Purchase Status <p-sortIcon field="status"></p-sortIcon></th>
-                  <!-- <th pSortableColumn="purchasePaidAmount">Paid Amount <p-sortIcon field="purchasePaidAmount"></p-sortIcon> -->
-                  <!-- <p-columnFilter type="text" field="purchasePaidAmount" display="menu"></p-columnFilter>
-                                    </th> -->
+                  <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon field="purchaseOrderStatus"></p-sortIcon></th>
+                  <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
+                  <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
+                                    </th>
                   <th pSortableColumn="purchaseTotalAmount">Total Amount <p-sortIcon
                       field="purchaseTotalAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="purchaseTotalAmount" display="menu"></p-columnFilter>
                   </th>
-                  <!-- <th pSortableColumn="purchasePaymentStatus">Payment Status <p-sortIcon field="purchasePaymentStatus"></p-sortIcon></th> -->
+                  <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon></th>
 
                   <th>Action</th>
                 </tr>
@@ -179,26 +179,15 @@
                   </td>
                   <td>{{purchase.purchaseInvoiceNumber}}</td>
                   <td>{{purchase.purchaseDate}}</td>
-
                   <td>{{purchase.supplier.name}}</td>
-                  <td *ngIf="!purchase.status"><p-tag severity="success" value="Delivered"></p-tag>
-                  </td>
-                  <td *ngIf="purchase.status"><p-tag severity="danger" value="Delivered"></p-tag>
-                  </td>
-                  <!-- <td>{{purchase.status}}</td> -->
-                  <!-- <td>{{purchase.purchasePaidAmount}}</td> -->
+                  <td>{{purchase.purchaseOrderStatus}}</td>
+                  <td>{{purchase.paidAmount}}</td>                  
                   <td>{{purchase.purchaseTotalAmount}}</td>
-                  <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Unpaid"></p-tag>
-                                    </td>
-                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Paid"></p-tag>
-                                    </td>
-                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Partially Paid"></p-tag>
-                                    </td> -->
-                  <!-- <td>{{purchase.purchasePaymentStatus}}</td> -->
+                  <td>{{purchase.paymentStatus}}</td>
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialogView(purchase._id)"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)"></p-button>
                     <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)" *ngIf="purchase.paymentStatus == 'Unpaid'"></p-button>
                   </td>
                 </tr>
               </ng-template>
@@ -281,7 +270,7 @@
                           <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Taken By:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <!-- <p class="col-form-label">{{purchase.purchaseInvoiceNumber}}</p> -->
+                              <p class="col-form-label">{{purchase.createdByName}}</p>
                             </div>
                           </div>
                           <div class="form-group row mb-2">
@@ -338,25 +327,20 @@
                     <p-table [value]="PurchaseListData" [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
                         <tr>
-                          <th pSortableColumn="purchaseItemCategory">Category <p-sortIcon
-                              field="purchaseItemCategory"></p-sortIcon>
+                          <th pSortableColumn="purchaseItemCategory">Category 
                           </th>
-                          <th pSortableColumn="purchaseItemSubCategory">Sub Category <p-sortIcon
-                              field="purchaseItemSubCategory"></p-sortIcon>
+                          <th pSortableColumn="purchaseItemSubCategory">Sub Category 
                           </th>
-                          <th pSortableColumn="unit">Unit <p-sortIcon field="unit"></p-sortIcon>
+                          <th pSortableColumn="unit">Unit 
                           </th>
-                          <th pSortableColumn="purchaseItemName">Name <p-sortIcon field="purchaseItemName"></p-sortIcon>
+                          <th pSortableColumn="purchaseItemName">Name 
                           </th>
 
-                          <th pSortableColumn="purchaseItemQuantity">Quantity <p-sortIcon
-                              field="purchaseItemQuantity"></p-sortIcon>
+                          <th pSortableColumn="purchaseItemQuantity">Quantity 
                           </th>
-                          <th pSortableColumn="purchaseItemUnitPrice">Unit Price<p-sortIcon
-                              field="purchaseItemUnitPrice"></p-sortIcon>
+                          <th pSortableColumn="purchaseItemUnitPrice">Unit Price
                           </th>
-                          <th pSortableColumn="purchaseItemSubTotal">Sub Total <p-sortIcon
-                              field="purchaseItemSubTotal"></p-sortIcon>
+                          <th pSortableColumn="purchaseItemSubTotal">Sub Total 
                           </th>
                         </tr>
                       </ng-template>

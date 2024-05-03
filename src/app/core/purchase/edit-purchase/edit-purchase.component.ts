@@ -41,22 +41,8 @@ export class EditPurchaseComponent implements OnInit {
   subCategoryList: any;
   unitListData: any;
   PurchaseId:any
-  SupplierLists= []
-  SupplierList = [
-    { SupplierName: "Adnan" },
-    { SupplierName: "Nadim" },
-    { SupplierName: "Kavya" },
-  ];
-  categoryList = [
-    { categoryName: "Earphone" },
-    { categoryName: "Mobiles" },
-    { categoryName: "Computers" },
-  ];
-  productsList = [
-    { productsName: "Earphone" },
-    { productsName: "Mobiles" },
-    { productsName: "Computers" },
-  ];
+  SupplierLists= [];
+  categoryList= [];
   orderStatusList = [
     { orderStatus: "Ordered" },
     { orderStatus: "Confirmed" },
@@ -67,31 +53,11 @@ export class EditPurchaseComponent implements OnInit {
   orderTaxList = [];
   taxesListData = [];
   getPurchaseApiResp:any
-
-  getSupplier() {
-    this.Service.GetSupplierData().subscribe((data) => {
-      this.getSupplierShow = data;
-      this.SupplierLists = [];
-      this.getSupplierShow.forEach(element => {
-        this.SupplierLists.push({
-          name: element.name,
-          _id: {
-            _id: element._id,
-            name: element.name
-          }
-        })
-    });
-  })}
-
   public itemDetails: number[] = [0];
   public chargesArray: number[] = [0];
   public recurringInvoice = false;
   public selectedValue!: string;
   addTaxTotal: any;
-
-
-
-
   
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
@@ -134,10 +100,6 @@ export class EditPurchaseComponent implements OnInit {
           purchaseItemQuantity: ["", [Validators.required, Validators.min(0)]],
           purchaseItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
           purchaseItemSubTotal: ["", [Validators.required, Validators.min(0)]],
-          
-          // purchaseItemDiscount: ["", [Validators.required, Validators.min(0)]],
-          // purchaseItemTax: [""],
-          // purchaseItemProducts: ["", [Validators.required, Validators.min(0)]],
         }),
       ]),
     });
@@ -149,7 +111,7 @@ export class EditPurchaseComponent implements OnInit {
   }
   deletePurchaseItemDetails(purchaseItemDetailsIndex: number) {
     this.purchaseItemDetails.removeAt(purchaseItemDetailsIndex);
-    this.editPurchaseForm.get("purchaseTotalAmount").patchValue(0);
+    this.calculateTotalAmount();
   }
   addPurchaseItemDetailsItem() {
     const item = this.fb.group({
@@ -162,14 +124,25 @@ export class EditPurchaseComponent implements OnInit {
       ],
       purchaseItemQuantity: ["", [Validators.required, Validators.min(0)]],
       purchaseItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-      purchaseItemSubTotal: ["", [Validators.required, Validators.min(0)]],
-      
-      // purchaseItemDiscount: ["", [Validators.required, Validators.min(0)]],
-      // purchaseItemTax: [""],
-      // purchaseItemProducts: ["", [Validators.required, Validators.min(0)]],
+      purchaseItemSubTotal: ["", [Validators.required, Validators.min(0)]]
     });
     this.purchaseItemDetails.push(item);
   }
+
+  getSupplier() {
+    this.Service.GetSupplierData().subscribe((data) => {
+      this.getSupplierShow = data;
+      this.SupplierLists = [];
+      this.getSupplierShow.forEach(element => {
+        this.SupplierLists.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name
+          }
+        })
+    });
+  })}
 
   ngOnInit(): void {
     let totalTax = 0;
@@ -200,39 +173,37 @@ export class EditPurchaseComponent implements OnInit {
       resp.data?.salesItemDetails?.forEach(lang => {
         this.addPurchaseItemDetailsItem()
       });
-      resp.data.appliedTax.forEach(element => {
+      resp.data?.appliedTax?.forEach(element => {
          totalTax += Number(element.taxRate);
       });
-      console.log(totalTax);
       this.addTaxTotal = resp.data.purchaseGrossTotal * totalTax / 100;
-      if (resp && resp.data) { // Check if resp and resp.data are not null
-        this.getPurchaseApiResp = resp.data;
-        this.patchFrom();
-      } else {
-        console.error("Invalid response or missing data:", resp);
-      }
+
+        this.patchFrom(resp.data);
     });
+
+    this.calculateTotalAmount();
   }
 
-  patchFrom(){
-    this.getPurchaseApiResp.appliedTax.forEach(element => {
+  patchFrom(data){
+   data?.appliedTax?.forEach(element => {
       delete element.tenantId;
     });
     this.editPurchaseForm.patchValue({
-      purchaseInvoiceNumber: this.getPurchaseApiResp.purchaseInvoiceNumber,
-      purchaseSupplierName: this.getPurchaseApiResp.supplier,
-      purchaseDate: this.getPurchaseApiResp.purchaseDate,
-      purchaseOrderStatus: this.getPurchaseApiResp.purchaseOrderStatus,
-      purchaseOrderTax: this.getPurchaseApiResp.appliedTax, 
-      purchaseDiscount: this.getPurchaseApiResp.purchaseDiscount,
-      purchaseShipping: this.getPurchaseApiResp.purchaseShipping,
-      purchaseTermsAndCondition: this.getPurchaseApiResp.purchaseTermsAndCondition,
-      purchaseNotes: this.getPurchaseApiResp.purchaseNotes,
-      purchaseTotalAmount: this.getPurchaseApiResp.purchaseTotalAmount,
-      purchaseGrossTotal: this.getPurchaseApiResp.purchaseGrossTotal,
-      otherCharges: this.getPurchaseApiResp.purchaseOtherCharges,
-      purchaseItemDetails: this.getPurchaseApiResp.purchaseItemDetails,
-    })
+      purchaseInvoiceNumber: data.purchaseInvoiceNumber,
+      purchaseSupplierName: data.supplier,
+      purchaseDate: data.purchaseDate,
+      purchaseOrderStatus: data.purchaseOrderStatus,
+      purchaseOrderTax: data.appliedTax, 
+      purchaseDiscount: data.purchaseDiscount,
+      purchaseShipping: data.purchaseShipping,
+      purchaseTermsAndCondition: data.purchaseTermsAndCondition,
+      purchaseNotes: data.purchaseNotes,
+      purchaseTotalAmount: data.purchaseTotalAmount,
+      purchaseGrossTotal: data.purchaseGrossTotal,
+      otherCharges: data.purchaseOtherCharges,
+    });
+
+    this.purchaseItemDetails.patchValue(data.purchaseItemDetails);
   }
 
 
@@ -251,7 +222,6 @@ export class EditPurchaseComponent implements OnInit {
       const unitPrice = +item.get("purchaseItemUnitPrice").value || 0;
       const subtotal = quantity * unitPrice;
       purchaseGrossTotal += subtotal;
-      console.log(purchaseGrossTotal,"purchaseGrossTotal");
       
       item.get("purchaseItemSubTotal").setValue(subtotal.toFixed(2));
     });
@@ -287,14 +257,13 @@ export class EditPurchaseComponent implements OnInit {
   
 
   editPurchaseFormSubmit() {
-console.log(this.editPurchaseForm);
-console.log(this.editPurchaseForm.value);
-
-    let totalTax = 0
-    this.editPurchaseForm.value.purchaseOrderTax.forEach(element => {
-      totalTax = totalTax + element.taxRate;
-    });
-    if (this.editPurchaseForm.valid) {
+    let totalTax = 0;
+    if(this.editPurchaseForm.value.purchaseOrderTax){
+      this.editPurchaseForm.value.purchaseOrderTax.forEach(element => {
+        totalTax = totalTax + element.taxRate;
+      });
+    }
+    
       const payload = {
         id: this.PurchaseId,
         supplier: this.editPurchaseForm.value.purchaseSupplierName,
@@ -313,6 +282,9 @@ console.log(this.editPurchaseForm.value);
         purchaseTotalAmount: this.editPurchaseForm.value.purchaseTotalAmount,
       };
       console.log(payload);
+
+      
+    if (this.editPurchaseForm.valid) {
 
       this.purchaseService.UpdatePurchaseData(payload).subscribe((resp: any) => {
         console.log(resp);
