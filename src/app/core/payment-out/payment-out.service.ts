@@ -11,27 +11,21 @@ export class PaymentOutService {
 
 
   createPayment(data: {} | null) {
-    return this.http.post(environment.apiUrl + "/Sales/createPayment", data);
+    return this.http.post(environment.apiUrl + " /Purchase/createPurchasePayment", data);
   }
-
-  getPaymentById(id: string) {
-    return this.http.get(environment.apiUrl + "/Sales/getPaymentDetailById/" + id);
-  }
-
-
   getPaymentList() {
-    return this.http.get(environment.apiUrl + "/Purchase/getPaymentList");
+    return this.http.get(environment.apiUrl + "/Purchase/getPurchasePaymentList");
   }
-
-  getSalesByCustomerId(id: any) {
-    return this.http.get(environment.apiUrl + "/Sales/getSalesByCustomerId/" + id)
+  getSalesBySupplierId(id: any) {
+    return this.http.get(environment.apiUrl + " /Purchase/getPurchasePaymentListBySupplierId/" + id)
   }
-  
   deletePaymentById(id: any) {
-    return this.http.delete(environment.apiUrl + "/Sales/deletePayment/" + id)
+    return this.http.delete(environment.apiUrl + " /Purchase/deletePurchasePayment/" + id)
   }
   
-  
+  getPaymentById(id: string) {
+    return this.http.get(environment.apiUrl + "/Purchase/getPurchasePaymentById/:id" + id);
+  }
   getPaymentDetailById(id: any) {
     return this.http.get(environment.apiUrl + "/Sales/getPaymentDetailById/" + id)
   }

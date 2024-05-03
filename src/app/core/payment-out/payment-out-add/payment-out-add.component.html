@@ -44,13 +44,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="name">Suppliers <span class="login-danger">*</span></label>
-                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Customer--"
-                                                [options]="customerList" optionLabel="name" optionValue="_id"
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--suppliers--"
+                                                [options]="SuppliersList" optionLabel="name" optionValue="_id"
                                                 display="chip" [filter]="true" filterBy="name"
-                                                formControlName="customer" [showClear]="true"
-                                                (onChange)="onCustomerSelect($event.value._id)"></p-dropdown>
+                                                formControlName="suppliers" [showClear]="true"
+                                                (onChange)="onSuppliersSelect($event.value._id)"></p-dropdown>
                                             <div
-                                                *ngIf="addPaymentInForm.get('customer')?.hasError('required')  && addPaymentInForm.get('customer')?.touched">
+                                                *ngIf="addPaymentInForm.get('suppliers')?.hasError('required')  && addPaymentInForm.get('suppliers')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
 
@@ -111,7 +111,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody formArrayName="sales">
-                                                <tr *ngFor="let sale of salesDataById; let i = index"
+                                                <tr *ngFor="let sale of purchaseDataById; let i = index"
                                                     [formGroupName]="i">
                                                     <td>
                                                         <span class="bold">{{ sale.salesInvoiceNumber }}</span>

@@ -11,6 +11,7 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
 import { min } from 'rxjs';
+import { SuppliersdataService } from '../../Suppliers/suppliers.service';
 
 @Component({
   selector: 'app-payment-in-add',
@@ -23,11 +24,11 @@ import { min } from 'rxjs';
 export class PaymentOutAddComponent {
   public routes = routes
   addPaymentInForm! : FormGroup;
-  customerList= [];
-  originalCustomerData= [];
+  SuppliersList= [];
+  originalSuppliersData = [];
   
   selectedCustomer: any;
-  salesDataById = [];
+  purchaseDataById = [];
   paymentModeList = [{
     paymentMode: 'Cash'
   },
@@ -39,26 +40,26 @@ notesRegex = /^(?:.{2,100})$/;
 nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
   constructor( 
-    private customerService: CustomersdataService,
+    private SuppliersService: SuppliersdataService,
     private Service: PaymentOutService,
     private messageService: MessageService,
     private router: Router,
     private fb: FormBuilder
   ){
     this.addPaymentInForm = this.fb.group({
-      sales: this.fb.array([]),
-      customer: ['',[Validators.required]],
+      purchase: this.fb.array([]),
+      suppliers: ['',[Validators.required]],
       paymentDate: ['',[Validators.required]],
       paymentMode: ['',[Validators.required]],
       note: ['',[Validators.pattern(this.notesRegex)]],
     });
     
   }
-  addSalesControls() {
-    const salesArray = this.addPaymentInForm.get('sales') as FormArray;
-    this.salesDataById?.forEach(sale => {
-      salesArray.push(this.fb.group({
-        _id: [sale._id],
+  addpurchaseControls() {
+    const purchaseArray = this.addPaymentInForm.get('purchase') as FormArray;
+    this.purchaseDataById?.forEach(purchase => {
+      purchaseArray.push(this.fb.group({
+        _id: [purchase._id],
         amount: ["", [Validators.required,Validators.min(0)]]
       }));
     });
@@ -66,11 +67,13 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   
 
   ngOnInit(): void {
-    this.customerService.GetCustomerData().subscribe((resp: any) => {
-      this.originalCustomerData = resp;
-      this.customerList = [];
-      this.originalCustomerData.forEach((element) => {
-        this.customerList.push({
+    this.SuppliersService.GetSupplierData().subscribe((resp: any) => {
+      this.originalSuppliersData = resp;
+      console.log("sfnsn", this.originalSuppliersData);
+      
+      this.SuppliersList = [];
+      this.originalSuppliersData.forEach((element) => {
+        this.SuppliersList.push({
           name: element.name,
           _id: {
             _id: element._id,
@@ -78,14 +81,17 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
           },
         });
       });
+      console.log("sfnsn", this.SuppliersList);
     });
   }
-  onCustomerSelect(customerId: any){
+  onSuppliersSelect(customerId: any){
+    console.log("hrlk adnns",customerId);
+    
    
-    this.Service.getSalesByCustomerId(customerId).subscribe((resp:any) => {
-      this.salesDataById = resp.data;
+    this.Service.getSalesBySupplierId(customerId).subscribe((resp:any) => {
+      this.purchaseDataById = resp.data;
       // console.log("sales Data by id ",this.salesDataById);
-      this.addSalesControls();
+      this.addpurchaseControls();
     });
     
   }
@@ -96,8 +102,8 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
     console.log('Submitted data:', formData);
 
     const payload = {
-      customer: formData.customer,
-      sales: formData.sales,
+      suppliers: formData.suppliers,
+      purchase: formData.purchase,
       paymentDate: formData.paymentDate,
       paymentMode: formData.paymentMode,
       note: formData.note
