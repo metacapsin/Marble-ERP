@@ -1012,6 +1012,11 @@ export class DataService {
               base: routes.purchase,
             },
             {
+              menuValue: "Payment out",
+              route: routes.paymentOut,
+              base: routes.paymentOut,
+            },
+            {
               menuValue: "Purchase Return",
               route: routes.purchaseReturn,
               base: routes.purchaseReturn,

@@ -244,7 +244,6 @@ export class AddPurchaseComponent implements OnInit {
         totalTax = totalTax + element.taxRate;
       });
       const payload = {
-        // id: this.id,
         supplier: formData.purchaseSupplierName,
         purchaseDate: formData.purchaseDate,
         purchaseDiscount: formData.purchaseDiscount,

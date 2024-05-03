@@ -46,6 +46,7 @@ export class AddUsersComponent implements OnInit {
   addUserGroup: UntypedFormGroup;
   public passwordClass = false;
   wareHousedata: any = [];
+  wareHouseLists = [];
 
   // Regex pattern
 
@@ -92,6 +93,17 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   ngOnInit(): void {
     this.service.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
+      this.wareHouseLists = [];
+      this.wareHousedata.forEach((element: any) => {
+        this.wareHouseLists.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name,
+          },
+        });
+        console.log(this.wareHouseLists);
+      });
     });
   }
 

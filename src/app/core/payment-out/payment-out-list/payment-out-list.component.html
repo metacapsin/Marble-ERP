@@ -1,0 +1,113 @@
+<!-- <router-outlet></router-outlet> -->
+<!-- <p-toast></p-toast> -->
+<div class="page-wrapper">
+    <div class="content">
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Payment Out</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                    <div class="card-body">
+
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+
+                                <div class="col">
+                                    <div class="doctor-table-blk">
+                                        <h3>Payment Out List</h3>
+                                        <div class="doctor-search-blk">
+                                            <div class="top-nav-search table-search-blk">
+                                                <input type="text" class="form-control" placeholder="Search here"
+                                                    [(ngModel)]="searchDataValue"
+                                                    (ngModelChange)="searchData(searchDataValue)">
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                            <div class="add-group textbtn">
+                                                <a appShowHide [roles]="['admin', 'super-admin', 'help-desk']"
+                                             class="btn btn-primary add-pluss ms-2" [routerLink]="routes.addPaymentOut">
+                                            <img src="assets/img/icons/plus.svg" alt="">Add New</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                                    [roles]="['admin', 'super-admin', 'help-desk']">
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                            alt=""></a>
+                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                            alt=""></a>
+                                    <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card-body p-2">
+                            <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th>
+                                    <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
+                                        <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="salesId">Suppliers <p-sortIcon field="salesId"></p-sortIcon>
+                                        <p-columnFilter type="text" field="salesId" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
+                                        <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
+                                        <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-payment>
+                                <tr>
+                                    <td appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableCheckbox [value]="payment"></p-tableCheckbox>
+                                    </td>
+                                    <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
+                                    <td class="bold">{{payment.supplier.name}}</td>
+                                    <td>{{payment.paymentMode}}</td>
+                                    <td>{{payment.amount}}</td>
+                                    <td>
+                                        <!-- <p-button [text]=" true" icon="fa fa-eye"></p-button> -->
+                                        <!-- <p-button [text]="true" icon="fa fa-edit"></p-button> -->
+                                        <p-button [text]=" true" icon="fa fa-trash" (click)="  deletePayment(payment._id)"></p-button>
+
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<p-toast></p-toast>
+
+
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>
