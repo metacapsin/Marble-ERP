@@ -24,7 +24,7 @@
                 <div class="card card-table show-entire">
                     <div class="col p-3">
                         <div class="doctor-table-blk">
-                            <h3>Add New Suppliers</h3>
+                            <h3>Suppliers List</h3>
                             <div class="doctor-search-blk col-md-6">
                                 <div class="top-nav-search table-search-blk me-3">
                                     <input type="text" class="form-control" placeholder="Search here"
@@ -78,15 +78,16 @@
                                         <!-- <p-columnFilter type="text" field="status" display="menu"></p-columnFilter> -->
                                     </th>
                                     <th pSortableColumn="createdOn">
-                                        Created At <p-sortIcon field="createdOn"></p-sortIcon>
-                                        <p-columnFilter type="text" field="createdOn" display="menu"></p-columnFilter>
+                                        Created At
+                                         <!-- <p-sortIcon field="createdOn"></p-sortIcon>
+                                        <p-columnFilter type="text" field="createdOn" display="menu"></p-columnFilter> -->
                                     </th>
                                     <!-- <th>Action</th> -->
                                     <th pSortableColumn="openingBalance">
                                         Balance <p-sortIcon field="openingBalance"></p-sortIcon>
                                         <p-columnFilter type="text" field="openingBalance" display="menu"></p-columnFilter>
                                     </th>
-                                    <th>Edit</th>
+                                    <th>Action</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-product>
