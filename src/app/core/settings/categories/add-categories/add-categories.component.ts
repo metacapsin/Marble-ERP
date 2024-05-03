@@ -15,9 +15,9 @@ export class AddCategoriesComponent {
   addCategoryForm!:FormGroup;
 
   
-nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-  descriptionRegex = /^(?:.{1,500})$/;
+  descriptionRegex = /^(?!\s)(.{3,500})$/;
   
   constructor(private fb: FormBuilder,
     public dialog: MatDialog,

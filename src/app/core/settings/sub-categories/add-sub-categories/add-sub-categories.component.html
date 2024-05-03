@@ -17,7 +17,7 @@
               <span class="login-danger">Field is required.</span>
             </div>
             <div *ngIf="addSubCategoryForm.get('name')?.hasError('pattern') && addSubCategoryForm.get('name')?.touched">
-              <span class="login-danger">Input must be between 1 to 50 characters.</span>
+              <span class="login-danger">Input must be between 3 to 50 characters.</span>
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@
             <textarea class="form-control" type="text" placeholder="" formControlName="description"></textarea>
             <div
             *ngIf="addSubCategoryForm.get('description')?.hasError('pattern') && addSubCategoryForm.get('description')?.touched">
-            <span class="login-danger">Input must be between 1 to 500 characters.</span>
+            <span class="login-danger">Input must be between 3 to 500 characters.</span>
           </div>
 
           </div>

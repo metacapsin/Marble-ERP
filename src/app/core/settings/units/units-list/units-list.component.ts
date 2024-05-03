@@ -37,22 +37,22 @@ export class UnitsListComponent {
   originalData = []
 
 
-  unitNameRegex = /^(?:.{1,50})$/;
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
 
- unitShortNameRegex = /^(?:.{1,10})$/;
-
+ 
   constructor(private fb: FormBuilder,
     private messageService: MessageService,
     private Service: UnitsService,
   ) {
     this.addUnitForm = this.fb.group({
-      unitName: ["", [Validators.required, Validators.pattern(this.unitNameRegex)]],
-      shortName: ["", [Validators.required, Validators.pattern(this.unitShortNameRegex)]],
+      unitName: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
+      shortName: ["", [Validators.required, Validators.pattern(this.shortNameRegex)]],
       
     });
     this.editUnitForm = this.fb.group({
-      unitName: ["", [Validators.required, Validators.pattern(this.unitNameRegex)]],
-      shortName: ["", [Validators.required, Validators.pattern(this.unitShortNameRegex)]],
+      unitName: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
+      shortName: ["", [Validators.required, Validators.pattern(this.shortNameRegex)]],
       
     })
   }

@@ -21,8 +21,7 @@ export class EditTaxesComponent {
   // ]
   taxDataById = []
 
-  taxNameRegex = /^(?:.{1,50})$/;
-  taxRateRegex = /^[0-9]+$/;
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   constructor(private fb: FormBuilder,
     public dialog: MatDialog,
     private dialogRef: MatDialogRef<EditTaxesComponent>,
@@ -30,9 +29,9 @@ export class EditTaxesComponent {
     @Inject(MAT_DIALOG_DATA) public _id: any,
   ){
     this.editTaxesForm = this.fb.group({      
-      name: ['',[Validators.required,Validators.pattern(this.taxNameRegex)]],
+      name: ['',[Validators.required,Validators.pattern(this.nameRegex)]],
       taxType: ['Single', [Validators.required]],
-      taxRate: ['', [Validators.required,Validators.pattern(this.taxRateRegex)]]
+      taxRate: ['', [Validators.required,Validators.min(0)]]
       // multipleTax: this.fb.array([]),
     })
   }

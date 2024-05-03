@@ -16,7 +16,7 @@
               <span class="login-danger">Field is required</span>
             </div>
             <div *ngIf="addCategoryForm.get('name')?.hasError('pattern') && addCategoryForm.get('name')?.touched">
-              <span class="login-danger">Input must be between 1 to 50 characters.</span>
+              <span class="login-danger">Input must be between 3 to 50 characters.</span>
             </div>
           </div>
         </div>
@@ -28,7 +28,7 @@
 
             <div
               *ngIf="addCategoryForm.get('description')?.hasError('pattern') && addCategoryForm.get('description')?.touched">
-              <span class="login-danger">Input must be between 1 to 500 characters.</span>
+              <span class="login-danger">Input must be between 3 to 500 characters.</span>
             </div>
 
 

@@ -17,7 +17,7 @@
               <span class="login-danger">Field is required.</span>
             </div>
             <div *ngIf="addTaxesForm.get('name')?.hasError('pattern') && addTaxesForm.get('name')?.touched">
-              <span class="login-danger">Input must be between 1 to 50 characters.</span>
+              <span class="login-danger">Input must be between 3 to 50 characters.</span>
             </div>
           </div>
         </div>
@@ -43,8 +43,8 @@
             <div *ngIf="addTaxesForm.get('taxRate')?.hasError('required') && addTaxesForm.get('taxRate')?.touched">
               <span class="login-danger">Field is required.</span>
             </div>
-            <div *ngIf="addTaxesForm.get('taxRate')?.hasError('pattern') && addTaxesForm.get('taxRate')?.touched">
-              <span class="login-danger">Please Enter the number</span>
+            <div *ngIf="addTaxesForm.get('taxRate')?.hasError('min') && addTaxesForm.get('taxRate')?.touched">
+              <span class="login-danger">Input must be more than 0.</span>
             </div>
           </div>
         </div>
