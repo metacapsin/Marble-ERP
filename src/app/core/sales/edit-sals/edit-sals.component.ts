@@ -98,6 +98,7 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   }
   deletesalesItemDetails(salesItemDetailsIndex: number) {
     this.salesItemDetails.removeAt(salesItemDetailsIndex);
+    this.calculateTotalAmount();
   }
   addsalesItemDetailsItem() {
     const item = this.fb.group({

@@ -63,8 +63,8 @@
                                     <th pSortableColumn="returnDate">Return Date <p-sortIcon field="returnDate"></p-sortIcon>
                                         <p-columnFilter type="text" field="returnDate" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="customer">Customer <p-sortIcon field="customer"></p-sortIcon>
-                                        <p-columnFilter type="text" field="customer" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="customer.name">Customer <p-sortIcon field="customer.name"></p-sortIcon>
+                                        <p-columnFilter type="text" field="customer.name" display="menu"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="returnOrderStatus">Return Status <p-sortIcon field="returnOrderStatus"></p-sortIcon></th>
                                     <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
@@ -115,7 +115,7 @@
 [data]="modalData"></app-confirm-dialog>
 
   <!-- -- Preview model -- -->
-  <p-dialog header="Sales Details" [(visible)]="visible" *ngFor="let sales of salesReturnDataById" [modal]="true"
+  <p-dialog header="Sales Return Details" [(visible)]="visible" *ngFor="let sales of salesReturnDataById" [modal]="true"
   [style]="{width: '80vw'}">
   <div class="modal-content">
     <div class="modal-body">
@@ -133,7 +133,7 @@
                   <div class="col-md-6">
                     <div class="invoice-info">
                       <div class="invoice-head">
-                        <h2 class="text-primary">Sales</h2>
+                        <h2 class="text-primary">Sales Return</h2>
                         <p>Invoice Number : {{sales.salesInvoiceNumber}}</p>
                       </div>
                     </div>

@@ -45,7 +45,7 @@
                 <div class="row">
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="purchaseInvoiceNumber">Invoice Number</label>
+                      <label for="purchaseInvoiceNumber">Invoice Number<span class="login-danger">*</span></label>
                       <input type="text" class="form-control" formControlName="purchaseInvoiceNumber" />
                       <div
                         *ngIf="addPurchaseForm.get('purchaseInvoiceNumber')?.hasError('required')  && addPurchaseForm.get('purchaseInvoiceNumber')?.touched">
@@ -60,7 +60,7 @@
                   </div>
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="purchaseSupplierName">Supplier Name</label>
+                      <label for="purchaseSupplierName">Supplier Name<span class="login-danger">*</span></label>
                       <p-dropdown [style]="{ width: '100%' }" placeholder="--Select Supplier--"
                         [options]="SupplierLists" formControlName="purchaseSupplierName" optionLabel="name"
                         optionValue="_id" display="chip" [showClear]="true"></p-dropdown>
@@ -74,7 +74,7 @@
                   </div>
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="purchaseDate">purchase Date</label>
+                      <label for="purchaseDate">purchase Date<span class="login-danger">*</span></label>
                       <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="purchaseDate"
                         placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
                       <div
@@ -273,7 +273,7 @@
                       <div class="row p-3">
                         <div class="col-12 mt-3">
                           <div class="form-group local-forms">
-                            <label for="purchaseOrderStatus">Order Status</label>
+                            <label for="purchaseOrderStatus">Order Status<span class="login-danger">*</span></label>
                             <p-dropdown [options]="orderStatusList" styleClass="" appendTo="body"
                               optionLabel="orderStatus" optionValue="orderStatus" placeholder="Select  Status"
                               [style]="{ width: '100%' }" formControlName="purchaseOrderStatus" [filter]="true"

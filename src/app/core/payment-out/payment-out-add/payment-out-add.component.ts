@@ -6,7 +6,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CustomersdataService } from '../../Customers/customers.service';
-import { PaymentInService } from '../payment-in.service';
+import { PaymentOutService } from '../payment-out.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
@@ -16,11 +16,11 @@ import { min } from 'rxjs';
   selector: 'app-payment-in-add',
   standalone: true,
   imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, ToastModule],
-  templateUrl: './payment-in-add.component.html',
-  styleUrl: './payment-in-add.component.scss',
+  templateUrl: './payment-out-add.component.html',
+  styleUrl: './payment-out-add.component.scss',
   providers: [MessageService]
 })
-export class PaymentInAddComponent {
+export class PaymentOutAddComponent {
   public routes = routes
   addPaymentInForm! : FormGroup;
   customerList= [];
@@ -40,7 +40,7 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
   constructor( 
     private customerService: CustomersdataService,
-    private Service: PaymentInService,
+    private Service: PaymentOutService,
     private messageService: MessageService,
     private router: Router,
     private fb: FormBuilder

@@ -92,18 +92,6 @@
                                     </div>
 
 
-                                    <!-- <div class=" col-md-6 col-sm-12 col-12">
-                                        <div class="form-group local-forms">
-                                            <label for="unit">Unit</label>
-                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Unit--"
-                                                [options]="unitListData" formControlName="unit" optionLabel="unitName"
-                                                optionValue="shortName" display="chip" [filter]="true" filterBy="name"
-                                                [showClear]="true">
-                                            </p-dropdown>
-
-                                        </div>
-                                    </div> -->
-
 
                                 </div>
                             </div>
@@ -131,7 +119,7 @@
                                                 <td>
                                                     <p-dropdown [options]="categoryList" styleClass="" appendTo="body"
                                                         optionLabel="name" optionValue="name" placeholder="Category"
-                                                        [filter]="true" filterBy="name" [showClear]="true"
+                                                        [filter]="true" filterBy="name" 
                                                         formControlName="salesItemCategory">
                                                     </p-dropdown>
                                                     <div
@@ -143,7 +131,7 @@
                                                     <p-dropdown [options]="subCategoryList" styleClass=""
                                                         appendTo="body" optionLabel="name" optionValue="name"
                                                         placeholder="Sub Category" [filter]="true" filterBy="name"
-                                                        [showClear]="true" formControlName="salesItemSubCategory">
+                                                         formControlName="salesItemSubCategory">
                                                     </p-dropdown>
                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemSubCategory').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemSubCategory').touched">
@@ -155,7 +143,7 @@
                                                     <p-dropdown [options]="unitListData" formControlName="unit"
                                                         placeholder="Unit" appendTo="body" optionLabel="unitName"
                                                         optionValue="shortName" [filter]="true" filterBy="name"
-                                                        [showClear]="true">
+                                                        >
                                                     </p-dropdown>
                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.unit').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.unit').touched">
@@ -317,13 +305,8 @@
                                                         <p-multiSelect [style]="{'width':'100%'}"
                                                             placeholder="Select Tax" [options]="orderTaxList"
                                                             formControlName="salesOrderTax" optionLabel="orderTaxName"
-                                                            optionValue="orderNamevalue" display="chip"
-                                                            [showClear]="true" (onChange)="calculateTotalAmount()">
+                                                            optionValue="orderNamevalue" display="chip" (onChange)="calculateTotalAmount()">
                                                         </p-multiSelect>
-                                                        <!-- <div
-                                                            *ngIf="addSalesForm.get('salesOrderTax')?.hasError('required')  && addSalesForm.get('salesOrderTax')?.touched">
-                                                            <span class="login-danger">Field is required.</span>
-                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="col-12 ml-3">

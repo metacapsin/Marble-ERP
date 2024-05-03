@@ -8,11 +8,11 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Payment In </li>
+                        <li class="breadcrumb-item active">Payment Out </li>
                         <li class="breadcrumb-item">
                             <i class="feather icon-chevron-right"></i>
                         </li>
-                        <li class="breadcrumb-item active">Payment In Add</li>
+                        <li class="breadcrumb-item active">Payment Out Add</li>
                     </ul>
                 </div>
             </div>
@@ -43,7 +43,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="name">Customer <span class="login-danger">*</span></label>
+                                            <label for="name">Suppliers <span class="login-danger">*</span></label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Customer--"
                                                 [options]="customerList" optionLabel="name" optionValue="_id"
                                                 display="chip" [filter]="true" filterBy="name"

@@ -50,6 +50,7 @@ export class EditUserComponent implements OnInit {
   editUserGroup: UntypedFormGroup;
   data: any = null;
   wareHousedata: any = [];
+  wareHouseLists = [];
 
   ngOnInit(): void {
     this.UserEditData.GetUserDataByID(this.id).subscribe((resp: any) => {
@@ -59,6 +60,17 @@ export class EditUserComponent implements OnInit {
 
     this.service.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
+      this.wareHouseLists = [];
+      this.wareHousedata.forEach((element: any) => {
+        this.wareHouseLists.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name,
+          },
+        });
+        console.log(this.wareHouseLists);
+      });
     });
   }
 
@@ -93,7 +105,7 @@ export class EditUserComponent implements OnInit {
         "",
         [Validators.required, Validators.pattern(this.addressRegex)],
       ],
-      wareHouse: [""],
+      warehouse: [""],
       adminCheckBox: [""],
       SalesmanCheckBox: [""],
       stockManagerCheckBox: [""],
@@ -143,7 +155,7 @@ export class EditUserComponent implements OnInit {
         role: _roles,
         status: formData.status,
         address: formData.address,
-        wareHouse: formData.wareHouse,
+        warehouse: formData.warehouse,
       };
       console.log(payload);
 

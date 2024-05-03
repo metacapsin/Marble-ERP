@@ -107,6 +107,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'payment-out',
+        loadChildren: () =>
+          import('./payment-out/payment-out.module').then(
+            (m) => m.PaymentOutModule
+          ),
+      },
+      {
         path: 'sales-return',
         loadChildren: () =>
           import('./sales-return/sales-return.module').then(

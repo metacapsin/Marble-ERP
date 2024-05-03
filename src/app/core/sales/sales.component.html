@@ -293,9 +293,9 @@
 
               <div class="card">
                 <p-tabView>
-                  <p-tabPanel header="Payments">
-                    <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}">
-                      <ng-template pTemplate="header">
+                  <p-tabPanel header="Payments" >
+                    <p-table [value]="paymentListData" *ngIf="paymentListData?.length > 0" [tableStyle]="{'min-width': '60rem'}">
+                      <ng-template pTemplate="header" >
                         <tr>
                           <th pSortableColumn="transactionNo">Trnx No. <p-sortIcon field="transactionNo"></p-sortIcon>
                           </th>

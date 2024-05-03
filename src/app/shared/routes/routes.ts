@@ -590,6 +590,12 @@ export class routes {
   public static get addPaymentIn(): string {
     return this.baseUrl + '/payment-in/add-payment-in'
   }
+  public static get paymentOut(): string {
+    return this.baseUrl + '/payment-out'
+  }
+  public static get addPaymentOut(): string {
+    return this.baseUrl + '/payment-out/add-payment-out'
+  }
   public static get unitsList(): string {
     return this.baseUrl + '/settings/units';
   }

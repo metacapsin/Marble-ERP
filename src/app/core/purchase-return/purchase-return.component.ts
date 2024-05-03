@@ -68,26 +68,11 @@ export class PurchaseReturnComponent {
     this.allInvoice = [];
     this.serialNumberArray = [];
 
-    this.data.getAllInvoice().subscribe((data: apiResultFormat) => {
-      this.totalData = data.totalData;
-      data.data.map((res: allInvoice, index: number) => {
-        const serialNumber = index + 1;
-        if (index >= this.skip && serialNumber <= this.limit) {
-        
-          this.allInvoice.push(res);
-          this.serialNumberArray.push(serialNumber);
-        }
-      });
-      this.dataSource = new MatTableDataSource<allInvoice>(this.allInvoice);
-      this.calculateTotalPages(this.totalData, this.pageSize);
-    });
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  }  
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
     this.allInvoice = this.dataSource.filteredData;
   }
-
   public sortData(sort: Sort) {
     const data = this.allInvoice.slice();
 
@@ -103,7 +88,6 @@ export class PurchaseReturnComponent {
       });
     }
   }
-
   public getMoreData(event: string): void {
     if (event == 'next') {
       this.currentPage++;
@@ -119,7 +103,6 @@ export class PurchaseReturnComponent {
       this.getTableData();
     }
   }
-
   public moveToPage(pageNumber: number): void {
     this.currentPage = pageNumber;
     this.skip = this.pageSelection[pageNumber - 1].skip;
@@ -131,7 +114,6 @@ export class PurchaseReturnComponent {
     }
     this.getTableData();
   }
-
   public PageSize(): void {
     this.pageSelection = [];
     this.limit = this.pageSize;
@@ -139,7 +121,6 @@ export class PurchaseReturnComponent {
     this.currentPage = 1;
     this.getTableData();
   }
-
   private calculateTotalPages(totalData: number, pageSize: number): void {
     this.pageNumberArray = [];
     this.totalPages = totalData / pageSize;
