@@ -58,15 +58,12 @@ export class SalesComponent implements OnInit {
         totalTax += Number(element.taxRate);
       });
       this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
-      console.log("applied tax", resp.data.appliedTax);
-
+      // console.log("applied tax", resp.data.appliedTax);
     });
 
     this.Service.getSalesPaymentList(_id).subscribe((resp: any) => {
-      this.paymentListData = [resp.data];
-      // this.paymentListData = Object.entries(resp.data);
-      console.log("payment id ser ", this.paymentListData);
-
+      this.paymentListData = resp.data;
+      // console.log("payment id ser ", this.paymentListData);
     })
   }
 

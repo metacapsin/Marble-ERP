@@ -118,7 +118,7 @@ export class EditUserComponent implements OnInit {
       email: this.EditUserData[0].email,
       status: this.EditUserData[0].status,
       address: this.EditUserData[0].address,
-      wareHouse: this.EditUserData[0].warehouse,
+      warehouse: this.EditUserData[0].warehouse,
       adminCheckBox:
         this.EditUserData[0].role.indexOf("admin") != -1 ? true : false,
       SalesmanCheckBox:

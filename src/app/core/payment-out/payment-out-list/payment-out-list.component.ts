@@ -39,11 +39,11 @@ export class PaymentOutListComponent {
   
   ngOnInit(): void {
   this.getPaymentList();
-  
   }
 
   getPaymentList(){
     this.Service.getPaymentList().subscribe((resp: any) => {
+      console.log(resp);
       this.paymentListData = resp.data;
     });
   }
@@ -57,11 +57,9 @@ export class PaymentOutListComponent {
     }
     this.showDialoge = true;
   }
-
   showNewDialog() {
     this.showDialoge = true;
   }
-
   callBackModal() {
     this.Service.deletePaymentById(this.paymentId).subscribe((resp: any) => {
       this.messageService.add({ severity: 'success', detail: resp.message });
