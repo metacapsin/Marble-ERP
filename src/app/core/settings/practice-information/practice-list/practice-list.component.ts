@@ -31,7 +31,10 @@ export class PracticeListComponent {
       this.loading = false;
     })
   }
-
+  isNameArray(data: any): boolean {
+    return Array.isArray(data.name);
+  }
+  
   ngOnInit(): void {
     this.auth.getUserProfile().subscribe((user: any) => {
       this.userData = user.data;
