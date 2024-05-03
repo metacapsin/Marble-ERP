@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p-table [value]="staticValues" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                        <p-table [value]="originalData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedProducts">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -72,19 +72,19 @@
                                         <p-columnFilter type="category" field="category" display="menu"></p-columnFilter>
 
                                     </th>
-                                    <th pSortableColumn="brand">Brand <p-sortIcon field="brand"></p-sortIcon>
-                                        <p-columnFilter type="text" field="brand" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="brand">Sub Category <p-sortIcon field="subCatergory"></p-sortIcon>
+                                        <p-columnFilter type="text" field="subCatergory" display="menu"></p-columnFilter>
 
+                                    </th>
+                                    <th pSortableColumn="purchasePrice">Purchase Price <p-sortIcon field="purchasePrice"></p-sortIcon>
+                                        <p-columnFilter type="text" field="purchasePrice" display="menu"></p-columnFilter>
+                                        
                                     </th>
                                     <th pSortableColumn="salesPrice">Sales Price <p-sortIcon field="salesPrice"></p-sortIcon>
                                         <p-columnFilter type="text" field="salesPrice" display="menu"></p-columnFilter>
 
                                     </th>
-                                    <th pSortableColumn="purchasePrice">Purchase Price <p-sortIcon field="purchasePrice"></p-sortIcon>
-                                        <p-columnFilter type="text" field="purchasePrice" display="menu"></p-columnFilter>
-
-                                    </th>
-                                    <th pSortableColumn="currentStock">Current Stock <p-sortIcon
+                                    <th pSortableColumn="currentStock">MRP<p-sortIcon
                                             field="currentStock"></p-sortIcon>
                                         <p-columnFilter field="currentStock" display="menu"></p-columnFilter>
 
@@ -100,22 +100,22 @@
                                         <p-tableCheckbox [value]="product"></p-tableCheckbox>
                                     </td>
                                     <td>
-                                        {{product.product}}
+                                        {{product.name}}
                                     </td>
                                     <td>
                                         {{product.category}}
                                     </td>
                                     <td>
-                                        {{product.brand}}
-                                    </td>
-                                    <td>
-                                        {{product.salesPrice}}
+                                        {{product.subCategory}}
                                     </td>
                                     <td>
                                         {{product.purchasePrice}}
                                     </td>
                                     <td>
-                                        {{product.currentStock}}
+                                        {{product.salesPrice}}
+                                    </td>
+                                    <td>
+                                        {{product.mRP}}
                                     </td>
                                     <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
                                         <p-button [text]="true" icon="fa fa-edit"

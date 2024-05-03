@@ -51,10 +51,17 @@
                                             <label for="warehouse">Warehouse
                                                 <span class="login-danger">*</span></label>
                                             <p-dropdown [options]="warehouseList" styleClass="" appendTo="body"
-                                                optionLabel="name" optionValue="value" placeholder="Select  Warehouse"
+                                                optionLabel="name" optionValue="name" placeholder="Select Warehouse"
                                                 formControlName="warehouse" [style]="{'width':'100%'}" [filter]="true"
-                                                filterBy="value" [showClear]="true">
+                                                filterBy="name" [showClear]="true">
                                             </p-dropdown>
+                                            <div *ngIf="
+                        productForm.get('warehouse')?.hasError(
+                          'required'
+                        ) && productForm.get('warehouse')?.touched
+                      ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -69,14 +76,14 @@
                           'required'
                         ) && productForm.get('name')?.touched
                       ">
-                                                <span class="login-danger">Field is reqiured</span>
+                                                <span class="login-danger">Field is required.</span>
                                             </div>
                                             <div *ngIf="
                         productForm.get('name')?.hasError(
                           'pattern'
                         ) && productForm.get('name')?.touched
                       ">
-                                                <span class="login-danger">Input must be between 5 and 50 characters.
+                                                <span class="login-danger">Input must be between 3 and 50 characters.
                                                 </span>
                                             </div>
                                         </div>
@@ -92,7 +99,7 @@
                           'required'
                         ) && productForm.get('slug')?.touched
                       ">
-                                                <span class="login-danger">Field is reqiured</span>
+                                                <span class="login-danger">Field is required.</span>
                                             </div>
                                             <div *ngIf="
                         productForm.get('slug')?.hasError(
@@ -106,15 +113,32 @@
                                         </div>
                                     </div> -->
 
+                                    <!-- <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                          <label for="category">Category <span class="login-danger">*</span></label>
+                                          <p-treeselect [options]="categoriesList" [(ngModel)]="selectedCategory" [style]="{'width':'100%'}"
+                                            [placeholder]="'Select Category'" [filter]="true" [showClear]="true"></p-treeselect>
+                                        </div>
+                                      </div> -->
+
+
+
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                            <label for="Category">Category
+                                            <label for="category">Category
                                                 <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="categeoryList" styleClass="" appendTo="body"
-                                                optionLabel="name" optionValue="value" placeholder="Select Category"
-                                                optionValue="_id" formControlName="Category" [style]="{'width':'100%'}"
-                                                [filter]="true" filterBy="name" [showClear]="true">
+                                            <p-dropdown [options]="categoryList" styleClass="" appendTo="body"
+                                                optionLabel="name" optionValue="name" placeholder="Select Category"
+                                                formControlName="category" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="name" [showClear]="true">
                                             </p-dropdown>
+                                            <div *ngIf="
+                                            productForm.get('category')?.hasError(
+                                              'required'
+                                            ) && productForm.get('category')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -124,12 +148,18 @@
                                         <div class="form-group local-forms">
                                             <label for="subCategory">Sub Category
                                                 <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="subCategeoryList" styleClass="" appendTo="body"
-                                                optionLabel="name" optionValue="value" placeholder="Select subCategory"
-                                                optionValue="_id" formControlName="subCategory"
-                                                [style]="{'width':'100%'}" [filter]="true" filterBy="name"
-                                                [showClear]="true">
+                                            <p-dropdown [options]="subCategoryList" styleClass="" appendTo="body"
+                                                placeholder="Select subCategory" optionLabel="name" optionValue="name"
+                                                formControlName="subCategory" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="name" [showClear]="true">
                                             </p-dropdown>
+                                            <div *ngIf="
+                                            productForm.get('subCategory')?.hasError(
+                                              'required'
+                                            ) && productForm.get('subCategory')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-xl-6">
@@ -142,9 +172,15 @@
                                                 [style]="{'width':'100%'}" [filter]="true" filterBy="name"
                                                 [showClear]="true">
                                             </p-dropdown>
+                                            <div *ngIf="
+                                            productForm.get('unit')?.hasError(
+                                              'required'
+                                            ) && productForm.get('unit')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
                                         </div>
                                     </div>
-
 
 
 
@@ -156,6 +192,13 @@
                                                     class="login-danger">*</span></label>
                                             <input class="form-control" type="text" placeholder="Enter quantity alert"
                                                 formControlName="quantityAlert" />
+                                            <div *ngIf="
+                                            productForm.get('quantityAlert')?.hasError(
+                                              'required'
+                                            ) && productForm.get('quantityAlert')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -169,6 +212,13 @@
                                                 formControlName="barcodeSymbology" [style]="{'width':'100%'}"
                                                 [filter]="true" filterBy="label" [showClear]="true">
                                             </p-dropdown>
+                                            <div *ngIf="
+                                            productForm.get('barcodeSymbology')?.hasError(
+                                              'required'
+                                            ) && productForm.get('barcodeSymbology')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -177,6 +227,21 @@
                                             <label for="itemCode">Item Code</label>
                                             <input class="form-control" type="text" placeholder="Please Enter Item Code"
                                                 formControlName="itemCode" />
+                                            <div *ngIf="
+                                            productForm.get('itemCode')?.hasError(
+                                              'required'
+                                            ) && productForm.get('itemCode')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            productForm.get('itemCode')?.hasError(
+                                              'pattern'
+                                            ) && productForm.get('itemCode')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be between 3 to 10
+                                                    characters.</span>
+                                            </div>
                                             <!-- <div class="input-group-append">
                                                 <button class="btn btn-outline-secondary" type="button"
                                                     (click)="generateBarcode()">
@@ -203,18 +268,39 @@
                                             <label for="tax">Tax
                                                 <span class="login-danger">*</span></label>
                                             <p-dropdown [options]="taxList" styleClass="" appendTo="body"
-                                                optionLabel="name" optionValue="value" placeholder="Select  Tax"
+                                                optionLabel="name" optionValue="name" placeholder="Select  Tax"
                                                 formControlName="tax" [style]="{'width':'100%'}" [filter]="true"
                                                 filterBy="label" [showClear]="true">
                                             </p-dropdown>
+                                            <div *ngIf="
+                                            productForm.get('tax')?.hasError(
+                                              'required'
+                                            ) && productForm.get('tax')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
                                             <label for="openingStock">Opening Stock</label>
-                                            <input class="form-control" type="text" placeholder="0"
+                                            <input class="form-control" type="number" placeholder="0"
                                                 formControlName="openingStock" />
+                                            <div *ngIf="
+                                                    productForm.get('openingStock')?.hasError(
+                                                      'required'
+                                                    ) && productForm.get('openingStock')?.touched
+                                                  ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                                    productForm.get('openingStock')?.hasError(
+                                                      'min'
+                                                    ) && productForm.get('openingStock')?.touched
+                                                  ">
+                                                <span class="login-danger">Input must be more than 0..</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-xl-6">
@@ -222,10 +308,18 @@
                                             <label for="openingStockDate">Opening Stock Date</label>
                                             <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                                 formControlName="openingStockDate" placeholder="Select Date"
-                                                class="col-12"></p-calendar>
+                                                [styleClass]="'col-12'" class="col-12"></p-calendar>
+                                            <div *ngIf="
+                                            productForm.get('openingStockDate')?.hasError(
+                                              'required'
+                                            ) && productForm.get('openingStockDate')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
 
                                         </div>
                                     </div>
+
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="purchasePrice">Purchase Price</label>
@@ -233,9 +327,25 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">$</span>
                                                 </div>
-                                                <input class="form-control" type="text" placeholder="0"
+                                                <input class="form-control" type="number" placeholder="0"
                                                     formControlName="purchasePrice" />
                                             </div>
+                                            <div *ngIf="
+                                            productForm.get('purchasePrice')?.hasError(
+                                              'required'
+                                            ) && productForm.get('purchasePrice')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            productForm.get('purchasePrice')?.hasError(
+                                              'min'
+                                            ) && productForm.get('purchasePrice')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be more than 0.</span>
+                                            </div>
+
+
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -245,8 +355,22 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">$</span>
                                                 </div>
-                                                <input class="form-control" type="text" placeholder="0"
+                                                <input class="form-control" type="number" placeholder="0"
                                                     formControlName="salesPrice" />
+                                            </div>
+                                            <div *ngIf="
+                                            productForm.get('salesPrice')?.hasError(
+                                              'required'
+                                            ) && productForm.get('salesPrice')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            productForm.get('salesPrice')?.hasError(
+                                              'min'
+                                            ) && productForm.get('salesPrice')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be more than 0.</span>
                                             </div>
                                         </div>
                                     </div>
@@ -257,8 +381,22 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">$</span>
                                                 </div>
-                                                <input class="form-control" type="text" placeholder="0"
+                                                <input class="form-control" type="number" placeholder="0"
                                                     formControlName="mRP" />
+                                            </div>
+                                            <div *ngIf="
+                                            productForm.get('mRP')?.hasError(
+                                              'required'
+                                            ) && productForm.get('mRP')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            productForm.get('mRP')?.hasError(
+                                              'min'
+                                            ) && productForm.get('mRP')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be more than 0.</span>
                                             </div>
                                         </div>
                                     </div>
@@ -272,15 +410,37 @@
                                             <label for="expiryDate">Expiry Date</label>
                                             <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                                 formControlName="expiryDate" placeholder="Select Date"
-                                                class="col-12"></p-calendar>
+                                                [styleClass]="'col-12'" class="col-12"></p-calendar>
+                                            <div *ngIf="
+                                            productForm.get('expiryDate')?.hasError(
+                                              'required'
+                                            ) && productForm.get('expiryDate')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
 
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="description">Description</label>
-                                            <textarea class="form-control" type="text" placeholder="0"
+                                            <textarea class="form-control" type="text" 
                                                 formControlName="description"></textarea>
+                                            <div *ngIf="
+                                            productForm.get('description')?.hasError(
+                                              'required'
+                                            ) && productForm.get('description')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            productForm.get('description')?.hasError(
+                                              'pattern'
+                                            ) && productForm.get('description')?.touched
+                                          ">
+                                                <span class="login-danger">Input should be between 3 to 500
+                                                    characters.</span>
+                                            </div>
                                         </div>
                                     </div>
 

@@ -18,17 +18,36 @@ import { MultiSelectModule } from "primeng/multiselect";
 @Component({
   selector: "app-add-customers",
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, DropdownModule, CommonModule,ToastModule,MultiSelectModule],
+  imports: [
+    RouterModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    CommonModule,
+    ToastModule,
+    MultiSelectModule,
+  ],
   templateUrl: "./add-customers.component.html",
   styleUrl: "./add-customers.component.scss",
-  providers:[MessageService]
+  providers: [MessageService],
 })
-export class AddCustomersComponent implements OnInit{
+export class AddCustomersComponent implements OnInit {
   addcustomerGroup: UntypedFormGroup;
   public routes = routes;
-  wareHousedata:any
+  wareHousedata: any;
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
+
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
+
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
+  billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
+
+  descriptionRegex = /^(?!\s)(.{3,500})$/;
+
   constructor(
     private fb: UntypedFormBuilder,
     private messageService: MessageService,
@@ -57,15 +76,15 @@ export class AddCustomersComponent implements OnInit{
   ngOnInit(): void {
     this.service.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
-    })
+    });
   }
   addcustomerForm() {
     console.log(this.addcustomerGroup.value);
     const payload = {
-      warehouse: this.addcustomerGroup.value.wareHouse,//req
-      name: this.addcustomerGroup.value.name,//req
-      email: this.addcustomerGroup.value.email,//req
-      status: this.addcustomerGroup.value.status.name,//req
+      warehouse: this.addcustomerGroup.value.wareHouse, //req
+      name: this.addcustomerGroup.value.name, //req
+      email: this.addcustomerGroup.value.email, //req
+      status: this.addcustomerGroup.value.status.name, //req
       phoneNo: this.addcustomerGroup.value.phoneNumber,
       taxNo: this.addcustomerGroup.value.taxNumber,
       creaditPeriod: this.addcustomerGroup.value.creditPeriod,
@@ -75,7 +94,7 @@ export class AddCustomersComponent implements OnInit{
       openingBalance: this.addcustomerGroup.value.openingBalance,
     };
     console.log(payload);
-    
+
     if (this.addcustomerGroup.value) {
       this.Service.AddCustomerdata(payload).subscribe((resp: any) => {
         console.log(resp);

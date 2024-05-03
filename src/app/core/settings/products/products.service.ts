@@ -19,7 +19,7 @@ getProductList() {
 }
 
 getProductById(locationId: string) {
-  return this.http.get(environment.apiUrl + "Setting/getProductById/" + locationId);
+  return this.http.get(environment.apiUrl + "/Setting/getProductById/" + locationId);
 }
 
 updateProductById(data: {}) {
