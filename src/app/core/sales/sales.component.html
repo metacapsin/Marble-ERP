@@ -178,8 +178,8 @@
                   <td>{{sales.paymentStatus}}</td>
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialog(sales._id)"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"></p-button>
                     <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)" *ngIf="sales.paymentStatus == 'Unpaid'"></p-button>
 
                   </td>
                 </tr>
@@ -294,6 +294,46 @@
               <div class="card">
                 <p-tabView>
                   <p-tabPanel header="Payments" >
+                    <p-tabPanel header="Items">
+                      <p-table [value]="salesDataById" [tableStyle]="{'min-width': '60rem'}">
+                        <ng-template pTemplate="header">
+                          <tr>
+                            <th pSortableColumn="salesItemCategory">Category <p-sortIcon
+                                field="salesItemCategory"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="salesItemSubCategory">Sub Category <p-sortIcon
+                                field="salesItemSubCategory"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="unit">Unit <p-sortIcon field="unit"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="salesItemName">Name <p-sortIcon field="salesItemName"></p-sortIcon>
+                            </th>
+  
+                            <th pSortableColumn="salesItemQuantity">Quantity <p-sortIcon
+                                field="salesItemQuantity"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="salesItemUnitPrice">Unit Price<p-sortIcon
+                                field="salesItemUnitPrice"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="salesItemSubTotal">Sub Total <p-sortIcon
+                                field="salesItemSubTotal"></p-sortIcon>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-data>
+                          <tr *ngFor="let sales of data.salesItemDetails">
+                            <td>{{sales.salesItemCategory}}</td>
+                            <td>{{sales.salesItemSubCategory}}</td>
+                            <td>{{sales.unit}}</td>
+                            <td>{{sales.salesItemName}}</td>
+                            <td>{{sales.salesItemQuantity}}</td>
+                            <td>{{sales.salesItemUnitPrice}}</td>
+                            <td>{{sales.salesItemSubTotal}}</td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+  
+                    </p-tabPanel>
                     <p-table [value]="paymentListData" *ngIf="paymentListData?.length > 0" [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header" >
                         <tr>
@@ -316,46 +356,6 @@
                         </tr>
                       </ng-template>
                     </p-table>
-                  </p-tabPanel>
-                  <p-tabPanel header="Items">
-                    <p-table [value]="salesDataById" [tableStyle]="{'min-width': '60rem'}">
-                      <ng-template pTemplate="header">
-                        <tr>
-                          <th pSortableColumn="salesItemCategory">Category <p-sortIcon
-                              field="salesItemCategory"></p-sortIcon>
-                          </th>
-                          <th pSortableColumn="salesItemSubCategory">Sub Category <p-sortIcon
-                              field="salesItemSubCategory"></p-sortIcon>
-                          </th>
-                          <th pSortableColumn="unit">Unit <p-sortIcon field="unit"></p-sortIcon>
-                          </th>
-                          <th pSortableColumn="salesItemName">Name <p-sortIcon field="salesItemName"></p-sortIcon>
-                          </th>
-
-                          <th pSortableColumn="salesItemQuantity">Quantity <p-sortIcon
-                              field="salesItemQuantity"></p-sortIcon>
-                          </th>
-                          <th pSortableColumn="salesItemUnitPrice">Unit Price<p-sortIcon
-                              field="salesItemUnitPrice"></p-sortIcon>
-                          </th>
-                          <th pSortableColumn="salesItemSubTotal">Sub Total <p-sortIcon
-                              field="salesItemSubTotal"></p-sortIcon>
-                          </th>
-                        </tr>
-                      </ng-template>
-                      <ng-template pTemplate="body" let-data>
-                        <tr *ngFor="let sales of data.salesItemDetails">
-                          <td>{{sales.salesItemCategory}}</td>
-                          <td>{{sales.salesItemSubCategory}}</td>
-                          <td>{{sales.unit}}</td>
-                          <td>{{sales.salesItemName}}</td>
-                          <td>{{sales.salesItemQuantity}}</td>
-                          <td>{{sales.salesItemUnitPrice}}</td>
-                          <td>{{sales.salesItemSubTotal}}</td>
-                        </tr>
-                      </ng-template>
-                    </p-table>
-
                   </p-tabPanel>
                 </p-tabView>
               </div>

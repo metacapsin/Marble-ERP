@@ -203,11 +203,11 @@ export class AddsalesComponent {
     totalAmount += otherCharges;
 
     this.addSalesForm.patchValue({
-      salesGrossTotal: salesGrossTotal.toFixed(2),
-      salesDiscount: Discount.toFixed(2),
-      salesShipping: shipping.toFixed(2),
-      otherCharges: otherCharges.toFixed(2),
-      salesTotalAmount: totalAmount.toFixed(2),
+      salesGrossTotal: salesGrossTotal.toFixed(),
+      salesDiscount: Discount.toFixed(),
+      salesShipping: shipping.toFixed(),
+      otherCharges: otherCharges.toFixed(),
+      salesTotalAmount: totalAmount.toFixed(),
     });
   }
 
