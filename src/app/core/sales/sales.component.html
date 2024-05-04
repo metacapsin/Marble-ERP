@@ -298,7 +298,6 @@
 
               <div class="card">
                 <p-tabView>
-                  <p-tabPanel header="Payments">
                     <p-tabPanel header="Items">
                       <p-table [value]="salesDataById" [tableStyle]="{'min-width': '60rem'}">
                         <ng-template pTemplate="header">
@@ -334,6 +333,8 @@
                       </p-table>
 
                     </p-tabPanel>
+                    
+                  <p-tabPanel header="Payments">
                     <p-table [value]="paymentListData" *ngIf="paymentListData?.length > 0"
                       [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
