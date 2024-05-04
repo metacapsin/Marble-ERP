@@ -75,7 +75,7 @@ export class AddsalesComponent {
       salesDiscount: ["", [Validators.min(0)]],
       salesInvoiceNumber: [
         "",
-        [Validators.required, Validators.pattern(this.nameRegex)],
+        // [ Validators.pattern(this.nameRegex)],
       ],
       salesItemDetails: this.fb.array([
         this.fb.group({

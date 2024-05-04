@@ -156,6 +156,9 @@
                   <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
                   </th>
+                  <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                    <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
+                  </th>
                   <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
                   </th>
@@ -174,6 +177,7 @@
                   <td>{{sales.customer.name}}</td>
                   <td>{{sales.salesOrderStatus}}</td>
                   <td>{{sales.paidAmount}}</td>
+                  <td>{{sales.dueAmount}}</td>
                   <td>{{sales.salesTotalAmount}}</td>
                   <td>{{sales.paymentStatus}}</td>
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">

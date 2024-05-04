@@ -65,11 +65,19 @@
                     <th style="width: 10%;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
                       <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-                    <th pSortableColumn="name" style="width: 70%;">Sub Category <p-sortIcon
+                    <th pSortableColumn="name" >Sub Category <p-sortIcon
                         field="name"></p-sortIcon>
                         <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
                     </th>
-                    <!-- <th pSortableColumn="category" style="width: 70%;">Category <p-sortIcon
+                    <th pSortableColumn="categoryId" >Category <p-sortIcon
+                        field="categoryId"></p-sortIcon>
+                        <p-columnFilter type="text" field="categoryId" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="description" >Discription <p-sortIcon
+                        field="description"></p-sortIcon>
+                        <p-columnFilter type="text" field="description" display="menu"></p-columnFilter>
+                    </th>
+                    <!-- <th pSortableColumn="category" ">Category <p-sortIcon
                         field="category"></p-sortIcon>
                         <p-columnFilter type="text" field="category" display="menu"></p-columnFilter>
                     </th> -->
@@ -82,6 +90,8 @@
                       <p-tableCheckbox [value]="subCategories"></p-tableCheckbox>
                     </td>
                     <td>{{subCategories.name}}</td>
+                    <td>{{subCategories.categoryId}}</td>
+                    <td>{{subCategories.description}}</td>
                     <!-- <td>{{subCategories.category}}</td> -->
                     <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
                       <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(subCategories._id)"></p-button>

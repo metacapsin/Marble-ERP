@@ -76,7 +76,9 @@ export class EditPurchaseComponent implements OnInit {
     private messageService: MessageService,
   ) {
     this.editPurchaseForm = this.fb.group({
-      purchaseInvoiceNumber: ["", [Validators.required,Validators.pattern(this.nameRegex)]],
+      purchaseInvoiceNumber: ["", 
+      // [Validators.required,Validators.pattern(this.nameRegex)]
+    ],
       purchaseSupplierName: ["", [Validators.required]],
       purchaseDate: ["", [Validators.required]],
       purchaseOrderStatus: ["", [Validators.required]],
