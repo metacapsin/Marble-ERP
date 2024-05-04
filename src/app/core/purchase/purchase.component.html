@@ -184,9 +184,9 @@
                   <td>{{purchase.purchaseDate}}</td>
                   <td>{{purchase.supplier.name}}</td>
                   <td>{{purchase.purchaseOrderStatus}}</td>
-                  <td>{{purchase.paidAmount}}</td>                  
-                  <td>{{purchase.dueAmount}}</td>                  
-                  <td>{{purchase.purchaseTotalAmount}}</td>
+                  <td>₹ {{purchase.paidAmount}}</td>                  
+                  <td>₹ {{purchase.dueAmount}}</td>                  
+                  <td>₹ {{purchase.purchaseTotalAmount}}</td>
                   <td>{{purchase.paymentStatus}}</td>
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialogView(purchase._id)"></p-button>
@@ -321,7 +321,7 @@
                         <tr>
                           <td class="bold">{{payment.transactionNo}}</td>
                           <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
-                          <td>{{payment.amount}}</td>
+                          <td>₹ {{payment.amount}}</td>
                           <td>{{payment.paymentMode}}</td>
                         </tr>
                       </ng-template>
@@ -355,8 +355,8 @@
                           <td>{{purchase.unit}}</td>
                           <td>{{purchase.purchaseItemName}}</td>
                           <td>{{purchase.purchaseItemQuantity}}</td>
-                          <td>{{purchase.purchaseItemUnitPrice}}</td>
-                          <td>{{purchase.purchaseItemSubTotal}}</td>
+                          <td>₹ {{purchase.purchaseItemUnitPrice}}</td>
+                          <td>₹ {{purchase.purchaseItemSubTotal}}</td>
                         </tr>
                       </ng-template>
                     </p-table>

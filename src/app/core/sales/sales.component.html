@@ -176,9 +176,9 @@
                   <td>{{sales.salesDate}}</td>
                   <td>{{sales.customer.name}}</td>
                   <td>{{sales.salesOrderStatus}}</td>
-                  <td>{{sales.paidAmount}}</td>
-                  <td>{{sales.dueAmount}}</td>
-                  <td>{{sales.salesTotalAmount}}</td>
+                  <td>₹ {{sales.paidAmount}}</td>
+                  <td>₹ {{sales.dueAmount}}</td>
+                  <td>₹ {{sales.salesTotalAmount}}</td>
                   <td>{{sales.paymentStatus}}</td>
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialog(sales._id)"></p-button>
@@ -326,8 +326,8 @@
                             <td>{{sales.unit}}</td>
                             <td>{{sales.salesItemName}}</td>
                             <td>{{sales.salesItemQuantity}}</td>
-                            <td>{{sales.salesItemUnitPrice}}</td>
-                            <td>{{sales.salesItemSubTotal}}</td>
+                            <td>₹ {{sales.salesItemUnitPrice}}</td>
+                            <td>₹ {{sales.salesItemSubTotal}}</td>
                           </tr>
                         </ng-template>
                       </p-table>
@@ -353,7 +353,7 @@
                         <tr>
                           <td class="bold">{{payment.transactionNo}}</td>
                           <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
-                          <td>{{payment.amount}}</td>
+                          <td>₹ {{payment.amount}}</td>
                           <td>{{payment.paymentMode}}</td>
                         </tr>
                       </ng-template>
