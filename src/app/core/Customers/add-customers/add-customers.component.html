@@ -219,7 +219,7 @@
                             ?.hasError('min') &&
                           addcustomerGroup.get('creditPeriod')?.touched
                         " class="login-danger Font_size">
-                        Credit Period cannot be smaller than 0 days.
+                        Credit Period cannot be less than 0 days.
                       </div>
                       <div *ngIf="
                           addcustomerGroup
@@ -257,7 +257,7 @@
                             ?.hasError('min') &&
                           addcustomerGroup.get('creditLimit')?.touched
                         " class="login-danger Font_size">
-                        Credit amount cannot be smaller than 0.
+                        Credit amount cannot be less than 0.
                       </div>
                       <div *ngIf="
                           addcustomerGroup
@@ -265,7 +265,7 @@
                             ?.hasError('max') &&
                           addcustomerGroup.get('creditLimit')?.touched
                         " class="login-danger Font_size">
-                        Credit amount limit excded.
+                        Credit amount limit exceed.
                       </div>
                     </div>
                   </div>
@@ -289,7 +289,7 @@
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="shippingAddress">Billing Address</label>
+                      <label for="shippingAddress">Shipping Address</label>
                       <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
                         formControlName="shippingAddress"></textarea>
 

@@ -29,7 +29,7 @@
             <form [formGroup]="editCustomerGroup" (ngSubmit)="editCustomerForm()">
               <div class="row">
                 <div class="d-flex m-b-10" style="justify-content: space-between">
-                  <h3>Edit New Customer</h3>
+                  <h3>Edit Customer</h3>
                   <div class="settings-btns text-end m-b-10">
                     <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
                       [disabled]="!editCustomerGroup.valid">
@@ -219,7 +219,7 @@
                             ?.hasError('min') &&
                           editCustomerGroup.get('creditPeriod')?.touched
                         " class="login-danger Font_size">
-                        Credit Period cannot be smaller than 0 days.
+                        Credit Period cannot be less than 0 days.
                       </div>
                       <div *ngIf="
                           editCustomerGroup
@@ -257,7 +257,7 @@
                             ?.hasError('min') &&
                           editCustomerGroup.get('creditLimit')?.touched
                         " class="login-danger Font_size">
-                        Credit amount cannot be smaller than 0.
+                        Credit amount cannot be less than 0.
                       </div>
                       <div *ngIf="
                           editCustomerGroup
@@ -265,7 +265,7 @@
                             ?.hasError('max') &&
                           editCustomerGroup.get('creditLimit')?.touched
                         " class="login-danger Font_size">
-                        Credit amount limit excded.
+                        Credit amount limit exceed.
                       </div>
                     </div>
                   </div>
@@ -289,7 +289,7 @@
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="shippingAddress">Billing Address</label>
+                      <label for="shippingAddress">Shipping Address</label>
                       <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
                         formControlName="shippingAddress"></textarea>
 

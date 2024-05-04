@@ -18,7 +18,14 @@ import { MultiSelectModule } from "primeng/multiselect";
 @Component({
   selector: "app-add-suppliers",
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, DropdownModule, CommonModule,ToastModule,MultiSelectModule],
+  imports: [
+    RouterModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    CommonModule,
+    ToastModule,
+    MultiSelectModule,
+  ],
   templateUrl: "./add-suppliers.component.html",
   styleUrl: "./add-suppliers.component.scss",
   providers: [MessageService],
@@ -26,11 +33,23 @@ import { MultiSelectModule } from "primeng/multiselect";
 export class AddSuppliersComponent {
   addSupplierGroup: UntypedFormGroup;
   routes = routes;
-  wareHousedata:any
-
-  wareHouseArray = [{ name: "Electronifly" }, { name: "Warehouse Gas" }];
+  wareHousedata: any;
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
+
+  personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
+
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
+
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
+  billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
+
+  descriptionRegex = /^(?!\s)(.{3,500})$/;
+
+  phoneRegex = /^[0-9]{10}$/;
+
   constructor(
     private fb: UntypedFormBuilder,
     private router: Router,
@@ -40,34 +59,34 @@ export class AddSuppliersComponent {
   ) {
     this.addSupplierGroup = this.fb.group({
       wareHouse: ["", [Validators.required]],
-      name: ["", [Validators.required]],
+      name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       phoneNumber: [
         "",
-        [Validators.required, Validators.pattern(new RegExp(/^.{3,20}$/))],
+        [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
-      email: ["", [Validators.required, Validators.email]],
+      email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
       status: ["", [Validators.required]],
-      taxNumber: ["", []],
-      openingBalance: ["", []],
-      creditPeriod: ["", []],
-      creditLimit: ["", []],
-      billingAddress: ["", []],
-      shippingAddress: ["", []],
+      taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
+      openingBalance: ["", [Validators.min(0)]],
+      creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
+      creditLimit: ["", [Validators.min(0), Validators.max(150000)]],
+      billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
+      shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
   }
 
   ngOnInit(): void {
     this.service.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
-    })
+    });
   }
 
-  addcustomerForm() {
+  addSupplierForm() {
     console.log(this.addSupplierGroup.value);
     let _status: boolean; // Change const to let
     if (this.addSupplierGroup.value.status.name === "Enabled") {
       _status = true;
-    }else{
+    } else {
       _status = false;
     }
     // "warehouse" : "Warehouse Gas",

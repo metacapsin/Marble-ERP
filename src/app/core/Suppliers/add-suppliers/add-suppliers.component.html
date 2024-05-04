@@ -26,12 +26,13 @@
       <div class="col-sm-12">
         <div class="card card-table show-entire">
           <div class="card-body p-3">
-            <form [formGroup]="addSupplierGroup" (ngSubmit)="addcustomerForm()">
+            <form [formGroup]="addSupplierGroup" (ngSubmit)="addSupplierForm()">
               <div class="row">
                 <div class="d-flex m-b-10" style="justify-content: space-between">
-                  <h3>Add New Suppliers</h3>
+                  <h3>Add Supplier</h3>
                   <div class="settings-btns text-end m-b-10">
-                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10" [disabled]="!addSupplierGroup.valid" >
+                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                      [disabled]="!addSupplierGroup.valid">
                       Submit
                     </button>
                     <button class="btn btn-secondary" [routerLink]="['/suppliers']">
@@ -41,22 +42,19 @@
                 </div>
 
                 <div class="row">
-
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="wareHouse">Warehouse<span class="login-danger">*</span></label>
-                      <!-- <p-dropdown formControlName="wareHouse" [filter]="true" filterBy="name" [showClear]="true"
-                        [style]="{'width':'100%'}" [options]="wareHouseArray" optionLabel="name"
-                        placeholder="--Select Warehouse--"></p-dropdown> -->
-                        <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Warehouse--"
-                        [options]="wareHousedata" formControlName="wareHouse" optionLabel="name" optionValue="name"
+                      <label for="wareHouse">Warehouse <span class="login-danger"></span></label>
+                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Select Warehouse--"
+                        [options]="wareHousedata" formControlName="wareHouse" optionLabel="name" optionValue="_id"
                         display="chip" [showClear]="true"></p-multiSelect>
                       <div *ngIf="
-                                                      addSupplierGroup.get('wareHouse')?.hasError(
-                                                        'required'
-                                                      ) && addSupplierGroup.get('wareHouse')?.touched
-                                                    " class="login-danger Font_size">
-                        Warehouse field is reqiured.
+                          addSupplierGroup
+                            .get('wareHouse')
+                            ?.hasError('required') &&
+                          addSupplierGroup.get('wareHouse')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
                       </div>
                     </div>
                   </div>
@@ -66,15 +64,19 @@
                       <label for="name">Name<span class="login-danger">*</span></label>
                       <input class="form-control" type="text" placeholder="Please Enter Name" formControlName="name" />
                       <div *ngIf="
-                                                      addSupplierGroup.get('name')?.hasError(
-                                                        'required'
-                                                      ) && addSupplierGroup.get('name')?.touched
-                                                    " class="login-danger Font_size">
-                        Name field is reqiured.
+                          addSupplierGroup.get('name')?.hasError('required') &&
+                          addSupplierGroup.get('name')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
+                      </div>
+                      <div *ngIf="
+                          addSupplierGroup.get('name')?.hasError('pattern') &&
+                          addSupplierGroup.get('name')?.touched
+                        " class="login-danger Font_size">
+                        Input should be between 3 to 50 characters.
                       </div>
                     </div>
                   </div>
-
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
@@ -82,17 +84,20 @@
                       <input class="form-control" type="number" placeholder="Please Enter Phone Number"
                         formControlName="phoneNumber" />
                       <div *ngIf="
-                                                      addSupplierGroup.get('phoneNumber')?.hasError(
-                                                        'required'
-                                                      ) && addSupplierGroup.get('phoneNumber')?.touched
-                                                    " class="login-danger Font_size">
-                        Phone Number field is reqiured.
+                          addSupplierGroup
+                            .get('phoneNumber')
+                            ?.hasError('required') &&
+                          addSupplierGroup.get('phoneNumber')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
                       </div>
-                      <div *ngIf="addSupplierGroup.get('phoneNumber')?.hasError(
-                        'pattern'
-                      ) && addSupplierGroup.get('phoneNumber')?.touched
-                    " class="login-danger Font_size">
-                        Phone number must be 10 digts
+                      <div *ngIf="
+                          addSupplierGroup
+                            .get('phoneNumber')
+                            ?.hasError('pattern') &&
+                          addSupplierGroup.get('phoneNumber')?.touched
+                        " class="login-danger Font_size">
+                        Please Enter 10-Digit number.
                       </div>
                     </div>
                   </div>
@@ -103,16 +108,17 @@
                       <input class="form-control" type="email" placeholder="Please Enter Email"
                         formControlName="email" />
                       <div *ngIf="
-                                                      addSupplierGroup.get('email')?.hasError(
-                                                        'required'
-                                                      ) && addSupplierGroup.get('email')?.touched
-                                                    " class="login-danger Font_size">
-                        Email field is reqiured.
+                          addSupplierGroup.get('email')?.hasError('required') &&
+                          addSupplierGroup.get('email')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
                       </div>
-                      <div *ngIf="addSupplierGroup.get('email').errors?.['email']" class="login-danger Font_size">
-                        Please enter a valid email address.
+                      <div *ngIf="
+                          addSupplierGroup.get('email')?.hasError('pattern') &&
+                          addSupplierGroup.get('email')?.touched
+                        " class="login-danger Font_size">
+                        Please enter valid Email address.
                       </div>
-
                     </div>
                   </div>
 
@@ -120,87 +126,181 @@
                     <div class="form-group local-forms">
                       <label for="status">Status<span class="login-danger">*</span></label>
                       <p-dropdown [options]="statusArray" styleClass="" optionLabel="name"
-                        placeholder="--Select Status--" formControlName="status" [style]="{'width':'100%'}"
+                        placeholder="--Select Status--" formControlName="status" [style]="{ width: '100%' }"
                         filterBy="name" [showClear]="true">
                       </p-dropdown>
                       <div *ngIf="
-                                                      addSupplierGroup.get('status')?.hasError(
+                          addSupplierGroup
+                            .get('status')
+                            ?.hasError('required') &&
+                          addSupplierGroup.get('status')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
+                      <input class="form-control" type="text" placeholder="Please Enter Tex Number"
+                        formControlName="taxNumber" />
+                      <!-- <div *ngIf="
+                                                      addSupplierGroup.get('taxNumber')?.hasError(
                                                         'required'
-                                                      ) && addSupplierGroup.get('status')?.touched
+                                                      ) && addSupplierGroup.get('taxNumber')?.touched
                                                     " class="login-danger Font_size">
-                        Status field is reqiured.
+                        Field is required.
+                      </div> -->
+                      <div *ngIf="
+                          addSupplierGroup
+                            .get('taxNumber')
+                            ?.hasError('pattern') &&
+                          addSupplierGroup.get('taxNumber')?.touched
+                        " class="login-danger Font_size">
+                        Input must be between 1 to 10 characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="openingBalance">Opening Balance<span class="login-danger"></span></label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">₹</span>
+                        </div>
+                        <input class="form-control" type="number" placeholder="0" formControlName="openingBalance" />
+                      </div>
+                      <!-- <div *ngIf="
+                                                    addSupplierGroup.get('openingBalance')?.hasError(
+                                                      'required'
+                                                    ) && addSupplierGroup.get('openingBalance')?.touched
+                                                  " class="login-danger Font_size">
+                        Field is required.
+                      </div> -->
+                      <div *ngIf="
+                          addSupplierGroup
+                            .get('openingBalance')
+                            ?.hasError('min') &&
+                          addSupplierGroup.get('openingBalance')?.touched
+                        " class="login-danger Font_size">
+                        Input should be more than 0.
                       </div>
                     </div>
                   </div>
 
                   <!-- <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="password">Password<span class="login-danger"></span></label>
-                      <input class="form-control" type="password" placeholder="Please Enter Password"
-                        formControlName="password" />
-                        <div *ngIf="
-                                                      addSupplierGroup.get('password')?.hasError(
-                                                        'required'
-                                                      ) && addSupplierGroup.get('password')?.touched
-                                                    " class="login-danger Font_size">
-                                                    Password field is reqiured.
-                      </div>
-                      <div *ngIf="addSupplierGroup.get('password')?.hasError(
-                                                        'pattern'
-                                                      ) && addSupplierGroup.get('password')?.touched
-                                                    " class="login-danger Font_size">
-                        Password must be between 3 and 20 characters.
-                      </div>
+                      <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
+                      <input class="form-control" value="30" type="number" placeholder formControlName="creditPeriod" />
                     </div>
                   </div> -->
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
-                      <input class="form-control" type="number" placeholder="Please Enter Tex Number"
-                        formControlName="taxNumber" />
-                    </div>
-                  </div>
-
-
-                  <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <label for="openingBalance">Opening Balance<span class="login-danger"></span></label>
-                      <input class="form-control" type="number" placeholder="$ 0" formControlName="openingBalance" />
-                    </div>
-                    <div>
-
-                    </div>
-                  </div>
-
-                  <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
                       <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
-                      <input class="form-control" value="30" type="number" placeholder formControlName="creditPeriod" />
+                      <div class="input-group">
+                        <input class="form-control" type="number" placeholder formControlName="creditPeriod" />
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" style="font-size: 12px">Days</span>
+                        </div>
+                      </div>
+                      <!-- <div *ngIf="
+                      addSupplierGroup.get('taxNumber')?.hasError(
+                        'required'
+                      ) && addSupplierGroup.get('taxNumber')?.touched
+                    " class="login-danger Font_size">
+                        Field is required.
+                      </div> -->
+                      <div *ngIf="
+                          addSupplierGroup
+                            .get('creditPeriod')
+                            ?.hasError('min') &&
+                          addSupplierGroup.get('creditPeriod')?.touched
+                        " class="login-danger Font_size">
+                        Credit Period cannot be less than 0 days.
+                      </div>
+                      <div *ngIf="
+                          addSupplierGroup
+                            .get('creditPeriod')
+                            ?.hasError('max') &&
+                          addSupplierGroup.get('creditPeriod')?.touched
+                        " class="login-danger Font_size">
+                        Credit Period should be less than 120 days.
+                      </div>
                     </div>
                   </div>
+
+                  <!-- <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
+                      <input class="form-control" type="text" placeholder="$ 0" formControlName="creditLimit" />
+                    </div>
+                  </div> -->
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
-                      <input class="form-control" type="text" placeholder="$ 0" formControlName="creditLimit" />
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">₹</span>
+                        </div>
+                        <input class="form-control" type="number" placeholder="0" formControlName="creditLimit" />
+                      </div>
+                      <div *ngIf="
+                          addSupplierGroup
+                            .get('creditLimit')
+                            ?.hasError('min') &&
+                          addSupplierGroup.get('creditLimit')?.touched
+                        " class="login-danger Font_size">
+                        Credit amount cannot be less than 0.
+                      </div>
+                      <div *ngIf="
+                          addSupplierGroup
+                            .get('creditLimit')
+                            ?.hasError('max') &&
+                          addSupplierGroup.get('creditLimit')?.touched
+                        " class="login-danger Font_size">
+                        Credit amount limit exceed.
+                      </div>
                     </div>
                   </div>
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="billingAddress">Billing Address<span class="login-danger"></span></label>
+                      <label for="billingAddress">Billing Address</label>
                       <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
-                        formControlName="billingAddress" rows="1"></textarea>
+                        formControlName="billingAddress"></textarea>
+
+                      <div *ngIf="
+                          addSupplierGroup
+                            .get('billingAddress')
+                            ?.hasError('pattern') &&
+                          addSupplierGroup.get('billingAddress')?.touched
+                        ">
+                        <span class="login-danger">Input Must be between 3 to 500 characters</span>
+                      </div>
                     </div>
                   </div>
 
-
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="shippingAddress">Shipping Address<span class="login-danger"></span></label>
+                      <label for="shippingAddress">Shipping Address</label>
                       <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
-                        formControlName="shippingAddress" rows="1"></textarea>
+                        formControlName="shippingAddress"></textarea>
+
+                      <div *ngIf="
+                          addSupplierGroup
+                            .get('shippingAddress')
+                            ?.hasError('pattern') &&
+                          addSupplierGroup.get('shippingAddress')?.touched
+                        ">
+                        <span class="login-danger">Input Must be between 3 to 500 characters</span>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -40,6 +40,19 @@ export class EditSuppliersComponent implements OnInit {
   // wareHouseArray = [{ name: "Electronifly" }, { name: "Warehouse Gas" }];
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
+
+  personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
+
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
+
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
+  billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
+
+  descriptionRegex = /^(?!\s)(.{3,500})$/;
+
+  phoneRegex = /^[0-9]{10}$/;
   constructor(
     private fb: UntypedFormBuilder,
     private router: Router,
@@ -50,19 +63,19 @@ export class EditSuppliersComponent implements OnInit {
   ) {
     this.editSupplierGroup = this.fb.group({
       wareHouse: ["", [Validators.required]],
-      name: ["", [Validators.required]],
+      name:["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       phoneNumber: [
         "",
-        [Validators.required, Validators.pattern(new RegExp(/^.{3,20}$/))],
+        [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
-      email: ["", [Validators.required, Validators.email]],
+      email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
       status: ["", [Validators.required]],
-      taxNumber: ["", []],
-      openingBalance: ["", []],
-      creditPeriod: ["", []],
-      creditLimit: ["", []],
-      billingAddress: ["", []],
-      shippingAddress: ["", []],
+      taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
+      openingBalance: ["", [Validators.min(0)]],
+      creditPeriod:  ["", [Validators.min(0), Validators.max(120)]],
+      creditLimit: ["", [Validators.min(0), Validators.max(150000)]],
+      billingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
+      shippingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -96,7 +109,7 @@ export class EditSuppliersComponent implements OnInit {
     });
   }
 
-  editCustomerForm() {
+  editSupplierForm() {
     console.log(this.editSupplierGroup.value);
     let _status: boolean; // Change const to let
     if (this.editSupplierGroup.value.status.name === "Enabled") {

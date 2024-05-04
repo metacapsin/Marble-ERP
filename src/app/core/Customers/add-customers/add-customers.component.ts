@@ -37,7 +37,7 @@ export class AddCustomersComponent implements OnInit {
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
-  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
 
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
 
@@ -57,7 +57,7 @@ export class AddCustomersComponent implements OnInit {
   ) {
     this.addcustomerGroup = this.fb.group({
       wareHouse: ["", [Validators.required]],
-      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
+      name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       phoneNumber: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
