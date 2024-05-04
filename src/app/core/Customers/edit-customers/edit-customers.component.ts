@@ -18,7 +18,14 @@ import { MultiSelectModule } from "primeng/multiselect";
 @Component({
   selector: "app-edit-customers",
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, DropdownModule, CommonModule,ToastModule,MultiSelectModule],
+  imports: [
+    RouterModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    CommonModule,
+    ToastModule,
+    MultiSelectModule,
+  ],
   templateUrl: "./edit-customers.component.html",
   styleUrl: "./edit-customers.component.scss",
   providers: [MessageService],
@@ -28,11 +35,22 @@ export class EditCustomersComponent {
   routes = routes;
   customerData: any;
   id: any;
-  wareHousedata:any
+  wareHousedata: any;
 
   wareHouseArray = [{ name: "Electronifly" }, { name: "Warehouse Gas" }];
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
+
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
+
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
+  billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
+
+  phoneRegex = /^[0-9]{10}$/;
   constructor(
     private fb: UntypedFormBuilder,
     private Service: CustomersdataService,
@@ -43,19 +61,19 @@ export class EditCustomersComponent {
   ) {
     this.editCustomerGroup = this.fb.group({
       wareHouse: ["", [Validators.required]],
-      name: ["", [Validators.required]],
+      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
       phoneNumber: [
         "",
-        [Validators.required, Validators.pattern(new RegExp(/^.{3,20}$/))],
+        [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
-      email: ["", [Validators.required, Validators.email]],
+      email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
       status: ["", [Validators.required]],
-      taxNumber: ["", []],
+      taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
       openingBalance: ["", [Validators.min(0)]],
-      creditPeriod: ["", []],
-      creditLimit: ["", [Validators.min(0)]],
-      billingAddress: ["", []],
-      shippingAddress: ["", []],
+      creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
+      creditLimit: ["", [Validators.min(0), Validators.max(150000)]],
+      billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
+      shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -65,7 +83,7 @@ export class EditCustomersComponent {
 
     this.service.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
-    })
+    });
   }
   getCoustomers() {
     this.Service.GetCustomerDataById(this.id).subscribe((data: any) => {
@@ -75,11 +93,11 @@ export class EditCustomersComponent {
     });
   }
   patchForm() {
-    let _status:any
-    if(this.customerData.status == true){
-      _status = "Enabled"
-    }else{
-      _status = "Disabled"
+    let _status: any;
+    if (this.customerData.status == true) {
+      _status = "Enabled";
+    } else {
+      _status = "Disabled";
     }
     this.editCustomerGroup.patchValue({
       wareHouse: this.customerData.warehouse,
@@ -104,6 +122,7 @@ export class EditCustomersComponent {
       name: this.editCustomerGroup.value.name,
       phoneNo: this.editCustomerGroup.value.phoneNumber,
       email: this.editCustomerGroup.value.email,
+      status:this.editCustomerGroup.value.status,
       taxNo: this.editCustomerGroup.value.taxNumber,
       creaditPeriod: this.editCustomerGroup.value.creditPeriod,
       creaditLimit: this.editCustomerGroup.value.creditLimit,
@@ -113,22 +132,23 @@ export class EditCustomersComponent {
     };
     console.log(payload);
     if (this.editCustomerGroup.value) {
-      this.Service.UpDataCustomerApi(payload).subscribe(
-        (resp: any) => {
-          if (resp) {
-            if (resp.status === "success") {
-              // const message = "User has been updated";
-              this.messageService.add({ severity: "success", detail: resp.message });
-              setTimeout(() => {
-                this.router.navigate(["/customers"]);
-              }, 400);
-            } else {
-              const message = resp.message;
-              this.messageService.add({ severity: "error", detail: message });
-            }
+      this.Service.UpDataCustomerApi(payload).subscribe((resp: any) => {
+        if (resp) {
+          if (resp.status === "success") {
+            // const message = "User has been updated";
+            this.messageService.add({
+              severity: "success",
+              detail: resp.message,
+            });
+            setTimeout(() => {
+              this.router.navigate(["/customers"]);
+            }, 400);
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
           }
         }
-      );
+      });
     } else {
       console.log("Form is invalid!");
     }

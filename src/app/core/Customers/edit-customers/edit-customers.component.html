@@ -42,21 +42,20 @@
                 </div>
 
                 <div class="row">
-
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="wareHouse">Warehouse
-                        <span class="login-danger"></span></label>
-                      <p-multiSelect [style]="{'width':'100%'}" placeholder="--Select Warehouse--"
-                        [options]="wareHousedata" formControlName="wareHouse" optionLabel="name" optionValue="name"
+                      <label for="wareHouse">Warehouse <span class="login-danger"></span></label>
+                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Select Warehouse--"
+                        [options]="wareHousedata" formControlName="wareHouse" optionLabel="name" optionValue="_id"
                         display="chip" [showClear]="true"></p-multiSelect>
-                      <!-- <div *ngIf="
-                                  editUserGroup.get('wareHouse')?.hasError(
-                                    'reqiured'
-                                  ) && editUserGroup.get('wareHouse')?.touched
-                                " class="login-danger Font_size">
-                          Warehouse field is reqiured.
-                        </div> -->
+                      <div *ngIf="
+                          editCustomerGroup
+                            .get('wareHouse')
+                            ?.hasError('required') &&
+                          editCustomerGroup.get('wareHouse')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
+                      </div>
                     </div>
                   </div>
 
@@ -65,33 +64,40 @@
                       <label for="name">Name<span class="login-danger">*</span></label>
                       <input class="form-control" type="text" placeholder="Please Enter Name" formControlName="name" />
                       <div *ngIf="
-                                                        editCustomerGroup.get('name')?.hasError(
-                                                          'required'
-                                                        ) && editCustomerGroup.get('name')?.touched
-                                                      " class="login-danger Font_size">
-                        Name field is reqiured.
+                          editCustomerGroup.get('name')?.hasError('required') &&
+                          editCustomerGroup.get('name')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
+                      </div>
+                      <div *ngIf="
+                          editCustomerGroup.get('name')?.hasError('pattern') &&
+                          editCustomerGroup.get('name')?.touched
+                        " class="login-danger Font_size">
+                        Input should be between 3 to 50 characters.
                       </div>
                     </div>
                   </div>
 
-
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="phoneNumber">Phone Number<span class="login-danger">*</span></label>
-                      <input class="form-control" type="text" placeholder="Please Enter Phone Number"
+                      <input class="form-control" type="number" placeholder="Please Enter Phone Number"
                         formControlName="phoneNumber" />
                       <div *ngIf="
-                                                        editCustomerGroup.get('phoneNumber')?.hasError(
-                                                          'required'
-                                                        ) && editCustomerGroup.get('phoneNumber')?.touched
-                                                      " class="login-danger Font_size">
-                        Phone Number field is reqiured.
+                          editCustomerGroup
+                            .get('phoneNumber')
+                            ?.hasError('required') &&
+                          editCustomerGroup.get('phoneNumber')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
                       </div>
-                      <div *ngIf="editCustomerGroup.get('phoneNumber')?.hasError(
-                          'pattern'
-                        ) && editCustomerGroup.get('phoneNumber')?.touched
-                      " class="login-danger Font_size">
-                        Phone number must be 10 digts
+                      <div *ngIf="
+                          editCustomerGroup
+                            .get('phoneNumber')
+                            ?.hasError('pattern') &&
+                          editCustomerGroup.get('phoneNumber')?.touched
+                        " class="login-danger Font_size">
+                        Please Enter 10-Digit number.
                       </div>
                     </div>
                   </div>
@@ -102,16 +108,17 @@
                       <input class="form-control" type="email" placeholder="Please Enter Email"
                         formControlName="email" />
                       <div *ngIf="
-                                                        editCustomerGroup.get('email')?.hasError(
-                                                          'required'
-                                                        ) && editCustomerGroup.get('email')?.touched
-                                                      " class="login-danger Font_size">
-                        Email field is reqiured.
+                          editCustomerGroup.get('email')?.hasError('required') &&
+                          editCustomerGroup.get('email')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
                       </div>
-                      <div *ngIf="editCustomerGroup.get('email').errors?.['email']" class="login-danger Font_size">
-                        Please enter a valid email address.
+                      <div *ngIf="
+                          editCustomerGroup.get('email')?.hasError('pattern') &&
+                          editCustomerGroup.get('email')?.touched
+                        " class="login-danger Font_size">
+                        Please enter valid Email address.
                       </div>
-
                     </div>
                   </div>
 
@@ -119,15 +126,16 @@
                     <div class="form-group local-forms">
                       <label for="status">Status<span class="login-danger">*</span></label>
                       <p-dropdown [options]="statusArray" styleClass="" optionLabel="name"
-                        placeholder="--Select Status--" formControlName="status" [style]="{'width':'100%'}"
+                        placeholder="--Select Status--" formControlName="status" [style]="{ width: '100%' }"
                         filterBy="name" [showClear]="true">
                       </p-dropdown>
                       <div *ngIf="
-                                                        editCustomerGroup.get('status')?.hasError(
-                                                          'required'
-                                                        ) && editCustomerGroup.get('status')?.touched
-                                                      " class="login-danger Font_size">
-                        Status field is reqiured.
+                          editCustomerGroup
+                            .get('status')
+                            ?.hasError('required') &&
+                          editCustomerGroup.get('status')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
                       </div>
                     </div>
                   </div>
@@ -137,6 +145,21 @@
                       <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
                       <input class="form-control" type="text" placeholder="Please Enter Tex Number"
                         formControlName="taxNumber" />
+                      <!-- <div *ngIf="
+                                                      editCustomerGroup.get('taxNumber')?.hasError(
+                                                        'required'
+                                                      ) && editCustomerGroup.get('taxNumber')?.touched
+                                                    " class="login-danger Font_size">
+                        Field is required.
+                      </div> -->
+                      <div *ngIf="
+                          editCustomerGroup
+                            .get('taxNumber')
+                            ?.hasError('pattern') &&
+                          editCustomerGroup.get('taxNumber')?.touched
+                        " class="login-danger Font_size">
+                        Input must be between 1 to 10 characters.
+                      </div>
                     </div>
                   </div>
 
@@ -149,18 +172,30 @@
                         </div>
                         <input class="form-control" type="number" placeholder="0" formControlName="openingBalance" />
                       </div>
-                      <div *ngIf="editCustomerGroup.get('openingBalance').invalid && editCustomerGroup.get('openingBalance').touched" class="login-danger Font_size">
-                        Opening balance cannot be smaller than 0.
+                      <!-- <div *ngIf="
+                                                    editCustomerGroup.get('openingBalance')?.hasError(
+                                                      'required'
+                                                    ) && editCustomerGroup.get('openingBalance')?.touched
+                                                  " class="login-danger Font_size">
+                        Field is required.
+                      </div> -->
+                      <div *ngIf="
+                          editCustomerGroup
+                            .get('openingBalance')
+                            ?.hasError('min') &&
+                          editCustomerGroup.get('openingBalance')?.touched
+                        " class="login-danger Font_size">
+                        Input should be more than 0.
                       </div>
                     </div>
                   </div>
 
                   <!-- <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
-                        <input class="form-control" value="30" type="number" placeholder formControlName="creditPeriod" />
-                      </div>
-                    </div> -->
+                    <div class="form-group local-forms">
+                      <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
+                      <input class="form-control" value="30" type="number" placeholder formControlName="creditPeriod" />
+                    </div>
+                  </div> -->
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
@@ -168,18 +203,44 @@
                       <div class="input-group">
                         <input class="form-control" type="number" placeholder formControlName="creditPeriod" />
                         <div class="input-group-prepend">
-                          <span class="input-group-text" style="font-size: 12px;">Days</span>
+                          <span class="input-group-text" style="font-size: 12px">Days</span>
                         </div>
+                      </div>
+                      <!-- <div *ngIf="
+                      editCustomerGroup.get('taxNumber')?.hasError(
+                        'required'
+                      ) && editCustomerGroup.get('taxNumber')?.touched
+                    " class="login-danger Font_size">
+                        Field is required.
+                      </div> -->
+                      <div *ngIf="
+                          editCustomerGroup
+                            .get('creditPeriod')
+                            ?.hasError('min') &&
+                          editCustomerGroup.get('creditPeriod')?.touched
+                        " class="login-danger Font_size">
+                        Credit Period cannot be smaller than 0 days.
+                      </div>
+                      <div *ngIf="
+                          editCustomerGroup
+                            .get('creditPeriod')
+                            ?.hasError('max') &&
+                          editCustomerGroup.get('creditPeriod')?.touched
+                        " class="login-danger Font_size">
+                        Credit Period should be less than 120 days.
                       </div>
                     </div>
                   </div>
 
                   <!-- <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
-                        <input class="form-control" type="text" placeholder="$ 0" formControlName="creditLimit" />
+                    <div class="form-group local-forms">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
                       </div>
-                    </div> -->
+                      <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
+                      <input class="form-control" type="text" placeholder="$ 0" formControlName="creditLimit" />
+                    </div>
+                  </div> -->
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
@@ -190,26 +251,56 @@
                         </div>
                         <input class="form-control" type="number" placeholder="0" formControlName="creditLimit" />
                       </div>
-                      <div *ngIf="editCustomerGroup.get('creditLimit').invalid && editCustomerGroup.get('creditLimit').touched" class="login-danger Font_size">
-                        Opening balance cannot be smaller than 0.
+                      <div *ngIf="
+                          editCustomerGroup
+                            .get('creditLimit')
+                            ?.hasError('min') &&
+                          editCustomerGroup.get('creditLimit')?.touched
+                        " class="login-danger Font_size">
+                        Credit amount cannot be smaller than 0.
+                      </div>
+                      <div *ngIf="
+                          editCustomerGroup
+                            .get('creditLimit')
+                            ?.hasError('max') &&
+                          editCustomerGroup.get('creditLimit')?.touched
+                        " class="login-danger Font_size">
+                        Credit amount limit excded.
                       </div>
                     </div>
                   </div>
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="billingAddress">Billing Address<span class="login-danger"></span></label>
+                      <label for="billingAddress">Billing Address</label>
                       <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
-                        formControlName="billingAddress" rows="1"></textarea>
+                        formControlName="billingAddress"></textarea>
+
+                      <div *ngIf="
+                          editCustomerGroup
+                            .get('billingAddress')
+                            ?.hasError('pattern') &&
+                          editCustomerGroup.get('billingAddress')?.touched
+                        ">
+                        <span class="login-danger">Input Must be between 3 to 500 characters</span>
+                      </div>
                     </div>
                   </div>
 
-
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="shippingAddress">Shipping Address<span class="login-danger"></span></label>
+                      <label for="shippingAddress">Billing Address</label>
                       <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
-                        formControlName="shippingAddress" rows="1"></textarea>
+                        formControlName="shippingAddress"></textarea>
+
+                      <div *ngIf="
+                          editCustomerGroup
+                            .get('shippingAddress')
+                            ?.hasError('pattern') &&
+                          editCustomerGroup.get('shippingAddress')?.touched
+                        ">
+                        <span class="login-danger">Input Must be between 3 to 500 characters</span>
+                      </div>
                     </div>
                   </div>
                 </div>
