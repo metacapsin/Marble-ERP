@@ -1,0 +1,197 @@
+<router-outlet></router-outlet>
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Expenses Categories</li>
+                        <li class="breadcrumb-item">
+                            <!-- <i class="feather icon-chevron-right"></i> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div class="card card-table show-entire">
+                    <div class="col p-3">
+                        <div class="doctor-table-blk">
+                            <h3>Expenses Categories List</h3>
+                            <div class="doctor-search-blk col-md-6">
+                                <div class="top-nav-search table-search-blk me-3">
+                                    <input type="text" class="form-control" placeholder="Search here"
+                                        [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
+                                    <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                </div>
+                                <div class="add-group textbtn gap-3">
+                                    <!-- <a [routerLink]="routes.addExpenses" class="btn btn-primary"><img
+                                            src="assets/img/icons/plus.svg" alt="">Add Expenses</a> -->
+                                    <a class="btn btn-primary" (click)="showDialog()"><img
+                                            src="assets/img/icons/plus.svg" alt="">Add Expenses Categories</a>
+                                </div>
+                                <p-dialog header="Add Expenses Categories" [(visible)]="visible" [modal]="true"
+                                    [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+                                    <div class="mt-3">
+                                        <form [formGroup]="addExpensesCategory" (ngSubmit)="addExpensesCategoryForm()">
+                                            <div class="col-12 col-md-12 col-xl-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="expenseCategoryName">Expense Category Name<span
+                                                            class="login-danger">*</span></label>
+                                                    <input class="form-control" type="text"
+                                                        placeholder="Please Enter Expense Category Name"
+                                                        formControlName="expenseCategoryName" />
+                                                    <div *ngIf="
+                                                      addExpensesCategory
+                                                        .get('expenseCategoryName')
+                                                        ?.hasError('required') &&
+                                                      addExpensesCategory.get('expenseCategoryName')?.touched
+                                                    " class="login-danger Font_size">
+                                                        Input must be between 1 to 10 characters.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-xl-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="Description">Description<span
+                                                            class="login-danger"></span></label>
+                                                    <textarea class="form-control" type="text"
+                                                        placeholder="Please Enter Description"
+                                                        formControlName="description" rows="4"></textarea>
+                                                    <div *ngIf="
+                                                      addExpensesCategory
+                                                        .get('description')
+                                                        ?.hasError('required') &&
+                                                      addExpensesCategory.get('description')?.touched
+                                                    " class="login-danger Font_size">
+                                                        Input must be between 1 to 10 characters.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <button
+                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
+                                            <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                (click)="clodeDialog()">Cancel</button>
+                                        </form>
+                                    </div>
+                                </p-dialog>
+                                <p-dialog header="Edit Expenses Categories" [(visible)]="visible1" [modal]="true"
+                                    [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+                                    <div class="mt-3">
+                                        <form [formGroup]="editExpensesCategory" (ngSubmit)="editExpensesCategoryForm()">
+                                            <div class="col-12 col-md-12 col-xl-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="expenseCategoryName">Expense Category Name<span
+                                                            class="login-danger">*</span></label>
+                                                    <input class="form-control" type="text"
+                                                        placeholder="Please Enter Expense Category Name"
+                                                        formControlName="expenseCategoryName" />
+                                                    <div *ngIf="
+                                                      addExpensesCategory
+                                                        .get('editExpenseCategoryName')
+                                                        ?.hasError('required') &&
+                                                      addExpensesCategory.get('editExpenseCategoryName')?.touched
+                                                    " class="login-danger Font_size">
+                                                        Input must be between 1 to 10 characters.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-xl-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="Description">Description<span
+                                                            class="login-danger"></span></label>
+                                                    <textarea class="form-control" type="text"
+                                                        placeholder="Please Enter Description"
+                                                        formControlName="description" rows="4"></textarea>
+                                                    <div *ngIf="
+                                                      addExpensesCategory
+                                                        .get('description')
+                                                        ?.hasError('required') &&
+                                                      addExpensesCategory.get('description')?.touched
+                                                    " class="login-danger Font_size">
+                                                        Input must be between 1 to 10 characters.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button
+                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
+                                            <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                (click)="clodeDialogEdit()">Cancel</button>
+                                        </form>
+                                    </div>
+                                </p-dialog>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-2">
+                        <p-table [value]="dataSource" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                            [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)"
+                            [(selection)]="selectedCustomer">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 5%" appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th>
+                                    <th style="width: 20%" pSortableColumn="name">Expense Category Name<p-sortIcon
+                                            field="name"></p-sortIcon>
+                                        <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="email">Description<p-sortIcon field="email"></p-sortIcon>
+                                        <p-columnFilter type="text" field="email"
+                                            display="menu"></p-columnFilter>
+                                    </th>
+                                    <!-- <th pSortableColumn="status">Date <p-sortIcon field="status"></p-sortIcon>
+                                        <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="createdOn">User <p-sortIcon field="createdOn"></p-sortIcon></th> -->
+
+                                    <!-- <th pSortableColumn="openingBalance">Balance <p-sortIcon field="openingBalance"></p-sortIcon></th> -->
+                                    <th style="width: 20%">Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-product>
+                                <tr>
+                                    <td appShowHide [roles]="['admin', 'super-admin']">
+                                        <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                                    </td>
+                                    <td class="bold">{{product.name}}</td>
+                                    <td class="bold">{{product.email}}</td>
+                                    <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Active"></p-tag>
+                                    </td>
+                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag>
+                                    </td>
+                                    <td>{{product.createdOn | date: 'dd-MM-yyyy'}}</td> -->
+                                    <!-- <td>{{product.openingBalance}}</td> -->
+                                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+
+                                        <!-- <p-button [text]=" true" icon="fa fa-eye"
+                                            (click)="vewCustomer(product._id)"></p-button> -->
+                                        <p-button [text]="true" icon="fa fa-edit" (click)="showDialogEdit()"></p-button>
+                                        <p-button [text]=" true" icon="fa fa-trash"
+                                            (click)="deleteCustomer(product._id)"></p-button>
+
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog> -->

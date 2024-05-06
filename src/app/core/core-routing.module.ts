@@ -134,6 +134,20 @@ const routes: Routes = [
             (m) => m.PurchaseReturnModule
           ),
       },
+      {
+        path: 'expenses',
+        loadChildren: () =>
+          import('./Expenses/expenses.module').then(
+            (m) => m.ExpensesModule
+          ),
+      },
+      {
+        path: 'expenseCategories',
+        loadChildren: () =>
+          import('./expenseCategories/expenseCategories.module').then(
+            (m) => m.ExpensesCategoriesModule
+          ),
+      },
     ],
   },
 ];

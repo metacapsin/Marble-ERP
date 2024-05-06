@@ -1024,6 +1024,32 @@ export class DataService {
           ],
         },
         {
+          menuValue: "Expenses",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "Expenses",
+          icon: "fa-solid fa-wallet",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: "Expenses",
+              route: routes.expenses,
+              base: routes.expenses,
+            },
+            {
+              menuValue: "Expense Categories",
+              route: routes.expenseCategories,
+              base: routes.expenseCategories,
+            },
+            // {
+            //   menuValue: "Purchase Return",
+            //   route: routes.purchaseReturn,
+            //   base: routes.purchaseReturn,
+            // },
+          ],
+        },
+        {
           menuValue: "Reports",
           hasSubRoute: true,
           showSubRoute: false,

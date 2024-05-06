@@ -78,7 +78,9 @@ export class PurchaseComponent {
       this.originalData = data
     });
   }
-
+  blocksEdit(id:any){
+    console.log(id);
+  }
   purchaseUpdate(id:number){
     this.router.navigate(['/purchase/edit-purchase/'+ id]);
   }

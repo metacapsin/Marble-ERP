@@ -63,7 +63,7 @@ export class AddCustomersComponent implements OnInit {
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
-      status: ["", [Validators.required]],
+      // status: ["", [Validators.required]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
       openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
@@ -84,7 +84,7 @@ export class AddCustomersComponent implements OnInit {
       warehouse: this.addcustomerGroup.value.wareHouse, //req
       name: this.addcustomerGroup.value.name, //req
       email: this.addcustomerGroup.value.email, //req
-      status: this.addcustomerGroup.value.status.name, //req
+      status: true, //req
       phoneNo: this.addcustomerGroup.value.phoneNumber,
       taxNo: this.addcustomerGroup.value.taxNumber,
       creaditPeriod: this.addcustomerGroup.value.creditPeriod,
