@@ -70,6 +70,9 @@
                                     <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                                         <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
                                     </th>
+                                    <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                                        <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
+                                    </th>
                                     <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
                                         <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
                                     </th>
@@ -87,14 +90,15 @@
                                     <td>{{sales.returnDate}}</td>
                                     <td>{{sales.customer.name}}</td>
                                     <td>{{sales.returnOrderStatus}}</td>
-                                    <td>{{sales.paidAmount}}</td>
-                                    <td>{{sales.salesTotalAmount}}</td>
+                                    <td>₹ {{sales.paidAmount}}</td>
+                                    <td>₹ {{sales.dueAmount}}</td>
+                                    <td>₹ {{sales.salesTotalAmount}}</td>
                                     <td>{{sales.paymentStatus}}</td>
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                                                 <p-button [text]="true" data-bs-toggle="modal"
                                                 data-bs-target="#sales_preview" icon="fa-solid fa-eye" (click)="showDialog(sales._id)"></p-button>
-                                                <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)" ></p-button>
                                                 <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(sales._id)" ></p-button>
+                                                <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)" ></p-button>
                                     </td>
                                 </tr>
                             </ng-template>
@@ -228,7 +232,7 @@
                         <tr>
                           <td class="bold">{{payment.transactionNo}}</td>
                           <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
-                          <td>{{payment.amount}}</td>
+                          <td>₹ {{payment.amount}}</td>
                           <td>{{payment.paymentMode}}</td>
                         </tr>
                       </ng-template>
@@ -262,8 +266,8 @@
                           <td>{{sales.unit}}</td>
                           <td>{{sales.salesItemName}}</td>
                           <td>{{sales.salesItemQuantity}}</td>
-                          <td>{{sales.salesItemUnitPrice}}</td>
-                          <td>{{sales.salesItemSubTotal}}</td>
+                          <td>₹ {{sales.salesItemUnitPrice}}</td>
+                          <td>₹ {{sales.salesItemSubTotal}}</td>
                         </tr>
                       </ng-template>
                     </p-table>

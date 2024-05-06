@@ -46,10 +46,10 @@
                                 <div class="row">
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesInvoiceNumber">Invoice Number <span class="login-danger">*</span></label>
+                                            <label for="salesInvoiceNumber">Invoice Number <span class="login-danger"></span></label>
                                             <input type="text" class="form-control"
                                                 formControlName="salesInvoiceNumber">
-                                            <div
+                                            <!-- <div
                                                 *ngIf="editSalesForm.get('salesInvoiceNumber')?.hasError('required')  && editSalesForm.get('salesInvoiceNumber')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
@@ -57,7 +57,7 @@
                                                 *ngIf="editSalesForm.get('salesInvoiceNumber')?.hasError('pattern')  && editSalesForm.get('salesInvoiceNumber')?.touched">
                                                 <span class="login-danger">Input must be between 3 to 50
                                                     character.</span>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">

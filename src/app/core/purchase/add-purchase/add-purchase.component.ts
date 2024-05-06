@@ -80,7 +80,9 @@ export class AddPurchaseComponent implements OnInit {
     private unitService: UnitsService,
   ) {
     this.addPurchaseForm = this.fb.group({
-      purchaseInvoiceNumber: ["", [Validators.required,Validators.pattern(this.nameRegex)]],
+      purchaseInvoiceNumber: ["",
+      //  [Validators.required,Validators.pattern(this.nameRegex)]
+      ],
       purchaseSupplierName: ["", [Validators.required]],
       purchaseDate: ["", [Validators.required]],
       purchaseOrderStatus: ["", [Validators.required]],

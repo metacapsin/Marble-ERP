@@ -67,7 +67,7 @@ export class EditSalesReturnComponent {
       salesDiscount: ["", [Validators.min(0)]],
       salesInvoiceNumber: [
         "",
-        [Validators.required, Validators.pattern(this.nameRegex)],
+        // [Validators.required, Validators.pattern(this.nameRegex)],
       ],
       salesItemDetails: this.fb.array([]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],

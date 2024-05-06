@@ -62,9 +62,13 @@
                     <th style="width: 10%;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
                       <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-                    <th pSortableColumn="name" style="width: 70%;">Name <p-sortIcon
+                    <th pSortableColumn="name" >Name <p-sortIcon
                         field="name"></p-sortIcon>
                         <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="description" >Description <p-sortIcon
+                        field="description"></p-sortIcon>
+                        <p-columnFilter type="text" field="description" display="menu"></p-columnFilter>
                     </th>
                     <th style="width: 20%;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">Action</th>
                   </tr>
@@ -75,6 +79,7 @@
                       <p-tableCheckbox [value]="categories"></p-tableCheckbox>
                     </td>
                     <td>{{categories.name}}</td>
+                    <td>{{categories.description}}</td>
                     <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
                       <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(categories._id)"></p-button>
                       <p-button [text]=" true" icon="fa fa-trash" (click)="deleteCategory(categories._id)"></p-button>

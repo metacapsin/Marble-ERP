@@ -156,6 +156,9 @@
                   <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
                   </th>
+                  <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                    <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
+                  </th>
                   <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
                   </th>
@@ -173,8 +176,9 @@
                   <td>{{sales.salesDate}}</td>
                   <td>{{sales.customer.name}}</td>
                   <td>{{sales.salesOrderStatus}}</td>
-                  <td>{{sales.paidAmount}}</td>
-                  <td>{{sales.salesTotalAmount}}</td>
+                  <td>₹ {{sales.paidAmount}}</td>
+                  <td>₹ {{sales.dueAmount}}</td>
+                  <td>₹ {{sales.salesTotalAmount}}</td>
                   <td>{{sales.paymentStatus}}</td>
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialog(sales._id)"></p-button>
@@ -294,7 +298,6 @@
 
               <div class="card">
                 <p-tabView>
-                  <p-tabPanel header="Payments">
                     <p-tabPanel header="Items">
                       <p-table [value]="salesDataById" [tableStyle]="{'min-width': '60rem'}">
                         <ng-template pTemplate="header">
@@ -323,13 +326,15 @@
                             <td>{{sales.unit}}</td>
                             <td>{{sales.salesItemName}}</td>
                             <td>{{sales.salesItemQuantity}}</td>
-                            <td>{{sales.salesItemUnitPrice}}</td>
-                            <td>{{sales.salesItemSubTotal}}</td>
+                            <td>₹ {{sales.salesItemUnitPrice}}</td>
+                            <td>₹ {{sales.salesItemSubTotal}}</td>
                           </tr>
                         </ng-template>
                       </p-table>
 
                     </p-tabPanel>
+                    
+                  <p-tabPanel header="Payments">
                     <p-table [value]="paymentListData" *ngIf="paymentListData?.length > 0"
                       [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
@@ -348,7 +353,7 @@
                         <tr>
                           <td class="bold">{{payment.transactionNo}}</td>
                           <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
-                          <td>{{payment.amount}}</td>
+                          <td>₹ {{payment.amount}}</td>
                           <td>{{payment.paymentMode}}</td>
                         </tr>
                       </ng-template>
