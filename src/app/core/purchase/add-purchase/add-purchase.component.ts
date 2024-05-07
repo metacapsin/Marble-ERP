@@ -94,6 +94,10 @@ export class AddPurchaseComponent implements OnInit {
       purchaseTotalAmount: [""],
       otherCharges: ["", [Validators.min(0)]],
       purchaseGrossTotal: [""],
+      oceanFrieght: [''],
+      postExpenses:[''],
+      quality:[''],
+      lotsNo:['',[Validators.required]],
       purchaseItemDetails: this.fb.array([
         this.fb.group({
           purchaseItemCategory: ["", [Validators.required]],
@@ -206,12 +210,18 @@ export class AddPurchaseComponent implements OnInit {
     let shipping = +this.addPurchaseForm.get("purchaseShipping").value;
     let Discount = +this.addPurchaseForm.get("purchaseDiscount").value;
     let otherCharges = +this.addPurchaseForm.get("otherCharges").value;
+    let oceanFrieght = +this.addPurchaseForm.get("oceanFrieght").value;
+    let postExpenses = +this.addPurchaseForm.get("postExpenses").value;
+
 
     totalAmount += purchaseGrossTotal;
     totalAmount += this.addTaxTotal;
     totalAmount -= Discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
+    totalAmount += oceanFrieght;
+    totalAmount += postExpenses;
+
 
     this.addPurchaseForm.patchValue({
       purchaseGrossTotal: purchaseGrossTotal.toFixed(),
@@ -219,11 +229,14 @@ export class AddPurchaseComponent implements OnInit {
       purchaseShipping: shipping.toFixed(),
       purchaseTotalAmount: totalAmount.toFixed(),
       otherCharges: otherCharges.toFixed(),
+      oceanFrieght: oceanFrieght.toFixed(),
+      postExpenses: postExpenses.toFixed(),
     });
   }
 
   addPurchaseFormSubmit() {
     const formData = this.addPurchaseForm.value;
+    console.log(formData);
     let totalTax = 0;
     if(formData.purchaseOrderTax){
       formData.purchaseOrderTax.forEach((e) => {
@@ -240,31 +253,35 @@ export class AddPurchaseComponent implements OnInit {
         appliedTax: formData.purchaseOrderTax,
         purchaseNotes: formData.purchaseNotes,
         purchaseOtherCharges: formData.otherCharges,
-        purchaseOrderStatus: formData.purchaseOrderStatus,
+        // purchaseOtherCharges: formData.quality,
+        // purchaseOtherCharges: formData.lotsNo,
+        // purchaseOtherCharges: formData.oceanFrieght,
+        // purchaseOtherCharges: formData.postExpenses,
+        // purchaseOrderStatus: formData.purchaseOrderStatus,
         purchaseOrderTax: formData.purchaseOrderTax,
         purchaseShipping: formData.purchaseShipping,
         purchaseTermsAndCondition: formData.purchaseTermsAndCondition,
         purchaseTotalAmount: formData.purchaseTotalAmount,
-      };
+      };  
 
       if (this.addPurchaseForm.valid) {
         console.log("valid form");
 
-      this.PurchaseService.AddPurchaseData(payload).subscribe((resp: any) => {
-        console.log(resp);
-        if (resp) {
-          if (resp.status === "success") {
-            const message = "Purchase has been added";
-            this.messageService.add({ severity: "success", detail: message });
-            setTimeout(() => {
-              this.router.navigate(["/purchase"]);
-            }, 400);
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
-          }
-        }
-      });
+      // this.PurchaseService.AddPurchaseData(payload).subscribe((resp: any) => {
+      //   console.log(resp);
+      //   if (resp) {
+      //     if (resp.status === "success") {
+      //       const message = "Purchase has been added";
+      //       this.messageService.add({ severity: "success", detail: message });
+      //       setTimeout(() => {
+      //         this.router.navigate(["/purchase"]);
+      //       }, 400);
+      //     } else {
+      //       const message = resp.message;
+      //       this.messageService.add({ severity: "error", detail: message });
+      //     }
+      //   }
+      // });
     } else {
     }
   }

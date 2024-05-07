@@ -83,30 +83,13 @@ export class AddSuppliersComponent {
 
   addSupplierForm() {
     console.log(this.addSupplierGroup.value);
-    let _status: boolean; // Change const to let
-    if (this.addSupplierGroup.value.status.name === "Enabled") {
-      _status = true;
-    } else {
-      _status = false;
-    }
-    // "warehouse" : "Warehouse Gas",
-    // "name" : "vishnu",
-    // "email" :"abc@gmail.com",
-    // "phoneNo" : 1234567890,
-    // "taxNo" : 512,
-    // "status" : true,
-    // "creditPeriod" : 54.5,
-    // "creditLimit" : 5,
-    // "billingAddress" : "jaipur",
-    // "shippingAddress" :"jaipur",
-    // "openingBalance" : 1000
     const payload = {
       warehouse: this.addSupplierGroup.value.wareHouse,
       name: this.addSupplierGroup.value.name,
       email: this.addSupplierGroup.value.email,
       phoneNo: this.addSupplierGroup.value.phoneNumber,
       taxNo: this.addSupplierGroup.value.taxNumber,
-      status: _status,
+      status: true,
       creditPeriod: this.addSupplierGroup.value.creditPeriod,
       creditLimit: this.addSupplierGroup.value.creditLimit,
       billingAddress: this.addSupplierGroup.value.billingAddress,

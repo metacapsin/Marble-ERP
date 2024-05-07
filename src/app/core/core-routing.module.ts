@@ -52,6 +52,11 @@ const routes: Routes = [
           import('./invoice/invoice.module').then((m) => m.InvoiceModule),
       },
       {
+        path: 'blocks',
+        loadChildren: () =>
+          import('./blocks/blocks.module').then((m) => m.BlocksModule),
+      },
+      {
         path: 'settings',
         loadChildren: () =>
           import('./settings/settings.module').then((m) => m.SettingsModule),
@@ -134,6 +139,28 @@ const routes: Routes = [
             (m) => m.PurchaseReturnModule
           ),
       },
+      {
+        path: 'expenses',
+        loadChildren: () =>
+          import('./Expenses/expenses.module').then(
+            (m) => m.ExpensesModule
+          ),
+      },
+      {
+        path: 'expenseCategories',
+        loadChildren: () =>
+          import('./expenseCategories/expenseCategories.module').then(
+            (m) => m.ExpensesCategoriesModule
+          ),
+      },
+      {
+        path: 'staff',
+        loadChildren: () =>
+          import('./staff/staff.module').then(
+            (m) => m.StaffModule
+          ),
+      },
+
     ],
   },
 ];

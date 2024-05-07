@@ -72,23 +72,26 @@ export class AddSalesReturnComponent {
       ],
       salesItemDetails: this.fb.array([
         this.fb.group({
-          salesItemCategory: ["", [Validators.required]],
-          salesItemSubCategory: ["", [Validators.required]],
-          unit: ["", [Validators.required]],
-          salesItemName: [
-            "",
-            [Validators.required, Validators.pattern(this.nameRegex)],
-          ],
+          // salesItemCategory: ["", [Validators.required]],
+          // salesItemSubCategory: ["", [Validators.required]],
+          // unit: ["", [Validators.required]],
+          // salesItemName: [
+          //   "",
+          //   [Validators.required, Validators.pattern(this.nameRegex)],
+          // ],
+          salesItemProduct: ['', [Validators.required]],
           salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
           salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+          salesItemTax: [''],
+          salesItemTaxAmount: [''],
           salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
         }),
       ]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
       salesGrossTotal: [''],
       returnOrderStatus:  ["", [Validators.required]],
-      salesOrderTax: [''],
-      appliedTax: [''],
+      // salesOrderTax: [''],
+      // appliedTax: [''],
       salesShipping: ["", [Validators.min(0)]],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       salesTotalAmount: [""],
@@ -105,16 +108,19 @@ export class AddSalesReturnComponent {
   }
   addsalesReturnItemDetailsItem() {
     const item = this.fb.group({
-      salesItemCategory: ["", [Validators.required]],
-      salesItemSubCategory: ["", [Validators.required]],
-      unit: ["", [Validators.required]],
-      salesItemName: [
-        "",
-        [Validators.required, Validators.pattern(this.nameRegex)],
-      ],
-      salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
-      salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-      salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
+      // salesItemCategory: ["", [Validators.required]],
+      // salesItemSubCategory: ["", [Validators.required]],
+      // unit: ["", [Validators.required]],
+      // salesItemName: [
+      //   "",
+      //   [Validators.required, Validators.pattern(this.nameRegex)],
+      // ],
+      salesItemProduct: ['', [Validators.required]],
+          salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
+          salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+          salesItemTax: [''],
+          salesItemTaxAmount: [''],
+          salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
     });
     this.salesItemDetails.push(item);
   }
@@ -135,9 +141,9 @@ export class AddSalesReturnComponent {
       });
     });
 
-    this.unitService.getAllUnitList().subscribe((resp: any) => {
-      this.unitListData = resp.data;
-    })
+    // this.unitService.getAllUnitList().subscribe((resp: any) => {
+    //   this.unitListData = resp.data;
+    // })
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
@@ -154,64 +160,69 @@ export class AddSalesReturnComponent {
       this.categoryList = resp.data;
     });
 
-    this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
-      this.subCategoryList = resp.data;
-    });
+    // this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
+    //   this.subCategoryList = resp.data;
+    // });
   }
 
   calculateTotalAmount() {
-    let totalAmount = 0;
     let salesGrossTotal = 0;
-    let totalTax = 0;
 
-    const salesItems = this.addReturnSalesForm.get('salesItemDetails') as FormArray;
+    const salesItems = this.addReturnSalesForm.get("salesItemDetails") as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
-        const quantity = +item.get('salesItemQuantity').value || 0;
-        const unitPrice = +item.get('salesItemUnitPrice').value || 0;
-        const subtotal = quantity * unitPrice;
-        salesGrossTotal += subtotal;
-        item.get('salesItemSubTotal').setValue(subtotal.toFixed(2));
+      const quantity = +item.get("salesItemQuantity").value || 0;
+      const unitPrice = +item.get("salesItemUnitPrice").value || 0;
+      const tax = item.get("salesItemTax").value || [];
+
+
+      let totalTaxAmount = 0;
+      if (Array.isArray(tax)) {
+        tax.forEach((selectedTax: any) => {
+          totalTaxAmount += (quantity * unitPrice * selectedTax.taxRate) / 100;
+        });
+      } else {
+        totalTaxAmount = (quantity * unitPrice * tax) / 100;
+      }
+
+      
+      
+      const subtotal = (quantity * unitPrice) + totalTaxAmount;
+      
+      salesGrossTotal += subtotal;
+      item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2))
+      item.get("salesItemSubTotal").patchValue(subtotal.toFixed(2));
     });
 
-    if (Array.isArray(this.addReturnSalesForm.get('salesOrderTax').value)) {
-        this.addReturnSalesForm.get('salesOrderTax').value.forEach(element => {
-            totalTax += Number(element.taxRate);
-        });
-    } else {
-        totalTax += Number(this.addReturnSalesForm.get('salesOrderTax').value);
-    }
-    this.addTaxTotal = salesGrossTotal * totalTax / 100;
+    // Update the total gross amount
+    this.addReturnSalesForm.get('salesGrossTotal').setValue(salesGrossTotal.toFixed(2));
 
-    // Other calculations remain unchanged
-    let shipping = +this.addReturnSalesForm.get('salesShipping').value;
-    let Discount = +this.addReturnSalesForm.get('salesDiscount').value;
-    let otherCharges = +this.addReturnSalesForm.get('otherCharges').value;
+    let totalAmount = salesGrossTotal;
+    const discount = +this.addReturnSalesForm.get("salesDiscount").value || 0;
+    const shipping = +this.addReturnSalesForm.get("salesShipping").value || 0;
+    const otherCharges = +this.addReturnSalesForm.get("otherCharges").value || 0;
 
-    totalAmount += salesGrossTotal;
-    totalAmount += this.addTaxTotal;
-    totalAmount -= Discount;
+    totalAmount -= discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
 
     this.addReturnSalesForm.patchValue({
-        salesGrossTotal: salesGrossTotal.toFixed(2),
-        salesDiscount: Discount.toFixed(2),
-        salesShipping: shipping.toFixed(2),
-        otherCharges: otherCharges.toFixed(2),
-        salesTotalAmount: totalAmount.toFixed(2)
+      salesTotalAmount: totalAmount.toFixed(2),
+      salesDiscount: discount.toFixed(2),
+      salesShipping: shipping.toFixed(2),
+      otherCharges: otherCharges.toFixed(2)
     });
-}
+  }
 
   addReturnSalesFormSubmit() {
     const formData = this.addReturnSalesForm.value;
 
-    let totalTax = 0
-    if(formData.salesOrderTax){
-      formData.salesOrderTax.forEach((element) => {
-          totalTax = totalTax + element.taxRate;
-        });
-    }  
+    // let totalTax = 0
+    // if(formData.salesOrderTax){
+    //   formData.salesOrderTax.forEach((element) => {
+    //       totalTax = totalTax + element.taxRate;
+    //     });
+    // }  
     const payload = {
       customer: formData.customer,
       returnDate: formData.returnDate,
@@ -221,9 +232,9 @@ export class AddSalesReturnComponent {
       salesNotes: formData.salesNotes,
       salesGrossTotal: formData.salesGrossTotal,
       returnOrderStatus: formData.returnOrderStatus,
-      salesOrderTax: totalTax,
+      // salesOrderTax: totalTax,
       salesShipping: formData.salesShipping,
-      appliedTax: formData.salesOrderTax,
+      // appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
       unit: formData.unit,

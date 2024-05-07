@@ -173,6 +173,8 @@
                   <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon></th>
 
                   <th>Action</th>
+                  <th>Add blocks</th>
+                  
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-purchase>
@@ -188,10 +190,13 @@
                   <td>₹ {{purchase.dueAmount}}</td>                  
                   <td>₹ {{purchase.purchaseTotalAmount}}</td>
                   <td>{{purchase.paymentStatus}}</td>
-                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                  <td style="display: flex; gap: 2px;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialogView(purchase._id)"></p-button>
                     <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"></p-button>
                     <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)" *ngIf="purchase.paymentStatus == 'Unpaid'"></p-button>
+                  </td>
+                  <td>
+                    <p-button [text]="true" icon="fa-solid fa-plus" (click)="blocksEdit(purchase._id)"></p-button>
                   </td>
                 </tr>
               </ng-template>

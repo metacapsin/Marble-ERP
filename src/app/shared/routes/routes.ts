@@ -1,3 +1,4 @@
+
 export class routes {
 
   private static Url = '';
@@ -23,9 +24,9 @@ export class routes {
   public static get addPayment(): string {
     return this.baseUrl + '/accounts/add-payment';
   }
-  public static get expenses(): string {
-    return this.baseUrl + '/accounts/expenses';
-  }
+  // public static get expenses(): string {
+  //   return this.baseUrl + '/accounts/expenses';
+  // }
   public static get addExpense(): string {
     return this.baseUrl + '/accounts/add-expense';
   }
@@ -598,6 +599,39 @@ export class routes {
   }
   public static get unitsList(): string {
     return this.baseUrl + '/settings/units';
+  }
+  public static get expenses(): string {
+    return this.baseUrl + '/expenses';
+  }
+  public static get addExpenses(): string {
+    return this.baseUrl + '/expenses/add-expenses';
+  }
+  public static get editExpenses(): string {
+    return this.baseUrl + '/expenses/edit-expenses';
+  }
+  public static get viewExpenses(): string {
+    return this.baseUrl + '/expenses/view-expenses';
+  }
+  public static get expenseCategories(): string {
+    return this.baseUrl + '/expenseCategories';
+  }
+  public static get editExpensesCategories(): string {
+    return this.baseUrl + '/expenseCategories/edit-expensesCategories';
+  }
+  // public static get viewExpenses(): string {
+  //   return this.baseUrl + '/expenses/view-expenses';
+  // }
+  public static get blocksList(): string {
+    return this.baseUrl + '/blocks';
+  }
+  public static get addBlocks(): string {
+    return this.baseUrl + '/blocks/add-blocks';
+  }
+  public static get editBlocks(): string {
+    return this.baseUrl + '/blocks/edit-blocks';
+  }
+  public static get payrollList(): string {
+    return this.baseUrl + '/payroll/payrollList';
   }
   
 }

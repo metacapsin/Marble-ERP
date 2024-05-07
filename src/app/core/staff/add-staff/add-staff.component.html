@@ -6,9 +6,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.staffList">Staffs </a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="routes.staffList">Staff </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Add Staffs</li>
+                        <li class="breadcrumb-item active">Add Staff</li>
                     </ul>
                 </div>
             </div>
@@ -19,44 +19,44 @@
             
                 <div class="card">
                     <div class="card-body">
-                        <form>
+                        <form [formGroup]="addStaffForm" (ngSubmit)="addStaffFormSubmit()">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-heading">
-                                        <h4>Staffs Details</h4>
+                                        <h4>Add Staff</h4>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">  
                                     <div class="form-group local-forms">
-                                        <label for="name">First Name <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text"  >
+                                        <label for="firstName">First Name <span class="login-danger">*</span></label>
+                                        <input class="form-control" formControlName="firstName" type="text"  >
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
-                                        <label  for="last">Last Name  <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text"  >
+                                        <label  for="lastName">Last Name  <span class="login-danger">*</span></label>
+                                        <input class="form-control" formControlName="lastName" type="text"  >
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label for="Birthday">Date OF Birth <span
+                                                class="login-danger">*</span></label>
+                                        <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                         placeholder="mm/dd/yyyy"
+                                            [styleClass]="'col-12'"  formControlName="birthday"></p-calendar>
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label  for="user">User Name <span class="login-danger">*</span></label>
                                         <input class="form-control" type="text"  >
                                     </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="form-group local-forms">
-                                         <label  for="mobile" >Mobile <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text"  >
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="form-group local-forms">
-                                        <label for="email" >Email <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="email"  >
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                </div> -->
+                                <!-- <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label  for="password">Password <span class="login-danger">*</span></label>
                                         <input class="form-control" type="password"  >
@@ -67,101 +67,95 @@
                                         <label for="confirmpassword" >Confirm Password <span class="login-danger">*</span></label>
                                         <input class="form-control" type="password"  >
                                     </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                </div> -->
+                                
+                                <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
-                                        <label for="Birth" >Date Of Birth  <span class="login-danger">*</span></label>
-                                        <input class="form-control datetimepicker" type="text" matInput [matDatepicker]="picker"  >
-                                        <mat-datepicker #picker></mat-datepicker>
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="form-group select-gender">
-                                        <label for="gender" class="gen-label">Gender<span class="login-danger">*</span></label>
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label">
-                                                <input type="radio" name="gender" class="form-check-input">Male
-                                            </label>
-                                        </div>
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label">
-                                                <input type="radio" name="gender" class="form-check-input">Female
-                                            </label>
-                                        </div>
+                                         <label  for="mobile" >Mobile <span class="login-danger">*</span></label>
+                                        <input class="form-control" formControlName="mobile" type="text"  >
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
+                                        <label for="email" >Email <span class="login-danger">*</span></label>
+                                        <input class="form-control" formControlName="email" type="email"  >
+                                    </div>
+                                </div>
+                           
+                                
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
                                          <label  for="education">Education <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text"  >
+                                        <input class="form-control" formControlName="education" type="text"  >
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label for="designation">Designation <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text"  >
+                                        <input class="form-control" formControlName="designation" type="text"  >
+                                    </div>
+                                </div> 
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label for="pincode">pin Code <span class="login-danger">*</span></label>
+                                        <input class="form-control" formControlName="pincode" type="text"  >
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                          <label  for="department">Department <span class="login-danger">*</span></label>
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select  Department">
-                                            <mat-option *ngFor="let data of selectedList1" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
+                                         <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Department--"
+                                         [options]="department" formControlName="department" optionLabel="value"
+                                         optionValue="value" display="chip" [filter]="true" filterBy="name"
+                                         [showClear]="true">
+                                     </p-dropdown>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-12">
-                                    <div class="form-group local-forms">
-                                        <label for="address">Address  <span class="login-danger">*</span></label>
-                                        <textarea class="form-control" rows="3" cols="30"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-3">
+                                
+                                <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label for="city">City <span class="login-danger">*</span></label>
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select City">
-                                            <mat-option *ngFor="let data of selectedList2" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
+                                        <p-dropdown [style]="{'width':'100%'}" placeholder="--Select City--"
+                                         [options]="City" formControlName="city" optionLabel="value"
+                                         optionValue="value" display="chip" [filter]="true" filterBy="name"
+                                         [showClear]="true">
+                                     </p-dropdown>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-3">
+                                <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label for="country">Country  <span class="login-danger">*</span></label>
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select Country">
-                                            <mat-option *ngFor="let data of selectedList3" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
+                                        <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Country--"
+                                         [options]="Country" formControlName="country" optionLabel="value"
+                                         optionValue="value" display="chip" [filter]="true" filterBy="name"
+                                         [showClear]="true">
+                                     </p-dropdown>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-3">
+                                <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
-                                        <label for="state">State/Province <span class="login-danger">*</span></label>
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select State">
-                                            <mat-option *ngFor="let data of selectedList4" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
+                                        <label for="state">State<span class="login-danger">*</span></label>
+                                        <p-dropdown [style]="{'width':'100%'}" placeholder="--Select State--"
+                                         [options]="State" formControlName="state" optionLabel="value"
+                                         optionValue="value" display="chip" [filter]="true" filterBy="name"
+                                         [showClear]="true">
+                                     </p-dropdown>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-3">
+                               
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group local-forms">
-                                        <label for="postalcode">Postal Code <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text"  >
+                                        <label for="address">Address  <span class="login-danger">*</span></label>
+                                        <textarea class="form-control" formControlName="address" rows="3" cols="30"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-12">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group local-forms">
                                         <label for="biography">Start Biography  <span class="login-danger">*</span></label>
-                                        <textarea class="form-control" rows="3" cols="30"></textarea>
+                                        <textarea class="form-control" formControlName="biography" rows="3" cols="30"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <!-- <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-top-form">
                                         <label for="avator" class="local-top">Avatar <span class="login-danger">*</span></label>
                                         <div class="settings-btn upload-files-avator">
@@ -184,7 +178,23 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
+
+                                <!-- <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group select-gender">
+                                        <label for="gender" class="gen-label">Gender<span class="login-danger">*</span></label>
+                                        <div class="form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" name="gender" class="form-check-input">Male
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" name="gender" class="form-check-input">Female
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div> -->
                                 <div class="col-12">
                                     <div class="doctor-submit text-end">
                                         <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>

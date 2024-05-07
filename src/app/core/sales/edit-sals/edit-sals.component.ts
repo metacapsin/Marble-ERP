@@ -102,15 +102,11 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   }
   addsalesItemDetailsItem() {
     const item = this.fb.group({
-      salesItemCategory: ["", [Validators.required]],
-      salesItemSubCategory: ["", [Validators.required]],
-      unit: ["", [Validators.required]],
-      salesItemName: [
-        "",
-        [Validators.required, Validators.pattern(this.nameRegex)],
-      ],
+      salesItemProduct: ['', [Validators.required]],
       salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
       salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+      salesItemTax: [''],
+      salesItemTaxAmount: [''],
       salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
     })
     this.salesItemDetails.push(item);
@@ -125,7 +121,6 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
       this.originalCustomerData.forEach((element) => {
         this.customerList.push({
           name: element.name,
-          // _id: element
           _id: {
             _id: element._id,
             name: element.name,
@@ -134,9 +129,9 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
       });
     });
 
-    this.unitService.getAllUnitList().subscribe((resp: any) => {
-      this.unitListData = resp.data;
-    });
+    // this.unitService.getAllUnitList().subscribe((resp: any) => {
+    //   this.unitListData = resp.data;
+    // });
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
@@ -153,19 +148,19 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
       this.categoryList = resp.data;
     });
 
-    this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
-      this.subCategoryList = resp.data;
-    });
+    // this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
+    //   this.subCategoryList = resp.data;
+    // });
 
     this.Service.GetSalesDataById(this.salesId).subscribe((resp: any) => {
       resp.data?.salesItemDetails?.forEach((lang) => {
         this.addsalesItemDetailsItem();
       });
-      resp.data?.appliedTax?.forEach((element) => {
-        totalTax += Number(element.taxRate);
-      });
-      this.addTaxTotal = (resp.data.salesGrossTotal * totalTax) / 100;
-      console.log("applied tax", resp.data.appliedTax);
+      // resp.data?.appliedTax?.forEach((element) => {
+      //   totalTax += Number(element.taxRate);
+      // });
+      // this.addTaxTotal = (resp.data.salesGrossTotal * totalTax) / 100;
+      // console.log("applied tax", resp.data.appliedTax);
 
       this.patchForm(resp.data);
     });
@@ -174,59 +169,62 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   }
 
   calculateTotalAmount() {
-    let totalAmount = 0;
     let salesGrossTotal = 0;
-    let totalTax = 0;
 
     const salesItems = this.editSalesForm.get("salesItemDetails") as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
-      const subtotal = quantity * unitPrice;
+      const tax = item.get("salesItemTax").value || [];
+
+      let totalTaxAmount = 0;
+      if (Array.isArray(tax)) {
+        tax.forEach((selectedTax: any) => {
+          totalTaxAmount += (quantity * unitPrice * selectedTax.taxRate) / 100;
+        });
+      } else {
+        totalTaxAmount = (quantity * unitPrice * tax) / 100;
+      }
+
+      const subtotal = (quantity * unitPrice) + totalTaxAmount;
+
       salesGrossTotal += subtotal;
-      item.get("salesItemSubTotal").setValue(subtotal.toFixed(2));
+      
+      item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2))
+      item.get("salesItemSubTotal").patchValue(subtotal.toFixed(2));
     });
 
-    if (Array.isArray(this.editSalesForm.get("salesOrderTax").value)) {
-      this.editSalesForm.get("salesOrderTax").value.forEach((element) => {
-        totalTax += Number(element.taxRate);
-      });
-    } else {
-      totalTax += Number(this.editSalesForm.get("salesOrderTax").value);
-    }
-    this.addTaxTotal = (salesGrossTotal * totalTax) / 100;
+    this.editSalesForm.get('salesGrossTotal').setValue(salesGrossTotal.toFixed(2));
 
-    let shipping = +this.editSalesForm.get("salesShipping").value;
-    let Discount = +this.editSalesForm.get("salesDiscount").value;
-    let otherCharges = +this.editSalesForm.get("otherCharges").value;
+    let totalAmount = salesGrossTotal;
+    const discount = +this.editSalesForm.get("salesDiscount").value || 0;
+    const shipping = +this.editSalesForm.get("salesShipping").value || 0;
+    const otherCharges = +this.editSalesForm.get("otherCharges").value || 0;
 
-    totalAmount += salesGrossTotal;
-    totalAmount += this.addTaxTotal;
-    totalAmount -= Discount;
+    totalAmount -= discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
 
     this.editSalesForm.patchValue({
-      salesGrossTotal: salesGrossTotal.toFixed(2),
-      salesDiscount: Discount.toFixed(2),
-      salesShipping: shipping.toFixed(2),
-      otherCharges: otherCharges.toFixed(2),
       salesTotalAmount: totalAmount.toFixed(2),
+      salesDiscount: discount.toFixed(2),
+      salesShipping: shipping.toFixed(2),
+      otherCharges: otherCharges.toFixed(2)
     });
   }
 
   patchForm(data) {
-    data?.appliedTax?.forEach((element) => {
-      delete element.tenantId;
-    });
+    // data?.appliedTax?.forEach((element) => {
+    //   delete element.tenantId;
+    // });
     this.editSalesForm.patchValue({
       salesInvoiceNumber: data.salesInvoiceNumber,
       customer: data.customer,
       salesDate: data.salesDate,
       salesOrderStatus: data.salesOrderStatus,
       salesGrossTotal: data.salesGrossTotal,
-      salesOrderTax: data.appliedTax,
+      // salesOrderTax: data.appliedTax,
       salesDiscount: data.salesDiscount,
       salesShipping: data.salesShipping,
       salesTermsAndCondition: data.salesTermsAndCondition,
@@ -241,14 +239,13 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   editSalesFormSubmit() {
     const formData = this.editSalesForm.value;
 
-    let totalTax = 0;
-    if(formData.salesOrderTax){
-      formData.salesOrderTax?.forEach((element) => {
-          totalTax = totalTax + element.taxRate;
-        });
+    // let totalTax = 0;
+    // if(formData.salesOrderTax){
+    //   formData.salesOrderTax?.forEach((element) => {
+    //       totalTax = totalTax + element.taxRate;
+    //     });
 
-    }  
-
+    // }  
 
     const payload = {
       customer: formData.customer,
@@ -259,7 +256,7 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
       salesNotes: formData.salesNotes,
       salesGrossTotal: formData.salesGrossTotal,
       salesOrderStatus: formData.salesOrderStatus,
-      salesOrderTax: totalTax,
+      // salesOrderTax: totalTax,
       salesShipping: formData.salesShipping,
       appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,

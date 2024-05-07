@@ -34,6 +34,7 @@ export class SalesComponent implements OnInit {
   modalData: any = {};
   originalData = [];
   visible: boolean = false;
+  paymentVisible: boolean = false;
   salesDataById = []
   salesListData = [];
 
@@ -65,6 +66,13 @@ export class SalesComponent implements OnInit {
       this.paymentListData = resp.data;
       // console.log("payment id ser ", this.paymentListData);
     })
+  }
+
+  showPaymentDialog(_id: any) {
+    this.paymentVisible = true;
+    this.Service.GetSalesDataById(_id).subscribe((resp: any) => {
+      this.salesDataById = [resp.data];
+    });
   }
 
 

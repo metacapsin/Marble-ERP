@@ -67,7 +67,7 @@ export class EditCustomersComponent {
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
-      status: ["", [Validators.required]],
+      // status: ["", [Validators.required]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
       openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
@@ -93,18 +93,12 @@ export class EditCustomersComponent {
     });
   }
   patchForm() {
-    let _status: any;
-    if (this.customerData.status == true) {
-      _status = "Enabled";
-    } else {
-      _status = "Disabled";
-    }
     this.editCustomerGroup.patchValue({
       wareHouse: this.customerData.warehouse,
       name: this.customerData.name,
       phoneNumber: this.customerData.phoneNo,
       email: this.customerData.email,
-      status: _status,
+      status: true,
       taxNumber: this.customerData.taxNo,
       openingBalance: this.customerData.openingBalance,
       creditPeriod: this.customerData.creaditPeriod,

@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { EditStaffRoutingModule } from './edit-staff-routing.module';
 import { EditStaffComponent } from './edit-staff.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     EditStaffRoutingModule,
-    SharedModule
+    SharedModule,
+    CalendarModule,
+    DropdownModule
   ]
 })
 export class EditStaffModule { }

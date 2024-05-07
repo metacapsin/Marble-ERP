@@ -111,19 +111,13 @@ export class EditSuppliersComponent implements OnInit {
 
   editSupplierForm() {
     console.log(this.editSupplierGroup.value);
-    let _status: boolean; // Change const to let
-    if (this.editSupplierGroup.value.status.name === "Enabled") {
-      _status = true;
-    } else {
-      _status = false;
-    }
     const payload = {
       id: this.id,
       warehouse: this.editSupplierGroup.value.wareHouse,
       name: this.editSupplierGroup.value.name,
       email: this.editSupplierGroup.value.email,
       phoneNo: this.editSupplierGroup.value.phoneNumber,
-      status: _status,
+      status: true,
       taxNo: this.editSupplierGroup.value.taxNumber,
       creaditPeriod: this.editSupplierGroup.value.creditPeriod,
       creaditLimit: this.editSupplierGroup.value.creditLimit,

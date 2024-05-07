@@ -1,3 +1,4 @@
+
 import { Injectable } from "@angular/core";
 import { routes } from "../routes/routes";
 import { map, Observable } from "rxjs";
@@ -219,426 +220,7 @@ export class DataService {
       })
     );
   }
-  // public sideBar = {
-  //     tittle: 'Main',
-  //     showAsTab: false,
-  //     separateRoute: false,
-  //     menu: [
-  //       {
-  //         menuValue: 'Dashboard',
-  //         hasSubRoute: true,
-  //         showSubRoute: false,
-  //         base: 'dashboard',
-  //         route: 'dashboard',
-  //         icon: 'fa-home',
-  //         faIcon: true,
-  //         role: [Role.Admin, Role.Provider],
-  //         // img: 'assets/img/icons/menu-icon-01.svg',
-  //         subMenus: [
-  //           {
-  //             menuValue: 'Admin Dashboard',
-  //             route: routes.adminDashboard,
-  //             base: routes.adminDashboard,
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         menuValue: 'Parties',
-  //         hasSubRoute: true,
-  //         showSubRoute: false,
-  //         base: 'parties',
-  //         icon: 'fa-person',
-  //         faIcon: true,
-  //         role: [Role.Admin, Role.Provider, Role.HelpDesk],
-  //         subMenus: [
-  //           {
-  //             menuValue: 'Customers',
-  //             route: routes.customers,
-  //             base: routes.customers,
-  //           },
-  //           {
-  //             menuValue: 'Suppliers',
-  //             route: routes.suppliers,
-  //             base: routes.suppliers,
-  //           },
-  //         ],
-  //       },
-
-  //       // {
-  //       //   menuValue: 'Parties',
-  //       //   hasSubRoute: false,
-  //       //   showSubRoute: false,
-  //       //   // img: 'assets/img/icons/menu-icon-16.svg',
-  //       //   icon: 'fa-users',
-  //       //   route: 'parties',
-  //       //   faIcon: true,
-  //       //   base: 'parties',
-  //       //   subMenus: [
-  //       //     {
-  //       //       menuValue: 'Customers',
-  //       //       route: routes.customers,
-  //       //       base: routes.customers,
-  //       //     },
-  //       //   ],
-  //       //   role: [Role.Admin, Role.Provider, Role.HelpDesk],
-  //       // },
-
-  //       // {
-  //       //   menuValue: 'Doctor Schedule',
-  //       //   hasSubRoute: true,
-  //       //   showSubRoute: false,
-  //       //   base: 'doctor-schedule',
-  //       //   img: 'assets/img/icons/menu-icon-05.svg',
-  //       //   subMenus: [
-  //       //     {
-  //       //       menuValue: 'Schedule List',
-  //       //       route: routes.schedule,
-  //       //       base: routes.schedule,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Book Appointment',
-  //       //       route: routes.addSchedule,
-  //       //       base: routes.addSchedule,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Edit Appointment',
-  //       //       route: routes.editSchedule,
-  //       //       base: routes.editSchedule,
-  //       //     },
-  //       //   ],
-  //       // },
-  //       // {
-  //       //   menuValue: 'Departments',
-  //       //   hasSubRoute: true,
-  //       //   showSubRoute: false,
-  //       //   base: 'departments',
-  //       //   img: 'assets/img/icons/menu-icon-06.svg',
-  //       //   subMenus: [
-  //       //     {
-  //       //       menuValue: 'Department List',
-  //       //       route: routes.departmentList,
-  //       //       base: routes.departmentList,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Add Department',
-  //       //       route: routes.addDepartment,
-  //       //       base: routes.addDepartment,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Edit Department',
-  //       //       route: routes.editDepartment,
-  //       //       base: routes.editDepartment,
-  //       //     },
-  //       //   ],
-  //       // },
-  //       // {
-  //       //   menuValue: 'Accounts',
-  //       //   hasSubRoute: true,
-  //       //   showSubRoute: false,
-  //       //   base: 'accounts',
-  //       //   img: 'assets/img/icons/menu-icon-07.svg',
-  //       //   subMenus: [
-  //       //     {
-  //       //       menuValue: 'Invoices',
-  //       //       route: routes.invoices,
-  //       //       base: routes.invoices,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Payments',
-  //       //       route: routes.payments,
-  //       //       base: routes.payments,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Expenses',
-  //       //       route: routes.expenses,
-  //       //       base: routes.expenses,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Taxes',
-  //       //       route: routes.taxes,
-  //       //       base: routes.taxes,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Provident Fund',
-  //       //       route: routes.providentFund,
-  //       //       base: routes.providentFund,
-  //       //     },
-  //       //   ],
-  //       // },
-  //       // {
-  //       //   menuValue: 'Payroll',
-  //       //   hasSubRoute: true,
-  //       //   showSubRoute: false,
-  //       //   base: 'payroll',
-  //       //   img: 'assets/img/icons/menu-icon-09.svg',
-  //       //   subMenus: [
-  //       //     {
-  //       //       menuValue: 'Employee Salary',
-  //       //       route: routes.salary,
-  //       //       base: routes.salary,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Payslip',
-  //       //       route: routes.salaryView,
-  //       //       base: routes.salaryView,
-  //       //     },
-  //       //   ],
-  //       // },
-  //       // {
-  //       //   menuValue: 'Chat',
-  //       //   route: routes.chat,
-  //       //   hasSubRoute: false,
-  //       //   showSubRoute: false,
-  //       //   base: 'chat',
-  //       //   img: 'assets/img/icons/menu-icon-10.svg',
-  //       //   subMenus: [],
-  //       // },
-  //       // {
-  //       //   menuValue: 'Call',
-  //       //   hasSubRoute: true,
-  //       //   showSubRoute: false,
-  //       //   base: 'calls',
-  //       //   img: 'assets/img/icons/menu-icon-11.svg',
-  //       //   subMenus: [
-  //       //     {
-  //       //       menuValue: 'Voice Call',
-  //       //       route: routes.voiceCall,
-  //       //       base: routes.voiceCall,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Video Call',
-  //       //       route: routes.videoCall,
-  //       //       base: routes.videoCall,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Incoming Call',
-  //       //       route: routes.incomingCall,
-  //       //       base: routes.incomingCall,
-  //       //     },
-  //       //   ],
-  //       // },
-  //       // {
-  //       //   menuValue: 'Email',
-  //       //   hasSubRoute: true,
-  //       //   showSubRoute: false,
-  //       //   base: 'email',
-  //       //   img: 'assets/img/icons/menu-icon-12.svg',
-  //       //   subMenus: [
-  //       //     {
-  //       //       menuValue: 'Compose Mail',
-  //       //       route: routes.compose,
-  //       //       base: routes.compose,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Inbox',
-  //       //       route: routes.inbox,
-  //       //       base: routes.inbox,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Mail View',
-  //       //       route: routes.mailView,
-  //       //       base: routes.mailView,
-  //       //     },
-  //       //   ],
-  //       // },
-  //       // {
-  //       //   menuValue: 'Blog',
-  //       //   hasSubRoute: true,
-  //       //   showSubRoute: false,
-  //       //   base: 'blogs',
-  //       //   img: 'assets/img/icons/menu-icon-13.svg',
-  //       //   subMenus: [
-  //       //     {
-  //       //       menuValue: 'Blog',
-  //       //       route: routes.blog,
-  //       //       base: routes.blog,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Blog View',
-  //       //       route: routes.blogDetails,
-  //       //       base: routes.blogDetails,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Add Blog',
-  //       //       route: routes.addBlog,
-  //       //       base: routes.addBlog,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Edit Blog',
-  //       //       route: routes.editBlog,
-  //       //       base: routes.editBlog,
-  //       //     },
-  //       //   ],
-  //       // },
-  //       // {
-  //       //   menuValue: 'Documents',
-  //       //   route: routes.assetsList,
-  //       //   hasSubRoute: false,
-  //       //   showSubRoute: false,
-  //       //   icon: 'fa-file',
-  //       //   faIcon: true,
-  //       //   base: 'assets',
-  //       //   subMenus: [],
-  //       //   role: [Role.Admin, Role.Provider, Role.HelpDesk],
-  //       // },
-  //       // {
-  //       //   menuValue: 'activities',
-  //       //   route: routes.activities,
-  //       //   hasSubRoute: false,
-  //       //   showSubRoute: false,
-  //       //   img: 'assets/img/icons/menu-icon-14.svg',
-  //       //   base: 'activities',
-  //       //   subMenus: [],
-  //       // },
-  //       // {
-  //       //   menuValue: 'Reports',
-  //       //   hasSubRoute: true,
-  //       //   showSubRoute: false,
-  //       //   base: 'reports',
-  //       //   img: 'assets/img/icons/menu-icon-02.svg',
-  //       //   subMenus: [
-  //       //     {
-  //       //       menuValue: 'Expense Report',
-  //       //       route: routes.expenseReports,
-  //       //       base: routes.expenseReports,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Invoice Report',
-  //       //       route: routes.invoiceReports,
-  //       //       base: routes.invoiceReports,
-  //       //     },
-  //       //   ],
-  //       // },
-  //       // {
-  //       //   menuValue: 'Invoice',
-  //       //   hasSubRoute: true,
-  //       //   showSubRoute: false,
-  //       //   base: 'invoice',
-  //       //   img: 'assets/img/icons/menu-icon-15.svg',
-  //       //   role: [Role.Admin, Role.Provider, Role.HelpDesk],
-  //       //   subMenus: [
-  //       //     {
-  //       //       menuValue: 'Invoices List',
-  //       //       route: routes.allInvoice,
-  //       //       base: routes.allInvoice,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Invoice Grid',
-  //       //       route: routes.invoicesGrid,
-  //       //       base: routes.invoicesGrid,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Add Invoices',
-  //       //       route: routes.addInvoice,
-  //       //       base: routes.addInvoice,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Edit Invoices',
-  //       //       route: routes.editInvoices,
-  //       //       base: routes.editInvoices,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Invoices Details',
-  //       //       route: routes.viewInvoice,
-  //       //       base: routes.viewInvoice,
-  //       //     },
-  //       //     {
-  //       //       menuValue: 'Invoices Settings',
-  //       //       route: routes.invoicesSettings,
-  //       //       base: routes.invoicesSettings,
-  //       //     },
-  //       //   ],
-  //       // },
-
-  //       {
-  //         menuValue: 'Sales',
-  //         hasSubRoute: true,
-  //         showSubRoute: false,
-  //         base: 'Sales',
-  //         icon: 'fa-dollar',
-  //         faIcon: true,
-  //         role: [Role.Admin, Role.Provider, Role.HelpDesk],
-  //         subMenus: [
-  //           {
-  //             menuValue: 'Sales',
-  //             route: routes.Sales,
-  //             base: routes.Sales,
-  //           },
-  //           {
-  //             menuValue: 'Sales Return',
-  //             // route: routes.addSales,
-  //             // base: routes.addSales,
-  //           },
-  //           {
-  //             menuValue: 'Quotation ',
-  //             // route: routes.addSales,
-  //             // base: routes.addSales,
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         menuValue: 'purchase',
-  //         hasSubRoute: true,
-  //         showSubRoute: false,
-  //         base: 'Sales',
-  //         icon: 'fa-cart-shopping',
-  //         faIcon: true,
-  //         role: [Role.Admin, Role.Provider, Role.HelpDesk],
-  //         subMenus: [
-  //           {
-  //             menuValue: 'Purchase',
-  //             route: routes.purchase,
-  //             base: routes.purchase,
-  //           },
-  //           {
-  //             menuValue: 'Purchase Return',
-  //             route: routes.purchaseReturn,
-  //             base: routes.purchaseReturn,
-  //           },
-
-  //         ],
-  //       },
-  //       {
-  //         menuValue: 'Reports',
-  //         hasSubRoute: true,
-  //         showSubRoute: false,
-  //         base: 'reports',
-  //         icon: 'fa-gauge',
-  //         faIcon: true,
-  //         role: [Role.Admin, Role.Provider, Role.HelpDesk],
-  //         subMenus: [
-  //           {
-  //             menuValue: 'inventory report',
-  //             route: routes.inventoryReport,
-  //             base: routes.inventoryReport,
-  //           },
-  //           {
-  //             menuValue: 'sales report',
-  //             route: routes.salesReport,
-  //             base: routes.salesReport,
-  //           },
-  //           {
-  //             menuValue: 'invoice report',
-  //             route: routes.invoiceReport,
-  //             base: routes.invoiceReport,
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         menuValue: 'Settings',
-  //         route: routes.practiceInformation,
-  //         hasSubRoute: false,
-  //         showSubRoute: false,
-  //         icon: 'fa-gear',
-  //         faIcon: true,
-  //         base: 'settings',
-  //         subMenus: [],
-  //         role: [Role.Admin, Role.Provider, Role.HelpDesk],
-  //       },
-
-  //     ],
-  // };
-
+  
   public sideBar = [
     {
       tittle: "",
@@ -684,6 +266,44 @@ export class DataService {
             },
           ],
         },
+        {
+          menuValue: "Staff",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "Staff",
+          icon: "fa-duotone fa-user-group",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: "Staff List",
+              route: routes.staffList,
+              base: routes.staffList,
+            },
+            {
+              menuValue: "Add Staff",
+              route: routes.addStaff,
+              base: routes.addStaff,
+            },
+            
+            {
+              menuValue: "Leaves",
+              route: routes.staffLeave,
+              base: routes.staffLeave,
+            },
+            // {
+            //   menuValue: "Holidays",
+            //   route: routes.staffHoliday,
+            //   base: routes.staffHoliday,
+            // },
+            // {
+            //   menuValue: "Attendance",
+            //   route: routes.staffAttendance,
+            //   base: routes.staffAttendance,
+            // },
+          ],
+        },
+       
 
         // {
         //   menuValue: 'Parties',
@@ -1023,6 +643,48 @@ export class DataService {
             },
           ],
         },
+         {
+          menuValue: "Payroll",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "payroll",
+          icon: "fa-solid fa-money-check-dollar",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: " Empoyee Salary",
+              route: routes.salary,
+              base: routes.salary,
+            },           
+          ],
+        },
+        {
+          menuValue: "Expenses",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "Expenses",
+          icon: "fa-solid fa-wallet",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: "Expenses",
+              route: routes.expenses,
+              base: routes.expenses,
+            },
+            {
+              menuValue: "Expense Categories",
+              route: routes.expenseCategories,
+              base: routes.expenseCategories,
+            },
+            // {
+            //   menuValue: "Purchase Return",
+            //   route: routes.purchaseReturn,
+            //   base: routes.purchaseReturn,
+            // },
+          ],
+        },
         {
           menuValue: "Reports",
           hasSubRoute: true,
@@ -1048,6 +710,17 @@ export class DataService {
               base: routes.invoiceReport,
             },
           ],
+        },
+        {
+          menuValue: "Blocks",
+          route: routes.blocksList,
+          hasSubRoute: false,
+          showSubRoute: false,
+          icon: "fa-gear",
+          faIcon: true,
+          base: "settings",
+          subMenus: [],
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
         },
         {
           menuValue: "Settings",
