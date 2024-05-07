@@ -76,17 +76,17 @@
                                         <p-columnFilter type="text" field="subCatergory" display="menu"></p-columnFilter>
 
                                     </th>
+                                    <th pSortableColumn="warehouse">Warehouse<p-sortIcon
+                                            field="warehouse"></p-sortIcon>
+                                        <p-columnFilter field="warehouse" display="menu"></p-columnFilter>
+
+                                    </th>
                                     <th pSortableColumn="purchasePrice">Purchase Price <p-sortIcon field="purchasePrice"></p-sortIcon>
                                         <p-columnFilter type="text" field="purchasePrice" display="menu"></p-columnFilter>
                                         
                                     </th>
                                     <th pSortableColumn="salesPrice">Sales Price <p-sortIcon field="salesPrice"></p-sortIcon>
                                         <p-columnFilter type="text" field="salesPrice" display="menu"></p-columnFilter>
-
-                                    </th>
-                                    <th pSortableColumn="currentStock">MRP<p-sortIcon
-                                            field="currentStock"></p-sortIcon>
-                                        <p-columnFilter field="currentStock" display="menu"></p-columnFilter>
 
                                     </th>
                                     <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
@@ -106,16 +106,16 @@
                                         {{product.category}}
                                     </td>
                                     <td>
-                                        {{product.subCategory}}
+                                        {{product.subCatergory}}
+                                    </td>
+                                    <td>
+                                        {{product.warehouse}}
                                     </td>
                                     <td>
                                         {{product.purchasePrice}}
                                     </td>
                                     <td>
                                         {{product.salesPrice}}
-                                    </td>
-                                    <td>
-                                        {{product.mRP}}
                                     </td>
                                     <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
                                         <p-button [text]="true" icon="fa fa-edit"

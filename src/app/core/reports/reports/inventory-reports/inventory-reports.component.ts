@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { DataService } from "src/app/shared/data/data.service";
+import { SettingsService } from "src/app/shared/data/settings.service";
 import {
   pageSelection,
   apiResultFormat,
@@ -40,10 +41,19 @@ export class InventoryReportsComponent implements OnInit {
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
 
-  constructor(public data: DataService) {}
+  reportsServiceList:[]
+  constructor(public data: DataService,
+   public InventoryReportsService:SettingsService
+  ) {}
   ngOnInit() {
+
     this.getTableData();
+    
+    this.InventoryReportsService.getAllReportList().subscribe((resp: any) => {
+      this.reportsServiceList = resp.data;
+    });  
   }
+
   private getTableData(): void {
     this.invoiceReports = [];
     this.serialNumberArray = [];

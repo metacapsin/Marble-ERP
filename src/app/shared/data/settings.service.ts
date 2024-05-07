@@ -19,6 +19,9 @@ export class SettingsService {
   getStateList() {
     return this.http.get(environment.apiUrl + "/Common/getStates/US");
   }
+  getAllReportList() {
+    return this.http.get(environment.apiUrl + "/Setting/getAllReportList");
+  }
 
   CreatePracticeInformation(data: {} | null) {
     return this.http.post(environment.apiUrl + "/PracticeInformation/createPracticeInformation", data);

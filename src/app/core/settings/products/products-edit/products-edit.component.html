@@ -33,7 +33,7 @@
                             <form [formGroup]="productForm" (ngSubmit)="ProductFormSubmit()">
                                 <div class="row">
                                     <div class="d-flex m-b-10" style="justify-content: space-between">
-                                        <h3>Edit Product</h3>
+                                        <h3>Add New Product</h3>
                                         <div class="settings-btns text-end m-b-10">
                                             <button type="submit"
                                                 class="border-0 btn btn-primary btn-gradient-primary m-r-10"
@@ -46,61 +46,67 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-md-6 col-xl-6">
+                                    
+                                    <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="warehouse">Warehouse
-                                                <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="warehouseList" styleClass="" appendTo="body"
-                                                optionLabel="name" optionValue="name" placeholder="Select Warehouse"
-                                                formControlName="warehouse" [style]="{'width':'100%'}" [filter]="true"
-                                                filterBy="name" [showClear]="true">
-                                            </p-dropdown>
+                                            <label for="name">Name <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder=""
+                                            formControlName="name" />
+                                            
                                             <div *ngIf="
-                        productForm.get('warehouse')?.hasError(
-                          'required'
-                        ) && productForm.get('warehouse')?.touched
-                      ">
+                                            productForm.get('name')?.hasError(
+                                                'required'
+                                                ) && productForm.get('name')?.touched
+                                                ">
                                                 <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            productForm.get('name')?.hasError(
+                                                'pattern'
+                                                ) && productForm.get('name')?.touched
+                                                ">
+                                                <span class="login-danger">Input must be between 3 and 50 characters.
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="name">Name <span class="login-danger">*</span></label>
-                                            <input class="form-control" type="text" placeholder=""
-                                                formControlName="name" />
-
+                                            <label for="itemCode">Item Code</label>
+                                            <input class="form-control" type="text" placeholder="Please Enter Item Code"
+                                                formControlName="itemCode" />
                                             <div *ngIf="
-                        productForm.get('name')?.hasError(
-                          'required'
-                        ) && productForm.get('name')?.touched
-                      ">
+                                            productForm.get('itemCode')?.hasError(
+                                              'required'
+                                            ) && productForm.get('itemCode')?.touched
+                                          ">
                                                 <span class="login-danger">Field is required.</span>
                                             </div>
                                             <div *ngIf="
-                        productForm.get('name')?.hasError(
-                          'pattern'
-                        ) && productForm.get('name')?.touched
-                      ">
-                                                <span class="login-danger">Input must be between 3 and 50 characters.
-                                                </span>
+                                            productForm.get('itemCode')?.hasError(
+                                              'pattern'
+                                            ) && productForm.get('itemCode')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be between 3 to 10
+                                                    characters.</span>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                     <!-- <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="slug">Slug <span class="login-danger">*</span></label>
                                             <input class="form-control" type="text" placeholder=""
-                                                formControlName="slug" />
+                                            formControlName="slug" />
 
                                             <div *ngIf="
                         productForm.get('slug')?.hasError(
                           'required'
                         ) && productForm.get('slug')?.touched
                       ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
+                      <span class="login-danger">Field is required.</span>
+                    </div>
                                             <div *ngIf="
                         productForm.get('slug')?.hasError(
                           'pattern'
@@ -115,8 +121,8 @@
 
                                     <!-- <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                          <label for="category">Category <span class="login-danger">*</span></label>
-                                          <p-treeselect [options]="categoriesList" [(ngModel)]="selectedCategory" [style]="{'width':'100%'}"
+                                            <label for="category">Category <span class="login-danger">*</span></label>
+                                            <p-treeselect [options]="categoriesList" [(ngModel)]="selectedCategory" [style]="{'width':'100%'}"
                                             [placeholder]="'Select Category'" [filter]="true" [showClear]="true"></p-treeselect>
                                         </div>
                                       </div> -->
@@ -184,6 +190,46 @@
 
 
 
+                                    
+                                    <!-- <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="barcodeSymbology">Barcode Symbology
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="barcodeSymbologyList" styleClass="" appendTo="body"
+                                                optionLabel="label" optionValue="value"
+                                                placeholder="Select  Barcode Symbology"
+                                                formControlName="barcodeSymbology" [style]="{'width':'100%'}"
+                                                [filter]="true" filterBy="label" [showClear]="true">
+                                            </p-dropdown>
+                                            <div *ngIf="
+                                            productForm.get('barcodeSymbology')?.hasError(
+                                              'required'
+                                            ) && productForm.get('barcodeSymbology')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                   
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="warehouse">Warehouse
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="warehouseList" styleClass="" appendTo="body"
+                                                optionLabel="name" optionValue="name" placeholder="Select Warehouse"
+                                                formControlName="warehouse" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="name" [showClear]="true">
+                                            </p-dropdown>
+                                            <div *ngIf="
+                                   productForm.get('warehouse')?.hasError(
+                                   'required'
+                                   ) && productForm.get('warehouse')?.touched
+                                   ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="quantityAlert">Quantity Alert <i class="fas fa-info-circle"
@@ -202,54 +248,6 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-6 col-xl-6">
-                                        <div class="form-group local-forms">
-                                            <label for="barcodeSymbology">Barcode Symbology
-                                                <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="barcodeSymbologyList" styleClass="" appendTo="body"
-                                                optionLabel="label" optionValue="value"
-                                                placeholder="Select  Barcode Symbology"
-                                                formControlName="barcodeSymbology" [style]="{'width':'100%'}"
-                                                [filter]="true" filterBy="label" [showClear]="true">
-                                            </p-dropdown>
-                                            <div *ngIf="
-                                            productForm.get('barcodeSymbology')?.hasError(
-                                              'required'
-                                            ) && productForm.get('barcodeSymbology')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group local-forms">
-                                            <label for="itemCode">Item Code</label>
-                                            <input class="form-control" type="text" placeholder="Please Enter Item Code"
-                                                formControlName="itemCode" />
-                                            <div *ngIf="
-                                            productForm.get('itemCode')?.hasError(
-                                              'required'
-                                            ) && productForm.get('itemCode')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                            <div *ngIf="
-                                            productForm.get('itemCode')?.hasError(
-                                              'pattern'
-                                            ) && productForm.get('itemCode')?.touched
-                                          ">
-                                                <span class="login-danger">Input must be between 3 to 10
-                                                    characters.</span>
-                                            </div>
-                                            <!-- <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                    (click)="generateBarcode()">
-                                                    <i class="fas fa-barcode"></i>
-                                                </button>
-                                            </div> -->
-                                        </div>
-                                    </div>
 
                                     <!-- <div class="col-12 col-md-6" *ngIf="barcodeImage">
                                         <img [src]="barcodeImage" alt="Barcode Image">
@@ -263,7 +261,7 @@
                                     <hr>
 
 
-                                    <div class="col-12 col-md-6 col-xl-6">
+                                    <!-- <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
                                             <label for="tax">Tax
                                                 <span class="login-danger">*</span></label>
@@ -280,7 +278,7 @@
                                                 <span class="login-danger">Field is required.</span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
@@ -374,7 +372,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-6">
+                                    <!-- <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="mRP">MRP</label>
                                             <div class="input-group">
@@ -399,7 +397,7 @@
                                                 <span class="login-danger">Input must be more than 0.</span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
 
                                     <h3>Custom Fields</h3>

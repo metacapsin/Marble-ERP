@@ -94,25 +94,25 @@ export class ProductsAddComponent {
   ) {
     this.productForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
+      itemCode: ["", [Validators.pattern(this.shortNameRegex)]],
       // slug: [
       //   '',
       //   [Validators.required, Validators.pattern(new RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/))],
       // ],
-      warehouse: ["", [Validators.required]],
       category: ["", [Validators.required]],
       subCategory: ["", [Validators.required]],
       unit: ["", [Validators.required]],
+      warehouse: ["", [Validators.required]],
       quantityAlert: ["", [Validators.pattern(this.shortNameRegex)]],
-      barcodeSymbology: [""],
-      itemCode:  ["", [Validators.pattern(this.shortNameRegex)]],
-      tax:  ["", [Validators.required]],
-      openingStock:   ["", [Validators.required,Validators.min(0)]],
-      openingStockDate:  ["", [Validators.required]],
-      purchasePrice:  ["", [Validators.required,Validators.min(0)]],
-      mRP:  ["", [Validators.required,Validators.min(0)]],
-      expiryDate:  ["", [Validators.required]],
-      description:  ["", [ Validators.pattern(this.descriptionRegex)]],
-      salesPrice:  ["", [Validators.required,Validators.min(0)]],
+      // barcodeSymbology: [""],
+      // tax: ["", [Validators.required]],
+      openingStock: ["", [Validators.required, Validators.min(0)]],
+      openingStockDate: ["", [Validators.required]],
+      purchasePrice: ["", [Validators.required, Validators.min(0)]],
+      // mRP: ["", [Validators.required, Validators.min(0)]],
+      expiryDate: ["", [Validators.required]],
+      description: ["", [Validators.pattern(this.descriptionRegex)]],
+      salesPrice: ["", [Validators.required, Validators.min(0)]],
     });
   }
   get f() {
