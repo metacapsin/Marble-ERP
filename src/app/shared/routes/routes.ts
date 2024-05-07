@@ -620,4 +620,14 @@ export class routes {
   // public static get viewExpenses(): string {
   //   return this.baseUrl + '/expenses/view-expenses';
   // }
+  public static get blocksList(): string {
+    return this.baseUrl + '/blocks';
+  }
+  public static get addBlocks(): string {
+    return this.baseUrl + '/blocks/add-blocks';
+  }
+  public static get editBlocks(): string {
+    return this.baseUrl + '/blocks/edit-blocks';
+  }
+  
 }

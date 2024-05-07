@@ -1,6 +1,7 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
     <div class="content">
+
       <div class="page-header">
         <div class="row">
           <div class="col-sm-12">
@@ -22,6 +23,7 @@
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-sm-12">
           <div class="card card-table show-entire">
@@ -145,7 +147,7 @@
                         <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
                         <input class="form-control" type="text" placeholder="Please Enter Tex Number"
                           formControlName="taxNumber" />
-                        <!-- <div *ngIf="
+                         <div *ngIf="
                                                         editSupplierGroup.get('taxNumber')?.hasError(
                                                           'required'
                                                         ) && editSupplierGroup.get('taxNumber')?.touched
@@ -178,7 +180,7 @@
                                                       ) && editSupplierGroup.get('openingBalance')?.touched
                                                     " class="login-danger Font_size">
                           Field is required.
-                        </div> -->
+                        </div> 
                         <div *ngIf="
                             editSupplierGroup
                               .get('openingBalance')
@@ -310,5 +312,6 @@
           </div>
         </div>
       </div>
+      
     </div>
   </div>

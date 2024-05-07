@@ -242,31 +242,24 @@
                     <p-table [value]="salesReturnDataById" [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
                         <tr>
-                          <th pSortableColumn="salesItemCategory">Category 
+                          <th pSortableColumn="salesItemCategory">Product
                           </th>
-                          <th pSortableColumn="salesItemSubCategory">Sub Category 
-                          </th>
-                          <th pSortableColumn="unit">Unit 
-                          </th>
-                          <th pSortableColumn="salesItemName">Name 
-                          </th>
-
-                          <th pSortableColumn="salesItemQuantity">Quantity 
+                          <th pSortableColumn="salesItemQuantity">Quantity
                           </th>
                           <th pSortableColumn="salesItemUnitPrice">Unit Price
                           </th>
-                          <th pSortableColumn="salesItemSubTotal">Sub Total 
+                          <th pSortableColumn="salesItemTaxAmount">Taxable Amount
+                          </th>
+                          <th pSortableColumn="salesItemSubTotal">Sub Total
                           </th>
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-data>
                         <tr *ngFor="let sales of data.salesItemDetails">
-                          <td>{{sales.salesItemCategory}}</td>
-                          <td>{{sales.salesItemSubCategory}}</td>
-                          <td>{{sales.unit}}</td>
-                          <td>{{sales.salesItemName}}</td>
+                          <td>{{sales.salesItemProduct}}</td>
                           <td>{{sales.salesItemQuantity}}</td>
                           <td>₹ {{sales.salesItemUnitPrice}}</td>
+                          <td>₹ {{sales.salesItemTaxAmount}}</td>
                           <td>₹ {{sales.salesItemSubTotal}}</td>
                         </tr>
                       </ng-template>
@@ -295,7 +288,7 @@
                     <div class="invoice-total-box">
                       <div class="invoice-total-inner">
                         <p>Gross Total <span>₹ {{sales.salesGrossTotal}}</span></p>
-                        <p>Applied Tax Amount <span>₹ {{addTaxTotal}} </span></p>
+                        <!-- <p>Applied Tax Amount <span>₹ {{addTaxTotal}} </span></p> -->
                         <p>Shipping Charges <span>₹ {{sales.salesShipping}}</span></p>
                         <p>Discount <span>₹ {{sales.salesDiscount}}</span></p>
                         <p>OtherCharges <span>₹ {{sales.otherCharges}}</span></p>

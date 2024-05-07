@@ -1076,6 +1076,17 @@ export class DataService {
           ],
         },
         {
+          menuValue: "Blocks",
+          route: routes.blocksList,
+          hasSubRoute: false,
+          showSubRoute: false,
+          icon: "fa-gear",
+          faIcon: true,
+          base: "settings",
+          subMenus: [],
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+        },
+        {
           menuValue: "Settings",
           route: routes.practiceInformation,
           hasSubRoute: false,

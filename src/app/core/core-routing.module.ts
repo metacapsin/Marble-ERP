@@ -52,6 +52,11 @@ const routes: Routes = [
           import('./invoice/invoice.module').then((m) => m.InvoiceModule),
       },
       {
+        path: 'blocks',
+        loadChildren: () =>
+          import('./blocks/blocks.module').then((m) => m.BlocksModule),
+      },
+      {
         path: 'settings',
         loadChildren: () =>
           import('./settings/settings.module').then((m) => m.SettingsModule),
