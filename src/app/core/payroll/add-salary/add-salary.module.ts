@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AddSalaryRoutingModule } from './add-salary-routing.module';
 import { AddSalaryComponent } from './add-salary.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     AddSalaryRoutingModule,
-    SharedModule
+    SharedModule,
+    DropdownModule
   ]
 })
 export class AddSalaryModule { }

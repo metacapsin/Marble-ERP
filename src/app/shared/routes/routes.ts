@@ -1,3 +1,4 @@
+
 export class routes {
 
   private static Url = '';
@@ -628,6 +629,9 @@ export class routes {
   }
   public static get editBlocks(): string {
     return this.baseUrl + '/blocks/edit-blocks';
+  }
+  public static get payrollList(): string {
+    return this.baseUrl + '/payroll/payrollList';
   }
   
 }

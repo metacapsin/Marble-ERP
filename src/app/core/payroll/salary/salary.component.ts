@@ -1,143 +1,155 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { DataService } from 'src/app/shared/data/data.service';
-import { pageSelection, apiResultFormat, salary } from 'src/app/shared/models/models';
-import { routes } from 'src/app/shared/routes/routes';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { routes } from "src/app/shared/routes/routes";
+import { CustomersdataService } from '../../Customers/customers.service';
+import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+import { TabViewModule } from 'primeng/tabview';
+
 interface data {
   value: string ;
 }
 @Component({
   selector: 'app-salary',
   templateUrl: './salary.component.html',
-  styleUrls: ['./salary.component.scss']
+  styleUrls: ['./salary.component.scss'],
+  providers: [MessageService],
+  standalone: true,
+  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, ToastModule, DialogModule,TabViewModule]
+
 })
-export class SalaryComponent implements OnInit{
+export class SalaryComponent {
   public routes = routes;
-  public selectedValue !: string  ;
-  public salary: Array<salary> = [];
-  dataSource!: MatTableDataSource<salary>;
 
-  public showFilter = false;
   public searchDataValue = '';
-  public lastIndex = 0;
-  public pageSize = 10;
-  public totalData = 0;
-  public skip = 0;
-  public limit: number = this.pageSize;
-  public pageIndex = 0;
-  public serialNumberArray: Array<number> = [];
-  public currentPage = 1;
-  public pageNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
-  public totalPages = 0;
+  selectedSales = '';
+  customerList = [];
+  saleId: any;
+  showDialoge = false;
+  modalData: any = {};
+originalData = [];
+  visible: boolean = false;
+  addTaxTotal: any;
+  constructor(
+    private messageService: MessageService,
+    private router: Router,
+    public dialog: MatDialog,
+    private customerService: CustomersdataService,) { }
 
-  constructor(public data : DataService){
 
-  }
-  ngOnInit() {
-    this.getTableData();
-  }
-  private getTableData(): void {
-    this.salary = [];
-    this.serialNumberArray = [];
 
-    this.data.getSalary().subscribe((data: apiResultFormat) => {
-      this.totalData = data.totalData;
-      data.data.map((res: salary, index: number) => {
-        const serialNumber = index + 1;
-        if (index >= this.skip && serialNumber <= this.limit) {
-         
-          this.salary.push(res);
-          this.serialNumberArray.push(serialNumber);
-        }
-      });
-      this.dataSource = new MatTableDataSource<salary>(this.salary);
-      this.calculateTotalPages(this.totalData, this.pageSize);
-    });
-  }
- // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.salary = this.dataSource.filteredData;
-  }
+  deleteSalesReturn(Id: any) {
+    this.saleId = Id;
 
-  public sortData(sort: Sort) {
-    const data = this.salary.slice();
-
-    if (!sort.active || sort.direction === '') {
-      this.salary = data;
-    } else {
-      this.salary = data.sort((a, b) => {
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
-      });
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Sales Return Details"
     }
+    this.showDialoge = true;
   }
 
-  public getMoreData(event: string): void {
-    if (event == 'next') {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    } else if (event == 'previous') {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    }
+  showNewDialog() {
+    this.showDialoge = true;
   }
 
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    this.getTableData();
+
+  close() {
+    this.showDialoge = false;
   }
 
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    this.getTableData();
+  // salary json
+  salaryData = [
+    {
+      "employeeID": "EID-001",
+      "employeeName": "Andrea Lalema",
+      "Email": "example@gmail.com",
+      "joiningDate": "01.05.2020",
+      "Role": "Nurse",
+      "Salary": "1000",
+      "Status": "Generate Slip"
+    },
+    {
+      "employeeID": "EID-002",
+      "employeeName": "William Stephin",
+      "Email": "example@gmail.com",
+      "joiningDate": "03.05.2020",
+      "Role": "Accountant",
+      "Salary": "2000",
+      "Status": "Generate Slip"
+    },
+    {
+      "employeeID": "EID-003",
+      "employeeName": "Smith Bruklin",
+      "Email": "example@gmail.com",
+      "joiningDate": "04.05.2020",
+      "Role": "Pharmacist",
+      "Salary": "1500",
+      "Status": "Generate Slip"
+    },
+    {
+      "employeeID": "EID-004",
+      "employeeName": "Bernardo James",
+      "Email": "example@gmail.com",
+      "joiningDate": "06.06.2020",
+      "Role": "Nurse",
+      "Salary": "3000",
+      "Status": "Generate Slip"
+    },
+    {
+      "employeeID": "EID-005",
+      "employeeName": "Cristina Groves",
+      "Email": "example@gmail.com",
+      "joiningDate": "13.05.2020",
+      "Role": "Accountant",
+      "Salary": "5000",
+      "Status": "Generate Slip"
+    },
+    {
+      "employeeID": "EID-006",
+      "employeeName": "Mark Hay Smith",
+      "Email": "example@gmail.com",
+      "joiningDate": "11.12.2020",
+      "Role": "Pharmacist",
+      "Salary": "2000",
+      "Status": "Generate Slip"
+    },
+    {
+      "employeeID": "EID-007",
+      "employeeName": "Andrea Lalema",
+      "Email": "example@gmail.com",
+      "joiningDate": "01.05.2020",
+      "Role": "Accountant",
+      "Salary": "1000",
+      "Status": "Generate Slip"
+    },
+    {
+      "employeeID": "EID-008",
+      "employeeName": "Smith Bruklin",
+      "Email": "example@gmail.com",
+      "joiningDate": "01.05.2020",
+      "Role": "Nurse",
+      "Salary": "2000",
+      "Status": "Generate Slip"
+    }
+  ]
+
   }
 
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      var limit = pageSize * i;
-      var skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
-  }
-  selectedList1: data[] = [
-    {value: 'Select Role'},
-    {value: 'Accountant'},
-    {value: 'Nurse'},
-    {value: 'Pharmacist'},
-  ];
-  selectedList2: data[] = [
-    {value: 'Select Leave Status'},
-    {value: 'Pending'},
-    {value: 'Approved'},
-    {value: 'Rejected'},
-  ];
-}
+// selectedList1: data[] = [
+//   {value: 'Select Role'},
+//   {value: 'Accountant'},
+//   {value: 'Nurse'},
+//   {value: 'Pharmacist'},
+// ];
+// selectedList2: data[] = [
+//   {value: 'Select Leave Status'},
+//   {value: 'Pending'},
+//   {value: 'Approved'},
+//   {value: 'Rejected'},
+// ];

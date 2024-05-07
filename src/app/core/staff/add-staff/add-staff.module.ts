@@ -4,6 +4,10 @@ import { CommonModule } from '@angular/common';
 import { AddStaffRoutingModule } from './add-staff-routing.module';
 import { AddStaffComponent } from './add-staff.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { calendar } from 'ngx-bootstrap/chronos/moment/calendar';
+import { CalendarModule } from 'primeng/calendar';
+import { Checkbox } from 'primeng/checkbox';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 @NgModule({
@@ -13,7 +17,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     AddStaffRoutingModule,
-    SharedModule
+    SharedModule,
+    CalendarModule,
+    DropdownModule
+    
   ]
 })
 export class AddStaffModule { }

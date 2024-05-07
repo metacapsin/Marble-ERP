@@ -19,7 +19,7 @@
             
                 <div class="card">
                     <div class="card-body">
-                        <form>
+                        <form [formGroup]="addSalaryForm" (ngSubmit)="addSalaryFormSubmit()">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-heading">
@@ -28,19 +28,20 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
-                                        <label for="Select">Select Staff </label>
+                                        <label for="StaffName">Select Staff </label>
                                         
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select Staff">
-                                            <mat-option *ngFor="let data of selectedList" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
+                                        <p-dropdown [style]="{'width':'100%'}" placeholder="--Select staff--"
+                                        [options]="staff" formControlName="StaffName" formControlName="StaffName" optionLabel="value"
+                                        optionValue="value" display="chip" [filter]="true" filterBy="name"
+                                        [showClear]="true">
+                                    </p-dropdown>
+                                      
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">  
                                     <div class="form-group local-forms">
-                                        <label for="Net">Net Salary </label>
-                                        <input class="form-control" type="text" >
+                                        <label for="netSalary">Net Salary </label>
+                                        <input class="form-control" formControlName="netSalary" type="text" value="$1000">
                                     </div>
                                 </div>
                             </div>
@@ -50,28 +51,28 @@
                                         <h5>Earnings</h5>
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="Basic">Basic Salary </label>
-                                        <input class="form-control" type="text" >
+                                        <label for="basicSalary">Basic Salary </label>
+                                        <input class="form-control" formControlName="basicSalary" type="text" value="$1000" >
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="DA">DA (40%) </label>
-                                        <input class="form-control" type="text" >
+                                        <label for="dearnessAllowance">DA (40%) </label>
+                                        <input class="form-control"formControlName="dearnessAllowance" type="text" value="$800">
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="HRA">HRA (15%) </label>
-                                        <input class="form-control" type="text" >
+                                        <label for="dearnessAllowance">HRA (15%) </label>
+                                        <input class="form-control"formControlName="dearnessAllowance" type="text" value="$600">
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="Conveyance">Conveyance </label>
-                                        <input class="form-control" type="text" >
+                                        <label for="conveyance">Conveyance </label>
+                                        <input class="form-control"formControlName="conveyance" type="text" value="$50">
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="Medical">Medical Allowance </label>
-                                        <input class="form-control" type="text" >
+                                        <label for="medicalAllowance">Medical Allowance </label>
+                                        <input class="form-control"formControlName="medicalAllowance" type="text" value="$40" >
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="Others">Others</label>
-                                        <input class="form-control" type="text" >
+                                        <label for="others">Others</label>
+                                        <input class="form-control"formControlName="others" type="text" value="$20">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
@@ -79,28 +80,28 @@
                                         <h5>Deductions</h5>
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="TDS">TDS </label>
-                                        <input class="form-control" type="text" >
+                                        <label for="taxDeductedAtSource">TDS </label>
+                                        <input class="form-control"formControlName="taxDeductedAtSource" type="text" value="$600">
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="ESI">ESI </label>
-                                        <input class="form-control" type="text" >
+                                        <label for="employeeStateInsurance">ESI </label>
+                                        <input class="form-control"formControlName="employeeStateInsurance" type="text" value="$500">
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="PF">PF </label>
-                                        <input class="form-control" type="text" >
+                                        <label for="providentFund">PF </label>
+                                        <input class="form-control"formControlName="providentFund" type="text" value="$60">
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="ProfTax">Prof.Tax </label>
-                                        <input class="form-control" type="text" >
+                                        <label for="professionalTax">Prof.Tax </label>
+                                        <input class="form-control"formControlName="professionalTax" type="text" value="$40">
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="Labour">Labour Welfare </label>
-                                        <input class="form-control" type="text" >
+                                        <label for="labourWelfare">Labour Welfare </label>
+                                        <input class="form-control"formControlName="labourWelfare" type="text" value="$30">
                                     </div>
                                     <div class="form-group local-forms">
-                                        <label for="Others">Others</label>
-                                        <input class="form-control" type="text" >
+                                        <label for="others">Others</label>
+                                        <input class="form-control"formControlName="others" type="text" value="$10">
                                     </div>
                                 </div>
                                 <div class="col-12">

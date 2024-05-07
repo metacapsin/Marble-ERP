@@ -153,6 +153,14 @@ const routes: Routes = [
             (m) => m.ExpensesCategoriesModule
           ),
       },
+      {
+        path: 'staff',
+        loadChildren: () =>
+          import('./staff/staff.module').then(
+            (m) => m.StaffModule
+          ),
+      },
+
     ],
   },
 ];

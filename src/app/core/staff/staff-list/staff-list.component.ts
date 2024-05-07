@@ -1,128 +1,118 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { DataService } from 'src/app/shared/data/data.service';
-import { apiResultFormat, pageSelection, staffList } from 'src/app/shared/models/models';
-import { routes } from 'src/app/shared/routes/routes';
-
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { routes } from "src/app/shared/routes/routes";
+import { CustomersdataService } from '../../Customers/customers.service';
+import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+import { TabViewModule } from 'primeng/tabview';
 @Component({
   selector: 'app-staff-list',
   templateUrl: './staff-list.component.html',
-  styleUrls: ['./staff-list.component.scss']
+  styleUrls: ['./staff-list.component.scss'],
+  // providers:[MessageService  ]
 })
-export class StaffListComponent implements OnInit{
+export class StaffListComponent {
   public routes = routes;
-  public staffList: Array<staffList> = [];
-  dataSource!: MatTableDataSource<staffList>;
-
-  public showFilter = false;
+  // public staffData= [];
   public searchDataValue = '';
-  public lastIndex = 0;
-  public pageSize = 10;
-  public totalData = 0;
-  public skip = 0;
-  public limit: number = this.pageSize;
-  public pageIndex = 0;
-  public serialNumberArray: Array<number> = [];
-  public currentPage = 1;
-  public pageNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
-  public totalPages = 0;
+  saleId: any;
+  showDialoge = false;
+  modalData: any = {};
+originalData = [];
+  visible: boolean = false;
+  addTaxTotal: any;
+  salesReturnDataById= []
+  salesReturnListData = []  
 
-  constructor(public data : DataService){
 
-  }
-  ngOnInit() {
-    this.getTableData();
-  }
-  private getTableData(): void {
-    this.staffList = [];
-    this.serialNumberArray = [];
+  constructor(
+    // private messageService: MessageService,
+    private router: Router,
+    public dialog: MatDialog,
+    private customerService: CustomersdataService,) { }
 
-    this.data.getStaffList().subscribe((data: apiResultFormat) => {
-      this.totalData = data.totalData;
-      data.data.map((res: staffList, index: number) => {
-        const serialNumber = index + 1;
-        if (index >= this.skip && serialNumber <= this.limit) {
-         
-          this.staffList.push(res);
-          this.serialNumberArray.push(serialNumber);
-        }
-      });
-      this.dataSource = new MatTableDataSource<staffList>(this.staffList);
-      this.calculateTotalPages(this.totalData, this.pageSize);
-    });
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.staffList = this.dataSource.filteredData;
-  }
 
-  public sortData(sort: Sort) {
-    const data = this.staffList.slice();
 
-    if (!sort.active || sort.direction === '') {
-      this.staffList = data;
-    } else {
-      this.staffList = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
-      });
+  deleteSalesReturn(Id: any) {
+    this.saleId = Id;
+
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Sales Return Details"
     }
+    this.showDialoge = true;
   }
 
-  public getMoreData(event: string): void {
-    if (event == 'next') {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    } else if (event == 'previous') {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    }
+  showNewDialog() {
+    this.showDialoge = true;
   }
 
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    this.getTableData();
-  }
 
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    this.getTableData();
+  close() {
+    this.showDialoge = false;
   }
+  
+   staffData = [
+    {
+      "Name": "Dr.Smith Bruklin",
+      "Department": "Urology",
+      "Specialization": "Prostate",
+      "Degree": "MBBS, MS",
+      "Mobile": "9610237965",
+      "Email": "example@email.com",
+      "JoiningDate": "01.10.2022"
+    },
+    {
+      "Name": "Dr.William Stephin",
+      "Department": "Radiology",
+      "Specialization": "Cancer",
+      "Degree": "MBBS, MS",
+      "Mobile": "9610237965",
+      "Email": "example@email.com",
+      "JoiningDate": "01.10.2022"
+    },
+    {
+      "Name": "Andrea Lalema",
+      "Department": "Otolaryngology",
+      "Specialization": "Infertility",
+      "Degree": "MBBS, MS",
+      "Mobile": "9610237965",
+      "Email": "example@email.com",
+      "JoiningDate": "01.10.2022"
+    },
+    {
+      "Name": "Cristina Groves",
+      "Department": "Gynocolgy",
+      "Specialization": "Prostate",
+      "Degree": "MBBS",
+      "Mobile": "7737640566",
+      "Email": "example@email.com",
+      "JoiningDate": "01.10.2022"
+    },
+    {
+      "Name": "Mark Hay Smith",
+      "Department": "Gynocolgy",
+      "Specialization": "Prostate",
+      "Degree": "MBBS, MS",
+      "Mobile": "9610237965",
+      "Email": "example@email.com",
+      "JoiningDate": "01.10.2022"
+    },
+    {
+      "Name": "Bernardo James",
+      "Department": "Dentist",
+      "Specialization": "Prostate",
+      "Degree": "MBBS, MS",
+      "Mobile": "9610237965",
+      "Email": "example@email.com",
+      "JoiningDate": "01.10.2022"
+    }
+  ]
 
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
-  }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { routes } from 'src/app/shared/routes/routes';
 interface data {
   value: string ;
@@ -12,12 +12,34 @@ interface data {
 export class EditLeaveComponent {
   public routes = routes;
   public selectedValue !: string ;
-  date = new FormControl(new Date());
-  
-  selectedList: data[] = [
-    {value: 'Select Leave Type'},
-    {value: 'Medical Leave'},
-    {value: 'Casual Leave'},
-    {value: 'Loss of Pay'},
-  ];
+  editLeaveForm! : FormGroup
+
+  LeaveData: data[] = [
+  {value: 'Select Leave Type'},
+  {value: 'Medical Leave'},
+  {value: 'Casual Leave'},
+  {value: 'Loss of Pay'},
+];
+
+constructor(private fb: FormBuilder){
+  this.editLeaveForm = this.fb.group({
+    leaveType: [''],
+    employeeName: [''],
+    numberOfDays: [''],
+    fromDate: [''],
+    toDate: [''],
+    leaveReason: ['']
+  })
+}
+
+
+editLeaveFormSubmit(){
+  if(this.editLeaveForm.valid){
+    console.log("Form is valid", this.editLeaveForm.value);
+  }else{
+    console.log("Form is inValid!");
+    
+  }
+}
+
 }

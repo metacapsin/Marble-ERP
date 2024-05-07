@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { StaffAttendanceRoutingModule } from './staff-attendance-routing.module';
 import { StaffAttendanceComponent } from './staff-attendance.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     StaffAttendanceRoutingModule,
-    SharedModule
+    SharedModule,
+    CheckboxModule
   ]
 })
 export class StaffAttendanceModule { }

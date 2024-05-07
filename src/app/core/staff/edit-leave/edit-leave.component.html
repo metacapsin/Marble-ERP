@@ -6,9 +6,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.staffList">Staffs </a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="routes.staffLeave">Leave Request List </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">edit Leave</li>
+                        <li class="breadcrumb-item active">Edit Leave Request</li>
                     </ul>
                 </div>
             </div>
@@ -19,57 +19,67 @@
             
                 <div class="card">
                     <div class="card-body">
-                        <form>
+                        <form [formGroup]="editLeaveForm" (ngSubmit)="editLeaveFormSubmit()">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-heading">
-                                        <h4>Edit Leave</h4>
+                                        <h4>Edit Leave Request</h4>
+                                    </div>
+                                </div>
+                               
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label for="employeeName">Employee Name  <span class="login-danger">*</span></label>
+                                        <input class="form-control" formControlName="employeeName" type="text"  >
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
-                                        <label for="leave">Leave Type <span class="login-danger">*</span></label>
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select Leave Type">
-                                            <mat-option *ngFor="let data of selectedList" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
-
+                                        <label for="numberOfDays">Number of Days  <span class="login-danger">*</span></label>
+                                        <input class="form-control" formControlName="numberOfDays" type="text"  >
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
-                                        <label for="Number">Number of Days  <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text"  value="2" >
+                                        <label for="leaveType">Leave Type <span class="login-danger">*</span></label>
+                                        <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Leave Type --"
+                                        [options]="LeaveData" formControlName="leaveType" optionLabel="value"
+                                        optionValue="value" display="chip" [filter]="true" filterBy="name"
+                                        [showClear]="true">
+                                    </p-dropdown>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
-                                        <label for="From">From <span class="login-danger">*</span></label>
-                                        <input class="form-control datetimepicker" type="text" [formControl]="date" matInput [matDatepicker]="picker1" >
-                                        <mat-datepicker #picker1></mat-datepicker>
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <label for="fromDate">From <span
+                                                class="login-danger">*</span></label>
+                                        <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                         placeholder="mm/dd/yyyy"
+                                            [styleClass]="'col-12'" formControlName="fromDate"  ></p-calendar>
+                                        <div>
+                                            
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
-                                        <label for="To">To <span class="login-danger">*</span></label>
-                                        <input class="form-control datetimepicker" type="text"  [formControl]="date" matInput [matDatepicker]="picker2">
-                                        <mat-datepicker #picker2></mat-datepicker>
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <label for="toDate">To <span
+                                                class="login-danger">*</span></label>
+                                        <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                         placeholder="mm/dd/yyyy"
+                                            [styleClass]="'col-12'" formControlName="toDate" ></p-calendar>
+                                        <div>
+                                            
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12">
                                     <div class="form-group local-forms">
-                                        <label for="Leave Reason">Leave Reason  <span class="login-danger">*</span></label>
-                                        <textarea class="form-control" rows="3" cols="30">Going to hospital</textarea>
+                                        <label for="leaveReason">Leave Reason  <span class="login-danger">*</span></label>
+                                        <textarea class="form-control" formControlName="leaveReason" rows="3" cols="30"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-3">
-                                    <div class="form-group local-forms">
-                                        <input class="form-control" type="text" readonly value="Remainig Leaves: 12" >
-                                    </div>
-                                </div>
+                                
                                 <div class="col-12">
                                     <div class="doctor-submit text-end">
                                         <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
