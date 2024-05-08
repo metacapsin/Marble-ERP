@@ -630,6 +630,15 @@ export class routes {
   public static get editBlocks(): string {
     return this.baseUrl + '/blocks/edit-blocks';
   }
+  public static get blocksCustomerList(): string {
+    return this.baseUrl + '/block-customer';
+  }
+  public static get addBlocksCustomer(): string {
+    return this.baseUrl + '/block-customer/add-block-customer';
+  }
+  public static get editBlocksCustomer(): string {
+    return this.baseUrl + '/block-customer/edit-block-customer';
+  }
   public static get payrollList(): string {
     return this.baseUrl + '/payroll/payrollList';
   }
