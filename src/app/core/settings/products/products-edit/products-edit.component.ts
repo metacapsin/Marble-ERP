@@ -74,11 +74,11 @@ export class ProductsEditComponent {
   ];
   taxList = [];
 
-  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  // nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
+  // shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
 
-  descriptionRegex = /^(?!\s)(.{3,500})$/;
+  // descriptionRegex = /^(?!\s)(.{3,500})$/;
   constructor(
     private service: ProductsService,
     private fb: FormBuilder,
@@ -86,11 +86,8 @@ export class ProductsEditComponent {
     private activeRoute: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private messageService: MessageService,
-    private unitService: UnitsService,
     private categoriesService: CategoriesService,
     private subCategoriesService: SubCategoriesService,
-    private taxService: TaxesService,
-    private warehouseServices: WarehouseService
   ) {
     this.productForm = this.fb.group({
       lotNo: ["", [Validators.required]],
@@ -117,14 +114,6 @@ export class ProductsEditComponent {
       console.log("user id ", this.productId);
     });
 
-    this.unitService.getAllUnitList().subscribe((resp: any) => {
-      this.unitList = resp.data;
-    });
-
-    this.warehouseServices.getAllWarehouseList().subscribe((resp: any) => {
-      this.warehouseList = resp.data;
-    });
-
     this.categoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
     });
@@ -132,9 +121,7 @@ export class ProductsEditComponent {
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
     });
-    this.taxService.getAllTaxList().subscribe((resp: any) => {
-      this.taxList = resp.data;
-    });
+  
 
     this.service.getProductById(this.productId).subscribe((data: any) => {
       this.data = data.data; //assuming data is returned as expected

@@ -52,7 +52,7 @@ const routes: Routes = [
           import('./invoice/invoice.module').then((m) => m.InvoiceModule),
       },
       {
-        path: 'blocks',
+        path: 'blocks-processing',
         loadChildren: () =>
           import('./processing/blocks/blocks.module').then((m) => m.BlocksModule),
       },
@@ -60,6 +60,21 @@ const routes: Routes = [
         path: 'block-customer',
         loadChildren: () =>
           import('./processing/block-customer/block-customer.module').then((m) => m.BlockCustomerModule),
+      },
+      {
+        path: 'slabs',
+        loadChildren: () =>
+          import('./Product/slabs/slabs.module').then((m) => m.SlabsModule),
+      },
+      {
+        path: 'blocks',
+        loadChildren: () =>
+          import('./Product/blocks/blocks.module').then((m) => m.BlocksModule),
+      },
+      {
+        path: 'lot',
+        loadChildren: () =>
+          import('./Product/lot/lot.module').then((m) => m.LotModule),
       },
       {
         path: 'settings',

@@ -8,33 +8,32 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { LotService } from '../../lot/lot.service';
-
+import { SlabsService } from '../slabs.service';
 @Component({
-  selector: 'app-list-blocks',
+  selector: 'app-list-slabs',
   standalone: true,
   imports: [CommonModule,SharedModule,ButtonModule, ToastModule],
   providers: [MessageService],
-  templateUrl: './list-blocks.component.html',
-  styleUrl: './list-blocks.component.scss'
+  templateUrl: './list-slabs.component.html',
+  styleUrl: './list-slabs.component.scss'
 })
-export class ListBlocksComponent {
-
+export class ListSlabsComponent {
   public routes = routes;
   data: any = null;
   originalData:any = []
   public showDialog: boolean = false;
   modalData: any = {}
-  lotID: any;
+  slabsID: any;
   searchDataValue = "";
-  selectedLot = [];
+  selectedSlabs = [];
 
-  constructor(public dialog: MatDialog, public router: Router, private service: LotService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
-  getLotList(): void {
-    this.service.getLotList().subscribe((resp: any) => {
+  constructor(public dialog: MatDialog, public router: Router, private service: SlabsService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
+
+  getSlabsList(): void {
+    this.service.getSlabsList().subscribe((resp: any) => {
       this.data = resp.data;
-      // map(lot=>{
-      //   lot.currentStock=lot.openingStock-lot.
+      // map(slabs=>{
+      //   slabs.currentStock=slabs.openingStock-slabs.
       // })
       this.originalData = resp.data;
 
@@ -43,15 +42,15 @@ export class ListBlocksComponent {
     })
   }
   ngOnInit(): void {
-    this.getLotList();
+    this.getSlabsList();
   }
 
-  deleteLot(_id: any) {
-    this.lotID = _id;
+  deleteSlabs(_id: any) {
+    this.slabsID = _id;
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure want to delete this Lot",
+      messege: "Are you sure want to delete this Slabs",
     }
     this.showDialog = true;
   }
@@ -61,10 +60,10 @@ export class ListBlocksComponent {
   }
 
   callBackModal() {
-    this.service.deleteLotById(this.lotID).subscribe(resp => {
-      const message = "Lot has been deleted"
+    this.service.deleteSlabsById(this.slabsID).subscribe(resp => {
+      const message = "Slabs has been deleted"
       this.messageService.add({ severity: 'success', detail: message });
-      this.getLotList();
+      this.getSlabsList();
       this.showDialog = false;
 
     })

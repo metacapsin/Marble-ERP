@@ -15,56 +15,46 @@ import { DropdownModule } from "primeng/dropdown";
 import { SharedModule } from "src/app/shared/shared.module";
 import { ToastModule } from "primeng/toast";
 import { MessageService, SelectItem } from "primeng/api";
-import { ProductsService } from "../products.service";
-import { TreeSelectModule } from "primeng/treeselect";
-import { CategoriesService } from "../../categories/categories.service";
-import { SubCategoriesService } from "../../sub-categories/sub-categories.service";
+import { ProductsService } from "src/app/core/settings/products/products.service";
+import { CategoriesService } from "src/app/core/settings/categories/categories.service";
+import { SubCategoriesService } from "src/app/core/settings/sub-categories/sub-categories.service";
+import { BlocksService } from "../../blocks/blocks.service";
+import { LotService } from "../../lot/lot.service";
 
 interface CategoryItem {
   label: string;
   value: string;
   children?: CategoryItem[];
 }
+
 @Component({
-  selector: "app-products-add",
+  selector: 'app-add-slabs',
   standalone: true,
-  templateUrl: "./products-add.component.html",
-  styleUrl: "./products-add.component.scss",
   imports: [
     CommonModule,
     SharedModule,
     MatButtonModule,
     ButtonModule,
     CheckboxModule,
-    TreeSelectModule,
     FormsModule,
     DropdownModule,
     ToastModule,
   ],
   providers: [MessageService],
+  templateUrl: './add-slabs.component.html',
+  styleUrl: './add-slabs.component.scss'
 })
-export class ProductsAddComponent {
+export class AddSlabsComponent {
+
   public routes = routes;
-  productForm!: FormGroup;
-
-
-
+  slabsAddForm!: FormGroup;
+  
   categoryList: any = [];
 
   lotNoList: any = [];
-  blockNoList: any = [];
+  blocksNoList: any = [];
 
   subCategoryList: any = [];
-
-
-
-
-
-  // nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
-
-  // shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
-
-  // descriptionRegex = /^(?!\s)(.{3,500})$/;
 
   constructor(
     private service: ProductsService,
@@ -73,8 +63,10 @@ export class ProductsAddComponent {
     private messageService: MessageService,
     private categoriesService: CategoriesService,
     private subCategoriesService: SubCategoriesService,
+    private lotService: LotService,
+    private blocksService: BlocksService,
   ) {
-    this.productForm = this.fb.group({
+    this.slabsAddForm = this.fb.group({
       lotNo: ["", [Validators.required]],
       blockNo: ["", [Validators.required]],
       category: ["", [Validators.required]],
@@ -83,17 +75,12 @@ export class ProductsAddComponent {
       width: ["", [Validators.required, Validators.min(0)]],
       length: ["", [Validators.required, Validators.min(0)]],
       totalSqrFt: ["", [Validators.required, Validators.min(0)]],
-      // price: ["", [Validators.required, Validators.min(0)]],
-      // transportCharge: ["", [Validators.required, Validators.min(0)]],
-      // processingCharge: ["", [Validators.required, Validators.min(0)]],
-      // unitInTon: ["", [Validators.required, Validators.min(0)]],
-      // slabsCount: ["", [Validators.required, Validators.min(0)]],
       totalCosting: ["", [Validators.required, Validators.min(0)]],
       persellPrice: ["", [Validators.required, Validators.min(0)]],
     });
   }
   get f() {
-    return this.productForm.controls;
+    return this.slabsAddForm.controls;
   }
 
   ngOnInit(): void {
@@ -102,24 +89,29 @@ export class ProductsAddComponent {
     this.categoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
     });
+    this.lotService.getLotList().subscribe((resp: any) => {
+      this.lotNoList = resp.data;
+    });
+    this.blocksService.getBlocksList().subscribe((resp: any) => {
+      this.blocksNoList = resp.data;
+    });
 
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
     });
    
   }
-
-  ProductFormSubmit() {
-    console.log(this.productForm.value);
-    if (this.productForm.valid) {
+  SlabsAddFormSubmit() {
+    console.log(this.slabsAddForm.value);
+    if (this.slabsAddForm.valid) {
       this.service
-        .CreateProduct(this.productForm.value)
+        .CreateProduct(this.slabsAddForm.value)
         .subscribe((resp: any) => {
           if (resp.status === "success") {
-            const message = "Product has been added";
+            const message = "Slabs has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              this.router.navigate(["/settings/product"]);
+              this.router.navigate(["/slabs"]);
             }, 400);
           } else {
             const message = resp.message;

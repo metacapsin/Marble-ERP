@@ -10,11 +10,13 @@
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
                         <li class="breadcrumb-item active">Product</li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Lot List</li>
+                        <li class="breadcrumb-item active">Slabs List</li>
                     </ul>
                 </div>
             </div>
         </div>
+
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
@@ -23,7 +25,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Lot List</h3>
+                                        <h3>Slabs List</h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input type="text" class="form-control" placeholder="Search here"
@@ -33,7 +35,7 @@
                                             </div>
                                             <div class="add-group textbtn">
                                                 <a appShowHide [roles]="['admin', 'super-admin']"
-                                                    [routerLink]="['/lot/add']"
+                                                    [routerLink]="['/slabs/add']"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""> Add New</a>
 
@@ -58,7 +60,7 @@
                         <div class="card-body p-2">
                             <p-table [value]="originalData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                                 [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
-                                [(selection)]="selectedLot">
+                                [(selection)]="selectedSlabs">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th appShowHide [roles]="['admin', 'super-admin']">
@@ -68,30 +70,30 @@
                                             <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="blockNo">Vehicle No. <p-sortIcon
+                                        <th pSortableColumn="blockNo">Block No. <p-sortIcon
                                                 field="blockNo"></p-sortIcon>
                                             <p-columnFilter type="text" field="blockNo" display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="category">Totel Slots <p-sortIcon
+                                        <th pSortableColumn="category">Category <p-sortIcon
                                                 field="category"></p-sortIcon>
                                             <p-columnFilter type="category" field="category"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="brand">Invoice Numeber <p-sortIcon
+                                        <th pSortableColumn="brand">Sub Category <p-sortIcon
                                                 field="subCatergory"></p-sortIcon>
                                             <p-columnFilter type="text" field="subCatergory"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="totalCosting">Total Weight(Ton) <p-sortIcon
+                                        <th pSortableColumn="totalCosting">Total Costing <p-sortIcon
                                                 field="totalCosting"></p-sortIcon>
                                             <p-columnFilter type="text" field="totalCosting"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="persellPrice">Total Pricing <p-sortIcon
+                                        <th pSortableColumn="persellPrice">Per Sell Price <p-sortIcon
                                                 field="persellPrice"></p-sortIcon>
                                             <p-columnFilter type="text" field="persellPrice"
                                                 display="menu"></p-columnFilter>
@@ -101,35 +103,35 @@
                                         </th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-lot>
+                                <ng-template pTemplate="body" let-slabs>
 
                                     <tr>
                                         <td appShowHide [roles]="['admin', 'super-admin']">
-                                            <p-tableCheckbox [value]="lot"></p-tableCheckbox>
+                                            <p-tableCheckbox [value]="slabs"></p-tableCheckbox>
                                         </td>
                                         <td>
-                                            {{lot.lotNo}}
+                                            {{slabs.lotNo}}
                                         </td>
                                         <td>
-                                            {{lot.blockNo}}
+                                            {{slabs.blockNo}}
                                         </td>
                                         <td>
-                                            {{lot.category}}
+                                            {{slabs.category}}
                                         </td>
                                         <td>
-                                            {{lot.subCategory}}
+                                            {{slabs.subCategory}}
                                         </td>
                                         <td>
-                                            {{lot.totalCosting}}
+                                            {{slabs.totalCosting}}
                                         </td>
                                         <td>
-                                            {{lot.persellPrice}}
+                                            {{slabs.persellPrice}}
                                         </td>
                                         <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
                                             <p-button [text]="true" icon="fa fa-edit"
-                                                [routerLink]="['/lot/edit', lot._id]"></p-button>
+                                                [routerLink]="['/product/slabs/edit', slabs._id]"></p-button>
                                             <p-button [text]=" true" icon="fa fa-trash"
-                                                (click)="deleteLot(lot._id)"></p-button>
+                                                (click)="deleteSlabs(slabs._id)"></p-button>
                                         </td>
 
                                     </tr>

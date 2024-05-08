@@ -1,125 +1,126 @@
 <div class="page-wrapper">
-    <div class="content">
-      <!-- Page Header -->
-      <div class="page-header">
-        <div class="row">
-          <div class="col-sm-12">
-            <ul class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a [routerLink]="routes.adminDashboard">Dashboard </a>
-              </li>
-              <li class="breadcrumb-item">
-                <i class="feather icon-chevron-right"></i>
-              </li>
-              <li class="breadcrumb-item active">Sales Return List</li>
-            </ul>
-          </div>
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Sales Return List</li>
+          </ul>
         </div>
       </div>
-      <!-- /Page Header -->
+    </div>
+    <!-- /Page Header -->
 
-      <div class="card invoices-tabs-card">
-        <div class="card-body card-body pt-0 pb-0">
-          <div class="invoices-main-tabs">
-            <div class="row align-items-center">
-              <div class="col-lg-8 col-md-8">
-                <div class="invoices-tabs">
-                  <ul>
-                    <li>
-                      <a [routerLink]="routes.salesReturn" class="active"
-                        >All Sales Return</a
-                      >
-                    </li>
-                    <!-- <li><a >Paid</a></li>
+    <div class="card invoices-tabs-card">
+      <div class="card-body card-body pt-0 pb-0">
+        <div class="invoices-main-tabs">
+          <div class="row align-items-center">
+            <div class="col-lg-8 col-md-8">
+              <div class="invoices-tabs">
+                <ul>
+                  <li>
+                    <a [routerLink]="routes.salesReturn" class="active">All Sales Return</a>
+                  </li>
+                  <!-- <li><a >Paid</a></li>
                     <li><a>Unpaid</a></li> -->
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-4">
-                <div class="invoices-settings-btn">
-                  <a [routerLink]="routes.addSalesReturn" class="btn">
-                    <i class="feather icon-plus-circle feather-circle me-2"></i>
-                    New Sales Return
-                  </a>
-                </div>
+                </ul>
               </div>
             </div>
-          </div>
-        </div>
-      </div><div class="row">
-        <div class="col-sm-12">
-          <div class="card card-table">
-            <div class="card-body p-4">
-            <p-table [value]="salesReturnListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                            [rows]="5">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                    </th>
-                                    <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
-                                        <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="returnDate">Return Date <p-sortIcon field="returnDate"></p-sortIcon>
-                                        <p-columnFilter type="text" field="returnDate" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="customer.name">Customer <p-sortIcon field="customer.name"></p-sortIcon>
-                                        <p-columnFilter type="text" field="customer.name" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="returnOrderStatus">Return Status <p-sortIcon field="returnOrderStatus"></p-sortIcon></th>
-                                    <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
-                                        <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
-                                        <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
-                                        <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon></th>
-
-                                    <th>Action</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-sales>
-                                <tr>
-                                    <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableCheckbox [value]="sales"></p-tableCheckbox>
-                                    </td>
-                                    <td>{{sales.salesInvoiceNumber}}</td>
-                                    <td>{{sales.returnDate}}</td>
-                                    <td>{{sales.customer.name}}</td>
-                                    <td>{{sales.returnOrderStatus}}</td>
-                                    <td>₹ {{sales.paidAmount}}</td>
-                                    <td>₹ {{sales.dueAmount}}</td>
-                                    <td>₹ {{sales.salesTotalAmount}}</td>
-                                    <td>{{sales.paymentStatus}}</td>
-                                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                                                <p-button [text]="true" data-bs-toggle="modal"
-                                                data-bs-target="#sales_preview" icon="fa-solid fa-eye" (click)="showDialog(sales._id)"></p-button>
-                                                <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(sales._id)" ></p-button>
-                                                <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)" ></p-button>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-
+            <div class="col-lg-4 col-md-4">
+              <div class="invoices-settings-btn">
+                <a [routerLink]="routes.addSalesReturn" class="btn">
+                  <i class="feather icon-plus-circle feather-circle me-2"></i>
+                  New Sales Return
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table">
+          <div class="card-body p-2">
+            <p-table [value]="salesReturnListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th appShowHide [roles]="['admin', 'super-admin']">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th>
+                  <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon
+                      field="salesInvoiceNumber"></p-sortIcon>
+                    <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="returnDate">Return Date <p-sortIcon field="returnDate"></p-sortIcon>
+                    <p-columnFilter type="text" field="returnDate" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="customer.name">Customer <p-sortIcon field="customer.name"></p-sortIcon>
+                    <p-columnFilter type="text" field="customer.name" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="returnOrderStatus">Return Status <p-sortIcon
+                      field="returnOrderStatus"></p-sortIcon></th>
+                  <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
+                    <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                    <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
+                    <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                  </th>
+
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-sales>
+                <tr>
+                  <td appShowHide [roles]="['admin', 'super-admin']">
+                    <p-tableCheckbox [value]="sales"></p-tableCheckbox>
+                  </td>
+                  <td>{{sales.salesInvoiceNumber}}</td>
+                  <td>{{sales.returnDate}}</td>
+                  <td>{{sales.customer.name}}</td>
+                  <td>{{sales.returnOrderStatus}}</td>
+                  <td>₹ {{sales.paidAmount}}</td>
+                  <td>₹ {{sales.dueAmount}}</td>
+                  <td>₹ {{sales.salesTotalAmount}}</td>
+                  <td>{{sales.paymentStatus}}</td>
+                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                    <p-button [text]="true" data-bs-toggle="modal" data-bs-target="#sales_preview"
+                      icon="fa-solid fa-eye" (click)="showDialog(sales._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(sales._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 
 
-  <p-toast></p-toast>
-  
+<p-toast></p-toast>
+
 
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-[data]="modalData"></app-confirm-dialog>
+  [data]="modalData"></app-confirm-dialog>
 
-  <!-- -- Preview model -- -->
-  <p-dialog header="Sales Return Details" [(visible)]="visible" *ngFor="let sales of salesReturnDataById" [modal]="true"
+<!-- -- Preview model -- -->
+<p-dialog header="Sales Return Details" [(visible)]="visible" *ngFor="let sales of salesReturnDataById" [modal]="true"
   [style]="{width: '80vw'}">
   <div class="modal-content">
     <div class="modal-body">
@@ -309,4 +310,3 @@
   </div>
 </p-dialog>
 <!-- -- end preview model --  -->
-  
