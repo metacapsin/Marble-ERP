@@ -20,7 +20,6 @@ import { CalendarModule } from "primeng/calendar";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ProductsService } from "../products.service";
-import { TreeModule } from "primeng/tree";
 import { TreeSelectModule } from "primeng/treeselect";
 import { UnitsService } from "../../units/units.service";
 import { CategoriesService } from "../../categories/categories.service";
@@ -56,6 +55,9 @@ export class ProductsEditComponent {
   productId: any;
 
   warehouseList = [];
+  
+  lotNoList: any = [];
+  blockNoList: any = [];
 
   subCategoryList: any = [];
   categoryList: any = [];
@@ -91,26 +93,21 @@ export class ProductsEditComponent {
     private warehouseServices: WarehouseService
   ) {
     this.productForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
-      itemCode: ["", [Validators.pattern(this.shortNameRegex)]],
-      // slug: [
-      //   '',
-      //   [Validators.required, Validators.pattern(new RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/))],
-      // ],
+      lotNo: ["", [Validators.required]],
+      blockNo: ["", [Validators.required]],
       category: ["", [Validators.required]],
       subCategory: ["", [Validators.required]],
-      unit: ["", [Validators.required]],
-      warehouse: ["", [Validators.required]],
-      quantityAlert: ["", [Validators.pattern(this.shortNameRegex)]],
-      // barcodeSymbology: [""],
-      // tax: ["", [Validators.required]],
-      openingStock: ["", [Validators.required, Validators.min(0)]],
-      openingStockDate: ["", [Validators.required]],
-      purchasePrice: ["", [Validators.required, Validators.min(0)]],
-      // mRP: ["", [Validators.required, Validators.min(0)]],
-      expiryDate: ["", [Validators.required]],
-      description: ["", [Validators.pattern(this.descriptionRegex)]],
-      salesPrice: ["", [Validators.required, Validators.min(0)]],
+      height: ["", [Validators.required, Validators.min(0)]],
+      width: ["", [Validators.required, Validators.min(0)]],
+      length: ["", [Validators.required, Validators.min(0)]],
+      totalSqrFt: ["", [Validators.required, Validators.min(0)]],
+      // price: ["", [Validators.required, Validators.min(0)]],
+      // transportCharge: ["", [Validators.required, Validators.min(0)]],
+      // processingCharge: ["", [Validators.required, Validators.min(0)]],
+      // unitInTon: ["", [Validators.required, Validators.min(0)]],
+      // slabsCount: ["", [Validators.required, Validators.min(0)]],
+      totalCosting: ["", [Validators.required, Validators.min(0)]],
+      perSellPrice: ["", [Validators.required, Validators.min(0)]],
     });
   }
 
@@ -143,23 +140,20 @@ export class ProductsEditComponent {
       this.data = data.data; //assuming data is returned as expected
       console.log("User Data", this.data);
       this.productForm.patchValue({
-        name: this.data.name,
-        itemCode: this.data.itemCode,
+        lotNo: this.data.lotNo,
+        blockNo: this.data.blockNo,
         // slug: this.data.slug,
         category: this.data.category,
         subCategory: this.data.subCatergory        ,
-        unit: this.data.unit,
-        warehouse: this.data.warehouse,
-        quantityAlert: this.data.quantityAlert,
+        height: this.data.height,
+        width: this.data.width,
+        length: this.data.length,
         // barcodeSymbology: this.data.barcodeSymbology,
         // tax: this.data.tax,
-        openingStock: this.data.openingStock,
-        openingStockDate: this.data.openingStockDate,
-        purchasePrice: this.data.purchasePrice,
-        salesPrice: this.data.salesPrice,
-        // mRP: this.data.mRP,
-        expiryDate: this.data.expiryDate,
-        description: this.data.description,
+        totalSqrFt: this.data.totalSqrFt,
+        totalCosting: this.data.totalCosting,
+        perSellPrice: this.data.perSellPrice,
+        
       });
     });
   }
