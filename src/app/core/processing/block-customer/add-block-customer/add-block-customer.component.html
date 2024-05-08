@@ -12,7 +12,7 @@
               <i class="feather icon-chevron-right"></i>
             </li>
             <li class="breadcrumb-item active">
-              <a [routerLink]="routes.customers">Customers</a>
+              <a [routerLink]="routes.customers">Block Customers</a>
             </li>
             <li class="breadcrumb-item">
               <i class="feather icon-chevron-right"></i>
@@ -26,52 +26,36 @@
       <div class="col-sm-12">
         <div class="card card-table show-entire">
           <div class="card-body p-3">
-            <form [formGroup]="addcustomerGroup" (ngSubmit)="addcustomerForm()">
+            <form [formGroup]="addBlockCustomerForm" (ngSubmit)="addBlockCustomerFormSubmit()">
               <div class="row">
                 <div class="d-flex m-b-10" style="justify-content: space-between">
                   <h3>Add New Customer</h3>
                   <div class="settings-btns text-end m-b-10">
                     <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                      [disabled]="!addcustomerGroup.valid">
+                      [disabled]="!addBlockCustomerForm.valid">
                       Submit
                     </button>
-                    <button class="btn btn-secondary" [routerLink]="['/customers']">
+                    <button class="btn btn-secondary" [routerLink]="['/block-customer']">
                       <a class="text-white"></a>Cancel
                     </button>
                   </div>
                 </div>
 
                 <div class="row">
-                  <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <label for="wareHouse">Warehouse <span class="login-danger"></span></label>
-                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Select Warehouse--"
-                        [options]="wareHousedata" formControlName="wareHouse" optionLabel="name" optionValue="_id"
-                        display="chip" [showClear]="true"></p-multiSelect>
-                      <div *ngIf="
-                          addcustomerGroup
-                            .get('wareHouse')
-                            ?.hasError('required') &&
-                          addcustomerGroup.get('wareHouse')?.touched
-                        " class="login-danger Font_size">
-                        Field is required.
-                      </div>
-                    </div>
-                  </div>
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="name">Name<span class="login-danger">*</span></label>
                       <input class="form-control" type="text" placeholder="Please Enter Name" formControlName="name" />
                       <div *ngIf="
-                          addcustomerGroup.get('name')?.hasError('required') &&
-                          addcustomerGroup.get('name')?.touched
+                          addBlockCustomerForm.get('name')?.hasError('required') &&
+                          addBlockCustomerForm.get('name')?.touched
                         " class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div *ngIf="
-                          addcustomerGroup.get('name')?.hasError('pattern') &&
-                          addcustomerGroup.get('name')?.touched
+                          addBlockCustomerForm.get('name')?.hasError('pattern') &&
+                          addBlockCustomerForm.get('name')?.touched
                         " class="login-danger Font_size">
                         Input should be between 3 to 50 characters.
                       </div>
@@ -84,18 +68,18 @@
                       <input class="form-control" type="number" placeholder="Please Enter Phone Number"
                         formControlName="phoneNumber" />
                       <div *ngIf="
-                          addcustomerGroup
+                          addBlockCustomerForm
                             .get('phoneNumber')
                             ?.hasError('required') &&
-                          addcustomerGroup.get('phoneNumber')?.touched
+                          addBlockCustomerForm.get('phoneNumber')?.touched
                         " class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div *ngIf="
-                          addcustomerGroup
+                          addBlockCustomerForm
                             .get('phoneNumber')
                             ?.hasError('pattern') &&
-                          addcustomerGroup.get('phoneNumber')?.touched
+                          addBlockCustomerForm.get('phoneNumber')?.touched
                         " class="login-danger Font_size">
                         Please Enter 10-Digit number.
                       </div>
@@ -108,55 +92,30 @@
                       <input class="form-control" type="email" placeholder="Please Enter Email"
                         formControlName="email" />
                       <div *ngIf="
-                          addcustomerGroup.get('email')?.hasError('required') &&
-                          addcustomerGroup.get('email')?.touched
+                          addBlockCustomerForm.get('email')?.hasError('required') &&
+                          addBlockCustomerForm.get('email')?.touched
                         " class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div *ngIf="
-                          addcustomerGroup.get('email')?.hasError('pattern') &&
-                          addcustomerGroup.get('email')?.touched
+                          addBlockCustomerForm.get('email')?.hasError('pattern') &&
+                          addBlockCustomerForm.get('email')?.touched
                         " class="login-danger Font_size">
                         Please enter valid Email address.
                       </div>
                     </div>
                   </div>
 
-                  <!-- <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <label for="status">Status<span class="login-danger">*</span></label>
-                      <p-dropdown [options]="statusArray" styleClass="" optionLabel="name"
-                        placeholder="--Select Status--" formControlName="status" [style]="{ width: '100%' }"
-                        filterBy="name" [showClear]="true">
-                      </p-dropdown>
-                      <div *ngIf="
-                          addcustomerGroup
-                            .get('status')
-                            ?.hasError('required') &&
-                          addcustomerGroup.get('status')?.touched
-                        " class="login-danger Font_size">
-                        Field is required.
-                      </div>
-                    </div>
-                  </div> -->
-
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
                       <input class="form-control" type="text" placeholder="Please Enter Tex Number"
                         formControlName="taxNumber" />
-                      <!-- <div *ngIf="
-                                                      addcustomerGroup.get('taxNumber')?.hasError(
-                                                        'required'
-                                                      ) && addcustomerGroup.get('taxNumber')?.touched
-                                                    " class="login-danger Font_size">
-                        Field is required.
-                      </div> -->
                       <div *ngIf="
-                          addcustomerGroup
+                          addBlockCustomerForm
                             .get('taxNumber')
                             ?.hasError('pattern') &&
-                          addcustomerGroup.get('taxNumber')?.touched
+                          addBlockCustomerForm.get('taxNumber')?.touched
                         " class="login-danger Font_size">
                         Input must be between 1 to 10 characters.
                       </div>
@@ -172,30 +131,16 @@
                         </div>
                         <input class="form-control" type="number" placeholder="0" formControlName="openingBalance" />
                       </div>
-                      <!-- <div *ngIf="
-                                                    addcustomerGroup.get('openingBalance')?.hasError(
-                                                      'required'
-                                                    ) && addcustomerGroup.get('openingBalance')?.touched
-                                                  " class="login-danger Font_size">
-                        Field is required.
-                      </div> -->
                       <div *ngIf="
-                          addcustomerGroup
+                          addBlockCustomerForm
                             .get('openingBalance')
                             ?.hasError('min') &&
-                          addcustomerGroup.get('openingBalance')?.touched
+                          addBlockCustomerForm.get('openingBalance')?.touched
                         " class="login-danger Font_size">
                         Input should be more than 0.
                       </div>
                     </div>
                   </div>
-
-                  <!-- <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
-                      <input class="form-control" value="30" type="number" placeholder formControlName="creditPeriod" />
-                    </div>
-                  </div> -->
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
@@ -206,41 +151,24 @@
                           <span class="input-group-text" style="font-size: 12px">Days</span>
                         </div>
                       </div>
-                      <!-- <div *ngIf="
-                      addcustomerGroup.get('taxNumber')?.hasError(
-                        'required'
-                      ) && addcustomerGroup.get('taxNumber')?.touched
-                    " class="login-danger Font_size">
-                        Field is required.
-                      </div> -->
                       <div *ngIf="
-                          addcustomerGroup
+                          addBlockCustomerForm
                             .get('creditPeriod')
                             ?.hasError('min') &&
-                          addcustomerGroup.get('creditPeriod')?.touched
+                          addBlockCustomerForm.get('creditPeriod')?.touched
                         " class="login-danger Font_size">
                         Credit Period cannot be less than 0 days.
                       </div>
                       <div *ngIf="
-                          addcustomerGroup
+                          addBlockCustomerForm
                             .get('creditPeriod')
                             ?.hasError('max') &&
-                          addcustomerGroup.get('creditPeriod')?.touched
+                          addBlockCustomerForm.get('creditPeriod')?.touched
                         " class="login-danger Font_size">
                         Credit Period should be less than 120 days.
                       </div>
                     </div>
                   </div>
-
-                  <!-- <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                      </div>
-                      <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
-                      <input class="form-control" type="text" placeholder="$ 0" formControlName="creditLimit" />
-                    </div>
-                  </div> -->
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
@@ -252,18 +180,18 @@
                         <input class="form-control" type="number" placeholder="0" formControlName="creditLimit" />
                       </div>
                       <div *ngIf="
-                          addcustomerGroup
+                          addBlockCustomerForm
                             .get('creditLimit')
                             ?.hasError('min') &&
-                          addcustomerGroup.get('creditLimit')?.touched
+                          addBlockCustomerForm.get('creditLimit')?.touched
                         " class="login-danger Font_size">
                         Credit amount cannot be less than 0.
                       </div>
                       <div *ngIf="
-                          addcustomerGroup
+                          addBlockCustomerForm
                             .get('creditLimit')
                             ?.hasError('max') &&
-                          addcustomerGroup.get('creditLimit')?.touched
+                          addBlockCustomerForm.get('creditLimit')?.touched
                         " class="login-danger Font_size">
                         Credit amount limit exceed.
                       </div>
@@ -277,10 +205,10 @@
                         formControlName="billingAddress"></textarea>
 
                       <div *ngIf="
-                          addcustomerGroup
+                          addBlockCustomerForm
                             .get('billingAddress')
                             ?.hasError('pattern') &&
-                          addcustomerGroup.get('billingAddress')?.touched
+                          addBlockCustomerForm.get('billingAddress')?.touched
                         ">
                         <span class="login-danger">Input Must be between 3 to 500 characters</span>
                       </div>
@@ -294,10 +222,10 @@
                         formControlName="shippingAddress"></textarea>
 
                       <div *ngIf="
-                          addcustomerGroup
+                          addBlockCustomerForm
                             .get('shippingAddress')
                             ?.hasError('pattern') &&
-                          addcustomerGroup.get('shippingAddress')?.touched
+                          addBlockCustomerForm.get('shippingAddress')?.touched
                         ">
                         <span class="login-danger">Input Must be between 3 to 500 characters</span>
                       </div>

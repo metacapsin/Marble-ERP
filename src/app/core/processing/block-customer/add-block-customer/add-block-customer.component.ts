@@ -1,9 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import {
-  ReactiveFormsModule,
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormGroup,
   Validators,
 } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
@@ -14,15 +13,16 @@ import { CustomersdataService } from "src/app/core/Customers/customers.service";
 import { ToastModule } from "primeng/toast";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 import { MultiSelectModule } from "primeng/multiselect";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: 'app-add-block-customer',
   standalone: true,
   imports: [
     RouterModule,
-    ReactiveFormsModule,
     DropdownModule,
     CommonModule,
+    SharedModule, 
     ToastModule,
     MultiSelectModule,
   ],
@@ -31,39 +31,34 @@ import { MultiSelectModule } from "primeng/multiselect";
   providers: [MessageService],
 })
 export class AddBlockCustomerComponent {
-  addcustomerGroup: UntypedFormGroup;
+  addBlockCustomerForm: FormGroup;
   public routes = routes;
   wareHousedata: any;
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
   personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
-
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
-
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-
   billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
-
   phoneRegex = /^[0-9]{10}$/;
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private messageService: MessageService,
     private Service: CustomersdataService,
     private router: Router,
     private service: WarehouseService
   ) {
-    this.addcustomerGroup = this.fb.group({
-      wareHouse: ["", [Validators.required]],
+    this.addBlockCustomerForm = this.fb.group({
+      // wareHouse: ["", [Validators.required]],
       name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       phoneNumber: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
-      // status: ["", [Validators.required]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
       openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
@@ -73,37 +68,29 @@ export class AddBlockCustomerComponent {
     });
   }
 
-  ngOnInit(): void {
-    this.service.getAllWarehouseList().subscribe((resp: any) => {
-      this.wareHousedata = resp.data;
-    });
-  }
-  addcustomerForm() {
-    console.log(this.addcustomerGroup.value);
+  addBlockCustomerFormSubmit() {
     const payload = {
-      warehouse: this.addcustomerGroup.value.wareHouse, //req
-      name: this.addcustomerGroup.value.name, //req
-      email: this.addcustomerGroup.value.email, //req
-      status: true, //req
-      phoneNo: this.addcustomerGroup.value.phoneNumber,
-      taxNo: this.addcustomerGroup.value.taxNumber,
-      creaditPeriod: this.addcustomerGroup.value.creditPeriod,
-      creaditLimit: this.addcustomerGroup.value.creditLimit,
-      billingAddress: this.addcustomerGroup.value.billingAddress,
-      shippingAddress: this.addcustomerGroup.value.shippingAddress,
-      openingBalance: this.addcustomerGroup.value.openingBalance,
+      name: this.addBlockCustomerForm.value.name, 
+      email: this.addBlockCustomerForm.value.email, 
+      status: true, 
+      phoneNo: this.addBlockCustomerForm.value.phoneNumber,
+      taxNo: this.addBlockCustomerForm.value.taxNumber,
+      creaditPeriod: this.addBlockCustomerForm.value.creditPeriod,
+      creaditLimit: this.addBlockCustomerForm.value.creditLimit,
+      billingAddress: this.addBlockCustomerForm.value.billingAddress,
+      shippingAddress: this.addBlockCustomerForm.value.shippingAddress,
+      openingBalance: this.addBlockCustomerForm.value.openingBalance,
     };
-    console.log(payload);
-
-    if (this.addcustomerGroup.value) {
+    
+    if (this.addBlockCustomerForm.valid) {
+      console.log(payload);
       this.Service.AddCustomerdata(payload).subscribe((resp: any) => {
-        console.log(resp);
         if (resp) {
           if (resp.status === "success") {
-            const message = "User has been added";
+            const message = "Block Customer has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              this.router.navigate(["/customers"]);
+              this.router.navigate(["/block-customer"]);
             }, 400);
           } else {
             const message = resp.message;
@@ -113,5 +100,4 @@ export class AddBlockCustomerComponent {
       });
     }
   }
-  // [routerLink]="['/customers/view-customers/', product._id]"
 }

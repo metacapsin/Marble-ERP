@@ -330,6 +330,159 @@ export class DataService {
           ],
         },
 
+        {
+          menuValue: "Sales",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "Sales",
+          icon: "fa-dollar",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: "Sales",
+              route: routes.Sales,
+              base: routes.Sales,
+            },
+            {
+              menuValue: "payment In",
+              route: routes.paymentIn,
+              base: routes.paymentIn,
+            },
+            {
+              menuValue: "Sales Return",
+              route: routes.salesReturn,
+              base: routes.salesReturn,
+            },
+          ],
+        },
+        {
+          menuValue: "purchase",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "Sales",
+          icon: "fa-cart-shopping",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: "Purchase",
+              route: routes.purchase,
+              base: routes.purchase,
+            },
+            {
+              menuValue: "Payment out",
+              route: routes.paymentOut,
+              base: routes.paymentOut,
+            },
+            {
+              menuValue: "Purchase Return",
+              route: routes.purchaseReturn,
+              base: routes.purchaseReturn,
+            },
+          ],
+        },
+        {
+          menuValue: "Payroll",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "payroll",
+          icon: "fa-solid fa-money-check-dollar",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: " Empoyee Salary",
+              route: routes.salary,
+              base: routes.salary,
+            },
+          ],
+        },
+        {
+          menuValue: "Expenses",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "Expenses",
+          icon: "fa-solid fa-wallet",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: "Expenses",
+              route: routes.expenses,
+              base: routes.expenses,
+            },
+            {
+              menuValue: "Expense Categories",
+              route: routes.expenseCategories,
+              base: routes.expenseCategories,
+            },
+            // {
+            //   menuValue: "Purchase Return",
+            //   route: routes.purchaseReturn,
+            //   base: routes.purchaseReturn,
+            // },
+          ],
+        },
+        {
+          menuValue: "Reports",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "reports",
+          icon: "fa-gauge",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: "inventory report",
+              route: routes.inventoryReport,
+              base: routes.inventoryReport,
+            },
+            {
+              menuValue: "sales report",
+              route: routes.salesReport,
+              base: routes.salesReport,
+            },
+            {
+              menuValue: "invoice report",
+              route: routes.invoiceReport,
+              base: routes.invoiceReport,
+            },
+          ],
+        },
+        {
+          menuValue: "Processing",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "processing",
+          icon: "fa-gears",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {     
+              menuValue: "Block Customer",
+              route: routes.blocksCustomerList,
+              base: routes.blocksCustomerList,
+            },
+            {
+              menuValue: "Block Processing",
+              route: routes.blocksList,
+              base: routes.blocksList,
+            },
+          ],
+        },
+        {
+          menuValue: "Settings",
+          route: routes.practiceInformation,
+          hasSubRoute: false,
+          showSubRoute: false,
+          icon: "fa-gear",
+          faIcon: true,
+          base: "settings",
+          subMenus: [],
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+        },
+
         // {
         //   menuValue: 'Parties',
         //   hasSubRoute: false,
@@ -616,158 +769,7 @@ export class DataService {
         //   ],
         // },
 
-        {
-          menuValue: "Sales",
-          hasSubRoute: true,
-          showSubRoute: false,
-          base: "Sales",
-          icon: "fa-dollar",
-          faIcon: true,
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-          subMenus: [
-            {
-              menuValue: "Sales",
-              route: routes.Sales,
-              base: routes.Sales,
-            },
-            {
-              menuValue: "payment In",
-              route: routes.paymentIn,
-              base: routes.paymentIn,
-            },
-            {
-              menuValue: "Sales Return",
-              route: routes.salesReturn,
-              base: routes.salesReturn,
-            },
-          ],
-        },
-        {
-          menuValue: "purchase",
-          hasSubRoute: true,
-          showSubRoute: false,
-          base: "Sales",
-          icon: "fa-cart-shopping",
-          faIcon: true,
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-          subMenus: [
-            {
-              menuValue: "Purchase",
-              route: routes.purchase,
-              base: routes.purchase,
-            },
-            {
-              menuValue: "Payment out",
-              route: routes.paymentOut,
-              base: routes.paymentOut,
-            },
-            {
-              menuValue: "Purchase Return",
-              route: routes.purchaseReturn,
-              base: routes.purchaseReturn,
-            },
-          ],
-        },
-        {
-          menuValue: "Payroll",
-          hasSubRoute: true,
-          showSubRoute: false,
-          base: "payroll",
-          icon: "fa-solid fa-money-check-dollar",
-          faIcon: true,
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-          subMenus: [
-            {
-              menuValue: " Empoyee Salary",
-              route: routes.salary,
-              base: routes.salary,
-            },
-          ],
-        },
-        {
-          menuValue: "Expenses",
-          hasSubRoute: true,
-          showSubRoute: false,
-          base: "Expenses",
-          icon: "fa-solid fa-wallet",
-          faIcon: true,
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-          subMenus: [
-            {
-              menuValue: "Expenses",
-              route: routes.expenses,
-              base: routes.expenses,
-            },
-            {
-              menuValue: "Expense Categories",
-              route: routes.expenseCategories,
-              base: routes.expenseCategories,
-            },
-            // {
-            //   menuValue: "Purchase Return",
-            //   route: routes.purchaseReturn,
-            //   base: routes.purchaseReturn,
-            // },
-          ],
-        },
-        {
-          menuValue: "Reports",
-          hasSubRoute: true,
-          showSubRoute: false,
-          base: "reports",
-          icon: "fa-gauge",
-          faIcon: true,
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-          subMenus: [
-            {
-              menuValue: "inventory report",
-              route: routes.inventoryReport,
-              base: routes.inventoryReport,
-            },
-            {
-              menuValue: "sales report",
-              route: routes.salesReport,
-              base: routes.salesReport,
-            },
-            {
-              menuValue: "invoice report",
-              route: routes.invoiceReport,
-              base: routes.invoiceReport,
-            },
-          ],
-        },
-        {
-          menuValue: "Processing",
-          hasSubRoute: true,
-          showSubRoute: false,
-          base: "processing",
-          icon: "fa-gauge",
-          faIcon: true,
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-          subMenus: [
-            {     
-              menuValue: "Block Customer",
-              route: routes.blocksCustomerList,
-              base: routes.blocksCustomerList,
-            },
-            {
-              menuValue: "Block Processing",
-              route: routes.blocksList,
-              base: routes.blocksList,
-            },
-          ],
-        },
-        {
-          menuValue: "Settings",
-          route: routes.practiceInformation,
-          hasSubRoute: false,
-          showSubRoute: false,
-          icon: "fa-gear",
-          faIcon: true,
-          base: "settings",
-          subMenus: [],
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-        },
+        
       ],
     },
     // {

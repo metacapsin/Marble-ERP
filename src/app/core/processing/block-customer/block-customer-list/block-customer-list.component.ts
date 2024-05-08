@@ -17,7 +17,6 @@ import { CommonModule } from "@angular/common";
   imports: [
     CommonModule,
     SharedModule,
-    PanelMenuModule,
     DialogModule,
     ToastModule,
     ButtonModule],
@@ -27,7 +26,8 @@ import { CommonModule } from "@angular/common";
 })
 export class BlockCustomerListComponent {
   items: MenuItem[] = [];
-  public dataSource: any = []
+
+  public blockCustomerData: any = []
   public originalData: any = []
   settingCategory = "";
   routes = routes;
@@ -37,67 +37,42 @@ export class BlockCustomerListComponent {
   searchDataValue: any;
   showDialoge = false;
   modalData: any = {};
-  customerId: any;
+  blockCustomerId: any;
+  visible: boolean = false;
   constructor(private router: Router, private Service: CustomersdataService, private messageService: MessageService) {
-    this.routerChangeSubscription = this.router.events.subscribe((event) => {
-      this.currentRoute = this.router.url;
-      // console.log(this.currentRoute);
-    });
+    // this.routerChangeSubscription = this.router.events.subscribe((event) => {
+    //   this.currentRoute = this.router.url;
+    // });
   }
   ngOnInit() {
     this.getCoustomers()
   }
   getCoustomers() {
     this.Service.GetCustomerData().subscribe((data) => {
-      this.dataSource = data
+      this.blockCustomerData = data
       this.originalData = data
     })
   }
-  goToEditPage(value: any) {
-    this.router.navigate(["/customers/add-customers/" + value]);
-  }
-  // public searchData(value: any): void {
-  //   this.dataSource = this.originalData.map((i) => {
-  //     if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
-  //       return i;
-  //     }
-  //   });
-  // }
-  visible: boolean = false;
 
   showDialog() {
     this.visible = true;
   }
-  changeCalendarSettingCategory(type: string) { }
 
-  ngOnDestroy() {
-    this.routerChangeSubscription.unsubscribe();
-  }
-
-  isRouteActive(text) {
-    if (!this.currentRoute) return "";
-    let str = this.currentRoute?.includes(text);
-    if (str) {
-      return "active";
-    } else {
-      return "non-active";
-    }
-  }
-  vewCustomer(e: string) {
+  // vewCustomer(e: string) {
+  //   console.log(e);
+  //   this.router.navigate(["/customers/view-customers/" + e]);
+  // }
+  editBlockCustomer(e) {
     console.log(e);
-    this.router.navigate(["/customers/view-customers/" + e]);
-  }
-  editCustomer(e) {
-    console.log(e);
-    this.router.navigate(["/customers/edit-customers/" + e]);
+    this.router.navigate(["/block-customer/edit-block-customer/" + e]);
   }
 
-  deleteCustomer(Id: any) {
-    this.customerId = Id;
+  deleteBlockCustomer(Id: any) {
+    this.blockCustomerId = Id;
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Customer"
+      messege: "Are you sure you want to delete this Block Customer"
     }
     this.showDialoge = true;
   }
@@ -107,7 +82,7 @@ export class BlockCustomerListComponent {
   }
 
   callBackModal() {
-    this.Service.DeleteCustomerApi(this.customerId).subscribe((resp: any) => {
+    this.Service.DeleteCustomerApi(this.blockCustomerId).subscribe((resp: any) => {
       this.messageService.add({ severity: 'success', detail: resp.message });
       this.getCoustomers();
       this.showDialoge = false;
@@ -119,7 +94,7 @@ export class BlockCustomerListComponent {
   }
 
   public searchData(value: any): void {
-    this.dataSource = this.originalData.filter(i =>
+    this.blockCustomerData = this.originalData.filter(i =>
       i.name.toLowerCase().includes(value.trim().toLowerCase())
     );
   }
@@ -127,7 +102,7 @@ export class BlockCustomerListComponent {
   onPageChange(event) {
     const startIndex = event.first;
     const endIndex = startIndex + event.rows;
-    const currentPageData = this.dataSource.slice(startIndex, endIndex);
+    const currentPageData = this.blockCustomerData.slice(startIndex, endIndex);
   }
 
 

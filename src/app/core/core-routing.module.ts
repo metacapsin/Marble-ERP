@@ -52,7 +52,7 @@ const routes: Routes = [
           import('./invoice/invoice.module').then((m) => m.InvoiceModule),
       },
       {
-        path: 'blocks',
+        path: 'blocks-processing',
         loadChildren: () =>
           import('./processing/blocks/blocks.module').then((m) => m.BlocksModule),
       },

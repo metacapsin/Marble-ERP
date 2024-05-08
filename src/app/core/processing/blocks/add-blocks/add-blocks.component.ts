@@ -17,48 +17,27 @@ import { el } from '@fullcalendar/core/internal-common';
 })
 export class AddBlocksComponent {
   routes = routes
-  addBlocksForm!: FormGroup;
-
-  tabs = [
-    { title: 'Block 1', content: 'Content 1' },
-    { title: 'Block 2', content: 'Content 2' },
-    // { title: 'Block 3', content: 'Content 3' },
-    // { title: 'Block 4', content: 'Content 1' },
-    // { title: 'Block 5', content: 'Content 2' },
-    // { title: 'Block 6', content: 'Content 3' },
-    // { title: 'Block 1', content: 'Content 1' },
-    // { title: 'Block 2', content: 'Content 2' },
-    // { title: 'Block 3', content: 'Content 3' },
-    // { title: 'Block 4', content: 'Content 1' },
-    // { title: 'Block 5', content: 'Content 2' },
-    // { title: 'Block 6', content: 'Content 3' },
-    // { title: 'Block 1', content: 'Content 1' },
-    // { title: 'Block 2', content: 'Content 2' },
-    // { title: 'Block 3', content: 'Content 3' },
-    // { title: 'Block 4', content: 'Content 1' },
-    // { title: 'Block 5', content: 'Content 2' },
-    // { title: 'Block 6', content: 'Content 3' },
-  ];
-
+  addBlocksForm: FormGroup;
+  tabs: { title: string }[] = [];
 
   constructor(private fb: FormBuilder) {
     this.addBlocksForm = this.fb.group({
       lotNumber: [''],
+      blockCount: [''],
       blocksDetails: this.fb.array([]),
       otherCharges: [''],
       notes: [''],
       termAndCondition: [''],
-      totalAmount: [''],
-
-    })
+      totalAmount: ['']
+    });
   }
 
   addSalesControls() {
     const salesArray = this.addBlocksForm.get('blocksDetails') as FormArray;
-    this.tabs?.forEach(sale => {
+    this.tabs?.forEach(i => {
       salesArray.push(this.fb.group({
         height: ['', [Validators.required, Validators.min(0.01)]],
-        width: ['', [Validators.required, Validators.min(0.01)]],
+        width: ['', [Validators.required, Validators.min(0.01)]], 
         length: ['', [Validators.required, Validators.min(0.01)]],
         blockNumber: ['', [Validators.required]],
         vaccume: ['', [Validators.min(1)]],
@@ -68,18 +47,31 @@ export class AddBlocksComponent {
         plantManual: ['', [Validators.min(1)]],
         abroxy: ['', [Validators.min(1)]],
         transportation: ['', [Validators.min(1)]],
-        peices: ['', [Validators.min(1)]],
+        pieces: ['', [Validators.min(1)]],
         sqrt: ['', [Validators.min(1)]],
         rate: ['', [Validators.min(1)]],
         amount: ['']
       }));
     });
   }
+  
+  
 
   ngOnInit(): void {
-    this.addSalesControls();
+    this.addSalesControls()
   }
 
+  getBlockCount() {
+    const blockCount = this.addBlocksForm.get('blockCount').value;
+    this.tabs = []; 
+    for (let i = 0; i < blockCount; i++) {
+      this.tabs.push({ title: 'Block ' + (i + 1) });
+      this.addSalesControls();
+    }
+  }
+
+    
+  
   calculateTotalAmount() {
     let totalAmount = 0;
   

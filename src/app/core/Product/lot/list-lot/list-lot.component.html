@@ -54,75 +54,88 @@
                                 </div>
                             </div>
                         </div>
-                        <p-table [value]="originalData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                            [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedLot">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                    </th>
-                                    <th pSortableColumn="lotNo">Lot No. <p-sortIcon field="lotNo"></p-sortIcon>
-                                        <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
 
-                                    </th>
-                                    <th pSortableColumn="blockNo">Vehicle No. <p-sortIcon field="blockNo"></p-sortIcon>
-                                        <p-columnFilter type="text" field="blockNo" display="menu"></p-columnFilter>
+                        <div class="card-body p-2">
+                            <p-table [value]="originalData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
+                                [(selection)]="selectedLot">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th appShowHide [roles]="['admin', 'super-admin']">
+                                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                        </th>
+                                        <th pSortableColumn="lotNo">Lot No. <p-sortIcon field="lotNo"></p-sortIcon>
+                                            <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
 
-                                    </th>
-                                    <th pSortableColumn="category">Totel Slots <p-sortIcon field="category"></p-sortIcon>
-                                        <p-columnFilter type="category" field="category" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="blockNo">Vehicle No. <p-sortIcon
+                                                field="blockNo"></p-sortIcon>
+                                            <p-columnFilter type="text" field="blockNo" display="menu"></p-columnFilter>
 
-                                    </th>
-                                    <th pSortableColumn="brand">Invoice Numeber  <p-sortIcon field="subCatergory"></p-sortIcon>
-                                        <p-columnFilter type="text" field="subCatergory" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="category">Totel Slots <p-sortIcon
+                                                field="category"></p-sortIcon>
+                                            <p-columnFilter type="category" field="category"
+                                                display="menu"></p-columnFilter>
 
-                                    </th>
-                                    <th pSortableColumn="totalCosting">Total Weight(Ton) <p-sortIcon field="totalCosting"></p-sortIcon>
-                                        <p-columnFilter type="text" field="totalCosting" display="menu"></p-columnFilter>
-                                        
-                                    </th>
-                                    <th pSortableColumn="persellPrice">Total Pricing <p-sortIcon field="persellPrice"></p-sortIcon>
-                                        <p-columnFilter type="text" field="persellPrice" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="brand">Invoice Numeber <p-sortIcon
+                                                field="subCatergory"></p-sortIcon>
+                                            <p-columnFilter type="text" field="subCatergory"
+                                                display="menu"></p-columnFilter>
 
-                                    </th>
-                                    <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
-                                    </th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-lot>
+                                        </th>
+                                        <th pSortableColumn="totalCosting">Total Weight(Ton) <p-sortIcon
+                                                field="totalCosting"></p-sortIcon>
+                                            <p-columnFilter type="text" field="totalCosting"
+                                                display="menu"></p-columnFilter>
 
-                                <tr>
-                                    <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableCheckbox [value]="lot"></p-tableCheckbox>
-                                    </td>
-                                    <td>
-                                        {{lot.lotNo}}
-                                    </td>
-                                    <td>
-                                        {{lot.blockNo}}
-                                    </td>
-                                    <td>
-                                        {{lot.category}}
-                                    </td>
-                                    <td>
-                                        {{lot.subCategory}}
-                                    </td>
-                                    <td>
-                                        {{lot.totalCosting}}
-                                    </td>
-                                    <td>
-                                        {{lot.persellPrice}}
-                                    </td>
-                                    <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
-                                        <p-button [text]="true" icon="fa fa-edit"
-                                            [routerLink]="['/lot/edit', lot._id]"></p-button>
-                                        <p-button [text]=" true" icon="fa fa-trash"
-                                            (click)="deleteLot(lot._id)"></p-button>
-                                    </td>
+                                        </th>
+                                        <th pSortableColumn="persellPrice">Total Pricing <p-sortIcon
+                                                field="persellPrice"></p-sortIcon>
+                                            <p-columnFilter type="text" field="persellPrice"
+                                                display="menu"></p-columnFilter>
 
-                                </tr>
-                            </ng-template>
-                        </p-table>
+                                        </th>
+                                        <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-lot>
+
+                                    <tr>
+                                        <td appShowHide [roles]="['admin', 'super-admin']">
+                                            <p-tableCheckbox [value]="lot"></p-tableCheckbox>
+                                        </td>
+                                        <td>
+                                            {{lot.lotNo}}
+                                        </td>
+                                        <td>
+                                            {{lot.blockNo}}
+                                        </td>
+                                        <td>
+                                            {{lot.category}}
+                                        </td>
+                                        <td>
+                                            {{lot.subCategory}}
+                                        </td>
+                                        <td>
+                                            {{lot.totalCosting}}
+                                        </td>
+                                        <td>
+                                            {{lot.persellPrice}}
+                                        </td>
+                                        <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
+                                            <p-button [text]="true" icon="fa fa-edit"
+                                                [routerLink]="['/lot/edit', lot._id]"></p-button>
+                                            <p-button [text]=" true" icon="fa fa-trash"
+                                                (click)="deleteLot(lot._id)"></p-button>
+                                        </td>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,90 +1,105 @@
 <div class="page-wrapper">
-  <div class="content">
-  
-      <!-- Page Header -->
-      <div class="page-header">
-          <div class="row">
-              <div class="col-sm-12">
-                  <ul class="breadcrumb">
-                      <li class="breadcrumb-item">Reports </li>
-                      <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                      <li class="breadcrumb-item active">Sales Report</li>
-                  </ul>
-              </div>
-          </div>
-      </div>
-      
-                      <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card card-table show-entire">
-                                <div class="card-body">
-                                    <div class="page-table-header mb-2">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <div class="doctor-table-blk">
-                                                    <h3>Sales Report</h3>
-                                                    <div class="doctor-search-blk">
-                                                        <div class="top-nav-search table-search-blk">
-                                                            <input type="text" class="form-control" placeholder="Search here">
-                                                        </div>
-                                                        <!-- <div class="add-group textbtn">
+    <div class="content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">Reports </li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Sales Report</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk">
+                                        <h3>Sales Report</h3>
+                                        <div class="doctor-search-blk">
+                                            <div class="top-nav-search table-search-blk">
+                                                <input type="text" class="form-control" placeholder="Search here">
+                                            </div>
+                                            <!-- <div class="add-group textbtn">
                                                             <a appShowHide [roles]="['admin', 'super-admin']" 
                                                                 class="btn btn-primary add-pluss ms-2"><img
                                                                     src="assets/img/icons/plus.svg" [routerLink]="routes.Addsales" alt=""> Add New</a>
                                                         </div> -->
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
-                                    <p-table [value]="SalesData"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
-                                        [rowsPerPageOptions]="[5, 10, 20]" >
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th pSortableColumn="invoiceNumber">	
-
-                                                  Invoice Number <p-sortIcon field="invoiceNumber"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="invoiceNumber" display="menu"></p-columnFilter>
-                                                </th>
-                                                <th pSortableColumn="salesDate">Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="salesDate" display="menu"></p-columnFilter>
-                                                </th>
-                                                <th pSortableColumn="Customer">Customer <p-sortIcon field="Customer"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="Customer" display="menu"></p-columnFilter>
-                                                </th>
-                                                <th pSortableColumn="salesStatus">Sales Status <p-sortIcon field="salesStatus"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="salesStatus" display="menu"></p-columnFilter>
-                                                </th>
-                                                <th pSortableColumn="paidAmount">Paid Amount<p-sortIcon field="paidAmount"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
-                                                </th>
-                                                <th pSortableColumn="totalAmount">Total Amount <p-sortIcon field="totalAmount"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="totalAmount" display="menu"></p-columnFilter>
-                                                </th>
-                                                <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                                                    <p-columnFilter type="text" field="paymentStatus" display="menu"></p-columnFilter>
-                                                </th>
-                                                <!-- <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
-                                                    <p-sortIcon></p-sortIcon>
-                                                </th> -->
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-data>
-                                            <tr>
-                                                <td class="">{{ data.invoiceNumber }}</td>
-                                                <td class="">{{ data.salesDate }}</td>
-                                                <td class="">{{ data.Customer }}</td>
-                                                <td class="">{{ data.salesStatus }}</td>
-                                                <td class="">{{ data.paidAmount }}</td>
-                                                <td class="">{{ data.totalAmount }}</td>
-                                                <td class="">{{ data.paymentStatus }}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
                                 </div>
                             </div>
                         </div>
-                      </div>
-              </div>							
+
+                        <div class="card-body p-2">
+                            <p-table [value]="SalesData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="invoiceNumber">
+
+                                            Invoice Number <p-sortIcon field="invoiceNumber"></p-sortIcon>
+                                            <p-columnFilter type="text" field="invoiceNumber"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="salesDate">Sales Date <p-sortIcon
+                                                field="salesDate"></p-sortIcon>
+                                            <p-columnFilter type="text" field="salesDate"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="Customer">Customer <p-sortIcon
+                                                field="Customer"></p-sortIcon>
+                                            <p-columnFilter type="text" field="Customer"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="salesStatus">Sales Status <p-sortIcon
+                                                field="salesStatus"></p-sortIcon>
+                                            <p-columnFilter type="text" field="salesStatus"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="paidAmount">Paid Amount<p-sortIcon
+                                                field="paidAmount"></p-sortIcon>
+                                            <p-columnFilter type="text" field="paidAmount"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="totalAmount">Total Amount <p-sortIcon
+                                                field="totalAmount"></p-sortIcon>
+                                            <p-columnFilter type="text" field="totalAmount"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon
+                                                field="paymentStatus"></p-sortIcon>
+                                            <p-columnFilter type="text" field="paymentStatus"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <!-- <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
+                                                    <p-sortIcon></p-sortIcon>
+                                                </th> -->
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-data>
+                                    <tr>
+                                        <td class="">{{ data.invoiceNumber }}</td>
+                                        <td class="">{{ data.salesDate }}</td>
+                                        <td class="">{{ data.Customer }}</td>
+                                        <td class="">{{ data.salesStatus }}</td>
+                                        <td class="">{{ data.paidAmount }}</td>
+                                        <td class="">{{ data.totalAmount }}</td>
+                                        <td class="">{{ data.paymentStatus }}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
             </div>
-       
+        </div>
+    </div>
+</div>

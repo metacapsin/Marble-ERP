@@ -622,13 +622,13 @@ export class routes {
   //   return this.baseUrl + '/expenses/view-expenses';
   // }
   public static get blocksList(): string {
-    return this.baseUrl + '/blocks';
+    return this.baseUrl + '/blocks-processing';
   }
   public static get addBlocks(): string {
-    return this.baseUrl + '/blocks/add-blocks';
+    return this.baseUrl + '/blocks-processing/add-blocks';
   }
   public static get editBlocks(): string {
-    return this.baseUrl + '/blocks/edit-blocks';
+    return this.baseUrl + '/blocks-processing/edit-blocks';
   }
   public static get blocksCustomerList(): string {
     return this.baseUrl + '/block-customer';
@@ -643,15 +643,14 @@ export class routes {
     return this.baseUrl + '/payroll/payrollList';
   }
   
-
   public static get slabs(): string {
     return this.baseUrl + '/slabs';
   }
   public static get lot(): string {
-    return this.baseUrl + '/product/lot';
+    return this.baseUrl + '/lot';
   }
   public static get blocks(): string {
-    return this.baseUrl + '/product/blocks';
+    return this.baseUrl + '/blocks';
   }
 
 }

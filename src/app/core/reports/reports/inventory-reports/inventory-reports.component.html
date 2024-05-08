@@ -1,6 +1,6 @@
 <div class="page-wrapper">
     <div class="content">
-    
+
         <!-- Page Header -->
         <div class="page-header">
             <div class="row">
@@ -13,72 +13,82 @@
                 </div>
             </div>
         </div>
-        
-                        <div class="row">
-                          <div class="col-sm-12">
-                              <div class="card card-table show-entire">
-                                  <div class="card-body">
-                                      <div class="page-table-header mb-2">
-                                          <div class="row align-items-center">
-                                              <div class="col">
-                                                  <div class="doctor-table-blk">
-                                                      <h3>Inventory Report</h3>
-                                                      <div class="doctor-search-blk">
-                                                          <div class="top-nav-search table-search-blk">
-                                                              <input type="text" class="form-control" placeholder="Search here">
-                                                          </div>
-                                                          <!-- <div class="add-group textbtn">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk">
+                                        <h3>Inventory Report</h3>
+                                        <div class="doctor-search-blk">
+                                            <div class="top-nav-search table-search-blk">
+                                                <input type="text" class="form-control" placeholder="Search here">
+                                            </div>
+                                            <!-- <div class="add-group textbtn">
                                                               <a appShowHide [roles]="['admin', 'super-admin']" 
                                                                   class="btn btn-primary add-pluss ms-2"><img
                                                                       src="assets/img/icons/plus.svg" [routerLink]="routes.Addsales" alt=""> Add New</a>
                                                           </div> -->
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <p-table [value]="invertoryData"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
-                                          [rowsPerPageOptions]="[5, 10, 20]" >
-                                          <ng-template pTemplate="header">
-                                              <tr>
-                                                  <th pSortableColumn="Product">Product <p-sortIcon field="Product"></p-sortIcon>
-                                                      <p-columnFilter type="text" field="Product" display="menu"></p-columnFilter>
-                                                  </th>
-                                                  <th pSortableColumn="itemCode">Item Code <p-sortIcon field="itemCode"></p-sortIcon>
-                                                      <p-columnFilter type="text" field="itemCode" display="menu"></p-columnFilter>
-                                                  </th>
-                                                  <th pSortableColumn="Category">Category <p-sortIcon field="Category"></p-sortIcon>
-                                                      <p-columnFilter type="text" field="Category" display="menu"></p-columnFilter>
-                                                  </th>
-                                                  <th pSortableColumn="Brand">Brand <p-sortIcon field="Brand"></p-sortIcon>
-                                                      <p-columnFilter type="text" field="Brand" display="menu"></p-columnFilter>
-                                                  </th>
-                                                  <th pSortableColumn="salesPrice">salesPrice<p-sortIcon field="salesPrice"></p-sortIcon>
-                                                      <p-columnFilter type="text" field="salesPrice" display="menu"></p-columnFilter>
-                                                  </th>
-                                                  <th pSortableColumn="currentStock">currentStock <p-sortIcon field="currentStock"></p-sortIcon>
-                                                      <p-columnFilter type="text" field="currentStock" display="menu"></p-columnFilter>
-                                                  </th>
-                                                  <!-- <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-2">
+                            <p-table [value]="invertoryData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="Product">Product <p-sortIcon field="Product"></p-sortIcon>
+                                            <p-columnFilter type="text" field="Product" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="itemCode">Item Code <p-sortIcon
+                                                field="itemCode"></p-sortIcon>
+                                            <p-columnFilter type="text" field="itemCode"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="Category">Category <p-sortIcon
+                                                field="Category"></p-sortIcon>
+                                            <p-columnFilter type="text" field="Category"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="Brand">Brand <p-sortIcon field="Brand"></p-sortIcon>
+                                            <p-columnFilter type="text" field="Brand" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="salesPrice">salesPrice<p-sortIcon
+                                                field="salesPrice"></p-sortIcon>
+                                            <p-columnFilter type="text" field="salesPrice"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="currentStock">currentStock <p-sortIcon
+                                                field="currentStock"></p-sortIcon>
+                                            <p-columnFilter type="text" field="currentStock"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <!-- <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
                                                       <p-sortIcon></p-sortIcon>
                                                   </th> -->
-                                              </tr>
-                                          </ng-template>
-                                          <ng-template pTemplate="body" let-data>
-                                              <tr>
-                                                  <td class="">{{ data.Product }}</td>
-                                                  <td class="">{{ data.itemCode }}</td>
-                                                  <td class="">{{ data.Category }}</td>
-                                                  <td class="">{{ data.Brand }}</td>
-                                                  <td class="">{{ data.salesPrice }}</td>
-                                                  <td class="">{{ data.currentStock }}</td>
-                                              </tr>
-                                          </ng-template>
-                                      </p-table>
-                                  </div>
-                              </div>
-                          </div>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-data>
+                                    <tr>
+                                        <td class="">{{ data.Product }}</td>
+                                        <td class="">{{ data.itemCode }}</td>
+                                        <td class="">{{ data.Category }}</td>
+                                        <td class="">{{ data.Brand }}</td>
+                                        <td class="">{{ data.salesPrice }}</td>
+                                        <td class="">{{ data.currentStock }}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
-                </div>							
-              </div>
-         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

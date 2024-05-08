@@ -46,10 +46,32 @@
                 <div class="card invoices-add-card">
                     <div class="card-body">
                         <form [formGroup]="addBlocksForm" (ngSubmit)="addBlocksFormSubmit()">
+                            <div class="row">
+                                <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class="form-group local-forms">
+                                        <label for="lotNumber">Lot Number<span
+                                                class="login-danger">*</span></label>
+                                        <input type="number" class="form-control" formControlName="lotNumber">
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class="form-group local-forms">
+                                        <label for="blockCount">Blocks<span
+                                                class="login-danger">*</span></label>
+                                        <input type="number" class="form-control" (focusout)="getBlockCount()" formControlName="blockCount">
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class="form-group local-forms">
+                                        <label for="lotNumber">Vehicle Number<span
+                                                class="login-danger">*</span></label>
+                                        <input type="number" class="form-control" formControlName="lotNumber">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="invoices-main-form" formArrayName="blocksDetails">
-                                <p-accordion [activeIndex]="0" *ngFor="let tab of tabs; let i = index"
-                                    [formGroupName]="i">
-                                    <p-accordionTab [header]="'Block ' + (i + 1)">
+                              <p-accordion [activeIndex]="0">
+                                <p-accordionTab *ngFor="let tab of tabs; let i = index" [header]="tab.title">
                                         <div class="row">
                                             <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                                                 <div class="form-group local-forms">
