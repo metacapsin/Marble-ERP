@@ -737,15 +737,25 @@ export class DataService {
           ],
         },
         {
-          menuValue: "Blocks",
-          route: routes.blocksList,
-          hasSubRoute: false,
+          menuValue: "Processing",
+          hasSubRoute: true,
           showSubRoute: false,
-          icon: "fa-gear",
+          base: "processing",
+          icon: "fa-gauge",
           faIcon: true,
-          base: "settings",
-          subMenus: [],
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {     
+              menuValue: "Block Customer",
+              route: routes.blocksCustomerList,
+              base: routes.blocksCustomerList,
+            },
+            {
+              menuValue: "Block Processing",
+              route: routes.blocksList,
+              base: routes.blocksList,
+            },
+          ],
         },
         {
           menuValue: "Settings",

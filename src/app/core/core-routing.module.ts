@@ -54,7 +54,12 @@ const routes: Routes = [
       {
         path: 'blocks',
         loadChildren: () =>
-          import('./blocks/blocks.module').then((m) => m.BlocksModule),
+          import('./processing/blocks/blocks.module').then((m) => m.BlocksModule),
+      },
+      {
+        path: 'block-customer',
+        loadChildren: () =>
+          import('./processing/block-customer/block-customer.module').then((m) => m.BlockCustomerModule),
       },
       {
         path: 'settings',
