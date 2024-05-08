@@ -56,13 +56,18 @@ export class AddPurchaseComponent implements OnInit {
     { orderStatus: "Shipping" },
     { orderStatus: "Delivered" },
   ];
+  lotsNoArray = [
+    {name:'Lot No.'},
+    {name:'Block No.'},
+    {name:'Slabs'},
+  ]
   orderTaxList = [];
   taxesListData = [];
   public itemDetails: number[] = [0];
   public chargesArray: number[] = [0];
   public recurringInvoice = false;
   public selectedValue!: string;
-
+  lotValue:any
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
   addTaxTotal: any;
@@ -98,6 +103,9 @@ export class AddPurchaseComponent implements OnInit {
       postExpenses:[''],
       quality:[''],
       lotsNo:['',[Validators.required]],
+      lotsType:[''],
+      blockNo:[''],
+      slabs:[''],
       purchaseItemDetails: this.fb.array([
         this.fb.group({
           purchaseItemCategory: ["", [Validators.required]],
@@ -138,6 +146,10 @@ export class AddPurchaseComponent implements OnInit {
     this.purchaseItemDetails.push(item);
   }
 
+  lotValues(){
+    this.lotValue = this.addPurchaseForm.get('lotsType').value;
+    console.log(this.lotValue);
+  }
   getSupplier() {
     this.Service.GetSupplierData().subscribe((data: any) => {
       this.getSupplierShow = data;

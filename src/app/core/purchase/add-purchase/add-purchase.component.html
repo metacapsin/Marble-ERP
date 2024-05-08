@@ -102,10 +102,68 @@
 
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="lotsNo">Lots Number<span class="login-danger">*</span></label>
-                      <input type="text" class="form-control" formControlName="lotsNo" />
+                      <label for="lotsNo">Lots Type<span class="login-danger">*</span></label>
+                      <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body" optionLabel="name"
+                            optionValue="name" placeholder="--lots Type--" [filter]="true" filterBy="name" [showClear]="true" (onChange)="lotValues()"
+                            formControlName="lotsType">
+                          </p-dropdown>
+                      <!-- <input type="text" class="form-control" formControlName="lotsNo" /> -->
                       <div
-                        *ngIf="addPurchaseForm.get('lotsNo')?.hasError('required')  && addPurchaseForm.get('lotsNo')?.touched">
+                        *ngIf="addPurchaseForm.get('lotsType')?.hasError('required')  && addPurchaseForm.get('lotsType')?.touched">
+                        <span class="login-danger">Field is required. </span>
+                      </div>
+                      <!-- <div
+                        *ngIf="addPurchaseForm.get('lotsNo')?.hasError('pattern')  && addPurchaseForm.get('lotsNo')?.touched">
+                        <span class="login-danger">Input must be between 3 to 50
+                          character.</span>
+                      </div> -->
+                    </div>
+                  </div>
+
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Lot No.'">
+                    <div class="form-group local-forms">
+                      <label for="lotsNo">Lots Number<span class="login-danger">*</span></label>
+                      <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body" optionLabel="name"
+                            optionValue="name" placeholder="--Lots Number--" [filter]="true" filterBy="name" [showClear]="true"
+                            formControlName="lotsNo">
+                          </p-dropdown>
+                      <!-- <input type="text" class="form-control" formControlName="lotsNo" /> -->
+                      <div
+                        *ngIf="addPurchaseForm.get('lotsNo')?.hasError('required') && addPurchaseForm.get('lotsNo')?.touched">
+                        <span class="login-danger">Field is required. </span>
+                      </div>
+                      <!-- <div
+                        *ngIf="addPurchaseForm.get('lotsNo')?.hasError('pattern')  && addPurchaseForm.get('lotsNo')?.touched">
+                        <span class="login-danger">Input must be between 3 to 50
+                          character.</span>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Block No.'">
+                    <div class="form-group local-forms">
+                      <label for="lotsNo">Block Number<span class="login-danger">*</span></label>
+                          <p-multiSelect [style]="{ width: '100%' }" placeholder="--Block Number--" [options]="lotsNoArray"
+                              formControlName="blockNo" optionLabel="name" optionValue="orderNamevalue"
+                              display="chip" [showClear]="true"></p-multiSelect>
+                      <div
+                        *ngIf="addPurchaseForm.get('blockNo')?.hasError('required') && addPurchaseForm.get('blockNo')?.touched">
+                        <span class="login-danger">Field is required. </span>
+                      </div>
+                      <!-- <div
+                          *ngIf="addPurchaseForm.get('lotsNo')?.hasError('pattern')  && addPurchaseForm.get('lotsNo')?.touched">
+                        <span class="login-danger">Input must be between 3 to 50
+                          character.</span>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Slabs'">
+                    <div class="form-group local-forms">
+                      <label for="lotsNo">Slabs<span class="login-danger">*</span></label>
+                          <p-multiSelect [style]="{ width: '100%' }" placeholder="--Slabs--" [options]="lotsNoArray"
+                              formControlName="slabs" optionLabel="name" optionValue="orderNamevalue"
+                              display="chip" [showClear]="true"></p-multiSelect>
+                      <div
+                        *ngIf="addPurchaseForm.get('slabs')?.hasError('required') && addPurchaseForm.get('slabs')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
                       <!-- <div
@@ -119,10 +177,10 @@
                 </div>
               </div>
               <div class="invoice-add-table">
-                <h4 class="d-flex align-items-center">
+                <!-- <h4 class="d-flex align-items-center">
                   Item Details<p-button [text]="true" icon="fa fa-plus"
                     (click)="addPurchaseItemDetailsItem()"></p-button>
-                </h4>
+                </h4> -->
                 <div class="table-responsive">
                   <table class="table table-striped table-nowrap mb-0 no-footer add-table-items">
                     <thead>
@@ -142,7 +200,7 @@
                           let purchaseItemDetailsForm of purchaseItemDetails.controls;
                           let i = index
                         " [formGroupName]="i">
-                        <td>
+                        <!-- <td>
                           <p-dropdown [options]="categoryList" styleClass="" appendTo="body" optionLabel="name"
                             optionValue="name" placeholder="Category" [filter]="true" filterBy="name" 
                             formControlName="purchaseItemCategory">
@@ -224,7 +282,7 @@
                           <p-button [text]="true" icon="fa fa-plus" (click)="addPurchaseItemDetailsItem()"></p-button>
                           <p-button [text]="true" icon="fa fa-trash" (click)="deletePurchaseItemDetails(i)"
                             (keyup.enter)="deletePurchaseItemDetails(i)"></p-button>
-                        </td>
+                        </td> -->
                       </tr>
                     </tbody>
                   </table>
