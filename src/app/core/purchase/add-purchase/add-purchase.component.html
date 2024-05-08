@@ -103,10 +103,10 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="lotsNo">Lots Type<span class="login-danger">*</span></label>
-                      <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body" optionLabel="name"
-                            optionValue="name" placeholder="--lots Type--" [filter]="true" filterBy="name" [showClear]="true" (onChange)="lotValues()"
-                            formControlName="lotsType">
-                          </p-dropdown>
+                      <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+                        optionLabel="name" optionValue="name" placeholder="--lots Type--" [filter]="true"
+                        filterBy="name" [showClear]="true" (onChange)="lotValues()" formControlName="lotsType">
+                      </p-dropdown>
                       <!-- <input type="text" class="form-control" formControlName="lotsNo" /> -->
                       <div
                         *ngIf="addPurchaseForm.get('lotsType')?.hasError('required')  && addPurchaseForm.get('lotsType')?.touched">
@@ -123,10 +123,10 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Lot No.'">
                     <div class="form-group local-forms">
                       <label for="lotsNo">Lots Number<span class="login-danger">*</span></label>
-                      <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body" optionLabel="name"
-                            optionValue="name" placeholder="--Lots Number--" [filter]="true" filterBy="name" [showClear]="true"
-                            formControlName="lotsNo">
-                          </p-dropdown>
+                      <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+                        optionLabel="name" optionValue="name" placeholder="--Lots Number--" [filter]="true"
+                        filterBy="name" [showClear]="true" formControlName="lotsNo">
+                      </p-dropdown>
                       <!-- <input type="text" class="form-control" formControlName="lotsNo" /> -->
                       <div
                         *ngIf="addPurchaseForm.get('lotsNo')?.hasError('required') && addPurchaseForm.get('lotsNo')?.touched">
@@ -142,9 +142,9 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Block No.'">
                     <div class="form-group local-forms">
                       <label for="lotsNo">Block Number<span class="login-danger">*</span></label>
-                          <p-multiSelect [style]="{ width: '100%' }" placeholder="--Block Number--" [options]="lotsNoArray"
-                              formControlName="blockNo" optionLabel="name" optionValue="orderNamevalue"
-                              display="chip" [showClear]="true"></p-multiSelect>
+                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Block Number--" [options]="lotsNoArray"
+                        formControlName="blockNo" optionLabel="name" optionValue="orderNamevalue" display="chip"
+                        [showClear]="true"></p-multiSelect>
                       <div
                         *ngIf="addPurchaseForm.get('blockNo')?.hasError('required') && addPurchaseForm.get('blockNo')?.touched">
                         <span class="login-danger">Field is required. </span>
@@ -159,9 +159,9 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Slabs'">
                     <div class="form-group local-forms">
                       <label for="lotsNo">Slabs<span class="login-danger">*</span></label>
-                          <p-multiSelect [style]="{ width: '100%' }" placeholder="--Slabs--" [options]="lotsNoArray"
-                              formControlName="slabs" optionLabel="name" optionValue="orderNamevalue"
-                              display="chip" [showClear]="true"></p-multiSelect>
+                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Slabs--" [options]="lotsNoArray"
+                        formControlName="slabs" optionLabel="name" optionValue="orderNamevalue" display="chip"
+                        [showClear]="true"></p-multiSelect>
                       <div
                         *ngIf="addPurchaseForm.get('slabs')?.hasError('required') && addPurchaseForm.get('slabs')?.touched">
                         <span class="login-danger">Field is required. </span>
@@ -177,14 +177,11 @@
                 </div>
               </div>
               <div class="invoice-add-table">
-                <!-- <h4 class="d-flex align-items-center">
-                  Item Details<p-button [text]="true" icon="fa fa-plus"
-                    (click)="addPurchaseItemDetailsItem()"></p-button>
-                </h4> -->
+                <h4 class="d-flex align-items-center">{{lotValue}}</h4>
                 <div class="table-responsive">
-                  <table class="table table-striped table-nowrap mb-0 no-footer add-table-items">
+                  <table class="table table-striped table-nowrap mb-0 no-footer add-table-items" *ngIf="lotValue === 'Lot No.'">
                     <thead>
-                      <tr>
+                      <tr class="text-center">
                         <th>Category</th>
                         <th>Sub Category</th>
                         <th>Unit</th>
@@ -196,11 +193,12 @@
                       </tr>
                     </thead>
                     <tbody formArrayName="purchaseItemDetails">
-                      <tr class="add-row" *ngFor="
+                      <!-- <tr class="add-row" *ngFor="
                           let purchaseItemDetailsForm of purchaseItemDetails.controls;
                           let i = index
-                        " [formGroupName]="i">
-                        <!-- <td>
+                        " [formGroupName]="i"> -->
+                      <!-- <td>
+
                           <p-dropdown [options]="categoryList" styleClass="" appendTo="body" optionLabel="name"
                             optionValue="name" placeholder="Category" [filter]="true" filterBy="name" 
                             formControlName="purchaseItemCategory">
@@ -283,6 +281,84 @@
                           <p-button [text]="true" icon="fa fa-trash" (click)="deletePurchaseItemDetails(i)"
                             (keyup.enter)="deletePurchaseItemDetails(i)"></p-button>
                         </td> -->
+                      <!-- </tr> -->
+                      <tr class="text-center">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-striped table-nowrap mb-0 no-footer add-table-items" *ngIf="lotValue === 'Block No.'">
+                    <thead>
+                      <tr class="text-center">
+                        <th>Category</th>
+                        <th>Sub Category</th>
+                        <th>Unit</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Sub Total</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody formArrayName="purchaseItemDetails">
+                      <tr class="text-center">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-striped table-nowrap mb-0 no-footer add-table-items" *ngIf="lotValue === 'Slabs'">
+                    <thead>
+                      <tr class="text-center fw-bold">
+                        <th>Lot No.</th>
+                        <th>Block No.</th>
+                        <th>Category</th>
+                        <th>Sub Category</th>
+                        <th>Height</th>
+                        <th>Width</th>
+                        <th>Length</th>
+                        <th>Total SqrFt</th>
+                        <th>Total Costing</th>
+                        <th>Persell Price</th>
+                      </tr>
+                    </thead>
+                    <tbody formArrayName="purchaseItemDetails">
+                      <tr class="text-center">
+                        <td>KBN5656</td>
+                        <td>JHKJKLIJBN65484115</td>
+                        <td>category</td>
+                        <td>marble</td>
+                        <td>52</td>
+                        <td>12</td>
+                        <td>125</td>
+                        <td>12.3</td>
+                        <td>10245</td>
+                        <td>4578</td>
+                      </tr>
+                      <tr class="text-center">
+                        <td>KBN5656</td>
+                        <td>JHKJKLIJBN65484115</td>
+                        <td>category</td>
+                        <td>marble</td>
+                        <td>52</td>
+                        <td>12</td>
+                        <td>125</td>
+                        <td>12.3</td>
+                        <td>10245</td>
+                        <td>4578</td>
                       </tr>
                     </tbody>
                   </table>

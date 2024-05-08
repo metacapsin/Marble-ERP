@@ -49,6 +49,7 @@ export class AddPurchaseComponent implements OnInit {
   id: any;
   SupplierLists = [];
   categoryList= [];
+  setIT:any
   orderStatusList = [
     { orderStatus: "Ordered" },
     { orderStatus: "Confirmed" },
@@ -148,7 +149,6 @@ export class AddPurchaseComponent implements OnInit {
 
   lotValues(){
     this.lotValue = this.addPurchaseForm.get('lotsType').value;
-    console.log(this.lotValue);
   }
   getSupplier() {
     this.Service.GetSupplierData().subscribe((data: any) => {
