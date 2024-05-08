@@ -277,18 +277,18 @@ export class DataService {
           subMenus: [
             {
               menuValue: "Slabs",
-              route: routes.product,
-              base: routes.product,
+              route: routes.slabs,
+              base: routes.slabs,
             },
             {
               menuValue: "Block",
-              route: routes.blocksList,
-              base: routes.blocksList,
+              route: routes.blocks,
+              base: routes.blocks,
             },
             {
               menuValue: "Lot",
-              route: routes.suppliers,
-              base: routes.suppliers,
+              route: routes.lot,
+              base: routes.lot,
             },
           ],
         },

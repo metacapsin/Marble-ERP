@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ProductsListComponent } from './products-list/products-list.component';
 import { ProductsAddComponent } from './products-add/products-add.component';
 import { ProductsEditComponent } from './products-edit/products-edit.component';

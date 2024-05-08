@@ -24,16 +24,6 @@ import { BrowserModule } from '@angular/platform-browser';
     ProductsAddComponent,
     ProductsEditComponent,
     ProductsRoutingModule,
-    // BrowserModule
-    // CommonModule,
-    // SharedModule,
-    // MatButtonModule,
-    // ButtonModule,
-    // CheckboxModule,
-    // DropdownModule,
-    // TreeSelectModule,
-    // FormsModule,
-    // BrowserAnimationsModule
   ],
   providers: [],
 })

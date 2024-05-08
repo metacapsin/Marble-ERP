@@ -1,1 +1,284 @@
-<p>add-slabs works!</p>
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item">Product</li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="['/slabs']">
+                                Slabs
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Add New Slabs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <form [formGroup]="slabsAddForm" (ngSubmit)="SlabsAddFormSubmit()">
+                                <div class="row">
+                                    <div class="d-flex m-b-10" style="justify-content: space-between">
+                                        <h3>Add New Slabs</h3>
+                                        <div class="settings-btns text-end m-b-10">
+                                            <button type="submit"
+                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                [disabled]="!slabsAddForm.valid">
+                                                Submit
+                                            </button>
+                                            <button class="btn btn-secondary" [routerLink]="['/settings/product/']">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="lotNo">Lot No.
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="lotNoList" styleClass="" appendTo="body"
+                                                optionLabel="name" optionValue="name" placeholder="Select lot Number"
+                                                formControlName="lotNo" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="name" [showClear]="true">
+                                            </p-dropdown>
+                                            <div *ngIf="
+                                            slabsAddForm.get('lotNo')?.hasError(
+                                              'required'
+                                            ) && slabsAddForm.get('lotNo')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="blockNo">Block Number
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="blocksNoList" styleClass="" appendTo="body"
+                                                optionLabel="name" optionValue="name" placeholder="Select block Number"
+                                                formControlName="blockNo" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="name" [showClear]="true">
+                                            </p-dropdown>
+                                            <div *ngIf="
+                                            slabsAddForm.get('blockNo')?.hasError(
+                                              'required'
+                                            ) && slabsAddForm.get('blockNo')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="category">Category
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="categoryList" styleClass="" appendTo="body"
+                                                optionLabel="name" optionValue="name" placeholder="Select Category"
+                                                formControlName="category" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="name" [showClear]="true">
+                                            </p-dropdown>
+                                            <div *ngIf="
+                                            slabsAddForm.get('category')?.hasError(
+                                              'required'
+                                            ) && slabsAddForm.get('category')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="subCategory">Sub Category
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="subCategoryList" styleClass="" appendTo="body"
+                                                placeholder="Select Sub Category" optionLabel="name" optionValue="name"
+                                                formControlName="subCategory" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="name" [showClear]="true">
+                                            </p-dropdown>
+                                            <div *ngIf="
+                                            slabsAddForm.get('subCategory')?.hasError(
+                                              'required'
+                                            ) && slabsAddForm.get('subCategory')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="height">Height<span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder="Enter Slab Height"
+                                                formControlName="height" />
+                                            <div *ngIf="
+                                            slabsAddForm.get('height')?.hasError(
+                                              'required'
+                                            ) && slabsAddForm.get('height')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            slabsAddForm.get('height')?.hasError(
+                                              'min'
+                                            ) && slabsAddForm.get('height')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be more than 0 or 0.</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="width">Width</label>
+                                            <input class="form-control" type="number" placeholder="Enter Slab Width"
+                                                formControlName="width" />
+                                            <div *ngIf="
+                                                    slabsAddForm.get('width')?.hasError(
+                                                      'required'
+                                                    ) && slabsAddForm.get('width')?.touched
+                                                  ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                                    slabsAddForm.get('width')?.hasError(
+                                                      'min'
+                                                    ) && slabsAddForm.get('width')?.touched
+                                                  ">
+                                                <span class="login-danger">Input must be more than 0 or 0. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="length">Length</label>
+                                            <input class="form-control" type="number" placeholder="Enter Slab Length"
+                                                formControlName="length" />
+                                            <div *ngIf="
+                                                    slabsAddForm.get('length')?.hasError(
+                                                      'required'
+                                                    ) && slabsAddForm.get('length')?.touched
+                                                  ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                                    slabsAddForm.get('length')?.hasError(
+                                                      'min'
+                                                    ) && slabsAddForm.get('length')?.touched
+                                                  ">
+                                                <span class="login-danger">Input must be more than 0 or 0. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="totalSqrFt">Total Square Ft.</label>
+                                            <div class="input-group">
+                                                <!-- <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div> -->
+                                                <input class="form-control" type="number" placeholder="0"
+                                                    formControlName="totalSqrFt" />
+                                            </div>
+                                            <div *ngIf="
+                                            slabsAddForm.get('totalSqrFt')?.hasError(
+                                              'required'
+                                            ) && slabsAddForm.get('totalSqrFt')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            slabsAddForm.get('totalSqrFt')?.hasError(
+                                              'min'
+                                            ) && slabsAddForm.get('totalSqrFt')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be more than 0 or 0.</span>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="totalCosting">Total Costing</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="number" placeholder="0"
+                                                    formControlName="totalCosting" />
+                                            </div>
+                                            <div *ngIf="
+                                            slabsAddForm.get('totalCosting')?.hasError(
+                                              'required'
+                                            ) && slabsAddForm.get('totalCosting')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            slabsAddForm.get('totalCosting')?.hasError(
+                                              'min'
+                                            ) && slabsAddForm.get('totalCosting')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be more than 0.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="perSellPrice">Per Sell Price</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="number" placeholder="0"
+                                                    formControlName="perSellPrice" />
+                                            </div>
+                                            <div *ngIf="
+                                            slabsAddForm.get('perSellPrice')?.hasError(
+                                              'required'
+                                            ) && slabsAddForm.get('perSellPrice')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            slabsAddForm.get('perSellPrice')?.hasError(
+                                              'min'
+                                            ) && slabsAddForm.get('perSellPrice')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be more than 0.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

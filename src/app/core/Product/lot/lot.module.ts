@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import { LotRoutingModule } from './lot-routing.module';
 
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
-  ]
+    LotRoutingModule
+  ],
+  providers: [],
 })
 export class LotModule { }

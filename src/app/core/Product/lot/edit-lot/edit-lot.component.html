@@ -1,1 +1,227 @@
-<p>edit-lot works!</p>
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item">Product</li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="['/lot']">
+                                Lot
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Edit Lot</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <form [formGroup]="lotEditForm" (ngSubmit)="LotEditFormSubmit()">
+                                <div class="row">
+                                    <div class="d-flex m-b-10" style="justify-content: space-between">
+                                        <h3>Edit Lot</h3>
+                                        <div class="settings-btns text-end m-b-10">
+                                            <button type="submit"
+                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                [disabled]="!lotEditForm.valid">
+                                                Submit
+                                            </button>
+                                            <button class="btn btn-secondary" [routerLink]="['/lot/']">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="lotNo">Lot No.
+                                                <span class="login-danger">*</span></label>
+                                                <input class="form-control" type="text" placeholder="Enter Lot No."
+                                                formControlName="lotNo" />
+                                            <div *ngIf="
+                                            lotEditForm.get('lotNo')?.hasError(
+                                              'required'
+                                            ) && lotEditForm.get('lotNo')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            lotEditForm.get('lotNo')?.hasError(
+                                              'pattern'
+                                            ) && lotEditForm.get('lotNo')?.touched
+                                          ">
+                                                <span class="login-danger">Input Must be between 1 to 10 characters.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="vehicleNo">Vehicle No.
+                                                <span class="login-danger">*</span></label>
+                                                <input class="form-control" type="text" placeholder="Enter Vehicle No."
+                                                formControlName="vehicleNo" />
+                                            <div *ngIf="
+                                            lotEditForm.get('vehicleNo')?.hasError(
+                                              'required'
+                                            ) && lotEditForm.get('vehicleNo')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            lotEditForm.get('vehicleNo')?.hasError(
+                                              'pattern'
+                                            ) && lotEditForm.get('vehicleNo')?.touched
+                                          ">
+                                                <span class="login-danger">Input Must be between 1 to 15 characters.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="invoiceNo">Invoice No.<span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder="Enter Invoice No."
+                                                formControlName="invoiceNo" />
+                                            <div *ngIf="
+                                            lotEditForm.get('invoiceNo')?.hasError(
+                                              'required'
+                                            ) && lotEditForm.get('invoiceNo')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            lotEditForm.get('invoiceNo')?.hasError(
+                                              'pattern'
+                                            ) && lotEditForm.get('invoiceNo')?.touched
+                                          ">
+                                                <span class="login-danger">Input Must be between 1 to 10 characters.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="totalSlots">Total Slots</label>
+                                            <input class="form-control" type="number" placeholder="Enter Total Slots"
+                                                formControlName="totalSlots" />
+                                            <div *ngIf="
+                                                    lotEditForm.get('totalSlots')?.hasError(
+                                                      'required'
+                                                    ) && lotEditForm.get('totalSlots')?.touched
+                                                  ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                                    lotEditForm.get('totalSlots')?.hasError(
+                                                      'min'
+                                                    ) && lotEditForm.get('totalSlots')?.touched
+                                                  ">
+                                                <span class="login-danger">Input must be at least 0. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="totalWeightInTon">Total Weight In Ton</label>
+                                            <input class="form-control" type="number" placeholder="Enter Total Weight In Ton"
+                                                formControlName="totalWeightInTon" />
+                                            <div *ngIf="
+                                                    lotEditForm.get('totalWeightInTon')?.hasError(
+                                                      'required'
+                                                    ) && lotEditForm.get('totalWeightInTon')?.touched
+                                                  ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                                    lotEditForm.get('totalWeightInTon')?.hasError(
+                                                      'min'
+                                                    ) && lotEditForm.get('totalWeightInTon')?.touched
+                                                  ">
+                                                <span class="login-danger">Input must be at least 0. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="totalPricing">Total Pricing </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="number" placeholder="0"
+                                                    formControlName="totalPricing" />
+                                            </div>
+                                            <div *ngIf="
+                                            lotEditForm.get('totalPricing')?.hasError(
+                                              'required'
+                                            ) && lotEditForm.get('totalPricing')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            lotEditForm.get('totalPricing')?.hasError(
+                                              'min'
+                                            ) && lotEditForm.get('totalPricing')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be at least 0.</span>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="totalTransportation">Total Transportation</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="number" placeholder="0"
+                                                    formControlName="totalTransportation" />
+                                            </div>
+                                            <div *ngIf="
+                                            lotEditForm.get('totalTransportation')?.hasError(
+                                              'required'
+                                            ) && lotEditForm.get('totalTransportation')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            lotEditForm.get('totalTransportation')?.hasError(
+                                              'min'
+                                            ) && lotEditForm.get('totalTransportation')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be more than 0.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

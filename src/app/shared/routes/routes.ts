@@ -643,4 +643,15 @@ export class routes {
     return this.baseUrl + '/payroll/payrollList';
   }
   
+
+  public static get slabs(): string {
+    return this.baseUrl + '/slabs';
+  }
+  public static get lot(): string {
+    return this.baseUrl + '/product/lot';
+  }
+  public static get blocks(): string {
+    return this.baseUrl + '/product/blocks';
+  }
+
 }

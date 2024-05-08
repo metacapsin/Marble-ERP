@@ -5,7 +5,6 @@ import {
   FormsModule,
   Validators,
 } from "@angular/forms";
-import { SettingsService } from "src/app/shared/data/settings.service";
 import { Router } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { CommonModule } from "@angular/common";
@@ -16,16 +15,10 @@ import { DropdownModule } from "primeng/dropdown";
 import { SharedModule } from "src/app/shared/shared.module";
 import { ToastModule } from "primeng/toast";
 import { MessageService, SelectItem } from "primeng/api";
-import { CalendarModule } from "primeng/calendar";
-import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { ProductsService } from "../products.service";
 import { TreeSelectModule } from "primeng/treeselect";
-import { TreeNode } from "primeng/api";
-import { UnitsService } from "../../units/units.service";
 import { CategoriesService } from "../../categories/categories.service";
 import { SubCategoriesService } from "../../sub-categories/sub-categories.service";
-import { TaxesService } from "../../taxes/taxes.service";
-import { WarehouseService } from "../../warehouse/warehouse.service";
 
 interface CategoryItem {
   label: string;
@@ -46,9 +39,6 @@ interface CategoryItem {
     TreeSelectModule,
     FormsModule,
     DropdownModule,
-    CalendarModule,
-    TooltipModule,
-    TreeSelectModule, // Make sure to import TreeSelectModule
     ToastModule,
   ],
   providers: [MessageService],
@@ -57,7 +47,7 @@ export class ProductsAddComponent {
   public routes = routes;
   productForm!: FormGroup;
 
-  warehouseList: any = [];
+
 
   categoryList: any = [];
 
@@ -66,34 +56,23 @@ export class ProductsAddComponent {
 
   subCategoryList: any = [];
 
-  unitList: any = [];
 
-  barcodeSymbologyList = [
-    { label: "CODE128", value: "CODE128" },
-    { label: "CODE39", value: "CODE39" },
-    { label: "EAN-13", value: "EAN13" },
-    { label: "EAN-8", value: "EAN8" },
-    { label: "UPC-A", value: "UPCA" },
-    { label: "UPC-E", value: "UPCE" },
-  ];
-  taxList: any = [];
 
-  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
 
-  descriptionRegex = /^(?!\s)(.{3,500})$/;
+  // nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+
+  // shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
+
+  // descriptionRegex = /^(?!\s)(.{3,500})$/;
 
   constructor(
     private service: ProductsService,
     private fb: FormBuilder,
     private router: Router,
     private messageService: MessageService,
-    private unitService: UnitsService,
     private categoriesService: CategoriesService,
     private subCategoriesService: SubCategoriesService,
-    private taxService: TaxesService,
-    private warehouseServices: WarehouseService
   ) {
     this.productForm = this.fb.group({
       lotNo: ["", [Validators.required]],
@@ -118,13 +97,7 @@ export class ProductsAddComponent {
   }
 
   ngOnInit(): void {
-    this.unitService.getAllUnitList().subscribe((resp: any) => {
-      this.unitList = resp.data;
-    });
-
-    this.warehouseServices.getAllWarehouseList().subscribe((resp: any) => {
-      this.warehouseList = resp.data;
-    });
+    
 
     this.categoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
@@ -133,9 +106,7 @@ export class ProductsAddComponent {
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
     });
-    this.taxService.getAllTaxList().subscribe((resp: any) => {
-      this.taxList = resp.data;
-    });
+   
   }
 
   ProductFormSubmit() {

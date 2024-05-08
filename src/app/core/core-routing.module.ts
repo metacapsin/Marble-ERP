@@ -62,6 +62,21 @@ const routes: Routes = [
           import('./processing/block-customer/block-customer.module').then((m) => m.BlockCustomerModule),
       },
       {
+        path: 'slabs',
+        loadChildren: () =>
+          import('./Product/slabs/slabs.module').then((m) => m.SlabsModule),
+      },
+      {
+        path: 'blocks',
+        loadChildren: () =>
+          import('./Product/blocks/blocks.module').then((m) => m.BlocksModule),
+      },
+      {
+        path: 'lot',
+        loadChildren: () =>
+          import('./Product/lot/lot.module').then((m) => m.LotModule),
+      },
+      {
         path: 'settings',
         loadChildren: () =>
           import('./settings/settings.module').then((m) => m.SettingsModule),
