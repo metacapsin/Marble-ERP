@@ -1,4 +1,3 @@
-
 import { Injectable } from "@angular/core";
 import { routes } from "../routes/routes";
 import { map, Observable } from "rxjs";
@@ -220,7 +219,7 @@ export class DataService {
       })
     );
   }
-  
+
   public sideBar = [
     {
       tittle: "",
@@ -267,6 +266,33 @@ export class DataService {
           ],
         },
         {
+          menuValue: "Product",
+          // route: routes.product,
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "product",
+          icon: "fa-cubes",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: "Slabs",
+              route: routes.product,
+              base: routes.product,
+            },
+            {
+              menuValue: "Block",
+              route: routes.blocksList,
+              base: routes.blocksList,
+            },
+            {
+              menuValue: "Lot",
+              route: routes.suppliers,
+              base: routes.suppliers,
+            },
+          ],
+        },
+        {
           menuValue: "Staff",
           hasSubRoute: true,
           showSubRoute: false,
@@ -285,7 +311,7 @@ export class DataService {
               route: routes.addStaff,
               base: routes.addStaff,
             },
-            
+
             {
               menuValue: "Leaves",
               route: routes.staffLeave,
@@ -303,7 +329,6 @@ export class DataService {
             // },
           ],
         },
-       
 
         // {
         //   menuValue: 'Parties',
@@ -611,7 +636,7 @@ export class DataService {
               base: routes.paymentIn,
             },
             {
-              menuValue: 'Sales Return',
+              menuValue: "Sales Return",
               route: routes.salesReturn,
               base: routes.salesReturn,
             },
@@ -643,7 +668,7 @@ export class DataService {
             },
           ],
         },
-         {
+        {
           menuValue: "Payroll",
           hasSubRoute: true,
           showSubRoute: false,
@@ -656,7 +681,7 @@ export class DataService {
               menuValue: " Empoyee Salary",
               route: routes.salary,
               base: routes.salary,
-            },           
+            },
           ],
         },
         {

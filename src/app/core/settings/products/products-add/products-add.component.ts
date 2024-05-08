@@ -61,6 +61,9 @@ export class ProductsAddComponent {
 
   categoryList: any = [];
 
+  lotNoList: any = [];
+  blockNoList: any = [];
+
   subCategoryList: any = [];
 
   unitList: any = [];
@@ -93,26 +96,21 @@ export class ProductsAddComponent {
     private warehouseServices: WarehouseService
   ) {
     this.productForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
-      itemCode: ["", [Validators.pattern(this.shortNameRegex)]],
-      // slug: [
-      //   '',
-      //   [Validators.required, Validators.pattern(new RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/))],
-      // ],
+      lotNo: ["", [Validators.required]],
+      blockNo: ["", [Validators.required]],
       category: ["", [Validators.required]],
       subCategory: ["", [Validators.required]],
-      unit: ["", [Validators.required]],
-      warehouse: ["", [Validators.required]],
-      quantityAlert: ["", [Validators.pattern(this.shortNameRegex)]],
-      // barcodeSymbology: [""],
-      // tax: ["", [Validators.required]],
-      openingStock: ["", [Validators.required, Validators.min(0)]],
-      openingStockDate: ["", [Validators.required]],
-      purchasePrice: ["", [Validators.required, Validators.min(0)]],
-      // mRP: ["", [Validators.required, Validators.min(0)]],
-      expiryDate: ["", [Validators.required]],
-      description: ["", [Validators.pattern(this.descriptionRegex)]],
-      salesPrice: ["", [Validators.required, Validators.min(0)]],
+      height: ["", [Validators.required, Validators.min(0)]],
+      width: ["", [Validators.required, Validators.min(0)]],
+      length: ["", [Validators.required, Validators.min(0)]],
+      totalSqrFt: ["", [Validators.required, Validators.min(0)]],
+      // price: ["", [Validators.required, Validators.min(0)]],
+      // transportCharge: ["", [Validators.required, Validators.min(0)]],
+      // processingCharge: ["", [Validators.required, Validators.min(0)]],
+      // unitInTon: ["", [Validators.required, Validators.min(0)]],
+      // slabsCount: ["", [Validators.required, Validators.min(0)]],
+      totalCosting: ["", [Validators.required, Validators.min(0)]],
+      persellPrice: ["", [Validators.required, Validators.min(0)]],
     });
   }
   get f() {
