@@ -9,11 +9,10 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
-import { CustomersdataService } from "src/app/core/Customers/customers.service";
 import { ToastModule } from "primeng/toast";
-import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 import { MultiSelectModule } from "primeng/multiselect";
 import { SharedModule } from "src/app/shared/shared.module";
+import { blockCustomersDataService } from "../block-customer.service";
 
 @Component({
   selector: 'app-edit-block-customer',
@@ -31,7 +30,7 @@ import { SharedModule } from "src/app/shared/shared.module";
   providers: [MessageService],
 })
 export class EditBlockCustomerComponent {
-  editBlockCuatomerForm: FormGroup;
+  editBlockCustomerForm: FormGroup;
   routes = routes;
   customerData: any;
   id: any;
@@ -46,16 +45,14 @@ export class EditBlockCustomerComponent {
 
   constructor(
     private fb: FormBuilder,
-    private Service: CustomersdataService,
+    private Service: blockCustomersDataService,
     private messageService: MessageService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private service: WarehouseService
   ) {
-    this.editBlockCuatomerForm = this.fb.group({
-      wareHouse: ["", [Validators.required]],
+    this.editBlockCustomerForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
-      phoneNumber: [
+      phoneNo: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
@@ -75,44 +72,44 @@ export class EditBlockCustomerComponent {
     this.getCoustomers();
   }
   getCoustomers() {
-    this.Service.GetCustomerDataById(this.id).subscribe((data: any) => {
+    this.Service.getBlockCustomerDataById(this.id).subscribe((data: any) => {
       this.customerData = data;
       console.log(this.customerData);
       this.patchForm();
     });
   }
   patchForm() {
-    this.editBlockCuatomerForm.patchValue({
+    this.editBlockCustomerForm.patchValue({
       name: this.customerData.name,
-      phoneNumber: this.customerData.phoneNo,
+      phoneNo: this.customerData.phoneNo,
       email: this.customerData.email,
       status: true,
-      taxNumber: this.customerData.taxNo,
+      taxNumber: this.customerData.taxNumber,
       openingBalance: this.customerData.openingBalance,
-      creditPeriod: this.customerData.creaditPeriod,
-      creditLimit: this.customerData.creaditLimit,
+      creditPeriod: this.customerData.creditPeriod,
+      creditLimit: this.customerData.creditLimit,
       billingAddress: this.customerData.billingAddress,
       shippingAddress: this.customerData.shippingAddress,
     });
   }
-  editBlockCuatomerFormSubmit() {
+  editBlockCustomerFormSubmit() {
 
     const payload = {
       id: this.id,
-      name: this.editBlockCuatomerForm.value.name,
-      phoneNo: this.editBlockCuatomerForm.value.phoneNumber,
-      email: this.editBlockCuatomerForm.value.email,
-      status:this.editBlockCuatomerForm.value.status,
-      taxNo: this.editBlockCuatomerForm.value.taxNumber,
-      creaditPeriod: this.editBlockCuatomerForm.value.creditPeriod,
-      creaditLimit: this.editBlockCuatomerForm.value.creditLimit,
-      billingAddress: this.editBlockCuatomerForm.value.billingAddress,
-      shippingAddress: this.editBlockCuatomerForm.value.shippingAddress,
-      openingBalance: this.editBlockCuatomerForm.value.openingBalance,
+      name: this.editBlockCustomerForm.value.name,
+      phoneNo: this.editBlockCustomerForm.value.phoneNo,
+      email: this.editBlockCustomerForm.value.email,
+      status:this.editBlockCustomerForm.value.status,
+      taxNumber: this.editBlockCustomerForm.value.taxNumber,
+      creditPeriod: this.editBlockCustomerForm.value.creditPeriod,
+      creditLimit: this.editBlockCustomerForm.value.creditLimit,
+      billingAddress: this.editBlockCustomerForm.value.billingAddress,
+      shippingAddress: this.editBlockCustomerForm.value.shippingAddress,
+      openingBalance: this.editBlockCustomerForm.value.openingBalance,
     };
     console.log(payload);
-    if (this.editBlockCuatomerForm.valid) {
-      this.Service.UpDataCustomerApi(payload).subscribe((resp: any) => {
+    if (this.editBlockCustomerForm.valid) {
+      this.Service.updateBlockCustomerData(payload).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === "success") {
             this.messageService.add({
@@ -120,7 +117,7 @@ export class EditBlockCustomerComponent {
               detail: resp.message,
             });
             setTimeout(() => {
-              this.router.navigate(["/customers"]);
+              this.router.navigate(["/block-customer"]);
             }, 400);
           } else {
             const message = resp.message;

@@ -4,12 +4,11 @@ import { MenuItem, MessageService } from "primeng/api";
 import { Subscription } from "rxjs";
 import { routes } from "src/app/shared/routes/routes";
 import { DialogModule } from "primeng/dialog";
-import { CustomersdataService } from "src/app/core/Customers/customers.service";
 import { ButtonModule } from "primeng/button";
 import { ToastModule } from "primeng/toast";
-import { PanelMenuModule } from "primeng/panelmenu";
 import { SharedModule } from "src/app/shared/shared.module";
 import { CommonModule } from "@angular/common";
+import { blockCustomersDataService } from "../block-customer.service";
 
 @Component({
   selector: 'app-block-customer-list',
@@ -39,16 +38,12 @@ export class BlockCustomerListComponent {
   modalData: any = {};
   blockCustomerId: any;
   visible: boolean = false;
-  constructor(private router: Router, private Service: CustomersdataService, private messageService: MessageService) {
-    // this.routerChangeSubscription = this.router.events.subscribe((event) => {
-    //   this.currentRoute = this.router.url;
-    // });
-  }
+  constructor(private router: Router, private Service: blockCustomersDataService, private messageService: MessageService) { }
   ngOnInit() {
     this.getCoustomers()
   }
   getCoustomers() {
-    this.Service.GetCustomerData().subscribe((data) => {
+    this.Service.getAllBlockCustomerData().subscribe((data) => {
       this.blockCustomerData = data
       this.originalData = data
     })
@@ -62,9 +57,9 @@ export class BlockCustomerListComponent {
   //   console.log(e);
   //   this.router.navigate(["/customers/view-customers/" + e]);
   // }
-  editBlockCustomer(e) {
-    console.log(e);
-    this.router.navigate(["/block-customer/edit-block-customer/" + e]);
+  editBlockCustomer(id) {
+    console.log(id);
+    this.router.navigate(["/block-customer/edit-block-customer/" + id]);
   }
 
   deleteBlockCustomer(Id: any) {
@@ -82,7 +77,7 @@ export class BlockCustomerListComponent {
   }
 
   callBackModal() {
-    this.Service.DeleteCustomerApi(this.blockCustomerId).subscribe((resp: any) => {
+    this.Service.DeleteBlockCustomer(this.blockCustomerId).subscribe((resp: any) => {
       this.messageService.add({ severity: 'success', detail: resp.message });
       this.getCoustomers();
       this.showDialoge = false;

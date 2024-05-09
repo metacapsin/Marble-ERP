@@ -12,7 +12,7 @@
               <i class="feather icon-chevron-right"></i>
             </li>
             <li class="breadcrumb-item active">
-              <a [routerLink]="routes.customers">Block Customers</a>
+              <a [routerLink]="routes.blocksCustomerList">Block Customers</a>
             </li>
             <li class="breadcrumb-item">
               <i class="feather icon-chevron-right"></i>
@@ -26,13 +26,13 @@
       <div class="col-sm-12">
         <div class="card card-table show-entire">
           <div class="card-body p-3">
-            <form [formGroup]="editBlockCuatomerForm" (ngSubmit)="editBlockCuatomerFormSubmit()">
+            <form [formGroup]="editBlockCustomerForm" (ngSubmit)="editBlockCustomerFormSubmit()">
               <div class="row">
                 <div class="d-flex m-b-10" style="justify-content: space-between">
-                  <h3>Add New Customer</h3>
+                  <h3>Edit Block Customer</h3>
                   <div class="settings-btns text-end m-b-10">
                     <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                      [disabled]="!editBlockCuatomerForm.valid">
+                      [disabled]="!editBlockCustomerForm.valid">
                       Submit
                     </button>
                     <button class="btn btn-secondary" [routerLink]="['/block-customer']">
@@ -48,14 +48,14 @@
                       <label for="name">Name<span class="login-danger">*</span></label>
                       <input class="form-control" type="text" placeholder="Please Enter Name" formControlName="name" />
                       <div *ngIf="
-                          editBlockCuatomerForm.get('name')?.hasError('required') &&
-                          editBlockCuatomerForm.get('name')?.touched
+                          editBlockCustomerForm.get('name')?.hasError('required') &&
+                          editBlockCustomerForm.get('name')?.touched
                         " class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div *ngIf="
-                          editBlockCuatomerForm.get('name')?.hasError('pattern') &&
-                          editBlockCuatomerForm.get('name')?.touched
+                          editBlockCustomerForm.get('name')?.hasError('pattern') &&
+                          editBlockCustomerForm.get('name')?.touched
                         " class="login-danger Font_size">
                         Input should be between 3 to 50 characters.
                       </div>
@@ -64,22 +64,22 @@
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="phoneNumber">Phone Number<span class="login-danger">*</span></label>
+                      <label for="phoneNo">Phone Number<span class="login-danger">*</span></label>
                       <input class="form-control" type="number" placeholder="Please Enter Phone Number"
-                        formControlName="phoneNumber" />
+                        formControlName="phoneNo" />
                       <div *ngIf="
-                          editBlockCuatomerForm
-                            .get('phoneNumber')
+                          editBlockCustomerForm
+                            .get('phoneNo')
                             ?.hasError('required') &&
-                          editBlockCuatomerForm.get('phoneNumber')?.touched
+                          editBlockCustomerForm.get('phoneNo')?.touched
                         " class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div *ngIf="
-                          editBlockCuatomerForm
-                            .get('phoneNumber')
+                          editBlockCustomerForm
+                            .get('phoneNo')
                             ?.hasError('pattern') &&
-                          editBlockCuatomerForm.get('phoneNumber')?.touched
+                          editBlockCustomerForm.get('phoneNo')?.touched
                         " class="login-danger Font_size">
                         Please Enter 10-Digit number.
                       </div>
@@ -92,14 +92,14 @@
                       <input class="form-control" type="email" placeholder="Please Enter Email"
                         formControlName="email" />
                       <div *ngIf="
-                          editBlockCuatomerForm.get('email')?.hasError('required') &&
-                          editBlockCuatomerForm.get('email')?.touched
+                          editBlockCustomerForm.get('email')?.hasError('required') &&
+                          editBlockCustomerForm.get('email')?.touched
                         " class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div *ngIf="
-                          editBlockCuatomerForm.get('email')?.hasError('pattern') &&
-                          editBlockCuatomerForm.get('email')?.touched
+                          editBlockCustomerForm.get('email')?.hasError('pattern') &&
+                          editBlockCustomerForm.get('email')?.touched
                         " class="login-danger Font_size">
                         Please enter valid Email address.
                       </div>
@@ -112,10 +112,10 @@
                       <input class="form-control" type="text" placeholder="Please Enter Tex Number"
                         formControlName="taxNumber" />
                       <div *ngIf="
-                          editBlockCuatomerForm
+                          editBlockCustomerForm
                             .get('taxNumber')
                             ?.hasError('pattern') &&
-                          editBlockCuatomerForm.get('taxNumber')?.touched
+                          editBlockCustomerForm.get('taxNumber')?.touched
                         " class="login-danger Font_size">
                         Input must be between 1 to 10 characters.
                       </div>
@@ -132,10 +132,10 @@
                         <input class="form-control" type="number" placeholder="0" formControlName="openingBalance" />
                       </div>
                       <div *ngIf="
-                          editBlockCuatomerForm
+                          editBlockCustomerForm
                             .get('openingBalance')
                             ?.hasError('min') &&
-                          editBlockCuatomerForm.get('openingBalance')?.touched
+                          editBlockCustomerForm.get('openingBalance')?.touched
                         " class="login-danger Font_size">
                         Input should be more than 0.
                       </div>
@@ -152,18 +152,18 @@
                         </div>
                       </div>
                       <div *ngIf="
-                          editBlockCuatomerForm
+                          editBlockCustomerForm
                             .get('creditPeriod')
                             ?.hasError('min') &&
-                          editBlockCuatomerForm.get('creditPeriod')?.touched
+                          editBlockCustomerForm.get('creditPeriod')?.touched
                         " class="login-danger Font_size">
                         Credit Period cannot be less than 0 days.
                       </div>
                       <div *ngIf="
-                          editBlockCuatomerForm
+                          editBlockCustomerForm
                             .get('creditPeriod')
                             ?.hasError('max') &&
-                          editBlockCuatomerForm.get('creditPeriod')?.touched
+                          editBlockCustomerForm.get('creditPeriod')?.touched
                         " class="login-danger Font_size">
                         Credit Period should be less than 120 days.
                       </div>
@@ -180,18 +180,18 @@
                         <input class="form-control" type="number" placeholder="0" formControlName="creditLimit" />
                       </div>
                       <div *ngIf="
-                          editBlockCuatomerForm
+                          editBlockCustomerForm
                             .get('creditLimit')
                             ?.hasError('min') &&
-                          editBlockCuatomerForm.get('creditLimit')?.touched
+                          editBlockCustomerForm.get('creditLimit')?.touched
                         " class="login-danger Font_size">
                         Credit amount cannot be less than 0.
                       </div>
                       <div *ngIf="
-                          editBlockCuatomerForm
+                          editBlockCustomerForm
                             .get('creditLimit')
                             ?.hasError('max') &&
-                          editBlockCuatomerForm.get('creditLimit')?.touched
+                          editBlockCustomerForm.get('creditLimit')?.touched
                         " class="login-danger Font_size">
                         Credit amount limit exceed.
                       </div>
@@ -205,10 +205,10 @@
                         formControlName="billingAddress"></textarea>
 
                       <div *ngIf="
-                          editBlockCuatomerForm
+                          editBlockCustomerForm
                             .get('billingAddress')
                             ?.hasError('pattern') &&
-                          editBlockCuatomerForm.get('billingAddress')?.touched
+                          editBlockCustomerForm.get('billingAddress')?.touched
                         ">
                         <span class="login-danger">Input Must be between 3 to 500 characters</span>
                       </div>
@@ -222,10 +222,10 @@
                         formControlName="shippingAddress"></textarea>
 
                       <div *ngIf="
-                          editBlockCuatomerForm
+                          editBlockCustomerForm
                             .get('shippingAddress')
                             ?.hasError('pattern') &&
-                          editBlockCuatomerForm.get('shippingAddress')?.touched
+                          editBlockCustomerForm.get('shippingAddress')?.touched
                         ">
                         <span class="login-danger">Input Must be between 3 to 500 characters</span>
                       </div>
