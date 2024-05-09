@@ -9,6 +9,7 @@ import { ToastModule } from 'primeng/toast';
 import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LotService } from '../../lot/lot.service';
+import { BlocksService } from '../blocks.service';
 
 @Component({
   selector: 'app-list-blocks',
@@ -25,13 +26,13 @@ export class ListBlocksComponent {
   originalData:any = []
   public showDialog: boolean = false;
   modalData: any = {}
-  lotID: any;
+  blocksID: any;
   searchDataValue = "";
   selectedLot = [];
 
-  constructor(public dialog: MatDialog, public router: Router, private service: LotService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
-  getLotList(): void {
-    this.service.getLotList().subscribe((resp: any) => {
+  constructor(public dialog: MatDialog, public router: Router, private service: BlocksService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
+  getBlocksList(): void {
+    this.service.getBlocksList().subscribe((resp: any) => {
       this.data = resp.data;
       // map(lot=>{
       //   lot.currentStock=lot.openingStock-lot.
@@ -43,15 +44,15 @@ export class ListBlocksComponent {
     })
   }
   ngOnInit(): void {
-    this.getLotList();
+    this.getBlocksList();
   }
 
-  deleteLot(_id: any) {
-    this.lotID = _id;
+  deleteBlocks(_id: any) {
+    this.blocksID = _id;
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure want to delete this Lot",
+      messege: "Are you sure want to delete this Block",
     }
     this.showDialog = true;
   }
@@ -61,10 +62,10 @@ export class ListBlocksComponent {
   }
 
   callBackModal() {
-    this.service.deleteLotById(this.lotID).subscribe(resp => {
-      const message = "Lot has been deleted"
+    this.service.deleteBlocksById(this.blocksID).subscribe(resp => {
+      const message = "Blocks has been deleted"
       this.messageService.add({ severity: 'success', detail: message });
-      this.getLotList();
+      this.getBlocksList();
       this.showDialog = false;
 
     })

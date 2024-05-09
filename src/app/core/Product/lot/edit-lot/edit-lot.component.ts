@@ -42,8 +42,8 @@ export class EditLotComponent {
   lotId: any;
 
   categoryList: any = [];
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
-  vehicleNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,15})$/;
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15)$/;
+  vehicleNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
 
   constructor(
     private fb: FormBuilder,

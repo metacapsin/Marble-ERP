@@ -10,11 +10,11 @@ import { Router, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
-import { ExpensesdataService } from "../expenses.service";
 import { ToastModule } from "primeng/toast";
 import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { MultiSelectModule } from "primeng/multiselect";
 import { CalendarModule } from "primeng/calendar";
+import { ExpensesdataService } from "../../Expenses/expenses.service";
 
 @Component({
   selector: "app-add-expenses",
@@ -38,7 +38,7 @@ export class AddExpensesComponent implements OnInit {
   wareHousedata: any;
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15)$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^(?!\s)(?:.{3,500})$/;

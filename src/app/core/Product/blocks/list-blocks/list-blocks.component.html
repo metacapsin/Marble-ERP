@@ -33,7 +33,7 @@
                                             </div>
                                             <div class="add-group textbtn">
                                                 <a appShowHide [roles]="['admin', 'super-admin']"
-                                                    [routerLink]="['/lot/add']"
+                                                    [routerLink]="['/blocks/add']"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""> Add New</a>
 
@@ -67,59 +67,59 @@
                                             <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
     
                                         </th>
-                                        <th pSortableColumn="blockNo">Vehicle No. <p-sortIcon field="blockNo"></p-sortIcon>
+                                        <th pSortableColumn="blockNo">Blocks  No. <p-sortIcon field="blockNo"></p-sortIcon>
                                             <p-columnFilter type="text" field="blockNo" display="menu"></p-columnFilter>
     
                                         </th>
-                                        <th pSortableColumn="category">Totel Slots <p-sortIcon field="category"></p-sortIcon>
-                                            <p-columnFilter type="category" field="category" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="processingCharge">Processing Charge<p-sortIcon field="processingCharge"></p-sortIcon>
+                                            <p-columnFilter type="processingCharge" field="processingCharge" display="menu"></p-columnFilter>
     
                                         </th>
-                                        <th pSortableColumn="brand">Invoice Numeber  <p-sortIcon field="subCatergory"></p-sortIcon>
-                                            <p-columnFilter type="text" field="subCatergory" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="height">Height  <p-sortIcon field="height"></p-sortIcon>
+                                            <p-columnFilter type="text" field="height" display="menu"></p-columnFilter>
     
                                         </th>
-                                        <th pSortableColumn="totalCosting">Total Weight(Ton) <p-sortIcon field="totalCosting"></p-sortIcon>
-                                            <p-columnFilter type="text" field="totalCosting" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="width">Widht(Ton) <p-sortIcon field="width"></p-sortIcon>
+                                            <p-columnFilter type="text" field="width" display="menu"></p-columnFilter>
                                             
                                         </th>
-                                        <th pSortableColumn="persellPrice">Total Pricing <p-sortIcon field="persellPrice"></p-sortIcon>
-                                            <p-columnFilter type="text" field="persellPrice" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="length">Length <p-sortIcon field="length"></p-sortIcon>
+                                            <p-columnFilter type="text" field="length" display="menu"></p-columnFilter>
     
                                         </th>
-                                        <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
+                                        <th appShowHide [roles]="['admin', 'super-admin']" >Action
                                         </th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-lot>
+                                <ng-template pTemplate="body" let-blocks>
     
                                     <tr>
                                         <td appShowHide [roles]="['admin', 'super-admin']">
-                                            <p-tableCheckbox [value]="lot"></p-tableCheckbox>
+                                            <p-tableCheckbox [value]="blocks"></p-tableCheckbox>
                                         </td>
                                         <td>
-                                            {{lot.lotNo}}
+                                            {{blocks.lotNo}}
                                         </td>
                                         <td>
-                                            {{lot.blockNo}}
+                                            {{blocks.blocksNo}}
                                         </td>
                                         <td>
-                                            {{lot.category}}
+                                            {{blocks.processingCharge}}
                                         </td>
                                         <td>
-                                            {{lot.subCategory}}
+                                            {{blocks.height}}
                                         </td>
                                         <td>
-                                            {{lot.totalCosting}}
+                                            {{blocks.width}}
                                         </td>
                                         <td>
-                                            {{lot.persellPrice}}
+                                            {{blocks.length}}
                                         </td>
                                         <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
                                             <p-button [text]="true" icon="fa fa-edit"
-                                                [routerLink]="['/lot/edit', lot._id]"></p-button>
+                                                [routerLink]="['/blocks/edit', blocks._id]"></p-button>
                                             <p-button [text]=" true" icon="fa fa-trash"
-                                                (click)="deleteLot(lot._id)"></p-button>
+                                                (click)="deleteBlocks(blocks._id)"></p-button>
                                         </td>
     
                                     </tr>

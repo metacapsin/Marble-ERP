@@ -76,7 +76,7 @@ export class AddSlabsComponent {
       length: ["", [Validators.required, Validators.min(0)]],
       totalSqrFt: ["", [Validators.required, Validators.min(0)]],
       totalCosting: ["", [Validators.required, Validators.min(0)]],
-      persellPrice: ["", [Validators.required, Validators.min(0)]],
+      sellPricePerSqrFt: ["", [Validators.required, Validators.min(0)]],
     });
   }
   get f() {

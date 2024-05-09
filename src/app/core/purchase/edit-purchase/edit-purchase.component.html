@@ -159,7 +159,7 @@
                           </div>
                           <div
                             *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemQuantity').hasError('min') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemQuantity').touched">
-                            <span class="login-danger">Input must be more than 0.</span>
+                            <span class="login-danger">Input must be at least 0.</span>
                           </div>
                         </td>
                         <td>
@@ -171,7 +171,7 @@
                           </div>
                           <div
                             *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemUnitPrice').hasError('min') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemUnitPrice').touched">
-                            <span class="login-danger">Input must be more than 0.</span>
+                            <span class="login-danger">Input must be at least 0.</span>
                           </div>
                         </td>
                         <td>
@@ -183,7 +183,7 @@
                           </div>
                           <div
                             *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemSubTotal').hasError('min') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemSubTotal').touched">
-                            <span class="login-danger">Input must be more than 0.</span>
+                            <span class="login-danger">Input must be at least 0.</span>
                           </div>
                         </td>
                         <td class="add-remove text-end">
@@ -293,7 +293,7 @@
                             </div>
                             <div
                               *ngIf="editPurchaseForm.get('purchaseDiscount')?.hasError('min')  && editPurchaseForm.get('purchaseDiscount')?.touched">
-                              <span class="login-danger">Input must be more than 0. </span>
+                              <span class="login-danger">Input must be at least 0. </span>
                             </div>
                           </div>
                         </div>
@@ -309,7 +309,7 @@
                             </div>
                             <div
                               *ngIf="editPurchaseForm.get('purchaseShipping')?.hasError('min')  && editPurchaseForm.get('purchaseShipping')?.touched">
-                              <span class="login-danger">Input must be more than 0. </span>
+                              <span class="login-danger">Input must be at least 0. </span>
                             </div>
                           </div>
                         </div>
@@ -325,7 +325,7 @@
                             </div>
                             <div
                               *ngIf="editPurchaseForm.get('otherCharges')?.hasError('min')  && editPurchaseForm.get('otherCharges')?.touched">
-                              <span class="login-danger">Input must be more than 0. </span>
+                              <span class="login-danger">Input must be at least 0. </span>
                             </div>
                           </div>
                         </div>

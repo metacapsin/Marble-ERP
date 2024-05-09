@@ -10,22 +10,22 @@ export class LotService {
   // setting Lot
 
 CreateLot(data: {} | null) {
-  return this.http.post(environment.apiUrl + "/Lot", data);
+  return this.http.post(environment.apiUrl + "/createLot", data);
 }
 getLotList() {
   return this.http.get(environment.apiUrl + "/getAllLotList");
 }
 
 getLotById(locationId: string) {
-  return this.http.get(environment.apiUrl + "/Setting/getLotById/" + locationId);
+  return this.http.get(environment.apiUrl + "/getLotById/" + locationId);
 }
 
 updateLotById(data: {}) {
-  return this.http.put(environment.apiUrl + "/Setting/updateLot" , data);
+  return this.http.put(environment.apiUrl + "/updateLot" , data);
 }
 
 
 deleteLotById(id: string) {
-  return this.http.delete(environment.apiUrl + "/Setting/deleteLot/" + id, {});
+  return this.http.delete(environment.apiUrl + "/deleteLot/" + id, {});
 }
 }

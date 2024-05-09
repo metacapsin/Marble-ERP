@@ -68,36 +68,36 @@
                                             <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="blockNo">Vehicle No. <p-sortIcon
-                                                field="blockNo"></p-sortIcon>
-                                            <p-columnFilter type="text" field="blockNo" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="vehicleNo">Vehicle No. <p-sortIcon
+                                                field="vehicleNo"></p-sortIcon>
+                                            <p-columnFilter type="text" field="vehicleNo" display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="category">Totel Slots <p-sortIcon
-                                                field="category"></p-sortIcon>
-                                            <p-columnFilter type="category" field="category"
+                                        <th pSortableColumn="totalSlots">Total Slots <p-sortIcon
+                                                field="totalSlots"></p-sortIcon>
+                                            <p-columnFilter type="totalSlots" field="totalSlots"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="brand">Invoice Numeber <p-sortIcon
-                                                field="subCatergory"></p-sortIcon>
-                                            <p-columnFilter type="text" field="subCatergory"
+                                        <th pSortableColumn="invoiceNo">Invoice Number <p-sortIcon
+                                                field="invoiceNo"></p-sortIcon>
+                                            <p-columnFilter type="text" field="invoiceNo"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="totalCosting">Total Weight(Ton) <p-sortIcon
-                                                field="totalCosting"></p-sortIcon>
-                                            <p-columnFilter type="text" field="totalCosting"
+                                        <th pSortableColumn="totalWeightInTon">Total Weight(Ton) <p-sortIcon
+                                                field="totalWeightInTon"></p-sortIcon>
+                                            <p-columnFilter type="text" field="totalWeightInTon"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="persellPrice">Total Pricing <p-sortIcon
-                                                field="persellPrice"></p-sortIcon>
-                                            <p-columnFilter type="text" field="persellPrice"
+                                        <th pSortableColumn="totalPricing">Total Pricing <p-sortIcon
+                                                field="totalPricing"></p-sortIcon>
+                                            <p-columnFilter type="text" field="totalPricing"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
+                                        <th appShowHide [roles]="['admin', 'super-admin']" >Action
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -111,19 +111,19 @@
                                             {{lot.lotNo}}
                                         </td>
                                         <td>
-                                            {{lot.blockNo}}
+                                            {{lot.vehicleNo}}
                                         </td>
                                         <td>
-                                            {{lot.category}}
+                                            {{lot.invoiceNo}}
                                         </td>
                                         <td>
-                                            {{lot.subCategory}}
+                                            {{lot.totalSlots}}
                                         </td>
                                         <td>
-                                            {{lot.totalCosting}}
+                                            {{lot.totalPricing}}
                                         </td>
                                         <td>
-                                            {{lot.persellPrice}}
+                                            {{lot.totalWeightInTon}}
                                         </td>
                                         <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
                                             <p-button [text]="true" icon="fa fa-edit"

@@ -46,8 +46,8 @@ export class AddLotComponent {
   lotAddForm!: FormGroup;
   
   categoryList: any = [];
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
-  vehicleNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,15})$/;
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15)$/;
+  vehicleNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
 
   constructor(
     private fb: FormBuilder,
@@ -70,15 +70,7 @@ export class AddLotComponent {
     return this.lotAddForm.controls;
   }
   ngOnInit(): void {
-    
 
-    // this.categoriesService.getCategories().subscribe((resp: any) => {
-    //   this.categoryList = resp.data;
-    // });
-
-    // this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
-    //   this.subCategoryList = resp.data;
-    // });
    
   }
   LotAddFormSubmit() {

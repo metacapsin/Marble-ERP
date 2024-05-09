@@ -39,7 +39,7 @@ export class AddCustomersComponent implements OnInit {
 
   personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
 
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15)$/;
 
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";

@@ -18,16 +18,16 @@ getSlabsList() {
 }
 
 getSlabsById(locationId: string) {
-  return this.http.get(environment.apiUrl + "/Setting/getSlabsById/" + locationId);
+  return this.http.get(environment.apiUrl + "/getSlabsById/" + locationId);
 }
 
 updateSlabsById(data: {}) {
-  return this.http.put(environment.apiUrl + "/Setting/updateSlabs" , data);
+  return this.http.put(environment.apiUrl + "/updateSlabs" , data);
 }
 
 
 deleteSlabsById(id: string) {
-  return this.http.delete(environment.apiUrl + "/Setting/deleteSlabs/" + id, {});
+  return this.http.delete(environment.apiUrl + "/deleteSlabs/" + id, {});
 }
 
 }

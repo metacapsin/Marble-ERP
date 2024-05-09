@@ -133,7 +133,7 @@
                                                     </div>
                                                     <div
                                                         *ngIf="editReturnSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('min') && editReturnSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
-                                                        <span class="login-danger">Input must be more than 0.</span>
+                                                        <span class="login-danger">Input must be at least 0.</span>
                                                     </div>
                                                 </td>
 
@@ -146,7 +146,7 @@
                                                     </div>
                                                     <div
                                                         *ngIf="editReturnSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').hasError('min') && editReturnSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').touched">
-                                                        <span class="login-danger">Input must be more than 0.</span>
+                                                        <span class="login-danger">Input must be at least 0.</span>
                                                     </div>
                                                 </td>
 
@@ -169,7 +169,7 @@
                                                     </div>
                                                     <div
                                                         *ngIf="editReturnSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').hasError('min') && editReturnSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').touched">
-                                                        <span class="login-danger">Input must be more than 0.</span>
+                                                        <span class="login-danger">Input must be at least 0.</span>
                                                     </div>
                                                 </td>
 
@@ -295,7 +295,7 @@
                                                         </div>
                                                         <div
                                                             *ngIf="editReturnSalesForm.get('salesDiscount')?.hasError('min')  && editReturnSalesForm.get('salesDiscount')?.touched">
-                                                            <span class="login-danger">Input must be more than 0.</span>
+                                                            <span class="login-danger">Input must be at least 0.</span>
                                                         </div>
                                                     </div>
                                                 </div>

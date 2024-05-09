@@ -62,7 +62,7 @@ export class ProductsAddComponent {
 
   // nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-  // shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{1,10})$/;
+  // shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15)$/;
 
   // descriptionRegex = /^(?!\s)(.{3,500})$/;
 

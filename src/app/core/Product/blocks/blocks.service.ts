@@ -18,16 +18,16 @@ getBlocksList() {
 }
 
 getBlocksById(locationId: string) {
-  return this.http.get(environment.apiUrl + "/Setting/getBlocksById/" + locationId);
+  return this.http.get(environment.apiUrl + "/getBlocksById/" + locationId);
 }
 
 updateBlocksById(data: {}) {
-  return this.http.put(environment.apiUrl + "/Setting/updateBlocks" , data);
+  return this.http.put(environment.apiUrl + "/updateBlocks" , data);
 }
 
 
 deleteBlocksById(id: string) {
-  return this.http.delete(environment.apiUrl + "/Setting/deleteBlocks/" + id, {});
+  return this.http.delete(environment.apiUrl + "/deleteBlocks/" + id, {});
 }
 
 }

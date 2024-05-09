@@ -1,1 +1,223 @@
-<p>add-blocks works!</p>
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item">Product</li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="['/blocks']">
+                                Blocks
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Add New Blocks</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <form [formGroup]="blocksAddForm" (ngSubmit)="BlocksAddFormSubmit()">
+                                <div class="row">
+                                    <div class="d-flex m-b-10" style="justify-content: space-between">
+                                        <h3>Add New Blocks</h3>
+                                        <div class="settings-btns text-end m-b-10">
+                                            <button type="submit"
+                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                [disabled]="!blocksAddForm.valid">
+                                                Submit
+                                            </button>
+                                            <button class="btn btn-secondary" [routerLink]="['/blocks/']">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="lotNo">Lot No.
+                                                <span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="lotNoList" styleClass="" appendTo="body"
+                                                optionLabel="name" optionValue="name" placeholder="Select lot Number"
+                                                formControlName="lotNo" [style]="{'width':'100%'}" [filter]="true"
+                                                filterBy="name" [showClear]="true">
+                                            </p-dropdown>
+                                            <div *ngIf="
+                                            blocksAddForm.get('lotNo')?.hasError(
+                                              'required'
+                                            ) && blocksAddForm.get('lotNo')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="blocksNo">Blocks No.
+                                                <span class="login-danger">*</span></label>
+                                                <input class="form-control" type="text" placeholder="Enter Vehicle No."
+                                                formControlName="blocksNo" />
+                                            <div *ngIf="
+                                            blocksAddForm.get('blocksNo')?.hasError(
+                                              'required'
+                                            ) && blocksAddForm.get('blocksNo')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            blocksAddForm.get('blocksNo')?.hasError(
+                                              'pattern'
+                                            ) && blocksAddForm.get('blocksNo')?.touched
+                                          ">
+                                                <span class="login-danger">Input Must be between 3 to 15 characters.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="processingCharge">Processing Charge .<span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" placeholder="Enter Invoice No."
+                                                formControlName="processingCharge" />
+                                            <div *ngIf="
+                                            blocksAddForm.get('processingCharge')?.hasError(
+                                              'required'
+                                            ) && blocksAddForm.get('processingCharge')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            blocksAddForm.get('processingCharge')?.hasError(
+                                              'min'
+                                            ) && blocksAddForm.get('processingCharge')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be at least 0.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="height">Height </label>
+                                            <input class="form-control" type="number" placeholder="Enter Total Slots"
+                                                formControlName="height" />
+                                            <div *ngIf="
+                                                    blocksAddForm.get('height')?.hasError(
+                                                      'required'
+                                                    ) && blocksAddForm.get('height')?.touched
+                                                  ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                                    blocksAddForm.get('height')?.hasError(
+                                                      'min'
+                                                    ) && blocksAddForm.get('height')?.touched
+                                                  ">
+                                                <span class="login-danger">Input must be at least 0. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="width">Width</label>
+                                            <input class="form-control" type="number" placeholder="Enter Total Weight In Ton"
+                                                formControlName="width" />
+                                            <div *ngIf="
+                                                    blocksAddForm.get('width')?.hasError(
+                                                      'required'
+                                                    ) && blocksAddForm.get('width')?.touched
+                                                  ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                                    blocksAddForm.get('width')?.hasError(
+                                                      'min'
+                                                    ) && blocksAddForm.get('width')?.touched
+                                                  ">
+                                                <span class="login-danger">Input must be at least 0. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="length">Length</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="number" placeholder="0"
+                                                    formControlName="length" />
+                                            </div>
+                                            <div *ngIf="
+                                            blocksAddForm.get('length')?.hasError(
+                                              'required'
+                                            ) && blocksAddForm.get('length')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            blocksAddForm.get('length')?.hasError(
+                                              'min'
+                                            ) && blocksAddForm.get('length')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be at least 0.</span>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="totalTransportation">Total Transportation</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="number" placeholder="0"
+                                                    formControlName="totalTransportation" />
+                                            </div>
+                                            <div *ngIf="
+                                            blocksAddForm.get('totalTransportation')?.hasError(
+                                              'required'
+                                            ) && blocksAddForm.get('totalTransportation')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            blocksAddForm.get('totalTransportation')?.hasError(
+                                              'min'
+                                            ) && blocksAddForm.get('totalTransportation')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be at least 0. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
