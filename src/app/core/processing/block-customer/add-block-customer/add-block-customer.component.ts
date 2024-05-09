@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -9,11 +9,10 @@ import { Router, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
-import { CustomersdataService } from "src/app/core/Customers/customers.service";
 import { ToastModule } from "primeng/toast";
-import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 import { MultiSelectModule } from "primeng/multiselect";
 import { SharedModule } from "src/app/shared/shared.module";
+import { blockCustomersDataService } from "../block-customer.service";
 
 @Component({
   selector: 'app-add-block-customer',
@@ -47,9 +46,8 @@ export class AddBlockCustomerComponent {
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private Service: CustomersdataService,
+    private Service: blockCustomersDataService,
     private router: Router,
-    private service: WarehouseService
   ) {
     this.addBlockCustomerForm = this.fb.group({
       // wareHouse: ["", [Validators.required]],
@@ -74,9 +72,9 @@ export class AddBlockCustomerComponent {
       email: this.addBlockCustomerForm.value.email, 
       status: true, 
       phoneNo: this.addBlockCustomerForm.value.phoneNumber,
-      taxNo: this.addBlockCustomerForm.value.taxNumber,
-      creaditPeriod: this.addBlockCustomerForm.value.creditPeriod,
-      creaditLimit: this.addBlockCustomerForm.value.creditLimit,
+      taxNumber: this.addBlockCustomerForm.value.taxNumber,
+      creditPeriod: this.addBlockCustomerForm.value.creditPeriod,
+      creditLimit: this.addBlockCustomerForm.value.creditLimit,
       billingAddress: this.addBlockCustomerForm.value.billingAddress,
       shippingAddress: this.addBlockCustomerForm.value.shippingAddress,
       openingBalance: this.addBlockCustomerForm.value.openingBalance,
@@ -84,7 +82,7 @@ export class AddBlockCustomerComponent {
     
     if (this.addBlockCustomerForm.valid) {
       console.log(payload);
-      this.Service.AddCustomerdata(payload).subscribe((resp: any) => {
+      this.Service.creatBlockCustomer(payload).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === "success") {
             const message = "Block Customer has been added";
