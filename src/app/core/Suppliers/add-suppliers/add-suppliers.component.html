@@ -42,6 +42,7 @@
                 </div>
 
                 <div class="row">
+                  
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="wareHouse">Warehouse <span class="login-danger"></span></label>
@@ -121,48 +122,7 @@
                       </div>
                     </div>
                   </div>
-
-                  <!-- <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <label for="status">Status<span class="login-danger">*</span></label>
-                      <p-dropdown [options]="statusArray" styleClass="" optionLabel="name"
-                        placeholder="--Select Status--" formControlName="status" [style]="{ width: '100%' }"
-                        filterBy="name" [showClear]="true">
-                      </p-dropdown>
-                      <div *ngIf="
-                          addSupplierGroup
-                            .get('status')
-                            ?.hasError('required') &&
-                          addSupplierGroup.get('status')?.touched
-                        " class="login-danger Font_size">
-                        Field is required.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
-                      <input class="form-control" type="text" placeholder="Please Enter Tex Number"
-                        formControlName="taxNumber" />
-                       <div *ngIf="
-                                                      addSupplierGroup.get('taxNumber')?.hasError(
-                                                        'required'
-                                                      ) && addSupplierGroup.get('taxNumber')?.touched
-                                                    " class="login-danger Font_size">
-                        Field is required.
-                      </div> -->
-                      <div *ngIf="
-                          addSupplierGroup
-                            .get('taxNumber')
-                            ?.hasError('pattern') &&
-                          addSupplierGroup.get('taxNumber')?.touched
-                        " class="login-danger Font_size">
-                        Input Must be between 3 to 15 characters.
-                      </div>
-                    </div>
-                  </div>
-
+        
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="openingBalance">Opening Balance<span class="login-danger"></span></label>
@@ -172,31 +132,9 @@
                         </div>
                         <input class="form-control" type="number" placeholder="0" formControlName="openingBalance" />
                       </div>
-                      <!-- <div *ngIf="
-                                                    addSupplierGroup.get('openingBalance')?.hasError(
-                                                      'required'
-                                                    ) && addSupplierGroup.get('openingBalance')?.touched
-                                                  " class="login-danger Font_size">
-                        Field is required.
-                      </div> 
-                      <div *ngIf="
-                          addSupplierGroup
-                            .get('openingBalance')
-                            ?.hasError('min') &&
-                          addSupplierGroup.get('openingBalance')?.touched
-                        " class="login-danger Font_size">
-                        Input should be more than 0.
-                      </div>
                     </div>
-                  </div> -->
-
-                  <!-- <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
-                      <input class="form-control" value="30" type="number" placeholder formControlName="creditPeriod" />
-                    </div>
-                  </div> -->
-
+                  </div>
+            
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
@@ -231,16 +169,6 @@
                       </div>
                     </div>
                   </div>
-
-                  <!-- <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                      </div>
-                      <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
-                      <input class="form-control" type="text" placeholder="$ 0" formControlName="creditLimit" />
-                    </div>
-                  </div> -->
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
@@ -303,6 +231,7 @@
                       </div>
                     </div>
                   </div>
+
                 </div>
               </div>
             </form>

@@ -35,16 +35,10 @@ export class ExpensesCategoriesComponent {
     this.addExpensesCategory = this.fb.group({
       expenseCategoryName: ["", [Validators.required]],
       description: ["",],
-      // date: ["", [Validators.required]],
-      // amount: ["", [Validators.required]],
-      // notes: ["",],
     });
     this.editExpensesCategory = this.fb.group({
       expenseCategoryName: ["", [Validators.required]],
       description: ["",],
-      // date: ["", [Validators.required]],
-      // amount: ["", [Validators.required]],
-      // notes: ["",],
     });
   }
   addExpensesCategoryForm(){

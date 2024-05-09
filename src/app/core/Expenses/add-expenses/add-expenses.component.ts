@@ -46,7 +46,7 @@ export class AddExpensesComponent implements OnInit {
     { name: "Travel" },
   ];
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15)$/;
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
@@ -64,12 +64,6 @@ export class AddExpensesComponent implements OnInit {
       date: ["", [Validators.required]],
       amount: ["", [Validators.required]],
       notes: [""],
-      // taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
-      // openingBalance: ["", [Validators.min(0)]],
-      // creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
-      // creditLimit: ["", [Validators.min(0), Validators.max(150000)]],
-      // billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
-      // shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
   }
 

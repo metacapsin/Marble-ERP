@@ -64,7 +64,7 @@
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="amount">Amount<span class="login-danger">*</span></label>
-                      <input class="form-control" type="text" placeholder="Please Enter Amount"
+                      <input class="form-control" type="number" placeholder="Please Enter Amount"
                         formControlName="amount" />
                       <div *ngIf="
                           editExpensesGroup
@@ -72,7 +72,7 @@
                             ?.hasError('required') &&
                           editExpensesGroup.get('amount')?.touched
                         " class="login-danger Font_size">
-                        Input Must be between 3 to 15 characters.
+                        Field is required.
                       </div>
                     </div>
                   </div>

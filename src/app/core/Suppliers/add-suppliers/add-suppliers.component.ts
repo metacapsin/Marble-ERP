@@ -39,7 +39,7 @@ export class AddSuppliersComponent {
 
   personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
 
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15)$/;
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
 
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -65,7 +65,6 @@ export class AddSuppliersComponent {
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
-      status: ["", [Validators.required]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
       openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],

@@ -43,7 +43,7 @@ export class EditSuppliersComponent implements OnInit {
 
   personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
 
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15)$/;
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
 
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -69,7 +69,6 @@ export class EditSuppliersComponent implements OnInit {
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
-      status: ["", [Validators.required]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
       openingBalance: ["", [Validators.min(0)]],
       creditPeriod:  ["", [Validators.min(0), Validators.max(120)]],
@@ -119,8 +118,8 @@ export class EditSuppliersComponent implements OnInit {
       phoneNo: this.editSupplierGroup.value.phoneNumber,
       status: true,
       taxNo: this.editSupplierGroup.value.taxNumber,
-      creaditPeriod: this.editSupplierGroup.value.creditPeriod,
-      creaditLimit: this.editSupplierGroup.value.creditLimit,
+      creditPeriod: this.editSupplierGroup.value.creditPeriod,
+      creditLimit: this.editSupplierGroup.value.creditLimit,
       billingAddress: this.editSupplierGroup.value.billingAddress,
       shippingAddress: this.editSupplierGroup.value.shippingAddress,
       openingBalance: this.editSupplierGroup.value.openingBalance,
