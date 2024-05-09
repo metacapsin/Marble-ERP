@@ -1,31 +1,28 @@
-<!-- <p-toast></p-toast> -->
+<p-toast></p-toast>
 <div class="page-wrapper">
     <div class="content">
+        <!-- Page Header -->
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Blocks</li>
-                        <li class="breadcrumb-item">
-                            <i class="feather icon-chevron-right"></i>
-                        </li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Block Process List</li>
                     </ul>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="card-body">
-
                         <div class="page-table-header mb-2">
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Blocks List</h3>
+                                        <h3>Block Process List</h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input type="text" class="form-control" placeholder="Search here"
@@ -34,16 +31,17 @@
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="add-group textbtn">
-                                                <a appShowHide [roles]="['admin', 'super-admin', 'help-desk']"
-                                                    [routerLink]="routes.addBlocks"
-                                                    class="btn btn-primary add-pluss ms-2">
-                                                    <img src="assets/img/icons/plus.svg" alt="">Add New</a>
+                                                <a appShowHide [roles]="['admin', 'super-admin']"
+                                                    [routerLink]="['/lot/add']"
+                                                    class="btn btn-primary add-pluss ms-2"><img
+                                                        src="assets/img/icons/plus.svg" alt=""> Add New</a>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
-                                    [roles]="['admin', 'super-admin', 'help-desk']">
+                                    [roles]="['admin', 'super-admin']">
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                             alt=""></a>
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
@@ -54,9 +52,8 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="blockDataList" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)"
-                                [(selection)]="selectedBlocks">
+                            <p-table [value]="blockProcessData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedLot">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th appShowHide [roles]="['admin', 'super-admin']">
@@ -64,46 +61,45 @@
                                         </th>
                                         <th pSortableColumn="lotNo">Lot No. <p-sortIcon field="lotNo"></p-sortIcon>
                                             <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
+    
                                         </th>
-                                        <th pSortableColumn="blockNo">Block No. <p-sortIcon
-                                                field="blockNo"></p-sortIcon>
+                                        <th pSortableColumn="VehicleNo">Vehicle No. <p-sortIcon field="VehicleNo"></p-sortIcon>
+                                            <p-columnFilter type="text" field="VehicleNo" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="blockNo">Block No. <p-sortIcon field="blockNo"></p-sortIcon>
                                             <p-columnFilter type="text" field="blockNo" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="Vaccume">Vaccume <p-sortIcon field="Vaccume"></p-sortIcon>
-                                            <p-columnFilter type="text" field="Vaccume" display="menu"></p-columnFilter>
+                                        <th appShowHide [roles]="['admin', 'super-admin']">Action
                                         </th>
-                                        <th pSortableColumn="pasting">Pasting<p-sortIcon field="pasting"></p-sortIcon>
-                                            <p-columnFilter type="text" field="pasting" display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="dressing">Dressing<p-sortIcon
-                                                field="dressing"></p-sortIcon>
-                                            <p-columnFilter type="text" field="dressing"
-                                                display="menu"></p-columnFilter>
-                                        </th>
-                                        <th>Action</th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-product>
+                                <ng-template pTemplate="body" let-block>
+    
                                     <tr>
                                         <td appShowHide [roles]="['admin', 'super-admin']">
-                                            <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                                            <p-tableCheckbox [value]="block"></p-tableCheckbox>
                                         </td>
-                                        <td class="bold">{{product.lotNo}}</td>
-                                        <td class="bold">{{product.blockNo}}</td>
-                                        <td class="bold">{{product.vaccume}}</td>
-                                        <td class="bold">{{product.pasting}}</td>
-                                        <td class="bold">{{product.dressing}}</td>
-                                        <td style="display: flex; gap: 5px;" appShowHide
-                                            [roles]="['admin', 'super-admin']">
-                                            <p-button [text]="true" icon="fa fa-edit"></p-button>
-                                            <p-button [text]=" true" icon="fa fa-trash"></p-button>
-
+                                        <td>
+                                            {{block.lotNo}}
                                         </td>
+                                        <td>
+                                            {{block.vehicleNo}}
+                                        </td>
+                                        <td>
+                                            {{block.blockNo}}
+                                        </td>
+                                        <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
+                                            <p-button [text]="true" icon="fa fa-edit"
+                                                (click)="editBlockProcess(block._id)"></p-button>
+                                            <p-button [text]=" true" icon="fa fa-trash"
+                                                (click)="deleteBlockProcess(block._id)"></p-button>
+                                        </td>
+    
                                     </tr>
                                 </ng-template>
                             </p-table>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -111,6 +107,5 @@
     </div>
 </div>
 
-
-<!-- <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-    [data]="modalData"></app-confirm-dialog> -->
+<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>

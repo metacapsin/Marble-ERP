@@ -28,11 +28,7 @@
                     <ul class="breadcrumb invoices-breadcrumb d-flex justify-content-between">
                         <li class="breadcrumb-item invoices-breadcrumb-item">
                             <a [routerLink]="routes.blocksList">
-                                <i class="fa fa-chevron-left"></i> Back to Sales List
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item invoices-breadcrumb-item">
-                            <a href="">Lot Number: adn112aa
+                                <i class="fa fa-chevron-left"></i> Back to Blocks List
                             </a>
                         </li>
                     </ul>
@@ -63,15 +59,15 @@
                                 </div>
                                 <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                     <div class="form-group local-forms">
-                                        <label for="lotNumber">Vehicle Number<span
+                                        <label for="vehicleNumber">Vehicle Number<span
                                                 class="login-danger">*</span></label>
-                                        <input type="number" class="form-control" formControlName="lotNumber">
+                                        <input type="number" class="form-control" formControlName="vehicleNumber">
                                     </div>
                                 </div>
                             </div>
-                            <div class="invoices-main-form" formArrayName="blocksDetails">
-                              <p-accordion [activeIndex]="0">
-                                <p-accordionTab *ngFor="let tab of tabs; let i = index" [header]="tab.title">
+                            <div class="invoices-main-form" >
+                              <p-accordion [activeIndex]="0" formArrayName="blocksDetails">
+                                <p-accordionTab *ngFor="let tab of tabs; let i = index" [header]="tab.title" [formGroupName]="i">
                                         <div class="row">
                                             <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                                                 <div class="form-group local-forms">
@@ -369,7 +365,7 @@
                                     </div>
                                     <div class="upload-sign">
                                         <div class="form-group float-end mb-0">
-                                            <button class="btn btn-primary" type="submit">Save Blocks</button>
+                                            <button class="btn btn-primary" type="submit" [disabled]="!addBlocksForm.valid">Save Blocks</button>
                                         </div>
                                     </div>
                                 </div>
