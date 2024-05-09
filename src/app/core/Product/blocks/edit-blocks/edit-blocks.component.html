@@ -67,7 +67,7 @@
                                         <div class="form-group local-forms">
                                             <label for="blocksNo">Blocks No.
                                                 <span class="login-danger">*</span></label>
-                                                <input class="form-control" type="text" placeholder="Enter Vehicle No."
+                                            <input class="form-control" type="text" placeholder="Enter Vehicle No."
                                                 formControlName="blocksNo" />
                                             <div *ngIf="
                                             blocksEditForm.get('blocksNo')?.hasError(
@@ -81,38 +81,19 @@
                                               'pattern'
                                             ) && blocksEditForm.get('blocksNo')?.touched
                                           ">
-                                                <span class="login-danger">Input Must be between 3 to 15 characters.</span>
+                                                <span class="login-danger">Input Must be between 3 to 15
+                                                    characters.</span>
                                             </div>
                                         </div>
                                     </div>
-                                    
 
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group local-forms">
-                                            <label for="processingCharge">Processing Charge .<span class="login-danger">*</span></label>
-                                            <input class="form-control" type="text" placeholder="Enter Invoice No."
-                                                formControlName="processingCharge" />
-                                            <div *ngIf="
-                                            blocksEditForm.get('processingCharge')?.hasError(
-                                              'required'
-                                            ) && blocksEditForm.get('processingCharge')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                            <div *ngIf="
-                                            blocksEditForm.get('processingCharge')?.hasError(
-                                              'min'
-                                            ) && blocksEditForm.get('processingCharge')?.touched
-                                          ">
-                                                <span class="login-danger">Input must be at least 0.</span>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                                   
 
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
                                             <label for="height">Height </label>
-                                            <input class="form-control" type="number" placeholder="Enter Total Slots"
+                                            <input class="form-control" type="number" placeholder="Enter Height"
                                                 formControlName="height" />
                                             <div *ngIf="
                                                     blocksEditForm.get('height')?.hasError(
@@ -133,7 +114,7 @@
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
                                             <label for="width">Width</label>
-                                            <input class="form-control" type="number" placeholder="Enter Total Weight In Ton"
+                                            <input class="form-control" type="number" placeholder="Enter Width"
                                                 formControlName="width" />
                                             <div *ngIf="
                                                     blocksEditForm.get('width')?.hasError(
@@ -157,10 +138,10 @@
                                         <div class="form-group local-forms">
                                             <label for="length">Length</label>
                                             <div class="input-group">
-                                                <div class="input-group-prepend">
+                                                <!-- <div class="input-group-prepend">
                                                     <span class="input-group-text">$</span>
-                                                </div>
-                                                <input class="form-control" type="number" placeholder="0"
+                                                </div> -->
+                                                <input class="form-control" type="number" placeholder="Enter Length"
                                                     formControlName="length" />
                                             </div>
                                             <div *ngIf="
@@ -179,6 +160,33 @@
                                             </div>
 
 
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group local-forms">
+                                            <label for="processingCharge">Processing Charge</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input class="form-control" type="number" placeholder="0"
+                                                    formControlName="processingCharge" />
+                                            </div>
+                                            <div *ngIf="
+                                            blocksEditForm.get('processingCharge')?.hasError(
+                                              'required'
+                                            ) && blocksEditForm.get('processingCharge')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="
+                                            blocksEditForm.get('processingCharge')?.hasError(
+                                              'min'
+                                            ) && blocksEditForm.get('processingCharge')?.touched
+                                          ">
+                                                <span class="login-danger">Input must be at least 0. </span>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -209,7 +217,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                   
+
 
                                 </div>
 

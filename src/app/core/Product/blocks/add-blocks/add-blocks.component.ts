@@ -59,10 +59,10 @@ export class AddBlocksComponent {
     this.blocksAddForm = this.fb.group({
       lotNo: ["", [Validators.required ]],
       blocksNo: ["", [Validators.required ,Validators.pattern(this.shortNameRegex)]],
-      processingCharge: ["", [Validators.required ,Validators.min(0)]],
       height: ["", [Validators.required,Validators.min(0)]],
       width: ["", [Validators.required, Validators.min(0)]],
       length: ["", [Validators.required, Validators.min(0)]],
+      processingCharge: ["", [Validators.required ,Validators.min(0)]],
       totalTransportation: ["", [Validators.required, Validators.min(0)]],
     });
   }
