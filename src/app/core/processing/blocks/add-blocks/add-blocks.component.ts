@@ -22,8 +22,9 @@ export class AddBlocksComponent {
 
   constructor(private fb: FormBuilder) {
     this.addBlocksForm = this.fb.group({
-      lotNumber: [''],
-      blockCount: [''],
+      lotNumber: ['', [Validators.required]],
+      blockCount: ['', [Validators.required]],
+      vehicleNumber: ['', [Validators.required]],
       blocksDetails: this.fb.array([]),
       otherCharges: [''],
       notes: [''],
@@ -34,6 +35,7 @@ export class AddBlocksComponent {
 
   addSalesControls() {
     const salesArray = this.addBlocksForm.get('blocksDetails') as FormArray;
+    console.log(salesArray);
     this.tabs?.forEach(i => {
       salesArray.push(this.fb.group({
         height: ['', [Validators.required, Validators.min(0.01)]],
@@ -47,13 +49,14 @@ export class AddBlocksComponent {
         plantManual: ['', [Validators.min(1)]],
         abroxy: ['', [Validators.min(1)]],
         transportation: ['', [Validators.min(1)]],
-        pieces: ['', [Validators.min(1)]],
+        peices: ['', [Validators.min(1)]],
         sqrt: ['', [Validators.min(1)]],
         rate: ['', [Validators.min(1)]],
         amount: ['']
       }));
     });
   }
+  
   
   
 
@@ -66,8 +69,8 @@ export class AddBlocksComponent {
     this.tabs = []; 
     for (let i = 0; i < blockCount; i++) {
       this.tabs.push({ title: 'Block ' + (i + 1) });
-      this.addSalesControls();
     }
+    this.addSalesControls();
   }
 
     
@@ -102,10 +105,13 @@ export class AddBlocksComponent {
 
     const payload = {
       lotNumber: formData.lotNumber,
-      blockDetails: formData.blockDetails,
+      blockCount: formData.blockCount,
+      vehicleNumber: formData.vehicleNumber,
+      blocksDetails: formData.blocksDetails,
       otherCharges: formData.otherCharges,
       notes: formData.notes,
-      termAndCondition: formData.termAndCondition
+      termAndCondition: formData.termAndCondition,
+      totalAmount: formData.totalAmount
     }
 
     if (this.addBlocksForm.valid) {
