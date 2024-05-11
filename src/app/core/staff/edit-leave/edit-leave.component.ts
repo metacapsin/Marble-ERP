@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { routes } from 'src/app/shared/routes/routes';
 interface data {
   value: string ;
@@ -20,17 +20,18 @@ export class EditLeaveComponent {
   {value: 'Casual Leave'},
   {value: 'Loss of Pay'},
 ];
-
-constructor(private fb: FormBuilder){
-  this.editLeaveForm = this.fb.group({
-    leaveType: [''],
-    employeeName: [''],
-    numberOfDays: [''],
-    fromDate: [''],
-    toDate: [''],
-    leaveReason: ['']
-  })
-}
+employeeName = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  leaveReason = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  constructor(private fb: FormBuilder){
+    this.editLeaveForm = this.fb.group({
+      leaveType: ["", [Validators.required]],
+      numberOfDays: ["", [Validators.required,Validators.min(0)]],
+      employeeName: ["", Validators.required,[Validators.pattern(this.employeeName)]],
+      fromDate: ["", [Validators.required]],
+      toDate: ["", [Validators.required]],
+      leaveReason: ["", [Validators.required,Validators.pattern(this.leaveReason)]]
+    })
+  }
 
 
 editLeaveFormSubmit(){

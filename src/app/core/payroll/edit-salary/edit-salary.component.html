@@ -1,121 +1,327 @@
 <div class="page-wrapper">
-    <div class="content">
-    
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.salary">Payroll </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Edit Employee Salary</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.salary">Payroll </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Edit Employee Salary</li>
+          </ul>
         </div>
-        <!-- /Page Header -->
-        <div class="row">
-            <div class="col-sm-12">
-            
-                <div class="card">
-                    <div class="card-body">
-                        <form [formGroup]="editSalaryForm" (ngSubmit)="editSalaryFormSubmit()">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-heading">
-                                        <h4>Edit Employee Salary</h4>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="form-group local-forms">
-                                        <label for="StaffName">Select Staff </label>
-                                        
-                                        <p-dropdown [style]="{'width':'100%'}" placeholder="--Select staff--"
-                                        [options]="staff" formControlName="StaffName" formControlName="StaffName" optionLabel="value"
-                                        optionValue="value" display="chip" [filter]="true" filterBy="name"
-                                        [showClear]="true">
-                                    </p-dropdown>
-                                      
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">  
-                                    <div class="form-group local-forms">
-                                        <label for="netSalary">Net Salary </label>
-                                        <input class="form-control" formControlName="netSalary" type="text" value="$1000">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-md-6 col-xl-6">  
-                                    <div class="pay-head-roll">
-                                        <h5>Earnings</h5>
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="basicSalary">Basic Salary </label>
-                                        <input class="form-control" formControlName="basicSalary" type="text" value="$1000" >
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="dearnessAllowance">DA (40%) </label>
-                                        <input class="form-control"formControlName="dearnessAllowance" type="text" value="$800">
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="dearnessAllowance">HRA (15%) </label>
-                                        <input class="form-control"formControlName="dearnessAllowance" type="text" value="$600">
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="conveyance">Conveyance </label>
-                                        <input class="form-control"formControlName="conveyance" type="text" value="$50">
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="medicalAllowance">Medical Allowance </label>
-                                        <input class="form-control"formControlName="medicalAllowance" type="text" value="$40" >
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="others">Others</label>
-                                        <input class="form-control"formControlName="others" type="text" value="$20">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="pay-head-roll">
-                                        <h5>Deductions</h5>
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="taxDeductedAtSource">TDS </label>
-                                        <input class="form-control"formControlName="taxDeductedAtSource" type="text" value="$600">
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="employeeStateInsurance">ESI </label>
-                                        <input class="form-control"formControlName="employeeStateInsurance" type="text" value="$500">
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="providentFund">PF </label>
-                                        <input class="form-control"formControlName="providentFund" type="text" value="$60">
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="professionalTax">Prof.Tax </label>
-                                        <input class="form-control"formControlName="professionalTax" type="text" value="$40">
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="labourWelfare">Labour Welfare </label>
-                                        <input class="form-control"formControlName="labourWelfare" type="text" value="$30">
-                                    </div>
-                                    <div class="form-group local-forms">
-                                        <label for="others">Others</label>
-                                        <input class="form-control"formControlName="others" type="text" value="$10">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="doctor-submit text-end">
-                                        <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
-                                        <button type="submit" class="btn btn-primary cancel-form">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>							
-            </div>					
-        </div>
+      </div>
     </div>
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <form [formGroup]="editSalaryForm" (ngSubmit)="editSalaryFormSubmit()">
+              <div class="row">
+                <div class="d-flex m-b-10 " style="justify-content: space-between;">
+                  <h4>Edit Employee Salary</h4>
+                  <div class="settings-btns text-end m-b-10">
+                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                      [disabled]="!editSalaryForm.valid">
+                      Submit
+                    </button>
+                    <button class="btn btn-secondary" [routerLink]="routes.salary">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="StaffName">Select Staff </label>
+                    <p-dropdown [style]="{ width: '100%' }" pl aceholder="Select staff" [options]="staff"
+                      formControlName="StaffName" formControlName="StaffName" optionLabel="value" optionValue="value"
+                      display="chip" [filter]="true" filterBy="name" [showClear]="true">
+                    </p-dropdown>
+                    <div
+                      *ngIf="editSalaryForm.get('StaffName')?.errors?.['required'] && editSalaryForm.get('StaffName').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="netSalary"> Net Salary </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="netSalary" type="number" value="$1000" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('netSalary')?.errors?.['required'] && editSalaryForm.get('netSalary').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('netSalary')?.errors?.['min'] && editSalaryForm.get('netSalary').touched || editSalaryForm.get('netSalary')?.errors?.['max'] && editSalaryForm.get('netSalary').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="pay-head-roll">
+                    <h5>Earnings</h5>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="basicSalary">Basic Salary </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="basicSalary" type="number" value="$1000" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('basicSalary')?.errors?.['required'] && editSalaryForm.get('basicSalary').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('basicSalary')?.errors?.['min'] && editSalaryForm.get('basicSalary').touched || editSalaryForm.get('basicSalary')?.errors?.['max'] && editSalaryForm.get('basicSalary').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="dearnessAllowance">DA (40%) </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="dearnessAllowance" type="number" value="$800" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('dearnessAllowance')?.errors?.['required'] && editSalaryForm.get('dearnessAllowance').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('dearnessAllowance')?.errors?.['min'] && editSalaryForm.get('dearnessAllowance').touched || editSalaryForm.get('dearnessAllowance')?.errors?.['max'] && editSalaryForm.get('dearnessAllowance').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="houseRentAllowance">HRA (15%) </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="houseRentAllowance" type="number" value="$600" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('houseRentAllowance')?.errors?.['required'] && editSalaryForm.get('houseRentAllowance').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('houseRentAllowance')?.errors?.['min'] && editSalaryForm.get('houseRentAllowance').touched || editSalaryForm.get('houseRentAllowance')?.errors?.['max'] && editSalaryForm.get('houseRentAllowance').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="conveyance">Conveyance </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="conveyance" type="number" value="$50" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('conveyance')?.errors?.['required'] && editSalaryForm.get('conveyance').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('conveyance')?.errors?.['min'] && editSalaryForm.get('conveyance').touched || editSalaryForm.get('conveyance')?.errors?.['max'] && editSalaryForm.get('conveyance').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="medicalAllowance">Medical Allowance </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="medicalAllowance" type="number" value="$40" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('medicalAllowance')?.errors?.['required'] && editSalaryForm.get('medicalAllowance').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('medicalAllowance')?.errors?.['min'] && editSalaryForm.get('medicalAllowance').touched || editSalaryForm.get('medicalAllowance')?.errors?.['max'] && editSalaryForm.get('medicalAllowance').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="others">Others</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="others" type="number" value="$20" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('others')?.errors?.['required'] && editSalaryForm.get('others').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('others')?.errors?.['min'] && editSalaryForm.get('others').touched || editSalaryForm.get('others')?.errors?.['max'] && editSalaryForm.get('others').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="pay-head-roll">
+                    <h5>Deductions</h5>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="taxDeductedAtSource">TDS </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="taxDeductedAtSource" type="number" value="$600" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('taxDeductedAtSource')?.errors?.['required'] && editSalaryForm.get('taxDeductedAtSource').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('taxDeductedAtSource')?.errors?.['min'] && editSalaryForm.get('taxDeductedAtSource').touched || editSalaryForm.get('taxDeductedAtSource')?.errors?.['max'] && editSalaryForm.get('taxDeductedAtSource').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="employeeStateInsurance">ESI </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="employeeStateInsurance" type="number" value="$500" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('employeeStateInsurance')?.errors?.['required'] && editSalaryForm.get('employeeStateInsurance').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('employeeStateInsurance')?.errors?.['min'] && editSalaryForm.get('employeeStateInsurance').touched || editSalaryForm.get('employeeStateInsurance')?.errors?.['max'] && editSalaryForm.get('employeeStateInsurance').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="providentFund">PF </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="providentFund" type="number" value="$60" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('providentFund')?.errors?.['required'] && editSalaryForm.get('providentFund').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('providentFund')?.errors?.['min'] && editSalaryForm.get('providentFund').touched || editSalaryForm.get('providentFund')?.errors?.['max'] && editSalaryForm.get('providentFund').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="professionalTax">Prof.Tax </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="professionalTax" type="number" value="$40" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('professionalTax')?.errors?.['required'] && editSalaryForm.get('professionalTax').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('providentFund')?.errors?.['min'] && editSalaryForm.get('providentFund').touched || editSalaryForm.get('providentFund')?.errors?.['max'] && editSalaryForm.get('providentFund').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="labourWelfare">Labour Welfare </label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="labourWelfare" type="number" value="$30" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('labourWelfare')?.errors?.['required'] && editSalaryForm.get('labourWelfare').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('labourWelfare')?.errors?.['min'] && editSalaryForm.get('labourWelfare').touched || editSalaryForm.get('labourWelfare')?.errors?.['max'] && editSalaryForm.get('labourWelfare').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                  <div class="form-group local-forms">
+                    <label for="others">Others</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₹</span>
+                      </div>
+                      <input class="form-control" formControlName="others" type="number" value="$10" />
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('others')?.errors?.['required'] && editSalaryForm.get('others').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="editSalaryForm.get('others')?.errors?.['min'] && editSalaryForm.get('others').touched || editSalaryForm.get('others')?.errors?.['max'] && editSalaryForm.get('others').touched"
+                      class="login-danger Font_size">
+                      Input must be between 1000 to 10,000,00.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
- 

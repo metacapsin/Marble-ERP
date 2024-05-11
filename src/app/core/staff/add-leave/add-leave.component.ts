@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { routes } from 'src/app/shared/routes/routes';
 interface data {
   value: string ;
@@ -23,12 +23,12 @@ export class AddLeaveComponent {
 
 constructor(private fb: FormBuilder){
   this.addLeaveForm = this.fb.group({
-    leaveType: [''],
-    numberOfDays: [''],
-    employeeName: [''],
-    fromDate: [''],
-    toDate: [''],
-    leaveReason: ['']
+    employeeName: ['', [Validators.required, Validators.min(3), Validators.max(50)]],
+      numberOfDays: ['', [Validators.required, Validators.min(1)]],
+      leaveType: ['', Validators.required],
+      fromDate: ['', Validators.required],
+      toDate: ['', Validators.required],
+      leaveReason: ['', [Validators.required, Validators.min(3), Validators.max(50)]]
   })
 }
 

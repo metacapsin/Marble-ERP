@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { routes } from 'src/app/shared/routes/routes';
+import { staffService } from '../staff.service';
+import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 interface data {
   value: string ;
 }
@@ -14,45 +17,34 @@ export class AddStaffComponent {
   addStaffForm! : FormGroup
   public selectedValue !: string  ;
 
-  department = [
-    {value: 'Select  Department'},
+  Designation = [
+    {value: 'Select  Designation'},
     {value: 'Orthopedics'},
     {value: 'Radiology'},
     {value: 'Dentist'},
   ];
-  City = [
-    {value: 'Select City'},
-    {value: 'Alaska'},
-    {value: 'Los Angeles'},
-  ];
-  Country = [
-    {value: 'Select Country'},
-    {value: 'Usa'},
-    {value: 'Uk'},
-    {value: 'Italy'},
-  ];
-  State = [
-    {value: 'Select State'},
-    {value: 'Rajasthan'},
-    {value: 'Up'},
-  ];
-
-  constructor(private fb: FormBuilder){
+  personNameRegex = /^(?! )[A-Za-z]{3,15}(?: [A-Za-z]{3,15})?$/;
+  AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
+  phoneRegex = /^[0-9]{10}$/;
+  pinRegex = /^\d{6}$/;
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+  constructor(private fb: FormBuilder,
+    private service: staffService,
+    private messageService: MessageService,
+    private router: Router
+  ){
     this.addStaffForm = this.fb.group({
-      department: [''],
-      firstName: [''],
-      lastName: [''],
-      birthday: [''],
-      mobile: [''],
-      email: [''],
-      education: [''],
-      pincode: [''],
-      designation: [''],
-      city: [''],
-      country: [''],
-      state: [''],
-      address: [''],
-      biography: [''],
+      upiId: [''],
+      dateOfBirth: ['', Validators.required],
+      firstName: ['', [Validators.required, Validators.pattern(this.personNameRegex)]],
+      lastName: ['', [Validators.required, Validators.pattern(this.personNameRegex)]],
+      mobile: ['',[Validators.required, Validators.pattern(this.phoneRegex)]],
+      email: ['',[Validators.pattern(this.emailRegex)]],
+      pincode: ['',[Validators.required, Validators.pattern(this.pinRegex)]],
+      designation: ['', [Validators.required]],
+      city: ['', Validators.required],
+      address: ['',[Validators.pattern(this.AddressRegex)]],
     })
   }
 
@@ -60,6 +52,21 @@ export class AddStaffComponent {
   addStaffFormSubmit(){
     if(this.addStaffForm.valid){
       console.log("Form is valid", this.addStaffForm.value);
+      this.service.addStaffData(this.addStaffForm.value).subscribe((resp: any) => {
+        console.log(resp);
+        if (resp) {
+          if (resp.status === "success") {
+            const message = "Staff has been added";
+            this.messageService.add({ severity: "success", detail: message });
+            setTimeout(() => {
+              this.router.navigate(["/staff/staff-list"]);
+            }, 400);
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      })
     }else{
       console.log("Form is inValid!");
       

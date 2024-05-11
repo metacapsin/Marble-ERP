@@ -19,6 +19,7 @@ export class StaffLeaveComponent {
   public searchDataValue = '';
   saleId: any;
   showDialoge = false;
+  selectedLeave = '';
   modalData: any = {};
 originalData = [];
   visible: boolean = false;

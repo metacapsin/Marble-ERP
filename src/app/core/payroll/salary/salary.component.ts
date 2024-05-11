@@ -28,6 +28,7 @@ export class SalaryComponent {
   public routes = routes;
 
   public searchDataValue = '';
+  selectedsalary = ""
   selectedSales = '';
   customerList = [];
   saleId: any;

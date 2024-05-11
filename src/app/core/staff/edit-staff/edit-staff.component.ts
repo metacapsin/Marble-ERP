@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { routes } from 'src/app/shared/routes/routes';
 interface data {
   value: string ;
@@ -14,52 +14,34 @@ export class EditStaffComponent {
   public deleteIcon  = true;
   editStaffForm! : FormGroup
 
-  public selectedValue !: string  ;
-deleteIconFunc(){
-  this.deleteIcon = !this.deleteIcon
-}
-department = [
-  {value: 'Select  Department'},
-  {value: 'Orthopedics'},
-  {value: 'Radiology'},
-  {value: 'Dentist'},
-];
-City = [
-  {value: 'Select City'},
-  {value: 'Alaska'},
-  {value: 'Los Angeles'},
-];
-Country = [
-  {value: 'Select Country'},
-  {value: 'Usa'},
-  {value: 'Uk'},
-  {value: 'Italy'},
-];
-State = [
-  {value: 'Select State'},
-  {value: 'Rajasthan'},
-  {value: 'Up'},
-];
+  Designation = [
+    {value: 'Select  Designation'},
+    {value: 'Orthopedics'},
+    {value: 'Radiology'},
+    {value: 'Dentist'},
+  ];
+  personNameRegex = /^(?! )[A-Za-z]{3,15}(?: [A-Za-z]{3,15})?$/;
+  AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
+  phoneRegex = /^[0-9]{10}$/;
+  pinRegex = /^\d{6}$/;
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+  constructor(private fb: FormBuilder,
 
-constructor(private fb: FormBuilder){
-  this.editStaffForm = this.fb.group({
-    department: [''],
-    firstName: [''],
-    lastName: [''],
-    birthday: [''],
-    mobile: [''],
-    email: [''],
-    education: [''],
-    pincode: [''],
-    designation: [''],
-    city: [''],
-    country: [''],
-    state: [''],
-    address: [''],
-    biography: [''],
-  })
-}
-
+  ){
+    this.editStaffForm = this.fb.group({
+      upi: [''],
+      dob: ['', Validators.required],
+      firstName: ['', [Validators.required, Validators.pattern(this.personNameRegex)]],
+      lastName: ['', [Validators.required, Validators.pattern(this.personNameRegex)]],
+      mobile: ['',[Validators.required, Validators.pattern(this.phoneRegex)]],
+      email: ['',[Validators.pattern(this.emailRegex)]],
+      pincode: ['',[Validators.required, Validators.pattern(this.pinRegex)]],
+      designation: ['', [Validators.required]],
+      city: ['', Validators.required],
+      address: ['',[Validators.pattern(this.AddressRegex)]],
+    })
+  }
 
 editStaffFormSubmit(){
   if(this.editStaffForm.valid){

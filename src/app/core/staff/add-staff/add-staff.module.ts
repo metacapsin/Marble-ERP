@@ -8,6 +8,8 @@ import { calendar } from 'ngx-bootstrap/chronos/moment/calendar';
 import { CalendarModule } from 'primeng/calendar';
 import { Checkbox } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -19,8 +21,10 @@ import { DropdownModule } from 'primeng/dropdown';
     AddStaffRoutingModule,
     SharedModule,
     CalendarModule,
-    DropdownModule
+    DropdownModule,
+    ToastModule
     
-  ]
+  ],
+  providers: [MessageService]
 })
 export class AddStaffModule { }

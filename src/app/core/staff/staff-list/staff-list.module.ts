@@ -9,13 +9,19 @@ import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
   declarations: [
     StaffListComponent
   ],
-  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, ToastModule, DialogModule,TabViewModule,StaffListRoutingModule ]
+  imports: [CommonModule, 
+  SharedModule, 
+  DropdownModule, 
+  CalendarModule, ToastModule, DialogModule,TabViewModule,StaffListRoutingModule,
+],
+providers:[ MessageService]
 
 })
 export class StaffListModule { }

@@ -11,16 +11,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
+import { staffService } from '../staff.service';
 @Component({
   selector: 'app-staff-list',
   templateUrl: './staff-list.component.html',
   styleUrls: ['./staff-list.component.scss'],
-  // providers:[MessageService  ]
 })
 export class StaffListComponent {
   public routes = routes;
-  // public staffData= [];
+
   public searchDataValue = '';
+  selectedstaff = "";
   saleId: any;
   showDialoge = false;
   modalData: any = {};
@@ -29,13 +30,15 @@ originalData = [];
   addTaxTotal: any;
   salesReturnDataById= []
   salesReturnListData = []  
+  
+  staffData = [];
 
 
   constructor(
-    // private messageService: MessageService,
+    private messageService: MessageService,
     private router: Router,
     public dialog: MatDialog,
-    private customerService: CustomersdataService,) { }
+    private service: staffService) { }
 
 
 
@@ -58,61 +61,20 @@ originalData = [];
     this.showDialoge = false;
   }
   
-   staffData = [
-    {
-      "Name": "Dr.Smith Bruklin",
-      "Department": "Urology",
-      "Specialization": "Prostate",
-      "Degree": "MBBS, MS",
-      "Mobile": "9610237965",
-      "Email": "example@email.com",
-      "JoiningDate": "01.10.2022"
-    },
-    {
-      "Name": "Dr.William Stephin",
-      "Department": "Radiology",
-      "Specialization": "Cancer",
-      "Degree": "MBBS, MS",
-      "Mobile": "9610237965",
-      "Email": "example@email.com",
-      "JoiningDate": "01.10.2022"
-    },
-    {
-      "Name": "Andrea Lalema",
-      "Department": "Otolaryngology",
-      "Specialization": "Infertility",
-      "Degree": "MBBS, MS",
-      "Mobile": "9610237965",
-      "Email": "example@email.com",
-      "JoiningDate": "01.10.2022"
-    },
-    {
-      "Name": "Cristina Groves",
-      "Department": "Gynocolgy",
-      "Specialization": "Prostate",
-      "Degree": "MBBS",
-      "Mobile": "7737640566",
-      "Email": "example@email.com",
-      "JoiningDate": "01.10.2022"
-    },
-    {
-      "Name": "Mark Hay Smith",
-      "Department": "Gynocolgy",
-      "Specialization": "Prostate",
-      "Degree": "MBBS, MS",
-      "Mobile": "9610237965",
-      "Email": "example@email.com",
-      "JoiningDate": "01.10.2022"
-    },
-    {
-      "Name": "Bernardo James",
-      "Department": "Dentist",
-      "Specialization": "Prostate",
-      "Degree": "MBBS, MS",
-      "Mobile": "9610237965",
-      "Email": "example@email.com",
-      "JoiningDate": "01.10.2022"
-    }
-  ]
+
+  editStaff(id:any){
+    this.router.navigate(['/staff/edit-staff' + id])
+  }
+   getStaffData(){
+    this.service.getStaffData().subscribe((resp:any) => {
+      this.staffData = resp;
+      console.log("Staff data",resp);
+      
+    })
+
+   }
+   ngOnInit(): void {
+  this.getStaffData(); 
+  }
 
 }

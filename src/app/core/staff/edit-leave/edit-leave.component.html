@@ -6,9 +6,12 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="routes.adminDashboard">Dashboard </a>
+                        </li><li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
                         <li class="breadcrumb-item"><a [routerLink]="routes.staffLeave">Leave Request List </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Edit Leave Request</li>
+                        <li class="breadcrumb-item active">Add Leave Request</li>
                     </ul>
                 </div>
             </div>
@@ -23,20 +26,57 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-heading">
-                                        <h4>Edit Leave Request</h4>
+                                        <h4>Add Leave Request</h4>
                                     </div>
+                                </div>
+                                <div class="settings-btns text-end m-b-10">
+                                    <button type="submit"
+                                        class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                        [disabled]="!editLeaveForm.valid">
+                                        Submit
+                                    </button>
+                                    <button class="btn btn-secondary" [routerLink]="routes.staffLeave">
+                                        Cancel
+                                    </button>
                                 </div>
                                
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label for="employeeName">Employee Name  <span class="login-danger">*</span></label>
                                         <input class="form-control" formControlName="employeeName" type="text"  >
+                                        <div
+                                        *ngIf="
+                                          editLeaveForm.get('employeeName')?.hasError('required') &&
+                                          editLeaveForm.get('employeeName')?.touched
+                                        "
+                                      >
+                                        <span class="login-danger">Field is required.</span>
+                                      </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label for="numberOfDays">Number of Days  <span class="login-danger">*</span></label>
-                                        <input class="form-control" formControlName="numberOfDays" type="text"  >
+                                        <input class="form-control" formControlName="numberOfDays" type="number"  >
+                                        
+                                        <div
+                                        *ngIf="
+                                          editLeaveForm.get('numberOfDays')?.hasError('required') &&
+                                          editLeaveForm.get('numberOfDays')?.touched
+                                        "
+                                      >
+                                        <span class="login-danger">Field is required.</span>
+                                      </div>
+                                      <div
+                                        *ngIf="
+                                          editLeaveForm.get('numberOfDays')?.hasError('min') &&
+                                          editLeaveForm.get('numberOfDays')?.touched
+                                        "
+                                      >
+                                      <span class="login-danger"
+                                          >Input must be more than 0.</span
+                                        >
+                                      </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
@@ -47,6 +87,14 @@
                                         optionValue="value" display="chip" [filter]="true" filterBy="name"
                                         [showClear]="true">
                                     </p-dropdown>
+                                    <div
+                                        *ngIf="
+                                          editLeaveForm.get('leaveType')?.hasError('required') &&
+                                          editLeaveForm.get('leaveType')?.touched
+                                        "
+                                      >
+                                        <span class="login-danger">Field is required.</span>
+                                      </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
@@ -56,6 +104,14 @@
                                         <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                          placeholder="mm/dd/yyyy"
                                             [styleClass]="'col-12'" formControlName="fromDate"  ></p-calendar>
+                                            <div
+                                        *ngIf="
+                                          editLeaveForm.get('fromDate')?.hasError('required') &&
+                                          editLeaveForm.get('fromDate')?.touched
+                                        "
+                                      >
+                                        <span class="login-danger">Field is required.</span>
+                                      </div>
                                         <div>
                                             
                                         </div>
@@ -68,6 +124,14 @@
                                         <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                          placeholder="mm/dd/yyyy"
                                             [styleClass]="'col-12'" formControlName="toDate" ></p-calendar>
+                                            <div
+                                        *ngIf="
+                                          editLeaveForm.get('toDate')?.hasError('required') &&
+                                          editLeaveForm.get('toDate')?.touched
+                                        "
+                                      >
+                                        <span class="login-danger">Field is required.</span>
+                                      </div>
                                         <div>
                                             
                                         </div>
@@ -77,15 +141,23 @@
                                     <div class="form-group local-forms">
                                         <label for="leaveReason">Leave Reason  <span class="login-danger">*</span></label>
                                         <textarea class="form-control" formControlName="leaveReason" rows="3" cols="30"></textarea>
+                                        <div
+                                        *ngIf="
+                                          editLeaveForm.get('leaveReason')?.hasError('required') &&
+                                          editLeaveForm.get('leaveReason')?.touched
+                                        "
+                                      >
+                                        <span class="login-danger">Field is required.</span>
+                                      </div>
                                     </div>
                                 </div>
                                 
-                                <div class="col-12">
+                                <!-- <div class="col-12">
                                     <div class="doctor-submit text-end">
                                         <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
                                         <button type="submit" class="btn btn-primary cancel-form">Cancel</button>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </form>
                     </div>

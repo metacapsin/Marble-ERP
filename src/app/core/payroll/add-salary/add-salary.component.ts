@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { routes } from 'src/app/shared/routes/routes';
 interface data {
   value: string ;
@@ -20,24 +20,30 @@ export class AddSalaryComponent {
     {value: 'Williams Bruk'},
     {value: 'Galaviz Lalema'},
   ];
+  type= [
+    {value: 'Select Type'},
+    {value: 'cash'},
+    {value: 'online'},
+  ];
+   NoAlfregex = /^[^\sA-Za-z]+$/;
   
-constructor(private fb: FormBuilder){
-  this.addSalaryForm = this.fb.group({
-    StaffName: [''],
-    netSalary: [''],
-    basicSalary: [''],
-    dearnessAllowance: [''],
-    houseRentAllowance: [''],
-    conveyance: [''],
-    employeeStateInsurance: [''],
-    taxDeductedAtSource: [''],
-    others: [''],
-    providentFund: [''],
-    professionalTax: [''],
-    labourWelfare: [''],
-    medicalAllowance: [''],
-  })
-}
+  constructor(private fb: FormBuilder){
+    this.addSalaryForm = this.fb.group({
+      StaffName: ['', Validators.required],
+      netSalary: ['', [Validators.required, Validators.min(1000) , Validators.max(1000000),Validators.pattern(this.NoAlfregex)]],
+      basicSalary: ['', [Validators.required, Validators.min(1000) , Validators.max(1000000),Validators.pattern(this.NoAlfregex)]],
+      dearnessAllowance: ['', [Validators.required, Validators.min(1000) , Validators.max(100000),Validators.pattern(this.NoAlfregex)]],
+      houseRentAllowance: ['', [Validators.required, Validators.min(1000) , Validators.max(100000)]],
+      conveyance: ['', [Validators.required, Validators.min(1000) , Validators.max(100000),Validators.pattern(this.NoAlfregex)]],
+      employeeStateInsurance: ['', [Validators.required, Validators.min(1000) , Validators.max(1000000),Validators.pattern(this.NoAlfregex)]],
+      taxDeductedAtSource: ['', [Validators.required, Validators.min(1000) , Validators.max(100000),Validators.pattern(this.NoAlfregex)]],
+      type: ['',Validators.required],
+      providentFund: ['', [Validators.required, Validators.min(1000) , Validators.max(100000),Validators.pattern(this.NoAlfregex)]],
+      professionalTax: ['', [Validators.required, Validators.min(1000) , Validators.max(100000),Validators.pattern(this.NoAlfregex)]],
+      labourWelfare: ['', [Validators.required, Validators.min(1000) , Validators.max(100000),Validators.pattern(this.NoAlfregex)]],
+      medicalAllowance: ['', [Validators.required, Validators.min(1000) , Validators.max(1000000),Validators.pattern(this.NoAlfregex)]],
+    });
+  }
 
 
 addSalaryFormSubmit(){
