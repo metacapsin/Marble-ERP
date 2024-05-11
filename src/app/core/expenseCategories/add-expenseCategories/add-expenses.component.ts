@@ -14,7 +14,7 @@ import { ToastModule } from "primeng/toast";
 import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { MultiSelectModule } from "primeng/multiselect";
 import { CalendarModule } from "primeng/calendar";
-import { ExpensesdataService } from "../../Expenses/expenses.service";
+import { ExpensesCategoriesdataService } from "../expenseCategories.service";
 
 @Component({
   selector: "app-add-expenses",
@@ -47,7 +47,7 @@ export class AddExpensesComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     private messageService: MessageService,
-    private Service: ExpensesdataService,
+    private Service: ExpensesCategoriesdataService,
     private router: Router,
     // private service: WarehouseService
   ) {
@@ -57,12 +57,6 @@ export class AddExpensesComponent implements OnInit {
       date: ["", [Validators.required]],
       amount: ["", [Validators.required]],
       notes: ["",],
-      // taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
-      // openingBalance: ["", [Validators.min(0)]],
-      // creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
-      // creditLimit: ["", [Validators.min(0), Validators.max(150000)]],
-      // billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
-      // shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
   }
 
@@ -78,31 +72,25 @@ export class AddExpensesComponent implements OnInit {
       email: fromData.date,
       status: fromData.status.amount, 
       phoneNo: fromData.notes,
-      // taxNo: fromData.taxNumber,
-      // creaditPeriod: fromData.creditPeriod,
-      // creaditLimit: fromData.creditLimit,
-      // billingAddress: fromData.billingAddress,
-      // shippingAddress: fromData.shippingAddress,
-      // openingBalance: fromData.openingBalance,
     };
     console.log(payload);
 
     if (this.addExpensesGroup.valid) {
-      // this.Service.AddCustomerdata(payload).subscribe((resp: any) => {
-      //   console.log(resp);
-      //   if (resp) {
-      //     if (resp.status === "success") {
-      //       const message = "User has been added";
-      //       this.messageService.add({ severity: "success", detail: message });
-      //       setTimeout(() => {
-      //         this.router.navigate(["/customers"]);
-      //       }, 400);
-      //     } else {
-      //       const message = resp.message;
-      //       this.messageService.add({ severity: "error", detail: message });
-      //     }
-      //   }
-      // });
+      this.Service.AddExpensesdata(payload).subscribe((resp: any) => {
+        console.log(resp);
+        if (resp) {
+          if (resp.status === "success") {
+            const message = "User has been added";
+            this.messageService.add({ severity: "success", detail: message });
+            setTimeout(() => {
+              this.router.navigate(["/customers"]);
+            }, 400);
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      });
     }
   }
 }

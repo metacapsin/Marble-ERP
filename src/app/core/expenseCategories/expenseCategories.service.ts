@@ -9,20 +9,19 @@ import { environment } from 'src/environments/environment.development';
 export class ExpensesCategoriesdataService {
   constructor(private http: HttpClient) { }
   // user APIS
-  GetCustomerData() {
-    return this.http.get(environment.apiUrl + '/Customer/getAllCustomer');
+  GetExpensesData() {
+    return this.http.get(environment.apiUrl + '/Expenses/getAllExpensesCategory');
   }
-  AddCustomerdata(data: any) {
-    return this.http.post(environment.apiUrl + '/Customer/createCustomer', data);
+  AddExpensesdata(data: any) {
+    return this.http.post(environment.apiUrl + '/Expenses/createExpensesCategory', data);
   }
-  GetCustomerDataById(id: any) {
-    return this.http.get(environment.apiUrl + `/Customer/getCustomerById/${id}`);
+  GetExpensesDataById(id: any) {
+    return this.http.get(environment.apiUrl + `/Expenses/getExpensesCategoryById/${id}`);
   }
-
-  UpDataCustomerApi(data: any) {
-    return this.http.put(environment.apiUrl + `/Customer/updateCustomer`, data);
+  UpDataExpensesApi(data: any) {
+    return this.http.put(environment.apiUrl + `/Expenses/updateExpensesCategory`, data);
   }
-  DeleteCustomerApi(id: any){
-    return this.http.delete(environment.apiUrl + `/Customer/deleteCustomer/${id}`);
+  DeleteExpensesApi(id: any){
+    return this.http.delete(environment.apiUrl + `/Expenses/deleteExpensesCategory/${id}`);
   }
 }

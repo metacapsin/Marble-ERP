@@ -28,7 +28,7 @@ export class ViewExpensesComponent {
     this.getCoustomers();
   }
   getCoustomers() {
-    this.Service.GetCustomerDataById(this.id).subscribe((data: any) => {
+    this.Service.GetExpensesDataById(this.id).subscribe((data: any) => {
       console.log(data);
       this.customerData = [data];
     });

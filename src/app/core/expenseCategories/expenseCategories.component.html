@@ -46,7 +46,7 @@
                                                         <div class="form-group local-forms">
                                                             <label for="categoryName">Expense Category Name<span
                                                                     class="login-danger">*</span></label>
-                                                            <input class="form-control" type="text"
+                                                            <input class="form-control" type="text" autofocus
                                                                 placeholder="Please Enter Expense Category Name"
                                                                 formControlName="categoryName" />
                                                             <div *ngIf="
@@ -76,7 +76,7 @@
                                                     <button
                                                         class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
                                                     <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                                        (click)="clodeDialog()">Cancel</button>
+                                                        (click)="addCloseDialog()" type="button">Cancel</button>
                                                 </form>
                                             </div>
                                         </p-dialog>
@@ -90,14 +90,14 @@
                                                         <div class="form-group local-forms">
                                                             <label for="categoryName">Expense Category Name<span
                                                                     class="login-danger">*</span></label>
-                                                            <input class="form-control" type="text"
+                                                            <input class="form-control" type="text" autofocus
                                                                 placeholder="Please Enter Expense Category Name"
                                                                 formControlName="categoryName" />
                                                             <div *ngIf="
                                                       addExpensesCategory
-                                                        .get('editcategoryName')
+                                                        .get('categoryName')
                                                         ?.hasError('required') &&
-                                                      addExpensesCategory.get('editcategoryName')?.touched
+                                                      addExpensesCategory.get('categoryName')?.touched
                                                     " class="login-danger Font_size">
                                                                 Field is required.
                                                             </div>
@@ -116,9 +116,9 @@
                                                     </div>
                                                     <button
                                                         class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
-                                                    <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                                        (click)="clodeDialogEdit()">Cancel</button>
-                                                </form>
+                                                        <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                        (click)="closeDialogEdit()" type="button">Cancel</button>
+                                                    </form>
                                             </div>
                                         </p-dialog>
                                     </div>
@@ -145,19 +145,13 @@
                                     <th style="width: 5%" appShowHide [roles]="['admin', 'super-admin']">
                                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                     </th>
-                                    <th style="width: 20%" pSortableColumn="name">Expense Category Name<p-sortIcon
-                                            field="name"></p-sortIcon>
-                                        <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                                    <th style="width: 20%" pSortableColumn="categoryName">Expense Category Name<p-sortIcon
+                                            field="categoryName"></p-sortIcon>
+                                        <p-columnFilter type="text" field="categoryName" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="email">Description<p-sortIcon field="email"></p-sortIcon>
-                                        <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="categoryDescription">Description<p-sortIcon field="categoryDescription"></p-sortIcon>
+                                        <p-columnFilter type="text" field="categoryDescription" display="menu"></p-columnFilter>
                                     </th>
-                                    <!-- <th pSortableColumn="status">Date <p-sortIcon field="status"></p-sortIcon>
-                                        <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="createdOn">User <p-sortIcon field="createdOn"></p-sortIcon></th> -->
-
-                                    <!-- <th pSortableColumn="openingBalance">Balance <p-sortIcon field="openingBalance"></p-sortIcon></th> -->
                                     <th style="width: 20%">Action</th>
                                 </tr>
                             </ng-template>
@@ -166,25 +160,16 @@
                                     <td appShowHide [roles]="['admin', 'super-admin']">
                                         <p-tableCheckbox [value]="product"></p-tableCheckbox>
                                     </td>
-                                    <td class="bold">{{product.name}}</td>
-                                    <td class="bold">{{product.email}}</td>
-                                    <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Active"></p-tag>
-                                    </td>
-                                    <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag>
-                                    </td>
-                                    <td>{{product.createdOn | date: 'dd-MM-yyyy'}}</td> -->
-                                    <!-- <td>{{product.openingBalance}}</td> -->
+                                    <td class="bold">{{product.categoryName}}</td>
+                                    <td class="bold">{{product.categoryDescription}}</td>
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-
-                                        <!-- <p-button [text]=" true" icon="fa fa-eye"
-                                            (click)="vewCustomer(product._id)"></p-button> -->
-                                        <p-button [text]="true" icon="fa fa-edit" (click)="showDialogEdit()"></p-button>
+                                        <p-button [text]="true" icon="fa fa-edit" (click)="showDialogEdit(product._id)"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"
-                                            (click)="deleteCustomer(product._id)"></p-button>
+                                            (click)="deleteExpense(product._id)"></p-button>
 
                                     </td>
                                 </tr>
-                            </ng-template>
+                            </ng-template>  
                         </p-table>
                     </div>
                 </div>
@@ -194,5 +179,5 @@
 </div>
 
 
-<!-- <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-    [data]="modalData"></app-confirm-dialog> -->
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog> 

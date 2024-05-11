@@ -93,7 +93,7 @@ export class EditExpensesComponent {
     });
   }
   getCoustomers() {
-    this.Service.GetCustomerDataById(this.id).subscribe((data: any) => {
+    this.Service.GetExpensesDataById(this.id).subscribe((data: any) => {
       this.customerData = data;
       console.log(this.customerData);
       this.patchForm();
@@ -118,9 +118,6 @@ export class EditExpensesComponent {
       // creditLimit: this.customerData.creaditLimit,
       // billingAddress: this.customerData.billingAddress,
       // shippingAddress: this.customerData.shippingAddress,
-
-
-
       // warehouse: fromData.expenseCategory,
       // name: fromData.user, 
       // email: fromData.date,
@@ -134,17 +131,6 @@ export class EditExpensesComponent {
 
     const payload = {
       id: this.id,
-      // warehouse: this.editExpensesGroup.value.wareHouse,
-      // name: this.editExpensesGroup.value.name,
-      // phoneNo: this.editExpensesGroup.value.phoneNumber,
-      // email: this.editExpensesGroup.value.email,
-      // status: this.editExpensesGroup.value.status,
-      // taxNo: this.editExpensesGroup.value.taxNumber,
-      // creaditPeriod: this.editExpensesGroup.value.creditPeriod,
-      // creaditLimit: this.editExpensesGroup.value.creditLimit,
-      // billingAddress: this.editExpensesGroup.value.billingAddress,
-      // shippingAddress: this.editExpensesGroup.value.shippingAddress,
-      // openingBalance: this.editExpensesGroup.value.openingBalance,
       warehouse: fromData.expenseCategory,
       name: fromData.user, 
       email: fromData.date,
@@ -152,26 +138,26 @@ export class EditExpensesComponent {
       phoneNo: fromData.notes,
     };
     console.log(payload); 
-    // if (this.editExpensesGroup.valid) {
-    //   this.Service.UpDataCustomerApi(payload).subscribe((resp: any) => {
-    //     if (resp) {
-    //       if (resp.status === "success") {
-    //         // const message = "User has been updated";
-    //         this.messageService.add({
-    //           severity: "success",
-    //           detail: resp.message,
-    //         });
-    //         setTimeout(() => {
-    //           this.router.navigate(["/customers"]);
-    //         }, 400);
-    //       } else {
-    //         const message = resp.message;
-    //         this.messageService.add({ severity: "error", detail: message });
-    //       }
-    //     }
-    //   });
-    // } else {
-    //   console.log("Form is invalid!");
-    // }
+    if (this.editExpensesGroup.valid) {
+      this.Service.UpDataExpensesApi(payload).subscribe((resp: any) => {
+        if (resp) {
+          if (resp.status === "success") {
+            // const message = "User has been updated";
+            this.messageService.add({
+              severity: "success",
+              detail: resp.message,
+            });
+            setTimeout(() => {
+              this.router.navigate(["/customers"]);
+            }, 400);
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      });
+    } else {
+      console.log("Form is invalid!");
+    }
   }
 }
