@@ -93,6 +93,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./Suppliers/suppliers.module').then((m) => m.SuppliersModule),
       },
+      {
+        path: 'block-processor',
+        loadChildren: () =>
+          import('./block-processor/block-processor.module').then((m) => m.BlockProcessorModule),
+      },
 
 
       { 

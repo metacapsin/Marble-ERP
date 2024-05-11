@@ -16,6 +16,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { ToastModule } from "primeng/toast";
 import { MessageService, SelectItem } from "primeng/api";
 import { LotService } from "../lot.service";
+import { DialogModule } from "primeng/dialog";
 
 interface CategoryItem {
   label: string;
@@ -35,6 +36,7 @@ interface CategoryItem {
     FormsModule,
     DropdownModule,
     ToastModule,
+    DialogModule
   ],
   providers: [MessageService],
   templateUrl: './add-lot.component.html',
@@ -44,7 +46,9 @@ export class AddLotComponent {
 
   public routes = routes;
   lotAddForm!: FormGroup;
+  blockAddForm!: FormGroup;
   
+  addvisible: boolean = false;
   categoryList: any = [];
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   vehicleNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
@@ -64,18 +68,43 @@ export class AddLotComponent {
       totalWeightInTon: ["", [Validators.required, Validators.min(0)]],
       totalPricing: ["", [Validators.required, Validators.min(0)]],
       totalTransportation: ["", [Validators.required, Validators.min(0)]],
+
+      
+      // totalTransportation: ["", [Validators.required, Validators.min(0)]],
+    });
+
+    this.blockAddForm = this.fb.group({
+      blocksNo: ["", [Validators.required ,Validators.pattern(this.shortNameRegex)]],
+      height: ["", [Validators.required,Validators.min(0)]],
+      width: ["", [Validators.required, Validators.min(0)]],
+      length: ["", [Validators.required, Validators.min(0)]],
+      processingCharge: ["", [Validators.required ,Validators.min(0)]],
     });
   }
   get f() {
     return this.lotAddForm.controls;
   }
   ngOnInit(): void {
-
-   
   }
+
+  // addBlockDialog(){
+  //   this.addvisible = true
+  // }
+
+  blockAddFormSubmit(){
+    if(this.blockAddForm.valid){
+      this.addvisible = false;
+      console.log("Form is valid", this.blockAddForm.value);
+      
+    }else{
+      console.log("Form is invalid");
+      
+    }
+  }
+
   LotAddFormSubmit() {
-    console.log(this.lotAddForm.value);
     if (this.lotAddForm.valid) {
+      console.log("Form valid lot value", this.lotAddForm.value);
       this.service
         .CreateLot(this.lotAddForm.value)
         .subscribe((resp: any) => {

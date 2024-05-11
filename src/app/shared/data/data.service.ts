@@ -263,6 +263,11 @@ export class DataService {
               route: routes.suppliers,
               base: routes.suppliers,
             },
+            {
+              menuValue: "Block-Processor",
+              route: routes.blockProcessor,
+              base: routes.blockProcessor,
+            },
           ],
         },
         {

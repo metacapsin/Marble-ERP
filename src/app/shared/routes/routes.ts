@@ -507,6 +507,15 @@ export class routes {
   public static get ViewSuppliers(): string {
     return this.baseUrl + '/suppliers/view-suppliers';
   }
+  public static get blockProcessor(): string {
+    return this.baseUrl + '/block-processor';
+  }
+  public static get AddBlockProcessor(): string {
+    return this.baseUrl + '/block-processor/add-block-processor';
+  }
+  public static get EditBlockProcessor(): string {
+    return this.baseUrl + '/block-processor/edit-block-processor';
+  }
   public static get Sales(): string {
     return this.baseUrl + '/sales';
   }
