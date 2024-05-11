@@ -7,20 +7,22 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 import { AccordionModule } from 'primeng/accordion';
 import { el } from '@fullcalendar/core/internal-common';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-add-blocks',
   standalone: true,
   imports: [CommonModule, SharedModule, ToastModule, AccordionModule],
   templateUrl: './add-blocks.component.html',
-  styleUrl: './add-blocks.component.scss'
+  styleUrl: './add-blocks.component.scss',
+  providers: [MessageService]
 })
 export class AddBlocksComponent {
   routes = routes
   addBlocksForm: FormGroup;
   tabs: { title: string }[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private messageservice: MessageService) {
     this.addBlocksForm = this.fb.group({
       lotNumber: ['', [Validators.required]],
       blockCount: ['', [Validators.required]],

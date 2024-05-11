@@ -1,1 +1,382 @@
-<p>edit-blocks works!</p>
+<div class="page-wrapper">
+    <div class="content ">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="routes.adminDashboard">Dashboard </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Block List</li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Edit Block</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header invoices-page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <ul class="breadcrumb invoices-breadcrumb d-flex justify-content-between">
+                        <li class="breadcrumb-item invoices-breadcrumb-item">
+                            <a [routerLink]="routes.blocksList">
+                                <i class="fa fa-chevron-left"></i> Back to Blocks List
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card invoices-add-card">
+                    <div class="card-body">
+                        <form [formGroup]="editBlocksForm" (ngSubmit)="editBlocksFormSubmit()">
+                            <div class="row">
+                                <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class="form-group local-forms">
+                                        <label for="lotNumber">Lot Number<span
+                                                class="login-danger">*</span></label>
+                                        <input type="number" class="form-control" formControlName="lotNumber">
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class="form-group local-forms">
+                                        <label for="blockCount">Blocks<span
+                                                class="login-danger">*</span></label>
+                                        <input type="number" class="form-control" (focusout)="getBlockCount()" formControlName="blockCount">
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <div class="form-group local-forms">
+                                        <label for="vehicleNumber">Vehicle Number<span
+                                                class="login-danger">*</span></label>
+                                        <input type="number" class="form-control" formControlName="vehicleNumber">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invoices-main-form" >
+                              <p-accordion [activeIndex]="0" formArrayName="blocksDetails">
+                                <p-accordionTab *ngFor="let tab of tabs; let i = index" [header]="tab.title" [formGroupName]="i">
+                                        <div class="row">
+                                            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="height">Height <span
+                                                            class="login-danger">*</span></label>
+                                                    <input type="number" class="form-control" formControlName="height">
+                                                    <div
+                                                        *ngIf="editBlocksForm.get('blocksDetails').get(i + '.height').hasError('required') && editBlocksForm.get('blocksDetails').get(i + '.height').touched">
+                                                        <span class="login-danger">Field is required.</span>
+                                                    </div>
+                                                    <div
+                                                        *ngIf="editBlocksForm.get('blocksDetails').get(i + '.height').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.height').touched">
+                                                        <span class="login-danger">Height must be at least 0.01.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="width">Width <span class="login-danger">*</span></label>
+                                                    <input type="number" class="form-control" formControlName="width">
+                                                    <div
+                                                        *ngIf="editBlocksForm.get('blocksDetails').get(i + '.width').hasError('required') && editBlocksForm.get('blocksDetails').get(i + '.width').touched">
+                                                        <span class="login-danger">Field is required.</span>
+                                                    </div>
+                                                    <div
+                                                        *ngIf="editBlocksForm.get('blocksDetails').get(i + '.width').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.width').touched">
+                                                        <span class="login-danger">Width must be at least 0.01.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="length">Length<span
+                                                            class="login-danger">*</span></label>
+                                                    <input type="number" class="form-control" formControlName="length">
+                                                    <div
+                                                        *ngIf="editBlocksForm.get('blocksDetails').get(i + '.length').hasError('required') && editBlocksForm.get('blocksDetails').get(i + '.length').touched">
+                                                        <span class="login-danger">Field is required.</span>
+                                                    </div>
+                                                    <div
+                                                        *ngIf="editBlocksForm.get('blocksDetails').get(i + '.length').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.length').touched">
+                                                        <span class="login-danger">Width must be at least 0.01.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="blockNumber">Block Number<span
+                                                            class="login-danger">*</span></label>
+                                                    <input type="number" class="form-control"
+                                                        formControlName="blockNumber">
+                                                    <div
+                                                        *ngIf="editBlocksForm.get('blocksDetails').get(i + '.blockNumber').hasError('required') && editBlocksForm.get('blocksDetails').get(i + '.blockNumber').touched">
+                                                        <span class="login-danger">Field is required.</span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="vaccume">Vaccume </label>
+                                                    <input type="number" class="form-control"(change)="calculateTotalAmount()" formControlName="vaccume">
+                                                    <div
+                                                        *ngIf="editBlocksForm.get('blocksDetails').get(i + '.vaccume').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.vaccume').touched">
+                                                        <span class="login-danger">Vaccume must be at least 1.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="pasting">Pasting</label>
+                                                    <input type="number" class="form-control"(change)="calculateTotalAmount()" formControlName="pasting">
+                                                    <div
+                                                        *ngIf="editBlocksForm.get('blocksDetails').get(i + '.pasting').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.pasting').touched">
+                                                        <span class="login-danger">Pating must be at least 1.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="dressing">Dressing </label>
+                                                    <input type="number" class="form-control"
+                                                       (change)="calculateTotalAmount()" formControlName="dressing">
+                                                    <div
+                                                        *ngIf="editBlocksForm.get('blocksDetails').get(i + '.dressing').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.dressing').touched">
+                                                        <span class="login-danger">Dressing must be at least 1.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                                                <div class="form-group local-forms">
+                                                    <label for="sowingJob">Sowing Job </label>
+                                                    <input type="number" class="form-control"
+                                                       (change)="calculateTotalAmount()" formControlName="sowingJob">
+                                                    <div
+                                                        *ngIf="editBlocksForm.get('blocksDetails').get(i + '.sowingJob').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.sowingJob').touched">
+                                                        <span class="login-danger">Sowing Job must be at least 1.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="row">
+                                                        <div class="invoice-fields">
+                                                            <h4 class="field-title">More Fields</h4>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group local-forms">
+                                                                <label for="plantManual">Plant Manual <span
+                                                                        class="login-danger"></span></label>
+                                                                <input type="number" class="form-control"
+                                                                (change)="calculateTotalAmount()" 
+                                                                    formControlName="plantManual">
+                                                                <div
+                                                                    *ngIf="editBlocksForm.get('blocksDetails').get(i + '.plantManual').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.plantManual').touched">
+                                                                    <span class="login-danger">Plant Manual Job must be
+                                                                        at least 1.</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group local-forms">
+                                                                <label for="abroxy">Abroxy </label>
+                                                                <input type="number" class="form-control"
+                                                                (change)="calculateTotalAmount()" 
+                                                                    formControlName="abroxy">
+                                                                <div
+                                                                    *ngIf="editBlocksForm.get('blocksDetails').get(i + '.abroxy').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.abroxy').touched">
+                                                                    <span class="login-danger">Abroxy Job must be at
+                                                                        least 1.</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group local-forms">
+                                                                <label for="transportation">Transportation <span
+                                                                        class="login-danger"></span></label>
+                                                                <input type="number" class="form-control"
+                                                                (change)="calculateTotalAmount()" 
+                                                                    formControlName="transportation">
+                                                                <div
+                                                                    *ngIf="editBlocksForm.get('blocksDetails').get(i + '.transportation').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.transportation').touched">
+                                                                    <span class="login-danger">Transportation Job must
+                                                                        be at least 1.</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="invoice-total-card">
+                                                        <h4 class="invoice-total-title">After Process</h4>
+                                                        <div class="invoice-total-box">
+                                                            <div class="row p-3">
+                                                                <div class="col-md-6  mt-2">
+                                                                    <div class="form-group local-forms">
+                                                                        <label for="peices">Peices </label>
+                                                                        <input type="number" formControlName="peices"
+                                                                            class="form-control">
+                                                                            <div
+                                                                            *ngIf="editBlocksForm.get('blocksDetails').get(i + '.peices').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.peices').touched">
+                                                                            <span class="login-danger">Peices must
+                                                                                be at least 1.</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6 mt-2 ">
+                                                                    <div class="form-group local-forms">
+                                                                        <label for="sqrt">Sqrt. </label>
+                                                                        <input type="number" formControlName="sqrt"
+                                                                            class="form-control">
+                                                                            <div
+                                                                            *ngIf="editBlocksForm.get('blocksDetails').get(i + '.sqrt').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.sqrt').touched">
+                                                                            <span class="login-danger">Square Feet must
+                                                                                be at least 1.</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 ">
+                                                                    <div class="form-group local-forms">
+                                                                        <label for="rate">Rate </label>
+                                                                        <input type="number" formControlName="rate"
+                                                                            class="form-control">
+                                                                            <div
+                                                                            *ngIf="editBlocksForm.get('blocksDetails').get(i + '.rate').hasError('min') && editBlocksForm.get('blocksDetails').get(i + '.rate').touched">
+                                                                            <span class="login-danger">Rate must
+                                                                                be at least 1.</span>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- <div class="invoice-total-inner">
+                                                                <p>Total Pcs.<span>3 </span></p>
+                                                                <p>Total Sqrt.<span>300 </span></p>
+                                                                <p>Total Rate.<span>1452 </span></p>
+                                                            </div> -->
+
+                                                            <div class="invoice-total-footer">
+                                                                <h4>Amount <span>₹ {{ calculateTotalAmount() }} </span></h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </p-accordionTab>
+                                </p-accordion>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-7 col-md-6">
+                                    <div class="invoice-fields">
+                                        <h4 class="field-title">More Fields</h4>
+
+                                    </div>
+                                    <div class="invoice-faq">
+                                        <div class="panel-group" id="accordion" role="tablist"
+                                            aria-multiselectable="true">
+                                            <div class="faq-tab">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading" role="tab" id="headingTwo">
+                                                        <p class="panel-title">
+                                                            <a class="collapsed" data-bs-toggle="collapse"
+                                                                data-bs-parent="#accordion" href="#collapseTwo"
+                                                                aria-expanded="false" aria-controls="collapseTwo">
+                                                                <i class="fas fa-plus-circle me-1"></i> Add Terms &
+                                                                Conditions
+                                                            </a>
+                                                        </p>
+                                                    </div>
+                                                    <div id="collapseTwo" class="panel-collapse collapse"
+                                                        role="tabpanel" aria-labelledby="headingTwo"
+                                                        data-bs-parent="#accordion">
+                                                        <div class="panel-body">
+                                                            <textarea class="form-control"
+                                                                formControlName="termAndCondition"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="faq-tab">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading" role="tab" id="headingThree">
+                                                        <p class="panel-title">
+                                                            <a class="collapsed" data-bs-toggle="collapse"
+                                                                data-bs-parent="#accordion" href="#collapseThree"
+                                                                aria-expanded="false" aria-controls="collapseThree">
+                                                                <i class="fas fa-plus-circle me-1"></i> Add Notes
+                                                            </a>
+                                                        </p>
+                                                    </div>
+                                                    <div id="collapseThree" class="panel-collapse collapse"
+                                                        role="tabpanel" aria-labelledby="headingThree"
+                                                        data-bs-parent="#accordion">
+                                                        <div class="panel-body">
+                                                            <textarea class="form-control"
+                                                                formControlName="notes"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-6">
+                                    <div class="invoice-total-card">
+                                        <h4 class="invoice-total-title">Summary</h4>
+                                        <div class="invoice-total-box">
+                                            <div class="row p-3">
+                                                <div class="col-12 mt-3">
+                                                    <div class="form-group local-forms">
+                                                        <label for="salesOrderStatus">Other Carges </label>
+                                                        <input type="number" formControlName="otherCharges"
+                                                            class="form-control">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="invoice-total-inner">
+                                                <p>Gross Total<span>₹  </span></p>
+                                                <p>Other Charges<span>₹ </span></p>
+                                            </div>
+
+                                            <div class="invoice-total-footer">
+                                                <h4>Total Amount <span>₹ </span></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="upload-sign">
+                                        <div class="form-group float-end mb-0">
+                                            <button class="btn btn-primary" type="submit" [disabled]="!editBlocksForm.valid">Save Blocks</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <p-toast></p-toast> -->

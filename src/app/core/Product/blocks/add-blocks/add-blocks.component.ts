@@ -46,7 +46,7 @@ export class AddBlocksComponent {
   blocksAddForm!: FormGroup;
   
   lotNoList: any = [];
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15)$/;
+  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   vehicleNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
 
   constructor(

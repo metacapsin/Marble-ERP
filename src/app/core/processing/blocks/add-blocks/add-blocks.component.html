@@ -45,16 +45,15 @@
                             <div class="row">
                                 <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                     <div class="form-group local-forms">
-                                        <label for="lotNumber">Lot Number<span
-                                                class="login-danger">*</span></label>
+                                        <label for="lotNumber">Lot Number<span class="login-danger">*</span></label>
                                         <input type="number" class="form-control" formControlName="lotNumber">
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                     <div class="form-group local-forms">
-                                        <label for="blockCount">Blocks<span
-                                                class="login-danger">*</span></label>
-                                        <input type="number" class="form-control" (focusout)="getBlockCount()" formControlName="blockCount">
+                                        <label for="blockCount">Blocks<span class="login-danger">*</span></label>
+                                        <input type="number" class="form-control" (focusout)="getBlockCount()"
+                                            formControlName="blockCount">
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -65,9 +64,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="invoices-main-form" >
-                              <p-accordion [activeIndex]="0" formArrayName="blocksDetails">
-                                <p-accordionTab *ngFor="let tab of tabs; let i = index" [header]="tab.title" [formGroupName]="i">
+                            <div class="invoices-main-form">
+                                <p-accordion [activeIndex]="0" formArrayName="blocksDetails">
+                                    <p-accordionTab *ngFor="let tab of tabs; let i = index" [header]="tab.title"
+                                        [formGroupName]="i">
                                         <div class="row">
                                             <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                                                 <div class="form-group local-forms">
@@ -129,7 +129,13 @@
                                             <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                                                 <div class="form-group local-forms">
                                                     <label for="vaccume">Vaccume </label>
-                                                    <input type="number" class="form-control"(change)="calculateTotalAmount()" formControlName="vaccume">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">₹</span>
+                                                        </div>
+                                                        <input type="number" class="form-control"
+                                                            (change)="calculateTotalAmount()" formControlName="vaccume">
+                                                    </div>
                                                     <div
                                                         *ngIf="addBlocksForm.get('blocksDetails').get(i + '.vaccume').hasError('min') && addBlocksForm.get('blocksDetails').get(i + '.vaccume').touched">
                                                         <span class="login-danger">Vaccume must be at least 1.</span>
@@ -139,7 +145,13 @@
                                             <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                                                 <div class="form-group local-forms">
                                                     <label for="pasting">Pasting</label>
-                                                    <input type="number" class="form-control"(change)="calculateTotalAmount()" formControlName="pasting">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">₹</span>
+                                                        </div>
+                                                        <input type="number" class="form-control"
+                                                            (change)="calculateTotalAmount()" formControlName="pasting">
+                                                    </div>
                                                     <div
                                                         *ngIf="addBlocksForm.get('blocksDetails').get(i + '.pasting').hasError('min') && addBlocksForm.get('blocksDetails').get(i + '.pasting').touched">
                                                         <span class="login-danger">Pating must be at least 1.</span>
@@ -149,8 +161,14 @@
                                             <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                                                 <div class="form-group local-forms">
                                                     <label for="dressing">Dressing </label>
-                                                    <input type="number" class="form-control"
-                                                       (change)="calculateTotalAmount()" formControlName="dressing">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">₹</span>
+                                                        </div>
+                                                        <input type="number" class="form-control"
+                                                            (change)="calculateTotalAmount()"
+                                                            formControlName="dressing">
+                                                    </div>
                                                     <div
                                                         *ngIf="addBlocksForm.get('blocksDetails').get(i + '.dressing').hasError('min') && addBlocksForm.get('blocksDetails').get(i + '.dressing').touched">
                                                         <span class="login-danger">Dressing must be at least 1.</span>
@@ -160,8 +178,14 @@
                                             <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                                                 <div class="form-group local-forms">
                                                     <label for="sowingJob">Sowing Job </label>
-                                                    <input type="number" class="form-control"
-                                                       (change)="calculateTotalAmount()" formControlName="sowingJob">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">₹</span>
+                                                        </div>
+                                                        <input type="number" class="form-control"
+                                                            (change)="calculateTotalAmount()"
+                                                            formControlName="sowingJob">
+                                                    </div>
                                                     <div
                                                         *ngIf="addBlocksForm.get('blocksDetails').get(i + '.sowingJob').hasError('min') && addBlocksForm.get('blocksDetails').get(i + '.sowingJob').touched">
                                                         <span class="login-danger">Sowing Job must be at least 1.</span>
@@ -177,11 +201,15 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group local-forms">
-                                                                <label for="plantManual">Plant Manual <span
-                                                                        class="login-danger"></span></label>
-                                                                <input type="number" class="form-control"
-                                                                (change)="calculateTotalAmount()" 
-                                                                    formControlName="plantManual">
+                                                                <label for="plantManual">Plant Manual</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">₹</span>
+                                                                    </div>
+                                                                    <input type="number" class="form-control"
+                                                                        (change)="calculateTotalAmount()"
+                                                                        formControlName="plantManual">
+                                                                </div>
                                                                 <div
                                                                     *ngIf="addBlocksForm.get('blocksDetails').get(i + '.plantManual').hasError('min') && addBlocksForm.get('blocksDetails').get(i + '.plantManual').touched">
                                                                     <span class="login-danger">Plant Manual Job must be
@@ -192,9 +220,14 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group local-forms">
                                                                 <label for="abroxy">Abroxy </label>
-                                                                <input type="number" class="form-control"
-                                                                (change)="calculateTotalAmount()" 
-                                                                    formControlName="abroxy">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">₹</span>
+                                                                    </div>
+                                                                    <input type="number" class="form-control"
+                                                                        (change)="calculateTotalAmount()"
+                                                                        formControlName="abroxy">
+                                                                </div>
                                                                 <div
                                                                     *ngIf="addBlocksForm.get('blocksDetails').get(i + '.abroxy').hasError('min') && addBlocksForm.get('blocksDetails').get(i + '.abroxy').touched">
                                                                     <span class="login-danger">Abroxy Job must be at
@@ -204,11 +237,15 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             <div class="form-group local-forms">
-                                                                <label for="transportation">Transportation <span
-                                                                        class="login-danger"></span></label>
-                                                                <input type="number" class="form-control"
-                                                                (change)="calculateTotalAmount()" 
-                                                                    formControlName="transportation">
+                                                                <label for="transportation">Transportation </label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">₹</span>
+                                                                    </div>
+                                                                    <input type="number" class="form-control"
+                                                                        (change)="calculateTotalAmount()"
+                                                                        formControlName="transportation">
+                                                                </div>
                                                                 <div
                                                                     *ngIf="addBlocksForm.get('blocksDetails').get(i + '.transportation').hasError('min') && addBlocksForm.get('blocksDetails').get(i + '.transportation').touched">
                                                                     <span class="login-danger">Transportation Job must
@@ -229,7 +266,7 @@
                                                                         <label for="peices">Peices </label>
                                                                         <input type="number" formControlName="peices"
                                                                             class="form-control">
-                                                                            <div
+                                                                        <div
                                                                             *ngIf="addBlocksForm.get('blocksDetails').get(i + '.peices').hasError('min') && addBlocksForm.get('blocksDetails').get(i + '.peices').touched">
                                                                             <span class="login-danger">Peices must
                                                                                 be at least 1.</span>
@@ -242,7 +279,7 @@
                                                                         <label for="sqrt">Sqrt. </label>
                                                                         <input type="number" formControlName="sqrt"
                                                                             class="form-control">
-                                                                            <div
+                                                                        <div
                                                                             *ngIf="addBlocksForm.get('blocksDetails').get(i + '.sqrt').hasError('min') && addBlocksForm.get('blocksDetails').get(i + '.sqrt').touched">
                                                                             <span class="login-danger">Square Feet must
                                                                                 be at least 1.</span>
@@ -252,9 +289,14 @@
                                                                 <div class="col-12 ">
                                                                     <div class="form-group local-forms">
                                                                         <label for="rate">Rate </label>
-                                                                        <input type="number" formControlName="rate"
-                                                                            class="form-control">
-                                                                            <div
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">₹</span>
+                                                                            </div>
+                                                                            <input type="number" formControlName="rate"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                        <div
                                                                             *ngIf="addBlocksForm.get('blocksDetails').get(i + '.rate').hasError('min') && addBlocksForm.get('blocksDetails').get(i + '.rate').touched">
                                                                             <span class="login-danger">Rate must
                                                                                 be at least 1.</span>
@@ -271,7 +313,8 @@
                                                             </div> -->
 
                                                             <div class="invoice-total-footer">
-                                                                <h4>Amount <span>₹ {{ calculateTotalAmount() }} </span></h4>
+                                                                <h4>Amount <span>₹ {{ calculateTotalAmount() }} </span>
+                                                                </h4>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -346,15 +389,19 @@
                                                 <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesOrderStatus">Other Carges </label>
-                                                        <input type="number" formControlName="otherCharges"
-                                                            class="form-control">
-
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">₹</span>
+                                                            </div>
+                                                            <input type="number" formControlName="otherCharges"
+                                                                class="form-control">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="invoice-total-inner">
-                                                <p>Gross Total<span>₹  </span></p>
+                                                <p>Gross Total<span>₹ </span></p>
                                                 <p>Other Charges<span>₹ </span></p>
                                             </div>
 
@@ -365,7 +412,8 @@
                                     </div>
                                     <div class="upload-sign">
                                         <div class="form-group float-end mb-0">
-                                            <button class="btn btn-primary" type="submit" [disabled]="!addBlocksForm.valid">Save Blocks</button>
+                                            <button class="btn btn-primary" type="submit"
+                                                [disabled]="!addBlocksForm.valid">Save Blocks</button>
                                         </div>
                                     </div>
                                 </div>
@@ -379,4 +427,4 @@
     </div>
 </div>
 
-<!-- <p-toast></p-toast> -->
+<p-toast></p-toast>
