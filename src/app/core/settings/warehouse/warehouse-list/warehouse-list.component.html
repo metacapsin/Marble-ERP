@@ -57,6 +57,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card-body p-2">
                         <p-table [value]="data" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"  (onPage)="onPageChange($event)" [(selection)]="selectedProducts">
                             <ng-template pTemplate="header">
@@ -132,6 +133,7 @@
                                 </tr>
                             </ng-template>
                         </p-table>
+                        </div>
                     </div>
                 </div>
             </div>

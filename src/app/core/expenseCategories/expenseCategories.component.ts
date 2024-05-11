@@ -33,18 +33,20 @@ export class ExpensesCategoriesComponent {
       this.currentRoute = this.router.url;
     });
     this.addExpensesCategory = this.fb.group({
-      expenseCategoryName: ["", [Validators.required]],
-      description: ["",],
+      categoryName: ["", [Validators.required]],
+      categoryDescription: ["",],
     });
     this.editExpensesCategory = this.fb.group({
-      expenseCategoryName: ["", [Validators.required]],
-      description: ["",],
+      categoryName: ["", [Validators.required]],
+      categoryDescription: ["",],
     });
   }
   addExpensesCategoryForm(){
     console.log(this.addExpensesCategory.value);
     if(this.addExpensesCategory.valid){
-    this.visible = false;
+      this.visible = false;
+    }else{
+      // this.messageService.add({ severity: "error", detail: "Fill the required filed" });
     }
 
   }
@@ -52,6 +54,9 @@ export class ExpensesCategoriesComponent {
   console.log(this.editExpensesCategory.value);
   if(this.editExpensesCategory.valid){
     this.visible1 = false;
+    }else{
+      // this.messageService.add({ severity: "error", detail: "Fill the required filed" });
+
     }
   }
 

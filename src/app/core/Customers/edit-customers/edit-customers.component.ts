@@ -36,6 +36,7 @@ export class EditCustomersComponent {
   customerData: any;
   id: any;
   wareHousedata: any;
+  wareHousedataArray:any
 
   wareHouseArray = [{ name: "Electronifly" }, { name: "Warehouse Gas" }];
 
@@ -67,7 +68,6 @@ export class EditCustomersComponent {
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
-      // status: ["", [Validators.required]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
       openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
@@ -83,6 +83,16 @@ export class EditCustomersComponent {
 
     this.service.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
+      this.wareHousedataArray = [];
+      this.wareHousedata.forEach(element => {
+        this.wareHousedataArray.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name
+          }
+        })
+    });
     });
   }
   getCoustomers() {
@@ -116,7 +126,7 @@ export class EditCustomersComponent {
       name: this.editCustomerGroup.value.name,
       phoneNo: this.editCustomerGroup.value.phoneNumber,
       email: this.editCustomerGroup.value.email,
-      status:this.editCustomerGroup.value.status,
+      status: true,
       taxNo: this.editCustomerGroup.value.taxNumber,
       creaditPeriod: this.editCustomerGroup.value.creditPeriod,
       creaditLimit: this.editCustomerGroup.value.creditLimit,

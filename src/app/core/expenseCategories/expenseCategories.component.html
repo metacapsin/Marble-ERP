@@ -20,119 +20,121 @@
             <div class="col-sm-12">
 
                 <div class="card card-table show-entire">
-                    <div class="col p-3">
-                        <div class="doctor-table-blk">
-                            <h3>Expenses Categories List</h3>
-                            <div class="doctor-search-blk col-md-6">
-                                <div class="top-nav-search table-search-blk me-3">
-                                    <input type="text" class="form-control" placeholder="Search here"
-                                        [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
-                                    <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                </div>
-                                <div class="add-group textbtn gap-3">
-                                    <!-- <a [routerLink]="routes.addExpenses" class="btn btn-primary"><img
-                                            src="assets/img/icons/plus.svg" alt="">Add Expenses</a> -->
-                                    <a class="btn btn-primary" (click)="showDialog()"><img
-                                            src="assets/img/icons/plus.svg" alt="">Add Expenses Categories</a>
-                                </div>
-                                <p-dialog header="Add Expenses Categories" [(visible)]="visible" [modal]="true"
-                                    [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
-                                    <div class="mt-3">
-                                        <form [formGroup]="addExpensesCategory" (ngSubmit)="addExpensesCategoryForm()">
-                                            <div class="col-12 col-md-12 col-xl-12">
-                                                <div class="form-group local-forms">
-                                                    <label for="expenseCategoryName">Expense Category Name<span
-                                                            class="login-danger">*</span></label>
-                                                    <input class="form-control" type="text"
-                                                        placeholder="Please Enter Expense Category Name"
-                                                        formControlName="expenseCategoryName" />
-                                                    <div *ngIf="
+                    <div class="page-table-header mb-2">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="doctor-table-blk">
+                                    <h3>Expenses Categories List</h3>
+                                    <div class="doctor-search-blk col-md-6">
+                                        <div class="top-nav-search table-search-blk me-3">
+                                            <input type="text" class="form-control" placeholder="Search here"
+                                                [(ngModel)]="searchDataValue"
+                                                (ngModelChange)="searchData(searchDataValue)">
+                                            <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                        </div>
+                                        <div class="add-group textbtn gap-3">
+                                            
+                                            <a class="btn btn-primary" (click)="showDialog()"><img
+                                                    src="assets/img/icons/plus.svg" alt="">Add Expenses Categories</a>
+                                        </div>
+                                        <p-dialog header="Add Expenses Categories" [(visible)]="visible" [modal]="true"
+                                            [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+                                            <div class="mt-3">
+                                                <form [formGroup]="addExpensesCategory"
+                                                    (ngSubmit)="addExpensesCategoryForm()">
+                                                    <div class="col-12 col-md-12 col-xl-12">
+                                                        <div class="form-group local-forms">
+                                                            <label for="categoryName">Expense Category Name<span
+                                                                    class="login-danger">*</span></label>
+                                                            <input class="form-control" type="text"
+                                                                placeholder="Please Enter Expense Category Name"
+                                                                formControlName="categoryName" />
+                                                            <div *ngIf="
                                                       addExpensesCategory
-                                                        .get('expenseCategoryName')
+                                                        .get('categoryName')
                                                         ?.hasError('required') &&
-                                                      addExpensesCategory.get('expenseCategoryName')?.touched
+                                                      addExpensesCategory.get('categoryName')?.touched
                                                     " class="login-danger Font_size">
-                                                    Field is required.
+                                                                Field is required.
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
 
-                                            <div class="col-12 col-md-12 col-xl-12">
-                                                <div class="form-group local-forms">
-                                                    <label for="Description">Description<span
-                                                            class="login-danger"></span></label>
-                                                    <textarea class="form-control" type="text"
-                                                        placeholder="Please Enter Description"
-                                                        formControlName="description" rows="4"></textarea>
-                                                    <!-- <div *ngIf="
-                                                      addExpensesCategory
-                                                        .get('description')
-                                                        ?.hasError('required') &&
-                                                      addExpensesCategory.get('description')?.touched
-                                                    " class="login-danger Font_size">
-                                                    Field is required.
-                                                    </div> -->
-                                                </div>
-                                            </div>
-
-
-
-                                            <button
-                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
-                                            <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                                (click)="clodeDialog()">Cancel</button>
-                                        </form>
-                                    </div>
-                                </p-dialog>
-                                <p-dialog header="Edit Expenses Categories" [(visible)]="visible1" [modal]="true"
-                                    [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
-                                    <div class="mt-3">
-                                        <form [formGroup]="editExpensesCategory" (ngSubmit)="editExpensesCategoryForm()">
-                                            <div class="col-12 col-md-12 col-xl-12">
-                                                <div class="form-group local-forms">
-                                                    <label for="expenseCategoryName">Expense Category Name<span
-                                                            class="login-danger">*</span></label>
-                                                    <input class="form-control" type="text"
-                                                        placeholder="Please Enter Expense Category Name"
-                                                        formControlName="expenseCategoryName" />
-                                                    <div *ngIf="
-                                                      addExpensesCategory
-                                                        .get('editExpenseCategoryName')
-                                                        ?.hasError('required') &&
-                                                      addExpensesCategory.get('editExpenseCategoryName')?.touched
-                                                    " class="login-danger Font_size">
-                                                    Field is required.
+                                                    <div class="col-12 col-md-12 col-xl-12">
+                                                        <div class="form-group local-forms">
+                                                            <label for="Description">Description<span
+                                                                    class="login-danger"></span></label>
+                                                            <textarea class="form-control" type="text"
+                                                                placeholder="Please Enter Description"
+                                                                formControlName="categoryDescription" rows="4"></textarea>
+                                     
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
 
-                                            <div class="col-12 col-md-12 col-xl-12">
-                                                <div class="form-group local-forms">
-                                                    <label for="Description">Description<span
-                                                            class="login-danger"></span></label>
-                                                    <textarea class="form-control" type="text"
-                                                        placeholder="Please Enter Description"
-                                                        formControlName="description" rows="4"></textarea>
-                                                    <!-- <div *ngIf="
-                                                      addExpensesCategory
-                                                        .get('description')
-                                                        ?.hasError('required') &&
-                                                      addExpensesCategory.get('description')?.touched
-                                                    " class="login-danger Font_size">
-                                                    Field is required.
-                                                    </div> -->
-                                                </div>
+
+
+                                                    <button
+                                                        class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
+                                                    <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                        (click)="clodeDialog()">Cancel</button>
+                                                </form>
                                             </div>
-                                            <button
-                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
-                                            <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                                (click)="clodeDialogEdit()">Cancel</button>
-                                        </form>
+                                        </p-dialog>
+                                        <p-dialog header="Edit Expenses Categories" [(visible)]="visible1"
+                                            [modal]="true" [style]="{ width: '30vw' }" [draggable]="false"
+                                            [resizable]="false">
+                                            <div class="mt-3">
+                                                <form [formGroup]="editExpensesCategory"
+                                                    (ngSubmit)="editExpensesCategoryForm()">
+                                                    <div class="col-12 col-md-12 col-xl-12">
+                                                        <div class="form-group local-forms">
+                                                            <label for="categoryName">Expense Category Name<span
+                                                                    class="login-danger">*</span></label>
+                                                            <input class="form-control" type="text"
+                                                                placeholder="Please Enter Expense Category Name"
+                                                                formControlName="categoryName" />
+                                                            <div *ngIf="
+                                                      addExpensesCategory
+                                                        .get('editcategoryName')
+                                                        ?.hasError('required') &&
+                                                      addExpensesCategory.get('editcategoryName')?.touched
+                                                    " class="login-danger Font_size">
+                                                                Field is required.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-md-12 col-xl-12">
+                                                        <div class="form-group local-forms">
+                                                            <label for="Description">Description<span
+                                                                    class="login-danger"></span></label>
+                                                            <textarea class="form-control" type="text"
+                                                                placeholder="Please Enter Description"
+                                                                formControlName="categoryDescription" rows="4"></textarea>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                    <button
+                                                        class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
+                                                    <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                        (click)="clodeDialogEdit()">Cancel</button>
+                                                </form>
+                                            </div>
+                                        </p-dialog>
                                     </div>
-                                </p-dialog>
+                                </div>
                             </div>
+                            <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                            [roles]="['admin', 'super-admin', 'help-desk']">
+                            <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                    alt=""></a>
+                            <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                    alt=""></a>
+
+                        </div>
                         </div>
                     </div>
+
 
                     <div class="card-body p-2">
                         <p-table [value]="dataSource" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
@@ -148,8 +150,7 @@
                                         <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="email">Description<p-sortIcon field="email"></p-sortIcon>
-                                        <p-columnFilter type="text" field="email"
-                                            display="menu"></p-columnFilter>
+                                        <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
                                     </th>
                                     <!-- <th pSortableColumn="status">Date <p-sortIcon field="status"></p-sortIcon>
                                         <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>

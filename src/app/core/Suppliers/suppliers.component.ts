@@ -79,13 +79,18 @@ export class SuppliersComponent {
   close() {
     this.showDialoge = false;
   }
-  public searchData(value: any): void {
-    this.getSupplierShow = this.originalData.map(i => {
-        if(i.name.toLowerCase().includes(value.trim().toLowerCase())){
-          return i;
-        }
-    });
+public searchData(value: any): void {
+  this.getSupplierShow = this.originalData.filter(i =>
+  i.name.toLowerCase().includes(value.trim().toLowerCase())
+);
 }
+
+onPageChange(event) {
+  const startIndex = event.first;
+  const endIndex = startIndex + event.rows; 
+  const currentPageData = this.dataSource.slice(startIndex, endIndex);
+}
+
   visible: boolean = false;
 
   showDialog() {

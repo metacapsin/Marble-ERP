@@ -46,7 +46,7 @@
                   <div class="row">
                     <div class="col-12 col-md-4 col-xl-4">
                       <div class="form-group local-forms">
-                        <label for="wareHouse">Warehouse <span class="login-danger"></span></label>
+                        <label for="wareHouse">Warehouse <span class="login-danger">*</span></label>
                         <p-multiSelect [style]="{ width: '100%' }" placeholder="--Select Warehouse--"
                           [options]="wareHousedata" formControlName="wareHouse" optionLabel="name" optionValue="_id"
                           display="chip" [showClear]="true"></p-multiSelect>
@@ -196,7 +196,7 @@
                       <div class="form-group local-forms">
                         <label for="billingAddress">Billing Address</label>
                         <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
-                          formControlName="billingAddress"></textarea>
+                          formControlName="billingAddress" rows="1"></textarea>
   
                         <div *ngIf="
                             editSupplierGroup
@@ -213,7 +213,7 @@
                       <div class="form-group local-forms">
                         <label for="shippingAddress">Shipping Address</label>
                         <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
-                          formControlName="shippingAddress"></textarea>
+                          formControlName="shippingAddress" rows="1"></textarea>
   
                         <div *ngIf="
                             editSupplierGroup

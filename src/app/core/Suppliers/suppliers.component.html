@@ -22,44 +22,55 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
-                    <div class="col p-3">
-                        <div class="doctor-table-blk">
-                            <h3>Suppliers List</h3>
-                            <div class="doctor-search-blk col-md-6">
-                                <div class="top-nav-search table-search-blk me-3">
-                                    <input type="text" class="form-control" placeholder="Search here"
-                                        [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)" />
-                                    <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
-                                </div>
-                                <div class="add-group textbtn gap-3">
-                                    <a [routerLink]="['/suppliers/add-suppliers']" class="btn btn-primary"><img
-                                            src="assets/img/icons/plus.svg" alt="" /> Add
-                                        Suppliers</a>
-                                    <!-- <a class="btn btn-primary" (click)="showDialog()">Import Suppliers</a> -->
-                                    <!-- <button style="width: 100%;" class="border-0 btn btn-primary btn-gradient-primary m-r-10"><a href="">Add Customer</a></button>
-                                    <button style="width: 500%;" class="border-0 btn btn-primary btn-gradient-primary m-r-10"><a href="">Import Customers</a></button> -->
-                                </div>
-                                <p-dialog header="Import Suppliers" [(visible)]="visible" [modal]="true"
-                                    [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
-                                    <ul>
-                                        <li>
-                                            <a href="">Click here to download sample csv file</a>
-                                        </li>
-                                    </ul>
-                                    <div>
-                                        <h5>File</h5>
-                                        <button class="border-0 btn btn-primary btn-gradient-primary m-r-10">
-                                            <i class="fa-solid fa-upload me-2"></i> Uplode
-                                        </button>
+                    <div class="page-table-header mb-2">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="doctor-table-blk">
+                                    <h3>Suppliers List</h3>
+                                    <div class="doctor-search-blk col-md-6">
+                                        <div class="top-nav-search table-search-blk me-3">
+                                            <input type="text" class="form-control" placeholder="Search here"
+                                                [(ngModel)]="searchDataValue"
+                                                (ngModelChange)="searchData(searchDataValue)" />
+                                            <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
+                                        </div>
+                                        <div class="add-group textbtn gap-3">
+                                            <a [routerLink]="['/suppliers/add-suppliers']" class="btn btn-primary"><img
+                                                    src="assets/img/icons/plus.svg" alt="" /> Add
+                                                Suppliers</a>
+
+                                        </div>
+                                        <p-dialog header="Import Suppliers" [(visible)]="visible" [modal]="true"
+                                            [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+                                            <ul>
+                                                <li>
+                                                    <a href="">Click here to download sample csv file</a>
+                                                </li>
+                                            </ul>
+                                            <div>
+                                                <h5>File</h5>
+                                                <button class="border-0 btn btn-primary btn-gradient-primary m-r-10">
+                                                    <i class="fa-solid fa-upload me-2"></i> Uplode
+                                                </button>
+                                            </div>
+                                        </p-dialog>
                                     </div>
-                                </p-dialog>
+                                </div>
+                            </div>
+                            <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                                [roles]="['admin', 'super-admin', 'help-desk']">
+                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                        alt=""></a>
+                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                        alt=""></a>
+
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body p-2">
                         <p-table [value]="getSupplierShow" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
-                            [rows]="5">
+                            [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th appShowHide [roles]="['admin', 'super-admin']">
@@ -79,13 +90,14 @@
                                     </th>
                                     <th pSortableColumn="createdOn">
                                         Created At
-                                         <p-sortIcon field="createdOn"></p-sortIcon>
+                                        <p-sortIcon field="createdOn"></p-sortIcon>
                                         <p-columnFilter type="text" field="createdOn" display="menu"></p-columnFilter>
                                     </th>
                                     <!-- <th>Action</th> -->
                                     <th pSortableColumn="openingBalance">
                                         Balance <p-sortIcon field="openingBalance"></p-sortIcon>
-                                        <p-columnFilter type="text" field="openingBalance" display="menu"></p-columnFilter>
+                                        <p-columnFilter type="text" field="openingBalance"
+                                            display="menu"></p-columnFilter>
                                     </th>
                                     <th>Action</th>
                                 </tr>
@@ -109,11 +121,11 @@
 
                                     <td style="display: flex; gap: 5px" appShowHide [roles]="['admin', 'super-admin']">
                                         <p-button [text]=" true" icon="fa fa-eye"
-                                        (click)="suppliersView(product._id)"></p-button>
-                                    <p-button [text]="true" icon="fa fa-edit"
-                                        (click)="editSuppliers(product._id)"></p-button>
-                                    <p-button [text]=" true" icon="fa fa-trash"
-                                        (click)="deleteSuppliers(product._id)"></p-button>
+                                            (click)="suppliersView(product._id)"></p-button>
+                                        <p-button [text]="true" icon="fa fa-edit"
+                                            (click)="editSuppliers(product._id)"></p-button>
+                                        <p-button [text]=" true" icon="fa fa-trash"
+                                            (click)="deleteSuppliers(product._id)"></p-button>
                                     </td>
                                 </tr>
                             </ng-template>

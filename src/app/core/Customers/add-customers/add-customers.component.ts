@@ -34,6 +34,7 @@ export class AddCustomersComponent implements OnInit {
   addcustomerGroup: UntypedFormGroup;
   public routes = routes;
   wareHousedata: any;
+  wareHousedataArray:any
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
@@ -63,7 +64,6 @@ export class AddCustomersComponent implements OnInit {
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
-      // status: ["", [Validators.required]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
       openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
@@ -76,6 +76,16 @@ export class AddCustomersComponent implements OnInit {
   ngOnInit(): void {
     this.service.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
+      this.wareHousedataArray = [];
+      this.wareHousedata.forEach(element => {
+        this.wareHousedataArray.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name
+          }
+        })
+    });
     });
   }
   addcustomerForm() {

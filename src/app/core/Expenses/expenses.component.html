@@ -20,31 +20,34 @@
             <div class="col-sm-12">
 
                 <div class="card card-table show-entire">
-                    <div class="col p-3">
-                        <div class="doctor-table-blk">
-                            <h3>Expenses List</h3>
-                            <div class="doctor-search-blk col-md-6">
-                                <div class="top-nav-search table-search-blk me-3">
-                                    <input type="text" class="form-control" placeholder="Search here"
-                                        [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
-                                    <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                </div>
-                                <div class="add-group textbtn gap-3">
-                                    <a [routerLink]="routes.addExpenses" class="btn btn-primary"><img
-                                            src="assets/img/icons/plus.svg" alt="">Add Expenses</a>
-                                    <!-- <a class="btn btn-primary" (click)="showDialog()">Import Expenses</a> -->
-                                </div>
-                                <!-- <p-dialog header="Import Customers" [(visible)]="visible" [modal]="true"
-                                    [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
-                                    <ul>
-                                        <li><a [routerLink]="routes.customers">Click here to download sample csv file</a></li>
-                                    </ul>
-                                    <div>
-                                        <h5>File</h5>
-                                        <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"><i
-                                                class="fa-solid fa-upload me-2"></i> Uplode</button>
+
+                    <div class="page-table-header mb-2">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="doctor-table-blk">
+                                    <h3>Expenses List</h3>
+                                    <div class="doctor-search-blk gap-3">
+                                        <div class="top-nav-search table-search-blk">
+                                            <input type="text" class="form-control" placeholder="Search here"
+                                                [(ngModel)]="searchDataValue"
+                                                (ngModelChange)="searchData(searchDataValue)">
+                                            <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                        </div>
+                                        <div class="add-group textbtn gap-3">
+                                            <a [routerLink]="routes.addExpenses" class="btn btn-primary"><img
+                                                    src="assets/img/icons/plus.svg" alt="">Add Expenses</a>
+                                            <!-- <a class="btn btn-primary" (click)="showDialog()">Import Customers</a> -->
+                                        </div>
                                     </div>
-                                </p-dialog> -->
+                                </div>
+                            </div>
+                            <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                                [roles]="['admin', 'super-admin', 'help-desk']">
+                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                        alt=""></a>
+                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                        alt=""></a>
+
                             </div>
                         </div>
                     </div>
@@ -63,8 +66,8 @@
                                     <th pSortableColumn="email">Amount	 <p-sortIcon field="email"></p-sortIcon>
                                         <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="status">Date <p-sortIcon field="status"></p-sortIcon>
-                                        <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="createdOn">Date <p-sortIcon field="createdOn"></p-sortIcon>
+                                        <p-columnFilter type="text" field="createdOn" display="menu"></p-columnFilter>
                                     </th>
                                     <!-- <th pSortableColumn="createdOn">User <p-sortIcon field="createdOn"></p-sortIcon></th> -->
                                 

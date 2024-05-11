@@ -55,6 +55,7 @@
               <!-- /Page Header -->
   
               <!-- /Page content start -->
+              <div class="card-body p-2">
               <p-table [value]="categoriesListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
               [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedCategory">
                 <ng-template pTemplate="header">
@@ -87,7 +88,7 @@
                   </tr>
                 </ng-template>
               </p-table>
-  
+              </div>
               <!-- /page content end -->
   
   
