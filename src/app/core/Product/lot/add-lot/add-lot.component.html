@@ -7,10 +7,6 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item">Product</li>
-                        <li class="breadcrumb-item">
-                            <i class="feather icon-chevron-right"></i>
-                        </li>
                         <li class="breadcrumb-item">
                             <a [routerLink]="['/lot']">
                                 Lot
@@ -115,7 +111,7 @@
 
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                            <label for="totalSlots">Total Slots</label>
+                                            <label for="totalSlots">Total Slots<span class="login-danger">*</span></label>
                                             <input class="form-control" type="number" placeholder="Enter Total Slots"
                                                 formControlName="totalSlots" />
                                             <div *ngIf="
@@ -136,7 +132,7 @@
                                     </div>
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                            <label for="totalWeightInTon">Total Weight In Ton</label>
+                                            <label for="totalWeightInTon">Total Weight In Ton<span class="login-danger">*</span></label>
                                             <input class="form-control" type="number" placeholder="Enter Total Weight In Ton"
                                                 formControlName="totalWeightInTon" />
                                             <div *ngIf="
@@ -159,10 +155,10 @@
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="totalPricing">Total Pricing </label>
+                                            <label for="totalPricing">Total Pricing <span class="login-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text">$</span>
+                                                    <span class="input-group-text">₹</span>
                                                 </div>
                                                 <input class="form-control" type="number" placeholder="0"
                                                     formControlName="totalPricing" />
@@ -189,10 +185,10 @@
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="totalTransportation">Total Transportation</label>
+                                            <label for="totalTransportation">Total Transportation<span class="login-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text">$</span>
+                                                    <span class="input-group-text">₹</span>
                                                 </div>
                                                 <input class="form-control" type="number" placeholder="0"
                                                     formControlName="totalTransportation" />

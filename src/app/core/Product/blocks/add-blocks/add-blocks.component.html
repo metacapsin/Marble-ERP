@@ -7,10 +7,6 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item">Product</li>
-                        <li class="breadcrumb-item">
-                            <i class="feather icon-chevron-right"></i>
-                        </li>
                         <li class="breadcrumb-item">
                             <a [routerLink]="['/blocks']">
                                 Blocks
@@ -92,7 +88,7 @@
 
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                            <label for="height">Height </label>
+                                            <label for="height">Height <span class="login-danger">*</span></label>
                                             <input class="form-control" type="number" placeholder="Enter Height"
                                                 formControlName="height" />
                                             <div *ngIf="
@@ -113,7 +109,7 @@
                                     </div>
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                            <label for="width">Width</label>
+                                            <label for="width">Width<span class="login-danger">*</span></label>
                                             <input class="form-control" type="number" placeholder="Enter Width"
                                                 formControlName="width" />
                                             <div *ngIf="
@@ -136,10 +132,10 @@
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="length">Length</label>
+                                            <label for="length">Length<span class="login-danger">*</span></label>
                                             <div class="input-group">
                                                 <!-- <div class="input-group-prepend">
-                                                    <span class="input-group-text">$</span>
+                                                    <span class="input-group-text">₹</span>
                                                 </div> -->
                                                 <input class="form-control" type="number" placeholder="Enter Length"
                                                     formControlName="length" />
@@ -165,10 +161,10 @@
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="processingCharge">Processing Charge</label>
+                                            <label for="processingCharge">Processing Charge<span class="login-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text">$</span>
+                                                    <span class="input-group-text">₹</span>
                                                 </div>
                                                 <input class="form-control" type="number" placeholder="0"
                                                     formControlName="processingCharge" />
@@ -193,10 +189,10 @@
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="totalTransportation">Total Transportation</label>
+                                            <label for="totalTransportation">Total Transportation<span class="login-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text">$</span>
+                                                    <span class="input-group-text">₹</span>
                                                 </div>
                                                 <input class="form-control" type="number" placeholder="0"
                                                     formControlName="totalTransportation" />
