@@ -107,12 +107,12 @@
                       <label for="Email">Email<span class="login-danger">*</span></label>
                       <input class="form-control" type="email" placeholder="Please Enter Email"
                         formControlName="email" />
-                      <div *ngIf="
+                      <!-- <div *ngIf="
                           addcustomerGroup.get('email')?.hasError('required') &&
                           addcustomerGroup.get('email')?.touched
                         " class="login-danger Font_size">
                         Field is required.
-                      </div>
+                      </div> -->
                       <div *ngIf="
                           addcustomerGroup.get('email')?.hasError('pattern') &&
                           addcustomerGroup.get('email')?.touched
