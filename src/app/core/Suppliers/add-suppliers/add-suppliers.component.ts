@@ -64,11 +64,11 @@ export class AddSuppliersComponent {
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
-      email: ["", [ Validators.pattern(this.emailRegex)]],
+      email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
       openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
-      creditLimit: ["", [Validators.min(0), Validators.max(5000000)]],
+      creditLimit: ["", [Validators.min(0), Validators.max(150000)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
       shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });

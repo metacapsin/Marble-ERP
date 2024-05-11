@@ -67,12 +67,7 @@ export class EditCustomersComponent {
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
-<<<<<<< Updated upstream
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
-=======
-      email: ["", [ Validators.pattern(this.emailRegex)]],
-      // status: ["", [Validators.required]],
->>>>>>> Stashed changes
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
       openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
