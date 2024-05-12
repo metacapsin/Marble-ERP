@@ -8,6 +8,7 @@ import { ToastModule } from "primeng/toast";
 import { SharedModule } from "src/app/shared/shared.module";
 import { CommonModule } from "@angular/common";
 import { blockCustomersDataService } from "../../processing/block-customer/block-customer.service";
+import { blockProcessorService } from "../block-processor.service";
 @Component({
   selector: 'app-block-processor-list',
   standalone: true,
@@ -34,13 +35,13 @@ export class BlockProcessorListComponent {
   blockProcessorId: any;
   visible: boolean = false;
   constructor(private router: Router,
-  private Service: blockCustomersDataService, 
+  private Service: blockProcessorService, 
   private messageService: MessageService) { }
   ngOnInit() {
     this.getCustomers()
   }
   getCustomers() {
-    this.Service.getAllBlockCustomerData().subscribe((data) => {
+    this.Service.getAllBlockProcessorData().subscribe((data) => {
       this.blockProcessorData = data
       this.originalData = data
     })
@@ -69,7 +70,7 @@ export class BlockProcessorListComponent {
   }
 
   callBackModal() {
-    this.Service.DeleteBlockCustomer(this.blockProcessorId).subscribe((resp: any) => {
+    this.Service.DeleteBlockProcessor(this.blockProcessorId).subscribe((resp: any) => {
       this.messageService.add({ severity: 'success', detail: resp.message });
       this.getCustomers();
       this.showDialoge = false;

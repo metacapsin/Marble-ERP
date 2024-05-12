@@ -12,6 +12,7 @@ import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
 import { SharedModule } from "src/app/shared/shared.module";
 import { blockCustomersDataService } from "../../processing/block-customer/block-customer.service";
+import { blockProcessorService } from "../block-processor.service";
 @Component({
   selector: 'app-add-block-processor',
   standalone: true,
@@ -40,12 +41,12 @@ export class AddBlockProcessorComponent {
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private Service: blockCustomersDataService,
+    private Service: blockProcessorService,
     private router: Router,
   ) {
     this.addBlockProcessorForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
-      phoneNumber: [
+      phoneNo: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
@@ -64,7 +65,7 @@ export class AddBlockProcessorComponent {
       name: this.addBlockProcessorForm.value.name, 
       email: this.addBlockProcessorForm.value.email, 
       status: true, 
-      phoneNumber: this.addBlockProcessorForm.value.phoneNumber,
+      phoneNo: this.addBlockProcessorForm.value.phoneNo,
       taxNumber: this.addBlockProcessorForm.value.taxNumber,
       creditPeriod: this.addBlockProcessorForm.value.creditPeriod,
       creditLimit: this.addBlockProcessorForm.value.creditLimit,
@@ -74,8 +75,9 @@ export class AddBlockProcessorComponent {
     };
     
     if (this.addBlockProcessorForm.valid) {
-      console.log(payload);
-      this.Service.creatBlockCustomer(payload).subscribe((resp: any) => {
+      console.log("form is valid",payload);
+      // debugger
+      this.Service.creatBlockProcessor(payload).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === "success") {
             const message = "Block Processor has been added";

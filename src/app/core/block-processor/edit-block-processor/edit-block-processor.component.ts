@@ -12,6 +12,7 @@ import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
 import { SharedModule } from "src/app/shared/shared.module";
 import { blockCustomersDataService } from "../../processing/block-customer/block-customer.service";
+import { blockProcessorService } from "../block-processor.service";
 
 @Component({
   selector: 'app-edit-block-processor',
@@ -43,14 +44,14 @@ export class EditBlockProcessorComponent {
 
   constructor(
     private fb: FormBuilder,
-    private Service: blockCustomersDataService,
+    private Service: blockProcessorService,
     private messageService: MessageService,
     private router: Router,
     private activeRoute: ActivatedRoute,
   ) {
     this.editBlockProcessorForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
-      phoneNumber: [
+      phoneNo: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
@@ -69,7 +70,7 @@ export class EditBlockProcessorComponent {
     this.getCoustomers();
   }
   getCoustomers() {
-    this.Service.getBlockCustomerDataById(this.id).subscribe((data: any) => {
+    this.Service.getBlockProcessorDataById(this.id).subscribe((data: any) => {
       this.customerData = data;
       console.log(this.customerData);
       this.patchForm();
@@ -78,7 +79,7 @@ export class EditBlockProcessorComponent {
   patchForm() {
     this.editBlockProcessorForm.patchValue({
       name: this.customerData.name,
-      phoneNumber: this.customerData.phoneNumber,
+      phoneNo: this.customerData.phoneNo,
       email: this.customerData.email,
       status: true,
       taxNumber: this.customerData.taxNumber,
@@ -94,7 +95,7 @@ export class EditBlockProcessorComponent {
     const payload = {
       id: this.id,
       name: this.editBlockProcessorForm.value.name,
-      phoneNumber: this.editBlockProcessorForm.value.phoneNumber,
+      phoneNo: this.editBlockProcessorForm.value.phoneNo,
       email: this.editBlockProcessorForm.value.email,
       status: this.editBlockProcessorForm.value.status,
       taxNumber: this.editBlockProcessorForm.value.taxNumber,
@@ -106,7 +107,7 @@ export class EditBlockProcessorComponent {
     };
     console.log(payload);
     if (this.editBlockProcessorForm.valid) {
-      this.Service.updateBlockCustomerData(payload).subscribe((resp: any) => {
+      this.Service.updateBlockProcessorData(payload).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === "success") {
             this.messageService.add({

@@ -66,23 +66,23 @@
 
                                     <div class="col-12 col-md-4 col-xl-4">
                                         <div class="form-group local-forms">
-                                            <label for="phoneNumber">Phone Number<span
+                                            <label for="phoneNo">Phone Number<span
                                                     class="login-danger">*</span></label>
                                             <input class="form-control" type="number"
-                                                placeholder="Please Enter Phone Number" formControlName="phoneNumber" />
+                                                placeholder="Please Enter Phone Number" formControlName="phoneNo" />
                                             <div *ngIf="
                           editBlockProcessorForm
-                            .get('phoneNumber')
+                            .get('phoneNo')
                             ?.hasError('required') &&
-                          editBlockProcessorForm.get('phoneNumber')?.touched
+                          editBlockProcessorForm.get('phoneNo')?.touched
                         " class="login-danger Font_size">
                                                 Field is required.
                                             </div>
                                             <div *ngIf="
                           editBlockProcessorForm
-                            .get('phoneNumber')
+                            .get('phoneNo')
                             ?.hasError('pattern') &&
-                          editBlockProcessorForm.get('phoneNumber')?.touched
+                          editBlockProcessorForm.get('phoneNo')?.touched
                         " class="login-danger Font_size">
                                                 Please Enter 10-Digit number.
                                             </div>

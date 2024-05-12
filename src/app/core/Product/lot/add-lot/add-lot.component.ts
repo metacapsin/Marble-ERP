@@ -17,12 +17,8 @@ import { ToastModule } from "primeng/toast";
 import { MessageService, SelectItem } from "primeng/api";
 import { LotService } from "../lot.service";
 import { DialogModule } from "primeng/dialog";
-
-interface CategoryItem {
-  label: string;
-  value: string;
-  children?: CategoryItem[];
-}
+import { CalendarModule } from "primeng/calendar";
+import { AccordionModule } from "primeng/accordion";
 
 @Component({
   selector: 'app-add-lot',
@@ -36,7 +32,9 @@ interface CategoryItem {
     FormsModule,
     DropdownModule,
     ToastModule,
-    DialogModule
+    DialogModule,
+    CalendarModule,
+    AccordionModule
   ],
   providers: [MessageService],
   templateUrl: './add-lot.component.html',
@@ -46,12 +44,26 @@ export class AddLotComponent {
 
   public routes = routes;
   lotAddForm!: FormGroup;
-  blockAddForm!: FormGroup;
-  
+  // blockAddForm!: FormGroup;
+  blockItemDetails = [];
+  blockNo: string;
+  height: number;
+  width: number;
+  length: number;
+  totalArea: number;
+  weightPerBlock: number;
+  rawCosting: number;
+  transportationCosting: number;
+  royaltyCosting: number;
+  totalCosting: number;
+  isProcessed: boolean = false;
+
   addvisible: boolean = false;
-  categoryList: any = [];
+  lotNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{5,10})$/;
+  lotNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{5,15})$/;
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   vehicleNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
+  descriptionRegex = /^(?!\s)(?:.{1,500})$/;
 
   constructor(
     private fb: FormBuilder,
@@ -61,52 +73,108 @@ export class AddLotComponent {
 
   ) {
     this.lotAddForm = this.fb.group({
-      lotNo: ["", [Validators.required ,Validators.pattern(this.shortNameRegex)]],
-      vehicleNo: ["", [Validators.required ,Validators.pattern(this.vehicleNoRegex)]],
-      invoiceNo: ["", [Validators.required ,Validators.pattern(this.shortNameRegex)]],
-      totalSlots: ["", [Validators.required,Validators.min(0)]],
-      totalWeightInTon: ["", [Validators.required, Validators.min(0)]],
-      totalPricing: ["", [Validators.required, Validators.min(0)]],
-      totalTransportation: ["", [Validators.required, Validators.min(0)]],
-
-      
-      // totalTransportation: ["", [Validators.required, Validators.min(0)]],
+      lotNo: ["", [Validators.required, Validators.pattern(this.lotNoRegex)]],
+      lotName: ["", [Validators.required, Validators.pattern(this.lotNameRegex)]],
+      vehicleNo: ["", [Validators.required, Validators.pattern(this.lotNameRegex)]],
+      date: ["", [Validators.required]],
+      invoiceNo: ["", [Validators.required, Validators.pattern(this.lotNoRegex)]],
+      lotWeight: ["", [Validators.required, Validators.min(1), Validators.max(10000)]],
+      pricePerTon: ["", [Validators.required, Validators.min(1), Validators.max(1000000)]],
+      transportationCharge: ["", [Validators.required, Validators.min(1), Validators.max(100000)]],
+      royaltyCharge: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
+      notes: ["", [Validators.pattern(this.descriptionRegex)]],
+      blocksCount: [""],
+      averageWeight: [""],
+      averageTransport: [""],
+      averageRoyalty: [""],
     });
 
-    this.blockAddForm = this.fb.group({
-      blocksNo: ["", [Validators.required ,Validators.pattern(this.shortNameRegex)]],
-      height: ["", [Validators.required,Validators.min(0)]],
-      width: ["", [Validators.required, Validators.min(0)]],
-      length: ["", [Validators.required, Validators.min(0)]],
-      processingCharge: ["", [Validators.required ,Validators.min(0)]],
-    });
+    // this.blockAddForm = this.fb.group({
+    //   blocksNo: ["", [Validators.required, Validators.pattern(this.shortNameRegex)]],
+    //   height: ["", [Validators.required, Validators.min(0)]],
+    //   width: ["", [Validators.required, Validators.min(0)]],
+    //   length: ["", [Validators.required, Validators.min(0)]],
+    //   processingCharge: ["", [Validators.required, Validators.min(0)]],
+    // });
   }
-  get f() {
-    return this.lotAddForm.controls;
-  }
+  // get f() {
+  //   return this.lotAddForm.controls;
+  // }
   ngOnInit(): void {
   }
 
-  // addBlockDialog(){
-  //   this.addvisible = true
-  // }
 
-  blockAddFormSubmit(){
-    if(this.blockAddForm.valid){
-      this.addvisible = false;
-      console.log("Form is valid", this.blockAddForm.value);
-      
-    }else{
-      console.log("Form is invalid");
-      
-    }
+  addBlockDialog() {
+    this.addvisible = true
   }
 
+  addBlock() {
+    this.addvisible = false;
+    const newBlock = {
+      blockNo: this.blockNo,
+      height: this.height,
+      width: this.width,
+      length: this.length,
+      totalArea: this.totalArea,
+      weightPerBlock: this.weightPerBlock,
+      rawCosting: this.rawCosting,
+      transportationCosting: this.transportationCosting,
+      royaltyCosting: this.royaltyCosting,
+      totalCosting: this.totalCosting,
+      isProcessed: this.isProcessed
+    };
+
+    this.blockItemDetails.push(newBlock);
+
+    console.log("blocks", this.blockItemDetails);
+
+
+    this.blockNo = '';
+    this.height = null;
+    this.width = null;
+    this.length = null;
+    this.totalArea = null;
+
+
+  }
+
+
+  // blockAddFormSubmit() {
+  //   if (this.blockAddForm.valid) {
+  //     this.addvisible = false;
+  //     console.log("Form is valid", this.blockAddForm.value);
+
+  //   } else {
+  //     console.log("Form is invalid");
+
+  //   }
+  // }
+
   LotAddFormSubmit() {
+    const data = this.lotAddForm.value;
+
+    const payload = {
+      lotNo: data.lotNo,
+      lotName: data.lotName,
+      date: data.date,
+      vehicleNo: data.vehicleNo,
+      invoiceNo: data.invoiceNo,
+      lotWeight: data.lotWeight,
+      pricePerTon: data.pricePerTon,
+      transportationCharge: data.transportationCharge,
+      royaltyCharge: data.royaltyCharge,
+      notes: data.notes,
+      blocksCount: data.blocksCount,
+      averageWeight: data.averageWeight,
+      averageTransport: data.averageTransport,
+      averageRoyalty: data.averageRoyalty,
+      blockItemDetails: this.blockItemDetails
+
+    }
     if (this.lotAddForm.valid) {
-      console.log("Form valid lot value", this.lotAddForm.value);
+      console.log("Form valid lot value", payload);
       this.service
-        .CreateLot(this.lotAddForm.value)
+        .CreateLot(payload)
         .subscribe((resp: any) => {
           if (resp.status === "success") {
             const message = "Lot has been added";

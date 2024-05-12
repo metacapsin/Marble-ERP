@@ -281,15 +281,15 @@ export class DataService {
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
           subMenus: [
             {
-              menuValue: "Lot",
+              menuValue: "Lots",
               route: routes.lot,
               base: routes.lot,
             },
-            {
-              menuValue: "Block",
-              route: routes.blocks,
-              base: routes.blocks,
-            },
+            // {
+            //   menuValue: "Block",
+            //   route: routes.blocks,
+            //   base: routes.blocks,
+            // },
             {
               menuValue: "Slabs",
               route: routes.slabs,
