@@ -12,6 +12,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
 import { CustomersdataService } from "../customers.service";
 import { ToastModule } from "primeng/toast";
+// import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { MultiSelectModule } from "primeng/multiselect";
 
 @Component({
@@ -29,9 +30,11 @@ import { MultiSelectModule } from "primeng/multiselect";
   styleUrl: "./add-customers.component.scss",
   providers: [MessageService],
 })
-export class AddCustomersComponent {
+export class AddCustomersComponent implements OnInit {
   addcustomerGroup: UntypedFormGroup;
   public routes = routes;
+  // wareHousedata: any;
+  // wareHousedataArray:any
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
@@ -51,15 +54,18 @@ export class AddCustomersComponent {
     private messageService: MessageService,
     private Service: CustomersdataService,
     private router: Router,
+    // private service: WarehouseService
   ) {
     this.addcustomerGroup = this.fb.group({
+      // wareHouse: ["", [Validators.required]],
       name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
-      phoneNo: [
+      phoneNumber: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
-      taxNo: ["", [Validators.pattern(this.shortNameRegex)]],
+      taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
+      // openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
       creditLimit: ["", [Validators.min(0), Validators.max(5000000)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
@@ -67,19 +73,35 @@ export class AddCustomersComponent {
     });
   }
 
-  
+  ngOnInit(): void {
+    // this.service.getAllWarehouseList().subscribe((resp: any) => {
+    //   this.wareHousedata = resp.data;
+    //   this.wareHousedataArray = [];
+    //   this.wareHousedata.forEach(element => {
+    //     this.wareHousedataArray.push({
+    //       name: element.name,
+    //       _id: {
+    //         _id: element._id,
+    //         name: element.name
+    //       }
+    //     })
+    // });
+    // });
+  }
   addcustomerForm() {
     console.log(this.addcustomerGroup.value);
     const payload = {
+      // warehouse: this.addcustomerGroup.value.wareHouse, //req
       name: this.addcustomerGroup.value.name, //req
       email: this.addcustomerGroup.value.email, //req
       status: true, //req
-      phoneNo: this.addcustomerGroup.value.phoneNo,
-      taxNo: this.addcustomerGroup.value.taxNo,
+      phoneNo: this.addcustomerGroup.value.phoneNumber,
+      taxNo: this.addcustomerGroup.value.taxNumber,
       creaditPeriod: this.addcustomerGroup.value.creditPeriod,
       creaditLimit: this.addcustomerGroup.value.creditLimit,
       billingAddress: this.addcustomerGroup.value.billingAddress,
       shippingAddress: this.addcustomerGroup.value.shippingAddress,
+      // openingBalance: this.addcustomerGroup.value.openingBalance,
     };
     console.log(payload);
 

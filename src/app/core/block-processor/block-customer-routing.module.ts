@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { EditBlockProcessorComponent } from './edit-block-processor/edit-block-processor.component';
 import { AddBlockProcessorComponent } from './add-block-processor/add-block-processor.component';
 import { BlockProcessorListComponent } from './block-processor-list/block-processor-list.component';
-import { ViewBlockProcessorComponent } from './view-block-processor/view-block-processor.component';
 
 
 const routes: Routes = [
@@ -18,10 +17,6 @@ const routes: Routes = [
   {
     path: 'edit-block-processor/:id',
     component: EditBlockProcessorComponent,
-  },
-  {
-    path: 'view-block-processor/:id',
-    component: ViewBlockProcessorComponent,
   }
 ];
 

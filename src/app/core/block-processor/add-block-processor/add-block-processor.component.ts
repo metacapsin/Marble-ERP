@@ -71,7 +71,7 @@ export class AddBlockProcessorComponent {
       creditLimit: this.addBlockProcessorForm.value.creditLimit,
       billingAddress: this.addBlockProcessorForm.value.billingAddress,
       shippingAddress: this.addBlockProcessorForm.value.shippingAddress,
-      openingBalance: this.addBlockProcessorForm.value.openingBalance,
+      // openingBalance: this.addBlockProcessorForm.value.openingBalance,
     };
     
     if (this.addBlockProcessorForm.valid) {
