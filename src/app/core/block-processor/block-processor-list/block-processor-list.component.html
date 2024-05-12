@@ -90,8 +90,8 @@
                                     <td>{{product.openingBalance}}</td>
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
 
-                                        <!-- <p-button [text]=" true" icon="fa fa-eye"
-                                            (click)="vewCustomer(product._id)"></p-button> -->
+                                        <p-button [text]=" true" icon="fa fa-eye"
+                                            (click)="vewBlockProcessor(product._id)"></p-button>
                                         <p-button [text]="true" icon="fa fa-edit"
                                             (click)="editBlockProcessor(product._id)"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"

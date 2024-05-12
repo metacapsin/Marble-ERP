@@ -54,6 +54,10 @@ export class BlockProcessorListComponent {
     console.log(id);
     this.router.navigate(["/block-processor/edit-block-processor/" + id]);
   }
+  vewBlockProcessor(id) {
+    console.log(id);
+    this.router.navigate(["/block-processor/view-block-processor/" + id]);
+  }
 
   deleteBlockProcessor(Id: any) {
     this.blockProcessorId = Id;
