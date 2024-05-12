@@ -56,7 +56,7 @@ export class EditBlockProcessorComponent {
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
-      openingBalance: ["", [Validators.min(0)]],
+      // openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
       creditLimit: ["", [Validators.min(0), Validators.max(5000000)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
@@ -82,7 +82,7 @@ export class EditBlockProcessorComponent {
       email: this.customerData.email,
       status: true,
       taxNumber: this.customerData.taxNumber,
-      openingBalance: this.customerData.openingBalance,
+      // openingBalance: this.customerData.openingBalance,
       creditPeriod: this.customerData.creditPeriod,
       creditLimit: this.customerData.creditLimit,
       billingAddress: this.customerData.billingAddress,
@@ -102,7 +102,7 @@ export class EditBlockProcessorComponent {
       creditLimit: this.editBlockProcessorForm.value.creditLimit,
       billingAddress: this.editBlockProcessorForm.value.billingAddress,
       shippingAddress: this.editBlockProcessorForm.value.shippingAddress,
-      openingBalance: this.editBlockProcessorForm.value.openingBalance,
+      // openingBalance: this.editBlockProcessorForm.value.openingBalance,
     };
     console.log(payload);
     if (this.editBlockProcessorForm.valid) {

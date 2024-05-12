@@ -12,7 +12,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
 import { SuppliersdataService } from "../suppliers.service";
 import { ToastModule } from "primeng/toast";
-import { WarehouseService } from "../../settings/warehouse/warehouse.service";
+// import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { MultiSelectModule } from "primeng/multiselect";
 
 @Component({
@@ -33,7 +33,7 @@ import { MultiSelectModule } from "primeng/multiselect";
 export class AddSuppliersComponent {
   addSupplierGroup: UntypedFormGroup;
   routes = routes;
-  wareHousedata: any;
+  // wareHousedata: any;
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
@@ -55,10 +55,10 @@ export class AddSuppliersComponent {
     private router: Router,
     private Service: SuppliersdataService,
     private messageService: MessageService,
-    private service: WarehouseService
+    // private service: WarehouseService
   ) {
     this.addSupplierGroup = this.fb.group({
-      wareHouse: ["", [Validators.required]],
+      // wareHouse: ["", [Validators.required]],
       name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       phoneNumber: [
         "",
@@ -66,7 +66,7 @@ export class AddSuppliersComponent {
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
-      openingBalance: ["", [Validators.min(0)]],
+      // openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
       creditLimit: ["", [Validators.min(0), Validators.max(150000)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
@@ -74,16 +74,16 @@ export class AddSuppliersComponent {
     });
   }
 
-  ngOnInit(): void {
-    this.service.getAllWarehouseList().subscribe((resp: any) => {
-      this.wareHousedata = resp.data;
-    });
-  }
+  // ngOnInit(): void {
+  //   this.service.getAllWarehouseList().subscribe((resp: any) => {
+  //     this.wareHousedata = resp.data;
+  //   });
+  // }
 
   addSupplierForm() {
     console.log(this.addSupplierGroup.value);
     const payload = {
-      warehouse: this.addSupplierGroup.value.wareHouse,
+      // warehouse: this.addSupplierGroup.value.wareHouse,
       name: this.addSupplierGroup.value.name,
       email: this.addSupplierGroup.value.email,
       phoneNo: this.addSupplierGroup.value.phoneNumber,
@@ -93,7 +93,7 @@ export class AddSuppliersComponent {
       creditLimit: this.addSupplierGroup.value.creditLimit,
       billingAddress: this.addSupplierGroup.value.billingAddress,
       shippingAddress: this.addSupplierGroup.value.shippingAddress,
-      openingBalance: this.addSupplierGroup.value.openingBalance,
+      // openingBalance: this.addSupplierGroup.value.openingBalance,
     };
     if (this.addSupplierGroup.value) {
       this.Service.AddSupplierdata(payload).subscribe((resp: any) => {

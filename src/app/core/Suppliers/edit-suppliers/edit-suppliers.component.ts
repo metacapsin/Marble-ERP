@@ -13,7 +13,7 @@ import { MessageService } from "primeng/api";
 import { SuppliersdataService } from "../suppliers.service";
 import { ToastModule } from "primeng/toast";
 import { MultiSelectModule } from "primeng/multiselect";
-import { WarehouseService } from "../../settings/warehouse/warehouse.service";
+// import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 
 @Component({
   selector: "app-edit-suppliers",
@@ -35,7 +35,7 @@ export class EditSuppliersComponent implements OnInit {
   routes = routes;
   id: any;
   SupplierData: any;
-  wareHousedata:any
+  // wareHousedata:any
 
   // wareHouseArray = [{ name: "Electronifly" }, { name: "Warehouse Gas" }];
 
@@ -59,10 +59,10 @@ export class EditSuppliersComponent implements OnInit {
     private Service: SuppliersdataService,
     private messageService: MessageService,
     private activeRoute: ActivatedRoute,
-    private service: WarehouseService
+    // private service: WarehouseService
   ) {
     this.editSupplierGroup = this.fb.group({
-      wareHouse: ["", [Validators.required]],
+      // wareHouse: ["", [Validators.required]],
       name:["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       phoneNumber: [
         "",
@@ -70,7 +70,7 @@ export class EditSuppliersComponent implements OnInit {
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
-      openingBalance: ["", [Validators.min(0)]],
+      // openingBalance: ["", [Validators.min(0)]],
       creditPeriod:  ["", [Validators.min(0), Validators.max(120)]],
       creditLimit: ["", [Validators.min(0), Validators.max(150000)]],
       billingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
@@ -80,9 +80,9 @@ export class EditSuppliersComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getSupplier();
-    this.service.getAllWarehouseList().subscribe((resp: any) => {
-      this.wareHousedata = resp.data;
-    })
+    // this.service.getAllWarehouseList().subscribe((resp: any) => {
+    //   this.wareHousedata = resp.data;
+    // })
   }
   getSupplier() {
     this.Service.GetSupplierDataById(this.id).subscribe((data: any) => {
@@ -94,13 +94,13 @@ export class EditSuppliersComponent implements OnInit {
 
   patchForm() {
     this.editSupplierGroup.patchValue({
-      wareHouse: this.SupplierData.warehouse,
+      // wareHouse: this.SupplierData.warehouse,
       name: this.SupplierData.name,
       phoneNumber: this.SupplierData.phoneNo,
       email: this.SupplierData.email,
       status: this.SupplierData.status,
       taxNumber: this.SupplierData.taxNo,
-      openingBalance: this.SupplierData.openingBalance,
+      // openingBalance: this.SupplierData.openingBalance,
       creditPeriod: this.SupplierData.creditPeriod,
       creditLimit: this.SupplierData.creditLimit,
       billingAddress: this.SupplierData.billingAddress,
@@ -112,7 +112,7 @@ export class EditSuppliersComponent implements OnInit {
     console.log(this.editSupplierGroup.value);
     const payload = {
       id: this.id,
-      warehouse: this.editSupplierGroup.value.wareHouse,
+      // warehouse: this.editSupplierGroup.value.wareHouse,
       name: this.editSupplierGroup.value.name,
       email: this.editSupplierGroup.value.email,
       phoneNo: this.editSupplierGroup.value.phoneNumber,
@@ -122,7 +122,7 @@ export class EditSuppliersComponent implements OnInit {
       creditLimit: this.editSupplierGroup.value.creditLimit,
       billingAddress: this.editSupplierGroup.value.billingAddress,
       shippingAddress: this.editSupplierGroup.value.shippingAddress,
-      openingBalance: this.editSupplierGroup.value.openingBalance,
+      // openingBalance: this.editSupplierGroup.value.openingBalance,
     };
     if (this.editSupplierGroup.value) {
       this.Service.UpDataSupplierApi(payload).subscribe((resp: any) => {

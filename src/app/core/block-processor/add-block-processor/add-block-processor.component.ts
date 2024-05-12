@@ -51,7 +51,7 @@ export class AddBlockProcessorComponent {
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
-      openingBalance: ["", [Validators.min(0)]],
+      // openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
       creditLimit: ["", [Validators.min(0), Validators.max(5000000)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],

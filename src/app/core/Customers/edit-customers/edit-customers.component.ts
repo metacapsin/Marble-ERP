@@ -12,7 +12,7 @@ import { CommonModule } from "@angular/common";
 import { CustomersdataService } from "../customers.service";
 import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
-import { WarehouseService } from "../../settings/warehouse/warehouse.service";
+// import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { MultiSelectModule } from "primeng/multiselect";
 
 @Component({
@@ -35,10 +35,10 @@ export class EditCustomersComponent {
   routes = routes;
   customerData: any;
   id: any;
-  wareHousedata: any;
-  wareHousedataArray:any
+  // wareHousedata: any;
+  // wareHousedataArray:any
 
-  wareHouseArray = [{ name: "Electronifly" }, { name: "Warehouse Gas" }];
+  // wareHouseArray = [{ name: "Electronifly" }, { name: "Warehouse Gas" }];
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
@@ -58,18 +58,21 @@ export class EditCustomersComponent {
     private messageService: MessageService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private service: WarehouseService
+    // private service: WarehouseService
   ) {
     this.editCustomerGroup = this.fb.group({
-      wareHouse: ["", [Validators.required]],
-      name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      // wareHouse: ["", [Validators.required]],
+      name: [
+        "",
+        [Validators.required, Validators.pattern(this.personNameRegex)],
+      ],
       phoneNumber: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
-      openingBalance: ["", [Validators.min(0)]],
+      // openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
       creditLimit: ["", [Validators.min(0), Validators.max(5000000)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
@@ -81,19 +84,19 @@ export class EditCustomersComponent {
   ngOnInit() {
     this.getCoustomers();
 
-    this.service.getAllWarehouseList().subscribe((resp: any) => {
-      this.wareHousedata = resp.data;
-      this.wareHousedataArray = [];
-      this.wareHousedata.forEach(element => {
-        this.wareHousedataArray.push({
-          name: element.name,
-          _id: {
-            _id: element._id,
-            name: element.name
-          }
-        })
-    });
-    });
+    // this.service.getAllWarehouseList().subscribe((resp: any) => {
+    //   this.wareHousedata = resp.data;
+    //   this.wareHousedataArray = [];
+    //   this.wareHousedata.forEach((element) => {
+    //     this.wareHousedataArray.push({
+    //       name: element.name,
+    //       _id: {
+    //         _id: element._id,
+    //         name: element.name,
+    //       },
+    //     });
+    //   });
+    // });
   }
   getCoustomers() {
     this.Service.GetCustomerDataById(this.id).subscribe((data: any) => {
@@ -104,13 +107,13 @@ export class EditCustomersComponent {
   }
   patchForm() {
     this.editCustomerGroup.patchValue({
-      wareHouse: this.customerData.warehouse,
+      // wareHouse: this.customerData.warehouse,
       name: this.customerData.name,
       phoneNumber: this.customerData.phoneNo,
       email: this.customerData.email,
       status: true,
       taxNumber: this.customerData.taxNo,
-      openingBalance: this.customerData.openingBalance,
+      // openingBalance: this.customerData.openingBalance,
       creditPeriod: this.customerData.creaditPeriod,
       creditLimit: this.customerData.creaditLimit,
       billingAddress: this.customerData.billingAddress,
@@ -122,7 +125,7 @@ export class EditCustomersComponent {
 
     const payload = {
       id: this.id,
-      warehouse: this.editCustomerGroup.value.wareHouse,
+      // warehouse: this.editCustomerGroup.value.wareHouse,
       name: this.editCustomerGroup.value.name,
       phoneNo: this.editCustomerGroup.value.phoneNumber,
       email: this.editCustomerGroup.value.email,
@@ -132,7 +135,7 @@ export class EditCustomersComponent {
       creaditLimit: this.editCustomerGroup.value.creditLimit,
       billingAddress: this.editCustomerGroup.value.billingAddress,
       shippingAddress: this.editCustomerGroup.value.shippingAddress,
-      openingBalance: this.editCustomerGroup.value.openingBalance,
+      // openingBalance: this.editCustomerGroup.value.openingBalance,
     };
     console.log(payload);
     if (this.editCustomerGroup.value) {
