@@ -80,22 +80,22 @@
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="phoneNumber">Phone Number<span class="login-danger">*</span></label>
+                      <label for="phoneNo">Phone Number<span class="login-danger">*</span></label>
                       <input class="form-control" type="number" placeholder="Please Enter Phone Number"
-                        formControlName="phoneNumber" />
+                        formControlName="phoneNo" />
                       <div *ngIf="
                           addcustomerGroup
-                            .get('phoneNumber')
+                            .get('phoneNo')
                             ?.hasError('required') &&
-                          addcustomerGroup.get('phoneNumber')?.touched
+                          addcustomerGroup.get('phoneNo')?.touched
                         " class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div *ngIf="
                           addcustomerGroup
-                            .get('phoneNumber')
+                            .get('phoneNo')
                             ?.hasError('pattern') &&
-                          addcustomerGroup.get('phoneNumber')?.touched
+                          addcustomerGroup.get('phoneNo')?.touched
                         " class="login-danger Font_size">
                         Please Enter 10-Digit number.
                       </div>
@@ -142,21 +142,21 @@
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
+                      <label for="taxNo">Tax Number<span class="login-danger"></span></label>
                       <input class="form-control" type="text" placeholder="Please Enter Tex Number"
-                        formControlName="taxNumber" />
+                        formControlName="taxNo" />
                       <!-- <div *ngIf="
-                                                      addcustomerGroup.get('taxNumber')?.hasError(
+                                                      addcustomerGroup.get('taxNo')?.hasError(
                                                         'required'
-                                                      ) && addcustomerGroup.get('taxNumber')?.touched
+                                                      ) && addcustomerGroup.get('taxNo')?.touched
                                                     " class="login-danger Font_size">
                         Field is required.
                       </div> -->
                       <div *ngIf="
                           addcustomerGroup
-                            .get('taxNumber')
+                            .get('taxNo')
                             ?.hasError('pattern') &&
-                          addcustomerGroup.get('taxNumber')?.touched
+                          addcustomerGroup.get('taxNo')?.touched
                         " class="login-danger Font_size">
                         Input Must be between 3 to 15 characters.
                       </div>
@@ -207,9 +207,9 @@
                         </div>
                       </div>
                       <!-- <div *ngIf="
-                      addcustomerGroup.get('taxNumber')?.hasError(
+                      addcustomerGroup.get('taxNo')?.hasError(
                         'required'
-                      ) && addcustomerGroup.get('taxNumber')?.touched
+                      ) && addcustomerGroup.get('taxNo')?.touched
                     " class="login-danger Font_size">
                         Field is required.
                       </div> -->
