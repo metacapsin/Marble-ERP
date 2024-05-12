@@ -6,6 +6,7 @@ import { CustomersdataService } from "../customers.service";
 import { PaymentInService } from "../../payment-in/payment-in.service";
 import { TabViewModule } from "primeng/tabview";
 import { TableModule } from "primeng/table";
+import { SalesService } from "../../sales/sales.service";
 
 @Component({
   selector: "app-view-customers",
@@ -25,7 +26,8 @@ export class ViewCustomersComponent {
   constructor(
     private Service: CustomersdataService,
     private activeRoute: ActivatedRoute,
-    private PaymentInService: PaymentInService
+    private PaymentInService: PaymentInService,
+    private salesService: SalesService
   ) {
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -33,7 +35,7 @@ export class ViewCustomersComponent {
   ngOnInit() {
     this.getCoustomers();
 
-    this.PaymentInService.getPaymentDetailById(this.id).subscribe(
+    this.PaymentInService.getPaymentList().subscribe(
       (resp: any) => {
         console.log("payments of customer",resp)
         
@@ -42,7 +44,7 @@ export class ViewCustomersComponent {
 
       }
     );
-    this.PaymentInService.getSalesByCustomerId(this.id).subscribe(
+    this.salesService.GetSalesData().subscribe(
       (resp: any) => {
         console.log("sales of custonmer ", resp);
 

@@ -33,7 +33,7 @@ export class ViewSuppliersComponent {
   ngOnInit() {
     this.getSupplier();
 
-    this.PaymentOutService.getPaymentDetailById(this.id).subscribe(
+    this.PaymentOutService.getPaymentList().subscribe(
       (resp: any) => {
         console.log("payments of customer",resp)
         
@@ -42,7 +42,7 @@ export class ViewSuppliersComponent {
 
       }
     );
-    this.purchaseService.GetPurchaseDataById(this.id).subscribe(
+    this.purchaseService.GetPurchaseData().subscribe(
       (resp: any) => {
         console.log("Purchase of Supplier ", resp);
 
