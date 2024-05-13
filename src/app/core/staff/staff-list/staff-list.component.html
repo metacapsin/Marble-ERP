@@ -1,6 +1,5 @@
 <div class="page-wrapper">
   <div class="content">
-
     <!-- Page Header -->
     <div class="page-header">
       <div class="row">
@@ -88,7 +87,7 @@
                   <td>{{staff.email}}</td>
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-edit" (click)="editStaff(staff._id)"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-trash"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteStaff(staff._id)"></p-button>
                   </td>
                 </tr>
               </ng-template>
@@ -100,4 +99,6 @@
     </div>
   </div>
 </div>
-<!-- </div> -->
+
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog>

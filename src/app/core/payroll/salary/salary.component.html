@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="page-wrapper">
   <div class="content">
 
@@ -57,44 +58,42 @@
                   <th appShowHide [roles]="['admin', 'super-admin']">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                   </th>
-                  <th pSortableColumn="employeeID">Employee ID <p-sortIcon field="employeeID"></p-sortIcon>
-                    <p-columnFilter type="text" field="employeeID" display="menu"></p-columnFilter>
+                  <th pSortableColumn="employee">Employee<p-sortIcon field="employee"></p-sortIcon>
+                    <p-columnFilter type="text" field="employee" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="employeeName">Employee Name <p-sortIcon field="employeeName"></p-sortIcon>
-                    <p-columnFilter type="text" field="employeeName" display="menu"></p-columnFilter>
+                  <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon>
+                    <p-columnFilter type="text" field="type" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="Email">Email <p-sortIcon field="Email"></p-sortIcon>
-                    <p-columnFilter type="text" field="Email" display="menu"></p-columnFilter>
-                  </th>
-                  <th pSortableColumn="joiningDate">Joining Date <p-sortIcon field="joiningDate"></p-sortIcon></th>
-                  <th pSortableColumn="Salary">Salary <p-sortIcon field="Salary"></p-sortIcon>
+                  
+                  <th pSortableColumn="netSalary">Net Salary<p-sortIcon field="netSalary"></p-sortIcon></th>
+                  <!-- <th pSortableColumn="basicSalary">Basic Salary<p-sortIcon field="basicSalary"></p-sortIcon></th> -->
+                 
+                  <!-- <th pSortableColumn="Salary">Salary <p-sortIcon field="Salary"></p-sortIcon>
                     <p-columnFilter type="text" field="Salary" display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="Role">Role <p-sortIcon field="Role"></p-sortIcon>
                     <p-columnFilter type="text" field="Role" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="Status"> Status <p-sortIcon field="Status"></p-sortIcon></th>
+                  <th pSortableColumn="Status"> Status <p-sortIcon field="Status"></p-sortIcon></th> -->
 
                   <th>Action</th>
-                </tr>
+                </tr>`
               </ng-template>
               <ng-template pTemplate="body" let-salary>
                 <tr>
                   <td appShowHide [roles]="['admin', 'super-admin']">
                     <p-tableCheckbox [value]="salary"></p-tableCheckbox>
                   </td>
-                  <td>{{salary.employeeID}}</td>
-                  <td>{{salary.employeeName}}</td>
-                  <td>{{salary.Email}}</td>
-                  <td>{{salary.joiningDate}}</td>
-                  <td>₹ {{salary.Salary}}</td>
+                  <td>{{salary.employee}}</td>
+                  <td>{{salary.type}}</td>
+                  <td>₹ {{salary.netSalary}}</td>
+                  <!-- <td>₹ {{salary.basicSalary}}</td> -->
+                  <!-- <td>₹ {{salary.Salary}}</td>
                   <td>{{salary.Role}}</td>
-                  <td>{{salary.Status}}</td>
+                  <td>{{salary.Status}}</td> -->
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                    <p-button [text]="true" data-bs-toggle="modal" icon="fa-solid fa-eye"
-                      [routerLink]="routes.salaryView"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-trash"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-edit" [routerLink]="routes.editSalary"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-edit"(click)="editSalary(salary._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalaryList(salary._id)"></p-button>
                   </td>
                 </tr>
               </ng-template>
@@ -107,4 +106,6 @@
 
   </div>
 </div>
-<!-- </div> -->
+
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog>

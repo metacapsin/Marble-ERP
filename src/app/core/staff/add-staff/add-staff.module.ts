@@ -10,6 +10,7 @@ import { Checkbox } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { staffService } from '../staff.service';
 
 
 @NgModule({
@@ -25,6 +26,6 @@ import { ToastModule } from 'primeng/toast';
     ToastModule
     
   ],
-  providers: [MessageService]
+  providers: [MessageService, staffService]
 })
 export class AddStaffModule { }

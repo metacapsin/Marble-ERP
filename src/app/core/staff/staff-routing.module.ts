@@ -49,7 +49,7 @@ const routes: Routes = [
         import('./edit-leave/edit-leave.module').then((m) => m.EditLeaveModule),
     },
     {
-      path: 'edit-staff',
+      path: 'edit-staff/:id',
       loadChildren: () =>
         import('./edit-staff/edit-staff.module').then((m) => m.EditStaffModule),
     },

@@ -101,30 +101,6 @@
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
                   <div class="form-group local-forms">
-                    <label for="email">Email</label>
-                    <input class="form-control" formControlName="email" type="email" />
-                    <div *ngIf="
-                        addStaffForm.get('email')?.hasError('required') &&
-                        addStaffForm.get('email')?.touched
-                      " class="login-danger Font_size">
-                      Field is required.
-                    </div>
-                    <div *ngIf="
-                        addStaffForm.get('email')?.hasError('pattern') &&
-                        addStaffForm.get('email')?.touched
-                      " class="login-danger Font_size">
-                      Please enter valid Email address.
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-4">
-                  <div class="form-group local-forms">
-                    <label for="upiId">UPI ID</label>
-                    <input class="form-control" formControlName="upi" type="text" />
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-4">
-                  <div class="form-group local-forms">
                     <label for="designation">Designation <span class="login-danger">*</span></label>
                     <p-dropdown [style]="{ width: '100%' }" placeholder="Select Designation" [options]="Designation"
                       formControlName="designation" optionLabel="value" optionValue="value" display="chip"
@@ -132,6 +108,18 @@
                     </p-dropdown>
                     <div
                       *ngIf="addStaffForm.get('designation')?.hasError('required') && addStaffForm.get('designation')?.touched"
+                      class="login-danger Font_size">Field is required.</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="warehouseDetails">WareHouse <span class="login-danger">*</span></label>
+                    <p-dropdown [style]="{ width: '100%' }" placeholder="Select warehouse " [options]="warehouseData"
+                      formControlName="warehouseDetails" optionLabel="name"  display="chip"
+                      [filter]="true" filterBy="name" [showClear]="true">
+                    </p-dropdown>
+                    <div
+                      *ngIf="addStaffForm.get('warehouseDetails')?.hasError('required') && addStaffForm.get('warehouseDetails')?.touched"
                       class="login-danger Font_size">Field is required.</div>
                   </div>
                 </div>
@@ -160,20 +148,82 @@
                     <div *ngIf="addStaffForm.get('city')?.hasError('required') && addStaffForm.get('city')?.touched"
                       class="login-danger Font_size">Field is required.</div>
                     <div *ngIf="addStaffForm.get('city')?.hasError('pattern') && addStaffForm.get('city')?.touched"
+                      class="login-danger Font_size">Input must be between 3 to 15 alphanumeric.</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="email">Email</label>
+                    <input class="form-control" formControlName="email" type="email" />
+                    <div *ngIf="
+                        addStaffForm.get('email')?.hasError('required') &&
+                        addStaffForm.get('email')?.touched
+                      " class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                    <div *ngIf="
+                        addStaffForm.get('email')?.hasError('pattern') &&
+                        addStaffForm.get('email')?.touched
+                      " class="login-danger Font_size">
+                      Please enter valid Email address.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="upiId">UPI ID</label>
+                    <input class="form-control" formControlName="upiId" type="text" />
+                    <div
+                      *ngIf="addStaffForm.get('upiId')?.hasError('pattern') && addStaffForm.get('upiId')?.touched"
                       class="login-danger Font_size">Input must be between 3 to 100 alphanumeric.</div>
                   </div>
                 </div>
-                <div class="col-12 col-sm-12">
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="bankName">Bank Name </label>
+                    <input class="form-control" formControlName="bankName" type="text" />
+                    <div
+                      *ngIf="addStaffForm.get('bankName')?.hasError('pattern') && addStaffForm.get('bankName')?.touched"
+                      class="login-danger Font_size">Input must be between 3 to 100 alphanumeric.</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="accountName">Account Holder Name</label>
+                    <input class="form-control" formControlName="accountName" type="text" />
+                    <div
+                      *ngIf="addStaffForm.get('accountName')?.hasError('pattern') && addStaffForm.get('accountName')?.touched"
+                      class="login-danger Font_size">Input must be between 3 to 100 alphanumeric.</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="accountNumber">Account Number</label>
+                    <input class="form-control" formControlName="accountNumber" type="number" />
+                    <div
+                      *ngIf="addStaffForm.get('accountNumber')?.hasError('pattern') && addStaffForm.get('accountNumber')?.touched"
+                      class="login-danger Font_size">Input must be 14 Number.</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="ifscCode">IFSC Code </label>
+                    <input class="form-control" formControlName="ifscCode" type="text" />
+                    <div
+                      *ngIf="addStaffForm.get('ifscCode')?.hasError('pattern') && addStaffForm.get('ifscCode')?.touched"
+                      class="login-danger Font_size">Input must be 11 alphanumeric.</div>
+                  </div>
+                </div>
+                <div class="col-12 col-xl-4">
                   <div class="form-group local-forms">
                     <label for="city">Address</label>
                     <textarea
                     class="form-control"
                     formControlName="address"
-                    rows="3"
+                    rows="1"
                     cols="30"
                   ></textarea>
-                    <div
-                      *ngIf="addStaffForm.get('address')?.hasError('pattern') && addStaffForm.get('address')?.touched"
+                    <div *ngIf="addStaffForm.get('address')?.hasError('pattern') && addStaffForm.get('address')?.touched"
                       class="login-danger Font_size">Input must be between 3 to 100 alphanumeric.</div>
                   </div>
                 </div>

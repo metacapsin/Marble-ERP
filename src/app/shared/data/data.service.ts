@@ -387,17 +387,17 @@ export class DataService {
               route: routes.staffList,
               base: routes.staffList,
             },
-            {
-              menuValue: "Add Staff",
-              route: routes.addStaff,
-              base: routes.addStaff,
-            },
+            // {
+            //   menuValue: "Add Staff",
+            //   route: routes.addStaff,
+            //   base: routes.addStaff,
+            // },
 
-            {
-              menuValue: "Leaves",
-              route: routes.staffLeave,
-              base: routes.staffLeave,
-            },
+            // {
+            //   menuValue: "Leaves",
+            //   route: routes.staffLeave,
+            //   base: routes.staffLeave,
+            // },
             // {
             //   menuValue: "Holidays",
             //   route: routes.staffHoliday,
@@ -421,7 +421,7 @@ export class DataService {
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
           subMenus: [
             {
-              menuValue: " Empoyee Salary",
+              menuValue: "Empoyee Salary",
               route: routes.salary,
               base: routes.salary,
             },

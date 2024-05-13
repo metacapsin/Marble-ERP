@@ -1,17 +1,21 @@
 import { Component, ViewChild } from '@angular/core';
 import { routes } from 'src/app/shared/routes/routes';
 import {
+  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
-  ChartComponent,
-  ApexDataLabels,
-  ApexPlotOptions,
-  ApexResponsive,
   ApexXAxis,
-  ApexLegend,
-  ApexFill,
-  ApexGrid,
+  ApexDataLabels,
+  ApexTitleSubtitle,
   ApexStroke,
+  ApexGrid,
+  ApexFill,
+  ApexMarkers,
+  ApexYAxis,
+  ApexResponsive,
+  ApexPlotOptions,
+  ApexLegend,
+  ApexTooltip,
   
 } from 'ng-apexcharts';
 import { Sort } from '@angular/material/sort';
@@ -44,6 +48,10 @@ export type ChartOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   labels: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  title: ApexTitleSubtitle | any;
+  markers: ApexMarkers | any;
+  yaxis: ApexYAxis | any;
+
 };
 interface data {
   value: string ;
@@ -60,7 +68,7 @@ export class AdminDashboardComponent {
   @ViewChild('chart') chart!: ChartComponent;
   public chartOptionsOne: Partial<ChartOptions>;
   public chartOptionsTwo: Partial<ChartOptions>;
-
+  public chartOptionsThree: Partial<ChartOptions>;
   public recentPatients: Array<recentPatients> = [];
   public upcomingAppointments: Array<upcomingAppointments> = [];
   userData:any = {}
@@ -107,18 +115,23 @@ export class AdminDashboardComponent {
           columnWidth: '15%',
         },
       },
+      stroke: {
+        show: true,
+        width: 6,
+        colors: ['transparent'],
+      },
       dataLabels: {
         enabled: false,
       },
       series: [
         {
-          name: 'Male',
-          color: '#2E37A4',
+          name: 'Low',
+          color: '#D5D7ED',
           data: [20, 30, 41, 67, 22, 43, 40, 10, 30, 20, 40],
         },
         {
-          name: 'Female',
-          color: '#00D3C7',
+          name: 'High',
+          color: '#2E37A4',
           data: [13, 23, 20, 8, 13, 27, 30, 25, 10, 15, 20],
         },
       ],
@@ -161,9 +174,11 @@ export class AdminDashboardComponent {
             columnWidth: '50%'
         },
     },
+    
       dataLabels: {
         enabled: false,
       },
+      labels: ['Male', 'Female'],
       responsive: [{
         breakpoint: 480,
         options: {
@@ -171,10 +186,11 @@ export class AdminDashboardComponent {
                 width: 200
             },
             legend: {
-              show: false
+              position: 'bottom',
             }
         }
     }],
+    
     };
     this.recentPatients = this.data.recentPatients;
     this.upcomingAppointments = this.data.upcomingAppointments;
@@ -211,5 +227,11 @@ export class AdminDashboardComponent {
     {value: '2021'},
     {value: '2020'},
     {value: '2019'},
+  ];
+  selecedLists: data[] = [
+    {value: 'This Week'},
+    {value: 'Last Week'},
+    {value: 'This Month'},
+    {value: 'Last Month'},
   ];
 }

@@ -265,7 +265,7 @@ export class routes {
     return this.baseUrl + '/payroll/add-salary';
   }
   public static get editSalary(): string {
-    return this.baseUrl + '/payroll/edit-salary';
+    return this.baseUrl + '/payroll/edit-salary/:id';
   }
   public static get salary(): string {
     return this.baseUrl + '/payroll/salary';
@@ -331,7 +331,7 @@ export class routes {
     return this.baseUrl + '/staff/edit-leave';
   }
   public static get editStaff(): string {
-    return this.baseUrl + '/staff/edit-staff';
+    return this.baseUrl + '/staff/edit-staff/:id';
   }
   public static get staffAttendance(): string {
     return this.baseUrl + '/staff/staff-attendance';

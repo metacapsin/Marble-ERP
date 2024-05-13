@@ -40,11 +40,25 @@
                       Cancel
                     </button>
                   </div>     
-                </div>    
+                </div>   
+                <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="employee">Employee <span class="login-danger">*</span></label>
+                    <p-dropdown [style]="{ width: '100%' }" placeholder="Select Employee" [options]="employee"
+                       formControlName="employee" optionLabel="firstName" optionValue="firstName"
+                      display="chip" [filter]="true" filterBy="name" [showClear]="true">
+                    </p-dropdown>
+                    <div
+                      *ngIf="addSalaryForm.get('employee')?.errors?.['required'] && addSalaryForm.get('employee').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                  </div>
+                </div> 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="type">Type </label>
-                      <p-dropdown [style]="{ width: '100%' }" pl aceholder="Select staff" [options]="staff"
+                      <label for="type">Type <span class="login-danger">*</span></label>
+                      <p-dropdown [style]="{ width: '100%' }" pl aceholder="Select staff" [options]="type"
                         formControlName="type" formControlName="type" optionLabel="value" optionValue="value"
                         display="chip" [filter]="true" filterBy="name" [showClear]="true">
                       </p-dropdown>
@@ -56,7 +70,7 @@
                   </div>
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="netSalary"> Net Salary </label>
+                      <label for="netSalary"> Net Salary <span class="login-danger">*</span> </label>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">₹</span>
@@ -77,7 +91,7 @@
                   </div>
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="basicSalary">Basic Salary </label>
+                      <label for="basicSalary">Basic Salary <span class="login-danger">*</span></label>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">₹</span>
@@ -96,36 +110,22 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 col-md-6 col-xl-6">
+                <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="StaffName">Employee </label>
-                      <p-dropdown [style]="{ width: '100%' }" pl aceholder="Select staff" [options]="staff"
-                        formControlName="StaffName" formControlName="StaffName" optionLabel="value" optionValue="value"
-                        display="chip" [filter]="true" filterBy="name" [showClear]="true">
-                      </p-dropdown>
-                      <div
-                        *ngIf="addSalaryForm.get('StaffName')?.errors?.['required'] && addSalaryForm.get('StaffName').touched"
-                        class="login-danger Font_size">
-                        Field is required.
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                      <label for="taxDeductedAtSource">TDS </label>
+                      <label for="tds">TDS <span class="login-danger">*</span>  </label>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">₹</span>
                         </div>
-                        <input class="form-control" formControlName="taxDeductedAtSource" type="number" value="$600" />
+                        <input class="form-control" formControlName="tds" type="number" value="$600" />
                       </div>
                       <div
-                        *ngIf="addSalaryForm.get('taxDeductedAtSource')?.errors?.['required'] && addSalaryForm.get('taxDeductedAtSource').touched"
+                        *ngIf="addSalaryForm.get('tds')?.errors?.['required'] && addSalaryForm.get('tds').touched"
                         class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div
-                        *ngIf="addSalaryForm.get('taxDeductedAtSource')?.errors?.['min'] && addSalaryForm.get('taxDeductedAtSource').touched || addSalaryForm.get('taxDeductedAtSource')?.errors?.['max'] && addSalaryForm.get('taxDeductedAtSource').touched"
+                        *ngIf="addSalaryForm.get('tds')?.errors?.['min'] && addSalaryForm.get('tds').touched || addSalaryForm.get('tds')?.errors?.['max'] && addSalaryForm.get('tds').touched"
                         class="login-danger Font_size">
                         Input must be between 1000 to 10,000,00.
                       </div>
@@ -133,20 +133,20 @@
                   </div>
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="houseRentAllowance">HRA (15%) </label>
+                      <label for="hra">HRA<span class="login-danger">*</span> </label>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">₹</span>
                         </div>
-                        <input class="form-control" formControlName="houseRentAllowance" type="number" value="$600" />
+                        <input class="form-control" formControlName="hra" type="number" value="$600" />
                       </div>
                       <div
-                        *ngIf="addSalaryForm.get('houseRentAllowance')?.errors?.['required'] && addSalaryForm.get('houseRentAllowance').touched"
+                        *ngIf="addSalaryForm.get('hra')?.errors?.['required'] && addSalaryForm.get('hra').touched"
                         class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div
-                        *ngIf="addSalaryForm.get('houseRentAllowance')?.errors?.['min'] && addSalaryForm.get('houseRentAllowance').touched || addSalaryForm.get('houseRentAllowance')?.errors?.['max'] && addSalaryForm.get('houseRentAllowance').touched"
+                        *ngIf="addSalaryForm.get('hra')?.errors?.['min'] && addSalaryForm.get('hra').touched || addSalaryForm.get('hra')?.errors?.['max'] && addSalaryForm.get('hra').touched"
                         class="login-danger Font_size">
                         Input must be between 1000 to 10,000,00.
                       </div>
@@ -154,21 +154,21 @@
                   </div>
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="employeeStateInsurance">ESI </label>
+                      <label for="esi">ESI <span class="login-danger">*</span></label>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">₹</span>
                         </div>
-                        <input class="form-control" formControlName="employeeStateInsurance" type="number"
+                        <input class="form-control" formControlName="esi" type="number"
                           value="$500" />
                       </div>
                       <div
-                        *ngIf="addSalaryForm.get('employeeStateInsurance')?.errors?.['required'] && addSalaryForm.get('employeeStateInsurance').touched"
+                        *ngIf="addSalaryForm.get('esi')?.errors?.['required'] && addSalaryForm.get('esi').touched"
                         class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div
-                        *ngIf="addSalaryForm.get('employeeStateInsurance')?.errors?.['min'] && addSalaryForm.get('employeeStateInsurance').touched || addSalaryForm.get('employeeStateInsurance')?.errors?.['max'] && addSalaryForm.get('employeeStateInsurance').touched"
+                        *ngIf="addSalaryForm.get('esi')?.errors?.['min'] && addSalaryForm.get('esi').touched || addSalaryForm.get('esi')?.errors?.['max'] && addSalaryForm.get('esi').touched"
                         class="login-danger Font_size">
                         Input must be between 1000 to 10,000,00.
                       </div>
@@ -176,20 +176,20 @@
                   </div>
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="providentFund">PF </label>
+                      <label for="pf">PF <span class="login-danger">*</span> </label>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">₹</span>
                         </div>
-                        <input class="form-control" formControlName="providentFund" type="number" value="$60" />
+                        <input class="form-control" formControlName="pf" type="number" value="$60" />
                       </div>
                       <div
-                        *ngIf="addSalaryForm.get('providentFund')?.errors?.['required'] && addSalaryForm.get('providentFund').touched"
+                        *ngIf="addSalaryForm.get('pf')?.errors?.['required'] && addSalaryForm.get('pf').touched"
                         class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div
-                        *ngIf="addSalaryForm.get('providentFund')?.errors?.['min'] && addSalaryForm.get('providentFund').touched || addSalaryForm.get('providentFund')?.errors?.['max'] && addSalaryForm.get('providentFund').touched"
+                        *ngIf="addSalaryForm.get('pf')?.errors?.['min'] && addSalaryForm.get('pf').touched || addSalaryForm.get('pf')?.errors?.['max'] && addSalaryForm.get('pf').touched"
                         class="login-danger Font_size">
                         Input must be between 1000 to 10,000,00.
                       </div>

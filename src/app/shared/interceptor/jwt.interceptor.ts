@@ -14,6 +14,7 @@ export const JwtInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
   const _loading = inject(LoadingService);
+  // debugger
   const currentUserToken = JSON.parse(window.localStorage.getItem(`Private Key for My EMR_token`) as string) ?? null //authenticationService.currentUserValue //;
   _loading.setLoading(true, req.url);
   if (currentUserToken) {

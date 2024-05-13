@@ -6,6 +6,7 @@ import { EditLeaveComponent } from './edit-leave.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { DropdownModule } from 'primeng/dropdown';
     EditLeaveRoutingModule,
     SharedModule,
     CalendarModule,
-    DropdownModule
+    DropdownModule,
+    ToastModule
   ]
 })
 export class EditLeaveModule { }
