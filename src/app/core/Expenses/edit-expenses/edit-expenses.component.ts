@@ -16,6 +16,7 @@ import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { MultiSelectModule } from "primeng/multiselect";
 import { CalendarModule } from "primeng/calendar";
 import { FileUploadModule } from "primeng/fileupload";
+import { ExpensesCategoriesdataService } from "../../expenseCategories/expenseCategories.service";
 
 @Component({
   selector: "app-edit-expenses",
@@ -39,11 +40,8 @@ export class EditExpensesComponent {
   routes = routes;
   customerData: any;
   id: any;
-  wareHousedata: any;
-
-  wareHouseArray = [{ name: "Electronifly" }, { name: "Warehouse Gas" }];
-
-  statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
+  ExpensesCategories: any;
+  ExpensesCategoriesArray:any
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
@@ -61,10 +59,10 @@ export class EditExpensesComponent {
     private messageService: MessageService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private service: WarehouseService
+    private service: ExpensesCategoriesdataService,
   ) {
     this.editExpensesGroup = this.fb.group({
-      expenseCategory: ["", [Validators.required]],
+      categoryId: ["", [Validators.required]],
       date: ["", [Validators.required]],
       amount: ["", [Validators.required]],
       notes: [""],
@@ -73,16 +71,21 @@ export class EditExpensesComponent {
   }
 
   ngOnInit() {
-    this.getCoustomers();
-
-    this.service.getAllWarehouseList().subscribe((resp: any) => {
-      this.wareHousedata = resp.data;
-    });
+    this.getExpenses();
   }
-  getCoustomers() {
-    this.Service.GetCustomerDataById(this.id).subscribe((data: any) => {
-      this.customerData = data;
-      console.log(this.customerData);
+  getExpenses() {
+    this.service.GetExpensesData().subscribe((resp: any) => {
+      this.ExpensesCategories = resp;
+      this.ExpensesCategoriesArray = [];
+      this.ExpensesCategories.forEach(element => {
+        this.ExpensesCategoriesArray.push({
+          name: element.categoryName,
+          _id: {
+            _id: element._id,
+            name: element.categoryName
+          }
+        })
+    });
       this.patchForm();
     });
   }

@@ -35,9 +35,9 @@
                                             </div>
                                             <div class="add-group textbtn">
                                                 <a appShowHide [roles]="['admin', 'super-admin']"
-                                                    [routerLink]="['/slabs/add']"
+                                                    [routerLink]="['/slabs/slab-add']"
                                                     class="btn btn-primary add-pluss ms-2"><img
-                                                        src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                                                        src="assets/img/icons/plus.svg" alt=""> Add New Slab</a>
 
                                             </div>
                                         </div>
@@ -66,39 +66,44 @@
                                         <th appShowHide [roles]="['admin', 'super-admin']">
                                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                         </th>
-                                        <th pSortableColumn="lotNo">Lot No. <p-sortIcon field="lotNo"></p-sortIcon>
-                                            <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="slabNo">Slab No<p-sortIcon field="slabNo"></p-sortIcon>
+                                            <p-columnFilter type="text" field="slabNo" display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="blockNo">Block No. <p-sortIcon
-                                                field="blockNo"></p-sortIcon>
-                                            <p-columnFilter type="text" field="blockNo" display="menu"></p-columnFilter>
-
-                                        </th>
-                                        <th pSortableColumn="category">Category <p-sortIcon
-                                                field="category"></p-sortIcon>
-                                            <p-columnFilter type="category" field="category"
+                                        <th pSortableColumn="categoryDetail.name">Category<p-sortIcon
+                                                field="categoryDetail.name"></p-sortIcon>
+                                            <p-columnFilter type="categoryDetail.name" field="categoryDetail.name"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="brand">Sub Category <p-sortIcon
-                                                field="subCatergory"></p-sortIcon>
-                                            <p-columnFilter type="text" field="subCatergory"
+                                        <th pSortableColumn="subCategoryDetail.name">Sub Category<p-sortIcon
+                                                field="subCategoryDetail.name"></p-sortIcon>
+                                            <p-columnFilter type="text" field="subCategoryDetail.name"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
+                                        <th pSortableColumn="totalSQFT">SqFeet<p-sortIcon
+                                            field="totalSQFT"></p-sortIcon>
+                                        <p-columnFilter type="text" field="totalSQFT" display="menu"></p-columnFilter>
+
+                                    </th>
                                         <th pSortableColumn="totalCosting">Total Costing <p-sortIcon
                                                 field="totalCosting"></p-sortIcon>
                                             <p-columnFilter type="text" field="totalCosting"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="persellPrice">Per Sell Price <p-sortIcon
-                                                field="persellPrice"></p-sortIcon>
-                                            <p-columnFilter type="text" field="persellPrice"
+                                        <th pSortableColumn="sellingPricePerSQFT">Selling Price<p-sortIcon
+                                                field="sellingPricePerSQFT"></p-sortIcon>
+                                            <p-columnFilter type="text" field="sellingPricePerSQFT"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
+                                        <th pSortableColumn="warehouseDetails.name">Warehouse<p-sortIcon
+                                            field="warehouseDetails.name"></p-sortIcon>
+                                        <p-columnFilter type="text" field="warehouseDetails.name"
+                                            display="menu"></p-columnFilter>
+                                    </th>
                                         <th appShowHide [roles]="['admin', 'super-admin']" >Action
                                         </th>
                                     </tr>
@@ -110,26 +115,29 @@
                                             <p-tableCheckbox [value]="slabs"></p-tableCheckbox>
                                         </td>
                                         <td>
-                                            {{slabs.lotNo}}
+                                            {{slabs.slabNo}}
                                         </td>
                                         <td>
-                                            {{slabs.blockNo}}
+                                            {{slabs.categoryDetail.name}}
                                         </td>
                                         <td>
-                                            {{slabs.category}}
+                                            {{slabs.subCategoryDetail.name}}
                                         </td>
                                         <td>
-                                            {{slabs.subCategory}}
-                                        </td>
+                                            {{slabs.totalSQFT}}
+                                        </td> 
                                         <td>
                                             {{slabs.totalCosting}}
                                         </td>
                                         <td>
-                                            {{slabs.persellPrice}}
+                                            {{slabs.sellingPricePerSQFT}}
+                                        </td>
+                                        <td>
+                                            {{slabs.warehouseDetails.name}}
                                         </td>
                                         <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
                                             <p-button [text]="true" icon="fa fa-edit"
-                                                [routerLink]="['/product/slabs/edit', slabs._id]"></p-button>
+                                            (click)="updateSlabs(slabs._id)" ></p-button>
                                             <p-button [text]=" true" icon="fa fa-trash"
                                                 (click)="deleteSlabs(slabs._id)"></p-button>
                                         </td>

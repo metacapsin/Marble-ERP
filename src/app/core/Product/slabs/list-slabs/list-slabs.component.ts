@@ -26,15 +26,13 @@ export class ListSlabsComponent {
   slabsID: any;
   searchDataValue = "";
   selectedSlabs = [];
+  allSlabs:any
 
   constructor(public dialog: MatDialog, public router: Router, private service: SlabsService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
 
   getSlabsList(): void {
     this.service.getSlabsList().subscribe((resp: any) => {
       this.data = resp.data;
-      // map(slabs=>{
-      //   slabs.currentStock=slabs.openingStock-slabs.
-      // })
       this.originalData = resp.data;
 
       console.log("API", this.data);
@@ -68,15 +66,17 @@ export class ListSlabsComponent {
 
     })
   }
+  updateSlabs(id:any){
+    this.router.navigate(['/slabs/slab-edit/'+ id]);
+  }
 
   close() {
     this.showDialog = false;
   }
 
   public searchData(value: any): void {
-    this.data = this.originalData.filter(i =>
-    i.name.toLowerCase().includes(value.trim().toLowerCase())
-  );
+    this.originalData.filter = value.trim().toLowerCase();
+    this.allSlabs = this.originalData.filteredData;
   }
 
   onPageChange(event) {

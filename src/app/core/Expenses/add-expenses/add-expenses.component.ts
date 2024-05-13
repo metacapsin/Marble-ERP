@@ -16,6 +16,7 @@ import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { MultiSelectModule } from "primeng/multiselect";
 import { CalendarModule } from "primeng/calendar";
 import { FileUploadModule } from "primeng/fileupload";
+import { ExpensesCategoriesdataService } from "../../expenseCategories/expenseCategories.service";
 
 
 @Component({
@@ -38,7 +39,8 @@ import { FileUploadModule } from "primeng/fileupload";
 export class AddExpensesComponent implements OnInit {
   addExpensesGroup: UntypedFormGroup;
   public routes = routes;
-  wareHousedata: any;
+  ExpensesCategories: any;
+  ExpensesCategoriesArray:any
   expenses = [
     { name: "Utilities" },
     { name: "Printing" },
@@ -56,11 +58,12 @@ export class AddExpensesComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private messageService: MessageService,
     private Service: ExpensesdataService,
+    private service: ExpensesCategoriesdataService,
     private router: Router,
   ) // private service: WarehouseService
   {
     this.addExpensesGroup = this.fb.group({
-      expenseCategory: ["", [Validators.required]],
+      categoryId: ["", [Validators.required]],
       date: ["", [Validators.required]],
       amount: ["", [Validators.required]],
       notes: [""],
@@ -76,8 +79,21 @@ export class AddExpensesComponent implements OnInit {
       detail: "File Uploaded with Basic Mode",
     });
   }
-  
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.service.GetExpensesData().subscribe((resp: any) => {
+      this.ExpensesCategories = resp;
+      this.ExpensesCategoriesArray = [];
+      this.ExpensesCategories.forEach(element => {
+        this.ExpensesCategoriesArray.push({
+          name: element.categoryName,
+          _id: {
+            _id: element._id,
+            name: element.categoryName
+          }
+        })
+    });
+    });
+  }
   addExpensesForm() {
     console.log(this.addExpensesGroup.value);
     const fromData = this.addExpensesGroup.value;

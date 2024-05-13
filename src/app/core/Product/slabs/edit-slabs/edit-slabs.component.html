@@ -22,259 +22,713 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <div class="card card-table">
-                    <div class="card-body">
-                        <div class="page-table-header mb-2">
-                            <form [formGroup]="slabsEditForm" (ngSubmit)="SlabsEditFormSubmit()">
-                                <div class="row">
-                                    <div class="d-flex m-b-10" style="justify-content: space-between">
-                                        <h3>Edit Slabs</h3>
-                                        <div class="settings-btns text-end m-b-10">
-                                            <button type="submit"
-                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                                [disabled]="!slabsEditForm.valid">
-                                                Submit
-                                            </button>
-                                            <button class="btn btn-secondary" [routerLink]="['/slabs/']">
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 col-md-6 col-xl-6">
-                                        <div class="form-group local-forms">
-                                            <label for="lotNo">Lot No.
-                                                <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="lotNoList" styleClass="" appendTo="body"
-                                                optionLabel="name" optionValue="name" placeholder="Select lot Number"
-                                                formControlName="lotNo" [style]="{'width':'100%'}" [filter]="true"
-                                                filterBy="name" [showClear]="true">
-                                            </p-dropdown>
-                                            <div *ngIf="
-                                            slabsEditForm.get('lotNo')?.hasError(
-                                              'required'
-                                            ) && slabsEditForm.get('lotNo')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-xl-6">
-                                        <div class="form-group local-forms">
-                                            <label for="blockNo">Block Number
-                                                <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="blocksNoList" styleClass="" appendTo="body"
-                                                optionLabel="name" optionValue="name" placeholder="Select block Number"
-                                                formControlName="blockNo" [style]="{'width':'100%'}" [filter]="true"
-                                                filterBy="name" [showClear]="true">
-                                            </p-dropdown>
-                                            <div *ngIf="
-                                            slabsEditForm.get('blockNo')?.hasError(
-                                              'required'
-                                            ) && slabsEditForm.get('blockNo')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-xl-6">
-                                        <div class="form-group local-forms">
-                                            <label for="category">Category
-                                                <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="categoryList" styleClass="" appendTo="body"
-                                                optionLabel="name" optionValue="name" placeholder="Select Category"
-                                                formControlName="category" [style]="{'width':'100%'}" [filter]="true"
-                                                filterBy="name" [showClear]="true">
-                                            </p-dropdown>
-                                            <div *ngIf="
-                                            slabsEditForm.get('category')?.hasError(
-                                              'required'
-                                            ) && slabsEditForm.get('category')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="col-12 col-md-6 col-xl-6">
-                                        <div class="form-group local-forms">
-                                            <label for="subCategory">Sub Category
-                                                <span class="login-danger">*</span></label>
-                                            <p-dropdown [options]="subCategoryList" styleClass="" appendTo="body"
-                                                placeholder="Select Sub Category" optionLabel="name" optionValue="name"
-                                                formControlName="subCategory" [style]="{'width':'100%'}" [filter]="true"
-                                                filterBy="name" [showClear]="true">
-                                            </p-dropdown>
-                                            <div *ngIf="
-                                            slabsEditForm.get('subCategory')?.hasError(
-                                              'required'
-                                            ) && slabsEditForm.get('subCategory')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group local-forms">
-                                            <label for="height">Height<span class="login-danger">*</span></label>
-                                            <input class="form-control" type="text" placeholder="Enter Slab Height"
-                                                formControlName="height" />
-                                            <div *ngIf="
-                                            slabsEditForm.get('height')?.hasError(
-                                              'required'
-                                            ) && slabsEditForm.get('height')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                            <div *ngIf="
-                                            slabsEditForm.get('height')?.hasError(
-                                              'min'
-                                            ) && slabsEditForm.get('height')?.touched
-                                          ">
-                                                <span class="login-danger">Input must be at least 0.</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 col-md-6 col-xl-6">
-                                        <div class="form-group local-forms">
-                                            <label for="width">Width<span class="login-danger">*</span></label>
-                                            <input class="form-control" type="number" placeholder="Enter Slab Width"
-                                                formControlName="width" />
-                                            <div *ngIf="
-                                                    slabsEditForm.get('width')?.hasError(
-                                                      'required'
-                                                    ) && slabsEditForm.get('width')?.touched
-                                                  ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                            <div *ngIf="
-                                                    slabsEditForm.get('width')?.hasError(
-                                                      'min'
-                                                    ) && slabsEditForm.get('width')?.touched
-                                                  ">
-                                                <span class="login-danger">Input must be at least 0. </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-xl-6">
-                                        <div class="form-group local-forms">
-                                            <label for="length">Length<span class="login-danger">*</span></label>
-                                            <input class="form-control" type="number" placeholder="Enter Slab Length"
-                                                formControlName="length" />
-                                            <div *ngIf="
-                                                    slabsEditForm.get('length')?.hasError(
-                                                      'required'
-                                                    ) && slabsEditForm.get('length')?.touched
-                                                  ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                            <div *ngIf="
-                                                    slabsEditForm.get('length')?.hasError(
-                                                      'min'
-                                                    ) && slabsEditForm.get('length')?.touched
-                                                  ">
-                                                <span class="login-danger">Input must be at least 0. </span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group local-forms">
-                                            <label for="totalSqrFt">Total Square Ft.<span class="login-danger">*</span></label>
-                                            <div class="input-group">
-                                                <!-- <div class="input-group-prepend">
-                                                    <span class="input-group-text">₹</span>
-                                                </div> -->
-                                                <input class="form-control" type="number" placeholder="0"
-                                                    formControlName="totalSqrFt" />
-                                            </div>
-                                            <div *ngIf="
-                                            slabsEditForm.get('totalSqrFt')?.hasError(
-                                              'required'
-                                            ) && slabsEditForm.get('totalSqrFt')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                            <div *ngIf="
-                                            slabsEditForm.get('totalSqrFt')?.hasError(
-                                              'min'
-                                            ) && slabsEditForm.get('totalSqrFt')?.touched
-                                          ">
-                                                <span class="login-danger">Input must be at least 0.</span>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group local-forms">
-                                            <label for="totalCosting">Total Costing<span class="login-danger">*</span></label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">₹</span>
-                                                </div>
-                                                <input class="form-control" type="number" placeholder="0"
-                                                    formControlName="totalCosting" />
-                                            </div>
-                                            <div *ngIf="
-                                            slabsEditForm.get('totalCosting')?.hasError(
-                                              'required'
-                                            ) && slabsEditForm.get('totalCosting')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                            <div *ngIf="
-                                            slabsEditForm.get('totalCosting')?.hasError(
-                                              'min'
-                                            ) && slabsEditForm.get('totalCosting')?.touched
-                                          ">
-                                                <span class="login-danger">Input must be at least 0.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group local-forms">
-                                            <label for="sellPricePerSqrFt">Sell Price Per Square Ft.<span class="login-danger">*</span></label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">₹</span>
-                                                </div>
-                                                <input class="form-control" type="number" placeholder="0"
-                                                    formControlName="sellPricePerSqrFt" />
-                                            </div>
-                                            <div *ngIf="
-                                            slabsEditForm.get('sellPricePerSqrFt')?.hasError(
-                                              'required'
-                                            ) && slabsEditForm.get('sellPricePerSqrFt')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div>
-                                            <div *ngIf="
-                                            slabsEditForm.get('sellPricePerSqrFt')?.hasError(
-                                              'min'
-                                            ) && slabsEditForm.get('sellPricePerSqrFt')?.touched
-                                          ">
-                                                <span class="login-danger">Input must be at least 0.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </form>
+              <div class="card card-table">
+                <div class="card-body">
+                  <div class="page-table-header mb-2">
+                    <form
+                      [formGroup]="slabsEditForm"
+                      (ngSubmit)="SlabsEditFormSubmit()"
+                    >
+                      <div class="row">
+                        <div class="m-b-10">
+                          <h3>Edit New Slabs</h3>
                         </div>
-                    </div>
+                        <div class="col-12 col-md-4 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="slabNo"
+                              >Slab No. <span class="login-danger">*</span></label
+                            >
+                            <input
+                              class="form-control"
+                              type="text"
+                              placeholder="Select slabs Number"
+                              formControlName="slabNo"
+                            />
+                            <div
+                              *ngIf="
+                                slabsEditForm.get('slabNo')?.hasError('required') &&
+                                slabsEditForm.get('slabNo')?.touched
+                              "
+                            >
+                              <span class="login-danger">Field is required.</span>
+                            </div>
+                            <div
+                              *ngIf="
+                                slabsEditForm.get('slabNo')?.hasError('pattern') &&
+                                slabsEditForm.get('slabNo')?.touched
+                              "
+                            >
+                              <span class="login-danger"
+                                >Input must be at least 3 to 500</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+      
+                        <div class="col-12 col-md-4 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="slabName"
+                              >Slab Name<span class="login-danger">*</span></label
+                            >
+                            <input
+                              class="form-control"
+                              type="text"
+                              placeholder="Enter Slab Name"
+                              formControlName="slabName"
+                            />
+                            <div
+                              *ngIf="
+                                slabsEditForm.get('slabName')?.hasError('required') &&
+                                slabsEditForm.get('slabName')?.touched
+                              "
+                            >
+                              <span class="login-danger">Field is required.</span>
+                            </div>
+                            <div
+                              *ngIf="
+                                slabsEditForm.get('slabName')?.hasError('pattern') &&
+                                slabsEditForm.get('slabName')?.touched
+                              "
+                            >
+                              <span class="login-danger"
+                                >Input must be at least 3 to 500</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-xl-4">
+                            <div class="form-group local-forms">
+                              <label for="warehouseDetails"
+                                >Warehouse<span class="login-danger">*</span></label
+                              >
+                              <!-- optionValue="" -->
+                              <p-dropdown
+                                [options]="wareHousedata"
+                                styleClass=""
+                                appendTo="body"
+                                optionLabel="name"
+                                placeholder="Select Warehouse"
+                                formControlName="warehouseDetails"
+                                [style]="{ width: '100%' }"
+                                [filter]="true"
+                                filterBy="name"
+                                [showClear]="true"
+                              >
+                              </p-dropdown>
+                              <div
+                                *ngIf="
+                                  slabsEditForm
+                                    .get('warehouseDetails')
+                                    ?.hasError('required') &&
+                                  slabsEditForm.get('warehouseDetails')?.touched
+                                "
+                              >
+                                <span class="login-danger">Field is required.</span>
+                              </div>
+                            </div>
+                          </div>
+      
+      
+                        <div class="col-12 col-md-4 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="lotDetail"
+                              >Lot No. <span class="login-danger"></span
+                            ></label>
+                            <p-dropdown
+                            [options]="lotDetailList"
+                              styleClass=""
+                              appendTo="body"
+                              optionLabel="name"
+                              placeholder="Select lot Number"
+                              formControlName="lotDetail"
+                              [style]="{ width: '100%' }"
+                              [filter]="true"
+                              filterBy="name"
+                              [showClear]="true"
+                            >
+                            </p-dropdown>
+                            <div
+                              *ngIf="
+                                slabsEditForm.get('lotDetail')?.hasError('required') &&
+                                slabsEditForm.get('lotDetail')?.touched
+                              "
+                            >
+                              <span class="login-danger">Field is required.</span>
+                            </div>
+                          </div>
+                        </div>
+      
+                        <div class="col-12 col-md-4 col-xl-4" *ngIf="slabsEditForm.get('lotDetail').value">
+                          <div class="form-group local-forms">
+                            <label for="blockDetail"
+                              >Block No.<span class="login-danger"></span
+                            ></label>
+                            <p-dropdown
+                              [options]="blocksNoList"
+                              styleClass=""
+                              appendTo="body"
+                              optionLabel="name"
+                              placeholder="Select block Number"
+                              formControlName="blockDetail"
+                              [style]="{ width: '100%' }"
+                              [filter]="true"
+                              filterBy="name"
+                              [showClear]="true"
+                            >
+                            </p-dropdown>
+                            <div
+                              *ngIf="
+                                slabsEditForm
+                                  .get('blockDetail')
+                                  ?.hasError('required') &&
+                                slabsEditForm.get('blockDetail')?.touched
+                              "
+                            >
+                              <span class="login-danger">Field is required.</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-xl-4">
+                            <div class="form-group local-forms">
+                              <label for="blockProcessor"
+                                >Processor<span class="login-danger"></span
+                              ></label>
+                              <p-dropdown
+                                [options]="blocksNoList"
+                                styleClass=""
+                                appendTo="body"
+                                optionLabel="name"
+                                placeholder="Select Processor"
+                                formControlName="blockProcessor"
+                                [style]="{ width: '100%' }"
+                                [filter]="true"
+                                filterBy="name"
+                                [showClear]="true"
+                              >
+                              </p-dropdown>
+                              <div
+                                *ngIf="
+                                  slabsEditForm
+                                    .get('blockProcessor')
+                                    ?.hasError('required') &&
+                                  slabsEditForm.get('blockProcessor')?.touched
+                                "
+                              >
+                                <span class="login-danger">Field is required.</span>
+                              </div>
+                            </div>
+                          </div>
+      
+                        <div class="col-12 col-md-4 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="category"
+                              >Category <span class="login-danger">*</span></label
+                            >
+                            <p-dropdown
+                              [options]="categoryList"
+                              styleClass=""
+                              appendTo="body"
+                              optionLabel="name"
+                              placeholder="Select Category"
+                              formControlName="categoryDetail"
+                              [style]="{ width: '100%' }"
+                              [filter]="true"
+                              filterBy="name"
+                              [showClear]="true"
+                            >
+                            </p-dropdown>
+                            <div
+                              *ngIf="
+                                slabsEditForm
+                                  .get('categoryDetail')
+                                  ?.hasError('required') &&
+                                slabsEditForm.get('categoryDetail')?.touched
+                              "
+                            >
+                              <span class="login-danger">Field is required.</span>
+                            </div>
+                          </div>
+                        </div>
+      
+                        <div class="col-12 col-md-4 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="subCategory"
+                              >Sub Category <span class="login-danger">*</span></label
+                            >
+                            <p-dropdown
+                              [options]="subCategoryList"
+                              styleClass=""
+                              appendTo="body"
+                              placeholder="Select Sub Category"
+                              optionLabel="name"
+                              formControlName="subCategoryDetail"
+                              [style]="{ width: '100%' }"
+                              [filter]="true"
+                              filterBy="name"
+                              [showClear]="true"
+                            >
+                            </p-dropdown>
+                            <div
+                              *ngIf="
+                                slabsEditForm
+                                  .get('subCategoryDetail')
+                                  ?.hasError('required') &&
+                                slabsEditForm.get('subCategoryDetail')?.touched
+                              "
+                            >
+                              <span class="login-danger">Field is required.</span>
+                            </div>
+                          </div>
+                        </div>
+      
+
+                      </div>
+      
+                      <div class="row">
+                        <div class="col-lg-7 col-md-6">
+                          <div class="invoice-fields">
+                            <h4 class="field-title">Notes</h4>
+                          </div>
+                          <div class="invoice-faq">
+                            <div class="input-group">
+                              <textarea
+                                class="form-control"
+                                type="number"
+                                placeholder="Enter Notes"
+                                formControlName="notes"
+                                rows="8"
+                              ></textarea>
+                            </div>
+                            <div
+                              *ngIf="
+                                slabsEditForm.get('notes')?.hasError('pattern') &&
+                                slabsEditForm.get('notes')?.touched
+                              "
+                            >
+                              <span class="login-danger"
+                                >Input must be at least 3 to 500</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-5 col-md-6">
+                          <div class="invoice-total-card">
+                            <h4 class="invoice-total-title">Summary</h4>
+                            <div class="invoice-total-box">
+                                <div class="row p-3">
+                                    <div class="col-12 mt-3">
+                                        <div class="form-group local-forms">
+                                          <label for="totalSQFT"
+                                            >SqFeet<span class="login-danger"></span></label
+                                          >
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text" style="font-size: 12px;">sq</span>
+                                            </div>
+                                          <input
+                                            class="form-control"
+                                            type="number"
+                                            placeholder="Enter SqFeet"
+                                            formControlName="totalSQFT"
+                                            (change)="calculateTotalAmount()"
+                                          />
+                                          </div>
+                                          <div
+                                            *ngIf="
+                                              slabsEditForm.get('totalSQFT')?.hasError('min') &&
+                                              slabsEditForm.get('totalSQFT')?.touched
+                                            "
+                                          >
+                                            <span class="login-danger"
+                                              >Input must be at least 0.
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-12" *ngIf="slabsEditForm.get('lotDetail').value">
+                                        <div class="form-group local-forms">
+                                        <label for="processingFee"
+                                            >Processing Fee<span class="login-danger"></span
+                                        ></label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text">₹</span>
+                                            </div>
+                                            <input
+                                            class="form-control"
+                                            type="number"
+                                            placeholder="Enter Processing Fee"
+                                            formControlName="processingFee"
+                                            (change)="calculateTotalAmount()"
+                                            />
+                                        </div>
+                                        <div
+                                            *ngIf="
+                                            (slabsEditForm.get('processingFee')?.hasError('min') &&
+                                                slabsEditForm.get('processingFee')?.touched) ||
+                                            (slabsEditForm.get('processingFee')?.hasError('max') &&
+                                                slabsEditForm.get('processingFee')?.touched)
+                                            "
+                                        >
+                                            <span class="login-danger">
+                                            input must be between 1 and 1000,000.
+                                            </span>
+                                        </div>
+                                        </div>
+                                    </div>
+
+
+                                  
+                
+                                    <div class="col-12">
+                                    <div class="form-group local-forms">
+                                        <label for="length"
+                                        >Transport Charges<span class="login-danger"
+                                            >*</span
+                                        ></label
+                                        >
+                                        <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">₹</span>
+                                        </div>
+                                        <input
+                                            class="form-control"
+                                            type="number"
+                                            placeholder="Enter Slab Length"
+                                            formControlName="transportationCharges"
+                                            (change)="calculateTotalAmount()"
+                                        />
+                                        </div>
+                                        <div
+                                        *ngIf="
+                                            slabsEditForm
+                                            .get('transportationCharges')
+                                            ?.hasError('required') &&
+                                            slabsEditForm.get('transportationCharges')?.touched
+                                        "
+                                        >
+                                        <span class="login-danger">Field is required.</span>
+                                        </div>
+                                        <div
+                                        *ngIf="
+                                            (slabsEditForm
+                                            .get('transportationCharges')
+                                            ?.hasError('min') &&
+                                            slabsEditForm.get('transportationCharges')
+                                                ?.touched) ||
+                                            (slabsEditForm
+                                            .get('transportationCharges')
+                                            ?.hasError('max') &&
+                                            slabsEditForm.get('transportationCharges')?.touched)
+                                        "
+                                        >
+                                        <span class="login-danger">
+                                            input must be between 1 and 100,000.
+                                        </span>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-group local-forms">
+                                          <label for="otherCharges"
+                                            >Other Charges<span class="login-danger">*</span></label
+                                          >
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text">₹</span>
+                                            </div>
+                                            <input
+                                              class="form-control"
+                                              type="number"
+                                              placeholder="Enter Other Charges"
+                                              formControlName="otherCharges"
+                                              (change)="calculateTotalAmount()"
+                                            />
+                                          </div>
+                                          <div
+                                          *ngIf="
+                                              slabsEditForm
+                                              .get('otherCharges')
+                                              ?.hasError('required') &&
+                                              slabsEditForm.get('otherCharges')?.touched
+                                          "
+                                          >
+                                          <span class="login-danger">Field is required.</span>
+                                          </div>
+                                          <div
+                                          *ngIf="
+                                              (slabsEditForm
+                                              .get('otherCharges')
+                                              ?.hasError('min') &&
+                                              slabsEditForm.get('otherCharges')
+                                                  ?.touched) ||
+                                              (slabsEditForm
+                                              .get('otherCharges')
+                                              ?.hasError('max') &&
+                                              slabsEditForm.get('otherCharges')?.touched)
+                                          "
+                                          >
+                                          <span class="login-danger">
+                                              input must be between 1 and 100,000.
+                                          </span>
+                                          </div>
+                                        </div>
+                                    </div>
+                
+                                    <div class="col-12 mt-1">
+                                    <div class="form-group local-forms">
+                                        <label for="totalSqrFt"
+                                        >Selling Price<span class="login-danger">*</span></label
+                                        >
+                
+                                        <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">₹</span>
+                                        </div>
+                                        <input
+                                            class="form-control"
+                                            type="number"
+                                            placeholder="Enter Selling Price"
+                                            formControlName="sellingPricePerSQFT"
+                                        />
+                                        </div>
+                                        <div
+                                        *ngIf="
+                                            slabsEditForm
+                                            .get('sellingPricePerSQFT')
+                                            ?.hasError('required') &&
+                                            slabsEditForm.get('sellingPricePerSQFT')?.touched
+                                        "
+                                        >
+                                        <span class="login-danger">Field is required.</span>
+                                        </div>
+                                        
+                                        <div
+                                        *ngIf="
+                                            (slabsEditForm
+                                            .get('sellingPricePerSQFT')
+                                            ?.hasError('min') &&
+                                            slabsEditForm.get('sellingPricePerSQFT')?.touched) ||
+                                            (slabsEditForm
+                                            .get('sellingPricePerSQFT')
+                                            ?.hasError('max') &&
+                                            slabsEditForm.get('sellingPricePerSQFT')?.touched)
+                                        "
+                                        >
+                                        <span class="login-danger">
+                                            input must be between 1 and 100,000.
+                                        </span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    
+                                  
+
+
+                                    <!-- <div class="col-12 mt-3">
+                                      <div class="form-group local-forms">
+                                        <label for="purchaseOrderStatus">Order Status<span class="login-danger">*</span></label>
+                                        <p-dropdown [options]="orderStatusList" styleClass="" appendTo="body"
+                                          optionLabel="orderStatus" optionValue="orderStatus" placeholder="Select  Status"
+                                          [style]="{ width: '100%' }" formControlName="purchaseOrderStatus" [filter]="true"
+                                          filterBy="value" [showClear]="true">
+                                        </p-dropdown>
+            
+                                        <div
+                                          *ngIf="addPurchaseForm.get('purchaseOrderStatus')?.hasError('required')  && addPurchaseForm.get('purchaseOrderStatus')?.touched">
+                                          <span class="login-danger">Field is required. </span>
+                                        </div>
+            
+                                      </div>
+                                    </div>
+                                    <div class="col-12 mt-3">
+                                      <div class="form-group local-forms">
+                                        <label for="purchaseOrderTax">Order Tax</label>
+                                        <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax" [options]="orderTaxList"
+                                          formControlName="purchaseOrderTax" optionLabel="orderTaxName" optionValue="orderNamevalue"
+                                          display="chip" [showClear]="true" (change)="calculateTotalAmount()"></p-multiSelect>
+            
+                                      </div>
+                                    </div>
+                                    <div class="col-12 ml-3">
+                                      <div class="form-group local-forms">
+                                        <label for="purchaseDiscount">Discount </label>
+                                        <div class="input-group">
+                                          <div class="input-group-prepend">
+                                            <span class="input-group-text">₹</span>
+                                          </div>
+                                          <input class="form-control" (change)="calculateTotalAmount()"
+                                            formControlName="purchaseDiscount" type="number" placeholder="" />
+                                        </div>
+                                        <div
+                                          *ngIf="addPurchaseForm.get('purchaseDiscount')?.hasError('min')  && addPurchaseForm.get('purchaseDiscount')?.touched">
+                                          <span class="login-danger">Input must be at least 0. </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12 ml-3">
+                                      <div class="form-group local-forms">
+                                        <label for="purchaseShipping">Shipping</label>
+                                        <div class="input-group">
+                                          <div class="input-group-prepend">
+                                            <span class="input-group-text">₹</span>
+                                          </div>
+                                          <input class="form-control" (change)="calculateTotalAmount()"
+                                            formControlName="purchaseShipping" type="number" placeholder="" />
+                                        </div>
+                                        <div
+                                          *ngIf="addPurchaseForm.get('purchaseShipping')?.hasError('min')  && addPurchaseForm.get('purchaseShipping')?.touched">
+                                          <span class="login-danger">Input must be at least 0. </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12 ml-3">
+                                      <div class="form-group local-forms">
+                                        <label for="otherCharges">Other Charges</label>
+                                        <div class="input-group">
+                                          <div class="input-group-prepend">
+                                            <span class="input-group-text">₹</span>
+                                          </div>
+                                          <input class="form-control" (change)="calculateTotalAmount()"
+                                            formControlName="otherCharges" type="number" placeholder="" />
+                                        </div>
+                                        <div
+                                          *ngIf="addPurchaseForm.get('otherCharges')?.hasError('min')  && addPurchaseForm.get('otherCharges')?.touched">
+                                          <span class="login-danger">Input must be at least 0. </span>
+                                        </div>
+                                      </div>
+                                    </div>
+            
+                                    <div class="col-12 ml-3">
+                                      <div class="form-group local-forms">
+                                        <label for="oceanFrieght">Ocean Frieght</label>
+                                        <div class="input-group">
+                                          <div class="input-group-prepend">
+                                            <span class="input-group-text">₹</span>
+                                          </div>
+                                          <input class="form-control" (change)="calculateTotalAmount()"
+                                            formControlName="oceanFrieght" type="number" placeholder="" />
+                                        </div>
+                                        <div
+                                          *ngIf="addPurchaseForm.get('oceanFrieght')?.hasError('min')  && addPurchaseForm.get('oceanFrieght')?.touched">
+                                          <span class="login-danger">Input must be at least 0. </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12 ml-3">
+                                      <div class="form-group local-forms">
+                                        <label for="postExpenses">Post Expenses</label>
+                                        <div class="input-group">
+                                          <div class="input-group-prepend">
+                                            <span class="input-group-text">₹</span>
+                                          </div>
+                                          <input class="form-control" (change)="calculateTotalAmount()"
+                                            formControlName="postExpenses" type="number" placeholder="" />
+                                        </div>
+                                        <div
+                                          *ngIf="addPurchaseForm.get('postExpenses')?.hasError('min')  && addPurchaseForm.get('postExpenses')?.touched">
+                                          <span class="login-danger">Input must be at least 0. </span>
+                                        </div>
+                                      </div>
+                                    </div> -->
+            
+                                  </div>
+                                  <div class="invoice-total-inner">
+                         
+                                    <p *ngIf="slabsEditForm.get('lotDetail').value">
+                                      Processing Costing<span>₹
+                                        {{
+                                          slabsEditForm.get("processingCost").value
+                                        | number : "1.2-2"
+                                        }}</span>
+                                    </p>
+                                    <p>
+                                      Total Costing<span>₹
+                                        {{
+                                          slabsEditForm.get("totalCosting").value
+                                        | number : "1.2-2"
+                                        }}</span>
+                                    </p>
+                                    <p>
+                                      Per Sq feet Cost<span>₹
+                                        {{
+                                          slabsEditForm.get("costPerSQFT").value
+                                        | number : "1.2-2"
+                                        }}</span>
+                                    </p>
+                                  <!-- <p>
+                                      Discount<span>₹
+                                        {{
+                                        addPurchaseForm.get("purchaseDiscount").value
+                                        | number : "1.2-2"
+                                        }}</span>
+                                    </p>
+                                    <p>
+                                      Shipping<span>₹
+                                        {{
+                                        addPurchaseForm.get("purchaseShipping").value
+                                        | number : "1.2-2"
+                                        }}</span>
+                                    </p>
+                                    <p>
+                                      Other Charges<span>₹
+                                        {{
+                                        addPurchaseForm.get("otherCharges").value
+                                        | number : "1.2-2"
+                                        }}</span>
+                                    </p>
+                                    <p>
+                                      Ocean Frieght<span>₹
+                                        {{
+                                        addPurchaseForm.get("oceanFrieght").value
+                                        | number : "1.2-2"
+                                        }}</span>
+                                    </p>
+                                    <p>
+                                      Post Expenses<span>₹
+                                        {{
+                                        addPurchaseForm.get("postExpenses").value
+                                        | number : "1.2-2"
+                                        }}</span>
+                                    </p> -->
+                                </div>
+      
+                              <!-- <div class="invoice-total-footer">
+                                <h4>
+                                  Total Costing
+                                  <span>₹</span>
+                                </h4>
+                              </div> -->
+                            </div>
+                          </div>
+                          <div class="upload-sign">
+                            <div class="settings-btns text-end m-b-10">
+                              <button
+                                type="submit"
+                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                [disabled]="!slabsEditForm.valid"
+                              >
+                                Submit
+                              </button>
+                              <button
+                                class="btn btn-secondary"
+                                [routerLink]="['/slabs']"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
+          </div>
     </div>
 </div>
