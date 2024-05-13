@@ -90,6 +90,9 @@
 
             </div>
         </div>
+
+
+        <!-- SALES GRID -->
         <div class="card">
             <p-tabView>
                 <p-tabPanel header="Sales">
@@ -122,6 +125,7 @@
                                 <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon
                                         field="paymentStatus"></p-sortIcon>
                                 </th>
+                                <th>Action</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-sales>
@@ -133,12 +137,22 @@
                                 <td>₹ {{sales.dueAmount}}</td>
                                 <td>₹ {{sales.salesTotalAmount}}</td>
                                 <td>{{sales.paymentStatus}}</td>
+                                <td style="display: flex; gap: 5px;" appShowHide>
+                                    <p-button [text]="true" icon="fa-solid fa-eye"
+                                        (click)="showInvoiceDialog(sales._id)"></p-button>
+                                    <!-- <p-button [text]="true" icon="fa-solid fa-wallet" (click)="showPaymentDialog(sales._id)"></p-button> -->
+                                    <p-button [text]="true" icon="fa-solid fa-trash"
+                                        (click)="deleteSales(sales._id)"></p-button>
+                                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"
+                                        *ngIf="sales.paymentStatus == 'Unpaid'"></p-button>
+
+                                </td>
                             </tr>
                         </ng-template>
                     </p-table>
 
                 </p-tabPanel>
-
+                <!-- PAYMENTS GRID -->
                 <p-tabPanel header="Payments">
                     <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}">
                         <ng-template pTemplate="header">
@@ -158,7 +172,6 @@
                                         field="paymentMode"></p-sortIcon>
                                     <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
                                 </th>
-                                <th>Action</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-payment>
@@ -167,7 +180,8 @@
                                 <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
                                 <td>₹ {{payment.amount}}</td>
                                 <td>{{payment.paymentMode}}</td>
-                                
+
+
                             </tr>
                         </ng-template>
                     </p-table>

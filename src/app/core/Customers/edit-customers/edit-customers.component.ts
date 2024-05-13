@@ -29,7 +29,7 @@ import { MultiSelectModule } from "primeng/multiselect";
   templateUrl: "./edit-customers.component.html",
   styleUrl: "./edit-customers.component.scss",
   providers: [MessageService],
-})
+}) 
 export class EditCustomersComponent {
   editCustomerGroup: UntypedFormGroup;
   routes = routes;

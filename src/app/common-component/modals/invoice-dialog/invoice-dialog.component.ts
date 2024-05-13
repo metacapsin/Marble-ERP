@@ -3,15 +3,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SharedModule } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 
-
 @Component({
-  selector: 'app-confirm-dialog',
-  templateUrl: './confirm-dialog.component.html',
-  styleUrl: './confirm-dialog.component.scss',
-  standalone:true,
+  selector: 'app-invoice-dialog',
+  standalone: true,
   imports: [CommonModule, SharedModule, DialogModule],
+  templateUrl: './invoice-dialog.component.html',
+  styleUrl: './invoice-dialog.component.scss'
 })
-export class ConfirmDialogComponent {
+export class InvoiceDialogComponent {
+
   @Input() showDialog: boolean = false;
   @Input() data: any;
   @Output() callbackModal = new EventEmitter<any>();
@@ -30,3 +30,4 @@ export class ConfirmDialogComponent {
     this.callbackModal.emit();
   }
 }
+
