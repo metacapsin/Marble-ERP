@@ -55,7 +55,42 @@
                             </div>
                         </div>
 
-                        <div class="card-body p-2">
+                        <div class="card-body">
+                            <div class="card">
+                                <p-treeTable [value]="data" [columns]="cols" [paginator]="true" [rows]="5"
+                                    [rowsPerPageOptions]="[5, 10, 25]" [scrollable]="true"
+                                    [tableStyle]="{'min-width':'50rem'}">
+                                    <ng-template pTemplate="header" let-columns>
+                                        <tr>
+                                            <th *ngFor="let col of columns">
+                                                {{ col.header }}
+                                            </th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData"
+                                        let-columns="columns">
+                                        <tr [ttRow]="rowNode">
+                                            <td *ngFor="let col of columns">
+                                                {{ rowData?.[col.field] }}
+                                            </td>
+                                        </tr>
+                                        <ng-container *ngIf="rowData?.blocksDetails">
+                                            <ng-container *ngFor="let block of rowData.blocksDetails">
+                                                <tr>
+                                                    <td>{{ block?.blockNo }}</td>
+                                                    <td>{{ block?.height }}</td>
+                                                    <td>{{ block?.width }}</td>
+                                                    <td>{{ block?.length }}</td>
+                                                    <!-- Add more columns as needed -->
+                                                </tr>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-template>
+                                </p-treeTable>
+
+                            </div>
+                        </div>
+                        <!-- <div class="card-body p-2">
                             <p-table [value]="originalData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                                 [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
                                 [(selection)]="selectedLot">
@@ -135,7 +170,7 @@
                                     </tr>
                                 </ng-template>
                             </p-table>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

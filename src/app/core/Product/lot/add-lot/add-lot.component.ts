@@ -165,14 +165,19 @@ getblockDetails(){
     let averageRoyalty = royaltyCharge/lotWeight;
     let averageBlocksWeight = this.totalBlocksArea / lotWeight
 
-    this.blocksDetails.forEach((element:any) => {
-      element.weightPerBlock= (element.totalArea / averageBlocksWeight).toFixed(2);
-      element.rawCosting= (element.weightPerBlock * pricePerTon).toFixed(2);
-      element.transportationCosting= (element.weightPerBlock * averageTransportation).toFixed(2);
-      element.royaltyCosting = (element.weightPerBlock * averageRoyalty).toFixed(2);
-      // debugger
-      element.totalCosting= element.rawCosting + element.transportationCosting + element.royaltyCosting;
-    });
+    this.blocksDetails.forEach((element: any) => {
+      element.weightPerBlock = (element.totalArea / averageBlocksWeight).toFixed(2);
+      element.rawCosting = (parseFloat(element.weightPerBlock) * pricePerTon).toFixed(2);
+      element.transportationCosting = (parseFloat(element.weightPerBlock) * averageTransportation).toFixed(2);
+      element.royaltyCosting = (parseFloat(element.weightPerBlock) * averageRoyalty).toFixed(2);
+      
+      // Convert string values back to numbers before addition
+      let rawCosting = parseFloat(element.rawCosting);
+      let transportationCosting = parseFloat(element.transportationCosting);
+      let royaltyCosting = parseFloat(element.royaltyCosting);
+      element.totalCosting = (rawCosting + transportationCosting + royaltyCosting).toFixed(2);
+  });
+  
 
     this.lotAddForm.patchValue({
       averageTransport: averageTransportation.toFixed(2),

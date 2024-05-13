@@ -1,5 +1,7 @@
+import { Component, OnInit } from '@angular/core';
+import { TreeNode } from 'primeng/api';
+import { TreeTableModule } from 'primeng/treetable';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -9,18 +11,35 @@ import { ToastModule } from 'primeng/toast';
 import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LotService } from '../lot.service';
+interface Column {
+  field: string;
+  header: string;
+}
 
 
 @Component({
   selector: 'app-list-lot',
   standalone: true,
-  imports: [CommonModule,SharedModule,ButtonModule, ToastModule],
+  imports: [CommonModule,SharedModule,ButtonModule, TreeTableModule, ToastModule],
   providers: [MessageService],
   templateUrl: './list-lot.component.html',
   styleUrl: './list-lot.component.scss'
 })
-export class ListLotComponent {
+export class ListLotComponent implements OnInit {
+  files!: TreeNode[];
 
+  cols = [
+    { field: 'lotNo', header: 'Lot No' },
+    { field: 'lotName', header: 'Lot Name' },
+    { field: 'lotWeight', header: 'Lot Weight' },
+    // Add more columns as needed
+  ];
+
+// cols = [
+//     { field: 'lotNo', header: 'Lot No' },
+//     { field: 'lotName', header: 'Lot Name' },
+//     { field: 'lotWeight', header: 'Lot Weight' },
+//   ];
   public routes = routes;
   data: any = null;
   originalData:any = []
@@ -33,18 +52,44 @@ export class ListLotComponent {
   constructor(public dialog: MatDialog, public router: Router, private service: LotService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
   getLotList(): void {
     this.service.getLotList().subscribe((resp: any) => {
-      this.data = resp.data;
-      // map(lot=>{
-      //   lot.currentStock=lot.openingStock-lot.
-      // })
-      this.originalData = resp.data;
+      console.log("Before map", resp.data);
+      this.data = resp.data.map((item: any) => ({
+        lotNo: item.lotNo,
+        lotName: item.lotName,
+        lotWeight: item.lotWeight,
+        blocksDetails: item.blocksDetails || [] // If blocksDetails is null, default to an empty array
+      }));
+    });
+     
 
-      console.log("API", this.data);
+    console.log("After map", this.data);
+    
 
-    })
   }
   ngOnInit(): void {
     this.getLotList();
+
+    this.files = [];
+        for(let i = 0; i < 50; i++) {
+            let node = {
+                data:{  
+                    name: 'Item ' + i,
+                    size: Math.floor(Math.random() * 1000) + 1 + 'kb',
+                    type: 'Type ' + i
+                },
+                children: [
+                    {
+                        data: {  
+                            name: 'Item ' + i + ' - 0',
+                            size: Math.floor(Math.random() * 1000) + 1 + 'kb',
+                            type: 'Type ' + i
+                        }
+                    }
+                ]
+            };
+
+            this.files.push(node);
+  }
   }
 
   deleteLot(_id: any) {

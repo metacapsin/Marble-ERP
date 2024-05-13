@@ -1,5 +1,8 @@
-
-<p-dialog header="Sales Details" [(visible)]="visible" *ngFor="let sales of salesDataById" [modal]="true"
+<!-- <p-dialog [(visible)]="showInvoiceDialog" [modal]="true" [responsive]="true" [baseZIndex]="10000" [closeOnEscape]="true"
+>
+  <p>hyyh</p>
+</p-dialog> -->
+<p-dialog header="Sales Details" [(visible)]="showInvoiceDialog" *ngFor="let sales of salesDataById" [responsive]="true" [baseZIndex]="10000" [closeOnEscape]="true" [modal]="true"
   [style]="{width: '80vw'}">
   <div class="modal-content">
     <div class="modal-body">
@@ -123,7 +126,7 @@
 
                   </p-tabPanel>
 
-                  <p-tabPanel header="Payments">
+                  <!-- <p-tabPanel header="Payments">
                     <p-table [value]="paymentListData" *ngIf="paymentListData?.length > 0"
                       [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
@@ -147,7 +150,7 @@
                         </tr>
                       </ng-template>
                     </p-table>
-                  </p-tabPanel>
+                  </p-tabPanel> -->
                 </p-tabView>
               </div>
 
@@ -190,7 +193,7 @@
   </div>
 </p-dialog>
 
-<p-dialog header="Sales Details" [(visible)]="paymentVisible" *ngFor="let sales of salesDataById" [modal]="true"
+<!-- <p-dialog header="Sales Details" [(visible)]="paymentVisible" *ngFor="let sales of salesDataById" [modal]="true"
   [style]="{width: '80vw'}">
   <div class="modal-content">
     <div class="modal-body">
@@ -332,12 +335,6 @@
                     <h4 class="invoice-total-title">Payble Amount</h4>
                     <div class="invoice-total-box">
 
-                      <!-- <div class="invoice-total-inner">
-                        <p>Discount <span>₹ {{sales.salesDiscount}}</span></p>
-                        <p>Shipping Charges <span>₹ {{sales.salesShipping}}</span></p>
-                        <p>Other Charges <span>₹ {{sales.otherCharges}}</span></p>
-                      </div> -->
-
                       <div class="invoice-total-footer">
                         <h4>Total Amount <span>₹ </span></h4>
                       </div>
@@ -358,4 +355,4 @@
       </div>
     </div>
   </div>
-</p-dialog>
+</p-dialog> -->

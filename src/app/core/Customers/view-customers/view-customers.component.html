@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="page-wrapper">
     <div class="content">
         <div class="page-header">
@@ -91,8 +92,6 @@
             </div>
         </div>
         
-<app-invoice-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-[data]="modalData"></app-invoice-dialog>
 
 
         <!-- SALES GRID -->
@@ -140,12 +139,12 @@
                                 <td>₹ {{sales.dueAmount}}</td>
                                 <td>₹ {{sales.salesTotalAmount}}</td>
                                 <td>{{sales.paymentStatus}}</td>
-                                <td style="display: flex; gap: 5px;" appShowHide>
+                                <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                                     <p-button [text]="true" icon="fa-solid fa-eye"
-                                        (click)="showInvoiceDialog(sales._id)"></p-button>
-                                    <!-- <p-button [text]="true" icon="fa-solid fa-wallet" (click)="showPaymentDialog(sales._id)"></p-button> -->
+                                        (click)="showInvoiceDialoge(sales._id)"></p-button>
                                     <p-button [text]="true" icon="fa-solid fa-trash"
-                                        (click)="showInvoiceDialog(sales._id)"></p-button>
+                                        (click)=deleteSales(sales._id)></p-button>
+                                    <!-- <p-button [text]="true" icon="fa-solid fa-wallet" (click)="showPaymentDialog(sales._id)"></p-button> -->
                                     <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)" *ngIf="sales.paymentStatus == 'Unpaid'"></p-button> -->
 
                                 </td>
@@ -192,3 +191,14 @@
         </div>
     </div>
 </div>
+
+
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>
+
+<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog"
+    [data]="modalDataa"></app-invoice-dialog>
+
+
+<!-- <app-invoice-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+[data]="modalData"></app-invoice-dialog> -->

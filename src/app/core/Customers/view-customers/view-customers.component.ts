@@ -7,18 +7,20 @@ import { PaymentInService } from "../../payment-in/payment-in.service";
 import { TabViewModule } from "primeng/tabview";
 import { TableModule } from "primeng/table";
 import { SalesService } from "../../sales/sales.service";
-import { MessageService, SharedModule } from "primeng/api";
+import { MessageService } from "primeng/api";
 import { DropdownModule } from "primeng/dropdown";
 import { CalendarModule } from "primeng/calendar";
 import { DialogModule } from "primeng/dialog";
 import { ToastModule } from "primeng/toast";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: "app-view-customers",
   standalone: true,
   imports: [CommonModule, SharedModule, DropdownModule, RouterModule, TableModule, CalendarModule, DialogModule, ToastModule, TabViewModule, InvoiceDialogComponent],
-  providers:[MessageService],
+  providers: [MessageService],
 
   templateUrl: "./view-customers.component.html",
   styleUrl: "./view-customers.component.scss",
@@ -29,10 +31,14 @@ export class ViewCustomersComponent {
   paymentListData: any[] = [];
   salesDataById: any[] = [];
   id: any;
+  salesId: any;
 
   saleId: any;
   showDialoge = false;
   modalData: any = {};
+
+  showInvoiceDialog = false;
+  modalDataa: any ;
 
   // this.socialLinks = this._data.socialLinks;
 
@@ -42,7 +48,8 @@ export class ViewCustomersComponent {
     private PaymentInService: PaymentInService,
     private salesService: SalesService,
     private router: Router,
-    private messageService:MessageService,
+    private messageService: MessageService,
+    public dialog: MatDialog,
 
   ) {
     this.id = this.activeRoute.snapshot.params["id"];
@@ -53,13 +60,16 @@ export class ViewCustomersComponent {
 
     this.PaymentInService.getPaymentList().subscribe(
       (resp: any) => {
-        console.log("payments of customer",resp)
-        
+        console.log("payments of customer", resp)
         this.paymentListData = resp.data;
-
-
       }
     );
+
+    this.getsales();
+
+  }
+
+  getsales() {
     this.salesService.GetSalesData().subscribe(
       (resp: any) => {
         console.log("sales of custonmer ", resp);
@@ -69,6 +79,7 @@ export class ViewCustomersComponent {
       }
     );
   }
+
   getCoustomers() {
     this.Service.GetCustomerDataById(this.id).subscribe((data: any) => {
       console.log(data);
@@ -76,85 +87,37 @@ export class ViewCustomersComponent {
     });
   }
 
-  // showInvoiceDialog(id: any) {
-  //   this.router.navigate(["/customers/invoice-customers/" + id]);
-  // }
+  deleteSales(Id: any) {
+    this.salesId = Id;
 
-  // editSalesRout(id) {
-  //   this.router.navigate(["/sales/edit-sales/" + id]);
-  // }
-  // deleteSales(Id: any) {
-  //   this.saleId = Id;
-
-  //   this.modalData = {
-  //     title: "Delete",
-  //     messege: "Are you sure you want to delete this Sales Details"
-  //   }
-  //   this.showDialoge = true;
-  // }
-
-  // showInvoiceDialog(Id: any) {
-  //   this.saleId = Id;
-
-  //   this.modalData = {
-  //     title: "Delete",
-  //     messege: "Are you sure you want to delete this Sales Details"
-  //   }
-  //   this.showDialoge = true;
-  // }
-  // showInvoiceDialog(Id) {
-  //   this.showDialoge = true;
-  // }
-
-  // callBackModal() {
-  //   // this.salesService.DeleteSalesData(this.saleId).subscribe((resp: any) => {
-  //   //   this.messageService.add({ severity: 'success', detail: resp.message });
-  //   //   this.GetSalesData();
-  //   //   this.showDialoge = false;
-  //   // })
-  // }
-
-  // close() {
-  //   this.showDialoge = false;
-  // }
-
-  // GetSalesData() {
-  //   this.salesService.GetSalesDataById(this.id).subscribe((resp: any) => {
-  //     this.sal = resp.data;
-  //     this.originalData = resp.data;
-
-  //   })
-  
-
-
-
-
-
-
-  showInvoiceDialog(Id: any) {
-    this.saleId = Id;
-
-    // this.modalData = {
-    //   title: "Delete",
-    //   messege: "Are you sure you want to delete this Sales Details"
-    // }
-    // this.showDialoge = true;
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Sales Details"
+    }
+    this.showDialoge = true;
   }
 
-  showNewDialoge() {
+  showNewDialog() {
     this.showDialoge = true;
   }
 
   callBackModal() {
-    // this.salesService.DeleteSalesData(this.saleId).subscribe((resp: any) => {
-    //   this.messageService.add({ severity: 'success', detail: resp.message });
-    //   // this.GetSalesData();
-    //   this.showDialoge = false;
-    // })
+    this.salesService.DeleteSalesData(this.salesId).subscribe((resp: any) => {
+      this.messageService.add({ severity: 'success', detail: resp.message });
+      this.getsales();
+      this.showDialoge = false;
+    })
   }
 
   close() {
     this.showDialoge = false;
+  }
+
+  showInvoiceDialoge(Id: any) {
+    console.log("pass id", Id);
+    
+    this.modalDataa = Id
+    this.showInvoiceDialog = true;
   }
 
 
