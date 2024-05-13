@@ -655,6 +655,7 @@ export class routes {
   public static get slabs(): string {
     return this.baseUrl + '/slabs';
   }
+  
   public static get lot(): string {
     return this.baseUrl + '/lot';
   }

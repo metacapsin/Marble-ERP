@@ -11,23 +11,23 @@ export class SlabsService {
   // setting Slabs
 
 CreateSlabs(data: {} | null) {
-  return this.http.post(environment.apiUrl + "/slabs", data);
+  return this.http.post(environment.apiUrl + "/SlabController/createSlab", data);
 }
 getSlabsList() {
-  return this.http.get(environment.apiUrl + "/getAllSlabsList");
+  return this.http.get(environment.apiUrl + "/SlabController/getSlabList");
 }
 
 getSlabsById(locationId: string) {
-  return this.http.get(environment.apiUrl + "/getSlabsById/" + locationId);
+  return this.http.get(environment.apiUrl + "/SlabController/getSlabById/" + locationId);
 }
 
 updateSlabsById(data: {}) {
-  return this.http.put(environment.apiUrl + "/updateSlabs" , data);
+  return this.http.put(environment.apiUrl + "/SlabController/updateSlab" , data);
 }
 
 
 deleteSlabsById(id: string) {
-  return this.http.delete(environment.apiUrl + "/deleteSlabs/" + id, {});
+  return this.http.delete(environment.apiUrl + "/SlabController/deleteSlab/" + id,);
 }
 
 }

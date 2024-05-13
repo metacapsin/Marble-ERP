@@ -8,8 +8,8 @@ import { EditSlabsComponent } from './edit-slabs/edit-slabs.component';
 
 const routes: Routes = [
   { path: '', component: ListSlabsComponent },
-  { path: 'add', component: AddSlabsComponent },
-  { path: 'edit/:id', component: EditSlabsComponent },
+  { path: 'slab-add', component: AddSlabsComponent },
+  { path: 'slab-edit/:id', component: EditSlabsComponent },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

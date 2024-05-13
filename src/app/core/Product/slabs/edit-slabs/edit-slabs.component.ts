@@ -21,9 +21,11 @@ import { SubCategoriesService } from "src/app/core/settings/sub-categories/sub-c
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { LotService } from "../../lot/lot.service";
 import { BlocksService } from "../../blocks/blocks.service";
+import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
+import { SlabsService } from "../slabs.service";
 
 @Component({
-  selector: 'app-edit-slabs',
+  selector: "app-edit-slabs",
   standalone: true,
   imports: [
     CommonModule,
@@ -36,22 +38,24 @@ import { BlocksService } from "../../blocks/blocks.service";
     ToastModule,
   ],
   providers: [MessageService],
-  templateUrl: './edit-slabs.component.html',
-  styleUrl: './edit-slabs.component.scss'
+  templateUrl: "./edit-slabs.component.html",
+  styleUrl: "./edit-slabs.component.scss",
 })
 export class EditSlabsComponent {
-
   public routes = routes;
   slabsEditForm!: FormGroup;
   data: any;
   slabsId: any;
 
-  
   lotNoList: any = [];
   blocksNoList: any = [];
-
+  wareHousedata:any
   subCategoryList: any = [];
   categoryList: any = [];
+  billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
+  lotDetailList=[{name:"kavya"},{name:"adnan"}];
+  TotalCosting: number = 28447.38;
+  PerBlockWeight: number = 11.98067702;
 
   constructor(
     private service: ProductsService,
@@ -64,25 +68,47 @@ export class EditSlabsComponent {
     private subCategoriesService: SubCategoriesService,
     private lotService: LotService,
     private blocksService: BlocksService,
-  ) {this.slabsEditForm = this.fb.group({
-    lotNo: ["", [Validators.required]],
-    blockNo: ["", [Validators.required]],
-    category: ["", [Validators.required]],
-    subCategory: ["", [Validators.required]],
-    height: ["", [Validators.required, Validators.min(0)]],
-    width: ["", [Validators.required, Validators.min(0)]],
-    length: ["", [Validators.required, Validators.min(0)]],
-    totalSqrFt: ["", [Validators.required, Validators.min(0)]],
-    totalCosting: ["", [Validators.required, Validators.min(0)]],
-    sellPricePerSqrFt: ["", [Validators.required, Validators.min(0)]],
-  });}
+    private services: WarehouseService,
+    private Service:SlabsService,
+  ) {
+    this.slabsEditForm = this.fb.group({
+      slabNo: [
+        "",
+        [Validators.required, Validators.pattern(this.billingAddressRegex)],
+      ],
+      lotDetail: ["", []],
+      blockDetail: ["", []],
+      categoryDetail: ["", [Validators.required]],
+      subCategoryDetail: ["", [Validators.required]],
+      slabName: ["", [Validators.required, Validators.min(0)]],
+      processingFee: ["", [Validators.min(1), Validators.max(1000000)]], //p
+      totalSQFT: ["", [Validators.min(1), Validators.max(100000)]],
+      otherCharges: [
+        "",
+        [Validators.required, Validators.min(1), Validators.max(100000)],
+      ],
+      transportationCharges: [
+        "",
+        [Validators.required, Validators.min(1), Validators.max(100000)],
+      ],
+      sellingPricePerSQFT: [
+        "",
+        [Validators.required, Validators.min(1), Validators.max(100000)],
+      ],
+      notes: ["", [Validators.pattern(this.billingAddressRegex)]],
+      blockProcessor: [""],
+      warehouseDetails: ["", [Validators.required]],
+      processingCost: [""],
+      totalCosting: [""],
+      costPerSQFT: [""],
+    });
+  }
 
   ngOnInit(): void {
     this.activeRoute.params.subscribe((params) => {
       this.slabsId = params["id"];
       console.log("user id ", this.slabsId);
     });
-
 
     this.categoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
@@ -97,21 +123,30 @@ export class EditSlabsComponent {
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
     });
-    this.service.getProductById(this.slabsId).subscribe((data: any) => {
-      this.data = data.data; //assuming data is returned as expected
+    this.services.getAllWarehouseList().subscribe((resp: any) => {
+      this.wareHousedata = resp.data;
+    });
+    this.Service.getSlabsById(this.slabsId).subscribe((data: any) => {
+      this.data = data.data;
       console.log("Slabs Data", this.data);
       this.slabsEditForm.patchValue({
-        lotNo: this.data.lotNo,
-        blockNo: this.data.blockNo,
-        category: this.data.category,
-        subCategory: this.data.subCategory        ,
-        height: this.data.height,
-        width: this.data.width,
-        length: this.data.length,
-        totalSqrFt: this.data.totalSqrFt,
+        slabNo: this.data.slabNo,
+        lotDetail: this.data.lotDetail,
+        blockDetail: this.data.blockDetails,
+        categoryDetail: this.data.categoryDetail,
+        subCategoryDetail: this.data.subCategoryDetail,
+        slabName: this.data.slabName,
+        processingFee: this.data.processingFee, 
+        totalSQFT: this.data.totalSQFT,
+        otherCharges: this.data.otherCharges,
+        transportationCharges: this.data.transportationCharges,
+        sellingPricePerSQFT: this.data.sellingPricePerSQFT,
+        notes: this.data.notes,
+        blockProcessor: this.data.blockProcessor,
+        warehouseDetails: this.data.warehouseDetails,
+        processingCost: this.data.processingCost,
         totalCosting: this.data.totalCosting,
-        sellPricePerSquarerFt: this.data.sellPricePerSquarerFt,
-        
+        costPerSQFT: this.data.costPerSQFT,
       });
     });
   }
@@ -120,12 +155,57 @@ export class EditSlabsComponent {
     return this.slabsEditForm.controls;
   }
 
+  calculateTotalAmount() {
+    let processingFee = +this.slabsEditForm.get("processingFee").value;
+    let otherCharges = +this.slabsEditForm.get("otherCharges").value;
+    let totalSQFT = +this.slabsEditForm.get("totalSQFT").value;
+    let transportationCharges = +this.slabsEditForm.get("transportationCharges").value;
+
+
+    let processingCost = processingFee * this.PerBlockWeight;
+    let totalCosting = this.TotalCosting + processingCost + otherCharges + transportationCharges;
+    let totalAmount = totalCosting / totalSQFT;
+    console.log("processingCost", processingCost);
+    console.log("totalCosting", totalCosting);
+    console.log("totalAmount", totalAmount);
+
+    // Update form values
+    this.slabsEditForm.patchValue({
+      processingCost: processingCost,
+      totalCosting: totalCosting.toFixed(2),
+      costPerSQFT: totalAmount.toFixed(2),
+    });
+  }
+
+
   SlabsEditFormSubmit() {
+    const payload = {
+      slabNo: this.slabsEditForm.value.slabNo,
+      lotDetail: this.slabsEditForm.value.lotDetail,
+      blockDetails: "hello",
+      categoryDetail: this.slabsEditForm.value.categoryDetail,
+      subCategoryDetail: this.slabsEditForm.value.subCategoryDetail,
+      slabName: this.slabsEditForm.value.slabName,
+      processingFee: this.slabsEditForm.value.processingFee,
+      totalSQFT: this.slabsEditForm.value.totalSQFT,
+      processingCost: this.slabsEditForm.value.processingCost,
+      otherCharges: this.slabsEditForm.value.otherCharges,
+      transportationCharges: this.slabsEditForm.value.transportationCharges,
+      totalCosting: this.slabsEditForm.value.totalCosting,
+      costPerSQFT: this.slabsEditForm.value.costPerSQFT,
+      sellingPricePerSQFT: this.slabsEditForm.value.sellingPricePerSQFT,
+      notes: this.slabsEditForm.value.notes,
+      blockProcessor: this.slabsEditForm.value.blockProcessor,
+      warehouseDetails: this.slabsEditForm.value.warehouseDetails,
+      date: "13-05-2024",
+      height: 10,
+      length: 10,
+      width: 10,
+      id: this.slabsId,
+    };
     console.log(this.slabsEditForm.value);
     if (this.slabsEditForm.valid) {
-      const requestBody = this.slabsEditForm.value;
-      requestBody.id = this.slabsId;
-      this.service.updateProductById(requestBody).subscribe(
+      this.Service.updateSlabsById(payload).subscribe(
         (resp: any) => {
           if (resp) {
             if (resp.status === "success") {
@@ -148,5 +228,4 @@ export class EditSlabsComponent {
       console.log("Form is invalid!");
     }
   }
-
 }
