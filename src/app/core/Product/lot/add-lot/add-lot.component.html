@@ -153,7 +153,7 @@
                                             <label for="lotWeight">Lot Weight In Ton <span
                                                     class="login-danger">*</span></label>
                                             <input class="form-control" type="number"
-                                                placeholder="Enter Total Weight In Ton" formControlName="lotWeight" />
+                                                placeholder="Enter Total Weight In Ton" (change)="calculateTotalAmount()"  formControlName="lotWeight" />
                                             <div *ngIf="
                                                     lotAddForm.get('lotWeight')?.hasError(
                                                       'required'
@@ -183,7 +183,7 @@
                                                     <span class="input-group-text">₹</span>
                                                 </div>
                                                 <input class="form-control" type="number"
-                                                    placeholder="Enter Invoice No." formControlName="pricePerTon" />
+                                                    placeholder="Enter Invoice No." (change)="calculateTotalAmount()"  formControlName="pricePerTon" />
                                             </div>
                                             <div *ngIf="
                                             lotAddForm.get('pricePerTon')?.hasError(
@@ -214,7 +214,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">₹</span>
                                                 </div>
-                                                <input class="form-control" type="number" placeholder="0"
+                                                <input class="form-control" type="number" placeholder="0" (change)="calculateTotalAmount()" 
                                                     formControlName="transportationCharge" />
                                             </div>
                                             <div *ngIf="
@@ -249,7 +249,7 @@
                                                     <span class="input-group-text">₹</span>
                                                 </div>
                                                 <input class="form-control" type="number" placeholder="0"
-                                                    formControlName="royaltyCharge" />
+                                                    formControlName="royaltyCharge" (change)="calculateTotalAmount()"  />
                                             </div>
                                             <div *ngIf="
                                             lotAddForm.get('royaltyCharge')?.hasError(
@@ -308,7 +308,7 @@
             </div>
         </div>
 
-        <div class="row" *ngIf="blockItemDetails.length > 0">
+        <div class="row" *ngIf="blocksDetails.length > 0">
             <div class="col-sm-12">
                 <div class="card card-table">
                     <div class="card-body">
@@ -320,9 +320,22 @@
                         </div>
 
                         <div class="row p-2">
+                            <!-- <div class="flex mb-3 gap-2 justify-content-end">
+                                <p-button [text]=" true" 
+                                styleClass="w-2rem h-2rem p-0"  icon="fa fa-trash"></p-button>
+                            </div> -->
                             <p-accordion [activeIndex]="0">
-                                <p-accordionTab *ngFor="let data of blockItemDetails; let i = index"
-                                    [header]="'Block'+ ' ' + (i+1)">
+                                <p-accordionTab *ngFor="let data of blocksDetails; let i = index">
+                                    <!-- [header]="'Block No :' + data.blockNo"> -->
+                                    <ng-template pTemplate="header">
+                                        <span class="d-flex justify-content-between w-full">
+                                            <span class="font-bold white-space-nowrap" >
+                                                Block No: {{data.blockNo}}
+                                            </span>
+                                            <p-button [text]="true" styleClass="w-2rem h-2rem p-0" icon="fa fa-trash" (click)="deleteAccordian(i)"></p-button>
+                                        </span>
+                                    </ng-template>
+                                    
 
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -330,14 +343,14 @@
                                                 <div class="page-table-header mb-2 m-3">
                                                     <div class="row practice-card">
                                                         <div class="col-xl-6 col-lg-6 col-sm-12">
-                                                            <div class="form-group row mb-2">
+                                                            <!-- <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                                                     Block Number</h5>
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                                     <p class="col-lg-9 col-form-label">{{data.blockNo}}
                                                                     </p>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                                                     Height</h5>
@@ -367,8 +380,6 @@
                                                                     <p class="col-form-label">{{data.totalArea}}</p>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-xl-6 col-lg-6 col-sm-12">
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                                                     Weigth / Block</h5>
@@ -377,6 +388,16 @@
                                                                     </p>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                                                            <!-- <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                                    Weigth / Block</h5>
+                                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                                    <p class="col-form-label">{{data.weightPerBlock}}
+                                                                    </p>
+                                                                </div>
+                                                            </div> -->
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                                                     Raw Costing</h5>
@@ -407,6 +428,10 @@
                                                                     <p class="col-form-label">{{data.totalCosting}}</p>
                                                                 </div>
                                                             </div>
+                                                            <button type="button"
+                                                                class="border-0 row mb-2 btn btn-primary btn-gradient-primary m-r-10 mb-3">
+                                                                Delete
+                                                            </button>
 
                                                         </div>
                                                     </div>
@@ -434,52 +459,54 @@
 <p-dialog header="Add New Blocks" [(visible)]="addvisible" [modal]="true" [style]="{ width: '50%' }">
     <div class="modal-content">
         <div class="modal-body">
-            <form>
+            <form #myForm="ngForm">
                 <div class="row">
-
-                    <!-- <div class="col-12 col-md-6 col-xl-6 mt-2">
+                    <div class="col-12 col-md-6 col-xl-6 mt-2">
                         <div class="form-group local-forms">
                             <label for="blockNo">Blocks No.
                                 <span class="login-danger">*</span></label>
-                            <input class="form-control" type="text" name="blockNo"   required
-                            placeholder="Enter Block No." pattern="[a-zA-Z0-9]{5,10}"
-                                [(ngModel)]="blockNo" />
-                            <div *ngIf="blockNo.invalid && (blockNo.dirty || blockNo.touched)" class="alert">
-                                <div *ngIf="blockNo.errors?.['required']"><span class="login-danger">Name is
+                            <input type="text" id="blockNo" name="blockNo" class="form-control" required minlength="4"
+                                pattern="[a-zA-Z0-9]{5,10}" [(ngModel)]="blockNo" 
+                                (change)="getblockDetails()" #block="ngModel" />
+
+                            <div *ngIf="block.invalid && block.touched">
+                                <div *ngIf="block.errors?.['required']"><span class="login-danger">Field is
                                         required.</span></div>
-                                <div *ngIf="blockNo.errors?.['pattern']">
-                                    <span class="login-danger">Input Must be between 5 to 50
-                                        characters.</span>
+                                <div *ngIf="block.errors?.['pattern']">
+                                    <span class="login-danger">Input must be between 5 to 10 characters.</span>
                                 </div>
                             </div>
 
                         </div>
-                    </div> -->
+                    </div>
 
-                    <!-- <div class="col-12 col-md-6 col-xl-6 mt-2">
-                        <div class="form-group local-forms">
-                            <label for="blockNo">Blocks No. <span class="login-danger">*</span></label>
-                            <input class="form-control" type="text" name="blockNo" placeholder="Enter Block No."
-                                [(ngModel)]="blockNo" required pattern="[a-zA-Z0-9]{5,10}" />
-                            <div *ngIf="(blockNo as any).invalid && (blockNo as any).dirty || (blockNo as any).touched" class="login-danger Font_size">
-                                <div *ngIf="(blockNo as any).errors?.required">Block No. is required.</div>
-                                <div *ngIf="(blockNo as any).errors?.pattern">Block No. must be 5 to 10 characters alphanumeric.</div>
-                            </div>
-                        </div>
-                    </div> -->
-            
                     <div class="col-12 col-md-6 col-xl-6 mt-2">
                         <div class="form-group local-forms">
                             <label for="height">Height <span class="login-danger">*</span></label>
-                            <input class="form-control" type="number" name="height" placeholder="Enter Height"
-                                [(ngModel)]="height" />
+                            <input class="form-control" type="number" id="height" name="height"
+                            (change)="getblockDetails()" required min="1"
+                                max="500" placeholder="Enter Height" [(ngModel)]="height" #HEIGHT="ngModel" />
+                            <div *ngIf="HEIGHT.invalid && (HEIGHT.dirty || HEIGHT.touched)">
+                                <div *ngIf="HEIGHT.errors?.['required']"><span class="login-danger">Field is
+                                        required.</span></div>
+                                <div *ngIf="HEIGHT.errors?.['min'] || HEIGHT.errors?.['max']">
+                                    <span class="login-danger">Input must be between 1 to 500 characters.</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-6 col-xl-6">
                         <div class="form-group local-forms">
                             <label for="width">Width <span class="login-danger">*</span></label>
-                            <input class="form-control" type="number" name="width" placeholder="Enter Width"
-                                [(ngModel)]="width" />
+                            <input class="form-control" type="number" id="width" name="width" (change)="getblockDetails()" required min="1" max="500"
+                                placeholder="Enter Width" [(ngModel)]="width" #WIDTH="ngModel" />
+                            <div *ngIf="WIDTH.invalid && (WIDTH.dirty || WIDTH.touched)">
+                                <div *ngIf="WIDTH.errors?.['required']"><span class="login-danger">Field is
+                                        required.</span></div>
+                                <div *ngIf="WIDTH.errors?.['min'] || WIDTH.errors?.['max']">
+                                    <span class="login-danger">Input must be between 1 to 500 characters.</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -487,22 +514,30 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group local-forms">
                             <label for="length">Length <span class="login-danger">*</span></label>
-                            <input class="form-control" type="number" name="length" placeholder="Enter Length"
-                                [(ngModel)]="length" />
+                            <input class="form-control" type="number" id="length" name="length" (change)="getblockDetails()" required min="1"
+                                max="500" placeholder="Enter Length" [(ngModel)]="length" #LENGTH="ngModel" />
+                            <div *ngIf="LENGTH.invalid && (LENGTH.dirty || LENGTH.touched)">
+                                <div *ngIf="LENGTH.errors?.['required']"><span class="login-danger">Field is
+                                        required.</span></div>
+                                <div *ngIf="LENGTH.errors?.['min'] || LENGTH.errors?.['max']">
+                                    <span class="login-danger">Input must be between 1 to 500 characters.</span>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
                     <div class="col-12 col-md-6">
                         <div class="form-group local-forms">
                             <label for="totalArea">Total Area</label>
-                            <input class="form-control" type="number" name="totalArea" placeholder="0"
+                            <input class="form-control" type="number"  name="totalArea" placeholder="0" [disabled]="true"
                                 [(ngModel)]="totalArea" />
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="settings-btns text-end m-b-10">
-                            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                            <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
                                 (click)="addBlock()">
                                 save
                             </button>
