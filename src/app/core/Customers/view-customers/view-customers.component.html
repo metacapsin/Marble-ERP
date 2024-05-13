@@ -90,6 +90,9 @@
 
             </div>
         </div>
+        
+<app-invoice-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+[data]="modalData"></app-invoice-dialog>
 
 
         <!-- SALES GRID -->
@@ -142,9 +145,8 @@
                                         (click)="showInvoiceDialog(sales._id)"></p-button>
                                     <!-- <p-button [text]="true" icon="fa-solid fa-wallet" (click)="showPaymentDialog(sales._id)"></p-button> -->
                                     <p-button [text]="true" icon="fa-solid fa-trash"
-                                        (click)="deleteSales(sales._id)"></p-button>
-                                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"
-                                        *ngIf="sales.paymentStatus == 'Unpaid'"></p-button>
+                                        (click)="showInvoiceDialog(sales._id)"></p-button>
+                                    <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)" *ngIf="sales.paymentStatus == 'Unpaid'"></p-button> -->
 
                                 </td>
                             </tr>
