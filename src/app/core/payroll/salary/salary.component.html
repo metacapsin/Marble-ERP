@@ -49,7 +49,6 @@
               </div>
             </div>
           </div>
-
           <div class="card-body p-2">
             <p-table [value]="salaryData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
               [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedsalary">
@@ -64,34 +63,19 @@
                   <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon>
                     <p-columnFilter type="text" field="type" display="menu"></p-columnFilter>
                   </th>
-                  
                   <th pSortableColumn="netSalary">Net Salary<p-sortIcon field="netSalary"></p-sortIcon></th>
-                  <!-- <th pSortableColumn="basicSalary">Basic Salary<p-sortIcon field="basicSalary"></p-sortIcon></th> -->
-                 
-                  <!-- <th pSortableColumn="Salary">Salary <p-sortIcon field="Salary"></p-sortIcon>
-                    <p-columnFilter type="text" field="Salary" display="menu"></p-columnFilter>
-                  </th>
-                  <th pSortableColumn="Role">Role <p-sortIcon field="Role"></p-sortIcon>
-                    <p-columnFilter type="text" field="Role" display="menu"></p-columnFilter>
-                  </th>
-                  <th pSortableColumn="Status"> Status <p-sortIcon field="Status"></p-sortIcon></th> -->
-
                   <th>Action</th>
-                </tr>`
+                </tr>
               </ng-template>
               <ng-template pTemplate="body" let-salary>
                 <tr>
-                  <td appShowHide [roles]="['admin', 'super-admin']">
+                  <td  appShowHide [roles]="['admin', 'super-admin']">
                     <p-tableCheckbox [value]="salary"></p-tableCheckbox>
                   </td>
-                  <td>{{salary.employee}}</td>
-                  <td>{{salary.type}}</td>
-                  <td>₹ {{salary.netSalary}}</td>
-                  <!-- <td>₹ {{salary.basicSalary}}</td> -->
-                  <!-- <td>₹ {{salary.Salary}}</td>
-                  <td>{{salary.Role}}</td>
-                  <td>{{salary.Status}}</td> -->
-                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                  <td >{{salary.employee}}</td>
+                  <td >{{salary.type}}</td>
+                  <td >₹ {{salary.netSalary}}</td>
+                  <td  style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-edit"(click)="editSalary(salary._id)"></p-button>
                     <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalaryList(salary._id)"></p-button>
                   </td>
@@ -99,6 +83,7 @@
               </ng-template>
             </p-table>
           </div>
+          
 
         </div>
       </div>
