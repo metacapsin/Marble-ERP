@@ -44,12 +44,12 @@ const routes: Routes = [
         import('./add-staff/add-staff.module').then((m) => m.AddStaffModule),
     },
     {
-      path: 'edit-leave',
+      path: 'edit-leave/:id',
       loadChildren: () =>
         import('./edit-leave/edit-leave.module').then((m) => m.EditLeaveModule),
     },
     {
-      path: 'edit-staff',
+      path: 'edit-staff/:id',
       loadChildren: () =>
         import('./edit-staff/edit-staff.module').then((m) => m.EditStaffModule),
     },

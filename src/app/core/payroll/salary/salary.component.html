@@ -1,103 +1,96 @@
+<p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-    
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.salary">Payroll </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Empoyee Salary</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active">Employee Salary</li>
+          </ul>
         </div>
-        <!-- /Page Header -->
-      </div><div class="row">
-        <div class="col-sm-12 pe-4 ps-4">
-          <div class="card card-table">
-            <div class="card-body p-4">
+      </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+
+          <div class="page-table-header mb-2">
+            <div class="row align-item-center">
               <div class="col">
-                <div class="doctor-table-blk mb-3">
+                <div class="doctor-table-blk">
                   <h3>Employee Salary List</h3>
                   <div class="doctor-search-blk">
                     <div class="top-nav-search table-search-blk">
-                      <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
-                        >
+                      <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
                       <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                     </div>
                     <div class="add-group textbtn">
                       <a appShowHide [roles]="['admin', 'super-admin']" [routerLink]="routes.addSalary"
                         class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt="">Add New</a>
-                      
+
                     </div>
-                  </div>
-                  <div class="col-auto text-end float-end ms-auto download-grp" appShowHide [roles]="['admin', 'super-admin']">
-                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
-                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
-                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
-                    <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
-  
                   </div>
                 </div>
               </div>
-            <p-table [value]="salaryData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                            [rows]="5">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                    </th>
-                                    <th pSortableColumn="employeeID">Employee ID <p-sortIcon field="employeeID"></p-sortIcon>
-                                        <p-columnFilter type="text" field="employeeID" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="employeeName">Employee Name <p-sortIcon field="employeeName"></p-sortIcon>
-                                        <p-columnFilter type="text" field="employeeName" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="Email">Email <p-sortIcon field="Email"></p-sortIcon>
-                                        <p-columnFilter type="text" field="Email" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="joiningDate">Joining Date <p-sortIcon field="joiningDate"></p-sortIcon></th>
-                                    <th pSortableColumn="Salary">Salary <p-sortIcon field="Salary"></p-sortIcon>
-                                        <p-columnFilter type="text" field="Salary" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="Role">Role <p-sortIcon field="Role"></p-sortIcon>
-                                        <p-columnFilter type="text" field="Role" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="Status"> Status <p-sortIcon field="Status"></p-sortIcon
-                                      
-                                      ></th>
+              <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                [roles]="['admin', 'super-admin']">
+                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
+                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
-                                    <th>Action</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-SalaryData>
-                                <tr>
-                                    <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableCheckbox ></p-tableCheckbox>
-                                    </td>
-                                    <td>{{SalaryData.employeeID}}</td>
-                                    <td>{{SalaryData.employeeName}}</td>
-                                    <td>{{SalaryData.Email}}</td>
-                                    <td>{{SalaryData.joiningDate}}</td>
-                                    <td>₹ {{SalaryData.Salary}}</td>
-                                    <td>{{SalaryData.Role}}</td>
-                                    <td>{{SalaryData.Status}}</td>
-                                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                                                <p-button [text]="true" data-bs-toggle="modal"
-                                                 icon="fa-solid fa-eye" [routerLink]="routes.salaryView"  ></p-button>
-                                                <p-button [text]="true" icon="fa-solid fa-trash" ></p-button>
-                                                <p-button [text]="true" icon="fa-solid fa-edit"  [routerLink]="routes.editSalary" ></p-button>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-
+              </div>
             </div>
           </div>
+          <div class="card-body p-2">
+            <p-table [value]="salaryData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedsalary">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th appShowHide [roles]="['admin', 'super-admin']">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th>
+                  <th pSortableColumn="employee">Employee<p-sortIcon field="employee"></p-sortIcon>
+                    <p-columnFilter type="text" field="employee" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon>
+                    <p-columnFilter type="text" field="type" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="netSalary">Net Salary<p-sortIcon field="netSalary"></p-sortIcon></th>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-salary>
+                <tr>
+                  <td  appShowHide [roles]="['admin', 'super-admin']">
+                    <p-tableCheckbox [value]="salary"></p-tableCheckbox>
+                  </td>
+                  <td >{{salary.employee}}</td>
+                  <td >{{salary.type}}</td>
+                  <td >₹ {{salary.netSalary}}</td>
+                  <td  style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                    <p-button [text]="true" icon="fa-solid fa-edit"(click)="editSalary(salary._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalaryList(salary._id)"></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+          
+
         </div>
       </div>
     </div>
-<!-- </div> -->
- 
+
+  </div>
+</div>
+
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog>

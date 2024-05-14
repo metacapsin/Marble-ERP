@@ -23,7 +23,7 @@ const routes: Routes = [
         import('./add-salary/add-salary.module').then((m) => m.AddSalaryModule),
     },
     {
-      path: 'edit-salary',
+      path: 'edit-salary/:id',
       loadChildren: () =>
         import('./edit-salary/edit-salary.module').then(
           (m) => m.EditSalaryModule

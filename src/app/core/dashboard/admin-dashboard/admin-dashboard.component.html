@@ -305,5 +305,144 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12 col-xl-7">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="chart-title patient-visit mb-0">
+                            <h4>Income</h4>
+                            <div class="income-value" >
+                                <h3><span>$</span> 20,560</h3>
+                                <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p>
+                            </div>
+                            <div class="form-group mb-0">
+                                 <mat-select [(ngModel)]="selectedValue" class="form-control select"  placeholder="2022">
+                                        <mat-option *ngFor="let data of selecedList" [value]="data.value">
+                                          {{data.value}}
+                                        </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>	
+                        <div id="apexcharts-area">
+                            <apx-chart
+                            [series]="chartOptionsOne.series"
+                            [chart]="chartOptionsOne.chart"
+                            [xaxis]="chartOptionsOne.xaxis"
+                            [dataLabels]="chartOptionsOne.dataLabels"
+                            [grid]="chartOptionsOne.grid"
+                            [stroke]="chartOptionsOne.stroke"
+                            [title]="chartOptionsOne.title"
+                            [markers]="chartOptionsOne.markers"
+                            [yaxis]="chartOptionsOne.yaxis"
+                            [fill]="chartOptionsOne.fill"
+                          ></apx-chart></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-6 col-xl-3 d-flex">
+                <div class="card">
+                    <div class="card-body">
+                            <apx-chart class="donut-chart-radial"
+                            [series]="chartOptionsTwo.series"
+                            [chart]="chartOptionsTwo.chart"
+                            [labels]="chartOptionsTwo.labels"
+                            [responsive]="chartOptionsTwo.responsive"
+                            [dataLabels]="chartOptionsTwo.dataLabels"
+                            [legend]="chartOptionsTwo.legend"
+                          ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-6 col-xl-2 d-flex">
+                <div class="struct-point">
+                    <div class="card patient-structure">
+                        <div class="card-body">
+                            <h5>New Patients</h5>
+                            <h3>56<span class="status-green"><img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
+                        </div>
+                    </div>
+                    <div class="card patient-structure">
+                        <div class="card-body">
+                            <h5>Old Patients</h5>
+                            <h3>35<span class="status-pink"><img src="assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12  col-xl-9">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title d-inline-block">Recent Appointments</h4> <a [routerLink]="routes.appointmentList" class="patient-views float-end">Show all</a>
+                    </div>
+                    <div class="card-body p-0 table-dash">
+                        <div class="table-responsive">
+                            <table class="table mb-0 border-0 custom-table">
+                                <tbody>
+                                    <tr>
+                                        <td class="table-image appoint-doctor">
+                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" alt=""> 
+                                            <h2>Dr.Jenny Smith</h2>
+                                        </td>
+                                        <td class="appoint-time text-center">
+                                            <h6>Today 5:40 PM</h6>
+                                            <span>Typoid Fever</span>
+                                        </td>
+                                        <td>
+                                            <button class="check-point status-green me-1"><i class="feather icon-check"></i></button>
+                                            <button class="check-point status-pink "><i class="feather icon-x"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-image appoint-doctor">
+                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-03.jpg" alt=""> 
+                                            <h2>Dr.Angelica Ramos</h2>
+                                        </td>
+                                        <td class="appoint-time text-center">
+                                            <h6>Today 5:40 PM</h6>
+                                            <span>Typoid Fever</span>
+                                        </td>
+                                        <td>
+                                            <button class="check-point status-green me-1"><i class="feather icon-check"></i></button>
+                                            <button class="check-point status-pink "><i class="feather icon-x"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-image appoint-doctor">
+                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-04.jpg" alt=""> 
+                                            <h2>Dr.Martin Doe</h2>
+                                        </td>
+                                        <td class="appoint-time text-center">
+                                            <h6>Today 5:40 PM</h6>
+                                            <span>Typoid Fever</span>
+                                        </td>
+                                        <td>
+                                            <button class="check-point status-green me-1"><i class="feather icon-check"></i></button>
+                                            <button class="check-point status-pink "><i class="feather icon-x"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12  col-xl-3 d-flex">
+                <div class="card wallet-widget">
+                    <div class="circle-bar circle-bar2">
+                        <circle-progress class="circle-progress-bar" [percent]="66" [clockwise]="true"
+                        innerStrokeColor=#dee2e6 outerStrokeColor=#2E37A4></circle-progress>
+                        <div class="circle-progress-icon">
+                            <b><img src="assets/img/icons/timer.svg" alt=""></b>
+                        </div>
+                    </div>
+                    <div class="main-limit">
+                        <p>Next Appointment in</p>
+                        <h4>02h:12m</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

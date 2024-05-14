@@ -6,6 +6,9 @@ import { AddLeaveComponent } from './add-leave.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CalendarModule } from 'primeng/calendar';
 import { Dropdown, DropdownModule } from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { staffService } from '../staff.service';
 
 
 @NgModule({
@@ -17,7 +20,11 @@ import { Dropdown, DropdownModule } from 'primeng/dropdown';
     AddLeaveRoutingModule,
     SharedModule,
     CalendarModule,
-    DropdownModule
-  ]
+    DropdownModule,
+    ToastModule
+
+  ],
+  providers: [MessageService, staffService]
+
 })
 export class AddLeaveModule { }

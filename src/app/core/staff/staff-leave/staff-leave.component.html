@@ -1,105 +1,111 @@
+<p-toast></p-toast>
 <div class="page-wrapper">
   <div class="content">
-  
-      <!-- Page Header -->
-      <div class="page-header">
-          <div class="row">
-              <div class="col-sm-12">
-                  <ul class="breadcrumb">
-                      <li class="breadcrumb-item"><a [routerLink]="routes.staffLeave">Staff </a></li>
-                      <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                      <li class="breadcrumb-item active">Leave Request</li>
-                  </ul>
-              </div>
-          </div>
-      </div>
-      <!-- /Page Header -->
-    </div><div class="row">
-      <div class="col-sm-12 pe-4 ps-4">
-        <div class="card card-table">
-          <div class="card-body p-4">
-            <div class="col">
-              <div class="doctor-table-blk mb-3">
-                <h3>Leave Request</h3>
-                <div class="doctor-search-blk">
-                  <div class="top-nav-search table-search-blk">
-                    <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
-                      >
-                    <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                  </div>
-                  <div class="add-group textbtn">
-                    <a appShowHide [roles]="['admin', 'super-admin']" [routerLink]="routes.addLeave"
-                      class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt="">Add New</a>
-                    
-                  </div>
-                </div>
-                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide [roles]="['admin', 'super-admin']">
-                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
-                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
-                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
-                  <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
-                </div>
-              </div>
-            </div>
-          <p-table  [value]="LeaveData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                          [rows]="5">
-                          <ng-template pTemplate="header">
-                              <tr>
-                                  <th appShowHide [roles]="['admin', 'super-admin']">
-                                      <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                  </th>
-                                  <th pSortableColumn="EmployeeName">Employee Name <p-sortIcon field="Name"></p-sortIcon>
-                                      <p-columnFilter type="text" field="Name" display="menu"></p-columnFilter>
-                                  </th>
-                                  <th pSortableColumn="LeaveType">Leave Type <p-sortIcon field="LeaveType"></p-sortIcon>
-                                      <p-columnFilter type="text" field="LeaveType" display="menu"></p-columnFilter>
-                                  </th>
-                                  <th pSortableColumn="Form">Form <p-sortIcon field="Form"></p-sortIcon>
-                                      <p-columnFilter type="text" field="Form" display="menu"></p-columnFilter>
-                                  </th>
-                                  <th pSortableColumn="To">To <p-sortIcon field="To"></p-sortIcon>
-                                    <p-columnFilter type="text" field="To" display="menu"></p-columnFilter>
-                                  </th>
-                                  <th pSortableColumn="NoOfDays">No Of Days <p-sortIcon field="Mobile"></p-sortIcon>
-                                      <p-columnFilter type="text" field="Mobile" display="menu"></p-columnFilter>
-                                  </th>
-                                  <th pSortableColumn="Reason">Reason <p-sortIcon field="Reason"></p-sortIcon>
-                                    <p-columnFilter type="text" field="Reason" display="menu"></p-columnFilter>
-                                  </th>
-                                  <th pSortableColumn="Status"> Status<p-sortIcon field="Status"></p-sortIcon>
-                                    <p-columnFilter type="text" field="Status" display="menu"></p-columnFilter>
-                                  
-                                  </th>
-
-                                  <th>Action</th>
-                              </tr>
-                          </ng-template>
-                          <ng-template pTemplate="body" let-LeaveData>
-                              <tr>
-                                  <td appShowHide [roles]="['admin', 'super-admin']">
-                                      <p-tableCheckbox ></p-tableCheckbox>
-                                  </td>
-                                  <td>{{LeaveData.EmployeeName}}</td>
-                                  <td>{{LeaveData.LeaveType}}</td>
-                                  <td>{{LeaveData.From}}</td>
-                                  <td>{{LeaveData.To}}</td>
-                                  <td>{{LeaveData.NoOfDays}}</td>
-                                  <td>{{LeaveData.Reason}}</td>
-                                  <td>{{LeaveData.Status}}</td>
-                                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                                              <p-button [text]="true" data-bs-toggle="modal"
-                                               icon="fa-solid fa-eye" [routerLink]="routes.salaryView"  ></p-button>
-                                              <p-button [text]="true" icon="fa-solid fa-trash" ></p-button>
-                                              <p-button [text]="true" icon="fa-solid fa-edit"  [routerLink]="routes.editLeave" ></p-button>
-                                  </td>
-                              </tr>
-                          </ng-template>
-                      </p-table>
-
-          </div>
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active">Leave Request</li>
+          </ul>
         </div>
       </div>
     </div>
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+
+          <div class="page-table-header mb-2">
+            <div class="row align-item-center">
+              <div class="col">
+                <div class="doctor-table-blk">
+                  <h3>Leave Request</h3>
+                  <div class="doctor-search-blk">
+                    <div class="top-nav-search table-search-blk">
+                      <input type="text" class="form-control" placeholder="Search here" 
+                      [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
+                      <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                    </div>
+                    <div class="add-group textbtn">
+                      <a appShowHide [roles]="['admin', 'super-admin']" [routerLink]="routes.addLeave"
+                        class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt="">Add New</a>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                [roles]="['admin', 'super-admin']">
+                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
+                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body p-2">
+            <p-table [value]="LeaveData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedLeave">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th appShowHide [roles]="['admin', 'super-admin']">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th>
+                  <th pSortableColumn="employee">Employee Name <p-sortIcon field="employee"></p-sortIcon>
+                    <p-columnFilter type="text" field="employee" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="leaveType">Leave Type <p-sortIcon field="leaveType"></p-sortIcon>
+                    <p-columnFilter type="text" field="leaveType" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="from">From <p-sortIcon field="from"></p-sortIcon>
+                    <p-columnFilter type="text" field="from" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="to">To <p-sortIcon field="to"></p-sortIcon>
+                    <p-columnFilter type="text" field="to" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="noOfDay">No Of Days <p-sortIcon field="noOfDay"></p-sortIcon>
+                    <p-columnFilter type="text" field="noOfDay" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="leaveReason">leave Reason <p-sortIcon field="leaveReason"></p-sortIcon>
+                    <p-columnFilter type="text" field="leaveReason" display="menu"></p-columnFilter>
+                  </th>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-leave>
+                <tr>
+                  <td appShowHide [roles]="['admin', 'super-admin']">
+                    <p-tableCheckbox [value]="leave"></p-tableCheckbox>
+                  </td>
+                                  <td>{{leave.employee}}</td>
+                                  <td>{{leave.leaveType}}</td>
+                                  <td>{{leave.from}}</td>
+                                  <td>{{leave.to}}</td>
+                                  <td>{{leave.noOfDay}}</td>
+                                  <td>{{leave.leaveReason}}</td>
+                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                    
+                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editLeave(leave._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteLeave(leave._id)"></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
   </div>
-<!-- </div> -->
+</div>
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog>

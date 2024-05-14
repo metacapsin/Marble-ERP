@@ -297,43 +297,7 @@ export class DataService {
             },
           ],
         },
-        {
-          menuValue: "Staff",
-          hasSubRoute: true,
-          showSubRoute: false,
-          base: "Staff",
-          icon: "fa-duotone fa-user-group",
-          faIcon: true,
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-          subMenus: [
-            {
-              menuValue: "Staff List",
-              route: routes.staffList,
-              base: routes.staffList,
-            },
-            {
-              menuValue: "Add Staff",
-              route: routes.addStaff,
-              base: routes.addStaff,
-            },
-
-            {
-              menuValue: "Leaves",
-              route: routes.staffLeave,
-              base: routes.staffLeave,
-            },
-            // {
-            //   menuValue: "Holidays",
-            //   route: routes.staffHoliday,
-            //   base: routes.staffHoliday,
-            // },
-            // {
-            //   menuValue: "Attendance",
-            //   route: routes.staffAttendance,
-            //   base: routes.staffAttendance,
-            // },
-          ],
-        },
+       
 
         {
           menuValue: "Sales",
@@ -387,22 +351,7 @@ export class DataService {
             },
           ],
         },
-        {
-          menuValue: "Payroll",
-          hasSubRoute: true,
-          showSubRoute: false,
-          base: "payroll",
-          icon: "fa-solid fa-money-check-dollar",
-          faIcon: true,
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-          subMenus: [
-            {
-              menuValue: " Empoyee Salary",
-              route: routes.salary,
-              base: routes.salary,
-            },
-          ],
-        },
+        
         {
           menuValue: "Expenses",
           hasSubRoute: true,
@@ -427,6 +376,60 @@ export class DataService {
             //   route: routes.purchaseReturn,
             //   base: routes.purchaseReturn,
             // },
+          ],
+        },
+        {
+          menuValue: "Staff",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "Staff",
+          icon: "fa-duotone fa-user-group",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: "Staff List",
+              route: routes.staffList,
+              base: routes.staffList,
+            },
+            // {
+            //   menuValue: "Add Staff",
+            //   route: routes.addStaff,
+            //   base: routes.addStaff,
+            // },
+
+            {
+              menuValue: "Leaves",
+              route: routes.staffLeave,
+              base: routes.staffLeave,
+            },
+            // {
+            //   menuValue: "Holidays",
+            //   route: routes.staffHoliday,
+            //   base: routes.staffHoliday,
+            // },
+            // {
+            //   menuValue: "Attendance",
+            //   route: routes.staffAttendance,
+            //   base: routes.staffAttendance,
+            // },
+          ],
+        },
+
+        {
+          menuValue: "Payroll",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "payroll",
+          icon: "fa-solid fa-money-check-dollar",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: "Empoyee Salary",
+              route: routes.salary,
+              base: routes.salary,
+            },
           ],
         },
         {
