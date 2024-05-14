@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="page-wrapper">
   <div class="content">
 
@@ -27,7 +28,8 @@
                   <h3>Leave Request</h3>
                   <div class="doctor-search-blk">
                     <div class="top-nav-search table-search-blk">
-                      <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue">
+                      <input type="text" class="form-control" placeholder="Search here" 
+                      [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
                       <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                     </div>
                     <div class="add-group textbtn">
@@ -57,28 +59,24 @@
                   <th appShowHide [roles]="['admin', 'super-admin']">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                   </th>
-                  <th pSortableColumn="LeaveType">Leave Type <p-sortIcon field="LeaveType"></p-sortIcon>
-                    <p-columnFilter type="text" field="LeaveType" display="menu"></p-columnFilter>
+                  <th pSortableColumn="employee">Employee Name <p-sortIcon field="employee"></p-sortIcon>
+                    <p-columnFilter type="text" field="employee" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="employeeName">Employee Name <p-sortIcon field="employeeName"></p-sortIcon>
-                    <p-columnFilter type="text" field="employeeName" display="menu"></p-columnFilter>
+                  <th pSortableColumn="leaveType">Leave Type <p-sortIcon field="leaveType"></p-sortIcon>
+                    <p-columnFilter type="text" field="leaveType" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="From">From <p-sortIcon field="From"></p-sortIcon>
-                    <p-columnFilter type="text" field="From" display="menu"></p-columnFilter>
+                  <th pSortableColumn="from">From <p-sortIcon field="from"></p-sortIcon>
+                    <p-columnFilter type="text" field="from" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="To">To <p-sortIcon field="To"></p-sortIcon>
-                    <p-columnFilter type="text" field="To" display="menu"></p-columnFilter>
+                  <th pSortableColumn="to">To <p-sortIcon field="to"></p-sortIcon>
+                    <p-columnFilter type="text" field="to" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="NoOfDays">No Of Days <p-sortIcon field="NoOfDays"></p-sortIcon>
-                    <p-columnFilter type="text" field="NoOfDays" display="menu"></p-columnFilter>
+                  <th pSortableColumn="noOfDay">No Of Days <p-sortIcon field="noOfDay"></p-sortIcon>
+                    <p-columnFilter type="text" field="noOfDay" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="Reason">Reason <p-sortIcon field="Reason"></p-sortIcon>
-                    <p-columnFilter type="text" field="Reason" display="menu"></p-columnFilter>
+                  <th pSortableColumn="leaveReason">leave Reason <p-sortIcon field="leaveReason"></p-sortIcon>
+                    <p-columnFilter type="text" field="leaveReason" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="Status"> Status <p-sortIcon field="Status"></p-sortIcon>
-                    <p-columnFilter type="text" field="Status" display="menu"></p-columnFilter>
-                  </th>
-
                   <th>Action</th>
                 </tr>
               </ng-template>
@@ -87,19 +85,16 @@
                   <td appShowHide [roles]="['admin', 'super-admin']">
                     <p-tableCheckbox [value]="leave"></p-tableCheckbox>
                   </td>
-                                  <td>{{leave.EmployeeName}}</td>
-                                  <td>{{leave.LeaveType}}</td>
-                                  <td>{{leave.From}}</td>
-                                  <td>{{leave.To}}</td>
-                                  <td>{{leave.NoOfDays}}</td>
-                                  <td>{{leave.Reason}}</td>
-                                  <td>{{leave.Status}}</td>
-
+                                  <td>{{leave.employee}}</td>
+                                  <td>{{leave.leaveType}}</td>
+                                  <td>{{leave.from}}</td>
+                                  <td>{{leave.to}}</td>
+                                  <td>{{leave.noOfDay}}</td>
+                                  <td>{{leave.leaveReason}}</td>
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                    <p-button [text]="true" data-bs-toggle="modal" icon="fa-solid fa-eye"
-                      [routerLink]="routes.salaryView"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-trash"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-edit" [routerLink]="routes.addLeave"></p-button>
+                    
+                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editLeave(leave._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteLeave(leave._id)"></p-button>
                   </td>
                 </tr>
               </ng-template>
@@ -112,4 +107,5 @@
 
   </div>
 </div>
-<!-- </div> -->
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog>

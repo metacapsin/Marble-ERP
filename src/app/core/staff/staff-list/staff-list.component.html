@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="page-wrapper">
   <div class="content">
     <!-- Page Header -->
@@ -27,7 +28,7 @@
                   <h3>Staff List</h3>
                   <div class="doctor-search-blk">
                     <div class="top-nav-search table-search-blk">
-                      <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue">
+                      <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
                       <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                     </div>
                     <div class="add-group textbtn">

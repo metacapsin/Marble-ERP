@@ -393,11 +393,11 @@ export class DataService {
             //   base: routes.addStaff,
             // },
 
-            // {
-            //   menuValue: "Leaves",
-            //   route: routes.staffLeave,
-            //   base: routes.staffLeave,
-            // },
+            {
+              menuValue: "Leaves",
+              route: routes.staffLeave,
+              base: routes.staffLeave,
+            },
             // {
             //   menuValue: "Holidays",
             //   route: routes.staffHoliday,

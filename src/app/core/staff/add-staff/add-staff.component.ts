@@ -75,7 +75,7 @@ export class AddStaffComponent {
   }
 
   addStaffFormSubmit() {
-    debugger
+    debugger;
     console.log(this.addStaffForm.value);
     const paylode = {
       firstName: "kavya",
@@ -99,24 +99,22 @@ export class AddStaffComponent {
     };
     if (this.addStaffForm.valid) {
       console.log("Form is valid", this.addStaffForm.value);
-      this.service
-        .addStaffData(paylode)
-        .subscribe((resp: any) => {
-          console.log(resp);
-          debugger;
-          if (resp) {
-            if (resp.status === "success") {
-              const message = "Staff has been added";
-              this.messageService.add({ severity: "success", detail: message });
-              setTimeout(() => {
-                this.router.navigate(["/staff/staff-list"]);
-              }, 400);
-            } else {
-              const message = resp.message;
-              this.messageService.add({ severity: "error", detail: message });
-            }
+      this.service.addStaffData(paylode).subscribe((resp: any) => {
+        console.log(resp);
+        debugger;
+        if (resp) {
+          if (resp.status === "success") {
+            const message = "Staff has been added";
+            this.messageService.add({ severity: "success", detail: message });
+            setTimeout(() => {
+              this.router.navigate(["/staff/staff-list"]);
+            }, 400);
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
           }
-        });
+        }
+      });
     } else {
       console.log("Form is inValid!");
     }

@@ -23,7 +23,6 @@ import { payrollService } from '../payroll.service';
 })
 export class SalaryComponent {
   public routes = routes;
-
   public searchDataValue = '';
   selectedsalary = "";
   salaryId: any;
@@ -31,6 +30,7 @@ export class SalaryComponent {
   modalData: any = {};
   salaryData = [];
   visible: boolean = false;
+  originalData = [];
 
   constructor(
     private messageService: MessageService,
@@ -74,6 +74,7 @@ export class SalaryComponent {
   getEmployeeSalaryData() {
     this.service.getEmployeeSalaryData().subscribe((resp: any) => {
       this.salaryData = resp;
+      this.originalData = resp;
       console.log("salary data", resp);
     });
   }
@@ -81,5 +82,15 @@ export class SalaryComponent {
   ngOnInit(): void {
     this.getEmployeeSalaryData();
   }
+  public searchData(value: any): void {
+    this.salaryData = this.originalData.filter(i =>
+    i.employee.toLowerCase().includes(value.trim().toLowerCase())
+  );
+  }
 
+  onPageChange(event) {
+    const startIndex = event.first;
+    const endIndex = startIndex + event.rows; 
+    const currentPageData = this.salaryData.slice(startIndex, endIndex);
+  }
   }

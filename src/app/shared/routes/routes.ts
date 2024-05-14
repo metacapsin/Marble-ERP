@@ -328,7 +328,7 @@ export class routes {
     return this.baseUrl + '/staff/add-staff';
   }
   public static get editLeave(): string {
-    return this.baseUrl + '/staff/edit-leave';
+    return this.baseUrl + '/staff/edit-leave/:id';
   }
   public static get editStaff(): string {
     return this.baseUrl + '/staff/edit-staff/:id';

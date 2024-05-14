@@ -7,6 +7,8 @@ import { routes } from 'src/app/shared/routes/routes';
 import { CustomersdataService } from '../../Customers/customers.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { staffService } from '../staff.service';
 
 @Component({
   selector: 'app-staff-leave',
@@ -17,120 +19,70 @@ export class StaffLeaveComponent {
   public routes = routes;
   // public staffData= [];
   public searchDataValue = '';
-  saleId: any;
+  leaveId: any;
   showDialoge = false;
   selectedLeave = '';
   modalData: any = {};
 originalData = [];
   visible: boolean = false;
   addTaxTotal: any;
-  salesReturnDataById= []
-  salesReturnListData = []  
+  LeaveData = []  
 
 
   constructor(
-    // private messageService: MessageService,
+    private messageService: MessageService,
     private router: Router,
     public dialog: MatDialog,
-    private customerService: CustomersdataService,) { }
+    private service: staffService
+  ) { }
 
 
-
-  deleteSalesReturn(Id: any) {
-    this.saleId = Id;
-
-    this.modalData = {
-      title: "Delete",
-      messege: "Are you sure you want to delete this Sales Return Details"
+    deleteLeave(Id: any) {
+      this.leaveId = Id;
+      this.modalData = {
+        title: "Delete",
+        messege: "Are you sure you want to delete this leave request Details",
+      };
+      this.showDialoge = true;
     }
-    this.showDialoge = true;
-  }
-
-  showNewDialog() {
-    this.showDialoge = true;
-  }
-
-
-  close() {
-    this.showDialoge = false;
-  }
-
+    showNewDialog() {
+      this.showDialoge = true;
+    }
+    callBackModal() {
+      this.service.deleteLeaveData(this.leaveId).subscribe((resp: any) => {
+        this.messageService.add({ severity: "success", detail: resp.message });
+        this.getLeaveData();
+        this.showDialoge = false;
+      });
+    }
+    close() {
+      this.showDialoge = false;
+    }
   
-    LeaveData = [
-      {
-        "EmployeeName": "Andrea Lalema",
-        "LeaveType": "Medical Leave",
-        "From": "02.10.2022",
-        "To": "04.10.2022",
-        "NoOfDays": "2 Days",
-        "Reason": "Not Feeling well",
-        "Status": "Approved"
-      },
-      {
-        "EmployeeName": "Andrea Lalema",
-        "LeaveType": "Medical Leave",
-        "From": "02.10.2022",
-        "To": "04.10.2022",
-        "NoOfDays": "2 Days",
-        "Reason": "Family Function",
-        "Status": "Approved"
-      },
-      {
-        "EmployeeName": "Bernardo James",
-        "LeaveType": "Casual Leave",
-        "From": "08.10.2022",
-        "To": "10.10.2022",
-        "NoOfDays": "2 Days",
-        "Reason": "Going to Vacation",
-        "Status": "New"
-      },
-      {
-        "EmployeeName": "Mark Hay Smith",
-        "LeaveType": "Medical Leave",
-        "From": "02.10.2022",
-        "To": "04.10.2022",
-        "NoOfDays": "2 Days",
-        "Reason": "Not Feeling well",
-        "Status": "Approved"
-      },
-      {
-        "EmployeeName": "Smith Bruklin",
-        "LeaveType": "Casual Leave",
-        "From": "02.10.2022",
-        "To": "04.10.2022",
-        "NoOfDays": "2 Days",
-        "Reason": "Not Feeling well",
-        "Status": "Approved"
-      },
-      {
-        "EmployeeName": "Cristina Groves",
-        "LeaveType": "Medical Leave",
-        "From": "02.10.2022",
-        "To": "04.10.2022",
-        "NoOfDays": "2 Days",
-        "Reason": "Family Function",
-        "Status": "Approved"
-      },
-      {
-        "EmployeeName": "Smith Bruklin",
-        "LeaveType": "Casual Leave",
-        "From": "04.10.2022",
-        "To": "06.10.2022",
-        "NoOfDays": "2 Days",
-        "Reason": "Going to Vacation",
-        "Status": "Pending"
-      },
-      {
-        "EmployeeName": "William Stephin",
-        "LeaveType": "Casual Leave",
-        "From": "02.10.2022",
-        "To": "04.10.2022",
-        "NoOfDays": "2 Days",
-        "Reason": "Family Function",
-        "Status": "Declined"
-      }
-    ]
+    editLeave(id: any) {
+      this.router.navigate([`staff/edit-leave/${id}`]);
+    }
+    getLeaveData() {
+      this.service.getLeaveData().subscribe((resp: any) => {
+        this.LeaveData = resp;
+        this.originalData = resp;
+        console.log("Leave request data", resp);
+      });
+    }
+    ngOnInit(): void {
+      this.getLeaveData();
+    }
   
+    public searchData(value: any): void {
+      this.LeaveData = this.originalData.filter(i =>
+      i.employee.toLowerCase().includes(value.trim().toLowerCase())
+    );
+    }
   
+    onPageChange(event) {
+      const startIndex = event.first;
+      const endIndex = startIndex + event.rows; 
+      const currentPageData = this.LeaveData.slice(startIndex, endIndex);
+    }
 
 }

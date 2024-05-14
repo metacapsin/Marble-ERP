@@ -19,7 +19,7 @@ import { staffService } from "../staff.service";
 })
 export class StaffListComponent {
   public routes = routes;
-
+  originalData = [];
   public searchDataValue = "";
   selectedstaff = "";
   staffId: any;
@@ -63,10 +63,22 @@ export class StaffListComponent {
   getStaffData() {
     this.service.getStaffData().subscribe((resp: any) => {
       this.staffData = resp;
+      this.originalData = resp;
       console.log("Staff data", resp);
     });
   }
   ngOnInit(): void {
     this.getStaffData();
+  }
+  public searchData(value: any): void {
+    this.staffData = this.originalData.filter(i =>
+    i.firstName.toLowerCase().includes(value.trim().toLowerCase())
+  );
+  }
+
+  onPageChange(event) {
+    const startIndex = event.first;
+    const endIndex = startIndex + event.rows; 
+    const currentPageData = this.staffData.slice(startIndex, endIndex);
   }
 }

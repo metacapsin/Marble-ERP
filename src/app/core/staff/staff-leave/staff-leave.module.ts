@@ -9,6 +9,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
+import { MessageService } from 'primeng/api';
 
 
 
@@ -16,7 +17,16 @@ import { TabViewModule } from 'primeng/tabview';
   declarations: [
     StaffLeaveComponent
   ],
-  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, ToastModule, DialogModule,TabViewModule,StaffLeaveRoutingModule ]
+  imports: [CommonModule,
+     SharedModule,
+      DropdownModule,
+      CalendarModule
+      , ToastModule,
+       DialogModule,
+       TabViewModule,
+       StaffLeaveRoutingModule
+       ],
+  providers:[ MessageService]
 
 })
 export class StaffLeaveModule { }
