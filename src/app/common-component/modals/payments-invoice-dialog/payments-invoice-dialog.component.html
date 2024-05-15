@@ -1,4 +1,4 @@
-<p-dialog header="Payment Details" [(visible)]="paymentVisible" *ngFor="let sales of data" [modal]="true"
+<p-dialog header="Payment Details" [(visible)]="paymentVisible" *ngFor="let sales of dataById" [modal]="true"
   [style]="{width: '80vw'}">
   <div class="modal-content">
     <div class="modal-body">
@@ -117,7 +117,7 @@
                       <td>₹ {{sales.salesItemTaxAmount}}</td>
                       <td>₹ {{sales.salesItemSubTotal}}</td>
                       <td>
-                        <input type="text" class="form-control">
+                        <input type="text" [(ngModel)]="TotalValue" class="form-control">
                       </td>
                     </tr>
                   </ng-template>
@@ -141,12 +141,17 @@
                     <div class="invoice-total-box">
 
                       <div class="invoice-total-footer">
-                        <h4>Total Amount <span>₹ </span></h4>
+                        <h4>Total Amount <span>₹ {{TotalValue}}</span></h4>
                       </div>
                     </div>
                   </div>
                   <div class="upload-sign">
                     <div class="form-group float-end mb-0">
+                      <button type="button"  label="Cancel" class="btn  btn-primary" (click)="closeTheWindow()">Cancel</button>
+<!-- 
+closeTheWindow() {
+  this.purchaseInvoiceClose.emit();
+} -->
                       <button class="btn btn-primary" type="submit">Save Sales</button>
                     </div>
                   </div>

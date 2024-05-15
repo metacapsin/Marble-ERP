@@ -135,11 +135,12 @@ export class ViewCustomersComponent {
 
   close() {
     this.showDialoge = false;
+
   }
 
   showInvoiceDialoge(Id: any) {
     console.log("id pass to dialoge", Id);
-    debugger;
+    // debugger;
     this.showInvoiceDialog = true;
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.saleData = [resp.data];
@@ -148,14 +149,19 @@ export class ViewCustomersComponent {
     // this.showInvoiceDialog=false
   }
   hideDialog() {
+    // debugger
     this.showInvoiceDialog = false;
     this.saleData = [];
     console.log(this.saleData);
+    this.paymentVisible=false;
+    this.showPaymentDialog=false;
+    
   }
   editSalesRout(id) {
     this.router.navigate(["/sales/edit-sales/" + id]);
   }
   openPaymentDialog(Id: any) {
+    // debugger
     console.log("pass id in payment", Id);
 
     // this.modalData = Id

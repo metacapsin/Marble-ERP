@@ -1,4 +1,4 @@
-<p-dialog header="Sales Details" [(visible)]="showInvoiceDialog" *ngFor="let sales of salesDataById" [responsive]="true" [baseZIndex]="10000" [closeOnEscape]="true" [modal]="true"
+<p-dialog header="Sales Details" [(visible)]="showInvoiceDialog" [closable]="false" *ngFor="let sales of salesDataById" [responsive]="true" [baseZIndex]="10000" [closeOnEscape]="false" [modal]="true"
   [style]="{width: '80vw'}">
   <div class="modal-content">
     <div class="modal-body">
@@ -180,6 +180,8 @@
                   </div>
                 </div>
               </div>
+
+              <button type="button"  label="Cancel" class="btn" (click)="closeTheWindow()">Cancel</button>
 
             </div>
           </div>

@@ -97,6 +97,7 @@ export class InvoiceDialogComponent {
   }
 
   closeTheWindow() {
+    // debugger
     console.log("dialog close")
     this.close.emit();
   }
