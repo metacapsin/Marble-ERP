@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InvoiceDialogComponent } from './invoice-dialog.component';
+// import { InvoiceDialogComponent } from './invoice-dialog.component';
 
-describe('InvoiceDialogComponent', () => {
-  let component: InvoiceDialogComponent;
-  let fixture: ComponentFixture<InvoiceDialogComponent>;
+// describe('InvoiceDialogComponent', () => {
+//   let component: InvoiceDialogComponent;
+//   let fixture: ComponentFixture<InvoiceDialogComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [InvoiceDialogComponent]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       imports: [InvoiceDialogComponent]
+//     })
+//     .compileComponents();
     
-    fixture = TestBed.createComponent(InvoiceDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     fixture = TestBed.createComponent(InvoiceDialogComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

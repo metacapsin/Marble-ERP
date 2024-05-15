@@ -4,7 +4,7 @@ import { CustomersComponent } from './customers.component';
 import { AddCustomersComponent } from './add-customers/add-customers.component';
 import { EditCustomersComponent } from './edit-customers/edit-customers.component';
 import { ViewCustomersComponent } from './view-customers/view-customers.component';
-import { InvoiceDialogComponent } from './invoice-dialog/invoice-dialog.component';
+// import { InvoiceDialogComponent } from './invoice-dialog/invoice-dialog.component';
 
 const routes: Routes = [
   { path: '',
@@ -15,8 +15,8 @@ const routes: Routes = [
   component: EditCustomersComponent,},
   {path: 'view-customers/:id',
   component: ViewCustomersComponent,},
-  {path: 'invoice-customers/:id',
-  component: InvoiceDialogComponent,},
+  // {path: 'invoice-customers/:id',
+  // component: InvoiceDialogComponent,},
   // {
   //   path: '',
   //   component: CustomersComponent,

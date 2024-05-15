@@ -1,0 +1,197 @@
+<p-dialog header="Purchase Details" [(visible)]="showPurchaseInvoiceDialog" *ngFor="let purchase of purchaseDataById" [modal]="true"
+[style]="{width: '80vw'}">
+<div class="modal-content">
+  <div class="modal-body">
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <div class="card invoice-info-card">
+          <div class="card-body pb-0">
+            <div class="invoice-item invoice-item-one">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="invoice-logo d-flex justify-content-start">
+                    <img src="assets/img/logo-dark.png" alt="logo">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="invoice-info">
+                    <div class="invoice-head">
+                      <h2 class="text-primary">Purchase</h2>
+                      <p>Invoice Number : {{purchase.purchaseInvoiceNumber}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                  <div class="page-table-header mb-2 m-3">
+                    <div class="row practice-card">
+                      <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                        <div class="form-group row mb-2">
+                          <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer:</h5>
+                          <div class="col-lg-9 col-md-9 col-xl-9">
+                            <p class="col-lg-9 col-form-label">{{purchase.supplier.name}}</p>
+                          </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                          <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Sales Date:</h5>
+                          <div class="col-lg-9 col-md-9 col-xl-9">
+                            <p class="col-lg-9 col-form-label">{{purchase.purchaseDate}}</p>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                          <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
+                          <div class="col-lg-9 col-md-9 col-xl-9">
+                            <p class="col-lg-9 col-form-label">{{purchase.paidAmount}}</p>
+                          </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                          <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
+                          <div class="col-lg-9 col-md-9 col-xl-9">
+                            <p class="col-lg-9 col-form-label">{{purchase.dueAmount}}</p>
+                          </div>
+                        </div>
+
+
+                      </div>
+                      <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                        <div class="form-group row mb-2">
+                          <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Taken By:</h5>
+                          <div class="col-lg-9 col-md-9 col-xl-9">
+                            <p class="col-form-label">{{purchase.createdByName}}</p>
+                          </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                          <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Status:</h5>
+                          <div class="col-lg-9 col-md-9 col-xl-9">
+                            <p class="col-form-label">{{purchase.purchaseOrderStatus}}</p>
+                          </div>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                          <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Payment Status:</h5>
+                          <div class="col-lg-9 col-md-9 col-xl-9">
+                            <p class="col-form-label">{{purchase.paymentStatus}}</p>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="card">
+              <p-tabView>
+                <!-- <p-tabPanel header="Payments">
+                  <p-table [value]="purchaseDataById" [tableStyle]="{'min-width': '60rem'}">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th pSortableColumn="transactionNo">Trnx No. <p-sortIcon field="transactionNo"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-payment>
+                      <tr>
+                        <td class="bold">{{payment.transactionNo}}</td>
+                        <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>₹ {{payment.amount}}</td>
+                        <td>{{payment.paymentMode}}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </p-tabPanel> -->
+
+                <p-tabPanel header="Items">
+                  <p-table [value]="purchaseDataById" [tableStyle]="{'min-width': '60rem'}">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th pSortableColumn="purchaseItemCategory">Category 
+                        </th>
+                        <th pSortableColumn="purchaseItemSubCategory">Sub Category 
+                        </th>
+                        <th pSortableColumn="unit">Unit 
+                        </th>
+                        <th pSortableColumn="purchaseItemName">Name 
+                        </th>
+
+                        <th pSortableColumn="purchaseItemQuantity">Quantity 
+                        </th>
+                        <th pSortableColumn="purchaseItemUnitPrice">Unit Price
+                        </th>
+                        <th pSortableColumn="purchaseItemSubTotal">Sub Total 
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-purchaseDataById>
+                      <tr *ngFor="let purchase of purchaseDataById.purchaseItemDetails">
+                        <td>{{purchase.purchaseItemCategory}}</td>
+                        <td>{{purchase.purchaseItemSubCategory}}</td>
+                        <td>{{purchase.unit}}</td>
+                        <td>{{purchase.purchaseItemName}}</td>
+                        <td>{{purchase.purchaseItemQuantity}}</td>
+                        <td>₹ {{purchase.purchaseItemUnitPrice}}</td>
+                        <td>₹ {{purchase.purchaseItemSubTotal}}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+
+                </p-tabPanel>
+              </p-tabView>
+            </div>
+
+
+            <div class="row align-items-center justify-content-center invoice-sign-box">
+              <div class="col-lg-6 col-md-6">
+                <div class="col-lg-8 col-md-8">
+                  <div class="invoice-terms">
+                    <h6>Notes:</h6>
+                    <p class="mb-0">{{purchase.purchaseNotes}}</p>
+                  </div>
+                  <div class="invoice-terms mb-0">
+                    <h6>Terms and Conditions:</h6>
+                    <p class="mb-0">{{purchase.purchaseTermsAndCondition}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="invoice-total-card">
+                  <div class="invoice-total-box">
+                     <div class="invoice-total-inner">
+                      <p>Gross Total <span>₹ {{purchase.purchaseGrossTotal}}</span></p>
+                      <p>Applied Tax Amount <span>₹ {{purchase.addTaxTotal}} </span></p>
+                      <p>Shipping Charges <span>₹ {{purchase.purchaseShipping}}</span></p>
+                      <p>Discount <span>₹ {{purchase.purchaseDiscount}}</span></p>
+                      <p>OtherCharges <span>₹ {{purchase.purchaseOtherCharges}}</span></p>
+                    </div>
+                    <div class="invoice-total-footer">
+                      <h4>Total Amount <span>₹ {{purchase.purchaseTotalAmount}}</span></h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</p-dialog>

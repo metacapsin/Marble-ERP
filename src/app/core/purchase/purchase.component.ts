@@ -55,7 +55,6 @@ export class PurchaseComponent {
 
 
 
-
   CustomerList=[
     {customerName:"Adnan"},
     {customerName:"Nadim"},

@@ -115,6 +115,7 @@
                                 <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon
                                         field="paymentStatus"></p-sortIcon>
                                 </th>
+                                <th>Action</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-purchase>
@@ -126,6 +127,14 @@
                                 <td>₹ {{purchase.dueAmount}}</td>
                                 <td>₹ {{purchase.purchaseTotalAmount}}</td>
                                 <td>{{purchase.paymentStatus}}</td>
+                                <td >
+                                    <p-button [text]="true" icon="fa-solid fa-eye"
+                                        (click)="openPurchaseInvoiceDialog(purchase._id)"></p-button>
+                                        <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editPurchaseRout(purchase._id)" ></p-button> -->
+                                        <!-- <p-button [text]="true" icon="fa-solid fa-wallet" (click)="showPaymentDialog(purchase._id)"></p-button>  -->
+                                    <!-- <p-button [text]="true" icon="fa-solid fa-trash"
+                                        (click)=deletePurchase(purchase._id)></p-button> -->
+                                </td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -165,5 +174,24 @@
                 </p-tabPanel>
             </p-tabView>
         </div>
+        <!-- <app-purchase-invoice-dialog [showPurchaseInvoiceDialog]="showPurchaseInvoiceDialoge" (callbackModal)="callBackModal()" (purchaseInvoiceClose)="purchaseInvoiceClose()"
+  [purchaseDataById]="purchaseData"></app-purchase-invoice-dialog> -->
+
+  <app-purchase-invoice-dialog
+  [showPurchaseInvoiceDialog]="showPurchaseInvoiceDialog"
+  (callbackModal)="callBackModal()"
+  (purchaseInvoiceClose)="purchaseInvoiceClose()"
+  [purchaseDataById]="purchaseData">
+</app-purchase-invoice-dialog>
+
+
+  <!-- <app-purchase-invoice-dialog
+  [showPurchaseInvoiceDialog]="showPurchaseInvoiceDialoge"
+  (callbackModal)="callBackModal()"
+  (purchaseInvoiceClose)="purchaseInvoiceClose()">
+</app-purchase-invoice-dialog> -->
+
+  <!-- <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()" [data]="modalData"></app-confirm-dialog> -->
+
     </div>
 </div>

@@ -94,7 +94,7 @@
                   <td>₹ {{purchase.dueAmount}}</td>                  
                   <td>₹ {{purchase.purchaseTotalAmount}}</td>
                   <td>{{purchase.paymentStatus}}</td>
-                  <td style="display: flex; gap: 2px;" appShowHide [roles]="['admin', 'super-admin']">
+                  <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialogView(purchase._id)"></p-button>
                     <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"></p-button>
                     <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)" *ngIf="purchase.paymentStatus == 'Unpaid'"></p-button>

@@ -12,14 +12,26 @@ import { DropdownModule } from "primeng/dropdown";
 import { CalendarModule } from "primeng/calendar";
 import { DialogModule } from "primeng/dialog";
 import { ToastModule } from "primeng/toast";
-import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
-import { MatDialog } from "@angular/material/dialog";
+
+// import { MatDialog } from "@angular/material/dialog";
 import { SharedModule } from "src/app/shared/shared.module";
+import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 
 @Component({
   selector: "app-view-customers",
   standalone: true,
-  imports: [CommonModule, SharedModule, DropdownModule, RouterModule, TableModule, CalendarModule, DialogModule, ToastModule, TabViewModule, InvoiceDialogComponent],
+  imports: [
+    CommonModule,
+    SharedModule,
+    DropdownModule,
+    RouterModule,
+    TableModule,
+    CalendarModule,
+    DialogModule,
+    ToastModule,
+    TabViewModule,
+    InvoiceDialogComponent,
+  ],
   providers: [MessageService],
 
   templateUrl: "./view-customers.component.html",
@@ -37,8 +49,19 @@ export class ViewCustomersComponent {
   showDialoge = false;
   modalData: any = {};
 
-  showInvoiceDialog = false;
-  modalDataa: any ;
+  showInvoiceDialog: boolean = false;
+  saleData = [];
+
+  selectedSalesData: any;
+
+  visible: boolean = false;
+
+  paymentVisible: boolean = false;
+  // showPaymentDialog: boolean = false
+
+  showDialog() {
+    this.visible = true;
+  }
 
   // this.socialLinks = this._data.socialLinks;
 
@@ -48,9 +71,7 @@ export class ViewCustomersComponent {
     private PaymentInService: PaymentInService,
     private salesService: SalesService,
     private router: Router,
-    private messageService: MessageService,
-    public dialog: MatDialog,
-
+    private messageService: MessageService // public dialog: MatDialog,
   ) {
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -58,26 +79,21 @@ export class ViewCustomersComponent {
   ngOnInit() {
     this.getCoustomers();
 
-    this.PaymentInService.getPaymentList().subscribe(
-      (resp: any) => {
-        console.log("payments of customer", resp)
-        this.paymentListData = resp.data;
-      }
-    );
+    this.PaymentInService.getPaymentList().subscribe((resp: any) => {
+      console.log("payments of customer", resp);
+      this.paymentListData = resp.data;
+    });
 
     this.getsales();
-
   }
 
   getsales() {
-    this.salesService.GetSalesData().subscribe(
-      (resp: any) => {
-        console.log("sales of custonmer ", resp);
+    this.salesService.GetSalesData().subscribe((resp: any) => {
+      console.log("sales of custonmer ", resp);
 
-        this.salesDataById = resp.data;
-        // console.log("sales Data by id ",this.salesDataById);
-      }
-    );
+      this.salesDataById = resp.data;
+      // console.log("sales Data by id ",this.salesDataById);
+    });
   }
 
   getCoustomers() {
@@ -92,8 +108,8 @@ export class ViewCustomersComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Sales Details"
-    }
+      messege: "Are you sure you want to delete this Sales Details",
+    };
     this.showDialoge = true;
   }
 
@@ -103,10 +119,10 @@ export class ViewCustomersComponent {
 
   callBackModal() {
     this.salesService.DeleteSalesData(this.salesId).subscribe((resp: any) => {
-      this.messageService.add({ severity: 'success', detail: resp.message });
+      this.messageService.add({ severity: "success", detail: resp.message });
       this.getsales();
       this.showDialoge = false;
-    })
+    });
   }
 
   close() {
@@ -114,12 +130,32 @@ export class ViewCustomersComponent {
   }
 
   showInvoiceDialoge(Id: any) {
-    console.log("pass id", Id);
-    
-    this.modalDataa = Id
+    console.log("id pass to dialoge", Id);
+
     this.showInvoiceDialog = true;
+    this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
+      this.saleData = [resp.data];
+      console.log("sales data by id On dialog", this.salesDataById);
+    });
   }
+  hideDialog() {
+    debugger;
+    this.showInvoiceDialog = false;
+    this.saleData = [];
+    console.log(this.saleData);
+  }
+  editSalesRout(id) {
+    this.router.navigate(["/sales/edit-sales/" + id]);
+  }
+  showPaymentDialog(Id: any) {
+    console.log("pass id", Id);
 
+    // this.modalData = Id
+    this.paymentVisible = true;
 
-
+    this.salesService.getSalesPaymentList(Id).subscribe((resp: any) => {
+      this.saleData = [resp.data];
+      console.log("On dialog", this.salesDataById);
+    });
+  }
 }
