@@ -16,6 +16,7 @@ import { ToastModule } from "primeng/toast";
 // import { MatDialog } from "@angular/material/dialog";
 import { SharedModule } from "src/app/shared/shared.module";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
+import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
 
 @Component({
   selector: "app-view-customers",
@@ -31,6 +32,7 @@ import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-
     ToastModule,
     TabViewModule,
     InvoiceDialogComponent,
+    PaymentsInvoiceDialogComponent
   ],
   providers: [MessageService],
 
@@ -44,19 +46,25 @@ export class ViewCustomersComponent {
   salesDataById: any[] = [];
   id: any;
   salesId: any;
-
-  saleId: any;
+  
+  // dataById:any[]=[];
+  
+  paymentData: any[] = [];
+  saleId: any[]=[];
   showDialoge = false;
   modalData: any = {};
 
   showInvoiceDialog: boolean = false;
   saleData = [];
+  header:string="Payment Details";
+  paymentVisible: boolean = false;
 
   selectedSalesData: any;
 
   visible: boolean = false;
 
-  paymentVisible: boolean = false;
+  showPaymentDialog: boolean = false;
+
   // showPaymentDialog: boolean = false
 
   showDialog() {
@@ -131,15 +139,15 @@ export class ViewCustomersComponent {
 
   showInvoiceDialoge(Id: any) {
     console.log("id pass to dialoge", Id);
-
+    debugger;
     this.showInvoiceDialog = true;
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.saleData = [resp.data];
       console.log("sales data by id On dialog", this.salesDataById);
     });
+    // this.showInvoiceDialog=false
   }
   hideDialog() {
-    debugger;
     this.showInvoiceDialog = false;
     this.saleData = [];
     console.log(this.saleData);
@@ -147,15 +155,23 @@ export class ViewCustomersComponent {
   editSalesRout(id) {
     this.router.navigate(["/sales/edit-sales/" + id]);
   }
-  showPaymentDialog(Id: any) {
-    console.log("pass id", Id);
+  openPaymentDialog(Id: any) {
+    console.log("pass id in payment", Id);
 
     // this.modalData = Id
+    this.showPaymentDialog = true;
     this.paymentVisible = true;
-
-    this.salesService.getSalesPaymentList(Id).subscribe((resp: any) => {
-      this.saleData = [resp.data];
-      console.log("On dialog", this.salesDataById);
+    this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
+      this.salesDataById = [resp.data];
+      console.log("this is user data on popup dialog of payment invoice")
     });
+
   }
+  // callbackModalForPayment(Id){
+  //   this.PaymentInService.getPaymentById(Id).subscribe((resp: any) => {
+  //     this.paymentData = [resp.data];
+  //     console.log("Payment Data dialog",this.paymentData );
+  //   });
+  // }
+  
 }

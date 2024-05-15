@@ -91,7 +91,6 @@ export class InvoiceDialogComponent {
   //   },
   // ];
 
-  constructor(private salesService: SalesService) {}
 
   ngOnInit() {
     console.log("this is sale invoice component");
