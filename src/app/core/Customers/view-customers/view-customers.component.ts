@@ -32,152 +32,162 @@ import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/
     ToastModule,
     TabViewModule,
     InvoiceDialogComponent,
-    PaymentsInvoiceDialogComponent
+    PaymentsInvoiceDialogComponent,
   ],
   providers: [MessageService],
-
+  
   templateUrl: "./view-customers.component.html",
   styleUrl: "./view-customers.component.scss",
 })
 export class ViewCustomersComponent {
   routes = routes;
-  customerData: any[] = [];
-  paymentListData: any[] = [];
-  salesDataById: any[] = [];
-  id: any;
-  salesId: any;
-  
-  // dataById:any[]=[];
-  
-  paymentData: any[] = [];
-  saleId: any[]=[];
-  showDialoge = false;
-  modalData: any = {};
+  id: any; // to hold customer id
+  customerDataById: any[] = []; 
+  salesDataShowById: any[] = []; // to hold sales data by customer id
+  paymentListDataById: any[] = []; // to hold payment data by customer id
+  showInvoiceDialog: boolean = false; // to enable sales invoice popup
+  showPaymentDialog: boolean = false; //to payment in inovice popup
+  showDialoge:boolean = false; // to enable delete popup
+  modalData: any = {}; // to print delete message on delete api
+  customerID: any;
+ 
 
-  showInvoiceDialog: boolean = false;
-  saleData = [];
-  header:string="Payment Details";
-  paymentVisible: boolean = false;
+  // paymentDataById: any[] = [];
+  // saleId: any[] = [];
 
-  selectedSalesData: any;
+  // paymentVisible: boolean = false;
 
-  visible: boolean = false;
+  // selectedSalesData: any;
 
-  showPaymentDialog: boolean = false;
+  // visible: boolean = false;
 
-  // showPaymentDialog: boolean = false
+  // // Sale Invoice Dialog Variables
 
-  showDialog() {
-    this.visible = true;
-  }
+  // saleData = [];
 
-  // this.socialLinks = this._data.socialLinks;
+  // // Payment Invoice Dialog Variables
+
+
+  // //  Delete Confirm Dialog variables
+
+  // showDialog() {
+  //   this.visible = true;
+  // }
 
   constructor(
-    private Service: CustomersdataService,
+    private customerService: CustomersdataService,
     private activeRoute: ActivatedRoute,
-    private PaymentInService: PaymentInService,
+    private salesPayment: PaymentInService,
     private salesService: SalesService,
     private router: Router,
-    private messageService: MessageService // public dialog: MatDialog,
+  //   private messageService: MessageService
   ) {
     this.id = this.activeRoute.snapshot.params["id"];
   }
 
   ngOnInit() {
-    this.getCoustomers();
+  //   this.getCoustomers();
 
-    this.PaymentInService.getPaymentList().subscribe((resp: any) => {
+    this.salesPayment.getSalesByCustomerId(this.id).subscribe((resp: any) => {
       console.log("payments of customer", resp);
-      this.paymentListData = resp.data;
+      this.salesDataShowById = resp.data;
+      console.log("this is sale of customer by id ", this.salesDataShowById)
     });
 
-    this.getsales();
-  }
+  //   this.getsales();
+  // }
 
-  getsales() {
-    this.salesService.GetSalesData().subscribe((resp: any) => {
-      console.log("sales of custonmer ", resp);
+  // getsales() {
+    // this.salesService.get(this.id).subscribe((resp: any) => {
+    //   console.log("Sales Data response by customer id ", resp);
 
-      this.salesDataById = resp.data;
-      // console.log("sales Data by id ",this.salesDataById);
-    });
-  }
+    //   this.salesDataById = resp.data;
+    //   console.log("sales Data by customer id ",this.salesDataById);
+    // });
+  // }
 
-  getCoustomers() {
-    this.Service.GetCustomerDataById(this.id).subscribe((data: any) => {
-      console.log(data);
-      this.customerData = [data];
-    });
-  }
+  // getpayment(){
+  //   this.PaymentInService.getPaymentDetailById(this.id).subscribe((resp:any)=>{
+  //     console.log("payment of customer",resp)
+  //     this.paymentDataById=resp.data;
+  //   })
+  // }
+
+  // getCoustomers() {
+    this.customerService.GetCustomerDataById(this.id).subscribe((data: any) => {
+      console.log("Customer data by id",data);
+      this.customerID=data._id;
+      console.log("customer id",this.customerID)
+      this.customerDataById = [data];
+  //   });
+  })}
 
   deleteSales(Id: any) {
-    this.salesId = Id;
+    // this.salesId = Id;
 
-    this.modalData = {
-      title: "Delete",
-      messege: "Are you sure you want to delete this Sales Details",
-    };
-    this.showDialoge = true;
+    // this.modalData = {
+    //   title: "Delete",
+    //   messege: "Are you sure you want to delete this Sales Details",
+    // };
+    // this.showDialoge = true;
   }
 
-  showNewDialog() {
-    this.showDialoge = true;
-  }
+  // showNewDialog() {
+  //   this.showDialoge = true;
+  // }
 
   callBackModal() {
-    this.salesService.DeleteSalesData(this.salesId).subscribe((resp: any) => {
-      this.messageService.add({ severity: "success", detail: resp.message });
-      this.getsales();
-      this.showDialoge = false;
-    });
+
+    // console.log("now delete and callback modal ")
+    // this.salesService.DeleteSalesData(this.salesId).subscribe((resp: any) => {
+    //   this.messageService.add({ severity: "success", detail: resp.message });
+    //   this.getsales();
+    //   this.showDialoge = false;
+    // });
+    // this.PaymentInService.deletePaymentById(this.salesId).subscribe((resp:any)=>{
+    //   this.messageService.add({ severity:"success",detail:resp.message});
+    //   this.getpayment();
+    //   this.showDialoge=false;
+    // })
   }
 
   close() {
-    this.showDialoge = false;
-
+    console.log("close dialog triggered")
+  //   this.showDialoge = false;
+    this.showInvoiceDialog = false;
+  //   this.showPaymentDialog = false;
+  //   this.saleData = [];
+  //   this.paymentListData=[]
+  //   console.log(this.saleData);
+  //   console.log(this.paymentListData);
   }
 
-  showInvoiceDialoge(Id: any) {
-    console.log("id pass to dialoge", Id);
-    // debugger;
+  showInvoiceDialoge(Id: any) {   // to open the sales invoice popup
+    console.log("id pass to invoice dialoge", Id);
     this.showInvoiceDialog = true;
-    this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
-      this.saleData = [resp.data];
-      console.log("sales data by id On dialog", this.salesDataById);
-    });
+    console.log("showInvoiceDialoge is triggered ")
+    // this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
+    //   this.saleData = [resp.data];
+    //   console.log("sales data by id On dialog", this.saleData);
+    // });
     // this.showInvoiceDialog=false
   }
-  hideDialog() {
-    // debugger
-    this.showInvoiceDialog = false;
-    this.saleData = [];
-    console.log(this.saleData);
-    this.paymentVisible=false;
-    this.showPaymentDialog=false;
+
+  editSalesRout(id) { // to edit the sales in view 
+    // this.router.navigate(["/sales/edit-sales/" + id]);
+    this.router.navigate([`/sales/edit-sales/${id}`]);
     
-  }
-  editSalesRout(id) {
-    this.router.navigate(["/sales/edit-sales/" + id]);
+
   }
   openPaymentDialog(Id: any) {
-    // debugger
-    console.log("pass id in payment", Id);
+    console.log("pass id in payment invoice ", Id);
 
     // this.modalData = Id
-    this.showPaymentDialog = true;
-    this.paymentVisible = true;
-    this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
-      this.salesDataById = [resp.data];
-      console.log("this is user data on popup dialog of payment invoice")
-    });
-
+    // this.showPaymentDialog = true;
+    // this.paymentVisible = true;
+    // this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
+    //   this.salesDataById = [resp.data];
+    //   console.log("this is user data on popup dialog of payment invoice");
+    // });
   }
-  // callbackModalForPayment(Id){
-  //   this.PaymentInService.getPaymentById(Id).subscribe((resp: any) => {
-  //     this.paymentData = [resp.data];
-  //     console.log("Payment Data dialog",this.paymentData );
-  //   });
-  // }
-  
 }

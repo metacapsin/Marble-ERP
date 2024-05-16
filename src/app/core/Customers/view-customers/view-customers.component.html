@@ -1,384 +1,293 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12 d-flex justify-content-between">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active"><a [routerLink]="routes.customers">Customers</a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">View Customers</li>
-                    </ul>
-                    <ul>
-                        <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                            [routerLink]="routes.customers">
-                            Back
-                        </button>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12 d-flex justify-content-between">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">
+              <a [routerLink]="routes.customers">Customers</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">View Customers</li>
+          </ul>
+          <ul>
+            <button
+              type="submit"
+              class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+              [routerLink]="routes.customers"
+            >
+              Back
+            </button>
+          </ul>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card card-table show-entire">
-                    <div class="page-table-header mb-2 m-3">
-                        <div class="row practice-card" *ngFor="let data of customerData">
-                            <div class="col-xl-6 col-lg-6 col-sm-12">
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Name</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">{{data.name}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Email</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">{{data.email}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone Number</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.phoneNo}}</p>
-                                    </div>
-                                </div>
-                                <!-- <div class="form-group row mb-2">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="page-table-header mb-2 m-3">
+            <div class="row practice-card" *ngFor="let data of customerDataById">
+              <div class="col-xl-6 col-lg-6 col-sm-12">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Name
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-lg-9 col-form-label">{{ data.name }}</p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Email
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-lg-9 col-form-label">{{ data.email }}</p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Phone Number
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{ data.phoneNo }}</p>
+                  </div>
+                </div>
+                <!-- <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Opening Balance</h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-form-label">{{data.openingBalance}}</p>
                                     </div>
                                 </div> -->
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Billing Address</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.billingAddress}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-12">
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Credit Period</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.creaditPeriod}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Credit Limit</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.creaditLimit}}</p>
-                                    </div>
-                                </div>
-                                <!-- <div class="form-group row mb-2">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Billing Address
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{ data.billingAddress }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-12">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Credit Period
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{ data.creaditPeriod }}</p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Credit Limit
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{ data.creaditLimit }}</p>
+                  </div>
+                </div>
+                <!-- <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Balance</h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-form-label">{{data.openingBalance}}</p>
                                     </div>
                                 </div> -->
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Tax Number</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.taxNo}}</p>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        
-
-
-
-        <!-- SALES GRID -->
-        <div class="card">
-            <p-tabView>
-                <p-tabPanel header="Sales">
-                    <p-table [value]="salesDataById" [tableStyle]="{'min-width': '60rem'}">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon
-                                        field="salesInvoiceNumber"></p-sortIcon>
-                                    <p-columnFilter type="text" field="salesInvoiceNumber"
-                                        display="menu"></p-columnFilter>
-                                </th>
-                                <th pSortableColumn="salesDate">Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
-                                    <p-columnFilter type="text" field="salesDate" display="menu"></p-columnFilter>
-                                </th>
-                                <th pSortableColumn="salesOrderStatus">Sales Status <p-sortIcon
-                                        field="salesOrderStatus"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon
-                                        field="paidAmount"></p-sortIcon>
-                                    <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
-                                </th>
-                                <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
-                                    <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
-                                </th>
-                                <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon
-                                        field="salesTotalAmount"></p-sortIcon>
-                                    <p-columnFilter type="text" field="salesTotalAmount"
-                                        display="menu"></p-columnFilter>
-                                </th>
-                                <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon
-                                        field="paymentStatus"></p-sortIcon>
-                                </th>
-                                <th style="width: 300px;">Action</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-sales>
-                            <tr>
-                                <td>{{sales.salesInvoiceNumber}}</td>
-                                <td>{{sales.salesDate}}</td>
-                                <td>{{sales.salesOrderStatus}}</td>
-                                <td>₹ {{sales.paidAmount}}</td>
-                                <td>₹ {{sales.dueAmount}}</td>
-                                <td>₹ {{sales.salesTotalAmount}}</td>
-                                <td>{{sales.paymentStatus}}</td>
-                                <td appShowHide [roles]="['admin', 'super-admin']">
-                                    <p-button [text]="true" icon="fa-solid fa-eye"
-                                        (click)="showInvoiceDialoge(sales._id)"></p-button>
-                                        <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)" ></p-button>
-                                        <p-button [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)"></p-button> 
-                                    <p-button [text]="true" icon="fa-solid fa-trash"
-                                        (click)=deleteSales(sales._id)></p-button>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-
-                </p-tabPanel>
-                <!-- PAYMENTS GRID -->
-                <p-tabPanel header="Payments">
-                    <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="transactionNo">Transaction No. <p-sortIcon
-                                        field="transactionNo"></p-sortIcon>
-                                    <p-columnFilter type="text" field="transactionNo" display="menu"></p-columnFilter>
-                                </th>
-                                <th pSortableColumn="paymentDate">Payment Date <p-sortIcon
-                                        field="paymentDate"></p-sortIcon>
-                                    <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
-                                </th>
-                                <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
-                                    <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
-                                </th>
-                                <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon
-                                        field="paymentMode"></p-sortIcon>
-                                    <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-payment>
-                            <tr>
-                                <td class="bold">{{payment.transactionNo}}</td>
-                                <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
-                                <td>₹ {{payment.amount}}</td>
-                                <td>{{payment.paymentMode}}</td>
-
-
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </p-tabPanel>
-            </p-tabView>
-        </div>
-
-        
-    </div>
-</div>
-
-
-
-
-
-
-<!-- <p-dialog header="Sales Details" [(visible)]="showInvoiceDialog" *ngFor="let sales of modalDataa" [responsive]="true" [baseZIndex]="10000" [closeOnEscape]="true" [modal]="true"
-  [style]="{width: '80vw'}">
-  <div class="modal-content">
-    <div class="modal-body">
-      <div class="row justify-content-center">
-        <div class="col-lg-12">
-          <div class="card invoice-info-card">
-            <div class="card-body pb-0">
-              <div class="invoice-item invoice-item-one">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="invoice-logo d-flex justify-content-start">
-                      <img src="assets/img/logo-dark.png" alt="logo">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="invoice-info">
-                      <div class="invoice-head">
-                        <h2 class="text-primary">Sales</h2>
-                        <p>Invoice Number : {{sales.salesInvoiceNumber}}</p>
-                      </div>
-                    </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Tax Number
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{ data.taxNo }}</p>
                   </div>
                 </div>
               </div>
-
-              <div class="row">
-                <div class="col-sm-12">
-                  <div class="card card-table show-entire">
-                    <div class="page-table-header mb-2 m-3">
-                      <div class="row practice-card">
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
-
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.customer.name}}</p>
-                            </div>
-                          </div>
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Sales Date:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.salesDate}}</p>
-                            </div>
-                          </div>
-
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.paidAmount}}</p>
-                            </div>
-                          </div>
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.dueAmount}}</p>
-                            </div>
-                          </div>
-
-
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
-
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Taken By:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-form-label">{{sales.createdByName}}</p>
-                            </div>
-                          </div>
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Status:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-form-label">{{sales.salesOrderStatus}}</p>
-                            </div>
-                          </div>
-
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Payment Status:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-form-label">{{sales.paymentStatus}}</p>
-                            </div>
-                          </div>
-
-
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="card">
-                <p-tabView>
-                  <p-tabPanel header="Items">
-                    <p-table [value]="salesDataById" [tableStyle]="{'min-width': '60rem'}">
-                      <ng-template pTemplate="header">
-                        <tr>
-                          <th pSortableColumn="salesItemCategory">Product
-                          </th>
-                          <th pSortableColumn="salesItemQuantity">Quantity
-                          </th>
-                          <th pSortableColumn="salesItemUnitPrice">Unit Price
-                          </th>
-                          <th pSortableColumn="salesItemTaxAmount">Taxable Amount
-                          </th>
-                          <th pSortableColumn="salesItemSubTotal">Sub Total
-                          </th>
-                        </tr>
-                      </ng-template>
-                      <ng-template pTemplate="body" let-data>
-                        <tr *ngFor="let sales of data.salesItemDetails">
-                          <td>{{sales.salesItemProduct}}</td>
-                          <td>{{sales.salesItemQuantity}}</td>
-                          <td>₹ {{sales.salesItemUnitPrice}}</td>
-                          <td>₹ {{sales.salesItemTaxAmount}}</td>
-                          <td>₹ {{sales.salesItemSubTotal}}</td>
-                        </tr>
-                      </ng-template>
-                    </p-table>
-
-                  </p-tabPanel>
-                </p-tabView>
-              </div>
-
-
-              <div class="row align-items-center justify-content-center invoice-sign-box" >
-                <div class="col-lg-6 col-md-6">
-                  <div class="col-lg-8 col-md-8">
-                    <div class="invoice-terms">
-                      <h6>Notes:</h6>
-                      <p class="mb-0">{{sales.salesNotes}}</p>
-                    </div>
-                    <div class="invoice-terms mb-0">
-                      <h6>Terms and Conditions:</h6>
-                      <p class="mb-0">{{sales.salesTermsAndCondition}}</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                  <div class="invoice-total-card">
-                    <div class="invoice-total-box">
-                      <div class="invoice-total-inner">
-                        <p>Gross Total <span>₹ {{sales.salesGrossTotal}}</span></p>
-                        <p>Shipping Charges <span>₹ {{sales.salesShipping}}</span></p>
-                        <p>Discount <span>₹ {{sales.salesDiscount}}</span></p>
-                        <p>OtherCharges <span>₹ {{sales.otherCharges}}</span></p>
-                      </div>
-                      <div class="invoice-total-footer">
-                        <h4>Total Amount <span>₹ {{sales.salesTotalAmount}}</span></h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- SALES GRID -->
+    <div class="card">
+      <p-tabView>
+        <p-tabPanel header="Sales">
+          <p-table
+            [value]="salesDataShowById"
+            [tableStyle]="{ 'min-width': '60rem' }"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="salesInvoiceNumber">
+                  Invoice Number
+                  <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="salesInvoiceNumber"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="salesDate">
+                  Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="salesDate"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="salesOrderStatus">
+                  Sales Status
+                  <p-sortIcon field="salesOrderStatus"></p-sortIcon>
+                </th>
+                <th pSortableColumn="paidAmount">
+                  Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="paidAmount"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="dueAmount">
+                  Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="dueAmount"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="salesTotalAmount">
+                  Total Amount
+                  <p-sortIcon field="salesTotalAmount"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="salesTotalAmount"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="paymentStatus">
+                  Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                </th>
+                <th style="width: 300px">Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-sales>
+              <tr>
+                <td>{{ sales.salesInvoiceNumber }}</td>
+                <td>{{ sales.salesDate }}</td>
+                <td>{{ sales.salesOrderStatus }}</td>
+                <td>₹ {{ sales.paidAmount }}</td>
+                <td>₹ {{ sales.dueAmount }}</td>
+                <td>₹ {{ sales.salesTotalAmount }}</td>
+                <td>{{ sales.paymentStatus }}</td>
+                <td appShowHide [roles]="['admin', 'super-admin']">
+                  <p-button
+                    [text]="true"
+                    icon="fa-solid fa-eye"
+                    (click)="showInvoiceDialoge(sales._id)"
+                  ></p-button>
+                  <p-button
+                    [text]="true"
+                    icon="fa-solid fa-edit"
+                    (click)="editSalesRout(sales._id)"
+                  ></p-button>
+                  <p-button
+                    [text]="true"
+                    icon="fa-solid fa-wallet"
+                    (click)="openPaymentDialog(sales._id)"
+                  ></p-button>
+                  <p-button
+                    [text]="true"
+                    icon="fa-solid fa-trash"
+                    (click)="deleteSales(sales._id)"
+                  ></p-button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-tabPanel>
+        <!-- PAYMENTS GRID -->
+        <p-tabPanel header="Payments">
+          <p-table
+            [value]="paymentListDataById"
+            [tableStyle]="{ 'min-width': '60rem' }"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="transactionNo">
+                  Transaction No.
+                  <p-sortIcon field="transactionNo"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="transactionNo"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="paymentDate">
+                  Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="paymentDate"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="amount">
+                  Amount <p-sortIcon field="amount"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="amount"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="paymentMode">
+                  Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="paymentMode"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-payment>
+              <tr>
+                <td class="bold">{{ payment.transactionNo }}</td>
+                <td class="bold">
+                  {{ payment.paymentDate | date : "dd-MM-yyyy" }}
+                </td>
+                <td>₹ {{ payment.amount }}</td>
+                <td>{{ payment.paymentMode }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
   </div>
-</p-dialog> -->
+</div>
 
+<app-invoice-dialog
+  [showInvoiceDialog]="showInvoiceDialog"
+  [salesDataById]="salesDataShowById"
+  (callbackModal)="callBackModal()"
+  (close)="close()"
+></app-invoice-dialog>
 
+<app-payments-invoice-dialog
+  [paymentVisible]="showPaymentDialog"
+  [dataById]="salesDataShowById"
+  (callbackModal)="callBackModal()"
+  (close)="close()"
+></app-payments-invoice-dialog>
 
-<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="saleData" (callbackModal)="callBackModal()" (close)="hideDialog()"></app-invoice-dialog>
-
-<app-payments-invoice-dialog [paymentVisible]="showPaymentDialog" [dataById]="salesDataById" (callbackModal)="callBackModal()" (close)="hideDialog()"></app-payments-invoice-dialog>
-
-
-<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-    [data]="modalData"></app-confirm-dialog> 
-
-
- 
-<!-- 
-    <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [data]="selectedSalesData"></app-invoice-dialog> -->
-
-
-<!-- <app-invoice-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-[data]="modalData"></app-invoice-dialog> -->
+<app-confirm-dialog
+  [showDialog]="showDialoge"
+  (callbackModal)="callBackModal()"
+  (close)="close()"
+  [data]="modalData"
+></app-confirm-dialog>

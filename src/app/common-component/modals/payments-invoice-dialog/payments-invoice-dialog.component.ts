@@ -27,60 +27,14 @@ export class PaymentsInvoiceDialogComponent {
   @Input() dataById: any = [];
   @Output() callbackModalForPayment = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();
-  TotalValue:any
-  // @Input() header: string;
-  // @Output() headerChange = new EventEmitter<string>();
-
-  // updateHeader(newHeader: string) {
-  //   this.header = newHeader;
-  //   this.headerChange.emit(this.header);
-  // }
-
-  // data: any = [
-  //   {
-  //     _id: "663e0331a7f5b94ea9503245",
-  //     createdBy: "662b8256ead0c76c25d9072f",
-  //     createdByName: "Adnan",
-  //     createdOn: "2024-05-10T11:21:21.450Z",
-  //     customer: {
-  //       _id: "662de1bd5cbb13423d7ec6ad",
-  //       name: "Liyakat Hyussain",
-  //     },
-  //     name: "Liyakat Hyussain",
-  //     dueAmount: 71900,
-  //     otherCharges: 5200,
-  //     paidAmount: 1000,
-  //     paymentStatus: "Partial Paid",
-  //     salesDate: "05/10/2024",
-  //     salesDiscount: 2500,
-  //     salesGrossTotal: 65000,
-  //     salesInvoiceNumber: "20",
-  //     salesItemDetails: [
-  //       {
-  //         salesItemProduct: "Granite",
-  //         salesItemQuantity: 20,
-  //         salesItemUnitPrice: 2500,
-  //         salesItemSubTotal: "65000.00",
-  //         salesItemTax: [],
-  //         salesItemTaxAmount: "15000.00",
-  //       },
-  //     ],
-  //     salesNotes: "",
-  //     salesOrderStatus: "Confirmed",
-  //     salesOrderTax: 0,
-  //     salesShipping: 5200,
-  //     salesTermsAndCondition: "",
-  //     salesTotalAmount: 72900,
-  //     status: true,
-  //   },
-  // ];
+  TotalValue: any;
 
   ngOnInit() {
     console.log("this is payment invoice component");
   }
 
   closeTheWindow() {
-    debugger
+    debugger;
     console.log("dialog close");
     this.close.emit();
   }
@@ -89,3 +43,11 @@ export class PaymentsInvoiceDialogComponent {
     this.callbackModalForPayment.emit();
   }
 }
+
+
+
+
+
+
+
+

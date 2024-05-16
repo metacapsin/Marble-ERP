@@ -276,7 +276,7 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
             const message = "Sales has been updated";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              this.router.navigate(["/sales"]);
+              this.router.navigate(["/customers"]);
             }, 400);
           } else {
             const message = resp.message;
