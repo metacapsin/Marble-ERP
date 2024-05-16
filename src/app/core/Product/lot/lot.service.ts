@@ -28,4 +28,8 @@ updateLotById(data: {}) {
 deleteLotById(id: string) {
   return this.http.delete(environment.apiUrl + "/LotController/deleteLot/" + id);
 }
+
+getFilesystem() {
+  return Promise.resolve(this.getLotList());
+}
 }

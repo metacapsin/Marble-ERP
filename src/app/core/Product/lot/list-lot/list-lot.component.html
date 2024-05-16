@@ -55,122 +55,67 @@
                             </div>
                         </div>
 
-                        <div class="card-body">
-                            <div class="card">
-                                <p-treeTable [value]="data" [columns]="cols" [paginator]="true" [rows]="5"
-                                    [rowsPerPageOptions]="[5, 10, 25]" [scrollable]="true"
-                                    [tableStyle]="{'min-width':'50rem'}">
-                                    <ng-template pTemplate="header" let-columns>
-                                        <tr>
-                                            <th *ngFor="let col of columns">
-                                                {{ col.header }}
-                                            </th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData"
-                                        let-columns="columns">
-                                        <tr [ttRow]="rowNode">
-                                            <td *ngFor="let col of columns">
-                                                {{ rowData?.[col.field] }}
-                                            </td>
-                                        </tr>
-                                        <ng-container *ngIf="rowData?.blocksDetails">
-                                            <ng-container *ngFor="let block of rowData.blocksDetails">
-                                                <tr>
-                                                    <td>{{ block?.blockNo }}</td>
-                                                    <td>{{ block?.height }}</td>
-                                                    <td>{{ block?.width }}</td>
-                                                    <td>{{ block?.length }}</td>
-                                                    <!-- Add more columns as needed -->
-                                                </tr>
-                                            </ng-container>
-                                        </ng-container>
-                                    </ng-template>
-                                </p-treeTable>
+                        <div class="card-body p-2">
 
-                            </div>
-                        </div>
-                        <!-- <div class="card-body p-2">
-                            <p-table [value]="originalData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
-                                [(selection)]="selectedLot">
+                            <p-table [value]="lotData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th appShowHide [roles]="['admin', 'super-admin']">
                                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                         </th>
-                                        <th pSortableColumn="lotNo">Lot No. <p-sortIcon field="lotNo"></p-sortIcon>
+                                        <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>
+                                            <p-columnFilter type="text" field="date" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="lotName">Lot Name <p-sortIcon field="lotName"></p-sortIcon>
+                                            <p-columnFilter type="text" field="lotName" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="lotNo">Lot Number <p-sortIcon field="lotNo"></p-sortIcon>
                                             <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
-
                                         </th>
-                                        <th pSortableColumn="vehicleNo">Vehicle No. <p-sortIcon
-                                                field="vehicleNo"></p-sortIcon>
-                                            <p-columnFilter type="text" field="vehicleNo" display="menu"></p-columnFilter>
-
-                                        </th>
-                                        <th pSortableColumn="totalSlots">Total Slots <p-sortIcon
-                                                field="totalSlots"></p-sortIcon>
-                                            <p-columnFilter type="totalSlots" field="totalSlots"
+                                        <th pSortableColumn="lotWeight">Lot Weight<p-sortIcon
+                                                field="lotWeight"></p-sortIcon>
+                                            <p-columnFilter type="text" field="lotWeight"
                                                 display="menu"></p-columnFilter>
-
                                         </th>
-                                        <th pSortableColumn="invoiceNo">Invoice Number <p-sortIcon
-                                                field="invoiceNo"></p-sortIcon>
-                                            <p-columnFilter type="text" field="invoiceNo"
+                                        <th pSortableColumn="pricePerTon">Price / Ton <p-sortIcon
+                                                field="pricePerTon"></p-sortIcon>
+                                            <p-columnFilter type="text" field="pricePerTon"
                                                 display="menu"></p-columnFilter>
-
                                         </th>
-                                        <th pSortableColumn="totalWeightInTon">Total Weight(Ton) <p-sortIcon
-                                                field="totalWeightInTon"></p-sortIcon>
-                                            <p-columnFilter type="text" field="totalWeightInTon"
+                                        <th pSortableColumn="blocksCount">Total Blocks <p-sortIcon
+                                                field="blocksCount"></p-sortIcon>
+                                            <p-columnFilter type="text" field="blocksCount"
                                                 display="menu"></p-columnFilter>
-
                                         </th>
-                                        <th pSortableColumn="totalPricing">Total Pricing <p-sortIcon
-                                                field="totalPricing"></p-sortIcon>
-                                            <p-columnFilter type="text" field="totalPricing"
-                                                display="menu"></p-columnFilter>
-
-                                        </th>
-                                        <th appShowHide [roles]="['admin', 'super-admin']" >Action
-                                        </th>
+                                        <th>Action</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-lot>
-
                                     <tr>
                                         <td appShowHide [roles]="['admin', 'super-admin']">
                                             <p-tableCheckbox [value]="lot"></p-tableCheckbox>
                                         </td>
-                                        <td>
-                                            {{lot.lotNo}}
-                                        </td>
-                                        <td>
-                                            {{lot.vehicleNo}}
-                                        </td>
-                                        <td>
-                                            {{lot.invoiceNo}}
-                                        </td>
-                                        <td>
-                                            {{lot.totalSlots}}
-                                        </td>
-                                        <td>
-                                            {{lot.totalPricing}}
-                                        </td>
-                                        <td>
-                                            {{lot.totalWeightInTon}}
-                                        </td>
-                                        <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
-                                            <p-button [text]="true" icon="fa fa-edit"
-                                                [routerLink]="['/lot/edit', lot._id]"></p-button>
-                                            <p-button [text]=" true" icon="fa fa-trash"
+                                        <td>{{lot.date}}</td>
+                                        <td>{{lot.lotName}}</td>
+                                        <td>{{lot.lotNo}}</td>
+                                        <td>{{lot.lotWeight}}</td>
+                                        <td>₹ {{lot.pricePerTon}}</td>
+                                        <td>{{lot.blocksCount}}</td>
+                                        <td style="display: flex; gap: 5px;" appShowHide
+                                            [roles]="['admin', 'super-admin']">
+                                            <p-button [text]="true" icon="fa-solid fa-eye"
+                                                (click)="showLotDetails(lot._id)"></p-button>
+                                            <p-button [text]="true" icon="fa-solid fa-trash"
                                                 (click)="deleteLot(lot._id)"></p-button>
                                         </td>
-
                                     </tr>
                                 </ng-template>
                             </p-table>
-                        </div> -->
+
+
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -180,3 +125,59 @@
 
 <app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
     [data]="modalData"></app-confirm-dialog>
+
+
+
+
+
+<!-- --------------- lot Details PopUp --------------- -->
+
+<p-dialog header="Blocks Details" [(visible)]="lotVisible" *ngFor="let lot of lotDataById" [modal]="true"
+    [style]="{width: '70vw'}">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="card-body p-2">
+                <p-table [value]="lotDataById" [tableStyle]="{'min-width': '60rem'}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="blockNo">Block No
+                            </th>
+                            <th pSortableColumn="height">Height
+                            </th>
+                            <th pSortableColumn="width">Width
+                            </th>
+                            <th pSortableColumn="length">Length
+                            </th>
+                            <th pSortableColumn="totalArea">Total Area
+                            </th>
+                            <th pSortableColumn="weightPerBlock">Weight/Block
+                            </th>
+                            <th pSortableColumn="rawCosting">Raw Cost
+                            </th>
+                            <th pSortableColumn="transportationCosting">Transportation Cost
+                            </th>
+                            <th pSortableColumn="royaltyCosting">Royalty Cost
+                            </th>
+                            <th pSortableColumn="totalCosting">Total Cost
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-data>
+                        <tr *ngFor="let lot of data.blocksDetails">
+                            <td>{{lot.blockNo}}</td>
+                            <td>{{lot.height}}</td>
+                            <td>{{lot.width}}</td>
+                            <td>{{lot.length}}</td>
+                            <td>{{lot.totalArea}}</td>
+                            <td>{{lot.weightPerBlock}}</td>
+                            <td>{{lot.rawCosting}}</td>
+                            <td>{{lot.transportationCosting}}</td>
+                            <td>{{lot.royaltyCosting}}</td>
+                            <td>{{lot.totalCosting}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</p-dialog>
