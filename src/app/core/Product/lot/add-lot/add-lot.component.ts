@@ -124,6 +124,9 @@ export class AddLotComponent {
     };
 
     this.blocksDetails.push(newBlock);
+    
+    this.totalBlocksArea += Number(this.totalArea);
+    console.log("total block area:", this.totalBlocksArea);
 
     console.log("blocks", this.blocksDetails);
 
@@ -133,29 +136,33 @@ export class AddLotComponent {
     this.width = null;
     this.length = null;
     this.totalArea = null;
-
+debugger
     this.calculateTotalAmount();
-
-
   }
 
-//   getblockDetails(){
-//     this.totalArea = this.height * this.width * this.length; 
-//     this.totalBlocksArea += Number(this.totalArea);
-//     console.log("total block area:", this.totalBlocksArea);
-// }
+  getblockDetails() {
+    console.log("Height:", this.height);
+    console.log("Width:", this.width);
+    console.log("Length:", this.length);
 
-getblockDetails(){
-    if (isNaN(this.height) || isNaN(this.width) || isNaN(this.length)) {
+    // Check if any of the values are not numbers or uninitialized
+    if (isNaN(this.height) || isNaN(this.width) || isNaN(this.length) || this.height === null || this.width === null || this.length === null) {
+        // Log an error or return, depending on your requirements
+        console.error("Height, width, or length is not set correctly.");
         return; 
     }
 
+    // Calculate total area
     this.totalArea = this.height * this.width * this.length; 
-    this.totalBlocksArea += Number(this.totalArea);
-    console.log("total block area:", this.totalBlocksArea);
+    console.log("Total Area:", this.totalArea);
+    
 }
 
+
+
   calculateTotalAmount() {
+    
+
     let lotWeight:number = this.lotAddForm.get("lotWeight").value || 0;
     let pricePerTon = this.lotAddForm.get("pricePerTon").value || 0;
     let royaltyCharge: number = this.lotAddForm.get("royaltyCharge").value || 0;
@@ -170,7 +177,7 @@ getblockDetails(){
       element.rawCosting = (parseFloat(element.weightPerBlock) * pricePerTon).toFixed(2);
       element.transportationCosting = (parseFloat(element.weightPerBlock) * averageTransportation).toFixed(2);
       element.royaltyCosting = (parseFloat(element.weightPerBlock) * averageRoyalty).toFixed(2);
-      
+      // debugger
       // Convert string values back to numbers before addition
       let rawCosting = parseFloat(element.rawCosting);
       let transportationCosting = parseFloat(element.transportationCosting);
