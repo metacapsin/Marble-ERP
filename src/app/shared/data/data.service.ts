@@ -452,7 +452,7 @@ export class DataService {
               base: routes.salesReport,
             },
             {
-              menuValue: "invoice report",
+              menuValue: "purchase report",
               route: routes.invoiceReport,
               base: routes.invoiceReport,
             },
