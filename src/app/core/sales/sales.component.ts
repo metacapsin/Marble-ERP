@@ -51,9 +51,11 @@ export class SalesComponent implements OnInit {
 
   showDialog(_id: any) {
     let totalTax = 0;
-    this.visible = true;
+    // this.visible = true;
     this.Service.GetSalesDataById(_id).subscribe((resp: any) => {
       this.salesDataById = [resp.data];
+      
+    this.visible = true;
 
       resp.data.appliedTax.forEach(element => {
         totalTax += Number(element.taxRate);

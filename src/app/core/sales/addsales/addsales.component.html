@@ -106,7 +106,7 @@
                                             <tr>
                                                 <th>Product</th>
                                                 <th>Quantity </th>
-                                                <th>Unit Price</th>
+                                                <th>Price / sqFt.</th>
                                                 <th>Tax</th>
                                                 <th>Sub Total</th>
                                                 <th>Actions</th>
@@ -118,10 +118,10 @@
                                                 [formGroupName]="i">
 
                                                 <td class="col-md-3">
-                                                    <p-dropdown [options]="categoryList" appendTo="body"
-                                                        [style]="{'width':'100%'}" optionLabel="name" optionValue="name"
-                                                        placeholder="Category" [filter]="true" filterBy="name"
-                                                        formControlName="salesItemProduct">
+                                                    <p-dropdown [options]="slabList" appendTo="body"
+                                                        [style]="{'width':'100%'}" optionLabel="slabName" 
+                                                        placeholder="Slab" [filter]="true" filterBy="name"
+                                                        formControlName="salesItemProduct" (onChange)="onSlabSelect($event.value,i)">
                                                     </p-dropdown>
                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').touched">
@@ -143,7 +143,7 @@
                                                 </td>
 
                                                 <td class="col-md-2">
-                                                    <input type="number" formControlName="salesItemUnitPrice"
+                                                    <input type="number" formControlName="salesItemUnitPrice" 
                                                         (change)="calculateTotalAmount()" class="form-control">
                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').touched">
@@ -350,19 +350,13 @@
                                                 <p>Gross Total<span>₹ {{ addSalesForm.get('salesGrossTotal').value |
                                                         number:
                                                         '1.2-2' }}</span></p>
-                                                <!-- <p>Order Tax <span>₹ {{ addTaxTotal}}</span></p> -->
-                                                <p>Discount<span>₹ {{ addSalesForm.get('salesDiscount').value | number:
-                                                        '1.2-2' }}</span></p>
-                                                <p>Shipping<span>₹ {{ addSalesForm.get('salesShipping').value | number:
-                                                        '1.2-2' }}</span></p>
-                                                <p>Other Charges<span>₹ {{ addSalesForm.get('otherCharges').value |
-                                                        number:
-                                                        '1.2-2' }}</span></p>
+                                                <p>Discount<span>₹ {{ addSalesForm.get('salesDiscount').value }}</span></p>
+                                                <p>Shipping<span>₹ {{ addSalesForm.get('salesShipping').value }}</span></p>
+                                                <p>Other Charges<span>₹ {{ addSalesForm.get('otherCharges').value }}</span></p>
                                             </div>
 
                                             <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>₹ {{ addSalesForm.get('salesTotalAmount').value |
-                                                        number: '1.2-2' }}</span></h4>
+                                                <h4>Total Amount <span>₹ {{ addSalesForm.get('salesTotalAmount').value }}</span></h4>
                                             </div>
                                         </div>
                                     </div>
