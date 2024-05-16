@@ -24,6 +24,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { PurchaseService } from "../purchase.service";
 import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
+import { LotService } from "../../Product/lot/lot.service";
+import { SlabsService } from "../../Product/slabs/slabs.service";
 
 @Component({
   selector: "app-add-purchase",
@@ -50,6 +52,8 @@ export class AddPurchaseComponent implements OnInit {
   SupplierLists = [];
   categoryList= [];
   setIT:any
+  data:any
+  originalData:any
   orderStatusList = [
     { orderStatus: "Ordered" },
     { orderStatus: "Confirmed" },
@@ -59,10 +63,11 @@ export class AddPurchaseComponent implements OnInit {
   ];
   lotsNoArray = [
     {name:'Lot No.'},
-    {name:'Block No.'},
+    // {name:'Block No.'},
     {name:'Slabs'},
   ]
   orderTaxList = [];
+  slabData:any
   taxesListData = [];
   public itemDetails: number[] = [0];
   public chargesArray: number[] = [0];
@@ -84,6 +89,8 @@ export class AddPurchaseComponent implements OnInit {
     private CategoriesService: CategoriesService,
     private subCategoriesService: SubCategoriesService,
     private unitService: UnitsService,
+    private Lotservice: LotService,
+    private service: SlabsService
   ) {
     this.addPurchaseForm = this.fb.group({
       purchaseInvoiceNumber: ["",
@@ -190,6 +197,18 @@ export class AddPurchaseComponent implements OnInit {
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
     });
+    this.Lotservice.getLotList().subscribe((resp: any) => {
+      this.data = resp.data;
+      this.originalData = resp.data;
+      console.log("API lot", this.data);
+    })
+    this.service.getSlabsList().subscribe((resp: any) => {
+      this.data = resp.data;
+      this.slabData = resp.data;
+
+      console.log("API", this.data);
+
+    })
   }
   calculateTotalAmount() {
     console.log("Enter in caltotal");

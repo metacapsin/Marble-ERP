@@ -54,8 +54,12 @@ export class EditSlabsComponent {
   categoryList: any = [];
   billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
   lotDetailList=[{name:"kavya"},{name:"adnan"}];
-  TotalCosting: number = 28447.38;
-  PerBlockWeight: number = 11.98067702;
+  originalData:any
+  blockDropDownData:any
+  blockDropDownPerBlockWeight:any
+  blockDropDowntotleCost:any
+  if_sellingPricePerSQFT:boolean = false;
+
 
   constructor(
     private service: ProductsService,
@@ -66,10 +70,11 @@ export class EditSlabsComponent {
     private messageService: MessageService,
     private categoriesService: CategoriesService,
     private subCategoriesService: SubCategoriesService,
-    private lotService: LotService,
     private blocksService: BlocksService,
     private services: WarehouseService,
     private Service:SlabsService,
+    private Lotservice: LotService
+
   ) {
     this.slabsEditForm = this.fb.group({
       slabNo: [
@@ -113,13 +118,6 @@ export class EditSlabsComponent {
     this.categoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
     });
-    this.lotService.getLotList().subscribe((resp: any) => {
-      this.lotNoList = resp.data;
-    });
-    this.blocksService.getBlocksList().subscribe((resp: any) => {
-      this.blocksNoList = resp.data;
-    });
-
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
     });
@@ -128,11 +126,11 @@ export class EditSlabsComponent {
     });
     this.Service.getSlabsById(this.slabsId).subscribe((data: any) => {
       this.data = data.data;
-      console.log("Slabs Data", this.data);
+      console.log("Slabs Data", this.data.blockDetails);
       this.slabsEditForm.patchValue({
         slabNo: this.data.slabNo,
         lotDetail: this.data.lotDetail,
-        blockDetail: this.data.blockDetails,
+        blockDetail: this.data.blockDetail,
         categoryDetail: this.data.categoryDetail,
         subCategoryDetail: this.data.subCategoryDetail,
         slabName: this.data.slabName,
@@ -149,21 +147,42 @@ export class EditSlabsComponent {
         costPerSQFT: this.data.costPerSQFT,
       });
     });
+
+    this.Lotservice.getLotList().subscribe((resp: any) => {
+      this.data = resp.data;
+      this.originalData = resp.data;
+      console.log("API lot", this.data);
+    })
+
   }
 
   get f() {
     return this.slabsEditForm.controls;
   }
 
+  onLotSelect(lotNo: any){
+    console.log(lotNo,"set it lot");    
+    this.blockDropDownData = lotNo.blocksDetails;
+    console.log(this.blockDropDownData);
+    // blockNo
+  }
+  onBlockSelect(block:any){
+    console.log(block,"set it lot");    
+    this.blockDropDowntotleCost = block.totalCosting
+    this.blockDropDownPerBlockWeight = block.weightPerBlock
+    console.log(this.blockDropDownPerBlockWeight,this.blockDropDowntotleCost);
+  }
+
   calculateTotalAmount() {
     let processingFee = +this.slabsEditForm.get("processingFee").value;
     let otherCharges = +this.slabsEditForm.get("otherCharges").value;
     let totalSQFT = +this.slabsEditForm.get("totalSQFT").value;
-    let transportationCharges = +this.slabsEditForm.get("transportationCharges").value;
+    let sellingPricePerSQFT = +this.slabsEditForm.get("sellingPricePerSQFT").value;
+    let transportationCharges = +this.slabsEditForm.get("transportationCharges")
+      .value;
 
-
-    let processingCost = processingFee * this.PerBlockWeight;
-    let totalCosting = this.TotalCosting + processingCost + otherCharges + transportationCharges;
+    let processingCost = processingFee * this.blockDropDownPerBlockWeight;
+    let totalCosting = +this.blockDropDowntotleCost + processingCost + otherCharges + transportationCharges;
     let totalAmount = totalCosting / totalSQFT;
     console.log("processingCost", processingCost);
     console.log("totalCosting", totalCosting);
@@ -172,9 +191,16 @@ export class EditSlabsComponent {
     // Update form values
     this.slabsEditForm.patchValue({
       processingCost: processingCost,
-      totalCosting: totalCosting.toFixed(2),
+      totalCosting: totalCosting,
       costPerSQFT: totalAmount.toFixed(2),
     });
+    if( sellingPricePerSQFT <  totalAmount ){
+      this.if_sellingPricePerSQFT = true;
+      console.log("if set");
+    }else{
+      console.log("else set");
+      this.if_sellingPricePerSQFT = false;
+    }
   }
 
 
@@ -182,7 +208,7 @@ export class EditSlabsComponent {
     const payload = {
       slabNo: this.slabsEditForm.value.slabNo,
       lotDetail: this.slabsEditForm.value.lotDetail,
-      blockDetails: "hello",
+      blockDetail: this.slabsEditForm.value.blockDetail,
       categoryDetail: this.slabsEditForm.value.categoryDetail,
       subCategoryDetail: this.slabsEditForm.value.subCategoryDetail,
       slabName: this.slabsEditForm.value.slabName,

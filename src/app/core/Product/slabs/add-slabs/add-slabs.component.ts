@@ -157,7 +157,7 @@ export class AddSlabsComponent {
       .value;
 
     let processingCost = processingFee * this.blockDropDownPerBlockWeight;
-    let totalCosting = this.blockDropDowntotleCost + processingCost + otherCharges + transportationCharges;
+    let totalCosting = +this.blockDropDowntotleCost + processingCost + otherCharges + transportationCharges;
     let totalAmount = totalCosting / totalSQFT;
     console.log("processingCost", processingCost);
     console.log("totalCosting", totalCosting);
@@ -166,7 +166,7 @@ export class AddSlabsComponent {
     // Update form values
     this.slabsAddForm.patchValue({
       processingCost: processingCost,
-      totalCosting: totalCosting.toFixed(2),
+      totalCosting: totalCosting,
       costPerSQFT: totalAmount.toFixed(2),
     });
     if( sellingPricePerSQFT <  totalAmount ){
@@ -183,7 +183,7 @@ export class AddSlabsComponent {
     const payload = {
       slabNo: this.slabsAddForm.value.slabNo,
       lotDetail: this.slabsAddForm.value.lotDetail,
-      blockDetails: "hello",
+      blockDetail: this.slabsAddForm.value.blockDetail,
       categoryDetail: this.slabsAddForm.value.categoryDetail,
       subCategoryDetail: this.slabsAddForm.value.subCategoryDetail,
       slabName: this.slabsAddForm.value.slabName,

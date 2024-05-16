@@ -95,7 +95,7 @@
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="lotDetail">Lot No. <span class="login-danger"></span></label>
-                      <p-dropdown [options]="originalData" styleClass="" appendTo="body" optionLabel="lotNo"
+                      <p-dropdown [options]="originalData" styleClass="" appendTo="body" optionLabel="lotName"
                         placeholder="Select lot Number" formControlName="lotDetail" [style]="{ width: '100%' }"
                         [filter]="true" filterBy="name" [showClear]="true" (onChange)="onLotSelect($event.value)">
                       </p-dropdown>

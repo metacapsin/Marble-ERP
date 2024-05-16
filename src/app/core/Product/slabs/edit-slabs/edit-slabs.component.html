@@ -136,16 +136,17 @@
                               >Lot No. <span class="login-danger"></span
                             ></label>
                             <p-dropdown
-                            [options]="lotDetailList"
+                            [options]="originalData"
                               styleClass=""
                               appendTo="body"
-                              optionLabel="name"
+                              optionLabel="lotName"
                               placeholder="Select lot Number"
                               formControlName="lotDetail"
                               [style]="{ width: '100%' }"
                               [filter]="true"
                               filterBy="name"
                               [showClear]="true"
+                              (onChange)="onLotSelect($event.value)"
                             >
                             </p-dropdown>
                             <div
@@ -165,16 +166,17 @@
                               >Block No.<span class="login-danger"></span
                             ></label>
                             <p-dropdown
-                              [options]="blocksNoList"
+                              [options]="blockDropDownData"
                               styleClass=""
                               appendTo="body"
-                              optionLabel="name"
+                              optionLabel="blockNo"
                               placeholder="Select block Number"
                               formControlName="blockDetail"
                               [style]="{ width: '100%' }"
                               [filter]="true"
                               filterBy="name"
                               [showClear]="true"
+                              (onChange)="onBlockSelect($event.value)"
                             >
                             </p-dropdown>
                             <div
@@ -494,6 +496,7 @@
                                             type="number"
                                             placeholder="Enter Selling Price"
                                             formControlName="sellingPricePerSQFT"
+                                            (change)="calculateTotalAmount()"
                                         />
                                         </div>
                                         <div
@@ -522,6 +525,11 @@
                                         <span class="login-danger">
                                             input must be between 1 and 100,000.
                                         </span>
+                                        </div>
+                                        <div *ngIf="if_sellingPricePerSQFT">
+                                          <span class="login-danger">
+                                          input must be grater then Per Sq feet Cost.
+                                          </span>
                                         </div>
                                     </div>
                                     </div>

@@ -123,8 +123,8 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Lot No.'">
                     <div class="form-group local-forms">
                       <label for="lotsNo">Lots Number<span class="login-danger">*</span></label>
-                      <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
-                        optionLabel="name" optionValue="name" placeholder="--Lots Number--" [filter]="true"
+                      <p-dropdown [options]="originalData" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+                        optionLabel="lotName" placeholder="--Lots Number--" [filter]="true"
                         filterBy="name" [showClear]="true" formControlName="lotsNo">
                       </p-dropdown>
                       <!-- <input type="text" class="form-control" formControlName="lotsNo" /> -->
