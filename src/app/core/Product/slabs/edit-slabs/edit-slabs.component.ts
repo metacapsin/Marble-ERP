@@ -82,7 +82,7 @@ export class EditSlabsComponent {
         [Validators.required, Validators.pattern(this.billingAddressRegex)],
       ],
       lotDetail: ["", []],
-      blockDetail: ["", []],
+      blockDetails: ["", []],
       categoryDetail: ["", [Validators.required]],
       subCategoryDetail: ["", [Validators.required]],
       slabName: ["", [Validators.required, Validators.min(0)]],
@@ -130,7 +130,7 @@ export class EditSlabsComponent {
       this.slabsEditForm.patchValue({
         slabNo: this.data.slabNo,
         lotDetail: this.data.lotDetail,
-        blockDetail: this.data.blockDetail,
+        blockDetails: this.data.blockDetails,
         categoryDetail: this.data.categoryDetail,
         subCategoryDetail: this.data.subCategoryDetail,
         slabName: this.data.slabName,

@@ -88,7 +88,7 @@ export class AddSlabsComponent {
         [Validators.required, Validators.pattern(this.billingAddressRegex)],
       ],
       lotDetail: ["", []],
-      blockDetail: ["", []],
+      blockDetails: ["", []],
       categoryDetail: ["", [Validators.required]],
       subCategoryDetail: ["", [Validators.required]],
       slabName: ["", [Validators.required, Validators.min(0)]],
@@ -183,7 +183,7 @@ export class AddSlabsComponent {
     const payload = {
       slabNo: this.slabsAddForm.value.slabNo,
       lotDetail: this.slabsAddForm.value.lotDetail,
-      blockDetail: this.slabsAddForm.value.blockDetail,
+      blockDetails: this.slabsAddForm.value.blockDetails,
       categoryDetail: this.slabsAddForm.value.categoryDetail,
       subCategoryDetail: this.slabsAddForm.value.subCategoryDetail,
       slabName: this.slabsAddForm.value.slabName,

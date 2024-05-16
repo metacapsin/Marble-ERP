@@ -110,16 +110,16 @@
 
                   <div class="col-12 col-md-4 col-xl-4" *ngIf="slabsAddForm.get('lotDetail').value">
                     <div class="form-group local-forms">
-                      <label for="blockDetail">Block No.<span class="login-danger"></span></label>
+                      <label for="blockDetails">Block No.<span class="login-danger"></span></label>
                       <p-dropdown [options]="blockDropDownData" styleClass="" appendTo="body" optionLabel="blockNo" (onChange)="onBlockSelect($event.value)"
-                        placeholder="Select block Number" formControlName="blockDetail" [style]="{ width: '100%' }"
+                        placeholder="Select block Number" formControlName="blockDetails" [style]="{ width: '100%' }"
                         [filter]="true" filterBy="name" [showClear]="true">
                       </p-dropdown>
                       <div *ngIf="
                           slabsAddForm
-                            .get('blockDetail')
+                            .get('blockDetails')
                             ?.hasError('required') &&
-                          slabsAddForm.get('blockDetail')?.touched
+                          slabsAddForm.get('blockDetails')?.touched
                         ">
                         <span class="login-danger">Field is required.</span>
                       </div>

@@ -143,7 +143,7 @@
                     <div class="form-group local-forms">
                       <label for="lotsNo">Block Number<span class="login-danger">*</span></label>
                       <p-multiSelect [style]="{ width: '100%' }" placeholder="--Block Number--" [options]="lotsNoArray"
-                        formControlName="blockNo" optionLabel="name" optionValue="orderNamevalue" display="chip"
+                        formControlName="blockNo"   display="chip"
                         [showClear]="true"></p-multiSelect>
                       <div
                         *ngIf="addPurchaseForm.get('blockNo')?.hasError('required') && addPurchaseForm.get('blockNo')?.touched">
@@ -159,8 +159,8 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Slabs'">
                     <div class="form-group local-forms">
                       <label for="lotsNo">Slabs<span class="login-danger">*</span></label>
-                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Slabs--" [options]="lotsNoArray"
-                        formControlName="slabs" optionLabel="name" optionValue="orderNamevalue" display="chip"
+                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Slabs--" [options]="slabData"
+                        formControlName="slabs" optionLabel="slabName" display="chip"
                         [showClear]="true"></p-multiSelect>
                       <div
                         *ngIf="addPurchaseForm.get('slabs')?.hasError('required') && addPurchaseForm.get('slabs')?.touched">
