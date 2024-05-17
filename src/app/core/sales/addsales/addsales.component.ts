@@ -39,6 +39,7 @@ export class AddsalesComponent {
   customerList = [];
   originalCustomerData = [];
   slabList = [];
+  slabData = [];
   subCategoryList = [];
   orderStatusList = [
     { orderStatus: "Ordered" },
@@ -59,7 +60,6 @@ export class AddsalesComponent {
   tandCRegex = /^(?:.{2,200})$/;
 
   constructor(
-    private customerByIdService: CustomersdataService,
     private router: Router,
     private messageService: MessageService,
     private Service: SalesService,
@@ -145,7 +145,14 @@ export class AddsalesComponent {
     });
 
     this.slabService.getSlabsList().subscribe((resp: any) => {
-      this.slabList = resp.data;
+      this.slabData = resp.data;
+      this.slabData.forEach(e => {
+            this.slabList.push({
+              "_id": e._id,
+              "slabName": e.slabName,
+              "sellingPricePerSQFT": e.sellingPricePerSQFT,
+            })        
+      });
     });
   }
   
@@ -154,7 +161,7 @@ export class AddsalesComponent {
     const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
     const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
     if (salesItemUnitPriceControl) {
-      salesItemUnitPriceControl.patchValue(value.sellingPricePerSQFT);
+      salesItemUnitPriceControl.setValue(value.sellingPricePerSQFT);
       // salesItemUnitPriceControl.disable();
       this.calculateTotalAmount();
     }
@@ -184,7 +191,7 @@ export class AddsalesComponent {
       
       salesGrossTotal += subtotal;
       item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2))
-      item.get("salesItemSubTotal").patchValue(subtotal.toFixed(2));
+      item.get("salesItemSubTotal").setValue(subtotal.toFixed(2));
       // item.get("salesItemSubTotal").disable();
     });
 

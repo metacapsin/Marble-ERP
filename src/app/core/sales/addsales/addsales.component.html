@@ -119,9 +119,10 @@
 
                                                 <td class="col-md-3">
                                                     <p-dropdown [options]="slabList" appendTo="body"
-                                                        [style]="{'width':'100%'}" optionLabel="slabName" 
+                                                        [style]="{'width':'100%'}" optionLabel="slabName"
                                                         placeholder="Slab" [filter]="true" filterBy="name"
-                                                        formControlName="salesItemProduct" (onChange)="onSlabSelect($event.value,i)">
+                                                        formControlName="salesItemProduct"
+                                                        (onChange)="onSlabSelect($event.value,i)">
                                                     </p-dropdown>
                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').touched">
@@ -143,16 +144,19 @@
                                                 </td>
 
                                                 <td class="col-md-2">
-                                                    <input type="number" formControlName="salesItemUnitPrice" 
-                                                        (change)="calculateTotalAmount()" class="form-control">
-                                                    <div
+                                                    <span class="form-control">{{
+                                                        addSalesForm.get('salesItemDetails').get(i +
+                                                        '.salesItemUnitPrice').value }}</span>
+                                                    <!-- <input type="number" formControlName="salesItemUnitPrice" 
+                                                        (change)="calculateTotalAmount()" class="form-control"> 
+                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').touched">
                                                         <span class="login-danger">Field is required.</span>
                                                     </div>
                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').hasError('min') && addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').touched">
                                                         <span class="login-danger">Input must be at least 0.</span>
-                                                    </div>
+                                                    </div> -->
                                                 </td>
 
                                                 <td class="col-md-2">
@@ -165,7 +169,8 @@
                                                 </td>
 
                                                 <td class="col-md-2">
-                                                    <input type="number" formControlName="salesItemSubTotal"
+                                                    <span class="form-control">{{ addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').value }}</span>
+                                                    <!-- <input type="number" formControlName="salesItemSubTotal"
                                                         (change)="calculateTotalAmount()" class="form-control">
 
                                                     <div
@@ -175,7 +180,7 @@
                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').hasError('min') && addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').touched">
                                                         <span class="login-danger">Input must be at least 0.</span>
-                                                    </div>
+                                                    </div> -->
                                                 </td>
 
                                                 <td class="add-remove text-end">
@@ -350,13 +355,17 @@
                                                 <p>Gross Total<span>₹ {{ addSalesForm.get('salesGrossTotal').value |
                                                         number:
                                                         '1.2-2' }}</span></p>
-                                                <p>Discount<span>₹ {{ addSalesForm.get('salesDiscount').value }}</span></p>
-                                                <p>Shipping<span>₹ {{ addSalesForm.get('salesShipping').value }}</span></p>
-                                                <p>Other Charges<span>₹ {{ addSalesForm.get('otherCharges').value }}</span></p>
+                                                <p>Discount<span>₹ {{ addSalesForm.get('salesDiscount').value }}</span>
+                                                </p>
+                                                <p>Shipping<span>₹ {{ addSalesForm.get('salesShipping').value }}</span>
+                                                </p>
+                                                <p>Other Charges<span>₹ {{ addSalesForm.get('otherCharges').value
+                                                        }}</span></p>
                                             </div>
 
                                             <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>₹ {{ addSalesForm.get('salesTotalAmount').value }}</span></h4>
+                                                <h4>Total Amount <span>₹ {{ addSalesForm.get('salesTotalAmount').value
+                                                        }}</span></h4>
                                             </div>
                                         </div>
                                     </div>

@@ -61,13 +61,12 @@ export class AddSlabsComponent {
   lotDetailList = [{ name: "kavya" }, { name: "adnan" }];
   TotalCosting: number = 28447.38;
   PerBlockWeight: number = 11.98067702;
-  if_sellingPricePerSQFT:boolean = false;
-  data:any
-  originalData:any
-  blockDropDownData:any
-  blockDropDowntotleCost:any
-  blockDropDownPerBlockWeight:any
-
+  if_sellingPricePerSQFT: boolean = false;
+  data: any;
+  originalData: any;
+  blockDropDownData: any;
+  blockDropDowntotleCost: any;
+  blockDropDownPerBlockWeight: any;
 
   constructor(
     private service: ProductsService,
@@ -122,7 +121,7 @@ export class AddSlabsComponent {
     this.categoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
     });
-    
+
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
     });
@@ -135,44 +134,60 @@ export class AddSlabsComponent {
       this.data = resp.data;
       this.originalData = resp.data;
       console.log("API lot", this.data);
-    })
+    });
   }
-  onLotSelect(lotNo: any){
-    console.log(lotNo,"set it lot");    
+  onLotSelect(lotNo: any) {
+    console.log(lotNo, "set it lot");
     this.blockDropDownData = lotNo.blocksDetails;
     // blockNo
   }
-  onBlockSelect(block:any){
-    console.log(block,"set it lot");    
-    this.blockDropDowntotleCost = block.totalCosting
-    this.blockDropDownPerBlockWeight = block.weightPerBlock
-    console.log(this.blockDropDownPerBlockWeight,this.blockDropDowntotleCost);
+  onBlockSelect(block: any) {
+    console.log(block, "set it lot");
+    this.blockDropDowntotleCost = block.totalCosting;
+    this.blockDropDownPerBlockWeight = block.weightPerBlock;
+    console.log(this.blockDropDownPerBlockWeight, this.blockDropDowntotleCost);
   }
   calculateTotalAmount() {
     let processingFee = +this.slabsAddForm.get("processingFee").value;
     let otherCharges = +this.slabsAddForm.get("otherCharges").value;
     let totalSQFT = +this.slabsAddForm.get("totalSQFT").value;
-    let sellingPricePerSQFT = +this.slabsAddForm.get("sellingPricePerSQFT").value;
+    let sellingPricePerSQFT = +this.slabsAddForm.get("sellingPricePerSQFT")
+      .value;
     let transportationCharges = +this.slabsAddForm.get("transportationCharges")
       .value;
 
-    let processingCost = processingFee * this.blockDropDownPerBlockWeight;
-    let totalCosting = +this.blockDropDowntotleCost + processingCost + otherCharges + transportationCharges;
-    let totalAmount = totalCosting / totalSQFT;
-    console.log("processingCost", processingCost);
-    console.log("totalCosting", totalCosting);
-    console.log("totalAmount", totalAmount);
-
+    if (!this.blockDropDownPerBlockWeight && !this.blockDropDowntotleCost) {
+      console.log(transportationCharges,otherCharges,processingCost);
+      var totalCosting = +otherCharges + transportationCharges;
+      var totalAmount = +totalCosting / totalSQFT;
+      console.log("totalCosting", totalCosting);
+      console.log("totalAmount", totalAmount);
+      this.slabsAddForm.patchValue({
+        totalCosting: totalCosting.toFixed(2),
+        costPerSQFT: totalAmount.toFixed(2),
+      });
+    } else {
+      var processingCost = processingFee * this.blockDropDownPerBlockWeight;
+      var totalCosting =
+        +this.blockDropDowntotleCost +
+        processingCost +
+        otherCharges +
+        transportationCharges;
+      var totalAmount = totalCosting / totalSQFT;
+      console.log("processingCost", processingCost);
+      console.log("totalCosting", totalCosting);
+      console.log("totalAmount", totalAmount);
+      this.slabsAddForm.patchValue({
+        processingCost: processingCost,
+        totalCosting: totalCosting.toFixed(2),
+        costPerSQFT: totalAmount.toFixed(2),
+      });
+    }
     // Update form values
-    this.slabsAddForm.patchValue({
-      processingCost: processingCost,
-      totalCosting: totalCosting,
-      costPerSQFT: totalAmount.toFixed(2),
-    });
-    if( sellingPricePerSQFT <  totalAmount ){
+    if (sellingPricePerSQFT < totalAmount) {
       this.if_sellingPricePerSQFT = true;
       console.log("if set");
-    }else{
+    } else {
       console.log("else set");
       this.if_sellingPricePerSQFT = false;
     }
@@ -182,7 +197,7 @@ export class AddSlabsComponent {
     console.log(this.slabsAddForm.value);
     const payload = {
       slabNo: this.slabsAddForm.value.slabNo,
-      lotDetail: this.slabsAddForm.value.lotDetail,
+      lotDetail: this.slabsAddForm.value.lotDetail._id,
       blockDetails: this.slabsAddForm.value.blockDetails,
       categoryDetail: this.slabsAddForm.value.categoryDetail,
       subCategoryDetail: this.slabsAddForm.value.subCategoryDetail,
@@ -203,6 +218,8 @@ export class AddSlabsComponent {
       length: 10,
       width: 10,
     };
+    console.log("payload", payload);
+
     if (this.slabsAddForm.valid) {
       this.Service.CreateSlabs(payload).subscribe((resp: any) => {
         if (resp.status === "success") {

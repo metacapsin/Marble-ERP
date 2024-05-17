@@ -141,10 +141,6 @@ export class AddSalesReturnComponent {
       });
     });
 
-    // this.unitService.getAllUnitList().subscribe((resp: any) => {
-    //   this.unitListData = resp.data;
-    // })
-
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
       this.orderTaxList = [];
@@ -159,10 +155,10 @@ export class AddSalesReturnComponent {
     this.CategoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
     });
+  }
 
-    // this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
-    //   this.subCategoryList = resp.data;
-    // });
+  onCustomerSelect(value:any){
+
   }
 
   calculateTotalAmount() {
