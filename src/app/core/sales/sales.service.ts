@@ -29,4 +29,7 @@ export class SalesService {
   getSalesPaymentList(id: any){
     return this.http.get(environment.apiUrl + `/Sales/getSalesPaymentList/${id}`);
   }
+  getAllSalesByCustomerId(id: any){//all sales by customer id paid or unpaid both 
+    return this.http.get(environment.apiUrl + `/Sales/getSalesByCustomerId/${id}`);
+  }
 }

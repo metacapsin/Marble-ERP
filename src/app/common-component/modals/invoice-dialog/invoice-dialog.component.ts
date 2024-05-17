@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
@@ -24,7 +24,7 @@ import { SalesService } from "src/app/core/sales/sales.service";
   templateUrl: "./invoice-dialog.component.html",
   styleUrl: "./invoice-dialog.component.scss",
 })
-export class InvoiceDialogComponent {
+export class InvoiceDialogComponent implements OnInit{
   @Input() showInvoiceDialog: boolean;
   @Input() salesDataById: any = [];
   @Output() callbackModal = new EventEmitter<any>();
@@ -94,6 +94,7 @@ export class InvoiceDialogComponent {
 
   ngOnInit() {
     console.log("this is sale invoice component");
+    console.log("this is sale invoice component data",this.salesDataById)
   }
 
   closeTheWindow() {
