@@ -54,6 +54,8 @@ export class AddPurchaseComponent implements OnInit {
   setIT:any
   data:any
   originalData:any
+  GridDataForLot?:any = []  
+  GridDataForSlab?:any = [] 
   orderStatusList = [
     { orderStatus: "Ordered" },
     { orderStatus: "Confirmed" },
@@ -63,11 +65,12 @@ export class AddPurchaseComponent implements OnInit {
   ];
   lotsNoArray = [
     {name:'Lot No.'},
-    // {name:'Block No.'},
     {name:'Slabs'},
   ]
   orderTaxList = [];
   slabData:any
+  lotsNo:any
+  slabs:any = null
   taxesListData = [];
   public itemDetails: number[] = [0];
   public chargesArray: number[] = [0];
@@ -82,10 +85,10 @@ export class AddPurchaseComponent implements OnInit {
   constructor(
     private taxService: TaxesService,
     private fb: FormBuilder,
-    private router: Router,
+    // private router: Router,
     private Service: SuppliersdataService,
-    private PurchaseService: PurchaseService,
-    private messageService: MessageService,
+    // private PurchaseService: PurchaseService,
+    // private messageService: MessageService,
     private CategoriesService: CategoriesService,
     private subCategoriesService: SubCategoriesService,
     private unitService: UnitsService,
@@ -94,7 +97,6 @@ export class AddPurchaseComponent implements OnInit {
   ) {
     this.addPurchaseForm = this.fb.group({
       purchaseInvoiceNumber: ["",
-      //  [Validators.required,Validators.pattern(this.nameRegex)]
       ],
       purchaseSupplierName: ["", [Validators.required]],
       purchaseDate: ["", [Validators.required]],
@@ -110,7 +112,7 @@ export class AddPurchaseComponent implements OnInit {
       oceanFrieght: [''],
       postExpenses:[''],
       quality:[''],
-      lotsNo:['',[Validators.required]],
+      lotsNo:[null,[Validators.required]],
       lotsType:[''],
       blockNo:[''],
       slabs:[''],
@@ -131,31 +133,19 @@ export class AddPurchaseComponent implements OnInit {
     });
   }
 
-  get purchaseItemDetails() {
-    return this.addPurchaseForm.controls["purchaseItemDetails"] as FormArray;
-  }
-  deletePurchaseItemDetails(purchaseItemDetailsIndex: number) {
-    this.purchaseItemDetails.removeAt(purchaseItemDetailsIndex);
-    this.calculateTotalAmount();
-  }
-  addPurchaseItemDetailsItem() {
-    const item = this.fb.group({
-      purchaseItemCategory: ["", [Validators.required]],
-      purchaseItemSubCategory: ["", [Validators.required]],
-      unit: ["", [Validators.required]],
-      purchaseItemName: [
-        "",
-        [Validators.required, Validators.pattern(this.nameRegex)],
-      ],
-      purchaseItemQuantity: ["", [Validators.required, Validators.min(0)]],
-      purchaseItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-      purchaseItemSubTotal: ["", [Validators.required, Validators.min(0)]],
-    });
-    this.purchaseItemDetails.push(item);
-  }
 
-  lotValues(){
+  lotType(){
     this.lotValue = this.addPurchaseForm.get('lotsType').value;
+  }
+  lotValues(LotValue:any){
+    this.GridDataForLot = LotValue.blocksDetails;
+    console.log(this.GridDataForLot);
+    this.GridDataForSlab = []
+  }
+  slabValues(slabValue:any){
+    console.log(slabValue);
+    this.GridDataForSlab = slabValue;
+    this.GridDataForLot = []
   }
   getSupplier() {
     this.Service.GetSupplierData().subscribe((data: any) => {
@@ -178,7 +168,6 @@ export class AddPurchaseComponent implements OnInit {
     this.unitService.getAllUnitList().subscribe((resp: any) => {
       this.unitListData = resp.data;
     });
-
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
       this.orderTaxList = [];
@@ -189,23 +178,19 @@ export class AddPurchaseComponent implements OnInit {
         });
       });
     });
-
     this.CategoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
     });
-
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
     });
     this.Lotservice.getLotList().subscribe((resp: any) => {
       this.data = resp.data;
       this.originalData = resp.data;
-      console.log("API lot", this.data);
     })
     this.service.getSlabsList().subscribe((resp: any) => {
       this.data = resp.data;
       this.slabData = resp.data;
-
       console.log("API", this.data);
 
     })
@@ -264,6 +249,7 @@ export class AddPurchaseComponent implements OnInit {
       postExpenses: postExpenses.toFixed(),
     });
   }
+
 
   addPurchaseFormSubmit() {
     const formData = this.addPurchaseForm.value;
