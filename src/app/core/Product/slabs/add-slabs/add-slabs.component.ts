@@ -182,7 +182,7 @@ export class AddSlabsComponent {
     console.log(this.slabsAddForm.value);
     const payload = {
       slabNo: this.slabsAddForm.value.slabNo,
-      lotDetail: this.slabsAddForm.value.lotDetail,
+      lotDetail: this.slabsAddForm.value.lotDetail._id,
       blockDetails: this.slabsAddForm.value.blockDetails,
       categoryDetail: this.slabsAddForm.value.categoryDetail,
       subCategoryDetail: this.slabsAddForm.value.subCategoryDetail,
@@ -203,6 +203,8 @@ export class AddSlabsComponent {
       length: 10,
       width: 10,
     };
+    console.log("payload", payload);
+    
     if (this.slabsAddForm.valid) {
       this.Service.CreateSlabs(payload).subscribe((resp: any) => {
         if (resp.status === "success") {

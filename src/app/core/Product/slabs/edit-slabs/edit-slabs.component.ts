@@ -124,9 +124,11 @@ export class EditSlabsComponent {
     this.services.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
     });
-    this.Service.getSlabsById(this.slabsId).subscribe((data: any) => {
-      this.data = data.data;
-      console.log("Slabs Data", this.data.blockDetails);
+    this.Service.getSlabsById(this.slabsId).subscribe((resp: any) => {
+      this.data = resp.data;
+      this.blockDropDownData = this.data.lotDetail.blocksDetails;
+      console.log(this.data.lotDetail.lotNo);
+
       this.slabsEditForm.patchValue({
         slabNo: this.data.slabNo,
         lotDetail: this.data.lotDetail,
@@ -145,7 +147,7 @@ export class EditSlabsComponent {
         processingCost: this.data.processingCost,
         totalCosting: this.data.totalCosting,
         costPerSQFT: this.data.costPerSQFT,
-      });
+      });      
     });
 
     this.Lotservice.getLotList().subscribe((resp: any) => {
@@ -208,7 +210,7 @@ export class EditSlabsComponent {
     const payload = {
       slabNo: this.slabsEditForm.value.slabNo,
       lotDetail: this.slabsEditForm.value.lotDetail,
-      blockDetail: this.slabsEditForm.value.blockDetail,
+      blockDetails: this.slabsEditForm.value.blockDetails,
       categoryDetail: this.slabsEditForm.value.categoryDetail,
       subCategoryDetail: this.slabsEditForm.value.subCategoryDetail,
       slabName: this.slabsEditForm.value.slabName,
