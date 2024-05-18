@@ -17,7 +17,16 @@ import { ToastModule } from "primeng/toast";
 @Component({
   selector: "app-view-suppliers",
   standalone: true,
-  imports: [CommonModule, SharedModule, DropdownModule, RouterModule, TableModule, CalendarModule, DialogModule, ToastModule, TabViewModule,
+  imports: [
+    CommonModule,
+    SharedModule,
+    DropdownModule,
+    RouterModule,
+    TableModule,
+    CalendarModule,
+    DialogModule,
+    ToastModule,
+    TabViewModule,
     PurchaseInvoiceDialogComponent,
   ],
   providers: [MessageService],
@@ -27,19 +36,19 @@ import { ToastModule } from "primeng/toast";
 export class ViewSuppliersComponent {
   routes = routes;
   id: any;
-  customerData: any;
-  paymentListData: any[] = [];
-  purchaseDataById: any[] = [];
-  modalData: any[]=[];
+  supplierDataById: any[] = []; 
+  purchaseDataShowById: any[] = []; //to hold purchase data by customer id
+  paymentListDataById: any[] = []; // to hold payment data by customer ud
+  showPurchaseInvoiceDialog: boolean = false;
+  showDialog: boolean = false;
+  modalData: any[] = [];
   purchaseData: any[] = [];
   purchaseId: any;
-  showPurchaseInvoiceDialog: boolean = false;
   paymentVisible: boolean = false;
 
-  showDialog: boolean = false;
 
-  showDialoge(){
-    this.showDialog=true;
+  showDialoge() {
+    this.showDialog = true;
   }
 
   constructor(
@@ -54,24 +63,35 @@ export class ViewSuppliersComponent {
   }
 
   ngOnInit() {
-    this.getSupplier();
+    this.getSupplierDataById();
+this.getPaymentDataById();
+this.getPurchaseDataById();
+  
+   
+  }
 
-    this.PaymentOutService.getPaymentList().subscribe((resp: any) => {
-      console.log("payments of customer", resp);
-
-      this.paymentListData = resp.data;
-    });
+  getPurchaseDataById(){
     this.purchaseService.GetPurchaseData().subscribe((resp: any) => {
       console.log("Purchase of Supplier ", resp);
 
-      this.purchaseDataById = resp.data;
-      // console.log("sales Data by id ",this.salesDataById);
+      this.purchaseDataShowById = resp.data;
+      // console.log("purchase Data ",this.purchaseDataShowById);
     });
   }
-  getSupplier() {
+  getSupplierDataById() {
     this.Service.GetSupplierDataById(this.id).subscribe((data: any) => {
-      this.customerData = [data];
-      console.log(this.customerData);
+      this.supplierDataById = [data];
+      console.log("This is Supplier Data By Id",this.supplierDataById);
+    });
+  }
+
+  getPaymentDataById(){
+    this.PaymentOutService.getPaymentList().subscribe((resp: any) => {
+      console.log("payments of Supplier ", resp);
+
+      this.paymentListDataById = resp.data;
+      console.log("This is payment Data By supplier Id",this.paymentListDataById);
+
     });
   }
 
@@ -137,52 +157,52 @@ export class ViewSuppliersComponent {
   //   };
   //   this.showDialoge = true;
   // }
-  getPurcahse() {
-    this.purchaseService.GetPurchaseData().subscribe(
-      (resp: any) => {
-        console.log("sales of custonmer ", resp);
+  getPurchase() {
+    this.purchaseService.GetPurchaseDataById(this.id).subscribe((resp: any) => {
+      console.log("sales of custonmer ", resp);
 
-        this.purchaseDataById = resp.data;
-        // console.log("sales Data by id ",this.salesDataById);
-      }
-    );
-  }
-
-  purchaseInvoiceClose(): void {
-    this.showPurchaseInvoiceDialog = false;
+      this.purchaseDataShowById = resp.data;
+      console.log("sales Data by id ", this.purchaseDataShowById);
+    });
   }
 
   callBackModal(): void {
-    this.purchaseService.DeletePurchaseData(this.purchaseId).subscribe((resp: any) => {
-      this.messageService.add({ severity: "success", detail: resp.message });
-      this.getPurcahse();
-      this.showPurchaseInvoiceDialog = false;
-    });
+    this.purchaseService
+      .DeletePurchaseData(this.purchaseId)
+      .subscribe((resp: any) => {
+        this.messageService.add({ severity: "success", detail: resp.message });
+        this.getPurchase();
+        this.showPurchaseInvoiceDialog = false;
+      });
   }
 
   close(): void {
+    console.log("close dialog triggered");
     this.showPurchaseInvoiceDialog = false;
+    this.showDialog = false;
   }
 
   openPurchaseInvoiceDialog(Id: any): void {
+    console.log("id pass to purchase invoice dialoge", Id);
+
     this.showPurchaseInvoiceDialog = true;
     this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
-      this.purchaseData = [resp.data];
+      this.purchaseDataShowById = [resp.data];
+      console.log("sales data by id On dialog", this.purchaseDataShowById);
     });
   }
 
-  // deleteSales(Id: any) {
-  //   this.purchaseId = Id;
+  deletePurchase(Id: any) {
+    this.purchaseId = Id;
 
-  //   this.modalData = void{
-  //     title: "Delete",
-  //     messege: "Are you sure you want to delete this Sales Details"
-  //   }
-  //   this.showDialog = true;
-  // }
+    this.modalData = void {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Purchase Details",
+    };
+    this.showDialog = true;
+  }
 
   // handleModalClose(): void {
-  //   this.showDialog = false;
   // }
 
   // handleModalConfirm(): void {

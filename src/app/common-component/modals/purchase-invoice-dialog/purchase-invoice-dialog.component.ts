@@ -19,7 +19,7 @@ export class PurchaseInvoiceDialogComponent {
   @Input() showPurchaseInvoiceDialog: boolean = false;
   @Input() purchaseDataById: any = [];
   @Output() callbackModal: EventEmitter<void> = new EventEmitter<void>();
-  @Output() purchaseInvoiceClose: EventEmitter<void> = new EventEmitter<void>();
+  @Output() close = new EventEmitter<any>();
 
 
   constructor(private purchaseService: PurchaseService) {}
@@ -29,8 +29,11 @@ export class PurchaseInvoiceDialogComponent {
   }
 
   closeTheWindow() {
-    this.purchaseInvoiceClose.emit();
+    // debugger
+    console.log("dialog close")
+    this.close.emit();
   }
+
 
 
 }

@@ -38,4 +38,7 @@ export class PaymentInService {
   getPaymentDetailById(id: any) {
     return this.http.get(environment.apiUrl + "/Sales/getPaymentDetailById/" + id)
   }
+  getPaymentListByCustomerId(id: any) {
+    return this.http.get(environment.apiUrl + "/Sales/getPaymentListByCustomerId/" + id)
+  }
 }

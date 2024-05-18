@@ -17,7 +17,7 @@
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="page-table-header mb-2 m-3">
-                        <div class="row practice-card" *ngFor="let data of customerData">
+                        <div class="row practice-card" *ngFor="let data of supplierDataById">
                             <div class="col-xl-6 col-lg-6 col-sm-12">
                                 <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Name</h5>
@@ -86,7 +86,7 @@
         <div class="card">
             <p-tabView>
                 <p-tabPanel header="Purchase">
-                    <p-table [value]="purchaseDataById" [tableStyle]="{'min-width': '60rem'}">
+                    <p-table [value]="purchaseDataShowById" [tableStyle]="{'min-width': '60rem'}">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon
@@ -132,8 +132,8 @@
                                         (click)="openPurchaseInvoiceDialog(purchase._id)"></p-button>
                                         <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editPurchaseRout(purchase._id)" ></p-button> -->
                                         <!-- <p-button [text]="true" icon="fa-solid fa-wallet" (click)="showPaymentDialog(purchase._id)"></p-button>  -->
-                                    <!-- <p-button [text]="true" icon="fa-solid fa-trash"
-                                        (click)=deletePurchase(purchase._id)></p-button> -->
+                                    <p-button [text]="true" icon="fa-solid fa-trash"
+                                        (click)=deletePurchase(purchase._id)></p-button>
                                 </td>
                             </tr>
                         </ng-template>
@@ -142,7 +142,7 @@
                 </p-tabPanel>
 
                 <p-tabPanel header="Payments">
-                    <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}">
+                    <p-table [value]="paymentListDataById" [tableStyle]="{'min-width': '60rem'}">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn="transactionNo">Transaction No.<p-sortIcon
@@ -180,8 +180,8 @@
   <app-purchase-invoice-dialog
   [showPurchaseInvoiceDialog]="showPurchaseInvoiceDialog"
   (callbackModal)="callBackModal()"
-  (purchaseInvoiceClose)="purchaseInvoiceClose()"
-  [purchaseDataById]="purchaseData">
+  (close)="close()"
+  [purchaseDataById]="purchaseDataShowById">
 </app-purchase-invoice-dialog>
 
 

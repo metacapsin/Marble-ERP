@@ -1,4 +1,4 @@
-<p-dialog header="Purchase Details" [(visible)]="showPurchaseInvoiceDialog" *ngFor="let purchase of purchaseDataById" [modal]="true"
+<p-dialog header="Purchase Details" [(visible)]="showPurchaseInvoiceDialog" [closable]="false" *ngFor="let purchase of purchaseDataById" [modal]="true"
 [style]="{width: '80vw'}">
 <div class="modal-content">
   <div class="modal-body">
@@ -186,7 +186,12 @@
                   </div>
                 </div>
               </div>
-              <button type="button"  label="Cancel" class="btn" (click)="closeTheWindow()">Cancel</button>
+              <div class="upload-sign">
+                <div class="form-group float-end mb-0">
+                  <button type="button" label="Cancel" class="btn  btn-primary"
+                    (click)="closeTheWindow()">Cancel</button>
+                </div>
+              </div>
 
             </div>
 

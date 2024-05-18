@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-  <div class="content">
+  <div class="content" *ngFor="let data of customerDataById">
     <div class="page-header">
       <div class="row">
         <div class="col-sm-12 d-flex justify-content-between">
@@ -20,19 +20,37 @@
             <li class="breadcrumb-item active">View Customers</li>
           </ul>
           <ul>
-            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+            <!-- <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
               [routerLink]="routes.customers">
               Back
-            </button>
+            </button> -->
           </ul>
         </div>
       </div>
     </div>
+
+    <div class="page-header invoices-page-header">
+      <div class="row align-items-center">
+          <div class="col">
+              <ul class="breadcrumb invoices-breadcrumb d-flex justify-content-between">
+                  <li class="breadcrumb-item invoices-breadcrumb-item">
+                      <a [routerLink]="routes.customers">
+                          <i class="fa fa-chevron-left"></i> Back to Customer List
+                      </a>
+                  </li>
+                  <li>
+                    Created On: {{data.createdOn | date: "dd-MM-yyyy"}}
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
+
     <div class="row">
       <div class="col-sm-12">
         <div class="card card-table show-entire">
           <div class="page-table-header mb-2 m-3">
-            <div class="row practice-card" *ngFor="let data of customerDataById">
+            <div class="row practice-card" >
               <div class="col-xl-6 col-lg-6 col-sm-12">
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
@@ -179,7 +197,7 @@
 
         <!-- PAYMENTS GRID -->
         <p-tabPanel header="Payments">
-          <p-table [value]="paymentDataListById" [tableStyle]="{ 'min-width': '60rem' }">
+          <p-table [value]="paymentListDataByCustomerId" [tableStyle]="{ 'min-width': '60rem' }">
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="transactionNo">
@@ -205,7 +223,7 @@
               <tr>
                 <td class="bold">{{ payment.transactionNo }}</td>
                 <td class="bold">
-                  {{ payment.paymentDate | date : "dd-MM-yyyy" }}
+                  {{ payment.paymentDate }}
                 </td>
                 <td>₹ {{ payment.amount }}</td>
                 <td>{{ payment.paymentMode }}</td>
@@ -219,10 +237,10 @@
 </div>
 
 <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="salesDataShowById"
-  (callbackModal)="callBackModal()" (close)="close()"></app-invoice-dialog>
+  [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()"></app-invoice-dialog>
 
 <app-payments-invoice-dialog [paymentVisible]="showPaymentDialog" [dataById]="salesDataShowById"
-  (callbackModal)="callBackModal()" (close)="close()" ></app-payments-invoice-dialog>
+  (callbackModal)="callBackModal()" (close)="close()"></app-payments-invoice-dialog>
 
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>
