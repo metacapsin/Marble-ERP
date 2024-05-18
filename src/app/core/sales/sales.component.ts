@@ -42,7 +42,6 @@ export class SalesComponent implements OnInit {
     private messageService: MessageService,
     private router: Router,
     public dialog: MatDialog,
-    private customerService: CustomersdataService,
     private Service: SalesService) { }
 
   ngOnInit() {
@@ -50,34 +49,25 @@ export class SalesComponent implements OnInit {
   }
 
   showDialog(_id: any) {
-    let totalTax = 0;
-    // this.visible = true;
-    this.Service.GetSalesDataById(_id).subscribe((resp: any) => {
-      this.salesDataById = [resp.data];
+    // let totalTax = 0;
+    // // this.visible = true;
+    // this.Service.GetSalesDataById(_id).subscribe((resp: any) => {
+    //   this.salesDataById = [resp.data];
       
-    this.visible = true;
+    // this.visible = true;
 
-      resp.data.appliedTax.forEach(element => {
-        totalTax += Number(element.taxRate);
-      });
-      this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
-      // console.log("applied tax", resp.data.appliedTax);
-    });
+    //   resp.data.appliedTax.forEach(element => {
+    //     totalTax += Number(element.taxRate);
+    //   });
+    //   this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
+    //   // console.log("applied tax", resp.data.appliedTax);
+    // });
 
-    this.Service.getSalesPaymentList(_id).subscribe((resp: any) => {
-      this.paymentListData = resp.data;
-      // console.log("payment id ser ", this.paymentListData);
-    })
+    // this.Service.getSalesPaymentList(_id).subscribe((resp: any) => {
+    //   this.paymentListData = resp.data;
+    //   // console.log("payment id ser ", this.paymentListData);
+    // })
   }
-
-  showPaymentDialog(_id: any) {
-    this.paymentVisible = true;
-    this.Service.GetSalesDataById(_id).subscribe((resp: any) => {
-      this.salesDataById = [resp.data];
-    });
-  }
-
-
   deleteSales(Id: any) {
     this.saleId = Id;
 
@@ -99,7 +89,6 @@ export class SalesComponent implements OnInit {
       this.showDialoge = false;
     })
   }
-
   close() {
     this.showDialoge = false;
   }
@@ -110,8 +99,7 @@ export class SalesComponent implements OnInit {
     this.Service.GetSalesData().subscribe((resp: any) => {
       this.salesListData = resp.data;
       this.originalData = resp.data;
-
-    })
+    });
   }
   editSalesRout(id) {
     this.router.navigate(["/sales/edit-sales/" + id]);

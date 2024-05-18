@@ -9,6 +9,7 @@ import { TableModule } from "primeng/table";
 import { DialogModule } from "primeng/dialog";
 import { ToastModule } from "primeng/toast";
 import { SalesService } from "src/app/core/sales/sales.service";
+import { ButtonModule } from "primeng/button";
 
 @Component({
   selector: "app-invoice-dialog",
@@ -20,6 +21,7 @@ import { SalesService } from "src/app/core/sales/sales.service";
     DialogModule,
     ToastModule,
     TabViewModule,
+    ButtonModule
   ],
   templateUrl: "./invoice-dialog.component.html",
   styleUrl: "./invoice-dialog.component.scss",

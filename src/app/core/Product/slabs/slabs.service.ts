@@ -14,7 +14,7 @@ CreateSlabs(data: {} | null) {
   return this.http.post(environment.apiUrl + "/SlabController/createSlab", data);
 }
 getSlabsList() {
-  return this.http.get(environment.apiUrl + "/Slab/getSlabList");
+  return this.http.get(environment.apiUrl + "/SlabController/getSlabList");
 }
 
 getSlabsById(locationId: string) {

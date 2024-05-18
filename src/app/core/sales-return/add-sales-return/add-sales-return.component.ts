@@ -15,6 +15,7 @@ import { SalesReturnService } from '../sales-return.service';
 import { UnitsService } from '../../settings/units/units.service';
 import { SubCategoriesService } from '../../settings/sub-categories/sub-categories.service';
 import { ToastModule } from 'primeng/toast';
+import { SalesService } from '../../sales/sales.service';
 @Component({
   selector: 'app-add-sales-return',
   standalone: true,
@@ -29,22 +30,20 @@ export class AddSalesReturnComponent {
   public routes = routes;
 
   public searchData_id = '';
-  addTaxTotal: any;
   customerList = [];
   originalCustomerData = [];
   categoryList = [];
   subCategoryList = [];
   orderStatusList = [
-    { orderStatus: "Ordered" },
-    { orderStatus: "Confirmed" },
+    { orderStatus: "Accepted" },
+    { orderStatus: "Pending" },
     { orderStatus: "Processing" },
-    { orderStatus: "Shipping" },
-    { orderStatus: "Delivered" },
+    { orderStatus: "Rejected" }
   ];
-  unitListData = []
-  orderTaxList = []
+  unitListData = [];
+  orderTaxList = [];
   taxesListData = [];
-  customerById = {};
+  salesInvoiceList = [];
   public itemDetails: number[] = [0];
   public selectedValue!: string;
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
@@ -56,10 +55,7 @@ export class AddSalesReturnComponent {
     private messageService: MessageService,
     private Service: SalesReturnService,
     private customerService: CustomersdataService,
-    private unitService: UnitsService,
-    private CategoriesService: CategoriesService,
-    private subCategoriesService: SubCategoriesService,
-    private taxService: TaxesService,
+    private salesService: SalesService,
     private fb: FormBuilder,
   ) {
     this.addReturnSalesForm = this.fb.group({
@@ -68,30 +64,12 @@ export class AddSalesReturnComponent {
       salesDiscount: ["", [Validators.min(0)]],
       salesInvoiceNumber: [
         "",
-        // [Validators.required, Validators.pattern(this.nameRegex)],
+        [Validators.required],
       ],
-      salesItemDetails: this.fb.array([
-        this.fb.group({
-          // salesItemCategory: ["", [Validators.required]],
-          // salesItemSubCategory: ["", [Validators.required]],
-          // unit: ["", [Validators.required]],
-          // salesItemName: [
-          //   "",
-          //   [Validators.required, Validators.pattern(this.nameRegex)],
-          // ],
-          salesItemProduct: ['', [Validators.required]],
-          salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
-          salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-          salesItemTax: [''],
-          salesItemTaxAmount: [''],
-          salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
-        }),
-      ]),
+      salesItemDetails: this.fb.array([]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
       salesGrossTotal: [''],
-      returnOrderStatus:  ["", [Validators.required]],
-      // salesOrderTax: [''],
-      // appliedTax: [''],
+      returnOrderStatus: ["", [Validators.required]],
       salesShipping: ["", [Validators.min(0)]],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       salesTotalAmount: [""],
@@ -102,31 +80,23 @@ export class AddSalesReturnComponent {
   get salesItemDetails() {
     return this.addReturnSalesForm.controls['salesItemDetails'] as FormArray;
   }
-  deletesalesReturnItemDetails(salesReturnItemDetailsIndex: number) {
-    this.salesItemDetails.removeAt(salesReturnItemDetailsIndex);
-    this.calculateTotalAmount();
-  }
-  addsalesReturnItemDetailsItem() {
-    const item = this.fb.group({
-      // salesItemCategory: ["", [Validators.required]],
-      // salesItemSubCategory: ["", [Validators.required]],
-      // unit: ["", [Validators.required]],
-      // salesItemName: [
-      //   "",
-      //   [Validators.required, Validators.pattern(this.nameRegex)],
-      // ],
-      salesItemProduct: ['', [Validators.required]],
-          salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
-          salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-          salesItemTax: [''],
-          salesItemTaxAmount: [''],
-          salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
+
+  addsalesReturnItemDetailsItem(salesItemDetails: any) {
+    const salesArray = this.addReturnSalesForm.get('salesItemDetails') as FormArray;
+    salesItemDetails?.forEach(sale => {
+      salesArray.push(this.fb.group({
+        salesItemProduct: [sale.salesItemProduct],
+        salesItemQuantity: [sale.salesItemQuantity],
+        salesItemSubTotal: [sale.salesItemSubTotal],
+        salesItemTax: [sale.salesItemTax],
+        salesItemTaxAmount: [sale.salesItemTaxAmount],
+        salesItemUnitPrice: [sale.salesItemUnitPrice],
+
+      }));
     });
-    this.salesItemDetails.push(item);
   }
 
   ngOnInit(): void {
-
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
       this.customerList = [];
@@ -140,25 +110,26 @@ export class AddSalesReturnComponent {
         })
       });
     });
-
-    this.taxService.getAllTaxList().subscribe((resp: any) => {
-      this.taxesListData = resp.data;
-      this.orderTaxList = [];
-      this.taxesListData.forEach(element => {
-        this.orderTaxList.push({
-          orderTaxName: element.name + ' (' + element.taxRate + '%' + ')',
-          orderNamevalue: element
-        });
-      });
-    });
-
-    this.CategoriesService.getCategories().subscribe((resp: any) => {
-      this.categoryList = resp.data;
-    });
   }
 
-  onCustomerSelect(value:any){
+  onCustomerSelect(value: any) {
+    this.salesService.getAllSalesByCustomerId(value._id).subscribe((resp: any) => {
+      this.salesInvoiceList = resp.data;
+      console.log("All Sales", resp.data);
+    });
 
+  }
+
+  onInvoiceSelect(value: any) {
+    this.addsalesReturnItemDetailsItem(value.salesItemDetails);
+
+    this.addReturnSalesForm.patchValue({
+      salesGrossTotal: value.salesGrossTotal,
+      salesDiscount: value.salesDiscount,
+      salesShipping: value.salesShipping,
+      otherCharges: value.otherCharges,
+      salesTotalAmount: value.salesTotalAmount,
+    });
   }
 
   calculateTotalAmount() {
@@ -180,11 +151,8 @@ export class AddSalesReturnComponent {
       } else {
         totalTaxAmount = (quantity * unitPrice * tax) / 100;
       }
-
-      
-      
       const subtotal = (quantity * unitPrice) + totalTaxAmount;
-      
+
       salesGrossTotal += subtotal;
       item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2))
       item.get("salesItemSubTotal").patchValue(subtotal.toFixed(2));
@@ -212,29 +180,19 @@ export class AddSalesReturnComponent {
 
   addReturnSalesFormSubmit() {
     const formData = this.addReturnSalesForm.value;
-
-    // let totalTax = 0
-    // if(formData.salesOrderTax){
-    //   formData.salesOrderTax.forEach((element) => {
-    //       totalTax = totalTax + element.taxRate;
-    //     });
-    // }  
     const payload = {
       customer: formData.customer,
+      salesInvoiceNumber: formData.salesInvoiceNumber.salesInvoiceNumber,
       returnDate: formData.returnDate,
-      salesDiscount: formData.salesDiscount,
-      salesInvoiceNumber: formData.salesInvoiceNumber,
       salesItemDetails: formData.salesItemDetails,
-      salesNotes: formData.salesNotes,
       salesGrossTotal: formData.salesGrossTotal,
       returnOrderStatus: formData.returnOrderStatus,
-      // salesOrderTax: totalTax,
+      salesDiscount: formData.salesDiscount,
       salesShipping: formData.salesShipping,
-      // appliedTax: formData.salesOrderTax,
+      otherCharges: formData.otherCharges,
       salesTermsAndCondition: formData.salesTermsAndCondition,
-      salesTotalAmount: formData.salesTotalAmount,
-      unit: formData.unit,
-      otherCharges: formData.otherCharges
+      salesNotes: formData.salesNotes,
+      salesTotalAmount: formData.salesTotalAmount
     }
     if (this.addReturnSalesForm.valid) {
       console.log("valid form");

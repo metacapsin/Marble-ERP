@@ -61,10 +61,10 @@ export class AddLotComponent {
   perBlockWeight: number;
 
   addvisible: boolean = false;
-  lotNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{5,10})$/;
-  lotNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{5,15})$/;
+  // lotNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
+  // lotNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
-  vehicleNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
+  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
   descriptionRegex = /^(?!\s)(?:.{1,500})$/;
 
   constructor(
@@ -75,11 +75,11 @@ export class AddLotComponent {
 
   ) {
     this.lotAddForm = this.fb.group({
-      lotNo: ["", [Validators.required, Validators.pattern(this.lotNoRegex)]],
-      lotName: ["", [Validators.required, Validators.pattern(this.lotNameRegex)]],
-      vehicleNo: ["", [Validators.required, Validators.pattern(this.lotNameRegex)]],
+      lotNo: ["", [Validators.required, Validators.pattern(this.shortNameRegex)]],
+      lotName: ["", [Validators.required, Validators.pattern(this.shortNameRegex)]],
+      vehicleNo: ["", [Validators.pattern(this.shortNameRegex)]],
       date: ["", [Validators.required]],
-      invoiceNo: ["", [Validators.required, Validators.pattern(this.lotNoRegex)]],
+      invoiceNo: ["", [Validators.required, Validators.pattern(this.invoiceRegex)]],
       lotWeight: ["", [Validators.required, Validators.min(1), Validators.max(10000)]],
       pricePerTon: ["", [Validators.required, Validators.min(1), Validators.max(1000000)]],
       transportationCharge: ["", [Validators.required, Validators.min(1), Validators.max(100000)]],

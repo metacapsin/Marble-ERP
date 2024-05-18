@@ -88,6 +88,11 @@
                                             <p-columnFilter type="text" field="blocksCount"
                                                 display="menu"></p-columnFilter>
                                         </th>
+                                        <th pSortableColumn="blocksCount">Total Cost <p-sortIcon
+                                                field="blocksCount"></p-sortIcon>
+                                            <p-columnFilter type="text" field="blocksCount"
+                                                display="menu"></p-columnFilter>
+                                        </th>
                                         <th>Action</th>
                                     </tr>
                                 </ng-template>
@@ -102,6 +107,7 @@
                                         <td>{{lot.lotWeight}}</td>
                                         <td>₹ {{lot.pricePerTon}}</td>
                                         <td>{{lot.blocksCount}}</td>
+                                        <td>₹ 1200</td>
                                         <td style="display: flex; gap: 5px;" appShowHide
                                             [roles]="['admin', 'super-admin']">
                                             <p-button [text]="true" icon="fa-solid fa-eye"
@@ -137,7 +143,8 @@
     <div class="modal-content">
         <div class="modal-body">
             <div class="card-body p-2">
-                <p-table [value]="lotDataById" [tableStyle]="{'min-width': '60rem'}">
+                <p-table [value]="lotDataById" 
+                styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}">
                     <ng-template pTemplate="header">
                         <tr>
                             <th pSortableColumn="blockNo">Block No

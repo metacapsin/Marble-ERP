@@ -9,16 +9,25 @@
             <div class="card-body pb-0">
               <div class="invoice-item invoice-item-one">
                 <div class="row">
-                  <!-- <div class="col-md-6">
+                  <div class="col-md-6">
                     <div class="invoice-logo d-flex justify-content-start">
-                      <button type="button" label="Cancel" class="fa fa-chevron-left btn-primary"
-                      (click)="closeTheWindow()"> close</button>
+                      <!-- <button type="button" label="Cancel" class="fa fa-arrow-left btn-primary"
+                      (click)="closeTheWindow()"> close</button> -->
+
+                      
+                    <!-- <p-button [text]="true" icon="fa-solid fa-arrow-left" (click)="closeTheWindow()"></p-button> -->
+                      <!-- <i class="fa-solid fa-arrow-left"> Close</i> -->
+
+                      <div class="add-group textbtn">
+                        <a  (click)="closeTheWindow()" class="btn btn-primary add-pluss ms-2">
+                          <i class="fa-solid fa-arrow-left"></i></a>
+                      </div>
                     </div>
-                  </div> -->
+                  </div>
                   <div class="col-md-6">
                     <div class="invoice-info">
                       <div class="invoice-head justify-content-end">
-                        <h2 class="text-primary">Sales</h2>
+                        <!-- <h2 class="text-primary">Sales</h2> -->
                         <p>Invoice Number : {{sales.salesInvoiceNumber}}</p>
                       </div>
                     </div>
@@ -181,12 +190,12 @@
                     </div>
                   </div>
                 </div>
-                <div class="upload-sign">
+                <!-- <div class="upload-sign">
                   <div class="form-group float-end m-5px">
                     <button type="button" label="Cancel" class="btn  btn-primary"
                       (click)="closeTheWindow()">Cancel</button>
                   </div>
-                </div>
+                </div> -->
               </div>
 
 

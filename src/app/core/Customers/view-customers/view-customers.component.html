@@ -134,8 +134,8 @@
       <p-tabView>
         <p-tabPanel header="Sales">
           <p-table [value]="salesDataShowById" [tableStyle]="{ 'min-width': '60rem' }">
-            <ng-template pTemplate="header">
-              <tr>
+            <ng-template pTemplate="header" >
+              <tr class="text-center">
                 <th pSortableColumn="salesInvoiceNumber">
                   Invoice Number
                   <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
@@ -165,7 +165,7 @@
                 <th pSortableColumn="paymentStatus">
                   Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                 </th>
-                <th style="width: 300px">Action</th>
+                <th >Action</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-sales>
@@ -177,13 +177,8 @@
                 <td>₹ {{ sales.dueAmount }}</td>
                 <td>₹ {{ sales.salesTotalAmount }}</td>
                 <td>{{ sales.paymentStatus }}</td>
-                <td appShowHide [roles]="['admin', 'super-admin']">
+                <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px;" >
                   <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
-                  <!-- <p-button
-                    [text]="true"
-                    icon="fa-solid fa-edit"
-                    (click)="editSalesRout(sales._id)"
-                  ></p-button> -->
                   <p-button [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)"></p-button>
                   <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
                 </td>
