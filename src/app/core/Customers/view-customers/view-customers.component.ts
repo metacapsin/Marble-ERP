@@ -44,7 +44,7 @@ export class ViewCustomersComponent implements OnInit{
   routes = routes;
   id: any; // to hold customer id
   customerDataById: any[] = []; 
-  salesDataShowById: any[] = []; // to hold sales data by customer id
+  salesDataShowById: any; // to hold sales data by customer id
   paymentListDataByCustomerId: any[] = []; // to hold payment data by customer id
   showInvoiceDialog: boolean = false; // to enable sales invoice popup
   showPaymentDialog: boolean = false; //to payment in inovice popup
@@ -53,6 +53,7 @@ export class ViewCustomersComponent implements OnInit{
   customerID: any;
   salesId: any;
   paymentDataListById: any[] = [];
+  paymenyObject:any={}
 
   constructor(
     private customerService: CustomersdataService,
@@ -154,12 +155,15 @@ export class ViewCustomersComponent implements OnInit{
   }
 
   openPaymentDialog(Id: any) {
-    console.log("pass id in payment invoice ", Id);
-    
-  
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
-      this.salesDataShowById = [resp.data];
+      this.paymenyObject = {
+        customer: resp.data.customer,
+        salesId: resp.data._id,
+        salesInvoiceNumber: resp.data.salesInvoiceNumber,
+        salesTotalAmount: resp.data.salesTotalAmount,
+        salesDueAmount:resp.data.dueAmount,
+      };
       console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
     });
   }

@@ -58,7 +58,7 @@
                         <div class="card-body p-2">
 
                             <p-table [value]="lotData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot">
+                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot" styleClass="p-datatable-striped"  >
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th appShowHide [roles]="['admin', 'super-admin']">

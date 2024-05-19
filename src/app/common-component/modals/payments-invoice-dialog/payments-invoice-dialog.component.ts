@@ -4,10 +4,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  UntypedFormBuilder,
-  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
@@ -43,83 +42,74 @@ import { SalesService } from "src/app/core/sales/sales.service";
 export class PaymentsInvoiceDialogComponent implements OnInit {
   @Input() ShowPaymentInvoice: boolean;
   @Input() dataById: any = [];
-  // @Input() dataById: any = [];
   @Output() callbackModalForPayment = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();
+  paymentInvoiceForm: FormGroup;
   payableAmounts: string[] = [];
-  totalAmount = this.dataById.salesTotalAmount; // Example value, replace with actual data
-customerId=this.dataById._id
-// customerId=this.dataById[0].customer._id
-  // Variables for additional charges and discount
-  discount: number = 0;
-  shipping: number = 0;
-  otherCharges: number = 0;
-  paymentInvoiceForm: UntypedFormGroup;
   routes: { customers: string };
   paymentModeList = [{
     paymentMode: 'Cash'
   },
-{
-  paymentMode:'Online'
-}];
+  {
+    paymentMode: 'Bank'
+  }];
+  dueAmount= this.dataById.dueAmount;
 
-notesRegex = /^(?:.{2,100})$/;
+  notesRegex = /^(?:.{2,100})$/;
 
   constructor(
-    private salesServicePayment: SalesService,
     private paymentInService: PaymentInService,
     private messageService: MessageService,
     private fb: FormBuilder,
-    private router: Router
   ) {
     this.paymentInvoiceForm = this.fb.group({
       paymentDate: ["", [Validators.required]],
       paymentMode: ["", [Validators.required]],
       notes: ["", [Validators.required]],
-      paybleAmount: ["", [Validators.required,this.amountExceedsTotalValidator.bind(this)]],
+      // totalAmount: ["", [Validators.required,this.amountExceedsTotalValidator.bind(this)]],
+      totalAmount: ["", [Validators.required, Validators.max(this.dueAmount)]]
     });
-    // this.routes = {
-    //   customers: '/customers'
-    // };
   }
 
   ngOnInit() {
-    console.log("this is payment invoice component");
+
   }
 
-  amountExceedsTotalValidator(control: FormControl) {
-    const amount = control.value;
-    if (amount != null && amount > this.totalAmount) {
-      return { amountExceedsTotal: true };
-    }
-    return null;
-  }
+  // amountExceedsTotalValidator(control: FormControl) {
+  //   const amount = control.value;
+  //   if (amount != null && amount > this.dataById.salesTotalAmount) {
+  //     return { amountExceedsTotal: true };
+  //   }
+  //   return null;
+  // }
 
   closeTheWindow() {
     this.close.emit();
-    this.dataById=[]
+    this.paymentInvoiceForm.reset();
+    // this.dataById=[]
   }
 
   onConfirm() {
     this.callbackModalForPayment.emit();
   }
+
   paymentInvoiceFormSubmit() {
     const formData = this.paymentInvoiceForm.value;
-    console.log('Submitted data:', formData);
-    console.log('customer Id:', this.customerId);
-
     const payload = {
-      customer: this.customerId,
+      customer: this.dataById.customer,
       paymentDate: formData.paymentDate,
       paymentMode: formData.paymentMode,
+      sales: [
+        {
+          _id: this.dataById.salesId,
+          amount: formData.totalAmount,
+        }
+      ],
       notes: formData.notes,
-      paybleAmount: formData.paybleAmount
     }
 
 
     if (this.paymentInvoiceForm.valid) {
-      console.log("valid form");
-
       this.paymentInService.createPayment(payload).subscribe((resp: any) => {
         console.log(resp);
         if (resp) {
@@ -128,6 +118,7 @@ notesRegex = /^(?:.{2,100})$/;
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
               this.close.emit();
+              this.paymentInvoiceForm.reset();
             }, 400);
           } else {
             const message = resp.message;

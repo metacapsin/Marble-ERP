@@ -1,4 +1,4 @@
-<p-dialog header="Payment Details" [(visible)]="ShowPaymentInvoice" *ngFor="let sales of dataById" [closable]="false"
+<p-dialog header="Payment Details" [(visible)]="ShowPaymentInvoice"  [closable]="false"
   [closeOnEscape]="false" [modal]="true" [style]="{width: '80vw'}">
   <div class="modal-content">
     <div class="modal-body">
@@ -36,7 +36,7 @@
                                     <div class="form-group row mb-2">
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label"> {{ sales?.salesInvoiceNumber }}</p>
+                                        <p class="col-lg-9 col-form-label"> {{ dataById?.salesInvoiceNumber }}</p>
                                       </div>
                                     </div>
                                   </div>
@@ -44,7 +44,7 @@
                                     <div class="form-group row mb-2">
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{sales.salesTotalAmount}}</p>
+                                        <p class="col-form-label">{{dataById?.salesTotalAmount}}</p>
                                       </div>
                                     </div>
                                   </div>
@@ -95,19 +95,19 @@
                           </div>
                           <div class="col-12 col-md-6">
                             <div class="form-group local-forms">
-                              <label for="paybleAmount">Payable Amount <span class="login-danger">*</span></label>
+                              <label for="totalAmount">Payable Amount <span class="login-danger">*</span></label>
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">₹</span>
                                 </div>
-                                <input type="number" formControlName="paybleAmount" class="form-control">
+                                <input type="number" formControlName="totalAmount" class="form-control">
                               </div>
                               <div
-                                *ngIf="paymentInvoiceForm.get('paybleAmount')?.hasError('amountExceedsTotalValidator') && paymentInvoiceForm.get('paybleAmount')?.touched">
-                                <span class="login-danger">Amount cannot be greater than the total amount.</span>
+                                *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
+                                <span class="login-danger">Amount cannot be greater than the {{dataById.dueAmount}}.</span>
                               </div>
                               <div
-                                *ngIf="paymentInvoiceForm.get('paybleAmount')?.hasError('required') && paymentInvoiceForm.get('paybleAmount')?.touched">
+                                *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('required') && paymentInvoiceForm.get('totalAmount')?.touched">
                                 <span class="login-danger">Field is required.</span>
                               </div>
                             </div>

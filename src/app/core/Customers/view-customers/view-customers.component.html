@@ -234,7 +234,7 @@
 <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="salesDataShowById"
   [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()"></app-invoice-dialog>
 
-<app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataById]="salesDataShowById"
+<app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataById]="paymenyObject"
   (callbackModal)="callBackModal()" (close)="close()"></app-payments-invoice-dialog>
 
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"

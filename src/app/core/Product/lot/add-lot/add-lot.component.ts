@@ -110,6 +110,7 @@ export class AddLotComponent {
     console.log("Delete OBJ.");
     
     this.blocksDetails.splice(salesItemDetailsIndex, 1);
+    this.calculateTotalAmount();
 
   }
 
