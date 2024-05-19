@@ -1,167 +1,124 @@
-<p-dialog header="Payment Details" [(visible)]="paymentVisible" *ngFor="let sales of dataById" [closable]="false"
+<p-dialog header="Payment Details" [(visible)]="ShowPaymentInvoice" *ngFor="let sales of dataById" [closable]="false"
   [closeOnEscape]="false" [modal]="true" [style]="{width: '80vw'}">
   <div class="modal-content">
     <div class="modal-body">
       <div class="row justify-content-center">
         <div class="col-lg-12">
-          <div class="card invoice-info-card">
-            <div class="card-body pb-0">
+          <div class=" invoice-info-card">
+            <div class=" pb-0">
 
-              <div class="invoice-item invoice-item-one">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="invoice-logo d-flex justify-content-start">
-                      <h3>Payment </h3>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="invoice-info">
-                      <div class="invoice-head">
-                        <h2 class="text-primary">Payments</h2>
-                        <div>{{ sales?.salesInvoiceNumber }}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <div class="row">
                 <div class="col-sm-12">
-                  <div class="card card-table show-entire">
-                    <div class="page-table-header mb-2 m-3">
-                      <div class="row practice-card">
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                  <div class=" card-table show-entire">
+                    <div class="card-body p-3">
+                      <form [formGroup]="paymentInvoiceForm" (ngSubmit)="paymentInvoiceFormSubmit()">
+                        <div class="d-flex m-b-10" style="justify-content: space-between">
+                          <h3></h3>
+                          <div class="settings-btns text-end m-b-10">
+                            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                              [disabled]="!paymentInvoiceForm.valid">
+                              Submit
+                            </button>
+                            <button class="btn btn-secondary" (click)="closeTheWindow()">
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="card  ">
 
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.customer.name}}</p>
+                              <div class="page-table-header mb-2 m-3">
+                                <div class="row practice-card">
+                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                                    <div class="form-group row mb-2">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label"> {{ sales?.salesInvoiceNumber }}</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+                                    <div class="form-group row mb-2">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{sales.salesTotalAmount}}</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Sales Date:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.salesDate}}</p>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-md-6">
+                            <div class="form-group local-forms">
+                              <label for="paymentDate">Payment Date <span class="login-danger">*</span></label>
+                              <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                formControlName="paymentDate" placeholder="mm/dd/yyyy"
+                                [styleClass]="'col-12'"></p-calendar>
+                              <div
+                                *ngIf="paymentInvoiceForm.get('paymentDate')?.hasError('required')  && paymentInvoiceForm.get('paymentDate')?.touched">
+                                <span class="login-danger">Field is required. </span>
+                              </div>
                             </div>
                           </div>
 
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.paidAmount}}</p>
-                            </div>
-                          </div>
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.dueAmount}}</p>
+                          <div class="col-12 col-md-6">
+                            <div class="form-group local-forms">
+                              <label for="paymentMode">Payment Mode <span class="login-danger">*</span></label>
+                              <p-dropdown [style]="{'width':'100%'}" placeholder="--Payment Mode--"
+                                [options]="paymentModeList" formControlName="paymentMode" optionLabel="paymentMode"
+                                optionValue="paymentMode" display="chip" [filter]="true"
+                                filterBy="paymentMode"></p-dropdown>
+                              <div
+                                *ngIf="paymentInvoiceForm.get('paymentMode')?.hasError('required')  && paymentInvoiceForm.get('paymentMode')?.touched">
+                                <span class="login-danger">Field is required. </span>
+                              </div>
                             </div>
                           </div>
 
+                          <div class="col-12 col-md-6">
+                            <div class="form-group local-forms">
+                              <label for="notes">Notes </label>
+                              <textarea class="form-control" type="text" placeholder=""
+                                formControlName="notes"></textarea>
+                              <div
+                                *ngIf="paymentInvoiceForm.get('notes')?.hasError('required')  && paymentInvoiceForm.get('notes')?.touched">
+                                <span class="login-danger">Input must be between 2 to 100
+                                  characters.</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-6">
+                            <div class="form-group local-forms">
+                              <label for="paybleAmount">Payable Amount <span class="login-danger">*</span></label>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">₹</span>
+                                </div>
+                                <input type="number" formControlName="paybleAmount" class="form-control">
+                              </div>
+                              <div
+                                *ngIf="paymentInvoiceForm.get('paybleAmount')?.hasError('amountExceedsTotalValidator') && paymentInvoiceForm.get('paybleAmount')?.touched">
+                                <span class="login-danger">Amount cannot be greater than the total amount.</span>
+                              </div>
+                              <div
+                                *ngIf="paymentInvoiceForm.get('paybleAmount')?.hasError('required') && paymentInvoiceForm.get('paybleAmount')?.touched">
+                                <span class="login-danger">Field is required.</span>
+                              </div>
+                            </div>
+                          </div>
 
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
-
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Discount:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-form-label">{{sales.salesDiscount}}</p>
-                            </div>
-                          </div>
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Shipping Charges:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-form-label">{{sales.salesShipping}}</p>
-                            </div>
-                          </div>
-
-                          <div class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Other Charges:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-form-label">{{sales.otherCharges}}</p>
-                            </div>
-                          </div>
-
-
-                        </div>
-                      </div>
-
+                      </form>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div class="invoices-main-form">
-                <p-table [value]="dataById" [tableStyle]="{'min-width': '60rem'}">
-                  <ng-template pTemplate="header">
-                    <tr>
-                      <th pSortableColumn="salesItemCategory">Product
-                      </th>
-                      <th pSortableColumn="salesItemQuantity">Quantity
-                      </th>
-                      <th pSortableColumn="salesItemUnitPrice">Unit Price
-                      </th>
-                      <th pSortableColumn="salesItemTaxAmount">Taxable Amount
-                      </th>
-                      <th pSortableColumn="salesItemSubTotal">Sub Total
-                      </th>
-                      <th pSortableColumn="salesItemSubTotal">Payble Amount
-                      </th>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-data>
-                    <tr *ngFor="let sales of data.salesItemDetails; let i=index">
-                      <td class="bold">{{sales.salesItemProduct.slabName}}</td>
-                      <td>{{sales.salesItemQuantity}}</td>
-                      <td>₹ {{sales.salesItemUnitPrice}}</td>
-                      <td>₹ {{sales.salesItemTaxAmount}}</td>
-                      <td>₹ {{sales.salesItemSubTotal}}</td>
-                      <td>
-                        <!-- <input type="text" [(ngModel)]="TotalValue" class="form-control"> -->
-
-                        <input type="text" [(ngModel)]="payableAmounts[i]" (input)="updateTotal()" class="form-control">
-                      </td>
-                    </tr>
-                  </ng-template>
-                </p-table>
-              </div>
-
-
-
-              <div class="row">
-                <div class="col-lg-7 col-md-6">
-
-                  <div class="invoice-fields">
-                    <h4 class="field-title">More Charges</h4>
-
-                  </div>
-
-                </div>
-                <div class="col-lg-5 col-md-6">
-                  <div class="invoice-total-card">
-                    <h4 class="invoice-total-title">Payble Amount</h4>
-                    <div class="invoice-total-box">
-
-                      <div class="invoice-total-footer">
-                        <h4>Total Amount <span>₹ {{totalAmount}}</span></h4>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="upload-sign">
-                    <div class="form-group float-end mb-0">
-                      <button type="button" label="Cancel" class="btn  btn-primary"
-                        (click)="closeTheWindow()">Cancel</button>
-                    </div>
-                  </div>
-                  <div class="upload-sign">
-                    <div class="form-group float-end mb-0">
-                      <button class="btn btn-primary" type="submit">Save Sales</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
             </div>
           </div>
         </div>
