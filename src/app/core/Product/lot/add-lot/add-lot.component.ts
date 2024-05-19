@@ -63,7 +63,11 @@ export class AddLotComponent {
   addvisible: boolean = false;
   // lotNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   // lotNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
+  // shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\-]+(\s[a-zA-Z\d\/\-]+)*){3,15}$/;
+    //  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\-]+(\s[a-zA-Z\d\/\-]+)*){3,15}$/;
+    shortNameRegex = /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
+
+
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
   descriptionRegex = /^(?!\s)(?:.{1,500})$/;
 
@@ -108,13 +112,17 @@ export class AddLotComponent {
 
   deleteAccordian(salesItemDetailsIndex: number){
     console.log("Delete OBJ.");
-    
     this.blocksDetails.splice(salesItemDetailsIndex, 1);
     this.calculateTotalAmount();
 
   }
 
   addBlock() {
+    if (!this.blockNo || this.height === null || this.width === null || this.length === null) {
+      const message = "Please fill all required fields.";
+            this.messageService.add({ severity: "error", detail: message });
+      return;
+  }
     this.addvisible = false;
     const newBlock = {
       blockNo: this.blockNo,
@@ -133,10 +141,6 @@ export class AddLotComponent {
     this.blocksDetails.push(newBlock);
     
     this.totalBlocksArea += Number(this.totalArea);
-    console.log("total block area:", this.totalBlocksArea);
-
-    console.log("blocks", this.blocksDetails);
-
 
     this.blockNo = '';
     this.height = null;

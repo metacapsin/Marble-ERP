@@ -181,7 +181,7 @@
                   <td>₹ {{sales.salesTotalAmount}}</td>
                   <td>{{sales.paymentStatus}}</td>
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                    <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialog(sales._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
                     <!-- <p-button [text]="true" icon="fa-solid fa-wallet" (click)="showPaymentDialog(sales._id)"></p-button> -->
                     <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
                     <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"
@@ -203,6 +203,10 @@
 
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>
+  
+<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="salesDataById"
+[paymentDataListById]="paymentListData" (callbackModal)="callBackModal()" (close)="close()"></app-invoice-dialog>
+
 
 <!-- <p-dialog header="Sales Details" [(visible)]="visible" *ngFor="let sales of salesDataById" [modal]="true"
   [style]="{width: '80vw'}">

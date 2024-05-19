@@ -81,12 +81,17 @@ export class AddSalesReturnComponent {
     return this.addReturnSalesForm.controls['salesItemDetails'] as FormArray;
   }
 
+  deletesalesReturnItemDetails(salesReturnItemDetailsIndex: number) {
+    this.salesItemDetails.removeAt(salesReturnItemDetailsIndex);
+    this.calculateTotalAmount();
+  }
+
   addsalesReturnItemDetailsItem(salesItemDetails: any) {
     const salesArray = this.addReturnSalesForm.get('salesItemDetails') as FormArray;
     salesItemDetails?.forEach(sale => {
       salesArray.push(this.fb.group({
         salesItemProduct: [sale.salesItemProduct],
-        salesItemQuantity: [sale.salesItemQuantity],
+        salesItemQuantity: [sale.salesItemQuantity,[Validators.max(sale.salesItemQuantity)]],
         salesItemSubTotal: [sale.salesItemSubTotal],
         salesItemTax: [sale.salesItemTax],
         salesItemTaxAmount: [sale.salesItemTaxAmount],

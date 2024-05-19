@@ -13,13 +13,14 @@ import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
 import { PaymentInService } from '../payment-in/payment-in.service';
+import { InvoiceDialogComponent } from 'src/app/common-component/modals/invoice-dialog/invoice-dialog.component';
 
 @Component({
   selector: "app-sales",
   templateUrl: "./sales.component.html",
   styleUrls: ["./sales.component.scss"],
   standalone: true,
-  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, DialogModule, ToastModule, TabViewModule],
+  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, DialogModule, ToastModule, TabViewModule, InvoiceDialogComponent],
   providers: [MessageService]
 })
 export class SalesComponent implements OnInit {
@@ -33,8 +34,7 @@ export class SalesComponent implements OnInit {
   showDialoge = false;
   modalData: any = {};
   originalData = [];
-  visible: boolean = false;
-  paymentVisible: boolean = false;
+  showInvoiceDialog: boolean = false;
   salesDataById = []
   salesListData = [];
 
@@ -89,9 +89,9 @@ export class SalesComponent implements OnInit {
       this.showDialoge = false;
     })
   }
-  close() {
-    this.showDialoge = false;
-  }
+  // close() {
+  //   this.showDialoge = false;
+  // }
 
 
 
@@ -104,6 +104,26 @@ export class SalesComponent implements OnInit {
   editSalesRout(id) {
     this.router.navigate(["/sales/edit-sales/" + id]);
   }
+
+
+  showInvoiceDialoge(Id: any) { 
+    this.Service.GetSalesDataById(Id).subscribe((resp: any) => {
+      this.showInvoiceDialog = true;
+      this.salesDataById = [resp.data];
+      console.log("sales data by id On dialog", this.salesDataById);
+    });
+
+    this.Service.getSalesPaymentList(Id).subscribe((resp:any) => {
+      this.paymentListData = resp.data;
+    });
+  }
+  
+  close() {
+    this.showDialoge = false;
+    this.showInvoiceDialog = false;
+    // this.GetSalesData();
+  }
+
 
   public searchData(value: any): void {
     this.salesListData = this.originalData.map(i => {

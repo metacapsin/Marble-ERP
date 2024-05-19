@@ -49,7 +49,7 @@
       <div class="col-sm-12">
         <div class="card card-table">
           <div class="card-body p-2">
-            <p-table [value]="salesReturnListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
+            <p-table [value]="salesReturnListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rowsPerPageOptions]="[5, 10, 20]"  [rows]="5">
               <ng-template pTemplate="header">
                 <tr>
                   <th appShowHide [roles]="['admin', 'super-admin']">
@@ -99,7 +99,7 @@
                     <p-button [text]="true" data-bs-toggle="modal" data-bs-target="#sales_preview"
                       icon="fa-solid fa-eye" (click)="showDialog(sales._id)"></p-button>
                     <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(sales._id)"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"></p-button>
+                    <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"></p-button> -->
                   </td>
                 </tr>
               </ng-template>

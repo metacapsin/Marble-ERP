@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
 import { MultiSelectModule } from "primeng/multiselect";
@@ -16,6 +16,7 @@ import { ToastModule } from "primeng/toast";
 import { SubCategoriesService } from "../../settings/sub-categories/sub-categories.service";
 import { UnitsService } from "../../settings/units/units.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
+
 @Component({
   selector: "app-addsales",
   standalone: true,
@@ -28,10 +29,10 @@ import { SlabsService } from "../../Product/slabs/slabs.service";
     ToastModule,
   ],
   templateUrl: "./addsales.component.html",
-  styleUrl: "./addsales.component.scss",
+  styleUrls: ["./addsales.component.scss"],
   providers: [MessageService],
 })
-export class AddsalesComponent {
+export class AddsalesComponent implements OnInit {
   addSalesForm!: FormGroup;
   public routes = routes;
   public searchData_id = "";
@@ -62,7 +63,7 @@ export class AddsalesComponent {
   constructor(
     private router: Router,
     private messageService: MessageService,
-    private Service: SalesService,
+    private salesService: SalesService,
     private customerService: CustomersdataService,
     private slabService: SlabsService,
     private subCategoriesService: SubCategoriesService,
@@ -73,9 +74,7 @@ export class AddsalesComponent {
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
       salesDiscount: ["", [Validators.min(0)]],
-      salesInvoiceNumber: [
-        "",
-      ],
+      salesInvoiceNumber: [""],
       salesItemDetails: this.fb.array([
         this.fb.group({
           salesItemProduct: ['', [Validators.required]],
@@ -97,19 +96,21 @@ export class AddsalesComponent {
       otherCharges: ["", [Validators.min(0)]],
     });
   }
+
   get salesItemDetails() {
     return this.addSalesForm.controls["salesItemDetails"] as FormArray;
   }
+
   deletesalesItemDetails(salesItemDetailsIndex: number) {
     this.salesItemDetails.removeAt(salesItemDetailsIndex);
     this.calculateTotalAmount();
   }
+
   addsalesItemDetailsItem() {
     const item = this.fb.group({
       salesItemProduct: ['', [Validators.required]],
       salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
       salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-      // salesItemUnitPrice: [{ value: "", disabled: true }],
       salesItemTax: [''],
       salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
       salesItemTaxAmount: [''],
@@ -118,55 +119,47 @@ export class AddsalesComponent {
   }
 
   ngOnInit(): void {
-
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
-      this.customerList = [];
-      this.originalCustomerData.forEach((element) => {
-        this.customerList.push({
+      this.customerList = this.originalCustomerData.map(element => ({
+        name: element.name,
+        _id: {
+          _id: element._id,
           name: element.name,
-          _id: {
-            _id: element._id,
-            name: element.name,
-          },
-        });
-      });
+        },
+      }));
     });
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
-      this.orderTaxList = [];
-      this.taxesListData.forEach((element) => {
-        this.orderTaxList.push({
-          orderTaxName: element.name + " (" + element.taxRate + "%" + ")",
-          orderNamevalue: element,
-        });
-      });
+      this.orderTaxList = this.taxesListData.map(element => ({
+        orderTaxName: `${element.name} (${element.taxRate}%)`,
+        orderNamevalue: element,
+      }));
     });
 
     this.slabService.getSlabsList().subscribe((resp: any) => {
       this.slabData = resp.data;
-      this.slabData.forEach(e => {
-            this.slabList.push({
-              "_id": e._id,
-              "slabName": e.slabName,
-              "sellingPricePerSQFT": e.sellingPricePerSQFT,
-            })        
-      });
+      this.slabList = this.slabData.map(e => ({
+        slabName: e.slabName,
+              _id: {
+                _id: e._id,
+                slabName: e.slabName,
+                sellingPricePerSQFT: e.sellingPricePerSQFT,
+              }
+      }));
     });
   }
-  
 
   onSlabSelect(value, i) {
     const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
     const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
     if (salesItemUnitPriceControl) {
       salesItemUnitPriceControl.setValue(value.sellingPricePerSQFT);
-      // salesItemUnitPriceControl.disable();
       this.calculateTotalAmount();
     }
   }
-  
+
   calculateTotalAmount() {
     let salesGrossTotal = 0;
 
@@ -176,7 +169,6 @@ export class AddsalesComponent {
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];
-
 
       let totalTaxAmount = 0;
       if (Array.isArray(tax)) {
@@ -188,20 +180,18 @@ export class AddsalesComponent {
       }
 
       const subtotal = (quantity * unitPrice) + totalTaxAmount;
-      
+
       salesGrossTotal += subtotal;
       item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2))
       item.get("salesItemSubTotal").setValue(subtotal.toFixed(2));
-      // item.get("salesItemSubTotal").disable();
     });
-
 
     this.addSalesForm.get('salesGrossTotal').setValue(salesGrossTotal.toFixed(2));
 
     let totalAmount = salesGrossTotal;
-    const discount = +this.addSalesForm.get("salesDiscount").value ;
-    const shipping = +this.addSalesForm.get("salesShipping").value ;
-    const otherCharges = +this.addSalesForm.get("otherCharges").value ;
+    const discount = +this.addSalesForm.get("salesDiscount").value;
+    const shipping = +this.addSalesForm.get("salesShipping").value;
+    const otherCharges = +this.addSalesForm.get("otherCharges").value;
 
     totalAmount -= discount;
     totalAmount += shipping;
@@ -209,8 +199,6 @@ export class AddsalesComponent {
 
     this.addSalesForm.get("salesTotalAmount").setValue(totalAmount)
   }
-
-
 
   addSalesFormSubmit() {
     const formData = this.addSalesForm.value;
@@ -231,9 +219,9 @@ export class AddsalesComponent {
     };
 
     if (this.addSalesForm.valid) {
-      console.log("valid form sales payload", payload);
+      console.log("Valid form sales payload", payload);
 
-      this.Service.AddSalesData(payload).subscribe((resp: any) => {
+      this.salesService.AddSalesData(payload).subscribe((resp: any) => {
         console.log(resp);
         if (resp) {
           if (resp.status === "success") {
@@ -249,7 +237,7 @@ export class AddsalesComponent {
         }
       });
     } else {
-      console.log("invalid form");
+      console.log("Invalid form");
     }
   }
 }

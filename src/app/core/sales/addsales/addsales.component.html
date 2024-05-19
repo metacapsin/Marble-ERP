@@ -48,24 +48,17 @@
                                         <div class="form-group local-forms">
                                             <label for="salesInvoiceNumber">Invoice Number <span
                                                     class="login-danger"></span></label>
-                                            <input type="text" class="form-control"
+                                            <input type="text" class="form-control" placeholder="Enter Invoice Number"
                                                 formControlName="salesInvoiceNumber">
-                                            <!-- <div
-                                                *ngIf="addSalesForm.get('salesInvoiceNumber')?.hasError('required')  && addSalesForm.get('salesInvoiceNumber')?.touched">
-                                                <span class="login-danger">Field is required. </span>
-                                            </div> -->
-                                            <!-- <div
-                                                *ngIf="addSalesForm.get('salesInvoiceNumber')?.hasError('pattern')  && addSalesForm.get('salesInvoiceNumber')?.touched">
-                                                <span class="login-danger">Input must be between 3 to 50
-                                                    character.</span>
-                                            </div> -->
+                                            <span style="color: #97704f;     font-size: 12px;
+                                            ">Leave it blank to generate automatically</span>
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="customer">Customer Name <span
                                                     class="login-danger">*</span></label>
-                                            <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="Select Customer"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
                                                 optionValue="_id" display="chip" [filter]="true" filterBy="name">
                                             </p-dropdown>
@@ -101,7 +94,7 @@
                                 <h4 class="d-flex align-items-center">Item Details<p-button [text]=" true"
                                         icon="fa fa-plus" (click)="addsalesItemDetailsItem()"></p-button></h4>
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-nowrap  mb-0 no-footer add-table-items">
+                                    <table class="table table-striped table-nowrap mb-0 no-footer add-table-items">
                                         <thead>
                                             <tr>
                                                 <th>Product</th>
@@ -116,20 +109,17 @@
                                             <tr class="add-row"
                                                 *ngFor="let salesItemDetailsForm of salesItemDetails.controls; let i = index"
                                                 [formGroupName]="i">
-
                                                 <td class="col-md-3">
                                                     <p-dropdown [options]="slabList" appendTo="body"
                                                         [style]="{'width':'100%'}" optionLabel="slabName"
-                                                        placeholder="Slab" [filter]="true" filterBy="name"
-                                                        formControlName="salesItemProduct"
-                                                        (onChange)="onSlabSelect($event.value,i)">
-                                                    </p-dropdown>
+                                                        [filter]="true" filterBy="slabName" optionValue="_id"
+                                                        formControlName="salesItemProduct" placeholder="Select Product"
+                                                        (onChange)="onSlabSelect($event.value, i)"></p-dropdown>
                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').touched">
                                                         <span class="login-danger">Field is required.</span>
                                                     </div>
                                                 </td>
-
                                                 <td class="col-md-2">
                                                     <input type="number" formControlName="salesItemQuantity"
                                                         (change)="calculateTotalAmount()" class="form-control">
@@ -142,57 +132,35 @@
                                                         <span class="login-danger">Input must be at least 0.</span>
                                                     </div>
                                                 </td>
-
                                                 <td class="col-md-2">
                                                     <span class="form-control">{{
                                                         addSalesForm.get('salesItemDetails').get(i +
                                                         '.salesItemUnitPrice').value }}</span>
-                                                    <!-- <input type="number" formControlName="salesItemUnitPrice" 
-                                                        (change)="calculateTotalAmount()" class="form-control"> 
-                                                     <div
-                                                        *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').touched">
-                                                        <span class="login-danger">Field is required.</span>
-                                                    </div>
-                                                    <div
-                                                        *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').hasError('min') && addSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').touched">
-                                                        <span class="login-danger">Input must be at least 0.</span>
-                                                    </div> -->
                                                 </td>
-
                                                 <td class="col-md-2">
                                                     <p-multiSelect [style]="{'width':'100%'}" placeholder="Select Tax"
                                                         [options]="orderTaxList" appendTo="body"
                                                         formControlName="salesItemTax" optionLabel="orderTaxName"
                                                         optionValue="orderNamevalue" display="chip"
-                                                        (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1">
-                                                    </p-multiSelect>
+                                                        (onChange)="calculateTotalAmount()"
+                                                        [maxSelectedLabels]="1"></p-multiSelect>
                                                 </td>
-
                                                 <td class="col-md-2">
-                                                    <span class="form-control">{{ addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').value }}</span>
-                                                    <!-- <input type="number" formControlName="salesItemSubTotal"
-                                                        (change)="calculateTotalAmount()" class="form-control">
-
-                                                    <div
-                                                        *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').touched">
-                                                        <span class="login-danger">Field is required.</span>
-                                                    </div>
-                                                    <div
-                                                        *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').hasError('min') && addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').touched">
-                                                        <span class="login-danger">Input must be at least 0.</span>
-                                                    </div> -->
+                                                    <span class="form-control">{{
+                                                        addSalesForm.get('salesItemDetails').get(i +
+                                                        '.salesItemSubTotal').value }}</span>
                                                 </td>
-
                                                 <td class="add-remove text-end">
-                                                    <p-button [text]=" true" icon="fa fa-plus"
+                                                    <p-button [text]="true" icon="fa fa-plus"
                                                         (click)="addsalesItemDetailsItem()"></p-button>
-                                                    <p-button [text]=" true" icon="fa fa-trash"
+                                                    <p-button [text]="true" icon="fa fa-trash"
                                                         (click)="deletesalesItemDetails(i)"
                                                         (keyup.enter)="deletesalesItemDetails(i)"></p-button>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
+
                                 </div>
                             </div>
                             <!-- --------------#######------- -->

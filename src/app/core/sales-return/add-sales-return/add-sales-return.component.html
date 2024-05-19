@@ -49,7 +49,7 @@
                                         <div class="form-group local-forms">
                                             <label for="customer">Customer Name <span
                                                 class="login-danger">*</span></label>
-                                                <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
+                                                <p-dropdown [style]="{'width':'100%'}" placeholder="Select Customer"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
                                                 optionValue="_id" display="chip" [showClear]="true" (onChange)="onCustomerSelect($event.value)"></p-dropdown>
                                                 <div
@@ -61,21 +61,14 @@
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="salesInvoiceNumber">Invoice Number <span
-                                                    class="login-danger"></span></label>
-                                                    <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Invoice"
+                                                    class="login-danger">*</span></label>
+                                                    <p-dropdown [style]="{'width':'100%'}" placeholder="Select Invoice"
                                                     [options]="salesInvoiceList" formControlName="salesInvoiceNumber" optionLabel="salesInvoiceNumber"
                                                      display="chip" [showClear]="true" (onChange)="onInvoiceSelect($event.value)"></p-dropdown>
-                                                    <!-- <input type="text" class="form-control"
-                                                formControlName="salesInvoiceNumber"> -->
-                                            <!-- <div
+                                            <div
                                                 *ngIf="addReturnSalesForm.get('salesInvoiceNumber')?.hasError('required')  && addReturnSalesForm.get('salesInvoiceNumber')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
-                                            <div
-                                                *ngIf="addReturnSalesForm.get('salesInvoiceNumber')?.hasError('pattern')  && addReturnSalesForm.get('salesInvoiceNumber')?.touched">
-                                                <span class="login-danger">Input must be between 3 to 50
-                                                    character.</span>
-                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -102,10 +95,11 @@
                                         <thead>
                                             <tr>
                                                 <th>Product</th>
-                                                <th>Quantity  (sqFt) </th>
-                                                <th>Price / sqFt.</th>
+                                                <th>Quantity  (Sq. Feet) </th>
+                                                <th>Price / Sq. Feet</th>
                                                 <th>Tax</th>
                                                 <th>Sub Total</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody formArrayName="salesItemDetails">
@@ -140,8 +134,8 @@
                                                         <span class="login-danger">Field is required.</span>
                                                     </div>
                                                     <div
-                                                        *ngIf="addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('min') && addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
-                                                        <span class="login-danger">Input must be at least 0.</span>
+                                                        *ngIf="addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('max') && addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
+                                                        <span class="login-danger">Input Should not be more than actual Quantity.</span>
                                                     </div>
                                                 </td>
 
@@ -188,6 +182,11 @@
                                                         *ngIf="addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').hasError('min') && addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').touched">
                                                         <span class="login-danger">Input must be at least 0.</span>
                                                     </div> -->
+                                                </td>
+                                                <td class="add-remove">
+                                                    <p-button [text]=" true" icon="fa fa-trash"
+                                                        (click)="deletesalesReturnItemDetails(i)"
+                                                        (keyup.enter)="deletesalesReturnItemDetails(i)"></p-button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -266,7 +265,8 @@
                                             <div class="row p-3">
                                                 <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
-                                                        <label for="returnOrderStatus">Return Sales Status</label>
+                                                        <label for="returnOrderStatus">Return Sales Status <span
+                                                            class="login-danger">*</span></label>
                                                         <p-dropdown [options]="orderStatusList" styleClass=""
                                                             appendTo="body" optionLabel="orderStatus"
                                                             optionValue="orderStatus" placeholder="Select  Status"
