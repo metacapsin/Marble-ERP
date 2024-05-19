@@ -14,12 +14,12 @@
                       <!-- <button type="button" label="Cancel" class="fa fa-arrow-left btn-primary"
                       (click)="closeTheWindow()"> close</button> -->
 
-                      
-                    <!-- <p-button [text]="true" icon="fa-solid fa-arrow-left" (click)="closeTheWindow()"></p-button> -->
+
+                      <!-- <p-button [text]="true" icon="fa-solid fa-arrow-left" (click)="closeTheWindow()"></p-button> -->
                       <!-- <i class="fa-solid fa-arrow-left"> Close</i> -->
 
                       <div class="add-group textbtn">
-                        <a  (click)="closeTheWindow()" class="btn btn-primary add-pluss ms-2">
+                        <a (click)="closeTheWindow()" class="btn btn-primary add-pluss ms-2">
                           <i class="fa-solid fa-arrow-left"></i></a>
                       </div>
                     </div>
@@ -48,10 +48,19 @@
                               <p class="col-lg-9 col-form-label">{{sales.customer.name}}</p>
                             </div>
                           </div>
-                          <div class="form-group row mb-2">
+                          <div class="form-group row mb-2" *ngIf="sales.salesDate" >
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Sales Date:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-lg-9 col-form-label">{{sales.salesDate}}</p>
+                            </div>
+                          </div>
+
+
+                          <!-- Conditionally display returnDate if it exists -->
+                          <div *ngIf="sales.returnDate" class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Date:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-form-label">{{ sales.returnDate }}</p>
                             </div>
                           </div>
 
@@ -78,10 +87,18 @@
                               <p class="col-form-label">{{sales.createdByName}}</p>
                             </div>
                           </div>
-                          <div class="form-group row mb-2">
+                          <div class="form-group row mb-2" *ngIf="sales.salesOrderStatus">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Status:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-form-label">{{sales.salesOrderStatus}}</p>
+                            </div>
+                          </div>
+
+                          <!-- Conditionally display returnOrderStatus if it exists -->
+                          <div *ngIf="sales.returnOrderStatus" class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Order Status:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-form-label">{{ sales.returnOrderStatus }}</p>
                             </div>
                           </div>
 

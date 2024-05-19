@@ -15,8 +15,20 @@ export class SalesReturnService {
   getSalesReturnList() {
     return this.http.get(environment.apiUrl + '/Sales/getSalesReturnList');
   }
+  // getSalesReturnPaymentList() { //on payment
+  //   return this.http.get(environment.apiUrl + '/Sales/getSalesReturnPaymentList');
+  // }
   getSalesReturnById(id: any) {
     return this.http.get(environment.apiUrl + `/Sales/getSalesReturnById/${id}`);
+  }
+  getSalesReturnPaymentById(id: any) {//on popup of sales Return
+    return this.http.get(environment.apiUrl + `/Sales/getSalesReturnPaymentById/${id}`);
+  }
+  getSalesReturnByCustomerId(id: any) {
+    return this.http.get(environment.apiUrl + `/Sales/getSalesReturnByCustomerId/${id}`);
+  }
+  getSalesReturnPaymentListByCustomerId(id: any) {//on payment out list 
+    return this.http.get(environment.apiUrl + `/Sales/getSalesReturnPaymentListByCustomerId/${id}`);
   }
   updateSalesReturn(data: any) {
     return this.http.put(environment.apiUrl + '/Sales/updateSalesReturn', data);
