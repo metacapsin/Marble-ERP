@@ -49,7 +49,7 @@
       <div class="col-sm-12">
         <div class="card card-table">
           <div class="card-body p-2">
-            <p-table [value]="salesReturnListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rowsPerPageOptions]="[5, 10, 20]"  [rows]="5">
+            <p-table [value]="salesReturnListData" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rowsPerPageOptions]="[5, 10, 20]"  [rows]="5">
               <ng-template pTemplate="header">
                 <tr>
                   <th appShowHide [roles]="['admin', 'super-admin']">

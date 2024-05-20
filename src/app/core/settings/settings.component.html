@@ -13,9 +13,9 @@
                                 <li class="nav-item pe-2 {{isRouteActive('warehouse')}}">
                                     <a class="nav-link " [routerLink]="routes.warehouse">Warehouse</a>
                                 </li>
-                                <li class="nav-item pe-2 {{isRouteActive('product')}}">
+                                <!-- <li class="nav-item pe-2 {{isRouteActive('product')}}">
                                     <a class="nav-link " [routerLink]="routes.product">Product</a>
-                                </li>
+                                </li> -->
                                 <li appShowHide [roles]="['admin', 'super-admin']"
                                     class="nav-item pe-2 {{isRouteActive('users')}}">
                                     <a class="nav-link " [routerLink]="routes.listUsers">Users Settings</a>

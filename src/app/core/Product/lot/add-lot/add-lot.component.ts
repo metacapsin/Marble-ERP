@@ -3,6 +3,7 @@ import {
   FormBuilder,
   FormGroup,
   FormsModule,
+  NgForm,
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -64,8 +65,8 @@ export class AddLotComponent {
   // lotNoRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   // lotNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   // shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\-]+(\s[a-zA-Z\d\/\-]+)*){3,15}$/;
-    //  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\-]+(\s[a-zA-Z\d\/\-]+)*){3,15}$/;
-    shortNameRegex = /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
+  //  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\-]+(\s[a-zA-Z\d\/\-]+)*){3,15}$/;
+  shortNameRegex = /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
 
 
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
@@ -110,19 +111,25 @@ export class AddLotComponent {
     this.addvisible = true
   }
 
-  deleteAccordian(salesItemDetailsIndex: number){
+  deleteAccordian(index: number) {
     console.log("Delete OBJ.");
-    this.blocksDetails.splice(salesItemDetailsIndex, 1);
+    this.totalBlocksArea -= Number(this.blocksDetails[index].totalArea);
+    this.blocksDetails.splice(index, 1);
     this.calculateTotalAmount();
 
   }
 
-  addBlock() {
+  clossBlock(myForm: NgForm){
+    this.addvisible = false;
+    myForm.resetForm();
+  }
+  addBlock(myForm: NgForm) {
     if (!this.blockNo || this.height === null || this.width === null || this.length === null) {
       const message = "Please fill all required fields.";
-            this.messageService.add({ severity: "error", detail: message });
+      this.messageService.add({ severity: "error", detail: message });
       return;
-  }
+    }
+
     this.addvisible = false;
     const newBlock = {
       blockNo: this.blockNo,
@@ -139,7 +146,6 @@ export class AddLotComponent {
     };
 
     this.blocksDetails.push(newBlock);
-    
     this.totalBlocksArea += Number(this.totalArea);
 
     this.blockNo = '';
@@ -147,30 +153,34 @@ export class AddLotComponent {
     this.width = null;
     this.length = null;
     this.totalArea = null;
-    
+
     this.calculateTotalAmount();
+
+    // Reset the form to clear validation messages
+    myForm.resetForm();
   }
+
 
   getblockDetails() {
     if (isNaN(this.height) || isNaN(this.width) || isNaN(this.length) || this.height === null || this.width === null || this.length === null) {
-        return; 
+      return;
     }
-    this.totalArea = this.height * this.width * this.length; 
+    this.totalArea = this.height * this.width * this.length;
     console.log("Total Area:", this.totalArea);
-}
+  }
 
 
 
   calculateTotalAmount() {
-    
 
-    let lotWeight:number = this.lotAddForm.get("lotWeight").value || 0;
+
+    let lotWeight: number = this.lotAddForm.get("lotWeight").value || 0;
     let pricePerTon = this.lotAddForm.get("pricePerTon").value || 0;
     let royaltyCharge: number = this.lotAddForm.get("royaltyCharge").value || 0;
-    let transportationCharge:number = this.lotAddForm.get("transportationCharge").value || 0;
+    let transportationCharge: number = this.lotAddForm.get("transportationCharge").value || 0;
 
-    let averageTransportation = transportationCharge/lotWeight;
-    let averageRoyalty = royaltyCharge/lotWeight;
+    let averageTransportation = transportationCharge / lotWeight;
+    let averageRoyalty = royaltyCharge / lotWeight;
     let averageBlocksWeight = this.totalBlocksArea / lotWeight
 
     this.blocksDetails.forEach((element: any) => {
@@ -178,13 +188,13 @@ export class AddLotComponent {
       element.rawCosting = (parseFloat(element.weightPerBlock) * pricePerTon).toFixed(2);
       element.transportationCosting = (parseFloat(element.weightPerBlock) * averageTransportation).toFixed(2);
       element.royaltyCosting = (parseFloat(element.weightPerBlock) * averageRoyalty).toFixed(2);
-      
+
       let rawCosting = parseFloat(element.rawCosting);
       let transportationCosting = parseFloat(element.transportationCosting);
       let royaltyCosting = parseFloat(element.royaltyCosting);
       element.totalCosting = (rawCosting + transportationCosting + royaltyCosting).toFixed(2);
-  });
-  
+    });
+
 
     this.lotAddForm.patchValue({
       averageTransport: averageTransportation.toFixed(2),
@@ -195,7 +205,7 @@ export class AddLotComponent {
 
   LotAddFormSubmit() {
     const data = this.lotAddForm.value;
-    
+
 
     const payload = {
       lotNo: data.lotNo,

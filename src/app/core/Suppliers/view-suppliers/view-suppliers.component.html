@@ -86,7 +86,7 @@
         <div class="card">
             <p-tabView>
                 <p-tabPanel header="Purchase">
-                    <p-table [value]="purchaseDataShowById" [tableStyle]="{'min-width': '60rem'}">
+                    <p-table [value]="purchaseDataShowById" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon
@@ -142,7 +142,7 @@
                 </p-tabPanel>
 
                 <p-tabPanel header="Payments">
-                    <p-table [value]="paymentListDataById" [tableStyle]="{'min-width': '60rem'}">
+                    <p-table [value]="paymentListDataById" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn="transactionNo">Transaction No.<p-sortIcon

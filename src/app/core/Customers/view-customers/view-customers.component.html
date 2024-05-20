@@ -133,7 +133,7 @@
     <div class="card">
       <p-tabView>
         <p-tabPanel header="Sales">
-          <p-table [value]="salesDataShowById" [tableStyle]="{ 'min-width': '60rem' }">
+          <p-table [value]="salesDataShowById" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }">
             <ng-template pTemplate="header" >
               <tr class="text-center">
                 <th pSortableColumn="salesInvoiceNumber">
@@ -190,7 +190,7 @@
 
         <!-- PAYMENTS GRID -->
         <p-tabPanel header="Payment In">
-          <p-table [value]="paymentListDataByCustomerId" [tableStyle]="{ 'min-width': '60rem' }">
+          <p-table [value]="paymentListDataByCustomerId" styleClass="p-datatable-striped"  [tableStyle]="{ 'min-width': '60rem' }">
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="transactionNo">
@@ -228,7 +228,7 @@
 
         <!-- Sales Return Grid -->
         <p-tabPanel header="Sales Return">
-          <p-table [value]="salesReturnDataShowById" [tableStyle]="{ 'min-width': '60rem' }">
+          <p-table [value]="salesReturnDataShowById" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }">
             <ng-template pTemplate="header" >
               <tr class="text-center">
                 <th pSortableColumn="salesInvoiceNumber">
@@ -285,7 +285,7 @@
 <!-- Payment Out Grid -->
 
         <p-tabPanel header="Payments Out">
-          <p-table [value]="paymentReturnDataListById" [tableStyle]="{ 'min-width': '60rem' }">
+          <p-table [value]="paymentReturnDataListById" styleClass="p-datatable-striped"  [tableStyle]="{ 'min-width': '60rem' }">
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="transactionNo">

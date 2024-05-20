@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="card-body p-2">
-                        <p-table [value]="dataSource" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                        <p-table [value]="dataSource" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)" [(selection)]="selectedCustomer">
                             <ng-template pTemplate="header">
                                 <tr>

@@ -551,22 +551,21 @@
         <div class="modal-body">
             <form #myForm="ngForm">
                 <div class="row">
+                    <!-- Block Number Field -->
                     <div class="col-12 col-md-6 col-xl-6 mt-2">
                         <div class="form-group local-forms">
-                            <label for="blockNo">Blocks No.
-                                <span class="login-danger">*</span></label>
+                            <label for="blockNo">Blocks No.<span class="login-danger">*</span></label>
                             <input type="text" id="blockNo" name="blockNo" class="form-control" required minlength="4"
                                 pattern="[a-zA-Z0-9]{1,10}" [(ngModel)]="blockNo" (change)="getblockDetails()"
                                 #block="ngModel" />
                             <div *ngIf="block.invalid && block.touched">
                                 <div *ngIf="block.errors?.['required']"><span class="login-danger">Field is required.</span></div>
-                                <div *ngIf="block.errors?.['pattern']">
-                                    <span class="login-danger">Input must be between 1 to 10 characters.</span>
-                                </div>
+                                <div *ngIf="block.errors?.['pattern']"><span class="login-danger">Input must be between 1 to 10 characters.</span></div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Height Field -->
                     <div class="col-12 col-md-6 col-xl-6 mt-2">
                         <div class="form-group local-forms">
                             <label for="height">Height <span class="login-danger">*</span></label>
@@ -580,13 +579,12 @@
                             </div>
                             <div *ngIf="HEIGHT.invalid && (HEIGHT.dirty || HEIGHT.touched)">
                                 <div *ngIf="HEIGHT.errors?.['required']"><span class="login-danger">Field is required.</span></div>
-                                <div *ngIf="HEIGHT.errors?.['min'] || HEIGHT.errors?.['max']">
-                                    <span class="login-danger">Input must be between 1 to 500 characters.</span>
-                                </div>
+                                <div *ngIf="HEIGHT.errors?.['min'] || HEIGHT.errors?.['max']"><span class="login-danger">Input must be between 1 to 500 characters.</span></div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Width Field -->
                     <div class="col-12 col-md-6 col-xl-6">
                         <div class="form-group local-forms">
                             <label for="width">Width <span class="login-danger">*</span></label>
@@ -600,12 +598,12 @@
                             </div>
                             <div *ngIf="WIDTH.invalid && (WIDTH.dirty || WIDTH.touched)">
                                 <div *ngIf="WIDTH.errors?.['required']"><span class="login-danger">Field is required.</span></div>
-                                <div *ngIf="WIDTH.errors?.['min'] || WIDTH.errors?.['max']">
-                                    <span class="login-danger">Input must be between 1 to 500 characters.</span></div>
+                                <div *ngIf="WIDTH.errors?.['min'] || WIDTH.errors?.['max']"><span class="login-danger">Input must be between 1 to 500 characters.</span></div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Length Field -->
                     <div class="col-12 col-md-6">
                         <div class="form-group local-forms">
                             <label for="length">Length <span class="login-danger">*</span></label>
@@ -619,13 +617,12 @@
                             </div>
                             <div *ngIf="LENGTH.invalid && (LENGTH.dirty || LENGTH.touched)">
                                 <div *ngIf="LENGTH.errors?.['required']"><span class="login-danger">Field is required.</span></div>
-                                <div *ngIf="LENGTH.errors?.['min'] || LENGTH.errors?.['max']">
-                                    <span class="login-danger">Input must be between 1 to 500 characters.</span>
-                                </div>
+                                <div *ngIf="LENGTH.errors?.['min'] || LENGTH.errors?.['max']"><span class="login-danger">Input must be between 1 to 500 characters.</span></div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Total Area Field -->
                     <div class="col-12 col-md-6">
                         <div class="form-group local-forms">
                             <label for="totalArea">Total Area</label>
@@ -633,19 +630,18 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Inch</span>
                                 </div>
-                                <input class="form-control" type="number" name="totalArea" placeholder="0"
-                                    [disabled]="true" [(ngModel)]="totalArea" />
+                                <input class="form-control" type="number" name="totalArea" placeholder="0" [disabled]="true" [(ngModel)]="totalArea" />
                             </div>
                         </div>
                     </div>
 
+                    <!-- Buttons -->
                     <div class="col-md-6">
                         <div class="settings-btns text-end m-b-10">
-                            <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                (click)="addBlock()">
+                            <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10" (click)="addBlock(myForm)" [disabled]="myForm.invalid">
                                 Save
                             </button>
-                            <button type="button" class="btn btn-secondary" (click)="addvisible = false">
+                            <button type="button" class="btn btn-secondary" (click)="clossBlock(myForm)">
                                 Cancel
                             </button>
                         </div>
@@ -655,3 +651,4 @@
         </div>
     </div>
 </p-dialog>
+

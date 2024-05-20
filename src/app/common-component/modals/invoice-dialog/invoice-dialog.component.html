@@ -122,7 +122,7 @@
               <div class="card">
                 <p-tabView>
                   <p-tabPanel header="Items">
-                    <p-table [value]="salesDataById" [tableStyle]="{'min-width': '60rem'}">
+                    <p-table [value]="salesDataById" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
                         <tr>
                           <th pSortableColumn="salesItemCategory">Product
@@ -151,7 +151,7 @@
                   </p-tabPanel>
 
                   <p-tabPanel header="Payments">
-                    <p-table [value]="paymentDataListById" *ngIf="paymentDataListById?.length > 0"
+                    <p-table [value]="paymentDataListById" styleClass="p-datatable-striped"  *ngIf="paymentDataListById?.length > 0"
                       [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
                         <tr>
