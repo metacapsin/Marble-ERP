@@ -24,7 +24,6 @@ updateLotById(data: {}) {
   return this.http.put(environment.apiUrl + "/LotController/updateLot" , data);
 }
 
-
 deleteLotById(id: string) {
   return this.http.delete(environment.apiUrl + "/LotController/deleteLot/" + id);
 }

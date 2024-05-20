@@ -70,6 +70,10 @@
                                             <p-columnFilter type="text" field="slabNo" display="menu"></p-columnFilter>
 
                                         </th>
+                                        <th pSortableColumn="size">Size<p-sortIcon field="size"></p-sortIcon>
+                                            <p-columnFilter type="text" field="size" display="menu"></p-columnFilter>
+
+                                        </th>
                                         <th pSortableColumn="categoryDetail.name">Category<p-sortIcon
                                                 field="categoryDetail.name"></p-sortIcon>
                                             <p-columnFilter type="categoryDetail.name" field="categoryDetail.name"
@@ -82,7 +86,7 @@
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="totalSQFT">SqFeet<p-sortIcon
+                                        <th pSortableColumn="totalSQFT">Toule Square Feet<p-sortIcon
                                             field="totalSQFT"></p-sortIcon>
                                         <p-columnFilter type="text" field="totalSQFT" display="menu"></p-columnFilter>
 
@@ -101,8 +105,8 @@
                                         </th>
                                         <th pSortableColumn="warehouseDetails.name">Warehouse<p-sortIcon
                                             field="warehouseDetails.name"></p-sortIcon>
-                                        <p-columnFilter type="text" field="warehouseDetails.name"
-                                            display="menu"></p-columnFilter>
+                                        <!-- <p-columnFilter type="text" field="warehouseDetails.name"
+                                            display="menu"></p-columnFilter> -->
                                     </th>
                                         <th appShowHide [roles]="['admin', 'super-admin']" >Action
                                         </th>
@@ -116,6 +120,9 @@
                                         </td>
                                         <td>
                                             {{slabs.slabNo}}
+                                        </td>
+                                        <td>
+                                            10*10*10
                                         </td>
                                         <td>
                                             {{slabs.categoryDetail.name}}
