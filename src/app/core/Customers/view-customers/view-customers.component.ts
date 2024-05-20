@@ -19,6 +19,7 @@ import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-
 import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
 import { checkMargins } from "ngx-bootstrap/positioning";
 import { SalesReturnService } from "../../sales-return/sales-return.service";
+import { PaymentOutService } from "../../payment-out/payment-out.service";
 
 @Component({
   selector: "app-view-customers",
@@ -62,6 +63,7 @@ export class ViewCustomersComponent implements OnInit{
     private customerService: CustomersdataService,
     private activeRoute: ActivatedRoute,
     private salesPayment: PaymentInService,
+    private salesReturnPayment: PaymentOutService,
     private salesService: SalesService,
     private salesReturnService: SalesReturnService,
     private router: Router,
@@ -109,6 +111,7 @@ export class ViewCustomersComponent implements OnInit{
       console.log("this is sales return payment list data by customer id",this.paymentReturnDataListById)
     })
   }
+  
 
   getCoustomers() {
     this.customerService.GetCustomerDataById(this.id).subscribe((data: any) => {
@@ -176,9 +179,8 @@ export class ViewCustomersComponent implements OnInit{
       console.log("sales data by id On dialog", this.salesDataShowById);
     });
 
-    this.salesReturnService.getSalesReturnById(Id).subscribe((resp:any) => {
-      this.paymentDataListById = resp.data
-      console.log("this is payment return by sales id", this.paymentDataListById)
+    this.salesReturnService.getSalesReturnPaymentListbySalesReturnId(Id).subscribe((resp:any)=>{
+      this.paymentDataListById=resp.data;
     })
 
   }
@@ -188,12 +190,13 @@ export class ViewCustomersComponent implements OnInit{
       this.showPaymentDialog = true;
       this.paymentObject = {
         customer: resp.data.customer,
-        salesId: resp.data._id,
+        salesId: Id,
+        isSales:true,
         salesInvoiceNumber: resp.data.salesInvoiceNumber,
         salesTotalAmount: resp.data.salesTotalAmount,
         salesDueAmount:resp.data.dueAmount,
       };
-      console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
+      // console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
     });
   }
   openPaymentReturnDialog(Id: any) {
@@ -201,12 +204,14 @@ export class ViewCustomersComponent implements OnInit{
       this.showPaymentDialog = true;
       this.paymentObject = {
         customer: resp.data.customer,
-        salesId: resp.data._id,
+        salesReturnId: Id,
+        isSalesReturn: true,
+        // salesReturnDataShowById: resp.data
         salesInvoiceNumber: resp.data.salesInvoiceNumber,
         salesTotalAmount: resp.data.salesTotalAmount,
         salesDueAmount:resp.data.dueAmount,
       };
-      console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
+      console.log("this is open Payment Return Dialog",this.paymentObject.salesReturnId);
     });
   }
 }

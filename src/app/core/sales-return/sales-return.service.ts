@@ -12,6 +12,9 @@ export class SalesReturnService {
   createSalesReturn(data: any) {
     return this.http.post(environment.apiUrl + '/Sales/createSalesReturn', data);
   }
+  createSalesReturnPayment(data: any) {
+    return this.http.post(environment.apiUrl + '/Sales/createSalesReturnPayment', data);
+  }
   getSalesReturnList() {
     return this.http.get(environment.apiUrl + '/Sales/getSalesReturnList');
   }
@@ -29,6 +32,9 @@ export class SalesReturnService {
   }
   getSalesReturnPaymentListByCustomerId(id: any) {//on payment out list 
     return this.http.get(environment.apiUrl + `/Sales/getSalesReturnPaymentListByCustomerId/${id}`);
+  }
+  getSalesReturnPaymentListbySalesReturnId(id: any) {//on payment out list 
+    return this.http.get(environment.apiUrl + `/Sales/getSalesReturnPaymentListbySalesReturnId/${id}`);
   }
   updateSalesReturn(data: any) {
     return this.http.put(environment.apiUrl + '/Sales/updateSalesReturn', data);

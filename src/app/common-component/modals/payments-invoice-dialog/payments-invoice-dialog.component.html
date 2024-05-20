@@ -21,18 +21,58 @@
                                 <div class="row practice-card">
                                   <div class="col-xl-6 col-lg-6 col-sm-12">
 
-                                    <div class="form-group row mb-2">
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSalesReturn">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Invoice Number:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          {{ dataById.salesInvoiceNumber}}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSales">
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label"> {{ dataById?.salesInvoiceNumber }}</p>
+                                        <p class="col-lg-9 col-form-label">
+                                          {{ dataById.salesInvoiceNumber}}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSales">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          {{ dataById.salesTotalAmount}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSalesReturn">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          {{ dataById.salesTotalAmount}}
+                                        </p>
                                       </div>
                                     </div>
                                   </div>
                                   <div class="col-xl-6 col-lg-6 col-sm-12">
-                                    <div class="form-group row mb-2">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSales">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{dataById?.salesTotalAmount}}</p>
+                                        <p class="col-lg-9 col-form-label">
+                                          {{ dataById.salesDueAmount}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSalesReturn">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          {{ dataById.salesDueAmount}}
+                                        </p>
                                       </div>
                                     </div>
                                   </div>
@@ -91,11 +131,11 @@
                           </div>
                           <div class="col-12 col-md-9">
                             <div class="form-group local-forms">
-                              <label for="notes">Notes </label>
+                              <label for="note">Notes </label>
                               <textarea class="form-control" type="text" placeholder=""
-                                formControlName="notes"></textarea>
+                                formControlName="note"></textarea>
                               <div
-                                *ngIf="paymentInvoiceForm.get('notes')?.hasError('required')  && paymentInvoiceForm.get('notes')?.touched">
+                                *ngIf="paymentInvoiceForm.get('note')?.hasError('required')  && paymentInvoiceForm.get('note')?.touched">
                                 <span class="login-danger">Input must be between 2 to 100
                                   characters.</span>
                               </div>
@@ -103,15 +143,14 @@
                           </div>
 
                           <div class="col-12 col-md-3">
-                            <!-- <div class="upload-sign"> -->
-                              <div class="form-group " style="display: flex; gap: 2px;" >
-                                <button type="submit" class="border-0 btn btn-primary btn-gradient-primary " [disabled]="!paymentInvoiceForm.valid">
-                                  Submit
-                                </button>
-                                <button class="btn btn-secondary " (click)="closeTheWindow()">
-                                  Cancel
-                                </button>
-                              <!-- </div> -->
+                            <div class="form-group " style="display: flex; gap: 2px;">
+                              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary "
+                                [disabled]="!paymentInvoiceForm.valid">
+                                Submit
+                              </button>
+                              <button class="btn btn-secondary " (click)="closeTheWindow()">
+                                Cancel
+                              </button>
                             </div>
                           </div>
 
