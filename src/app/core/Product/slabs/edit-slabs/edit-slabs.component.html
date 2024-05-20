@@ -104,22 +104,22 @@
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="lotDetail">Lot No. <span class="login-danger"></span></label>
+                      <label for="lotDetails">Lot No. <span class="login-danger"></span></label>
                       <p-dropdown [options]="originallotNoList" styleClass="" appendTo="body" optionLabel="lotName"
                       optionValue="_id"
-                        placeholder="Select lot Number" formControlName="lotDetail" [style]="{ width: '100%' }"
+                        placeholder="Select lot Number" formControlName="lotDetails" [style]="{ width: '100%' }"
                         [filter]="true" filterBy="name" [showClear]="true" (onChange)="onLotSelect($event.value)">
                       </p-dropdown>
                       <div *ngIf="
-                                slabsEditForm.get('lotDetail')?.hasError('required') &&
-                                slabsEditForm.get('lotDetail')?.touched
+                                slabsEditForm.get('lotDetails')?.hasError('required') &&
+                                slabsEditForm.get('lotDetails')?.touched
                               ">
                         <span class="login-danger">Field is required.</span>
                       </div>
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4" *ngIf="slabsEditForm.get('lotDetail').value">
+                  <div class="col-12 col-md-4 col-xl-4" *ngIf="slabsEditForm.get('lotDetails').value">
                     <div class="form-group local-forms">
                       <label for="blockDetails">Block No.<span class="login-danger"></span></label>
                       <p-dropdown [options]="blockDropDownData" styleClass="" appendTo="body" optionLabel="blockNo"
@@ -341,7 +341,7 @@
                             </div>
                           </div>
 
-                          <div class="col-12" *ngIf="slabsEditForm.get('lotDetail').value">
+                          <div class="col-12" *ngIf="slabsEditForm.get('lotDetails').value">
                             <div class="form-group local-forms">
                               <label for="processingFee">Processing Fee<span class="login-danger"></span></label>
                               <div class="input-group">
@@ -488,7 +488,7 @@
                         </div>
                         <div class="invoice-total-inner">
 
-                          <p *ngIf="slabsEditForm.get('lotDetail').value">
+                          <p *ngIf="slabsEditForm.get('lotDetails').value">
                             Processing Costing<span>₹
                               {{
                               slabsEditForm.get("processingCost").value

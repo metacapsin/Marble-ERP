@@ -96,7 +96,7 @@ export class AddSlabsComponent {
         "",
         [Validators.required, Validators.pattern(this.billingAddressRegex)],
       ],
-      lotDetail: [" "],
+      lotDetails: [" "],
       blockDetails: ["",],
       categoryDetail: ["", [Validators.required]],
       subCategoryDetail: ["", [Validators.required]],
@@ -266,11 +266,11 @@ export class AddSlabsComponent {
       var width = this.slabsAddForm.value.width;
       var length = this.slabsAddForm.value.length;
       var thickness = this.slabsAddForm.value.thickness;
-      var _Size = `${width}*${length}*${thickness}`;
+      var _Size = `${width}x${length}x${thickness}`;
     }
     const payload = {
       slabNo: this.slabsAddForm.value.slabNo,
-      lotDetail: this.slabsAddForm.value.lotDetail,
+      lotDetails: this.slabsAddForm.value.lotDetails,
       blockDetails: this.slabsAddForm.value.blockDetails,
       categoryDetail: this.slabsAddForm.value.categoryDetail,
       subCategoryDetail: this.slabsAddForm.value.subCategoryDetail,
@@ -291,7 +291,7 @@ export class AddSlabsComponent {
       length: this.slabsAddForm.value.length,
       thickness: this.slabsAddForm.value.thickness,
       finishes: this.slabsAddForm.value.finishes,
-      size: _Size,
+      slabSize: _Size,
     };
     console.log("payload", payload);
 

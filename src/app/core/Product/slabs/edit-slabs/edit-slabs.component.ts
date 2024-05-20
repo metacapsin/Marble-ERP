@@ -100,7 +100,7 @@ export class EditSlabsComponent {
         "",
         [Validators.required, Validators.pattern(this.billingAddressRegex)],
       ],
-      lotDetail: ["", []],
+      lotDetails: ["", []],
       blockDetails: ["", []],
       categoryDetail: ["", [Validators.required]],
       subCategoryDetail: ["", [Validators.required]],
@@ -201,11 +201,11 @@ export class EditSlabsComponent {
 
     this.Service.getSlabsById(this.slabsId).subscribe((resp: any) => {
       this.data = resp.data;
-      this.onLotSelect(resp.data.lotDetail);
+      this.onLotSelect(resp.data.lotDetails);
       console.log(this.data);
       this.slabsEditForm.patchValue({
         slabNo: this.data.slabNo,
-        lotDetail: this.data.lotDetail,
+        lotDetails: this.data.lotDetails,
         blockDetails: this.data.blockDetails,
         categoryDetail: this.data.categoryDetail,
         subCategoryDetail: this.data.subCategoryDetail,
@@ -309,12 +309,12 @@ export class EditSlabsComponent {
       var width = this.slabsEditForm.value.width;
       var length = this.slabsEditForm.value.length;
       var thickness = this.slabsEditForm.value.thickness;
-      var _Size = `${width}*${length}*${thickness}`;
+      var _Size = `${width}x${length}x${thickness}`;
     }
     console.log(_Size);
     const payload = {
       slabNo: this.slabsEditForm.value.slabNo,
-      lotDetail: this.slabsEditForm.value.lotDetail,
+      lotDetails: this.slabsEditForm.value.lotDetails,
       blockDetails: this.slabsEditForm.value.blockDetails,
       categoryDetail: this.slabsEditForm.value.categoryDetail,
       subCategoryDetail: this.slabsEditForm.value.subCategoryDetail,
@@ -336,7 +336,7 @@ export class EditSlabsComponent {
       thickness: this.slabsEditForm.value.thickness,
       finishes: this.slabsEditForm.value.finishes,
       id: this.slabsId,
-      size: _Size,
+      slabSize: _Size,
     };
     console.log(this.slabsEditForm.value);
     if (this.slabsEditForm.valid) {
