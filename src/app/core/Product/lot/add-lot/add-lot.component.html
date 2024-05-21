@@ -336,7 +336,7 @@
                                                         <div class="col-xl-6 col-lg-6 col-sm-12">
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                                                    Height</h5>
+                                                                    Height (Inch)</h5>
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                                     <p class="col-lg-9 col-form-label">{{data.height}}
                                                                     </p>
@@ -344,21 +344,21 @@
                                                             </div>
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                                                    Width</h5>
+                                                                    Width (Inch)</h5>
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                                     <p class="col-form-label">{{data.width}}</p>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                                                    Length</h5>
+                                                                    Length (Inch)</h5>
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                                     <p class="col-form-label">{{data.length}}</p>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                                                    Total Area</h5>
+                                                                    Total Area (Inch)</h5>
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                                     <p class="col-form-label">{{data.totalArea}}</p>
                                                                 </div>
@@ -555,8 +555,9 @@
                     <div class="col-12 col-md-6 col-xl-6 mt-2">
                         <div class="form-group local-forms">
                             <label for="blockNo">Blocks No.<span class="login-danger">*</span></label>
-                            <input type="text" id="blockNo" name="blockNo" class="form-control" required minlength="4"
-                                pattern="[a-zA-Z0-9]{1,10}" [(ngModel)]="blockNo" (change)="getblockDetails()"
+                            <input type="text" id="blockNo" name="blockNo" class="form-control" required 
+                            pattern="^[^-\s][a-zA-Z0-9_\s-]{0,9}$"
+                                 [(ngModel)]="blockNo" (change)="getblockDetails()"
                                 #block="ngModel" />
                             <div *ngIf="block.invalid && block.touched">
                                 <div *ngIf="block.errors?.['required']"><span class="login-danger">Field is required.</span></div>
