@@ -148,11 +148,15 @@ export class ViewCustomersComponent implements OnInit{
     this.showInvoiceDialog = false;
     this.showPaymentDialog = false;
 
-    this.salesService.getAllSalesByCustomerId(this.id).subscribe((resp: any) => {
-      console.log("payments of customer", resp);
-      this.salesDataShowById = resp.data;
-      console.log("this is sale of customer by id ", this.salesDataShowById)
-    });
+    this.getsales();
+    this.getpaymentListByCustomerId();
+    this.getsalesReturn();
+    this.getSalesReturnPaymentListByCustomerId()
+    // this.salesService.getAllSalesByCustomerId(this.id).subscribe((resp: any) => {
+    //   console.log("payments of customer", resp);
+    //   this.salesDataShowById = resp.data;
+    //   console.log("this is sale of customer by id ", this.salesDataShowById)
+    // });
   }
 
   showInvoiceDialoge(Id: any) {   // to open the sales invoice popup
