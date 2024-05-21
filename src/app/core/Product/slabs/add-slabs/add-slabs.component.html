@@ -135,7 +135,7 @@
                       <p-dropdown [options]="blockDropDownData" styleClass="" appendTo="body" optionLabel="blockNo"
                         (onChange)="onBlockSelect($event.value)" placeholder="Select block Number"
                         formControlName="blockDetails" [style]="{ width: '100%' }" [filter]="true" filterBy="name"
-                        [showClear]="true">
+                        [showClear]="true" (change)="calculateTotalAmount()">
                         <!-- (change)="calculateTotalAmount()" -->
                       </p-dropdown>
                       <div *ngIf="

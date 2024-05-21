@@ -24,12 +24,6 @@ import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.serv
 import { SlabsService } from "../slabs.service";
 import { CalendarModule } from "primeng/calendar";
 
-interface CategoryItem {
-  label: string;
-  value: string;
-  children?: CategoryItem[];
-}
-
 @Component({
   selector: "app-add-slabs",
   standalone: true,
@@ -60,6 +54,7 @@ export class AddSlabsComponent {
   billingAddressRegex = /^(?!\s)(?:.{3,15})$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+  shortNameRegex = /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
   finishes = [
     { name: "Polished" },
     { name: "Unpolished" },
@@ -70,7 +65,9 @@ export class AddSlabsComponent {
   if_sellingPricePerSQFT: boolean = false;
   data: any;
   originalData: any;
-  blockDropDownData: any;
+
+  blockDataByLotId= [];
+  blockDropDownData = [];
   blockDropDowntotleCost: any;
   blockDropDownPerBlockWeight: any;
   CategoryListsEditArray: any;
@@ -94,13 +91,13 @@ export class AddSlabsComponent {
     this.slabsAddForm = this.fb.group({
       slabNo: [
         "",
-        [Validators.required, Validators.pattern(this.billingAddressRegex)],
+        [Validators.required, Validators.pattern(this.shortNameRegex)],
       ],
-      lotDetails: [" "],
+      lotDetails: [""],
       blockDetails: ["",],
       categoryDetail: ["", [Validators.required]],
       subCategoryDetail: ["", [Validators.required]],
-      slabName: ["", [Validators.required, Validators.min(0)]],
+      slabName: ["", [Validators.required, Validators.min(0), Validators.pattern(this.shortNameRegex)]],
       processingFee: ["", [Validators.min(1), Validators.max(1000000)]], //p
       totalSQFT: ["", [Validators.min(1), Validators.max(100000)]],
       otherCharges: [
@@ -124,9 +121,9 @@ export class AddSlabsComponent {
       date: ["", [Validators.required]],
       purchaseCost: ["", [Validators.required]],
       thickness: [""],
-      width: ["",[Validators.min(1)]],
-      length: ["",[Validators.min(1)]],
-      finishes: ["",[Validators.min(1)]],
+      width: ["", [Validators.min(1)]],
+      length: ["", [Validators.min(1)]],
+      finishes: ["", [Validators.min(1)]],
     });
   }
   get f() {
@@ -134,6 +131,7 @@ export class AddSlabsComponent {
   }
 
   ngOnInit(): void {
+    console.log(this.slabsAddForm.value.lotDetails);
     this.Lotservice.getLotList().subscribe((resp: any) => {
       this.data = resp.data;
       this.originalData = resp.data;
@@ -196,9 +194,10 @@ export class AddSlabsComponent {
   onLotSelect(value: any) {
     console.log(value, "set it lot");
     this.Service.getBlockDetailByLotId(value._id).subscribe((resp: any) => {
-      this.blockDropDownData = resp.data.blocksDetails;
-      console.log("resp.data.blocksDetails", resp.data.blocksDetails);
+      this.blockDropDownData = resp.data.blockDetails;
+      console.log("resp.data.blocksDetails", resp.data.blockDetails);
     });
+    console.log("blockDropDownData", this.blockDropDownData);
   }
   onBlockSelect(block: any) {
     console.log(block, "set it lot");
@@ -208,6 +207,7 @@ export class AddSlabsComponent {
       this.slabsAddForm.patchValue({
         purchaseCost: block.totalCosting || 0,
       });
+      this.calculateTotalAmount();
     }
     console.log(this.blockDropDownPerBlockWeight, this.blockDropDowntotleCost);
   }
@@ -256,7 +256,7 @@ export class AddSlabsComponent {
   }
 
   SlabsAddFormSubmit() {
-    console.log(this.slabsAddForm.value);
+    console.log(this.slabsAddForm.value.blockDetails);
     let formData = this.slabsAddForm.value;
     if (
       this.slabsAddForm.value.width ||
