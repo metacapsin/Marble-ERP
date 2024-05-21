@@ -124,7 +124,7 @@
                       <label for="blockDetails">Block No.<span class="login-danger"></span></label>
                       <p-dropdown [options]="blockDropDownData" styleClass="" appendTo="body" optionLabel="blockNo"
                         placeholder="Select block Number" formControlName="blockDetails" [style]="{ width: '100%' }"
-                        [filter]="true" filterBy="name" [showClear]="true" (onChange)="onBlockSelect($event.value)">
+                        [filter]="true" filterBy="name" [showClear]="true" (onChange)="onBlockSelect($event.value)" (change)="calculateTotalAmount()">
                       </p-dropdown>
                       <div *ngIf="
                                 slabsEditForm

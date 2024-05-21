@@ -50,28 +50,20 @@ export class EditSlabsComponent {
   slabsId: any;
 
   lotNoList: any = [];
-  originallotNoList: any = [
-    // {
-    //   "lotName": "yfufhgcb",
-    //   "lotNo": "tyfhbhcgfg",
-    //   "_id": "664851f0e01bd8ebe35ec7e1",
-    // },
-    // {
-    //   "lotName": "yfufhgcb2",
-    //   "lotNo": "tyfhbhcgfg2",
-    //   "_id": "664851f0e01bd8ebe35ec7e2",
-    // },
-  ];
+  originallotNoList: any = [];
   blocksNoList: any = [];
   wareHousedata: any;
   subCategoryList: any = [];
   categoryList: any = [];
   billingAddressRegex = /^(?!\s)(?:.{3,15})$/;
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   finishes = [
     { name: "Polished" },
     { name: "Unpolished" },
     { name: "Semi polished" },
   ];
+  shortNameRegex =
+    /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
   originalData: any;
   blockDropDownData: any;
   blockDropDownPerBlockWeight: any;
@@ -98,13 +90,20 @@ export class EditSlabsComponent {
     this.slabsEditForm = this.fb.group({
       slabNo: [
         "",
-        [Validators.required, Validators.pattern(this.billingAddressRegex)],
+        [Validators.required, Validators.pattern(this.shortNameRegex)],
       ],
       lotDetails: ["", []],
       blockDetails: ["", []],
       categoryDetail: ["", [Validators.required]],
       subCategoryDetail: ["", [Validators.required]],
-      slabName: ["", [Validators.required, Validators.min(0)]],
+      slabName: [
+        "",
+        [
+          Validators.required,
+          Validators.min(0),
+          Validators.pattern(this.shortNameRegex),
+        ],
+      ],
       processingFee: ["", [Validators.min(1), Validators.max(1000000)]], //p
       totalSQFT: ["", [Validators.min(1), Validators.max(100000)]],
       otherCharges: [
@@ -238,8 +237,8 @@ export class EditSlabsComponent {
   onLotSelect(value: any) {
     console.log("value of lot", value);
     this.Service.getBlockDetailByLotId(value._id).subscribe((resp: any) => {
-      this.blockDropDownData = resp.data.blocksDetails;
-      console.log("resp.data.blocksDetails", resp.data.blocksDetails);
+      this.blockDropDownData = resp.data.blockDetails;
+      console.log("resp.data.blocksDetails", resp.data.blockDetails);
     });
     console.log("blockDropDownData", this.blockDropDownData);
   }
