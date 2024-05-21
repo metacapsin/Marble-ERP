@@ -66,7 +66,8 @@ export class AddLotComponent {
   // lotNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   // shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\-]+(\s[a-zA-Z\d\/\-]+)*){3,15}$/;
   //  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\-]+(\s[a-zA-Z\d\/\-]+)*){3,15}$/;
-  shortNameRegex = /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
+  // shortNameRegex = /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
+  shortNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
 
 
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
