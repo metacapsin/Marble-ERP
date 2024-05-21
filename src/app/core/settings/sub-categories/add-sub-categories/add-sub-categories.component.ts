@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { CategoriesService } from '../../categories/categories.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-add-sub-categories',
@@ -16,7 +17,8 @@ import { CategoriesService } from '../../categories/categories.service';
 export class AddSubCategoriesComponent {
   addSubCategoryForm!:FormGroup;
  
-  categoriesListData = []
+  categoriesListData = [];
+  categoriesList = []
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
   descriptionRegex = /^(?!\s)(.{3,500})$/;
@@ -34,7 +36,14 @@ export class AddSubCategoriesComponent {
 
   ngOnInit(){
     this.categoryService.getCategories().subscribe((resp: any) => {
-      this.categoriesListData = resp.data;
+      this.categoriesList = resp.data;
+      this.categoriesListData = this.categoriesList.map((e) => ({
+        name: e.name,
+        _id: {
+          name: e.name,
+          _id: e._id
+        }
+      }));
     })
   }
   addSubCategoryFormSubmit(){

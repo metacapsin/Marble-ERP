@@ -11,6 +11,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { LotService } from '../lot.service';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import { SlabsService } from '../../slabs/slabs.service';
 
 @Component({
   selector: 'app-list-lot',
@@ -24,7 +25,7 @@ export class ListLotComponent implements OnInit {
   files2!: TreeNode[];
   public routes = routes;
   lotData: any = [];
-  lotDataById: any = [];
+  blockDatabyLotId: any = [];
   originalData: any = []
   public showDialog: boolean = false;
   public lotVisible: boolean = false;
@@ -37,6 +38,7 @@ export class ListLotComponent implements OnInit {
 
   constructor(public router: Router,
     private service: LotService,
+    private SlabsService: SlabsService,
     private messageService: MessageService) { }
 
   getLotList(): void {
@@ -52,13 +54,15 @@ export class ListLotComponent implements OnInit {
   }
 
   showLotDetails(_id: any) {
-    this.lotVisible = true;
-
-
-    this.service.getLotById(_id).subscribe((resp: any) => {
-      this.lotDataById = [resp.data]
+    this.SlabsService.getBlockDetailByLotId(_id).subscribe((resp: any) => {
+      this.lotVisible = true;
+      this.blockDatabyLotId = [resp.data]
       console.log(resp.data);
+    });
 
+    this.service.getLotById(_id).subscribe((resp:any) => {
+      console.log("resp id lot",resp.data);
+      
     })
   }
 

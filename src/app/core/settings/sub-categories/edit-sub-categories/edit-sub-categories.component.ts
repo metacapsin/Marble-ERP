@@ -16,12 +16,7 @@ import { CategoriesService } from '../../categories/categories.service';
 })
 export class EditSubCategoriesComponent {
   editSubCategoryForm!:FormGroup;
-  // Categories = [
-  //   {value:"Mobile"},
-  //   {value:"Laptops"},
-  //   {value:"Computers"},
-  // ]
-  categoriesListData = []
+  categoriesListData = [];
   subCategoryDataById = [];
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
@@ -49,7 +44,13 @@ export class EditSubCategoriesComponent {
     });
     
     this.categoryService.getCategories().subscribe((resp: any) => {
-      this.categoriesListData = resp.data;
+      this.categoriesListData = resp.data.map((e) => ({
+        name: e.name,
+        _id: {
+          name: e.name,
+          _id: e._id
+        }
+      }));
     });
   }
 

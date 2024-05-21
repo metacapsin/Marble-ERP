@@ -15,10 +15,6 @@ import { TaxesService } from '../taxes.service';
 export class EditTaxesComponent {
 
   editTaxesForm!:FormGroup;
-  // taxesTypes =[
-  //   {value:"Single"},
-  //   {value:"Multiple"}
-  // ]
   taxDataById = []
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
@@ -30,26 +26,9 @@ export class EditTaxesComponent {
   ){
     this.editTaxesForm = this.fb.group({      
       name: ['',[Validators.required,Validators.pattern(this.nameRegex)]],
-      taxType: ['Single', [Validators.required]],
       taxRate: ['', [Validators.required,Validators.min(0)]]
-      // multipleTax: this.fb.array([]),
     })
   }
-
-  // get multipleTax() {
-  //   return this.editTaxesForm.controls['multipleTax'] as FormArray;
-  // }
-  // deletesalesItemDetails(multipleTaxDetails: number) {
-  //   this.multipleTax.removeAt(multipleTaxDetails);
-  // }
-  // addsalesItemDetailsItem() {
-  //   const item = this.fb.group({
-  //     name: ['', [Validators.required]],
-  //     taxRate: ['', [Validators.required]],
-  //     taxType: ['Single', [Validators.required]]
-  //   });
-  //   this.multipleTax.push(item);
-  // }
 
   ngOnInit(): void {
 

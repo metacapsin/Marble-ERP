@@ -58,7 +58,8 @@
                         <div class="card-body p-2">
 
                             <p-table [value]="lotData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot" styleClass="p-datatable-striped"  >
+                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot"
+                                styleClass="p-datatable-striped">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th appShowHide [roles]="['admin', 'super-admin']">
@@ -88,9 +89,9 @@
                                             <p-columnFilter type="text" field="blocksCount"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="blocksCount">Total Cost <p-sortIcon
-                                                field="blocksCount"></p-sortIcon>
-                                            <p-columnFilter type="text" field="blocksCount"
+                                        <th pSortableColumn="lotTotalCosting">Total Cost <p-sortIcon
+                                                field="lotTotalCosting"></p-sortIcon>
+                                            <p-columnFilter type="text" field="lotTotalCosting"
                                                 display="menu"></p-columnFilter>
                                         </th>
                                         <th>Action</th>
@@ -107,7 +108,7 @@
                                         <td>{{lot.lotWeight}}</td>
                                         <td>₹ {{lot.pricePerTon}}</td>
                                         <td>{{lot.blocksCount}}</td>
-                                        <td>₹ 1200</td>
+                                        <td>{{lot.lotTotalCosting}}</td>
                                         <td style="display: flex; gap: 5px;" appShowHide
                                             [roles]="['admin', 'super-admin']">
                                             <p-button [text]="true" icon="fa-solid fa-eye"
@@ -138,13 +139,12 @@
 
 <!-- --------------- lot Details PopUp --------------- -->
 
-<p-dialog header="Blocks Details" [(visible)]="lotVisible" *ngFor="let lot of lotDataById" [modal]="true"
-    [style]="{width: '70vw'}">
+<p-dialog header="Blocks Details" [(visible)]="lotVisible" [modal]="true" [style]="{width: '70vw'}">
     <div class="modal-content">
         <div class="modal-body">
             <div class="card-body p-2">
-                <p-table [value]="lotDataById" 
-                styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}">
+                <p-table [value]="blockDatabyLotId" styleClass="p-datatable-striped"
+                    [tableStyle]="{'min-width': '60rem'}">
                     <ng-template pTemplate="header">
                         <tr>
                             <th pSortableColumn="blockNo">Block No
@@ -167,10 +167,12 @@
                             </th>
                             <th pSortableColumn="totalCosting">Total Cost
                             </th>
+                            <th pSortableColumn="isProcessed">Processed
+                            </th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-data>
-                        <tr *ngFor="let lot of data.blocksDetails">
+                        <tr *ngFor="let lot of data.blockDetails">
                             <td>{{lot.blockNo}}</td>
                             <td>{{lot.height}}</td>
                             <td>{{lot.width}}</td>
@@ -181,6 +183,8 @@
                             <td>{{lot.transportationCosting}}</td>
                             <td>{{lot.royaltyCosting}}</td>
                             <td>{{lot.totalCosting}}</td>
+                            <td *ngIf="lot.isProcessed"><p-tag severity="success" value="Yes"></p-tag></td>
+                            <td *ngIf="!lot.isProcessed"><p-tag severity="error" value="No"></p-tag></td>
                         </tr>
                     </ng-template>
                 </p-table>

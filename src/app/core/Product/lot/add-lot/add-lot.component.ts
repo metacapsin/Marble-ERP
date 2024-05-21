@@ -222,7 +222,7 @@ export class AddLotComponent {
       averageWeight: data.averageWeight,
       averageTransport: data.averageTransport,
       averageRoyalty: data.averageRoyalty,
-      blocksDetails: this.blocksDetails,
+      blockDetails: this.blocksDetails,
     }
     if (this.lotAddForm.valid) {
       console.log("Form valid lot value", payload);

@@ -34,7 +34,6 @@ export class AddTaxesComponent {
   ) {
     this.addTaxesForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
-      taxType: ["Single", [Validators.required]],
       taxRate: ["", [Validators.required, Validators.min(0)]],
     });
   }
