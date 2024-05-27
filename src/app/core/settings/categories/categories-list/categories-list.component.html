@@ -60,9 +60,6 @@
               [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedCategory">
                 <ng-template pTemplate="header">
                   <tr>
-                    <th style="width: 10%;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
-                      <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                    </th>
                     <th pSortableColumn="name" >Name <p-sortIcon
                         field="name"></p-sortIcon>
                         <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
@@ -76,9 +73,6 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-categories>
                   <tr>
-                    <td appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
-                      <p-tableCheckbox [value]="categories"></p-tableCheckbox>
-                    </td>
                     <td>{{categories.name}}</td>
                     <td>{{categories.description}}</td>
                     <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">

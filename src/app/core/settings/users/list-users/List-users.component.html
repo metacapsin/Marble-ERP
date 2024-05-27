@@ -55,9 +55,6 @@
               [rowsPerPageOptions]="[5, 10, 20]"  (onPage)="onPageChange($event)" [(selection)]="selectedProducts">
               <ng-template pTemplate="header">
                 <tr>
-                  <th appShowHide [roles]="['admin', 'super-admin']">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                  </th>
                   <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
                     <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
                   </th>
@@ -73,9 +70,6 @@
               </ng-template>
               <ng-template pTemplate="body" let-product>
                 <tr>
-                  <td appShowHide [roles]="['admin', 'super-admin']">
-                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
-                  </td>
                   <td class="bold">{{product.name}}</td>
                   <td>{{product.email}}</td>
                   <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Active"></p-tag></td>
