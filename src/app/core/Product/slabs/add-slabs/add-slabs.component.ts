@@ -54,7 +54,8 @@ export class AddSlabsComponent {
   billingAddressRegex = /^(?!\s)(?:.{3,15})$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-  shortNameRegex = /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
+  shortNameRegex =
+    /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
   finishes = [
     { name: "Polished" },
     { name: "Unpolished" },
@@ -66,7 +67,7 @@ export class AddSlabsComponent {
   data: any;
   originalData: any;
 
-  blockDataByLotId= [];
+  blockDataByLotId = [];
   blockDropDownData = [];
   blockDropDowntotleCost: any;
   blockDropDownPerBlockWeight: any;
@@ -94,10 +95,17 @@ export class AddSlabsComponent {
         [Validators.required, Validators.pattern(this.shortNameRegex)],
       ],
       lotDetails: [""],
-      blockDetails: ["",],
+      blockDetails: [""],
       categoryDetail: ["", [Validators.required]],
       subCategoryDetail: ["", [Validators.required]],
-      slabName: ["", [Validators.required, Validators.min(0), Validators.pattern(this.shortNameRegex)]],
+      slabName: [
+        "",
+        [
+          Validators.required,
+          Validators.min(0),
+          Validators.pattern(this.shortNameRegex),
+        ],
+      ],
       processingFee: ["", [Validators.min(1), Validators.max(1000000)]], //p
       totalSQFT: ["", [Validators.min(1), Validators.max(100000)]],
       otherCharges: [
@@ -256,7 +264,7 @@ export class AddSlabsComponent {
   }
 
   SlabsAddFormSubmit() {
-    console.log(this.slabsAddForm.value.blockDetails);
+    console.log(this.slabsAddForm.value);
     let formData = this.slabsAddForm.value;
     if (
       this.slabsAddForm.value.width ||
@@ -295,7 +303,7 @@ export class AddSlabsComponent {
     };
     console.log("payload", payload);
 
-    if (this.slabsAddForm.valid) {
+    if (this.slabsAddForm.valid) {    
       this.Service.CreateSlabs(payload).subscribe((resp: any) => {
         if (resp.status === "success") {
           const message = "Slabs has been added";

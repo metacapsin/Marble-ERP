@@ -53,6 +53,7 @@ export class AddPurchaseComponent implements OnInit {
   categoryList= [];
   setIT:any
   data:any
+  TotleLotCost:any
   originalData:any
   GridDataForLot?:any = []  
   GridDataForSlab?:any = [] 
@@ -64,7 +65,7 @@ export class AddPurchaseComponent implements OnInit {
     { orderStatus: "Delivered" },
   ];
   lotsNoArray = [
-    {name:'Lot No.'},
+    {name:'Lot'},
     {name:'Slabs'},
   ]
   orderTaxList = [];
@@ -138,12 +139,16 @@ export class AddPurchaseComponent implements OnInit {
     this.lotValue = this.addPurchaseForm.get('lotsType').value;
   }
   lotValues(LotValue:any){
-    this.GridDataForLot = LotValue.blocksDetails;
-    console.log(this.GridDataForLot);
+    console.log("LotValue",LotValue);
+    this.GridDataForLot = LotValue.blockDetails;
+    this.TotleLotCost = LotValue.lotTotalCosting.toFixed(2);
+    
+    console.log("blocks",this.GridDataForLot);
     this.GridDataForSlab = []
+    this.calculateTotalAmount()
   }
   slabValues(slabValue:any){
-    console.log(slabValue);
+    console.log(slabValue,"slabValue");
     this.GridDataForSlab = slabValue;
     this.GridDataForLot = []
   }
@@ -198,20 +203,10 @@ export class AddPurchaseComponent implements OnInit {
   calculateTotalAmount() {
     console.log("Enter in caltotal");
     let totalAmount = 0;
-    let purchaseGrossTotal = 0;
+    let purchaseGrossTotal = this.TotleLotCost;
+    console.log("tocalculateTotalAmount",purchaseGrossTotal);
+    
     let totalTax = 0;
-
-    const purchaseItems = this.addPurchaseForm.get(
-      "purchaseItemDetails"
-    ) as FormArray;
-
-    purchaseItems.controls.forEach((item: FormGroup) => {
-      const quantity = +item.get("purchaseItemQuantity").value || 0;
-      const unitPrice = +item.get("purchaseItemUnitPrice").value || 0;
-      const subtotal = quantity * unitPrice;
-      purchaseGrossTotal += subtotal;
-      item.get("purchaseItemSubTotal").setValue(subtotal.toFixed(2));
-    });
 
     if (Array.isArray(this.addPurchaseForm.get("purchaseOrderTax").value)) {
       this.addPurchaseForm.get("purchaseOrderTax").value.forEach((element) => {
@@ -221,26 +216,26 @@ export class AddPurchaseComponent implements OnInit {
       totalTax += Number(this.addPurchaseForm.get("purchaseOrderTax").value);
     }
 
-    this.addTaxTotal = (purchaseGrossTotal * totalTax) / 100;
-
+    
     let shipping = +this.addPurchaseForm.get("purchaseShipping").value;
     let Discount = +this.addPurchaseForm.get("purchaseDiscount").value;
     let otherCharges = +this.addPurchaseForm.get("otherCharges").value;
     let oceanFrieght = +this.addPurchaseForm.get("oceanFrieght").value;
     let postExpenses = +this.addPurchaseForm.get("postExpenses").value;
-
+    
+    this.addTaxTotal = (purchaseGrossTotal * totalTax) / 100;
 
     totalAmount += purchaseGrossTotal;
-    totalAmount += this.addTaxTotal;
     totalAmount -= Discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
     totalAmount += oceanFrieght;
     totalAmount += postExpenses;
+    totalAmount += this.addTaxTotal;
 
 
     this.addPurchaseForm.patchValue({
-      purchaseGrossTotal: purchaseGrossTotal.toFixed(),
+      purchaseGrossTotal: purchaseGrossTotal,
       purchaseDiscount: Discount.toFixed(),
       purchaseShipping: shipping.toFixed(),
       purchaseTotalAmount: totalAmount.toFixed(),

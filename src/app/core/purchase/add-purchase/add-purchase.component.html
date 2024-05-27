@@ -84,9 +84,9 @@
 
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="lotsNo">Lots Type<span class="login-danger">*</span></label>
+                      <label for="lotsNo">Type<span class="login-danger">*</span></label>
                       <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
-                        optionLabel="name" optionValue="name" placeholder="--lots Type--" [filter]="true"
+                        optionLabel="name" optionValue="name" placeholder="--type--" [filter]="true"
                         filterBy="name" [showClear]="true" (onChange)="lotType()" formControlName="lotsType">
                       </p-dropdown>
                       <div
@@ -96,7 +96,7 @@
                     </div>
                   </div>
 
-                  <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Lot No.'">
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Lot'">
                     <div class="form-group local-forms">
                       <label for="lotsNo">Lots Number<span class="login-danger">*</span></label>
                       <p-dropdown [options]="originalData" [style]="{ width: '100%' }" styleClass="" appendTo="body"
@@ -132,9 +132,6 @@
                     >
                     <ng-template pTemplate="header">
                       <tr>
-                        <th appShowHide [roles]="['admin', 'super-admin']">
-                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
                         <th pSortableColumn="purchaseInvoiceNumber">Lab No.<p-sortIcon
                             field="purchaseInvoiceNumber"></p-sortIcon>
                         </th>
@@ -153,9 +150,6 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-purchase>
                       <tr>
-                        <td appShowHide [roles]="['admin', 'super-admin']">
-                          <p-tableCheckbox [value]="purchase"></p-tableCheckbox>
-                        </td>
                         <td>{{purchase.blockNo}}</td>
                         <td>{{purchase.height}}</td>
                         <td>{{purchase.length}}</td>
@@ -296,7 +290,7 @@
                             <label for="purchaseOrderTax">Order Tax</label>
                             <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax" [options]="orderTaxList"
                               formControlName="purchaseOrderTax" optionLabel="orderTaxName" optionValue="orderNamevalue"
-                              display="chip" [showClear]="true" (change)="calculateTotalAmount()"></p-multiSelect>
+                              display="chip" [showClear]="true" (onChange)="calculateTotalAmount()"></p-multiSelect>
 
                           </div>
                         </div>

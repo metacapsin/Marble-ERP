@@ -337,7 +337,7 @@ export class EditSlabsComponent {
       id: this.slabsId,
       slabSize: _Size,
     };
-    console.log(this.slabsEditForm.value);
+    console.log(payload);
     if (this.slabsEditForm.valid) {
       this.Service.updateSlabsById(payload).subscribe(
         (resp: any) => {
