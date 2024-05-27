@@ -113,6 +113,8 @@
                                             [roles]="['admin', 'super-admin']">
                                             <p-button [text]="true" icon="fa-solid fa-eye"
                                                 (click)="showLotDetails(lot._id)"></p-button>
+                                            <p-button [text]="true" icon="fa-solid fa-edit"
+                                                (click)="editPage(lot._id)"></p-button>
                                             <p-button [text]="true" icon="fa-solid fa-trash"
                                                 (click)="deleteLot(lot._id)"></p-button>
                                         </td>

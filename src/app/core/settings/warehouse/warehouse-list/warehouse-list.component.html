@@ -62,9 +62,9 @@
                             [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"  (onPage)="onPageChange($event)" [(selection)]="selectedProducts">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th appShowHide [roles]="['admin', 'super-admin']">
+                                    <!-- <th appShowHide [roles]="['admin', 'super-admin']">
                                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                    </th>
+                                    </th> -->
                                     <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
                                         <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
 
@@ -97,9 +97,9 @@
                             <ng-template pTemplate="body" let-warehouse>
 
                                 <tr>
-                                    <td appShowHide [roles]="['admin', 'super-admin']">
+                                    <!-- <td appShowHide [roles]="['admin', 'super-admin']">
                                         <p-tableCheckbox [value]="warehouse"></p-tableCheckbox>
-                                    </td>
+                                    </td> -->
                                     <td>
                                         {{warehouse.name}}
                                     </td>

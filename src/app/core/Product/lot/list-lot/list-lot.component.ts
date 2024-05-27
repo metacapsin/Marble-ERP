@@ -53,6 +53,11 @@ export class ListLotComponent implements OnInit {
     this.getLotList();
   }
 
+  editPage(_id:any)
+{
+  
+  this.router.navigate(['/lot/edit/'+ _id]);
+}
   showLotDetails(_id: any) {
     this.SlabsService.getBlockDetailByLotId(_id).subscribe((resp: any) => {
       this.lotVisible = true;
