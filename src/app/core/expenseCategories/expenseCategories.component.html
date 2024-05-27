@@ -142,9 +142,6 @@
                             [(selection)]="selectedCustomer">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 5%" appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                    </th>
                                     <th style="width: 20%" pSortableColumn="categoryName">Expense Category Name<p-sortIcon
                                             field="categoryName"></p-sortIcon>
                                         <p-columnFilter type="text" field="categoryName" display="menu"></p-columnFilter>
@@ -157,9 +154,6 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-product>
                                 <tr>
-                                    <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableCheckbox [value]="product"></p-tableCheckbox>
-                                    </td>
                                     <td class="bold">{{product.categoryName}}</td>
                                     <td class="bold">{{product.categoryDescription}}</td>
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">

@@ -60,9 +60,6 @@
                                 [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedLot">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th appShowHide [roles]="['admin', 'super-admin']">
-                                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                        </th>
                                         <th pSortableColumn="lotNo">Lot No. <p-sortIcon field="lotNo"></p-sortIcon>
                                             <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
     
@@ -94,9 +91,6 @@
                                 <ng-template pTemplate="body" let-blocks>
     
                                     <tr>
-                                        <td appShowHide [roles]="['admin', 'super-admin']">
-                                            <p-tableCheckbox [value]="blocks"></p-tableCheckbox>
-                                        </td>
                                         <td>
                                             {{blocks.lotNo}}
                                         </td>

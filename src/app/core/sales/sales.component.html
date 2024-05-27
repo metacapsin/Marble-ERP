@@ -138,9 +138,6 @@
               [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedSales">
               <ng-template pTemplate="header">
                 <tr>
-                  <th appShowHide [roles]="['admin', 'super-admin']">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                  </th>
                   <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon
                       field="salesInvoiceNumber"></p-sortIcon>
                     <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
@@ -169,9 +166,6 @@
               </ng-template>
               <ng-template pTemplate="body" let-sales>
                 <tr>
-                  <td appShowHide [roles]="['admin', 'super-admin']">
-                    <p-tableCheckbox [value]="sales"></p-tableCheckbox>
-                  </td>
                   <td>{{sales.salesInvoiceNumber}}</td>
                   <td>{{sales.salesDate}}</td>
                   <td>{{sales.customer.name}}</td>

@@ -59,9 +59,6 @@
                             [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                    </th>
                                     <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
                                         <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
                                     </th>
@@ -79,9 +76,6 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-payment>
                                 <tr>
-                                    <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableCheckbox [value]="payment"></p-tableCheckbox>
-                                    </td>
                                     <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
                                     <td class="bold">{{payment.supplier.name}}</td>
                                     <td>{{payment.paymentMode}}</td>

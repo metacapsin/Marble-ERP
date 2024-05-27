@@ -21,6 +21,8 @@ export class PurchaseInvoiceDialogComponent {
   @Output() callbackModal: EventEmitter<void> = new EventEmitter<void>();
   @Output() close = new EventEmitter<any>();
 
+  paymentDataListById:[]
+
 
   constructor(private purchaseService: PurchaseService) {}
 

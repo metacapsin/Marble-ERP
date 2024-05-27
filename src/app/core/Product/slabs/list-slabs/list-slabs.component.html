@@ -63,9 +63,6 @@
                                 [(selection)]="selectedSlabs">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th appShowHide [roles]="['admin', 'super-admin']">
-                                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                        </th>
                                         <th pSortableColumn="slabNo">Slab No<p-sortIcon field="slabNo"></p-sortIcon>
                                             <p-columnFilter type="text" field="slabNo" display="menu"></p-columnFilter>
 
@@ -115,9 +112,6 @@
                                 <ng-template pTemplate="body" let-slabs>
 
                                     <tr>
-                                        <td appShowHide [roles]="['admin', 'super-admin']">
-                                            <p-tableCheckbox [value]="slabs"></p-tableCheckbox>
-                                        </td>
                                         <td>
                                             {{slabs.slabNo}}
                                         </td>

@@ -185,8 +185,8 @@ this.getPurchaseDataById();
   openPurchaseInvoiceDialog(Id: any): void {
     console.log("id pass to purchase invoice dialoge", Id);
 
-    this.showPurchaseInvoiceDialog = true;
     this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
+      this.showPurchaseInvoiceDialog = true;
       this.purchaseDataShowById = [resp.data];
       console.log("sales data by id On dialog", this.purchaseDataShowById);
     });

@@ -153,6 +153,33 @@
                   </p-table>
 
                 </p-tabPanel>
+
+                <p-tabPanel header="Payments">
+                  <p-table [value]="paymentDataListById" styleClass="p-datatable-striped"  *ngIf="paymentDataListById?.length > 0"
+                    [tableStyle]="{'min-width': '60rem'}">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th pSortableColumn="transactionNo">Trnx No.
+                        </th>
+                        <th pSortableColumn="paymentDate">Payment Date
+                        </th>
+                        <th pSortableColumn="amount">Amount
+                        </th>
+                        <th pSortableColumn="paymentMode">Payment Mode
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-payment>
+                      <tr>
+                        <td class="bold">{{payment.transactionNo}}</td>
+                        <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>₹ {{payment.amount}}</td>
+                        <td>{{payment.paymentMode}}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </p-tabPanel>
+                
               </p-tabView>
             </div>
 

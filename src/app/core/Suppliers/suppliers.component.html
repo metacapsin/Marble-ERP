@@ -73,9 +73,6 @@
                             [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                    </th>
                                     <th pSortableColumn="name">
                                         Name <p-sortIcon field="name"></p-sortIcon>
                                         <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
@@ -104,9 +101,6 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-product>
                                 <tr>
-                                    <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-tableCheckbox [value]="product"></p-tableCheckbox>
-                                    </td>
                                     <td class="bold">{{ product.name }}</td>
                                     <td class="bold">{{ product.email }}</td>
 
