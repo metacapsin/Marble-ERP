@@ -46,7 +46,9 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseInvoiceNumber">Invoice Number<span class="login-danger"></span></label>
-                      <input type="text" class="form-control" formControlName="purchaseInvoiceNumber" />
+                      <input type="text" class="form-control" placeholder="Enter Incoice Number" formControlName="purchaseInvoiceNumber" />
+                      <span style="color: #97704f;     font-size: 12px;
+                                            ">Leave it blank to generate automatically</span>
                     </div>
                   </div>
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -78,7 +80,7 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="quality">Quality<span class="login-danger"></span></label>
-                      <input type="number" class="form-control" formControlName="quality" />
+                      <input type="number" placeholder="Enter Quality" class="form-control" formControlName="quality" />
                     </div>
                   </div>
 
@@ -86,36 +88,38 @@
                     <div class="form-group local-forms">
                       <label for="lotsNo">Type<span class="login-danger">*</span></label>
                       <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
-                        optionLabel="name" optionValue="name" placeholder="--type--" [filter]="true"
-                        filterBy="name" [showClear]="true" (onChange)="lotType()" formControlName="Type">
+                        optionLabel="name" optionValue="name" placeholder="--type--" [filter]="true" filterBy="name"
+                        [showClear]="true" (onChange)="lotType()" formControlName="purchaseType">
                       </p-dropdown>
-                      <div *ngIf="addPurchaseForm.get('lotsType')?.hasError('required') && addPurchaseForm.get('lotsType')?.touched">
+                      <div
+                        *ngIf="addPurchaseForm.get('lotsType')?.hasError('required') && addPurchaseForm.get('lotsType')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Lot'">
                     <div class="form-group local-forms">
                       <label for="lotsNo">Lots Number<span class="login-danger">*</span></label>
                       <p-dropdown [options]="Lotlists" [style]="{ width: '100%' }" styleClass="" appendTo="body"
                         optionLabel="lotName" placeholder="--Lots Number--" [filter]="true" optionValue="_id"
-                        (onChange)="lotValues($event.value)" filterBy="name"
-                        formControlName="lotsNo">
+                        (onChange)="lotValues($event.value)" filterBy="name" formControlName="lotsNo">
                       </p-dropdown>
-                      <div *ngIf="addPurchaseForm.get('lotsNo')?.hasError('required') && addPurchaseForm.get('lotsNo')?.touched">
+                      <div
+                        *ngIf="addPurchaseForm.get('lotsNo')?.hasError('required') && addPurchaseForm.get('lotsNo')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Slabs'">
                     <div class="form-group local-forms">
                       <label for="slabs">Slabs<span class="login-danger">*</span></label>
                       <p-multiSelect [style]="{ width: '100%' }" placeholder="--Slabs--" [options]="slabLists"
                         formControlName="slabs" optionLabel="slabName" display="chip" optionValue="_id"
                         (onChange)="slabValues($event.value)"></p-multiSelect>
-                      <div *ngIf="addPurchaseForm.get('slabs')?.hasError('required') && addPurchaseForm.get('slabs')?.touched">
+                      <div
+                        *ngIf="addPurchaseForm.get('slabs')?.hasError('required') && addPurchaseForm.get('slabs')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
@@ -126,11 +130,11 @@
               <div class="invoice-add-table">
                 <!-- <h4 class="d-flex align-items-center">{{lotValue}}</h4> -->
                 <div class="table-responsive">
-                  <p-table *ngIf="GridDataForLot?.length > 0" [value]="GridDataForLot" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
-                    >
+                  <p-table *ngIf="GridDataForLot?.length > 0" [value]="GridDataForLot" styleClass="p-datatable-striped"
+                    [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
                     <ng-template pTemplate="header">
                       <tr>
-                        <th pSortableColumn="purchaseInvoiceNumber">Lab No.<p-sortIcon
+                        <th pSortableColumn="purchaseInvoiceNumber">Block No.<p-sortIcon
                             field="purchaseInvoiceNumber"></p-sortIcon>
                         </th>
                         <th pSortableColumn="purchaseDate">Height<p-sortIcon field="purchaseDate"></p-sortIcon>
@@ -139,10 +143,9 @@
                         </th>
                         <th pSortableColumn="purchaseOrderStatus">Width<p-sortIcon
                             field="purchaseOrderStatus"></p-sortIcon></th>
-                        <th pSortableColumn="paidAmount">Total Costing<p-sortIcon
-                            field="paidAmount"></p-sortIcon>
+                        <th pSortableColumn="paidAmount">Total Costing<p-sortIcon field="paidAmount"></p-sortIcon>
                         </th>
-                         <th pSortableColumn="dueAmount">Total Area<p-sortIcon field="dueAmount"></p-sortIcon>
+                        <th pSortableColumn="dueAmount">Total Area<p-sortIcon field="dueAmount"></p-sortIcon>
                         </th>
                       </tr>
                     </ng-template>
@@ -154,9 +157,9 @@
                         <td>{{purchase.width}}</td>
                         <td>₹ {{purchase.totalCosting}}</td>
                         <td>{{purchase.totalArea}}</td>
-                         <!-- <td>₹ {{purchase.totalCosting}}</td> 
+                        <!-- <td>₹ {{purchase.totalCosting}}</td> 
                          <td>{{purchase.paymentStatus}}</td>   -->
-                      <!-- <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
+                        <!-- <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
                           <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialogView(purchase._id)"></p-button>
                           <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"></p-button>
                           <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)" *ngIf="purchase.paymentStatus == 'Unpaid'"></p-button>
@@ -165,8 +168,9 @@
                     </ng-template>
                   </p-table>
 
-                  <p-table *ngIf="GridDataForSlab?.length > 0" [value]="GridDataForSlab" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
-                    >
+                  <p-table *ngIf="GridDataForSlab?.length > 0" [value]="GridDataForSlab"
+                    styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                    [rows]="5">
                     <ng-template pTemplate="header">
                       <tr>
                         <th pSortableColumn="purchaseInvoiceNumber">Slab No.<p-sortIcon

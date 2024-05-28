@@ -15,7 +15,7 @@
             <li class="breadcrumb-item">
               <i class="feather icon-chevron-right"></i>
             </li>
-            <li class="breadcrumb-item active">purchase Edit</li>
+            <li class="breadcrumb-item active">purchase Add</li>
           </ul>
         </div>
       </div>
@@ -43,36 +43,29 @@
             <form [formGroup]="editPurchaseForm" (ngSubmit)="editPurchaseFormSubmit()">
               <div class="invoices-main-form">
                 <div class="row">
-                  <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseInvoiceNumber">Invoice Number<span class="login-danger"></span></label>
-                      <input type="text" class="form-control" formControlName="purchaseInvoiceNumber" />
-                      <!-- <div
-                        *ngIf="editPurchaseForm.get('purchaseInvoiceNumber')?.hasError('required')  && editPurchaseForm.get('purchaseInvoiceNumber')?.touched">
-                        <span class="login-danger">Field is required. </span>
-                      </div>
-                      <div
-                        *ngIf="editPurchaseForm.get('purchaseInvoiceNumber')?.hasError('pattern')  && editPurchaseForm.get('purchaseInvoiceNumber')?.touched">
-                        <span class="login-danger">Input must be between 3 to 50
-                          character.</span>
-                      </div> -->
+                      <input type="text" class="form-control" placeholder="Enter Incoice Number" formControlName="purchaseInvoiceNumber" />
+                      <span style="color: #97704f;     font-size: 12px;
+                                            ">Leave it blank to generate automatically</span>
                     </div>
                   </div>
-
-                  <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseSupplierName">Supplier Name<span class="login-danger">*</span></label>
                       <p-dropdown [style]="{ width: '100%' }" placeholder="--Select Supplier--"
                         [options]="SupplierLists" formControlName="purchaseSupplierName" optionLabel="name"
                         optionValue="_id" display="chip" [showClear]="true"></p-dropdown>
-                        <div
+
+                      <div
                         *ngIf="editPurchaseForm.get('purchaseSupplierName')?.hasError('required')  && editPurchaseForm.get('purchaseSupplierName')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
+
                     </div>
                   </div>
-
-                  <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseDate">purchase Date<span class="login-danger">*</span></label>
                       <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="purchaseDate"
@@ -83,117 +76,126 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                    <div class="form-group local-forms">
+                      <label for="quality">Quality<span class="login-danger"></span></label>
+                      <input type="number" class="form-control" placeholder="Enter Quality" formControlName="quality" />
+                    </div>
+                  </div>
+
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                    <div class="form-group local-forms">
+                      <label for="lotsNo">Type<span class="login-danger">*</span></label>
+                      <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+                        optionLabel="name" optionValue="name" placeholder="--type--" [filter]="true"
+                        filterBy="name" [showClear]="true" (onChange)="lotType()" formControlName="purchaseType">
+                      </p-dropdown>
+                      <div *ngIf="editPurchaseForm.get('lotsType')?.hasError('required') && editPurchaseForm.get('lotsType')?.touched">
+                        <span class="login-danger">Field is required. </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Lot'">
+                    <div class="form-group local-forms">
+                      <label for="lotsNo">Lots Number<span class="login-danger">*</span></label>
+                      <p-dropdown [options]="Lotlists" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+                        optionLabel="lotName" placeholder="--Lots Number--" [filter]="true" optionValue="_id"
+                        (onChange)="lotValues($event.value)" filterBy="name"
+                        formControlName="lotsNo">
+                      </p-dropdown>
+                      <div *ngIf="editPurchaseForm.get('lotsNo')?.hasError('required') && editPurchaseForm.get('lotsNo')?.touched">
+                        <span class="login-danger">Field is required. </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Slabs'">
+                    <div class="form-group local-forms">
+                      <label for="slabs">Slabs<span class="login-danger">*</span></label>
+                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Slabs--" [options]="slabLists"
+                        formControlName="slabs" optionLabel="slabName" display="chip" optionValue="_id"
+                        (onChange)="slabValues($event.value)"></p-multiSelect>
+                      <div *ngIf="editPurchaseForm.get('slabs')?.hasError('required') && editPurchaseForm.get('slabs')?.touched">
+                        <span class="login-danger">Field is required. </span>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
               <div class="invoice-add-table">
-                <h4 class="d-flex align-items-center">
-                  Item Details<p-button [text]="true" icon="fa fa-plus"
-                    (click)="addPurchaseItemDetailsItem()"></p-button>
-                </h4>
+                <!-- <h4 class="d-flex align-items-center">{{lotValue}}</h4> -->
                 <div class="table-responsive">
-                  <table class="table table-striped table-nowrap mb-0 no-footer add-table-items">
-                    <thead>
+                  <p-table *ngIf="GridDataForLot?.length > 0" [value]="GridDataForLot" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                    >
+                    <ng-template pTemplate="header">
                       <tr>
-                        <th>Category</th>
-                        <th>Sub Category</th>
-                        <th>Unit</th>
-                        <th>Name</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Sub Total</th>
-                        <th>Actions</th>
+                        <th pSortableColumn="purchaseInvoiceNumber">Block No.<p-sortIcon
+                            field="purchaseInvoiceNumber"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="purchaseDate">Height<p-sortIcon field="purchaseDate"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="supplier.name">Length<p-sortIcon field="supplier.name"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="purchaseOrderStatus">Width<p-sortIcon
+                            field="purchaseOrderStatus"></p-sortIcon></th>
+                        <th pSortableColumn="paidAmount">Total Costing<p-sortIcon
+                            field="paidAmount"></p-sortIcon>
+                        </th>
+                         <th pSortableColumn="dueAmount">Total Area<p-sortIcon field="dueAmount"></p-sortIcon>
+                        </th>
                       </tr>
-                    </thead>
-                    <tbody formArrayName="purchaseItemDetails">
-                      <tr class="add-row" *ngFor="
-                            let purchaseItemDetailsForm of purchaseItemDetails.controls;
-                            let i = index
-                          " [formGroupName]="i">
-                        <td>
-                          <p-dropdown [options]="categoryList" styleClass="" appendTo="body" optionLabel="name"
-                            optionValue="name" placeholder="Category" [filter]="true" filterBy="name" 
-                            formControlName="purchaseItemCategory">
-                          </p-dropdown>
-                          <div
-                            *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemCategory').hasError('required') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemCategory').touched">
-                            <span class="login-danger">Field is required.</span>
-                          </div>
-                        </td>
-                        <td>
-                          <p-dropdown [options]="subCategoryList" styleClass="" appendTo="body" optionLabel="name"
-                            optionValue="name" placeholder="Sub Category" [filter]="true" filterBy="name"
-                             formControlName="purchaseItemSubCategory">
-                          </p-dropdown>
-                          <div
-                            *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemSubCategory').hasError('required') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemSubCategory').touched">
-                            <span class="login-danger">Field is required.</span>
-                          </div>
-                        </td>
-                        <td>
-                          <p-dropdown [style]="{ width: '100%' }" placeholder="--Select Unit--" [options]="unitListData"
-                            formControlName="unit" optionLabel="unitName" optionValue="shortName" display="chip"
-                            [filter]="true" filterBy="name"  appendTo="body">
-                          </p-dropdown>
-                          <div
-                            *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.unit').hasError('required') && editPurchaseForm.get('purchaseItemDetails').get(i + '.unit').touched">
-                            <span class="login-danger">Field is required.</span>
-                          </div>
-                        </td>
-                        <td>
-                          <input type="text" formControlName="purchaseItemName" class="form-control" />
-                          <div
-                            *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemName').hasError('required') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemName').touched">
-                            <span class="login-danger">Field is required.</span>
-                          </div>
-                          <div
-                            *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemName').hasError('pattern') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemName').touched">
-                            <span class="login-danger">Input must be between 3 to 50 characters.</span>
-                          </div>
-                        </td>
-                        <td>
-                          <input type="number" formControlName="purchaseItemQuantity" (change)="calculateTotalAmount()"
-                            class="form-control" />
-                          <div
-                            *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemQuantity').hasError('required') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemQuantity').touched">
-                            <span class="login-danger">Field is required.</span>
-                          </div>
-                          <div
-                            *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemQuantity').hasError('min') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemQuantity').touched">
-                            <span class="login-danger">Input must be at least 0.</span>
-                          </div>
-                        </td>
-                        <td>
-                          <input type="number" formControlName="purchaseItemUnitPrice" (change)="calculateTotalAmount()"
-                            class="form-control" />
-                          <div
-                            *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemUnitPrice').hasError('required') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemUnitPrice').touched">
-                            <span class="login-danger">Field is required.</span>
-                          </div>
-                          <div
-                            *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemUnitPrice').hasError('min') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemUnitPrice').touched">
-                            <span class="login-danger">Input must be at least 0.</span>
-                          </div>
-                        </td>
-                        <td>
-                          <input type="number" formControlName="purchaseItemSubTotal" (change)="calculateTotalAmount()"
-                            class="form-control" />
-                          <div
-                            *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemSubTotal').hasError('required') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemSubTotal').touched">
-                            <span class="login-danger">Field is required.</span>
-                          </div>
-                          <div
-                            *ngIf="editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemSubTotal').hasError('min') && editPurchaseForm.get('purchaseItemDetails').get(i + '.purchaseItemSubTotal').touched">
-                            <span class="login-danger">Input must be at least 0.</span>
-                          </div>
-                        </td>
-                        <td class="add-remove text-end">
-                          <p-button [text]="true" icon="fa fa-plus" (click)="addPurchaseItemDetailsItem()"></p-button>
-                          <p-button [text]="true" icon="fa fa-trash" (click)="deletePurchaseItemDetails(i)"
-                            (keyup.enter)="deletePurchaseItemDetails(i)"></p-button>
-                        </td>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-purchase>
+                      <tr>
+                        <td>{{purchase.blockNo}}</td>
+                        <td>{{purchase.height}}</td>
+                        <td>{{purchase.length}}</td>
+                        <td>{{purchase.width}}</td>
+                        <td>₹ {{purchase.totalCosting}}</td>
+                        <td>{{purchase.totalArea}}</td>
+                         <!-- <td>₹ {{purchase.totalCosting}}</td> 
+                         <td>{{purchase.paymentStatus}}</td>   -->
+                      <!-- <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
+                          <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialogView(purchase._id)"></p-button>
+                          <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"></p-button>
+                          <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)" *ngIf="purchase.paymentStatus == 'Unpaid'"></p-button>
+                        </td>   -->
                       </tr>
-                    </tbody>
-                  </table>
+                    </ng-template>
+                  </p-table>
+
+                  <p-table *ngIf="GridDataForSlab?.length > 0" [value]="GridDataForSlab" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                    >
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th pSortableColumn="purchaseInvoiceNumber">Slab No.<p-sortIcon
+                            field="purchaseInvoiceNumber"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="purchaseDate">Slab Name<p-sortIcon field="purchaseDate"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="supplier.name">Total Costing<p-sortIcon field="supplier.name"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="purchaseOrderStatus">Total SQFT<p-sortIcon
+                            field="purchaseOrderStatus"></p-sortIcon></th>
+                        <th pSortableColumn="paidAmount">Selling Price Per SQFT<p-sortIcon
+                            field="paidAmount"></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-purchase>
+                      <tr>
+                        <td>{{purchase.slabNo}}</td>
+                        <td>{{purchase.slabName}}</td>
+                        <td>{{purchase.totalCosting}}</td>
+                        <!-- <td>{{purchase.subCategoryDetail.name}}</td> -->
+                        <td>SQ {{purchase.totalSQFT}}</td>
+                        <td>{{purchase.sellingPricePerSQFT}}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
                 </div>
               </div>
               <div class="row">
@@ -223,6 +225,7 @@
                                 <span class="login-danger">Input must be between 2 to
                                   200 characters.</span>
                               </div>
+
                             </div>
                           </div>
                         </div>
@@ -267,10 +270,12 @@
                               [style]="{ width: '100%' }" formControlName="purchaseOrderStatus" [filter]="true"
                               filterBy="value" [showClear]="true">
                             </p-dropdown>
+
                             <div
                               *ngIf="editPurchaseForm.get('purchaseOrderStatus')?.hasError('required')  && editPurchaseForm.get('purchaseOrderStatus')?.touched">
                               <span class="login-danger">Field is required. </span>
                             </div>
+
                           </div>
                         </div>
                         <div class="col-12 mt-3">
@@ -279,6 +284,7 @@
                             <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax" [options]="orderTaxList"
                               formControlName="purchaseOrderTax" optionLabel="orderTaxName" optionValue="orderNamevalue"
                               display="chip" [showClear]="true" (onChange)="calculateTotalAmount()"></p-multiSelect>
+
                           </div>
                         </div>
                         <div class="col-12 ml-3">
@@ -329,13 +335,46 @@
                             </div>
                           </div>
                         </div>
+
+                        <div class="col-12 ml-3">
+                          <div class="form-group local-forms">
+                            <label for="oceanFrieght">Ocean Frieght</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                              </div>
+                              <input class="form-control" (change)="calculateTotalAmount()"
+                                formControlName="oceanFrieght" type="number" placeholder="" />
+                            </div>
+                            <div
+                              *ngIf="editPurchaseForm.get('oceanFrieght')?.hasError('min')  && editPurchaseForm.get('oceanFrieght')?.touched">
+                              <span class="login-danger">Input must be at least 0. </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 ml-3">
+                          <div class="form-group local-forms">
+                            <label for="postExpenses">Post Expenses</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                              </div>
+                              <input class="form-control" (change)="calculateTotalAmount()"
+                                formControlName="postExpenses" type="number" placeholder="" />
+                            </div>
+                            <div
+                              *ngIf="editPurchaseForm.get('postExpenses')?.hasError('min')  && editPurchaseForm.get('postExpenses')?.touched">
+                              <span class="login-danger">Input must be at least 0. </span>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                       <div class="invoice-total-inner">
-                        <p>Gross Total <span>₹ {{ editPurchaseForm.get('purchaseGrossTotal').value |
-                            number: '1.2-2' }}</span></p>
-                        <p>
-                          Order Tax <span>₹ {{ addTaxTotal }}</span>
-                        </p>
+                        <p>Gross Total<span>₹ {{ editPurchaseForm.get('purchaseGrossTotal').value |
+                            number:
+                            '1.2-2' }}</span></p>
+                        <p>Order Tax <span>₹ {{ addTaxTotal}}</span></p>
                         <p>
                           Discount<span>₹
                             {{
@@ -357,6 +396,20 @@
                             | number : "1.2-2"
                             }}</span>
                         </p>
+                        <p>
+                          Ocean Frieght<span>₹
+                            {{
+                            editPurchaseForm.get("oceanFrieght").value
+                            | number : "1.2-2"
+                            }}</span>
+                        </p>
+                        <p>
+                          Post Expenses<span>₹
+                            {{
+                            editPurchaseForm.get("postExpenses").value
+                            | number : "1.2-2"
+                            }}</span>
+                        </p>
                       </div>
 
                       <div class="invoice-total-footer">
@@ -373,7 +426,7 @@
                   </div>
                   <div class="upload-sign">
                     <div class="form-group float-end mb-0">
-                      <button class="btn btn-primary" type="submit">
+                      <button class="btn btn-primary" type="submit" [disabled]="!editPurchaseForm.valid">
                         Save purchase
                       </button>
                     </div>
@@ -387,5 +440,260 @@
     </div>
   </div>
 </div>
+<!-- Invoices Preview Modal -->
+<div class="modal custom-modal modal-bg fade invoices-preview" id="invoices_preview" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row justify-content-center">
+          <div class="col-lg-12">
+            <div class="card invoice-info-card">
+              <div class="card-body pb-0">
+                <div class="invoice-item invoice-item-one">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="invoice-logo d-flex justify-content-start">
+                        <img src="assets/img/logo-dark.png" alt="logo" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="invoice-info">
+                        <div class="invoice-head">
+                          <h2 class="text-primary">Invoice</h2>
+                          <p>Invoice Number : In983248782</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
+                <!-- Invoice Item -->
+                <div class="invoice-item invoice-item-bg">
+                  <div class="invoice-circle-img">
+                    <img src="assets/img/invoice-circle1.png" alt="" class="invoice-circle1" />
+                    <img src="assets/img/invoice-circle2.png" alt="" class="invoice-circle2" />
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                      <div class="invoice-info">
+                        <strong class="Supplier-text-one">Billed to</strong>
+                        <h6 class="invoice-name">Supplier Name</h6>
+                        <p class="invoice-details invoice-details-two">
+                          9087484288 <br />
+                          Address line 1, <br />
+                          Address line 2 <br />
+                          Zip code ,City - Country
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                      <div class="invoice-info">
+                        <strong class="Supplier-text-one">Invoice From</strong>
+                        <h6 class="invoice-name">Company Name</h6>
+                        <p class="invoice-details invoice-details-two">
+                          9087484288 <br />
+                          Address line 1, <br />
+                          Address line 2 <br />
+                          Zip code ,City - Country
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                      <div class="invoice-info invoice-info-one border-0">
+                        <p>Issue Date : 27 Jul 2022</p>
+                        <p>Due Date : 27 Aug 2022</p>
+                        <p>Due Amount : $ 1,54,22</p>
+                        <p>Recurring Invoice : 15 Months</p>
+                        <p class="mb-0">PO Number : 54515454</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Invoice Item -->
+
+                <!-- Invoice Item -->
+                <div class="invoice-item invoice-table-wrap">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="table-responsive">
+                        <table class="invoice-table table table-center mb-0">
+                          <thead>
+                            <tr>
+                              <th>Description</th>
+                              <th>Category</th>
+                              <th>Rate/Item</th>
+                              <th>Quantity</th>
+                              <th>Discount (%)</th>
+                              <th class="text-end">Amount</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Dell Laptop</td>
+                              <td>Laptop</td>
+                              <td>$1,110</td>
+                              <td>2</td>
+                              <td>2%</td>
+                              <td class="text-end">$400</td>
+                            </tr>
+                            <tr>
+                              <td>HP Laptop</td>
+                              <td>Laptop</td>
+                              <td>$1,500</td>
+                              <td>3</td>
+                              <td>6%</td>
+                              <td class="text-end">$3,000</td>
+                            </tr>
+                            <tr>
+                              <td>Apple Ipad</td>
+                              <td>Ipad</td>
+                              <td>$11,500</td>
+                              <td>1</td>
+                              <td>10%</td>
+                              <td class="text-end">$11,000</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Invoice Item -->
+
+                <div class="row align-items-center justify-content-center">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="invoice-payment-box">
+                      <h4>Payment Details</h4>
+                      <div class="payment-details">
+                        <p>Debit Card XXXXXXXXXXXX-2541 HDFC Bank</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="invoice-total-card">
+                      <div class="invoice-total-box">
+                        <div class="invoice-total-inner">
+                          <p>Taxable <span>$6,660.00</span></p>
+                          <p>Additional Charges <span>$6,660.00</span></p>
+                          <p>Discount <span>$3,300.00</span></p>
+                          <p class="mb-0">Sub total <span>$3,300.00</span></p>
+                        </div>
+                        <div class="invoice-total-footer">
+                          <h4>Total Amount <span>$143,300.00</span></h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="invoice-sign-box">
+                  <div class="row">
+                    <div class="col-lg-8 col-md-8">
+                      <div class="invoice-terms">
+                        <h6>Notes:</h6>
+                        <p class="mb-0">
+                          Enter customer notes or any other details
+                        </p>
+                      </div>
+                      <div class="invoice-terms mb-0">
+                        <h6>Terms and Conditions:</h6>
+                        <p class="mb-0">
+                          Enter customer notes or any other details
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                      <div class="invoice-sign text-end">
+                        <img class="img-fluid d-inline-block" src="assets/img/signature.png" alt="sign" />
+                        <span class="d-block">Harristemp</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Invoices Preview Modal -->
+
+<!-- Add Invoices Modal -->
+<div class="modal custom-modal modal-bg fade bank-details" id="bank_details" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="form-header text-start mb-0">
+          <h4 class="mb-0">Add Bank Details</h4>
+        </div>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-start">
+        <div class="bank-inner-details">
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group">
+                <label for="Account">Account Holder Name</label>
+                <input type="text" class="form-control" placeholder="Add Name" />
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group">
+                <label for="Bank ">Bank name</label>
+                <input type="text" class="form-control" placeholder="Add Bank name" />
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group">
+                <label for="IFSC ">IFSC Code</label>
+                <input type="text" class="form-control" />
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group">
+                <label for="Account">Account Number</label>
+                <input type="text" class="form-control" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="bank-details-btn">
+          <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn bank-cancel-btn me-2">Cancel</a>
+          <a href="javascript:void(0);" class="btn bank-save-btn">Save Item</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Add Invoices Modal -->
+
+<!-- Delete Invoices Modal -->
+<div class="modal custom-modal modal-bg fade" id="delete_invoices_details" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="form-header">
+          <h3>Delete Invoice Details</h3>
+          <p>Are you sure want to delete?</p>
+        </div>
+        <div class="modal-btn delete-action">
+          <div class="row">
+            <div class="col-6">
+              <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Delete</a>
+            </div>
+            <div class="col-6">
+              <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Delete Invoices Modal -->
 <p-toast></p-toast>

@@ -114,7 +114,7 @@ export class AddPurchaseComponent implements OnInit {
       postExpenses: [""],
       quality: [""],
       lotsNo: [""],
-      Type: ["", [Validators.required]],
+      purchaseType: ["", [Validators.required]],
       slabs: [""],
       // purchaseItemDetails: this.fb.array([
       //   this.fb.group({
@@ -134,7 +134,7 @@ export class AddPurchaseComponent implements OnInit {
   }
 
   lotType() {
-    this.lotValue = this.addPurchaseForm.get("Type")?.value;
+    this.lotValue = this.addPurchaseForm.get("purchaseType")?.value;
     this.GridDataForLot = [];
     this.GridDataForSlab = [];
     this.TotleLotCost = 0;
@@ -170,6 +170,7 @@ export class AddPurchaseComponent implements OnInit {
     });
     this.GridDataForLot = [];
     this.calculateTotalAmount();
+    console.log(slabValue);
   }
 
   getSupplier() {
@@ -239,6 +240,8 @@ export class AddPurchaseComponent implements OnInit {
             slabName: element.slabName,
             slabNo: element.slabNo,
             totalCosting: element.totalCosting,
+            totalSQFT: element.totalSQFT,
+            sellingPricePerSQFT: element.sellingPricePerSQFT,
           },
         });
         // console.log(this.slabLists);
@@ -312,7 +315,7 @@ export class AddPurchaseComponent implements OnInit {
       purchaseDiscount: formData.purchaseDiscount,
       purchaseInvoiceNumber: formData.purchaseInvoiceNumber,
       purchaseGrossTotal: formData.purchaseGrossTotal,
-      purchaseItemDetails: formData.purchaseItemDetails,
+      purchaseOrderStatus: formData.purchaseOrderStatus,
       appliedTax: formData.purchaseOrderTax,
       purchaseNotes: formData.purchaseNotes,
       purchaseOtherCharges: formData.otherCharges,
@@ -320,9 +323,11 @@ export class AddPurchaseComponent implements OnInit {
       purchaseShipping: formData.purchaseShipping,
       purchaseTermsAndCondition: formData.purchaseTermsAndCondition,
       purchaseTotalAmount: formData.purchaseTotalAmount,
-      purchaseType: formData.Type,
+      purchaseType: formData.purchaseType,
       purchaselotsNo: formData.lotsNo,
       purchaseslabs: formData.slabs,
+      postExpenses:formData.postExpenses,
+      oceanFrieght: formData.oceanFrieght,
     };
 
     if (this.addPurchaseForm.valid) {
