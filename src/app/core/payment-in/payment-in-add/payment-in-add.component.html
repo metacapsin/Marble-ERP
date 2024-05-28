@@ -129,15 +129,21 @@
                                                             </div>
                                                             <input type="number" formControlName="amount"
                                                                 class="form-control">
-                                                            <div
-                                                                *ngIf="addPaymentInForm.get('sales').get(i + '.amount').hasError('required') && addPaymentInForm.get('sales').get(i + '.amount').touched">
-                                                                <span class="login-danger">Field is required.</span>
-                                                            </div>
-                                                            <div
-                                                                *ngIf="addPaymentInForm.get('sales').get(i + '.amount').hasError('min') && addPaymentInForm.get('sales').get(i + '.amount').touched">
-                                                                <span class="login-danger">Input must be more than
-                                                                    0.</span>
-                                                            </div>
+                                                        </div>
+                                                        <span style="color: #97704f; font-size: 12px;
+                                            ">Max Value : {{sale.dueAmount}}</span>
+                                                        <div
+                                                            *ngIf="addPaymentInForm.get('sales').get(i + '.amount').hasError('required') && addPaymentInForm.get('sales').get(i + '.amount').touched">
+                                                            <span class="login-danger">Field is required.</span>
+                                                        </div>
+                                                        <div
+                                                            *ngIf="addPaymentInForm.get('sales').get(i + '.amount').hasError('min') && addPaymentInForm.get('sales').get(i + '.amount').touched">
+                                                            <span class="login-danger">Input must be more than
+                                                                0.</span>
+                                                        </div>
+                                                        <div
+                                                            *ngIf="addPaymentInForm.get('sales').get(i + '.amount').hasError('max') && addPaymentInForm.get('sales').get(i + '.amount').touched">
+                                                            <span class="login-danger">Input should not more than {{sale.dueAmount}}.</span>
                                                         </div>
                                                     </td>
                                                 </tr>

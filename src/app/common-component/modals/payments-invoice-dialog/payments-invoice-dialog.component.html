@@ -118,10 +118,12 @@
                                 </div>
                                 <input type="number" formControlName="totalAmount" class="form-control">
                               </div>
+                              <span style="color: #97704f; font-size: 12px;
+                              ">Max Value : {{dataById.salesDueAmount}}</span>
                               <div
                                 *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
                                 <span class="login-danger">Amount cannot be greater than the
-                                  {{dataById.dueAmount}}.</span>
+                                  {{dataById.salesDueAmount}}.</span>
                               </div>
                               <div
                                 *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('required') && paymentInvoiceForm.get('totalAmount')?.touched">

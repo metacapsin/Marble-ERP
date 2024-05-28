@@ -44,4 +44,8 @@ export class InvoiceDialogComponent {
   onConfirm(){
     this.callbackModal.emit();
   }
+print(){
+  window.print()
+
+}
 }
