@@ -392,27 +392,11 @@ export class DataService {
               route: routes.staffList,
               base: routes.staffList,
             },
-            // {
-            //   menuValue: "Add Staff",
-            //   route: routes.addStaff,
-            //   base: routes.addStaff,
-            // },
-
             {
               menuValue: "Leaves",
               route: routes.staffLeave,
               base: routes.staffLeave,
             },
-            // {
-            //   menuValue: "Holidays",
-            //   route: routes.staffHoliday,
-            //   base: routes.staffHoliday,
-            // },
-            // {
-            //   menuValue: "Attendance",
-            //   route: routes.staffAttendance,
-            //   base: routes.staffAttendance,
-            // },
           ],
         },
 

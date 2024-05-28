@@ -321,29 +321,29 @@ export class routes {
   public static get themeSettings(): string {
     return this.baseUrl + '/settings/theme-settings';
   }
-  public static get addLeave(): string {
-    return this.baseUrl + '/staff/add-leave';
+  public static get staffList(): string {
+    return this.baseUrl + '/staff';
   }
   public static get addStaff(): string {
     return this.baseUrl + '/staff/add-staff';
   }
-  public static get editLeave(): string {
-    return this.baseUrl + '/staff/edit-leave/:id';
-  }
   public static get editStaff(): string {
     return this.baseUrl + '/staff/edit-staff/:id';
+  }
+  public static get staffLeave(): string {
+    return this.baseUrl + '/staff-leaves';
+  }
+  public static get addLeave(): string {
+    return this.baseUrl + '/staff-leaves/add-staff-leaves';
+  }
+  public static get editLeave(): string {
+    return this.baseUrl + '/staff-leaves/edit-staff-leaves/:id';
   }
   public static get staffAttendance(): string {
     return this.baseUrl + '/staff/staff-attendance';
   }
   public static get staffHoliday(): string {
     return this.baseUrl + '/staff/staff-holiday';
-  }
-  public static get staffLeave(): string {
-    return this.baseUrl + '/staff/staff-leave';
-  }
-  public static get staffList(): string {
-    return this.baseUrl + '/staff/staff-list';
   }
   public static get staffProfile(): string {
     return this.baseUrl + '/staff/staff-profile';

@@ -181,8 +181,15 @@ const routes: Routes = [
       {
         path: 'staff',
         loadChildren: () =>
-          import('./staff/staff.module').then(
+          import('./staffModule/staff/staff.module').then(
             (m) => m.StaffModule
+          ),
+      },
+      {
+        path: 'staff-leaves',
+        loadChildren: () =>
+          import('./staffModule/staff-leaves/staff-leaves.module').then(
+            (m) => m.StaffLeavesModule
           ),
       },
 

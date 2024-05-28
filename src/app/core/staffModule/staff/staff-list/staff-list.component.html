@@ -1,0 +1,99 @@
+<p-toast></p-toast>
+<div class="page-wrapper">
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active">Staff List</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+
+          <div class="page-table-header mb-2">
+            <div class="row align-item-center">
+              <div class="col">
+                <div class="doctor-table-blk">
+                  <h3>Staff List</h3>
+                  <div class="doctor-search-blk">
+                    <div class="top-nav-search table-search-blk">
+                      <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
+                      <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                    </div>
+                    <div class="add-group textbtn">
+                      <a appShowHide [roles]="['admin', 'super-admin']" [routerLink]="routes.addStaff"
+                        class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt="">Add New</a>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                [roles]="['admin', 'super-admin']">
+                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
+                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body p-2">
+            <p-table [value]="staffData" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5" 
+            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedstaff">
+              <ng-template pTemplate="header" >
+                <tr>
+                  <th pSortableColumn="firstName">Name <p-sortIcon field="firstName"></p-sortIcon>
+                    <p-columnFilter type="text" field="firstName" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="designation">Designation <p-sortIcon field="designation"></p-sortIcon>
+                    <p-columnFilter type="text" field="designation" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="mobile">Mobile<p-sortIcon field="mobile"></p-sortIcon>
+                    <p-columnFilter type="text" field="mobile" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="city">City <p-sortIcon field="city"></p-sortIcon>
+                    <p-columnFilter type="text" field="city" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
+                    <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
+                  </th>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-staff>
+                <tr>
+                  <td>{{staff.firstName}} {{staff.lastName}}</td>
+                  <td>{{staff.designation}}</td>
+                  <td>{{staff.mobile}}</td>
+                  <td>{{staff.city}}</td>
+                  <td>{{staff.email}}</td>
+                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editStaff(staff._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteStaff(staff._id)"></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog>
