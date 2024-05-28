@@ -103,10 +103,10 @@
                       <label for="lotsNo">Lots Number<span class="login-danger">*</span></label>
                       <p-dropdown [options]="Lotlists" [style]="{ width: '100%' }" styleClass="" appendTo="body"
                         optionLabel="lotName" placeholder="--Lots Number--" [filter]="true" optionValue="_id"
-                        (onChange)="lotValues($event.value)" filterBy="name" formControlName="lotsNo">
+                        (onChange)="lotValues($event.value)" filterBy="name" formControlName="lot">
                       </p-dropdown>
                       <div
-                        *ngIf="addPurchaseForm.get('lotsNo')?.hasError('required') && addPurchaseForm.get('lotsNo')?.touched">
+                        *ngIf="addPurchaseForm.get('lot')?.hasError('required') && addPurchaseForm.get('lot')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
@@ -376,7 +376,7 @@
                         <p>Gross Total<span>₹ {{ addPurchaseForm.get('purchaseGrossTotal').value |
                             number:
                             '1.2-2' }}</span></p>
-                        <p>Order Tax <span>₹ {{ addTaxTotal}}</span></p>
+                        <p>Order Tax <span>₹ {{ addTaxTotal | number : "1.2-2"}}</span></p>
                         <p>
                           Discount<span>₹
                             {{
@@ -428,7 +428,8 @@
                   </div>
                   <div class="upload-sign">
                     <div class="form-group float-end mb-0">
-                      <button class="btn btn-primary" type="submit" [disabled]="!addPurchaseForm.valid">
+                      <button class="btn btn-primary" type="submit">
+                        <!-- [disabled]="!addPurchaseForm.valid" -->
                         Save purchase
                       </button>
                     </div>

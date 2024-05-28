@@ -9,7 +9,7 @@ import { DataService } from 'src/app/shared/data/data.service';
 import { pageSelection, apiResultFormat, allInvoice } from 'src/app/shared/models/models';
 import { routes } from "src/app/shared/routes/routes";
 import { PurchaseService } from './purchase.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
@@ -52,6 +52,7 @@ export class PurchaseComponent {
   visible: boolean = false
   addTaxTotal:any
   setDataInPopPu:any
+  purchaseId:any
 
 
 
@@ -62,14 +63,10 @@ export class PurchaseComponent {
   ];
 
   constructor(public data : DataService,private Service:PurchaseService,private router: Router,private messageService: MessageService){
-
   }
   ngOnInit() {
     this.getTableData();
     this.getPurchase();
-    // this.Service.GetPurchaseDataById("66321c9e409a10ebdff231e6").subscribe((resp: any) => {
-    //   this.PurchaseListData = [resp.data];
-    // })
   }
   getPurchase() {
     this.Service.GetPurchaseData().subscribe((data:any) => {
@@ -96,12 +93,8 @@ export class PurchaseComponent {
       });
       this.addTaxTotal = resp.data.purchaseGrossTotal * totalTax / 100;
     });
-
-    // this.Service.GetPurchaseDataById(_id).subscribe((resp: any) => {
-    //   this.PurchaseListData = [resp.data];
-    //   console.log("payment id ser ", resp);
-    // })
   }
+
 
 
 
@@ -115,11 +108,9 @@ export class PurchaseComponent {
     }
     this.showDialoge = true;
   }
-
   showNewDialog() {
     this.showDialoge = true;
   }
-
   callBackModal() {
     this.Service.DeletePurchaseData(this.purchase).subscribe((resp:any) => {
       let message = "Purchase has been Deleted"
@@ -128,17 +119,9 @@ export class PurchaseComponent {
       this.showDialoge = false;
     })
   }
-
   close() {
     this.showDialoge = false;
   }
-
-
-
-
-
-
-
   private getTableData(): void {
     this.allInvoice = [];
     this.serialNumberArray = [];
@@ -157,12 +140,10 @@ export class PurchaseComponent {
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
     this.allInvoice = this.dataSource.filteredData;
   }
-
   public sortData(sort: Sort) {
     const data = this.allInvoice.slice();
 
@@ -178,7 +159,6 @@ export class PurchaseComponent {
       });
     }
   }
-
   public getMoreData(event: string): void {
     if (event == 'next') {
       this.currentPage++;
@@ -194,7 +174,6 @@ export class PurchaseComponent {
       this.getTableData();
     }
   }
-
   public moveToPage(pageNumber: number): void {
     this.currentPage = pageNumber;
     this.skip = this.pageSelection[pageNumber - 1].skip;
@@ -206,7 +185,6 @@ export class PurchaseComponent {
     }
     this.getTableData();
   }
-
   public PageSize(): void {
     this.pageSelection = [];
     this.limit = this.pageSize;
@@ -214,7 +192,6 @@ export class PurchaseComponent {
     this.currentPage = 1;
     this.getTableData();
   }
-
   private calculateTotalPages(totalData: number, pageSize: number): void {
     this.pageNumberArray = [];
     this.totalPages = totalData / pageSize;

@@ -113,7 +113,7 @@ export class AddPurchaseComponent implements OnInit {
       oceanFrieght: [""],
       postExpenses: [""],
       quality: [""],
-      lotsNo: [""],
+      lot: [""],
       purchaseType: ["", [Validators.required]],
       slabs: [""],
       // purchaseItemDetails: this.fb.array([
@@ -141,7 +141,7 @@ export class AddPurchaseComponent implements OnInit {
     this.SlabAddValue = 0;
     this.calculateTotalAmount();
 
-    this.addPurchaseForm.get("lotsNo")?.reset();
+    this.addPurchaseForm.get("lot")?.reset();
     this.addPurchaseForm.get("slabs")?.reset();
   }
   lotValues(LotValue: any) {
@@ -278,13 +278,14 @@ export class AddPurchaseComponent implements OnInit {
     let oceanFrieght = +this.addPurchaseForm.get("oceanFrieght").value;
     let postExpenses = +this.addPurchaseForm.get("postExpenses").value;
     this.addTaxTotal = (purchaseGrossTotal * totalTax) / 100;
+    var valueAddTaxTotal = parseFloat(this.addTaxTotal.toFixed(2));
     totalAmount += purchaseGrossTotal;
     totalAmount -= Discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
     totalAmount += oceanFrieght;
     totalAmount += postExpenses;
-    totalAmount += this.addTaxTotal;
+    totalAmount += valueAddTaxTotal;
 
     this.addPurchaseForm.patchValue({
       purchaseGrossTotal: purchaseGrossTotal,
@@ -300,36 +301,38 @@ export class AddPurchaseComponent implements OnInit {
   addPurchaseFormSubmit() {
     const formData = this.addPurchaseForm.value;
     console.log(formData);
-    let totalTax = 0;
-    if (formData.purchaseOrderTax) {
-      formData.purchaseOrderTax.forEach((e) => {
-        totalTax = totalTax + e.taxRate;
+    // let totalTax = 0;
+    // if (formData.purchaseOrderTax) {
+    //   formData.purchaseOrderTax.forEach((e) => {
+    //     totalTax = totalTax + e.taxRate;
+    //   });
+    // }
+    if (formData.slabs === null && formData.lot === null) {
+      this.messageService.add({
+        severity: "error",
+        detail: "Select one Lot or Slab",
       });
     }
-    if (formData.slabs === null && formData.lotsNo === null) {
-        this.messageService.add({ severity: "error", detail: "Select one Lot or Slab" });
-    }
     const payload = {
-      supplier: formData.purchaseSupplierName,
+      purchaseSupplierName: formData.purchaseSupplierName,
       purchaseDate: formData.purchaseDate,
+      quality: formData.purchaseDiscount,
+      purchaseType: formData.purchaseType,
+      slabs: formData.slabs,
+      lot: formData.lot,
       purchaseDiscount: formData.purchaseDiscount,
-      purchaseInvoiceNumber: formData.purchaseInvoiceNumber,
       purchaseGrossTotal: formData.purchaseGrossTotal,
-      purchaseOrderStatus: formData.purchaseOrderStatus,
-      appliedTax: formData.purchaseOrderTax,
       purchaseNotes: formData.purchaseNotes,
-      purchaseOtherCharges: formData.otherCharges,
+      otherCharges: formData.otherCharges,
+      purchaseOrderStatus: formData.purchaseOrderStatus,
       purchaseOrderTax: formData.purchaseOrderTax,
       purchaseShipping: formData.purchaseShipping,
       purchaseTermsAndCondition: formData.purchaseTermsAndCondition,
       purchaseTotalAmount: formData.purchaseTotalAmount,
-      purchaseType: formData.purchaseType,
-      purchaselotsNo: formData.lotsNo,
-      purchaseslabs: formData.slabs,
-      postExpenses:formData.postExpenses,
+      postExpenses: formData.postExpenses,
       oceanFrieght: formData.oceanFrieght,
     };
-
+    console.log(payload);
     if (this.addPurchaseForm.valid) {
       console.log("valid form");
       this.PurchaseService.AddPurchaseData(payload).subscribe((resp: any) => {

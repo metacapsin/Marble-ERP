@@ -74,7 +74,6 @@
                   <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon></th>
 
                   <th>Action</th>
-                  <!-- <th>Add blocks</th> -->
                   
                 </tr>
               </ng-template>
@@ -82,7 +81,7 @@
                 <tr>
                   <td>{{purchase.purchaseInvoiceNumber}}</td>
                   <td>{{purchase.purchaseDate}}</td>
-                  <td>{{purchase.supplier.name}}</td>
+                  <td>{{purchase.purchaseSupplierName.name}}</td>
                   <td>{{purchase.purchaseOrderStatus}}</td>
                   <td>₹ {{purchase.paidAmount}}</td>                  
                   <td>₹ {{purchase.dueAmount}}</td>                  

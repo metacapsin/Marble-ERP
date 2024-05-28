@@ -83,6 +83,9 @@ export class EditPurchaseComponent implements OnInit {
   notesRegex = /^(?:.{2,100})$/;
   addTaxTotal: any;
   tandCRegex = /^(?:.{2,200})$/;
+  purchaseId:any
+  PurchaseListData:any
+
 
   constructor(
     private taxService: TaxesService,
@@ -95,7 +98,8 @@ export class EditPurchaseComponent implements OnInit {
     private subCategoriesService: SubCategoriesService,
     private unitService: UnitsService,
     private Lotservice: LotService,
-    private service: SlabsService
+    private service: SlabsService,
+    private activeRoute: ActivatedRoute,
   ) {
     this.editPurchaseForm = this.fb.group({
       purchaseInvoiceNumber: [""],
@@ -116,21 +120,8 @@ export class EditPurchaseComponent implements OnInit {
       lot: [""],
       purchaseType: ["", [Validators.required]],
       slabs: [""],
-      // purchaseItemDetails: this.fb.array([
-      //   this.fb.group({
-      //     purchaseItemCategory: ["", [Validators.required]],
-      //     purchaseItemSubCategory: ["", [Validators.required]],
-      //     unit: ["", [Validators.required]],
-      //     purchaseItemName: [
-      //       "",
-      //       [Validators.required, Validators.pattern(this.nameRegex)],
-      //     ],
-      //     purchaseItemQuantity: ["", [Validators.required, Validators.min(0)]],
-      //     purchaseItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-      //     purchaseItemSubTotal: ["", [Validators.required, Validators.min(0)]],
-      //   }),
-      // ]),
     });
+    this.purchaseId = this.activeRoute.snapshot.params["id"];
   }
 
   lotType() {
@@ -187,8 +178,35 @@ export class EditPurchaseComponent implements OnInit {
       });
     });
   }
-
+  patchForm(data) {
+    console.log(data);
+    this.editPurchaseForm.patchValue({
+      purchaseInvoiceNumber: data.purchaseInvoiceNumber,
+      purchaseSupplierName: data.purchaseSupplierName,
+      purchaseDate: data.purchaseDate,
+      purchaseOrderStatus: data.purchaseOrderStatus,
+      purchaseOrderTax: data.purchaseOrderTax,
+      purchaseDiscount: data.purchaseDiscount,
+      purchaseShipping: data.purchaseShipping,
+      purchaseTermsAndCondition: data.purchaseTermsAndCondition,
+      purchaseNotes: data.purchaseNotes,
+      purchaseTotalAmount: data.purchaseTotalAmount,
+      otherCharges: data.otherCharges,
+      purchaseGrossTotal: data.purchaseGrossTotal,
+      oceanFrieght: data.oceanFrieght,
+      postExpenses: data.postExpenses,
+      quality: data.quality,
+      lot: data.purchaseInvoiceNumber,
+      purchaseType: data.purchaseType,
+      slabs: data.purchaseInvoiceNumber,
+    });
+  }
   ngOnInit(): void {
+    this.PurchaseService.GetPurchaseDataById(this.purchaseId).subscribe((resp: any) => {
+      this.PurchaseListData = resp.data;
+      this.patchForm(this.PurchaseListData)
+      console.log(resp);
+    })
     this.getSupplier();
     this.unitService.getAllUnitList().subscribe((resp: any) => {
       this.unitListData = resp.data;
