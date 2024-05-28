@@ -87,37 +87,35 @@
                       <label for="lotsNo">Type<span class="login-danger">*</span></label>
                       <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
                         optionLabel="name" optionValue="name" placeholder="--type--" [filter]="true"
-                        filterBy="name" [showClear]="true" (onChange)="lotType()" formControlName="lotsType">
+                        filterBy="name" [showClear]="true" (onChange)="lotType()" formControlName="Type">
                       </p-dropdown>
-                      <div
-                        *ngIf="addPurchaseForm.get('lotsType')?.hasError('required')  && addPurchaseForm.get('lotsType')?.touched">
+                      <div *ngIf="addPurchaseForm.get('lotsType')?.hasError('required') && addPurchaseForm.get('lotsType')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
                   </div>
-
+                  
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Lot'">
                     <div class="form-group local-forms">
                       <label for="lotsNo">Lots Number<span class="login-danger">*</span></label>
-                      <p-dropdown [options]="originalData" [style]="{ width: '100%' }" styleClass="" appendTo="body"
-                        optionLabel="lotName" placeholder="--Lots Number--" [filter]="true"
-                        (onChange)="lotValues($event.value)" filterBy="name" [showClear]="true"
+                      <p-dropdown [options]="Lotlists" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+                        optionLabel="lotName" placeholder="--Lots Number--" [filter]="true" optionValue="_id"
+                        (onChange)="lotValues($event.value)" filterBy="name"
                         formControlName="lotsNo">
                       </p-dropdown>
-                      <div
-                        *ngIf="addPurchaseForm.get('lotsNo')?.hasError('required') && addPurchaseForm.get('lotsNo')?.touched">
+                      <div *ngIf="addPurchaseForm.get('lotsNo')?.hasError('required') && addPurchaseForm.get('lotsNo')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
                   </div>
+                  
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Slabs'">
                     <div class="form-group local-forms">
-                      <label for="lotsNo">Slabs<span class="login-danger">*</span></label>
-                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Slabs--" [options]="slabData"
-                        formControlName="slabs" optionLabel="slabName" display="chip"
-                        (onChange)="slabValues($event.value)" [showClear]="true"></p-multiSelect>
-                      <div
-                        *ngIf="addPurchaseForm.get('slabs')?.hasError('required') && addPurchaseForm.get('slabs')?.touched">
+                      <label for="slabs">Slabs<span class="login-danger">*</span></label>
+                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Slabs--" [options]="slabLists"
+                        formControlName="slabs" optionLabel="slabName" display="chip" optionValue="_id"
+                        (onChange)="slabValues($event.value)"></p-multiSelect>
+                      <div *ngIf="addPurchaseForm.get('slabs')?.hasError('required') && addPurchaseForm.get('slabs')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
@@ -171,9 +169,6 @@
                     >
                     <ng-template pTemplate="header">
                       <tr>
-                        <th appShowHide [roles]="['admin', 'super-admin']">
-                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
                         <th pSortableColumn="purchaseInvoiceNumber">Slab No.<p-sortIcon
                             field="purchaseInvoiceNumber"></p-sortIcon>
                         </th>
@@ -190,9 +185,6 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-purchase>
                       <tr>
-                        <td appShowHide [roles]="['admin', 'super-admin']">
-                          <p-tableCheckbox [value]="purchase"></p-tableCheckbox>
-                        </td>
                         <td>{{purchase.slabNo}}</td>
                         <td>{{purchase.slabName}}</td>
                         <td>{{purchase.totalCosting}}</td>
@@ -202,7 +194,6 @@
                       </tr>
                     </ng-template>
                   </p-table>
-
                 </div>
               </div>
               <div class="row">
