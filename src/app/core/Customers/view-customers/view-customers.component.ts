@@ -58,6 +58,7 @@ export class ViewCustomersComponent implements OnInit{
   paymentDataListById: any[] = [];
   paymentReturnDataListById: any[] = [];
   paymentObject:any={}
+  totalDuoAmount : number = 0
 
   constructor(
     private customerService: CustomersdataService,
@@ -81,11 +82,16 @@ export class ViewCustomersComponent implements OnInit{
   }
 
   getsales() {
+    this.totalDuoAmount = 0;
     this.salesService.getAllSalesByCustomerId(this.id).subscribe((resp: any) => {
-      console.log("Sales Data response by customer id ", resp);
-
+      // console.log("Sales Data response by customer id ", resp);
       this.salesDataShowById = resp.data;
-      console.log("sales Data by customer id ",this.salesDataShowById);
+      // console.log("sales Data by customer id ",this.salesDataShowById);
+resp.data.forEach(e => {
+  this.totalDuoAmount += e.dueAmount
+  console.log(e.dueAmount);
+  
+});
     });
   }
   getsalesReturn() {

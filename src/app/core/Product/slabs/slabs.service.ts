@@ -33,5 +33,8 @@ deleteSlabsById(id: string) {
 getBlockDetailByLotId(id: string) {
   return this.http.get(environment.apiUrl + "/SlabController/getBlockDetailByLotId/" + id,);
 }
+getNotProcessedBlocksByLotId(id: string) {
+  return this.http.get(environment.apiUrl + "/SlabController/getNotProcessedBlocksByLotId/" + id,);
+}
 
 }

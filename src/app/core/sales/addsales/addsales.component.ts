@@ -55,6 +55,7 @@ export class AddsalesComponent implements OnInit {
   customerById = {};
   public itemDetails: number[] = [0];
   isSalesItemUnitPriceDisabled: boolean = false;
+  maxQuantity : number;
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
@@ -78,11 +79,12 @@ export class AddsalesComponent implements OnInit {
       salesItemDetails: this.fb.array([
         this.fb.group({
           salesItemProduct: ['', [Validators.required]],
-          salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
+          salesItemQuantity: ["", [Validators.required, Validators.min(0), Validators.max(this.maxQuantity)]],
           salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
           salesItemTax: [''],
           salesItemTaxAmount: [''],
           salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
+          maxQuantity: [" "],
         }),
       ]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
@@ -114,6 +116,7 @@ export class AddsalesComponent implements OnInit {
       salesItemTax: [''],
       salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
       salesItemTaxAmount: [''],
+      maxQuantity: [''],
     });
     this.salesItemDetails.push(item);
   }
@@ -126,6 +129,7 @@ export class AddsalesComponent implements OnInit {
         _id: {
           _id: element._id,
           name: element.name,
+          billingAddress: element.billingAddress,
         },
       }));
     });
@@ -146,26 +150,37 @@ export class AddsalesComponent implements OnInit {
                 _id: e._id,
                 slabName: e.slabName,
                 sellingPricePerSQFT: e.sellingPricePerSQFT,
+                totalSQFT: e.totalSQFT,
               }
       }));
     });
   }
 
   onSlabSelect(value, i) {
+    this.maxQuantity = 0;
     const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
     const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
+    const maxQuantityPriceControl = salesItemDetailsArray.at(i)?.get("maxQuantity");
     if (salesItemUnitPriceControl) {
       salesItemUnitPriceControl.setValue(value.sellingPricePerSQFT);
+      console.log("totalSQFT", value);
       this.calculateTotalAmount();
+    }
+    if (maxQuantityPriceControl) {
+      maxQuantityPriceControl.setValue(value.totalSQFT);
     }
   }
 
   calculateTotalAmount() {
     let salesGrossTotal = 0;
-
+    
     const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
-
+    
     salesItems.controls.forEach((item: FormGroup) => {
+      if(item.get("salesItemQuantity").value > item.get("maxQuantity").value){
+        console.log("ADnan");
+        item.get("salesItemQuantity").patchValue(item.get("maxQuantity").value)
+      }
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];

@@ -61,7 +61,6 @@ export class AddSalesReturnComponent {
     this.addReturnSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
       returnDate: ["", [Validators.required]],
-      salesDiscount: ["", [Validators.min(0)]],
       salesInvoiceNumber: [
         "",
         [Validators.required],
@@ -70,10 +69,12 @@ export class AddSalesReturnComponent {
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
       salesGrossTotal: [''],
       returnOrderStatus: ["", [Validators.required]],
-      salesShipping: ["", [Validators.min(0)]],
+      salesDiscount: ["", ],
+      otherCharges: ["", ],
+      salesShipping: ["", ],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       salesTotalAmount: [""],
-      otherCharges: ["", [Validators.min(0)]],
+      returnOtherCharges: ["", [Validators.min(0)]],
     });
   }
 
@@ -110,7 +111,8 @@ export class AddSalesReturnComponent {
           name: element.name,
           _id: {
             _id: element._id,
-            name: element.name
+            name: element.name,
+            billingAddress: element.billingAddress,
           }
         })
       });
@@ -170,16 +172,19 @@ export class AddSalesReturnComponent {
     const discount = +this.addReturnSalesForm.get("salesDiscount").value || 0;
     const shipping = +this.addReturnSalesForm.get("salesShipping").value || 0;
     const otherCharges = +this.addReturnSalesForm.get("otherCharges").value || 0;
+    const returnOtherCharges = +this.addReturnSalesForm.get("returnOtherCharges").value || 0;
 
     totalAmount -= discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
+    totalAmount += returnOtherCharges;
 
     this.addReturnSalesForm.patchValue({
       salesTotalAmount: totalAmount.toFixed(2),
       salesDiscount: discount.toFixed(2),
       salesShipping: shipping.toFixed(2),
-      otherCharges: otherCharges.toFixed(2)
+      otherCharges: otherCharges.toFixed(2),
+      returnOtherCharges: returnOtherCharges.toFixed(2)
     });
   }
 
@@ -192,12 +197,13 @@ export class AddSalesReturnComponent {
       salesItemDetails: formData.salesItemDetails,
       salesGrossTotal: formData.salesGrossTotal,
       returnOrderStatus: formData.returnOrderStatus,
-      salesDiscount: formData.salesDiscount,
-      salesShipping: formData.salesShipping,
+      // salesDiscount: formData.salesDiscount,
+      // salesShipping: formData.salesShipping,
       otherCharges: formData.otherCharges,
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesNotes: formData.salesNotes,
-      salesTotalAmount: formData.salesTotalAmount
+      salesTotalAmount: formData.salesTotalAmount,
+      returnOtherCharges: formData.returnOtherCharges
     }
     if (this.addReturnSalesForm.valid) {
       console.log("valid form");

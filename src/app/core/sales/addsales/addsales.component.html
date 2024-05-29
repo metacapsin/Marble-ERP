@@ -50,7 +50,7 @@
                                                     class="login-danger"></span></label>
                                             <input type="text" class="form-control" placeholder="Enter Invoice Number"
                                                 formControlName="salesInvoiceNumber">
-                                            <span style="color: #97704f;     font-size: 12px;
+                                            <span style="color: #97704f; font-size: 12px;
                                             ">Leave it blank to generate automatically</span>
                                         </div>
                                     </div>
@@ -123,6 +123,8 @@
                                                 <td class="col-md-2">
                                                     <input type="number" formControlName="salesItemQuantity"
                                                         (change)="calculateTotalAmount()" class="form-control">
+                                                        <span style="color: #97704f;     font-size: 12px;
+                                            ">Max Quantity: {{addSalesForm.get('salesItemDetails').get(i + '.maxQuantity').value }}</span>
                                                     <div
                                                         *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
                                                         <span class="login-danger">Field is required.</span>
@@ -251,16 +253,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="col-12 mt-3">
-                                                    <div class="form-group local-forms">
-                                                        <label for="salesOrderTax">Order Tax</label>
-                                                        <p-multiSelect [style]="{'width':'100%'}"
-                                                            placeholder="Select Tax" [options]="orderTaxList"
-                                                            formControlName="salesOrderTax" optionLabel="orderTaxName"
-                                                            optionValue="orderNamevalue" display="chip" (onChange)="calculateTotalAmount()">
-                                                        </p-multiSelect>
-                                                    </div>
-                                                </div> -->
                                                 <div class="col-12 ml-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesDiscount">Discount </label>

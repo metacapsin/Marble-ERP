@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-  <div class="content" *ngFor="let data of customerDataById">
+  <div class="content pb-1" *ngFor="let data of customerDataById">
     <div class="page-header">
       <div class="row">
         <div class="col-sm-12 d-flex justify-content-between">
@@ -84,7 +84,7 @@
               <div class="col-xl-6 col-lg-6 col-sm-12">
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                    Credit Period
+                    Credit Period (Days)
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
                     <p class="col-form-label">{{ data.creaditPeriod }}</p>
@@ -95,7 +95,7 @@
                     Credit Limit
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-form-label">{{ data.creaditLimit }}</p>
+                    <p class="col-form-label">₹ {{ data.creaditLimit }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2">
@@ -106,6 +106,14 @@
                     <p class="col-form-label">{{ data.taxNo }}</p>
                   </div>
                 </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Total Due Amount
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{ totalDuoAmount }}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -114,7 +122,7 @@
     </div>
 
     <!-- SALES GRID -->
-    <div class="card">
+    <div class="card ">
       <p-tabView>
         <p-tabPanel header="Sales">
           <p-table [value]="salesDataShowById" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }">
@@ -163,7 +171,7 @@
                 <td>{{ sales.paymentStatus }}</td>
                 <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px;">
                   <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
-                  <p-button [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)"></p-button>
+                  <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'" [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)"></p-button>
                   <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
                 </td>
               </tr>
@@ -261,7 +269,7 @@
                 <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px;">
                   <p-button [text]="true" icon="fa-solid fa-eye"
                     (click)="showReturnInvoiceDialoge(sales._id)"></p-button>
-                  <p-button [text]="true" icon="fa-solid fa-wallet"
+                  <p-button  *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'"  [text]="true" icon="fa-solid fa-wallet"
                     (click)="openPaymentReturnDialog(sales._id)"></p-button>
                   <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
                 </td>

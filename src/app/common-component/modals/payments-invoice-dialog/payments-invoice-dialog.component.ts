@@ -17,6 +17,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { TableModule } from "primeng/table";
 import { TabViewModule } from "primeng/tabview";
 import { ToastModule } from "primeng/toast";
+import { min } from "rxjs";
 import { PaymentInService } from "src/app/core/payment-in/payment-in.service";
 import { PaymentOutService } from "src/app/core/payment-out/payment-out.service";
 import { SalesReturnService } from "src/app/core/sales-return/sales-return.service";
@@ -57,7 +58,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       paymentMode: "Bank",
     },
   ];
-  dueAmount = this.dataById.dueAmount;
+  // dueAmount = this.dataById.salesDueAmount;
 
   notesRegex = /^(?:.{2,100})$/;
 
@@ -71,9 +72,9 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     this.paymentInvoiceForm = this.fb.group({
       paymentDate: ["", [Validators.required]],
       paymentMode: ["", [Validators.required]],
-      note: ["", [Validators.required]],
+      note: ["",],
       // totalAmount: ["", [Validators.required,this.amountExceedsTotalValidator.bind(this)]],
-      totalAmount: ["", [Validators.required, Validators.max(this.dueAmount)]],
+      totalAmount: ["", [Validators.required, Validators.min(0), Validators.max(this.dataById.salesDueAmount)]],
     });
   }
 

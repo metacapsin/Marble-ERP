@@ -48,11 +48,12 @@
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="customer">Customer Name <span
-                                                class="login-danger">*</span></label>
-                                                <p-dropdown [style]="{'width':'100%'}" placeholder="Select Customer"
+                                                    class="login-danger">*</span></label>
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="Select Customer"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
-                                                optionValue="_id" display="chip" [showClear]="true" (onChange)="onCustomerSelect($event.value)"></p-dropdown>
-                                                <div
+                                                optionValue="_id" display="chip" [showClear]="true"
+                                                (onChange)="onCustomerSelect($event.value)"></p-dropdown>
+                                            <div
                                                 *ngIf="addReturnSalesForm.get('customer')?.hasError('required')  && addReturnSalesForm.get('customer')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
@@ -62,9 +63,10 @@
                                         <div class="form-group local-forms">
                                             <label for="salesInvoiceNumber">Invoice Number <span
                                                     class="login-danger">*</span></label>
-                                                    <p-dropdown [style]="{'width':'100%'}" placeholder="Select Invoice"
-                                                    [options]="salesInvoiceList" formControlName="salesInvoiceNumber" optionLabel="salesInvoiceNumber"
-                                                     display="chip" [showClear]="true" (onChange)="onInvoiceSelect($event.value)"></p-dropdown>
+                                            <p-dropdown [style]="{'width':'100%'}" placeholder="Select Invoice"
+                                                [options]="salesInvoiceList" formControlName="salesInvoiceNumber"
+                                                optionLabel="salesInvoiceNumber" display="chip" [showClear]="true"
+                                                (onChange)="onInvoiceSelect($event.value)"></p-dropdown>
                                             <div
                                                 *ngIf="addReturnSalesForm.get('salesInvoiceNumber')?.hasError('required')  && addReturnSalesForm.get('salesInvoiceNumber')?.touched">
                                                 <span class="login-danger">Field is required. </span>
@@ -95,7 +97,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Product</th>
-                                                <th>Quantity  (Sq. Feet) </th>
+                                                <th>Quantity (Sq. Feet) </th>
                                                 <th>Price / Sq. Feet</th>
                                                 <th>Tax</th>
                                                 <th>Sub Total</th>
@@ -135,7 +137,8 @@
                                                     </div>
                                                     <div
                                                         *ngIf="addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('max') && addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
-                                                        <span class="login-danger">Input Should not be more than actual Quantity.</span>
+                                                        <span class="login-danger">Input Should not be more than actual
+                                                            Quantity.</span>
                                                     </div>
                                                 </td>
 
@@ -143,16 +146,6 @@
                                                     <span class="form-control">{{
                                                         addReturnSalesForm.get('salesItemDetails').get(i +
                                                         '.salesItemUnitPrice').value }}</span>
-                                                    <!-- <input type="number" formControlName="salesItemUnitPrice"
-                                                        (change)="calculateTotalAmount()" class="form-control">
-                                                    <div
-                                                        *ngIf="addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').hasError('required') && addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').touched">
-                                                        <span class="login-danger">Field is required.</span>
-                                                    </div>
-                                                    <div
-                                                        *ngIf="addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').hasError('min') && addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemUnitPrice').touched">
-                                                        <span class="login-danger">Input must be at least 0.</span>
-                                                    </div> -->
                                                 </td>
 
                                                 <td class="col-md-2">
@@ -171,17 +164,6 @@
                                                     <span class="form-control">{{
                                                         addReturnSalesForm.get('salesItemDetails').get(i +
                                                         '.salesItemSubTotal').value }}</span>
-                                                    <!-- <input type="number" formControlName="salesItemSubTotal"
-                                                        (change)="calculateTotalAmount()" class="form-control">
-
-                                                    <div
-                                                        *ngIf="addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').hasError('required') && addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').touched">
-                                                        <span class="login-danger">Field is required.</span>
-                                                    </div>
-                                                    <div
-                                                        *ngIf="addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').hasError('min') && addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').touched">
-                                                        <span class="login-danger">Input must be at least 0.</span>
-                                                    </div> -->
                                                 </td>
                                                 <td class="add-remove">
                                                     <p-button [text]=" true" icon="fa fa-trash"
@@ -266,7 +248,7 @@
                                                 <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
                                                         <label for="returnOrderStatus">Return Sales Status <span
-                                                            class="login-danger">*</span></label>
+                                                                class="login-danger">*</span></label>
                                                         <p-dropdown [options]="orderStatusList" styleClass=""
                                                             appendTo="body" optionLabel="orderStatus"
                                                             optionValue="orderStatus" placeholder="Select  Status"
@@ -280,12 +262,32 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-12 ml-3">
+                                                    <div class="form-group local-forms">
+                                                        <label for="returnOtherCharges">Return Other Charges </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">₹</span>
+                                                            </div>
+                                                            <input class="form-control"
+                                                                (change)="calculateTotalAmount()"
+                                                                formControlName="returnOtherCharges" type="number"
+                                                                placeholder="">
+                                                        </div>
+                                                        <div
+                                                            *ngIf="addReturnSalesForm.get('returnOtherCharges')?.hasError('min')  && addReturnSalesForm.get('returnOtherCharges')?.touched">
+                                                            <span class="login-danger">Input must be at least 0.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="invoice-total-inner">
-                                                <p>Gross Total<span>₹ {{ addReturnSalesForm.get('salesGrossTotal').value }}</span></p>
-                                                <p>Discount<span>₹ {{ addReturnSalesForm.get('salesDiscount').value }}</span></p>
-                                                <p>Shipping<span>₹ {{ addReturnSalesForm.get('salesShipping').value }}</span></p>
-                                                <p>Other Charges<span>₹ {{ addReturnSalesForm.get('otherCharges').value }}</span></p>
+                                                <p>Gross Total<span>₹ {{ addReturnSalesForm.get('salesGrossTotal').value
+                                                        }}</span></p>
+                                                <!-- <p>Discount<span>₹ {{ addReturnSalesForm.get('salesDiscount').value }}</span></p> -->
+                                                <!-- <p>Shipping<span>₹ {{ addReturnSalesForm.get('salesShipping').value }}</span></p> -->
+                                                <p>Other Charges<span>₹ {{
+                                                        addReturnSalesForm.get('returnOtherCharges').value }}</span></p>
                                             </div>
 
                                             <div class="invoice-total-footer">

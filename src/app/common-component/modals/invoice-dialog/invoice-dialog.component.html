@@ -9,26 +9,29 @@
             <div class="card-body pb-0">
               <div class="invoice-item invoice-item-one">
                 <div class="row">
+                  <div class="col-12">
+                    <div class="settings-btns text-end m-b-10">
+                      <a (click)="closeTheWindow()" class="btn btn-primary  add-pluss ms-2">
+                        <i class="fa-solid fa-arrow-left p-2"></i>Back</a>
+                      <a (click)="print()" class="btn btn-primary add-pluss ms-2">
+                        <i class="fa-solid fa-print p-2"></i>Print</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <div class="col-md-6">
                     <div class="invoice-logo d-flex justify-content-start">
-                      <!-- <button type="button" label="Cancel" class="fa fa-arrow-left btn-primary"
-                      (click)="closeTheWindow()"> close</button> -->
 
+                      <div class="add-group">
+                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Invoice Number :</span> {{sales.salesInvoiceNumber}}</p>
 
-                      <!-- <p-button [text]="true" icon="fa-solid fa-arrow-left" (click)="closeTheWindow()"></p-button> -->
-                      <!-- <i class="fa-solid fa-arrow-left"> Close</i> -->
-
-                      <div class="add-group textbtn">
-                        <a (click)="closeTheWindow()" class="btn btn-primary add-pluss ms-2">
-                          <i class="fa-solid fa-arrow-left"></i></a>
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="invoice-info">
                       <div class="invoice-head justify-content-end">
-                        <!-- <h2 class="text-primary">Sales</h2> -->
-                        <p>Invoice Number : {{sales.salesInvoiceNumber}}</p>
+                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Billing Address :</span> {{sales.customer.billingAddress}}</p>
                       </div>
                     </div>
                   </div>

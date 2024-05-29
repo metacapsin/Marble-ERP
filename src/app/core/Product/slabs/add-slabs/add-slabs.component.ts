@@ -201,9 +201,9 @@ export class AddSlabsComponent {
   }
   onLotSelect(value: any) {
     console.log(value, "set it lot");
-    this.Service.getBlockDetailByLotId(value._id).subscribe((resp: any) => {
-      this.blockDropDownData = resp.data.blockDetails;
-      console.log("resp.data.blocksDetails", resp.data.blockDetails);
+    this.Service.getNotProcessedBlocksByLotId(value._id).subscribe((resp: any) => {
+      this.blockDropDownData = resp.data;
+      console.log("resp.data.blocksDetails", resp.data);
     });
     console.log("blockDropDownData", this.blockDropDownData);
   }
