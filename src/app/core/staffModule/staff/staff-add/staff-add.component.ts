@@ -39,7 +39,8 @@ export class StaffAddComponent {
     { value: "Marketing Manager" },
   ];
   warehouseData = [];
-  personNameRegex = /^(?! )[A-Za-z]{3,15}(?: [A-Za-z]{3,15})?$/;
+  personNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
+  // personNameRegex = /^(?! )[A-Za-z]{3,15}(?: [A-Za-z]{3,15})?$/;
   AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
   AccountNumberRegex = /^[0-9]{14}$/;
   phoneRegex = /^[0-9]{10}$/;

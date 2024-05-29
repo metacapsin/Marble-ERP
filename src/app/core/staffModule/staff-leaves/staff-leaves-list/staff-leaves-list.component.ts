@@ -92,7 +92,7 @@ originalData = [];
   
     public searchData(value: any): void {
       this.LeaveData = this.originalData.filter(i =>
-      i.employee.toLowerCase().includes(value.trim().toLowerCase())
+      i.employee.name.toLowerCase().includes(value.trim().toLowerCase())
     );
     }
   

@@ -192,6 +192,13 @@ const routes: Routes = [
             (m) => m.StaffLeavesModule
           ),
       },
+      {
+        path: 'staff-salary',
+        loadChildren: () =>
+          import('./payrollModule/staff-salary/staff-salary.module').then(
+            (m) => m.StaffSalaryModule
+          ),
+      },
 
     ],
   },

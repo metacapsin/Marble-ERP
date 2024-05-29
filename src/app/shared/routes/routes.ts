@@ -261,14 +261,14 @@ export class routes {
   public static get patientsList(): string {
     return this.baseUrl + '/patient/patients-list';
   }
+  public static get salary(): string {
+    return this.baseUrl + '/staff-salary';
+  }
   public static get addSalary(): string {
-    return this.baseUrl + '/payroll/add-salary';
+    return this.baseUrl + '/staff-salary/add-staff-salary';
   }
   public static get editSalary(): string {
-    return this.baseUrl + '/payroll/edit-salary/:id';
-  }
-  public static get salary(): string {
-    return this.baseUrl + '/payroll/salary';
+    return this.baseUrl + '/staff-salary/edit-staff-salary/:id';
   }
   public static get salaryView(): string {
     return this.baseUrl + '/payroll/salary-view';
