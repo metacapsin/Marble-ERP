@@ -29,4 +29,7 @@ export class PaymentOutService {
   getPaymentDetailById(id: any) {
     return this.http.get(environment.apiUrl + "/Sales/getPaymentDetailById/" + id)
   }
+  getPurchaseBySupplierId(id:any){
+    return this.http.get(environment.apiUrl + `/Purchase/getPurchaseBySupplierId/${id}`)
+  }
 }

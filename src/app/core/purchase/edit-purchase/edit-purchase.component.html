@@ -15,7 +15,7 @@
             <li class="breadcrumb-item">
               <i class="feather icon-chevron-right"></i>
             </li>
-            <li class="breadcrumb-item active">purchase Add</li>
+            <li class="breadcrumb-item active">purchase Edit</li>
           </ul>
         </div>
       </div>
@@ -88,7 +88,7 @@
                     <div class="form-group local-forms">
                       <label for="lotsNo">Type<span class="login-danger">*</span></label>
                       <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
-                        optionLabel="name" optionValue="name" placeholder="--type--" [filter]="true"
+                        optionLabel="name" optionValue="_id" placeholder="--type--" [filter]="true"
                         filterBy="name" [showClear]="true" (onChange)="lotType()" formControlName="purchaseType">
                       </p-dropdown>
                       <div *ngIf="editPurchaseForm.get('lotsType')?.hasError('required') && editPurchaseForm.get('lotsType')?.touched">
@@ -97,27 +97,27 @@
                     </div>
                   </div>
                   
-                  <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Lot'">
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'lot'">
                     <div class="form-group local-forms">
                       <label for="lotsNo">Lots Number<span class="login-danger">*</span></label>
                       <p-dropdown [options]="Lotlists" [style]="{ width: '100%' }" styleClass="" appendTo="body"
-                        optionLabel="lotName" placeholder="--Lots Number--" [filter]="true" optionValue="_id"
+                        optionLabel="lotName" placeholder="--Lots Number--" [filter]="true" 
                         (onChange)="lotValues($event.value)" filterBy="name"
-                        formControlName="lotsNo">
+                        formControlName="lotDetail">
                       </p-dropdown>
-                      <div *ngIf="editPurchaseForm.get('lotsNo')?.hasError('required') && editPurchaseForm.get('lotsNo')?.touched">
+                      <div *ngIf="editPurchaseForm.get('lotDetail')?.hasError('required') && editPurchaseForm.get('lotDetail')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
                   </div>
                   
-                  <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'Slabs'">
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12" *ngIf="lotValue === 'slab'">
                     <div class="form-group local-forms">
                       <label for="slabs">Slabs<span class="login-danger">*</span></label>
                       <p-multiSelect [style]="{ width: '100%' }" placeholder="--Slabs--" [options]="slabLists"
-                        formControlName="slabs" optionLabel="slabName" display="chip" optionValue="_id"
+                        formControlName="slabDetails" optionLabel="slabName" display="chip"
                         (onChange)="slabValues($event.value)"></p-multiSelect>
-                      <div *ngIf="editPurchaseForm.get('slabs')?.hasError('required') && editPurchaseForm.get('slabs')?.touched">
+                      <div *ngIf="editPurchaseForm.get('slabDetails')?.hasError('required') && editPurchaseForm.get('slabDetails')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>

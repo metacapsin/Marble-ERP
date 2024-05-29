@@ -26,6 +26,7 @@ import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
 import { LotService } from "../../Product/lot/lot.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
+import { format } from "crypto-js";
 
 @Component({
   selector: "app-edit-purchase",
@@ -66,7 +67,10 @@ export class EditPurchaseComponent implements OnInit {
     { orderStatus: "Shipping" },
     { orderStatus: "Delivered" },
   ];
-  lotsNoArray = [{ name: "Lot" }, { name: "Slabs" }];
+  lotsNoArray = [
+    { name: "Lot", _id: "lot" },
+    { name: "Slabs", _id: "slab" },
+  ];
   orderTaxList = [];
   slabData: any;
   // lotsNo: any;
@@ -83,9 +87,8 @@ export class EditPurchaseComponent implements OnInit {
   notesRegex = /^(?:.{2,100})$/;
   addTaxTotal: any;
   tandCRegex = /^(?:.{2,200})$/;
-  purchaseId:any
-  PurchaseListData:any
-
+  purchaseId: any;
+  PurchaseListData: any;
 
   constructor(
     private taxService: TaxesService,
@@ -99,7 +102,7 @@ export class EditPurchaseComponent implements OnInit {
     private unitService: UnitsService,
     private Lotservice: LotService,
     private service: SlabsService,
-    private activeRoute: ActivatedRoute,
+    private activeRoute: ActivatedRoute
   ) {
     this.editPurchaseForm = this.fb.group({
       purchaseInvoiceNumber: [""],
@@ -117,9 +120,9 @@ export class EditPurchaseComponent implements OnInit {
       oceanFrieght: [""],
       postExpenses: [""],
       quality: [""],
-      lot: [""],
+      lotDetail: [""],
       purchaseType: ["", [Validators.required]],
-      slabs: [""],
+      slabDetails: [""],
     });
     this.purchaseId = this.activeRoute.snapshot.params["id"];
   }
@@ -132,8 +135,8 @@ export class EditPurchaseComponent implements OnInit {
     this.SlabAddValue = 0;
     this.calculateTotalAmount();
 
-    this.editPurchaseForm.get("lot")?.reset();
-    this.editPurchaseForm.get("slabs")?.reset();
+    // this.editPurchaseForm.get("lotDetails")?.reset();
+    // this.editPurchaseForm.get("slabDetail")?.reset();
   }
   lotValues(LotValue: any) {
     console.log("LotValue", LotValue);
@@ -145,6 +148,7 @@ export class EditPurchaseComponent implements OnInit {
     this.TotleLotCost = LotValue.lotTotalCosting || 0;
     this.calculateTotalAmount();
     this.GridDataForSlab = [];
+    console.log(LotValue);
   }
 
   slabValues(slabValue: any) {
@@ -180,6 +184,20 @@ export class EditPurchaseComponent implements OnInit {
   }
   patchForm(data) {
     console.log(data);
+    //     // Ensure Lotlists and slabLists are defined and have elements
+    // if (this.Lotlists && Array.isArray(this.Lotlists)) {
+    //   var validLotDetails = this.Lotlists.find(lot => lot._id === data.lotDetails);
+    // } else {
+    //   console.warn('Lotlists is undefined or not an array');
+    //   var validLotDetails = null;
+    // }
+
+    // if (this.slabLists && Array.isArray(this.slabLists)) {
+    //   var validSlabDetails = data.slabDetail ? data.slabDetail.filter(slab => this.slabLists.some(s => s._id === slab)) : [];
+    // } else {
+    //   console.warn('slabLists is undefined or not an array');
+    //   var validSlabDetails:any = [];
+    // }
     this.editPurchaseForm.patchValue({
       purchaseInvoiceNumber: data.purchaseInvoiceNumber,
       purchaseSupplierName: data.purchaseSupplierName,
@@ -196,17 +214,24 @@ export class EditPurchaseComponent implements OnInit {
       oceanFrieght: data.oceanFrieght,
       postExpenses: data.postExpenses,
       quality: data.quality,
-      lot: data.purchaseInvoiceNumber,
+      lotDetail: data.lotDetail,
       purchaseType: data.purchaseType,
-      slabs: data.purchaseInvoiceNumber,
+      slabDetails: data.slabDetails,
     });
+    this.lotType();
   }
   ngOnInit(): void {
-    this.PurchaseService.GetPurchaseDataById(this.purchaseId).subscribe((resp: any) => {
-      this.PurchaseListData = resp.data;
-      this.patchForm(this.PurchaseListData)
-      console.log(resp);
-    })
+    this.PurchaseService.GetPurchaseDataById(this.purchaseId).subscribe(
+      (resp: any) => {
+        this.PurchaseListData = resp.data;
+        this.patchForm(this.PurchaseListData);
+        console.log(resp);
+
+        if(resp.data.purchaseType == 'slab'){
+          this.slabValues(resp.data.slabDetails);
+        }
+      }
+    );
     this.getSupplier();
     this.unitService.getAllUnitList().subscribe((resp: any) => {
       this.unitListData = resp.data;
@@ -236,12 +261,9 @@ export class EditPurchaseComponent implements OnInit {
         console.log(element);
         this.Lotlists.push({
           lotName: element.lotName,
-          _id: {
-            _id: element._id,
-            lotName: element.lotName,
-            lotNo: element.lotNo,
-            lotTotalCosting: element.lotTotalCosting,
-          },
+          _id: element._id,
+          lotNo: element.lotNo,
+          lotTotalCosting: element.lotTotalCosting,
         });
       });
     });
@@ -252,16 +274,13 @@ export class EditPurchaseComponent implements OnInit {
       this.slabData.forEach((element: any) => {
         this.slabLists.push({
           slabName: element.slabName,
-          _id: {
-            _id: element._id,
-            slabName: element.slabName,
-            slabNo: element.slabNo,
-            totalCosting: element.totalCosting,
-          },
+          _id: element._id,
+          slabNo: element.slabNo,
+          totalCosting: element.totalCosting,
+          totalSQFT: element.totalSQFT,
+          sellingPricePerSQFT: element.sellingPricePerSQFT,
         });
-        // console.log(this.slabLists);
       });
-      // console.log("API", this.data);
     });
   }
   calculateTotalAmount() {
@@ -321,8 +340,11 @@ export class EditPurchaseComponent implements OnInit {
         totalTax = totalTax + e.taxRate;
       });
     }
-    if (formData.slabs === null && formData.lot === null) {
-        this.messageService.add({ severity: "error", detail: "Select one Lot or Slab" });
+    if (formData.slabDetails === null && formData.lotDetail === null) {
+      this.messageService.add({
+        severity: "error",
+        detail: "Select one Lot or Slab",
+      });
     }
     const payload = {
       purchaseInvoiceNumber: formData.purchaseInvoiceNumber,
@@ -340,24 +362,24 @@ export class EditPurchaseComponent implements OnInit {
       purchaseShipping: formData.purchaseShipping,
       purchaseTermsAndCondition: formData.purchaseTermsAndCondition,
       purchaseTotalAmount: formData.purchaseTotalAmount,
-      purchaselots: formData.lot,
-      purchaseslabs: formData.slabs,
+      lotDetail: formData.lotDetail,
+      slabDetail: formData.slabDetails,
+      purchaseOrderStatus: formData.purchaseOrderStatus,
+      id:this.purchaseId,
     };
-
+    console.log(payload);
     if (this.editPurchaseForm.valid) {
       console.log("valid form");
-      this.PurchaseService.AddPurchaseData(payload).subscribe((resp: any) => {
+      this.PurchaseService.UpdatePurchaseData(payload).subscribe((resp: any) => {
         console.log(resp);
         if (resp) {
           if (resp.status === "success") {
-            const message = "Purchase has been added";
-            this.messageService.add({ severity: "success", detail: message });
+            this.messageService.add({ severity: "success", detail: resp.message });
             setTimeout(() => {
               this.router.navigate(["/purchase"]);
             }, 400);
           } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
+            this.messageService.add({ severity: "error", detail: resp.message });
           }
         }
       });

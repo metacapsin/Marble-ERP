@@ -110,17 +110,17 @@
                                                     <th>Amount</th>
                                                 </tr>
                                             </thead>
-                                            <tbody formArrayName="sales">
-                                                <tr *ngFor="let sale of purchaseDataById; let i = index"
+                                            <tbody formArrayName="purchase">
+                                                <tr *ngFor="let purchase of purchaseDataById; let i = index"
                                                     [formGroupName]="i">
                                                     <td>
-                                                        <span class="bold">{{ sale.salesInvoiceNumber }}</span>
+                                                        <span class="bold">{{ purchase.salesInvoiceNumber }}</span>
                                                     </td>
                                                     <td>
-                                                        <span class="bold">{{ sale.salesDate }}</span>
+                                                        <span class="bold">{{ purchase.salesDate }}</span>
                                                     </td>
                                                     <td>
-                                                        <label>{{ sale.salesTotalAmount }}</label>
+                                                        <label>{{ purchase.salesTotalAmount }}</label>
                                                     </td>
                                                     <td>
                                                         <div class="input-group">
@@ -130,11 +130,11 @@
                                                             <input type="number" formControlName="amount"
                                                                 class="form-control">
                                                             <div
-                                                                *ngIf="addPaymentInForm.get('sales').get(i + '.amount').hasError('required') && addPaymentInForm.get('sales').get(i + '.amount').touched">
+                                                                *ngIf="addPaymentInForm.get('purchase').get(i + '.amount').hasError('required') && addPaymentInForm.get('purchase').get(i + '.amount').touched">
                                                                 <span class="login-danger">Field is required.</span>
                                                             </div>
                                                             <div
-                                                                *ngIf="addPaymentInForm.get('sales').get(i + '.amount').hasError('min') && addPaymentInForm.get('sales').get(i + '.amount').touched">
+                                                                *ngIf="addPaymentInForm.get('purchase').get(i + '.amount').hasError('min') && addPaymentInForm.get('purchase').get(i + '.amount').touched">
                                                                 <span class="login-danger">Input must be more than
                                                                     0.</span>
                                                             </div>

@@ -14,6 +14,7 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
+import { SlabsService } from '../Product/slabs/slabs.service';
 
 @Component({
   selector: 'app-purchase',
@@ -53,6 +54,8 @@ export class PurchaseComponent {
   addTaxTotal:any
   setDataInPopPu:any
   purchaseId:any
+  blockDetailsTable:any
+
 
 
 
@@ -62,7 +65,7 @@ export class PurchaseComponent {
     {customerName:"Kavya"},
   ];
 
-  constructor(public data : DataService,private Service:PurchaseService,private router: Router,private messageService: MessageService){
+  constructor(public data : DataService,private Service:PurchaseService,private router: Router,private messageService: MessageService,private service: SlabsService){
   }
   ngOnInit() {
     this.getTableData();
@@ -82,18 +85,22 @@ export class PurchaseComponent {
   }
 
 
-  showDialogView(id:any) {
+  showDialogView(id: any) {
     let totalTax = 0;
     this.visible = true;
-    this.Service.GetPurchaseDataById(id).subscribe((resp: any) => {
+    this.Service.GetPurchaseDataById(id).subscribe((resp:any)=>{
       this.PurchaseListData = [resp.data];
-      this.setDataInPopPu = this.PurchaseListData[0]
-      resp.data.appliedTax.forEach(element => {
-        totalTax += Number(element.taxRate);
-      });
-      this.addTaxTotal = resp.data.purchaseGrossTotal * totalTax / 100;
-    });
+      console.log(this.PurchaseListData[0].lotDetails);
+      console.log(this.PurchaseListData);
+      console.log(resp);
+      if(resp.data.lotDetails){
+        this.service.getBlockDetailByLotId(resp.data.lotDetails._id).subscribe((resp: any) => {
+          this.blockDetailsTable = resp.data.blockDetails;
+        });
+      }
+    })
   }
+  
 
 
 

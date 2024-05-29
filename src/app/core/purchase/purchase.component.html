@@ -57,7 +57,7 @@
                   <th pSortableColumn="purchaseDate"> Purchase Date <p-sortIcon field="purchaseDate"></p-sortIcon>
                     <p-columnFilter type="text" field="purchaseDate" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="supplier.name">Supplier<p-sortIcon field="supplier.name"></p-sortIcon>
+                  <th pSortableColumn="purchaseSupplierName.name">Supplier<p-sortIcon field="supplier.name"></p-sortIcon>
                     <p-columnFilter type="text" field="supplier.name" display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon field="purchaseOrderStatus"></p-sortIcon></th>
@@ -110,9 +110,9 @@
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>
 
-  <p-dialog header="Purchase Details" [(visible)]="visible" *ngFor="let purchase of PurchaseListData" [modal]="true"
+  <p-dialog header="Purchase Details" [(visible)]="visible" [modal]="true"
   [style]="{width: '80vw'}">
-  <div class="modal-content">
+  <div class="modal-content" *ngFor="let purchase of PurchaseListData">
     <div class="modal-body">
       <div class="row justify-content-center">
         <div class="col-lg-12">
@@ -146,7 +146,7 @@
                           <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{purchase.supplier.name}}</p>
+                              <p class="col-lg-9 col-form-label">{{purchase.purchaseSupplierName.name}}</p>
                             </div>
                           </div>
                           <div class="form-group row mb-2">
@@ -203,32 +203,70 @@
               </div>
 
 
-              <div class="card">
+              <div class="card" *ngIf="PurchaseListData[0].lotDetails">
                 <p-tabView>
-                  <!-- <p-tabPanel header="Payments">
-                    <p-table [value]="paymentListData" [tableStyle]="{'min-width': '60rem'}">
+                 <p-tabPanel header="Purchase">
+                    <p-table [value]="blockDetailsTable" [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
                         <tr>
-                          <th pSortableColumn="transactionNo">Trnx No. <p-sortIcon field="transactionNo"></p-sortIcon>
+                          <th pSortableColumn="transactionNo">Block No.
                           </th>
-                          <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
+                          <th pSortableColumn="paymentDate">Height
                           </th>
-                          <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
+                          <th pSortableColumn="paymentDate">Length
                           </th>
-                          <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
+                          <th pSortableColumn="paymentDate">Width
+                          </th>
+                          <th pSortableColumn="amount">Total Costing
+                          </th>
+                          <!-- <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon> -->
+                          <!-- </th> -->
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-payment>
+                        <tr>
+                          <td class="bold">{{payment.blockNo}}</td>
+                          <td>{{payment.height}}</td>
+                          <td>{{payment.length}}</td>
+                          <td>{{payment.width}}</td>
+                          <!-- <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td> -->
+                          <td>₹ {{payment.totalCosting}}</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </p-tabPanel> 
+                </p-tabView>
+              </div>
+
+              <div class="card" *ngIf="PurchaseListData[0].slabDetails">
+                <p-tabView>
+                 <p-tabPanel header="Payments">
+                    <p-table [value]="PurchaseListData[0].slabDetails" [tableStyle]="{'min-width': '60rem'}">
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th pSortableColumn="transactionNo">Slab Name
+                          </th>
+                          <th pSortableColumn="paymentDate">Total Costing
+                          </th>
+                          <th pSortableColumn="amount">Slab No 
+                          </th>
+                          <th pSortableColumn="paymentMode">Selling Price Per SQFT
+                          </th>
+                          <th pSortableColumn="amount">Total SQFT
                           </th>
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-payment>
                         <tr>
-                          <td class="bold">{{payment.transactionNo}}</td>
-                          <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
-                          <td>₹ {{payment.amount}}</td>
-                          <td>{{payment.paymentMode}}</td>
+                          <td class="bold">{{payment.slabName}}</td>
+                          <td class="bold">{{payment.totalCosting}}</td>
+                          <td>₹ {{payment.slabNo}}</td>
+                          <td>{{payment.sellingPricePerSQFT}}</td>
+                          <td>{{payment.totalSQFT}}</td>
                         </tr>
                       </ng-template>
                     </p-table>
-                  </p-tabPanel> -->
+                  </p-tabPanel> 
                   <p-tabPanel header="Items">
                     <p-table [value]="PurchaseListData" [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
@@ -286,10 +324,10 @@
                     <div class="invoice-total-box">
                        <div class="invoice-total-inner">
                         <p>Gross Total <span>₹ {{purchase.purchaseGrossTotal}}</span></p>
-                        <p>Applied Tax Amount <span>₹ {{addTaxTotal}} </span></p>
+                        <!-- <p>Applied Tax Amount <span>₹ {{addTaxTotal}} </span></p> -->
                         <p>Shipping Charges <span>₹ {{purchase.purchaseShipping}}</span></p>
                         <p>Discount <span>₹ {{purchase.purchaseDiscount}}</span></p>
-                        <p>OtherCharges <span>₹ {{purchase.purchaseOtherCharges}}</span></p>
+                        <p>OtherCharges <span>₹ {{purchase.otherCharges}}</span></p>
                       </div>
                       <div class="invoice-total-footer">
                         <h4>Total Amount <span>₹ {{purchase.purchaseTotalAmount}}</span></h4>

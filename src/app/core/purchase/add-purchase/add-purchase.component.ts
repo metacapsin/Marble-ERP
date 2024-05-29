@@ -66,7 +66,10 @@ export class AddPurchaseComponent implements OnInit {
     { orderStatus: "Shipping" },
     { orderStatus: "Delivered" },
   ];
-  lotsNoArray = [{ name: "Lot" }, { name: "Slabs" }];
+  lotsNoArray = [
+    { name: "Lot", _id: "lot" },
+    { name: "Slabs", _id: "slab" },
+  ];
   orderTaxList = [];
   slabData: any;
   lotsNo: any;
@@ -113,9 +116,9 @@ export class AddPurchaseComponent implements OnInit {
       oceanFrieght: [""],
       postExpenses: [""],
       quality: [""],
-      lot: [""],
+      lotDetail: [""],
       purchaseType: ["", [Validators.required]],
-      slabs: [""],
+      slabDetails: [""],
       // purchaseItemDetails: this.fb.array([
       //   this.fb.group({
       //     purchaseItemCategory: ["", [Validators.required]],
@@ -141,8 +144,8 @@ export class AddPurchaseComponent implements OnInit {
     this.SlabAddValue = 0;
     this.calculateTotalAmount();
 
-    this.addPurchaseForm.get("lot")?.reset();
-    this.addPurchaseForm.get("slabs")?.reset();
+    this.addPurchaseForm.get("lotDetail")?.reset();
+    this.addPurchaseForm.get("slabDetails")?.reset();
   }
   lotValues(LotValue: any) {
     console.log("LotValue", LotValue);
@@ -154,6 +157,7 @@ export class AddPurchaseComponent implements OnInit {
     this.TotleLotCost = LotValue.lotTotalCosting || 0;
     this.calculateTotalAmount();
     this.GridDataForSlab = [];
+    console.log(LotValue);
   }
 
   slabValues(slabValue: any) {
@@ -218,13 +222,10 @@ export class AddPurchaseComponent implements OnInit {
       this.originalData.forEach((element: any) => {
         console.log(element);
         this.Lotlists.push({
+          _id: element._id,
           lotName: element.lotName,
-          _id: {
-            _id: element._id,
-            lotName: element.lotName,
-            lotNo: element.lotNo,
-            lotTotalCosting: element.lotTotalCosting,
-          },
+          lotNo: element.lotNo,
+          lotTotalCosting: element.lotTotalCosting,
         });
       });
     });
@@ -235,14 +236,11 @@ export class AddPurchaseComponent implements OnInit {
       this.slabData.forEach((element: any) => {
         this.slabLists.push({
           slabName: element.slabName,
-          _id: {
-            _id: element._id,
-            slabName: element.slabName,
-            slabNo: element.slabNo,
-            totalCosting: element.totalCosting,
-            totalSQFT: element.totalSQFT,
-            sellingPricePerSQFT: element.sellingPricePerSQFT,
-          },
+          _id: element._id,
+          slabNo: element.slabNo,
+          totalCosting: element.totalCosting,
+          totalSQFT: element.totalSQFT,
+          sellingPricePerSQFT: element.sellingPricePerSQFT,
         });
         // console.log(this.slabLists);
       });
@@ -307,7 +305,7 @@ export class AddPurchaseComponent implements OnInit {
     //     totalTax = totalTax + e.taxRate;
     //   });
     // }
-    if (formData.slabs === null && formData.lot === null) {
+    if (formData.slabDetails === null && formData.lotDetail === null) {
       this.messageService.add({
         severity: "error",
         detail: "Select one Lot or Slab",
@@ -318,8 +316,8 @@ export class AddPurchaseComponent implements OnInit {
       purchaseDate: formData.purchaseDate,
       quality: formData.purchaseDiscount,
       purchaseType: formData.purchaseType,
-      slabs: formData.slabs,
-      lot: formData.lot,
+      slabDetail: formData.slabDetails,
+      lotDetail: formData.lotDetail,
       purchaseDiscount: formData.purchaseDiscount,
       purchaseGrossTotal: formData.purchaseGrossTotal,
       purchaseNotes: formData.purchaseNotes,
