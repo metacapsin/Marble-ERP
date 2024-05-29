@@ -6,9 +6,9 @@ import { routes } from "src/app/shared/routes/routes";
 import { DialogModule } from "primeng/dialog";
 import { ExpensesCategoriesdataService } from "./expenseCategories.service";
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
   Validators,
+  FormGroup,
 } from "@angular/forms";
 
 @Component({
@@ -32,8 +32,8 @@ export class ExpensesCategoriesComponent {
   expenseId: any;
   ExpensesByID: any;
   ExpensesDataById: any;
-  addExpensesCategory: UntypedFormGroup;
-  editExpensesCategory: UntypedFormGroup;
+  addExpensesCategoryForm: FormGroup;
+  editExpensesCategory: FormGroup;
   id: any;
   visible: boolean = false;
   visible1: boolean = false;
@@ -41,13 +41,10 @@ export class ExpensesCategoriesComponent {
     private router: Router,
     private Service: ExpensesCategoriesdataService,
     private messageService: MessageService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private activeRoute: ActivatedRoute
   ) {
-    this.routerChangeSubscription = this.router.events.subscribe((event) => {
-      this.currentRoute = this.router.url;
-    });
-    this.addExpensesCategory = this.fb.group({
+    this.addExpensesCategoryForm = this.fb.group({
       categoryName: ["", [Validators.required]],
       categoryDescription: [""],
     });
@@ -58,75 +55,20 @@ export class ExpensesCategoriesComponent {
     this.id = this.activeRoute.snapshot.params["id"];
   }
   getExpenses() {
-    this.Service.GetExpensesData().subscribe((data) => {
-      this.dataSource = data;
-      this.originalData = data;
+    this.Service.GetExpensesData().subscribe((resp:any) => {
+      this.dataSource = resp.data;
+      this.originalData = resp.data;
     });
   }
-  addExpensesCategoryForm() {
-    console.log(this.addExpensesCategory.value);
-    if (this.addExpensesCategory.valid) {
-      this.visible = false;
-      const payload = {
-        categoryName: this.addExpensesCategory.value.categoryName,
-        categoryDescription: this.addExpensesCategory.value.categoryDescription,
-      };
-      this.Service.AddExpensesdata(payload).subscribe((resp: any) => {
-        console.log(resp);
-        if (resp) {
-          if (resp.status === "success") {
-            const message = "User has been added";
-            this.messageService.add({ severity: "success", detail: message });
-            setTimeout(() => {
-              this.router.navigate(["/expenseCategories"]);
-              this.getExpenses();
-            }, 400);
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
-          }
-        }
-      });
-    } else {
-    }
-  }
-  editExpensesCategoryForm() {
-    console.log(this.editExpensesCategory.value);
-    if (this.editExpensesCategory.valid) {
-      this.visible1 = false;
-      const payload = {
-        id: this.ExpensesByID,
-        categoryName: this.editExpensesCategory.value.categoryName,
-        categoryDescription:
-          this.editExpensesCategory.value.categoryDescription,
-      };
-      console.log(this.ExpensesByID);
-      this.Service.UpDataExpensesApi(payload).subscribe((resp: any) => {
-        if (resp) {
-          if (resp.status === "success") {
-            this.messageService.add({
-              severity: "success",
-              detail: resp.message,
-            });
-            setTimeout(() => {
-              this.router.navigate(["/expenseCategories"]);
-              this.getExpenses();
-            }, 400);
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
-          }
-        }
-      });
-    } else {
-    }
-  }
+
+
+  
   ngOnInit() {
     this.getExpenses();
   }
   showDialog() {
     this.visible = true;
-    this.addExpensesCategory.reset();
+    this.addExpensesCategoryForm.reset();
   }
   addCloseDialog() {
     this.visible = false;
@@ -135,18 +77,14 @@ export class ExpensesCategoriesComponent {
     this.visible1 = false;
   }
   showDialogEdit(id: any) {
+    // this.editExpensesCategory.reset();
     this.visible1 = true;
-    this.editExpensesCategory.reset();
     this.ExpensesByID = id;
     this.Service.GetExpensesDataById(id).subscribe((resp: any) => {
-      console.log(resp);
-      this.ExpensesDataById = resp;
-      console.log(this.ExpensesDataById);
-      this.patchValuesForm(this.ExpensesDataById);
+      this.patchValuesForm(resp.data);
     });
   }
   patchValuesForm(data: any) {
-    console.log(data);
     this.editExpensesCategory.patchValue({
       categoryName: data.categoryName,
       categoryDescription: data.categoryDescription,
@@ -174,6 +112,8 @@ export class ExpensesCategoriesComponent {
   close() {
     this.showDialoge = false;
   }
+  //
+
   public searchData(value: any): void {
     this.dataSource = this.originalData.filter((i) =>
       i.name.toLowerCase().includes(value.trim().toLowerCase())
@@ -184,16 +124,56 @@ export class ExpensesCategoriesComponent {
     const endIndex = startIndex + event.rows;
     const currentPageData = this.dataSource.slice(startIndex, endIndex);
   }
-  ngOnDestroy() {
-    this.routerChangeSubscription.unsubscribe();
-  }
-  isRouteActive(text) {
-    if (!this.currentRoute) return "";
-    let str = this.currentRoute?.includes(text);
-    if (str) {
-      return "active";
+
+  addExpensesCategoryFormsubmit() {
+    const payload = {
+      categoryName: this.addExpensesCategoryForm.value.categoryName,
+      categoryDescription: this.addExpensesCategoryForm.value.categoryDescription,
+    };
+    if (this.addExpensesCategoryForm.valid) {
+      this.Service.AddExpensesdata(payload).subscribe((resp: any) => {
+        this.visible = false;
+        if (resp) {
+          if (resp.status === "success") {
+            const message = "Expenses Category has been added";
+            this.messageService.add({ severity: "success", detail: message });
+            this.getExpenses();
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      });
     } else {
-      return "non-active";
+      console.log("Form is invalid");
+      
+    }
+  }
+
+
+  editExpensesCategoryForm() {
+    const payload = {
+      id: this.ExpensesByID,
+      categoryName: this.editExpensesCategory.value.categoryName,
+      categoryDescription:
+        this.editExpensesCategory.value.categoryDescription,
+    };
+    
+    if (this.editExpensesCategory.valid) {
+      this.Service.UpDataExpensesApi(payload).subscribe((resp: any) => {
+          if (resp.status === "success") {
+            this.closeDialogEdit();
+            const message = "Expenses Category has been updated";
+            this.messageService.add({ severity: "success", detail: message });
+            this.getExpenses();
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      );
+    } else {
+      console.log("Form is invalid!");
     }
   }
 }

@@ -33,123 +33,43 @@
                                             <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                         </div>
                                         <div class="add-group textbtn gap-3">
-                                            
+
                                             <a class="btn btn-primary" (click)="showDialog()"><img
                                                     src="assets/img/icons/plus.svg" alt="">Add Expenses Categories</a>
                                         </div>
-                                        <p-dialog header="Add Expenses Categories" [(visible)]="visible" [modal]="true"
-                                            [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
-                                            <div class="mt-3">
-                                                <form [formGroup]="addExpensesCategory"
-                                                    (ngSubmit)="addExpensesCategoryForm()">
-                                                    <div class="col-12 col-md-12 col-xl-12">
-                                                        <div class="form-group local-forms">
-                                                            <label for="categoryName">Expense Category Name<span
-                                                                    class="login-danger">*</span></label>
-                                                            <input class="form-control" type="text" autofocus
-                                                                placeholder="Please Enter Expense Category Name"
-                                                                formControlName="categoryName" />
-                                                            <div *ngIf="
-                                                      addExpensesCategory
-                                                        .get('categoryName')
-                                                        ?.hasError('required') &&
-                                                      addExpensesCategory.get('categoryName')?.touched
-                                                    " class="login-danger Font_size">
-                                                                Field is required.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-12 col-md-12 col-xl-12">
-                                                        <div class="form-group local-forms">
-                                                            <label for="Description">Description<span
-                                                                    class="login-danger"></span></label>
-                                                            <textarea class="form-control" type="text"
-                                                                placeholder="Please Enter Description"
-                                                                formControlName="categoryDescription" rows="4"></textarea>
-                                     
-                                                        </div>
-                                                    </div>
-
-
-
-                                                    <button
-                                                        class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
-                                                    <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                                        (click)="addCloseDialog()" type="button">Cancel</button>
-                                                </form>
-                                            </div>
-                                        </p-dialog>
-                                        <p-dialog header="Edit Expenses Categories" [(visible)]="visible1"
-                                            [modal]="true" [style]="{ width: '30vw' }" [draggable]="false"
-                                            [resizable]="false">
-                                            <div class="mt-3">
-                                                <form [formGroup]="editExpensesCategory"
-                                                    (ngSubmit)="editExpensesCategoryForm()">
-                                                    <div class="col-12 col-md-12 col-xl-12">
-                                                        <div class="form-group local-forms">
-                                                            <label for="categoryName">Expense Category Name<span
-                                                                    class="login-danger">*</span></label>
-                                                            <input class="form-control" type="text" autofocus
-                                                                placeholder="Please Enter Expense Category Name"
-                                                                formControlName="categoryName" />
-                                                            <div *ngIf="
-                                                      addExpensesCategory
-                                                        .get('categoryName')
-                                                        ?.hasError('required') &&
-                                                      addExpensesCategory.get('categoryName')?.touched
-                                                    " class="login-danger Font_size">
-                                                                Field is required.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-12 col-md-12 col-xl-12">
-                                                        <div class="form-group local-forms">
-                                                            <label for="Description">Description<span
-                                                                    class="login-danger"></span></label>
-                                                            <textarea class="form-control" type="text"
-                                                                placeholder="Please Enter Description"
-                                                                formControlName="categoryDescription" rows="4"></textarea>
-                                                           
-                                                        </div>
-                                                    </div>
-                                                    <button
-                                                        class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
-                                                        <button class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                                        (click)="closeDialogEdit()" type="button">Cancel</button>
-                                                    </form>
-                                            </div>
-                                        </p-dialog>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
-                            [roles]="['admin', 'super-admin', 'help-desk']">
-                            <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
-                                    alt=""></a>
-                            <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                                    alt=""></a>
+                                [roles]="['admin', 'super-admin', 'help-desk']">
+                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                        alt=""></a>
+                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                        alt=""></a>
 
-                        </div>
+                            </div>
                         </div>
                     </div>
 
 
                     <div class="card-body p-2">
-                        <p-table [value]="dataSource" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                            [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)"
+                        <p-table [value]="dataSource" styleClass="p-datatable-striped"
+                            [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                            [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)"
                             [(selection)]="selectedCustomer">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 20%" pSortableColumn="categoryName">Expense Category Name<p-sortIcon
-                                            field="categoryName"></p-sortIcon>
-                                        <p-columnFilter type="text" field="categoryName" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="categoryName">Expense Category
+                                        <p-sortIcon field="categoryName"></p-sortIcon>
+                                        <p-columnFilter type="text" field="categoryName"
+                                            display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="categoryDescription">Description<p-sortIcon field="categoryDescription"></p-sortIcon>
-                                        <p-columnFilter type="text" field="categoryDescription" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="categoryDescription">Description<p-sortIcon
+                                            field="categoryDescription"></p-sortIcon>
+                                        <p-columnFilter type="text" field="categoryDescription"
+                                            display="menu"></p-columnFilter>
                                     </th>
-                                    <th style="width: 20%">Action</th>
+                                    <th>Action</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-product>
@@ -157,13 +77,14 @@
                                     <td class="bold">{{product.categoryName}}</td>
                                     <td class="bold">{{product.categoryDescription}}</td>
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                                        <p-button [text]="true" icon="fa fa-edit" (click)="showDialogEdit(product._id)"></p-button>
+                                        <p-button [text]="true" icon="fa fa-edit"
+                                            (click)="showDialogEdit(product._id)"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"
                                             (click)="deleteExpense(product._id)"></p-button>
 
                                     </td>
                                 </tr>
-                            </ng-template>  
+                            </ng-template>
                         </p-table>
                     </div>
                 </div>
@@ -174,4 +95,101 @@
 
 
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-    [data]="modalData"></app-confirm-dialog> 
+    [data]="modalData"></app-confirm-dialog>
+
+<p-dialog header="Add Expenses Categories" [(visible)]="visible" [modal]="true" [style]="{ width: '40%' }"
+    [draggable]="false" [resizable]="false">
+    <div class="modal-content">
+        <div class="modal-body">
+            <form [formGroup]="addExpensesCategoryForm" (ngSubmit)="addExpensesCategoryFormsubmit()">
+                <div class="row mt-2">
+
+                    <div class="col-12 col-md-12 col-xl-12">
+                        <div class="form-group local-forms">
+                            <label for="categoryName">Expense Category Name<span class="login-danger">*</span></label>
+                            <input class="form-control" type="text" autofocus
+                                placeholder="Please Enter Expense Category Name" formControlName="categoryName" />
+                            <div *ngIf="
+                  addExpensesCategoryForm
+                    .get('categoryName')
+                    ?.hasError('required') &&
+                  addExpensesCategoryForm.get('categoryName')?.touched
+                " class="login-danger Font_size">
+                                Field is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-12 col-xl-12">
+                        <div class="form-group local-forms">
+                            <label for="Description">Description<span class="login-danger"></span></label>
+                            <textarea class="form-control" type="text" placeholder="Please Enter Description"
+                                formControlName="categoryDescription" rows="4"></textarea>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class=" col-12">
+
+                        <div class=" settings-btns text-end m-b-10">
+                            <button type="submit" [disabled]="!addExpensesCategoryForm.valid"
+                                class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
+                            <button class="btn btn-secondary" (click)="addCloseDialog()">Cancel</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog header="Edit Expenses Categories" [(visible)]="visible1" [modal]="true" [style]="{ width: '50%' }"
+    [draggable]="false" [resizable]="false">
+
+    <div class="modal-content">
+        <div class="modal-body">
+            <form [formGroup]="editExpensesCategory" (ngSubmit)="editExpensesCategoryForm()">
+                <div class="row mt-2">
+                    <div class="col-12 col-md-12 col-xl-12">
+                        <div class="form-group local-forms">
+                            <label for="categoryName">Expense Category Name<span class="login-danger">*</span></label>
+                            <input class="form-control" type="text" autofocus
+                                placeholder="Please Enter Expense Category Name" formControlName="categoryName" />
+                            <div *ngIf="
+              addExpensesCategoryForm
+                .get('categoryName')
+                ?.hasError('required') &&
+              addExpensesCategoryForm.get('categoryName')?.touched
+            " class="login-danger Font_size">
+                                Field is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-12 col-xl-12">
+                        <div class="form-group local-forms">
+                            <label for="Description">Description<span class="login-danger"></span></label>
+                            <textarea class="form-control" type="text" placeholder="Please Enter Description"
+                                formControlName="categoryDescription" rows="4"></textarea>
+
+                        </div>
+                    </div>
+                    <div class=" col-12">
+
+                        <div class=" settings-btns text-end m-b-10">
+                            <button type="submit" [disabled]="!editExpensesCategory.valid"
+                                class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
+                            <button type="button" class="btn btn-secondary" (click)="closeDialogEdit()">Cancel</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</p-dialog>

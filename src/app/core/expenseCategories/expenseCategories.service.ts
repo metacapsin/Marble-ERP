@@ -10,18 +10,18 @@ export class ExpensesCategoriesdataService {
   constructor(private http: HttpClient) { }
   // user APIS
   GetExpensesData() {
-    return this.http.get(environment.apiUrl + '/Expenses/getAllExpensesCategory');
+    return this.http.get(environment.apiUrl + '/ExpensesController/getAllExpenseCategoryList');
   }
   AddExpensesdata(data: any) {
-    return this.http.post(environment.apiUrl + '/Expenses/createExpensesCategory', data);
+    return this.http.post(environment.apiUrl + '/ExpensesController/addExpenseCategories', data);
   }
   GetExpensesDataById(id: any) {
-    return this.http.get(environment.apiUrl + `/Expenses/getExpensesCategoryById/${id}`);
+    return this.http.get(environment.apiUrl + `/ExpensesController/getExpenseCategoryById/${id}`);
   }
   UpDataExpensesApi(data: any) {
-    return this.http.put(environment.apiUrl + `/Expenses/updateExpensesCategory`, data);
+    return this.http.put(environment.apiUrl + `/ExpensesController/updateExpenseCategory`, data);
   }
   DeleteExpensesApi(id: any){
-    return this.http.delete(environment.apiUrl + `/Expenses/deleteExpensesCategory/${id}`);
+    return this.http.delete(environment.apiUrl + `/ExpensesController/deleteExpenseCategory${id}`);
   }
 }
