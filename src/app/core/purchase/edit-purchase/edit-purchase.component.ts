@@ -184,20 +184,6 @@ export class EditPurchaseComponent implements OnInit {
   }
   patchForm(data) {
     console.log(data);
-    //     // Ensure Lotlists and slabLists are defined and have elements
-    // if (this.Lotlists && Array.isArray(this.Lotlists)) {
-    //   var validLotDetails = this.Lotlists.find(lot => lot._id === data.lotDetails);
-    // } else {
-    //   console.warn('Lotlists is undefined or not an array');
-    //   var validLotDetails = null;
-    // }
-
-    // if (this.slabLists && Array.isArray(this.slabLists)) {
-    //   var validSlabDetails = data.slabDetail ? data.slabDetail.filter(slab => this.slabLists.some(s => s._id === slab)) : [];
-    // } else {
-    //   console.warn('slabLists is undefined or not an array');
-    //   var validSlabDetails:any = [];
-    // }
     this.editPurchaseForm.patchValue({
       purchaseInvoiceNumber: data.purchaseInvoiceNumber,
       purchaseSupplierName: data.purchaseSupplierName,
@@ -214,7 +200,7 @@ export class EditPurchaseComponent implements OnInit {
       oceanFrieght: data.oceanFrieght,
       postExpenses: data.postExpenses,
       quality: data.quality,
-      lotDetail: data.lotDetail,
+      lotDetail: data.lotDetails,
       purchaseType: data.purchaseType,
       slabDetails: data.slabDetails,
     });
@@ -225,10 +211,14 @@ export class EditPurchaseComponent implements OnInit {
       (resp: any) => {
         this.PurchaseListData = resp.data;
         this.patchForm(this.PurchaseListData);
-        console.log(resp);
+        console.log(resp.data.lotDetails);
 
         if(resp.data.purchaseType == 'slab'){
           this.slabValues(resp.data.slabDetails);
+        }
+        if(resp.data.purchaseType == 'lot'){
+          console.log(resp.data.lotDetails.blockDetails);
+          this.lotValues(resp.data.lotDetails);
         }
       }
     );
@@ -334,12 +324,6 @@ export class EditPurchaseComponent implements OnInit {
   editPurchaseFormSubmit() {
     const formData = this.editPurchaseForm.value;
     console.log(formData);
-    let totalTax = 0;
-    if (formData.purchaseOrderTax) {
-      formData.purchaseOrderTax.forEach((e) => {
-        totalTax = totalTax + e.taxRate;
-      });
-    }
     if (formData.slabDetails === null && formData.lotDetail === null) {
       this.messageService.add({
         severity: "error",
@@ -348,14 +332,12 @@ export class EditPurchaseComponent implements OnInit {
     }
     const payload = {
       purchaseInvoiceNumber: formData.purchaseInvoiceNumber,
-      supplier: formData.purchaseSupplierName,
+      purchaseSupplierName: formData.purchaseSupplierName,
       purchaseDate: formData.purchaseDate,
-      purchaseQuality: formData.quality,
       purchaseType: formData.purchaseType,
       purchaseDiscount: formData.purchaseDiscount,
       purchaseGrossTotal: formData.purchaseGrossTotal,
       purchaseItemDetails: formData.purchaseItemDetails,
-      appliedTax: formData.purchaseOrderTax,
       purchaseNotes: formData.purchaseNotes,
       otherCharges: formData.otherCharges,
       purchaseOrderTax: formData.purchaseOrderTax,
@@ -364,6 +346,7 @@ export class EditPurchaseComponent implements OnInit {
       purchaseTotalAmount: formData.purchaseTotalAmount,
       lotDetail: formData.lotDetail,
       slabDetail: formData.slabDetails,
+      quality: formData.quality,
       purchaseOrderStatus: formData.purchaseOrderStatus,
       id:this.purchaseId,
     };

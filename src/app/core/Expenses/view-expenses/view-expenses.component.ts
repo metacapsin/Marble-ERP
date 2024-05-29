@@ -25,10 +25,10 @@ export class ViewExpensesComponent {
   }
 
   ngOnInit() {
-    this.getCoustomers();
+    this.getExpensesById();
   }
-  getCoustomers() {
-    this.Service.GetCustomerDataById(this.id).subscribe((data: any) => {
+  getExpensesById() {
+    this.Service.GetExpensesDataById(this.id).subscribe((data: any) => {
       console.log(data);
       this.customerData = [data];
     });

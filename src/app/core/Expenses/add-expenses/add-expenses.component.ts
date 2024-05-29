@@ -18,7 +18,6 @@ import { CalendarModule } from "primeng/calendar";
 import { FileUploadModule } from "primeng/fileupload";
 import { ExpensesCategoriesdataService } from "../../expenseCategories/expenseCategories.service";
 
-
 @Component({
   selector: "app-add-expenses",
   standalone: true,
@@ -40,7 +39,7 @@ export class AddExpensesComponent implements OnInit {
   addExpensesGroup: UntypedFormGroup;
   public routes = routes;
   ExpensesCategories: any;
-  ExpensesCategoriesArray:any
+  ExpensesCategoriesArray: any;
   expenses = [
     { name: "Utilities" },
     { name: "Printing" },
@@ -59,11 +58,10 @@ export class AddExpensesComponent implements OnInit {
     private messageService: MessageService,
     private Service: ExpensesdataService,
     private service: ExpensesCategoriesdataService,
-    private router: Router,
-  ) // private service: WarehouseService
-  {
+    private router: Router
+  ) {
     this.addExpensesGroup = this.fb.group({
-      categoryId: ["", [Validators.required]],
+      categoryDetails: ["", [Validators.required]],
       date: ["", [Validators.required]],
       amount: ["", [Validators.required]],
       notes: [""],
@@ -80,54 +78,45 @@ export class AddExpensesComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.service.GetExpensesData().subscribe((resp: any) => {
-      this.ExpensesCategories = resp;
+    this.service.GetExpensesCategriesData().subscribe((resp: any) => {
+      this.ExpensesCategories = resp.data;
       this.ExpensesCategoriesArray = [];
-      this.ExpensesCategories.forEach(element => {
+      console.log(this.ExpensesCategories);
+      this.ExpensesCategories.forEach((element) => {
         this.ExpensesCategoriesArray.push({
           name: element.categoryName,
-          _id: {
-            _id: element._id,
-            name: element.categoryName
-          }
-        })
-    });
+          _id: element._id,
+        });
+      });
     });
   }
-  addExpensesForm() {
+  addExpensesFormSubmit() {
     console.log(this.addExpensesGroup.value);
     const fromData = this.addExpensesGroup.value;
     const payload = {
-      warehouse: fromData.expenseCategory,
-      name: fromData.user,
-      email: fromData.date,
-      status: fromData.status.amount,
-      phoneNo: fromData.notes,
-      // taxNo: fromData.taxNumber,
-      // creaditPeriod: fromData.creditPeriod,
-      // creaditLimit: fromData.creditLimit,
-      // billingAddress: fromData.billingAddress,
-      // shippingAddress: fromData.shippingAddress,
-      // openingBalance: fromData.openingBalance,
+      categoryDetails: fromData.categoryDetails,
+      amount: fromData.amount,
+      date: fromData.date,
+      notes: fromData.notes,
     };
     console.log(payload);
 
     if (this.addExpensesGroup.valid) {
-      // this.Service.AddCustomerdata(payload).subscribe((resp: any) => {
-      //   console.log(resp);
-      //   if (resp) {
-      //     if (resp.status === "success") {
-      //       const message = "User has been added";
-      //       this.messageService.add({ severity: "success", detail: message });
-      //       setTimeout(() => {
-      //         this.router.navigate(["/customers"]);
-      //       }, 400);
-      //     } else {
-      //       const message = resp.message;
-      //       this.messageService.add({ severity: "error", detail: message });
-      //     }
-      //   }
-      // });
+      this.Service.AddExpensesdata(payload).subscribe((resp: any) => {
+        console.log(resp);
+        if (resp) {
+          if (resp.status === "success") {
+            const message = "User has been added";
+            this.messageService.add({ severity: "success", detail: message });
+            setTimeout(() => {
+              this.router.navigate(["/expenses"]);
+            }, 400);
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      });
     }
   }
 }

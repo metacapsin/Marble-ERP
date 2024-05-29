@@ -20,51 +20,37 @@ export class ExpensesComponent {
   routes = routes;
   currentRoute!: string;
   routerChangeSubscription: Subscription;
-  selectedCustomer = [];
+  selectedExpenses = [];
   searchDataValue: any;
   showDialoge = false;
   modalData: any = {};
-  customerId: any;
+  expenseId: any;
   constructor(private router: Router,private Service: ExpensesdataService,private messageService: MessageService) {
-    this.routerChangeSubscription = this.router.events.subscribe((event) => {
-      this.currentRoute = this.router.url;
-      // console.log(this.currentRoute);
-    });
+    // this.routerChangeSubscription = this.router.events.subscribe((event) => {
+    //   this.currentRoute = this.router.url;
+    // });
   }
   ngOnInit() {
-    this.getCoustomers()
+    this.getExpense()
   }
-  getCoustomers(){
-    this.Service.GetCustomerData().subscribe((data) => {
-      this.dataSource = data
-      this.originalData = data
+  getExpense(){
+    this.Service.GetExpensesData().subscribe((rsep:any) => {
+      this.dataSource = rsep.data
+      this.originalData = rsep.data
+      console.log(rsep.data);
     })
   }
-  goToEditPage(value: any) {
-    this.router.navigate(["/customers/add-customers/" + value]);
-  }
+
   visible: boolean = false;
   showDialog() {
     this.visible = true;
   }
-  changeCalendarSettingCategory(type: string) {}
-  ngOnDestroy() {
-    this.routerChangeSubscription.unsubscribe();
-  }
-  isRouteActive(text) {
-    if (!this.currentRoute) return "";
-    let str = this.currentRoute?.includes(text);
-    if (str) {
-      return "active";
-    } else {
-      return "non-active";
-    }
-  }
+
   // vewCustomer(e: string){
   //   console.log(e);
   //   this.router.navigate(["/customers/view-customers/"+e]);
   // }
-  editCustomer(e){
+  editExpense(e){
     console.log(e);
     this.router.navigate(["/expenses/edit-expenses/"+e]);
   }
@@ -78,8 +64,8 @@ export class ExpensesComponent {
 
 
   // for delete api
-  deleteCustomer(Id: any) {
-this.customerId = Id;
+  deleteExpense(Id: any) {
+this.expenseId = Id;
 
     this.modalData = {
       title: "Delete",
@@ -91,9 +77,9 @@ this.customerId = Id;
     this.showDialoge = true;
   }
   callBackModal() {
-    this.Service.DeleteCustomerApi(this.customerId).subscribe((resp:any) => {
+    this.Service.DeleteExpensesApi(this.expenseId).subscribe((resp:any) => {
       this.messageService.add({ severity: 'success', detail:  resp.message });
-      this.getCoustomers();
+      this.getExpense();
       this.showDialoge = false;
     })
   }

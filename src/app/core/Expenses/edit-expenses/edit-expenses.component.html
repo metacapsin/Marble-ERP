@@ -45,16 +45,16 @@
 
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
-                      <label for="categoryId">Expense Category<span class="login-danger">*</span></label>
-                      <p-dropdown [options]="ExpensesCategoriesArray" optionLabel="name" optionValue="_id"
-                        placeholder="--Select Expense Category--" formControlName="categoryId" [style]="{ width: '100%' }"
+                      <label for="categoryDetails">Expense Category<span class="login-danger">*</span></label>
+                      <p-dropdown [options]="ExpensesCategoriesArray" optionLabel="name"
+                        placeholder="--Select Expense Category--" formControlName="categoryDetails" [style]="{ width: '100%' }"
                         filterBy="name" [showClear]="true">
                       </p-dropdown>
                       <div *ngIf="
                           editExpensesGroup
-                            .get('categoryId')
+                            .get('categoryDetails')
                             ?.hasError('required') &&
-                          editExpensesGroup.get('categoryId')?.touched
+                          editExpensesGroup.get('categoryDetails')?.touched
                         " class="login-danger Font_size">
                         Field is required.
                       </div>

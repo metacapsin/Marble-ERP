@@ -62,7 +62,7 @@ export class EditExpensesComponent {
     private service: ExpensesCategoriesdataService,
   ) {
     this.editExpensesGroup = this.fb.group({
-      categoryId: ["", [Validators.required]],
+      categoryDetails: ["", [Validators.required]],
       date: ["", [Validators.required]],
       amount: ["", [Validators.required]],
       notes: [""],
@@ -72,50 +72,33 @@ export class EditExpensesComponent {
 
   ngOnInit() {
     this.getExpenses();
+    this.getExpensesById();
+  }
+  getExpensesById() {
+    this.Service.GetExpensesDataById(this.id).subscribe((resp: any) => {
+      this.customerData = resp.data;
+      console.log(this.customerData);
+      this.patchForm(this.customerData)
+    });
   }
   getExpenses() {
-    this.service.GetExpensesData().subscribe((resp: any) => {
-      this.ExpensesCategories = resp;
+    this.service.GetExpensesCategriesData().subscribe((resp: any) => {
+      this.ExpensesCategories = resp.data;
       this.ExpensesCategoriesArray = [];
       this.ExpensesCategories.forEach(element => {
         this.ExpensesCategoriesArray.push({
           name: element.categoryName,
-          _id: {
-            _id: element._id,
-            name: element.categoryName
-          }
+          _id: element._id,
         })
     });
-      this.patchForm();
     });
   }
-  patchForm() {
-    let _status: any;
-    if (this.customerData.status == true) {
-      _status = "Enabled";
-    } else {
-      _status = "Disabled";
-    }
+  patchForm(data:any) {
     this.editExpensesGroup.patchValue({
-      // wareHouse: this.customerData.warehouse,
-      // name: this.customerData.name,
-      // phoneNumber: this.customerData.phoneNo,
-      // email: this.customerData.email,
-      // status: _status,
-      // taxNumber: this.customerData.taxNo,
-      // openingBalance: this.customerData.openingBalance,
-      // creditPeriod: this.customerData.creaditPeriod,
-      // creditLimit: this.customerData.creaditLimit,
-      // billingAddress: this.customerData.billingAddress,
-      // shippingAddress: this.customerData.shippingAddress,
-
-
-
-      // warehouse: fromData.expenseCategory,
-      // name: fromData.user, 
-      // email: fromData.date,
-      // status: fromData.status.amount, 
-      // phoneNo: fromData.notes,
+      categoryDetails: data.categoryDetails,
+      amount: data.amount,
+      date: data.date,
+      notes: data.notes,
     });
   }
   onUpload(e) {

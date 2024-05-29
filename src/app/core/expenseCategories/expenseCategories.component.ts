@@ -55,7 +55,7 @@ export class ExpensesCategoriesComponent {
     this.id = this.activeRoute.snapshot.params["id"];
   }
   getExpenses() {
-    this.Service.GetExpensesData().subscribe((resp:any) => {
+    this.Service.GetExpensesCategriesData().subscribe((resp:any) => {
       this.dataSource = resp.data;
       this.originalData = resp.data;
     });
@@ -80,7 +80,7 @@ export class ExpensesCategoriesComponent {
     // this.editExpensesCategory.reset();
     this.visible1 = true;
     this.ExpensesByID = id;
-    this.Service.GetExpensesDataById(id).subscribe((resp: any) => {
+    this.Service.GetExpenseCategriesDataById(id).subscribe((resp: any) => {
       this.patchValuesForm(resp.data);
     });
   }
@@ -103,7 +103,7 @@ export class ExpensesCategoriesComponent {
     this.showDialoge = true;
   }
   callBackModal() {
-    this.Service.DeleteExpensesApi(this.expenseId).subscribe((resp: any) => {
+    this.Service.DeleteExpensesCategriesApi(this.expenseId).subscribe((resp: any) => {
       this.messageService.add({ severity: "success", detail: resp.message });
       this.getExpenses();
       this.close();
@@ -131,7 +131,7 @@ export class ExpensesCategoriesComponent {
       categoryDescription: this.addExpensesCategoryForm.value.categoryDescription,
     };
     if (this.addExpensesCategoryForm.valid) {
-      this.Service.AddExpensesdata(payload).subscribe((resp: any) => {
+      this.Service.AddExpensesCategriesdata(payload).subscribe((resp: any) => {
         this.visible = false;
         if (resp) {
           if (resp.status === "success") {
@@ -160,7 +160,7 @@ export class ExpensesCategoriesComponent {
     };
     
     if (this.editExpensesCategory.valid) {
-      this.Service.UpDataExpensesApi(payload).subscribe((resp: any) => {
+      this.Service.UpDataExpensesCategriesApi(payload).subscribe((resp: any) => {
           if (resp.status === "success") {
             this.closeDialogEdit();
             const message = "Expenses Category has been updated";
