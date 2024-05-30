@@ -56,7 +56,7 @@ export class PaymentOutAddComponent {
   ) {
     this.addPaymentInForm = this.fb.group({
       purchase: this.fb.array([]),
-      suppliers: ["", [Validators.required]],
+      supplier: ["", [Validators.required]],
       paymentDate: ["", [Validators.required]],
       paymentMode: ["", [Validators.required]],
       note: ["", [Validators.pattern(this.notesRegex)]],
@@ -94,50 +94,44 @@ export class PaymentOutAddComponent {
     console.log("hrlk adnns", customerId);
     this.Service.getPurchaseBySupplierId(customerId).subscribe((resp: any) => {
       this.purchaseDataById = resp.data;
-      this.addpurchaseControls();
       console.log(this.purchaseDataById);
+      this.addpurchaseControls();
     });
   }
 
-  addPaymentInFormSubmit() {
+  addPaymentOutFormSubmit() {
     const formData = this.addPaymentInForm.value;
     console.log("Submitted data:", formData);
 
     const payload = {
-      suppliers: formData.suppliers,
+      supplier: formData.supplier,
       purchase: formData.purchase,
       paymentDate: formData.paymentDate,
       paymentMode: formData.paymentMode,
       note: formData.note
-
-      // supplier: formData.suppliers,
-      // purchase: formData.purchase,
-      // note: formData.note,
-      // paymentDate: formData.paymentDate,
-      // paymentMode: formData.paymentMode,
     };
     console.log(payload);
 
-    // if (this.addPaymentInForm.valid) {
-    //   console.log("valid form");
+    if (this.addPaymentInForm.valid) {
+      console.log("valid form");
 
-    //   this.Service.createPayment(payload).subscribe((resp: any) => {
-    //     console.log(resp);
-    //     if (resp) {
-    //       if (resp.status === "success") {
-    //         const message = "Payment has been added";
-    //         this.messageService.add({ severity: "success", detail: message });
-    //         setTimeout(() => {
-    //           this.router.navigate(["/payment-in"]);
-    //         }, 400);
-    //       } else {
-    //         const message = resp.message;
-    //         this.messageService.add({ severity: "error", detail: message });
-    //       }
-    //     }
-    //   });
-    // } else {
-    //   console.log("invalid form");
-    // }
+      this.Service.createPayment(payload).subscribe((resp: any) => {
+        console.log(resp);
+        if (resp) {
+          if (resp.status === "success") {
+            const message = "Payment has been added";
+            this.messageService.add({ severity: "success", detail: message });
+            setTimeout(() => {
+              this.router.navigate(["/payment-out"]);
+            }, 400);
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      });
+    } else {
+      console.log("invalid form");
+    }
   }
 }

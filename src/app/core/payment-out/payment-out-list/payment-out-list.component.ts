@@ -33,7 +33,6 @@ export class PaymentOutListComponent {
   constructor( private Service: PaymentOutService,
     private messageService: MessageService
   ) {
-
   }
 
   
@@ -43,8 +42,8 @@ export class PaymentOutListComponent {
 
   getPaymentList(){
     this.Service.getPaymentList().subscribe((resp: any) => {
-      console.log(resp);
       this.paymentListData = resp.data;
+      console.log(resp);
     });
   }
 

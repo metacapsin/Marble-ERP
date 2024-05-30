@@ -24,7 +24,7 @@
                 <div class="card card-table">
                     <div class="card-body">
                         <div class="page-table-header mb-2">
-                            <form [formGroup]="addPaymentInForm" (ngSubmit)="addPaymentInFormSubmit()">
+                            <form [formGroup]="addPaymentInForm" (ngSubmit)="addPaymentOutFormSubmit()">
                                 <div class="row">
 
                                     <div class="d-flex m-b-10" style="justify-content: space-between">
@@ -47,10 +47,10 @@
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--suppliers--"
                                                 [options]="SuppliersList" optionLabel="name" optionValue="_id"
                                                 display="chip" [filter]="true" filterBy="name"
-                                                formControlName="suppliers" [showClear]="true"
+                                                formControlName="supplier" [showClear]="true"
                                                 (onChange)="onSuppliersSelect($event.value._id)"></p-dropdown>
                                             <div
-                                                *ngIf="addPaymentInForm.get('suppliers')?.hasError('required')  && addPaymentInForm.get('suppliers')?.touched">
+                                                *ngIf="addPaymentInForm.get('supplier')?.hasError('required')  && addPaymentInForm.get('supplier')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
 
@@ -114,13 +114,13 @@
                                                 <tr *ngFor="let purchase of purchaseDataById; let i = index"
                                                     [formGroupName]="i">
                                                     <td>
-                                                        <span class="bold">{{ purchase.salesInvoiceNumber }}</span>
+                                                        <span class="bold">{{ purchase.purchaseInvoiceNumber }}</span>
                                                     </td>
                                                     <td>
-                                                        <span class="bold">{{ purchase.salesDate }}</span>
+                                                        <span class="bold">{{ purchase.purchaseDate }}</span>
                                                     </td>
                                                     <td>
-                                                        <label>{{ purchase.salesTotalAmount }}</label>
+                                                        <label>{{ purchase.purchaseTotalAmount }}</label>
                                                     </td>
                                                     <td>
                                                         <div class="input-group">
