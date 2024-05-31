@@ -285,15 +285,20 @@ export class DataService {
               route: routes.lot,
               base: routes.lot,
             },
-            // {
-            //   menuValue: "Block",
-            //   route: routes.blocks,
-            //   base: routes.blocks,
-            // },
             {
               menuValue: "Slabs",
               route: routes.slabs,
               base: routes.slabs,
+            },
+            {
+              menuValue: "Stock-Adjustment",
+              route: routes.stockAdjustment,
+              base: routes.stockAdjustment,
+            },
+            {
+              menuValue: "Stock-Transfer",
+              route: routes.stockTransfer,
+              base: routes.stockTransfer,
             },
           ],
         },

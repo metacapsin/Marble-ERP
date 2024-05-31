@@ -1,0 +1,197 @@
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <div class="content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Product</li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Stock Adjustment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk">
+                                        <h3>Stock Adjustment</h3>
+                                        <div class="doctor-search-blk">
+                                            <div class="top-nav-search table-search-blk">
+                                                <input type="text" class="form-control" placeholder="Search here"
+                                                    [(ngModel)]="searchDataValue"
+                                                    (ngModelChange)="searchData(searchDataValue)">
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                            <div class="add-group textbtn">
+                                                <a appShowHide [roles]="['admin', 'super-admin']"
+                                                    (click)="addstockAdjustmentDialog()"
+                                                    class="btn btn-primary add-pluss ms-2"><img
+                                                        src="assets/img/icons/plus.svg" alt=""> Add New</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                                    [roles]="['admin', 'super-admin']">
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                            alt=""></a>
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                            alt=""></a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-2">
+
+                            <p-table [value]="stockAdjustmentDataList" [tableStyle]="{'min-width': '60rem'}"
+                                [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"
+                                [(selection)]="selectedlot" styleClass="p-datatable-striped">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="slabs.slabName">Slab Name <p-sortIcon field="slabs.slabName"></p-sortIcon>
+                                            <p-columnFilter type="text" field="slabs.slabName" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="warehouse.name">Warehouse <p-sortIcon field="warehouse.name"></p-sortIcon>
+                                            <p-columnFilter type="text" field="warehouse.name" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon>
+                                            <p-columnFilter type="text" field="quantity" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-stock>
+                                    <tr>
+                                        <td>{{stock.slabs.slabName}}</td>
+                                        <td>{{stock.warehouse.name}}</td>
+                                        <td>{{stock.quantity}}</td>
+                                        <td style="display: flex; gap: 5px;" appShowHide
+                                            [roles]="['admin', 'super-admin']">
+                                            <p-button [text]="true" icon="fa-solid fa-trash"
+                                                (click)="deleteStockAdjustment(stock._id)"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>
+
+
+
+
+
+<!-- --------------- lot Details PopUp --------------- -->
+
+<p-dialog header="Add Stock Adjustment" [(visible)]="addstockAdjustment" [modal]="true" [style]="{width: '50%'}">
+    <div class="modal-content">
+        <div class="modal-body">
+            <form [formGroup]="addStockAdjustmentForm" (ngSubmit)="addStockAdjustmentFormSubmit()">
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="warehouse">Warehouse</label>
+                            <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
+                                optionValue="_id" placeholder="Select Warehouse" formControlName="warehouse"
+                                [style]="{ width: '100%' }" [filter]="true"  filterBy="name" >
+                            </p-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="slabs">Slab<span class="login-danger">*</span></label>
+                            <p-dropdown [options]="slabData" styleClass="" appendTo="body" optionLabel="name"
+                                optionValue="_id" placeholder="Select slab" formControlName="slabs"
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" (onChange)="settotalSQFT($event.value)">
+                            </p-dropdown>
+                            <div
+                                *ngIf="addStockAdjustmentForm.get('slab')?.hasError('required') && addStockAdjustmentForm.get('slab')?.touched">
+                                <span class="login-danger">Field is required.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group local-forms">
+                            <label for="currentQty">current Quantity</label>
+                            <span class="form-control">{{addStockAdjustmentForm.get('currentQty').value}}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group local-forms">
+                            <label for="quantity">Quantity <span class="login-danger">*</span></label>
+                            <input type="number" formControlName="quantity" class="form-control">
+                            <div
+                                *ngIf="addStockAdjustmentForm.get('quantity')?.hasError('required') && addStockAdjustmentForm.get('quantity')?.touched">
+                                <span class="login-danger">Field is required.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group local-forms">
+                            <label for="adjustmentType">Adjustment Type<span class="login-danger">*</span></label>
+                            <p-dropdown [options]="adjustmentTypeData" styleClass="" appendTo="body" optionLabel="name"
+                                optionValue="value" placeholder="Select Adjustment Type" formControlName="adjustmentType"
+                                [style]="{ width: '100%' }">
+                            </p-dropdown>
+                            <div
+                                *ngIf="addStockAdjustmentForm.get('adjustmentType')?.hasError('required') && addStockAdjustmentForm.get('adjustmentType')?.touched">
+                                <span class="login-danger">Field is required.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-group local-forms">
+                            <label for="note">Notes</label>
+                            <textarea class="form-control" type="text" formControlName="note" placeholder=""></textarea>
+
+                            <!-- <div
+                      *ngIf="addStockAdjustmentForm.get('note')?.hasError('pattern') && addStockAdjustmentForm.get('note')?.touched">
+                      <span class="login-danger">Input must be between 3 to 500 characters.</span>
+                    </div> -->
+
+
+
+                        </div>
+                    </div>
+
+                    <div class=" col-12">
+
+                        <div class=" settings-btns text-end m-b-10">
+                            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                [disabled]="!addStockAdjustmentForm.valid">Submit</button>
+                            <button class="btn btn-secondary" (click)="addstockAdjustment = false">Cancel</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</p-dialog>

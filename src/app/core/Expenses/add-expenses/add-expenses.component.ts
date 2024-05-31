@@ -106,7 +106,7 @@ export class AddExpensesComponent implements OnInit {
         console.log(resp);
         if (resp) {
           if (resp.status === "success") {
-            const message = "User has been added";
+            const message = "Expenses has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
               this.router.navigate(["/expenses"]);

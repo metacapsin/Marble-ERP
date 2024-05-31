@@ -77,6 +77,16 @@ const routes: Routes = [
           import('./Product/lot/lot.module').then((m) => m.LotModule),
       },
       {
+        path: 'stock-adjustment',
+        loadChildren: () =>
+          import('./Product/stock-adjustment/stock-adjustment.module').then((m) => m.StockAdjustmentModule),
+      },
+      {
+        path: 'stock-transfer',
+        loadChildren: () =>
+          import('./Product/stock-transfer/stock-transfer.module').then((m) => m.StockTransferModule),
+      },
+      {
         path: 'settings',
         loadChildren: () =>
           import('./settings/settings.module').then((m) => m.SettingsModule),

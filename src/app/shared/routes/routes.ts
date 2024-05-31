@@ -659,6 +659,12 @@ export class routes {
   public static get lot(): string {
     return this.baseUrl + '/lot';
   }
+  public static get stockAdjustment(): string {
+    return this.baseUrl + '/stock-adjustment';
+  }
+  public static get stockTransfer(): string {
+    return this.baseUrl + '/stock-transfer';
+  }
   public static get blocks(): string {
     return this.baseUrl + '/blocks';
   }

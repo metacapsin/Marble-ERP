@@ -6,14 +6,10 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CalendarModule } from 'primeng/calendar';
-import { TaxesService } from '../../settings/taxes/taxes.service';
 import { CustomersdataService } from '../../Customers/customers.service';
-import { CategoriesService } from '../../settings/categories/categories.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { SalesReturnService } from '../sales-return.service';
-import { UnitsService } from '../../settings/units/units.service';
-import { SubCategoriesService } from '../../settings/sub-categories/sub-categories.service';
 import { ToastModule } from 'primeng/toast';
 import { SalesService } from '../../sales/sales.service';
 @Component({
@@ -120,6 +116,8 @@ export class AddSalesReturnComponent {
   }
 
   onCustomerSelect(value: any) {
+    this.salesItemDetails.clear();
+
     this.salesService.getAllSalesByCustomerId(value._id).subscribe((resp: any) => {
       this.salesInvoiceList = resp.data;
       console.log("All Sales", resp.data);
@@ -128,6 +126,8 @@ export class AddSalesReturnComponent {
   }
 
   onInvoiceSelect(value: any) {
+    this.salesItemDetails.clear();
+
     this.addsalesReturnItemDetailsItem(value.salesItemDetails);
 
     this.addReturnSalesForm.patchValue({

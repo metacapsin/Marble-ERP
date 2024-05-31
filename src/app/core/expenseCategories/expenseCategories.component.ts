@@ -18,13 +18,10 @@ import {
   providers: [MessageService],
 })
 export class ExpensesCategoriesComponent {
-  items: MenuItem[] = [];
+  routes = routes;
   public dataSource: any = [];
   public originalData: any = [];
   settingCategory = "";
-  routes = routes;
-  currentRoute!: string;
-  routerChangeSubscription: Subscription;
   selectedCustomer = [];
   searchDataValue: any;
   showDialoge = false;
@@ -38,11 +35,9 @@ export class ExpensesCategoriesComponent {
   visible: boolean = false;
   visible1: boolean = false;
   constructor(
-    private router: Router,
     private Service: ExpensesCategoriesdataService,
     private messageService: MessageService,
     private fb: FormBuilder,
-    private activeRoute: ActivatedRoute
   ) {
     this.addExpensesCategoryForm = this.fb.group({
       categoryName: ["", [Validators.required]],
@@ -52,7 +47,6 @@ export class ExpensesCategoriesComponent {
       categoryName: ["", [Validators.required]],
       categoryDescription: [""],
     });
-    this.id = this.activeRoute.snapshot.params["id"];
   }
   getExpenses() {
     this.Service.GetExpensesCategriesData().subscribe((resp:any) => {
@@ -61,8 +55,6 @@ export class ExpensesCategoriesComponent {
     });
   }
 
-
-  
   ngOnInit() {
     this.getExpenses();
   }
@@ -95,7 +87,7 @@ export class ExpensesCategoriesComponent {
     this.expenseId = Id;
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this expense",
+      messege: "Are you sure you want to delete this expense category",
     };
     this.showNewDialog();
   }
