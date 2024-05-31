@@ -70,8 +70,8 @@
                                     <th pSortableColumn="createdOn">Created At <p-sortIcon
                                             field="createdOn"></p-sortIcon></th>
 
-                                    <th pSortableColumn="openingBalance">Balance <p-sortIcon
-                                            field="openingBalance"></p-sortIcon></th>
+                                    <!-- <th pSortableColumn="openingBalance">Balance <p-sortIcon
+                                            field="openingBalance"></p-sortIcon></th> -->
                                     <th>Action</th>
                                 </tr>
                             </ng-template>
@@ -84,7 +84,7 @@
                                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag>
                                     </td>
                                     <td>{{product.createdOn | date: 'dd-MM-yyyy'}}</td>
-                                    <td>{{product.openingBalance}}</td>
+                                    <!-- <td>{{product.openingBalance}}</td> -->
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
 
                                         <p-button [text]=" true" icon="fa fa-eye"
