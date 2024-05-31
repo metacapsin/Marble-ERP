@@ -8,28 +8,27 @@ import { environment } from 'src/environments/environment.development';
 })
 export class PaymentOutService {
   constructor(private http: HttpClient) { }
-
-
+  
+  
   createPayment(data: {} | null) {
     return this.http.post(environment.apiUrl + "/Purchase/createPurchasePayment", data);
   }
-  getPaymentList() {
-    return this.http.get(environment.apiUrl + "/Purchase/getPurchasePaymentList");
+  getPurchasePaymentById(id: string) {
+    return this.http.get(environment.apiUrl + "/Purchase/getPurchasePaymentById/:id" + id);
   }
-  getSalesBySupplierId(id: any) {
+  getPurchasePaymentListByPurchaseId(id: any) {
+    return this.http.get(environment.apiUrl + "/Purchase/getPurchasePaymentListByPurchaseId/" + id)
+  }
+ 
+  getPurchasePaymentListBySupplierId(id: any) {
     return this.http.get(environment.apiUrl + "/Purchase/getPurchasePaymentListBySupplierId/" + id)
   }
-  deletePaymentById(id: any) {
+  getPurchasePaymentList() {
+    return this.http.get(environment.apiUrl + "/Purchase/getPurchasePaymentList");
+  }
+  deletePurchasePayment(id: any) {
     return this.http.delete(environment.apiUrl + "/Purchase/deletePurchasePayment/" + id)
   }
   
-  getPaymentById(id: string) {
-    return this.http.get(environment.apiUrl + "/Purchase/getPurchasePaymentById/:id" + id);
-  }
-  getPaymentDetailById(id: any) {
-    return this.http.get(environment.apiUrl + "/Sales/getPaymentDetailById/" + id)
-  }
-  getPurchaseBySupplierId(id:any){
-    return this.http.get(environment.apiUrl + `/Purchase/getPurchaseBySupplierId/${id}`)
-  }
+
 }

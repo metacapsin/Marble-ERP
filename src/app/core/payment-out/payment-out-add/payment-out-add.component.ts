@@ -92,7 +92,7 @@ export class PaymentOutAddComponent {
   }
   onSuppliersSelect(customerId: any) {
     console.log("hrlk adnns", customerId);
-    this.Service.getPurchaseBySupplierId(customerId).subscribe((resp: any) => {
+    this.Service.getPurchasePaymentListBySupplierId(customerId).subscribe((resp: any) => {
       this.purchaseDataById = resp.data;
       console.log(this.purchaseDataById);
       this.addpurchaseControls();

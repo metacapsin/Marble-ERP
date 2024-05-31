@@ -41,7 +41,7 @@ export class PaymentOutListComponent {
   }
 
   getPaymentList(){
-    this.Service.getPaymentList().subscribe((resp: any) => {
+    this.Service.getPurchasePaymentList().subscribe((resp: any) => {
       this.paymentListData = resp.data;
       console.log(resp);
     });
@@ -60,7 +60,7 @@ export class PaymentOutListComponent {
     this.showDialoge = true;
   }
   callBackModal() {
-    this.Service.deletePaymentById(this.paymentId).subscribe((resp: any) => {
+    this.Service.deletePurchasePayment(this.paymentId).subscribe((resp: any) => {
       this.messageService.add({ severity: 'success', detail: resp.message });
       this.getPaymentList();
       this.showDialoge = false;

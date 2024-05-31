@@ -29,6 +29,7 @@ import { ButtonModule } from "primeng/button";
 export class InvoiceDialogComponent {
   @Input() showInvoiceDialog: boolean;
   @Input() salesDataById: any = [];
+  @Input() header: any = [];
   @Input() paymentDataListById: any = [];
   @Output() callbackModal = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();

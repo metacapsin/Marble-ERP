@@ -119,9 +119,9 @@
                                 <td>{{purchase.paymentStatus}}</td>
                                 <td>
                                     <p-button [text]="true" icon="fa-solid fa-eye"
-                                        (click)="openPurchaseInvoiceDialog(purchase._id)"></p-button>
+                                        (click)="showInvoiceDialoge(purchase._id)"></p-button>
                                     <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editPurchaseRout(purchase._id)" ></p-button> -->
-                                    <!-- <p-button [text]="true" icon="fa-solid fa-wallet" (click)="showPaymentDialog(purchase._id)"></p-button>  -->
+                                    <p-button [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id)"></p-button> 
                                     <p-button [text]="true" icon="fa-solid fa-trash"
                                         (click)=deletePurchase(purchase._id)></p-button>
                                 </td>
@@ -132,7 +132,7 @@
                 </p-tabPanel>
 
                 <p-tabPanel header="Payments Out">
-                    <p-table [value]="paymentListDataById" styleClass="p-datatable-striped"
+                    <p-table [value]="paymentListDataBySupplierId" styleClass="p-datatable-striped"
                         [tableStyle]="{'min-width': '60rem'}">
                         <ng-template pTemplate="header">
                             <tr>
@@ -210,9 +210,9 @@
                                 <td>{{purchase.paymentStatus}}</td>
                                 <td>
                                     <p-button [text]="true" icon="fa-solid fa-eye"
-                                        (click)="openPurchaseInvoiceDialog(purchase._id)"></p-button>
+                                        (click)="showReturnInvoiceDialoge(purchase._id)"></p-button>
                                     <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editPurchaseRout(purchase._id)" ></p-button> -->
-                                    <!-- <p-button [text]="true" icon="fa-solid fa-wallet" (click)="showPaymentDialog(purchase._id)"></p-button>  -->
+                                    <p-button [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentReturnDialog(purchase._id)"></p-button> 
                                     <p-button [text]="true" icon="fa-solid fa-trash"
                                         (click)=deletePurchase(purchase._id)></p-button>
                                 </td>
@@ -223,7 +223,7 @@
                 </p-tabPanel>
 
                 <p-tabPanel header="Payments In">
-                    <p-table [value]="paymentListDataById" styleClass="p-datatable-striped"
+                    <p-table [value]="paymentReturnDataListById" styleClass="p-datatable-striped"
                         [tableStyle]="{'min-width': '60rem'}">
                         <ng-template pTemplate="header">
                             <tr>
@@ -260,8 +260,11 @@
         </div>
 
 
-        <app-purchase-invoice-dialog [showPurchaseInvoiceDialog]="showPurchaseInvoiceDialog"
+        <!-- <app-purchase-invoice-dialog [showPurchaseInvoiceDialog]="showInvoiceDialog"
             (callbackModal)="callBackModal()" (close)="close()" [purchaseDataById]="purchaseDataShowById">
-        </app-purchase-invoice-dialog>
+        </app-purchase-invoice-dialog> -->
+
+        <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="purchaseDataShowById"
+  [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>
     </div>
 </div>

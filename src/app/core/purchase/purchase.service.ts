@@ -24,4 +24,15 @@ export class PurchaseService {
   DeletePurchaseData(id: any){
     return this.http.delete(environment.apiUrl + `/Purchase/deletePurchase/${id}`);
   }
+
+  
+  getPurchasePaymentList(id: any){
+    return this.http.get(environment.apiUrl + `/Purchase/getPurchasePaymentList/${id}`);
+  }
+  getAllPurchaseBySupplierId(id: any){//all Purchase by Supplier id paid or unpaid both 
+    return this.http.get(environment.apiUrl + `/Purchase/getPurchaseBySupplierId/${id}`);
+  }
+  getPendingPurchaseBySupplierId(id: any){//all Purchase by Supplier id paid or unpaid both 
+    return this.http.get(environment.apiUrl + `/Purchase/getPendingPurchaseBySupplierId/${id}`);
+  }
 }

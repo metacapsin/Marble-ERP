@@ -32,7 +32,7 @@ export class ViewBlockProcessorComponent {
   ngOnInit() {
     this.getBlockProcessor();
 
-    this.PaymentOutService.getPaymentList().subscribe(
+    this.PaymentOutService.getPurchasePaymentList().subscribe(
       (resp: any) => {
         console.log("payments of customer",resp)
         
