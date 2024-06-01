@@ -103,51 +103,20 @@ export class AddPurchaseReturnComponent {
       purchaseReturnSupplierName: [""],
       purchaseReturnDate: [""],
       purchaseReturnOrderStatus: [""],
-      // purchaseReturnDiscount: [""],
-      // purchaseReturnShipping: [""],
       purchaseReturnTermsAndCondition: [""],
       purchaseReturnNotes: [""],
       purchaseReturnTotalAmount: [""],
-      // purchaseOrderTax: [""],
       purchaseGrossTotal: [""],
       otherCharges: [""],
       purchaseLot: [""],
       purchaseSlab: [[]],
-      // purchaseReturnDetails: this.fb.array([
-      //   this.fb.group({
-      //     purchaseReturnQuantity: [""],
-      //     purchaseReturnUnitPrice: [""],
-      //     purchaseItemSubTotal: [""],
-      //     purchaseReturnItemName: [""],
-      //     purchaseItemCategory: [""],
-      //     purchaseItemSubCategory: [""],
-      //     unit: [""],
-      //   }),
-      // ]),
     });
   }
-
-  // get purchaseReturnDetails() {
-  //   return this.addPurchaseReturnForm.controls[
-  //     "purchaseReturnDetails"
-  //   ] as FormArray;
-  // }
-  // deletepurchaseReturnDetails(purchaseReturnDetailsIndex: number) {
-  //   this.purchaseReturnDetails.removeAt(purchaseReturnDetailsIndex);
-  // }
-  // addpurchaseReturnDetailsItem() {
-  //   const item = this.fb.group({
-  //     purchaseReturnQuantity: [""],
-  //     purchaseReturnUnitPrice: [""],
-  //     purchaseItemSubTotal: [""],
-  //     purchaseReturnItemName: [""],
-  //     purchaseItemCategory: [""],
-  //     purchaseItemSubCategory: [""],
-  //     unit: [""],
-  //   });
-  //   this.purchaseReturnDetails.push(item);
-  // }
   onSuppliersSelect(SuppliersId: any) {
+    this.GridDataForLot = [];
+    this.GridDataForSlab = [];
+    this.purchaseSlabData = [];
+    this.selectedLots = [];
     this.PaymentOutService.getPurchaseBySupplierId(SuppliersId).subscribe(
       (resp: any) => {
         if (resp.status == "error") {
@@ -172,11 +141,12 @@ export class AddPurchaseReturnComponent {
         console.error("Error fetching data from service", error);
       }
     );
+    this.PurchaseReturnDataById.purchaseType = ''
   }
   slabValues(slabValue: any) {
     this.SlabAddValue = 0;
+    this.GridDataForLot = [];
     this.GridDataForSlab = slabValue || [];
-    // const allSlab = slabValue
     this.GridDataForSlab.forEach((element) => {
       const totalCosting = parseFloat(element.totalCosting);
       if (!isNaN(totalCosting)) {
@@ -185,12 +155,11 @@ export class AddPurchaseReturnComponent {
         console.error("Invalid totalCosting value:", element.totalCosting);
       }
     });
-    // this.GridDataForLot = [];
-    // this.calculateTotalAmount();
     this.subFromPurchaseTotalAmount(this.SlabAddValue);
     console.log(this.SlabAddValue, this.GridDataForSlab);
   }
   lotValues(lotValue: any) {
+    this.GridDataForSlab = [];
     this.lotAddValue = 0;
     this.GridDataForLot = lotValue || [];
     this.GridDataForLot = Array.isArray(lotValue) ? lotValue : [];
@@ -208,6 +177,7 @@ export class AddPurchaseReturnComponent {
     });
     this.subFromPurchaseTotalAmount(this.lotAddValue || 0);
     console.log(this.lotAddValue);
+    
   }
   subFromPurchaseTotalAmount(subTotal: any) {
     this.totalValue = 0;
@@ -220,42 +190,23 @@ export class AddPurchaseReturnComponent {
         this.totalValue,
         purchaseTotalAmount
       );
+      this.addPurchaseReturnForm.patchValue({
+        purchaseGrossTotal: this.getpurchaseTotalAmount,
+      });
     }
     if(this.totalSlab){
       this.totalValue = subTotal;
+      this.addPurchaseReturnForm.patchValue({
+        purchaseGrossTotal: this.totalSlab,
+      });
     }
-    this.addPurchaseReturnForm.patchValue({
-      purchaseGrossTotal: this.totalSlab,
-    });
   }
-  // lotValues(selectedValues: any[]) {
-  //   this.lotAddValue = 0;
-  //   this.GridDataForLot = this.selectedLots || [];
-  //   console.log(this.selectedLots);
-  //   const allLots = this.selectedLots;
 
-  //    this.unselectedLots = this.selectedLots.filter(
-  //     (lot) => !selectedValues.includes(lot)
-  //   ) || []
-
-  //   console.log(this.unselectedLots);
-  //   // Calculate total costing for selected lots
-  //   this.unselectedLots.forEach((element) => {
-  //     const totalCosting = parseFloat(element.totalCosting);
-  //     if (!isNaN(totalCosting)) {
-  //       this.lotAddValue += totalCosting;
-  //     } else {
-  //       console.error("Invalid totalCosting value:", element.totalCosting);
-  //     }
-  //   });
-  //   console.log("Total Costing for selected lots:", this.lotAddValue);
-  // }
-
-  deleteSlab(id: any) {
-    console.log(id);
-  }
-  deleteLot(id: any) {}
   onInvoiceNumber(purchaseId: any) {
+    this.GridDataForLot = [];
+    this.GridDataForSlab = [];
+    this.purchaseSlabData = [];
+    this.selectedLots = [];
     this.totalSlab = 0;
     this.PurchaseReturnService.GetPurchaseDataById(purchaseId).subscribe(
       (resp: any) => {
@@ -304,8 +255,6 @@ export class AddPurchaseReturnComponent {
               } else {
                 this.selectedLots = [];
               }
-              // this.processedLots = this.blockDataWithLotId.map(block => block._id);
-              // console.log("resp.data.blocksDetails", resp.data.blockDetails,this.processedLots);
             });
         }
       }
