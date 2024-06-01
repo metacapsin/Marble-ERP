@@ -36,5 +36,8 @@ getBlockDetailByLotId(id: string) {
 getNotProcessedBlocksByLotId(id: string) {
   return this.http.get(environment.apiUrl + "/SlabController/getNotProcessedBlocksByLotId/" + id,);
 }
+getSlabListByWarehouseId(id: string) {
+  return this.http.get(environment.apiUrl + "/SlabController/getSlabListByWarehouseId/" + id,);
+}
 
 }
