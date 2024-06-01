@@ -375,7 +375,7 @@
                         <th pSortableColumn="paidAmount">Selling Price Per SQFT<p-sortIcon
                             field="paidAmount"></p-sortIcon>
                         </th>
-                        <th>Actions</th>
+                        <!-- <th>Actions</th> -->
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-purchase>
@@ -386,12 +386,12 @@
                         <!-- <td>{{purchase.subCategoryDetail.name}}</td> -->
                         <td>SQ {{purchase.totalSQFT}}</td>
                         <td>{{purchase.sellingPricePerSQFT}}</td>
-                        <td><p-button [text]=" true" icon="fa fa-trash"
-                            (click)="deleteSlab(purchase._id)"></p-button></td>
+                        <!-- <td><p-button [text]=" true" icon="fa fa-trash"
+                            (click)="deleteSlab(purchase._id)"></p-button></td> -->
                       </tr>
                     </ng-template>
                   </p-table>
-                  <p-table *ngIf="GridDataForLot?.length > 0" [value]="GridDataForLot" styleClass="p-datatable-striped"
+                  <p-table *ngIf="GridDataForLot?.length  > 0" [value]="GridDataForLot" styleClass="p-datatable-striped"
                     [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
                     <ng-template pTemplate="header">
                       <tr>
@@ -408,7 +408,7 @@
                         </th>
                         <th pSortableColumn="dueAmount">Total Area<p-sortIcon field="dueAmount"></p-sortIcon>
                         </th>
-                        <th>Actions</th>
+                        <!-- <th>Actions</th> -->
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-purchase>
@@ -419,8 +419,8 @@
                         <td>{{purchase.width}}</td>
                         <td>₹ {{purchase.totalCosting}}</td>
                         <td>{{purchase.totalArea}}</td>
-                        <td><p-button [text]=" true" icon="fa fa-trash"
-                            (click)="deleteLot(purchase._id)"></p-button></td>
+                        <!-- <td><p-button [text]=" true" icon="fa fa-trash"
+                            (click)="deleteLot(purchase._id)"></p-button></td> -->
                         <!-- <td>₹ {{purchase.totalCosting}}</td> 
                          <td>{{purchase.paymentStatus}}</td>   -->
                         <!-- <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
@@ -657,14 +657,7 @@
                       <div class="invoice-total-footer">
                         <h4>
                           Total Amount
-                          <span
-                            >₹
-                            {{
-                              addPurchaseReturnForm.get(
-                                "purchaseReturnTotalAmount"
-                              ).value | number : "1.2-2"
-                            }}</span
-                          >
+                          <span>₹{{totalValue}}</span>
                         </h4>
                       </div>
                     </div>

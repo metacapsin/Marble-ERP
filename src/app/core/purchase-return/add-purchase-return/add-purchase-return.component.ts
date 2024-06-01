@@ -41,7 +41,7 @@ export class AddPurchaseReturnComponent {
   subCategoryList = [];
   addTaxTotal: any;
   getSupplierShow: any;
-  PurchaseReturnDataById:any
+  PurchaseReturnDataById: any;
   SupplierList = [
     { SupplierName: "Adnan" },
     { SupplierName: "Nadim" },
@@ -63,9 +63,9 @@ export class AddPurchaseReturnComponent {
   orderTaxList = [];
   taxesListData = [];
   SupplierLists = [];
-  blockDataWithLotId:any
-  purchaseSlabData:any
-  SlabAddValue:any
+  blockDataWithLotId: any;
+  purchaseSlabData: any;
+  SlabAddValue: any;
   purchaseDataByInvoiceNumber = [];
   purchaseDataById: any;
   public itemDetails: number[] = [0];
@@ -81,12 +81,16 @@ export class AddPurchaseReturnComponent {
   processedLots: any;
   selectedLots: any;
   isProcess: any;
+  unselectedLots: any = [];
+  totalValue: any;
+  getpurchaseTotalAmount: any;
+  totalSlab: any;
 
   constructor(
     private taxService: TaxesService,
     private fb: FormBuilder,
     private unitService: UnitsService,
-    private PurchaseReturnService : PurchaseReturnService,
+    private PurchaseReturnService: PurchaseReturnService,
     private Service: SuppliersdataService,
     private CategoriesService: CategoriesService,
     private PaymentOutService: PaymentOutService,
@@ -107,8 +111,8 @@ export class AddPurchaseReturnComponent {
       // purchaseOrderTax: [""],
       purchaseGrossTotal: [""],
       otherCharges: [""],
-      purchaseLot:[''],
-      purchaseSlab:[[]],
+      purchaseLot: [""],
+      purchaseSlab: [[]],
       // purchaseReturnDetails: this.fb.array([
       //   this.fb.group({
       //     purchaseReturnQuantity: [""],
@@ -143,12 +147,12 @@ export class AddPurchaseReturnComponent {
   //   });
   //   this.purchaseReturnDetails.push(item);
   // }
-  onSuppliersSelect(customerId: any) {
-    this.PaymentOutService.getPurchasePaymentListBySupplierId(customerId).subscribe(
+  onSuppliersSelect(SuppliersId: any) {
+    this.PaymentOutService.getPurchaseBySupplierId(SuppliersId).subscribe(
       (resp: any) => {
-       if (resp.status == 'error') {
-        this.messageService.add({ severity: "error", detail: resp.message });
-       }
+        if (resp.status == "error") {
+          this.messageService.add({ severity: "error", detail: resp.message });
+        }
         console.log(resp);
         if (resp && resp.data && Array.isArray(resp.data)) {
           this.purchaseDataById = resp.data;
@@ -157,7 +161,7 @@ export class AddPurchaseReturnComponent {
             console.log("elements", element);
             this.purchaseDataByInvoiceNumber.push({
               purchaseInvoiceNumber: element.purchaseInvoiceNumber,
-              _id:element._id,
+              _id: element._id,
             });
           });
         } else {
@@ -172,7 +176,7 @@ export class AddPurchaseReturnComponent {
   slabValues(slabValue: any) {
     this.SlabAddValue = 0;
     this.GridDataForSlab = slabValue || [];
-    // this.slabValuesAdd = [];
+    // const allSlab = slabValue
     this.GridDataForSlab.forEach((element) => {
       const totalCosting = parseFloat(element.totalCosting);
       if (!isNaN(totalCosting)) {
@@ -183,13 +187,18 @@ export class AddPurchaseReturnComponent {
     });
     // this.GridDataForLot = [];
     // this.calculateTotalAmount();
-    console.log(this.SlabAddValue);
+    this.subFromPurchaseTotalAmount(this.SlabAddValue);
+    console.log(this.SlabAddValue, this.GridDataForSlab);
   }
   lotValues(lotValue: any) {
     this.lotAddValue = 0;
     this.GridDataForLot = lotValue || [];
-    // this.lotValuesAdd = [];
-    this.GridDataForLot.forEach((element) => {
+    this.GridDataForLot = Array.isArray(lotValue) ? lotValue : [];
+
+    this.unselectedLots =
+      this.selectedLots.filter((lot) => !lotValue.includes(lot)) || [];
+    console.log(this.unselectedLots);
+    this.unselectedLots.forEach((element) => {
       const totalCosting = parseFloat(element.totalCosting);
       if (!isNaN(totalCosting)) {
         this.lotAddValue += totalCosting;
@@ -197,48 +206,112 @@ export class AddPurchaseReturnComponent {
         console.error("Invalid totalCosting value:", element.totalCosting);
       }
     });
-    // this.GridDataForLot = [];
-    // this.calculateTotalAmount();
+    this.subFromPurchaseTotalAmount(this.lotAddValue || 0);
     console.log(this.lotAddValue);
   }
-  deleteSlab(id:any){
+  subFromPurchaseTotalAmount(subTotal: any) {
+    this.totalValue = 0;
+    console.log(subTotal);
+    var purchaseTotalAmount = this.getpurchaseTotalAmount || 0;
+    if (this.getpurchaseTotalAmount) {
+      this.totalValue = (purchaseTotalAmount - subTotal).toFixed(2);
+      console.log(
+        "totalAmount block total",
+        this.totalValue,
+        purchaseTotalAmount
+      );
+    }
+    if(this.totalSlab){
+      this.totalValue = subTotal;
+    }
+    this.addPurchaseReturnForm.patchValue({
+      purchaseGrossTotal: this.totalSlab,
+    });
+  }
+  // lotValues(selectedValues: any[]) {
+  //   this.lotAddValue = 0;
+  //   this.GridDataForLot = this.selectedLots || [];
+  //   console.log(this.selectedLots);
+  //   const allLots = this.selectedLots;
+
+  //    this.unselectedLots = this.selectedLots.filter(
+  //     (lot) => !selectedValues.includes(lot)
+  //   ) || []
+
+  //   console.log(this.unselectedLots);
+  //   // Calculate total costing for selected lots
+  //   this.unselectedLots.forEach((element) => {
+  //     const totalCosting = parseFloat(element.totalCosting);
+  //     if (!isNaN(totalCosting)) {
+  //       this.lotAddValue += totalCosting;
+  //     } else {
+  //       console.error("Invalid totalCosting value:", element.totalCosting);
+  //     }
+  //   });
+  //   console.log("Total Costing for selected lots:", this.lotAddValue);
+  // }
+
+  deleteSlab(id: any) {
     console.log(id);
   }
-  deleteLot(id:any){
-
-  }
-  onInvoiceNumber(purchaseId:any){
-    this.PurchaseReturnService.getPurchaseReturnById(purchaseId).subscribe((resp:any)=>{
-      this.PurchaseReturnDataById = resp.data;
-      if(this.PurchaseReturnDataById.purchaseType == "slab"){
-        this.purchaseSlabData = [];
-        this.PurchaseReturnDataById.slabDetails.forEach(element => {
-          console.log(element);
-          this.purchaseSlabData.push({
-            slabName: element.slabName,
-            _id: element._id,
-            totalCosting:element.totalCosting,
-            totalSQFT:element.totalSQFT,
-            slabNo:element.slabNo,
-            sellingPricePerSQFT: element.sellingPricePerSQFT,
-          }) 
-          console.log(this.purchaseSlabData); 
-        });
+  deleteLot(id: any) {}
+  onInvoiceNumber(purchaseId: any) {
+    this.totalSlab = 0;
+    this.PurchaseReturnService.GetPurchaseDataById(purchaseId).subscribe(
+      (resp: any) => {
+        this.PurchaseReturnDataById = resp.data;
+        if (this.PurchaseReturnDataById.purchaseType == "slab") {
+          this.purchaseSlabData = [];
+          this.PurchaseReturnDataById.slabDetails.forEach((element) => {
+            console.log(element);
+            this.purchaseSlabData.push({
+              slabName: element.slabName,
+              _id: element._id,
+              totalCosting: element.totalCosting,
+              totalSQFT: element.totalSQFT,
+              slabNo: element.slabNo,
+              sellingPricePerSQFT: element.sellingPricePerSQFT,
+            });
+            const totalCosting = parseFloat(element.totalCosting);
+            if (!isNaN(totalCosting)) {
+              this.totalSlab += totalCosting;
+            }
+            console.log(this.totalSlab);
+            this.addPurchaseReturnForm
+              .get("purchaseSlab")
+              .patchValue(this.purchaseSlabData);
+            this.slabValues(this.purchaseSlabData);
+            console.log(this.purchaseSlabData);
+          });
+        }
+        if (this.PurchaseReturnDataById.purchaseType == "lot") {
+          console.log(this.PurchaseReturnDataById.purchaseTotalAmount);
+          this.getpurchaseTotalAmount =
+            this.PurchaseReturnDataById.purchaseTotalAmount;
+          this.service
+            .getBlockDetailByLotId(this.PurchaseReturnDataById.lotDetails._id)
+            .subscribe((resp: any) => {
+              this.blockDataWithLotId = resp.data.blockDetails || [];
+              if (!this.PurchaseReturnDataById.isProcess) {
+                this.selectedLots = this.blockDataWithLotId.filter(
+                  (block) => !block.isProcessed
+                );
+                console.log(this.selectedLots);
+                this.addPurchaseReturnForm
+                  .get("purchaseLot")
+                  .patchValue(this.selectedLots);
+                this.lotValues(this.selectedLots);
+              } else {
+                this.selectedLots = [];
+              }
+              // this.processedLots = this.blockDataWithLotId.map(block => block._id);
+              // console.log("resp.data.blocksDetails", resp.data.blockDetails,this.processedLots);
+            });
+        }
       }
-      if(this.PurchaseReturnDataById.purchaseType == "lot"){
-        this.service.getBlockDetailByLotId(this.PurchaseReturnDataById.lotDetails._id).subscribe((resp: any) => {
-          this.blockDataWithLotId = resp.data.blockDetails || [];
-          if (!this.PurchaseReturnDataById.isProcess) {
-            this.selectedLots = this.blockDataWithLotId.filter(block => !block.isProcessed)
-            console.log(this.selectedLots);
-          } else {
-            this.selectedLots = []; // Clear selection if isProcess is true
-          }
-          // this.processedLots = this.blockDataWithLotId.map(block => block._id);
-          // console.log("resp.data.blocksDetails", resp.data.blockDetails,this.processedLots);
-        });
-      }
-    })
+    );
+    this.lotAddValue = 0;
+    this.subFromPurchaseTotalAmount(this.lotAddValue);
   }
 
   ngOnInit(): void {
@@ -278,61 +351,95 @@ export class AddPurchaseReturnComponent {
   }
 
   calculateTotalAmount() {
-    console.log("Enter in caltotal");
-    let totalAmount = 0;
-    let purchaseGrossTotal = 0;
-    let totalTax = 0;
+  //   console.log("Enter in caltotal");
+  //   let totalAmount = 0;
+  //   let purchaseGrossTotal = 0;
+  //   let totalTax = 0;
 
-    const purchaseItems = this.addPurchaseReturnForm.get(
-      "purchaseReturnDetails"
-    ) as FormArray;
+  //   const purchaseItems = this.addPurchaseReturnForm.get(
+  //     "purchaseReturnDetails"
+  //   ) as FormArray;
 
-    purchaseItems.controls.forEach((item: FormGroup) => {
-      const quantity = +item.get("purchaseReturnQuantity").value || 0;
-      const unitPrice = +item.get("purchaseReturnUnitPrice").value || 0;
-      const subtotal = quantity * unitPrice;
+  //   purchaseItems.controls.forEach((item: FormGroup) => {
+  //     const quantity = +item.get("purchaseReturnQuantity").value || 0;
+  //     const unitPrice = +item.get("purchaseReturnUnitPrice").value || 0;
+  //     const subtotal = quantity * unitPrice;
 
-      purchaseGrossTotal += subtotal;
+  //     purchaseGrossTotal += subtotal;
 
-      item.get("purchaseItemSubTotal").setValue(subtotal.toFixed(2));
-    });
+  //     item.get("purchaseItemSubTotal").setValue(subtotal.toFixed(2));
+  //   });
 
-    if (
-      Array.isArray(this.addPurchaseReturnForm.get("purchaseOrderTax").value)
-    ) {
-      this.addPurchaseReturnForm
-        .get("purchaseOrderTax")
-        .value.forEach((element) => {
-          totalTax += Number(element.taxRate);
-        });
-    } else {
-      totalTax += Number(
-        this.addPurchaseReturnForm.get("purchaseOrderTax").value
-      );
-    }
+  //   if (
+  //     Array.isArray(this.addPurchaseReturnForm.get("purchaseOrderTax").value)
+  //   ) {
+  //     this.addPurchaseReturnForm
+  //       .get("purchaseOrderTax")
+  //       .value.forEach((element) => {
+  //         totalTax += Number(element.taxRate);
+  //       });
+  //   } else {
+  //     totalTax += Number(
+  //       this.addPurchaseReturnForm.get("purchaseOrderTax").value
+  //     );
+  //   }
 
-    this.addTaxTotal = (purchaseGrossTotal * totalTax) / 100;
-    let shipping = +this.addPurchaseReturnForm.get("purchaseReturnShipping")
-      .value;
-    let Discount = +this.addPurchaseReturnForm.get("purchaseReturnDiscount")
-      .value;
-    let otherCharges = +this.addPurchaseReturnForm.get("otherCharges").value;
+  //   this.addTaxTotal = (purchaseGrossTotal * totalTax) / 100;
+  //   let shipping = +this.addPurchaseReturnForm.get("purchaseReturnShipping")
+  //     .value;
+  //   let Discount = +this.addPurchaseReturnForm.get("purchaseReturnDiscount")
+  //     .value;
+  //   let otherCharges = +this.addPurchaseReturnForm.get("otherCharges").value;
 
-    totalAmount += purchaseGrossTotal;
-    totalAmount += this.addTaxTotal;
-    totalAmount -= Discount;
-    totalAmount += shipping;
-    totalAmount += otherCharges;
+  //   totalAmount += purchaseGrossTotal;
+  //   totalAmount += this.addTaxTotal;
+  //   totalAmount -= Discount;
+  //   totalAmount += shipping;
+  //   totalAmount += otherCharges;
 
-    this.addPurchaseReturnForm.patchValue({
-      purchaseGrossTotal: purchaseGrossTotal.toFixed(2),
-      purchaseDiscount: Discount.toFixed(2),
-      purchaseShipping: shipping.toFixed(2),
-      purchaseTotalAmount: totalAmount.toFixed(2),
-      otherCharges: otherCharges.toFixed(2),
-    });
+  //   this.addPurchaseReturnForm.patchValue({
+  //     purchaseGrossTotal: purchaseGrossTotal.toFixed(2),
+  //     purchaseDiscount: Discount.toFixed(2),
+  //     purchaseShipping: shipping.toFixed(2),
+  //     purchaseTotalAmount: totalAmount.toFixed(2),
+  //     otherCharges: otherCharges.toFixed(2),
+  //   });
   }
   addPurchaseReturnFormSubmit() {
+    const formData =  this.addPurchaseReturnForm.value;
+    const payload = {
+      purchaseReturnInvoiceNumber: this.addPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
+      purchaseReturnSupplierName: this.addPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
+      purchaseReturnDate: this.addPurchaseReturnForm.value.purchaseReturnDate,
+      purchaseReturnTermsAndCondition: this.addPurchaseReturnForm.value.purchaseReturnTermsAndCondition,
+      purchaseReturnNotes: this.addPurchaseReturnForm.value.purchaseReturnNotes,
+      purchaseReturnTotalAmount: this.addPurchaseReturnForm.value.purchaseReturnTotalAmount,
+      purchaseGrossTotal: this.addPurchaseReturnForm.value.purchaseGrossTotal,
+      otherCharges: this.addPurchaseReturnForm.value.otherCharges,
+      purchaseLot: this.addPurchaseReturnForm.value.purchaseLot,
+      purchaseSlab: this.addPurchaseReturnForm.value.purchaseSlab,
+    }
     console.log(this.addPurchaseReturnForm.value);
+    // if (this.addPurchaseReturnForm.valid) {
+    //   console.log("valid form");
+    //   this.PurchaseReturnService.createPurchaseReturn(payload).subscribe((resp: any) => {
+    //     console.log(resp);
+    //     if (resp) {
+    //       if (resp.status === "success") {
+    //         const message = "Sales Return has been added";
+    //         this.messageService.add({ severity: "success", detail: message });
+    //         setTimeout(() => {
+    //           this.router.navigate(["/sales-return"]);
+    //         }, 400);
+    //       } else {
+    //         const message = resp.message;
+    //         this.messageService.add({ severity: "error", detail: message });
+    //       }
+    //     }
+    //   });
+    // }
+    // else {
+    //   console.log("invalid form");
+    // }
   }
 }

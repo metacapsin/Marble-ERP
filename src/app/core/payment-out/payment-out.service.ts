@@ -29,6 +29,9 @@ export class PaymentOutService {
   deletePurchasePayment(id: any) {
     return this.http.delete(environment.apiUrl + "/Purchase/deletePurchasePayment/" + id)
   }
+  getPurchaseBySupplierId(id:any){
+    return this.http.get(environment.apiUrl + `/Purchase/getPurchaseBySupplierId/${id}`)
+  }
   
 
 }

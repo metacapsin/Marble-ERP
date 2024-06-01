@@ -15,9 +15,9 @@ export class PurchaseReturnService {
   // GetPurchaseReturnData() {
   //   return this.http.get(environment.apiUrl + '/Purchase/getPurchaseList');
   // }
-  // GetPurchaseReturnDataById(id: any) {
-  //   return this.http.get(environment.apiUrl + `/Purchase/getPurchaseById/${id}`);
-  // }
+  GetPurchaseDataById(id: any) {
+    return this.http.get(environment.apiUrl + `/Purchase/getPurchaseById/${id}`);
+  }
   // UpdatePurchaseReturnData(data: any) {
   //   return this.http.put(environment.apiUrl + '/Purchase/updatePurchase', data);
   // }
