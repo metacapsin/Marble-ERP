@@ -12,6 +12,7 @@ import { ToastModule } from "primeng/toast";
 import { Router } from "@angular/router";
 import { min } from "rxjs";
 import { SuppliersdataService } from "../../Suppliers/suppliers.service";
+import { PurchaseService } from "../../purchase/purchase.service";
 
 @Component({
   selector: "app-payment-in-add",
@@ -49,6 +50,7 @@ export class PaymentOutAddComponent {
 
   constructor(
     private SuppliersService: SuppliersdataService,
+    private PurchaseService: PurchaseService,
     private Service: PaymentOutService,
     private messageService: MessageService,
     private router: Router,
@@ -92,7 +94,7 @@ export class PaymentOutAddComponent {
   }
   onSuppliersSelect(customerId: any) {
     console.log("hrlk adnns", customerId);
-    this.Service.getPurchasePaymentListBySupplierId(customerId).subscribe((resp: any) => {
+    this.PurchaseService.getPendingPurchaseBySupplierId(customerId).subscribe((resp: any) => {
       this.purchaseDataById = resp.data;
       console.log(this.purchaseDataById);
       this.addpurchaseControls();
