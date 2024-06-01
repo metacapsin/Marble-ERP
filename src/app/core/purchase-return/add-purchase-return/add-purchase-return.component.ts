@@ -144,7 +144,7 @@ export class AddPurchaseReturnComponent {
   //   this.purchaseReturnDetails.push(item);
   // }
   onSuppliersSelect(customerId: any) {
-    this.PaymentOutService.getPurchaseBySupplierId(customerId).subscribe(
+    this.PaymentOutService.getPurchasePaymentListBySupplierId(customerId).subscribe(
       (resp: any) => {
        if (resp.status == 'error') {
         this.messageService.add({ severity: "error", detail: resp.message });
@@ -208,7 +208,7 @@ export class AddPurchaseReturnComponent {
 
   }
   onInvoiceNumber(purchaseId:any){
-    this.PurchaseReturnService.GetPurchaseReturnDataById(purchaseId).subscribe((resp:any)=>{
+    this.PurchaseReturnService.getPurchaseReturnById(purchaseId).subscribe((resp:any)=>{
       this.PurchaseReturnDataById = resp.data;
       if(this.PurchaseReturnDataById.purchaseType == "slab"){
         this.purchaseSlabData = [];
