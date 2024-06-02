@@ -1,6 +1,5 @@
-<p-dialog [header]="header" [(visible)]="showInvoiceDialog" [closable]="false"
-  *ngFor="let sales of salesDataById" [responsive]="true" [baseZIndex]="10000" [closeOnEscape]="false" [modal]="true"
-  [style]="{width: '80vw'}">
+<p-dialog [header]="header" [(visible)]="showInvoiceDialog" [closable]="false" *ngFor="let sales of salesDataById"
+  [responsive]="true" [baseZIndex]="10000" [closeOnEscape]="false" [modal]="true" [style]="{width: '80vw'}">
   <div class="modal-content">
     <div class="modal-body">
       <div class="row justify-content-center">
@@ -19,21 +18,42 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-6" *ngIf="sales.salesInvoiceNumber">
                     <div class="invoice-logo d-flex justify-content-start">
 
                       <div class="add-group">
-                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Invoice Number :</span> {{sales.salesInvoiceNumber}}</p>
+                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Invoice Number :</span>
+                          {{sales.salesInvoiceNumber}}</p>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6" *ngIf="sales.purchaseInvoiceNumber">
+                    <div class="invoice-logo d-flex justify-content-start">
+
+                      <div class="add-group">
+                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Invoice Number :</span>
+                          {{sales.purchaseInvoiceNumber}}</p>
 
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="invoice-info">
+                    <!-- <div class="invoice-info" *ngIf="sales.customer.billingAddress">
                       <div class="invoice-head justify-content-end">
-                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Billing Address :</span> {{sales.customer.billingAddress}}</p>
+                        <p ><span
+                            style="color: #97704f; font-weight: bold; font-size: 16px;">Billing Address :</span>
+                          {{sales.customer.billingAddress}}</p>
+                       
                       </div>
-                    </div>
+                    </div> -->
+                    <!-- <div class="invoice-info"  *ngIf="sales.purchaseSupplierName.billingAddress">
+                      <div class="invoice-head justify-content-end">
+                        <p><span
+                            style="color: #97704f; font-weight: bold; font-size: 16px;">Billing Address :</span>
+                          {{sales.purchaseSupplierName.billingAddress}}</p>
+                      </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -45,20 +65,30 @@
                       <div class="row practice-card">
                         <div class="col-xl-6 col-lg-6 col-sm-12">
 
-                          <div class="form-group row mb-2">
+                          <!-- <div *ngIf="sales.customer.name" class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-lg-9 col-form-label">{{sales.customer.name}}</p>
                             </div>
-                          </div>
-                          <div class="form-group row mb-2" *ngIf="sales.salesDate" >
+                          </div> -->
+                          <!-- <div *ngIf="sales.purchaseSupplierName.name" class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Supplier:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">{{sales.purchaseSupplierName.name}}</p>
+                            </div>
+                          </div> -->
+                          <div class="form-group row mb-2" *ngIf="sales.salesDate">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Sales Date:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-lg-9 col-form-label">{{sales.salesDate}}</p>
                             </div>
                           </div>
-
-
+                          <div class="form-group row mb-2" *ngIf="sales.purchaseDate">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Purchase Date:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">{{sales.purchaseDate}}</p>
+                            </div>
+                          </div>
                           <!-- Conditionally display returnDate if it exists -->
                           <div *ngIf="sales.returnDate" class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Date:</h5>
@@ -66,14 +96,20 @@
                               <p class="col-form-label">{{ sales.returnDate }}</p>
                             </div>
                           </div>
+                          <div *ngIf="sales.purchaseReturnDate" class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Date:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-form-label">{{ sales.purchaseReturnDate }}</p>
+                            </div>
+                          </div>
 
-                          <div class="form-group row mb-2">
+                          <div class="form-group row mb-2"  *ngIf="sales.paidAmount">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-lg-9 col-form-label">{{sales.paidAmount}}</p>
                             </div>
                           </div>
-                          <div class="form-group row mb-2">
+                          <div class="form-group row mb-2"  *ngIf="sales.dueAmount">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-lg-9 col-form-label">{{sales.dueAmount}}</p>
@@ -84,7 +120,7 @@
                         </div>
                         <div class="col-xl-6 col-lg-6 col-sm-12">
 
-                          <div class="form-group row mb-2">
+                          <div class="form-group row mb-2" *ngIf="sales.createdByName" >
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Taken By:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-form-label">{{sales.createdByName}}</p>
@@ -96,16 +132,29 @@
                               <p class="col-form-label">{{sales.salesOrderStatus}}</p>
                             </div>
                           </div>
+                          <div class="form-group row mb-2" *ngIf="sales.purchaseOrderStatus
+">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Status:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-form-label">{{sales.purchaseOrderStatus}}</p>
+                            </div>
+                          </div>
 
                           <!-- Conditionally display returnOrderStatus if it exists -->
                           <div *ngIf="sales.returnOrderStatus" class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Order Status:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-form-label">{{ sales.returnOrderStatus }}</p>
+                              <p class="col-form-label">{{ sales.returnOrderStatus}}</p>
+                            </div>
+                          </div>
+                          <div *ngIf="sales.purchaseReturnOrderStatus" class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Order Status:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-form-label">{{ sales.purchaseReturnOrderStatus}}</p>
                             </div>
                           </div>
 
-                          <div class="form-group row mb-2">
+                          <div class="form-group row mb-2" *ngIf="sales.paymentStatus">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Payment Status:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-form-label">{{sales.paymentStatus}}</p>
@@ -125,9 +174,10 @@
               <div class="card">
                 <p-tabView>
                   <p-tabPanel header="Items">
-                    <p-table [value]="salesDataById" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}">
+                    <p-table [value]="salesDataById" styleClass="p-datatable-striped"
+                      [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
-                        <tr>
+                        <tr *ngIf="sales.salesItemProduct">
                           <th pSortableColumn="salesItemCategory">Product
                           </th>
                           <th pSortableColumn="salesItemQuantity">Quantity
@@ -139,6 +189,19 @@
                           <th pSortableColumn="salesItemSubTotal">Sub Total
                           </th>
                         </tr>
+                        <tr *ngIf="sales.lotDetails">
+                          <th pSortableColumn="lotName
+                          ">Lot Name
+                          </th>
+                          <th pSortableColumn="lotNo">Lot No
+                          </th>
+                          <th pSortableColumn="lotTotalCosting">Lot Total Costing
+                          </th>
+                          <!-- <th pSortableColumn="salesItemTaxAmount">Taxable Amount
+                          </th>
+                          <th pSortableColumn="salesItemSubTotal">Sub Total
+                          </th> -->
+                        </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-data>
                         <tr *ngFor="let sales of data.salesItemDetails">
@@ -148,14 +211,21 @@
                           <td>₹ {{sales.salesItemTaxAmount}}</td>
                           <td>₹ {{sales.salesItemSubTotal}}</td>
                         </tr>
+                        <tr *ngFor="let lot of data.lotDetails">
+                          <td>{{lot.lotName}}</td>
+                          <td>{{lot.lotNo}}</td>
+                          <td>₹ {{lot.lotTotalCosting}}</td>
+                          <!-- <td>₹ {{sales.salesItemTaxAmount}}</td>
+                          <td>₹ {{sales.salesItemSubTotal}}</td> -->
+                        </tr>
                       </ng-template>
                     </p-table>
 
                   </p-tabPanel>
 
                   <p-tabPanel header="Payments">
-                    <p-table [value]="paymentDataListById" styleClass="p-datatable-striped"  *ngIf="paymentDataListById?.length > 0"
-                      [tableStyle]="{'min-width': '60rem'}">
+                    <p-table [value]="paymentDataListById" styleClass="p-datatable-striped"
+                      *ngIf="paymentDataListById?.length > 0" [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
                         <tr>
                           <th pSortableColumn="transactionNo">Trnx No.

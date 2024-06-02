@@ -1,270 +1,344 @@
+<p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
+    <div class="content pb-1" *ngFor="let data of supplierDataById">
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active"><a [routerLink]="routes.suppliers">Suppliers</a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="routes.adminDashboard">Dashboard </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a [routerLink]="routes.suppliers">Suppliers</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="feather icon-chevron-right"></i>
+                        </li>
                         <li class="breadcrumb-item active">View Suppliers</li>
                     </ul>
                 </div>
             </div>
         </div>
+
+        <div class="page-header invoices-page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <ul class="breadcrumb invoices-breadcrumb d-flex justify-content-between">
+                        <li class="breadcrumb-item invoices-breadcrumb-item">
+                            <a [routerLink]="routes.suppliers">
+                                <i class="fa fa-chevron-left"></i> Back to Supplier List
+                            </a>
+                        </li>
+                        <li>Created On: {{ data.createdOn | date : "dd-MM-yyyy" }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="page-table-header mb-2 m-3">
-                        <div class="row practice-card" *ngFor="let data of supplierDataById">
+                        <div class="row practice-card">
                             <div class="col-xl-6 col-lg-6 col-sm-12">
                                 <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Name</h5>
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Name
+                                    </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">{{data.name}}</p>
+                                        <p class="col-lg-9 col-form-label">{{ data.name }}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Email</h5>
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Email
+                                    </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">{{data.email}}</p>
+                                        <p class="col-lg-9 col-form-label">{{ data.email }}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone Number</h5>
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Phone Number
+                                    </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.phoneNo}}</p>
+                                        <p class="col-form-label">{{ data.phoneNo }}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Billing Address</h5>
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Billing Address
+                                    </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.billingAddress}}</p>
+                                        <p class="col-form-label">{{ data.billingAddress }}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-sm-12">
                                 <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Credit Period</h5>
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Credit Period
+                                    </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.creditPeriod}}</p>
+                                        <p class="col-form-label">{{ data.creditPeriod }}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Credit Limit</h5>
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Credit Limit
+                                    </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.creditLimit}}</p>
+                                        <p class="col-form-label">{{ data.creditLimit }}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Tax Number</h5>
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Tax Number
+                                    </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{data.taxNo}}</p>
+                                        <p class="col-form-label">{{ data.taxNo }}</p>
                                     </div>
                                 </div>
-
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Total Due Amount
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{ data.totalDueAmount }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Purchase Grid -->
         <div class="card">
             <p-tabView>
                 <p-tabPanel header="Purchase">
                     <p-table [value]="purchaseDataShowById" styleClass="p-datatable-striped"
-                        [tableStyle]="{'min-width': '60rem'}">
+                        [tableStyle]="{ 'min-width': '60rem' }">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon
-                                        field="purchaseInvoiceNumber"></p-sortIcon>
+                                <th pSortableColumn="purchaseInvoiceNumber">
+                                    Invoice Number
+                                    <p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
                                     <p-columnFilter type="text" field="purchaseInvoiceNumber"
                                         display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="purchaseDate">Purchase Date <p-sortIcon
-                                        field="purchaseDate"></p-sortIcon>
+                                <th pSortableColumn="purchaseDate">
+                                    Purchase Date <p-sortIcon field="purchaseDate"></p-sortIcon>
                                     <p-columnFilter type="text" field="purchaseDate" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon
-                                        field="purchaseOrderStatus"></p-sortIcon>
+                                <th pSortableColumn="purchaseOrderStatus">
+                                    Purchase Status
+                                    <p-sortIcon field="purchaseOrderStatus"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon
-                                        field="paidAmount"></p-sortIcon>
+                                <th pSortableColumn="paidAmount">
+                                    Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                                     <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                                <th pSortableColumn="dueAmount">
+                                    Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
                                     <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="purchaseTotalAmount">Total Amount <p-sortIcon
-                                        field="purchaseTotalAmount"></p-sortIcon>
+                                <th pSortableColumn="purchaseTotalAmount">
+                                    Total Amount
+                                    <p-sortIcon field="purchaseTotalAmount"></p-sortIcon>
                                     <p-columnFilter type="text" field="purchaseTotalAmount"
                                         display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon
-                                        field="paymentStatus"></p-sortIcon>
+                                <th pSortableColumn="paymentStatus">
+                                    Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                                 </th>
                                 <th>Action</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-purchase>
                             <tr>
-                                <td>{{purchase.purchaseInvoiceNumber}}</td>
-                                <td>{{purchase.purchaseDate}}</td>
-                                <td>{{purchase.purchaseOrderStatus}}</td>
-                                <td>₹ {{purchase.paidAmount}}</td>
-                                <td>₹ {{purchase.dueAmount}}</td>
-                                <td>₹ {{purchase.purchaseTotalAmount}}</td>
-                                <td>{{purchase.paymentStatus}}</td>
+                                <td>{{ purchase.purchaseInvoiceNumber }}</td>
+                                <td>{{ purchase.purchaseDate }}</td>
+                                <td>{{ purchase.purchaseOrderStatus }}</td>
+                                <td>₹ {{ purchase.paidAmount }}</td>
+                                <td>₹ {{ purchase.dueAmount }}</td>
+                                <td>₹ {{ purchase.purchaseTotalAmount }}</td>
+                                <td>{{ purchase.paymentStatus }}</td>
                                 <td>
+                                <!-- <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px"> -->
                                     <p-button [text]="true" icon="fa-solid fa-eye"
                                         (click)="showInvoiceDialoge(purchase._id)"></p-button>
-                                    <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editPurchaseRout(purchase._id)" ></p-button> -->
-                                    <p-button [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id)"></p-button> 
+                                    <p-button *ngIf="
+                      purchase.paymentStatus == 'Unpaid' ||
+                      purchase.paymentStatus == 'Partial Paid'
+                    " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id)"></p-button>
                                     <p-button [text]="true" icon="fa-solid fa-trash"
-                                        (click)=deletePurchase(purchase._id)></p-button>
+                                        (click)="deletePurchase(purchase._id)"></p-button>
                                 </td>
                             </tr>
                         </ng-template>
                     </p-table>
-
                 </p-tabPanel>
+
+                <!-- Payment Out Frid -->
 
                 <p-tabPanel header="Payments Out">
                     <p-table [value]="paymentListDataBySupplierId" styleClass="p-datatable-striped"
-                        [tableStyle]="{'min-width': '60rem'}">
+                        [tableStyle]="{ 'min-width': '60rem' }">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="transactionNo">Transaction No.<p-sortIcon
-                                        field="transactionNo"></p-sortIcon>
+                                <th pSortableColumn="transactionNo">
+                                    Transaction No.<p-sortIcon field="transactionNo"></p-sortIcon>
                                     <p-columnFilter type="text" field="transactionNo" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="paymentDate">Payment Date <p-sortIcon
-                                        field="paymentDate"></p-sortIcon>
+                                <th pSortableColumn="paymentDate">
+                                    Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
                                     <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
+                                <th pSortableColumn="amount">
+                                    Amount <p-sortIcon field="amount"></p-sortIcon>
                                     <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon
-                                        field="paymentMode"></p-sortIcon>
+                                <th pSortableColumn="paymentMode">
+                                    Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
                                     <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
                                 </th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-payment>
                             <tr>
-                                <td class="bold">{{payment.transactionNo}}</td>
-                                <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
-                                <td>₹ {{payment.amount}}</td>
-                                <td>{{payment.paymentMode}}</td>
+                                <td class="bold">{{ payment.transactionNo }}</td>
+                                <td class="bold">
+                                    {{ payment.paymentDate | date : "dd-MM-yyyy" }}
+                                </td>
+                                <td>₹ {{ payment.amount }}</td>
+                                <td>{{ payment.paymentMode }}</td>
                             </tr>
                         </ng-template>
                     </p-table>
                 </p-tabPanel>
 
                 <p-tabPanel header="Purchase Return">
-                    <p-table [value]="purchaseDataShowById" styleClass="p-datatable-striped"
-                        [tableStyle]="{'min-width': '60rem'}">
+                    <p-table [value]="purchaseReturnDataShowById" styleClass="p-datatable-striped"
+                        [tableStyle]="{ 'min-width': '60rem' }">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon
-                                        field="purchaseInvoiceNumber"></p-sortIcon>
+                                <th pSortableColumn="purchaseInvoiceNumber">
+                                    Invoice Number
+                                    <p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
                                     <p-columnFilter type="text" field="purchaseInvoiceNumber"
                                         display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="purchaseDate">Purchase Date <p-sortIcon
-                                        field="purchaseDate"></p-sortIcon>
-                                    <p-columnFilter type="text" field="purchaseDate" display="menu"></p-columnFilter>
+                                <th pSortableColumn="returnDate">
+                                    Return Date <p-sortIcon field="returnDate"></p-sortIcon>
+                                    <p-columnFilter type="text" field="returnDate" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon
-                                        field="purchaseOrderStatus"></p-sortIcon>
+                                <th pSortableColumn="returnOrderStatus">
+                                    Return Status
+                                    <p-sortIcon field="returnOrderStatus"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon
-                                        field="paidAmount"></p-sortIcon>
+                                <th pSortableColumn="paidAmount">
+                                    Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                                     <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                                <th pSortableColumn="dueAmount">
+                                    Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
                                     <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="purchaseTotalAmount">Total Amount <p-sortIcon
-                                        field="purchaseTotalAmount"></p-sortIcon>
+                                <th pSortableColumn="purchaseTotalAmount">
+                                    Total Amount
+                                    <p-sortIcon field="purchaseTotalAmount"></p-sortIcon>
                                     <p-columnFilter type="text" field="purchaseTotalAmount"
                                         display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon
-                                        field="paymentStatus"></p-sortIcon>
+                                <th pSortableColumn="paymentStatus">
+                                    Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                                 </th>
                                 <th>Action</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-purchase>
                             <tr>
-                                <td>{{purchase.purchaseInvoiceNumber}}</td>
-                                <td>{{purchase.purchaseDate}}</td>
-                                <td>{{purchase.purchaseOrderStatus}}</td>
-                                <td>₹ {{purchase.paidAmount}}</td>
-                                <td>₹ {{purchase.dueAmount}}</td>
-                                <td>₹ {{purchase.purchaseTotalAmount}}</td>
-                                <td>{{purchase.paymentStatus}}</td>
+                                <td>{{ purchase.purchaseInvoiceNumber }}</td>
+                                <td>{{ purchase.returnDate }}</td>
+                                <td>{{ purchase.returnOrderStatus }}</td>
+                                <td>₹ {{ purchase.paidAmount }}</td>
+                                <td>₹ {{ purchase.dueAmount }}</td>
+                                <td>₹ {{ purchase.purchaseTotalAmount }}</td>
+                                <td>{{ purchase.paymentStatus }}</td>
                                 <td>
+                                <!-- <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px"> -->
                                     <p-button [text]="true" icon="fa-solid fa-eye"
                                         (click)="showReturnInvoiceDialoge(purchase._id)"></p-button>
-                                    <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editPurchaseRout(purchase._id)" ></p-button> -->
-                                    <p-button [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentReturnDialog(purchase._id)"></p-button> 
+                                    <p-button *ngIf="
+                                        purchase.paymentStatus == 'Unpaid' ||
+                                        purchase.paymentStatus == 'Partial Paid'
+                                      " [text]="true" icon="fa-solid fa-wallet"
+                                        (click)="openPaymentReturnDialog(purchase._id)"></p-button>
                                     <p-button [text]="true" icon="fa-solid fa-trash"
-                                        (click)=deletePurchase(purchase._id)></p-button>
+                                        (click)="deletePurchase(purchase._id)"></p-button>
                                 </td>
                             </tr>
                         </ng-template>
                     </p-table>
-
                 </p-tabPanel>
+
+                <!-- Payment In Grid -->
 
                 <p-tabPanel header="Payments In">
                     <p-table [value]="paymentReturnDataListById" styleClass="p-datatable-striped"
-                        [tableStyle]="{'min-width': '60rem'}">
+                        [tableStyle]="{ 'min-width': '60rem' }">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="transactionNo">Transaction No.<p-sortIcon
-                                        field="transactionNo"></p-sortIcon>
+                                <th pSortableColumn="transactionNo">
+                                    Transaction No.<p-sortIcon field="transactionNo"></p-sortIcon>
                                     <p-columnFilter type="text" field="transactionNo" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="paymentDate">Payment Date <p-sortIcon
-                                        field="paymentDate"></p-sortIcon>
+                                <th pSortableColumn="paymentDate">
+                                    Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
                                     <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
+                                <th pSortableColumn="amount">
+                                    Amount <p-sortIcon field="amount"></p-sortIcon>
                                     <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon
-                                        field="paymentMode"></p-sortIcon>
+                                <th pSortableColumn="paymentMode">
+                                    Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
                                     <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
                                 </th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-payment>
                             <tr>
-                                <td class="bold">{{payment.transactionNo}}</td>
-                                <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
-                                <td>₹ {{payment.amount}}</td>
-                                <td>{{payment.paymentMode}}</td>
+                                <td class="bold">{{ payment.transactionNo }}</td>
+                                <td class="bold">
+                                    {{ payment.paymentDate | date : "dd-MM-yyyy" }}
+                                </td>
+                                <td>₹ {{ payment.amount }}</td>
+                                <td>{{ payment.paymentMode }}</td>
                             </tr>
                         </ng-template>
                     </p-table>
                 </p-tabPanel>
-
-
             </p-tabView>
         </div>
-
 
         <!-- <app-purchase-invoice-dialog [showPurchaseInvoiceDialog]="showInvoiceDialog"
             (callbackModal)="callBackModal()" (close)="close()" [purchaseDataById]="purchaseDataShowById">
         </app-purchase-invoice-dialog> -->
 
-        <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="purchaseDataShowById"
-  [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>
     </div>
 </div>
+<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="purchaseDataShowById"
+    [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()"
+    [header]="header"></app-invoice-dialog>
+
+<app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataById]="paymentObject"
+    (callbackModal)="callBackModal()" (close)="close()"></app-payments-invoice-dialog>
+
+<!-- <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog> -->

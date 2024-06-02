@@ -31,9 +31,8 @@ import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/
     DialogModule,
     ToastModule,
     TabViewModule,
-    // PurchaseInvoiceDialogComponent,
     InvoiceDialogComponent,
-    PaymentsInvoiceDialogComponent
+    PaymentsInvoiceDialogComponent,
   ],
   providers: [MessageService],
   templateUrl: "./view-suppliers.component.html",
@@ -95,14 +94,14 @@ export class ViewSuppliersComponent {
       // console.log("purchase Data by customer id ",this.purchaseDataShowById);
       resp.data.forEach((e) => {
         this.totalDueAmount += e.dueAmount;
-        console.log(e.dueAmount);
+        console.log("this is total due amount ",e.totalDueAmount);
       });
     });
   }
 
   getPaymentListBySupplierId() {
     this.PaymentOutService
-    .getPurchasePaymentListBySupplierId(this.id)
+    .getPurchasePaymentList()
     .subscribe((resp: any) => {
       console.log("payment data of Supplier by id", resp);
       this.paymentListDataBySupplierId = resp.data;
@@ -187,7 +186,7 @@ export class ViewSuppliersComponent {
 
     this.PaymentOutService.getPurchasePaymentListByPurchaseId(Id).subscribe((resp: any) => {
       this.paymentDataListById = resp.data;
-      console.log("this is payment by sales id", this.paymentDataListById);
+      console.log("this is payment by Purchase id", this.paymentDataListById);
     });
   }
   showReturnInvoiceDialoge(Id: any) {
@@ -212,7 +211,7 @@ export class ViewSuppliersComponent {
     this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
       this.paymentObject = {
-        supplier: resp.data.supplier,
+        supplier: resp.data.purchaseSupplierName,
         purchaseId: Id,
         isPurchase: true,
         purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,

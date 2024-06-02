@@ -72,9 +72,15 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     this.paymentInvoiceForm = this.fb.group({
       paymentDate: ["", [Validators.required]],
       paymentMode: ["", [Validators.required]],
-      note: ["",],
-      // totalAmount: ["", [Validators.required,this.amountExceedsTotalValidator.bind(this)]],
-      totalAmount: ["", [Validators.required, Validators.min(0), Validators.max(this.dataById.salesDueAmount)]],
+      note: [""],
+      totalAmount: [
+        "",
+        [
+          Validators.required,
+          Validators.min(0),
+          Validators.max(this.dataById.salesDueAmount),
+        ],
+      ],
     });
   }
 
@@ -91,9 +97,10 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   }
 
   paymentInvoiceFormSubmit() {
-    // console.log(this.dataById);
+    console.log("dataById",this.dataById);
     const formData = this.paymentInvoiceForm.value;
-    console.log("this is form data",formData)
+
+    console.log("this is form data", formData);
     if (this.dataById.isSalesReturn) {
       const payload = {
         customer: this.dataById.customer,
@@ -104,22 +111,27 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         note: formData.note,
       };
       if (this.paymentInvoiceForm.valid) {
-        this.salesReturnService.createSalesReturnPayment(payload).subscribe((resp: any) => {
-          console.log(resp);
-          if (resp) {
-            if (resp.status === "success") {
-              const message = "Payment Out has been added";
-              this.messageService.add({ severity: "success", detail: message });
-              setTimeout(() => {
-                this.close.emit();
-                this.paymentInvoiceForm.reset();
-              }, 400);
-            } else {
-              const message = resp.message;
-              this.messageService.add({ severity: "error", detail: message });
+        this.salesReturnService
+          .createSalesReturnPayment(payload)
+          .subscribe((resp: any) => {
+            console.log(resp);
+            if (resp) {
+              if (resp.status === "success") {
+                const message = "Payment Out has been added";
+                this.messageService.add({
+                  severity: "success",
+                  detail: message,
+                });
+                setTimeout(() => {
+                  this.close.emit();
+                  this.paymentInvoiceForm.reset();
+                }, 400);
+              } else {
+                const message = resp.message;
+                this.messageService.add({ severity: "error", detail: message });
+              }
             }
-          }
-        });
+          });
       } else {
         console.log("invalid form");
       }
@@ -145,6 +157,75 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           if (resp) {
             if (resp.status === "success") {
               const message = "Payment has been added";
+              this.messageService.add({ severity: "success", detail: message });
+              setTimeout(() => {
+                this.close.emit();
+                this.paymentInvoiceForm.reset();
+              }, 400);
+            } else {
+              const message = resp.message;
+              this.messageService.add({ severity: "error", detail: message });
+            }
+          }
+        });
+      } else {
+        console.log("invalid form");
+      }
+    }
+
+    // for create purchase payment
+    if (this.dataById.isPurchase) {
+      const payload = {
+        supplier: this.dataById.supplier,
+        paymentDate: formData.paymentDate,
+        paymentMode: formData.paymentMode,
+        purchase: [
+          {
+            _id: this.dataById.purchaseId,
+            amount: formData.totalAmount,
+          },
+        ],
+        note: formData.note,
+      };
+
+      if (this.paymentInvoiceForm.valid) {
+        this.paymentOutService.createPayment(payload).subscribe((resp: any) => {
+          console.log(resp);
+          if (resp) {
+            if (resp.status === "success") {
+              const message = "Payment has been added";
+              this.messageService.add({ severity: "success", detail: message });
+              setTimeout(() => {
+                this.close.emit();
+                this.paymentInvoiceForm.reset();
+              }, 400);
+            } else {
+              const message = resp.message;
+              this.messageService.add({ severity: "error", detail: message });
+            }
+          }
+        });
+      } else {
+        console.log("invalid form");
+      }
+    }
+
+    // for purchase return payment
+    if (this.dataById.isPurchaseReturn) {
+      const payload = {
+        customer: this.dataById.customer,
+        paymentDate: formData.paymentDate,
+        paymentMode: formData.paymentMode,
+        salesReturnId: this.dataById.salesReturnId,
+        amount: formData.totalAmount,
+        note: formData.note,
+      };
+      if (this.paymentInvoiceForm.valid) {
+        this.paymentInService.createPayment(payload).subscribe((resp: any) => {
+          console.log(resp);
+          if (resp) {
+            if (resp.status === "success") {
+              const message = "Payment Out has been added";
               this.messageService.add({ severity: "success", detail: message });
               setTimeout(() => {
                 this.close.emit();
