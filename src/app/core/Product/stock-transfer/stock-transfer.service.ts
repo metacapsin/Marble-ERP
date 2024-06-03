@@ -7,25 +7,21 @@ import { environment } from 'src/environments/environment.development';
 })
 export class StockTransferService {
   constructor(private http: HttpClient) { }
-  addNewAdjustment(data: {} | null) {
-  return this.http.post(environment.apiUrl + "/StockAdjustmentController/addNewAdjustment", data);
+  addStockTransfer(data: {} | null) {
+  return this.http.post(environment.apiUrl + "/StockTransferController/addStockTransfer", data);
 }
-getAdjustmentList() {
-  return this.http.get(environment.apiUrl + "/StockAdjustmentController/getAdjustmentList");
-}
-
-getAdjustmentById(locationId: string) {
-  return this.http.get(environment.apiUrl + "/StockAdjustmentController/getAdjustmentById/" + locationId);
-}
-getAdjustmentListByWarehouseId(locationId: string) {
-  return this.http.get(environment.apiUrl + "/StockAdjustmentController/getAdjustmentListByWarehouseId/" + locationId);
+getStockTransferList() {
+  return this.http.get(environment.apiUrl + "/StockTransferController/getStockTransferList");
 }
 
-updateAdjustment(data: {}) {
-  return this.http.put(environment.apiUrl + "/StockAdjustmentController/updateAdjustment" , data);
+getStockTransferById(locationId: string) {
+  return this.http.get(environment.apiUrl + "/StockTransferController/getStockTransferById/" + locationId);
+}
+updateStockTransfer(data: {}) {
+  return this.http.put(environment.apiUrl + "/StockTransferController/updateStockTransfer" , data);
 }
 
-deleteAdjustment(id: string) {
-  return this.http.delete(environment.apiUrl + "/StockAdjustmentController/deleteAdjustment/" + id);
+deleteStockTransfer(id: string) {
+  return this.http.delete(environment.apiUrl + "/StockTransferController/deleteStockTransfer/" + id);
 }
 }

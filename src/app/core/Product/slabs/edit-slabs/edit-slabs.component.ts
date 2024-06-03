@@ -201,6 +201,7 @@ export class EditSlabsComponent {
     this.Service.getSlabsById(this.slabsId).subscribe((resp: any) => {
       this.data = resp.data;
       this.onLotSelect(resp.data.lotDetails);
+      this.onBlockSelect(resp.data.blockDetails);
       console.log(this.data);
       this.slabsEditForm.patchValue({
         slabNo: this.data.slabNo,
@@ -276,8 +277,7 @@ export class EditSlabsComponent {
       });
     } else {
       var processingCost = processingFee * this.blockDropDownPerBlockWeight;
-      var totalCosting =
-        +purchaseCost + processingCost + otherCharges + transportationCharges;
+      var totalCosting = +purchaseCost + processingCost + otherCharges + transportationCharges;
       var totalAmount = totalCosting / totalSQFT;
       console.log("processingCost", processingCost);
       console.log("totalCosting", totalCosting);

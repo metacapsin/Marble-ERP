@@ -20,7 +20,7 @@ import { Validators } from '@angular/forms';
 import { StockTransferService } from '../stock-transfer.service';
 
 @Component({
-  
+
   selector: 'app-stock-transfer-list',
   templateUrl: './stock-transfer-list.component.html',
   styleUrl: './stock-transfer-list.component.scss',
@@ -30,11 +30,13 @@ import { StockTransferService } from '../stock-transfer.service';
 })
 export class StockTransferListComponent implements OnInit {
   addStockTransferForm: FormGroup;
+  editStockTransferForm: FormGroup;
   public routes = routes;
   stockTransferDataList: any = [];
   originalData: any = []
   public showDialog: boolean = false;
   public addstockTransfer: boolean = false;
+  public editStockTransfer: boolean = false;
   modalData: any = {}
   stockTransferId: any;
   searchDataValue = "";
@@ -43,8 +45,8 @@ export class StockTransferListComponent implements OnInit {
   warehouseData: any = []
   slabData: any = []
   transferType: any = [
-    {name: "Add", value:"add"},
-    {name: "Subtract", value:"subtract"}
+    { name: "All Quantity", value: "allQuantity" },
+    { name: "Custom Quantity", value: "customQuantity" }
   ]
 
   constructor(public router: Router,
@@ -53,20 +55,30 @@ export class StockTransferListComponent implements OnInit {
     private WarehouseService: WarehouseService,
     private fb: FormBuilder,
     private messageService: MessageService) {
-      this.addStockTransferForm = this.fb.group({
-        fromWarehouse: [""],
-        toWarehouse: [""],
-        slab: ["", [Validators.required]],
-        transferType: [""],
-        currrentQty: ["", [Validators.required]],
-        transferQty: ["", [Validators.required]],
-        transportCharges: [""],
-        otherCharges: [""],
-      })
-     }
+    this.addStockTransferForm = this.fb.group({
+      fromWarehouse: [""],
+      toWarehouse: [""],
+      slab: ["", [Validators.required]],
+      transferType: [""],
+      currentQty: ["",],
+      transferQty: ["", [Validators.required]],
+      transportCharges: [""],
+      otherCharges: [""],
+    });
+    this.editStockTransferForm = this.fb.group({
+      fromWarehouse: [""],
+      toWarehouse: [""],
+      slab: ["", [Validators.required]],
+      transferType: [""],
+      currentQty: ["",],
+      transferQty: ["", [Validators.required]],
+      transportCharges: [""],
+      otherCharges: [""],
+    });
+  }
 
-  getAdjustmentList(): void {
-    this.service.getAdjustmentList().subscribe((resp: any) => {
+  getStockTransferList(): void {
+    this.service.getStockTransferList().subscribe((resp: any) => {
       this.stockTransferDataList = resp.data;
       this.originalData = resp.data;
 
@@ -74,10 +86,9 @@ export class StockTransferListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAdjustmentList();
-
-    this.WarehouseService.getAllWarehouseList().subscribe((resp:any) => {
-      this.warehouseData = resp.data.map(element => ({ 
+    this.getStockTransferList();
+    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
+      this.warehouseData = resp.data.map(element => ({
         name: element.name,
         _id: {
           _id: element._id,
@@ -85,8 +96,10 @@ export class StockTransferListComponent implements OnInit {
         }
       }));
     });
+  }
 
-    this.SlabsService.getSlabsList().subscribe((resp:any) => {
+  onWarehouseSelect(value: any) {
+    this.SlabsService.getSlabListByWarehouseId(value._id).subscribe((resp: any) => {
       this.slabData = resp.data.map(element => ({
         name: element.slabName,
         _id: {
@@ -98,23 +111,50 @@ export class StockTransferListComponent implements OnInit {
       }));
     });
   }
-  addstockTransferDialog() {
-    this.addStockTransferForm.reset();
-      this.addstockTransfer = true;
-  }
-
-  settotalSQFT(value: any){
-    console.log("totalSQFT");
-    
+  settotalSQFT(value: any) {
     this.addStockTransferForm.get("currentQty").setValue(value.totalSQFT)
   }
+  editSettotalSQFT(value: any) {
+    this.editStockTransferForm.get("currentQty").setValue(value.totalSQFT)
+  }
+  onTrasferTypeSelect(value: any){
+    if(value === 'allQuantity'){
+      this.addStockTransferForm.get('transferQty').setValue(this.addStockTransferForm.get('currentQty').value);
+      this.editStockTransferForm.get('transferQty').setValue(this.editStockTransferForm.get('currentQty').value);
+  } else {
+      this.addStockTransferForm.get('transferQty').reset();
+      this.editStockTransferForm.get('transferQty').reset();
+  }
+  }
 
-  deleteStockAdjustment(_id: any) {
+  addstockTransferDialog() {
+    this.addStockTransferForm.reset();
+    this.addstockTransfer = true;
+  }
+  editstockTransferDialog(_id: any) {
     this.stockTransferId = _id;
+    this.service.getStockTransferById(_id).subscribe((resp:any) => {
+      this.editSettotalSQFT(resp.data.slab)
+      this.editStockTransferForm.patchValue({
+      fromWarehouse: resp.data.fromWarehouse,
+      toWarehouse: resp.data.toWarehouse,
+      slab: resp.data.slab,
+      transferType: resp.data.transferType,
+      transferQty: resp.data.transferQty,
+      transportCharges: resp.data.transportCharges,
+      otherCharges: resp.data.otherCharges,
+      })
+    })
+    this.editStockTransfer = true;
+  }
 
+
+
+  deleteStockTransfer(_id: any) {
+    this.stockTransferId = _id;
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure want to delete this Stock Adjustment?",
+      messege: "Are you sure want to delete this Stock Transfer?",
     }
     this.showDialog = true;
   }
@@ -124,37 +164,61 @@ export class StockTransferListComponent implements OnInit {
   }
 
   callBackModal() {
-    this.service.deleteAdjustment(this.stockTransferId).subscribe(resp => {
-      const message = "Stock Adjustment has been deleted"
+    this.service.deleteStockTransfer(this.stockTransferId).subscribe(resp => {
+      const message = "Stock Transfer has been deleted"
       this.messageService.add({ severity: 'success', detail: message });
-      this.getAdjustmentList();
+      this.getStockTransferList();
       this.showDialog = false;
-
-    })
+    });
   }
 
   close() {
     this.showDialog = false;
   }
 
-  addStockTransferFormSubmit(){
+  addStockTransferFormSubmit() {
     const payload = {
       fromWarehouse: this.addStockTransferForm.value.fromWarehouse,
       toWarehouse: this.addStockTransferForm.value.toWarehouse,
       slab: this.addStockTransferForm.value.slab,
       transferType: this.addStockTransferForm.value.transferType,
-      currrentQty: this.addStockTransferForm.value.currrentQty,
       transferQty: this.addStockTransferForm.value.transferQty,
       transportCharges: this.addStockTransferForm.value.transportCharges,
       otherCharges: this.addStockTransferForm.value.otherCharges,
     }
     if (this.addStockTransferForm.valid) {
-      this.service.addNewAdjustment(payload).subscribe((resp: any) => {
+      this.service.addStockTransfer(payload).subscribe((resp: any) => {
         if (resp.status === "success") {
           this.addstockTransfer = false;
-          const message = "Stock Adjustment has been added";
+          const message = "Stock Transfer has been added";
           this.messageService.add({ severity: "success", detail: message });
-          this.getAdjustmentList();
+          this.getStockTransferList();
+        } else {
+          this.messageService.add({ severity: "error", detail: resp.message });
+        }
+      });
+    } else {
+      console.log("Form is invalid!");
+    }
+  }
+  editStockTransferFormSubmit() {
+    const payload = {
+      id: this.stockTransferId,
+      fromWarehouse: this.editStockTransferForm.value.fromWarehouse,
+      toWarehouse: this.editStockTransferForm.value.toWarehouse,
+      slab: this.editStockTransferForm.value.slab,
+      transferType: this.editStockTransferForm.value.transferType,
+      transferQty: this.editStockTransferForm.value.transferQty,
+      transportCharges: this.editStockTransferForm.value.transportCharges,
+      otherCharges: this.editStockTransferForm.value.otherCharges,
+    }
+    if (this.editStockTransferForm.valid) {
+      this.service.updateStockTransfer(payload).subscribe((resp: any) => {
+        if (resp.status === "success") {
+          this.editStockTransfer = false;
+          const message = "Stock Transfer has been updated";
+          this.messageService.add({ severity: "success", detail: message });
+          this.getStockTransferList();
         } else {
           const message = resp.message;
           this.messageService.add({ severity: "error", detail: message });
@@ -167,7 +231,7 @@ export class StockTransferListComponent implements OnInit {
 
   public searchData(value: any): void {
     this.stockTransferDataList = this.originalData.filter(i =>
-      i.slabs.slabName.toLowerCase().includes(value.trim().toLowerCase())
+      i.slab.slabName.toLowerCase().includes(value.trim().toLowerCase())
     );
   }
   onPageChange(event) {

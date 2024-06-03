@@ -59,27 +59,37 @@
                                 [(selection)]="selectedlot" styleClass="p-datatable-striped">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="slabs.slabName">Slab Name <p-sortIcon field="slabs.slabName"></p-sortIcon>
-                                            <p-columnFilter type="text" field="slabs.slabName" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="slab.slabName">slab Name <p-sortIcon field="slab.slabName"></p-sortIcon>
+                                            <p-columnFilter type="text" field="slab.slabName" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="warehouse.name">Warehouse <p-sortIcon field="warehouse.name"></p-sortIcon>
-                                            <p-columnFilter type="text" field="warehouse.name" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="fromWarehouse.name">From-Warehouse <p-sortIcon field="fromWarehouse.name"></p-sortIcon>
+                                            <p-columnFilter type="text" field="fromWarehouse.name" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon>
-                                            <p-columnFilter type="text" field="quantity" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="toWarehouse.name">To-Warehouse <p-sortIcon field="toWarehouse.name"></p-sortIcon>
+                                            <p-columnFilter type="text" field="toWarehouse.name" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="transferType">Transfer-Type <p-sortIcon field="transferType"></p-sortIcon>
+                                            <p-columnFilter type="text" field="transferType" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="transferQty">Transfer Quantity <p-sortIcon field="transferQty"></p-sortIcon>
+                                            <p-columnFilter type="text" field="transferQty" display="menu"></p-columnFilter>
                                         </th>
                                         <th>Action</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-stock>
                                     <tr>
-                                        <td>{{stock.slabs.slabName}}</td>
-                                        <td>{{stock.warehouse.name}}</td>
-                                        <td>{{stock.quantity}}</td>
+                                        <td>{{stock.slab.slabName}}</td>
+                                        <td>{{stock.fromWarehouse.name}}</td>
+                                        <td>{{stock.toWarehouse.name}}</td>
+                                        <td>{{stock.transferType}}</td>
+                                        <td>{{stock.transferQty}}</td>
                                         <td style="display: flex; gap: 5px;" appShowHide
                                             [roles]="['admin', 'super-admin']">
+                                            <p-button [text]="true" icon="fa-solid fa-edit"
+                                                (click)="editstockTransferDialog(stock._id)"></p-button>
                                             <p-button [text]="true" icon="fa-solid fa-trash"
-                                                (click)="deleteStockAdjustment(stock._id)"></p-button>
+                                                (click)="deleteStockTransfer(stock._id)"></p-button>
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -102,18 +112,28 @@
 
 
 
-<!-- --------------- lot Details PopUp --------------- -->
+<!-- --------------- add stock TransferPopUp --------------- -->
 
-<p-dialog header="Add Stock Adjustment" [(visible)]="addstockTransfer" [modal]="true" [style]="{width: '70%'}">
+<p-dialog header="Add Stock Transfer" [(visible)]="addstockTransfer" [modal]="true" [style]="{width: '70%'}">
     <div class="modal-content">
         <div class="modal-body">
             <form [formGroup]="addStockTransferForm" (ngSubmit)="addStockTransferFormSubmit()">
                 <div class="row mt-2">
                     <div class="col-md-6">
                         <div class="form-group local-forms">
-                            <label for="warehouse">From-Warehouse</label>
+                            <label for="fromWarehouse">From-Warehouse</label>
                             <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
-                                optionValue="_id" placeholder="Select Warehouse" formControlName="warehouse"
+                                optionValue="_id" placeholder="Select Warehouse" formControlName="fromWarehouse"
+                                [style]="{ width: '100%' }" [filter]="true"  filterBy="name" (onChange)="onWarehouseSelect($event.value)" >
+                            </p-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="toWarehouse">To-Warehouse</label>
+                            <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
+                                optionValue="_id" placeholder="Select Warehouse" formControlName="toWarehouse"
                                 [style]="{ width: '100%' }" [filter]="true"  filterBy="name" >
                             </p-dropdown>
                         </div>
@@ -121,19 +141,9 @@
 
                     <div class="col-md-6">
                         <div class="form-group local-forms">
-                            <label for="warehouse">To-Warehouse</label>
-                            <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
-                                optionValue="_id" placeholder="Select Warehouse" formControlName="warehouse"
-                                [style]="{ width: '100%' }" [filter]="true"  filterBy="name" >
-                            </p-dropdown>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group local-forms">
-                            <label for="slabs">Slab<span class="login-danger">*</span></label>
+                            <label for="slab">Slab<span class="login-danger">*</span></label>
                             <p-dropdown [options]="slabData" styleClass="" appendTo="body" optionLabel="name"
-                                optionValue="_id" placeholder="Select slab" formControlName="slabs"
+                                optionValue="_id" placeholder="Select slab" formControlName="slab"
                                 [style]="{ width: '100%' }" [filter]="true" filterBy="name" (onChange)="settotalSQFT($event.value)">
                             </p-dropdown>
                             <div
@@ -147,20 +157,27 @@
                         <div class="form-group local-forms">
                             <label for="transferType">Transfer Type</label>
                             <p-dropdown [options]="transferType" styleClass="" appendTo="body" optionLabel="name"
-                                optionValue="_id" placeholder="Select Transfer Type" formControlName="transferType"
-                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" (onChange)="settotalSQFT($event.value)">
+                                optionValue="value" placeholder="Select Transfer Type" formControlName="transferType"
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" (onChange)="onTrasferTypeSelect($event.value)">
                             </p-dropdown>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group local-forms">
-                            <label for="currrentQty">current Quantity</label>
-                            <span class="form-control">{{addStockTransferForm.get('currrentQty').value}}</span>
+                            <label for="currentQty">current Quantity</label>
+                            <span class="form-control">{{addStockTransferForm.get('currentQty').value}}</span>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" *ngIf="addStockTransferForm.get('transferType').value == 'allQuantity'">
+                        <div class="form-group local-forms">
+                            <label for="transferQty">Transfer Quantity <span class="login-danger">*</span></label>
+                            <span class="form-control">{{addStockTransferForm.get('transferQty').value}}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" *ngIf="addStockTransferForm.get('transferType').value !== 'allQuantity'" >
                         <div class="form-group local-forms">
                             <label for="transferQty">Transfer Quantity <span class="login-danger">*</span></label>
                             <input type="number" formControlName="transferQty" class="form-control">
@@ -192,6 +209,124 @@
                             <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
                                 [disabled]="!addStockTransferForm.valid">Submit</button>
                             <button class="btn btn-secondary" (click)="addstockTransfer = false">Cancel</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</p-dialog>
+<!-- --------------- add stock TransferPopUp --------------- -->
+
+<p-dialog header="Edit Stock Adjustment" [(visible)]="editStockTransfer" [modal]="true" [style]="{width: '70%'}">
+    <div class="modal-content">
+        <div class="modal-body">
+            <form [formGroup]="editStockTransferForm" (ngSubmit)="editStockTransferFormSubmit()">
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="fromWarehouse">From-Warehouse</label>
+                            <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
+                                optionValue="_id" placeholder="Select Warehouse" formControlName="fromWarehouse"
+                                [style]="{ width: '100%' }" [filter]="true"  filterBy="name" (onChange)="onWarehouseSelect($event.value)">
+                            </p-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="toWarehouse">To-Warehouse</label>
+                            <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
+                                optionValue="_id" placeholder="Select Warehouse" formControlName="toWarehouse"
+                                [style]="{ width: '100%' }" [filter]="true"  filterBy="name" >
+                            </p-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="slab">Slab<span class="login-danger">*</span></label>
+                            <p-dropdown [options]="slabData" styleClass="" appendTo="body" optionLabel="name"
+                                optionValue="_id" placeholder="Select slab" formControlName="slab"
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" (onChange)="editSettotalSQFT($event.value)">
+                            </p-dropdown>
+                            <div
+                                *ngIf="editStockTransferForm.get('slab')?.hasError('required') && editStockTransferForm.get('slab')?.touched">
+                                <span class="login-danger">Field is required.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="transferType">Transfer Type</label>
+                            <p-dropdown [options]="transferType" styleClass="" appendTo="body" optionLabel="name"
+                                optionValue="value" placeholder="Select Transfer Type" formControlName="transferType"
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" (onChange)="onTrasferTypeSelect($event.value)" >
+                            </p-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="currentQty">current Quantity</label>
+                            <span class="form-control">{{editStockTransferForm.get('currentQty').value}}</span>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6" *ngIf="editStockTransferForm.get('transferType').value == 'allQuantity'">
+                        <div class="form-group local-forms">
+                            <label for="transferQty">Transfer Quantity <span class="login-danger">*</span></label>
+                            <span class="form-control">{{editStockTransferForm.get('transferQty').value}}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" *ngIf="editStockTransferForm.get('transferType').value !== 'allQuantity'" >
+                        <div class="form-group local-forms">
+                            <label for="transferQty">Transfer Quantity <span class="login-danger">*</span></label>
+                            <input type="number" formControlName="transferQty" class="form-control">
+                            <div
+                                *ngIf="editStockTransferForm.get('transferQty')?.hasError('required') && editStockTransferForm.get('transferQty')?.touched">
+                                <span class="login-danger">Field is required.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="transferQty">Transfer Quantity <span class="login-danger">*</span></label>
+                            <input type="number" formControlName="transferQty" class="form-control">
+                            <div
+                                *ngIf="editStockTransferForm.get('transferQty')?.hasError('required') && editStockTransferForm.get('transferQty')?.touched">
+                                <span class="login-danger">Field is required.</span>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="transportCharges">Transport Charge </label>
+                            <input type="number" formControlName="transportCharges" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="otherCharges">Other Charges </label>
+                            <input type="number" formControlName="otherCharges" class="form-control">
+                        </div>
+                    </div>
+
+                    
+                    <div class=" col-12">
+
+                        <div class=" settings-btns text-end m-b-10">
+                            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                [disabled]="!editStockTransferForm.valid">Submit</button>
+                            <button class="btn btn-secondary" (click)="editStockTransfer = false">Cancel</button>
                         </div>
 
                     </div>
