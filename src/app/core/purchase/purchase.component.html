@@ -110,7 +110,11 @@
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>
 
-  <p-dialog header="Purchase Details" [(visible)]="visible" [modal]="true"
+  <app-invoice-dialog [showInvoiceDialog]="visible" [salesDataById]="PurchaseListData"
+   (callbackModal)="callBackModal()" (close)="close()"
+    [header]="header"></app-invoice-dialog>
+
+  <!-- <p-dialog header="Purchase Details" [(visible)]="visible" [modal]="true"
   [style]="{width: '80vw'}">
   <div class="modal-content" *ngFor="let purchase of PurchaseListData">
     <div class="modal-body">
@@ -219,8 +223,8 @@
                           </th>
                           <th pSortableColumn="amount">Total Costing
                           </th>
-                          <!-- <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon> -->
-                          <!-- </th> -->
+                          <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
+                          </th>
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-payment>
@@ -229,7 +233,7 @@
                           <td>{{payment.height}}</td>
                           <td>{{payment.length}}</td>
                           <td>{{payment.width}}</td>
-                          <!-- <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td> -->
+                          <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
                           <td>₹ {{payment.totalCosting}}</td>
                         </tr>
                       </ng-template>
@@ -324,7 +328,7 @@
                     <div class="invoice-total-box">
                        <div class="invoice-total-inner">
                         <p>Gross Total <span>₹ {{purchase.purchaseGrossTotal}}</span></p>
-                        <!-- <p>Applied Tax Amount <span>₹ {{addTaxTotal}} </span></p> -->
+                        <p>Applied Tax Amount <span>₹ {{addTaxTotal}} </span></p>
                         <p>Shipping Charges <span>₹ {{purchase.purchaseShipping}}</span></p>
                         <p>Discount <span>₹ {{purchase.purchaseDiscount}}</span></p>
                         <p>OtherCharges <span>₹ {{purchase.otherCharges}}</span></p>
@@ -343,4 +347,4 @@
       </div>
     </div>
   </div>
-</p-dialog>
+</p-dialog> -->

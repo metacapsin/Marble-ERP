@@ -15,11 +15,13 @@ import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
 import { SlabsService } from '../Product/slabs/slabs.service';
+import { InvoiceDialogComponent } from 'src/app/common-component/modals/invoice-dialog/invoice-dialog.component';
 
 @Component({
   selector: 'app-purchase',
   standalone: true,
-  imports: [CommonModule,SharedModule,DialogModule,DropdownModule,CalendarModule,ToastModule,TabViewModule],
+  imports: [CommonModule,SharedModule,DialogModule,DropdownModule,CalendarModule,ToastModule,
+    InvoiceDialogComponent,TabViewModule],
   templateUrl: './purchase.component.html',
   styleUrl: './purchase.component.scss',
   providers: [MessageService],
@@ -55,6 +57,7 @@ export class PurchaseComponent {
   setDataInPopPu:any
   purchaseId:any
   blockDetailsTable:any
+  header=''
 
 
 
@@ -93,6 +96,7 @@ export class PurchaseComponent {
       console.log(this.PurchaseListData[0].lotDetails);
       console.log(this.PurchaseListData);
       console.log(resp);
+      this.header="pUrchasE dialog"
       if(resp.data.lotDetails){
         this.service.getBlockDetailByLotId(resp.data.lotDetails._id).subscribe((resp: any) => {
           this.blockDetailsTable = resp.data.blockDetails;
