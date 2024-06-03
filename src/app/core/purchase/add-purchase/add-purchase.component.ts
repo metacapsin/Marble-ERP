@@ -102,7 +102,7 @@ export class AddPurchaseComponent implements OnInit {
   ) {
     this.addPurchaseForm = this.fb.group({
       purchaseInvoiceNumber: [""],
-      purchaseSupplierName: ["", [Validators.required]],
+      supplier: ["", [Validators.required]],
       purchaseDate: ["", [Validators.required]],
       purchaseOrderStatus: ["", [Validators.required]],
       purchaseOrderTax: [""],
@@ -313,7 +313,7 @@ export class AddPurchaseComponent implements OnInit {
       });
     }
     const payload = {
-      purchaseSupplierName: formData.purchaseSupplierName,
+      supplier: formData.supplier,
       purchaseDate: formData.purchaseDate,
       quality: formData.purchaseDiscount,
       purchaseType: formData.purchaseType,

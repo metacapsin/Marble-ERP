@@ -57,7 +57,7 @@
                   <th pSortableColumn="purchaseDate"> Purchase Date <p-sortIcon field="purchaseDate"></p-sortIcon>
                     <p-columnFilter type="text" field="purchaseDate" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="purchaseSupplierName.name">Supplier<p-sortIcon field="supplier.name"></p-sortIcon>
+                  <th pSortableColumn="supplier.name">Supplier<p-sortIcon field="supplier.name"></p-sortIcon>
                     <p-columnFilter type="text" field="supplier.name" display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon field="purchaseOrderStatus"></p-sortIcon></th>
@@ -81,7 +81,7 @@
                 <tr>
                   <td>{{purchase.purchaseInvoiceNumber}}</td>
                   <td>{{purchase.purchaseDate}}</td>
-                  <td>{{purchase.purchaseSupplierName.name}}</td>
+                  <td>{{purchase.supplier.name}}</td>
                   <td>{{purchase.purchaseOrderStatus}}</td>
                   <td>₹ {{purchase.paidAmount}}</td>                  
                   <td>₹ {{purchase.dueAmount}}</td>                  
@@ -146,7 +146,7 @@
                           <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{purchase.purchaseSupplierName.name}}</p>
+                              <p class="col-lg-9 col-form-label">{{purchase.supplier.name}}</p>
                             </div>
                           </div>
                           <div class="form-group row mb-2">

@@ -103,13 +103,13 @@
                             </div>
                           </div>
 
-                          <div class="form-group row mb-2"  *ngIf="sales.paidAmount">
+                          <div class="form-group row mb-2" *ngIf="sales.paidAmount">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-lg-9 col-form-label">{{sales.paidAmount}}</p>
                             </div>
                           </div>
-                          <div class="form-group row mb-2"  *ngIf="sales.dueAmount">
+                          <div class="form-group row mb-2" *ngIf="sales.dueAmount">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-lg-9 col-form-label">{{sales.dueAmount}}</p>
@@ -120,7 +120,7 @@
                         </div>
                         <div class="col-xl-6 col-lg-6 col-sm-12">
 
-                          <div class="form-group row mb-2" *ngIf="sales.createdByName" >
+                          <div class="form-group row mb-2" *ngIf="sales.createdByName">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Order Taken By:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-form-label">{{sales.createdByName}}</p>
@@ -197,10 +197,19 @@
                           </th>
                           <th pSortableColumn="lotTotalCosting">Lot Total Costing
                           </th>
-                          <!-- <th pSortableColumn="salesItemTaxAmount">Taxable Amount
+                        </tr>
+                        <tr *ngIf="sales.slabDetails">
+                          <th pSortableColumn="slabName
+                          ">Slab Name
                           </th>
-                          <th pSortableColumn="salesItemSubTotal">Sub Total
-                          </th> -->
+                          <th pSortableColumn="slabNo">Slab No
+                          </th>
+                          <th pSortableColumn="sellingPricePerSQFT">Price Per Square Feet
+                          </th>
+                          <th pSortableColumn="slabTotalCosting">Slab Total Costing
+                          </th>
+                          <th pSortableColumn="totalSQFT">Total Square Feet
+                          </th>
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-data>
@@ -211,12 +220,17 @@
                           <td>₹ {{sales.salesItemTaxAmount}}</td>
                           <td>₹ {{sales.salesItemSubTotal}}</td>
                         </tr>
-                        <tr *ngFor="let lot of data.lotDetails">
-                          <td>{{lot.lotName}}</td>
-                          <td>{{lot.lotNo}}</td>
-                          <td>₹ {{lot.lotTotalCosting}}</td>
-                          <!-- <td>₹ {{sales.salesItemTaxAmount}}</td>
-                          <td>₹ {{sales.salesItemSubTotal}}</td> -->
+                        <tr *ngIf="sales.lotDetails">
+                          <td>{{sales.lotDetails.lotName}}</td>
+                          <td>{{sales.lotDetails.lotNo}}</td>
+                          <td>₹ {{sales.lotDetails.lotTotalCosting}}</td>
+                        </tr>
+                        <tr *ngIf="sales.slabDetails">
+                          <td *ngFor="let sales of data.slabDetails">{{sales.slabName}}</td>
+                          <td *ngFor="let sales of data.slabDetails">{{sales.slabNo}}</td>
+                          <td *ngFor="let sales of data.slabDetails">₹ {{sales.sellingPricePerSQFT}}</td>
+                          <td *ngFor="let sales of data.slabDetails">₹ {{sales.totalCosting}}</td>
+                          <td *ngFor="let sales of data.slabDetails">₹ {{sales.totalSQFT}}</td>
                         </tr>
                       </ng-template>
                     </p-table>

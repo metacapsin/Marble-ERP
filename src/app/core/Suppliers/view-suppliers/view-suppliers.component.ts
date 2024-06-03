@@ -94,7 +94,7 @@ export class ViewSuppliersComponent {
       // console.log("purchase Data by customer id ",this.purchaseDataShowById);
       resp.data.forEach((e) => {
         this.totalDueAmount += e.dueAmount;
-        console.log("this is total due amount ",e.totalDueAmount);
+        console.log("this is total due amount of this supplier",e.dueAmount);
       });
     });
   }

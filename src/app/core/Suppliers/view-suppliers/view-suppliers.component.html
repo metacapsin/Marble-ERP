@@ -86,7 +86,7 @@
                                         <p class="col-form-label">{{ data.creditPeriod }}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2">
+                                <div class="form-group row mb-2" >
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                         Credit Limit
                                     </h5>
@@ -94,7 +94,7 @@
                                         <p class="col-form-label">{{ data.creditLimit }}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2">
+                                <div class="form-group row mb-2" *ngIf="data.taxNo.length!">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                         Tax Number
                                     </h5>
@@ -107,7 +107,7 @@
                                         Total Due Amount
                                     </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ data.totalDueAmount }}</p>
+                                        <p class="col-form-label">{{ totalDueAmount }}</p>
                                     </div>
                                 </div>
                             </div>
