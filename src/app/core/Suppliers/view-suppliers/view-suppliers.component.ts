@@ -101,7 +101,7 @@ export class ViewSuppliersComponent {
 
   getPaymentListBySupplierId() {
     this.PaymentOutService
-    .getPurchasePaymentList()
+    .getPurchasePaymentListBySupplierId(this.id)
     .subscribe((resp: any) => {
       console.log("payment data of Supplier by id", resp);
       this.paymentListDataBySupplierId = resp.data;
@@ -211,7 +211,7 @@ export class ViewSuppliersComponent {
     this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
       this.paymentObject = {
-        supplier: resp.data.purchaseSupplierName,
+        supplier: resp.data.supplier,
         purchaseId: Id,
         isPurchase: true,
         purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
