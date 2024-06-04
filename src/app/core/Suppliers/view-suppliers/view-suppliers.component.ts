@@ -54,7 +54,7 @@ export class ViewSuppliersComponent {
   paymentDataListById: any[] = [];
   paymentReturnDataListById: any[] = [];
   paymentObject: any = {};
-  totalDueAmount: number = 0;
+  purchaseTotalDueAmount: number = 0;
   header = "";
 
   constructor(
@@ -87,13 +87,13 @@ export class ViewSuppliersComponent {
   }
 
   getPurchase() {
-    this.totalDueAmount = 0;
+    this.purchaseTotalDueAmount = 0;
     this.purchaseService.getAllPurchaseBySupplierId(this.id).subscribe((resp: any) => {
       // console.log("purchase Data response by customer id ", resp);
       this.purchaseDataShowById = resp.data;
       // console.log("purchase Data by customer id ",this.purchaseDataShowById);
       resp.data.forEach((e) => {
-        this.totalDueAmount += e.dueAmount;
+        this.purchaseTotalDueAmount += e.dueAmount;
         console.log("this is total due amount of this supplier",e.dueAmount);
       });
     });

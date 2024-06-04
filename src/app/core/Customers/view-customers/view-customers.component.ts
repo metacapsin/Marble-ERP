@@ -57,7 +57,7 @@ export class ViewCustomersComponent implements OnInit {
   paymentDataListById: any[] = [];
   paymentReturnDataListById: any[] = [];
   paymentObject: any = {};
-  totalDueAmount: number = 0;
+  salesTotalDueAmount: number = 0;
   header = "";
 
   constructor(
@@ -90,7 +90,7 @@ export class ViewCustomersComponent implements OnInit {
   }
 
   getsales() {
-    this.totalDueAmount = 0;
+    this.salesTotalDueAmount = 0;
     this.salesService
       .getAllSalesByCustomerId(this.id)
       .subscribe((resp: any) => {
@@ -98,7 +98,7 @@ export class ViewCustomersComponent implements OnInit {
         this.salesDataShowById = resp.data;
         // console.log("sales Data by customer id ",this.salesDataShowById);
         resp.data.forEach((e) => {
-          this.totalDueAmount += e.dueAmount;
+          this.salesTotalDueAmount += e.dueAmount;
           console.log("this is total due amount of this customer",e.dueAmount);
         });
       });

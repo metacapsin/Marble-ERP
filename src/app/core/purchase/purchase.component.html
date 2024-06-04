@@ -42,12 +42,13 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row">
       <div class="col-sm-12">
         <div class="card card-table">
           <div class="card-body p-2">
-            <p-table [value]="purchaseData" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
+            <p-table [value]="purchaseData" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
+              [paginator]="true" [rows]="5">
               <ng-template pTemplate="header">
                 <tr>
                   <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon
@@ -60,21 +61,23 @@
                   <th pSortableColumn="supplier.name">Supplier<p-sortIcon field="supplier.name"></p-sortIcon>
                     <p-columnFilter type="text" field="supplier.name" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon field="purchaseOrderStatus"></p-sortIcon></th>
+                  <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon
+                      field="purchaseOrderStatus"></p-sortIcon></th>
                   <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
-                  <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
-                                    </th>
+                    <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
+                  </th>
                   <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
-                  <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
-                                    </th>
+                    <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
+                  </th>
                   <th pSortableColumn="purchaseTotalAmount">Total Amount <p-sortIcon
                       field="purchaseTotalAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="purchaseTotalAmount" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon></th>
+                  <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                  </th>
 
                   <th>Action</th>
-                  
+
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-purchase>
@@ -83,14 +86,16 @@
                   <td>{{purchase.purchaseDate}}</td>
                   <td>{{purchase.supplier.name}}</td>
                   <td>{{purchase.purchaseOrderStatus}}</td>
-                  <td>₹ {{purchase.paidAmount}}</td>                  
-                  <td>₹ {{purchase.dueAmount}}</td>                  
+                  <td>₹ {{purchase.paidAmount}}</td>
+                  <td>₹ {{purchase.dueAmount}}</td>
                   <td>₹ {{purchase.purchaseTotalAmount}}</td>
                   <td>{{purchase.paymentStatus}}</td>
                   <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
-                    <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialogView(purchase._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-eye"
+                      (click)="showInvoiceDialoge(purchase._id)"></p-button>
                     <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)" *ngIf="purchase.paymentStatus == 'Unpaid'"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)"
+                      *ngIf="purchase.paymentStatus == 'Unpaid'"></p-button>
                   </td>
                   <!-- <td>
                     <p-button [text]="true" icon="fa-solid fa-plus" (click)="blocksEdit(purchase._id)"></p-button>
@@ -110,11 +115,10 @@
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>
 
-  <app-invoice-dialog [showInvoiceDialog]="visible" [salesDataById]="PurchaseListData"
-   (callbackModal)="callBackModal()" (close)="close()"
-    [header]="header"></app-invoice-dialog>
+<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="PurchaseListData"
+  (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>
 
-  <!-- <p-dialog header="Purchase Details" [(visible)]="visible" [modal]="true"
+<!-- <p-dialog header="Purchase Details" [(visible)]="visible" [modal]="true"
   [style]="{width: '80vw'}">
   <div class="modal-content" *ngFor="let purchase of PurchaseListData">
     <div class="modal-body">

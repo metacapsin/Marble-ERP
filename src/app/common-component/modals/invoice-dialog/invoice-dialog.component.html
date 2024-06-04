@@ -39,21 +39,21 @@
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <!-- <div class="invoice-info" *ngIf="sales.customer.billingAddress">
+                    <div class="invoice-info" *ngIf="sales.customer?.billingAddress">
                       <div class="invoice-head justify-content-end">
                         <p ><span
                             style="color: #97704f; font-weight: bold; font-size: 16px;">Billing Address :</span>
                           {{sales.customer.billingAddress}}</p>
                        
                       </div>
-                    </div> -->
-                    <!-- <div class="invoice-info"  *ngIf="sales.purchaseSupplierName.billingAddress">
+                    </div>
+                    <div class="invoice-info"  *ngIf="sales.supplier?.billingAddress">
                       <div class="invoice-head justify-content-end">
                         <p><span
                             style="color: #97704f; font-weight: bold; font-size: 16px;">Billing Address :</span>
-                          {{sales.purchaseSupplierName.billingAddress}}</p>
+                          {{sales.supplier.billingAddress}}</p>
                       </div>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
               </div>
@@ -65,18 +65,18 @@
                       <div class="row practice-card">
                         <div class="col-xl-6 col-lg-6 col-sm-12">
 
-                          <!-- <div *ngIf="sales.customer.name" class="form-group row mb-2">
+                          <div *ngIf="sales.customer?.name" class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-lg-9 col-form-label">{{sales.customer.name}}</p>
                             </div>
-                          </div> -->
-                          <!-- <div *ngIf="sales.purchaseSupplierName.name" class="form-group row mb-2">
+                          </div>
+                          <div *ngIf="sales.supplier?.name" class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Supplier:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.purchaseSupplierName.name}}</p>
+                              <p class="col-lg-9 col-form-label">{{sales.supplier.name}}</p>
                             </div>
-                          </div> -->
+                          </div>
                           <div class="form-group row mb-2" *ngIf="sales.salesDate">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Sales Date:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
@@ -113,6 +113,12 @@
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-lg-9 col-form-label">{{sales.dueAmount}}</p>
+                            </div>
+                          </div>
+                          <div class="form-group row mb-2" *ngIf="sales.purchaseType">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Purchase Type:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">{{sales.purchaseType}}</p>
                             </div>
                           </div>
 
@@ -160,6 +166,12 @@
                               <p class="col-form-label">{{sales.paymentStatus}}</p>
                             </div>
                           </div>
+                          <div class="form-group row mb-2" *ngIf="sales.quality">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Quality:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-form-label">{{sales.quality}}</p>
+                            </div>
+                          </div>
 
 
                         </div>
@@ -177,7 +189,7 @@
                     <p-table [value]="salesDataById" styleClass="p-datatable-striped"
                       [tableStyle]="{'min-width': '60rem'}">
                       <ng-template pTemplate="header">
-                        <tr *ngIf="sales.salesItemProduct">
+                        <tr *ngIf="sales.salesItemDetails">
                           <th pSortableColumn="salesItemCategory">Product
                           </th>
                           <th pSortableColumn="salesItemQuantity">Quantity
@@ -213,12 +225,12 @@
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-data>
-                        <tr *ngFor="let sales of data.salesItemDetails">
-                          <td>{{sales.salesItemProduct.slabName}}</td>
-                          <td>{{sales.salesItemQuantity}}</td>
-                          <td>₹ {{sales.salesItemUnitPrice}}</td>
-                          <td>₹ {{sales.salesItemTaxAmount}}</td>
-                          <td>₹ {{sales.salesItemSubTotal}}</td>
+                        <tr *ngIf="data.salesItemDetails">
+                          <td *ngFor="let sales of data.salesItemDetails">{{sales.salesItemProduct.slabName}}</td>
+                          <td *ngFor="let sales of data.salesItemDetails">{{sales.salesItemQuantity}}</td>
+                          <td *ngFor="let sales of data.salesItemDetails">₹ {{sales.salesItemUnitPrice}}</td>
+                          <td *ngFor="let sales of data.salesItemDetails">₹ {{sales.salesItemTaxAmount}}</td>
+                          <td *ngFor="let sales of data.salesItemDetails">₹ {{sales.salesItemSubTotal}}</td>
                         </tr>
                         <tr *ngIf="sales.lotDetails">
                           <td>{{sales.lotDetails.lotName}}</td>
