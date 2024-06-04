@@ -45,8 +45,8 @@ export class StockTransferListComponent implements OnInit {
   warehouseData: any = []
   slabData: any = []
   transferType: any = [
-    { name: "All Quantity", value: "allQuantity" },
-    { name: "Custom Quantity", value: "customQuantity" }
+    { name: "All Quantity", value: "All Quantity" },
+    { name: "Custom Quantity", value: "Custom Quantity" }
   ]
 
   constructor(public router: Router,
@@ -118,7 +118,7 @@ export class StockTransferListComponent implements OnInit {
     this.editStockTransferForm.get("currentQty").setValue(value.totalSQFT)
   }
   onTrasferTypeSelect(value: any){
-    if(value === 'allQuantity'){
+    if(value === 'All Quantity'){
       this.addStockTransferForm.get('transferQty').setValue(this.addStockTransferForm.get('currentQty').value);
       this.editStockTransferForm.get('transferQty').setValue(this.editStockTransferForm.get('currentQty').value);
   } else {

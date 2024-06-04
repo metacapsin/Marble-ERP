@@ -224,25 +224,29 @@
                           </th>
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-data>
-                        <tr *ngIf="data.salesItemDetails">
-                          <td *ngFor="let sales of data.salesItemDetails">{{sales.salesItemProduct.slabName}}</td>
-                          <td *ngFor="let sales of data.salesItemDetails">{{sales.salesItemQuantity}}</td>
-                          <td *ngFor="let sales of data.salesItemDetails">₹ {{sales.salesItemUnitPrice}}</td>
-                          <td *ngFor="let sales of data.salesItemDetails">₹ {{sales.salesItemTaxAmount}}</td>
-                          <td *ngFor="let sales of data.salesItemDetails">₹ {{sales.salesItemSubTotal}}</td>
+                      <ng-template pTemplate="body" let-data *ngIf="sales.salesItemDetails">
+                        <tr  *ngFor="let sales of data.salesItemDetails">
+                          <td >{{sales.salesItemProduct.slabName}}</td>
+                          <td >{{sales.salesItemQuantity}}</td>
+                          <td >₹ {{sales.salesItemUnitPrice}}</td>
+                          <td >₹ {{sales.salesItemTaxAmount}}</td>
+                          <td >₹ {{sales.salesItemSubTotal}}</td>
                         </tr>
-                        <tr *ngIf="sales.lotDetails">
+                      </ng-template>
+                      <ng-template pTemplate="body" let-data *ngIf="sales.lotDetails">
+                        <tr >
                           <td>{{sales.lotDetails.lotName}}</td>
                           <td>{{sales.lotDetails.lotNo}}</td>
                           <td>₹ {{sales.lotDetails.lotTotalCosting}}</td>
                         </tr>
-                        <tr *ngIf="sales.slabDetails">
-                          <td *ngFor="let sales of data.slabDetails">{{sales.slabName}}</td>
-                          <td *ngFor="let sales of data.slabDetails">{{sales.slabNo}}</td>
-                          <td *ngFor="let sales of data.slabDetails">₹ {{sales.sellingPricePerSQFT}}</td>
-                          <td *ngFor="let sales of data.slabDetails">₹ {{sales.totalCosting}}</td>
-                          <td *ngFor="let sales of data.slabDetails">₹ {{sales.totalSQFT}}</td>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-data *ngIf="sales.slabDetails">
+                        <tr *ngFor="let sales of data.slabDetails">
+                          <td >{{sales.slabName}}</td>
+                          <td >{{sales.slabNo}}</td>
+                          <td >₹ {{sales.sellingPricePerSQFT}}</td>
+                          <td >₹ {{sales.totalCosting}}</td>
+                          <td >₹ {{sales.totalSQFT}}</td>
                         </tr>
                       </ng-template>
                     </p-table>
