@@ -248,6 +248,7 @@ export class AddSlabsComponent {
       console.log("totalCosting", totalCosting);
       console.log("totalAmount", totalAmount);
       this.slabsAddForm.patchValue({
+        purchaseCost: purchaseCost,
         processingCost: processingCost,
         totalCosting: totalCosting.toFixed(2),
         costPerSQFT: totalAmount.toFixed(2),
@@ -285,6 +286,7 @@ export class AddSlabsComponent {
       slabName: this.slabsAddForm.value.slabName,
       processingFee: this.slabsAddForm.value.processingFee,
       totalSQFT: this.slabsAddForm.value.totalSQFT,
+      purchaseCost: this.slabsAddForm.value.purchaseCost,
       processingCost: this.slabsAddForm.value.processingCost,
       otherCharges: this.slabsAddForm.value.otherCharges,
       transportationCharges: this.slabsAddForm.value.transportationCharges,
