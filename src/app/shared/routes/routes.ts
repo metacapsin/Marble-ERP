@@ -552,6 +552,9 @@ export class routes {
   public static get paymentInReport(): string {
     return this.baseUrl + '/reports/payment-in-reports';
   }  
+  public static get paymentOutReports(): string {
+    return this.baseUrl + '/reports/payment-out-reports';
+  }  
   public static get purchase(): string {
     return this.baseUrl + '/purchase';
   }

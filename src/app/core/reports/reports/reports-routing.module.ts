@@ -33,6 +33,13 @@ const routes: Routes = [
           (m) => m.PaymentInReportsModule
         ),
     },
+    {
+      path: 'payment-out-reports',
+      loadChildren: () =>
+        import('./payment-out-reports/payment-out-reports.module').then(
+          (m) => m.PaymentOutReportsModule
+        ),
+    },
   ]}
 ];
 

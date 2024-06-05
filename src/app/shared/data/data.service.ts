@@ -437,8 +437,8 @@ export class DataService {
             },
             {
               menuValue: "Payment Out report",
-              // route: routes.inventoryReport,
-              // base: routes.inventoryReport,
+              route: routes.paymentOutReports,
+              base: routes.paymentOutReports,
             },
             {
               menuValue: "Sales Rreport",
