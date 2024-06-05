@@ -26,6 +26,13 @@ const routes: Routes = [
           (m) => m.InvoiceReportsModule
         ),
     },
+    {
+      path: 'payment-in-reports',
+      loadChildren: () =>
+        import('./payment-in-reports copy/payment-in-reports.module').then(
+          (m) => m.PaymentInReportsModule
+        ),
+    },
   ]}
 ];
 

@@ -431,20 +431,35 @@ export class DataService {
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
           subMenus: [
             {
-              menuValue: "inventory report",
-              route: routes.inventoryReport,
-              base: routes.inventoryReport,
+              menuValue: "Payment In Reports",
+              route: routes.paymentInReport,
+              base: routes.paymentInReport,
             },
             {
-              menuValue: "sales report",
+              menuValue: "Payment Out report",
+              // route: routes.inventoryReport,
+              // base: routes.inventoryReport,
+            },
+            {
+              menuValue: "Sales Rreport",
               route: routes.salesReport,
               base: routes.salesReport,
             },
+            // {
+            //   menuValue: "Stock Report",
+            //   route: routes.inventoryReport,
+            //   base: routes.inventoryReport,
+            // },
             {
-              menuValue: "purchase report",
-              route: routes.invoiceReport,
-              base: routes.invoiceReport,
+              menuValue: "Purchase Report",
+              // route: routes.invoiceReport,
+              // base: routes.invoiceReport,
             },
+            // {
+            //   menuValue: "inventory report",
+            //   route: routes.inventoryReport,
+            //   base: routes.inventoryReport,
+            // },
           ],
         },
         {
