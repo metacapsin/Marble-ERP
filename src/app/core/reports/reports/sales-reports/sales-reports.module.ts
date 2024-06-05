@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SalesReportsRoutingModule } from './sales-reports-routing.module';
 import { SalesReportsComponent } from './sales-reports.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 
 
 @NgModule({
@@ -12,7 +14,8 @@ import { SalesReportsComponent } from './sales-reports.component';
   imports: [
     CommonModule,
     SalesReportsRoutingModule,
-    SharedModule
+    SharedModule,
+    DropdownModule, CalendarModule
   ]
 })
 export class SalesReportsModule { }

@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PaymentInReportComponent } from './payment-in-reports.component';
 import { PaymentInReportsRoutingModule } from './payment-in-reports-routing.module';
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { PaymentInReportsRoutingModule } from './payment-in-reports-routing.modu
   imports: [
     CommonModule,
     PaymentInReportsRoutingModule,
-    SharedModule
+    SharedModule,
+    DropdownModule,
+    CalendarModule
   ]
 })
 export class PaymentInReportsModule { }
