@@ -334,7 +334,7 @@ export class DataService {
           menuValue: "purchase",
           hasSubRoute: true,
           showSubRoute: false,
-          base: "Sales",
+          base: "Purchase",
           icon: "fa-cart-shopping",
           faIcon: true,
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
@@ -452,8 +452,8 @@ export class DataService {
             // },
             {
               menuValue: "Purchase Report",
-              // route: routes.invoiceReport,
-              // base: routes.invoiceReport,
+              route: routes.purchaseReport,
+              base: routes.purchaseReport,
             },
             // {
             //   menuValue: "inventory report",

@@ -20,6 +20,13 @@ const routes: Routes = [
         ),
     },
     {
+      path: 'purchase-reports',
+      loadChildren: () =>
+        import('./purchase-reports/purchase-reports.module').then(
+          (m) => m.PurchaseReportsModule
+        ),
+    },
+    {
       path: 'invoice-reports',
       loadChildren: () =>
         import('./invoice-reports/invoice-reports.module').then(
