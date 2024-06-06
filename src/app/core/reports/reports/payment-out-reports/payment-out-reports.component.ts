@@ -34,7 +34,6 @@ export class PaymentOutReportComponent {
   cols= [];
   exportColumns = [];
 
-  maxDate = new Date();
 
   searchByData = [
     "Today", "YesterDay", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
