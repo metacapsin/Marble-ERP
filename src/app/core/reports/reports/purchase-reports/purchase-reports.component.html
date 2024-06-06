@@ -19,23 +19,10 @@
     .local-forms {
         margin-bottom: 0;
     }
-
-    .page-header,
-    .breadcrumb {
-        margin-bottom: 1rem;
-    }
-
-    .card-table {
-        margin-top: 1rem;
-    }
-
     .form-group {
         margin-bottom: 1rem;
     }
 
-    .pt-5 {
-        padding-top: 1rem !important;
-    }
 </style>
 
 <div class="page-wrapper">
@@ -63,73 +50,112 @@
                 <div class="card card-table show-entire">
                     <div class="card-body">
 
-                        <div class="row p-2 mt-2">
-                            <div class="col-md-8 col-sm-12">
-                                <div class="doctor-search-blk">
-                                    <div>
-                                        <h3>Purchase Reports</h3>
-                                    </div>
-                                    <div class="top-nav-search table-search-blk">
-                                        <input type="text" class="form-control" placeholder="Search here"
-                                            [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
-                                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk">
+                                        <h3>Purchase Reports Details </h3>
+                                        <div class="doctor-search-blk">
+                                            <div class="top-nav-search table-search-blk">
+                                                <input type="text" class="form-control" placeholder="Search here"
+                                                    [(ngModel)]="searchDataValue"
+                                                    (ngModelChange)="searchData(searchDataValue)">
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                                    [roles]="['admin', 'super-admin']">
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                            alt=""></a>
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                            alt=""></a>
+                                </div>
                             </div>
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group local-forms">
-                                    <label for="warehouseDetails">Date<span class="login-danger">*</span></label>
-                                    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
-                                        [style]="{ width: '100%' }" placeholder="Start Date - End Date" />
+
+                            <div class="mt-3">
+                                <div class="row card-body d-flex justify-content-between p0">
+                                    <div class="col-lg-4 col-md-4 h-2">
+                                        <div class="form-group local-forms">
+                                            <label for="warehouseDetails">searchBy </label>
+                                            <p-dropdown [options]="searchByData" styleClass="" appendTo="body"
+                                                placeholder="Select Date" [style]="{ width: '100%' }" [filter]="true"
+                                                filterBy="name" (onChange)="onSearchByChange($event)">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 h-2">
+                                        <div class="form-group local-forms">
+                                            <label for="warehouseDetails">Date </label>
+                                            <p-calendar [(ngModel)]="rangeDates" selectionMode="range"
+                                                [readonlyInput]="true" [style]="{ width: '100%' }"
+                                                placeholder="Start Date - End Date"
+                                                (ngModelChange)="onDateChange($event)" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="invertoryData" styleClass="p-datatable-striped"
+                            <p-table [value]="purchaseReportsData" styleClass="p-datatable-striped"
                                 [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
                                 [rowsPerPageOptions]="[5, 10, 20]">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="Product">Purchase Date <p-sortIcon
-                                                field="Product"></p-sortIcon>
-                                            <p-columnFilter type="text" field="Product" display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="itemCode">Invoice Number <p-sortIcon
-                                                field="itemCode"></p-sortIcon>
-                                            <p-columnFilter type="text" field="itemCode"
+                                        <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon
+                                                field="purchaseInvoiceNumber"></p-sortIcon>
+                                            <p-columnFilter type="text" field="purchaseInvoiceNumber"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="Category">Customer Name <p-sortIcon
-                                                field="Category"></p-sortIcon>
-                                            <p-columnFilter type="text" field="Category"
+                                        <th pSortableColumn="purchaseDate">Purchase Date <p-sortIcon
+                                                field="purchaseDate"></p-sortIcon>
+                                            <p-columnFilter type="text" field="purchaseDate"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="purchasePrice">Amount <p-sortIcon
-                                                field="purchasePrice"></p-sortIcon>
-                                            <p-columnFilter type="text" field="purchasePrice"
+                                        <th pSortableColumn="supplier.name">Supplier <p-sortIcon
+                                                field="supplier"></p-sortIcon>
+                                            <p-columnFilter type="text" field="supplier"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="currentStock">Payment Statuse <p-sortIcon
-                                                field="currentStock"></p-sortIcon>
-                                            <p-columnFilter type="text" field="currentStock"
+                                        <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon
+                                                field="purchaseOrderStatus"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon
+                                                field="paidAmount"></p-sortIcon>
+                                            <p-columnFilter type="text" field="paidAmount"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="currentStock">Created By <p-sortIcon
-                                                field="currentStock"></p-sortIcon>
-                                            <p-columnFilter type="text" field="currentStock"
+                                        <th pSortableColumn="dueAmount">Due Amount <p-sortIcon
+                                                field="dueAmount"></p-sortIcon>
+                                            <p-columnFilter type="text" field="dueAmount"
                                                 display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="purchaseTotalAmount">Total Amount <p-sortIcon
+                                                field="purchaseTotalAmount"></p-sortIcon>
+                                            <p-columnFilter type="text" field="purchaseTotalAmount"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon
+                                                field="paymentStatus"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-data>
+                                <ng-template pTemplate="body" let-purchase>
                                     <tr>
-                                        <td>{{ data.Product }}</td>
-                                        <td>{{ data.itemCode }}</td>
-                                        <td>{{ data.Category }}</td>
-                                        <td>{{ data.purchasePrice }}</td>
-                                        <td>{{ data.currentStock }}</td>
-                                        <td>{{ data.amount }}</td>
+                                        <td>{{purchase.purchaseInvoiceNumber}}</td>
+                                        <td>{{purchase.purchaseDate}}</td>
+                                        <td>{{purchase.supplier.name}}</td>
+                                        <td>{{purchase.purchaseOrderStatus}}</td>
+                                        <td>₹ {{purchase.paidAmount}}</td>
+                                        <td>₹ {{purchase.dueAmount}}</td>
+                                        <td>₹ {{purchase.purchaseTotalAmount}}</td>
+                                        <td>{{purchase.paymentStatus}}</td>
+                                        <!-- <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                    <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(purchase._id)"></p-button>
+                  </td> -->
                                     </tr>
                                 </ng-template>
                             </p-table>

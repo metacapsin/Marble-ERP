@@ -15,4 +15,12 @@ export class ReportsService {
   getSalesReports(data: {} | null) {
     return this.http.post(environment.apiUrl + "/SalesReportController/getSalesReports", data);
   }
+  getPaymentOutReports(data: {} | null) {
+    return this.http.post(environment.apiUrl + "/PaymentOutController/getPaymentOutReports", data);
+  }
+
+  getPurchaseReports(data: {} | null) {
+    return this.http.post(environment.apiUrl + "/PurchaseReportController/getPurchaseReports", data);
+  }
+
 }

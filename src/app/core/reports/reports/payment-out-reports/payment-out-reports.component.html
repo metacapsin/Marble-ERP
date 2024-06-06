@@ -20,21 +20,8 @@
         margin-bottom: 0;
     }
 
-    .page-header,
-    .breadcrumb {
-        margin-bottom: 1rem;
-    }
-
-    .card-table {
-        margin-top: 1rem;
-    }
-
     .form-group {
         margin-bottom: 1rem;
-    }
-
-    .pt-5 {
-        padding-top: 1rem !important;
     }
 </style>
 
@@ -58,30 +45,32 @@
             </div>
         </div>
 
-      
+        <!-- <div class="card">
+            <div class="row card-body d-flex justify-content-between p0">
+                <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                        <label for="warehouseDetails">searchBy </label>
+                        <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Select Date" 
+                            [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true"
+                            (onChange)="onSearchByChange($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
 
-        
+                <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                        <label for="warehouseDetails">Date </label>
+                        <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                            [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="onDateChange($event)"/>
+                    </div>
+                </div>
+            </div>
+        </div> -->       
 
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="card-body">
-
-                        <!-- <div class="row p-2 mt-2">
-                            <div class="col-md-6 col-sm-6">
-                                <div class="doctor-search-blk">
-                                    <div>
-                                        <h3>Payment In Reports</h3>
-                                    </div>
-                                    <div class="top-nav-search table-search-blk">
-                                        <input type="text" class="form-control" placeholder="Search here"
-                                            [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
-                                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div> -->
                         <div class="page-table-header mb-2">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -101,22 +90,18 @@
                                     [roles]="['admin', 'super-admin']">
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                             alt=""></a>
-                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
-                                            alt=""></a> -->
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                    <a href="javascript:;" class=" me-2" (click)="dt.exportCSV()"><img src="assets/img/icons/pdf-icon-03.svg"
                                             alt=""></a>
-                                    <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
-
                                 </div>
                             </div>
-                            <!-- <br> -->
+
                             <div class="mt-3">
                                 <div class="row card-body d-flex justify-content-between p0">
                                     <div class="col-lg-4 col-md-4 h-2">
                                         <div class="form-group local-forms">
                                             <label for="warehouseDetails">searchBy </label>
                                             <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Select Date" 
-                                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true"
+                                                [style]="{ width: '100%' }" [filter]="true" filterBy="name"
                                                 (onChange)="onSearchByChange($event)">
                                             </p-dropdown>
                                         </div>
@@ -125,8 +110,8 @@
                                     <div class="col-lg-4 col-md-4 h-2">
                                         <div class="form-group local-forms">
                                             <label for="warehouseDetails">Date </label>
-                                            <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
-                                                [style]="{ width: '100%' }" placeholder="Start Date - End Date" />
+                                            <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [maxDate]="maxDate" 
+                                                [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="onDateChange($event)"/>
                                         </div>
                                     </div>
                                 </div>
@@ -134,50 +119,63 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="invertoryData" styleClass="p-datatable-striped"
+                            <p-table [value]="paymentOutData" styleClass="p-datatable-striped"
                                 [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
-                                [rowsPerPageOptions]="[5, 10, 20]">
+                                [rowsPerPageOptions]="[5, 10, 20]"
+                                #dt 
+                                [columns]="cols"
+                                selectionMode="multiple" 
+                                [exportHeader]="'customExportHeader'" >
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="Product">Payment Date <p-sortIcon
-                                                field="Product"></p-sortIcon>
-                                            <p-columnFilter type="text" field="Product" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="paymentDate">Payment Date <p-sortIcon
+                                                field="paymentDate"></p-sortIcon>
+                                            <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="itemCode">Transaction Number <p-sortIcon
-                                                field="itemCode"></p-sortIcon>
-                                            <p-columnFilter type="text" field="itemCode"
+                                        <th pSortableColumn="transactionNo">Transaction Number <p-sortIcon
+                                                field="transactionNo"></p-sortIcon>
+                                            <p-columnFilter type="text" field="transactionNo"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="Category">Payment Source <p-sortIcon
-                                                field="Category"></p-sortIcon>
-                                            <p-columnFilter type="text" field="Category"
+                                        <th pSortableColumn="source">Payment Source <p-sortIcon
+                                                field="source"></p-sortIcon>
+                                            <p-columnFilter type="text" field="source"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="salesPrice">Customer / Supplier <p-sortIcon
-                                                field="salesPrice"></p-sortIcon>
-                                            <p-columnFilter type="text" field="salesPrice"
+                                        <th pSortableColumn="customer.name">Customer / Supplier <p-sortIcon
+                                                field="customer.name"></p-sortIcon>
+                                            <p-columnFilter type="text" field="customer.name"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="currentStock">Payment Mode <p-sortIcon
-                                                field="currentStock"></p-sortIcon>
-                                            <p-columnFilter type="text" field="currentStock"
+                                        <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon
+                                                field="paymentMode"></p-sortIcon>
+                                            <p-columnFilter type="text" field="paymentMode"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="currentStock">Amount <p-sortIcon
-                                                field="currentStock"></p-sortIcon>
-                                            <p-columnFilter type="text" field="currentStock"
+                                        <th pSortableColumn="amount">Amount <p-sortIcon
+                                                field="amount"></p-sortIcon>
+                                            <p-columnFilter type="text" field="amount"
                                                 display="menu"></p-columnFilter>
                                         </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data>
                                     <tr>
-                                        <td>{{ data.Product }}</td>
-                                        <td>{{ data.itemCode }}</td>
-                                        <td>{{ data.Category }}</td>
-                                        <td>{{ data.salesPrice }}</td>
-                                        <td>{{ data.currentStock }}</td>
-                                        <td>{{ data.amount }}</td>
+                                        <td>{{ data.paymentDate }}</td>
+                                        <td>{{ data.transactionNo }}</td>
+                                        <td>{{ data.source }}</td>
+                                        <td *ngIf="data.customer">{{ data?.customer.name }}</td>
+                                        <td *ngIf="data.supplier">{{ data?.supplier.name }}</td>
+                                        <td>{{ data.paymentMode }}</td>
+                                        <td>₹ {{ data.amount }}</td>
+                                    </tr>
+                                </ng-template>
+
+                                <ng-template pTemplate="footer">
+                                    <tr>
+                                        <td colspan="4"></td>
+                                        <td>Total Amount</td>
+                                        <td>₹ {{ getTotalAmount() }}</td>
                                     </tr>
                                 </ng-template>
                             </p-table>
