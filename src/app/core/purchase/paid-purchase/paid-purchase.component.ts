@@ -35,7 +35,7 @@ export class PaidPurchaseComponent {
   ];
   public allInvoice: Array<allInvoice> = [];
   dataSource!: MatTableDataSource<allInvoice>;
-
+  maxDate = new Date();
   public showFilter = false;
   public searchDataValue = '';
   public lastIndex = 0;

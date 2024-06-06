@@ -12,12 +12,17 @@ import { allInvoice, apiResultFormat, pageSelection } from 'src/app/shared/model
 import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from 'src/app/shared/data/data.service';
 import { Sort } from '@angular/material/sort';
+import { PurchaseReturnService } from './purchase-return.service';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-purchase-return',
   standalone: true,
-  imports: [CommonModule,SharedModule,  DropdownModule,CalendarModule ],
+  imports: [CommonModule,SharedModule, ToastModule, DropdownModule,CalendarModule ],
   templateUrl: './purchase-return.component.html',
-  styleUrl: './purchase-return.component.scss'
+  styleUrl: './purchase-return.component.scss',
+  providers: [MessageService],
 })
 export class PurchaseReturnComponent {
   public routes = routes;
@@ -51,27 +56,57 @@ export class PurchaseReturnComponent {
       salesPaymentStatus:"Paid",
     }
   ];
+  purchaseReturnData: any;
+  originalData: any;
+  purchaseReturn: number;
+  modalData: { title: string; messege: string; };
+  showDialoge: boolean;
+  showInvoiceDialog: boolean;
+  selectedPurchaseReturn:''
 
-  CustomerList=[
-    {customerName:"Adnan"},
-    {customerName:"Nadim"},
-    {customerName:"Kavya"},
-  ];
-
-  constructor(public data : DataService){
+  constructor(public data : DataService,private service:PurchaseReturnService,private router: Router,private messageService: MessageService,){
 
   }
   ngOnInit() {
-    this.getTableData();
+    this.getPurchaseReturn();
   }
-  private getTableData(): void {
-    this.allInvoice = [];
-    this.serialNumberArray = [];
+  getPurchaseReturn() {
+    this.service.getPurchaseReturnList().subscribe((resp: any) => {
+      this.purchaseReturnData = resp.data;
+    });
+  }
+  purchaseReturnUpdate(id:any){
+    this.router.navigate(["/purchase-return/edit-purchase-return/" + id]);
+  }
+  purchaseReturnDelete(id: number) {
+    this.purchaseReturn = id;
 
-  }  
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Customer",
+    };
+    this.showDialoge = true;
+  }
+    callBackModal() {
+      this.showDialoge = false;
+      this.service.deletePurchaseReturn(this.purchaseReturn).subscribe((resp: any) => {
+        if(resp.status == "success"){
+          this.messageService.add({ severity: "success", detail: resp.message });
+        }else{
+          this.messageService.add({ severity: "error", detail: resp.message });
+        }
+      this.getPurchaseReturn();
+    });
+  }
+  close() {
+    // this.visible = false;
+    this.showInvoiceDialog = false;
+      this.showDialoge = false;
+    
+  }
   public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.allInvoice = this.dataSource.filteredData;
+    this.purchaseReturnData.filter = value.trim().toLowerCase();
+    this.originalData = this.purchaseReturnData.filteredData;
   }
   public sortData(sort: Sort) {
     const data = this.allInvoice.slice();
@@ -94,13 +129,13 @@ export class PurchaseReturnComponent {
       this.pageIndex = this.currentPage - 1;
       this.limit += this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+      // this.getTableData();
     } else if (event == 'previous') {
       this.currentPage--;
       this.pageIndex = this.currentPage - 1;
       this.limit -= this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+      // this.getTableData();
     }
   }
   public moveToPage(pageNumber: number): void {
@@ -112,14 +147,14 @@ export class PurchaseReturnComponent {
     } else if (pageNumber < this.currentPage) {
       this.pageIndex = pageNumber + 1;
     }
-    this.getTableData();
+    // this.getTableData();
   }
   public PageSize(): void {
     this.pageSelection = [];
     this.limit = this.pageSize;
     this.skip = 0;
     this.currentPage = 1;
-    this.getTableData();
+    // this.getTableData();
   }
   private calculateTotalPages(totalData: number, pageSize: number): void {
     this.pageNumberArray = [];

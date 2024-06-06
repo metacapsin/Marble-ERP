@@ -12,7 +12,9 @@ import { ReportsService } from '../reports.service';
 export class PurchaseReportsComponent {
   public routes = routes;
   picker1: any;
-  searchDataValue = ""  
+  searchDataValue = ""
+
+  maxDate = new Date();
   rangeDates: Date[] | undefined;
   purchaseReportsData = [];
   originalData = [];

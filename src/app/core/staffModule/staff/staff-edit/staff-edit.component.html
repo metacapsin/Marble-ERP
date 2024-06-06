@@ -70,7 +70,7 @@
                                     <div class="form-group local-forms">
                                         <label for="dateOfBirth">Date of birth <span
                                                 class="login-danger">*</span></label>
-                                        <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                        <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                             placeholder="mm/dd/yyyy" [styleClass]="'col-12'"
                                             formControlName="dateOfBirth"></p-calendar>
                                         <div *ngIf="

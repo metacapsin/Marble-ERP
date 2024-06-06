@@ -45,7 +45,7 @@ export class EditLotComponent {
   lotEditForm!: FormGroup;
   data: any;
   lotId: any;
-
+  maxDate = new Date();
   totalBlocksArea: number = 0;
   blockDetails = [];
   blockNo: string;

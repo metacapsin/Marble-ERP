@@ -80,7 +80,7 @@
                   <div class="col-md-4 col-xl-4 col-12">
                     <div class="form-group local-forms">
                       <label for="date">Date<span class="login-danger">*</span></label>
-                      <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="date"
+                      <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="date"
                         placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
                       <div
                         *ngIf="addExpensesGroup.get('date')?.hasError('required')  && addExpensesGroup.get('date')?.touched">

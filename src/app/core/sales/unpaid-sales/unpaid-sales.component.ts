@@ -17,7 +17,7 @@ export class UnpaidSalesComponent   implements OnInit{
   public routes = routes;
 
   public searchDataValue = '';
-
+  maxDate = new Date();
   customerList = [];
   customerData = [
     {

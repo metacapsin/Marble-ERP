@@ -53,7 +53,8 @@ export class PaymentInReportComponent {
         { field: 'amount', header: 'Amount' },
         { field: 'paymentMode', header: 'Payment Mode' },
         { field: 'customer.name', header: 'Customer Name' },
-        { field: 'transactionNo', header: 'Transaction No' }
+        { field: 'transactionNo', header: 'Transaction No' },
+        { field: 'source', header: 'Payment Source' }
       ];
 
       this.exportColumns = this.cols.map(col => ({
@@ -151,13 +152,12 @@ export class PaymentInReportComponent {
   // }
 
   public searchData(value: any): void {
-    const searchTerm = value.trim().toLowerCase();
 
     this.paymetntInData = this.originalData.filter(item => {
-        const customerName = item.customer?.name?.toLowerCase() || '';
-        const supplierName = item.supplier?.name?.toLowerCase() || '';
+        const searchValue = item.customer?.name?.toLowerCase() || item.supplier?.name?.toLowerCase();
+        // const supplierName = item.supplier?.name?.toLowerCase() || '';
         
-        return customerName.includes(searchTerm) || supplierName.includes(searchTerm);
+        return searchValue.includes(value.trim().toLowerCase()) 
     });
 }
 }

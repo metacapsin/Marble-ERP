@@ -48,6 +48,7 @@ export class StaffEditComponent {
   phoneRegex = /^[0-9]{10}$/;
   IfscCodeRegex = /^[0-9]{11}$/;
   pinRegex = /^\d{6}$/;
+  maxDate = new Date();
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   constructor(

@@ -28,7 +28,7 @@ export class StaffAddComponent {
   public routes = routes;
   addStaffForm!: FormGroup;
   public selectedValue!: string;
-
+  maxDate = new Date();
   Designation = [
     { value: "Select  Designation" },
     { value: "Labor" },

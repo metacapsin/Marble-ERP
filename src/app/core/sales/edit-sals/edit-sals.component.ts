@@ -34,6 +34,7 @@ import { MultiSelectModule } from "primeng/multiselect";
 export class EditSalsComponent {
   editSalesForm!: FormGroup;
   public routes = routes;
+  maxDate = new Date();
   salesId = "";
   customerList = [];
   originalCustomerData = [];

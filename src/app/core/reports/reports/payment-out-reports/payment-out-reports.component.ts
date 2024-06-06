@@ -25,7 +25,8 @@ interface data {
 export class PaymentOutReportComponent {
   public routes = routes;
   picker1: any;
-  searchDataValue = ""
+  searchDataValue = ""  
+  maxDate = new Date();
   rangeDates: Date[] | undefined;
   paymentOutData = [];
   originalData = [];

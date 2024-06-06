@@ -68,7 +68,7 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseDate">purchase Date<span class="login-danger">*</span></label>
-                      <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="purchaseDate"
+                      <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="purchaseDate"
                         placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
                       <div
                         *ngIf="editPurchaseForm.get('purchaseDate')?.hasError('required')  && editPurchaseForm.get('purchaseDate')?.touched">

@@ -74,7 +74,7 @@
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="date">Date<span class="login-danger">*</span></label>
-                      <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="date"
+                      <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="date"
                         placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
                       <div *ngIf="slabsEditForm.get('date')?.hasError('required')  && slabsEditForm.get('date')?.touched">
                         <span class="login-danger">Field is required. </span>

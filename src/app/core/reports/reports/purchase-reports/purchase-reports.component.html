@@ -86,7 +86,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4 col-md-4 h-2">
+                                    <!-- <div class="col-lg-4 col-md-4 h-2">
                                         <div class="form-group local-forms">
                                             <label for="warehouseDetails">Date </label>
                                             <p-calendar [(ngModel)]="rangeDates" selectionMode="range"
@@ -94,7 +94,12 @@
                                                 placeholder="Start Date - End Date"
                                                 (ngModelChange)="onDateChange($event)" />
                                         </div>
-                                    </div>
+                                    </div> -->
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group local-forms">
+                                    <label for="warehouseDetails">Date<span class="login-danger">*</span></label>
+                                    <p-calendar [maxDate]="maxDate"[(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                                        [style]="{ width: '100%' }" placeholder="Start Date - End Date" />
                                 </div>
                             </div>
                         </div>

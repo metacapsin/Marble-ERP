@@ -89,7 +89,7 @@ export class EditPurchaseComponent implements OnInit {
   tandCRegex = /^(?:.{2,200})$/;
   purchaseId: any;
   PurchaseListData: any;
-
+  maxDate = new Date();
   constructor(
     private taxService: TaxesService,
     private fb: FormBuilder,

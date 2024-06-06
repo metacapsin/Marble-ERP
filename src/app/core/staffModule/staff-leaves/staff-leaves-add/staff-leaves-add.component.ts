@@ -29,7 +29,7 @@ export class StaffLeavesAddComponent {
   public selectedValue!: string;
   addLeaveForm!: FormGroup;
   employeeList = []
-
+  maxDate = new Date();
   LeaveData = [
     { value: "Medical Leave" },
     { value: "Casual Leave" },

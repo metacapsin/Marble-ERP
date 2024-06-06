@@ -66,7 +66,7 @@ export class AddSlabsComponent {
   if_sellingPricePerSQFT: boolean = false;
   data: any;
   originalData: any;
-
+  maxDate = new Date();
   blockDataByLotId = [];
   blockDropDownData = [];
   blockDropDowntotleCost: any;

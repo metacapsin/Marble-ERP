@@ -104,7 +104,7 @@
                                     <div class="form-group local-forms">
                                         <label for="from">From <span
                                                 class="login-danger">*</span></label>
-                                        <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                        <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                          placeholder="mm/dd/yyyy"
                                             [styleClass]="'col-12'" formControlName="from"  ></p-calendar>
                                             <div
@@ -124,7 +124,7 @@
                                     <div class="form-group local-forms">
                                         <label for="to">To <span
                                                 class="login-danger">*</span></label>
-                                        <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                        <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                          placeholder="mm/dd/yyyy"
                                             [styleClass]="'col-12'" formControlName="to" ></p-calendar>
                                             <div
