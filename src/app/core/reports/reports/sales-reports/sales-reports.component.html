@@ -19,24 +19,12 @@
     .local-forms {
         margin-bottom: 0;
     }
-
-    .page-header,
-    .breadcrumb {
-        margin-bottom: 1rem;
-    }
-
-    .card-table {
-        margin-top: 1rem;
-    }
-
     .form-group {
         margin-bottom: 1rem;
     }
 
-    .pt-5 {
-        padding-top: 1rem !important;
-    }
 </style>
+
 
 <div class="page-wrapper">
     <div class="content">
@@ -58,81 +46,125 @@
             </div>
         </div>
 
+        <!-- <div class="card">
+            <div class="row card-body d-flex justify-content-between p0">
+                <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                        <label for="warehouseDetails">searchBy </label>
+                        <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Select Date" 
+                            [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true"
+                            (onChange)="onSearchByChange($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                        <label for="warehouseDetails">Date </label>
+                        <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                            [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="onDateChange($event)"/>
+                    </div>
+                </div>
+            </div>
+        </div> -->       
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="card-body">
-
-                        <div class="row p-2 mt-2">
-                            <div class="col-md-8 col-sm-12">
-                                <div class="doctor-search-blk">
-                                    <div>
-                                        <h3>Sales Reports</h3>
-                                    </div>
-                                    <div class="top-nav-search table-search-blk">
-                                        <input type="text" class="form-control" placeholder="Search here"
-                                            [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
-                                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk">
+                                        <h3>Sales Reports Details </h3>
+                                        <div class="doctor-search-blk">
+                                            <div class="top-nav-search table-search-blk">
+                                                <input type="text" class="form-control" placeholder="Search here"
+                                                    [(ngModel)]="searchDataValue"
+                                                    (ngModelChange)="searchData(searchDataValue)">
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                                    [roles]="['admin', 'super-admin']">
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                            alt=""></a>
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                            alt=""></a>
+                                </div>
                             </div>
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group local-forms">
-                                    <label for="warehouseDetails">Date<span class="login-danger">*</span></label>
-                                    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
-                                        [style]="{ width: '100%' }" placeholder="Start Date - End Date" />
+
+                            <div class="mt-3">
+                                <div class="row card-body d-flex justify-content-between p0">
+                                    <div class="col-lg-4 col-md-4 h-2">
+                                        <div class="form-group local-forms">
+                                            <label for="warehouseDetails">searchBy </label>
+                                            <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Select Date" 
+                                                [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                                                (onChange)="onSearchByChange($event)">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="col-lg-4 col-md-4 h-2">
+                                        <div class="form-group local-forms">
+                                            <label for="warehouseDetails">Date </label>
+                                            <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                                                [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="onDateChange($event)"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="invertoryData" styleClass="p-datatable-striped"
-                                [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
-                                [rowsPerPageOptions]="[5, 10, 20]">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th pSortableColumn="Product">Sales Date <p-sortIcon
-                                                field="Product"></p-sortIcon>
-                                            <p-columnFilter type="text" field="Product" display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="itemCode">Invoice Number <p-sortIcon
-                                                field="itemCode"></p-sortIcon>
-                                            <p-columnFilter type="text" field="itemCode"
-                                                display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="Category">Customer Name <p-sortIcon
-                                                field="Category"></p-sortIcon>
-                                            <p-columnFilter type="text" field="Category"
-                                                display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="salesPrice">Amount <p-sortIcon
-                                                field="salesPrice"></p-sortIcon>
-                                            <p-columnFilter type="text" field="salesPrice"
-                                                display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="currentStock">Payment Statuse <p-sortIcon
-                                                field="currentStock"></p-sortIcon>
-                                            <p-columnFilter type="text" field="currentStock"
-                                                display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="currentStock">Created By <p-sortIcon
-                                                field="currentStock"></p-sortIcon>
-                                            <p-columnFilter type="text" field="currentStock"
-                                                display="menu"></p-columnFilter>
-                                        </th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-data>
-                                    <tr>
-                                        <td>{{ data.Product }}</td>
-                                        <td>{{ data.itemCode }}</td>
-                                        <td>{{ data.Category }}</td>
-                                        <td>{{ data.salesPrice }}</td>
-                                        <td>{{ data.currentStock }}</td>
-                                        <td>{{ data.amount }}</td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
+                            <p-table [value]="salesReportsData" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+              [rowsPerPageOptions]="[5, 10, 20]">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon
+                      field="salesInvoiceNumber"></p-sortIcon>
+                    <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="salesDate">Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
+                    <p-columnFilter type="text" field="salesDate" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="customer.name">Customer <p-sortIcon field="customer"></p-sortIcon>
+                    <p-columnFilter type="text" field="customer" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="salesOrderStatus">Sales Status <p-sortIcon field="salesOrderStatus"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
+                    <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                    <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
+                    <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-sales>
+                <tr>
+                  <td>{{sales.salesInvoiceNumber}}</td>
+                  <td>{{sales.salesDate}}</td>
+                  <td>{{sales.customer.name}}</td>
+                  <td>{{sales.salesOrderStatus}}</td>
+                  <td>₹ {{sales.paidAmount}}</td>
+                  <td>₹ {{sales.dueAmount}}</td>
+                  <td>₹ {{sales.salesTotalAmount}}</td>
+                  <td>{{sales.paymentStatus}}</td>
+                  <!-- <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                    <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
+                  </td> -->
+                </tr>
+              </ng-template>
+            </p-table>
                         </div>
                     </div>
                 </div>

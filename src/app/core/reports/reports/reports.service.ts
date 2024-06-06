@@ -9,6 +9,10 @@ export class ReportsService {
   constructor(private http: HttpClient) { }
 
   getPaymentInReports(data: {} | null) {
-  return this.http.post(environment.apiUrl + "/PaymentInController/getPaymentInReports", data);
-}
+    return this.http.post(environment.apiUrl + "/PaymentInController/getPaymentInReports", data);
+  }
+
+  getSalesReports(data: {} | null) {
+    return this.http.post(environment.apiUrl + "/SalesReportController/getSalesReports", data);
+  }
 }

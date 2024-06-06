@@ -1,9 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { Sort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import { DataService } from "src/app/shared/data/data.service";
-import { SettingsService } from "src/app/shared/data/settings.service";
 import { routes } from "src/app/shared/routes/routes";
+import { ReportsService } from "../reports.service";
 
 @Component({
   selector: "app-payment-in-reports",
@@ -14,48 +11,58 @@ export class PaymentInReportComponent {
   picker1: any;
   searchDataValue = ""  
   rangeDates: Date[] | undefined;
-  invertoryData = [
-    {
-      Product: "Acer Aspire Desktop",
-      itemCode: "6924912299",
-      Category: "Desktops",
-      Brand: "Acer",
-      purchasePrice: "$601.00",
-      salesPrice: "$618.00",
-      currentStock: "102 pc",
-      amount: "102 pc",
-    },
-    {
-      Product: "adidas Golf Shoes",
-      itemCode: "8501385280",
-      Category: "Shoes",
-      Brand: "Adidas",
-      purchasePrice: "$44.00",
-      salesPrice: "$56.00",
-      currentStock: "13 pc",
-      amount: "13 pc",
-    },
-    {
-      Product: "adidas Tennis Shoes",
-      itemCode: "4170463355",
-      Category: "Shoes",
-      Brand: "Adidas",
-      purchasePrice: "$48.00",
-      salesPrice: "$56.00",
-      currentStock: "159 pc",
-      amount: "159 pc",
-    },
-  ];
+  paymetntInData = [];
+  originalData = [];
+
+  maxDate= new Date();
 
   searchByData = [
     "Today", "YesterDay", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
   ];
 
+  constructor(
+    private service:ReportsService
+  ) {
+
+  }
+
+  getPaymentInReportData(startDate: Date, endDate: Date){
+    const formattedStartDate = this.formatDate(startDate);
+    const formattedEndDate = this.formatDate(endDate);
+
+    const data = {
+      startDate: formattedStartDate,
+      endDate: formattedEndDate
+    };
+
+    this.service.getPaymentInReports(data).subscribe((resp:any) => {
+      console.log(resp);
+      this.paymetntInData = resp.payments
+      this.originalData = resp.payments
+    })
+  }
+
+  onDateChange(value: any): void {
+    const startDate = value[0];
+    const endDate = value[1];
+    this.getPaymentInReportData(startDate, endDate);
+  }
+
+  
+  ngOnInit(): void {
+    const today = new Date();
+    const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+    const endDate = today;
+    this.rangeDates = [startDate, endDate];
+
+    this.getPaymentInReportData(startDate, endDate);
+  }
+
+
   onSearchByChange(event: any) {
     const value = event.value;
     const today = new Date();
     let startDate, endDate = today;
-
     switch (value) {
       case 'Today':
         startDate = today;
@@ -84,11 +91,21 @@ export class PaymentInReportComponent {
     }
 
     this.rangeDates = [startDate, endDate];
+    this.getPaymentInReportData(startDate, endDate);
+  }
+
+  formatDate(date: Date): string {
+    const month = (date?.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so add 1
+    const day = date?.getDate().toString().padStart(2, '0');
+    const year = date?.getFullYear();
+    return `${month}/${day}/${year}`;
   }
 
   searchData(value:any ){
     
   }
+
+
 }
 
 // last 3 month=>{
