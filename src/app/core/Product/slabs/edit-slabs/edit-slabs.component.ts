@@ -104,7 +104,7 @@ export class EditSlabsComponent {
           Validators.pattern(this.shortNameRegex),
         ],
       ],
-      processingFee: ["", [Validators.min(1), Validators.max(1000000)]], //p
+      processingFee: ["",], //p
       totalSQFT: ["", [Validators.min(1), Validators.max(100000)]],
       otherCharges: [
         "",
@@ -126,10 +126,10 @@ export class EditSlabsComponent {
       costPerSQFT: [""],
       date: ["", [Validators.required]],
       purchaseCost: ["", [Validators.required]],
-      thickness: [""],
+      thickness: ["",Validators.min(1)],
       width: ["", [Validators.min(1)]],
       length: ["", [Validators.min(1)]],
-      finishes: ["", [Validators.min(1)]],
+      finishes: ["", [Validators.required]],
     });
   }
 

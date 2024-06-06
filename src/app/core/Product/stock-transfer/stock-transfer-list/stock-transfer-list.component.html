@@ -84,7 +84,7 @@
                                         <td>{{stock.toWarehouse.name}}</td>
                                         <td>{{stock.transferType}}</td>
                                         <td>{{stock.transferQty}}</td>
-                                        <td style="display: flex; gap: 5px;" appShowHide
+                                        <td appShowHide
                                             [roles]="['admin', 'super-admin']">
                                             <p-button [text]="true" icon="fa-solid fa-edit"
                                                 (click)="editstockTransferDialog(stock._id)"></p-button>

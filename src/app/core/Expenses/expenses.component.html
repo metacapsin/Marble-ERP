@@ -74,7 +74,7 @@
                                     <td class="bold">{{product.categoryDetails.name}}</td>
                                     <td class="bold">{{product.amount}}</td>
                                     <td>{{product.date | date: 'dd-MM-yyyy'}}</td>
-                                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                                    <td appShowHide [roles]="['admin', 'super-admin']">
 
                                         <p-button [text]="true" icon="fa fa-edit"
                                             (click)="editExpense(product._id)"></p-button>

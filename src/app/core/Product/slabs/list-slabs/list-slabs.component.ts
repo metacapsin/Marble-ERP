@@ -75,14 +75,14 @@ export class ListSlabsComponent {
   }
 
   public searchData(value: any): void {
-    this.originalData.filter = value.trim().toLowerCase();
-    this.allSlabs = this.originalData.filteredData;
+    this.allSlabs = this.originalData.filter(i =>
+      i.lotName.toLowerCase().includes(value.trim().toLowerCase())
+    );
   }
-
   onPageChange(event) {
     const startIndex = event.first;
-    const endIndex = startIndex + event.rows; 
-    const currentPageData = this.data.slice(startIndex, endIndex);
+    const endIndex = startIndex + event.rows;
+    const currentPageData = this.allSlabs.slice(startIndex, endIndex);
   }
 
 }

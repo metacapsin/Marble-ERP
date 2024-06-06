@@ -73,6 +73,7 @@ export class PurchaseComponent {
   header = "";
   showInvoiceDialog: boolean = false; // to enable purchase invoice popup
   paymentDataListById: any[] = [];
+  visible:any
 
   CustomerList = [
     { customerName: "Adnan" },
@@ -107,7 +108,7 @@ export class PurchaseComponent {
 
   // showDialogView(id: any) {
   //   let totalTax = 0;
-    // this.visible = true;
+  //   this.visible = true;
   //   this.Service.GetPurchaseDataById(id).subscribe((resp: any) => {
   //     this.PurchaseListData = [resp.data];
   //     console.log(this.PurchaseListData[0].lotDetails);

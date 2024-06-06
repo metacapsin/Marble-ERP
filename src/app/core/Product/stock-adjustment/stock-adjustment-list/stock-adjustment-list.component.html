@@ -80,7 +80,7 @@
                                         <td>{{stock.slabs.slabName}}</td>
                                         <td>{{stock.warehouse.name}}</td>
                                         <td>{{stock.quantity}}</td>
-                                        <td style="display: flex; gap: 5px;" appShowHide
+                                        <td appShowHide
                                             [roles]="['admin', 'super-admin']">
                                             <p-button [text]="true" icon="fa-solid fa-edit"
                                                 (click)="editstockAdjustmentDialog(stock._id)"></p-button>

@@ -88,7 +88,7 @@ export class AddCustomersComponent {
         console.log(resp);
         if (resp) {
           if (resp.status === "success") {
-            const message = "User has been added";
+            const message = "Customers has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
               this.router.navigate(["/customers"]);

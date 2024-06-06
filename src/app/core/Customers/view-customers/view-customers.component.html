@@ -169,7 +169,7 @@
                 <td>₹ {{ sales.dueAmount }}</td>
                 <td>₹ {{ sales.salesTotalAmount }}</td>
                 <td>{{ sales.paymentStatus }}</td>
-                <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px;">
+                <td appShowHide [roles]="['admin', 'super-admin']">
                   <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
                   <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'" [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)"></p-button>
                   <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
@@ -266,7 +266,7 @@
                 <td>₹ {{ sales.dueAmount }}</td>
                 <td>₹ {{ sales.salesTotalAmount }}</td>
                 <td>{{ sales.paymentStatus }}</td>
-                <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px;">
+                <td appShowHide [roles]="['admin', 'super-admin']">
                   <p-button [text]="true" icon="fa-solid fa-eye"
                     (click)="showReturnInvoiceDialoge(sales._id)"></p-button>
                   <p-button  *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'"  [text]="true" icon="fa-solid fa-wallet"

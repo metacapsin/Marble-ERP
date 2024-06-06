@@ -300,12 +300,6 @@ export class AddPurchaseComponent implements OnInit {
   addPurchaseFormSubmit() {
     const formData = this.addPurchaseForm.value;
     console.log(formData);
-    // let totalTax = 0;
-    // if (formData.purchaseOrderTax) {
-    //   formData.purchaseOrderTax.forEach((e) => {
-    //     totalTax = totalTax + e.taxRate;
-    //   });
-    // }
     if (formData.slabDetails === null && formData.lotDetail === null) {
       this.messageService.add({
         severity: "error",

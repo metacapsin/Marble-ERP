@@ -48,7 +48,7 @@
                 <div class="row">
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="purchaseReturnSupplierName"
+                      <label for="purchaseReturnSupplier"
                         >Supplier Name<span class="login-danger">*</span></label
                       >
                       <p-dropdown
@@ -60,17 +60,17 @@
                         display="chip"
                         [filter]="true"
                         filterBy="name"
-                        formControlName="purchaseReturnSupplierName"
+                        formControlName="purchaseReturnSupplier"
                         [showClear]="true"
                         (onChange)="onSuppliersSelect($event.value._id)"
                       ></p-dropdown>
                       <div
                         *ngIf="
                           addPurchaseReturnForm
-                            .get('purchaseReturnSupplierName')
+                            .get('purchaseReturnSupplier')
                             ?.hasError('required') &&
                           addPurchaseReturnForm.get(
-                            'purchaseReturnSupplierName'
+                            'purchaseReturnSupplier'
                           )?.touched
                         "
                       >
@@ -181,7 +181,7 @@
                     </div>
                   </div> -->
 
-                  <div
+                  <!-- <div
                     class="col-xl-4 col-md-6 col-sm-12 col-12"
                     *ngIf="PurchaseReturnDataById?.purchaseType == 'lot'"
                   >
@@ -198,12 +198,12 @@
                         display="chip"
                         (onChange)="lotValues($event.value)"
                         ></p-multiSelect>
-                        <!-- <div
+                        <div
                         *ngIf="addPurchaseForm.get('purchaseLot')?.hasError('required') && addPurchaseForm.get('purchaseLot')?.touched">
                         <span class="login-danger">Field is required. </span>
-                      </div> -->
+                      </div> 
                     </div>
-                  </div>
+                  </div> -->
 
                   <div
                     class="col-xl-4 col-md-6 col-sm-12 col-12"
@@ -236,17 +236,14 @@
                     [rows]="5">
                     <ng-template pTemplate="header">
                       <tr>
-                        <th pSortableColumn="purchaseInvoiceNumber">Slab No.<p-sortIcon
-                            field="purchaseInvoiceNumber"></p-sortIcon>
+                        <th pSortableColumn="purchaseInvoiceNumber">Slab No.
                         </th>
-                        <th pSortableColumn="purchaseDate">Slab Name<p-sortIcon field="purchaseDate"></p-sortIcon>
+                        <th pSortableColumn="purchaseDate">Slab Name
                         </th>
-                        <th pSortableColumn="supplier.name">Total Costing<p-sortIcon field="supplier.name"></p-sortIcon>
+                        <th pSortableColumn="supplier.name">Total Costing
                         </th>
-                        <th pSortableColumn="purchaseOrderStatus">Total SQFT<p-sortIcon
-                            field="purchaseOrderStatus"></p-sortIcon></th>
-                        <th pSortableColumn="paidAmount">Selling Price Per SQFT<p-sortIcon
-                            field="paidAmount"></p-sortIcon>
+                        <th pSortableColumn="purchaseOrderStatus">Total SQFT</th>
+                        <th pSortableColumn="paidAmount">Selling Price Per SQFT
                         </th>
                         <!-- <th>Actions</th> -->
                       </tr>

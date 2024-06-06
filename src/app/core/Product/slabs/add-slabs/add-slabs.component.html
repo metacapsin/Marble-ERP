@@ -333,6 +333,13 @@
                                 <span class="login-danger">Input must be at least 0.
                                 </span>
                               </div>
+                              <div *ngIf="
+                                        slabsAddForm.get('purchaseCost')?.hasError('required') &&
+                                        slabsAddForm.get('purchaseCost')?.touched
+                                      ">
+                                <span class="login-danger">Field is required.
+                                </span>
+                              </div>
                             </div>
                           </div>
 

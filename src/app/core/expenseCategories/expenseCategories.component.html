@@ -75,7 +75,7 @@
                                 <tr>
                                     <td class="bold">{{product.categoryName}}</td>
                                     <td class="bold">{{product.categoryDescription}}</td>
-                                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                                    <td appShowHide [roles]="['admin', 'super-admin']">
                                         <p-button [text]="true" icon="fa fa-edit"
                                             (click)="showDialogEdit(product._id)"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"

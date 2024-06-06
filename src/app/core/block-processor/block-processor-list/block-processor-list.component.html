@@ -82,7 +82,7 @@
                                     </td>
                                     <td>{{product.createdOn | date: 'dd-MM-yyyy'}}</td>
                                     <td>{{product.openingBalance}}</td>
-                                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                                    <td appShowHide [roles]="['admin', 'super-admin']">
 
                                         <p-button [text]=" true" icon="fa fa-eye"
                                             (click)="vewBlockProcessor(product._id)"></p-button>

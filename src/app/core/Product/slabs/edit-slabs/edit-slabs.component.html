@@ -28,7 +28,7 @@
               <form [formGroup]="slabsEditForm" (ngSubmit)="SlabsEditFormSubmit()">
                 <div class="row">
                   <div class="m-b-10">
-                    <h3>Edit New Slabs</h3>
+                    <h3>Edit Slabs</h3>
                   </div>
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
@@ -110,12 +110,12 @@
                         placeholder="Select lot Number" formControlName="lotDetails" [style]="{ width: '100%' }"
                         [filter]="true" filterBy="name" [showClear]="true" (onChange)="onLotSelect($event.value)">
                       </p-dropdown>
-                      <div *ngIf="
+                      <!-- <div *ngIf="
                                 slabsEditForm.get('lotDetails')?.hasError('required') &&
                                 slabsEditForm.get('lotDetails')?.touched
                               ">
                         <span class="login-danger">Field is required.</span>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
 
@@ -126,14 +126,14 @@
                         placeholder="Select block Number" formControlName="blockDetails" [style]="{ width: '100%' }"
                         [filter]="true" filterBy="name" [showClear]="true" (onChange)="onBlockSelect($event.value)" (change)="calculateTotalAmount()">
                       </p-dropdown>
-                      <div *ngIf="
+                      <!-- <div *ngIf="
                                 slabsEditForm
                                   .get('blockDetails')
                                   ?.hasError('required') &&
                                 slabsEditForm.get('blockDetails')?.touched
                               ">
                         <span class="login-danger">Field is required.</span>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
 
@@ -316,6 +316,13 @@
                                               ">
                                 <span class="login-danger">Input must be at least 0.
                                 </span>
+                                <div *ngIf="
+                                        slabsEditForm.get('purchaseCost')?.hasError('required') &&
+                                        slabsEditForm.get('purchaseCost')?.touched
+                                      ">
+                                <span class="login-danger">Field is required.
+                                </span>
+                              </div>
                               </div>
                             </div>
                           </div>
@@ -351,7 +358,7 @@
                                 <input class="form-control" type="number" placeholder="Enter Processing Fee"
                                   formControlName="processingFee" (change)="calculateTotalAmount()" />
                               </div>
-                              <div *ngIf="
+                              <!-- <div *ngIf="
                                             (slabsEditForm.get('processingFee')?.hasError('min') &&
                                                 slabsEditForm.get('processingFee')?.touched) ||
                                             (slabsEditForm.get('processingFee')?.hasError('max') &&
@@ -360,7 +367,7 @@
                                 <span class="login-danger">
                                   input must be between 1 and 1000,000.
                                 </span>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
 

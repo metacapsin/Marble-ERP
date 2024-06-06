@@ -128,10 +128,10 @@ export class AddSlabsComponent {
       costPerSQFT: [""],
       date: ["", [Validators.required]],
       purchaseCost: ["", [Validators.required]],
-      thickness: [""],
+      thickness: ["",[Validators.min(1)]],
       width: ["", [Validators.min(1)]],
       length: ["", [Validators.min(1)]],
-      finishes: ["", [Validators.min(1)]],
+      finishes: ["", [Validators.required]],
     });
   }
   get f() {

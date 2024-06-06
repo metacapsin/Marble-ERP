@@ -103,7 +103,7 @@
                                         <td>₹ {{lot.pricePerTon}}</td>
                                         <td>{{lot.blocksCount}}</td>
                                         <td>{{lot.lotTotalCosting}}</td>
-                                        <td style="display: flex; gap: 5px;" appShowHide
+                                        <td appShowHide
                                             [roles]="['admin', 'super-admin']">
                                             <p-button [text]="true" icon="fa-solid fa-eye"
                                                 (click)="showLotDetails(lot._id)"></p-button>
@@ -115,9 +115,6 @@
                                     </tr>
                                 </ng-template>
                             </p-table>
-
-
-
                         </div>
                     </div>
                 </div>
