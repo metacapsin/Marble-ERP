@@ -52,6 +52,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   paymentInvoiceForm: FormGroup;
   payableAmounts: string[] = [];
   routes: { customers: string };
+  maxDate = new Date();
   paymentModeList = [
     {
       paymentMode: "Cash",
