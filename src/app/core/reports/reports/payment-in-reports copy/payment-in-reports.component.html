@@ -90,7 +90,7 @@
                                     [roles]="['admin', 'super-admin']">
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                             alt=""></a>
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                    <a href="javascript:;" class=" me-2" (click)="dt.exportCSV()"><img src="assets/img/icons/pdf-icon-03.svg"
                                             alt=""></a>
                                 </div>
                             </div>
@@ -121,7 +121,11 @@
                         <div class="card-body p-2">
                             <p-table [value]="paymetntInData" styleClass="p-datatable-striped"
                                 [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
-                                [rowsPerPageOptions]="[5, 10, 20]">
+                                [rowsPerPageOptions]="[5, 10, 20]"
+                                #dt 
+                                [columns]="cols"
+                                selectionMode="multiple" 
+                                [exportHeader]="'customExportHeader'" >
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="paymentDate">Payment Date <p-sortIcon
@@ -163,7 +167,15 @@
                                         <td *ngIf="data.customer">{{ data?.customer.name }}</td>
                                         <td *ngIf="data.supplier">{{ data?.supplier.name }}</td>
                                         <td>{{ data.paymentMode }}</td>
-                                        <td>{{ data.amount }}</td>
+                                        <td>₹ {{ data.amount }}</td>
+                                    </tr>
+                                </ng-template>
+
+                                <ng-template pTemplate="footer">
+                                    <tr>
+                                        <td colspan="4"></td>
+                                        <td>Total Amount</td>
+                                        <td>₹ {{ getTotalAmount() }}</td>
                                     </tr>
                                 </ng-template>
                             </p-table>
