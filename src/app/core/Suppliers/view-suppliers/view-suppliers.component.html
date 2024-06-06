@@ -237,9 +237,9 @@
                                     Return Date <p-sortIcon field="returnDate"></p-sortIcon>
                                     <p-columnFilter type="text" field="returnDate" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="returnOrderStatus">
+                                <th pSortableColumn="purchaseReturnOrderStatus">
                                     Return Status
-                                    <p-sortIcon field="returnOrderStatus"></p-sortIcon>
+                                    <p-sortIcon field="purchaseReturnOrderStatus"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="paidAmount">
                                     Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
@@ -249,10 +249,10 @@
                                     Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
                                     <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="purchaseTotalAmount">
+                                <th pSortableColumn="purchaseReturnTotalAmount">
                                     Total Amount
-                                    <p-sortIcon field="purchaseTotalAmount"></p-sortIcon>
-                                    <p-columnFilter type="text" field="purchaseTotalAmount"
+                                    <p-sortIcon field="purchaseReturnTotalAmount"></p-sortIcon>
+                                    <p-columnFilter type="text" field="purchaseReturnTotalAmount"
                                         display="menu"></p-columnFilter>
                                 </th>
                                 <th pSortableColumn="paymentStatus">
@@ -263,12 +263,12 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-purchase>
                             <tr>
-                                <td>{{ purchase.purchaseInvoiceNumber }}</td>
+                                <td>{{ purchase.purchaseInvoiceNumber.purchaseInvoiceNumber }}</td>
                                 <td>{{ purchase.returnDate }}</td>
-                                <td>{{ purchase.returnOrderStatus }}</td>
+                                <td>{{ purchase.purchaseReturnOrderStatus }}</td>
                                 <td>₹ {{ purchase.paidAmount }}</td>
                                 <td>₹ {{ purchase.dueAmount }}</td>
-                                <td>₹ {{ purchase.purchaseTotalAmount }}</td>
+                                <td>₹ {{ purchase.purchaseReturnTotalAmount }}</td>
                                 <td>{{ purchase.paymentStatus }}</td>
                                 <td>
                                 <!-- <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px"> -->
@@ -338,7 +338,7 @@
     [header]="header"></app-invoice-dialog>
 
 <app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataById]="paymentObject"
-    (callbackModal)="callBackModal()" (close)="close()"></app-payments-invoice-dialog>
+    (callbackModal)="callBackModal()" (close)="close()"  [header]="header"></app-payments-invoice-dialog>
 
 <!-- <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
     [data]="modalData"></app-confirm-dialog> -->

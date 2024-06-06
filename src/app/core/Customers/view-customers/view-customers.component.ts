@@ -214,6 +214,7 @@ export class ViewCustomersComponent implements OnInit {
   openPaymentDialog(Id: any) {
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
+      this.header = "Sales Payment ";
       this.paymentObject = {
         customer: resp.data.customer,
         salesId: Id,
@@ -228,6 +229,7 @@ export class ViewCustomersComponent implements OnInit {
   openPaymentReturnDialog(Id: any) {
     this.salesReturnService.getSalesReturnById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
+      this.header = "Sales Return Payment ";
       this.paymentObject = {
         customer: resp.data.customer,
         salesReturnId: Id,

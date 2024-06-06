@@ -1,4 +1,4 @@
-<p-dialog header="Payment Details" [(visible)]="ShowPaymentInvoice" [closable]="false" [closeOnEscape]="false"
+<p-dialog [header]="header" [(visible)]="ShowPaymentInvoice" [closable]="false" [closeOnEscape]="false"
   [modal]="true" [style]="{width: '80vw'}">
   <div class="modal-content">
     <div class="modal-body">
@@ -51,7 +51,7 @@
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
-                                          {{ dataById.purchaseInvoiceNumber}}
+                                          {{ dataById.purchaseInvoiceNumber.purchaseInvoiceNumber }}
                                         </p>
                                       </div>
                                     </div>
@@ -84,11 +84,11 @@
                                         </p>
                                       </div>
                                     </div>
-                                    <div class="form-group row mb-2" *ngIf="dataById.isPurchaseReturn">
+                                    <div class="form-group row mb-2" *ngIf="dataById.purchaseReturnTotalAmount">
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
-                                          {{ dataById.purchaseTotalAmount}}
+                                          {{ dataById.purchaseReturnTotalAmount}}
                                         </p>
                                       </div>
                                     </div>

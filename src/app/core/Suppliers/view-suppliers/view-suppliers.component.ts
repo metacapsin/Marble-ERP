@@ -210,6 +210,7 @@ export class ViewSuppliersComponent {
   openPaymentDialog(Id: any) {
     this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
+      this.header = "Purchase Payment ";
       this.paymentObject = {
         supplier: resp.data.supplier,
         purchaseId: Id,
@@ -217,6 +218,7 @@ export class ViewSuppliersComponent {
         purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
         purchaseTotalAmount: resp.data.purchaseTotalAmount,
         purchaseDueAmount: resp.data.dueAmount,
+        
       };
       // console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
     });
@@ -224,13 +226,14 @@ export class ViewSuppliersComponent {
   openPaymentReturnDialog(Id: any) {
     this.purchaseReturnService.getPurchaseReturnById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
+      this.header = "Purchase Return Payment ";
       this.paymentObject = {
         supplier: resp.data.supplier,
         purchaseReturnId: Id,
         isPurchaseReturn: true,
         // purchaseReturnDataShowById: resp.data
         purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
-        purchaseTotalAmount: resp.data.purchaseTotalAmount,
+        purchaseReturnTotalAmount: resp.data.purchaseReturnTotalAmount,
         purchaseDueAmount: resp.data.dueAmount,
       };
       console.log(

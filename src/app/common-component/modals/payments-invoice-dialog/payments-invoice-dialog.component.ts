@@ -20,6 +20,7 @@ import { ToastModule } from "primeng/toast";
 import { min } from "rxjs";
 import { PaymentInService } from "src/app/core/payment-in/payment-in.service";
 import { PaymentOutService } from "src/app/core/payment-out/payment-out.service";
+import { PurchaseReturnService } from "src/app/core/purchase-return/purchase-return.service";
 import { SalesReturnService } from "src/app/core/sales-return/sales-return.service";
 import { SalesService } from "src/app/core/sales/sales.service";
 
@@ -45,6 +46,7 @@ import { SalesService } from "src/app/core/sales/sales.service";
 export class PaymentsInvoiceDialogComponent implements OnInit {
   @Input() ShowPaymentInvoice: boolean;
   @Input() dataById: any = [];
+  @Input() header:any;
   @Output() callbackModalForPayment = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();
   paymentInvoiceForm: FormGroup;
@@ -65,6 +67,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   constructor(
     private paymentInService: PaymentInService,
     private paymentOutService: PaymentOutService,
+    private purchaseReturnPaymentService: PurchaseReturnService,
     private messageService: MessageService,
     private fb: FormBuilder,
     private salesReturnService: SalesReturnService
@@ -213,19 +216,19 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     // for purchase return payment
     if (this.dataById.isPurchaseReturn) {
       const payload = {
-        customer: this.dataById.customer,
+        supplier: this.dataById.supplier,
         paymentDate: formData.paymentDate,
         paymentMode: formData.paymentMode,
-        salesReturnId: this.dataById.salesReturnId,
+        purchaseReturnId: this.dataById.purchaseReturnId,
         amount: formData.totalAmount,
         note: formData.note,
       };
       if (this.paymentInvoiceForm.valid) {
-        this.paymentInService.createPayment(payload).subscribe((resp: any) => {
+        this.purchaseReturnPaymentService.createPurchaseReturnPayment(payload).subscribe((resp: any) => {
           console.log(resp);
           if (resp) {
             if (resp.status === "success") {
-              const message = "Payment Out has been added";
+              const message = "Payment In has been added";
               this.messageService.add({ severity: "success", detail: message });
               setTimeout(() => {
                 this.close.emit();
