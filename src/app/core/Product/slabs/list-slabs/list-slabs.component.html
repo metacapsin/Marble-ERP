@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="originalData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                            <p-table [value]="allSlabsDaTa" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                                 [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"  (onPage)="onPageChange($event)"
                                 [(selection)]="selectedSlabs">
                                 <ng-template pTemplate="header">

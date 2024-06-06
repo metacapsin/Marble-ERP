@@ -26,13 +26,13 @@ export class ListSlabsComponent {
   slabsID: any;
   searchDataValue = "";
   selectedSlabs = [];
-  allSlabs:any
+  allSlabsDaTa:any
 
   constructor(public dialog: MatDialog, public router: Router, private service: SlabsService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
 
   getSlabsList(): void {
     this.service.getSlabsList().subscribe((resp: any) => {
-      this.data = resp.data;
+      this.allSlabsDaTa = resp.data;
       this.originalData = resp.data;
 
       console.log("API", this.data);
@@ -75,14 +75,14 @@ export class ListSlabsComponent {
   }
 
   public searchData(value: any): void {
-    this.allSlabs = this.originalData.filter(i =>
-      i.lotName.toLowerCase().includes(value.trim().toLowerCase())
+    this.allSlabsDaTa = this.originalData.filter(i =>
+      i.slabNo.toLowerCase().includes(value.trim().toLowerCase())
     );
   }
   onPageChange(event) {
     const startIndex = event.first;
     const endIndex = startIndex + event.rows;
-    const currentPageData = this.allSlabs.slice(startIndex, endIndex);
+    const currentPageData = this.allSlabsDaTa.slice(startIndex, endIndex);
   }
 
 }
