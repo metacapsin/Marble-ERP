@@ -42,7 +42,7 @@ import { AccordionModule } from "primeng/accordion";
   styleUrl: './add-lot.component.scss'
 })
 export class AddLotComponent {
-
+  maxDate = new Date();
   public routes = routes;
   lotAddForm!: FormGroup;
   // blockAddForm!: FormGroup;

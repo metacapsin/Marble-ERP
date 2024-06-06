@@ -24,7 +24,7 @@ import { ToastModule } from 'primeng/toast';
   providers: [MessageService]
 })
 export class EditSalesReturnComponent {
-
+  maxDate = new Date();
   editReturnSalesForm!: FormGroup;
   public routes = routes;
   salesReturnId: any

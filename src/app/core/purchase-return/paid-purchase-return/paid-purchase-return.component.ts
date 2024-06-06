@@ -19,7 +19,7 @@ import { routes } from "src/app/shared/routes/routes";
 export class PaidPurchaseReturnComponent {
   public routes = routes;
   public checkboxes: string[] = [];
-
+  maxDate = new Date();
   customerData = [
     {
       name: "Supplier 1",

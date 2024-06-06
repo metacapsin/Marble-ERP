@@ -25,6 +25,7 @@ export class PaymentOutReportComponent {
   public routes = routes;
   picker1: any;
   searchDataValue = ""  
+  maxDate = new Date();
   rangeDates: Date[] | undefined;
   invertoryData = [
     {

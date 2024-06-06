@@ -37,6 +37,7 @@ export class StaffLeavesEditComponent {
   {value: 'Casual Leave'},
   {value: 'Loss of Pay'},
 ];
+maxDate = new Date();
 employeeName = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   leaveReason = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   constructor(private fb: FormBuilder,

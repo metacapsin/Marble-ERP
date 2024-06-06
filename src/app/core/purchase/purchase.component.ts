@@ -45,7 +45,7 @@ export class PurchaseComponent {
 
   public allInvoice: Array<allInvoice> = [];
   dataSource!: MatTableDataSource<allInvoice>;
-
+  selectedPurchase:''
   public showFilter = false;
   public searchDataValue = "";
   public lastIndex = 0;

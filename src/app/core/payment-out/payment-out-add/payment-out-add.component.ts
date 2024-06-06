@@ -33,7 +33,7 @@ export class PaymentOutAddComponent {
   addPaymentInForm!: FormGroup;
   SuppliersList = [];
   originalSuppliersData = [];
-
+  maxDate = new Date();
   selectedCustomer: any;
   purchaseDataById = [];
   paymentModeList = [

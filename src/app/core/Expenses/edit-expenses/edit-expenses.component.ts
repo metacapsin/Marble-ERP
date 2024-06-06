@@ -42,7 +42,7 @@ export class EditExpensesComponent {
   id: any;
   ExpensesCategories: any;
   ExpensesCategoriesArray:any
-
+  maxDate = new Date();
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;

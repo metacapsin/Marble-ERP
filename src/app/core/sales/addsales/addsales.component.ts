@@ -35,6 +35,7 @@ import { SlabsService } from "../../Product/slabs/slabs.service";
 export class AddsalesComponent implements OnInit {
   addSalesForm!: FormGroup;
   public routes = routes;
+  maxDate = new Date();
   public searchData_id = "";
   addTaxTotal: any;
   customerList = [];

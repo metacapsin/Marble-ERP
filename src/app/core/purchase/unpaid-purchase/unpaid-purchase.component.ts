@@ -36,7 +36,7 @@ export class UnpaidPurchaseComponent {
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
-
+  maxDate = new Date();
   salesData = [
     {
       salesInvoiceNumber:1112,

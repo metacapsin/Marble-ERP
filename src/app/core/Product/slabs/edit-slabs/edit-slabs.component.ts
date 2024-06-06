@@ -48,7 +48,7 @@ export class EditSlabsComponent {
   slabsEditForm!: FormGroup;
   data: any;
   slabsId: any;
-
+  maxDate = new Date();
   lotNoList: any = [];
   originallotNoList: any = [];
   blocksNoList: any = [];

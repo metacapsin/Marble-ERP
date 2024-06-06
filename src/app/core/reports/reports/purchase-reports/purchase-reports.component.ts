@@ -13,7 +13,7 @@ export class PurchaseReportsComponent {
   picker1: any;
   searchDataValue = ""
 
-  
+  maxDate = new Date();
   rangeDates: Date[] | undefined;
 
   invertoryData = [

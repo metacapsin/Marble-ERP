@@ -52,7 +52,7 @@ export class AddExpensesComponent implements OnInit {
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
   phoneRegex = /^[0-9]{10}$/;
-
+  maxDate = new Date();
   constructor(
     private fb: UntypedFormBuilder,
     private messageService: MessageService,

@@ -27,7 +27,7 @@
           <ul class="breadcrumb invoices-breadcrumb">
             <li class="breadcrumb-item invoices-breadcrumb-item">
               <a [routerLink]="routes.purchaseReturn">
-                <i class="fa fa-chevron-left"></i> Back to purchase Return List
+                <i class="fa fa-chevron-left"></i> Back to Purchase Return List
               </a>
             </li>
           </ul>
@@ -107,6 +107,7 @@
                         ></label
                       >
                       <p-calendar
+                      [maxDate]="maxDate"
                         dataType="string"
                         appendTo="body"
                         dateFormat="mm/dd/yy"
@@ -117,93 +118,7 @@
                     </div>
                   </div>
 
-                  <!-- <div
-                    class="col-xl-4 col-md-6 col-sm-12 col-12"
-                    *ngIf="PurchaseReturnDataById?.purchaseType == 'lot'"
-                  >
-                    <div class="form-group local-forms">
-                      <label for="purchaseLot"
-                        >Lot<span class="login-danger"></span
-                      ></label>
-                      <p-dropdown
-                        [style]="{ width: '100%' }"
-                        placeholder="--suppliers--"
-                        [options]="blockDataWithLotId"
-                        optionLabel="blockNo"
-                        display="chip"
-                        [filter]="true"
-                        filterBy="name"
-                        formControlName="purchaseLot"
-                        [showClear]="true"
-                        ></p-dropdown>
-                      <div
-                        *ngIf="
-                          addPurchaseReturnForm
-                            .get('purchaseLot')
-                            ?.hasError('required') &&
-                          addPurchaseReturnForm.get('purchaseLot')?.touched
-                        "
-                      >
-                        <span class="login-danger">Field is required. </span>
-                      </div>
-                    </div>
-                  </div> -->
-
-                  <!-- <div
-                    class="col-xl-4 col-md-6 col-sm-12 col-12"
-                    *ngIf="PurchaseReturnDataById?.purchaseType == 'slab'"
-                  >
-                    <div class="form-group local-forms">
-                      <label for="purchaseSlab"
-                        >Slab<span class="login-danger"></span
-                      ></label>
-                      <p-dropdown
-                        [style]="{ width: '100%' }"
-                        placeholder="--suppliers--"
-                        [options]="purchaseSlabData"
-                        optionLabel="slabName"
-                        display="chip"
-                        [filter]="true"
-                        filterBy="name"
-                        formControlName="purchaseSlab"
-                        [showClear]="true"
-                        ></p-dropdown>
-                      <div
-                        *ngIf="
-                          addPurchaseReturnForm
-                            .get('purchaseSlab')
-                            ?.hasError('required') &&
-                          addPurchaseReturnForm.get('purchaseSlab')?.touched
-                        "
-                      >
-                        <span class="login-danger">Field is required. </span>
-                      </div>
-                    </div>
-                  </div> -->
-
-                  <!-- <div
-                    class="col-xl-4 col-md-6 col-sm-12 col-12"
-                    *ngIf="PurchaseReturnDataById?.purchaseType == 'lot'"
-                  >
-                    <div class="form-group local-forms">
-                      <label for="lot"
-                        >Lot<span class="login-danger">*</span></label
-                      >
-                      <p-multiSelect
-                        [style]="{ width: '100%' }"
-                        placeholder="--Lot--"
-                        [options]="selectedLots"
-                        formControlName="purchaseLot"
-                        optionLabel="blockNo"
-                        display="chip"
-                        (onChange)="lotValues($event.value)"
-                        ></p-multiSelect>
-                        <div
-                        *ngIf="addPurchaseForm.get('purchaseLot')?.hasError('required') && addPurchaseForm.get('purchaseLot')?.touched">
-                        <span class="login-danger">Field is required. </span>
-                      </div> 
-                    </div>
-                  </div> -->
+                  
 
                   <div
                     class="col-xl-4 col-md-6 col-sm-12 col-12"
@@ -416,76 +331,7 @@
                           </div>
                         </div>
 
-                        <!-- <div class="col-12 mt-3">
-                          <div class="form-group local-forms">
-                            <label for="salesReturnOrderTax">Order Tax</label>
-                            <p-multiSelect
-                              [style]="{ width: '100%' }"
-                              placeholder="Select Tax"
-                              [options]="orderTaxList"
-                              formControlName="purchaseOrderTax"
-                              optionLabel="orderTaxName"
-                              optionValue="orderNamevalue"
-                              display="chip"
-                              [showClear]="true"
-                              (onChange)="calculateTotalAmount()"
-                            ></p-multiSelect>
-                          </div>
-                        </div>
-                        <div class="col-md-12 ml-3">
-                          <div class="form-group local-forms">
-                            <label for="purchaseReturnDiscount"
-                              >Discount
-                            </label>
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                              </div>
-                              <input
-                                class="form-control"
-                                (change)="calculateTotalAmount()"
-                                formControlName="purchaseReturnDiscount"
-                                type="number"
-                                placeholder=""
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-12 ml-3">
-                          <div class="form-group local-forms">
-                            <label for="purchaseReturnShipping">Shipping</label>
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                              </div>
-                              <input
-                                class="form-control"
-                                (change)="calculateTotalAmount()"
-                                formControlName="purchaseReturnShipping"
-                                type="number"
-                                placeholder=""
-                              />
-                            </div>
-                          </div>
-                        </div> -->
-
-                        <!-- <div class="col-md-12 ml-3">
-                          <div class="form-group local-forms">
-                            <label for="otherCharges">Other Charges </label>
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                              </div>
-                              <input
-                                class="form-control"
-                                (change)="calculateTotalAmount()"
-                                formControlName="otherCharges"
-                                type="number"
-                                placeholder=""
-                              />
-                            </div>
-                          </div>
-                        </div> -->
+                        
                       </div>
 
                       <div class="invoice-total-inner">
@@ -498,30 +344,7 @@
                             }}</span
                           >
                         </p>
-                        <!-- <p>
-                          Order Tax <span>₹ {{ addTaxTotal }}</span>
-                        </p>
-                        <p>
-                          Discount<span
-                            >₹
-                            {{
-                              addPurchaseReturnForm.get(
-                                "purchaseReturnDiscount"
-                              ).value | number : "1.2-2"
-                            }}</span
-                          >
-                        </p> -->
-                        <!-- <p>
-                          Other Charges
-                          <span
-                            >₹
-                            {{
-                              addPurchaseReturnForm.get(
-                                "purchaseReturnShipping"
-                              ).value | number : "1.2-2"
-                            }}
-                          </span>
-                        </p> -->
+                        
                       </div>
 
                       <div class="invoice-total-footer">
@@ -548,6 +371,7 @@
     </div>
   </div>
 </div>
+<p-toast></p-toast>
 
 <!-- Invoices Preview Modal -->
 <div
@@ -844,10 +668,10 @@
             </div>
             <div class="col-6">
               <a
-                href="javascript:void(0);"
-                data-bs-dismiss="modal"
-                class="btn btn-primary paid-cancel-btn"
-                >Cancel</a
+              href="javascript:void(0);"
+              data-bs-dismiss="modal"
+              class="btn btn-primary paid-cancel-btn"
+              >Cancel</a
               >
             </div>
           </div>
@@ -857,4 +681,4 @@
   </div>
 </div>
 <!-- /Delete Invoices Modal -->
-<p-toast></p-toast>
+      

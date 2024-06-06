@@ -55,6 +55,7 @@ export class AddPurchaseComponent implements OnInit {
   data: any;
   TotleLotCost: any;
   originalData: any;
+  maxDate = new Date();
   GridDataForLot?: any = [];
   GridDataForSlab?: any = [];
   SlabAddValue: any;

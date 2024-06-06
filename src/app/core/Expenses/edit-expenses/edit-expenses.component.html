@@ -81,7 +81,7 @@
                     <div class="form-group local-forms">
                         <label for="date">Date<span
                                 class="login-danger">*</span></label>
-                        <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                        <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                             formControlName="date" placeholder="mm/dd/yyyy"
                             [styleClass]="'col-12'"></p-calendar>
                         <div

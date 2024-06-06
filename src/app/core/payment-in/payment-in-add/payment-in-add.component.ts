@@ -34,7 +34,7 @@ export class PaymentInAddComponent {
 {
   paymentMode:'Online'
 }];
-
+maxDate = new Date();
 notesRegex = /^(?:.{2,100})$/;
 nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 

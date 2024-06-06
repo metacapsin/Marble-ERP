@@ -38,6 +38,7 @@ import { Router } from "@angular/router";
 export class AddPurchaseReturnComponent {
   addPurchaseReturnForm!: FormGroup;
   public routes = routes;
+  maxDate = new Date();
   unitListData: any;
   subCategoryList = [];
   addTaxTotal: any;
@@ -361,7 +362,6 @@ export class AddPurchaseReturnComponent {
   //   });
   }
   addPurchaseReturnFormSubmit() {
-    const formData =  this.addPurchaseReturnForm.value;
     const purchaseReturnItemDetails = [{
       purchaseSlab:this.addPurchaseReturnForm.value.purchaseSlab
   }]
@@ -386,7 +386,7 @@ export class AddPurchaseReturnComponent {
           if (resp.status === "success") {
             this.messageService.add({ severity: "success", detail: resp.message });
             setTimeout(() => {
-              this.router.navigate(["/sales-return"]);
+              this.router.navigate(["/purchase-return"]);
             }, 400);
           } else {
             const message = resp.message;

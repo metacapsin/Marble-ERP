@@ -24,7 +24,7 @@ export class AddSalesReturnComponent {
 
   addReturnSalesForm!: FormGroup;
   public routes = routes;
-
+  maxDate = new Date();
   public searchData_id = '';
   customerList = [];
   originalCustomerData = [];

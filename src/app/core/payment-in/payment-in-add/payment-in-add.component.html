@@ -59,7 +59,7 @@
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
                                             <label for="name">Payment Date <span class="login-danger">*</span></label>
-                                            <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                            <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                                                 formControlName="paymentDate" placeholder="mm/dd/yyyy"
                                                 [styleClass]="'col-12'"></p-calendar>
                                             <div
