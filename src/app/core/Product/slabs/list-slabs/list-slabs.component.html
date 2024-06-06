@@ -102,8 +102,8 @@
                                         </th>
                                         <th pSortableColumn="warehouseDetails.name">Warehouse<p-sortIcon
                                             field="warehouseDetails.name"></p-sortIcon>
-                                        <!-- <p-columnFilter type="text" field="warehouseDetails.name"
-                                            display="menu"></p-columnFilter> -->
+                                        <p-columnFilter type="text" field="warehouseDetails.name"
+                                            display="menu"></p-columnFilter>
                                     </th>
                                         <th appShowHide [roles]="['admin', 'super-admin']" >Action
                                         </th>
@@ -137,7 +137,7 @@
                                             {{slabs.warehouseDetails.name}}
                                         </td>
                                         <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
-                                            <p-button [text]="true" icon="fa fa-edit"
+                                            <p-button *ngIf="slabs.totalSQFT > 0" [text]="true" icon="fa fa-edit"
                                             (click)="updateSlabs(slabs._id)" ></p-button>
                                             <!-- <p-button [text]=" true" icon="fa fa-trash"
                                                 (click)="deleteSlabs(slabs._id)"></p-button> -->
