@@ -291,12 +291,12 @@ export class DataService {
               base: routes.slabs,
             },
             {
-              menuValue: "Stock-Adjustment",
+              menuValue: "Stock Adjustment",
               route: routes.stockAdjustment,
               base: routes.stockAdjustment,
             },
             {
-              menuValue: "Stock-Transfer",
+              menuValue: "Stock Transfer",
               route: routes.stockTransfer,
               base: routes.stockTransfer,
             },
@@ -476,11 +476,11 @@ export class DataService {
               route: routes.blocksCustomerList,
               base: routes.blocksCustomerList,
             },
-            {
-              menuValue: "Block Processing",
-              route: routes.blocksList,
-              base: routes.blocksList,
-            },
+            // {
+            //   menuValue: "Block Processing",
+            //   route: routes.blocksList,
+            //   base: routes.blocksList,
+            // },
           ],
         },
         {
