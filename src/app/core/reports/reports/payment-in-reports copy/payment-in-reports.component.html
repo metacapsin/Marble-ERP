@@ -58,13 +58,37 @@
             </div>
         </div>
 
+        <div class="card">
+            <div class="row card-body d-flex justify-content-between p0">
+                <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                        <label for="warehouseDetails">searchBy </label>
+                        <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Select Date" 
+                            [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true"
+                            (onChange)="onSearchByChange($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                        <label for="warehouseDetails">Date </label>
+                        <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                            [style]="{ width: '100%' }" placeholder="Start Date - End Date" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="card-body">
 
-                        <div class="row p-2 mt-2">
-                            <div class="col-md-8 col-sm-12">
+                        <!-- <div class="row p-2 mt-2">
+                            <div class="col-md-6 col-sm-6">
                                 <div class="doctor-search-blk">
                                     <div>
                                         <h3>Payment In Reports</h3>
@@ -76,11 +100,33 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group local-forms">
-                                    <label for="warehouseDetails">Date<span class="login-danger">*</span></label>
-                                    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
-                                        [style]="{ width: '100%' }" placeholder="Start Date - End Date" />
+                            
+                        </div> -->
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk">
+                                        <h3>Payment In Details </h3>
+                                        <div class="doctor-search-blk">
+                                            <div class="top-nav-search table-search-blk">
+                                                <input type="text" class="form-control" placeholder="Search here"
+                                                    [(ngModel)]="searchDataValue"
+                                                    (ngModelChange)="searchData(searchDataValue)">
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                                    [roles]="['admin', 'super-admin']">
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                            alt=""></a>
+                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
+                                            alt=""></a> -->
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                            alt=""></a>
+                                    <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+
                                 </div>
                             </div>
                         </div>
