@@ -362,6 +362,10 @@ export class AddPurchaseReturnComponent {
   }
   addPurchaseReturnFormSubmit() {
     const formData =  this.addPurchaseReturnForm.value;
+    const purchaseReturnItemDetails = [{
+      purchaseSlab:this.addPurchaseReturnForm.value.purchaseSlab
+  }]
+    console.log(purchaseReturnItemDetails);
     const payload = {
       purchaseReturnInvoiceNumber: this.addPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
       purchaseReturnSupplier: this.addPurchaseReturnForm.value.purchaseReturnSupplier,
@@ -370,7 +374,8 @@ export class AddPurchaseReturnComponent {
       purchaseReturnNotes: this.addPurchaseReturnForm.value.purchaseReturnNotes,
       purchaseReturnTotalAmount: this.totalValue,
       purchaseGrossTotal: this.addPurchaseReturnForm.value.purchaseGrossTotal,
-      purchaseSlab: this.addPurchaseReturnForm.value.purchaseSlab,
+      purchaseReturnItemDetails,
+      purchaseReturnOrderStatus: this.addPurchaseReturnForm.value.purchaseReturnOrderStatus
     }
     console.log(payload);
     if (this.addPurchaseReturnForm.valid) {
@@ -379,8 +384,7 @@ export class AddPurchaseReturnComponent {
         console.log(resp);
         if (resp) {
           if (resp.status === "success") {
-            const message = "Sales Return has been added";
-            this.messageService.add({ severity: "success", detail: message });
+            this.messageService.add({ severity: "success", detail: resp.message });
             setTimeout(() => {
               this.router.navigate(["/sales-return"]);
             }, 400);

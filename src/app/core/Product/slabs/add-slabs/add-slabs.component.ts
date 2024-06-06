@@ -213,7 +213,7 @@ export class AddSlabsComponent {
     this.blockDropDownPerBlockWeight = block.weightPerBlock;
     if (block.totalCosting) {
       this.slabsAddForm.patchValue({
-        purchaseCost: block.totalCosting || 0,
+        purchaseCost: block.totalCosting,
       });
       this.calculateTotalAmount();
     }
