@@ -23,4 +23,11 @@ export class ReportsService {
     return this.http.post(environment.apiUrl + "/PurchaseReportController/getPurchaseReports", data);
   }
 
+  getExpensesReports(data: {} | null) {
+    return this.http.post(environment.apiUrl + "/ExpensesReportController/getExpensesReports", data);
+  }
+  getStockReports(data: {} | null) {
+    return this.http.post(environment.apiUrl + "/StockReportController/getStockReports", data);
+  }
+
 }
