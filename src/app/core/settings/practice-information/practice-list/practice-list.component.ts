@@ -39,6 +39,7 @@ export class PracticeListComponent {
     this.auth.getUserProfile().subscribe((user: any) => {
       this.userData = user.data;
       console.log(this.userData);
+      console.log(this.userData.warehouse[0].name)
             
     });
   // deletePracticeInformation(id: string) {
