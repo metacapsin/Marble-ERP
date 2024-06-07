@@ -445,21 +445,21 @@ export class DataService {
               route: routes.salesReport,
               base: routes.salesReport,
             },
-            // {
-            //   menuValue: "Stock Report",
-            //   route: routes.inventoryReport,
-            //   base: routes.inventoryReport,
-            // },
             {
               menuValue: "Purchase Report",
               route: routes.purchaseReport,
               base: routes.purchaseReport,
             },
-            // {
-            //   menuValue: "inventory report",
-            //   route: routes.inventoryReport,
-            //   base: routes.inventoryReport,
-            // },
+            {
+              menuValue: "Expenses Report",
+              route: routes.expensesReport,
+              base: routes.expensesReport,
+            },
+            {
+              menuValue: "Stock report",
+              route: routes.inventoryReport,
+              base: routes.inventoryReport,
+            },
           ],
         },
         {

@@ -27,10 +27,10 @@ const routes: Routes = [
         ),
     },
     {
-      path: 'invoice-reports',
+      path: 'expenses-reports',
       loadChildren: () =>
-        import('./invoice-reports/invoice-reports.module').then(
-          (m) => m.InvoiceReportsModule
+        import('./expenses-reports/expenses-reports.module').then(
+          (m) => m.expensesReportsModule
         ),
     },
     {
