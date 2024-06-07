@@ -11,7 +11,7 @@
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
                         <li class="breadcrumb-item active">Settings</li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Practice Information</li>
+                        <li class="breadcrumb-item active">Profile Information</li>
                     </ul>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                                     <div class="form-group row mb-2">
                                         <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Name</h5>
                                         <div class="col-lg-9 col-md-9 col-xl-9">
-                                            <p class="col-lg-9 col-form-label">{{userData.name}}</p>
+                                            <p class="col-lg-9 col-form-label">{{userData?.name}}</p>
                                         </div>
                                     </div>
                                     <!-- <div class="form-group row mb-2">
@@ -95,19 +95,19 @@
                                     <div class="form-group row mb-2">
                                         <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone No.</h5>
                                         <div class="col-lg-9 col-md-9 col-xl-9">
-                                            <p class="col-form-label">{{userData.phoneNumber}}</p>
+                                            <p class="col-form-label">{{userData?.phoneNumber}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group row mb-2">
                                         <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Role</h5>
                                         <div class="col-lg-9 col-md-9 col-xl-9">
-                                            <p class="col-form-label">{{userData.role.join(', ')}}</p>
+                                            <p class="col-form-label">{{userData?.role.join(', ')}}</p>
                                         </div>
                                     </div>
                                     <!-- <div class="form-group row mb-2">
                                         <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone No.</h5>
                                         <div class="col-lg-9 col-md-9 col-xl-9">
-                                            <p class="col-form-label">{{userDataphone}}</p>
+                                            <p class="col-form-label">{{userData?phone}}</p>
                                         </div>
                                     </div> -->
                                 </div>
@@ -115,21 +115,21 @@
                                     <div class="form-group row mb-2">
                                         <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Address</h5>
                                         <div class="col-lg-9 col-md-9 col-xl-9">
-                                            <p class="col-lg-9 col-form-label">{{userData.address}}
+                                            <p class="col-lg-9 col-form-label">{{userData?.address}}
                                             </p>
                                         </div>
                                     </div>
                                     <div class="form-group row mb-2">
                                         <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Email</h5>
                                         <div class="col-lg-9 col-md-9 col-xl-9">
-                                            <p class="col-form-label">{{userData.email}}</p>
+                                            <p class="col-form-label">{{userData?.email}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group row mb-2">
                                         <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Warehouse</h5>
                                         <div class="col-lg-9 col-md-9 col-xl-9 d-flex gap-2" style="flex-wrap: wrap;">
-                                            <p class="col-form-label" *ngFor="let data of userData.warehouse">
-                                                <span>{{ data.name }}, </span>
+                                            <p class="col-form-label" *ngFor="let data of userData?.warehouse ">
+                                                <span>{{ data.warehouse }}, </span>
                                               </p>
                                                                                           
                                         </div>
@@ -137,13 +137,13 @@
                                     <!-- <div class="form-group row mb-2">
                                         <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">EIN</h5>
                                         <div class="col-lg-9 col-md-9 col-xl-9">
-                                            <p class="col-form-label">{{userDataein}}</p>
+                                            <p class="col-form-label">{{userData?ein}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group row mb-2">
                                         <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Group NPI</h5>
                                         <div class="col-lg-9 col-md-9 col-xl-9">
-                                            <p class="col-form-label">{{userDatagroupNpi}}</p>
+                                            <p class="col-form-label">{{userData?groupNpi}}</p>
                                         </div>
                                     </div> -->
                                 </div>
