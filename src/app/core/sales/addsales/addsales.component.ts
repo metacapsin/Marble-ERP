@@ -150,6 +150,7 @@ export class AddsalesComponent implements OnInit {
               _id: {
                 _id: e._id,
                 slabName: e.slabName,
+                slabNo: e.slabNo,
                 sellingPricePerSQFT: e.sellingPricePerSQFT,
                 totalSQFT: e.totalSQFT,
               }

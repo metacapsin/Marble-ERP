@@ -35,11 +35,6 @@ export class EditCustomersComponent {
   routes = routes;
   customerData: any;
   id: any;
-  // wareHousedata: any;
-  // wareHousedataArray:any
-
-  // wareHouseArray = [{ name: "Electronifly" }, { name: "Warehouse Gas" }];
-
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
   personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
@@ -70,9 +65,8 @@ export class EditCustomersComponent {
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
-      email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
+      email: ["", [Validators.pattern(this.emailRegex)]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
-      // openingBalance: ["", [Validators.min(0)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
       creditLimit: ["", [Validators.min(0), Validators.max(5000000)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],

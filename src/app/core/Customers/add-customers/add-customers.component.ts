@@ -58,7 +58,7 @@ export class AddCustomersComponent {
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
-      email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
+      email: ["", [Validators.pattern(this.emailRegex)]],
       taxNo: ["", [Validators.pattern(this.shortNameRegex)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
       creditLimit: ["", [Validators.min(0), Validators.max(5000000)]],
