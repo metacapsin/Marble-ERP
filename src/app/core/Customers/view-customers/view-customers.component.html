@@ -66,10 +66,10 @@
                 </div>
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                    Phone Number
+                    Credit Period
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-form-label">{{ data.phoneNo }}</p>
+                    <p class="col-form-label">{{ data.creaditPeriod }} Days</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2">
@@ -84,12 +84,13 @@
               <div class="col-xl-6 col-lg-6 col-sm-12">
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                    Credit Period 
+                    Phone Number
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-form-label">{{ data.creaditPeriod }} Days</p>
+                    <p class="col-form-label">{{ data.phoneNo }}</p>
                   </div>
                 </div>
+
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                     Credit Limit
@@ -108,10 +109,10 @@
                 </div>
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                    Total Due Amount
+                    Shipping Address
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-form-label">₹ {{ salesTotalDueAmount }}</p>
+                    <p class="col-form-label">₹ {{ data.shippingAddress }}</p>
                   </div>
                 </div>
               </div>
@@ -125,7 +126,8 @@
     <div class="card ">
       <p-tabView>
         <p-tabPanel header="Sales">
-          <p-table [value]="salesDataShowById" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }">
+          <p-table [value]="salesDataShowById" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
+            [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr class="text-center">
                 <th pSortableColumn="salesInvoiceNumber">
@@ -141,6 +143,9 @@
                   Sales Status
                   <p-sortIcon field="salesOrderStatus"></p-sortIcon>
                 </th>
+                <th pSortableColumn="paymentStatus">
+                  Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                </th>
                 <th pSortableColumn="paidAmount">
                   Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                   <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
@@ -154,9 +159,9 @@
                   <p-sortIcon field="salesTotalAmount"></p-sortIcon>
                   <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
                 </th>
-                <th pSortableColumn="paymentStatus">
+                <!-- <th pSortableColumn="paymentStatus">
                   Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                </th>
+                </th> -->
                 <th>Action</th>
               </tr>
             </ng-template>
@@ -165,15 +170,30 @@
                 <td>{{ sales.salesInvoiceNumber }}</td>
                 <td>{{ sales.salesDate | date: "dd-MMM-yyyy" }}</td>
                 <td>{{ sales.salesOrderStatus }}</td>
+                <!-- <td>{{ sales.paymentStatus }}</td> -->
+                <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="danger" value="Partial Paid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Paid' " ><p-tag severity="success" value="Paid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="error" value="Unpaid"></p-tag></td>
                 <td>₹ {{ sales.paidAmount }}</td>
                 <td>₹ {{ sales.dueAmount }}</td>
                 <td>₹ {{ sales.salesTotalAmount }}</td>
-                <td>{{ sales.paymentStatus }}</td>
                 <td appShowHide [roles]="['admin', 'super-admin']">
                   <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
-                  <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'" [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)"></p-button>
+                  <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'"
+                    [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)"></p-button>
                   <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
                 </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+              <tr>
+                <td colspan="3"></td>
+                <td>Total Amount</td>
+                <td>₹ {{ getTotalPaidAmount('salesDataShowById') }}</td>
+                <td>₹ {{ getTotalDuoAmount('salesDataShowById') }}</td>
+                <td>₹ {{ getTotalAmount('salesDataShowById') }}</td>
+                <td></td>
               </tr>
             </ng-template>
           </p-table>
@@ -183,9 +203,14 @@
         <!-- PAYMENTS GRID -->
         <p-tabPanel header="Payment In">
           <p-table [value]="paymentListDataByCustomerId" styleClass="p-datatable-striped"
-            [tableStyle]="{ 'min-width': '60rem' }">
+            [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr>
+                <th pSortableColumn="salesInvoiceNumber">
+                  Invoice No.
+                  <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
+                  <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
+                </th>
                 <th pSortableColumn="transactionNo">
                   Transaction No.
                   <p-sortIcon field="transactionNo"></p-sortIcon>
@@ -195,24 +220,32 @@
                   Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
                   <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
                 </th>
-                <th pSortableColumn="amount">
-                  Amount <p-sortIcon field="amount"></p-sortIcon>
-                  <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
-                </th>
                 <th pSortableColumn="paymentMode">
                   Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
                   <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="amount">
+                  Amount <p-sortIcon field="amount"></p-sortIcon>
+                  <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
                 </th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-payment>
               <tr>
+                <td class="bold">{{ payment.salesInvoiceNumber }}</td>
                 <td class="bold">{{ payment.transactionNo }}</td>
                 <td class="bold">
                   {{ payment.paymentDate | date: "dd-MMM-yyyy"}}
                 </td>
-                <td>₹ {{ payment.amount }}</td>
                 <td>{{ payment.paymentMode }}</td>
+                <td>₹ {{ payment.amount }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <tr>
+                <td colspan="3"></td>
+                <td>Total Amount</td>
+                <td>₹ {{ getTotalPaymentAmount('paymentListDataByCustomerId') }}</td>
               </tr>
             </ng-template>
           </p-table>
@@ -222,7 +255,7 @@
         <!-- Sales Return Grid -->
         <p-tabPanel header="Sales Return">
           <p-table [value]="salesReturnDataShowById" styleClass="p-datatable-striped"
-            [tableStyle]="{ 'min-width': '60rem' }">
+            [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr class="text-center">
                 <th pSortableColumn="salesInvoiceNumber">
@@ -238,6 +271,9 @@
                   Return Status
                   <p-sortIcon field="returnOrderStatus"></p-sortIcon>
                 </th>
+                <th pSortableColumn="paymentStatus">
+                  Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                </th>
                 <th pSortableColumn="paidAmount">
                   Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                   <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
@@ -251,9 +287,6 @@
                   <p-sortIcon field="salesTotalAmount"></p-sortIcon>
                   <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
                 </th>
-                <th pSortableColumn="paymentStatus">
-                  Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                </th>
                 <th>Action</th>
               </tr>
             </ng-template>
@@ -262,29 +295,47 @@
                 <td>{{ sales.salesInvoiceNumber }}</td>
                 <td>{{ sales.returnDate | date: "dd-MMM-yyyy"}}</td>
                 <td>{{ sales.returnOrderStatus }}</td>
+                <!-- <td>{{ sales.paymentStatus }}</td> -->
+                <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="danger" value="Partial Paid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Paid' " ><p-tag severity="success" value="Paid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="error" value="Unpaid"></p-tag></td>
                 <td>₹ {{ sales.paidAmount }}</td>
                 <td>₹ {{ sales.dueAmount }}</td>
                 <td>₹ {{ sales.salesTotalAmount }}</td>
-                <td>{{ sales.paymentStatus }}</td>
                 <td appShowHide [roles]="['admin', 'super-admin']">
                   <p-button [text]="true" icon="fa-solid fa-eye"
                     (click)="showReturnInvoiceDialoge(sales._id)"></p-button>
-                  <p-button  *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'"  [text]="true" icon="fa-solid fa-wallet"
-                    (click)="openPaymentReturnDialog(sales._id)"></p-button>
+                  <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'"
+                    [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentReturnDialog(sales._id)"></p-button>
                   <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
                 </td>
               </tr>
             </ng-template>
+            <ng-template pTemplate="footer">
+              <tr>
+                  <td colspan="3"></td>
+                  <td>Total Amount</td>
+                  <td>₹ {{ getTotalPaidAmount('salesReturnDataShowById') }}</td>
+                  <td>₹ {{ getTotalDuoAmount('salesReturnDataShowById') }}</td>
+                  <td>₹ {{ getTotalAmount('salesReturnDataShowById') }}</td>
+                  <td ></td>
+              </tr>
+          </ng-template>
           </p-table>
         </p-tabPanel>
 
         <!-- Payment Out Grid -->
 
         <p-tabPanel header="Payments Out">
-          <p-table [value]="paymentReturnDataListById" styleClass="p-datatable-striped"
+          <p-table [value]="paymentReturnDataListById" styleClass="p-datatable-striped" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"
             [tableStyle]="{ 'min-width': '60rem' }">
             <ng-template pTemplate="header">
               <tr>
+                <th pSortableColumn="salesInvoiceNumber">
+                  Invoice No.
+                  <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
+                  <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
+                </th>
                 <th pSortableColumn="transactionNo">
                   Transaction No.
                   <p-sortIcon field="transactionNo"></p-sortIcon>
@@ -294,24 +345,32 @@
                   Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
                   <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
                 </th>
-                <th pSortableColumn="amount">
-                  Amount <p-sortIcon field="amount"></p-sortIcon>
-                  <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
-                </th>
                 <th pSortableColumn="paymentMode">
                   Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
                   <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="amount">
+                  Amount <p-sortIcon field="amount"></p-sortIcon>
+                  <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
                 </th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-payment>
               <tr>
+                <td class="bold">{{ payment.salesInvoiceNumber }}</td>
                 <td class="bold">{{ payment.transactionNo }}</td>
                 <td class="bold">
                   {{ payment.paymentDate | date: "dd-MMM-yyyy"}}
                 </td>
-                <td>₹ {{ payment.amount }}</td>
                 <td>{{ payment.paymentMode }}</td>
+                <td>₹ {{ payment.amount }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <tr>
+                <td colspan="3"></td>
+                <td>Total Amount</td>
+                <td>₹ {{ getTotalPaymentAmount('paymentReturnDataListById') }}</td>
               </tr>
             </ng-template>
           </p-table>
@@ -322,7 +381,8 @@
 </div>
 
 <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="salesDataShowById"
-  [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>
+  [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()"
+  [header]="header"></app-invoice-dialog>
 
 <app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataById]="paymentObject" [header]="header"
   (callbackModal)="callBackModal()" (close)="close()"></app-payments-invoice-dialog>

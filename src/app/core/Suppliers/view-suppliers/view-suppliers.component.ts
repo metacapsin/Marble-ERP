@@ -7,7 +7,7 @@ import { PurchaseService } from "../../purchase/purchase.service";
 import { TabViewModule } from "primeng/tabview";
 import { TableModule } from "primeng/table";
 import { PaymentOutService } from "../../payment-out/payment-out.service";
-import { MessageService, SharedModule } from "primeng/api";
+import { MessageService } from "primeng/api";
 import { PurchaseInvoiceDialogComponent } from "src/app/common-component/modals/purchase-invoice-dialog/purchase-invoice-dialog.component";
 import { CalendarModule } from "primeng/calendar";
 import { DialogModule } from "primeng/dialog";
@@ -17,6 +17,7 @@ import { PaymentInService } from "../../payment-in/payment-in.service";
 import { PurchaseReturnService } from "../../purchase-return/purchase-return.service";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: "app-view-suppliers",
@@ -86,16 +87,30 @@ export class ViewSuppliersComponent {
     });
   }
 
+  getTotalPaidAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
+    const arrayToUse = this[arrayProperty];
+    return arrayToUse.reduce((total, payment) => total + Number(payment.paidAmount), 0);
+  }
+  getTotalDuoAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
+    const arrayToUse = this[arrayProperty];
+
+    return arrayToUse.reduce((total, payment) => total + Number(payment.dueAmount), 0);
+  }
+  getTotalAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
+    const arrayToUse = this[arrayProperty];
+
+    return arrayToUse.reduce((total, payment) => total + payment.purchaseReturnTotalAmount, 0);
+  }
+  getTotalPaymentAmount(arrayProperty: 'paymentListDataBySupplierId' | 'paymentReturnDataListById'): number {
+    const arrayToUse = this[arrayProperty];
+
+    return arrayToUse.reduce((total, payment) => total + payment.amount, 0);
+  }
+
   getPurchase() {
     this.purchaseTotalDueAmount = 0;
     this.purchaseService.getAllPurchaseBySupplierId(this.id).subscribe((resp: any) => {
-      // console.log("purchase Data response by customer id ", resp);
       this.purchaseDataShowById = resp.data;
-      // console.log("purchase Data by customer id ",this.purchaseDataShowById);
-      resp.data.forEach((e) => {
-        this.purchaseTotalDueAmount += e.dueAmount;
-        console.log("this is total due amount of this supplier",e.dueAmount);
-      });
     });
   }
 
@@ -166,15 +181,9 @@ export class ViewSuppliersComponent {
     this.getPaymentListBySupplierId();
     this.getPurchaseReturn();
     this.getPurchaseReturnPaymentListBySupplierId();
-    // this.salesService.getAllSalesByCustomerId(this.id).subscribe((resp: any) => {
-    //   console.log("payments of customer", resp);
-    //   this.salesDataShowById = resp.data;
-    //   console.log("this is sale of customer by id ", this.salesDataShowById)
-    // });
   }
 
   showInvoiceDialoge(Id: any) {
-    // to open the sales invoice popup
     console.log("id pass to invoice dialoge", Id);
     console.log("showInvoiceDialoge is triggered ");
     this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
@@ -190,7 +199,6 @@ export class ViewSuppliersComponent {
     });
   }
   showReturnInvoiceDialoge(Id: any) {
-    // to open the sales invoice popup
     console.log("id pass to invoice dialoge", Id);
     console.log("showInvoiceDialoge is triggered ");
     this.purchaseReturnService.getPurchaseReturnById(Id).subscribe((resp: any) => {
@@ -220,7 +228,6 @@ export class ViewSuppliersComponent {
         purchaseDueAmount: resp.data.dueAmount,
         
       };
-      // console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
     });
   }
   openPaymentReturnDialog(Id: any) {

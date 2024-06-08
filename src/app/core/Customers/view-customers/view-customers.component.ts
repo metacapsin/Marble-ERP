@@ -89,18 +89,32 @@ export class ViewCustomersComponent implements OnInit {
     });
   }
 
+  getTotalPaidAmount(arrayProperty: 'salesDataShowById' | 'salesReturnDataShowById'): number {
+    const arrayToUse = this[arrayProperty];
+    return arrayToUse.reduce((total, payment) => total + Number(payment.paidAmount), 0);
+  }
+  getTotalDuoAmount(arrayProperty: 'salesDataShowById' | 'salesReturnDataShowById'): number {
+    const arrayToUse = this[arrayProperty];
+
+    return arrayToUse.reduce((total, payment) => total + Number(payment.dueAmount), 0);
+  }
+  getTotalAmount(arrayProperty: 'salesDataShowById' | 'salesReturnDataShowById'): number {
+    const arrayToUse = this[arrayProperty];
+
+    return arrayToUse.reduce((total, payment) => total + payment.salesTotalAmount, 0);
+  }
+  getTotalPaymentAmount(arrayProperty: 'paymentListDataByCustomerId' | 'paymentReturnDataListById'): number {
+    const arrayToUse = this[arrayProperty];
+
+    return arrayToUse.reduce((total, payment) => total + payment.amount, 0);
+  }
+
   getsales() {
     this.salesTotalDueAmount = 0;
     this.salesService
       .getAllSalesByCustomerId(this.id)
       .subscribe((resp: any) => {
-        // console.log("Sales Data response by customer id ", resp);
         this.salesDataShowById = resp.data;
-        // console.log("sales Data by customer id ",this.salesDataShowById);
-        resp.data.forEach((e) => {
-          this.salesTotalDueAmount += Number(e.dueAmount);
-          console.log("this is total due amount of this customer",e.dueAmount);
-        });
       });
   }
 

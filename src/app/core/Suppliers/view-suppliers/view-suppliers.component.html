@@ -62,10 +62,10 @@
                                 </div>
                                 <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Phone Number
+                                        Credit Period
                                     </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ data.phoneNo }}</p>
+                                        <p class="col-form-label">{{ data.creaditPeriod }} Days</p>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
@@ -80,21 +80,22 @@
                             <div class="col-xl-6 col-lg-6 col-sm-12">
                                 <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Credit Period
+                                        Phone Number
                                     </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ data.creditPeriod }}</p>
+                                        <p class="col-form-label">{{ data.phoneNo }}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2" >
+
+                                <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                         Credit Limit
                                     </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ data.creditLimit }}</p>
+                                        <p class="col-form-label">₹ {{ data.creaditLimit }}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2" *ngIf="data.taxNo.length!">
+                                <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                         Tax Number
                                     </h5>
@@ -104,10 +105,10 @@
                                 </div>
                                 <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Total Due Amount
+                                        Shipping Address
                                     </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">₹ {{ purchaseTotalDueAmount }}</p>
+                                        <p class="col-form-label">{{ data.shippingAddress }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +123,8 @@
             <p-tabView>
                 <p-tabPanel header="Purchase">
                     <p-table [value]="purchaseDataShowById" styleClass="p-datatable-striped"
-                        [tableStyle]="{ 'min-width': '60rem' }">
+                        [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5"
+                        [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn="purchaseInvoiceNumber">
@@ -139,6 +141,9 @@
                                     Purchase Status
                                     <p-sortIcon field="purchaseOrderStatus"></p-sortIcon>
                                 </th>
+                                <th pSortableColumn="paymentStatus">
+                                    Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                                </th>
                                 <th pSortableColumn="paidAmount">
                                     Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                                     <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
@@ -153,9 +158,6 @@
                                     <p-columnFilter type="text" field="purchaseTotalAmount"
                                         display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="paymentStatus">
-                                    Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                                </th>
                                 <th>Action</th>
                             </tr>
                         </ng-template>
@@ -164,12 +166,16 @@
                                 <td>{{ purchase.purchaseInvoiceNumber }}</td>
                                 <td>{{ purchase.purchaseDate | date : "dd-MMM-yyyy"}}</td>
                                 <td>{{ purchase.purchaseOrderStatus }}</td>
+                                <td *ngIf="purchase.paymentStatus == 'Partial Paid'"><p-tag severity="danger"
+                                        value="Partial Paid"></p-tag></td>
+                                <td *ngIf="purchase.paymentStatus == 'Paid' "><p-tag severity="success"
+                                        value="Paid"></p-tag></td>
+                                <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="error"
+                                        value="Unpaid"></p-tag></td>
                                 <td>₹ {{ purchase.paidAmount }}</td>
                                 <td>₹ {{ purchase.dueAmount }}</td>
                                 <td>₹ {{ purchase.purchaseTotalAmount }}</td>
-                                <td>{{ purchase.paymentStatus }}</td>
                                 <td>
-                                <!-- <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px"> -->
                                     <p-button [text]="true" icon="fa-solid fa-eye"
                                         (click)="showInvoiceDialoge(purchase._id)"></p-button>
                                     <p-button *ngIf="
@@ -181,6 +187,17 @@
                                 </td>
                             </tr>
                         </ng-template>
+
+                        <ng-template pTemplate="footer">
+                            <tr>
+                              <td colspan="3"></td>
+                              <td>Total Amount</td>
+                              <td>₹ {{ getTotalPaidAmount('purchaseDataShowById') }}</td>
+                              <td>₹ {{ getTotalDuoAmount('purchaseDataShowById') }}</td>
+                              <td>₹ {{ getTotalAmount('purchaseDataShowById') }}</td>
+                              <td></td>
+                            </tr>
+                          </ng-template>
                     </p-table>
                 </p-tabPanel>
 
@@ -188,9 +205,14 @@
 
                 <p-tabPanel header="Payments Out">
                     <p-table [value]="paymentListDataBySupplierId" styleClass="p-datatable-striped"
-                        [tableStyle]="{ 'min-width': '60rem' }">
+                        [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5"
+                        [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">
                             <tr>
+                                <th pSortableColumn="purchaseInvoiceNumber">
+                                    Invoice No.<p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
+                                    <p-columnFilter type="text" field="purchaseInvoiceNumber" display="menu"></p-columnFilter>
+                                </th>
                                 <th pSortableColumn="transactionNo">
                                     Transaction No.<p-sortIcon field="transactionNo"></p-sortIcon>
                                     <p-columnFilter type="text" field="transactionNo" display="menu"></p-columnFilter>
@@ -199,32 +221,41 @@
                                     Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
                                     <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="amount">
-                                    Amount <p-sortIcon field="amount"></p-sortIcon>
-                                    <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
-                                </th>
                                 <th pSortableColumn="paymentMode">
                                     Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
                                     <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
+                                </th>
+                                <th pSortableColumn="amount">
+                                    Amount <p-sortIcon field="amount"></p-sortIcon>
+                                    <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
                                 </th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-payment>
                             <tr>
+                                <td class="bold">{{ payment.purchaseInvoiceNumber }}</td>
                                 <td class="bold">{{ payment.transactionNo }}</td>
                                 <td class="bold">
                                     {{ payment.paymentDate | date : "dd-MMM-yyyy" }}
                                 </td>
-                                <td>₹ {{ payment.amount }}</td>
                                 <td>{{ payment.paymentMode }}</td>
+                                <td>₹ {{ payment.amount }}</td>
                             </tr>
                         </ng-template>
+                        <ng-template pTemplate="footer">
+                            <tr>
+                              <td colspan="3"></td>
+                              <td>Total </td>
+                              <td>₹ {{ getTotalPaymentAmount('paymentListDataBySupplierId') }}</td>
+                            </tr>
+                          </ng-template>
                     </p-table>
                 </p-tabPanel>
-
+                <!-- ---- Purchase Return ------ -->
                 <p-tabPanel header="Purchase Return">
                     <p-table [value]="purchaseReturnDataShowById" styleClass="p-datatable-striped"
-                        [tableStyle]="{ 'min-width': '60rem' }">
+                        [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5"
+                        [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn="purchaseInvoiceNumber">
@@ -241,6 +272,9 @@
                                     Return Status
                                     <p-sortIcon field="purchaseReturnOrderStatus"></p-sortIcon>
                                 </th>
+                                <th pSortableColumn="paymentStatus">
+                                    Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                                </th>
                                 <th pSortableColumn="paidAmount">
                                     Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                                     <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
@@ -255,9 +289,6 @@
                                     <p-columnFilter type="text" field="purchaseReturnTotalAmount"
                                         display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="paymentStatus">
-                                    Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                                </th>
                                 <th>Action</th>
                             </tr>
                         </ng-template>
@@ -266,12 +297,18 @@
                                 <td>{{ purchase.purchaseInvoiceNumber.purchaseInvoiceNumber }}</td>
                                 <td>{{ purchase.returnDate | date : "dd-MMM-yyyy"}}</td>
                                 <td>{{ purchase.purchaseReturnOrderStatus }}</td>
+                                <!-- <td>{{ purchase.paymentStatus }}</td> -->
+                                <td *ngIf="purchase.paymentStatus == 'Partial Paid'"><p-tag severity="danger"
+                                    value="Partial Paid"></p-tag></td>
+                            <td *ngIf="purchase.paymentStatus == 'Paid' "><p-tag severity="success"
+                                    value="Paid"></p-tag></td>
+                            <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="error"
+                                    value="Unpaid"></p-tag></td>
                                 <td>₹ {{ purchase.paidAmount }}</td>
                                 <td>₹ {{ purchase.dueAmount }}</td>
                                 <td>₹ {{ purchase.purchaseReturnTotalAmount }}</td>
-                                <td>{{ purchase.paymentStatus }}</td>
                                 <td>
-                                <!-- <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px"> -->
+                                    <!-- <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px"> -->
                                     <p-button [text]="true" icon="fa-solid fa-eye"
                                         (click)="showReturnInvoiceDialoge(purchase._id)"></p-button>
                                     <p-button *ngIf="
@@ -284,6 +321,17 @@
                                 </td>
                             </tr>
                         </ng-template>
+
+                        <ng-template pTemplate="footer">
+                            <tr>
+                              <td colspan="3"></td>
+                              <td>Total </td>
+                              <td>₹ {{ getTotalPaidAmount('purchaseReturnDataShowById') }}</td>
+                              <td>₹ {{ getTotalDuoAmount('purchaseReturnDataShowById') }}</td>
+                              <td>₹ {{ getTotalAmount('purchaseReturnDataShowById') }}</td>
+                              <td></td>
+                            </tr>
+                          </ng-template>
                     </p-table>
                 </p-tabPanel>
 
@@ -291,9 +339,14 @@
 
                 <p-tabPanel header="Payments In">
                     <p-table [value]="paymentReturnDataListById" styleClass="p-datatable-striped"
-                        [tableStyle]="{ 'min-width': '60rem' }">
+                        [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5"
+                        [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">
                             <tr>
+                                <th pSortableColumn="purchaseInvoiceNumber">
+                                    Invoice No.<p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
+                                    <p-columnFilter type="text" field="purchaseInvoiceNumber" display="menu"></p-columnFilter>
+                                </th>
                                 <th pSortableColumn="transactionNo">
                                     Transaction No.<p-sortIcon field="transactionNo"></p-sortIcon>
                                     <p-columnFilter type="text" field="transactionNo" display="menu"></p-columnFilter>
@@ -302,26 +355,34 @@
                                     Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
                                     <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="amount">
-                                    Amount <p-sortIcon field="amount"></p-sortIcon>
-                                    <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
-                                </th>
                                 <th pSortableColumn="paymentMode">
                                     Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
                                     <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
+                                </th>
+                                <th pSortableColumn="amount">
+                                    Amount <p-sortIcon field="amount"></p-sortIcon>
+                                    <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
                                 </th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-payment>
                             <tr>
+                                <td class="bold">{{ payment.purchaseInvoiceNumber }}</td>
                                 <td class="bold">{{ payment.transactionNo }}</td>
                                 <td class="bold">
                                     {{ payment.paymentDate | date : "dd-MMM-yyyy" }}
                                 </td>
-                                <td>₹ {{ payment.amount }}</td>
                                 <td>{{ payment.paymentMode }}</td>
+                                <td>₹ {{ payment.amount }}</td>
                             </tr>
                         </ng-template>
+                        <ng-template pTemplate="footer">
+                            <tr>
+                              <td colspan="3"></td>
+                              <td>Total </td>
+                              <td>₹ {{ getTotalPaymentAmount('paymentReturnDataListById') }}</td>
+                            </tr>
+                          </ng-template>
                     </p-table>
                 </p-tabPanel>
             </p-tabView>
@@ -338,7 +399,7 @@
     [header]="header"></app-invoice-dialog>
 
 <app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataById]="paymentObject"
-    (callbackModal)="callBackModal()" (close)="close()"  [header]="header"></app-payments-invoice-dialog>
+    (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-payments-invoice-dialog>
 
 <!-- <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
     [data]="modalData"></app-confirm-dialog> -->
