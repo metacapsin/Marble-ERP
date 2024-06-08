@@ -62,7 +62,7 @@
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
-                                          {{ dataById.salesTotalAmount}}
+                                          ₹ {{ dataById.salesTotalAmount}}
                                         </p>
                                       </div>
                                     </div>
@@ -70,7 +70,7 @@
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
-                                          {{ dataById.salesTotalAmount}}
+                                          ₹ {{ dataById.salesTotalAmount}}
                                         </p>
                                       </div>
                                     </div>
@@ -80,7 +80,7 @@
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
-                                          {{ dataById.purchaseTotalAmount}}
+                                          ₹ {{ dataById.purchaseTotalAmount}}
                                         </p>
                                       </div>
                                     </div>
@@ -88,7 +88,7 @@
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
-                                          {{ dataById.purchaseReturnTotalAmount}}
+                                          ₹ {{ dataById.purchaseReturnTotalAmount}}
                                         </p>
                                       </div>
                                     </div>
@@ -98,7 +98,7 @@
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
-                                          {{ dataById.salesDueAmount}}
+                                          ₹ {{ dataById.salesDueAmount}}
                                         </p>
                                       </div>
                                     </div>
@@ -106,7 +106,7 @@
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
-                                          {{ dataById.salesDueAmount}}
+                                          ₹ {{ dataById.salesDueAmount}}
                                         </p>
                                       </div>
                                     </div>
@@ -116,7 +116,7 @@
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
-                                          {{ dataById.purchaseDueAmount}}
+                                          ₹ {{ dataById.purchaseDueAmount}}
                                         </p>
                                       </div>
                                     </div>
@@ -124,7 +124,7 @@
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
-                                          {{ dataById.purchaseDueAmount}}
+                                          ₹ {{ dataById.purchaseDueAmount}}
                                         </p>
                                       </div>
                                     </div>
@@ -172,35 +172,35 @@
                                 <input type="number" formControlName="totalAmount" class="form-control">
                               </div>
                               <span style="color: #97704f; font-size: 12px; 
-                              " *ngIf="dataById.isSales">Max Value : {{dataById.salesDueAmount}}</span>
+                              " *ngIf="dataById.isSales">Max Value : ₹ {{dataById.salesDueAmount}}</span>
                               <div
                                 *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
                                 <span class="login-danger"  *ngIf="dataById.isSales">Amount cannot be greater than the
-                                  {{dataById.salesDueAmount}}.</span>
+                                  ₹ {{dataById.salesDueAmount}}.</span>
                               </div>
 
                               <span style="color: #97704f; font-size: 12px; 
-                              " *ngIf="dataById.isSalesReturn">Max Value : {{dataById.salesDueAmount}}</span>
+                              " *ngIf="dataById.isSalesReturn">Max Value : ₹ {{dataById.salesDueAmount}}</span>
                               <div
                                 *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
                                 <span class="login-danger"  *ngIf="dataById.isSalesReturn">Amount cannot be greater than the
-                                  {{dataById.salesDueAmount}}.</span>
+                                  ₹ {{dataById.salesDueAmount}}.</span>
                               </div>
 
                               <span style="color: #97704f; font-size: 12px; 
-                              " *ngIf="dataById.isPurchase">Max Value : {{dataById.purchaseDueAmount}}</span>
+                              " *ngIf="dataById.isPurchase">Max Value : ₹ {{dataById.purchaseDueAmount}}</span>
                               <div
                                 *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
                                 <span class="login-danger"  *ngIf="dataById.isPurchase">Amount cannot be greater than the
-                                  {{dataById.purchaseDueAmount}}.</span>
+                                  ₹ {{dataById.purchaseDueAmount}}.</span>
                               </div>
 
                               <span style="color: #97704f; font-size: 12px; 
-                              " *ngIf="dataById.isPurchaseReturn">Max Value : {{dataById.purchaseDueAmount}}</span>
+                              " *ngIf="dataById.isPurchaseReturn">Max Value : ₹ {{dataById.purchaseDueAmount}}</span>
                               <div
                                 *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
                                 <span class="login-danger"  *ngIf="dataById.isPurchaseReturn">Amount cannot be greater than the
-                                  {{dataById.purchaseDueAmount}}.</span>
+                                  ₹ {{dataById.purchaseDueAmount}}.</span>
                               </div>
                               <div
                                 *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('required') && paymentInvoiceForm.get('totalAmount')?.touched">

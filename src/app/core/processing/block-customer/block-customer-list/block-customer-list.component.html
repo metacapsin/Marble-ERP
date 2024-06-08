@@ -83,7 +83,7 @@
                                     </td>
                                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag>
                                     </td>
-                                    <td>{{product.createdOn | date: 'dd-MM-yyyy'}}</td>
+                                    <td>{{product.createdOn | date: 'dd-MMM-yyyy'}}</td>
                                     <td>{{product.openingBalance}}</td>
                                     <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
 

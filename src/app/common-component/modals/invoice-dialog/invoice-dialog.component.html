@@ -78,39 +78,39 @@
                           <div class="form-group row mb-2" *ngIf="sales.salesDate">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Sales Date:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.salesDate}}</p>
+                              <p class="col-lg-9 col-form-label">{{sales.salesDate | date: "dd-MMM-yyyy"}}</p>
                             </div>
                           </div>
                           <div class="form-group row mb-2" *ngIf="sales.purchaseDate">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Purchase Date:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.purchaseDate}}</p>
+                              <p class="col-lg-9 col-form-label">{{sales.purchaseDate | date: "dd-MMM-yyyy"}}</p>
                             </div>
                           </div>
                           <!-- Conditionally display returnDate if it exists -->
                           <div *ngIf="sales.returnDate" class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Date:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-form-label">{{ sales.returnDate }}</p>
+                              <p class="col-form-label">{{ sales.returnDate | date: "dd-MMM-yyyy"}}</p>
                             </div>
                           </div>
                           <div *ngIf="sales.purchaseReturnDate" class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Date:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-form-label">{{ sales.purchaseReturnDate }}</p>
+                              <p class="col-form-label">{{ sales.purchaseReturnDate | date: "dd-MMM-yyyy"}}</p>
                             </div>
                           </div>
 
                           <div class="form-group row mb-2" *ngIf="sales.paidAmount">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.paidAmount}}</p>
+                              <p class="col-lg-9 col-form-label">₹ {{sales.paidAmount}}</p>
                             </div>
                           </div>
                           <div class="form-group row mb-2" *ngIf="sales.dueAmount">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">{{sales.dueAmount}}</p>
+                              <p class="col-lg-9 col-form-label">₹ {{sales.dueAmount}}</p>
                             </div>
                           </div>
                           <div class="form-group row mb-2" *ngIf="sales.purchaseType">
@@ -269,7 +269,7 @@
                       <ng-template pTemplate="body" let-payment>
                         <tr>
                           <td class="bold">{{payment.transactionNo}}</td>
-                          <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
+                          <td class="bold">{{payment.paymentDate | date: 'dd-MMM-yyyy'}}</td>
                           <td>₹ {{payment.amount}}</td>
                           <td>{{payment.paymentMode}}</td>
                         </tr>

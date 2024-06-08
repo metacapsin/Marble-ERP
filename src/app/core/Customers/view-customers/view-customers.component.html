@@ -35,7 +35,7 @@
               </a>
             </li>
             <li>
-              Created On: {{data.createdOn | date: "dd-MM-yyyy"}}
+              Created On: {{data.createdOn | date: "dd-MMM-yyyy"}}
             </li>
           </ul>
         </div>
@@ -163,7 +163,7 @@
             <ng-template pTemplate="body" let-sales>
               <tr>
                 <td>{{ sales.salesInvoiceNumber }}</td>
-                <td>{{ sales.salesDate }}</td>
+                <td>{{ sales.salesDate | date: "dd-MMM-yyyy" }}</td>
                 <td>{{ sales.salesOrderStatus }}</td>
                 <td>₹ {{ sales.paidAmount }}</td>
                 <td>₹ {{ sales.dueAmount }}</td>
@@ -209,7 +209,7 @@
               <tr>
                 <td class="bold">{{ payment.transactionNo }}</td>
                 <td class="bold">
-                  {{ payment.paymentDate }}
+                  {{ payment.paymentDate | date: "dd-MMM-yyyy"}}
                 </td>
                 <td>₹ {{ payment.amount }}</td>
                 <td>{{ payment.paymentMode }}</td>
@@ -260,7 +260,7 @@
             <ng-template pTemplate="body" let-sales>
               <tr>
                 <td>{{ sales.salesInvoiceNumber }}</td>
-                <td>{{ sales.returnDate }}</td>
+                <td>{{ sales.returnDate | date: "dd-MMM-yyyy"}}</td>
                 <td>{{ sales.returnOrderStatus }}</td>
                 <td>₹ {{ sales.paidAmount }}</td>
                 <td>₹ {{ sales.dueAmount }}</td>
@@ -308,7 +308,7 @@
               <tr>
                 <td class="bold">{{ payment.transactionNo }}</td>
                 <td class="bold">
-                  {{ payment.paymentDate }}
+                  {{ payment.paymentDate | date: "dd-MMM-yyyy"}}
                 </td>
                 <td>₹ {{ payment.amount }}</td>
                 <td>{{ payment.paymentMode }}</td>

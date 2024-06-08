@@ -32,7 +32,7 @@
                                 <i class="fa fa-chevron-left"></i> Back to Supplier List
                             </a>
                         </li>
-                        <li>Created On: {{ data.createdOn | date : "dd-MM-yyyy" }}</li>
+                        <li>Created On: {{ data.createdOn | date : "dd-MMM-yyyy" }}</li>
                     </ul>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                                         Total Due Amount
                                     </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ purchaseTotalDueAmount }}</p>
+                                        <p class="col-form-label">₹ {{ purchaseTotalDueAmount }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -162,7 +162,7 @@
                         <ng-template pTemplate="body" let-purchase>
                             <tr>
                                 <td>{{ purchase.purchaseInvoiceNumber }}</td>
-                                <td>{{ purchase.purchaseDate }}</td>
+                                <td>{{ purchase.purchaseDate | date : "dd-MMM-yyyy"}}</td>
                                 <td>{{ purchase.purchaseOrderStatus }}</td>
                                 <td>₹ {{ purchase.paidAmount }}</td>
                                 <td>₹ {{ purchase.dueAmount }}</td>
@@ -213,7 +213,7 @@
                             <tr>
                                 <td class="bold">{{ payment.transactionNo }}</td>
                                 <td class="bold">
-                                    {{ payment.paymentDate | date : "dd-MM-yyyy" }}
+                                    {{ payment.paymentDate | date : "dd-MMM-yyyy" }}
                                 </td>
                                 <td>₹ {{ payment.amount }}</td>
                                 <td>{{ payment.paymentMode }}</td>
@@ -264,7 +264,7 @@
                         <ng-template pTemplate="body" let-purchase>
                             <tr>
                                 <td>{{ purchase.purchaseInvoiceNumber.purchaseInvoiceNumber }}</td>
-                                <td>{{ purchase.returnDate }}</td>
+                                <td>{{ purchase.returnDate | date : "dd-MMM-yyyy"}}</td>
                                 <td>{{ purchase.purchaseReturnOrderStatus }}</td>
                                 <td>₹ {{ purchase.paidAmount }}</td>
                                 <td>₹ {{ purchase.dueAmount }}</td>
@@ -316,7 +316,7 @@
                             <tr>
                                 <td class="bold">{{ payment.transactionNo }}</td>
                                 <td class="bold">
-                                    {{ payment.paymentDate | date : "dd-MM-yyyy" }}
+                                    {{ payment.paymentDate | date : "dd-MMM-yyyy" }}
                                 </td>
                                 <td>₹ {{ payment.amount }}</td>
                                 <td>{{ payment.paymentMode }}</td>

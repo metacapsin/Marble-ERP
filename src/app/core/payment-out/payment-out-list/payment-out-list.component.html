@@ -76,7 +76,7 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-payment>
                                 <tr>
-                                    <td class="bold">{{payment.paymentDate | date: 'dd-MM-yyyy'}}</td>
+                                    <td class="bold">{{payment.paymentDate | date: 'dd-MMM-yyyy'}}</td>
                                     <td class="bold">{{payment.supplier.name}}</td>
                                     <td>{{payment.paymentMode}}</td>
                                     <td>{{payment.amount}}</td>
