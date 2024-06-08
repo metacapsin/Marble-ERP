@@ -31,13 +31,13 @@
                                     <!-- <li><a [routerLink]="routes.paidPurchaseReturn">Paid</a></li>
                     <li><a [routerLink]="routes.unpaidPurchaseReturn">Unpaid</a></li> -->
                                 </ul>
-                            </div>
+                         </div>
                         </div>
                         <div class="col-lg-4 col-md-4">
                             <div class="invoices-settings-btn">
                                 <a [routerLink]="routes.addPurchaseReturn" class="btn">
                                     <i class="feather icon-plus-circle feather-circle me-2"></i>
-                                    purchase-return
+                                    Purchase Return
                                 </a>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
                                             .purchaseInvoiceNumber
                                             }}
                                         </td>
-                                        <td>{{ purchaseReturn.returnDate }}</td>
+                                        <td>{{ purchaseReturn.returnDate | date: 'dd-MMM-yyyy'}}</td>
                                         <td>{{ purchaseReturn.supplier.name }}</td>
                                         <td>{{ purchaseReturn.purchaseReturnOrderStatus }}</td>
                                         <!-- <td>{{ purchaseReturn.Status }}</td> -->

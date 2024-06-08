@@ -161,7 +161,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data>
                                     <tr>
-                                        <td>{{ data.paymentDate }}</td>
+                                        <td>{{ data.paymentDate | date: 'dd-MMM-yyyy'}}</td>
                                         <td>{{ data.transactionNo }}</td>
                                         <td>{{ data.source }}</td>
                                         <td *ngIf="data.customer">{{ data?.customer.name }}</td>

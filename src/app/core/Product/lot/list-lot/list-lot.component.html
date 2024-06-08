@@ -96,7 +96,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-lot>
                                     <tr>
-                                        <td>{{lot.date}}</td>
+                                        <td>{{lot.date | date: 'dd-MMM-yyyy'}}</td>
                                         <td>{{lot.lotName}}</td>
                                         <td>{{lot.lotNo}}</td>
                                         <td>{{lot.lotWeight}}</td>

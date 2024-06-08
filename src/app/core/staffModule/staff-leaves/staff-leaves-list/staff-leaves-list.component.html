@@ -81,8 +81,8 @@
                 <tr>
                                   <td>{{leave.employee.name}}</td>
                                   <td>{{leave.leaveType}}</td>
-                                  <td>{{leave.from}}</td>
-                                  <td>{{leave.to}}</td>
+                                  <td>{{leave.from | date: 'dd-MMM-yyyy'}}</td>
+                                  <td>{{leave.to | date: 'dd-MMM-yyyy'}}</td>
                                   <td>{{leave.noOfDay}}</td>
                                   <td>{{leave.leaveReason}}</td>
                   <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">

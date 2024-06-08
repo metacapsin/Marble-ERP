@@ -124,7 +124,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data>
                                     <tr>
-                                        <td>{{ data.date }}</td>
+                                        <td>{{ data.date | date: 'dd-MMM-yyyy'}}</td>
                                         <td>{{ data.categoryDetails.name }}</td>
                                         <td>₹ {{ data.amount }}</td>
                                     </tr>

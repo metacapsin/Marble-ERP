@@ -120,7 +120,7 @@
                         <ng-template pTemplate="body" let-purchase>
                             <tr>
                                 <td>{{purchase.purchaseInvoiceNumber}}</td>
-                                <td>{{purchase.purchaseDate}}</td>
+                                <td>{{purchase.purchaseDate | date: 'dd-MMM-yyyy'}}</td>
                                 <td>{{purchase.purchaseOrderStatus}}</td>
                                 <td>₹ {{purchase.paidAmount}}</td>
                                 <td>₹ {{purchase.dueAmount}}</td>

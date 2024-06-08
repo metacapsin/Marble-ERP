@@ -82,7 +82,7 @@
               <ng-template pTemplate="body" let-sales>
                 <tr>
                   <td>{{sales.salesInvoiceNumber}}</td>
-                  <td>{{sales.returnDate}}</td>
+                  <td>{{sales.returnDate | date: 'dd-MMM-yyyy'}}</td>
                   <td>{{sales.customer.name}}</td>
                   <td>{{sales.returnOrderStatus}}</td>
                   <td>₹ {{sales.paidAmount}}</td>
