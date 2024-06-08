@@ -30,7 +30,6 @@ export class StaffAddComponent {
   public selectedValue!: string;
   maxDate = new Date();
   Designation = [
-    { value: "Select  Designation" },
     { value: "Labor" },
     { value: "Gaurd" },
     { value: "Accountant" },
@@ -40,14 +39,22 @@ export class StaffAddComponent {
   ];
   warehouseData = [];
   personNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
-  // personNameRegex = /^(?! )[A-Za-z]{3,15}(?: [A-Za-z]{3,15})?$/;
+  phoneRegex = /^[0-9]{10}$/;
+  emailRegex: string = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  pinRegex = /^\d{6}$/;
+  upiIdRegex = /^[a-zA-Z0-9.-]{2, 256}@[a-zA-Z][a-zA-Z]{2, 64}$/;
+  // upiIdRegex = /[a-zA-Z0-9.\-_]{2,49}@[a-zA-Z._]{2,49}/;
+
+  password= /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@])[A-Za-z\d@]{8,16}$/;
   AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
   AccountNumberRegex = /^[0-9]{14}$/;
-  phoneRegex = /^[0-9]{10}$/;
+
+  accountHolderRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,20}$/;
+
+
   IfscCodeRegex = /^[0-9]{11}$/;
-  pinRegex = /^\d{6}$/;
-  emailRegex: string =
-    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+  addressRegex = /^(?!\s)(?:.{3,500})$/;
+
   constructor(
     private fb: FormBuilder,
     private service: staffService,
@@ -56,7 +63,7 @@ export class StaffAddComponent {
     private warehouseService: WarehouseService
   ) {
     this.addStaffForm = this.fb.group({
-      upiId: ["", [Validators.pattern(this.personNameRegex)]],
+      upiId: ["", [Validators.pattern(this.upiIdRegex)]],
       dateOfBirth: ["", Validators.required],
       warehouseDetails: ["", Validators.required],
       firstName: [
@@ -71,10 +78,10 @@ export class StaffAddComponent {
       email: ["", [Validators.pattern(this.emailRegex)]],
       pincode: ["", [Validators.required, Validators.pattern(this.pinRegex)]],
       designation: ["", [Validators.required]],
-      city: ["", [Validators.required, Validators.pattern(this.AddressRegex)]],
+      city: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       address: ["", [Validators.pattern(this.AddressRegex)]],
-      bankName: ["", [Validators.pattern(this.AddressRegex)]],
-      accountName: ["", [Validators.pattern(this.AddressRegex)]],
+      bankName: ["", [Validators.pattern(this.personNameRegex)]],
+      accountName: ["", [Validators.pattern(this.accountHolderRegex)]],
       accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
       ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
     });
@@ -103,9 +110,7 @@ export class StaffAddComponent {
       accountName: formData.accountName,
       accountNumber: formData.accountNumber,
       ifscCode: formData.ifscCode,
-      address: formData.address,
-
-      
+      address: formData.address,      
     };
     if (this.addStaffForm.valid) {
       console.log("Form is valid", this.addStaffForm.value);

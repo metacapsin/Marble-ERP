@@ -98,7 +98,7 @@ export class ViewCustomersComponent implements OnInit {
         this.salesDataShowById = resp.data;
         // console.log("sales Data by customer id ",this.salesDataShowById);
         resp.data.forEach((e) => {
-          this.salesTotalDueAmount += e.dueAmount;
+          this.salesTotalDueAmount += Number(e.dueAmount);
           console.log("this is total due amount of this customer",e.dueAmount);
         });
       });

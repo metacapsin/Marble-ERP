@@ -62,7 +62,7 @@
                                         <div *ngIf="addStaffForm.get('lastName')?.hasError('required') && addStaffForm.get('lastName')?.touched"
                                             class="login-danger Font_size">Field is required.</div>
                                         <div *ngIf="addStaffForm.get('lastName')?.hasError('pattern') && addStaffForm.get('lastName')?.touched"
-                                            class="login-danger Font_size">Input must be between 3 to 15 alphanumeric.
+                                            class="login-danger Font_size">Input must be between 3 to 15 characters.
                                         </div>
                                     </div>
                                 </div>
@@ -70,8 +70,8 @@
                                     <div class="form-group local-forms">
                                         <label for="dateOfBirth">Date of birth <span
                                                 class="login-danger">*</span></label>
-                                        <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                            placeholder="mm/dd/yyyy" [styleClass]="'col-12'"
+                                        <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body"
+                                            dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"
                                             formControlName="dateOfBirth"></p-calendar>
                                         <div *ngIf="
                         addStaffForm.get('dateOfBirth')?.hasError('required') &&
@@ -85,7 +85,7 @@
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label for="mobile">Mobile <span class="login-danger">*</span></label>
-                                        <input class="form-control" formControlName="mobile" type="text" />
+                                        <input class="form-control" formControlName="mobile" type="number" />
                                         <div *ngIf="
                         addStaffForm.get('mobile')?.hasError('required') &&
                         addStaffForm.get('mobile')?.touched
@@ -96,7 +96,7 @@
                         addStaffForm.get('mobile')?.hasError('pattern') &&
                         addStaffForm.get('mobile')?.touched
                       " class="login-danger Font_size">
-                                            Input must be between 1 to 10 Digit.
+                                            Input must be 10 Digit.
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@
                                         <div *ngIf="addStaffForm.get('city')?.hasError('required') && addStaffForm.get('city')?.touched"
                                             class="login-danger Font_size">Field is required.</div>
                                         <div *ngIf="addStaffForm.get('city')?.hasError('pattern') && addStaffForm.get('city')?.touched"
-                                            class="login-danger Font_size">Input must be between 3 to 15 alphanumeric.
+                                            class="login-danger Font_size">Input must be between 3 to 15 characters.
                                         </div>
                                     </div>
                                 </div>
@@ -177,7 +177,7 @@
                                         <label for="upiId">UPI ID</label>
                                         <input class="form-control" formControlName="upiId" type="text" />
                                         <div *ngIf="addStaffForm.get('upiId')?.hasError('pattern') && addStaffForm.get('upiId')?.touched"
-                                            class="login-danger Font_size">Input must be between 3 to 100 alphanumeric.
+                                            class="login-danger Font_size">Input must be between 3 to 50 characters.
                                         </div>
                                     </div>
                                 </div>
@@ -186,7 +186,7 @@
                                         <label for="bankName">Bank Name </label>
                                         <input class="form-control" formControlName="bankName" type="text" />
                                         <div *ngIf="addStaffForm.get('bankName')?.hasError('pattern') && addStaffForm.get('bankName')?.touched"
-                                            class="login-danger Font_size">Input must be between 3 to 100 alphanumeric.
+                                            class="login-danger Font_size">Input must be between 3 to 100 characters.
                                         </div>
                                     </div>
                                 </div>
@@ -195,7 +195,7 @@
                                         <label for="accountName">Account Holder Name</label>
                                         <input class="form-control" formControlName="accountName" type="text" />
                                         <div *ngIf="addStaffForm.get('accountName')?.hasError('pattern') && addStaffForm.get('accountName')?.touched"
-                                            class="login-danger Font_size">Input must be between 3 to 100 alphanumeric.
+                                            class="login-danger Font_size">Input must be between 3 to 20 characters.
                                         </div>
                                     </div>
                                 </div>
@@ -212,7 +212,7 @@
                                         <label for="ifscCode">IFSC Code </label>
                                         <input class="form-control" formControlName="ifscCode" type="text" />
                                         <div *ngIf="addStaffForm.get('ifscCode')?.hasError('pattern') && addStaffForm.get('ifscCode')?.touched"
-                                            class="login-danger Font_size">Input must be 11 alphanumeric.</div>
+                                            class="login-danger Font_size">Input must be 11 characters.</div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-xl-4">
@@ -221,7 +221,7 @@
                                         <textarea class="form-control" formControlName="address" rows="1"
                                             cols="30"></textarea>
                                         <div *ngIf="addStaffForm.get('address')?.hasError('pattern') && addStaffForm.get('address')?.touched"
-                                            class="login-danger Font_size">Input must be between 3 to 100 alphanumeric.
+                                            class="login-danger Font_size">Input must be between 3 to 100 characters.
                                         </div>
                                     </div>
                                 </div>
