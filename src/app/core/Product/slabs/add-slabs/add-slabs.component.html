@@ -212,18 +212,22 @@
                         </div>
                         <input class="form-control" type="number" placeholder="Enter Width" formControlName="width" />
                       </div>
+
                       <div *ngIf="
-                            slabsAddForm.get('width')?.hasError('min') &&
-                            slabsAddForm.get('width')?.touched
-                          ">
-                        <span class="login-danger">Input must be at least 0.</span>
-                      </div>
-                      <!-- <div *ngIf="
-                            slabsAddForm.get('width')?.hasError('pattern') &&
-                            slabsAddForm.get('width')?.touched
-                          ">
-                          <span class="login-danger">Input must be at least 3 to 15</span>
-                        </div> -->
+                                      (slabsAddForm
+                                      .get('width')
+                                      ?.hasError('min') &&
+                                      slabsAddForm.get('width')
+                                          ?.touched) ||
+                                      (slabsAddForm
+                                      .get('width')
+                                      ?.hasError('max') &&
+                                      slabsAddForm.get('width')?.touched)
+                                  ">
+                                <span class="login-danger">
+                                  input must be between 1 and 100,000.
+                                </span>
+                              </div>
                     </div>
                   </div>
 
@@ -236,18 +240,22 @@
                         </div>
                         <input class="form-control" type="number" placeholder="Enter Length" formControlName="length" />
                       </div>
+
                       <div *ngIf="
-                            slabsAddForm.get('length')?.hasError('min') &&
-                            slabsAddForm.get('length')?.touched
-                          ">
-                        <span class="login-danger">Input must be at least 0.</span>
-                      </div>
-                      <!-- <div *ngIf="
-                            slabsAddForm.get('length')?.hasError('pattern') &&
-                            slabsAddForm.get('length')?.touched
-                          ">
-                          <span class="login-danger">Input must be at least 3 to 15</span>
-                        </div> -->
+                                      (slabsAddForm
+                                      .get('length')
+                                      ?.hasError('min') &&
+                                      slabsAddForm.get('length')
+                                          ?.touched) ||
+                                      (slabsAddForm
+                                      .get('length')
+                                      ?.hasError('max') &&
+                                      slabsAddForm.get('length')?.touched)
+                                  ">
+                                <span class="login-danger">
+                                  input must be between 1 and 100,000.
+                                </span>
+                              </div>
                     </div>
                   </div>
 
@@ -256,18 +264,22 @@
                       <label for="thickness">Thickness(mm)<span class="login-danger"></span></label>
                       <input class="form-control" type="number" placeholder="Enter Thickness"
                         formControlName="thickness" />
-                      <div *ngIf="
-                            slabsAddForm.get('thickness')?.hasError('min') &&
-                            slabsAddForm.get('thickness')?.touched
-                          ">
-                        <span class="login-danger">Input must be at least 0.</span>
-                      </div>
-                      <!-- <div *ngIf="
-                            slabsAddForm.get('thickness')?.hasError('pattern') &&
-                            slabsAddForm.get('thickness')?.touched
-                          ">
-                          <span class="login-danger">Input must be at least 3 to 15</span>
-                        </div> -->
+
+                        <div *ngIf="
+                        (slabsAddForm
+                        .get('thickness')
+                        ?.hasError('min') &&
+                        slabsAddForm.get('thickness')
+                            ?.touched) ||
+                        (slabsAddForm
+                        .get('thickness')
+                        ?.hasError('max') &&
+                        slabsAddForm.get('thickness')?.touched)
+                    ">
+                  <span class="login-danger">
+                    input must be between 1 and 100,000.
+                  </span>
+                </div>
                     </div>
                   </div>
 
@@ -354,10 +366,18 @@
                                   formControlName="totalSQFT" (change)="calculateTotalAmount()" />
                               </div>
                               <div *ngIf="
-                                        slabsAddForm.get('totalSQFT')?.hasError('min') &&
-                                        slabsAddForm.get('totalSQFT')?.touched
-                                      ">
-                                <span class="login-danger">Input must be at least 0.
+                                      (slabsAddForm
+                                      .get('totalSQFT')
+                                      ?.hasError('min') &&
+                                      slabsAddForm.get('totalSQFT')
+                                          ?.touched) ||
+                                      (slabsAddForm
+                                      .get('totalSQFT')
+                                      ?.hasError('max') &&
+                                      slabsAddForm.get('totalSQFT')?.touched)
+                                  ">
+                                <span class="login-danger">
+                                  input must be between 1 and 100,000.
                                 </span>
                               </div>
                             </div>
@@ -518,18 +538,20 @@
                           <p>
                             Total Costing<span>₹
                               {{
-                                slabsAddForm.get("totalCosting")?.value ? (slabsAddForm.get("totalCosting").value | number: "1.2-2") : 0
+                              slabsAddForm.get("totalCosting")?.value ? (slabsAddForm.get("totalCosting").value |
+                              number: "1.2-2") : 0
                               }}
                             </span>
                           </p>
                           <p>
                             Per Square Feet Cost<span>₹
                               {{
-                                slabsAddForm.get("costPerSQFT")?.value ? (slabsAddForm.get("costPerSQFT").value | number: "1.2-2") : 0
+                              slabsAddForm.get("costPerSQFT")?.value ? (slabsAddForm.get("costPerSQFT").value | number:
+                              "1.2-2") : 0
                               }}
                             </span>
                           </p>
-                          
+
                           <!-- <p>
                               Discount<span>₹
                                 {{

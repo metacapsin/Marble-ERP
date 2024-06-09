@@ -53,6 +53,7 @@ export class AddSlabsComponent {
   subCategoryList: any = [];
   wareHousedataArray: any;
   billingAddressRegex = /^(?!\s)(?:.{3,15})$/;
+  LWTSQ = /^[a-zA-Z0-9]{1,100000}$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   shortNameRegex =
@@ -131,9 +132,9 @@ export class AddSlabsComponent {
       costPerSQFT: [""],
       date: ["", [Validators.required]],
       purchaseCost: ["", [Validators.required]],
-      thickness: ["", [Validators.min(1)]],
-      width: ["", [Validators.min(1)]],
-      length: ["", [Validators.min(1)]],
+      thickness: ["", [Validators.min(1), Validators.max(100000)]],
+      width: ["", [Validators.min(1), Validators.max(100000)]],
+      length: ["", [Validators.min(1), Validators.max(100000)]],
       finishes: ["", [Validators.required]],
     });
   }
