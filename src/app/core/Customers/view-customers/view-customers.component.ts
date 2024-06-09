@@ -91,8 +91,12 @@ export class ViewCustomersComponent implements OnInit {
 
   getTotalPaidAmount(arrayProperty: 'salesDataShowById' | 'salesReturnDataShowById'): number {
     const arrayToUse = this[arrayProperty];
+    if (!arrayToUse || !Array.isArray(arrayToUse) || arrayToUse.length === 0) {
+      return 0;
+    }
     return arrayToUse.reduce((total, payment) => total + Number(payment.paidAmount), 0);
   }
+  
   getTotalDuoAmount(arrayProperty: 'salesDataShowById' | 'salesReturnDataShowById'): number {
     const arrayToUse = this[arrayProperty];
 

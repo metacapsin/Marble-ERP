@@ -42,7 +42,6 @@ export class AddsalesComponent implements OnInit {
   originalCustomerData = [];
   slabList = [];
   slabData = [];
-  subCategoryList = [];
   orderStatusList = [
     { orderStatus: "Ordered" },
     { orderStatus: "Confirmed" },
@@ -50,12 +49,9 @@ export class AddsalesComponent implements OnInit {
     { orderStatus: "Shipping" },
     { orderStatus: "Delivered" },
   ];
-  unitListData = [];
   orderTaxList = [];
   taxesListData = [];
-  customerById = {};
   public itemDetails: number[] = [0];
-  isSalesItemUnitPriceDisabled: boolean = false;
   maxQuantity : number;
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
@@ -68,7 +64,6 @@ export class AddsalesComponent implements OnInit {
     private salesService: SalesService,
     private customerService: CustomersdataService,
     private slabService: SlabsService,
-    private subCategoriesService: SubCategoriesService,
     private taxService: TaxesService,
     private fb: FormBuilder
   ) {
@@ -133,7 +128,7 @@ export class AddsalesComponent implements OnInit {
           billingAddress: element.billingAddress,
         },
       }));
-    });
+    }); 
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
@@ -164,7 +159,7 @@ export class AddsalesComponent implements OnInit {
     const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
     const maxQuantityPriceControl = salesItemDetailsArray.at(i)?.get("maxQuantity");
     if (salesItemUnitPriceControl) {
-      salesItemUnitPriceControl.setValue(value.sellingPricePerSQFT);
+      salesItemUnitPriceControl.patchValue(value.sellingPricePerSQFT);
       console.log("totalSQFT", value);
       this.calculateTotalAmount();
     }

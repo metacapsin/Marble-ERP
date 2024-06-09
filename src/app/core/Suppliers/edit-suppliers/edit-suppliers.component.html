@@ -44,24 +44,8 @@
                   </div>
   
                   <div class="row">
-                    <!-- <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="wareHouse">Warehouse <span class="login-danger">*</span></label>
-                        <p-multiSelect [style]="{ width: '100%' }" placeholder="--Select Warehouse--"
-                          [options]="wareHousedata" formControlName="wareHouse" optionLabel="name" optionValue="_id"
-                          display="chip" [showClear]="true"></p-multiSelect>
-                        <div *ngIf="
-                            editSupplierGroup
-                              .get('wareHouse')
-                              ?.hasError('required') &&
-                            editSupplierGroup.get('wareHouse')?.touched
-                          " class="login-danger Font_size">
-                          Field is required.
-                        </div>
-                      </div>
-                    </div> -->
   
-                    <div class="col-12 col-md-4 col-xl-4">
+                    <div class="col-12 col-md-6 col-xl-6">
                       <div class="form-group local-forms">
                         <label for="name">Name<span class="login-danger">*</span></label>
                         <input class="form-control" type="text" placeholder="Please Enter Name" formControlName="name" />
@@ -80,7 +64,7 @@
                       </div>
                     </div>
   
-                    <div class="col-12 col-md-4 col-xl-4">
+                    <div class="col-12 col-md-6 col-xl-6">
                       <div class="form-group local-forms">
                         <label for="phoneNumber">Phone Number<span class="login-danger">*</span></label>
                         <input class="form-control" type="number" placeholder="Please Enter Phone Number"
@@ -104,17 +88,11 @@
                       </div>
                     </div>
   
-                    <div class="col-12 col-md-4 col-xl-4">
+                    <div class="col-12 col-md-6 col-xl-6">
                       <div class="form-group local-forms">
-                        <label for="Email">Email<span class="login-danger">*</span></label>
+                        <label for="Email">Email</label>
                         <input class="form-control" type="email" placeholder="Please Enter Email"
                           formControlName="email" />
-                        <div *ngIf="
-                            editSupplierGroup.get('email')?.hasError('required') &&
-                            editSupplierGroup.get('email')?.touched
-                          " class="login-danger Font_size">
-                          Field is required.
-                        </div>
                         <div *ngIf="
                             editSupplierGroup.get('email')?.hasError('pattern') &&
                             editSupplierGroup.get('email')?.touched
@@ -124,7 +102,7 @@
                       </div>
                     </div>
 
-                    <div class="col-12 col-md-4 col-xl-4">
+                    <div class="col-12 col-md-6 col-xl-6">
                       <div class="form-group local-forms">
                         <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
                         <input class="form-control" type="text" placeholder="Please Enter Tex Number"
@@ -140,19 +118,7 @@
                       </div>
                     </div>
   
-                    <!-- <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="openingBalance">Opening Balance<span class="login-danger"></span></label>
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">₹</span>
-                          </div>
-                          <input class="form-control" type="number" placeholder="0" formControlName="openingBalance" />
-                        </div>
-                      </div>
-                    </div> -->
-  
-                    <div class="col-12 col-md-4 col-xl-4">
+                    <div class="col-12 col-md-6 col-xl-6">
                       <div class="form-group local-forms">
                         <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
                         <div class="input-group">
@@ -180,7 +146,7 @@
                       </div>
                     </div>
   
-                    <div class="col-12 col-md-4 col-xl-4">
+                    <div class="col-12 col-md-6 col-xl-6">
                       <div class="form-group local-forms">
                         <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
                         <div class="input-group">
@@ -212,7 +178,7 @@
                       <div class="form-group local-forms">
                         <label for="billingAddress">Billing Address</label>
                         <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
-                          formControlName="billingAddress" rows="3"></textarea>
+                          formControlName="billingAddress" rows="5"></textarea>
   
                         <div *ngIf="
                             editSupplierGroup
@@ -229,7 +195,7 @@
                       <div class="form-group local-forms">
                         <label for="shippingAddress">Shipping Address</label>
                         <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
-                          formControlName="shippingAddress" rows="3"></textarea>
+                          formControlName="shippingAddress" rows="5"></textarea>
   
                         <div *ngIf="
                             editSupplierGroup

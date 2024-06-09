@@ -48,26 +48,6 @@ export class SalesComponent implements OnInit {
     this.GetSalesData();
   }
 
-  showDialog(_id: any) {
-    // let totalTax = 0;
-    // // this.visible = true;
-    // this.Service.GetSalesDataById(_id).subscribe((resp: any) => {
-    //   this.salesDataById = [resp.data];
-      
-    // this.visible = true;
-
-    //   resp.data.appliedTax.forEach(element => {
-    //     totalTax += Number(element.taxRate);
-    //   });
-    //   this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
-    //   // console.log("applied tax", resp.data.appliedTax);
-    // });
-
-    // this.Service.getSalesPaymentList(_id).subscribe((resp: any) => {
-    //   this.paymentListData = resp.data;
-    //   // console.log("payment id ser ", this.paymentListData);
-    // })
-  }
   deleteSales(Id: any) {
     this.saleId = Id;
 
@@ -89,10 +69,6 @@ export class SalesComponent implements OnInit {
       this.showDialoge = false;
     })
   }
-  // close() {
-  //   this.showDialoge = false;
-  // }
-
 
 
   GetSalesData() {
@@ -101,6 +77,18 @@ export class SalesComponent implements OnInit {
       this.originalData = resp.data;
     });
   }
+  getTotalPaidAmount(): number {
+    return this.salesListData.reduce((total, payment) => total + Number(payment.paidAmount), 0);
+  }
+  getTotalDuoAmount(): number {
+
+    return this.salesListData.reduce((total, payment) => total + Number(payment.dueAmount), 0);
+  }
+  getTotalAmount(): number {
+
+    return this.salesListData.reduce((total, payment) => total + payment.salesTotalAmount, 0);
+  }
+  
   editSalesRout(id) {
     this.router.navigate(["/sales/edit-sales/" + id]);
   }
@@ -121,7 +109,6 @@ export class SalesComponent implements OnInit {
   close() {
     this.showDialoge = false;
     this.showInvoiceDialog = false;
-    // this.GetSalesData();
   }
 
 

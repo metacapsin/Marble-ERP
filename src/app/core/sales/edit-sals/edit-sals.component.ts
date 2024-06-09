@@ -15,6 +15,7 @@ import { ToastModule } from "primeng/toast";
 import { SubCategoriesService } from "../../settings/sub-categories/sub-categories.service";
 import { UnitsService } from "../../settings/units/units.service";
 import { MultiSelectModule } from "primeng/multiselect";
+import { SlabsService } from "../../Product/slabs/slabs.service";
 
 @Component({
   selector: "app-edit-sals",
@@ -35,11 +36,12 @@ export class EditSalsComponent {
   editSalesForm!: FormGroup;
   public routes = routes;
   maxDate = new Date();
+  public searchData_id = "";
   salesId = "";
   customerList = [];
   originalCustomerData = [];
-  categoryList = [];
-  subCategoryList = [];
+  slabList = [];
+  slabData = [];
   addTaxTotal: any;
   unitListData: [];
   orderStatusList = [
@@ -52,9 +54,7 @@ export class EditSalsComponent {
   orderTaxList = [];
   taxesListData = [];
   public itemDetails: number[] = [0];
-  public chargesArray: number[] = [0];
-  public recurringInvoice = false;
-  public selectedValue!: string;
+  maxQuantity : number;
 
 nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
@@ -65,20 +65,16 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
     private messageService: MessageService,
     private Service: SalesService,
     private customerService: CustomersdataService,
-    private unitService: UnitsService,
-    private CategoriesService: CategoriesService,
-    private subCategoriesService: SubCategoriesService,
+    private slabService: SlabsService,
     private taxService: TaxesService,
     private fb: FormBuilder
   ) {
     this.editSalesForm = this.fb.group({
-      id: [""],
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
       salesDiscount: ["", [Validators.min(0)]],
       salesInvoiceNumber: [
         "",
-        // [Validators.required, Validators.pattern(this.nameRegex)],
       ],
       salesItemDetails: this.fb.array([]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
@@ -104,77 +100,89 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   addsalesItemDetailsItem() {
     const item = this.fb.group({
       salesItemProduct: ['', [Validators.required]],
-      salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
-      salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-      salesItemTax: [''],
-      salesItemTaxAmount: [''],
-      salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
+          salesItemQuantity: ["", [Validators.required, Validators.min(0), Validators.max(this.maxQuantity)]],
+          salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+          salesItemTax: [''],
+          salesItemTaxAmount: [''],
+          salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
+          maxQuantity: [" "],
     })
     this.salesItemDetails.push(item);
   }
 
   ngOnInit(): void {
-    let totalTax = 0;
-
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
-      this.customerList = [];
-      this.originalCustomerData.forEach((element) => {
-        this.customerList.push({
+      this.customerList = this.originalCustomerData.map(element => ({
+        name: element.name,
+        _id: {
+          _id: element._id,
           name: element.name,
-          _id: {
-            _id: element._id,
-            name: element.name,
-          },
-        });
-      });
-    });
-
-    // this.unitService.getAllUnitList().subscribe((resp: any) => {
-    //   this.unitListData = resp.data;
-    // });
+          billingAddress: element.billingAddress,
+        },
+      }));
+    }); 
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
-      this.orderTaxList = [];
-      this.taxesListData.forEach((element) => {
-        this.orderTaxList.push({
-          orderTaxName: element.name + " (" + element.taxRate + "%" + ")",
-          orderNamevalue: element,
+      this.orderTaxList = this.taxesListData.map(element => ({
+        orderTaxName: `${element.name} (${element.taxRate}%)`,
+        orderNamevalue: element,
+      }));
+    });
+
+    this.slabService.getSlabsList().subscribe((resp: any) => {
+      this.slabData = resp.data;
+      this.slabList = this.slabData.map(e => ({
+        slabName: e.slabName,
+              _id: {
+                _id: e._id,
+                slabName: e.slabName,
+                slabNo: e.slabNo,
+                sellingPricePerSQFT: e.sellingPricePerSQFT,
+                totalSQFT: e.totalSQFT,
+              }
+      }));
+      this.Service.GetSalesDataById(this.salesId).subscribe((resp: any) => {
+        resp.data?.salesItemDetails?.forEach((lang) => {
+          console.log("Product value",lang);
+          
+          this.addsalesItemDetailsItem();
         });
+        this.patchForm(resp.data);
       });
     });
 
-    this.CategoriesService.getCategories().subscribe((resp: any) => {
-      this.categoryList = resp.data;
-    });
-
-    // this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
-    //   this.subCategoryList = resp.data;
-    // });
-
-    this.Service.GetSalesDataById(this.salesId).subscribe((resp: any) => {
-      resp.data?.salesItemDetails?.forEach((lang) => {
-        this.addsalesItemDetailsItem();
-      });
-      // resp.data?.appliedTax?.forEach((element) => {
-      //   totalTax += Number(element.taxRate);
-      // });
-      // this.addTaxTotal = (resp.data.salesGrossTotal * totalTax) / 100;
-      // console.log("applied tax", resp.data.appliedTax);
-
-      this.patchForm(resp.data);
-    });
+    
 
     this.calculateTotalAmount();
   }
 
+  onSlabSelect(value, i) {
+    this.maxQuantity = 0;
+    const salesItemDetailsArray = this.editSalesForm.get("salesItemDetails") as FormArray;
+    const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
+    const maxQuantityPriceControl = salesItemDetailsArray.at(i)?.get("maxQuantity");
+    if (salesItemUnitPriceControl) {
+      salesItemUnitPriceControl.patchValue(value.sellingPricePerSQFT);
+      console.log("totalSQFT", value);
+      this.calculateTotalAmount();
+    }
+    if (maxQuantityPriceControl) {
+      maxQuantityPriceControl.setValue(value.totalSQFT);
+    }
+  }
+
   calculateTotalAmount() {
     let salesGrossTotal = 0;
-
+    
     const salesItems = this.editSalesForm.get("salesItemDetails") as FormArray;
-
+    
     salesItems.controls.forEach((item: FormGroup) => {
+      if(item.get("salesItemQuantity").value > item.get("maxQuantity").value){
+        console.log("ADnan");
+        item.get("salesItemQuantity").patchValue(item.get("maxQuantity").value)
+      }
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];
@@ -191,45 +199,35 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
       const subtotal = (quantity * unitPrice) + totalTaxAmount;
 
       salesGrossTotal += subtotal;
-      
       item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2))
-      item.get("salesItemSubTotal").patchValue(subtotal.toFixed(2));
+      item.get("salesItemSubTotal").setValue(subtotal.toFixed(2));
     });
 
     this.editSalesForm.get('salesGrossTotal').setValue(salesGrossTotal.toFixed(2));
 
     let totalAmount = salesGrossTotal;
-    const discount = +this.editSalesForm.get("salesDiscount").value || 0;
-    const shipping = +this.editSalesForm.get("salesShipping").value || 0;
-    const otherCharges = +this.editSalesForm.get("otherCharges").value || 0;
+    const discount = +this.editSalesForm.get("salesDiscount").value;
+    const shipping = +this.editSalesForm.get("salesShipping").value;
+    const otherCharges = +this.editSalesForm.get("otherCharges").value;
 
     totalAmount -= discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
 
-    this.editSalesForm.patchValue({
-      salesTotalAmount: totalAmount.toFixed(2),
-      salesDiscount: discount.toFixed(2),
-      salesShipping: shipping.toFixed(2),
-      otherCharges: otherCharges.toFixed(2)
-    });
+    this.editSalesForm.get("salesTotalAmount").setValue(totalAmount)
   }
 
   patchForm(data) {
-    // data?.appliedTax?.forEach((element) => {
-    //   delete element.tenantId;
-    // });
     this.editSalesForm.patchValue({
-      salesInvoiceNumber: data.salesInvoiceNumber,
       customer: data.customer,
       salesDate: data.salesDate,
-      salesOrderStatus: data.salesOrderStatus,
-      salesGrossTotal: data.salesGrossTotal,
-      // salesOrderTax: data.appliedTax,
       salesDiscount: data.salesDiscount,
+      salesInvoiceNumber: data.salesInvoiceNumber,
+      salesNotes: data.salesNotes,
+      salesGrossTotal: data.salesGrossTotal,
+      salesOrderStatus: data.salesOrderStatus,
       salesShipping: data.salesShipping,
       salesTermsAndCondition: data.salesTermsAndCondition,
-      salesNotes: data.salesNotes,
       salesTotalAmount: data.salesTotalAmount,
       otherCharges: data.otherCharges,
     });
@@ -239,16 +237,8 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
   editSalesFormSubmit() {
     const formData = this.editSalesForm.value;
-
-    // let totalTax = 0;
-    // if(formData.salesOrderTax){
-    //   formData.salesOrderTax?.forEach((element) => {
-    //       totalTax = totalTax + element.taxRate;
-    //     });
-
-    // }  
-
     const payload = {
+
       customer: formData.customer,
       salesDate: formData.salesDate,
       salesDiscount: formData.salesDiscount,
@@ -257,19 +247,16 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
       salesNotes: formData.salesNotes,
       salesGrossTotal: formData.salesGrossTotal,
       salesOrderStatus: formData.salesOrderStatus,
-      // salesOrderTax: totalTax,
       salesShipping: formData.salesShipping,
-      appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
       otherCharges: formData.otherCharges,
-      id: "",
+      id: this.salesId,
     };
 
     if (this.editSalesForm.valid) {
       console.log("valid form");
       console.log(payload);
-      payload.id = this.salesId;
       this.Service.UpdateSalesData(payload).subscribe((resp: any) => {
         console.log(resp);
         if (resp) {
@@ -277,7 +264,7 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
             const message = "Sales has been updated";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              this.router.navigate(["/customers"]);
+              this.router.navigate(["/sales"]);
             }, 400);
           } else {
             const message = resp.message;
