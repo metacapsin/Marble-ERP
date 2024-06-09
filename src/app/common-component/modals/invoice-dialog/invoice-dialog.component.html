@@ -198,6 +198,7 @@
                           </th>
                           <th pSortableColumn="salesItemSubTotal">Sub Total
                           </th>
+
                         </tr>
                         <tr *ngIf="sales.lotDetails">
                           <th pSortableColumn="lotName
@@ -221,6 +222,23 @@
                           <th pSortableColumn="totalSQFT">Total Square Feet
                           </th>
                         </tr>
+                        <tr *ngIf="sales.purchaseReturnItemDetails">
+                          <th pSortableColumn="slabName
+                          ">Slab Name
+                          </th>
+                          <th pSortableColumn="slabNo">Slab No
+                          </th>
+                          <th pSortableColumn="sellingPricePerSQFT">Price Per Square Feet
+                          </th>
+                          <th pSortableColumn="slabTotalCosting">Slab Total Costing
+                          </th>
+                          <th pSortableColumn="totalSQFT">Total Square Feet
+                          </th>
+
+
+                        </tr>
+
+
                       </ng-template>
                       <ng-template pTemplate="body" let-data *ngIf="sales.salesItemDetails">
                         <tr *ngFor="let sales of data.salesItemDetails">
@@ -246,6 +264,17 @@
                           <td>₹ {{sales.totalCosting}}</td>
                           <td>₹ {{sales.totalSQFT}}</td>
                         </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-data *ngIf="sales.purchaseReturnItemDetails">
+
+                        <tr *ngFor="let slab of sales.purchaseReturnItemDetails[0].purchaseSlab">
+                          <td>{{ slab.slabName }}</td>
+                          <td>{{ slab.slabNo }}</td>
+                          <td>₹ {{ slab.sellingPricePerSQFT }}</td>
+                          <td>₹ {{ slab.totalCosting }}</td>
+                          <td>{{ slab.totalSQFT }}</td>
+                        </tr>
+
                       </ng-template>
                     </p-table>
 

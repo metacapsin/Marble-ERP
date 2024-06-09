@@ -115,7 +115,7 @@ showInvoiceDialog: boolean = false;
       console.log("sales data by id On dialog", this.salesDataShowById);
     });
 
-    this.Service.getSalesReturnPaymentListbySalesReturnId(Id).subscribe((resp:any)=>{
+    this.Service.getSalesReturnPaymentListBySalesReturnId(Id).subscribe((resp:any)=>{
       this.paymentDataListById=resp.data;
     })
 
