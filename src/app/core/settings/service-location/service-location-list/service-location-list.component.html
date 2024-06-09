@@ -85,7 +85,7 @@
                                         <p-columnFilter type="text" field="phone" display="menu"></p-columnFilter>
 
                                     </th>
-                                    <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
+                                    <th appShowHide [roles]="['admin', 'super-admin']" >Action
                                         <p-sortIcon></p-sortIcon>
                                     </th>
                                 </tr>
@@ -111,11 +111,14 @@
                                     <td>
                                         {{location.phone}}
                                     </td>
-                                    <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
+                                    <td appShowHide [roles]="['admin', 'super-admin']" >
+                  <div class="action-buttons">
+
                                         <p-button [text]="true" icon="fa fa-edit"
                                             [routerLink]="['/settings/service-locations/edit', location._id]"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"
                                             (click)="deleteLocation(location._id)"></p-button>
+                  </div>
                                     </td>
 
                                 </tr>

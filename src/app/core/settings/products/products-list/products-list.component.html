@@ -90,7 +90,7 @@
                                         <p-columnFilter type="text" field="salesPrice" display="menu"></p-columnFilter>
 
                                     </th>
-                                    <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
+                                    <th appShowHide [roles]="['admin', 'super-admin']" >Action
                                     </th>
                                 </tr>
                             </ng-template>
@@ -118,11 +118,14 @@
                                     <td>
                                         {{product.salesPrice}}
                                     </td>
-                                    <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
+                                    <td appShowHide [roles]="['admin', 'super-admin']" >
+                  <div class="action-buttons">
+
                                         <p-button [text]="true" icon="fa fa-edit"
                                             [routerLink]="['/settings/product/edit', product._id]"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"
                                             (click)="deleteProduct(product._id)"></p-button>
+                  </div>
                                     </td>
 
                                 </tr>

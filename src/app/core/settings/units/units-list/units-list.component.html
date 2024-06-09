@@ -67,7 +67,7 @@
                     Short Name<p-sortIcon field="shortName"></p-sortIcon>
                     <p-columnFilter type="text" field="shortName" display="menu"></p-columnFilter>
                   </th>
-                  <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%">
+                  <th appShowHide [roles]="['admin', 'super-admin']" >
                     Action
                   </th>
                 </tr>
@@ -80,9 +80,12 @@
                   <td>
                     {{ unit.shortName }}
                   </td>
-                  <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex">
+                  <td appShowHide [roles]="['admin', 'super-admin']" >
+                  <div class="action-buttons">
+
                     <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(unit._id)"></p-button>
                     <p-button [text]="true" icon="fa fa-trash" (click)="deleteUnit(unit._id)"></p-button>
+                  </div>
                   </td>
                 </tr>
               </ng-template>

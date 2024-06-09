@@ -110,10 +110,13 @@
                                             {{blocks.length}}
                                         </td>
                                         <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
+                  <div class="action-buttons">
+
                                             <p-button [text]="true" icon="fa fa-edit"
                                                 [routerLink]="['/blocks/edit', blocks._id]"></p-button>
                                             <p-button [text]=" true" icon="fa fa-trash"
                                                 (click)="deleteBlocks(blocks._id)"></p-button>
+                  </div>
                                         </td>
     
                                     </tr>

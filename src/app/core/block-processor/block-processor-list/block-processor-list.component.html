@@ -51,8 +51,9 @@
                     </div>
 
                     <div class="card-body p-2">
-                        <p-table [value]="blockProcessorData" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                            [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)"
+                        <p-table [value]="blockProcessorData" styleClass="p-datatable-striped"
+                            [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                            [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)"
                             [(selection)]="selectedCustomer">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -83,14 +84,15 @@
                                     <td>{{product.createdOn | date: 'dd-MMM-yyyy'}}</td>
                                     <td>{{product.openingBalance}}</td>
                                     <td appShowHide [roles]="['admin', 'super-admin']">
+                                        <div class="action-buttons">
 
-                                        <p-button [text]=" true" icon="fa fa-eye"
-                                            (click)="vewBlockProcessor(product._id)"></p-button>
-                                        <p-button [text]="true" icon="fa fa-edit"
-                                            (click)="editBlockProcessor(product._id)"></p-button>
-                                        <p-button [text]=" true" icon="fa fa-trash"
-                                            (click)="deleteBlockProcessor(product._id)"></p-button>
-
+                                            <p-button [text]=" true" icon="fa fa-eye"
+                                                (click)="vewBlockProcessor(product._id)"></p-button>
+                                            <p-button [text]="true" icon="fa fa-edit"
+                                                (click)="editBlockProcessor(product._id)"></p-button>
+                                            <p-button [text]=" true" icon="fa fa-trash"
+                                                (click)="deleteBlockProcessor(product._id)"></p-button>
+                                        </div>
                                     </td>
                                 </tr>
                             </ng-template>

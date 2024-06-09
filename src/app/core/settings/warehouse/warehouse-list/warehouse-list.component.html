@@ -90,7 +90,7 @@
                                         <p-columnFilter field="onlineStore" display="menu"></p-columnFilter>
 
                                     </th> -->
-                                    <th appShowHide [roles]="['admin', 'super-admin']" style="width: 20%;">Action
+                                    <th appShowHide [roles]="['admin', 'super-admin']" >Action
                                     </th>
                                 </tr>
                             </ng-template>
@@ -123,11 +123,14 @@
                                         <label for="status_1" class="checktoggle">checkbox</label>
 
                                     </td> -->
-                                    <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
+                                    <td appShowHide [roles]="['admin', 'super-admin']" >
+                  <div class="action-buttons">
+
                                         <p-button [text]="true" icon="fa fa-edit"
                                             [routerLink]="['/settings/warehouse/edit', warehouse._id]"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"
                                             (click)="deleteLocation(warehouse._id)"></p-button>
+                  </div>
                                     </td>
 
                                 </tr>

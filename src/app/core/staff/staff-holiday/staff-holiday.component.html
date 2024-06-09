@@ -87,11 +87,14 @@
                                   <td>{{HolidayData.NoOfDays}}</td>
                                   <td>{{HolidayData.Reason}}</td>
                                   <td>{{HolidayData.Status}}</td> -->
-                                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                                  <td appShowHide [roles]="['admin', 'super-admin']">
+                  <div class="action-buttons">
+
                                               <p-button [text]="true" data-bs-toggle="modal"
                                                icon="fa-solid fa-eye" [routerLink]="routes.salaryView"  ></p-button>
                                               <p-button [text]="true" icon="fa-solid fa-trash" ></p-button>
                                               <p-button [text]="true" icon="fa-solid fa-edit"  [routerLink]="routes.editLeave" ></p-button>
+                  </div>
                                   </td>
                               </tr>
                           </ng-template>

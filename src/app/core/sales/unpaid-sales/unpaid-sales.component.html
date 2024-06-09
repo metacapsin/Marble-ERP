@@ -197,7 +197,9 @@
                                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Partially Paid"></p-tag>
                                     </td> -->
                   <td>{{sales.salesPaymentStatus}}</td>
-                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                  <td appShowHide [roles]="['admin', 'super-admin']">
+                  <div class="action-buttons">
+
                     <!-- <a class="p-2 border-1 border" [routerLink]="routes.AddCustomers" href=""><i
                                                 class="fa-solid fa-user-plus"></i></a> -->
                     <p-button [text]="true" data-bs-toggle="modal" data-bs-target="#invoices_preview"
@@ -207,6 +209,7 @@
                     <!-- <a class="p-2 border-1 border" href=""><i
                                                 class="fa-solid fa-pen-to-square"></i></a> -->
                     <!-- <a class="p-2 border-1 border" href=""><i class="fa-solid fa-trash"></i></a> -->
+                  </div>
 
                   </td>
                 </tr>

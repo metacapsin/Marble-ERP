@@ -318,3 +318,61 @@ ul.p-dropdown-items{
   border-color: #97704f;
   background: #97704f;
 }
+
+/* Base styles */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+/* Ensure buttons are responsive */
+.action-buttons p-button {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .action-buttons {
+    gap: 5px;
+  }
+  .action-buttons p-button {
+    font-size: 14px;
+    padding: 5px;
+  }
+}
+
+/* For very small screens like iPhone SE */
+@media (max-width: 375px) {
+  .action-buttons {
+    gap: 2px;
+  }
+  .action-buttons p-button {
+    font-size: 12px;
+    padding: 3px;
+  }
+}
+
+/* Base table styles */
+.p-datatable-striped {
+  width: 100%;
+  table-layout: auto;
+}
+
+/* Responsive table adjustments */
+@media (max-width: 768px) {
+  .p-datatable-striped {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .p-datatable-striped table {
+    width: 100%;
+    min-width: 60rem; /* Adjust as needed */
+  }
+
+  .p-datatable-striped th, .p-datatable-striped td {
+    white-space: nowrap;
+  }
+}

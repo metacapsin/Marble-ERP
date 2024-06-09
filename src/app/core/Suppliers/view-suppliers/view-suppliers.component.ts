@@ -89,22 +89,22 @@ export class ViewSuppliersComponent {
 
   getTotalPaidAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
     const arrayToUse = this[arrayProperty];
-    return arrayToUse.reduce((total, payment) => total + Number(payment.paidAmount), 0);
+    return arrayToUse?.reduce((total, payment) => total + Number(payment.paidAmount), 0);
   }
   getTotalDuoAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
     const arrayToUse = this[arrayProperty];
 
-    return arrayToUse.reduce((total, payment) => total + Number(payment.dueAmount), 0);
+    return arrayToUse?.reduce((total, payment) => total + Number(payment.dueAmount), 0);
   }
   getTotalAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
     const arrayToUse = this[arrayProperty];
 
-    return arrayToUse.reduce((total, payment) => total + payment.purchaseReturnTotalAmount, 0);
+    return arrayToUse?.reduce((total, payment) => total + payment.purchaseReturnTotalAmount, 0);
   }
   getTotalPaymentAmount(arrayProperty: 'paymentListDataBySupplierId' | 'paymentReturnDataListById'): number {
     const arrayToUse = this[arrayProperty];
 
-    return arrayToUse.reduce((total, payment) => total + payment.amount, 0);
+    return arrayToUse?.reduce((total, payment) => total + payment.amount, 0);
   }
 
   getPurchase() {
@@ -205,7 +205,7 @@ export class ViewSuppliersComponent {
       this.showInvoiceDialog = true;
       this.purchaseDataShowById = [resp.data];
       this.header = "Purchase Return Invoice ";
-      console.log("Purchase data by id On dialog", this.purchaseDataShowById);
+      console.log("Purchase Return data by id On dialog", this.purchaseDataShowById);
     });
 
     this.purchaseReturnService

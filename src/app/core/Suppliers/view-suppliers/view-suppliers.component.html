@@ -86,7 +86,6 @@
                                         <p class="col-form-label">{{ data.phoneNo }}</p>
                                     </div>
                                 </div>
-
                                 <div class="form-group row mb-2">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                         Credit Limit
@@ -176,14 +175,19 @@
                                 <td>₹ {{ purchase.dueAmount }}</td>
                                 <td>₹ {{ purchase.purchaseTotalAmount }}</td>
                                 <td>
-                                    <p-button [text]="true" icon="fa-solid fa-eye"
-                                        (click)="showInvoiceDialoge(purchase._id)"></p-button>
-                                    <p-button *ngIf="
+
+                                    <!-- <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px"> -->
+                                    <div class="action-buttons">
+
+                                        <p-button [text]="true" icon="fa-solid fa-eye"
+                                            (click)="showInvoiceDialoge(purchase._id)"></p-button>
+                                        <p-button *ngIf="
                       purchase.paymentStatus == 'Unpaid' ||
                       purchase.paymentStatus == 'Partial Paid'
                     " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id)"></p-button>
-                                    <p-button [text]="true" icon="fa-solid fa-trash"
-                                        (click)="deletePurchase(purchase._id)"></p-button>
+                                        <p-button [text]="true" icon="fa-solid fa-trash"
+                                            (click)="deletePurchase(purchase._id)"></p-button>
+                                    </div>
                                 </td>
                             </tr>
                         </ng-template>
@@ -307,17 +311,20 @@
                                 <td>₹ {{ purchase.paidAmount }}</td>
                                 <td>₹ {{ purchase.dueAmount }}</td>
                                 <td>₹ {{ purchase.purchaseReturnTotalAmount }}</td>
-                                <td>
-                                    <!-- <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px"> -->
-                                    <p-button [text]="true" icon="fa-solid fa-eye"
-                                        (click)="showReturnInvoiceDialoge(purchase._id)"></p-button>
-                                    <p-button *ngIf="
+                                
+                                    <td appShowHide [roles]="['admin', 'super-admin']" >
+                                    <div class="action-buttons">
+
+                                        <p-button [text]="true" icon="fa-solid fa-eye"
+                                            (click)="showReturnInvoiceDialoge(purchase._id)"></p-button>
+                                        <p-button *ngIf="
                                         purchase.paymentStatus == 'Unpaid' ||
                                         purchase.paymentStatus == 'Partial Paid'
                                       " [text]="true" icon="fa-solid fa-wallet"
-                                        (click)="openPaymentReturnDialog(purchase._id)"></p-button>
-                                    <p-button [text]="true" icon="fa-solid fa-trash"
-                                        (click)="deletePurchase(purchase._id)"></p-button>
+                                            (click)="openPaymentReturnDialog(purchase._id)"></p-button>
+                                        <p-button [text]="true" icon="fa-solid fa-trash"
+                                            (click)="deletePurchase(purchase._id)"></p-button>
+                                    </div>
                                 </td>
                             </tr>
                         </ng-template>

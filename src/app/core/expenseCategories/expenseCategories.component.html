@@ -76,11 +76,13 @@
                                     <td class="bold">{{product.categoryName}}</td>
                                     <td class="bold">{{product.categoryDescription}}</td>
                                     <td appShowHide [roles]="['admin', 'super-admin']">
+                  <div class="action-buttons">
+
                                         <p-button [text]="true" icon="fa fa-edit"
                                             (click)="showDialogEdit(product._id)"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"
                                             (click)="deleteExpense(product._id)"></p-button>
-
+                  </div>
                                     </td>
                                 </tr>
                             </ng-template>

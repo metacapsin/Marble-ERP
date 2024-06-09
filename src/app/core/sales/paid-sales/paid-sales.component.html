@@ -181,11 +181,13 @@
                   <td>{{sales.salesCustomer}}</td>
                   <td>{{sales.salesStatus}}</td>
                   <td>{{sales.salesTotalAmount}}</td>
-                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                  <td appShowHide [roles]="['admin', 'super-admin']">
+                  <div class="action-buttons">
+
                     <p-button [text]="true" data-bs-toggle="modal" data-bs-target="#invoices_preview"
                       icon="fa-solid fa-eye"></p-button>
                     <p-button [text]="true" icon="fa-solid fa-edit" [routerLink]="routes.editSales"></p-button>
-
+                  </div>
                   </td>
                 </tr>
               </ng-template>
