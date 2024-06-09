@@ -223,9 +223,10 @@ export class ViewCustomersComponent implements OnInit {
     });
 
     this.salesReturnService
-      .getSalesReturnPaymentListbySalesReturnId(Id)
+      .getSalesReturnPaymentListBySalesReturnId(Id)
       .subscribe((resp: any) => {
         this.paymentDataListById = resp.data;
+        console.log("this is sales return payment list by sales return id",this.paymentDataListById)
       });
   }
 
