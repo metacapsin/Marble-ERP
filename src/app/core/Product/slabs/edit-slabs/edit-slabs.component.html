@@ -201,15 +201,15 @@
                         <input class="form-control" type="number" placeholder="Enter Width" formControlName="width" />
                         </div>
                         <div *ngIf="
-                        (slabsAddForm
+                        (slabsEditForm
                         .get('width')
                         ?.hasError('min') &&
-                        slabsAddForm.get('width')
+                        slabsEditForm.get('width')
                             ?.touched) ||
-                        (slabsAddForm
+                        (slabsEditForm
                         .get('width')
                         ?.hasError('max') &&
-                        slabsAddForm.get('width')?.touched)
+                        slabsEditForm.get('width')?.touched)
                     ">
                   <span class="login-danger">
                     input must be between 1 and 100,000.
@@ -228,15 +228,15 @@
                         <input class="form-control" type="number" placeholder="Enter Length" formControlName="length" />
                         </div>
                         <div *ngIf="
-                                      (slabsAddForm
+                                      (slabsEditForm
                                       .get('length')
                                       ?.hasError('min') &&
-                                      slabsAddForm.get('length')
+                                      slabsEditForm.get('length')
                                           ?.touched) ||
-                                      (slabsAddForm
+                                      (slabsEditForm
                                       .get('length')
                                       ?.hasError('max') &&
-                                      slabsAddForm.get('length')?.touched)
+                                      slabsEditForm.get('length')?.touched)
                                   ">
                                 <span class="login-danger">
                                   input must be between 1 and 100,000.
@@ -252,15 +252,15 @@
                           formControlName="thickness" />
                        
                         <div *ngIf="
-                        (slabsAddForm
+                        (slabsEditForm
                         .get('thickness')
                         ?.hasError('min') &&
-                        slabsAddForm.get('thickness')
+                        slabsEditForm.get('thickness')
                             ?.touched) ||
-                        (slabsAddForm
+                        (slabsEditForm
                         .get('thickness')
                         ?.hasError('max') &&
-                        slabsAddForm.get('thickness')?.touched)
+                        slabsEditForm.get('thickness')?.touched)
                     ">
                   <span class="login-danger">
                     input must be between 1 and 100,000.
