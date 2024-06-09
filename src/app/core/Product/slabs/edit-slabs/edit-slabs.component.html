@@ -137,7 +137,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4">
+                  <div class="col-12 col-md-4 col-xl-4" *ngIf="slabsEditForm.get('lotDetails').value">
                     <div class="form-group local-forms">
                       <label for="blockProcessor">Processor<span class="login-danger"></span></label>
                       <p-dropdown [options]="blocksNoList" styleClass="" appendTo="body" optionLabel="name"
@@ -201,17 +201,20 @@
                         <input class="form-control" type="number" placeholder="Enter Width" formControlName="width" />
                         </div>
                         <div *ngIf="
-                                  slabsEditForm.get('width')?.hasError('min') &&
-                                  slabsEditForm.get('width')?.touched
-                                ">
-                          <span class="login-danger">Input must be at least 0.</span>
-                        </div>
-                        <!-- <div *ngIf="
-                                  slabsEditForm.get('width')?.hasError('pattern') &&
-                                  slabsEditForm.get('width')?.touched
-                                ">
-                                <span class="login-danger">Input must be at least 3 to 15</span>
-                              </div> -->
+                        (slabsEditForm
+                        .get('width')
+                        ?.hasError('min') &&
+                        slabsEditForm.get('width')
+                            ?.touched) ||
+                        (slabsEditForm
+                        .get('width')
+                        ?.hasError('max') &&
+                        slabsEditForm.get('width')?.touched)
+                    ">
+                  <span class="login-danger">
+                    input must be between 1 and 100,000.
+                  </span>
+                </div>
                       </div>
                     </div>
 
@@ -225,17 +228,20 @@
                         <input class="form-control" type="number" placeholder="Enter Length" formControlName="length" />
                         </div>
                         <div *ngIf="
-                                  slabsEditForm.get('length')?.hasError('min') &&
-                                  slabsEditForm.get('length')?.touched
-                                ">
-                          <span class="login-danger">Input must be at least 0.</span>
-                        </div>
-                        <!-- <div *ngIf="
-                                  slabsEditForm.get('length')?.hasError('pattern') &&
-                                  slabsEditForm.get('length')?.touched
-                                ">
-                                <span class="login-danger">Input must be at least 3 to 15</span>
-                              </div> -->
+                                      (slabsEditForm
+                                      .get('length')
+                                      ?.hasError('min') &&
+                                      slabsEditForm.get('length')
+                                          ?.touched) ||
+                                      (slabsEditForm
+                                      .get('length')
+                                      ?.hasError('max') &&
+                                      slabsEditForm.get('length')?.touched)
+                                  ">
+                                <span class="login-danger">
+                                  input must be between 1 and 100,000.
+                                </span>
+                              </div>
                       </div>
                     </div>
 
@@ -244,18 +250,22 @@
                         <label for="thickness">Thickness(mm)<span class="login-danger"></span></label>
                         <input class="form-control" type="number" placeholder="Enter Thickness"
                           formControlName="thickness" />
+                       
                         <div *ngIf="
-                                  slabsEditForm.get('thickness')?.hasError('min') &&
-                                  slabsEditForm.get('thickness')?.touched
-                                ">
-                          <span class="login-danger">Input must be at least 0.</span>
-                        </div>
-                        <!-- <div *ngIf="
-                                  slabsEditForm.get('thickness')?.hasError('pattern') &&
-                                  slabsEditForm.get('thickness')?.touched
-                                ">
-                                <span class="login-danger">Input must be at least 3 to 15</span>
-                              </div> -->
+                        (slabsEditForm
+                        .get('thickness')
+                        ?.hasError('min') &&
+                        slabsEditForm.get('thickness')
+                            ?.touched) ||
+                        (slabsEditForm
+                        .get('thickness')
+                        ?.hasError('max') &&
+                        slabsEditForm.get('thickness')?.touched)
+                    ">
+                  <span class="login-danger">
+                    input must be between 1 and 100,000.
+                  </span>
+                </div>
                       </div>
                     </div>
 
@@ -495,14 +505,14 @@
                         </div>
                         <div class="invoice-total-inner">
 
-                          <p *ngIf="slabsEditForm.get('lotDetails').value">
+                          <!-- <p *ngIf="slabsEditForm.get('lotDetails').value">
                             Processing Costing<span>₹
                               {{
                               slabsEditForm.get("processingCost").value
                               | number : "1.2-2"
                               }}</span>
-                          </p>
-                          <p>
+                          </p> -->
+                          <!-- <p>
                             Total Costing<span>₹
                               {{
                               slabsEditForm.get("totalCosting").value
@@ -515,6 +525,20 @@
                               slabsEditForm.get("costPerSQFT").value
                               | number : "1.2-2"
                               }}</span>
+                          </p> -->
+                          <p>
+                            Total Costing<span>₹
+                              {{
+                                slabsEditForm.get("totalCosting")?.value ? (slabsEditForm.get("totalCosting").value | number: "1.2-2") : 0
+                              }}
+                            </span>
+                          </p>
+                          <p>
+                            Per Square Feet Cost<span>₹
+                              {{
+                                slabsEditForm.get("costPerSQFT")?.value ? (slabsEditForm.get("costPerSQFT").value | number: "1.2-2") : 0
+                              }}
+                            </span>
                           </p>
                           <!-- <p>
                                       Discount<span>₹

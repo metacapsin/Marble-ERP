@@ -71,7 +71,7 @@ export class PurchaseComponent {
   purchaseId: any;
   blockDetailsTable: any;
   header = "";
-  showInvoiceDialog: boolean = false; // to enable purchase invoice popup
+  showInvoiceDialog: boolean = false; 
   paymentDataListById: any[] = [];
   visible:any
 
@@ -167,7 +167,8 @@ export class PurchaseComponent {
     // }
     callBackModal() {
       this.Service.DeletePurchaseData(this.purchase).subscribe((resp: any) => {
-      // this.visible = false;
+        this.showInvoiceDialog = false;
+        this.showDialoge = false;
       let message = "Purchase has been Deleted";
       this.messageService.add({ severity: "success", detail: message });
       this.getPurchase();

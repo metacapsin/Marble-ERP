@@ -75,8 +75,8 @@
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="date">Date<span class="login-danger">*</span></label>
-                      <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="date"
-                        placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
+                      <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                        formControlName="date" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
                       <div *ngIf="slabsAddForm.get('date')?.hasError('required')  && slabsAddForm.get('date')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
@@ -149,10 +149,10 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4">
+                  <div class="col-12 col-md-4 col-xl-4" *ngIf="slabsAddForm.get('lotDetails').value">
                     <div class="form-group local-forms">
                       <label for="blockProcessor">Processor<span class="login-danger"></span></label>
-                      <p-dropdown [options]="blocksNoList" styleClass="" appendTo="body" optionLabel="name"
+                      <p-dropdown [options]="blockProcessorData" styleClass="" appendTo="body" optionLabel="name"
                         placeholder="Select Processor" formControlName="blockProcessor" [style]="{ width: '100%' }"
                         [filter]="true" filterBy="name" [showClear]="true">
                       </p-dropdown>
@@ -207,23 +207,27 @@
                     <div class="form-group local-forms">
                       <label for="width">Width<span class="login-danger"></span></label>
                       <div class="input-group">
-                         <div class="input-group-prepend">
+                        <div class="input-group-prepend">
                           <span class="input-group-text" style="font-size: 12px;">Inch</span>
-                        </div> 
-                      <input class="form-control" type="number" placeholder="Enter Width" formControlName="width" />
+                        </div>
+                        <input class="form-control" type="number" placeholder="Enter Width" formControlName="width" />
                       </div>
+
                       <div *ngIf="
-                            slabsAddForm.get('width')?.hasError('min') &&
-                            slabsAddForm.get('width')?.touched
-                          ">
-                        <span class="login-danger">Input must be at least 0.</span>
-                      </div>
-                      <!-- <div *ngIf="
-                            slabsAddForm.get('width')?.hasError('pattern') &&
-                            slabsAddForm.get('width')?.touched
-                          ">
-                          <span class="login-danger">Input must be at least 3 to 15</span>
-                        </div> -->
+                                      (slabsAddForm
+                                      .get('width')
+                                      ?.hasError('min') &&
+                                      slabsAddForm.get('width')
+                                          ?.touched) ||
+                                      (slabsAddForm
+                                      .get('width')
+                                      ?.hasError('max') &&
+                                      slabsAddForm.get('width')?.touched)
+                                  ">
+                                <span class="login-danger">
+                                  input must be between 1 and 100,000.
+                                </span>
+                              </div>
                     </div>
                   </div>
 
@@ -232,22 +236,26 @@
                       <label for="length">Length<span class="login-danger"></span></label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                         <span class="input-group-text" style="font-size: 12px;">Inch</span>
-                       </div> 
-                      <input class="form-control" type="number" placeholder="Enter Length" formControlName="length" />
+                          <span class="input-group-text" style="font-size: 12px;">Inch</span>
+                        </div>
+                        <input class="form-control" type="number" placeholder="Enter Length" formControlName="length" />
                       </div>
+
                       <div *ngIf="
-                            slabsAddForm.get('length')?.hasError('min') &&
-                            slabsAddForm.get('length')?.touched
-                          ">
-                        <span class="login-danger">Input must be at least 0.</span>
-                      </div>
-                      <!-- <div *ngIf="
-                            slabsAddForm.get('length')?.hasError('pattern') &&
-                            slabsAddForm.get('length')?.touched
-                          ">
-                          <span class="login-danger">Input must be at least 3 to 15</span>
-                        </div> -->
+                                      (slabsAddForm
+                                      .get('length')
+                                      ?.hasError('min') &&
+                                      slabsAddForm.get('length')
+                                          ?.touched) ||
+                                      (slabsAddForm
+                                      .get('length')
+                                      ?.hasError('max') &&
+                                      slabsAddForm.get('length')?.touched)
+                                  ">
+                                <span class="login-danger">
+                                  input must be between 1 and 100,000.
+                                </span>
+                              </div>
                     </div>
                   </div>
 
@@ -256,18 +264,22 @@
                       <label for="thickness">Thickness(mm)<span class="login-danger"></span></label>
                       <input class="form-control" type="number" placeholder="Enter Thickness"
                         formControlName="thickness" />
-                      <div *ngIf="
-                            slabsAddForm.get('thickness')?.hasError('min') &&
-                            slabsAddForm.get('thickness')?.touched
-                          ">
-                        <span class="login-danger">Input must be at least 0.</span>
-                      </div>
-                      <!-- <div *ngIf="
-                            slabsAddForm.get('thickness')?.hasError('pattern') &&
-                            slabsAddForm.get('thickness')?.touched
-                          ">
-                          <span class="login-danger">Input must be at least 3 to 15</span>
-                        </div> -->
+
+                        <div *ngIf="
+                        (slabsAddForm
+                        .get('thickness')
+                        ?.hasError('min') &&
+                        slabsAddForm.get('thickness')
+                            ?.touched) ||
+                        (slabsAddForm
+                        .get('thickness')
+                        ?.hasError('max') &&
+                        slabsAddForm.get('thickness')?.touched)
+                    ">
+                  <span class="login-danger">
+                    input must be between 1 and 100,000.
+                  </span>
+                </div>
                     </div>
                   </div>
 
@@ -354,10 +366,18 @@
                                   formControlName="totalSQFT" (change)="calculateTotalAmount()" />
                               </div>
                               <div *ngIf="
-                                        slabsAddForm.get('totalSQFT')?.hasError('min') &&
-                                        slabsAddForm.get('totalSQFT')?.touched
-                                      ">
-                                <span class="login-danger">Input must be at least 0.
+                                      (slabsAddForm
+                                      .get('totalSQFT')
+                                      ?.hasError('min') &&
+                                      slabsAddForm.get('totalSQFT')
+                                          ?.touched) ||
+                                      (slabsAddForm
+                                      .get('totalSQFT')
+                                      ?.hasError('max') &&
+                                      slabsAddForm.get('totalSQFT')?.touched)
+                                  ">
+                                <span class="login-danger">
+                                  input must be between 1 and 100,0000.
                                 </span>
                               </div>
                             </div>
@@ -508,27 +528,30 @@
                         </div>
                         <div class="invoice-total-inner">
 
-                          <p *ngIf="slabsAddForm.get('lotDetails').value">
+                          <!-- <p *ngIf="slabsAddForm.get('lotDetails').value">
                             Processing Costing<span>₹
                               {{
                               slabsAddForm.get("processingCost").value
                               | number : "1.2-2"
                               }}</span>
-                          </p>
+                          </p> -->
                           <p>
                             Total Costing<span>₹
                               {{
-                              slabsAddForm.get("totalCosting").value
-                              | number : "1.2-2"
-                              }}</span>
+                              slabsAddForm.get("totalCosting")?.value ? (slabsAddForm.get("totalCosting").value |
+                              number: "1.2-2") : 0
+                              }}
+                            </span>
                           </p>
                           <p>
-                            Per Square feet Cost<span>₹
+                            Per Square Feet Cost<span>₹
                               {{
-                              slabsAddForm.get("costPerSQFT").value
-                              | number : "1.2-2"
-                              }}</span>
+                              slabsAddForm.get("costPerSQFT")?.value ? (slabsAddForm.get("costPerSQFT").value | number:
+                              "1.2-2") : 0
+                              }}
+                            </span>
                           </p>
+
                           <!-- <p>
                               Discount<span>₹
                                 {{

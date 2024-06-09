@@ -65,7 +65,9 @@
                                     <tr>
                                         <th pSortableColumn="slabNo">Slab No<p-sortIcon field="slabNo"></p-sortIcon>
                                             <p-columnFilter type="text" field="slabNo" display="menu"></p-columnFilter>
-
+                                        </th>
+                                        <th pSortableColumn="slabName">Slab Name<p-sortIcon field="slabName"></p-sortIcon>
+                                            <p-columnFilter type="text" field="slabName" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="size">Size<p-sortIcon field="size"></p-sortIcon>
                                             <p-columnFilter type="text" field="size" display="menu"></p-columnFilter>
@@ -105,8 +107,8 @@
                                         <p-columnFilter type="text" field="warehouseDetails.name"
                                             display="menu"></p-columnFilter>
                                     </th>
-                                        <th appShowHide [roles]="['admin', 'super-admin']" >Action
-                                        </th>
+                                        <!-- <th appShowHide [roles]="['admin', 'super-admin']" >Action
+                                        </th> -->
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-slabs>
@@ -114,6 +116,9 @@
                                     <tr>
                                         <td>
                                             {{slabs.slabNo}}
+                                        </td>
+                                        <td>
+                                            {{slabs.slabName}}
                                         </td>
                                         <td>
                                             {{slabs.slabSize}}
