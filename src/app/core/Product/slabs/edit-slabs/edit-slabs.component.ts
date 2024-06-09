@@ -129,9 +129,9 @@ export class EditSlabsComponent {
       costPerSQFT: [""],
       date: ["", [Validators.required]],
       purchaseCost: ["", [Validators.required]],
-      thickness: ["", Validators.min(1), Validators.max(100000)],
-      width: ["", Validators.min(1), Validators.max(100000)],
-      length: ["", Validators.min(1), Validators.max(100000)],
+      thickness: ["", [Validators.min(1), Validators.max(100000)]],
+      width: ["", [Validators.min(1), Validators.max(100000)]],
+      length: ["", [Validators.min(1), Validators.max(100000)]],
       finishes: ["", [Validators.required]],
     });
   }
@@ -215,6 +215,7 @@ export class EditSlabsComponent {
         slabNo: this.data.slabNo,
         lotDetails: this.data.lotDetails,
         blockDetails: this.data.blockDetails,
+        blockProcessor: this.data.blockProcessor,
         categoryDetail: this.data.categoryDetail,
         subCategoryDetail: this.data.subCategoryDetail,
         slabName: this.data.slabName,
@@ -225,7 +226,6 @@ export class EditSlabsComponent {
         sellingPricePerSQFT: this.data.sellingPricePerSQFT,
         notes: this.data.notes,
         date: this.data.date,
-        blockProcessor: this.data.blockProcessor,
         warehouseDetails: this.data.warehouseDetails,
         processingCost: this.data.processingCost,
         totalCosting: this.data.totalCosting,
@@ -242,7 +242,9 @@ export class EditSlabsComponent {
   get f() {
     return this.slabsEditForm.controls;
   }
-
+  // onLotSelect(value: any){}
+  // onBlockSelect(block: any){}
+  // calculateTotalAmount() {}
   onLotSelect(value: any) {
     console.log("value of lot", value);
     this.Service.getBlockDetailByLotId(value._id).subscribe((resp: any) => {
@@ -326,57 +328,68 @@ export class EditSlabsComponent {
       var thickness = this.slabsEditForm.value.thickness;
       var _Size = `${width}x${length}x${thickness}`;
     }
-    console.log(_Size);
-    const payload = {
-      slabNo: this.slabsEditForm.value.slabNo,
-      lotDetails: this.slabsEditForm.value.lotDetails,
-      blockDetails: this.slabsEditForm.value.blockDetails,
-      categoryDetail: this.slabsEditForm.value.categoryDetail,
-      subCategoryDetail: this.slabsEditForm.value.subCategoryDetail,
-      slabName: this.slabsEditForm.value.slabName,
-      purchaseCost: this.slabsEditForm.value.purchaseCost,
-      processingFee: this.slabsEditForm.value.processingFee,
-      totalSQFT: this.slabsEditForm.value.totalSQFT,
-      processingCost: this.slabsEditForm.value.processingCost,
-      otherCharges: this.slabsEditForm.value.otherCharges,
-      transportationCharges: this.slabsEditForm.value.transportationCharges,
-      totalCosting: this.slabsEditForm.value.totalCosting,
-      costPerSQFT: this.slabsEditForm.value.costPerSQFT,
-      sellingPricePerSQFT: this.slabsEditForm.value.sellingPricePerSQFT,
-      notes: this.slabsEditForm.value.notes,
-      blockProcessor: this.slabsEditForm.value.blockProcessor,
-      warehouseDetails: this.slabsEditForm.value.warehouseDetails,
-      date: this.slabsEditForm.value.date,
-      length: this.slabsEditForm.value.length,
-      width: this.slabsEditForm.value.width,
-      thickness: this.slabsEditForm.value.thickness,
-      finishes: this.slabsEditForm.value.finishes,
-      id: this.slabsId,
-      slabSize: _Size,
-    };
-    console.log(payload);
-    if (this.slabsEditForm.valid) {
-      this.Service.updateSlabsById(payload).subscribe(
-        (resp: any) => {
-          if (resp) {
-            if (resp.status === "success") {
-              const message = "Slabs has been updated";
-              this.messageService.add({ severity: "success", detail: message });
-              setTimeout(() => {
-                this.router.navigate(["/slabs"]);
-              }, 400);
-            } else {
-              const message = resp.message;
-              this.messageService.add({ severity: "error", detail: message });
-            }
-          }
-        },
-        (error) => {
-          console.error("Error occured while updating Slabs:", error);
-        }
-      );
+    if (
+      this.slabsEditForm.value.lotDetails &&
+      !this.slabsEditForm.value.blockProcessor
+    ) {
+      const message = "Enter Block Processor";
+      this.messageService.add({ severity: "error", detail: message });
     } else {
-      console.log("Form is invalid!");
+      console.log(_Size);
+      const payload = {
+        slabNo: this.slabsEditForm.value.slabNo,
+        lotDetails: this.slabsEditForm.value.lotDetails,
+        blockDetails: this.slabsEditForm.value.blockDetails,
+        categoryDetail: this.slabsEditForm.value.categoryDetail,
+        subCategoryDetail: this.slabsEditForm.value.subCategoryDetail,
+        slabName: this.slabsEditForm.value.slabName,
+        purchaseCost: this.slabsEditForm.value.purchaseCost,
+        processingFee: this.slabsEditForm.value.processingFee,
+        totalSQFT: this.slabsEditForm.value.totalSQFT,
+        processingCost: this.slabsEditForm.value.processingCost,
+        otherCharges: this.slabsEditForm.value.otherCharges,
+        transportationCharges: this.slabsEditForm.value.transportationCharges,
+        totalCosting: this.slabsEditForm.value.totalCosting,
+        costPerSQFT: this.slabsEditForm.value.costPerSQFT,
+        sellingPricePerSQFT: this.slabsEditForm.value.sellingPricePerSQFT,
+        notes: this.slabsEditForm.value.notes,
+        blockProcessor: this.slabsEditForm.value.blockProcessor,
+        warehouseDetails: this.slabsEditForm.value.warehouseDetails,
+        date: this.slabsEditForm.value.date,
+        length: this.slabsEditForm.value.length,
+        width: this.slabsEditForm.value.width,
+        thickness: this.slabsEditForm.value.thickness,
+        finishes: this.slabsEditForm.value.finishes,
+        id: this.slabsId,
+        slabSize: _Size,
+      };
+      console.log(payload);
+      if (this.slabsEditForm.valid) {
+        this.Service.updateSlabsById(payload).subscribe(
+          (resp: any) => {
+            if (resp) {
+              if (resp.status === "success") {
+                const message = "Slabs has been updated";
+                this.messageService.add({
+                  severity: "success",
+                  detail: message,
+                });
+                setTimeout(() => {
+                  this.router.navigate(["/slabs"]);
+                }, 400);
+              } else {
+                const message = resp.message;
+                this.messageService.add({ severity: "error", detail: message });
+              }
+            }
+          },
+          (error) => {
+            console.error("Error occured while updating Slabs:", error);
+          }
+        );
+      } else {
+        console.log("Form is invalid!");
+      }
     }
   }
 }

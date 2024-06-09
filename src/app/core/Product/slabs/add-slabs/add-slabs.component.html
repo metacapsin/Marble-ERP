@@ -152,7 +152,7 @@
                   <div class="col-12 col-md-4 col-xl-4" *ngIf="slabsAddForm.get('lotDetails').value">
                     <div class="form-group local-forms">
                       <label for="blockProcessor">Processor<span class="login-danger"></span></label>
-                      <p-dropdown [options]="blockProcessorData" styleClass="" appendTo="body" optionLabel="name"
+                      <p-dropdown [options]="blockProcessorArray" styleClass="" appendTo="body" optionLabel="name" optionValue="_id"
                         placeholder="Select Processor" formControlName="blockProcessor" [style]="{ width: '100%' }"
                         [filter]="true" filterBy="name" [showClear]="true">
                       </p-dropdown>

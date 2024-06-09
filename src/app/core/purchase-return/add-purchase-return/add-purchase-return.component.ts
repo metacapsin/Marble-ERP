@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
 import { MultiSelectModule } from "primeng/multiselect";
 import { routes } from "src/app/shared/routes/routes";
@@ -103,10 +103,10 @@ export class AddPurchaseReturnComponent {
     private subCategoriesService: SubCategoriesService
   ) {
     this.addPurchaseReturnForm = this.fb.group({
-      purchaseReturnInvoiceNumber: [""],
-      purchaseReturnSupplier: [""],
-      purchaseReturnDate: [""],
-      purchaseReturnOrderStatus: [""],
+      purchaseReturnInvoiceNumber: ["",[Validators.required]],
+      purchaseReturnSupplier: ["",[Validators.required]],
+      purchaseReturnDate: ["",[Validators.required]],
+      purchaseReturnOrderStatus: ["",[Validators.required]],
       purchaseReturnTermsAndCondition: [""],
       purchaseReturnNotes: [""],
       purchaseReturnTotalAmount: [""],

@@ -107,8 +107,8 @@
                                         <p-columnFilter type="text" field="warehouseDetails.name"
                                             display="menu"></p-columnFilter>
                                     </th>
-                                        <!-- <th appShowHide [roles]="['admin', 'super-admin']" >Action
-                                        </th> -->
+                                        <th appShowHide [roles]="['admin', 'super-admin']" >Action
+                                        </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-slabs>
@@ -144,7 +144,7 @@
                                         <td appShowHide [roles]="['admin', 'super-admin']" >
                   <div class="action-buttons">
 
-                                            <p-button *ngIf="slabs.totalSQFT > 0" [text]="true" icon="fa fa-edit"
+                                            <p-button [text]="true" icon="fa fa-edit"
                                             (click)="updateSlabs(slabs._id)" ></p-button>
                                             <!-- <p-button [text]=" true" icon="fa fa-trash"
                                                 (click)="deleteSlabs(slabs._id)"></p-button> -->

@@ -74,9 +74,10 @@
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="date">Date<span class="login-danger">*</span></label>
-                      <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="date"
-                        placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
-                      <div *ngIf="slabsEditForm.get('date')?.hasError('required')  && slabsEditForm.get('date')?.touched">
+                      <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                        formControlName="date" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
+                      <div
+                        *ngIf="slabsEditForm.get('date')?.hasError('required')  && slabsEditForm.get('date')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
@@ -86,9 +87,10 @@
                     <div class="form-group local-forms">
                       <label for="warehouseDetails">Warehouse<span class="login-danger">*</span></label>
                       <!-- optionValue="" -->
-                      <p-dropdown [options]="wareHousedataListsEditArray" styleClass="" appendTo="body" optionLabel="name" optionValue="_id"
-                        placeholder="Select Warehouse" formControlName="warehouseDetails" [style]="{ width: '100%' }"
-                        [filter]="true" filterBy="name" [showClear]="true">
+                      <p-dropdown [options]="wareHousedataListsEditArray" styleClass="" appendTo="body"
+                        optionLabel="name" optionValue="_id" placeholder="Select Warehouse"
+                        formControlName="warehouseDetails" [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                        [showClear]="true">
                       </p-dropdown>
                       <div *ngIf="
                                   slabsEditForm
@@ -106,9 +108,9 @@
                     <div class="form-group local-forms">
                       <label for="lotDetails">Lot No. <span class="login-danger"></span></label>
                       <p-dropdown [options]="originallotNoList" styleClass="" appendTo="body" optionLabel="lotName"
-                      optionValue="_id"
-                        placeholder="Select lot Number" formControlName="lotDetails" [style]="{ width: '100%' }"
-                        [filter]="true" filterBy="name" [showClear]="true" (onChange)="onLotSelect($event.value)">
+                        optionValue="_id" placeholder="Select lot Number" formControlName="lotDetails"
+                        [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true"
+                        (onChange)="onLotSelect($event.value)">
                       </p-dropdown>
                       <!-- <div *ngIf="
                                 slabsEditForm.get('lotDetails')?.hasError('required') &&
@@ -124,7 +126,8 @@
                       <label for="blockDetails">Block No.<span class="login-danger"></span></label>
                       <p-dropdown [options]="blockDropDownData" styleClass="" appendTo="body" optionLabel="blockNo"
                         placeholder="Select block Number" formControlName="blockDetails" [style]="{ width: '100%' }"
-                        [filter]="true" filterBy="name" [showClear]="true" (onChange)="onBlockSelect($event.value)" (change)="calculateTotalAmount()">
+                        [filter]="true" filterBy="name" [showClear]="true" (onChange)="onBlockSelect($event.value)"
+                        (change)="calculateTotalAmount()">
                       </p-dropdown>
                       <!-- <div *ngIf="
                                 slabsEditForm
@@ -158,9 +161,9 @@
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="category">Category <span class="login-danger">*</span></label>
-                      <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body" optionLabel="name" optionValue="_id"
-                        placeholder="Select Category" formControlName="categoryDetail" [style]="{ width: '100%' }"
-                        [filter]="true" filterBy="name" [showClear]="true">
+                      <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body" optionLabel="name"
+                        optionValue="_id" placeholder="Select Category" formControlName="categoryDetail"
+                        [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true">
                       </p-dropdown>
                       <div *ngIf="
                                 slabsEditForm
@@ -177,8 +180,9 @@
                     <div class="form-group local-forms">
                       <label for="subCategory">Sub Category <span class="login-danger">*</span></label>
                       <p-dropdown [options]="SubCategoryListsEditArray" styleClass="" appendTo="body"
-                        placeholder="Select Sub Category" optionLabel="name" formControlName="subCategoryDetail" optionValue="_id"
-                        [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true">
+                        placeholder="Select Sub Category" optionLabel="name" formControlName="subCategoryDetail"
+                        optionValue="_id" [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                        [showClear]="true">
                       </p-dropdown>
                       <div *ngIf="
                                 slabsEditForm
@@ -191,16 +195,16 @@
                     </div>
                   </div>
 
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="width">Width<span class="login-danger"></span></label>
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                           <span class="input-group-text" style="font-size: 12px;">Inch</span>
-                         </div> 
-                        <input class="form-control" type="number" placeholder="Enter Width" formControlName="width" />
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="width">Width<span class="login-danger"></span></label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" style="font-size: 12px;">Inch</span>
                         </div>
-                        <div *ngIf="
+                        <input class="form-control" type="number" placeholder="Enter Width" formControlName="width" />
+                      </div>
+                      <!-- <div *ngIf="
                         (slabsEditForm
                         .get('width')
                         ?.hasError('min') &&
@@ -211,23 +215,23 @@
                         ?.hasError('max') &&
                         slabsEditForm.get('width')?.touched)
                     ">
-                  <span class="login-danger">
-                    input must be between 1 and 100,000.
-                  </span>
-                </div>
-                      </div>
+                        <span class="login-danger">
+                          input must be between 1 and 100,000.
+                        </span>
+                      </div> -->
                     </div>
+                  </div>
 
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="length">Length<span class="login-danger"></span></label>
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                           <span class="input-group-text" style="font-size: 12px;">Inch</span>
-                         </div> 
-                        <input class="form-control" type="number" placeholder="Enter Length" formControlName="length" />
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="length">Length<span class="login-danger"></span></label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" style="font-size: 12px;">Inch</span>
                         </div>
-                        <div *ngIf="
+                        <input class="form-control" type="number" placeholder="Enter Length" formControlName="length" />
+                      </div>
+                      <!-- <div *ngIf="
                                       (slabsEditForm
                                       .get('length')
                                       ?.hasError('min') &&
@@ -238,20 +242,21 @@
                                       ?.hasError('max') &&
                                       slabsEditForm.get('length')?.touched)
                                   ">
-                                <span class="login-danger">
-                                  input must be between 1 and 100,000.
-                                </span>
-                              </div>
-                      </div>
+                        <span class="login-danger">
+                          input must be between 1 and 100,000.
+                        </span>
+                      </div> -->
                     </div>
+                  </div>
 
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="thickness">Thickness(mm)<span class="login-danger"></span></label>
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="thickness">Thickness(mm)<span class="login-danger"></span></label>
+                      <div class="input-group">
                         <input class="form-control" type="number" placeholder="Enter Thickness"
                           formControlName="thickness" />
-                       
-                        <div *ngIf="
+                      </div>
+                      <!-- <div *ngIf="
                         (slabsEditForm
                         .get('thickness')
                         ?.hasError('min') &&
@@ -262,30 +267,30 @@
                         ?.hasError('max') &&
                         slabsEditForm.get('thickness')?.touched)
                     ">
-                  <span class="login-danger">
-                    input must be between 1 and 100,000.
-                  </span>
-                </div>
-                      </div>
+                        <span class="login-danger">
+                          input must be between 1 and 100,000.
+                        </span>
+                      </div> -->
                     </div>
+                  </div>
 
-                    <div class="col-12 col-md-4 col-xl-4">
-                      <div class="form-group local-forms">
-                        <label for="subCategory">Finishes<span class="login-danger">*</span></label>
-                        <p-dropdown [options]="finishes" styleClass="" appendTo="body" placeholder="Select finishes"
-                          optionLabel="name" formControlName="finishes" [style]="{ width: '100%' }" [filter]="true"
-                          filterBy="name" [showClear]="true">
-                        </p-dropdown>
-                        <div *ngIf="
+                  <div class="col-12 col-md-4 col-xl-4">
+                    <div class="form-group local-forms">
+                      <label for="subCategory">Finishes<span class="login-danger">*</span></label>
+                      <p-dropdown [options]="finishes" styleClass="" appendTo="body" placeholder="Select finishes"
+                        optionLabel="name" formControlName="finishes" [style]="{ width: '100%' }" [filter]="true"
+                        filterBy="name" [showClear]="true">
+                      </p-dropdown>
+                      <div *ngIf="
                                   slabsEditForm
                                     .get('finishes')
                                     ?.hasError('required') &&
                                   slabsEditForm.get('finishes')?.touched
                                 ">
-                          <span class="login-danger">Field is required.</span>
-                        </div>
+                        <span class="login-danger">Field is required.</span>
                       </div>
                     </div>
+                  </div>
 
                 </div>
 
@@ -326,13 +331,13 @@
                                               ">
                                 <span class="login-danger">Input must be at least 0.
                                 </span>
-                                <div *ngIf="
+                              </div>
+                              <div *ngIf="
                                         slabsEditForm.get('purchaseCost')?.hasError('required') &&
                                         slabsEditForm.get('purchaseCost')?.touched
                                       ">
                                 <span class="login-danger">Field is required.
                                 </span>
-                              </div>
                               </div>
                             </div>
                           </div>
@@ -342,19 +347,16 @@
                             <div class="form-group local-forms">
                               <label for="totalSQFT">Square Feet<span class="login-danger"></span></label>
                               <div class="input-group">
-                                <!-- <div class="input-group-prepend">
-                                            <span class="input-group-text" style="font-size: 12px;">sq</span>
-                                            </div> -->
                                 <input class="form-control" type="number" placeholder="Enter SqFeet"
                                   formControlName="totalSQFT" (change)="calculateTotalAmount()" />
                               </div>
-                              <div *ngIf="
+                              <!-- <div *ngIf="
                                               slabsEditForm.get('totalSQFT')?.hasError('min') &&
                                               slabsEditForm.get('totalSQFT')?.touched
                                             ">
                                 <span class="login-danger">Input must be at least 0.
                                 </span>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
 

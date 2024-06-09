@@ -97,6 +97,18 @@
                         [showClear]="true"
                       ></p-dropdown>
                     </div>
+                    <div
+                        *ngIf="
+                          addPurchaseReturnForm
+                            .get('purchaseReturnSupplier')
+                            ?.hasError('required') &&
+                          addPurchaseReturnForm.get(
+                            'purchaseReturnSupplier'
+                          )?.touched
+                        "
+                      >
+                        <span class="login-danger">Field is required. </span>
+                      </div>
                   </div>
 
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -116,6 +128,18 @@
                         [styleClass]="'col-12'"
                       ></p-calendar>
                     </div>
+                    <div
+                        *ngIf="
+                          addPurchaseReturnForm
+                            .get('purchaseReturnSupplier')
+                            ?.hasError('required') &&
+                          addPurchaseReturnForm.get(
+                            'purchaseReturnSupplier'
+                          )?.touched
+                        "
+                      >
+                        <span class="login-danger">Field is required. </span>
+                      </div>
                   </div>
 
                   
@@ -329,6 +353,18 @@
                             >
                             </p-dropdown>
                           </div>
+                          <div
+                        *ngIf="
+                          addPurchaseReturnForm
+                            .get('purchaseReturnSupplier')
+                            ?.hasError('required') &&
+                          addPurchaseReturnForm.get(
+                            'purchaseReturnSupplier'
+                          )?.touched
+                        "
+                      >
+                        <span class="login-danger">Field is required. </span>
+                      </div>
                         </div>
 
                         

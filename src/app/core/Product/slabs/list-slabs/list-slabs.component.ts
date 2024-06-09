@@ -34,7 +34,6 @@ export class ListSlabsComponent {
     this.service.getSlabsList().subscribe((resp: any) => {
       this.allSlabsDaTa = resp.data;
       this.originalData = resp.data;
-
       console.log("API", this.data);
 
     })

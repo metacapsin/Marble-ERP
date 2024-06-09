@@ -78,6 +78,7 @@ export class AddSlabsComponent {
   SubCategoryListsEditArray: any;
   originallotNoList: any = [];
   blockProcessorData: any;
+  blockProcessorArray: any[];
 
   constructor(
     private service: ProductsService,
@@ -144,6 +145,16 @@ export class AddSlabsComponent {
   getBlockProcessor() {
     this.ServiceblockProcessor.getAllBlockProcessorData().subscribe((data) => {
       this.blockProcessorData = data;
+      this.blockProcessorArray = [];
+      this.blockProcessorData.forEach((element: any) => {
+        this.blockProcessorArray.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name,
+          },
+        });
+      });
       console.log(this.blockProcessorData);
     });
   }
@@ -282,65 +293,66 @@ export class AddSlabsComponent {
     let formData = this.slabsAddForm.value;
     if (
       this.slabsAddForm.value.width ||
-      this.slabsAddForm.value.length ||
-      this.slabsAddForm.value.thickness
+        this.slabsAddForm.value.length ||
+        this.slabsAddForm.value.thickness
     ) {
       var width = this.slabsAddForm.value.width;
       var length = this.slabsAddForm.value.length;
       var thickness = this.slabsAddForm.value.thickness;
       var _Size = `${width}x${length}x${thickness}`;
     }
+    if (
+      this.slabsAddForm.value.lotDetails &&
+      !this.slabsAddForm.value.blockProcessor
+    ) {
+      const message = "Enter Block Processor";
+      this.messageService.add({ severity: "error", detail: message });
+    } else {
+      const payload = {
+        slabNo: this.slabsAddForm.value.slabNo,
+        lotDetails: this.slabsAddForm.value.lotDetails,
+        blockDetails: this.slabsAddForm.value.blockDetails,
+        categoryDetail: this.slabsAddForm.value.categoryDetail,
+        subCategoryDetail: this.slabsAddForm.value.subCategoryDetail,
+        slabName: this.slabsAddForm.value.slabName,
+        processingFee: this.slabsAddForm.value.processingFee,
+        totalSQFT: this.slabsAddForm.value.totalSQFT,
+        purchaseCost: this.slabsAddForm.value.purchaseCost,
+        // processingCost: this.slabsAddForm.value.processingCost,
+        otherCharges: this.slabsAddForm.value.otherCharges,
+        transportationCharges: this.slabsAddForm.value.transportationCharges,
+        totalCosting: this.slabsAddForm.value.totalCosting,
+        costPerSQFT: this.slabsAddForm.value.costPerSQFT,
+        sellingPricePerSQFT: this.slabsAddForm.value.sellingPricePerSQFT,
+        notes: this.slabsAddForm.value.notes,
+        blockProcessor: this.slabsAddForm.value.blockProcessor,
+        warehouseDetails: this.slabsAddForm.value.warehouseDetails,
+        date: this.slabsAddForm.value.date,
+        width: this.slabsAddForm.value.width,
+        length: this.slabsAddForm.value.length,
+        thickness: this.slabsAddForm.value.thickness,
+        finishes: this.slabsAddForm.value.finishes,
+        slabSize: _Size,
+      };
+      console.log("payload", payload);
 
-    if (this.slabsAddForm.get("lotDetails").value) {
-      if (!this.slabsAddForm.value.blockProcessor) {
-        const message = "Enter block Processor";
-        return this.messageService.add({ severity: "error", detail: message });
+      if (this.slabsAddForm.valid) {
+        this.Service.CreateSlabs(payload).subscribe((resp: any) => {
+          if (resp.status === "success") {
+            const message = "Slabs has been added";
+            this.messageService.add({ severity: "success", detail: message });
+            setTimeout(() => {
+              this.router.navigate(["/slabs"]);
+            }, 400);
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        });
       } else {
-        const payload = {
-          slabNo: this.slabsAddForm.value.slabNo,
-          lotDetails: this.slabsAddForm.value.lotDetails,
-          blockDetails: this.slabsAddForm.value.blockDetails,
-          categoryDetail: this.slabsAddForm.value.categoryDetail,
-          subCategoryDetail: this.slabsAddForm.value.subCategoryDetail,
-          slabName: this.slabsAddForm.value.slabName,
-          processingFee: this.slabsAddForm.value.processingFee,
-          totalSQFT: this.slabsAddForm.value.totalSQFT,
-          purchaseCost: this.slabsAddForm.value.purchaseCost,
-          // processingCost: this.slabsAddForm.value.processingCost,
-          otherCharges: this.slabsAddForm.value.otherCharges,
-          transportationCharges: this.slabsAddForm.value.transportationCharges,
-          totalCosting: this.slabsAddForm.value.totalCosting,
-          costPerSQFT: this.slabsAddForm.value.costPerSQFT,
-          sellingPricePerSQFT: this.slabsAddForm.value.sellingPricePerSQFT,
-          notes: this.slabsAddForm.value.notes,
-          blockProcessor: this.slabsAddForm.value.blockProcessor,
-          warehouseDetails: this.slabsAddForm.value.warehouseDetails,
-          date: this.slabsAddForm.value.date,
-          width: this.slabsAddForm.value.width,
-          length: this.slabsAddForm.value.length,
-          thickness: this.slabsAddForm.value.thickness,
-          finishes: this.slabsAddForm.value.finishes,
-          slabSize: _Size,
-        };
-        console.log("payload", payload);
-
-        if (this.slabsAddForm.valid) {
-          this.Service.CreateSlabs(payload).subscribe((resp: any) => {
-            if (resp.status === "success") {
-              const message = "Slabs has been added";
-              this.messageService.add({ severity: "success", detail: message });
-              setTimeout(() => {
-                this.router.navigate(["/slabs"]);
-              }, 400);
-            } else {
-              const message = resp.message;
-              this.messageService.add({ severity: "error", detail: message });
-            }
-          });
-        } else {
-          console.log("Form is invalid!");
-        }
+        console.log("Form is invalid!");
       }
     }
   }
+  // }
 }
