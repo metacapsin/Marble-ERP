@@ -129,9 +129,9 @@ export class EditSlabsComponent {
       costPerSQFT: [""],
       date: ["", [Validators.required]],
       purchaseCost: ["", [Validators.required]],
-      thickness: ["", Validators.min(1)],
-      width: ["", [Validators.min(1)]],
-      length: ["", [Validators.min(1)]],
+      thickness: ["", Validators.min(1), Validators.max(100000)],
+      width: ["", Validators.min(1), Validators.max(100000)],
+      length: ["", Validators.min(1), Validators.max(100000)],
       finishes: ["", [Validators.required]],
     });
   }

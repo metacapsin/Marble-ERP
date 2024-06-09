@@ -201,17 +201,20 @@
                         <input class="form-control" type="number" placeholder="Enter Width" formControlName="width" />
                         </div>
                         <div *ngIf="
-                                  slabsEditForm.get('width')?.hasError('min') &&
-                                  slabsEditForm.get('width')?.touched
-                                ">
-                          <span class="login-danger">Input must be at least 0.</span>
-                        </div>
-                        <!-- <div *ngIf="
-                                  slabsEditForm.get('width')?.hasError('pattern') &&
-                                  slabsEditForm.get('width')?.touched
-                                ">
-                                <span class="login-danger">Input must be at least 3 to 15</span>
-                              </div> -->
+                        (slabsAddForm
+                        .get('width')
+                        ?.hasError('min') &&
+                        slabsAddForm.get('width')
+                            ?.touched) ||
+                        (slabsAddForm
+                        .get('width')
+                        ?.hasError('max') &&
+                        slabsAddForm.get('width')?.touched)
+                    ">
+                  <span class="login-danger">
+                    input must be between 1 and 100,000.
+                  </span>
+                </div>
                       </div>
                     </div>
 
@@ -225,17 +228,20 @@
                         <input class="form-control" type="number" placeholder="Enter Length" formControlName="length" />
                         </div>
                         <div *ngIf="
-                                  slabsEditForm.get('length')?.hasError('min') &&
-                                  slabsEditForm.get('length')?.touched
-                                ">
-                          <span class="login-danger">Input must be at least 0.</span>
-                        </div>
-                        <!-- <div *ngIf="
-                                  slabsEditForm.get('length')?.hasError('pattern') &&
-                                  slabsEditForm.get('length')?.touched
-                                ">
-                                <span class="login-danger">Input must be at least 3 to 15</span>
-                              </div> -->
+                                      (slabsAddForm
+                                      .get('length')
+                                      ?.hasError('min') &&
+                                      slabsAddForm.get('length')
+                                          ?.touched) ||
+                                      (slabsAddForm
+                                      .get('length')
+                                      ?.hasError('max') &&
+                                      slabsAddForm.get('length')?.touched)
+                                  ">
+                                <span class="login-danger">
+                                  input must be between 1 and 100,000.
+                                </span>
+                              </div>
                       </div>
                     </div>
 
@@ -244,18 +250,22 @@
                         <label for="thickness">Thickness(mm)<span class="login-danger"></span></label>
                         <input class="form-control" type="number" placeholder="Enter Thickness"
                           formControlName="thickness" />
+                       
                         <div *ngIf="
-                                  slabsEditForm.get('thickness')?.hasError('min') &&
-                                  slabsEditForm.get('thickness')?.touched
-                                ">
-                          <span class="login-danger">Input must be at least 0.</span>
-                        </div>
-                        <!-- <div *ngIf="
-                                  slabsEditForm.get('thickness')?.hasError('pattern') &&
-                                  slabsEditForm.get('thickness')?.touched
-                                ">
-                                <span class="login-danger">Input must be at least 3 to 15</span>
-                              </div> -->
+                        (slabsAddForm
+                        .get('thickness')
+                        ?.hasError('min') &&
+                        slabsAddForm.get('thickness')
+                            ?.touched) ||
+                        (slabsAddForm
+                        .get('thickness')
+                        ?.hasError('max') &&
+                        slabsAddForm.get('thickness')?.touched)
+                    ">
+                  <span class="login-danger">
+                    input must be between 1 and 100,000.
+                  </span>
+                </div>
                       </div>
                     </div>
 
