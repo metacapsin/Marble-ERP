@@ -137,7 +137,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4">
+                  <div class="col-12 col-md-4 col-xl-4" *ngIf="slabsEditForm.get('lotDetails').value">
                     <div class="form-group local-forms">
                       <label for="blockProcessor">Processor<span class="login-danger"></span></label>
                       <p-dropdown [options]="blocksNoList" styleClass="" appendTo="body" optionLabel="name"
@@ -495,14 +495,14 @@
                         </div>
                         <div class="invoice-total-inner">
 
-                          <p *ngIf="slabsEditForm.get('lotDetails').value">
+                          <!-- <p *ngIf="slabsEditForm.get('lotDetails').value">
                             Processing Costing<span>₹
                               {{
                               slabsEditForm.get("processingCost").value
                               | number : "1.2-2"
                               }}</span>
-                          </p>
-                          <p>
+                          </p> -->
+                          <!-- <p>
                             Total Costing<span>₹
                               {{
                               slabsEditForm.get("totalCosting").value
@@ -515,6 +515,20 @@
                               slabsEditForm.get("costPerSQFT").value
                               | number : "1.2-2"
                               }}</span>
+                          </p> -->
+                          <p>
+                            Total Costing<span>₹
+                              {{
+                                slabsEditForm.get("totalCosting")?.value ? (slabsEditForm.get("totalCosting").value | number: "1.2-2") : 0
+                              }}
+                            </span>
+                          </p>
+                          <p>
+                            Per Square Feet Cost<span>₹
+                              {{
+                                slabsEditForm.get("costPerSQFT")?.value ? (slabsEditForm.get("costPerSQFT").value | number: "1.2-2") : 0
+                              }}
+                            </span>
                           </p>
                           <!-- <p>
                                       Discount<span>₹

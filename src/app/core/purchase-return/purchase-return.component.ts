@@ -16,10 +16,11 @@ import { PurchaseReturnService } from './purchase-return.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { InvoiceDialogComponent } from 'src/app/common-component/modals/invoice-dialog/invoice-dialog.component';
 @Component({
   selector: 'app-purchase-return',
   standalone: true,
-  imports: [CommonModule,SharedModule, ToastModule, DropdownModule,CalendarModule ],
+  imports: [CommonModule,SharedModule, ToastModule, DropdownModule,CalendarModule,InvoiceDialogComponent ],
   templateUrl: './purchase-return.component.html',
   styleUrl: './purchase-return.component.scss',
   providers: [MessageService],
@@ -63,6 +64,8 @@ export class PurchaseReturnComponent {
   showDialoge: boolean;
   showInvoiceDialog: boolean;
   selectedPurchaseReturn:''
+  header: string;
+  PurchaseReturnListData: any[];
 
   constructor(public data : DataService,private service:PurchaseReturnService,private router: Router,private messageService: MessageService,){
 
@@ -104,6 +107,27 @@ export class PurchaseReturnComponent {
       this.showDialoge = false;
     
   }
+  showInvoiceDialoge(id: any)  {
+    let totalTax = 0;
+    console.log("id pass to invoice dialoge", id);
+    console.log("showInvoiceDialoge is triggered ");
+    this.service.getPurchaseReturnById(id).subscribe((resp: any) => {
+      this.showInvoiceDialog = true;
+      this.PurchaseReturnListData = [resp.data];
+      this.header = "Purchase Invoice";
+      console.log(this.PurchaseReturnListData[0].lotDetails);
+      console.log(this.PurchaseReturnListData);
+      console.log(resp);
+
+
+      // if (resp.data.lotDetails) {
+      //   this.service
+      //     .getBlockDetailByLotId(resp.data.lotDetails._id)
+      //     .subscribe((resp: any) => {
+      //       this.blockDetailsTable = resp.data.blockDetails;
+      //     });
+      // }
+    })}
   public searchData(value: any): void {
     this.purchaseReturnData.filter = value.trim().toLowerCase();
     this.originalData = this.purchaseReturnData.filteredData;

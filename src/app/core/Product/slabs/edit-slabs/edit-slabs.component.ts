@@ -24,6 +24,7 @@ import { BlocksService } from "../../blocks/blocks.service";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 import { SlabsService } from "../slabs.service";
 import { CalendarModule } from "primeng/calendar";
+import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
 
 @Component({
   selector: "app-edit-slabs",
@@ -72,6 +73,7 @@ export class EditSlabsComponent {
   CategoryListsEditArray: any;
   wareHousedataListsEditArray: any;
   SubCategoryListsEditArray: any;
+  blockProcessorData: Object;
 
   constructor(
     private service: ProductsService,
@@ -85,7 +87,8 @@ export class EditSlabsComponent {
     private blocksService: BlocksService,
     private services: WarehouseService,
     private Service: SlabsService,
-    private Lotservice: LotService
+    private Lotservice: LotService,
+    private ServiceblockProcessor: blockProcessorService
   ) {
     this.slabsEditForm = this.fb.group({
       slabNo: [
@@ -104,7 +107,7 @@ export class EditSlabsComponent {
           Validators.pattern(this.shortNameRegex),
         ],
       ],
-      processingFee: ["",], //p
+      processingFee: [""], //p
       totalSQFT: ["", [Validators.min(1), Validators.max(100000)]],
       otherCharges: [
         "",
@@ -126,13 +129,18 @@ export class EditSlabsComponent {
       costPerSQFT: [""],
       date: ["", [Validators.required]],
       purchaseCost: ["", [Validators.required]],
-      thickness: ["",Validators.min(1)],
+      thickness: ["", Validators.min(1)],
       width: ["", [Validators.min(1)]],
       length: ["", [Validators.min(1)]],
       finishes: ["", [Validators.required]],
     });
   }
-
+  getBlockProcessor() {
+    this.ServiceblockProcessor.getAllBlockProcessorData().subscribe((data) => {
+      this.blockProcessorData = data;
+      console.log(this.blockProcessorData);
+    });
+  }
   ngOnInit(): void {
     this.activeRoute.params.subscribe((params) => {
       this.slabsId = params["id"];
@@ -266,7 +274,7 @@ export class EditSlabsComponent {
       .value;
     let purchaseCost = +this.slabsEditForm.get("purchaseCost").value;
     if (!this.blockDropDownPerBlockWeight && !this.blockDropDowntotleCost) {
-      console.log(transportationCharges, otherCharges, processingCost);
+      console.log(transportationCharges, otherCharges, processingFee);
       var totalCosting = +purchaseCost + otherCharges + transportationCharges;
       var totalAmount = +totalCosting / totalSQFT;
       console.log("totalCosting", totalCosting);
@@ -276,15 +284,23 @@ export class EditSlabsComponent {
         costPerSQFT: totalAmount.toFixed(2),
       });
     } else {
-      var processingCost = processingFee * this.blockDropDownPerBlockWeight;
-      var totalCosting = +purchaseCost + processingCost + otherCharges + transportationCharges;
-      var totalAmount = totalCosting / totalSQFT;
-      console.log("processingCost", processingCost);
-      console.log("totalCosting", totalCosting);
-      console.log("totalAmount", totalAmount);
+      // var processingCost = processingFee * this.blockDropDownPerBlockWeight;
+      // var totalCosting = +purchaseCost + processingCost + otherCharges + transportationCharges;
+      // var totalAmount = totalCosting / totalSQFT;
+      // console.log("processingCost", processingCost);
+      // console.log("totalCosting", totalCosting);
+      // console.log("totalAmount", totalAmount);
+      // this.slabsEditForm.patchValue({
+      //   processingCost: processingCost,
+      //   totalCosting: totalCosting.toFixed(2),
+      //   costPerSQFT: totalAmount.toFixed(2),
+      // });
+      var totalCosting: number =
+        +purchaseCost + processingFee + otherCharges + transportationCharges;
+      var totalAmount: number = totalSQFT == 0 ? 0 : totalCosting / totalSQFT;
       this.slabsEditForm.patchValue({
-        processingCost: processingCost,
-        totalCosting: totalCosting.toFixed(2),
+        purchaseCost: purchaseCost,
+        totalCosting: totalCosting,
         costPerSQFT: totalAmount.toFixed(2),
       });
     }
