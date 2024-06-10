@@ -180,7 +180,8 @@
                 <td appShowHide [roles]="['admin', 'super-admin']">
                   <div class="action-buttons">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
-                    <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'" [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)"></p-button>
+                    <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'" [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)" ></p-button>
+                    <div *ngIf="sales.paymentStatus != 'Unpaid' && sales.paymentStatus != 'Partial Paid'" class="placeholder"></div>
                     <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
                   </div>
                 </td>
@@ -310,6 +311,7 @@
                     (click)="showReturnInvoiceDialoge(sales._id)"></p-button>
                   <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'"
                     [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentReturnDialog(sales._id)"></p-button>
+                    <div *ngIf="sales.paymentStatus != 'Unpaid' && sales.paymentStatus != 'Partial Paid'" class="placeholder"></div>
                   <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(sales._id)"></p-button>
                   </div>
                 </td>

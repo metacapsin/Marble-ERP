@@ -68,14 +68,14 @@
                         field="description"></p-sortIcon>
                         <p-columnFilter type="text" field="description" display="menu"></p-columnFilter>
                     </th>
-                    <th  appShowHide [roles]="['admin', 'super-admin', 'help-desk']">Action</th>
+                    <th width="13%"  appShowHide [roles]="['admin', 'super-admin', 'help-desk']">Action</th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-categories>
                   <tr>
                     <td>{{categories.name}}</td>
                     <td>{{categories.description}}</td>
-                    <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
+                    <td class="action-buttions" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
                       <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(categories._id)"></p-button>
                       <p-button [text]=" true" icon="fa fa-trash" (click)="deleteCategory(categories._id)"></p-button>
                     </td>

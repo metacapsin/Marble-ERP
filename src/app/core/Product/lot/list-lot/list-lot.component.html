@@ -104,7 +104,7 @@
                                         <td>{{lot.blocksCount}}</td>
                                         <td>{{lot.lotTotalCosting}}</td>
                                         <td appShowHide
-                                            [roles]="['admin', 'super-admin']">
+                                            [roles]="['admin', 'super-admin']" class="action-buttons">
                                             <p-button [text]="true" icon="fa-solid fa-eye"
                                                 (click)="showLotDetails(lot._id)"></p-button>
                                             <p-button [text]="true" icon="fa-solid fa-edit"

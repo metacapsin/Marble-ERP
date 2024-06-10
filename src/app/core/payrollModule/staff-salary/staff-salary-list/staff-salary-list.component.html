@@ -62,7 +62,7 @@
                   </th>
                   <th pSortableColumn="basicSalary">Basic Salary<p-sortIcon field="basicSalary"></p-sortIcon></th>
                   <th pSortableColumn="netSalary">Net Salary<p-sortIcon field="netSalary"></p-sortIcon></th>
-                  <th>Action</th>
+                  <th width="13%">Action</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-salary>
@@ -71,7 +71,7 @@
                   <td >{{salary.type}}</td>
                   <td >₹ {{salary.basicSalary}}</td>
                   <td >₹ {{salary.netSalary}}</td>
-                  <td  style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                  <td  class="action-buttons" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-edit"(click)="editSalary(salary._id)"></p-button>
                     <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalaryList(salary._id)"></p-button>
                   </td>

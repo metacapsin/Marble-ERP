@@ -93,7 +93,7 @@
                                             <p-sortIcon field="paymentStatus"></p-sortIcon>
                                         </th>
 
-                                        <th>Action</th>
+                                        <th width="10%">Action</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-purchaseReturn>
@@ -112,7 +112,7 @@
                                         <td>{{ purchaseReturn.purchaseGrossTotal }}</td>
                                         <td>{{ purchaseReturn.paymentStatus }}</td>
 
-                                        <td>
+                                        <td class="action-buttons">
                                             <p-button [text]="true" data-bs-toggle="modal"
                                                 data-bs-target="#invoices_preview" icon="fa-solid fa-eye"
                                                 (click)="showInvoiceDialoge(purchaseReturn._id)"></p-button>

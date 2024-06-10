@@ -185,6 +185,7 @@
                       purchase.paymentStatus == 'Unpaid' ||
                       purchase.paymentStatus == 'Partial Paid'
                     " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id)"></p-button>
+                    <div *ngIf="purchase.paymentStatus != 'Unpaid' && purchase.paymentStatus != 'Partial Paid'" class="placeholder"></div>
                                         <p-button [text]="true" icon="fa-solid fa-trash"
                                             (click)="deletePurchase(purchase._id)"></p-button>
                                     </div>
@@ -322,6 +323,7 @@
                                         purchase.paymentStatus == 'Partial Paid'
                                       " [text]="true" icon="fa-solid fa-wallet"
                                             (click)="openPaymentReturnDialog(purchase._id)"></p-button>
+                                            <div *ngIf="purchase.paymentStatus != 'Unpaid' && purchase.paymentStatus != 'Partial Paid'" class="placeholder"></div>
                                         <p-button [text]="true" icon="fa-solid fa-trash"
                                             (click)="deletePurchase(purchase._id)"></p-button>
                                     </div>
@@ -374,7 +376,7 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-payment>
                             <tr>
-                                <td class="bold">{{ payment.purchaseInvoiceNumber }}</td>
+                                <td class="bold">{{ payment.purchaseInvoiceNumber.purchaseInvoiceNumber }}</td>
                                 <td class="bold">{{ payment.transactionNo }}</td>
                                 <td class="bold">
                                     {{ payment.paymentDate | date : "dd-MMM-yyyy" }}

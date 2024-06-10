@@ -79,7 +79,7 @@
                         field="category"></p-sortIcon>
                         <p-columnFilter type="text" field="category" display="menu"></p-columnFilter>
                     </th> -->
-                    <th  appShowHide [roles]="['admin', 'super-admin', 'help-desk']">Action</th>
+                    <th width="13%"  appShowHide [roles]="['admin', 'super-admin', 'help-desk']">Action</th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-subCategories>
@@ -88,7 +88,7 @@
                     <td>{{subCategories.categoryId.name}}</td>
                     <td>{{subCategories.description}}</td>
                     <!-- <td>{{subCategories.category}}</td> -->
-                    <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
+                    <td class="action-buttions" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
                       <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(subCategories._id)"></p-button>
                       <p-button [text]=" true" icon="fa fa-trash" (click)="deleteSubCategory(subCategories._id)"></p-button>
                     </td>

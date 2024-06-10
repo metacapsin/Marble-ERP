@@ -70,7 +70,7 @@
                   <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
                     <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
                   </th>
-                  <th>Action</th>
+                  <th width="13%">Action</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-staff>
@@ -80,7 +80,7 @@
                   <td>{{staff.mobile}}</td>
                   <td>{{staff.city}}</td>
                   <td>{{staff.email}}</td>
-                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                  <td class="action-buttons" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-edit" (click)="editStaff(staff._id)"></p-button>
                     <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteStaff(staff._id)"></p-button>
                   </td>

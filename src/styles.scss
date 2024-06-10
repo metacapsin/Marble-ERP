@@ -332,25 +332,39 @@ ul.p-dropdown-items{
   min-width: 0;
 }
 
+.action-buttons .placeholder {
+  flex: 1;
+  min-width: 0;
+  visibility: hidden;
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
   .action-buttons {
-    gap: 5px;
+      gap: 5px;
   }
   .action-buttons p-button {
-    font-size: 14px;
-    padding: 5px;
+      font-size: 14px;
+      padding: 5px;
+  }
+  .action-buttons .placeholder {
+      font-size: 14px;
+      padding: 5px;
   }
 }
 
 /* For very small screens like iPhone SE */
 @media (max-width: 375px) {
   .action-buttons {
-    gap: 2px;
+      gap: 2px;
   }
   .action-buttons p-button {
-    font-size: 12px;
-    padding: 3px;
+      font-size: 12px;
+      padding: 3px;
+  }
+  .action-buttons .placeholder {
+      font-size: 12px;
+      padding: 3px;
   }
 }
 
@@ -363,16 +377,16 @@ ul.p-dropdown-items{
 /* Responsive table adjustments */
 @media (max-width: 768px) {
   .p-datatable-striped {
-    display: block;
-    overflow-x: auto;
+      display: block;
+      overflow-x: auto;
   }
 
   .p-datatable-striped table {
-    width: 100%;
-    min-width: 60rem; /* Adjust as needed */
+      width: 100%;
+      min-width: 60rem; /* Adjust as needed */
   }
 
   .p-datatable-striped th, .p-datatable-striped td {
-    white-space: nowrap;
+      white-space: nowrap;
   }
 }

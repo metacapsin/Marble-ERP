@@ -175,12 +175,12 @@
                   <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>                  <td>₹ {{sales.paidAmount}}</td>
                   <td>₹ {{sales.dueAmount}}</td>
                   <td>₹ {{sales.salesTotalAmount}}</td>
-                  <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                  <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
                     <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"
   *ngIf="sales.paymentStatus === 'Unpaid' || sales.paymentStatus === 'Partial Paid'"></p-button>
-
+  <div *ngIf="sales.paymentStatus != 'Unpaid' && sales.paymentStatus != 'Partial Paid'" class="placeholder"></div>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
 
                   </td>
                 </tr>

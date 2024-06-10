@@ -28,12 +28,22 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6" *ngIf="sales.purchaseInvoiceNumber">
+                  <div class="col-md-6" *ngIf="sales.purchaseOrderStatus">
                     <div class="invoice-logo d-flex justify-content-start">
 
                       <div class="add-group">
                         <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Invoice Number :</span>
                           {{sales.purchaseInvoiceNumber}}</p>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6" *ngIf="sales.purchaseReturnOrderStatus ">
+                    <div class="invoice-logo d-flex justify-content-start">
+
+                      <div class="add-group">
+                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Invoice Number :</span>
+                          {{sales.purchaseInvoiceNumber.purchaseInvoiceNumber}}</p>
 
                       </div>
                     </div>

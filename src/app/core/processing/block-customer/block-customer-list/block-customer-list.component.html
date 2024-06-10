@@ -72,7 +72,7 @@
 
                                     <th pSortableColumn="openingBalance">Balance <p-sortIcon
                                             field="openingBalance"></p-sortIcon></th>
-                                    <th>Action</th>
+                                    <th width="13%">Action</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-product>
@@ -85,7 +85,7 @@
                                     </td>
                                     <td>{{product.createdOn | date: 'dd-MMM-yyyy'}}</td>
                                     <td>{{product.openingBalance}}</td>
-                                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
+                                    <td class="action-buttons" appShowHide [roles]="['admin', 'super-admin']">
 
                                         <!-- <p-button [text]=" true" icon="fa fa-eye"
                                             (click)="vewCustomer(product._id)"></p-button> -->
