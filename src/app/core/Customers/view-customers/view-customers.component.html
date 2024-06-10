@@ -191,9 +191,9 @@
               <tr>
                 <td colspan="3"></td>
                 <td>Total Amount</td>
-                <td>₹ {{ getTotalPaidAmount('salesDataShowById') }}</td>
-                <td>₹ {{ getTotalDuoAmount('salesDataShowById') }}</td>
-                <td>₹ {{ getTotalAmount('salesDataShowById') }}</td>
+                <td>₹ {{ salesTotalValues.totalPaidAmount }}</td>
+                <td>₹ {{ salesTotalValues.totalDueAmount }}</td>
+                <td>₹ {{ salesTotalValues.totalPaidAmount }}</td>
                 <td></td>
               </tr>
             </ng-template>
@@ -208,7 +208,7 @@
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="salesInvoiceNumber">
-                  Invoice No.
+                  Invoice Number
                   <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
                   <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
                 </th>
@@ -246,7 +246,7 @@
               <tr>
                 <td colspan="3"></td>
                 <td>Total Amount</td>
-                <td>₹ {{ getTotalPaymentAmount('paymentListDataByCustomerId') }}</td>
+                <td>₹ {{ paymentInTotalValues.totalPaymentAmount }}</td>
               </tr>
             </ng-template>
           </p-table>
@@ -319,9 +319,9 @@
               <tr>
                   <td colspan="3"></td>
                   <td>Total Amount</td>
-                  <td>₹ {{ getTotalPaidAmount('salesReturnDataShowById') }}</td>
-                  <td>₹ {{ getTotalDuoAmount('salesReturnDataShowById') }}</td>
-                  <td>₹ {{ getTotalAmount('salesReturnDataShowById') }}</td>
+                  <td>₹ {{ salesReturnTotalValues.totalPaidAmount}}</td>
+                  <td>₹ {{ salesReturnTotalValues.totalDueAmount }}</td>
+                  <td>₹ {{ salesReturnTotalValues.totalSalesReturnAmount }}</td>
                   <td ></td>
               </tr>
           </ng-template>
@@ -336,7 +336,7 @@
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="salesInvoiceNumber">
-                  Invoice No.
+                  Invoice Numbers
                   <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
                   <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
                 </th>
@@ -374,7 +374,7 @@
               <tr>
                 <td colspan="3"></td>
                 <td>Total Amount</td>
-                <td>₹ {{ getTotalPaymentAmount('paymentReturnDataListById') }}</td>
+                <td>₹ {{ paymentOutTotalValues.totalAmount }}</td>
               </tr>
             </ng-template>
           </p-table>
