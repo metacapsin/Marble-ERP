@@ -199,11 +199,14 @@ export class ViewSuppliersComponent {
       this.purchaseDataShowById = [resp.data];
       this.header = "Purchase Invoice ";
       console.log("Purchase data by id On dialog", this.purchaseDataShowById);
+      
     });
 
     this.PaymentOutService.getPurchasePaymentListByPurchaseId(Id).subscribe((resp: any) => {
       this.paymentDataListById = resp.data;
       console.log("this is payment by Purchase id", this.paymentDataListById);
+      console.log(resp.data)
+
     });
   }
   showReturnInvoiceDialoge(Id: any) {
@@ -213,13 +216,15 @@ export class ViewSuppliersComponent {
       this.showInvoiceDialog = true;
       this.purchaseDataShowById = [resp.data];
       this.header = "Purchase Return Invoice ";
+      console.log(resp.data)
       console.log("Purchase Return data by id On dialog", this.purchaseDataShowById);
     });
 
     this.purchaseReturnService
-      .getPurchaseReturnPaymentListbyPurchaseReturnId(Id)
+      .getPurchaseReturnPaymentListByPurchaseReturnId(Id)
       .subscribe((resp: any) => {
         this.paymentDataListById = resp.data;
+        console.log(resp.data)
       });
   }
 

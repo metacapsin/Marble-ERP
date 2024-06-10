@@ -54,6 +54,7 @@ export class ViewCustomersComponent implements OnInit {
   modalData: any = {}; // to print delete message on delete api
   customerID: any;
   salesId: any;
+  salesReturnID:any;
   paymentDataListById: any[] = [];
   paymentReturnDataListById: any[] = [];
   paymentObject: any = {};
@@ -94,23 +95,23 @@ export class ViewCustomersComponent implements OnInit {
     if (!arrayToUse || !Array.isArray(arrayToUse) || arrayToUse.length === 0) {
       return 0;
     }
-    return arrayToUse.reduce((total, payment) => total + Number(payment.paidAmount), 0);
+    return arrayToUse?.reduce((total, payment) => total + Number(payment.paidAmount), 0);
   }
   
   getTotalDuoAmount(arrayProperty: 'salesDataShowById' | 'salesReturnDataShowById'): number {
     const arrayToUse = this[arrayProperty];
 
-    return arrayToUse.reduce((total, payment) => total + Number(payment.dueAmount), 0);
+    return arrayToUse?.reduce((total, payment) => total + Number(payment.dueAmount), 0);
   }
   getTotalAmount(arrayProperty: 'salesDataShowById' | 'salesReturnDataShowById'): number {
     const arrayToUse = this[arrayProperty];
 
-    return arrayToUse.reduce((total, payment) => total + payment.salesTotalAmount, 0);
+    return arrayToUse?.reduce((total, payment) => total + payment.salesTotalAmount, 0);
   }
   getTotalPaymentAmount(arrayProperty: 'paymentListDataByCustomerId' | 'paymentReturnDataListById'): number {
     const arrayToUse = this[arrayProperty];
 
-    return arrayToUse.reduce((total, payment) => total + payment.amount, 0);
+    return arrayToUse?.reduce((total, payment) => total + payment.amount, 0);
   }
 
   getsales() {
@@ -169,12 +170,32 @@ export class ViewCustomersComponent implements OnInit {
     };
     this.showDialoge = true;
   }
+  deleteSalesReturn(Id: any) {
+    this.salesReturnID = Id;
+    
+    console.log("sales Return Delete Dialog triggred and this is its id", Id)
+
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Sales Return Details",
+    };
+    this.showDialoge = true;
+  }
 
   callBackModal() {
+    if(this.deleteSales)
     this.salesService.DeleteSalesData(this.salesId).subscribe((resp: any) => {
       this.messageService.add({ severity: "success", detail: resp.message });
       this.getsales();
       this.showDialoge = false;
+      
+    });
+    if(this.deleteSalesReturn)
+    this.salesReturnService.deleteSalesReturn(this.salesReturnID).subscribe((resp: any) => {
+      this.messageService.add({ severity: "success", detail: resp.message });
+      this.getsalesReturn();
+      this.showDialoge = false;
+
     });
   }
 

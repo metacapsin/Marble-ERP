@@ -310,7 +310,7 @@
                     (click)="showReturnInvoiceDialoge(sales._id)"></p-button>
                   <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'"
                     [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentReturnDialog(sales._id)"></p-button>
-                  <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
+                  <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(sales._id)"></p-button>
                   </div>
                 </td>
               </tr>
