@@ -88,6 +88,7 @@ export class AddPurchaseReturnComponent {
   getpurchaseTotalAmount: any;
   totalSlab: any;
   slabData: any;
+  unselectedSlab: any;
 
   constructor(
     private taxService: TaxesService,
@@ -150,21 +151,49 @@ export class AddPurchaseReturnComponent {
     );
     this.PurchaseReturnDataById.purchaseType = ''
   }
+  // slabValues(slabValue: any) {
+  //   this.SlabAddValue = 0;
+  //   this.GridDataForLot = [];
+  //   this.GridDataForSlab = slabValue || [];
+  //   this.GridDataForSlab.forEach((element) => {
+  //     const totalCosting = parseFloat(element.totalCosting);
+  //     if (!isNaN(totalCosting)) {
+  //       this.SlabAddValue += totalCosting;
+  //     } else {
+  //       console.error("Invalid totalCosting value:", element.totalCosting);
+  //     }
+  //   });
+  //   this.subFromPurchaseTotalAmount(this.SlabAddValue);
+  //   console.log(this.SlabAddValue, this.GridDataForSlab);
+  // }
   slabValues(slabValue: any) {
     this.SlabAddValue = 0;
     this.GridDataForLot = [];
     this.GridDataForSlab = slabValue || [];
-    this.GridDataForSlab.forEach((element) => {
-      const totalCosting = parseFloat(element.totalCosting);
-      if (!isNaN(totalCosting)) {
-        this.SlabAddValue += totalCosting;
-      } else {
-        console.error("Invalid totalCosting value:", element.totalCosting);
-      }
+    console.log('Selected Slab Value:', slabValue);
+    console.log('Selected Lots:', this.purchaseSlabData);
+
+    // Ensure the slabValue array is not empty
+    if (!Array.isArray(this.GridDataForSlab) || this.GridDataForSlab.length === 0) {
+        console.warn('No slab values provided or slabValue is not an array.');
+        return;
+    }
+
+    // Filter out unselected lots
+    this.unselectedSlab = this.purchaseSlabData.filter(lot => !this.GridDataForSlab.includes(lot));
+    console.log('Unselected Slabs:', this.unselectedSlab);
+    this.unselectedSlab.forEach(element => {
+        const totalCosting = parseFloat(element.totalCosting);
+        if (!isNaN(totalCosting)) {
+            this.SlabAddValue += totalCosting;
+        } else {
+            console.error('Invalid totalCosting value:', element.totalCosting);
+        }
     });
     this.subFromPurchaseTotalAmount(this.SlabAddValue);
-    console.log(this.SlabAddValue, this.GridDataForSlab);
-  }
+    console.log('Slab Add Value:', this.SlabAddValue);
+    console.log('Grid Data For Slab:', this.GridDataForSlab);
+}
   lotValues(lotValue: any) {
     this.GridDataForSlab = [];
     this.lotAddValue = 0;
@@ -190,19 +219,20 @@ export class AddPurchaseReturnComponent {
     this.totalValue = 0;
     console.log(subTotal);
     var purchaseTotalAmount = this.getpurchaseTotalAmount || 0;
-    if (this.getpurchaseTotalAmount) {
-      this.totalValue = (purchaseTotalAmount - subTotal).toFixed(2);
-      console.log(
-        "totalAmount block total",
-        this.totalValue,
-        purchaseTotalAmount
-      );
-      this.addPurchaseReturnForm.patchValue({
-        purchaseGrossTotal: this.getpurchaseTotalAmount,
-      });
-    }
+    // if (this.getpurchaseTotalAmount) {
+    //   this.totalValue = (purchaseTotalAmount - subTotal).toFixed(2);
+    //   console.log(
+    //     "totalAmount block total",
+    //     this.totalValue,
+    //     purchaseTotalAmount
+    //   );
+    //   this.addPurchaseReturnForm.patchValue({
+    //     purchaseGrossTotal: this.getpurchaseTotalAmount,
+    //   });
+    // }
     if(this.totalSlab){
-      this.totalValue = subTotal;
+      this.totalValue = (this.totalSlab - subTotal).toFixed(2);
+      // this.totalValue = subTotal;
       this.addPurchaseReturnForm.patchValue({
         purchaseGrossTotal: this.totalSlab,
       });
@@ -242,28 +272,6 @@ export class AddPurchaseReturnComponent {
             console.log(this.purchaseSlabData);
           });
         }
-        // if (this.PurchaseReturnDataById.purchaseType == "lot") {
-        //   console.log(this.PurchaseReturnDataById.purchaseTotalAmount);
-        //   this.getpurchaseTotalAmount =
-        //     this.PurchaseReturnDataById.purchaseTotalAmount;
-        //   this.service
-        //     .getBlockDetailByLotId(this.PurchaseReturnDataById.lotDetails._id)
-        //     .subscribe((resp: any) => {
-        //       this.blockDataWithLotId = resp.data.blockDetails || [];
-        //       if (!this.PurchaseReturnDataById.isProcess) {
-        //         this.selectedLots = this.blockDataWithLotId.filter(
-        //           (block) => !block.isProcessed
-        //         );
-        //         console.log(this.selectedLots);
-        //         this.addPurchaseReturnForm
-        //           .get("purchaseLot")
-        //           .patchValue(this.selectedLots);
-        //         this.lotValues(this.selectedLots);
-        //       } else {
-        //         this.selectedLots = [];
-        //       }
-        //     });
-        // }
       }
     );
     this.lotAddValue = 0;

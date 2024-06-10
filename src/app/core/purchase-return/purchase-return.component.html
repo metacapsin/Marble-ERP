@@ -100,7 +100,7 @@
                                     <tr>
                                         <td>
                                             {{
-                                            purchaseReturn.purchaseInvoiceNumber
+                                            purchaseReturn.purchaseInvoiceNumber.purchaseInvoiceNumber
                                             }}
                                         </td>
                                         <td>{{ purchaseReturn.returnDate | date: 'dd-MMM-yyyy'}}</td>
@@ -116,8 +116,8 @@
                                             <p-button [text]="true" data-bs-toggle="modal"
                                                 data-bs-target="#invoices_preview" icon="fa-solid fa-eye"
                                                 (click)="showInvoiceDialoge(purchaseReturn._id)"></p-button>
-                                            <!-- <p-button [text]="true" icon="fa-solid fa-edit"
-                                                (click)="purchaseReturnUpdate(purchaseReturn._id)"></p-button> -->
+                                            <p-button [text]="true" icon="fa-solid fa-edit"
+                                                (click)="purchaseReturnUpdate(purchaseReturn._id)"></p-button>
                                             <p-button [text]="true" icon="fa-solid fa-trash"
                                                 (click)="purchaseReturnDelete(purchaseReturn._id)"></p-button>
                                             <!-- <a class="p-2 border-1 border" href=""><i

@@ -1,4 +1,3 @@
-
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
@@ -22,7 +21,7 @@ import { ToastModule } from "primeng/toast";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: 'app-edit-purchase-return',
+  selector: "app-edit-purchase-return",
   standalone: true,
   imports: [
     CommonModule,
@@ -30,10 +29,10 @@ import { ActivatedRoute, Router } from "@angular/router";
     MultiSelectModule,
     DropdownModule,
     CalendarModule,
-    ToastModule,  
+    ToastModule,
   ],
-  templateUrl: './edit-purchase-return.component.html',
-  styleUrl: './edit-purchase-return.component.scss',
+  templateUrl: "./edit-purchase-return.component.html",
+  styleUrl: "./edit-purchase-return.component.scss",
   providers: [MessageService],
 })
 export class EditPurchaseReturnComponent {
@@ -90,6 +89,8 @@ export class EditPurchaseReturnComponent {
   slabData: any;
   purchaseReturnId: any;
   maxDate = new Date();
+  unselectedSlab: any;
+  patchPurchaseID: any;
 
   constructor(
     private taxService: TaxesService,
@@ -134,10 +135,11 @@ export class EditPurchaseReturnComponent {
         if (resp && resp.data && Array.isArray(resp.data)) {
           this.purchaseDataById = resp.data;
           console.log(this.purchaseDataById);
-          this.onInvoiceNumber(this.purchaseDataById[0]._id)
-          this.slabData = this.purchaseDataById.filter((slab) => slab.purchaseType == 'slab');
-console.log(this.slabData);
-
+            this.onInvoiceNumber(this.patchPurchaseID)
+          this.slabData = this.purchaseDataById.filter(
+            (slab) => slab.purchaseType == "slab"
+          );
+          console.log(this.slabData);
           this.purchaseDataByInvoiceNumber = [];
           this.slabData.forEach((element) => {
             console.log("elements", element);
@@ -154,33 +156,48 @@ console.log(this.slabData);
         console.error("Error fetching data from service", error);
       }
     );
-    this.PurchaseReturnDataById.purchaseType = ''
+    this.PurchaseReturnDataById.purchaseType = "";
   }
   slabValues(slabValue: any) {
     this.SlabAddValue = 0;
     this.GridDataForLot = [];
     this.GridDataForSlab = slabValue || [];
-    this.GridDataForSlab.forEach((element) => {
-      const totalCosting = parseFloat(element.totalCosting);
-      if (!isNaN(totalCosting)) {
-        this.SlabAddValue += totalCosting;
-      } else {
-        console.error("Invalid totalCosting value:", element.totalCosting);
-      }
+    console.log('Selected Slab Value:', slabValue);
+    console.log('Selected Lots:', this.purchaseSlabData);
+
+    // Ensure the slabValue array is not empty
+    if (!Array.isArray(this.GridDataForSlab) || this.GridDataForSlab.length === 0) {
+        console.warn('No slab values provided or slabValue is not an array.');
+        return;
+    }
+
+    // Filter out unselected lots
+    this.unselectedSlab = this.purchaseSlabData.filter(lot => !this.GridDataForSlab.includes(lot));
+    console.log('Unselected Slabs:', this.unselectedSlab);
+    this.unselectedSlab.forEach(element => {
+        const totalCosting = parseFloat(element.totalCosting);
+        if (!isNaN(totalCosting)) {
+            this.SlabAddValue += totalCosting;
+        } else {
+            console.error('Invalid totalCosting value:', element.totalCosting);
+        }
     });
     this.subFromPurchaseTotalAmount(this.SlabAddValue);
-    console.log(this.SlabAddValue, this.GridDataForSlab);
-  }
+    console.log('Slab Add Value:', this.SlabAddValue);
+    console.log('Grid Data For Slab:', this.GridDataForSlab);
+}
+
+
   lotValues(lotValue: any) {
     this.GridDataForSlab = [];
     this.lotAddValue = 0;
     this.GridDataForLot = lotValue || [];
     this.GridDataForLot = Array.isArray(lotValue) ? lotValue : [];
-
-    this.unselectedLots =
-      this.selectedLots.filter((lot) => !lotValue.includes(lot)) || [];
-    console.log(this.unselectedLots);
-    this.unselectedLots.forEach((element) => {
+    // console.log(lotValue);
+    this.unselectedSlab =
+      this.purchaseSlabData.filter((lot) => !lotValue.includes(lot)) || [];
+    console.log(this.unselectedSlab);
+    this.unselectedSlab.forEach((element) => {
       const totalCosting = parseFloat(element.totalCosting);
       if (!isNaN(totalCosting)) {
         this.lotAddValue += totalCosting;
@@ -190,25 +207,14 @@ console.log(this.slabData);
     });
     this.subFromPurchaseTotalAmount(this.lotAddValue || 0);
     console.log(this.lotAddValue);
-    
   }
   subFromPurchaseTotalAmount(subTotal: any) {
     this.totalValue = 0;
     console.log(subTotal);
     var purchaseTotalAmount = this.getpurchaseTotalAmount || 0;
-    if (this.getpurchaseTotalAmount) {
-      this.totalValue = (purchaseTotalAmount - subTotal).toFixed(2);
-      console.log(
-        "totalAmount block total",
-        this.totalValue,
-        purchaseTotalAmount
-      );
-      this.editPurchaseReturnForm.patchValue({
-        purchaseGrossTotal: this.getpurchaseTotalAmount,
-      });
-    }
-    if(this.totalSlab){
-      this.totalValue = subTotal;
+    if (this.totalSlab) {
+      this.totalValue = (this.totalSlab - subTotal).toFixed(2);
+      // this.totalValue = subTotal;
       this.editPurchaseReturnForm.patchValue({
         purchaseGrossTotal: this.totalSlab,
       });
@@ -249,28 +255,6 @@ console.log(this.slabData);
             console.log(this.purchaseSlabData);
           });
         }
-        // if (this.PurchaseReturnDataById.purchaseType == "lot") {
-        //   console.log(this.PurchaseReturnDataById.purchaseTotalAmount);
-        //   this.getpurchaseTotalAmount =
-        //     this.PurchaseReturnDataById.purchaseTotalAmount;
-        //   this.service
-        //     .getBlockDetailByLotId(this.PurchaseReturnDataById.lotDetails._id)
-        //     .subscribe((resp: any) => {
-        //       this.blockDataWithLotId = resp.data.blockDetails || [];
-        //       if (!this.PurchaseReturnDataById.isProcess) {
-        //         this.selectedLots = this.blockDataWithLotId.filter(
-        //           (block) => !block.isProcessed
-        //         );
-        //         console.log(this.selectedLots);
-        //         this.editPurchaseReturnForm
-        //           .get("purchaseLot")
-        //           .patchValue(this.selectedLots);
-        //         this.lotValues(this.selectedLots);
-        //       } else {
-        //         this.selectedLots = [];
-        //       }
-        //     });
-        // }
       }
     );
     this.lotAddValue = 0;
@@ -311,14 +295,16 @@ console.log(this.slabData);
         console.log(this.SupplierLists);
       });
     });
-    this.PurchaseReturnService.getPurchaseReturnById(this.purchaseReturnId).subscribe((resp: any) => {
+    this.PurchaseReturnService.getPurchaseReturnById(
+      this.purchaseReturnId
+    ).subscribe((resp: any) => {
       this.unitListData = resp.data;
-      this.patchForm(this.unitListData)
+      this.patchForm(this.unitListData);
     });
   }
   patchForm(data) {
-    this.totalValue = data.purchaseReturnTotalAmount,
-    console.log(data);
+    (this.totalValue = data.purchaseReturnTotalAmount), console.log(data);
+    this.patchPurchaseID = data.purchaseInvoiceNumber._id
     this.editPurchaseReturnForm.patchValue({
       purchaseReturnInvoiceNumber: data.purchaseInvoiceNumber,
       purchaseReturnSupplier: data.supplier,
@@ -328,83 +314,35 @@ console.log(this.slabData);
       purchaseReturnNotes: data.purchaseReturnNotes,
       purchaseReturnTotalAmount: data.purchaseReturnTotalAmount,
       purchaseGrossTotal: data.purchaseGrossTotal,
-    })
+    });
     // this.onInvoiceNumber(data._id)
-    this.onSuppliersSelect(data.supplier._id)
+    this.onSuppliersSelect(data.supplier._id);
   }
 
-  calculateTotalAmount() {
-  //    .log("Enter in caltotal");
-  //   let totalAmount = 0;
-  //   let purchaseGrossTotal = 0;
-  //   let totalTax = 0;
-
-  //   const purchaseItems = this.editPurchaseReturnForm.get(
-  //     "purchaseReturnDetails"
-  //   ) as FormArray;
-
-  //   purchaseItems.controls.forEach((item: FormGroup) => {
-  //     const quantity = +item.get("purchaseReturnQuantity").value || 0;
-  //     const unitPrice = +item.get("purchaseReturnUnitPrice").value || 0;
-  //     const subtotal = quantity * unitPrice;
-
-  //     purchaseGrossTotal += subtotal;
-
-  //     item.get("purchaseItemSubTotal").setValue(subtotal.toFixed(2));
-  //   });
-
-  //   if (
-  //     Array.isArray(this.editPurchaseReturnForm.get("purchaseOrderTax").value)
-  //   ) {
-  //     this.editPurchaseReturnForm
-  //       .get("purchaseOrderTax")
-  //       .value.forEach((element) => {
-  //         totalTax += Number(element.taxRate);
-  //       });
-  //   } else {
-  //     totalTax += Number(
-  //       this.editPurchaseReturnForm.get("purchaseOrderTax").value
-  //     );
-  //   }
-
-  //   this.addTaxTotal = (purchaseGrossTotal * totalTax) / 100;
-  //   let shipping = +this.editPurchaseReturnForm.get("purchaseReturnShipping")
-  //     .value;
-  //   let Discount = +this.editPurchaseReturnForm.get("purchaseReturnDiscount")
-  //     .value;
-  //   let otherCharges = +this.editPurchaseReturnForm.get("otherCharges").value;
-
-  //   totalAmount += purchaseGrossTotal;
-  //   totalAmount += this.addTaxTotal;
-  //   totalAmount -= Discount;
-  //   totalAmount += shipping;
-  //   totalAmount += otherCharges;
-
-  //   this.editPurchaseReturnForm.patchValue({
-  //     purchaseGrossTotal: purchaseGrossTotal.toFixed(2),
-  //     purchaseDiscount: Discount.toFixed(2),
-  //     purchaseShipping: shipping.toFixed(2),
-  //     purchaseTotalAmount: totalAmount.toFixed(2),
-  //     otherCharges: otherCharges.toFixed(2),
-  //   });
-  }
   editPurchaseReturnFormSubmit() {
-    const purchaseReturnItemDetails = [{
-      purchaseSlab:this.editPurchaseReturnForm.value.purchaseSlab
-  }]
+    const purchaseReturnItemDetails = [
+      {
+        purchaseSlab: this.editPurchaseReturnForm.value.purchaseSlab,
+      },
+    ];
     console.log(purchaseReturnItemDetails);
     const payload = {
       id: this.purchaseReturnId,
-      purchaseReturnInvoiceNumber: this.editPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
-      purchaseReturnSupplier: this.editPurchaseReturnForm.value.purchaseReturnSupplier,
+      purchaseReturnInvoiceNumber:
+        this.editPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
+      purchaseReturnSupplier:
+        this.editPurchaseReturnForm.value.purchaseReturnSupplier,
       purchaseReturnDate: this.editPurchaseReturnForm.value.purchaseReturnDate,
-      purchaseReturnTermsAndCondition: this.editPurchaseReturnForm.value.purchaseReturnTermsAndCondition,
-      purchaseReturnNotes: this.editPurchaseReturnForm.value.purchaseReturnNotes,
+      purchaseReturnTermsAndCondition:
+        this.editPurchaseReturnForm.value.purchaseReturnTermsAndCondition,
+      purchaseReturnNotes:
+        this.editPurchaseReturnForm.value.purchaseReturnNotes,
       purchaseReturnTotalAmount: this.totalValue,
       purchaseGrossTotal: this.editPurchaseReturnForm.value.purchaseGrossTotal,
       purchaseReturnItemDetails,
-      purchaseReturnOrderStatus: this.editPurchaseReturnForm.value.purchaseReturnOrderStatus
-    }
+      purchaseReturnOrderStatus:
+        this.editPurchaseReturnForm.value.purchaseReturnOrderStatus,
+    };
     console.log(payload);
     if (this.editPurchaseReturnForm.valid) {
       console.log("valid form");
