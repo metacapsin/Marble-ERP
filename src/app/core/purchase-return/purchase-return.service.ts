@@ -49,8 +49,8 @@ export class PurchaseReturnService {
   getPurchaseReturnPaymentListBySupplierId(id: any) {//on payment out list 
     return this.http.get(environment.apiUrl + `/Purchase/getPurchaseReturnPaymentListBySupplierId/${id}`);
   }
-  getPurchaseReturnPaymentListbyPurchaseReturnId(id: any) {//on payment out list 
-    return this.http.get(environment.apiUrl + `/Purchase/getPurchaseReturnPaymentListbyPurchaseReturnId/${id}`);
+  getPurchaseReturnPaymentListByPurchaseReturnId(id: any) {//on payment out list 
+    return this.http.get(environment.apiUrl + `/Purchase/getPurchaseReturnPaymentListByPurchaseReturnId/${id}`);
   }
   updatePurchaseReturn(data: any) {
     return this.http.put(environment.apiUrl + '/Purchase/updatePurchaseReturn', data);
