@@ -64,6 +64,8 @@
                   </th>
                   <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon
                       field="purchaseOrderStatus"></p-sortIcon></th>
+                      <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                      </th>
                   <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
                   </th>
@@ -73,8 +75,6 @@
                   <th pSortableColumn="purchaseTotalAmount">Total Amount <p-sortIcon
                       field="purchaseTotalAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="purchaseTotalAmount" display="menu"></p-columnFilter>
-                  </th>
-                  <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                   </th>
 
                   <th>Action</th>
@@ -87,10 +87,10 @@
                   <td>{{purchase.purchaseDate | date: 'dd-MMM-yyyy'}}</td>
                   <td>{{purchase.supplier.name}}</td>
                   <td>{{purchase.purchaseOrderStatus}}</td>
+                  <td>{{purchase.paymentStatus}}</td>
                   <td>₹ {{purchase.paidAmount}}</td>
                   <td>₹ {{purchase.dueAmount}}</td>
                   <td>₹ {{purchase.purchaseTotalAmount}}</td>
-                  <td>{{purchase.paymentStatus}}</td>
                   <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-eye"
                       (click)="showInvoiceDialoge(purchase._id)"></p-button>
@@ -101,6 +101,17 @@
                   <!-- <td>
                     <p-button [text]="true" icon="fa-solid fa-plus" (click)="blocksEdit(purchase._id)"></p-button>
                   </td> -->
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="footer">
+                <tr>
+                  <td colspan="4"></td>
+                  <td>Total </td>
+                  <td>₹ {{ purchaseTotalValues.totalPaidAmount }}</td>
+                  <td>₹ {{ purchaseTotalValues.totalDueAmount }}</td>
+                  <td>₹ {{ purchaseTotalValues.totalAmount }}</td>
+                  <td></td>
                 </tr>
               </ng-template>
             </p-table>

@@ -29,6 +29,7 @@ export class PaymentInListComponent {
   visible: boolean = false;
   selectedCategory = [];
   paymentListData = [];
+  totalAmount : any;
 
   constructor( private Service: PaymentInService,
     private messageService: MessageService
@@ -44,6 +45,7 @@ export class PaymentInListComponent {
 
   getPaymentList(){
     this.Service.getPaymentList().subscribe((resp: any) => {
+      this.totalAmount = resp.totalAmount;
       this.paymentListData = resp.data;
     });
   }

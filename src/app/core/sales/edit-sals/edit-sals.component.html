@@ -194,7 +194,7 @@
                                             <tr class="add-row"
                                                 *ngFor="let salesItemDetailsForm of salesItemDetails.controls; let i = index"
                                                 [formGroupName]="i">
-                                                <td class="col-md-3">
+                                                <!-- <td class="col-md-3">
                                                     <p-dropdown [options]="slabList" appendTo="body"
                                                         [style]="{'width':'100%'}" optionLabel="slabName"
                                                         [filter]="true" filterBy="slabName" optionValue="_id"
@@ -204,7 +204,20 @@
                                                         *ngIf="editSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').hasError('required') && editSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').touched">
                                                         <span class="login-danger">Field is required.</span>
                                                     </div>
+                                                </td> -->
+
+                                                <td class="col-md-3">
+                                                    <p-dropdown [options]="slabList" appendTo="body"
+                                                        [style]="{'width':'100%'}" optionLabel="slabName"
+                                                        [filter]="true" filterBy="slabName" optionValue="_id"
+                                                        formControlName="salesItemProduct" placeholder="Select Product"
+                                                        [disabled]="salesItemDetailsForm.get('salesItemProduct').disabled"
+                                                        (onChange)="onSlabSelect($event.value, i)"></p-dropdown>
+                                                    <div *ngIf="editSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').hasError('required') && editSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').touched">
+                                                        <span class="login-danger">Field is required.</span>
+                                                    </div>
                                                 </td>
+                                                
                                                 <td class="col-md-2">
                                                     <input type="number" formControlName="salesItemQuantity"
                                                         (change)="calculateTotalAmount()" class="form-control">

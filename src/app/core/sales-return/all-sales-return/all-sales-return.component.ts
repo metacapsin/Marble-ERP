@@ -35,9 +35,10 @@ showInvoiceDialog: boolean = false;
   salesReturnListData = []  
 
   salesDataShowById: any;
+  totalAmount: any;
+  totalDueAmount: any;
+  totalPaidAmount: any;
   paymentDataListById: any[] = [];
-
-
 
   constructor(
     private messageService: MessageService,
@@ -81,6 +82,9 @@ showInvoiceDialog: boolean = false;
 
   GetSalesReturnData() {
     this.Service.getSalesReturnList().subscribe((resp: any) => {
+      this.totalPaidAmount = resp.totalPaidAmount;
+      this.totalDueAmount = resp.totalDueAmount;
+      this.totalAmount = resp.totalAmount;
       this.salesReturnListData = resp.data;
       this.originalData = resp.data;
       

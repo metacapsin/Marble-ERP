@@ -55,6 +55,10 @@ export class ViewSuppliersComponent {
   paymentDataListById: any[] = [];
   paymentReturnDataListById: any[] = [];
   paymentObject: any = {};
+  purchaseTotalValues: any = {};
+  paymentInTotalValues: any = {};
+  purchaseReturnTotalValues: any = {};
+  paymentOutTotalValues: any = {};
   purchaseTotalDueAmount: number = 0;
   header = "";
 
@@ -87,20 +91,20 @@ export class ViewSuppliersComponent {
     });
   }
 
-  getTotalPaidAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
-    const arrayToUse = this[arrayProperty];
-    return arrayToUse?.reduce((total, payment) => total + Number(payment.paidAmount), 0);
-  }
-  getTotalDuoAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
-    const arrayToUse = this[arrayProperty];
+  // getTotalPaidAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
+  //   const arrayToUse = this[arrayProperty];
+  //   return arrayToUse?.reduce((total, payment) => total + Number(payment.paidAmount), 0);
+  // }
+  // getTotalDuoAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
+  //   const arrayToUse = this[arrayProperty];
 
-    return arrayToUse?.reduce((total, payment) => total + Number(payment.dueAmount), 0);
-  }
-  getTotalAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
-    const arrayToUse = this[arrayProperty];
+  //   return arrayToUse?.reduce((total, payment) => total + Number(payment.dueAmount), 0);
+  // }
+  // getTotalAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
+  //   const arrayToUse = this[arrayProperty];
 
-    return arrayToUse?.reduce((total, payment) => total + payment.purchaseReturnTotalAmount, 0);
-  }
+  //   return arrayToUse?.reduce((total, payment) => total + payment.purchaseReturnTotalAmount, 0);
+  // }
   getTotalPaymentAmount(arrayProperty: 'paymentListDataBySupplierId' | 'paymentReturnDataListById'): number {
     const arrayToUse = this[arrayProperty];
 
@@ -110,6 +114,7 @@ export class ViewSuppliersComponent {
   getPurchase() {
     this.purchaseTotalDueAmount = 0;
     this.purchaseService.getAllPurchaseBySupplierId(this.id).subscribe((resp: any) => {
+      this.purchaseTotalValues = resp;
       this.purchaseDataShowById = resp.data;
     });
   }
@@ -118,7 +123,8 @@ export class ViewSuppliersComponent {
     this.PaymentOutService
     .getPurchasePaymentListBySupplierId(this.id)
     .subscribe((resp: any) => {
-      console.log("payment data of Supplier by id", resp);
+      this.paymentOutTotalValues = resp
+      // console.log("payment data of Supplier by id", resp);
       this.paymentListDataBySupplierId = resp.data;
       console.log(
         "this is payment list data by Supplier id",
@@ -131,6 +137,7 @@ export class ViewSuppliersComponent {
     this.purchaseReturnService
       .getPurchaseReturnBySupplierId(this.id)
       .subscribe((resp: any) => {
+        this.purchaseReturnTotalValues = resp;
         console.log("Purchase Retrun Data response by customer id ", resp);
 
         this.purchaseReturnDataShowById = resp.data;
@@ -146,6 +153,7 @@ export class ViewSuppliersComponent {
       .getPurchaseReturnPaymentListBySupplierId(this.id)
       .subscribe((resp: any) => {
         console.log("Purchase payment Return data of customer by id", resp);
+        this.paymentInTotalValues = resp;
         this.paymentReturnDataListById = resp.data;
         console.log(
           "this is Purchase return payment list data by customer id",

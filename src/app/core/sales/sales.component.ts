@@ -38,6 +38,14 @@ export class SalesComponent implements OnInit {
   salesDataById = []
   salesListData = [];
 
+  totalPaidAmount: any;
+  totalDueAmount: any;
+  totalAmount: any;
+
+  visibleTotalPaidAmount: number = 0;
+  visibleTotalDueAmount: number = 0;
+  visibleTotalAmount: number = 0;
+
   constructor(
     private messageService: MessageService,
     private router: Router,
@@ -46,7 +54,7 @@ export class SalesComponent implements OnInit {
 
   ngOnInit() {
     this.GetSalesData();
-  }
+    }
 
   deleteSales(Id: any) {
     this.saleId = Id;
@@ -73,20 +81,12 @@ export class SalesComponent implements OnInit {
 
   GetSalesData() {
     this.Service.GetSalesData().subscribe((resp: any) => {
+      this.totalPaidAmount = resp.totalPaidAmount;
+      this.totalDueAmount = resp.totalDueAmount;
+      this.totalAmount = resp.totalAmount;
       this.salesListData = resp.data;
       this.originalData = resp.data;
     });
-  }
-  getTotalPaidAmount(): number {
-    return this.salesListData.reduce((total, payment) => total + Number(payment.paidAmount), 0);
-  }
-  getTotalDuoAmount(): number {
-
-    return this.salesListData.reduce((total, payment) => total + Number(payment.dueAmount), 0);
-  }
-  getTotalAmount(): number {
-
-    return this.salesListData.reduce((total, payment) => total + payment.salesTotalAmount, 0);
   }
   
   editSalesRout(id) {
@@ -112,12 +112,13 @@ export class SalesComponent implements OnInit {
   }
 
 
-  public searchData(value: any): void {
-    this.salesListData = this.originalData.map(i => {
-      if (i.salesInvoiceNumber.toLowerCase().includes(value.trim().toLowerCase())) {
-        return i;
-      }
-    });
-  }
+  // public searchData(value: any): void {
+  //   this.salesListData = this.originalData.map(i => {
+  //     if (i.salesInvoiceNumber.toLowerCase().includes(value.trim().toLowerCase())) {
+  //       return i;
+  //     }
+  //   });
+  // }
+
 
 }

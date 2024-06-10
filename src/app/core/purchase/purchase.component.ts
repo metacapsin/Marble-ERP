@@ -74,6 +74,8 @@ export class PurchaseComponent {
   showInvoiceDialog: boolean = false; 
   paymentDataListById: any[] = [];
   visible:any
+  purchaseTotalValues: any = {};
+
 
   CustomerList = [
     { customerName: "Adnan" },
@@ -90,11 +92,11 @@ export class PurchaseComponent {
     private service: SlabsService
   ) {}
   ngOnInit() {
-    this.getTableData();
     this.getPurchase();
   }
   getPurchase() {
     this.Service.GetPurchaseData().subscribe((data: any) => {
+      this.purchaseTotalValues = data;
       this.purchaseData = data.data;
       this.originalData = data;
     });
@@ -106,24 +108,6 @@ export class PurchaseComponent {
     this.router.navigate(["/purchase/edit-purchase/" + id]);
   }
 
-  // showDialogView(id: any) {
-  //   let totalTax = 0;
-  //   this.visible = true;
-  //   this.Service.GetPurchaseDataById(id).subscribe((resp: any) => {
-  //     this.PurchaseListData = [resp.data];
-  //     console.log(this.PurchaseListData[0].lotDetails);
-  //     console.log(this.PurchaseListData);
-  //     console.log(resp);
-  //     this.header = "Purchase Invoice";
-  //     if (resp.data.lotDetails) {
-  //       this.service
-  //         .getBlockDetailByLotId(resp.data.lotDetails._id)
-  //         .subscribe((resp: any) => {
-  //           this.blockDetailsTable = resp.data.blockDetails;
-  //         });
-  //     }
-  //   });
-  // }
 
   showInvoiceDialoge(id: any)  {
     let totalTax = 0;
@@ -146,12 +130,6 @@ export class PurchaseComponent {
           });
       }
     });
-    // this.paymentOutService
-    //   .getPurchasePaymentListByPurchaseId(Id)
-    //   .subscribe((resp: any) => {
-    //     this.paymentDataListById = resp.data;
-    //     console.log("this is payment by Purchase id", this.paymentDataListById);
-    //   });
   }
 
   purchaseDelete(id: number) {
@@ -180,94 +158,5 @@ export class PurchaseComponent {
       this.showDialoge = false;
     
   }
-  private getTableData(): void {
-    this.allInvoice = [];
-    this.serialNumberArray = [];
-
-    this.data.getAllInvoice().subscribe((data: apiResultFormat) => {
-      this.totalData = data.totalData;
-      data.data.map((res: allInvoice, index: number) => {
-        const serialNumber = index + 1;
-        if (index >= this.skip && serialNumber <= this.limit) {
-          this.allInvoice.push(res);
-          this.serialNumberArray.push(serialNumber);
-        }
-      });
-      this.dataSource = new MatTableDataSource<allInvoice>(this.allInvoice);
-      this.calculateTotalPages(this.totalData, this.pageSize);
-    });
-  }
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.allInvoice = this.dataSource.filteredData;
-  }
-  public sortData(sort: Sort) {
-    const data = this.allInvoice.slice();
-
-    if (!sort.active || sort.direction === "") {
-      this.allInvoice = data;
-    } else {
-      this.allInvoice = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === "asc" ? 1 : -1);
-      });
-    }
-  }
-  public getMoreData(event: string): void {
-    if (event == "next") {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    } else if (event == "previous") {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    }
-  }
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    this.getTableData();
-  }
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    this.getTableData();
-  }
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
-  }
-  public openCheckBoxes(val: string) {
-    if (this.checkboxes[0] != val) {
-      this.checkboxes[0] = val;
-    } else {
-      this.checkboxes = [];
-    }
-  }
+  
 }

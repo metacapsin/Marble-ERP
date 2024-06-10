@@ -194,14 +194,14 @@
 
                         <ng-template pTemplate="footer">
                             <tr>
-                              <td colspan="3"></td>
-                              <td>Total Amount</td>
-                              <td>₹ {{ getTotalPaidAmount('purchaseDataShowById') }}</td>
-                              <td>₹ {{ getTotalDuoAmount('purchaseDataShowById') }}</td>
-                              <td>₹ {{ getTotalAmount('purchaseDataShowById') }}</td>
-                              <td></td>
+                                <td colspan="3"></td>
+                                <td>Total </td>
+                                <td>₹ {{ purchaseTotalValues.totalPaidAmount }}</td>
+                                <td>₹ {{ purchaseTotalValues.totalDueAmount }}</td>
+                                <td>₹ {{ purchaseTotalValues.totalAmount }}</td>
+                                <td></td>
                             </tr>
-                          </ng-template>
+                        </ng-template>
                     </p-table>
                 </p-tabPanel>
 
@@ -214,7 +214,7 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn="purchaseInvoiceNumber">
-                                    Invoice No.<p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
+                                    Invoice Number<p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
                                     <p-columnFilter type="text" field="purchaseInvoiceNumber" display="menu"></p-columnFilter>
                                 </th>
                                 <th pSortableColumn="transactionNo">
@@ -250,7 +250,7 @@
                             <tr>
                               <td colspan="3"></td>
                               <td>Total </td>
-                              <td>₹ {{ getTotalPaymentAmount('paymentListDataBySupplierId') }}</td>
+                              <td>₹ {{ paymentOutTotalValues.totalAmount }}</td>
                             </tr>
                           </ng-template>
                     </p-table>
@@ -333,9 +333,9 @@
                             <tr>
                               <td colspan="3"></td>
                               <td>Total </td>
-                              <td>₹ {{ getTotalPaidAmount('purchaseReturnDataShowById') }}</td>
-                              <td>₹ {{ getTotalDuoAmount('purchaseReturnDataShowById') }}</td>
-                              <td>₹ {{ getTotalAmount('purchaseReturnDataShowById') }}</td>
+                              <td>₹ {{ purchaseReturnTotalValues.totalPaidAmount }}</td>
+                              <td>₹ {{ purchaseReturnTotalValues.totalDueAmount }}</td>
+                              <td>₹ {{ purchaseReturnTotalValues.totalAmount }}</td>
                               <td></td>
                             </tr>
                           </ng-template>
@@ -351,7 +351,7 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn="purchaseInvoiceNumber">
-                                    Invoice No.<p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
+                                    Invoice Number<p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
                                     <p-columnFilter type="text" field="purchaseInvoiceNumber" display="menu"></p-columnFilter>
                                 </th>
                                 <th pSortableColumn="transactionNo">
@@ -387,7 +387,7 @@
                             <tr>
                               <td colspan="3"></td>
                               <td>Total </td>
-                              <td>₹ {{ getTotalPaymentAmount('paymentReturnDataListById') }}</td>
+                              <td>₹ {{ paymentInTotalValues.totalAmount }}</td>
                             </tr>
                           </ng-template>
                     </p-table>

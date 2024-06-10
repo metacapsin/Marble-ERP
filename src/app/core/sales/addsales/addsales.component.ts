@@ -146,8 +146,6 @@ export class AddsalesComponent implements OnInit {
                 _id: e._id,
                 slabName: e.slabName,
                 slabNo: e.slabNo,
-                sellingPricePerSQFT: e.sellingPricePerSQFT,
-                totalSQFT: e.totalSQFT,
               }
       }));
     });
@@ -156,18 +154,30 @@ export class AddsalesComponent implements OnInit {
   onSlabSelect(value, i) {
     this.maxQuantity = 0;
     const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
-    const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
-    const maxQuantityPriceControl = salesItemDetailsArray.at(i)?.get("maxQuantity");
-    if (salesItemUnitPriceControl) {
-      salesItemUnitPriceControl.patchValue(value.sellingPricePerSQFT);
-      console.log("totalSQFT", value);
-      this.calculateTotalAmount();
-    }
-    if (maxQuantityPriceControl) {
-      maxQuantityPriceControl.setValue(value.totalSQFT);
+
+    const selectedSlab = this.slabData.find(slab => slab._id === value._id);
+  
+    if (selectedSlab) {
+      console.log('Slab Found', selectedSlab);
+  
+      const totalSQFT = selectedSlab.totalSQFT;
+      const sellingPricePerSQFT = selectedSlab.sellingPricePerSQFT;
+  
+      const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
+      const maxQuantityControl = salesItemDetailsArray.at(i)?.get("maxQuantity");
+  
+      if (salesItemUnitPriceControl) {
+        salesItemUnitPriceControl.patchValue(sellingPricePerSQFT);
+        this.calculateTotalAmount();
+      }
+      if (maxQuantityControl) {
+        maxQuantityControl.setValue(totalSQFT);
+      }
+    } else {
+      console.error('Slab not found!');
     }
   }
-
+  
   calculateTotalAmount() {
     let salesGrossTotal = 0;
     
@@ -175,7 +185,6 @@ export class AddsalesComponent implements OnInit {
     
     salesItems.controls.forEach((item: FormGroup) => {
       if(item.get("salesItemQuantity").value > item.get("maxQuantity").value){
-        console.log("ADnan");
         item.get("salesItemQuantity").patchValue(item.get("maxQuantity").value)
       }
       const quantity = +item.get("salesItemQuantity").value || 0;
