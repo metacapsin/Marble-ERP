@@ -558,6 +558,9 @@ export class routes {
   public static get paymentOutReports(): string {
     return this.baseUrl + '/reports/payment-out-reports';
   }  
+  public static get profitLossReports(): string {
+    return this.baseUrl + '/reports/profit-loss-reports';
+  }  
   public static get purchase(): string {
     return this.baseUrl + '/purchase';
   }

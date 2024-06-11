@@ -47,6 +47,13 @@ const routes: Routes = [
           (m) => m.PaymentOutReportsModule
         ),
     },
+    {
+      path: 'profit-loss-reports',
+      loadChildren: () =>
+        import('./profit-loss-reports/profit-loss-reports.module').then(
+          (m) => m.ProfitLossModule
+        ),
+    },
   ]}
 ];
 

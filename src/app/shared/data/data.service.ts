@@ -456,9 +456,14 @@ export class DataService {
               base: routes.expensesReport,
             },
             {
-              menuValue: "Stock report",
+              menuValue: "Stock Report",
               route: routes.inventoryReport,
               base: routes.inventoryReport,
+            },
+            {
+              menuValue: "Profit & Loss",
+              route: routes.profitLossReports,
+              base: routes.profitLossReports,
             },
           ],
         },
