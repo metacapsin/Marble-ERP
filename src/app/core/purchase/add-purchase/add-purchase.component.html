@@ -173,17 +173,14 @@
                     [rows]="5">
                     <ng-template pTemplate="header">
                       <tr>
-                        <th pSortableColumn="purchaseInvoiceNumber">Slab No.<p-sortIcon
-                            field="purchaseInvoiceNumber"></p-sortIcon>
+                        <th pSortableColumn="purchaseInvoiceNumber">Slab No.
                         </th>
-                        <th pSortableColumn="purchaseDate">Slab Name<p-sortIcon field="purchaseDate"></p-sortIcon>
+                        <th pSortableColumn="purchaseDate">Slab Name
                         </th>
-                        <th pSortableColumn="supplier.name">Total Costing<p-sortIcon field="supplier.name"></p-sortIcon>
+                        <th pSortableColumn="supplier.name">Total Costing
                         </th>
-                        <th pSortableColumn="purchaseOrderStatus">Total SQFT<p-sortIcon
-                            field="purchaseOrderStatus"></p-sortIcon></th>
-                        <th pSortableColumn="paidAmount">Selling Price Per SQFT<p-sortIcon
-                            field="paidAmount"></p-sortIcon>
+                        <th pSortableColumn="purchaseOrderStatus">Total Square Feet</th>
+                        <th pSortableColumn="paidAmount">Selling Price / Square Feet
                         </th>
                       </tr>
                     </ng-template>
@@ -193,7 +190,7 @@
                         <td>{{purchase.slabName}}</td>
                         <td>{{purchase.totalCosting}}</td>
                         <!-- <td>{{purchase.subCategoryDetail.name}}</td> -->
-                        <td>SQ {{purchase.totalSQFT}}</td>
+                        <td>{{purchase.totalSQFT}}</td>
                         <td>{{purchase.sellingPricePerSQFT}}</td>
                       </tr>
                     </ng-template>

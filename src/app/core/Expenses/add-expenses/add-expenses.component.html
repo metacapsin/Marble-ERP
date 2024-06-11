@@ -74,6 +74,21 @@
                         " class="login-danger Font_size">
                         Field is required.
                       </div>
+                      <div *ngIf="
+                                      (addExpensesGroup
+                                      .get('amount')
+                                      ?.hasError('min') &&
+                                      addExpensesGroup.get('amount')
+                                          ?.touched) ||
+                                      (addExpensesGroup
+                                      .get('amount')
+                                      ?.hasError('max') &&
+                                      addExpensesGroup.get('amount')?.touched)
+                                  ">
+                                <span class="login-danger">
+                                  input must be between 1 and 100,000.
+                                </span>
+                              </div>
                     </div>
                   </div>
 

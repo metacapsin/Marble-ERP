@@ -247,10 +247,17 @@ export class EditSlabsComponent {
   // calculateTotalAmount() {}
   onLotSelect(value: any) {
     console.log("value of lot", value);
-    this.Service.getBlockDetailByLotId(value._id).subscribe((resp: any) => {
-      this.blockDropDownData = resp.data.blockDetails;
-      console.log("resp.data.blocksDetails", resp.data.blockDetails);
-    });
+    if (!value) {
+      this.slabsEditForm.patchValue({
+        purchaseCost: 0,
+      });
+    } else {
+      this.Service.getBlockDetailByLotId(value._id).subscribe((resp: any) => {
+        this.blockDropDownData = resp.data.blockDetails;
+        console.log("resp.data.blocksDetails", resp.data.blockDetails);
+      });
+    }
+
     console.log("blockDropDownData", this.blockDropDownData);
   }
   onBlockSelect(block: any) {
@@ -277,8 +284,19 @@ export class EditSlabsComponent {
     let purchaseCost = +this.slabsEditForm.get("purchaseCost").value;
     if (!this.blockDropDownPerBlockWeight && !this.blockDropDowntotleCost) {
       console.log(transportationCharges, otherCharges, processingFee);
-      var totalCosting = +purchaseCost + otherCharges + transportationCharges;
-      var totalAmount = +totalCosting / totalSQFT;
+      // var totalCosting = +purchaseCost + otherCharges + transportationCharges;
+      // var totalAmount = +totalCosting / totalSQFT;
+      // console.log("totalCosting", totalCosting);
+      // console.log("totalAmount", totalAmount);
+      // this.slabsEditForm.patchValue({
+      //   totalCosting: totalCosting.toFixed(2),
+      //   costPerSQFT: totalAmount.toFixed(2),
+      // });
+      var totalCosting: number =
+        +purchaseCost + otherCharges + transportationCharges;
+      var totalAmount: number = +totalCosting / totalSQFT || 0;
+      console.log(totalCosting, totalSQFT);
+
       console.log("totalCosting", totalCosting);
       console.log("totalAmount", totalAmount);
       this.slabsEditForm.patchValue({

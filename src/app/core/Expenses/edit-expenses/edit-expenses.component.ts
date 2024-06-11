@@ -64,7 +64,7 @@ export class EditExpensesComponent {
     this.editExpensesGroup = this.fb.group({
       categoryDetails: ["", [Validators.required]],
       date: ["", [Validators.required]],
-      amount: ["", [Validators.required]],
+      amount: ["", [Validators.required,Validators.min(0),Validators.max(100000)]],
       notes: [""],
     });
     this.id = this.activeRoute.snapshot.params["id"];
