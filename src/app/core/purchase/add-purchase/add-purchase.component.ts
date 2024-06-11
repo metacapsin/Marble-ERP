@@ -120,20 +120,6 @@ export class AddPurchaseComponent implements OnInit {
       lotDetail: [""],
       purchaseType: ["", [Validators.required]],
       slabDetails: [""],
-      // purchaseItemDetails: this.fb.array([
-      //   this.fb.group({
-      //     purchaseItemCategory: ["", [Validators.required]],
-      //     purchaseItemSubCategory: ["", [Validators.required]],
-      //     unit: ["", [Validators.required]],
-      //     purchaseItemName: [
-      //       "",
-      //       [Validators.required, Validators.pattern(this.nameRegex)],
-      //     ],
-      //     purchaseItemQuantity: ["", [Validators.required, Validators.min(0)]],
-      //     purchaseItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-      //     purchaseItemSubTotal: ["", [Validators.required, Validators.min(0)]],
-      //   }),
-      // ]),
     });
   }
 
@@ -301,7 +287,7 @@ export class AddPurchaseComponent implements OnInit {
   addPurchaseFormSubmit() {
     const formData = this.addPurchaseForm.value;
     console.log(formData);
-    if (formData.slabDetails === null && formData.lotDetail === null) {
+    if (formData.slabDetails == '' && formData.lotDetail == '') {
       this.messageService.add({
         severity: "error",
         detail: "Select one Lot or Slab",

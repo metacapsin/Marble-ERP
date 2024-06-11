@@ -324,7 +324,7 @@ export class EditPurchaseComponent implements OnInit {
   editPurchaseFormSubmit() {
     const formData = this.editPurchaseForm.value;
     console.log(formData);
-    if (formData.slabDetails === null && formData.lotDetail === null) {
+    if (formData.slabDetails == '' && formData.lotDetail == '') {
       this.messageService.add({
         severity: "error",
         detail: "Select one Lot or Slab",

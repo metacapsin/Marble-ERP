@@ -21,6 +21,7 @@ export class PracticeListComponent {
   loading = false;
   searchDataValue = "";
   userData:any
+  warehouseName: any;
 
   constructor(public dialog: MatDialog, public router: Router, private service: SettingsService,public auth: AuthService) { }
 
@@ -28,7 +29,7 @@ export class PracticeListComponent {
     this.loading = true;
     this.service.getPracticeInformationList().subscribe((resp: any) => {
       this.data = resp.data;
-      this.loading = false;
+      this.loading = false; 
     })
   }
   isNameArray(data: any): boolean {
@@ -39,13 +40,13 @@ export class PracticeListComponent {
     this.auth.getUserProfile().subscribe((user: any) => {
       this.userData = user.data;
       console.log(this.userData);
-      console.log(this.userData.warehouse[0].name)
+      if (this.userData?.warehouse && Array.isArray(this.userData.warehouse)) {
+        this.warehouseName = this.userData.warehouse.map(wh => wh.name).join(', ');
+        console.log(this.warehouseName);
+    }
+      
             
     });
-  // deletePracticeInformation(id: string) {
-  //   this.service.deletePracticeInformationById(id).subscribe(resp => {
-  //   })
-  // }
   }
 
 }

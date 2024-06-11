@@ -30,7 +30,7 @@ import { PurchaseService } from "../../purchase/purchase.service";
 })
 export class PaymentOutAddComponent {
   public routes = routes;
-  addPaymentInForm!: FormGroup;
+  addPaymentOutForm!: FormGroup;
   SuppliersList = [];
   originalSuppliersData = [];
   maxDate = new Date();
@@ -56,7 +56,7 @@ export class PaymentOutAddComponent {
     private router: Router,
     private fb: FormBuilder
   ) {
-    this.addPaymentInForm = this.fb.group({
+    this.addPaymentOutForm = this.fb.group({
       purchase: this.fb.array([]),
       supplier: ["", [Validators.required]],
       paymentDate: ["", [Validators.required]],
@@ -65,12 +65,12 @@ export class PaymentOutAddComponent {
     });
   }
   addpurchaseControls() {
-    const purchaseArray = this.addPaymentInForm.get("purchase") as FormArray;
+    const purchaseArray = this.addPaymentOutForm.get("purchase") as FormArray;
     this.purchaseDataById?.forEach((purchase) => {
       purchaseArray.push(
         this.fb.group({
           _id: [purchase._id],
-          amount: ["", [Validators.required, Validators.min(0)]],
+          amount: ["", [Validators.required, Validators.min(0), Validators.max(purchase.dueAmount)]],
         })
       );
     });
@@ -102,7 +102,7 @@ export class PaymentOutAddComponent {
   }
 
   addPaymentOutFormSubmit() {
-    const formData = this.addPaymentInForm.value;
+    const formData = this.addPaymentOutForm.value;
     console.log("Submitted data:", formData);
 
     const payload = {
@@ -114,7 +114,7 @@ export class PaymentOutAddComponent {
     };
     console.log(payload);
 
-    if (this.addPaymentInForm.valid) {
+    if (this.addPaymentOutForm.valid) {
       console.log("valid form");
 
       this.Service.createPayment(payload).subscribe((resp: any) => {

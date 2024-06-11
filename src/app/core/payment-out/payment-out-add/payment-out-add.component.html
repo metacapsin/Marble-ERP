@@ -24,7 +24,7 @@
                 <div class="card card-table">
                     <div class="card-body">
                         <div class="page-table-header mb-2">
-                            <form [formGroup]="addPaymentInForm" (ngSubmit)="addPaymentOutFormSubmit()">
+                            <form [formGroup]="addPaymentOutForm" (ngSubmit)="addPaymentOutFormSubmit()">
                                 <div class="row">
 
                                     <div class="d-flex m-b-10" style="justify-content: space-between">
@@ -32,7 +32,7 @@
                                         <div class="settings-btns text-end m-b-10">
                                             <button type="submit"
                                                 class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                                [disabled]="!addPaymentInForm.valid">
+                                                [disabled]="!addPaymentOutForm.valid">
                                                 Submit
                                             </button>
                                             <button class="btn btn-secondary" [routerLink]="routes.paymentIn">
@@ -50,7 +50,7 @@
                                                 formControlName="supplier" [showClear]="true"
                                                 (onChange)="onSuppliersSelect($event.value._id)"></p-dropdown>
                                             <div
-                                                *ngIf="addPaymentInForm.get('supplier')?.hasError('required')  && addPaymentInForm.get('supplier')?.touched">
+                                                *ngIf="addPaymentOutForm.get('supplier')?.hasError('required')  && addPaymentOutForm.get('supplier')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
 
@@ -63,7 +63,7 @@
                                                 formControlName="paymentDate" placeholder="mm/dd/yyyy"
                                                 [styleClass]="'col-12'"></p-calendar>
                                             <div
-                                                *ngIf="addPaymentInForm.get('paymentDate')?.hasError('required')  && addPaymentInForm.get('paymentDate')?.touched">
+                                                *ngIf="addPaymentOutForm.get('paymentDate')?.hasError('required')  && addPaymentOutForm.get('paymentDate')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
                                         </div>
@@ -78,7 +78,7 @@
                                                 optionLabel="paymentMode" optionValue="paymentMode" display="chip"
                                                 [filter]="true" filterBy="paymentMode" [showClear]="true"></p-dropdown>
                                             <div
-                                                *ngIf="addPaymentInForm.get('paymentMode')?.hasError('required')  && addPaymentInForm.get('paymentMode')?.touched">
+                                                *ngIf="addPaymentOutForm.get('paymentMode')?.hasError('required')  && addPaymentOutForm.get('paymentMode')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
                                         </div>
@@ -90,7 +90,7 @@
                                             <textarea class="form-control" type="text" placeholder=""
                                                 formControlName="note"></textarea>
                                             <div
-                                                *ngIf="addPaymentInForm.get('note')?.hasError('pattern')  && addPaymentInForm.get('note')?.touched">
+                                                *ngIf="addPaymentOutForm.get('note')?.hasError('pattern')  && addPaymentOutForm.get('note')?.touched">
                                                 <span class="login-danger">Input must be between 2 to 100
                                                     characters.</span>
                                             </div>
@@ -129,15 +129,21 @@
                                                             </div>
                                                             <input type="number" formControlName="amount"
                                                                 class="form-control">
-                                                            <div
-                                                                *ngIf="addPaymentInForm.get('purchase').get(i + '.amount').hasError('required') && addPaymentInForm.get('purchase').get(i + '.amount').touched">
-                                                                <span class="login-danger">Field is required.</span>
-                                                            </div>
-                                                            <div
-                                                                *ngIf="addPaymentInForm.get('purchase').get(i + '.amount').hasError('min') && addPaymentInForm.get('purchase').get(i + '.amount').touched">
-                                                                <span class="login-danger">Input must be more than
-                                                                    0.</span>
-                                                            </div>
+                                                        </div>
+                                                        <span style="color: #97704f; font-size: 12px;
+                                            ">Max Value : {{purchase.dueAmount}}</span>
+                                                        <div
+                                                            *ngIf="addPaymentOutForm.get('purchase').get(i + '.amount').hasError('required') && addPaymentOutForm.get('purchase').get(i + '.amount').touched">
+                                                            <span class="login-danger">Field is required.</span>
+                                                        </div>
+                                                        <div
+                                                            *ngIf="addPaymentOutForm.get('purchase').get(i + '.amount').hasError('min') && addPaymentOutForm.get('purchase').get(i + '.amount').touched">
+                                                            <span class="login-danger">Input must be more than
+                                                                0.</span>
+                                                        </div>
+                                                        <div
+                                                            *ngIf="addPaymentOutForm.get('purchase').get(i + '.amount').hasError('max') && addPaymentOutForm.get('purchase').get(i + '.amount').touched">
+                                                            <span class="login-danger">Input should not more than {{purchase.dueAmount}}.</span>
                                                         </div>
                                                     </td>
                                                 </tr>
