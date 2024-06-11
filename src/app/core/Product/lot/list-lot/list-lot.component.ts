@@ -12,6 +12,19 @@ import { LotService } from '../lot.service';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { SlabsService } from '../../slabs/slabs.service';
+import { CsvDownloadService } from 'src/app/common-component/shared/csv-download/shared/csv-download.service';
+
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
 
 @Component({
   selector: 'app-list-lot',
@@ -36,28 +49,70 @@ export class ListLotComponent implements OnInit {
   showData: any;
   childrenData: any = []
 
+  cols: Column[] = [];
+  exportColumns: ExportColumn[] = [];
+
   constructor(public router: Router,
     private service: LotService,
     private SlabsService: SlabsService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    // private csvDownloadService: CsvDownloadService
+  ) { }
 
   getLotList(): void {
     this.service.getLotList().subscribe((resp: any) => {
+      if (resp && resp.data) {
+        // this.lotData = this.csvDownloadService.flattenArray(resp.data);
+        // this.generateColumns(resp.data);
+      }
       this.lotData = resp.data;
       this.originalData = resp.data;
-
     });
   }
+
+  // generateColumns(data: any[]) {
+  //   this.cols = [
+  //     { field: 'lotNo', header: 'Lot No' },
+  //     { field: 'lotName', header: 'Lot Name' },
+  //     { field: 'date', header: 'Date' },
+  //   ];
+
+  //   const maxBlocks = Math.max(...data.map(item => item.blockDetails.length));
+
+  //   for (let i = 0; i < maxBlocks; i++) {
+  //     this.cols.push(
+  //       { field: `blockDetails[${i}].blockNo`, header: `Block No ${i + 1}` },
+  //       { field: `blockDetails[${i}].height`, header: `Height ${i + 1}` },
+  //       { field: `blockDetails[${i}].width`, header: `Width ${i + 1}` },
+  //       { field: `blockDetails[${i}].length`, header: `Length ${i + 1}` },
+  //       { field: `blockDetails[${i}].totalArea`, header: `Total Area ${i + 1}` },
+  //       { field: `blockDetails[${i}].weightPerBlock`, header: `Weight Per Block ${i + 1}` },
+  //       { field: `blockDetails[${i}].rawCosting`, header: `Raw Costing ${i + 1}` },
+  //       { field: `blockDetails[${i}].royaltyCosting`, header: `Royalty Costing ${i + 1}` },
+  //       { field: `blockDetails[${i}].transportationCosting`, header: `Transportation Costing ${i + 1}` },
+  //       { field: `blockDetails[${i}].totalCosting`, header: `Total Costing ${i + 1}` }
+  //     );
+  //   }
+
+  //   this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
+  // }
+
+  // exportCSV(dt: any) {
+  //     dt.exportCSV();
+  // }
+
+  // downloadCSV() {
+  //   this.csvDownloadService.downloadCSV(this.lotData, 'lot-details');
+  // }
 
   ngOnInit(): void {
     this.getLotList();
   }
 
-  editPage(_id:any)
-{
-  
-  this.router.navigate(['/lot/edit/'+ _id]);
-}
+  editPage(_id: any) {
+
+    this.router.navigate(['/lot/edit/' + _id]);
+  }
   showLotDetails(_id: any) {
     this.SlabsService.getBlockDetailByLotId(_id).subscribe((resp: any) => {
       this.lotVisible = true;
@@ -65,9 +120,9 @@ export class ListLotComponent implements OnInit {
       console.log(resp.data);
     });
 
-    this.service.getLotById(_id).subscribe((resp:any) => {
-      console.log("resp id lot",resp.data);
-      
+    this.service.getLotById(_id).subscribe((resp: any) => {
+      console.log("resp id lot", resp.data);
+
     })
   }
 

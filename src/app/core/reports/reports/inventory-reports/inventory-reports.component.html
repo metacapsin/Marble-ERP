@@ -39,7 +39,7 @@
                         <li class="breadcrumb-item">
                             <i class="feather icon-chevron-right"></i>
                         </li>
-                        <li class="breadcrumb-item active">Payment In Report</li>
+                        <li class="breadcrumb-item active">Stock Report</li>
                     </ul>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Payment In Details </h3>
+                                        <h3>Stock Details </h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input type="text" class="form-control" placeholder="Search here"
@@ -81,7 +81,7 @@
                                                 optionValue="categoryDetail" styleClass="" appendTo="body"
                                                 placeholder="Select Category" [style]="{ width: '100%' }"
                                                 [filter]="true" (onChange)="onCategoryChange($event.value)"
-                                                filterBy="name">
+                                                filterBy="name" [showClear]="true">
                                             </p-dropdown>
                                         </div>
                                     </div>
@@ -93,7 +93,7 @@
                                                 optionValue="subCategoryDetail" styleClass="" appendTo="body"
                                                 placeholder="Select Sub Category" [style]="{ width: '100%' }"
                                                 [filter]="true" (onChange)="onSubCategoryChange($event.value)"
-                                                filterBy="name">
+                                                filterBy="name" [showClear]="true">
                                             </p-dropdown>
                                         </div>
                                     </div>

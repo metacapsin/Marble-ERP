@@ -55,7 +55,7 @@ export class StockAdjustmentListComponent implements OnInit {
       warehouse: ["", [Validators.required]],
       slabs: ["", [Validators.required]],
       currentQty: [""],
-      quantity: ["", [Validators.required]],
+      quantity: ["", [Validators.required, Validators.min(1)]],
       adjustmentType: ["", [Validators.required]],
       note: ["", [Validators.pattern(this.descriptionRegex)]],
     });
@@ -63,7 +63,7 @@ export class StockAdjustmentListComponent implements OnInit {
       warehouse: ["", [Validators.required]],
       slabs: ["", [Validators.required]],
       currentQty: [""],
-      quantity: ["", [Validators.required]],
+      quantity: ["", [Validators.required, Validators.min(1)]],
       adjustmentType: ["", [Validators.required]],
       note: ["", [Validators.pattern(this.descriptionRegex)]],
     });

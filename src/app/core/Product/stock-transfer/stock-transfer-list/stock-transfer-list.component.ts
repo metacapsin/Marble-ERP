@@ -177,6 +177,14 @@ export class StockTransferListComponent implements OnInit {
   }
 
   addStockTransferFormSubmit() {
+    if(this.addStockTransferForm.value.fromWarehouse === this.addStockTransferForm.value.toWarehouse){
+      const message = "From-Warehouse and To-Warehouse cannot be the same.";
+      this.messageService.add({ severity: "error", detail: message });
+    }
+    else if(this.addStockTransferForm.value.transferQty > this.addStockTransferForm.value.currentQty){
+      const message = "Transfer Quantity Can not be more then Current Quantity.";
+      this.messageService.add({ severity: "error", detail: message });
+    } else{
     const payload = {
       fromWarehouse: this.addStockTransferForm.value.fromWarehouse,
       toWarehouse: this.addStockTransferForm.value.toWarehouse,
@@ -201,7 +209,9 @@ export class StockTransferListComponent implements OnInit {
       console.log("Form is invalid!");
     }
   }
+  }
   editStockTransferFormSubmit() {
+    
     const payload = {
       id: this.stockTransferId,
       fromWarehouse: this.editStockTransferForm.value.fromWarehouse,

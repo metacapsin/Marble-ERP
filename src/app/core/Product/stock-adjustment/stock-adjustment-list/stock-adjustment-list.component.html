@@ -153,7 +153,11 @@
                             <div
                                 *ngIf="addStockAdjustmentForm.get('quantity')?.hasError('required') && addStockAdjustmentForm.get('quantity')?.touched">
                                 <span class="login-danger">Field is required.</span>
-                            </div>
+                            </div> 
+                            <div
+                                *ngIf="addStockAdjustmentForm.get('quantity')?.hasError('min') && addStockAdjustmentForm.get('quantity')?.touched">
+                                <span class="login-danger">Input must be 1.</span>
+                            </div> 
                         </div>
                     </div>
 
@@ -242,6 +246,10 @@
                             <div
                                 *ngIf="editStockAdjustmentForm.get('quantity')?.hasError('required') && editStockAdjustmentForm.get('quantity')?.touched">
                                 <span class="login-danger">Field is required.</span>
+                            </div>
+                            <div
+                                *ngIf="editStockAdjustmentForm.get('quantity')?.hasError('min') && editStockAdjustmentForm.get('quantity')?.touched">
+                                <span class="login-danger">Input must be 1.</span>
                             </div>
                         </div>
                     </div>

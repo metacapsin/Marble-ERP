@@ -147,10 +147,10 @@
                                         <td appShowHide [roles]="['admin', 'super-admin']">
                                             <div class="action-buttons">
 
-                                                <p-button *ngIf="slabs.isInUse" [text]="true" icon="fa fa-edit"
+                                                <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
                                                     (click)="updateSlabs(slabs._id)"></p-button>
-                                                <!-- <p-button [text]=" true" icon="fa fa-trash"
-                                                (click)="deleteSlabs(slabs._id)"></p-button> -->
+                                                <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
+                                                (click)="deleteSlabs(slabs._id)"></p-button>
                                             </div>
                                         </td>
 

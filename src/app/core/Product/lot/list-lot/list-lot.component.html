@@ -47,7 +47,7 @@
                                             alt=""></a>
                                     <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
                                             alt=""></a> -->
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                    <a href="javascript:;" class=" me-2" ><img src="assets/img/icons/pdf-icon-03.svg"
                                             alt=""></a>
                                     <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
@@ -58,7 +58,7 @@
                         <div class="card-body p-2">
 
                             <p-table [value]="lotData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot"
+                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot" [columns]="cols" #dt
                                 styleClass="p-datatable-striped">
                                 <ng-template pTemplate="header">
                                     <tr>
@@ -71,7 +71,7 @@
                                         <th pSortableColumn="lotNo">Lot Number <p-sortIcon field="lotNo"></p-sortIcon>
                                             <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="lotWeight">Lot Weight<p-sortIcon
+                                        <th pSortableColumn="lotWeight">Lot Weight(Ton)<p-sortIcon
                                                 field="lotWeight"></p-sortIcon>
                                             <p-columnFilter type="text" field="lotWeight"
                                                 display="menu"></p-columnFilter>

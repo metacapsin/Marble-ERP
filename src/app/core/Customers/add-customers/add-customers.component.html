@@ -91,10 +91,10 @@
                       <input class="form-control" type="email" placeholder="Please Enter Email"
                         formControlName="email" />
                       <div *ngIf="
-                          addcustomerGroup.get('email')?.hasError('required') &&
+                          addcustomerGroup.get('email')?.hasError('pattern') &&
                           addcustomerGroup.get('email')?.touched
                         " class="login-danger Font_size">
-                        Field is required.
+                        Please enter valid Email address.
                       </div>
                     </div>
                   </div>
