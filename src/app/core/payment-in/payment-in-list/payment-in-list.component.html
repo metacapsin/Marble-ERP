@@ -97,7 +97,8 @@
                                 </ng-template>
 
                                 <ng-template pTemplate="footer">
-                                    <tr>
+                <tr *ngIf="totalAmount >0 ">
+                    <tr >
                                         <td colspan="2"></td>
                                         <td>Total </td>
                                         <td>₹ {{ totalAmount }}</td>

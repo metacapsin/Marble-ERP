@@ -66,6 +66,8 @@ export class PurchaseReturnComponent {
   selectedPurchaseReturn:''
   header: string;
   PurchaseReturnListData: any[];
+  paymentDataListById: any[];
+
 
   constructor(public data : DataService,private service:PurchaseReturnService,private router: Router,private messageService: MessageService,){
 
@@ -114,20 +116,19 @@ export class PurchaseReturnComponent {
     this.service.getPurchaseReturnById(id).subscribe((resp: any) => {
       this.showInvoiceDialog = true;
       this.PurchaseReturnListData = [resp.data];
-      this.header = "Purchase Invoice";
+      this.header = "Purchase Return";
       console.log(this.PurchaseReturnListData[0].lotDetails);
       console.log(this.PurchaseReturnListData);
       console.log(resp);
-
-
-      // if (resp.data.lotDetails) {
-      //   this.service
-      //     .getBlockDetailByLotId(resp.data.lotDetails._id)
-      //     .subscribe((resp: any) => {
-      //       this.blockDetailsTable = resp.data.blockDetails;
-      //     });
-      // }
-    })}
+    }
+  )
+  this.service
+  .getPurchaseReturnPaymentListByPurchaseReturnId(id)
+  .subscribe((resp: any) => {
+    this.paymentDataListById = resp.data;
+    console.log("purchase Return data",resp.data)
+  });}
+    
   public searchData(value: any): void {
     this.purchaseReturnData.filter = value.trim().toLowerCase();
     this.originalData = this.purchaseReturnData.filteredData;

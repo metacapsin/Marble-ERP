@@ -138,7 +138,7 @@
         [data]="modalData"></app-confirm-dialog>
     <p-toast></p-toast>
     <!-- -- Preview model -- -->
-    <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="PurchaseReturnListData"
+    <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="PurchaseReturnListData" [paymentDataListById]="paymentDataListById" 
         (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>
 
     <!-- -- end preview model --  -->

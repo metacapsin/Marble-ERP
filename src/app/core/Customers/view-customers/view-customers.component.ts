@@ -19,6 +19,7 @@ import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-
 import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
 import { SalesReturnService } from "../../sales-return/sales-return.service";
 import { PaymentOutService } from "../../payment-out/payment-out.service";
+import { IndianCurrencyPipe } from "src/app/shared/directives/indian-currency.pipe";
 
 @Component({
   selector: "app-view-customers",
@@ -35,6 +36,7 @@ import { PaymentOutService } from "../../payment-out/payment-out.service";
     TabViewModule,
     InvoiceDialogComponent,
     PaymentsInvoiceDialogComponent,
+    IndianCurrencyPipe
   ],
   providers: [MessageService],
 
@@ -126,6 +128,7 @@ export class ViewCustomersComponent implements OnInit {
       .subscribe((resp: any) => {
         this.salesTotalValues = resp;
         this.salesDataShowById = resp.data;
+        console.log("sales data by costumer id",resp)
       });
   }
 
