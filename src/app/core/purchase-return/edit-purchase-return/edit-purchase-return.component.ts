@@ -91,6 +91,7 @@ export class EditPurchaseReturnComponent {
   maxDate = new Date();
   unselectedSlab: any;
   patchPurchaseID: any;
+  LotData: any;
 
   constructor(
     private taxService: TaxesService,
@@ -136,6 +137,12 @@ export class EditPurchaseReturnComponent {
           this.purchaseDataById = resp.data;
           console.log(this.purchaseDataById);
             this.onInvoiceNumber(this.patchPurchaseID)
+            this.LotData = this.purchaseDataById.filter((lot) => lot.purchaseType == 'lot');
+          if(this.LotData.length){
+            // console.log("object","set it");
+            const message = "Lot can not return";
+            this.messageService.add({ severity: "error", detail: message });
+          }
           this.slabData = this.purchaseDataById.filter(
             (slab) => slab.purchaseType == "slab"
           );

@@ -89,6 +89,7 @@ export class AddPurchaseReturnComponent {
   totalSlab: any;
   slabData: any;
   unselectedSlab: any;
+  LotData: any;
 
   constructor(
     private taxService: TaxesService,
@@ -130,6 +131,12 @@ export class AddPurchaseReturnComponent {
         console.log(resp);
         if (resp && resp.data && Array.isArray(resp.data)) {
           this.purchaseDataById = resp.data;
+          this.LotData = this.purchaseDataById.filter((lot) => lot.purchaseType == 'lot');
+          if(this.LotData.length){
+            // console.log("object","set it");
+            const message = "Lot can not return";
+            this.messageService.add({ severity: "error", detail: message });
+          }
           this.slabData = this.purchaseDataById.filter((slab) => slab.purchaseType == 'slab');
 // console.log(data);
 
