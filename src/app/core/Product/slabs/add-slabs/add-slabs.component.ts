@@ -138,6 +138,7 @@ export class AddSlabsComponent {
       length: ["", [Validators.min(1), Validators.max(100000)]],
       finishes: ["", [Validators.required]],
     });
+    
   }
   get f() {
     return this.slabsAddForm.controls;
@@ -160,6 +161,7 @@ export class AddSlabsComponent {
   }
 
   ngOnInit(): void {
+    
     this.getBlockProcessor();
     console.log(this.slabsAddForm.value.lotDetails);
     this.Lotservice.getLotList().subscribe((resp: any) => {
@@ -289,6 +291,8 @@ export class AddSlabsComponent {
     if (sellingPricePerSQFT < totalAmount) {
       this.if_sellingPricePerSQFT = true;
       console.log("if set");
+      // const message = "";
+      //       this.messageService.add({ severity: "success", detail: message });
     } else {
       console.log("else set");
       this.if_sellingPricePerSQFT = false;

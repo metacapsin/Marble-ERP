@@ -152,9 +152,9 @@
                   <div class="col-12 col-md-4 col-xl-4" *ngIf="slabsAddForm.get('lotDetails').value">
                     <div class="form-group local-forms">
                       <label for="blockProcessor">Processor<span class="login-danger"></span></label>
-                      <p-dropdown [options]="blockProcessorArray" styleClass="" appendTo="body" optionLabel="name" optionValue="_id"
-                        placeholder="Select Processor" formControlName="blockProcessor" [style]="{ width: '100%' }"
-                        [filter]="true" filterBy="name" [showClear]="true">
+                      <p-dropdown [options]="blockProcessorArray" styleClass="" appendTo="body" optionLabel="name"
+                        optionValue="_id" placeholder="Select Processor" formControlName="blockProcessor"
+                        [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true">
                       </p-dropdown>
                       <!-- <div *ngIf="
                             slabsAddForm
@@ -224,10 +224,10 @@
                                       ?.hasError('max') &&
                                       slabsAddForm.get('width')?.touched)
                                   ">
-                                <span class="login-danger">
-                                  input must be between 1 and 100,000.
-                                </span>
-                              </div>
+                        <span class="login-danger">
+                          input must be between 1 and 100,000.
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -252,10 +252,10 @@
                                       ?.hasError('max') &&
                                       slabsAddForm.get('length')?.touched)
                                   ">
-                                <span class="login-danger">
-                                  input must be between 1 and 100,000.
-                                </span>
-                              </div>
+                        <span class="login-danger">
+                          input must be between 1 and 100,000.
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -265,7 +265,7 @@
                       <input class="form-control" type="number" placeholder="Enter Thickness"
                         formControlName="thickness" />
 
-                        <div *ngIf="
+                      <div *ngIf="
                         (slabsAddForm
                         .get('thickness')
                         ?.hasError('min') &&
@@ -276,10 +276,10 @@
                         ?.hasError('max') &&
                         slabsAddForm.get('thickness')?.touched)
                     ">
-                  <span class="login-danger">
-                    input must be between 1 and 100,000.
-                  </span>
-                </div>
+                        <span class="login-danger">
+                          input must be between 1 and 100,000.
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -600,9 +600,10 @@
                     <div class="upload-sign">
                       <div class="settings-btns text-end m-b-10">
                         <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                          [disabled]="!slabsAddForm.valid">
+                          [disabled]="!slabsAddForm.valid && if_sellingPricePerSQFT">
                           Submit
                         </button>
+
                         <button class="btn btn-secondary" [routerLink]="['/slabs']">
                           Cancel
                         </button>

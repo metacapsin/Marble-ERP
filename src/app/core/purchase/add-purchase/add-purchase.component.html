@@ -425,7 +425,7 @@
                   </div>
                   <div class="upload-sign">
                     <div class="form-group float-end mb-0">
-                      <button class="btn btn-primary" type="submit">
+                      <button class="btn btn-primary" type="submit" [disabled]="!addPurchaseForm.valid">
                         <!-- [disabled]="!addPurchaseForm.valid" -->
                         Save purchase
                       </button>
