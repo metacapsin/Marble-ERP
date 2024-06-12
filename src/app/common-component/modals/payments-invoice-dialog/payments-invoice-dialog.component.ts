@@ -10,7 +10,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
-import { MessageService, SharedModule } from "primeng/api";
+import { MessageService } from "primeng/api";
 import { CalendarModule } from "primeng/calendar";
 import { DialogModule } from "primeng/dialog";
 import { DropdownModule } from "primeng/dropdown";
@@ -23,6 +23,7 @@ import { PaymentOutService } from "src/app/core/payment-out/payment-out.service"
 import { PurchaseReturnService } from "src/app/core/purchase-return/purchase-return.service";
 import { SalesReturnService } from "src/app/core/sales-return/sales-return.service";
 import { SalesService } from "src/app/core/sales/sales.service";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: "app-payments-invoice-dialog",
@@ -34,11 +35,12 @@ import { SalesService } from "src/app/core/sales/sales.service";
     DialogModule,
     ToastModule,
     TabViewModule,
-    SharedModule,
     FormsModule,
     CalendarModule,
     DropdownModule,
     ReactiveFormsModule,
+    SharedModule,
+  
   ],
   templateUrl: "./payments-invoice-dialog.component.html",
   styleUrl: "./payments-invoice-dialog.component.scss",

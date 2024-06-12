@@ -114,13 +114,13 @@
                           <div class="form-group row mb-2" *ngIf="sales.paidAmount">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">₹ {{sales.paidAmount}}</p>
+                              <p class="col-lg-9 col-form-label">₹ {{sales.paidAmount | indianCurrency}}</p>
                             </div>
                           </div>
                           <div class="form-group row mb-2" *ngIf="sales.dueAmount">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">₹ {{sales.dueAmount}}</p>
+                              <p class="col-lg-9 col-form-label">₹ {{sales.dueAmount | indianCurrency}}</p>
                             </div>
                           </div>
                           <div class="form-group row mb-2" *ngIf="sales.purchaseType">
@@ -255,23 +255,23 @@
                           <td>{{sales.salesItemProduct.slabName}}</td>
                           <td>{{sales.salesItemQuantity}}</td>
                           <td>₹ {{sales.salesItemUnitPrice}}</td>
-                          <td>₹ {{sales.salesItemTaxAmount}}</td>
-                          <td>₹ {{sales.salesItemSubTotal}}</td>
+                          <td>₹ {{sales.salesItemTaxAmount | indianCurrency}}</td>
+                          <td>₹ {{sales.salesItemSubTotal | indianCurrency}}</td>
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-data *ngIf="sales.lotDetails">
                         <tr>
                           <td>{{sales.lotDetails.lotName}}</td>
                           <td>{{sales.lotDetails.lotNo}}</td>
-                          <td>₹ {{sales.lotDetails.lotTotalCosting}}</td>
+                          <td>₹ {{sales.lotDetails.lotTotalCosting | indianCurrency}}</td>
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-data *ngIf="sales.slabDetails">
                         <tr *ngFor="let sales of data.slabDetails">
                           <td>{{sales.slabName}}</td>
                           <td>{{sales.slabNo}}</td>
-                          <td>₹ {{sales.sellingPricePerSQFT}}</td>
-                          <td>₹ {{sales.totalCosting}}</td>
+                          <td>₹ {{sales.sellingPricePerSQFT | indianCurrency}}</td>
+                          <td>₹ {{sales.totalCosting | indianCurrency}}</td>
                           <td>₹ {{sales.totalSQFT}}</td>
                         </tr>
                       </ng-template>
@@ -280,8 +280,8 @@
                         <tr *ngFor="let slab of sales.purchaseReturnItemDetails[0].purchaseSlab">
                           <td>{{ slab.slabName }}</td>
                           <td>{{ slab.slabNo }}</td>
-                          <td>₹ {{ slab.sellingPricePerSQFT }}</td>
-                          <td>₹ {{ slab.totalCosting }}</td>
+                          <td>₹ {{ slab.sellingPricePerSQFT | indianCurrency }}</td>
+                          <td>₹ {{ slab.totalCosting | indianCurrency }}</td>
                           <td>{{ slab.totalSQFT }}</td>
                         </tr>
 
@@ -309,7 +309,7 @@
                         <tr>
                           <td class="bold">{{payment.transactionNo}}</td>
                           <td class="bold">{{payment.paymentDate | date: 'dd-MMM-yyyy'}}</td>
-                          <td>₹ {{payment.amount}}</td>
+                          <td>₹ {{payment.amount | indianCurrency}}</td>
                           <td>{{payment.paymentMode}}</td>
                         </tr>
                       </ng-template>
@@ -338,19 +338,19 @@
                   <div class="invoice-total-card">
                     <div class="invoice-total-box">
                       <div class="invoice-total-inner">
-                        <p *ngIf="sales.salesGrossTotal">Gross Total <span>₹ {{sales.salesGrossTotal}}</span></p>
-                        <p *ngIf="sales.salesShipping">Shipping Charges <span>₹ {{sales.salesShipping}}</span></p>
-                        <p *ngIf="sales.salesDiscount">Discount <span>₹ {{sales.salesDiscount}}</span></p>
-                        <p *ngIf="sales.purchaseGrossTotal">Gross Total <span>₹ {{sales.purchaseGrossTotal}}</span></p>
-                        <p *ngIf="sales.purchaseShipping">Shipping Charges <span>₹ {{sales.purchaseShipping}}</span></p>
-                        <p *ngIf="sales.purchaseDiscount">Discount <span>₹ {{sales.purchaseDiscount}}</span></p>
-                        <p *ngIf="sales.otherCharges">OtherCharges <span>₹ {{sales.otherCharges}}</span></p>
+                        <p *ngIf="sales.salesGrossTotal">Gross Total <span>₹ {{sales.salesGrossTotal | indianCurrency}}</span></p>
+                        <p *ngIf="sales.salesShipping">Shipping Charges <span>₹ {{sales.salesShipping | indianCurrency}}</span></p>
+                        <p *ngIf="sales.salesDiscount">Discount <span>₹ {{sales.salesDiscount | indianCurrency}}</span></p>
+                        <p *ngIf="sales.purchaseGrossTotal">Gross Total <span>₹ {{sales.purchaseGrossTotal | indianCurrency}}</span></p>
+                        <p *ngIf="sales.purchaseShipping">Shipping Charges <span>₹ {{sales.purchaseShipping | indianCurrency}}</span></p>
+                        <p *ngIf="sales.purchaseDiscount">Discount <span>₹ {{sales.purchaseDiscount | indianCurrency}}</span></p>
+                        <p *ngIf="sales.otherCharges">OtherCharges <span>₹ {{sales.otherCharges | indianCurrency}}</span></p>
 
                       </div>
                       <div class="invoice-total-footer">
-                        <h4 *ngIf="sales.salesTotalAmount">Total Amount <span>₹ {{sales.salesTotalAmount}}</span>
+                        <h4 *ngIf="sales.salesTotalAmount">Total Amount <span>₹ {{sales.salesTotalAmount | indianCurrency}}</span>
                         </h4>
-                        <h4 *ngIf="sales.purchaseTotalAmount">Total Amount <span>₹ {{sales.purchaseTotalAmount}}</span>
+                        <h4 *ngIf="sales.purchaseTotalAmount">Total Amount <span>₹ {{sales.purchaseTotalAmount | indianCurrency}}</span>
                         </h4>
                       </div>
                     </div>

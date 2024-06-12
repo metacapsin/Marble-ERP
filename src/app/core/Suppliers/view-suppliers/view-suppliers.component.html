@@ -175,9 +175,9 @@
                                         value="Paid"></p-tag></td>
                                 <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="error"
                                         value="Unpaid"></p-tag></td>
-                                <td>₹ {{ purchase.paidAmount }}</td>
-                                <td>₹ {{ purchase.dueAmount }}</td>
-                                <td>₹ {{ purchase.purchaseTotalAmount }}</td>
+                                <td>₹ {{ purchase.paidAmount | indianCurrency}}</td>
+                                <td>₹ {{ purchase.dueAmount | indianCurrency}}</td>
+                                <td>₹ {{ purchase.purchaseTotalAmount | indianCurrency}}</td>
                                 <td>
 
                                     <!-- <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px"> -->
@@ -201,10 +201,9 @@
                             <tr *ngIf="purchaseTotalValues.totalPaidAmount > 0 || purchaseTotalValues.totalDueAmount > 0 || purchaseTotalValues.totalAmount >0 ">
                                 <td colspan="3"></td>
                                 <td>Total</td>
-                                <td *ngIf="purchaseTotalValues.totalPaidAmount">₹ {{ purchaseTotalValues.totalPaidAmount }}</td>
-                                <td *ngIf="purchaseTotalValues.totalDueAmount">₹ {{ purchaseTotalValues.totalDueAmount }}</td>
-                                <td *ngIf="purchaseTotalValues.totalAmount">₹ {{ purchaseTotalValues.totalAmount }}</td>
-                                <td></td>
+                                <td >₹ {{ purchaseTotalValues.totalPaidAmount | indianCurrency}}</td>
+                                <td >₹ {{ purchaseTotalValues.totalDueAmount | indianCurrency }}</td>
+                                <td >₹ {{ purchaseTotalValues.totalAmount | indianCurrency}}</td>
                                 <td></td>
 
                             </tr>
@@ -250,14 +249,14 @@
                                     {{ payment.paymentDate | date : "dd-MMM-yyyy" }}
                                 </td>
                                 <td>{{ payment.paymentMode }}</td>
-                                <td>₹ {{ payment.amount }}</td>
+                                <td>₹ {{ payment.amount | indianCurrency}}</td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="footer">
                             <tr *ngIf="paymentOutTotalValues.totalAmount ">
                               <td colspan="3"></td>
                               <td>Total</td>
-                              <td>₹ {{ paymentOutTotalValues.totalAmount }}</td>
+                              <td>₹ {{ paymentOutTotalValues.totalAmount | indianCurrency}}</td>
                             </tr>
                           </ng-template>
                     </p-table>
@@ -319,9 +318,9 @@
                                     value="Paid"></p-tag></td>
                             <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="error"
                                     value="Unpaid"></p-tag></td>
-                                <td>₹ {{ purchase.paidAmount }}</td>
-                                <td>₹ {{ purchase.dueAmount }}</td>
-                                <td>₹ {{ purchase.purchaseReturnTotalAmount }}</td>
+                                <td>₹ {{ purchase.paidAmount | indianCurrency }}</td>
+                                <td>₹ {{ purchase.dueAmount | indianCurrency }}</td>
+                                <td>₹ {{ purchase.purchaseReturnTotalAmount | indianCurrency }}</td>
                                 
                                     <td appShowHide [roles]="['admin', 'super-admin']" >
                                     <div class="action-buttons">
@@ -345,9 +344,9 @@
                             <tr *ngIf="purchaseReturnTotalValues.totalPaidAmount > 0 || purchaseReturnTotalValues.totalDueAmount > 0 || purchaseReturnTotalValues.totalAmount >0 ">
                                 <td colspan="3"></td>
                               <td>Total</td>
-                              <td *ngIf="purchaseReturnTotalValues.totalPaidAmount">₹ {{ purchaseReturnTotalValues.totalPaidAmount }}</td>
-                              <td *ngIf="purchaseReturnTotalValues.totalDueAmount">₹ {{ purchaseReturnTotalValues.totalDueAmount }}</td>
-                              <td *ngIf="purchaseReturnTotalValues.totalAmount">₹ {{ purchaseReturnTotalValues.totalAmount }}</td>
+                              <td >₹ {{ purchaseReturnTotalValues.totalPaidAmount | indianCurrency }}</td>
+                              <td >₹ {{ purchaseReturnTotalValues.totalDueAmount | indianCurrency }}</td>
+                              <td >₹ {{ purchaseReturnTotalValues.totalAmount | indianCurrency }}</td>
                               <td></td>
                             </tr>
                           </ng-template>
@@ -392,14 +391,14 @@
                                     {{ payment.paymentDate | date : "dd-MMM-yyyy" }}
                                 </td>
                                 <td>{{ payment.paymentMode }}</td>
-                                <td>₹ {{ payment.amount }}</td>
+                                <td>₹ {{ payment.amount | indianCurrency}}</td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="footer">
                             <tr *ngIf="paymentInTotalValues.totalAmount">
                               <td colspan="3"></td>
                               <td>Total</td>
-                              <td>₹ {{ paymentInTotalValues.totalAmount }}</td>
+                              <td>₹ {{ paymentInTotalValues.totalAmount | indianCurrency}}</td>
                             </tr>
                           </ng-template>
                     </p-table>
