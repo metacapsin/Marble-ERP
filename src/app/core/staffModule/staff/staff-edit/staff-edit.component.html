@@ -172,7 +172,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4">
+                                <!-- <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label for="upiId">UPI ID</label>
                                         <input class="form-control" formControlName="upiId" type="text" />
@@ -220,6 +220,60 @@
                                         <label for="city">Address</label>
                                         <textarea class="form-control" formControlName="address" rows="1"
                                             cols="30"></textarea>
+                                        <div *ngIf="editStaffForm.get('address')?.hasError('pattern') && editStaffForm.get('address')?.touched"
+                                            class="login-danger Font_size">Input must be between 3 to 100 characters.
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label for="upiId">UPI ID</label>
+                                        <input class="form-control" formControlName="upiId" type="text" />
+                                        <div *ngIf="editStaffForm.get('upiId')?.hasError('pattern') && editStaffForm.get('upiId')?.touched"
+                                            class="login-danger Font_size">Invalid UPI ID format.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label for="bankName">Bank Name </label>
+                                        <input class="form-control" formControlName="bankName" type="text" />
+                                        <div *ngIf="editStaffForm.get('bankName')?.hasError('pattern') && editStaffForm.get('bankName')?.touched"
+                                            class="login-danger Font_size">Input must be between 3 to 100 characters.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                      <label for="accountName">Account Holder Name</label>
+                                      <input class="form-control" formControlName="accountName" type="text" />
+                                      <div *ngIf="editStaffForm.get('accountName')?.hasError('pattern') && editStaffForm.get('accountName')?.touched"
+                                           class="login-danger Font_size">Input must be between 3 to 20 characters.
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                      <label for="accountNumber">Account Number</label>
+                                      <input class="form-control" formControlName="accountNumber" type="number" />
+                                      <div *ngIf="editStaffForm.get('accountNumber')?.hasError('pattern') && editStaffForm.get('accountNumber')?.touched"
+                                           class="login-danger Font_size">Input must be between 9 to 18 digits.</div>
+                                    </div>
+                                  </div>
+                                  <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label for="ifscCode">IFSC Code</label>
+                                        <input class="form-control" formControlName="ifscCode" type="text" />
+                                        <div *ngIf="editStaffForm.get('ifscCode')?.hasError('pattern') && editStaffForm.get('ifscCode')?.touched"
+                                            class="login-danger Font_size">Input must be 11 characters (4 letters followed by 7 digits).
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label for="city">Address</label>
+                                        <textarea class="form-control" formControlName="address" rows="1" cols="30"></textarea>
                                         <div *ngIf="editStaffForm.get('address')?.hasError('pattern') && editStaffForm.get('address')?.touched"
                                             class="login-danger Font_size">Input must be between 3 to 100 characters.
                                         </div>
