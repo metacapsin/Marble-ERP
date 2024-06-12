@@ -38,21 +38,31 @@ export class StaffAddComponent {
     { value: "Marketing Manager" },
   ];
   warehouseData = [];
+  // personNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
+  // phoneRegex = /^[0-9]{10}$/;
+  // emailRegex: string = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  // REGX_For_UID:string = "/^[\w.-]+@[\w.-]+$/";
+  // pinRegex = /^\d{6}$/;
+  // upiIdRegex = /^[a-zA-Z0-9.-]{2,256}@[a-zA-Z][a-zA-Z]{2,64}$/;
+  // BankName = "^[A-Za-z\s]+$"
+  // password= /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@])[A-Za-z\d@]{8,16}$/;
+  // AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
+  // accountHolderRegex = "^[A-Za-z\s]{3,20}$";
+  // AccountNumberRegex = "^\d{9,18}$";
+  // IfscCodeRegex = "^[^\s]{4}\d{7}$";
+  // addressRegex = /^(?!\s)(?:.{3,500})$/;
   personNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
   phoneRegex = /^[0-9]{10}$/;
-  emailRegex: string = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  emailRegex = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  REGX_For_UID = /^[\w.-]+@[\w.-]+$/;
   pinRegex = /^\d{6}$/;
-  upiIdRegex = /^[a-zA-Z0-9.-]{2, 256}@[a-zA-Z][a-zA-Z]{2, 64}$/;
-  // upiIdRegex = /[a-zA-Z0-9.\-_]{2,49}@[a-zA-Z._]{2,49}/;
-
-  password= /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@])[A-Za-z\d@]{8,16}$/;
+  upiIdRegex = /^[a-zA-Z0-9.-]{2,256}@[a-zA-Z]{2,64}$/;
+  BankName = /^[A-Za-z\s]+$/;
+  password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@])[A-Za-z\d@]{8,16}$/;
   AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
-  AccountNumberRegex = /^[0-9]{14}$/;
-
-  accountHolderRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,20}$/;
-
-
-  IfscCodeRegex = /^[0-9]{11}$/;
+  accountHolderRegex = /^[A-Za-z\s]{3,20}$/;
+  AccountNumberRegex = /^\d{9,18}$/;
+  IfscCodeRegex = /^[^\s]{4}\d{7}$/;
   addressRegex = /^(?!\s)(?:.{3,500})$/;
 
   constructor(
@@ -63,27 +73,42 @@ export class StaffAddComponent {
     private warehouseService: WarehouseService
   ) {
     this.addStaffForm = this.fb.group({
-      upiId: ["", [Validators.pattern(this.upiIdRegex)]],
+      // upiId: ["", [Validators.pattern(this.REGX_For_UID)]],
+      // dateOfBirth: ["", Validators.required],
+      // warehouseDetails: ["", Validators.required],
+      // firstName: [
+      //   "",
+      //   [Validators.required, Validators.pattern(this.personNameRegex)],
+      // ],
+      // lastName: [
+      //   "",
+      //   [Validators.required, Validators.pattern(this.personNameRegex)],
+      // ],
+      // mobile: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
+      // email: ["", [Validators.pattern(this.emailRegex)]],
+      // pincode: ["", [Validators.required, Validators.pattern(this.pinRegex)]],
+      // designation: ["", [Validators.required]],
+      // city: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      // address: ["", [Validators.pattern(this.AddressRegex)]],
+      // bankName: ["", [Validators.pattern(this.BankName)]],
+      // accountName: ["", [Validators.pattern(this.personNameRegex)]],
+      // accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
+      // ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
+      upiId: ["", [Validators.pattern(this.REGX_For_UID)]],
       dateOfBirth: ["", Validators.required],
       warehouseDetails: ["", Validators.required],
-      firstName: [
-        "",
-        [Validators.required, Validators.pattern(this.personNameRegex)],
-      ],
-      lastName: [
-        "",
-        [Validators.required, Validators.pattern(this.personNameRegex)],
-      ],
+      firstName: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      lastName: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       mobile: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
       email: ["", [Validators.pattern(this.emailRegex)]],
       pincode: ["", [Validators.required, Validators.pattern(this.pinRegex)]],
       designation: ["", [Validators.required]],
       city: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
-      address: ["", [Validators.pattern(this.AddressRegex)]],
-      bankName: ["", [Validators.pattern(this.personNameRegex)]],
+      address: ["", [Validators.pattern(this.addressRegex)]],
+      bankName: ["", [Validators.pattern(this.BankName)]],
       accountName: ["", [Validators.pattern(this.accountHolderRegex)]],
       accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
-      ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
+      ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]]
     });
   }
 
