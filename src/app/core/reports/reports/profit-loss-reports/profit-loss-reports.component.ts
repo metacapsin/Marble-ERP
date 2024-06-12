@@ -12,8 +12,8 @@ export class ProfitLossReportsComponent{
   picker1: any;
   searchDataValue = ""  
   rangeDates: Date[] | undefined;
-  salesReportsData = [];
-  originalData = [];
+  profitLossData:any = {};
+
   maxDate = new Date();
   searchByData = [
     "Today", "YesterDay", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
@@ -21,9 +21,7 @@ export class ProfitLossReportsComponent{
 
   constructor(
     private service:ReportsService
-  ) {
-
-  }
+  ) { }
 
   getPaymentInReportData(startDate: Date, endDate: Date){
     const formattedStartDate = this.formatDate(startDate);
@@ -38,21 +36,16 @@ export class ProfitLossReportsComponent{
       endDate: "",
     };
 
-    this.service.getSalesReports(data).subscribe((resp:any) => {
-      console.log(resp);
-      this.salesReportsData = resp.payments
-      this.originalData = resp.payments
+    this.service.getProfitLoss(data2).subscribe((resp: any) => {
+          this.profitLossData = resp.data.results;      
     });
   }
-
-
 
   onDateChange(value: any): void {
     const startDate = value[0];
     const endDate = value[1];
     this.getPaymentInReportData(startDate, endDate);
   }
-
   
   ngOnInit(): void {
     const today = new Date();
@@ -106,12 +99,6 @@ export class ProfitLossReportsComponent{
     return `${month}/${day}/${year}`;
   }
 
-  public searchData(value: any): void {
-    this.salesReportsData = this.originalData.filter(i =>
-      i.customer.name
-      .toLowerCase().includes(value.trim().toLowerCase())
-    );
-  }
 
 
 }

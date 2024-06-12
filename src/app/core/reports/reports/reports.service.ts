@@ -29,5 +29,8 @@ export class ReportsService {
   getStockReports(data: {} | null) {
     return this.http.post(environment.apiUrl + "/StockReportController/getStockReports", data);
   }
+  getProfitLoss(data: {} | null) {
+    return this.http.post(environment.apiUrl + "/ProfitLossController/getProfitLoss", data);
+  }
 
 }

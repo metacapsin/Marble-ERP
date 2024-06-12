@@ -426,7 +426,7 @@ export class DataService {
           hasSubRoute: true,
           showSubRoute: false,
           base: "reports",
-          icon: "fa-gauge",
+          icon: "fa-chart-column",
           faIcon: true,
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
           subMenus: [

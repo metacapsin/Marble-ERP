@@ -179,10 +179,10 @@
                   <td>₹ {{sales.salesTotalAmount}}</td>
                   <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"
+                    <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"
                       *ngIf="sales.paymentStatus === 'Unpaid' || sales.paymentStatus === 'Partial Paid'"></p-button>
                     <div *ngIf="sales.paymentStatus != 'Unpaid' && sales.paymentStatus != 'Partial Paid'"
-                      class="placeholder"></div>
+                      class="placeholder"></div> -->
                     <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"></p-button>
 
                   </td>
