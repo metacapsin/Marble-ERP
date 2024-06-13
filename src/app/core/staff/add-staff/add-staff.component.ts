@@ -59,10 +59,10 @@ export class AddStaffComponent {
       email: ["", [Validators.pattern(this.emailRegex)]],
       pincode: ["", [Validators.required, Validators.pattern(this.pinRegex)]],
       designation: ["", [Validators.required]],
-      city: ["", [Validators.required, Validators.pattern(this.AddressRegex)]],
+      city: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       address: ["", [Validators.pattern(this.AddressRegex)]],
-      bankName: ["", [Validators.pattern(this.AddressRegex)]],
-      accountName: ["", [Validators.pattern(this.AddressRegex)]],
+      bankName: ["", [Validators.pattern(this.personNameRegex)]],
+      accountName: ["", [Validators.pattern(this.personNameRegex)]],
       accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
       ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
     });
