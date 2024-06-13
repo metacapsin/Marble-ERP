@@ -35,7 +35,7 @@ export class EditBlockProcessorComponent {
   id: any;
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
-  personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
