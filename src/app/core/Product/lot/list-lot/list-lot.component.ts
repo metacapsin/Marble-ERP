@@ -61,14 +61,18 @@ export class ListLotComponent implements OnInit {
 
   getLotList(): void {
     this.service.getLotList().subscribe((resp: any) => {
-      if (resp && resp.data) {
-        // this.lotData = this.csvDownloadService.flattenArray(resp.data);
-        // this.generateColumns(resp.data);
-      }
+      // if (resp && resp.data) {
+      //    this.lotData = this.csvDownloadService.flattenArray(resp.data);
+      //    this.generateColumns(resp.data);
+      // }
       this.lotData = resp.data;
       this.originalData = resp.data;
     });
   }
+
+  isAnyBlockProcessed(blockDetails: any[]): boolean {
+    return blockDetails.some(block => block.isProcessed);
+}
 
   // generateColumns(data: any[]) {
   //   this.cols = [
