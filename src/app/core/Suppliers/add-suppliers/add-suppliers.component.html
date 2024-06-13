@@ -56,7 +56,7 @@
                           addSupplierGroup.get('name')?.hasError('pattern') &&
                           addSupplierGroup.get('name')?.touched
                         " class="login-danger Font_size">
-                        Input should be between 3 to 50 characters.
+                        Input should be between 1 to 30 characters.
                       </div>
                     </div>
                   </div>
@@ -138,7 +138,7 @@
                             ?.hasError('max') &&
                           addSupplierGroup.get('creditPeriod')?.touched
                         " class="login-danger Font_size">
-                        Credit Period should be less than 120 days.
+                        Credit Period should not be more than 180 days.
                       </div>
                     </div>
                   </div>
@@ -166,7 +166,7 @@
                             ?.hasError('max') &&
                           addSupplierGroup.get('creditLimit')?.touched
                         " class="login-danger Font_size">
-                        Credit amount limit exceed.
+                        Credit amount cannot be more than 7 digit number.
                       </div>
                     </div>
                   </div>

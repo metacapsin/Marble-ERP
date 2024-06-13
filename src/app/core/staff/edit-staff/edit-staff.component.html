@@ -53,7 +53,7 @@
                       class="login-danger Font_size">Field is required.</div>
                     <div
                       *ngIf="editStaffForm.get('firstName')?.hasError('pattern') && editStaffForm.get('firstName')?.touched"
-                      class="login-danger Font_size">Input must be between 3 to 15 characters.</div>
+                      class="login-danger Font_size">Input must be between 1 to 30 characters.</div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
@@ -65,7 +65,7 @@
                       class="login-danger Font_size">Field is required.</div>
                     <div
                       *ngIf="editStaffForm.get('lastName')?.hasError('pattern') && editStaffForm.get('lastName')?.touched"
-                      class="login-danger Font_size">Input must be between 3 to 15 characters.</div>
+                      class="login-danger Font_size">Input must be between 1 to 30 characters.</div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
@@ -176,7 +176,7 @@
                     <input class="form-control" formControlName="upiId" type="text" />
                     <div
                       *ngIf="editStaffForm.get('upiId')?.hasError('pattern') && editStaffForm.get('upiId')?.touched"
-                      class="login-danger Font_size">Input must be between 3 to 100 characters.</div>
+                      class="login-danger Font_size">Input must be between 1 to 30 characters.</div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">

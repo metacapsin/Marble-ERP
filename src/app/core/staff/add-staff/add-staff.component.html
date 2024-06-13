@@ -52,7 +52,7 @@
                       class="login-danger Font_size">Field is required.</div>
                     <div
                       *ngIf="addStaffForm.get('firstName')?.hasError('pattern') && addStaffForm.get('firstName')?.touched"
-                      class="login-danger Font_size">Input must be between 3 to 15 alphanumeric.</div>
+                      class="login-danger Font_size">Input must be between 1 to 30 alphanumeric.</div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
@@ -64,7 +64,7 @@
                       class="login-danger Font_size">Field is required.</div>
                     <div
                       *ngIf="addStaffForm.get('lastName')?.hasError('pattern') && addStaffForm.get('lastName')?.touched"
-                      class="login-danger Font_size">Input must be between 3 to 15 alphanumeric.</div>
+                      class="login-danger Font_size">Input must be between 1 to 30 alphanumeric.</div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
@@ -175,7 +175,7 @@
                     <input class="form-control" formControlName="upiId" type="text" />
                     <div
                       *ngIf="addStaffForm.get('upiId')?.hasError('pattern') && addStaffForm.get('upiId')?.touched"
-                      class="login-danger Font_size">Input must be between 3 to 100 alphanumeric.</div>
+                      class="login-danger Font_size">Input must be between 1 to 30 alphanumeric.</div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">

@@ -36,7 +36,7 @@ export class EditStaffComponent {
   //   { name: "gulabpura" },
   //   { name: "kisangarh" },
   // ];
-  personNameRegex = /^(?! )[A-Za-z]{3,15}(?: [A-Za-z]{3,15})?$/;
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
   AccountNumberRegex = /^[0-9]{14}$/;
   phoneRegex = /^[0-9]{10}$/;
