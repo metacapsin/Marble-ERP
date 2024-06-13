@@ -35,7 +35,6 @@ export class AddBlockProcessorComponent {
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-  billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
   phoneRegex = /^[0-9]{10}$/;
 
   constructor(
@@ -52,11 +51,6 @@ export class AddBlockProcessorComponent {
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
-      // openingBalance: ["", [Validators.min(0)]],
-      creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
-      creditLimit: ["", [Validators.min(0), Validators.max(5000000)]],
-      billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
-      shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
   }
 
@@ -67,16 +61,9 @@ export class AddBlockProcessorComponent {
       status: true, 
       phoneNo: this.addBlockProcessorForm.value.phoneNo,
       taxNumber: this.addBlockProcessorForm.value.taxNumber,
-      creditPeriod: this.addBlockProcessorForm.value.creditPeriod,
-      creditLimit: this.addBlockProcessorForm.value.creditLimit,
-      billingAddress: this.addBlockProcessorForm.value.billingAddress,
-      shippingAddress: this.addBlockProcessorForm.value.shippingAddress,
-      openingBalance: this.addBlockProcessorForm.value.openingBalance,
     };
     
     if (this.addBlockProcessorForm.valid) {
-      console.log("form is valid",payload);
-      // debugger
       this.Service.creatBlockProcessor(payload).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === "success") {
