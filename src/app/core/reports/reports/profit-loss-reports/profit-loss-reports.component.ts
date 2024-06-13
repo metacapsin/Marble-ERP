@@ -31,12 +31,8 @@ export class ProfitLossReportsComponent{
       startDate: formattedStartDate,
       endDate: formattedEndDate
     };
-    const data2 = {
-      startDate: "",
-      endDate: "",
-    };
 
-    this.service.getProfitLoss(data2).subscribe((resp: any) => {
+    this.service.getProfitLoss(data).subscribe((resp: any) => {
           this.profitLossData = resp.data.results;      
     });
   }
