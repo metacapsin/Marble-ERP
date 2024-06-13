@@ -28,7 +28,7 @@ export class AddStaffComponent {
     { value: "Marketing Manager" },
   ];
   warehouseData = [];
-  personNameRegex = /^(?! )[A-Za-z]{3,15}(?: [A-Za-z]{3,15})?$/;
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
   AccountNumberRegex = /^[0-9]{14}$/;
   phoneRegex = /^[0-9]{10}$/;
@@ -59,10 +59,10 @@ export class AddStaffComponent {
       email: ["", [Validators.pattern(this.emailRegex)]],
       pincode: ["", [Validators.required, Validators.pattern(this.pinRegex)]],
       designation: ["", [Validators.required]],
-      city: ["", [Validators.required, Validators.pattern(this.AddressRegex)]],
+      city: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       address: ["", [Validators.pattern(this.AddressRegex)]],
-      bankName: ["", [Validators.pattern(this.AddressRegex)]],
-      accountName: ["", [Validators.pattern(this.AddressRegex)]],
+      bankName: ["", [Validators.pattern(this.personNameRegex)]],
+      accountName: ["", [Validators.pattern(this.personNameRegex)]],
       accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
       ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
     });
