@@ -98,13 +98,13 @@
                                             <label for="email">Emai</label>
                                             <input class="form-control" type="text" placeholder=""
                                                 formControlName="email" />
-                                            <div *ngIf="
+                                            <!-- <div *ngIf="
                                                 warehouseForm.get('email')?.hasError(
                                                   'required'
                                                 ) && warehouseForm.get('email')?.touched
                                               ">
                                                 <span class="login-danger">Field is required.</span>
-                                            </div>
+                                            </div> -->
                                             <div *ngIf="
                         warehouseForm.get('email')?.hasError(
                           'pattern'
@@ -120,7 +120,7 @@
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="phone">Phone</label>
+                                            <label for="phone">Phone <span class="login-danger">*</span></label>
                                             <input class="form-control" type="number" placeholder="xxx-xxx-xxxx"
                                                 formControlName="phone" />
 
@@ -142,7 +142,7 @@
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="billingAddress">Billing Address</label>
+                                            <label for="billingAddress">Billing Address <span class="login-danger">*</span></label>
                                             <textarea class="form-control" type="text"
                                                 placeholder="Please Enter Billing Address"
                                                 formControlName="billingAddress"></textarea>
@@ -162,7 +162,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-md-6">
+                                    <!-- <div class="col-12 col-md-6">
                                         <div class="doctor-submit d-flex justify-content-between">
                                             <div class="status-toggle d-flex">
                                                 <p class="mb-0 me-5">Show email on invoice</p>
@@ -181,7 +181,7 @@
                                                 <label for="status_2" class="checktoggle">checkbox</label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <!-- <div class="col-12 col-md-6">
                                         <strong><i class="fas fa-info-circle"></i>Note: Details added below will be

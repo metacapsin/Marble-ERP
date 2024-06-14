@@ -85,7 +85,7 @@ billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
       //     Validators.pattern(new RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)),
       //   ],
       // ],
-      email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
+      email: ["", [Validators.pattern(this.emailRegex)]],
       showEmailOnInvoice: [],
       showPhoneOnInvoice: [],
       termsCondition: [],

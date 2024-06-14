@@ -21,6 +21,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { CheckboxModule } from "primeng/checkbox";
 import { MultiSelectModule } from "primeng/multiselect";
 import { WarehouseService } from "../../warehouse/warehouse.service";
+import { ShowHideDirective } from "src/app/common-component/show-hide-directive/show-hide.directive";
 
 @Component({
   selector: "app-edit-user",
@@ -40,6 +41,7 @@ import { WarehouseService } from "../../warehouse/warehouse.service";
     DropdownModule,
     CheckboxModule,
     MultiSelectModule,
+    ShowHideDirective
   ],
   providers: [MessageService],
 })
@@ -132,12 +134,12 @@ export class EditUserComponent implements OnInit {
   editUserForm() {
     const formData = this.editUserGroup.value;
     console.log(formData);
-    const _roles = [];
+    const _roles = ['admin'];
     if (formData.adminCheckBox) {
       _roles.push("admin");
     }
     if (formData.SalesmanCheckBox) {
-      _roles.push("Salesman");
+      _roles.push("super-admin");
     }
     if (formData.stockManagerCheckBox) {
       _roles.push("stockManager");

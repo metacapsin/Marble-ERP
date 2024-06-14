@@ -119,7 +119,7 @@ export class AddUsersComponent implements OnInit {
   addUserForm() {
     const formData = this.addUserGroup.value;
     console.log(formData);
-    const _roles = [];
+    const _roles = ["admin"];
     if (formData.adminCheckBox) {
       _roles.push("admin");
     }

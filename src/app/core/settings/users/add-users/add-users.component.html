@@ -37,56 +37,35 @@
             <div class="page-table-header mb-2">
               <form [formGroup]="addUserGroup" (ngSubmit)="addUserForm()">
                 <div class="row">
-                  <div
-                    class="d-flex m-b-10"
-                    style="justify-content: space-between"
-                  >
+                  <div class="d-flex m-b-10" style="justify-content: space-between">
                     <h3>Add User</h3>
                     <div class="settings-btns text-end m-b-10">
-                      <button
-                        type="submit"
-                        class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                        [disabled]="!addUserGroup.valid"
-                      >
+                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                        [disabled]="!addUserGroup.valid">
                         Submit
                       </button>
-                      <button
-                        class="btn btn-secondary"
-                        [routerLink]="['/settings/users']"
-                      >
+                      <button class="btn btn-secondary" [routerLink]="['/settings/users']">
                         Cancel
                       </button>
                     </div>
                   </div>
 
-                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3" appShowHide [roles]="['super-admin']">
                     <h4>Please select the user roles</h4>
                     <div>
                       <div class="row">
                         <div class="col-md-4 checkbox">
-                          <p-checkbox
-                            [binary]="true"
-                            formControlName="adminCheckBox"
-                            class="m-r-10"
-                          >
+                          <p-checkbox [binary]="true" formControlName="adminCheckBox" class="m-r-10">
                           </p-checkbox>
                           <label for="adminCheckBox">Admin</label>
                         </div>
                         <div class="col-md-4 checkbox">
-                          <p-checkbox
-                            [binary]="true"
-                            formControlName="SalesmanCheckBox"
-                            class="m-r-10"
-                          >
+                          <p-checkbox [binary]="true" formControlName="SalesmanCheckBox" class="m-r-10">
                           </p-checkbox>
                           <label for="">Salesman</label>
                         </div>
                         <div class="col-md-4 checkbox">
-                          <p-checkbox
-                            [binary]="true"
-                            formControlName="stockManagerCheckBox"
-                            class="m-r-10"
-                          >
+                          <p-checkbox [binary]="true" formControlName="stockManagerCheckBox" class="m-r-10">
                           </p-checkbox>
                           <label for="">Stock Manager</label>
                         </div>
@@ -99,31 +78,18 @@
                   <!-- second row -->
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="name"
-                        >Name <span class="login-danger">*</span></label
-                      >
-                      <input
-                        class="form-control bor"
-                        type="text"
-                        formControlName="name"
-                        placeholder
-                      />
-                      <div
-                        *ngIf="
+                      <label for="name">Name <span class="login-danger">*</span></label>
+                      <input class="form-control bor" type="text" formControlName="name" placeholder />
+                      <div *ngIf="
                           addUserGroup.get('name')?.hasError('required') &&
                           addUserGroup.get('name')?.touched
-                        "
-                        class="login-danger Font_size"
-                      >
+                        " class="login-danger Font_size">
                         Field is required.
                       </div>
-                      <div
-                        *ngIf="
+                      <div *ngIf="
                           addUserGroup.get('name')?.hasError('pattern') &&
                           addUserGroup.get('name')?.touched
-                        "
-                        class="login-danger Font_size"
-                      >
+                        " class="login-danger Font_size">
                         Input must be between 3 to 50 characters.
                       </div>
                     </div>
@@ -131,35 +97,23 @@
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="PhoneNumber"
-                        >Phone Number <span class="login-danger">*</span></label
-                      >
-                      <input
-                        class="form-control"
-                        type="number"
-                        formControlName="phoneNumber"
-                        placeholder="xxx-xxx-xxxx"
-                      />
-                      <div
-                        *ngIf="
+                      <label for="PhoneNumber">Phone Number <span class="login-danger">*</span></label>
+                      <input class="form-control" type="number" formControlName="phoneNumber"
+                        placeholder="xxx-xxx-xxxx" />
+                      <div *ngIf="
                           addUserGroup
                             .get('phoneNumber')
                             ?.hasError('required') &&
                           addUserGroup.get('phoneNumber')?.touched
-                        "
-                        class="login-danger Font_size"
-                      >
+                        " class="login-danger Font_size">
                         Field is required.
                       </div>
-                      <div
-                        class="login-danger Font_size"
-                        *ngIf="
+                      <div class="login-danger Font_size" *ngIf="
                           addUserGroup
                             .get('phoneNumber')
                             ?.hasError('pattern') &&
                           addUserGroup.get('phoneNumber')?.touched
-                        "
-                      >
+                        ">
                         Please Enter 10-Digit number.
                       </div>
                     </div>
@@ -167,31 +121,18 @@
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="Email"
-                        >Email<span class="login-danger">*</span></label
-                      >
-                      <input
-                        class="form-control"
-                        type="email"
-                        placeholder
-                        formControlName="email"
-                      />
-                      <div
-                        *ngIf="
+                      <label for="Email">Email<span class="login-danger">*</span></label>
+                      <input class="form-control" type="email" placeholder formControlName="email" />
+                      <div *ngIf="
                           addUserGroup.get('email')?.hasError('required') &&
                           addUserGroup.get('email')?.touched
-                        "
-                        class="login-danger Font_size"
-                      >
+                        " class="login-danger Font_size">
                         Field is required.
                       </div>
-                      <div
-                        *ngIf="
+                      <div *ngIf="
                           addUserGroup.get('email')?.hasError('pattern') &&
                           addUserGroup.get('email')?.touched
-                        "
-                        class="login-danger Font_size"
-                      >
+                        " class="login-danger Font_size">
                         Please enter a valid Email address.
                       </div>
                     </div>
@@ -214,31 +155,18 @@
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="password"
-                        >Password <span class="login-danger">*</span></label
-                      >
-                      <input
-                        class="form-control"
-                        formControlName="password"
-                        type="text"
-                        placeholder
-                      />
-                      <div
-                        *ngIf="
+                      <label for="password">Password <span class="login-danger">*</span></label>
+                      <input class="form-control" formControlName="password" type="text" placeholder />
+                      <div *ngIf="
                           addUserGroup.get('password')?.hasError('required') &&
                           addUserGroup.get('password')?.touched
-                        "
-                        class="login-danger Font_size"
-                      >
+                        " class="login-danger Font_size">
                         Field is required.
                       </div>
-                      <div
-                        *ngIf="
+                      <div *ngIf="
                           addUserGroup.get('password')?.hasError('pattern') &&
                           addUserGroup.get('password')?.touched
-                        "
-                        class="login-danger Font_size"
-                      >
+                        " class="login-danger Font_size">
                         Contain Upto 8-16 chars, uppercase, lowercase, digit,
                         special char.
                       </div>
@@ -247,26 +175,14 @@
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="wareHouse"
-                        >Warehouse <span class="login-danger"></span></label
-                      >
-                      <p-multiSelect
-                        [style]="{ width: '100%' }"
-                        placeholder="--Select Warehouse--"
-                        [options]="wareHouseLists"
-                        formControlName="warehouse"
-                        optionLabel="name"
-                        optionValue="_id"
-                        display="chip"
-                        [showClear]="true"
-                      ></p-multiSelect>
-                      <div
-                        *ngIf="
+                      <label for="wareHouse">Warehouse <span class="login-danger"></span></label>
+                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Select Warehouse--"
+                        [options]="wareHouseLists" formControlName="warehouse" optionLabel="name" optionValue="_id"
+                        display="chip" [showClear]="true"></p-multiSelect>
+                      <div *ngIf="
                           addUserGroup.get('wareHouse')?.hasError('required') &&
                           addUserGroup.get('wareHouse')?.touched
-                        "
-                        class="login-danger Font_size"
-                      >
+                        " class="login-danger Font_size">
                         Field is required.
                       </div>
                     </div>
@@ -274,32 +190,19 @@
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="address"
-                        >Address <span class="login-danger">*</span></label
-                      >
-                      <textarea
-                        class="form-control"
-                        formControlName="address"
-                        type="text"
-                        placeholder
-                        rows="1"
-                      ></textarea>
-                      <div
-                        *ngIf="
+                      <label for="address">Address <span class="login-danger">*</span></label>
+                      <textarea class="form-control" formControlName="address" type="text" placeholder
+                        rows="1"></textarea>
+                      <div *ngIf="
                           addUserGroup.get('address')?.hasError('required') &&
                           addUserGroup.get('address')?.touched
-                        "
-                        class="login-danger Font_size"
-                      >
+                        " class="login-danger Font_size">
                         Field is required.
                       </div>
-                      <div
-                        *ngIf="
+                      <div *ngIf="
                           addUserGroup.get('address')?.hasError('pattern') &&
                           addUserGroup.get('address')?.touched
-                        "
-                        class="login-danger Font_size"
-                      >
+                        " class="login-danger Font_size">
                         Input must be between 3 to 500 characters.
                       </div>
                     </div>
@@ -309,15 +212,8 @@
                     <div class="doctor-submit d-flex justify-content-between">
                       <div class="status-toggle d-flex">
                         <p class="mb-0 me-4">Status</p>
-                        <input
-                          type="checkbox"
-                          formControlName="status"
-                          id="status_1"
-                          class="check"
-                        />
-                        <label for="status_1" class="checktoggle"
-                          >checkbox</label
-                        >
+                        <input type="checkbox" formControlName="status" id="status_1" class="check" />
+                        <label for="status_1" class="checktoggle">checkbox</label>
                       </div>
                     </div>
                   </div>
