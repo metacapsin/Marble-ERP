@@ -29,8 +29,9 @@
             <div class="page-table-header mb-2">
               <form [formGroup]="slabsAddForm" (ngSubmit)="SlabsAddFormSubmit()">
                 <div class="row">
-                  <div class="m-b-10">
+                  <div class="m-b-10 d-flex justify-content-between">
                     <h3>Add New Slabs</h3>
+                    <button class="btn-primary btn" [routerLink]="['/block-processor']">Block Processor</button>
                   </div>
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
@@ -419,14 +420,7 @@
                                 <input class="form-control" type="number" placeholder="Enter Transport Charges"
                                   formControlName="transportationCharges" (change)="calculateTotalAmount()" />
                               </div>
-                              <div *ngIf="
-                                      slabsAddForm
-                                      .get('transportationCharges')
-                                      ?.hasError('required') &&
-                                      slabsAddForm.get('transportationCharges')?.touched
-                                  ">
-                                <span class="login-danger">Field is required.</span>
-                              </div>
+                              
                               <div *ngIf="
                                       (slabsAddForm
                                       .get('transportationCharges')
@@ -456,14 +450,7 @@
                                   formControlName="otherCharges" (change)="calculateTotalAmount()" />
                               </div>
 
-                              <div *ngIf="
-                                      slabsAddForm
-                                      .get('otherCharges')
-                                      ?.hasError('required') &&
-                                      slabsAddForm.get('otherCharges')?.touched
-                                  ">
-                                <span class="login-danger">Field is required.</span>
-                              </div>
+                              
                               <div *ngIf="
                                       (slabsAddForm
                                       .get('otherCharges')
@@ -492,7 +479,7 @@
                                   <span class="input-group-text">₹</span>
                                 </div>
                                 <input class="form-control" type="number" placeholder="Enter Selling Price"
-                                  formControlName="sellingPricePerSQFT" (change)="calculateTotalAmount()" />
+                                  formControlName="sellingPricePerSQFT" />
 
                               </div>
                               <div *ngIf="
@@ -535,19 +522,32 @@
                               | number : "1.2-2"
                               }}</span>
                           </p> -->
-                          <p>
-                            Total Costing<span>₹
+                          <p *ngIf="slabsAddForm.get('lotDetails').value">
+                            Processing Costing<span>
                               {{
-                              slabsAddForm.get("totalCosting")?.value ? (slabsAddForm.get("totalCosting").value |
-                              number: "1.2-2") : 0
+                                slabsAddForm.get("processingCost")?.value ? '₹ ' + (slabsAddForm.get("processingCost").value |
+                                number: "1.2-2") : null
+                                }}
+                            </span>
+                          </p>
+                          <p>
+                            Block Weight<span>
+                              {{blockDropDownPerBlockWeight}}</span>
+                          </p>
+                          <p>
+                            Total Costing<span>
+                              {{
+                              slabsAddForm.get("totalCosting")?.value
+                              ? '₹ ' + (slabsAddForm.get("totalCosting").value | number: "1.2-2")
+                              : null
                               }}
                             </span>
                           </p>
                           <p>
-                            Per Square Feet Cost<span>₹
+                            Per Square Feet Cost<span>
                               {{
-                              slabsAddForm.get("costPerSQFT")?.value ? (slabsAddForm.get("costPerSQFT").value | number:
-                              "1.2-2") : 0
+                              slabsAddForm.get("costPerSQFT")?.value == 0 ? null : '₹ ' + (slabsAddForm.get("costPerSQFT").value |
+                              number: "1.2-2") 
                               }}
                             </span>
                           </p>
@@ -600,7 +600,7 @@
                     <div class="upload-sign">
                       <div class="settings-btns text-end m-b-10">
                         <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                          [disabled]="!slabsAddForm.valid && if_sellingPricePerSQFT">
+                          [disabled]="!slabsAddForm.valid">
                           Submit
                         </button>
 

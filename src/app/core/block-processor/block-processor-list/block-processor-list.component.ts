@@ -44,6 +44,9 @@ export class BlockProcessorListComponent {
     this.Service.getAllBlockProcessorData().subscribe((data) => {
       this.blockProcessorData = data
       this.originalData = data
+      console.log(
+        data
+      );
     })
   }
 

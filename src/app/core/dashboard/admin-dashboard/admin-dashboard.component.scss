@@ -2,3 +2,10 @@
     display: flex;
     justify-content: center;
 }
+.chart-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 375px; /* Set the desired height */
+}
+  

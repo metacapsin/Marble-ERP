@@ -1,6 +1,6 @@
 <div class="page-wrapper">
     <div class="content">
-    
+
         <!-- Page Header -->
         <div class="page-header">
             <div class="row">
@@ -14,7 +14,7 @@
             </div>
         </div>
         <!-- /Page Header -->
-        
+
         <div class="good-morning-blk">
             <div class="row">
                 <div class="col-md-6">
@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row d-none">
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="dash-widget">
@@ -40,7 +40,8 @@
                     <div class="dash-content dash-count">
                         <h4>Appointments</h4>
                         <h2><span class="counter-up" [countUp]="250" [options]="{duration: 10}">250</span></h2>
-                        <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p>
+                        <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last
+                            month</p>
                     </div>
                 </div>
             </div>
@@ -52,7 +53,8 @@
                     <div class="dash-content dash-count">
                         <h4>New Patients</h4>
                         <h2><span class="counter-up" [countUp]="140" [options]="{duration: 10}">140</span></h2>
-                        <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>20%</span> vs last month</p>
+                        <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>20%</span> vs last
+                            month</p>
                     </div>
                 </div>
             </div>
@@ -64,7 +66,8 @@
                     <div class="dash-content dash-count">
                         <h4>Operations</h4>
                         <h2><span class="counter-up" [countUp]="56" [options]="{duration: 10}">56</span></h2>
-                        <p><span class="negative-view"><i class="feather icon-arrow-down-right me-1"></i>15%</span> vs last month</p>
+                        <p><span class="negative-view"><i class="feather icon-arrow-down-right me-1"></i>15%</span> vs
+                            last month</p>
                     </div>
                 </div>
             </div>
@@ -76,7 +79,8 @@
                     <div class="dash-content dash-count">
                         <h4>Earnings</h4>
                         <h2>$<span class="counter-up" [countUp]="20250" [options]="{duration: 10}"> 20,250</span></h2>
-                        <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>30%</span> vs last month</p>
+                        <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>30%</span> vs last
+                            month</p>
                     </div>
                 </div>
             </div>
@@ -87,33 +91,27 @@
                     <div class="card-body">
                         <div class="chart-title patient-visit">
                             <h4>Patient Visit by Gender</h4>
-                            <div >
+                            <div>
                                 <ul class="nav chat-user-total">
                                     <li><i class="fa fa-circle current-users" aria-hidden="true"></i>Male 75%</li>
                                     <li><i class="fa fa-circle old-users" aria-hidden="true"></i> Female 25%</li>
                                 </ul>
                             </div>
                             <div class="form-group mb-0">
-                                <mat-select [(ngModel)]="selectedValue" class="form-control select"  placeholder="2022">
-                                        <mat-option *ngFor="let data of selecedList" [value]="data.value">
-                                          {{data.value}}
-                                        </mat-option>
+                                <mat-select [(ngModel)]="selectedValue" class="form-control select" placeholder="2022">
+                                    <mat-option *ngFor="let data of selecedList" [value]="data.value">
+                                        {{data.value}}
+                                    </mat-option>
                                 </mat-select>
                             </div>
-                        </div>	
-                        <div id="patient-chart">  
-                            <apx-chart
-                            [series]="chartOptionsOne.series"
-                            [chart]="chartOptionsOne.chart"
-                            [dataLabels]="chartOptionsOne.dataLabels"
-                            [plotOptions]="chartOptionsOne.plotOptions"
-                            [responsive]="chartOptionsOne.responsive"
-                            [xaxis]="chartOptionsOne.xaxis"
-                            [legend]="chartOptionsOne.legend"
-                            [fill]="chartOptionsOne.fill"
-                            [grid]="chartOptionsOne.grid"
-                            [xaxis]="chartOptionsOne.xaxis"
-                          ></apx-chart></div>
+                        </div>
+                        <div id="patient-chart">
+                            <apx-chart [series]="chartOptionsOne.series" [chart]="chartOptionsOne.chart"
+                                [dataLabels]="chartOptionsOne.dataLabels" [plotOptions]="chartOptionsOne.plotOptions"
+                                [responsive]="chartOptionsOne.responsive" [xaxis]="chartOptionsOne.xaxis"
+                                [legend]="chartOptionsOne.legend" [fill]="chartOptionsOne.fill"
+                                [grid]="chartOptionsOne.grid" [xaxis]="chartOptionsOne.xaxis"></apx-chart>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -122,15 +120,12 @@
                     <div class="card-body">
                         <div class="chart-title">
                             <h4>Patient by Department</h4>
-                        </div>	
+                        </div>
                         <div id="donut-chart-dash" class="chart-user-icon">
-                            <apx-chart class="donut-chart-custom"
-                            [series]="chartOptionsTwo.series"
-                            [chart]="chartOptionsTwo.chart"
-                            [labels]="chartOptionsTwo.labels"
-                            [responsive]="chartOptionsTwo.responsive"
-                            [dataLabels]="chartOptionsTwo.dataLabels"
-                            [legend]="chartOptionsTwo.legend"></apx-chart>
+                            <apx-chart class="donut-chart-custom" [series]="chartOptionsTwo.series"
+                                [chart]="chartOptionsTwo.chart" [labels]="chartOptionsTwo.labels"
+                                [responsive]="chartOptionsTwo.responsive" [dataLabels]="chartOptionsTwo.dataLabels"
+                                [legend]="chartOptionsTwo.legend"></apx-chart>
                             <img src="assets/img/icons/user-icon.svg" alt="">
                         </div>
                     </div>
@@ -192,14 +187,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-12  col-xl-8">
+            <!-- <div class="col-12 col-md-12  col-xl-8">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a [routerLink]="routes.appointmentList" class="patient-views float-end">Show all</a>
+                        <h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a
+                            [routerLink]="routes.appointmentList" class="patient-views float-end">Show all</a>
                     </div>
                     <div class="card-body p-0 table-dash">
                         <div class="table-responsive">
-                            <table matSort (matSortChange)="sortData($event)" class="table mb-0 border-0 datatable custom-table">
+                            <table matSort (matSortChange)="sortData($event)"
+                                class="table mb-0 border-0 datatable custom-table">
                                 <thead>
                                     <tr>
                                         <th mat-sort-header="checkbox">
@@ -225,17 +222,22 @@
                                         <td>{{data.no}}</td>
                                         <td>{{data.patientName}}</td>
                                         <td class="table-image appoint-doctor">
-                                            <img width="28" height="28" class="rounded-circle" [src]="data.img" alt=""> 
+                                            <img width="28" height="28" class="rounded-circle" [src]="data.img" alt="">
                                             <h2>{{data.doctor}}</h2>
                                         </td>
                                         <td class="appoint-time"><span>{{data.date}} </span>{{data.time}}</td>
                                         <td><button class="custom-badge status-green ">{{data.disease}}</button></td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
-                                                <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                <a href="javascript:void(0);" class="action-icon dropdown-toggle"
+                                                    data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                        class="fa fa-ellipsis-v"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" [routerLink]="routes.editAppointment"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete_appointment"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
+                                                    <a class="dropdown-item" [routerLink]="routes.editAppointment"><i
+                                                            class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
+                                                    <a class="dropdown-item" href="javascript:void(0);"
+                                                        data-bs-toggle="modal" data-bs-target="#delete_appointment"><i
+                                                            class="fa fa-trash-alt m-r-5"></i> Delete</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -245,17 +247,19 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
-        <div class="row d-none">
+        <!-- <div class="row d-none">
             <div class="col-12 col-xl-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h4 class="card-title d-inline-block">Recent Patients </h4> <a [routerLink]="routes.patientsList" class="float-end patient-views">show all</a>
+                        <h4 class="card-title d-inline-block">Recent Patients </h4> <a
+                            [routerLink]="routes.patientsList" class="float-end patient-views">show all</a>
                     </div>
                     <div class="card-block table-dash">
                         <div class="table-responsive">
-                            <table matSort (matSortChange)="sortData($event)" class="table mb-0 border-0 datatable custom-table">
+                            <table matSort (matSortChange)="sortData($event)"
+                                class="table mb-0 border-0 datatable custom-table">
                                 <thead>
                                     <tr>
                                         <th mat-sort-header="checkbox">
@@ -281,19 +285,26 @@
                                         </td>
                                         <td>{{data.no}}</td>
                                         <td class="table-image">
-                                            <img width="28" height="28" class="rounded-circle" [src]="data.img" alt=""> 
+                                            <img width="28" height="28" class="rounded-circle" [src]="data.img" alt="">
                                             <h2>{{data.patientName}}</h2>
                                         </td>
                                         <td>{{data.age}}</td>
                                         <td>{{data.dateOfBirth}}</td>
                                         <td>{{data.diagnosis}}</td>
-                                        <td><button [ngClass]="{'status-green': data.triage === 'Non Urgent', 'status-pink' : data.triage === 'Emergency','status-gray' : data.triage === 'Out Patient','status-orange' : data.triage === 'Urgent' }" class="custom-badge">{{data.triage}}</button></td>
+                                        <td><button
+                                                [ngClass]="{'status-green': data.triage === 'Non Urgent', 'status-pink' : data.triage === 'Emergency','status-gray' : data.triage === 'Out Patient','status-orange' : data.triage === 'Urgent' }"
+                                                class="custom-badge">{{data.triage}}</button></td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
-                                                <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                <a href="javascript:void(0);" class="action-icon dropdown-toggle"
+                                                    data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                        class="fa fa-ellipsis-v"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" [routerLink]="routes.editPatient"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete_appointment"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
+                                                    <a class="dropdown-item" [routerLink]="routes.editPatient"><i
+                                                            class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
+                                                    <a class="dropdown-item" href="javascript:void(0);"
+                                                        data-bs-toggle="modal" data-bs-target="#delete_appointment"><i
+                                                            class="fa fa-trash-alt m-r-5"></i> Delete</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -304,9 +315,41 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+        <div class="row d-flex justify-content-between">
+            <div class="col-12 col-md-12 col-lg-6 col-xl-2" *ngFor="let data of cardList">
+                <div class="struct-point">
+                    <div class="card patient-structure col-md-3 border border-1">
+                        <div class="card-body">
+                            <h5>{{ data.cardHeading }}</h5>
+                            <h3>{{ data.numValueOne }}
+                                <span class="status-green">
+                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">{{ data.numValueTwo
+                                    }}
+                                </span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="row">
-            <div class="col-12 col-md-12 col-lg-12 col-xl-7">
+            <div class="col-md-7">
+                <div class="card">
+                    <p-chart type="bar" [data]="dataForFirstChat" [options]="optionsForFirstChat" />
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="chart-container">
+                        <p-chart type="pie" [data]="dataForSecondChat" [options]="optionsForSecondChat" style="width: 375px; height: 375px;">
+                        </p-chart>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-12 col-md-12 col-lg-12 col-xl-7">
                 <div class="card">
                     <div class="card-body">
                         <div class="chart-title patient-visit mb-0">
@@ -352,24 +395,108 @@
                           ></apx-chart>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-12 col-lg-6 col-xl-2 d-flex">
-                <div class="struct-point">
-                    <div class="card patient-structure">
-                        <div class="card-body">
-                            <h5>New Patients</h5>
-                            <h3>56<span class="status-green"><img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">60%</span></h3>
+            </div> -->
+        <div class="row">
+            <div class="col-md-5">
+                <div class="row d-flex justify-content-between align-items-center">
+                    <div class="col-12 col-md-5">
+                        <div class="struct-point">
+                            <div class="card patient-structure col-md-3 border border-1">
+                                <div class="card-body">
+                                    <h5>Total Category</h5>
+                                    <h3>32
+                                        <span class="status-green">
+                                            <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">522%
+                                        </span>
+                                    </h3>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card patient-structure">
-                        <div class="card-body">
-                            <h5>Old Patients</h5>
-                            <h3>35<span class="status-pink"><img src="assets/img/icons/sort-icon-02.svg" alt="" class="me-1">-20%</span></h3>
+                    <div class="col-12 col-md-5">
+                        <div class="struct-point">
+                            <div class="card patient-structure col-md-3 border border-1">
+                                <div class="card-body">
+                                    <h5>Total Sub Category</h5>
+                                    <h3>98
+                                        <span class="status-green">
+                                            <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">2%
+                                        </span>
+                                    </h3>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    <p-table [value]="allSlabsDaTa" [tableStyle]="{'min-width': '60rem'}" >
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="slabNo">Product
+                                </th>
+                                <th pSortableColumn="slabName">Quantity
+                                </th>
+                                <th pSortableColumn="size">Quantity
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-slabs>
+
+                            <tr>
+                                <td>
+                                    <!-- {{slabs.slabNo}} -->
+                                     dfhcxnj
+                                </td>
+                                <td>
+                                    <!-- {{slabs.slabName}} -->
+                                     dfhbnj
+                                </td>
+                                <td>
+                                    <!-- {{slabs.slabSize}} -->
+                                     dfnj
+                                </td>
+                                <!-- <td appShowHide [roles]="['admin', 'super-admin']">
+                                    <div class="action-buttons">
+
+                                        <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
+                                            (click)="updateSlabs(slabs._id)"></p-button>
+                                        <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
+                                        (click)="deleteSlabs(slabs._id)"></p-button>
+                                    </div>
+                                </td> -->
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <!-- {{slabs.slabNo}} -->
+                                     dfhcxnj
+                                </td>
+                                <td>
+                                    <!-- {{slabs.slabName}} -->
+                                     dfhbnj
+                                </td>
+                                <td>
+                                    <!-- {{slabs.slabSize}} -->
+                                     dfnj
+                                </td>
+                                <!-- <td appShowHide [roles]="['admin', 'super-admin']">
+                                    <div class="action-buttons">
+
+                                        <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
+                                            (click)="updateSlabs(slabs._id)"></p-button>
+                                        <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
+                                        (click)="deleteSlabs(slabs._id)"></p-button>
+                                    </div>
+                                </td> -->
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
         </div>
+
         <!-- <div class="row">
             <div class="col-12 col-md-12  col-xl-9">
                 <div class="card">

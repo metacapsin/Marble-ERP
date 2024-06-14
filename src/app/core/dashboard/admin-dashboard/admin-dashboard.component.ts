@@ -19,11 +19,13 @@ import {
 } from "ng-apexcharts";
 import { Sort } from "@angular/material/sort";
 import { DataService } from "src/app/shared/data/data.service";
+import { ChartModule } from "primeng/chart";
 import {
   recentPatients,
-  upcomingAppointments,
+  // upcomingAppointments,
 } from "src/app/shared/models/models";
 import { AESEncryptDecryptService } from "src/app/shared/auth/AESEncryptDecryptService ";
+import { dashboardService } from "../dashboard.service";
 export type ChartOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   series: ApexAxisChartSeries | any;
@@ -70,12 +72,45 @@ export class AdminDashboardComponent {
   public chartOptionsOne: Partial<ChartOptions>;
   public chartOptionsTwo: Partial<ChartOptions>;
   public chartOptionsThree: Partial<ChartOptions>;
-  public recentPatients: Array<recentPatients> = [];
-  public upcomingAppointments: Array<upcomingAppointments> = [];
+  // public recentPatients: Array<recentPatients> = [];
+  // public upcomingAppointments: Array<upcomingAppointments> = [];
   userData: any = {};
+  dataForFirstChat: any;
+  optionsForFirstChat: any;
+  dataForSecondChat: any;
+  optionsForSecondChat: any;
+  cardList: any = [
+    {
+      cardHeading: "Total Sales",
+      numValueOne: "56",
+      numValueTwo: "60%",
+    },
+    {
+      cardHeading: "Total Expenses",
+      numValueOne: "45",
+      numValueTwo: "98%",
+    },
+    {
+      cardHeading: "Payment Sent",
+      numValueOne: "12",
+      numValueTwo: "78%",
+    },
+    {
+      cardHeading: "Payment Received",
+      numValueOne: "32",
+      numValueTwo: "71%",
+    },
+    {
+      cardHeading: "Total Payment Due",
+      numValueOne: "23",
+      numValueTwo: "01%",
+    },
+  ];
+  allSlabsDaTa: { _id: string; slabNo: string; slabName: string; slabSize: string; categoryDetail: { name: string; }; subCategoryDetail: { name: string; }; totalSQFT: number; totalCosting: number; sellingPricePerSQFT: number; warehouseDetails: { name: string; }; isInUse: boolean; }[];
 
   constructor(
-    public data: DataService,
+    // public data: DataService,
+    private Service: dashboardService,
     private crypto: AESEncryptDecryptService
   ) {
     this.chartOptionsOne = {
@@ -196,35 +231,165 @@ export class AdminDashboardComponent {
         },
       ],
     };
-    this.recentPatients = this.data.recentPatients;
-    this.upcomingAppointments = this.data.upcomingAppointments;
+    // this.recentPatients = this.data.recentPatients;
+    // this.upcomingAppointments = this.data.upcomingAppointments;
     this.userData = this.crypto.getData("currentUser");
   }
+  ngOnInit(): void {
+    // this.Service.DashboardController().subscribe((resp: any) => {
+    //   this.wareHousedata = resp.data;
+    // })
 
-  public sortData(sort: Sort) {
-    const data = this.recentPatients.slice();
-    const datas = this.upcomingAppointments.slice();
+    // color for  first chat
+    this.dataForFirstChat = {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      datasets: [
+        {
+          label: "My First dataset",
+          backgroundColor: "#ec4899",
+          borderColor: "#ec4899",
+          data: [65, 59, 80, 81, 56, 55, 40],
+        },
+        {
+          label: "My Second dataset",
+          backgroundColor: "#3b82f6",
+          borderColor: "#3b82f6",
+          data: [28, 48, 40, 19, 86, 27, 90],
+        },
+      ],
+    };
+    this.optionsForFirstChat = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.8,
+      plugins: {
+        legend: {
+          labels: {
+            color: "#000000",
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: "#666666",
+            font: {
+              weight: 500,
+            },
+          },
+          grid: {
+            color: "#e0e0e0",
+            drawBorder: false,
+          },
+        },
+        y: {
+          ticks: {
+            color: "#666666",
+          },
+          grid: {
+            color: "#e0e0e0",
+            drawBorder: false,
+          },
+        },
+      },
+    };
 
-    if (!sort.active || sort.direction === "") {
-      this.recentPatients = data;
-      this.upcomingAppointments = datas;
-    } else {
-      this.recentPatients = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === "asc" ? 1 : -1);
-      });
-      this.upcomingAppointments = datas.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === "asc" ? 1 : -1);
-      });
-    }
+    // color for  second chat
+    this.dataForSecondChat = {
+      labels: [
+        "Total Sales",
+        "Total Expenses",
+        "Payment Sent",
+        "Payment Received",
+        "Total Payment Due",
+      ],
+      datasets: [
+        {
+          data: [540, 325, 702, 430, 300],
+          backgroundColor: [
+            "#3b82f6",
+            "#f59e0b",
+            "#6ee7b7",
+            "#ffc107",
+            "#4caf50",
+          ],
+          hoverBackgroundColor: [
+            "#3b82f6",
+            "#f59e0b",
+            "#6ee7b7",
+            "#ffc107",
+            "#4caf50",
+          ],
+        },
+      ],
+    };
+    this.optionsForSecondChat = {
+      plugins: {
+        legend: {
+          labels: {
+            usePointStyle: true,
+            color: "#000000",
+          },
+        },
+      },
+    };
+
+    // table JSON
+    // Sample JSON data structure
+    this.allSlabsDaTa = [
+      {
+        _id: "1",
+        slabNo: "001",
+        slabName: "Slab 1",
+        slabSize: "10x10",
+        categoryDetail: { name: "Category A" },
+        subCategoryDetail: { name: "Subcategory X" },
+        totalSQFT: 100,
+        totalCosting: 5000,
+        sellingPricePerSQFT: 50,
+        warehouseDetails: { name: "Warehouse 1" },
+        isInUse: false,
+      },
+      {
+        _id: "2",
+        slabNo: "002",
+        slabName: "Slab 2",
+        slabSize: "8x8",
+        categoryDetail: { name: "Category B" },
+        subCategoryDetail: { name: "Subcategory Y" },
+        totalSQFT: 64,
+        totalCosting: 3200,
+        sellingPricePerSQFT: 55,
+        warehouseDetails: { name: "Warehouse 2" },
+        isInUse: true,
+      },
+      // Add more objects as needed
+    ];
   }
+
+  // public sortData(sort: Sort) {
+  //   const data = this.recentPatients.slice();
+  //   const datas = this.upcomingAppointments.slice();
+
+  //   if (!sort.active || sort.direction === "") {
+  //     this.recentPatients = data;
+  //     this.upcomingAppointments = datas;
+  //   } else {
+  //     this.recentPatients = data.sort((a, b) => {
+  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //       const aValue = (a as any)[sort.active];
+  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //       const bValue = (b as any)[sort.active];
+  //       return (aValue < bValue ? -1 : 1) * (sort.direction === "asc" ? 1 : -1);
+  //     });
+  //     this.upcomingAppointments = datas.sort((a, b) => {
+  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //       const aValue = (a as any)[sort.active];
+  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //       const bValue = (b as any)[sort.active];
+  //       return (aValue < bValue ? -1 : 1) * (sort.direction === "asc" ? 1 : -1);
+  //     });
+  //   }
+  // }
   selecedList: data[] = [
     { value: "2022" },
     { value: "2021" },

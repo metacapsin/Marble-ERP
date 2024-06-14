@@ -27,8 +27,9 @@
             <div class="page-table-header mb-2">
               <form [formGroup]="slabsEditForm" (ngSubmit)="SlabsEditFormSubmit()">
                 <div class="row">
-                  <div class="m-b-10">
+                  <div class="m-b-10 d-flex justify-content-between">
                     <h3>Edit Slabs</h3>
+                    <button class="btn-primary btn" [routerLink]="['/block-processor']">Block Processor</button>
                   </div>
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
@@ -347,7 +348,7 @@
                             <div class="form-group local-forms">
                               <label for="totalSQFT">Square Feet<span class="login-danger"></span></label>
                               <div class="input-group">
-                                <input class="form-control" type="number" placeholder="Enter SqFeet"
+                                <input class="form-control" type="number" placeholder="Enter Square Feet"
                                   formControlName="totalSQFT" (change)="calculateTotalAmount()" />
                               </div>
                               <!-- <div *ngIf="
@@ -362,7 +363,7 @@
 
                           <div class="col-12" *ngIf="slabsEditForm.get('lotDetails').value">
                             <div class="form-group local-forms">
-                              <label for="processingFee">Processing Fee<span class="login-danger"></span></label>
+                              <label for="processingFee">Processing Fee /<span class=""> Ton</span></label>
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">₹</span>
@@ -393,17 +394,17 @@
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">₹</span>
                                 </div>
-                                <input class="form-control" type="number" placeholder="Enter Slab Length"
+                                <input class="form-control" type="number" placeholder="Enter Transport Charges"
                                   formControlName="transportationCharges" (change)="calculateTotalAmount()" />
                               </div>
-                              <div *ngIf="
+                              <!-- <div *ngIf="
                                             slabsEditForm
                                             .get('transportationCharges')
                                             ?.hasError('required') &&
                                             slabsEditForm.get('transportationCharges')?.touched
                                         ">
                                 <span class="login-danger">Field is required.</span>
-                              </div>
+                              </div> -->
                               <div *ngIf="
                                             (slabsEditForm
                                             .get('transportationCharges')
@@ -432,14 +433,14 @@
                                 <input class="form-control" type="number" placeholder="Enter Other Charges"
                                   formControlName="otherCharges" (change)="calculateTotalAmount()" />
                               </div>
-                              <div *ngIf="
+                              <!-- <div *ngIf="
                                               slabsEditForm
                                               .get('otherCharges')
                                               ?.hasError('required') &&
                                               slabsEditForm.get('otherCharges')?.touched
                                           ">
                                 <span class="login-danger">Field is required.</span>
-                              </div>
+                              </div> -->
                               <div *ngIf="
                                               (slabsEditForm
                                               .get('otherCharges')
@@ -458,16 +459,29 @@
                             </div>
                           </div>
 
+                          <!-- <div class="col-12">
+                            <div class="form-group local-forms">
+                              <label for="processingCost">Processing Costing<span class="login-danger"></span></label>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">₹</span>
+                                </div>
+                                <input class="form-control" type="number" placeholder="Enter Processing Costing"
+                                  formControlName="processingCost" (change)="function_For_processingCost()" />
+                              </div>
+                            </div>
+                          </div> -->
+
                           <div class="col-12 mt-1">
                             <div class="form-group local-forms">
-                              <label for="totalSqrFt">Selling Price<span class="login-danger">*</span></label>
+                              <label for="totalSqrFt">Selling Price / Sqf<span class="login-danger">*</span></label>
 
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">₹</span>
                                 </div>
                                 <input class="form-control" type="number" placeholder="Enter Selling Price"
-                                  formControlName="sellingPricePerSQFT" (change)="calculateTotalAmount()" />
+                                  formControlName="sellingPricePerSQFT" />
                               </div>
                               <div *ngIf="
                                             slabsEditForm
@@ -507,39 +521,33 @@
                         </div>
                         <div class="invoice-total-inner">
 
-                          <!-- <p *ngIf="slabsEditForm.get('lotDetails').value">
-                            Processing Costing<span>₹
+                          <p *ngIf="slabsEditForm.get('lotDetails').value">
+                            Processing Costing<span>
                               {{
-                              slabsEditForm.get("processingCost").value
-                              | number : "1.2-2"
-                              }}</span>
-                          </p> -->
-                          <!-- <p>
-                            Total Costing<span>₹
-                              {{
-                              slabsEditForm.get("totalCosting").value
-                              | number : "1.2-2"
-                              }}</span>
+                                slabsEditForm.get("processingCost")?.value ? '₹ ' + (slabsEditForm.get("processingCost").value |
+                                number: "1.2-2") : null
+                                }}
+                            </span>
                           </p>
                           <p>
-                            Per Square feet Cost<span>₹
-                              {{
-                              slabsEditForm.get("costPerSQFT").value
-                              | number : "1.2-2"
-                              }}</span>
-                          </p> -->
+                            Block Weight<span>
+                              {{blockDropDownPerBlockWeight}}</span>
+                          </p>
                           <p>
-                            Total Costing<span>₹
+                            Total Costing<span>
                               {{
-                                slabsEditForm.get("totalCosting")?.value ? (slabsEditForm.get("totalCosting").value | number: "1.2-2") : 0
+                              slabsEditForm.get("totalCosting")?.value
+                              ? '₹ ' + (slabsEditForm.get("totalCosting").value | number: "1.2-2")
+                              : null
                               }}
                             </span>
                           </p>
                           <p>
-                            Per Square Feet Cost<span>₹
+                            Per Square Feet Cost<span>
                               {{
-                                slabsEditForm.get("costPerSQFT")?.value ? (slabsEditForm.get("costPerSQFT").value | number: "1.2-2") : 0
-                              }}
+                                slabsEditForm.get("costPerSQFT")?.value == 0 ? null : '₹ ' + (slabsEditForm.get("costPerSQFT").value |
+                                number: "1.2-2") 
+                                }}
                             </span>
                           </p>
                           <!-- <p>

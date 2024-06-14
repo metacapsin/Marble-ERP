@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { AdminDashboardRoutingModule } from './admin-dashboard-routing.module';
 import { AdminDashboardComponent } from './admin-dashboard.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ChartModule } from 'primeng/chart';
+import { ButtonModule } from 'primeng/button';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     AdminDashboardRoutingModule,
-    SharedModule
+    SharedModule,
+    ChartModule,
+    ButtonModule
   ]
 })
 export class AdminDashboardModule { }

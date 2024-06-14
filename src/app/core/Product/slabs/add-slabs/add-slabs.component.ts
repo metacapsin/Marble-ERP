@@ -115,11 +115,11 @@ export class AddSlabsComponent {
       totalSQFT: ["", [Validators.min(1), Validators.max(100000)]],
       otherCharges: [
         "",
-        [Validators.required, Validators.min(1), Validators.max(100000)],
+        [ Validators.min(1), Validators.max(100000)],
       ],
       transportationCharges: [
         "",
-        [Validators.required, Validators.min(1), Validators.max(100000)],
+        [ Validators.min(1), Validators.max(100000)],
       ],
       sellingPricePerSQFT: [
         "",
@@ -227,7 +227,7 @@ export class AddSlabsComponent {
     console.log(value, "set it lot");
     if(!value){
       this.slabsAddForm.patchValue({
-        purchaseCost: 0,
+        purchaseCost: null,
       });
     }else{
       this.Service.getNotProcessedBlocksByLotId(value._id).subscribe(
@@ -246,7 +246,7 @@ export class AddSlabsComponent {
     this.blockDropDownPerBlockWeight = block.weightPerBlock;
     if (block.totalCosting) {
       this.slabsAddForm.patchValue({
-        purchaseCost: block.totalCosting || 0,
+        purchaseCost: block.totalCosting || null,
       });
       this.calculateTotalAmount();
     }
@@ -264,11 +264,12 @@ export class AddSlabsComponent {
     var purchaseCost = +this.slabsAddForm.get("purchaseCost").value;
     console.log(purchaseCost);
     console.log(totalSQFT);
+    console.log(this.blockDropDownPerBlockWeight ,this.blockDropDowntotleCost);
     if (!this.blockDropDownPerBlockWeight && !this.blockDropDowntotleCost) {
       console.log(transportationCharges, otherCharges, processingFee);
       var totalCosting: number =
         +purchaseCost + otherCharges + transportationCharges;
-      var totalAmount: number = +totalCosting / totalSQFT || 0;
+        var totalAmount: number = totalSQFT > 0 ? totalCosting / totalSQFT : 0; 
       console.log(totalCosting, totalSQFT);
 
       console.log("totalCosting", totalCosting);
@@ -276,27 +277,38 @@ export class AddSlabsComponent {
       this.slabsAddForm.patchValue({
         totalCosting: totalCosting.toFixed(2),
         costPerSQFT: totalAmount.toFixed(2),
+        sellingPricePerSQFT: totalAmount === 0 ? null : totalAmount.toFixed(2),
       });
     } else {
-      var totalCosting: number =
-        +purchaseCost + processingFee + otherCharges + transportationCharges;
+      var processingCost = processingFee * this.blockDropDownPerBlockWeight;
+      var totalCosting = +purchaseCost + processingCost + otherCharges + transportationCharges;
       var totalAmount: number = totalSQFT == 0 ? 0 : totalCosting / totalSQFT;
+      console.log("processingCost", processingCost);
+      console.log("totalCosting", totalCosting);
+      console.log("totalAmount", totalAmount);
       this.slabsAddForm.patchValue({
-        purchaseCost: purchaseCost,
-        totalCosting: totalCosting,
+        processingCost: processingCost,
+        totalCosting: totalCosting.toFixed(2),
         costPerSQFT: totalAmount.toFixed(2),
+        sellingPricePerSQFT: parseFloat(totalAmount.toFixed(2)) === 0.00 ? null : totalAmount.toFixed(2),
       });
+      // var totalCosting: number =
+      //   +purchaseCost + processingFee + otherCharges + transportationCharges;
+      // var totalAmount: number = totalSQFT == 0 ? null : totalCosting / totalSQFT;
+      // this.slabsAddForm.patchValue({
+      //   purchaseCost: purchaseCost,
+      //   totalCosting: totalCosting,
+      //   costPerSQFT: totalAmount.toFixed(2),
+      // });
     }
-    // Update form values
-    if (sellingPricePerSQFT < totalAmount) {
-      this.if_sellingPricePerSQFT = true;
-      console.log("if set");
-      // const message = "";
-      //       this.messageService.add({ severity: "success", detail: message });
-    } else {
-      console.log("else set");
-      this.if_sellingPricePerSQFT = false;
-    }
+  
+    // if (sellingPricePerSQFT <= totalAmount) {
+    //   this.if_sellingPricePerSQFT = true;
+    //   console.log("if set");
+    // } else {
+    //   console.log("else set");
+    //   this.if_sellingPricePerSQFT = false;
+    // }
   }
 
   SlabsAddFormSubmit() {
@@ -329,7 +341,7 @@ export class AddSlabsComponent {
         processingFee: this.slabsAddForm.value.processingFee,
         totalSQFT: this.slabsAddForm.value.totalSQFT,
         purchaseCost: this.slabsAddForm.value.purchaseCost,
-        // processingCost: this.slabsAddForm.value.processingCost,
+        processingCost: this.slabsAddForm.value.processingCost,
         otherCharges: this.slabsAddForm.value.otherCharges,
         transportationCharges: this.slabsAddForm.value.transportationCharges,
         totalCosting: this.slabsAddForm.value.totalCosting,
