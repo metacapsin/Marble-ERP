@@ -7,17 +7,33 @@ import { routes } from "src/app/shared/routes/routes";
 import { blockProcessorService } from "../block-processor.service";
 import { PaymentOutService } from "../../payment-out/payment-out.service";
 import { PurchaseService } from "../../purchase/purchase.service";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SharedModule } from "src/app/shared/shared.module";
 import { DialogModule } from "primeng/dialog";
 import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
+import { CalendarModule } from "primeng/calendar";
+import { ToastModule } from "primeng/toast";
+import { ConfirmDialogComponent } from "src/app/common-component/modals/confirm-dialog/confirm-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
+import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
 
 @Component({
   selector: "app-view-block-processor",
   standalone: true,
-  imports: [RouterModule, CommonModule, TabViewModule, SharedModule, ButtonModule, DialogModule, TableModule, DropdownModule],
+  imports: [RouterModule,
+    CommonModule,
+    TabViewModule,
+    SharedModule,
+    ButtonModule,
+    DialogModule,
+    TableModule,
+    DropdownModule,
+    CalendarModule,
+    ToastModule,
+    ConfirmDialogComponent,
+    PaymentsInvoiceDialogComponent],
   templateUrl: "./view-block-processor.component.html",
   styleUrl: "./view-block-processor.component.scss",
   providers: [MessageService]
@@ -25,114 +41,227 @@ import { ButtonModule } from "primeng/button";
 export class ViewBlockProcessorComponent {
   routes = routes;
   addSlabProcessingForm!: FormGroup;
+  editSlabProcessingForm!: FormGroup;
   id: any;
-  blockProcessorData:any = {};
-  paymentListData: any[] = [];
+  slabProcessing_id: any;
+  blockProcessorData: any = {};
+  slabProcessingPaymentData: any[] = [];
   slabProcessingDataList: any[] = [];
-
   slabListData: any[] = [];
-  searchDataValue = "";
   addSlabVisible: boolean = false;
+  editSlabVisible: boolean = false;
+  showDialog: boolean = false;
+  modalData: any = {};
+
+  showPaymentDialog: boolean = false;
+  paymentObject: any = {}
+  header: string = "";
+
+  maxDate = new Date()
 
   constructor(
     private activeRoute: ActivatedRoute,
     private blockProcessorService: blockProcessorService,
     private PaymentOutService: PaymentOutService,
-    private purchaseService: PurchaseService,
     private messageService: MessageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public dialog: MatDialog,
   ) {
     this.addSlabProcessingForm = this.fb.group({
       processingInvoiceNo: [''],
       processor: [''],
       slab: [''],
       processingCost: [''],
+      processingDate: [''],
+      note: [''],
+    });
+    this.editSlabProcessingForm = this.fb.group({
+      processingInvoiceNo: [''],
+      processor: [''],
+      slab: [''],
+      processingCost: ['', [Validators.required]],
+      processingDate: ['', [Validators.required]],
       note: [''],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
-  addSlabProcessing(){
+  addSlabProcessing() {
     this.addSlabProcessingForm.reset()
     this.addSlabVisible = true
   }
+  editSlabProcessing(_id: any) {
+    this.slabProcessing_id = _id;
+    this.blockProcessorService.getSlabProcessingById(_id).subscribe((resp: any) => {
+      this.editSlabVisible = true
+      this.editSlabProcessingForm.patchValue({
+        processor: resp.data.processor,
+        slab: resp.data.slab,
+        processingDate: resp.data.processingDate,
+        processingCost: resp.data.processingCost,
+        processingInvoiceNo: resp.data.processingInvoiceNo,
+        note: resp.data.note,
+      })
+
+    })
+  }
   ngOnInit() {
     this.getBlockProcessor();
+    this.getslabProcessingList();
+    this.getslabProcessingPeymentList();
 
-    this.blockProcessorService.getSlabsByProcessorId(this.id).subscribe((resp:any) => {
+    this.blockProcessorService.getSlabsByProcessorId(this.id).subscribe((resp: any) => {
       this.slabListData = resp.data.map(e => ({
         slabName: e.slabName,
-              _id: {
-                _id: e._id,
-                slabName: e.slabName,
-                slabNo: e.slabNo,
-                processingCost: e.purchaseCost
-              }
+        _id: {
+          _id: e._id,
+          slabName: e.slabName,
+          slabNo: e.slabNo,
+          processingCost: e.purchaseCost
+        }
       }));
       console.log(this.blockProcessorData);
-      
-    })
 
-    this.PaymentOutService.getPurchasePaymentList().subscribe(
-      (resp: any) => {
-        console.log("payments of customer",resp)
-        
-        this.paymentListData = resp.data;
-
-      }
-    );
+    });
+  }
+  getBlockProcessor() {
+    this.blockProcessorService.getBlockProcessorDataById(this.id).subscribe((data: any) => {
+      this.blockProcessorData = data;
+      console.log(this.blockProcessorData);
+    });
+  }
+  getslabProcessingList() {
     this.blockProcessorService.getAllSlabProcessing().subscribe(
       (resp: any) => {
         this.slabProcessingDataList = resp.data;
       }
     );
-
   }
-  getBlockProcessor() {
-    this.blockProcessorService.getBlockProcessorDataById(this.id).subscribe((data: any) => {
-      this.blockProcessorData = data; 
-      console.log(this.blockProcessorData);
-    });
+  getslabProcessingPeymentList() {
+    this.blockProcessorService.getPaymentList().subscribe(
+      (resp: any) => {
+        this.slabProcessingPaymentData = resp.data;
+      }
+    );
   }
-
-  onSlabSelect(value:any){
+  onSlabSelect(value: any) {
     this.addSlabProcessingForm.get('processingCost').patchValue(value.processingCost)
   }
 
-  addSlabProcessingFormSubmit(){
+
+  deleteSlabProcessing(Id: any) {
+    this.slabProcessing_id = Id;
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Slab Processing Details",
+    };
+    this.showDialog = true;
+  }
+
+  // showNewDialog() {
+  //   this.showDialog = true;
+  // }
+
+  callBackModal() {
+    this.blockProcessorService.deleteSlabProcessing(this.slabProcessing_id).subscribe((resp) => {
+      const message = "Slab Processing Details has been deleted";
+      this.messageService.add({ severity: "success", detail: message });
+      this.getslabProcessingList();
+      this.showDialog = false;
+    });
+  }
+
+  close() {
+    this.showDialog = false;
+    this.showPaymentDialog = false;
+
+    
+    this.getslabProcessingList();
+    this.getslabProcessingPeymentList();
+  }
+
+  addSlabProcessingFormSubmit() {
     const payload = {
       processor: {
         _id: this.blockProcessorData._id,
         name: this.blockProcessorData.name,
       },
-      slab: [
-        this.addSlabProcessingForm.value.slab
-      ],
+      slab: this.addSlabProcessingForm.value.slab,
+      processingDate: this.addSlabProcessingForm.value.processingDate,
       processingCost: this.addSlabProcessingForm.value.processingCost,
       processingInvoiceNo: this.addSlabProcessingForm.value.processingInvoiceNo,
       note: this.addSlabProcessingForm.value.note,
     };
 
-    if(this.addSlabProcessingForm.valid){
-      this.blockProcessorService.addSlabProcessing(payload).subscribe((resp:any) => {
+    if (this.addSlabProcessingForm.valid) {
+      this.blockProcessorService.addSlabProcessing(payload).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === "success") {
             this.addSlabVisible = false;
             const message = "Slab Processing has been added";
             this.messageService.add({ severity: "success", detail: message });
+            this.getslabProcessingList();
           } else {
             const message = resp.message;
             this.messageService.add({ severity: "error", detail: message });
           }
         }
       });
-    }else{
+    } else {
       console.log("Form is Invalid");
-      
+
+    }
+  }
+  editSlabProcessingFormSubmit() {
+    const payload = {
+      processor: this.editSlabProcessingForm.value.processor,
+      slab: this.editSlabProcessingForm.value.slab,
+      processingDate: this.editSlabProcessingForm.value.processingDate,
+      processingCost: this.editSlabProcessingForm.value.processingCost,
+      processingInvoiceNo: this.editSlabProcessingForm.value.processingInvoiceNo,
+      note: this.editSlabProcessingForm.value.note,
+      id: this.slabProcessing_id,
+    };
+
+    if (this.editSlabProcessingForm.valid) {
+      this.blockProcessorService.updateSlabProcessing(payload).subscribe((resp: any) => {
+        if (resp) {
+          if (resp.status === "success") {
+            this.editSlabVisible = false;
+            const message = "Slab Processing has been updated";
+            this.messageService.add({ severity: "success", detail: message });
+            this.getslabProcessingList();
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      });
+    } else {
+      console.log("Form is Invalid");
+
     }
   }
 
-  searchData(value: any){
+  searchData(value: any) {
 
+  }
+
+
+  openPaymentDialog(_id: any) {
+    this.blockProcessorService.getSlabProcessingById(_id).subscribe((resp: any) => {
+      this.showPaymentDialog = true;
+      this.header = "Slab Processing Payment ";
+      this.paymentObject = {
+        customer: resp.data.processor,
+        slabProcessing_id: _id,
+        isSlabProcessing: true,
+        processingInvoiceNo: resp.data.processingInvoiceNo,
+        processingCost: resp.data.processingCost,
+        dueAmount: resp.data.dueAmount,
+        paidAmount: resp.data.paidAmount,
+      };
+      // console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
+    });
   }
 
 
