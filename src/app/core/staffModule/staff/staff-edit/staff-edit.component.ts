@@ -42,7 +42,7 @@ export class StaffEditComponent {
     { value: "Transporter" },
     { value: "Marketing Manager" },
   ];
-  // personNameRegex = /^(?! )[A-Za-z]{3,15}(?: [A-Za-z]{3,15})?$/;
+  // personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   // AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
   // AccountNumberRegex = /^[0-9]{14}$/;
   // phoneRegex = /^[0-9]{10}$/;
@@ -51,7 +51,7 @@ export class StaffEditComponent {
   maxDate = new Date();
   // emailRegex: string =
   //   "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-  personNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   phoneRegex = /^[0-9]{10}$/;
   emailRegex = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   REGX_For_UID = /^[\w.-]+@[\w.-]+$/;

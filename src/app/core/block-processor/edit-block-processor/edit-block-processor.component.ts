@@ -31,11 +31,10 @@ import { blockProcessorService } from "../block-processor.service";
 export class EditBlockProcessorComponent {
   editBlockProcessorForm: FormGroup;
   routes = routes;
-  customerData: any;
+  blockProcessorData: any;
   id: any;
 
-  statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
-  personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -57,37 +56,27 @@ export class EditBlockProcessorComponent {
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
-      // openingBalance: ["", [Validators.min(0)]],
-      creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
-      creditLimit: ["", [Validators.min(0), Validators.max(5000000)]],
-      billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
-      shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
 
   ngOnInit() {
-    this.getCoustomers();
+    this.getblockProcessor();
   }
-  getCoustomers() {
+  getblockProcessor() {
     this.Service.getBlockProcessorDataById(this.id).subscribe((data: any) => {
-      this.customerData = data;
-      console.log(this.customerData);
+      this.blockProcessorData = data;
+      console.log(this.blockProcessorData);
       this.patchForm();
     });
   }
   patchForm() {
     this.editBlockProcessorForm.patchValue({
-      name: this.customerData.name,
-      phoneNo: this.customerData.phoneNo,
-      email: this.customerData.email,
+      name: this.blockProcessorData.name,
+      phoneNo: this.blockProcessorData.phoneNo,
+      email: this.blockProcessorData.email,
       status: true,
-      taxNumber: this.customerData.taxNumber,
-      // openingBalance: this.customerData.openingBalance,
-      creditPeriod: this.customerData.creditPeriod,
-      creditLimit: this.customerData.creditLimit,
-      billingAddress: this.customerData.billingAddress,
-      shippingAddress: this.customerData.shippingAddress,
+      taxNumber: this.blockProcessorData.taxNumber,
     });
   }
   editBlockProcessorFormSubmit() {
@@ -99,13 +88,7 @@ export class EditBlockProcessorComponent {
       email: this.editBlockProcessorForm.value.email,
       status: this.editBlockProcessorForm.value.status,
       taxNumber: this.editBlockProcessorForm.value.taxNumber,
-      creditPeriod: this.editBlockProcessorForm.value.creditPeriod,
-      creditLimit: this.editBlockProcessorForm.value.creditLimit,
-      billingAddress: this.editBlockProcessorForm.value.billingAddress,
-      shippingAddress: this.editBlockProcessorForm.value.shippingAddress,
-      // openingBalance: this.editBlockProcessorForm.value.openingBalance,
     };
-    console.log(payload);
     if (this.editBlockProcessorForm.valid) {
       this.Service.updateBlockProcessorData(payload).subscribe((resp: any) => {
         if (resp) {

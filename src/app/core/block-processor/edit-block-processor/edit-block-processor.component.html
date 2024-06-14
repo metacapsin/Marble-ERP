@@ -44,7 +44,7 @@
 
                                 <div class="row">
 
-                                    <div class="col-12 col-md-4 col-xl-4">
+                                    <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
                                             <label for="name">Name<span class="login-danger">*</span></label>
                                             <input class="form-control" type="text" placeholder="Please Enter Name"
@@ -59,15 +59,14 @@
                           editBlockProcessorForm.get('name')?.hasError('pattern') &&
                           editBlockProcessorForm.get('name')?.touched
                         " class="login-danger Font_size">
-                                                Input should be between 3 to 50 characters.
+                                                Input should be between 1 to 30 characters.
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-md-4 col-xl-4">
+                                    <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                            <label for="phoneNo">Phone Number<span
-                                                    class="login-danger">*</span></label>
+                                            <label for="phoneNo">Phone Number<span class="login-danger">*</span></label>
                                             <input class="form-control" type="number"
                                                 placeholder="Please Enter Phone Number" formControlName="phoneNo" />
                                             <div *ngIf="
@@ -89,17 +88,11 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-md-4 col-xl-4">
+                                    <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
                                             <label for="Email">Email</label>
                                             <input class="form-control" type="email" placeholder="Please Enter Email"
                                                 formControlName="email" />
-                                            <!-- <div *ngIf="
-                          editBlockProcessorForm.get('email')?.hasError('required') &&
-                          editBlockProcessorForm.get('email')?.touched
-                        " class="login-danger Font_size">
-                        Field is required.
-                      </div> -->
                                             <div *ngIf="
                           editBlockProcessorForm.get('email')?.hasError('pattern') &&
                           editBlockProcessorForm.get('email')?.touched
@@ -109,7 +102,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-md-4 col-xl-4">
+                                    <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
                                             <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
                                             <input class="form-control" type="text"
@@ -125,125 +118,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- <div class="col-12 col-md-4 col-xl-4">
-                                        <div class="form-group local-forms">
-                                            <label for="openingBalance">Opening Balance<span
-                                                    class="login-danger"></span></label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">₹</span>
-                                                </div>
-                                                <input class="form-control" type="number" placeholder="0"
-                                                    formControlName="openingBalance" />
-                                            </div>
-                                            <div *ngIf="
-                          editBlockProcessorForm
-                            .get('openingBalance')
-                            ?.hasError('min') &&
-                          editBlockProcessorForm.get('openingBalance')?.touched
-                        " class="login-danger Font_size">
-                                                Input should be more than 0.
-                                            </div>
-                                        </div>
-                                    </div> -->
 
-                                    <div class="col-12 col-md-4 col-xl-4">
-                                        <div class="form-group local-forms">
-                                            <label for="creditPeriod">Credit Period<span
-                                                    class="login-danger"></span></label>
-                                            <div class="input-group">
-                                                <input class="form-control" type="number" placeholder
-                                                    formControlName="creditPeriod" />
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="font-size: 12px">Days</span>
-                                                </div>
-                                            </div>
-                                            <div *ngIf="
-                          editBlockProcessorForm
-                            .get('creditPeriod')
-                            ?.hasError('min') &&
-                          editBlockProcessorForm.get('creditPeriod')?.touched
-                        " class="login-danger Font_size">
-                                                Credit Period cannot be less than 0 days.
-                                            </div>
-                                            <div *ngIf="
-                          editBlockProcessorForm
-                            .get('creditPeriod')
-                            ?.hasError('max') &&
-                          editBlockProcessorForm.get('creditPeriod')?.touched
-                        " class="login-danger Font_size">
-                                                Credit Period should be less than 120 days.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 col-md-4 col-xl-4">
-                                        <div class="form-group local-forms">
-                                            <label for="creditLimit">Credit Limit<span
-                                                    class="login-danger"></span></label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">₹</span>
-                                                </div>
-                                                <input class="form-control" type="number" placeholder="0"
-                                                    formControlName="creditLimit" />
-                                            </div>
-                                            <div *ngIf="
-                          editBlockProcessorForm
-                            .get('creditLimit')
-                            ?.hasError('min') &&
-                          editBlockProcessorForm.get('creditLimit')?.touched
-                        " class="login-danger Font_size">
-                                                Credit amount cannot be less than 0.
-                                            </div>
-                                            <div *ngIf="
-                          editBlockProcessorForm
-                            .get('creditLimit')
-                            ?.hasError('max') &&
-                          editBlockProcessorForm.get('creditLimit')?.touched
-                        " class="login-danger Font_size">
-                                                Credit amount limit exceed.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 col-md-4 col-xl-4">
-                                        <div class="form-group local-forms">
-                                            <label for="billingAddress">Billing Address</label>
-                                            <textarea class="form-control" type="text"
-                                                placeholder="Please Enter Billing Address"
-                                                formControlName="billingAddress"></textarea>
-
-                                            <div *ngIf="
-                          editBlockProcessorForm
-                            .get('billingAddress')
-                            ?.hasError('pattern') &&
-                          editBlockProcessorForm.get('billingAddress')?.touched
-                        ">
-                                                <span class="login-danger">Input Must be between 3 to 500
-                                                    characters</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 col-md-4 col-xl-4">
-                                        <div class="form-group local-forms">
-                                            <label for="shippingAddress">Shipping Address</label>
-                                            <textarea class="form-control" type="text"
-                                                placeholder="Please Enter Shipping Address"
-                                                formControlName="shippingAddress"></textarea>
-
-                                            <div *ngIf="
-                          editBlockProcessorForm
-                            .get('shippingAddress')
-                            ?.hasError('pattern') &&
-                          editBlockProcessorForm.get('shippingAddress')?.touched
-                        ">
-                                                <span class="login-danger">Input Must be between 3 to 500
-                                                    characters</span>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </form>

@@ -35,7 +35,7 @@ export class AddSuppliersComponent {
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
-  personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
 
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
 
@@ -52,18 +52,21 @@ export class AddSuppliersComponent {
     private fb: UntypedFormBuilder,
     private router: Router,
     private Service: SuppliersdataService,
-    private messageService: MessageService,
+    private messageService: MessageService
   ) {
     this.addSupplierGroup = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      name: [
+        "",
+        [Validators.required, Validators.pattern(this.personNameRegex)],
+      ],
       phoneNumber: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
-      creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
-      creditLimit: ["", [Validators.min(0), Validators.max(150000)]],
+      creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
+      creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
       shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });

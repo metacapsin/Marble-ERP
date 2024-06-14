@@ -146,10 +146,14 @@
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="bySales">StockValue<p-sortIcon
+                                        <th pSortableColumn="bySales">Warehouse<p-sortIcon
                                                 field="bySales"></p-sortIcon>
                                             <p-columnFilter type="text" field="bySales" display="menu"></p-columnFilter>
                                         </th>
+                                        <!-- <th pSortableColumn="bySales">StockValue<p-sortIcon
+                                                field="bySales"></p-sortIcon>
+                                            <p-columnFilter type="text" field="bySales" display="menu"></p-columnFilter>
+                                        </th> -->
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-slabs>
@@ -182,10 +186,13 @@
                                             </td>
                                         </ng-template>
                                         <td style="width: 15%;">
+                                           {{slabs.warehouseDetails.name}}
+                                        </td>
+                                        <!-- <td style="width: 15%;">
                                             By Purchase: ₹{{slabs.byPurchase}}
                                             <br>
                                             By Sales: ₹{{slabs.bySales}}
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 </ng-template>
                             </p-table>

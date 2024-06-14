@@ -38,7 +38,7 @@ export class StaffAddComponent {
     { value: "Marketing Manager" },
   ];
   warehouseData = [];
-  // personNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
+  // personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   // phoneRegex = /^[0-9]{10}$/;
   // emailRegex: string = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   // REGX_For_UID:string = "/^[\w.-]+@[\w.-]+$/";
@@ -51,8 +51,7 @@ export class StaffAddComponent {
   // AccountNumberRegex = "^\d{9,18}$";
   // IfscCodeRegex = "^[^\s]{4}\d{7}$";
   // addressRegex = /^(?!\s)(?:.{3,500})$/;
-  personNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
-  phoneRegex = /^[0-9]{10}$/;
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;  phoneRegex = /^[0-9]{10}$/;
   emailRegex = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   REGX_For_UID = /^[\w.-]+@[\w.-]+$/;
   pinRegex = /^\d{6}$/;

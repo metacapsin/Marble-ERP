@@ -18,6 +18,7 @@ import { TableModule } from "primeng/table";
 import { TabViewModule } from "primeng/tabview";
 import { ToastModule } from "primeng/toast";
 import { min } from "rxjs";
+import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
 import { PaymentInService } from "src/app/core/payment-in/payment-in.service";
 import { PaymentOutService } from "src/app/core/payment-out/payment-out.service";
 import { PurchaseReturnService } from "src/app/core/purchase-return/purchase-return.service";
@@ -71,6 +72,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     private paymentInService: PaymentInService,
     private paymentOutService: PaymentOutService,
     private purchaseReturnPaymentService: PurchaseReturnService,
+    private blockProcessorService: blockProcessorService,
     private messageService: MessageService,
     private fb: FormBuilder,
     private salesReturnService: SalesReturnService
@@ -247,41 +249,40 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         console.log("invalid form");
       }
     }
-    // console.log(formData)
-    // const payload = {
-    //   customer: this.dataById.customer,
-    //   paymentDate: formData.paymentDate,
-    //   paymentMode: formData.paymentMode,
-    //   sales: [
-    //     {
-    //       _id: this.dataById.salesId,
-    //       amount: formData.totalAmount,
-    //     }
-    //   ],
-    //   notes: formData.notes,
-    // }
 
-    // if (this.paymentInvoiceForm.valid) {
-    //   this.paymentInService.createPayment(payload).subscribe((resp: any) => {
-    //     console.log(resp);
-    //     if (resp) {
-    //       if (resp.status === "success") {
-    //         const message = "Payment has been added";
-    //         this.messageService.add({ severity: "success", detail: message });
-    //         setTimeout(() => {
-    //           this.close.emit();
-    //           this.paymentInvoiceForm.reset();
-    //         }, 400);
-    //       } else {
-    //         const message = resp.message;
-    //         this.messageService.add({ severity: "error", detail: message });
-    //       }
-    //     }
-    //   });
-    // }
-    // else {
-    //   console.log("invalid form");
-
-    // }
+    //For slab Processing Payment
+    if (this.dataById.isSlabProcessing) {
+      const payload = {
+        processor: this.dataById.customer,
+        paymentDate: formData.paymentDate,
+        paymentMode: formData.paymentMode,
+        slabProcessing: {
+            _id: this.dataById.slabProcessing_id,
+            amount: formData.totalAmount,
+          },
+          slabInvoiceNumber: this.dataById.processingInvoiceNo,
+        note: formData.note,
+      };
+      if (this.paymentInvoiceForm.valid) {
+        this.blockProcessorService.createPayment(payload).subscribe((resp: any) => {
+          console.log(resp);
+          if (resp) {
+            if (resp.status === "success") {
+              const message = "Slab Processing Payment has been added";
+              this.messageService.add({ severity: "success", detail: message });
+              setTimeout(() => {
+                this.close.emit();
+                this.paymentInvoiceForm.reset();
+              }, 400);
+            } else {
+              const message = resp.message;
+              this.messageService.add({ severity: "error", detail: message });
+            }
+          }
+        });
+      } else {
+        console.log("invalid form");
+      }
+    }
   }
 }

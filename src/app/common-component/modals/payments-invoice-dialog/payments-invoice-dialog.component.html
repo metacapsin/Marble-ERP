@@ -56,44 +56,15 @@
                                       </div>
                                     </div>
 
-                                  </div>
-                                  <div class="col-xl-6 col-lg-6 col-sm-12">
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSales">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSlabProcessing">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.salesTotalAmount | indianCurrency}}
+                                          {{ dataById.processingInvoiceNo }}
                                         </p>
                                       </div>
                                     </div>
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSalesReturn">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.salesTotalAmount | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-xl-6 col-lg-6 col-sm-12">
-                                    <div class="form-group row mb-2" *ngIf="dataById.isPurchase">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.purchaseTotalAmount | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-2" *ngIf="dataById.purchaseReturnTotalAmount">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.purchaseReturnTotalAmount | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+
                                     <div class="form-group row mb-2" *ngIf="dataById.isSales">
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
@@ -110,8 +81,7 @@
                                         </p>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+
                                     <div class="form-group row mb-2" *ngIf="dataById.isPurchase">
                                       <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
@@ -128,8 +98,71 @@
                                         </p>
                                       </div>
                                     </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSlabProcessing">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          ₹ {{ dataById.dueAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+
                                   </div>
-                                </div>
+
+                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSales">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          ₹ {{ dataById.salesTotalAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSalesReturn">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          ₹ {{ dataById.salesTotalAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group row mb-2" *ngIf="dataById.isPurchase">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          ₹ {{ dataById.purchaseTotalAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById.purchaseReturnTotalAmount">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          ₹ {{ dataById.purchaseReturnTotalAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSlabProcessing">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          ₹ {{ dataById.processingCost | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group row mb-2" *ngIf="dataById.isSlabProcessing">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          ₹ {{ dataById.paidAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>                                
                               </div>
                             </div>
                           </div>

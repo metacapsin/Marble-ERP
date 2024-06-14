@@ -36,7 +36,7 @@ export class EditBlockCustomerComponent {
   id: any;
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
-  personNameRegex = /^(?! )[A-Za-z]{3,50}(?: [A-Za-z]{3,50})?$/;
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -60,8 +60,8 @@ export class EditBlockCustomerComponent {
       // status: ["", [Validators.required]],
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
       openingBalance: ["", [Validators.min(0)]],
-      creditPeriod: ["", [Validators.min(0), Validators.max(120)]],
-      creditLimit: ["", [Validators.min(0), Validators.max(5000000)]],
+      creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
+      creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
       shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
