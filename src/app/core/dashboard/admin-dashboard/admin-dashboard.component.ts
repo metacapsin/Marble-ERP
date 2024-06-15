@@ -69,9 +69,11 @@ export class AdminDashboardComponent {
   public routes = routes;
   public selectedValue!: string;
   @ViewChild("chart") chart!: ChartComponent;
-  public chartOptionsOne: Partial<ChartOptions>;
-  public chartOptionsTwo: Partial<ChartOptions>;
-  public chartOptionsThree: Partial<ChartOptions>;
+  // public chartOptionsOne: Partial<ChartOptions>;
+  // public chartOptionsTwo: Partial<ChartOptions>;
+  // public chartOptionsThree: Partial<ChartOptions>;
+  maxDate = new Date();
+  rangeDates: any;
   // public recentPatients: Array<recentPatients> = [];
   // public upcomingAppointments: Array<upcomingAppointments> = [];
   userData: any = {};
@@ -79,6 +81,156 @@ export class AdminDashboardComponent {
   optionsForFirstChat: any;
   dataForSecondChat: any;
   optionsForSecondChat: any;
+  allSlabsDaTa: {
+    _id: string;
+    slabNo: string;
+    slabName: string;
+    slabSize: string;
+    categoryDetail: { name: string };
+    subCategoryDetail: { name: string };
+    totalSQFT: number;
+    totalCosting: number;
+    sellingPricePerSQFT: number;
+    warehouseDetails: { name: string };
+    isInUse: boolean;
+  }[];
+  financialSummaryData: any;
+  barChartData: any;
+
+  constructor(
+    // public data: DataService,
+    private Service: dashboardService,
+    private crypto: AESEncryptDecryptService
+  ) {
+    // this.chartOptionsOne = {
+    //   chart: {
+    //     height: 230,
+    //     type: "bar",
+    //     stacked: true,
+    //     toolbar: {
+    //       show: false,
+    //     },
+    //   },
+    //   grid: {
+    //     show: true,
+    //     xaxis: {
+    //       lines: {
+    //         show: false,
+    //       },
+    //     },
+    //     yaxis: {
+    //       lines: {
+    //         show: true,
+    //       },
+    //     },
+    //   },
+    //   responsive: [
+    //     {
+    //       breakpoint: 480,
+    //       options: {
+    //         legend: {
+    //           position: "bottom",
+    //           offsetX: -10,
+    //           offsetY: 0,
+    //         },
+    //       },
+    //     },
+    //   ],
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: false,
+    //       columnWidth: "15%",
+    //     },
+    //   },
+    //   stroke: {
+    //     show: true,
+    //     width: 6,
+    //     colors: ["transparent"],
+    //   },
+    //   dataLabels: {
+    //     enabled: false,
+    //   },
+    //   series: [
+    //     {
+    //       name: "Low",
+    //       color: "#D5D7ED",
+    //       data: [20, 30, 41, 67, 22, 43, 40, 10, 30, 20, 40],
+    //     },
+    //     {
+    //       name: "High",
+    //       color: "#2E37A4",
+    //       data: [13, 23, 20, 8, 13, 27, 30, 25, 10, 15, 20],
+    //     },
+    //   ],
+    //   xaxis: {
+    //     categories: [
+    //       "Jan",
+    //       "Feb",
+    //       "Mar",
+    //       "Apr",
+    //       "May",
+    //       "Jun",
+    //       "Jul",
+    //       "Aug",
+    //       "Sep",
+    //       "Oct",
+    //       "Nov",
+    //       "Dec",
+    //     ],
+    //     axisBorder: {
+    //       show: false, // set to false to hide the vertical gridlines
+    //     },
+    //   },
+    // };
+    // this.chartOptionsTwo = {
+    //   series: [44, 55, 41, 17],
+    //   chart: {
+    //     type: "donut",
+    //     height: 200,
+    //     width: 200,
+    //     toolbar: {
+    //       show: false,
+    //     },
+    //   },
+    //   legend: {
+    //     show: false,
+    //   },
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: false,
+    //       columnWidth: "50%",
+    //     },
+    //   },
+
+    //   dataLabels: {
+    //     enabled: false,
+    //   },
+    //   labels: ["Male", "Female"],
+    //   responsive: [
+    //     {
+    //       breakpoint: 480,
+    //       options: {
+    //         chart: {
+    //           width: 200,
+    //         },
+    //         legend: {
+    //           position: "bottom",
+    //         },
+    //       },
+    //     },
+    //   ],
+    // };
+    // this.recentPatients = this.data.recentPatients;
+    // this.upcomingAppointments = this.data.upcomingAppointments;
+    this.userData = this.crypto.getData("currentUser");
+  }
+  formatDate(date: Date): string {
+    const month = (date?.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based, so add 1
+    const day = date?.getDate().toString().padStart(2, "0");
+    const year = date?.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
   cardList: any = [
     {
       cardHeading: "Total Sales",
@@ -106,158 +258,19 @@ export class AdminDashboardComponent {
       numValueTwo: "01%",
     },
   ];
-  allSlabsDaTa: { _id: string; slabNo: string; slabName: string; slabSize: string; categoryDetail: { name: string; }; subCategoryDetail: { name: string; }; totalSQFT: number; totalCosting: number; sellingPricePerSQFT: number; warehouseDetails: { name: string; }; isInUse: boolean; }[];
-
-  constructor(
-    // public data: DataService,
-    private Service: dashboardService,
-    private crypto: AESEncryptDecryptService
-  ) {
-    this.chartOptionsOne = {
-      chart: {
-        height: 230,
-        type: "bar",
-        stacked: true,
-        toolbar: {
-          show: false,
-        },
-      },
-      grid: {
-        show: true,
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: true,
-          },
-        },
-      },
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            legend: {
-              position: "bottom",
-              offsetX: -10,
-              offsetY: 0,
-            },
-          },
-        },
-      ],
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: "15%",
-        },
-      },
-      stroke: {
-        show: true,
-        width: 6,
-        colors: ["transparent"],
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      series: [
-        {
-          name: "Low",
-          color: "#D5D7ED",
-          data: [20, 30, 41, 67, 22, 43, 40, 10, 30, 20, 40],
-        },
-        {
-          name: "High",
-          color: "#2E37A4",
-          data: [13, 23, 20, 8, 13, 27, 30, 25, 10, 15, 20],
-        },
-      ],
-      xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ],
-        axisBorder: {
-          show: false, // set to false to hide the vertical gridlines
-        },
-      },
-    };
-    this.chartOptionsTwo = {
-      series: [44, 55, 41, 17],
-      chart: {
-        type: "donut",
-        height: 200,
-        width: 200,
-        toolbar: {
-          show: false,
-        },
-      },
-      legend: {
-        show: false,
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: "50%",
-        },
-      },
-
-      dataLabels: {
-        enabled: false,
-      },
-      labels: ["Male", "Female"],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200,
-            },
-            legend: {
-              position: "bottom",
-            },
-          },
-        },
-      ],
-    };
-    // this.recentPatients = this.data.recentPatients;
-    // this.upcomingAppointments = this.data.upcomingAppointments;
-    this.userData = this.crypto.getData("currentUser");
-  }
   ngOnInit(): void {
-    // this.Service.DashboardController().subscribe((resp: any) => {
-    //   this.wareHousedata = resp.data;
-    // })
+    this.maxDate = new Date();
+    const startDate = new Date();
+    const endDate = new Date();
 
-    // color for  first chat
-    this.dataForFirstChat = {
-      labels: ["January", "February", "March", "April", "May", "June", "July"],
-      datasets: [
-        {
-          label: "My First dataset",
-          backgroundColor: "#ec4899",
-          borderColor: "#ec4899",
-          data: [65, 59, 80, 81, 56, 55, 40],
-        },
-        {
-          label: "My Second dataset",
-          backgroundColor: "#3b82f6",
-          borderColor: "#3b82f6",
-          data: [28, 48, 40, 19, 86, 27, 90],
-        },
-      ],
-    };
+    // Set the start date to one month ago
+    startDate.setMonth(startDate.getMonth() - 1);
+
+    this.rangeDates = [startDate, endDate];
+
+    // Initial API call
+    this.apiCall();
+
     this.optionsForFirstChat = {
       maintainAspectRatio: false,
       aspectRatio: 0.8,
@@ -292,8 +305,148 @@ export class AdminDashboardComponent {
         },
       },
     };
+    this.optionsForSecondChat = {
+      plugins: {
+        legend: {
+          labels: {
+            usePointStyle: true,
+            color: "#000000",
+          },
+        },
+      },
+    };
 
-    // color for  second chat
+  }
+  getDateOnChange(): void {
+    if (!this.rangeDates[0] || !this.rangeDates[1]) {
+      console.log("Please enter both start and end dates");
+    } else {
+      const date1 = new Date(this.rangeDates[0]);
+      const date2 = new Date(this.rangeDates[1]);
+
+      const formattedDate1 = this.formatDate(date1);
+      const formattedDate2 = this.formatDate(date2);
+
+      console.log(formattedDate1); // Output: 02/06/2024 - 00:00
+      console.log(formattedDate2); // Output: 05/06/2024 - 00:00
+      this.rangeDates = [formattedDate1, formattedDate2];
+      // Call the API when the date range changes
+      this.apiCall();
+    }
+  }
+  apiCall(): void {
+    this.Service.getFinancialSummary(this.rangeDates).subscribe(
+      (resp: any) => {
+        console.log(resp.data);
+        this.financialSummaryData = resp.data;
+      },
+      (error: any) => {
+        console.error("Error fetching financial summary:", error);
+      }
+    );
+    this.Service.getMonthlySalesPurchasesAndCharts(this.rangeDates).subscribe(
+      (resp: any) => {
+        console.log(resp);
+        this.barChartData = resp.barChartData;
+        console.log(this.barChartData);
+        this.setDataForFirstChart(resp.barChartData);
+      },
+      (error: any) => {
+        console.error("Error fetching financial summary:", error);
+      }
+    );
+    this.Service.getStockSummary(this.rangeDates).subscribe(
+      (resp: any) => {
+        console.log(resp);
+        // this.financialSummaryData = resp.data;
+      },
+      (error: any) => {
+        console.error("Error fetching financial summary:", error);
+      }
+    );
+    this.Service.getStockAlert(this.rangeDates).subscribe(
+      (resp: any) => {
+        console.log(resp.data);
+        // this.financialSummaryData = resp.data;
+      },
+      (error: any) => {
+        console.error("Error fetching financial summary:", error);
+      }
+    );
+    this.Service.getTopCustomers(this.rangeDates).subscribe(
+      (resp: any) => {
+        console.log(resp);
+        this.allSlabsDaTa = resp.data
+        // this.financialSummaryData = resp.data;
+      },
+      (error: any) => {
+        console.error("Error fetching financial summary:", error);
+      }
+    );
+    this.Service.getPaymentSentRecivedByMonth(this.rangeDates).subscribe(
+      (resp: any) => {
+        console.log(resp);
+        // this.financialSummaryData = resp.data;
+        this.setDataForSecondChart(resp.barChartData);
+      },
+      (error: any) => {
+        console.error("Error fetching financial summary:", error);
+      }
+    );
+  }
+  setDataForFirstChart(data: any[]): void {
+    if (!data || !Array.isArray(data)) {
+      // console.error("Invalid data format:", data);
+      return;
+    }
+    const labels = data.map((item) => item.monthName);
+    const totalSalesData = data.map((item) => item.totalSales);
+    const totalPurchasesData = data.map((item) => item.totalPurchases);
+    const totalPurchasePaymentDueData = data.map(
+      (item) => item.totalPurchasePaymentDue
+    );
+    const totalSalesPaymentDueData = data.map(
+      (item) => item.totalSalesPaymentDue
+    );
+
+    this.dataForFirstChat = {
+      labels: labels,
+      datasets: [
+        {
+          label: "Total Sales",
+          backgroundColor: "#ff6384",
+          borderColor: "#ff6384",
+          data: totalSalesData,
+        },
+        {
+          label: "Total Purchases",
+          backgroundColor: "#36a2eb",
+          borderColor: "#36a2eb",
+          data: totalPurchasesData,
+        },
+        {
+          label: "Total Sales Payment Due",
+          backgroundColor: "#ff9f40",
+          borderColor: "#ff9f40",
+          data: totalSalesPaymentDueData,
+        },
+        {
+          label: "Total Purchase Payment Due",
+          backgroundColor: "#9966ff",
+          borderColor: "#9966ff",
+          data: totalPurchasePaymentDueData,
+        },
+      ],
+    };
+  }
+  setDataForSecondChart(data: any[]): void {
+    console.log(data);
+    const totalPaymentReceivedData = data.map(
+      (item) => item.totalPaymentReceived
+    );
+    const totalPaymentSentData = data.map((item) => item.totalPaymentSent);
+    console.log(totalPaymentReceivedData, totalPaymentSentData);
+
     this.dataForSecondChat = {
       labels: [
         "Total Sales",
@@ -304,7 +457,7 @@ export class AdminDashboardComponent {
       ],
       datasets: [
         {
-          data: [540, 325, 702, 430, 300],
+          data: [totalPaymentSentData,10,255,totalPaymentReceivedData],
           backgroundColor: [
             "#3b82f6",
             "#f59e0b",
@@ -322,48 +475,6 @@ export class AdminDashboardComponent {
         },
       ],
     };
-    this.optionsForSecondChat = {
-      plugins: {
-        legend: {
-          labels: {
-            usePointStyle: true,
-            color: "#000000",
-          },
-        },
-      },
-    };
-
-    // table JSON
-    // Sample JSON data structure
-    this.allSlabsDaTa = [
-      {
-        _id: "1",
-        slabNo: "001",
-        slabName: "Slab 1",
-        slabSize: "10x10",
-        categoryDetail: { name: "Category A" },
-        subCategoryDetail: { name: "Subcategory X" },
-        totalSQFT: 100,
-        totalCosting: 5000,
-        sellingPricePerSQFT: 50,
-        warehouseDetails: { name: "Warehouse 1" },
-        isInUse: false,
-      },
-      {
-        _id: "2",
-        slabNo: "002",
-        slabName: "Slab 2",
-        slabSize: "8x8",
-        categoryDetail: { name: "Category B" },
-        subCategoryDetail: { name: "Subcategory Y" },
-        totalSQFT: 64,
-        totalCosting: 3200,
-        sellingPricePerSQFT: 55,
-        warehouseDetails: { name: "Warehouse 2" },
-        isInUse: true,
-      },
-      // Add more objects as needed
-    ];
   }
 
   // public sortData(sort: Sort) {

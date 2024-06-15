@@ -105,13 +105,13 @@
                                 </mat-select>
                             </div>
                         </div>
-                        <div id="patient-chart">
+                        <!-- <div id="patient-chart">
                             <apx-chart [series]="chartOptionsOne.series" [chart]="chartOptionsOne.chart"
                                 [dataLabels]="chartOptionsOne.dataLabels" [plotOptions]="chartOptionsOne.plotOptions"
                                 [responsive]="chartOptionsOne.responsive" [xaxis]="chartOptionsOne.xaxis"
                                 [legend]="chartOptionsOne.legend" [fill]="chartOptionsOne.fill"
                                 [grid]="chartOptionsOne.grid" [xaxis]="chartOptionsOne.xaxis"></apx-chart>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -121,70 +121,26 @@
                         <div class="chart-title">
                             <h4>Patient by Department</h4>
                         </div>
-                        <div id="donut-chart-dash" class="chart-user-icon">
+                        <!-- <div id="donut-chart-dash" class="chart-user-icon">
                             <apx-chart class="donut-chart-custom" [series]="chartOptionsTwo.series"
                                 [chart]="chartOptionsTwo.chart" [labels]="chartOptionsTwo.labels"
                                 [responsive]="chartOptionsTwo.responsive" [dataLabels]="chartOptionsTwo.dataLabels"
                                 [legend]="chartOptionsTwo.legend"></apx-chart>
                             <img src="assets/img/icons/user-icon.svg" alt="">
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row d-none">
-            <div class="col-12 col-md-12  col-xl-4">
-                <div class="card top-departments">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">Top Departments</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="activity-top">
-                            <div class="activity-boxs comman-flex-center">
-                                <img src="assets/img/icons/dep-icon-01.svg" alt="">
-                            </div>
-                            <div class="departments-list">
-                                <h4>General Physician</h4>
-                                <p>35%</p>
-                            </div>
-                        </div>
-                        <div class="activity-top">
-                            <div class="activity-boxs comman-flex-center">
-                                <img src="assets/img/icons/dep-icon-02.svg" alt="">
-                            </div>
-                            <div class="departments-list">
-                                <h4>Dentist</h4>
-                                <p>24%</p>
-                            </div>
-                        </div>
-                        <div class="activity-top">
-                            <div class="activity-boxs comman-flex-center">
-                                <img src="assets/img/icons/dep-icon-03.svg" alt="">
-                            </div>
-                            <div class="departments-list">
-                                <h4>ENT</h4>
-                                <p>10%</p>
-                            </div>
-                        </div>
-                        <div class="activity-top">
-                            <div class="activity-boxs comman-flex-center">
-                                <img src="assets/img/icons/dep-icon-04.svg" alt="">
-                            </div>
-                            <div class="departments-list">
-                                <h4>Cardiologist</h4>
-                                <p>15%</p>
-                            </div>
-                        </div>
-                        <div class="activity-top mb-0">
-                            <div class="activity-boxs comman-flex-center">
-                                <img src="assets/img/icons/dep-icon-05.svg" alt="">
-                            </div>
-                            <div class="departments-list">
-                                <h4>Opthomology</h4>
-                                <p>20%</p>
-                            </div>
-                        </div>
-                    </div>
+        <div class="row d-flex justify-content-end">
+            <div class="col-12 col-md-12 col-xl-4">
+                <!-- <div class="card">
+                    hi
+                </div> -->
+                    <div class="form-group local-forms">
+                        <!-- <label for="warehouseDetails">Date </label> -->
+                        <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [maxDate]="maxDate" 
+                            [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="getDateOnChange()" />
                 </div>
             </div>
             <!-- <div class="col-12 col-md-12  col-xl-8">
@@ -317,15 +273,71 @@
             </div>
         </div> -->
         <div class="row d-flex justify-content-between">
-            <div class="col-12 col-md-12 col-lg-6 col-xl-2" *ngFor="let data of cardList">
+            <div class="col-12 col-md-12 col-lg-6 col-xl-2" >
                 <div class="struct-point">
                     <div class="card patient-structure col-md-3 border border-1">
                         <div class="card-body">
-                            <h5>{{ data.cardHeading }}</h5>
-                            <h3>{{ data.numValueOne }}
+                            <h5>Total Sales</h5>
+                            <h3>{{ financialSummaryData?.totalSales }}
                                 <span class="status-green">
-                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">{{ data.numValueTwo
-                                    }}
+                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">
+                                </span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-6 col-xl-2" >
+                <div class="struct-point">
+                    <div class="card patient-structure col-md-3 border border-1">
+                        <div class="card-body">
+                            <h5>Total Expenses</h5>
+                            <h3>{{ financialSummaryData?.totalExpenses }}
+                                <span class="status-green">
+                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">
+                                </span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-6 col-xl-2" >
+                <div class="struct-point">
+                    <div class="card patient-structure col-md-3 border border-1">
+                        <div class="card-body">
+                            <h5>Payment Out</h5>
+                            <h3>{{ financialSummaryData?.paymentOut }}
+                                <span class="status-green">
+                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">
+                                </span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-6 col-xl-2" >
+                <div class="struct-point">
+                    <div class="card patient-structure col-md-3 border border-1">
+                        <div class="card-body">
+                            <h5>Payment In</h5>
+                            <h3>{{ financialSummaryData?.paymentIn }}
+                                <span class="status-green">
+                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">
+                                </span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-6 col-xl-2" >
+                <div class="struct-point">
+                    <div class="card patient-structure col-md-3 border border-1">
+                        <div class="card-body">
+                            <h5>Total Sales Due</h5>
+                            <h3>{{ financialSummaryData?.totalSalesDue }}
+                                <span class="status-green">
+                                    
+                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">
                                 </span>
                             </h3>
                         </div>

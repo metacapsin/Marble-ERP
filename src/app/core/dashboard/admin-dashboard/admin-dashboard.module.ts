@@ -6,6 +6,7 @@ import { AdminDashboardComponent } from './admin-dashboard.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ButtonModule } from 'primeng/button';
     AdminDashboardRoutingModule,
     SharedModule,
     ChartModule,
-    ButtonModule
+    ButtonModule,
+    CalendarModule
   ]
 })
 export class AdminDashboardModule { }
