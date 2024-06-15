@@ -96,6 +96,7 @@ export class AdminDashboardComponent {
   }[];
   financialSummaryData: any;
   barChartData: any;
+  CategorySlabs: any;
 
   constructor(
     // public data: DataService,
@@ -265,11 +266,14 @@ export class AdminDashboardComponent {
 
     // Set the start date to one month ago
     startDate.setMonth(startDate.getMonth() - 1);
+    var Sdate = this.formatDate(startDate)
+    var Edate = this.formatDate(endDate)
 
     this.rangeDates = [startDate, endDate];
+    console.log(this.rangeDates);
 
     // Initial API call
-    this.apiCall();
+    this.apiCall(Sdate, Edate);
 
     this.optionsForFirstChat = {
       maintainAspectRatio: false,
@@ -327,14 +331,16 @@ export class AdminDashboardComponent {
       const formattedDate1 = this.formatDate(date1);
       const formattedDate2 = this.formatDate(date2);
 
-      console.log(formattedDate1); // Output: 02/06/2024 - 00:00
-      console.log(formattedDate2); // Output: 05/06/2024 - 00:00
-      this.rangeDates = [formattedDate1, formattedDate2];
+      console.log(formattedDate1);
+      console.log(formattedDate2);
+      //this.rangeDates = [formattedDate1, formattedDate2];
       // Call the API when the date range changes
-      this.apiCall();
+      this.apiCall(formattedDate1,formattedDate2);
     }
   }
-  apiCall(): void {
+  apiCall(startData,endData): void {
+    console.log(this.rangeDates);
+    console.log(startData,endData);
     this.Service.getFinancialSummary(this.rangeDates).subscribe(
       (resp: any) => {
         console.log(resp.data);
@@ -359,6 +365,7 @@ export class AdminDashboardComponent {
       (resp: any) => {
         console.log(resp);
         // this.financialSummaryData = resp.data;
+        this.CategorySlabs = resp.data
       },
       (error: any) => {
         console.error("Error fetching financial summary:", error);
@@ -457,7 +464,7 @@ export class AdminDashboardComponent {
       ],
       datasets: [
         {
-          data: [totalPaymentSentData,10,255,totalPaymentReceivedData],
+          data: [ ,10,255,totalPaymentReceivedData],
           backgroundColor: [
             "#3b82f6",
             "#f59e0b",

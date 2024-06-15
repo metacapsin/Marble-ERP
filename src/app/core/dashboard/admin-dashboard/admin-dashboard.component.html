@@ -410,29 +410,31 @@
             </div> -->
         <div class="row">
             <div class="col-md-5">
-                <div class="row d-flex justify-content-between align-items-center">
-                    <div class="col-12 col-md-5">
+                <div class="row d-flex justify-content-between align-items-center" *ngIf="CategorySlabs">
+                    <div class="col-12 col-md-5" *ngFor="let data of CategorySlabs.totalCategorySlabs">
                         <div class="struct-point">
                             <div class="card patient-structure col-md-3 border border-1">
                                 <div class="card-body">
                                     <h5>Total Category</h5>
-                                    <h3>32
+                                    <h3>
+                                        <!-- {{data.name}} -->
                                         <span class="status-green">
-                                            <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">522%
+                                            <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">{{data.totalSQFT}}
                                         </span>
                                     </h3>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-5">
+                    <div class="col-12 col-md-5" *ngFor="let data of CategorySlabs.totalSubCategorySlabs">
                         <div class="struct-point">
                             <div class="card patient-structure col-md-3 border border-1">
                                 <div class="card-body">
                                     <h5>Total Sub Category</h5>
-                                    <h3>98
+                                    <h3>
+                                        <!-- {{data.name}} -->
                                         <span class="status-green">
-                                            <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">2%
+                                            <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">{{data.totalSQFT}}
                                         </span>
                                     </h3>
                                 </div>
@@ -443,55 +445,27 @@
             </div>
             <div class="col-md-7">
                 <div class="card-body">
-                    <p-table [value]="allSlabsDaTa" [tableStyle]="{'min-width': '60rem'}" >
+                    <p-table [value]="allSlabsDaTa" >
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="slabNo">Product
+                                <th pSortableColumn="slabNo">Customer Name
                                 </th>
-                                <th pSortableColumn="slabName">Quantity
+                                <th pSortableColumn="slabName">Total Sales Amount
                                 </th>
-                                <th pSortableColumn="size">Quantity
+                                <th pSortableColumn="size">Total Sales Quantity
                                 </th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-slabs>
-
+                        <ng-template pTemplate="body" let-Product>
                             <tr>
                                 <td>
-                                    <!-- {{slabs.slabNo}} -->
-                                     dfhcxnj
+                                    {{Product.customerName}}
                                 </td>
                                 <td>
-                                    <!-- {{slabs.slabName}} -->
-                                     dfhbnj
+                                    {{Product.totalSalesAmount}}
                                 </td>
                                 <td>
-                                    <!-- {{slabs.slabSize}} -->
-                                     dfnj
-                                </td>
-                                <!-- <td appShowHide [roles]="['admin', 'super-admin']">
-                                    <div class="action-buttons">
-
-                                        <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
-                                            (click)="updateSlabs(slabs._id)"></p-button>
-                                        <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
-                                        (click)="deleteSlabs(slabs._id)"></p-button>
-                                    </div>
-                                </td> -->
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <!-- {{slabs.slabNo}} -->
-                                     dfhcxnj
-                                </td>
-                                <td>
-                                    <!-- {{slabs.slabName}} -->
-                                     dfhbnj
-                                </td>
-                                <td>
-                                    <!-- {{slabs.slabSize}} -->
-                                     dfnj
+                                    {{Product.totalSalesQuantity}}
                                 </td>
                                 <!-- <td appShowHide [roles]="['admin', 'super-admin']">
                                     <div class="action-buttons">
