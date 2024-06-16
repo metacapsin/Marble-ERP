@@ -126,6 +126,10 @@
     <div class="card ">
       <p-tabView>
         <p-tabPanel header="Sales">
+          <div class="tab-header">
+            <span class="header-text">Sales</span>
+            <button pButton type="button" label="Create Sales" icon="pi pi-plus" (click)="navigateToCreateSales()"></button>
+        </div>
           <p-table [value]="salesDataShowById" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
             [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">

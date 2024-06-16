@@ -207,6 +207,8 @@ export class ViewSuppliersComponent {
     this.localStorageService.setItem("supplier", supplier);
 
     const returnUrl = this.router.url;
+    this.localStorageService.setItem("returnUrl", returnUrl);
+
     this.router.navigateByUrl("/purchase/add-purchase");
   }
 

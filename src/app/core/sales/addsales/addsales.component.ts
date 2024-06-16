@@ -16,6 +16,7 @@ import { ToastModule } from "primeng/toast";
 import { SubCategoriesService } from "../../settings/sub-categories/sub-categories.service";
 import { UnitsService } from "../../settings/units/units.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: "app-addsales",
@@ -38,7 +39,7 @@ export class AddsalesComponent implements OnInit {
   maxDate = new Date();
   public searchData_id = "";
   addTaxTotal: any;
-  customerList = [];
+  customerList :any = [];
   originalCustomerData = [];
   slabList = [];
   slabData = [];
@@ -57,6 +58,9 @@ export class AddsalesComponent implements OnInit {
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
   tandCRegex = /^(?:.{2,200})$/;
+  customer: any[] = [];
+  returnUrl: string;
+
 
   constructor(
     private router: Router,
@@ -65,7 +69,9 @@ export class AddsalesComponent implements OnInit {
     private customerService: CustomersdataService,
     private slabService: SlabsService,
     private taxService: TaxesService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private localStorageService: LocalStorageService
+
   ) {
     this.addSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
@@ -117,18 +123,22 @@ export class AddsalesComponent implements OnInit {
     this.salesItemDetails.push(item);
   }
 
-  ngOnInit(): void {
-    this.customerService.GetCustomerData().subscribe((resp: any) => {
-      this.originalCustomerData = resp;
-      this.customerList = this.originalCustomerData.map(element => ({
-        name: element.name,
-        _id: {
-          _id: element._id,
-          name: element.name,
-          billingAddress: element.billingAddress,
-        },
-      }));
-    }); 
+  ngOnInit() {
+
+    
+    this.customerList = this.getCustomer(); 
+    this.customer = this.localStorageService.getItem('customer');
+    this.returnUrl=this.localStorageService.getItem('returnUrl')
+    console.log("this is retrun url",this.returnUrl)
+    console.log("this is customer data by local sotrage service",this.customer)
+    if (this.customer) {
+      this.addSalesForm.patchValue({ 
+        customer: this.customer
+        
+      }
+    );
+    }
+   
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
@@ -151,6 +161,19 @@ export class AddsalesComponent implements OnInit {
     });
   }
 
+  getCustomer(){
+    this.customerService.GetCustomerData().subscribe((resp: any) => {
+      this.originalCustomerData = resp;
+      this.customerList = this.originalCustomerData.map(element => ({
+        name: element.name,
+        _id: {
+          _id: element._id,
+          name: element.name,
+          billingAddress: element.billingAddress,
+        },
+      }));
+    }); 
+  }
   onSlabSelect(value, i) {
     this.maxQuantity = 0;
     const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
@@ -249,7 +272,7 @@ export class AddsalesComponent implements OnInit {
             const message = "Sales has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              this.router.navigate(["/sales"]);
+              this.router.navigateByUrl(this.returnUrl);
             }, 400);
           } else {
             const message = resp.message;

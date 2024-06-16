@@ -190,6 +190,8 @@ export class AddPurchaseComponent implements OnInit {
   ngOnInit() {
     this.SupplierLists = this.getSupplier(); 
     this.supplier = this.localStorageService.getItem('supplier');
+    this.returnUrl=this.localStorageService.getItem('returnUrl')
+    console.log(this.returnUrl)
     console.log("this is supplier data by local sotrage service",this.supplier)
     if (this.supplier) {
       this.addPurchaseForm.patchValue({ 

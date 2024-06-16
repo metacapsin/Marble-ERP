@@ -14,6 +14,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
 import { PaymentInService } from '../payment-in/payment-in.service';
 import { InvoiceDialogComponent } from 'src/app/common-component/modals/invoice-dialog/invoice-dialog.component';
+import { LocalStorageService } from 'src/app/shared/data/local-storage.service';
 
 @Component({
   selector: "app-sales",
@@ -45,15 +46,24 @@ export class SalesComponent implements OnInit {
   visibleTotalPaidAmount: number = 0;
   visibleTotalDueAmount: number = 0;
   visibleTotalAmount: number = 0;
+  currentUrl: string;
+
 
   constructor(
     private messageService: MessageService,
     private router: Router,
     public dialog: MatDialog,
-    private Service: SalesService) { }
+    private Service: SalesService,
+  private localStorageService:LocalStorageService) { }
 
   ngOnInit() {
     this.GetSalesData();
+    this.currentUrl = this.router.url;
+    console.log("this is current url on sales page",this.currentUrl)
+    this.localStorageService.removeItem('customer');
+    this.localStorageService.removeItem('returnUrl');
+
+
     }
 
   deleteSales(Id: any) {
@@ -78,6 +88,15 @@ export class SalesComponent implements OnInit {
     })
   }
 
+  navigateToCreateSale(){
+    const returnUrl = this.router.url;
+    this.localStorageService.setItem('returnUrl',returnUrl);
+    console.log("this is return url on sales  page for sales create",returnUrl)
+    this.router.navigate(['/sales/add-sales']);
+    
+
+
+  }
 
   GetSalesData() {
     this.Service.GetSalesData().subscribe((resp: any) => {

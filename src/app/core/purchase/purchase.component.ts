@@ -21,6 +21,7 @@ import { TabViewModule } from "primeng/tabview";
 import { SlabsService } from "../Product/slabs/slabs.service";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 import { PaymentOutService } from "../payment-out/payment-out.service";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: "app-purchase",
@@ -90,11 +91,19 @@ export class PurchaseComponent {
     private paymentOutService: PaymentOutService,
     private router: Router,
     private messageService: MessageService,
-    private service: SlabsService
+    private service: SlabsService,
+    private localStorageService:LocalStorageService
   ) {}
   ngOnInit() {
     this.getPurchase();
     this.currentUrl = this.router.url;
+    console.log(this.currentUrl)
+    console.log("this is current url on purchase page",this.currentUrl)
+
+    this.localStorageService.removeItem('supplier');
+    this.localStorageService.removeItem('returnUrl');
+
+
   }
   getPurchase() {
     this.Service.GetPurchaseData().subscribe((data: any) => {
@@ -112,7 +121,8 @@ export class PurchaseComponent {
 
   navigateToCreatePurchase() {
     const returnUrl = this.router.url;
-    this.router.navigate(['/purchase/add-purchase'], { queryParams: { returnUrl } });
+    this.router.navigate(['/purchase/add-purchase']);
+    this.localStorageService.setItem('returnUrl',returnUrl);
 
     // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }

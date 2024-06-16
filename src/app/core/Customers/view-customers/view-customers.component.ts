@@ -20,6 +20,7 @@ import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/
 import { SalesReturnService } from "../../sales-return/sales-return.service";
 import { PaymentOutService } from "../../payment-out/payment-out.service";
 import { IndianCurrencyPipe } from "src/app/shared/directives/indian-currency.pipe";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: "app-view-customers",
@@ -36,7 +37,7 @@ import { IndianCurrencyPipe } from "src/app/shared/directives/indian-currency.pi
     TabViewModule,
     InvoiceDialogComponent,
     PaymentsInvoiceDialogComponent,
-    IndianCurrencyPipe
+    IndianCurrencyPipe,
   ],
   providers: [MessageService],
 
@@ -56,12 +57,14 @@ export class ViewCustomersComponent implements OnInit {
   modalData: any = {}; // to print delete message on delete api
   customerID: any;
   salesId: any;
-  salesReturnID:any;
+  salesReturnID: any;
   paymentDataListById: any[] = [];
   paymentReturnDataListById: any[] = [];
   paymentObject: any = {};
   salesTotalDueAmount: number = 0;
   header = "";
+  currentUrl: string;
+  customer: any;
 
   salesTotalValues: any = {};
   paymentInTotalValues: any = {};
@@ -76,7 +79,8 @@ export class ViewCustomersComponent implements OnInit {
     private salesService: SalesService,
     private salesReturnService: SalesReturnService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private localStorageService: LocalStorageService
   ) {
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -94,6 +98,12 @@ export class ViewCustomersComponent implements OnInit {
       this.customerID = data._id;
       console.log("customer id", this.customerID);
       this.customerDataById = [data];
+      this.customer = {
+        name: this.customerDataById[0].name,
+        billingAddress: this.customerDataById[0].billingAddress,
+        _id: this.customerDataById[0]._id,
+      };
+      console.log("this is customer object", this.customer);
     });
   }
 
@@ -104,7 +114,7 @@ export class ViewCustomersComponent implements OnInit {
   //   }
   //   return arrayToUse?.reduce((total, payment) => total + Number(payment.paidAmount), 0);
   // }
-  
+
   // getTotalDuoAmount(arrayProperty: 'salesDataShowById' | 'salesReturnDataShowById'): number {
   //   const arrayToUse = this[arrayProperty];
 
@@ -128,7 +138,7 @@ export class ViewCustomersComponent implements OnInit {
       .subscribe((resp: any) => {
         this.salesTotalValues = resp;
         this.salesDataShowById = resp.data;
-        console.log("sales data by costumer id",resp)
+        console.log("sales data by costumer id", resp);
       });
   }
 
@@ -184,8 +194,8 @@ export class ViewCustomersComponent implements OnInit {
   }
   deleteSalesReturn(Id: any) {
     this.salesReturnID = Id;
-    
-    console.log("sales Return Delete Dialog triggred and this is its id", Id)
+
+    console.log("sales Return Delete Dialog triggred and this is its id", Id);
 
     this.modalData = {
       title: "Delete",
@@ -195,20 +205,23 @@ export class ViewCustomersComponent implements OnInit {
   }
 
   callBackModal() {
-    if(this.deleteSales)
-    this.salesService.DeleteSalesData(this.salesId).subscribe((resp: any) => {
-      this.messageService.add({ severity: "success", detail: resp.message });
-      this.getsales();
-      this.showDialoge = false;
-      
-    });
-    if(this.deleteSalesReturn)
-    this.salesReturnService.deleteSalesReturn(this.salesReturnID).subscribe((resp: any) => {
-      this.messageService.add({ severity: "success", detail: resp.message });
-      this.getsalesReturn();
-      this.showDialoge = false;
-
-    });
+    if (this.deleteSales)
+      this.salesService.DeleteSalesData(this.salesId).subscribe((resp: any) => {
+        this.messageService.add({ severity: "success", detail: resp.message });
+        this.getsales();
+        this.showDialoge = false;
+      });
+    if (this.deleteSalesReturn)
+      this.salesReturnService
+        .deleteSalesReturn(this.salesReturnID)
+        .subscribe((resp: any) => {
+          this.messageService.add({
+            severity: "success",
+            detail: resp.message,
+          });
+          this.getsalesReturn();
+          this.showDialoge = false;
+        });
   }
 
   close() {
@@ -259,10 +272,28 @@ export class ViewCustomersComponent implements OnInit {
       .getSalesReturnPaymentListBySalesReturnId(Id)
       .subscribe((resp: any) => {
         this.paymentDataListById = resp.data;
-        console.log("this is sales return payment list by sales return id",this.paymentDataListById)
+        console.log(
+          "this is sales return payment list by sales return id",
+          this.paymentDataListById
+        );
       });
   }
 
+  navigateToCreateSales() {
+    const customer = {
+      name: this.customerDataById[0].name,
+      billingAddress: this.customerDataById[0].billingAddress,
+      _id: this.customerDataById[0]._id,
+    };
+
+    this.localStorageService.setItem("customer", customer);
+
+    const returnUrl = this.router.url;
+    this.localStorageService.setItem("returnUrl",returnUrl)
+    console.log(returnUrl)
+
+    this.router.navigateByUrl("/sales/add-sales");
+  }
   openPaymentDialog(Id: any) {
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
