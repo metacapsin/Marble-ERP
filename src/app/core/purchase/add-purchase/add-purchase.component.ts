@@ -26,6 +26,7 @@ import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
 import { LotService } from "../../Product/lot/lot.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: "app-add-purchase",
@@ -49,7 +50,7 @@ export class AddPurchaseComponent implements OnInit {
   subCategoryList: any;
   unitListData: any;
   id: any;
-  SupplierLists = [];
+  SupplierLists:any= [];
   categoryList = [];
   setIT: any;
   data: any;
@@ -87,6 +88,8 @@ export class AddPurchaseComponent implements OnInit {
   notesRegex = /^(?:.{2,100})$/;
   addTaxTotal: any;
   tandCRegex = /^(?:.{2,200})$/;
+  returnUrl: string;
+  supplier: any[] = [];
 
   constructor(
     private taxService: TaxesService,
@@ -99,7 +102,10 @@ export class AddPurchaseComponent implements OnInit {
     private subCategoriesService: SubCategoriesService,
     private unitService: UnitsService,
     private Lotservice: LotService,
-    private service: SlabsService
+    private service: SlabsService,
+    private activeRoute: ActivatedRoute,
+    private localStorageService: LocalStorageService
+
   ) {
     this.addPurchaseForm = this.fb.group({
       purchaseInvoiceNumber: [""],
@@ -181,7 +187,18 @@ export class AddPurchaseComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.SupplierLists = this.getSupplier(); 
+    this.supplier = this.localStorageService.getItem('supplier');
+    console.log("this is supplier data by local sotrage service",this.supplier)
+    if (this.supplier) {
+      this.addPurchaseForm.patchValue({ 
+        supplier: this.supplier
+        
+      }
+    );
+    }
+
     this.getSupplier();
     this.unitService.getAllUnitList().subscribe((resp: any) => {
       this.unitListData = resp.data;
@@ -322,7 +339,7 @@ export class AddPurchaseComponent implements OnInit {
             const message = "Purchase has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              this.router.navigate(["/purchase"]);
+              this.router.navigateByUrl(this.returnUrl);
             }, 400);
           } else {
             const message = resp.message;

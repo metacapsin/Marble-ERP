@@ -75,6 +75,7 @@ export class PurchaseComponent {
   paymentDataListById: any[] = [];
   visible:any
   purchaseTotalValues: any = {};
+  currentUrl: string;
 
 
   CustomerList = [
@@ -93,6 +94,7 @@ export class PurchaseComponent {
   ) {}
   ngOnInit() {
     this.getPurchase();
+    this.currentUrl = this.router.url;
   }
   getPurchase() {
     this.Service.GetPurchaseData().subscribe((data: any) => {
@@ -108,6 +110,12 @@ export class PurchaseComponent {
     this.router.navigate(["/purchase/edit-purchase/" + id]);
   }
 
+  navigateToCreatePurchase() {
+    const returnUrl = this.router.url;
+    this.router.navigate(['/purchase/add-purchase'], { queryParams: { returnUrl } });
+
+    // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
+  }
 
   showInvoiceDialoge(id: any)  {
     let totalTax = 0;

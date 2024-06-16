@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
 import { MultiSelectModule } from "primeng/multiselect";
@@ -19,6 +19,7 @@ import { SlabsService } from "../../Product/slabs/slabs.service";
 import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
 import { Router } from "@angular/router";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: "app-add-purchase-return",
@@ -35,7 +36,7 @@ import { Router } from "@angular/router";
   styleUrl: "./add-purchase-return.component.scss",
   providers: [MessageService],
 })
-export class AddPurchaseReturnComponent {
+export class AddPurchaseReturnComponent implements OnInit {
   addPurchaseReturnForm!: FormGroup;
   public routes = routes;
   maxDate = new Date();
@@ -64,7 +65,7 @@ export class AddPurchaseReturnComponent {
   ];
   orderTaxList = [];
   taxesListData = [];
-  SupplierLists = [];
+  SupplierLists :any= [];
   blockDataWithLotId: any;
   purchaseSlabData: any;
   SlabAddValue: any;
@@ -90,6 +91,7 @@ export class AddPurchaseReturnComponent {
   slabData: any;
   unselectedSlab: any;
   LotData: any;
+  supplier: any[] = [];
 
   constructor(
     private taxService: TaxesService,
@@ -102,7 +104,9 @@ export class AddPurchaseReturnComponent {
     private PaymentOutService: PaymentOutService,
     private service: SlabsService,
     private messageService: MessageService,
-    private subCategoriesService: SubCategoriesService
+    private subCategoriesService: SubCategoriesService,
+    private localStorageService: LocalStorageService
+
   ) {
     this.addPurchaseReturnForm = this.fb.group({
       purchaseReturnInvoiceNumber: ["",[Validators.required]],
@@ -286,6 +290,15 @@ export class AddPurchaseReturnComponent {
   }
 
   ngOnInit(): void {
+    this.SupplierLists = this.getSupplierData(); 
+
+    this.supplier = this.localStorageService.getItem('supplier');
+    console.log("this is supplier data by local sotrage service",this.supplier)
+      this.addPurchaseReturnForm.patchValue({ 
+        purchaseReturnSupplier: this.supplier
+      }
+    );
+
     this.unitService.getAllUnitList().subscribe((resp: any) => {
       this.unitListData = resp.data;
     });
@@ -305,6 +318,11 @@ export class AddPurchaseReturnComponent {
         });
       });
     });
+    this.getSupplierData();
+    
+  }
+
+  getSupplierData(){
     this.Service.GetSupplierData().subscribe((data: any) => {
       this.getSupplierShow = data;
       this.SupplierLists = [];

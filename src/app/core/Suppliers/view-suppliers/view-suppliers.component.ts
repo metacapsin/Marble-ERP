@@ -18,6 +18,7 @@ import { PurchaseReturnService } from "../../purchase-return/purchase-return.ser
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
 import { SharedModule } from "src/app/shared/shared.module";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: "app-view-suppliers",
@@ -61,6 +62,8 @@ export class ViewSuppliersComponent {
   paymentOutTotalValues: any = {};
   purchaseTotalDueAmount: number = 0;
   header = "";
+  currentUrl: string;
+  supplier: any;
 
   constructor(
     private SupplierService: SuppliersdataService,
@@ -70,7 +73,8 @@ export class ViewSuppliersComponent {
     private purchaseService: PurchaseService,
     private purchaseReturnService: PurchaseReturnService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private localStorageService: LocalStorageService
   ) {
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -81,6 +85,7 @@ export class ViewSuppliersComponent {
     this.getPaymentListBySupplierId();
     this.getPurchaseReturn();
     this.getPurchaseReturnPaymentListBySupplierId();
+    this.currentUrl = this.router.url;
   }
   getSuppliers() {
     this.SupplierService.GetSupplierDataById(this.id).subscribe((data: any) => {
@@ -88,6 +93,13 @@ export class ViewSuppliersComponent {
       this.supplierID = data._id;
       console.log("supplier id", this.supplierID);
       this.supplierDataById = [data];
+      console.log("this is supplier data by id", this.supplierDataById);
+      this.supplier = {
+        name: this.supplierDataById[0].name,
+        billingAddress: this.supplierDataById[0].billingAddress,
+        _id: this.supplierDataById[0]._id,
+      };
+      console.log("this is supplier object", this.supplier);
     });
   }
 
@@ -105,7 +117,9 @@ export class ViewSuppliersComponent {
 
   //   return arrayToUse?.reduce((total, payment) => total + payment.purchaseReturnTotalAmount, 0);
   // }
-  getTotalPaymentAmount(arrayProperty: 'paymentListDataBySupplierId' | 'paymentReturnDataListById'): number {
+  getTotalPaymentAmount(
+    arrayProperty: "paymentListDataBySupplierId" | "paymentReturnDataListById"
+  ): number {
     const arrayToUse = this[arrayProperty];
 
     return arrayToUse?.reduce((total, payment) => total + payment.amount, 0);
@@ -113,17 +127,19 @@ export class ViewSuppliersComponent {
 
   getPurchase() {
     this.purchaseTotalDueAmount = 0;
-    this.purchaseService.getAllPurchaseBySupplierId(this.id).subscribe((resp: any) => {
-      this.purchaseTotalValues = resp;
-      this.purchaseDataShowById = resp.data;
-    });
+    this.purchaseService
+      .getAllPurchaseBySupplierId(this.id)
+      .subscribe((resp: any) => {
+        this.purchaseTotalValues = resp;
+        this.purchaseDataShowById = resp.data;
+      });
   }
 
   getPaymentListBySupplierId() {
-    this.PaymentOutService
-    .getPurchasePaymentListBySupplierId(this.id)
-    .subscribe((resp: any) => {
-      this.paymentOutTotalValues = resp
+    this.PaymentOutService.getPurchasePaymentListBySupplierId(
+      this.id
+    ).subscribe((resp: any) => {
+      this.paymentOutTotalValues = resp;
       // console.log("payment data of Supplier by id", resp);
       this.paymentListDataBySupplierId = resp.data;
       console.log(
@@ -133,7 +149,7 @@ export class ViewSuppliersComponent {
     });
   }
 
-  getPurchaseReturn(){
+  getPurchaseReturn() {
     this.purchaseReturnService
       .getPurchaseReturnBySupplierId(this.id)
       .subscribe((resp: any) => {
@@ -148,7 +164,7 @@ export class ViewSuppliersComponent {
       });
   }
 
-  getPurchaseReturnPaymentListBySupplierId(){
+  getPurchaseReturnPaymentListBySupplierId() {
     this.purchaseReturnService
       .getPurchaseReturnPaymentListBySupplierId(this.id)
       .subscribe((resp: any) => {
@@ -172,11 +188,42 @@ export class ViewSuppliersComponent {
   }
 
   callBackModal() {
-    this.purchaseService.DeletePurchaseData(this.purchaseId).subscribe((resp: any) => {
-      this.messageService.add({ severity: "success", detail: resp.message });
-      this.getPurchase();
-      this.showDialoge = false;
-    });
+    this.purchaseService
+      .DeletePurchaseData(this.purchaseId)
+      .subscribe((resp: any) => {
+        this.messageService.add({ severity: "success", detail: resp.message });
+        this.getPurchase();
+        this.showDialoge = false;
+      });
+  }
+
+  navigateToCreatePurchase() {
+    const supplier = {
+      name: this.supplierDataById[0].name,
+      billingAddress: this.supplierDataById[0].billingAddress,
+      _id: this.supplierDataById[0]._id,
+    };
+
+    this.localStorageService.setItem("supplier", supplier);
+
+    const returnUrl = this.router.url;
+    this.router.navigateByUrl("/purchase/add-purchase");
+  }
+
+  navigateToCreatePurchaseReturn() {
+    const supplier1 = {
+      name: this.supplierDataById[0].name,
+      _id: {
+        name: this.supplierDataById[0].name,
+        _id: this.supplierDataById[0]._id,
+      },
+    };
+    this.localStorageService.setItem("supplier1", supplier1);
+    console.log("this is supplier 1 object for purchase return", supplier1)
+
+    const returnUrl = this.router.url;
+    console.log(returnUrl);
+    this.router.navigateByUrl("/purchase-return/add-purchase-return");
   }
 
   close() {
@@ -199,32 +246,37 @@ export class ViewSuppliersComponent {
       this.purchaseDataShowById = [resp.data];
       this.header = "Purchase Invoice ";
       console.log("Purchase data by id On dialog", this.purchaseDataShowById);
-      
     });
 
-    this.PaymentOutService.getPurchasePaymentListByPurchaseId(Id).subscribe((resp: any) => {
-      this.paymentDataListById = resp.data;
-      console.log("this is payment by Purchase id", this.paymentDataListById);
-      console.log(resp.data)
-
-    });
+    this.PaymentOutService.getPurchasePaymentListByPurchaseId(Id).subscribe(
+      (resp: any) => {
+        this.paymentDataListById = resp.data;
+        console.log("this is payment by Purchase id", this.paymentDataListById);
+        console.log(resp.data);
+      }
+    );
   }
   showReturnInvoiceDialoge(Id: any) {
     console.log("id pass to invoice dialoge", Id);
     console.log("showInvoiceDialoge is triggered ");
-    this.purchaseReturnService.getPurchaseReturnById(Id).subscribe((resp: any) => {
-      this.showInvoiceDialog = true;
-      this.purchaseDataShowById = [resp.data];
-      this.header = "Purchase Return Invoice ";
-      console.log(resp.data)
-      console.log("Purchase Return data by id On dialog", this.purchaseDataShowById);
-    });
+    this.purchaseReturnService
+      .getPurchaseReturnById(Id)
+      .subscribe((resp: any) => {
+        this.showInvoiceDialog = true;
+        this.purchaseDataShowById = [resp.data];
+        this.header = "Purchase Return Invoice ";
+        console.log(resp.data);
+        console.log(
+          "Purchase Return data by id On dialog",
+          this.purchaseDataShowById
+        );
+      });
 
     this.purchaseReturnService
       .getPurchaseReturnPaymentListByPurchaseReturnId(Id)
       .subscribe((resp: any) => {
         this.paymentDataListById = resp.data;
-        console.log(resp.data)
+        console.log(resp.data);
       });
   }
 
@@ -239,28 +291,28 @@ export class ViewSuppliersComponent {
         purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
         purchaseTotalAmount: resp.data.purchaseTotalAmount,
         purchaseDueAmount: resp.data.dueAmount,
-        
       };
     });
   }
   openPaymentReturnDialog(Id: any) {
-    this.purchaseReturnService.getPurchaseReturnById(Id).subscribe((resp: any) => {
-      this.showPaymentDialog = true;
-      this.header = "Purchase Return Payment ";
-      this.paymentObject = {
-        supplier: resp.data.supplier,
-        purchaseReturnId: Id,
-        isPurchaseReturn: true,
-        // purchaseReturnDataShowById: resp.data
-        purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
-        purchaseReturnTotalAmount: resp.data.purchaseReturnTotalAmount,
-        purchaseDueAmount: resp.data.dueAmount,
-      };
-      console.log(
-        "this is open Payment Return Dialog",
-        this.paymentObject.purchaseReturnId
-      );
-    });
+    this.purchaseReturnService
+      .getPurchaseReturnById(Id)
+      .subscribe((resp: any) => {
+        this.showPaymentDialog = true;
+        this.header = "Purchase Return Payment ";
+        this.paymentObject = {
+          supplier: resp.data.supplier,
+          purchaseReturnId: Id,
+          isPurchaseReturn: true,
+          // purchaseReturnDataShowById: resp.data
+          purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
+          purchaseReturnTotalAmount: resp.data.purchaseReturnTotalAmount,
+          purchaseDueAmount: resp.data.dueAmount,
+        };
+        console.log(
+          "this is open Payment Return Dialog",
+          this.paymentObject.purchaseReturnId
+        );
+      });
   }
-
 }

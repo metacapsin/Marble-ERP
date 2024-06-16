@@ -40,40 +40,24 @@
       <div class="col-md-12">
         <div class="card invoices-add-card">
           <div class="card-body">
-            <form
-              [formGroup]="addPurchaseReturnForm"
-              (ngSubmit)="addPurchaseReturnFormSubmit()"
-            >
+            <form [formGroup]="addPurchaseReturnForm" (ngSubmit)="addPurchaseReturnFormSubmit()">
               <div class="invoices-main-form">
                 <div class="row">
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="purchaseReturnSupplier"
-                        >Supplier Name<span class="login-danger">*</span></label
-                      >
-                      <p-dropdown
-                        [style]="{ width: '100%' }"
-                        placeholder="--suppliers--"
-                        [options]="SupplierLists"
-                        optionLabel="name"
-                        optionValue="_id"
-                        display="chip"
-                        [filter]="true"
-                        filterBy="name"
-                        formControlName="purchaseReturnSupplier"
-                        [showClear]="true"
-                        (onChange)="onSuppliersSelect($event.value._id)"
-                      ></p-dropdown>
-                      <div
-                        *ngIf="
+                      <label for="purchaseReturnSupplier">Supplier Name<span class="login-danger">*</span></label>
+                      <p-dropdown [style]="{ width: '100%' }" placeholder="--Select Supplier--" [options]="SupplierLists"
+                        optionLabel="name" optionValue="_id" display="chip" [filter]="true" filterBy="name"
+                        formControlName="purchaseReturnSupplier" [showClear]="true"
+                        (onChange)="onSuppliersSelect($event.value._id)"></p-dropdown>
+                      <div *ngIf="
                           addPurchaseReturnForm
                             .get('purchaseReturnSupplier')
                             ?.hasError('required') &&
                           addPurchaseReturnForm.get(
                             'purchaseReturnSupplier'
                           )?.touched
-                        "
-                      >
+                        ">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
@@ -81,87 +65,53 @@
 
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="purchaseReturnInvoiceNumber"
-                        >Invoice Number<span class="login-danger"
-                          >*</span
-                        ></label
-                      >
-                      <p-dropdown
-                        [style]="{ width: '100%' }"
-                        placeholder="--Select Supplier--"
-                        [options]="purchaseDataByInvoiceNumber"
-                        formControlName="purchaseReturnInvoiceNumber"
-                        optionLabel="purchaseInvoiceNumber"
-                        display="chip"
-                        (onChange)="onInvoiceNumber($event.value._id)"
-                        [showClear]="true"
-                      ></p-dropdown>
+                      <label for="purchaseReturnInvoiceNumber">Invoice Number<span class="login-danger">*</span></label>
+                      <p-dropdown [style]="{ width: '100%' }" placeholder="--Select Invoice--"
+                        [options]="purchaseDataByInvoiceNumber" formControlName="purchaseReturnInvoiceNumber"
+                        optionLabel="purchaseInvoiceNumber" display="chip"
+                        (onChange)="onInvoiceNumber($event.value._id)" [showClear]="true"></p-dropdown>
                     </div>
-                    <div
-                        *ngIf="
+                    <div *ngIf="
                           addPurchaseReturnForm
                             .get('purchaseReturnSupplier')
                             ?.hasError('required') &&
                           addPurchaseReturnForm.get(
                             'purchaseReturnSupplier'
                           )?.touched
-                        "
-                      >
-                        <span class="login-danger">Field is required. </span>
-                      </div>
+                        ">
+                      <span class="login-danger">Field is required. </span>
+                    </div>
                   </div>
 
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="purchaseReturnDate"
-                        >purchase Return Date<span class="login-danger"
-                          >*</span
-                        ></label
-                      >
-                      <p-calendar
-                      [maxDate]="maxDate"
-                        dataType="string"
-                        appendTo="body"
-                        dateFormat="mm/dd/yy"
-                        formControlName="purchaseReturnDate"
-                        placeholder="mm/dd/yyyy"
-                        [styleClass]="'col-12'"
-                      ></p-calendar>
+                      <label for="purchaseReturnDate">Purchase Return Date<span class="login-danger">*</span></label>
+                      <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                        formControlName="purchaseReturnDate" placeholder="mm/dd/yyyy"
+                        [styleClass]="'col-12'"></p-calendar>
                     </div>
-                    <div
-                        *ngIf="
+                    <div *ngIf="
                           addPurchaseReturnForm
                             .get('purchaseReturnSupplier')
                             ?.hasError('required') &&
                           addPurchaseReturnForm.get(
                             'purchaseReturnSupplier'
                           )?.touched
-                        "
-                      >
-                        <span class="login-danger">Field is required. </span>
-                      </div>
+                        ">
+                      <span class="login-danger">Field is required. </span>
+                    </div>
                   </div>
 
-                  
 
-                  <div
-                    class="col-xl-4 col-md-6 col-sm-12 col-12"
-                    *ngIf="PurchaseReturnDataById?.purchaseType == 'slab'"
-                  >
+
+                  <div class="col-xl-4 col-md-6 col-sm-12 col-12"
+                    *ngIf="PurchaseReturnDataById?.purchaseType == 'slab'">
                     <div class="form-group local-forms">
-                      <label for="purchaseSlab"
-                        >Slabs<span class="login-danger">*</span></label
-                      >
-                      <p-multiSelect
-                        [style]="{ width: '100%' }"
-                        placeholder="--Slabs--"
-                        [options]="purchaseSlabData"
-                        formControlName="purchaseSlab"
-                        optionLabel="slabName"
-                        display="chip"
-                        (onChange)="slabValues($event.value)"
-                        ></p-multiSelect>
-                        <!-- <div
+                      <label for="purchaseSlab">Slabs<span class="login-danger">*</span></label>
+                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Slabs--" [options]="purchaseSlabData"
+                        formControlName="purchaseSlab" optionLabel="slabName" display="chip"
+                        (onChange)="slabValues($event.value)"></p-multiSelect>
+                      <!-- <div
                         *ngIf="addPurchaseForm.get('purchaseSlab')?.hasError('required') && addPurchaseForm.get('purchaseSlab')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div> -->
@@ -170,76 +120,75 @@
                 </div>
               </div>
               <div class="invoice-add-table">
-                <p-table *ngIf="GridDataForSlab?.length > 0" [value]="GridDataForSlab"
-                    styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                    [rows]="5">
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <th pSortableColumn="purchaseInvoiceNumber">Slab No.
-                        </th>
-                        <th pSortableColumn="purchaseDate">Slab Name
-                        </th>
-                        <th pSortableColumn="supplier.name">Total Costing
-                        </th>
-                        <th pSortableColumn="purchaseOrderStatus">Total SQFT</th>
-                        <th pSortableColumn="paidAmount">Selling Price Per SQFT
-                        </th>
-                        <!-- <th>Actions</th> -->
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-purchase>
-                      <tr>
-                        <td>{{purchase.slabNo}}</td>
-                        <td>{{purchase.slabName}}</td>
-                        <td>{{purchase.totalCosting}}</td>
-                        <!-- <td>{{purchase.subCategoryDetail.name}}</td> -->
-                        <td>SQ {{purchase.totalSQFT}}</td>
-                        <td>{{purchase.sellingPricePerSQFT}}</td>
-                        <!-- <td><p-button [text]=" true" icon="fa fa-trash"
+                <p-table *ngIf="GridDataForSlab?.length > 0" [value]="GridDataForSlab" styleClass="p-datatable-striped"
+                  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="purchaseInvoiceNumber">Slab No.
+                      </th>
+                      <th pSortableColumn="purchaseDate">Slab Name
+                      </th>
+                      <th pSortableColumn="supplier.name">Total Costing
+                      </th>
+                      <th pSortableColumn="purchaseOrderStatus">Total SQFT</th>
+                      <th pSortableColumn="paidAmount">Selling Price Per SQFT
+                      </th>
+                      <!-- <th>Actions</th> -->
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-purchase>
+                    <tr>
+                      <td>{{purchase.slabNo}}</td>
+                      <td>{{purchase.slabName}}</td>
+                      <td>{{purchase.totalCosting}}</td>
+                      <!-- <td>{{purchase.subCategoryDetail.name}}</td> -->
+                      <td>SQ {{purchase.totalSQFT}}</td>
+                      <td>{{purchase.sellingPricePerSQFT}}</td>
+                      <!-- <td><p-button [text]=" true" icon="fa fa-trash"
                             (click)="deleteSlab(purchase._id)"></p-button></td> -->
-                      </tr>
-                    </ng-template>
-                  </p-table>
-                  <p-table *ngIf="GridDataForLot?.length  > 0" [value]="GridDataForLot" styleClass="p-datatable-striped"
-                    [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <th pSortableColumn="purchaseInvoiceNumber">Block No.<p-sortIcon
-                            field="purchaseInvoiceNumber"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="purchaseDate">Height<p-sortIcon field="purchaseDate"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="supplier.name">Length<p-sortIcon field="supplier.name"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="purchaseOrderStatus">Width<p-sortIcon
-                            field="purchaseOrderStatus"></p-sortIcon></th>
-                        <th pSortableColumn="paidAmount">Total Costing<p-sortIcon field="paidAmount"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="dueAmount">Total Area<p-sortIcon field="dueAmount"></p-sortIcon>
-                        </th>
-                        <!-- <th>Actions</th> -->
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-purchase>
-                      <tr>
-                        <td>{{purchase.blockNo}}</td>
-                        <td>{{purchase.height}}</td>
-                        <td>{{purchase.length}}</td>
-                        <td>{{purchase.width}}</td>
-                        <td>₹ {{purchase.totalCosting}}</td>
-                        <td>{{purchase.totalArea}}</td>
-                        <!-- <td><p-button [text]=" true" icon="fa fa-trash"
+                    </tr>
+                  </ng-template>
+                </p-table>
+                <p-table *ngIf="GridDataForLot?.length  > 0" [value]="GridDataForLot" styleClass="p-datatable-striped"
+                  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="purchaseInvoiceNumber">Block No.<p-sortIcon
+                          field="purchaseInvoiceNumber"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="purchaseDate">Height<p-sortIcon field="purchaseDate"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="supplier.name">Length<p-sortIcon field="supplier.name"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="purchaseOrderStatus">Width<p-sortIcon
+                          field="purchaseOrderStatus"></p-sortIcon></th>
+                      <th pSortableColumn="paidAmount">Total Costing<p-sortIcon field="paidAmount"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="dueAmount">Total Area<p-sortIcon field="dueAmount"></p-sortIcon>
+                      </th>
+                      <!-- <th>Actions</th> -->
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-purchase>
+                    <tr>
+                      <td>{{purchase.blockNo}}</td>
+                      <td>{{purchase.height}}</td>
+                      <td>{{purchase.length}}</td>
+                      <td>{{purchase.width}}</td>
+                      <td>₹ {{purchase.totalCosting}}</td>
+                      <td>{{purchase.totalArea}}</td>
+                      <!-- <td><p-button [text]=" true" icon="fa fa-trash"
                             (click)="deleteLot(purchase._id)"></p-button></td> -->
-                        <!-- <td>₹ {{purchase.totalCosting}}</td> 
+                      <!-- <td>₹ {{purchase.totalCosting}}</td> 
                          <td>{{purchase.paymentStatus}}</td>   -->
-                        <!-- <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
+                      <!-- <td style="display: flex;" appShowHide [roles]="['admin', 'super-admin']">
                           <p-button [text]="true" icon="fa-solid fa-eye" (click)="showDialogView(purchase._id)"></p-button>
                           <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"></p-button>
                           <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)" *ngIf="purchase.paymentStatus == 'Unpaid'"></p-button>
                         </td>   -->
-                      </tr>
-                    </ng-template>
-                  </p-table>
+                    </tr>
+                  </ng-template>
+                </p-table>
               </div>
               <div class="row">
                 <div class="col-lg-7 col-md-6">
@@ -247,78 +196,42 @@
                     <h4 class="field-title">More Fields</h4>
                   </div>
                   <div class="invoice-faq">
-                    <div
-                      class="panel-group"
-                      id="accordion"
-                      role="tablist"
-                      aria-multiselectable="true"
-                    >
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                       <div class="faq-tab">
                         <div class="panel panel-default">
                           <div class="panel-heading" role="tab" id="headingTwo">
                             <p class="panel-title">
-                              <a
-                                class="collapsed"
-                                data-bs-toggle="collapse"
-                                data-bs-parent="#accordion"
-                                href="#collapseTwo"
-                                aria-expanded="false"
-                                aria-controls="collapseTwo"
-                              >
+                              <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion"
+                                href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 <i class="fas fa-plus-circle me-1"></i> Add
                                 Terms & Conditions
                               </a>
                             </p>
                           </div>
-                          <div
-                            id="collapseTwo"
-                            class="panel-collapse collapse"
-                            role="tabpanel"
-                            aria-labelledby="headingTwo"
-                            data-bs-parent="#accordion"
-                          >
+                          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                            aria-labelledby="headingTwo" data-bs-parent="#accordion">
                             <div class="panel-body">
-                              <textarea
-                                class="form-control"
-                                formControlName="purchaseReturnTermsAndCondition"
-                              ></textarea>
+                              <textarea class="form-control"
+                                formControlName="purchaseReturnTermsAndCondition"></textarea>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div class="faq-tab">
                         <div class="panel panel-default">
-                          <div
-                            class="panel-heading"
-                            role="tab"
-                            id="headingThree"
-                          >
+                          <div class="panel-heading" role="tab" id="headingThree">
                             <p class="panel-title">
-                              <a
-                                class="collapsed"
-                                data-bs-toggle="collapse"
-                                data-bs-parent="#accordion"
-                                href="#collapseThree"
-                                aria-expanded="false"
-                                aria-controls="collapseThree"
-                              >
+                              <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion"
+                                href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 <i class="fas fa-plus-circle me-1"></i> Add
                                 Notes
                               </a>
                             </p>
                           </div>
-                          <div
-                            id="collapseThree"
-                            class="panel-collapse collapse"
-                            role="tabpanel"
-                            aria-labelledby="headingThree"
-                            data-bs-parent="#accordion"
-                          >
+                          <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                            aria-labelledby="headingThree" data-bs-parent="#accordion">
                             <div class="panel-body">
-                              <textarea
-                                class="form-control"
-                                formControlName="purchaseReturnNotes"
-                              ></textarea>
+                              <textarea class="form-control" formControlName="purchaseReturnNotes"></textarea>
                             </div>
                           </div>
                         </div>
@@ -333,54 +246,38 @@
                       <div class="row p-3">
                         <div class="col-md-12 mt-3">
                           <div class="form-group local-forms">
-                            <label for="purchaseReturnOrderStatus"
-                              >Order Status<span class="login-danger"
-                                >*</span
-                              ></label
-                            >
-                            <p-dropdown
-                              [options]="orderStatusList"
-                              styleClass=""
-                              appendTo="body"
-                              optionLabel="orderStatus"
-                              optionValue="orderStatus"
-                              placeholder="Select  Status"
-                              [style]="{ width: '100%' }"
-                              formControlName="purchaseReturnOrderStatus"
-                              [filter]="true"
-                              filterBy="value"
-                              [showClear]="true"
-                            >
+                            <label for="purchaseReturnOrderStatus">Order Status<span
+                                class="login-danger">*</span></label>
+                            <p-dropdown [options]="orderStatusList" styleClass="" appendTo="body"
+                              optionLabel="orderStatus" optionValue="orderStatus" placeholder="Select  Status"
+                              [style]="{ width: '100%' }" formControlName="purchaseReturnOrderStatus" [filter]="true"
+                              filterBy="value" [showClear]="true">
                             </p-dropdown>
                           </div>
-                          <div
-                        *ngIf="
+                          <div *ngIf="
                           addPurchaseReturnForm
                             .get('purchaseReturnSupplier')
                             ?.hasError('required') &&
                           addPurchaseReturnForm.get(
                             'purchaseReturnSupplier'
                           )?.touched
-                        "
-                      >
-                        <span class="login-danger">Field is required. </span>
-                      </div>
+                        ">
+                            <span class="login-danger">Field is required. </span>
+                          </div>
                         </div>
 
-                        
+
                       </div>
 
                       <div class="invoice-total-inner">
                         <p>
-                          Gross Total<span
-                            >₹
+                          Gross Total<span>₹
                             {{
-                              addPurchaseReturnForm.get("purchaseGrossTotal")
-                                .value | number : "1.2-2"
-                            }}</span
-                          >
+                            addPurchaseReturnForm.get("purchaseGrossTotal")
+                            .value | number : "1.2-2"
+                            }}</span>
                         </p>
-                        
+
                       </div>
 
                       <div class="invoice-total-footer">
@@ -410,11 +307,7 @@
 <p-toast></p-toast>
 
 <!-- Invoices Preview Modal -->
-<div
-  class="modal custom-modal modal-bg fade invoices-preview"
-  id="invoices_preview"
-  role="dialog"
->
+<div class="modal custom-modal modal-bg fade invoices-preview" id="invoices_preview" role="dialog">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-body">
@@ -443,16 +336,8 @@
                 <!-- Invoice Item -->
                 <div class="invoice-item invoice-item-bg">
                   <div class="invoice-circle-img">
-                    <img
-                      src="assets/img/invoice-circle1.png"
-                      alt=""
-                      class="invoice-circle1"
-                    />
-                    <img
-                      src="assets/img/invoice-circle2.png"
-                      alt=""
-                      class="invoice-circle2"
-                    />
+                    <img src="assets/img/invoice-circle1.png" alt="" class="invoice-circle1" />
+                    <img src="assets/img/invoice-circle2.png" alt="" class="invoice-circle2" />
                   </div>
                   <div class="row">
                     <div class="col-lg-4 col-md-12">
@@ -584,11 +469,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4">
                       <div class="invoice-sign text-end">
-                        <img
-                          class="img-fluid d-inline-block"
-                          src="assets/img/signature.png"
-                          alt="sign"
-                        />
+                        <img class="img-fluid d-inline-block" src="assets/img/signature.png" alt="sign" />
                         <span class="d-block">Harristemp</span>
                       </div>
                     </div>
@@ -605,23 +486,14 @@
 <!-- /Invoices Preview Modal -->
 
 <!-- Add Invoices Modal -->
-<div
-  class="modal custom-modal modal-bg fade bank-details"
-  id="bank_details"
-  role="dialog"
->
+<div class="modal custom-modal modal-bg fade bank-details" id="bank_details" role="dialog">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <div class="form-header text-start mb-0">
           <h4 class="mb-0">Add Bank Details</h4>
         </div>
-        <button
-          type="button"
-          class="close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -631,21 +503,13 @@
             <div class="col-lg-6 col-md-6">
               <div class="form-group">
                 <label for="Account">Account Holder Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Add Name"
-                />
+                <input type="text" class="form-control" placeholder="Add Name" />
               </div>
             </div>
             <div class="col-lg-6 col-md-6">
               <div class="form-group">
                 <label for="Bank ">Bank name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Add Bank name"
-                />
+                <input type="text" class="form-control" placeholder="Add Bank name" />
               </div>
             </div>
             <div class="col-lg-6 col-md-6">
@@ -665,12 +529,7 @@
       </div>
       <div class="modal-footer">
         <div class="bank-details-btn">
-          <a
-            href="javascript:void(0);"
-            data-bs-dismiss="modal"
-            class="btn bank-cancel-btn me-2"
-            >Cancel</a
-          >
+          <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn bank-cancel-btn me-2">Cancel</a>
           <a href="javascript:void(0);" class="btn bank-save-btn">Save Item</a>
         </div>
       </div>
@@ -680,11 +539,7 @@
 <!-- /Add Invoices Modal -->
 
 <!-- Delete Invoices Modal -->
-<div
-  class="modal custom-modal modal-bg fade"
-  id="delete_invoices_details"
-  role="dialog"
->
+<div class="modal custom-modal modal-bg fade" id="delete_invoices_details" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body">
@@ -695,20 +550,10 @@
         <div class="modal-btn delete-action">
           <div class="row">
             <div class="col-6">
-              <a
-                href="javascript:void(0);"
-                data-bs-dismiss="modal"
-                class="btn btn-primary paid-continue-btn"
-                >Delete</a
-              >
+              <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Delete</a>
             </div>
             <div class="col-6">
-              <a
-              href="javascript:void(0);"
-              data-bs-dismiss="modal"
-              class="btn btn-primary paid-cancel-btn"
-              >Cancel</a
-              >
+              <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn">Cancel</a>
             </div>
           </div>
         </div>
@@ -717,4 +562,3 @@
   </div>
 </div>
 <!-- /Delete Invoices Modal -->
-      

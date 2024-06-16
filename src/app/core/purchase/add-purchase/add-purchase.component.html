@@ -46,7 +46,8 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseInvoiceNumber">Invoice Number<span class="login-danger"></span></label>
-                      <input type="text" class="form-control" placeholder="Enter Incoice Number" formControlName="purchaseInvoiceNumber" />
+                      <input type="text" class="form-control" placeholder="Enter Incoice Number"
+                        formControlName="purchaseInvoiceNumber" />
                       <span style="color: #97704f;     font-size: 12px;
                                             ">Leave it blank to generate automatically</span>
                     </div>
@@ -55,8 +56,8 @@
                     <div class="form-group local-forms">
                       <label for="supplier">Supplier Name<span class="login-danger">*</span></label>
                       <p-dropdown [style]="{ width: '100%' }" placeholder="--Select Supplier--"
-                        [options]="SupplierLists" formControlName="supplier" optionLabel="name"
-                        optionValue="_id" display="chip" [showClear]="true"></p-dropdown>
+                        [options]="SupplierLists" formControlName="supplier" optionLabel="name" optionValue="_id"
+                        display="chip" [showClear]="true"></p-dropdown>
 
                       <div
                         *ngIf="addPurchaseForm.get('supplier')?.hasError('required')  && addPurchaseForm.get('supplier')?.touched">
@@ -68,8 +69,8 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseDate">purchase Date<span class="login-danger">*</span></label>
-                      <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy" formControlName="purchaseDate"
-                        placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
+                      <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                        formControlName="purchaseDate" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
                       <div
                         *ngIf="addPurchaseForm.get('purchaseDate')?.hasError('required')  && addPurchaseForm.get('purchaseDate')?.touched">
                         <span class="login-danger">Field is required. </span>
