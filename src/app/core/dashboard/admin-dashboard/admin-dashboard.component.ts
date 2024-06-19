@@ -69,13 +69,8 @@ export class AdminDashboardComponent {
   public routes = routes;
   public selectedValue!: string;
   @ViewChild("chart") chart!: ChartComponent;
-  // public chartOptionsOne: Partial<ChartOptions>;
-  // public chartOptionsTwo: Partial<ChartOptions>;
-  // public chartOptionsThree: Partial<ChartOptions>;
   maxDate = new Date();
   rangeDates: any;
-  // public recentPatients: Array<recentPatients> = [];
-  // public upcomingAppointments: Array<upcomingAppointments> = [];
   userData: any = {};
   dataForFirstChat: any;
   optionsForFirstChat: any;
@@ -97,132 +92,13 @@ export class AdminDashboardComponent {
   financialSummaryData: any;
   barChartData: any;
   CategorySlabs: any;
+  rangeDatesForAip: any[];
 
   constructor(
     // public data: DataService,
     private Service: dashboardService,
     private crypto: AESEncryptDecryptService
   ) {
-    // this.chartOptionsOne = {
-    //   chart: {
-    //     height: 230,
-    //     type: "bar",
-    //     stacked: true,
-    //     toolbar: {
-    //       show: false,
-    //     },
-    //   },
-    //   grid: {
-    //     show: true,
-    //     xaxis: {
-    //       lines: {
-    //         show: false,
-    //       },
-    //     },
-    //     yaxis: {
-    //       lines: {
-    //         show: true,
-    //       },
-    //     },
-    //   },
-    //   responsive: [
-    //     {
-    //       breakpoint: 480,
-    //       options: {
-    //         legend: {
-    //           position: "bottom",
-    //           offsetX: -10,
-    //           offsetY: 0,
-    //         },
-    //       },
-    //     },
-    //   ],
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: false,
-    //       columnWidth: "15%",
-    //     },
-    //   },
-    //   stroke: {
-    //     show: true,
-    //     width: 6,
-    //     colors: ["transparent"],
-    //   },
-    //   dataLabels: {
-    //     enabled: false,
-    //   },
-    //   series: [
-    //     {
-    //       name: "Low",
-    //       color: "#D5D7ED",
-    //       data: [20, 30, 41, 67, 22, 43, 40, 10, 30, 20, 40],
-    //     },
-    //     {
-    //       name: "High",
-    //       color: "#2E37A4",
-    //       data: [13, 23, 20, 8, 13, 27, 30, 25, 10, 15, 20],
-    //     },
-    //   ],
-    //   xaxis: {
-    //     categories: [
-    //       "Jan",
-    //       "Feb",
-    //       "Mar",
-    //       "Apr",
-    //       "May",
-    //       "Jun",
-    //       "Jul",
-    //       "Aug",
-    //       "Sep",
-    //       "Oct",
-    //       "Nov",
-    //       "Dec",
-    //     ],
-    //     axisBorder: {
-    //       show: false, // set to false to hide the vertical gridlines
-    //     },
-    //   },
-    // };
-    // this.chartOptionsTwo = {
-    //   series: [44, 55, 41, 17],
-    //   chart: {
-    //     type: "donut",
-    //     height: 200,
-    //     width: 200,
-    //     toolbar: {
-    //       show: false,
-    //     },
-    //   },
-    //   legend: {
-    //     show: false,
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: false,
-    //       columnWidth: "50%",
-    //     },
-    //   },
-
-    //   dataLabels: {
-    //     enabled: false,
-    //   },
-    //   labels: ["Male", "Female"],
-    //   responsive: [
-    //     {
-    //       breakpoint: 480,
-    //       options: {
-    //         chart: {
-    //           width: 200,
-    //         },
-    //         legend: {
-    //           position: "bottom",
-    //         },
-    //       },
-    //     },
-    //   ],
-    // };
-    // this.recentPatients = this.data.recentPatients;
-    // this.upcomingAppointments = this.data.upcomingAppointments;
     this.userData = this.crypto.getData("currentUser");
   }
   formatDate(date: Date): string {
@@ -232,33 +108,7 @@ export class AdminDashboardComponent {
     return `${month}/${day}/${year}`;
   }
 
-  cardList: any = [
-    {
-      cardHeading: "Total Sales",
-      numValueOne: "56",
-      numValueTwo: "60%",
-    },
-    {
-      cardHeading: "Total Expenses",
-      numValueOne: "45",
-      numValueTwo: "98%",
-    },
-    {
-      cardHeading: "Payment Sent",
-      numValueOne: "12",
-      numValueTwo: "78%",
-    },
-    {
-      cardHeading: "Payment Received",
-      numValueOne: "32",
-      numValueTwo: "71%",
-    },
-    {
-      cardHeading: "Total Payment Due",
-      numValueOne: "23",
-      numValueTwo: "01%",
-    },
-  ];
+  
   ngOnInit(): void {
     this.maxDate = new Date();
     const startDate = new Date();
@@ -333,15 +183,15 @@ export class AdminDashboardComponent {
 
       console.log(formattedDate1);
       console.log(formattedDate2);
-      //this.rangeDates = [formattedDate1, formattedDate2];
       // Call the API when the date range changes
       this.apiCall(formattedDate1,formattedDate2);
     }
   }
   apiCall(startData,endData): void {
     console.log(this.rangeDates);
-    console.log(startData,endData);
-    this.Service.getFinancialSummary(this.rangeDates).subscribe(
+    this.rangeDatesForAip = [startData, endData];
+    console.log(startData,endData,this.rangeDates);
+    this.Service.getFinancialSummary(this.rangeDatesForAip).subscribe(
       (resp: any) => {
         console.log(resp.data);
         this.financialSummaryData = resp.data;
@@ -350,7 +200,7 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getMonthlySalesPurchasesAndCharts(this.rangeDates).subscribe(
+    this.Service.getMonthlySalesPurchasesAndCharts(this.rangeDatesForAip).subscribe(
       (resp: any) => {
         console.log(resp);
         this.barChartData = resp.barChartData;
@@ -361,7 +211,7 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getStockSummary(this.rangeDates).subscribe(
+    this.Service.getStockSummary(this.rangeDatesForAip).subscribe(
       (resp: any) => {
         console.log(resp);
         // this.financialSummaryData = resp.data;
@@ -371,7 +221,7 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getStockAlert(this.rangeDates).subscribe(
+    this.Service.getStockAlert(this.rangeDatesForAip).subscribe(
       (resp: any) => {
         console.log(resp.data);
         // this.financialSummaryData = resp.data;
@@ -380,7 +230,7 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getTopCustomers(this.rangeDates).subscribe(
+    this.Service.getTopCustomers(this.rangeDatesForAip).subscribe(
       (resp: any) => {
         console.log(resp);
         this.allSlabsDaTa = resp.data
@@ -390,11 +240,21 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getPaymentSentRecivedByMonth(this.rangeDates).subscribe(
+    this.Service.getPaymentSentRecivedByMonth(this.rangeDatesForAip).subscribe(
       (resp: any) => {
         console.log(resp);
         // this.financialSummaryData = resp.data;
         this.setDataForSecondChart(resp.barChartData);
+      },
+      (error: any) => {
+        console.error("Error fetching financial summary:", error);
+      }
+    );
+    this.Service.getRecentSales(this.rangeDatesForAip).subscribe(
+      (resp: any) => {
+        console.log(resp);
+        // this.financialSummaryData = resp.data;
+        // this.setDataForSecondChart(resp.barChartData);
       },
       (error: any) => {
         console.error("Error fetching financial summary:", error);
@@ -484,40 +344,5 @@ export class AdminDashboardComponent {
     };
   }
 
-  // public sortData(sort: Sort) {
-  //   const data = this.recentPatients.slice();
-  //   const datas = this.upcomingAppointments.slice();
-
-  //   if (!sort.active || sort.direction === "") {
-  //     this.recentPatients = data;
-  //     this.upcomingAppointments = datas;
-  //   } else {
-  //     this.recentPatients = data.sort((a, b) => {
-  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //       const aValue = (a as any)[sort.active];
-  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //       const bValue = (b as any)[sort.active];
-  //       return (aValue < bValue ? -1 : 1) * (sort.direction === "asc" ? 1 : -1);
-  //     });
-  //     this.upcomingAppointments = datas.sort((a, b) => {
-  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //       const aValue = (a as any)[sort.active];
-  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //       const bValue = (b as any)[sort.active];
-  //       return (aValue < bValue ? -1 : 1) * (sort.direction === "asc" ? 1 : -1);
-  //     });
-  //   }
-  // }
-  selecedList: data[] = [
-    { value: "2022" },
-    { value: "2021" },
-    { value: "2020" },
-    { value: "2019" },
-  ];
-  selecedLists: data[] = [
-    { value: "This Week" },
-    { value: "Last Week" },
-    { value: "This Month" },
-    { value: "Last Month" },
-  ];
+  
 }

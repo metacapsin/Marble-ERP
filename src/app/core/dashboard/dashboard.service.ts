@@ -50,4 +50,10 @@ export class dashboardService {
       data
     );
   }
+  getRecentSales(data: {} | null) {
+    return this.http.post(
+      environment.apiUrl + "/DashboardController/getRecentSales",
+      data
+    );
+  }
 }
