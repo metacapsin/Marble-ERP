@@ -59,27 +59,29 @@ export class ViewBlockProcessorComponent {
 
   maxDate = new Date()
 
+  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
+
+
   constructor(
     private activeRoute: ActivatedRoute,
     private blockProcessorService: blockProcessorService,
-    private PaymentOutService: PaymentOutService,
     private messageService: MessageService,
     private fb: FormBuilder,
     public dialog: MatDialog,
   ) {
     this.addSlabProcessingForm = this.fb.group({
-      processingInvoiceNo: [''],
+      processingInvoiceNo: ['', [Validators.pattern(this.invoiceRegex)]],
       processor: [''],
       slab: [''],
-      processingCost: [''],
-      processingDate: [''],
+      processingCost: ['', [Validators.required, Validators.min(1)]],
+      processingDate: ['', [Validators.required]],
       note: [''],
     });
     this.editSlabProcessingForm = this.fb.group({
-      processingInvoiceNo: [''],
+      processingInvoiceNo: ['', [Validators.pattern(this.invoiceRegex)]],
       processor: [''],
       slab: [''],
-      processingCost: ['', [Validators.required]],
+      processingCost: ['', [Validators.required, Validators.min(1)]],
       processingDate: ['', [Validators.required]],
       note: [''],
     });
@@ -119,8 +121,6 @@ export class ViewBlockProcessorComponent {
           processingCost: e.purchaseCost
         }
       }));
-      console.log(this.blockProcessorData);
-
     });
   }
   getBlockProcessor() {

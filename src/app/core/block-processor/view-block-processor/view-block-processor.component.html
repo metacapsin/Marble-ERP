@@ -1,216 +1,219 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active"><a [routerLink]="routes.blockProcessor">Block Processor</a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">View Block Processor</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+            <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active"><a [routerLink]="routes.blockProcessor">Block Processor</a></li>
+            <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active">View Block Processor</li>
+          </ul>
         </div>
+      </div>
+    </div>
 
-        <div class="page-header invoices-page-header">
+    <div class="page-header invoices-page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <ul class="breadcrumb invoices-breadcrumb d-flex justify-content-between">
+            <li class="breadcrumb-item invoices-breadcrumb-item">
+              <a [routerLink]="routes.blockProcessor">
+                <i class="fa fa-chevron-left"></i> Back to Block Processor List
+              </a>
+            </li>
+            <li>
+              Created On: {{blockProcessorData.createdOn | date: "dd-MMM-yyyy"}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="page-table-header mb-2 m-3">
+            <div class="row practice-card">
+              <div class="col-xl-6 col-lg-6 col-sm-12">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Name</h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-lg-9 col-form-label">{{blockProcessorData.name}}</p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Email</h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-lg-9 col-form-label">{{blockProcessorData.email}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-12">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone Number</h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{blockProcessorData.phoneNo}}</p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Tax Number</h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{blockProcessorData.taxNumber}}</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <p-tabView>
+        <p-tabPanel header="Purchase">
+          <div class="page-table-header mb-2">
             <div class="row align-items-center">
               <div class="col">
-                <ul class="breadcrumb invoices-breadcrumb d-flex justify-content-between">
-                  <li class="breadcrumb-item invoices-breadcrumb-item">
-                    <a [routerLink]="routes.blockProcessor">
-                      <i class="fa fa-chevron-left"></i> Back to Block Processor List
-                    </a>
-                  </li>
-                  <li>
-                    Created On: {{blockProcessorData.createdOn | date: "dd-MMM-yyyy"}}
-                  </li>
-                </ul>
+                <div class="doctor-table-blk">
+                  <h3>Processed Slab List</h3>
+                  <div class="doctor-search-blk">
+                    <div class="add-group textbtn">
+                      <a class="btn btn-primary add-pluss ms-2 " (click)="addSlabProcessing()"><img
+                          src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          <p-table [value]="slabProcessingDataList" styleClass="p-datatable-striped"
+            [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="processingInvoiceNo">
+                  Invoice Number <p-sortIcon field="processingInvoiceNo"></p-sortIcon>
+                  <p-columnFilter type="text" field="processingInvoiceNo" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="processingDate">
+                  Processing Date<p-sortIcon field="processingDate"></p-sortIcon>
+                  <p-columnFilter type="text" field="processingDate" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="slab">
+                  Slab<p-sortIcon field="slab"></p-sortIcon>
+                  <p-columnFilter type="text" field="slab" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="paymentStatus">
+                  Payment Status<p-sortIcon field="paymentStatus"></p-sortIcon>
+                  <p-columnFilter type="text" field="paymentStatus" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="dueAmount">
+                  Due Amount<p-sortIcon field="dueAmount"></p-sortIcon>
+                  <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="paidAmount">
+                  Paid Amount<p-sortIcon field="paidAmount"></p-sortIcon>
+                  <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="processingCost">
+                  Processing Cost<p-sortIcon field="processingCost"></p-sortIcon>
+                  <p-columnFilter type="text" field="processingCost" display="menu"></p-columnFilter>
+                </th>
+                <th width="13%" appShowHide [roles]="['admin', 'super-admin']">
+                  Action
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-processing>
+              <tr>
+                <td class="">
+                  {{ processing.processingInvoiceNo }}
+                </td>
+                <td>
+                  {{ processing.processingDate }}
+                </td>
+                <td class="">
+                  <!-- {{ processing.slab[0].slabName }} -->
+                  adnan
+                </td>
+                <td *ngIf="processing.paymentStatus == 'Partial Paid'"><p-tag severity="Warning"
+                    value="Partial Paid"></p-tag></td>
+                <td *ngIf="processing.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
+                <td *ngIf="processing.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
+                <td class="">
+                  ₹ {{ processing.dueAmount }}
+                </td>
+                <td>
+                  ₹ {{ processing.paidAmount }}
+                </td>
+                <td>
+                  ₹ {{ processing.processingCost }}
+                </td>
+                <td appShowHide [roles]="['admin', 'super-admin']">
+                  <div class="action-buttons">
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card card-table show-entire">
-                    <div class="page-table-header mb-2 m-3">
-                        <div class="row practice-card">
-                            <div class="col-xl-6 col-lg-6 col-sm-12">
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Name</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">{{blockProcessorData.name}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Email</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">{{blockProcessorData.email}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-12">
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone Number</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{blockProcessorData.phoneNo}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Tax Number</h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{blockProcessorData.taxNumber}}</p>
-                                    </div>
-                                </div>
+                    <p-button  *ngIf="processing.paymentStatus == 'Unpaid' "
+                     [text]="true" icon="fa fa-edit" (click)="editSlabProcessing(processing._id)"></p-button>
+                     <div *ngIf="processing.paymentStatus != 'Unpaid'"
+                     class="placeholder"></div>
+                    <p-button
+                      *ngIf="processing.paymentStatus == 'Unpaid' || processing.paymentStatus ==  'Partial Paid'"
+                      [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(processing._id)"></p-button>
+                    <div *ngIf="processing.paymentStatus != 'Unpaid' && processing.paymentStatus != 'Partial Paid'"
+                      class="placeholder"></div>
+                    <p-button [text]="true" icon="fa fa-trash" 
+                      (click)="deleteSlabProcessing(processing._id)"></p-button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
 
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <p-tabView>
-                <p-tabPanel header="Purchase">
-                    <div class="page-table-header mb-2">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <div class="doctor-table-blk">
-                                    <h3>Processed Slab List</h3>
-                                    <div class="doctor-search-blk">
-                                        <div class="add-group textbtn">
-                                            <a class="btn btn-primary add-pluss ms-2 " (click)="addSlabProcessing()"><img
-                                                    src="assets/img/icons/plus.svg" alt=""> Add New</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p-table [value]="slabProcessingDataList" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5"
-                    [rowsPerPageOptions]="[5, 10, 20]" >
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <th pSortableColumn="processingInvoiceNo">
-                          Invoice Number <p-sortIcon field="processingInvoiceNo"></p-sortIcon>
-                          <p-columnFilter type="text" field="processingInvoiceNo" display="menu"></p-columnFilter>
-                        </th>
-                        <th pSortableColumn="processingDate">
-                          Processing Date<p-sortIcon field="processingDate"></p-sortIcon>
-                          <p-columnFilter type="text" field="processingDate" display="menu"></p-columnFilter>
-                        </th>
-                        <th pSortableColumn="slab">
-                          Slab<p-sortIcon field="slab"></p-sortIcon>
-                          <p-columnFilter type="text" field="slab" display="menu"></p-columnFilter>
-                        </th>
-                        <th pSortableColumn="paymentStatus">
-                          Payment Status<p-sortIcon field="paymentStatus"></p-sortIcon>
-                          <p-columnFilter type="text" field="paymentStatus" display="menu"></p-columnFilter>
-                        </th>
-                        <th pSortableColumn="dueAmount">
-                          Due Amount<p-sortIcon field="dueAmount"></p-sortIcon>
-                          <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
-                        </th>
-                        <th pSortableColumn="paidAmount">
-                          Paid Amount<p-sortIcon field="paidAmount"></p-sortIcon>
-                          <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
-                        </th>
-                        <th pSortableColumn="processingCost">
-                          Processing Cost<p-sortIcon field="processingCost"></p-sortIcon>
-                          <p-columnFilter type="text" field="processingCost" display="menu"></p-columnFilter>
-                        </th>
-                        <th width="13%" appShowHide [roles]="['admin', 'super-admin']" >
-                          Action
-                        </th>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-processing>
-                      <tr>
-                        <td class="">
-                          {{ processing.processingInvoiceNo }}
-                        </td>
-                        <td>
-                          {{ processing.processingDate }}
-                        </td>
-                        <td class="">
-                          <!-- {{ processing.slab[0].slabName }} -->
-                            adnan
-                        </td>
-                        <td *ngIf="processing.paymentStatus == 'Partial Paid'"><p-tag severity="Warning"
-                            value="Partial Paid"></p-tag></td>
-                        <td *ngIf="processing.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
-                        <td *ngIf="processing.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
-                        <td class="">
-                            ₹ {{ processing.dueAmount }}
-                        </td>
-                        <td>
-                            ₹ {{ processing.paidAmount }}
-                        </td>
-                        <td>
-                            ₹ {{ processing.processingCost }}
-                        </td>
-                        <td appShowHide [roles]="['admin', 'super-admin']" >
-                        <div class="action-buttons">
-      
-                          <p-button [text]="true" icon="fa fa-edit" (click)="editSlabProcessing(processing._id)" ></p-button>
-                          <!-- <p-button [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(processing._id)"></p-button> -->
-                           
-                    <p-button *ngIf="processing.paymentStatus == 'Unpaid' || processing.paymentStatus ==  'Partial Paid'" [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(processing._id)" ></p-button>
-                    <div *ngIf="processing.paymentStatus != 'Unpaid' && processing.paymentStatus != 'Partial Paid'" class="placeholder"></div>
-                          <p-button [text]="true" icon="fa fa-trash" (click)="deleteSlabProcessing(processing._id)" ></p-button>
-                        </div>
-                        </td>
-                      </tr>
-                    </ng-template>
-                  </p-table>
-      
-                    
-                </p-tabPanel>
+        </p-tabPanel>
 
-                <p-tabPanel header="Payments">
-                    <p-table [value]="slabProcessingPaymentData" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="transactionNo">Transaction No.<p-sortIcon
-                                        field="transactionNo"></p-sortIcon>
-                                    <p-columnFilter type="text" field="transactionNo" display="menu"></p-columnFilter>
-                                </th>
-                                <th pSortableColumn="paymentDate">Payment Date <p-sortIcon
-                                        field="paymentDate"></p-sortIcon>
-                                    <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
-                                </th>
-                                <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon
-                                        field="paymentMode"></p-sortIcon>
-                                    <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
-                                </th>
-                                <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
-                                    <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-payment>
-                            <tr>
-                                <td class="bold">{{payment.transactionNo}}</td>
-                                <td class="bold">{{payment.paymentDate | date: 'dd-MMM-yyyy'}}</td>
-                                <td>{{payment.paymentMode}}</td>
-                                <td>₹ {{payment.amount}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </p-tabPanel>
-            </p-tabView>
-        </div>
+        <p-tabPanel header="Payments">
+          <p-table [value]="slabProcessingPaymentData" styleClass="p-datatable-striped"
+            [tableStyle]="{'min-width': '60rem'}">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="transactionNo">Transaction No.<p-sortIcon field="transactionNo"></p-sortIcon>
+                  <p-columnFilter type="text" field="transactionNo" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
+                  <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
+                  <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
+                  <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-payment>
+              <tr>
+                <td class="bold">{{payment.transactionNo}}</td>
+                <td class="bold">{{payment.paymentDate | date: 'dd-MMM-yyyy'}}</td>
+                <td>{{payment.paymentMode}}</td>
+                <td>₹ {{payment.amount}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-tabPanel>
+      </p-tabView>
     </div>
+  </div>
 </div>
 
 
 
-  
+
 <app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
-[data]="modalData"></app-confirm-dialog>
+  [data]="modalData"></app-confirm-dialog>
 
 
 <app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataById]="paymentObject" [header]="header"
@@ -220,160 +223,188 @@
 
 
 
- <!-- --------- add slab processing --------------- -->
+<!-- --------- add slab processing --------------- -->
 
- <p-dialog header="Add Slab Processing" [(visible)]="addSlabVisible" [modal]="true" [style]="{ width: '50%' }">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form [formGroup]="addSlabProcessingForm" (ngSubmit)="addSlabProcessingFormSubmit()">
-          <div class="row mt-2">
-  
-            <div class="col-12 col-md-6">
-              <div class="form-group local-forms">
-                <label for="processingInvoiceNo">Invoice Number </label>
-                <input class="form-control" type="text" placeholder="" formControlName="processingInvoiceNo">
+<p-dialog header="Add Slab Processing" [(visible)]="addSlabVisible" [modal]="true" [style]="{ width: '50%' }">
+  <div class="modal-content">
+    <div class="modal-body">
+      <form [formGroup]="addSlabProcessingForm" (ngSubmit)="addSlabProcessingFormSubmit()">
+        <div class="row mt-2">
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="processingInvoiceNo">Invoice Number </label>
+              <input class="form-control" type="text" placeholder="" formControlName="processingInvoiceNo">
+              <div *ngIf="
+                                            addSlabProcessingForm.get('processingInvoiceNo')?.hasError(
+                                              'pattern'
+                                            ) && addSlabProcessingForm.get('processingInvoiceNo')?.touched
+                                          ">
+                <span class="login-danger">Input Must be between 2 to 15
+                  characters.</span>
               </div>
             </div>
-  
-            <div class="col-12 col-md-6">
-                <div class="form-group local-forms">
-                    <label for="processingDate">Processing Date <span
-                            class="login-danger">*</span></label>
-                    <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                        formControlName="processingDate" placeholder="mm/dd/yyyy"
-                        [styleClass]="'col-12'"></p-calendar>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-              <div class="form-group local-forms">
-                <label for="processor">Processor Name </label>
-                <div class="form-control">{{ blockProcessorData.name }}</div>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-              <div class="form-group local-forms">
-                <label for="slab">Slab </label>
-                <p-dropdown [options]="slabListData" [style]="{ width: '100%' }" styleClass="" appendTo="body" (onChange)="onSlabSelect($event.value)"
-                optionLabel="slabName" optionValue="_id" placeholder="Select Slab" [filter]="true"filterBy="slabName" formControlName="slab">
-              </p-dropdown>            
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <div class="form-group local-forms">
-                    <label for="processingCost">Processing Cost <span
-                            class="login-danger">*</span></label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">₹</span>
-                        </div>
-                        <input class="form-control" type="number" placeholder="" formControlName="processingCost">
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <div class="form-group local-forms">
-                    <label for="note">Notes </label>
-                        <textarea class="form-control" type="text" placeholder="" formControlName="note"></textarea>                    
-                </div>
-            </div>
-  
-  
-  
-            <div class=" col-12">
-  
-              <div class=" settings-btns text-end m-b-10">
-                <button type="submit" [disabled]="!addSlabProcessingForm.valid" class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
-                <button class="btn btn-secondary"  (click)="addSlabVisible = false">Cancel</button>
-              </div>
-  
-            </div>
-  
           </div>
-        </form>
-      </div>
-    </div>
-  </p-dialog>
 
-
-  <!-- ------------- edit Slab Processing -------------- -->
- <p-dialog header="Edit Slab Processing" [(visible)]="editSlabVisible" [modal]="true" [style]="{ width: '50%' }">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form [formGroup]="editSlabProcessingForm" (ngSubmit)="editSlabProcessingFormSubmit()">
-          <div class="row mt-2">
-  
-            <div class="col-12 col-md-6">
-              <div class="form-group local-forms">
-                <label for="processingInvoiceNo">Invoice Number </label>
-                <input class="form-control" type="text" placeholder="" formControlName="processingInvoiceNo">
-              </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="processingDate">Processing Date <span class="login-danger">*</span></label>
+              <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                formControlName="processingDate" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
             </div>
-  
-            <div class="col-12 col-md-6">
-                <div class="form-group local-forms">
-                    <label for="processingDate">Processing Date <span
-                            class="login-danger">*</span></label>
-                    <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                        formControlName="processingDate" placeholder="mm/dd/yyyy"
-                        [styleClass]="'col-12'"></p-calendar>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-              <div class="form-group local-forms">
-                <label for="processor">Processor Name </label>
-                <div class="form-control">{{editSlabProcessingForm.get('processor').value.name}}</div>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-              <div class="form-group local-forms">
-                <label for="slab">Slab </label>
-                <p-dropdown [options]="slabListData" [style]="{ width: '100%' }" styleClass="" appendTo="body" (onChange)="onSlabSelect($event.value)"
-                optionLabel="slabName" optionValue="_id" placeholder="Select Slab" [filter]="true"filterBy="slabName" formControlName="slab">
-              </p-dropdown>            
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <div class="form-group local-forms">
-                    <label for="processingCost">Processing Cost <span
-                            class="login-danger">*</span></label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">₹</span>
-                        </div>
-                        <input class="form-control" type="number" placeholder="" formControlName="processingCost">
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <div class="form-group local-forms">
-                    <label for="note">Notes </label>
-                        <textarea class="form-control" type="text" placeholder="" formControlName="note" ></textarea>                    
-                </div>
-            </div>
-  
-  
-  
-            <div class=" col-12">
-  
-              <div class=" settings-btns text-end m-b-10">
-                <button type="submit" [disabled]="!editSlabProcessingForm.valid" class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
-                <button class="btn btn-secondary"  (click)="editSlabVisible = false">Cancel</button>
-              </div>
-  
-            </div>
-  
           </div>
-        </form>
-      </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="processor">Processor Name </label>
+              <div class="form-control">{{ blockProcessorData.name }}</div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="slab">Slab </label>
+              <p-dropdown [options]="slabListData" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+                (onChange)="onSlabSelect($event.value)" optionLabel="slabName" optionValue="_id"
+                placeholder="Select Slab" [filter]="true" filterBy="slabName" formControlName="slab">
+              </p-dropdown>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="processingCost">Processing Cost <span class="login-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">₹</span>
+                </div>
+                <input class="form-control" type="number" placeholder="" formControlName="processingCost">
+              </div>
+              <div *ngIf="
+              addSlabProcessingForm.get('processingCost')?.hasError(
+                'min'
+              ) && addSlabProcessingForm.get('processingCost')?.touched
+            ">
+                <span class="login-danger">Input Must be more than 0.</span>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="note">Notes </label>
+              <textarea class="form-control" type="text" placeholder="" formControlName="note"></textarea>
+            </div>
+          </div>
+
+
+
+          <div class=" col-12">
+
+            <div class=" settings-btns text-end m-b-10">
+              <button type="submit" [disabled]="!addSlabProcessingForm.valid"
+                class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
+              <button class="btn btn-secondary" (click)="addSlabVisible = false">Cancel</button>
+            </div>
+
+          </div>
+
+        </div>
+      </form>
     </div>
-  </p-dialog>
+  </div>
+</p-dialog>
+
+
+<!-- ------------- edit Slab Processing -------------- -->
+<p-dialog header="Edit Slab Processing" [(visible)]="editSlabVisible" [modal]="true" [style]="{ width: '50%' }">
+  <div class="modal-content">
+    <div class="modal-body">
+      <form [formGroup]="editSlabProcessingForm" (ngSubmit)="editSlabProcessingFormSubmit()">
+        <div class="row mt-2">
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="processingInvoiceNo">Invoice Number </label>
+              <input class="form-control" type="text" placeholder="" formControlName="processingInvoiceNo">
+              <div *ngIf="
+                                            editSlabProcessingForm.get('processingInvoiceNo')?.hasError(
+                                              'pattern'
+                                            ) && editSlabProcessingForm.get('processingInvoiceNo')?.touched
+                                          ">
+                <span class="login-danger">Input Must be between 2 to 15
+                  characters.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="processingDate">Processing Date <span class="login-danger">*</span></label>
+              <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                formControlName="processingDate" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="processor">Processor Name </label>
+              <div class="form-control">{{editSlabProcessingForm.get('processor').value.name}}</div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="slab">Slab </label>
+              <p-dropdown [options]="slabListData" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+                (onChange)="onSlabSelect($event.value)" optionLabel="slabName" optionValue="_id"
+                placeholder="Select Slab" [filter]="true" filterBy="slabName" formControlName="slab">
+              </p-dropdown>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="processingCost">Processing Cost <span class="login-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">₹</span>
+                </div>
+                <input class="form-control" type="number" placeholder="" formControlName="processingCost">
+              </div>
+              <div *ngIf="
+              editSlabProcessingForm.get('processingCost')?.hasError(
+                'min'
+              ) && editSlabProcessingForm.get('processingCost')?.touched
+            ">
+                <span class="login-danger">Input Must be more than 0.</span>
+              </div>
+              
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="note">Notes </label>
+              <textarea class="form-control" type="text" placeholder="" formControlName="note"></textarea>
+            </div>
+          </div>
+
+
+
+          <div class=" col-12">
+
+            <div class=" settings-btns text-end m-b-10">
+              <button type="submit" [disabled]="!editSlabProcessingForm.valid"
+                class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
+              <button class="btn btn-secondary" (click)="editSlabVisible = false">Cancel</button>
+            </div>
+
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</p-dialog>

@@ -177,7 +177,7 @@ export class AddSalesReturnComponent {
     totalAmount -= discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
-    totalAmount += returnOtherCharges;
+    totalAmount -= returnOtherCharges;
 
     this.addReturnSalesForm.patchValue({
       salesTotalAmount: totalAmount.toFixed(2),

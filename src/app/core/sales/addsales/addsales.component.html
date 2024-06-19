@@ -105,64 +105,48 @@
                                             </tr>
                                         </thead>
                                         <tbody formArrayName="salesItemDetails">
-                                            <tr class="add-row"
-                                                *ngFor="let salesItemDetailsForm of salesItemDetails.controls; let i = index"
-                                                [formGroupName]="i">
+                                            <tr class="add-row" *ngFor="let salesItemDetailsForm of salesItemDetails.controls; let i = index" [formGroupName]="i">
                                                 <td class="col-md-3">
                                                     <p-dropdown [options]="slabList" appendTo="body"
                                                         [style]="{'width':'100%'}" optionLabel="slabName"
                                                         [filter]="true" filterBy="slabName" optionValue="_id"
                                                         formControlName="salesItemProduct" placeholder="Select Product"
                                                         (onChange)="onSlabSelect($event.value, i)"></p-dropdown>
-                                                    <div
-                                                        *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').touched">
+                                                    <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').touched">
                                                         <span class="login-danger">Field is required.</span>
                                                     </div>
                                                 </td>
                                                 <td class="col-md-2">
-                                                    <input type="number" formControlName="salesItemQuantity"
-                                                        (change)="calculateTotalAmount()" class="form-control">
-                                                        <span style="color: #97704f;     font-size: 12px;
-                                            ">Max Quantity: {{addSalesForm.get('salesItemDetails').get(i + '.maxQuantity').value }}</span>
-                                                    <div
-                                                        *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
+                                                    <input type="number" formControlName="salesItemQuantity" (change)="calculateTotalAmount()" class="form-control">
+                                                    <span style="color: #97704f; font-size: 12px;">Max Quantity: {{addSalesForm.get('salesItemDetails').get(i + '.maxQuantity').value }}</span>
+                                                    <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
                                                         <span class="login-danger">Field is required.</span>
                                                     </div>
-                                                    <div
-                                                        *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('min') && addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
+                                                    <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('min') && addSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
                                                         <span class="login-danger">Input must be at least 0.</span>
                                                     </div>
                                                 </td>
                                                 <td class="col-md-2">
-                                                    <input type="number" formControlName="salesItemUnitPrice"
-                                                        (change)="calculateTotalAmount()" class="form-control">
-                                                    <!-- <span class="form-control">{{
-                                                        addSalesForm.get('salesItemDetails').get(i +
-                                                        '.salesItemUnitPrice').value }}</span> -->
+                                                    <input type="number" formControlName="salesItemUnitPrice" (change)="calculateTotalAmount()" class="form-control">
                                                 </td>
                                                 <td class="col-md-2">
                                                     <p-multiSelect [style]="{'width':'100%'}" placeholder="Select Tax"
                                                         [options]="orderTaxList" appendTo="body"
                                                         formControlName="salesItemTax" optionLabel="orderTaxName"
                                                         optionValue="orderNamevalue" display="chip"
-                                                        (onChange)="calculateTotalAmount()"
-                                                        [maxSelectedLabels]="1"></p-multiSelect>
+                                                        (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
                                                 </td>
                                                 <td class="col-md-2">
-                                                    <span class="form-control">{{
-                                                        addSalesForm.get('salesItemDetails').get(i +
-                                                        '.salesItemSubTotal').value }}</span>
+                                                    <span class="form-control">{{ addSalesForm.get('salesItemDetails').get(i + '.salesItemSubTotal').value }}</span>
                                                 </td>
                                                 <td class="add-remove text-end">
-                                                    <p-button [text]="true" icon="fa fa-plus"
-                                                        (click)="addsalesItemDetailsItem()"></p-button>
-                                                    <p-button [text]="true" icon="fa fa-trash"
-                                                        (click)="deletesalesItemDetails(i)"
-                                                        (keyup.enter)="deletesalesItemDetails(i)"></p-button>
+                                                    <p-button [text]="true" icon="fa fa-plus" (click)="addsalesItemDetailsItem()"></p-button>
+                                                    <p-button [text]="true" icon="fa fa-trash" (click)="deletesalesItemDetails(i)" (keyup.enter)="deletesalesItemDetails(i)"></p-button>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                    
 
                                 </div>
                             </div>
@@ -313,21 +297,36 @@
                                             </div>
 
                                             <div class="invoice-total-inner">
-                                                <p>Gross Total<span>₹ {{ addSalesForm.get('salesGrossTotal').value |
-                                                        number:
-                                                        '1.2-2' }}</span></p>
-                                                <p>Discount<span>₹ {{ addSalesForm.get('salesDiscount').value }}</span>
+                                                <p>Gross Total
+                                                    <span *ngIf="addSalesForm.get('salesGrossTotal')?.value != 0">
+                                                        ₹ {{ addSalesForm.get('salesGrossTotal').value | number: '1.2-2' }}
+                                                    </span>
                                                 </p>
-                                                <p>Shipping<span>₹ {{ addSalesForm.get('salesShipping').value }}</span>
+                                                <p>Discount
+                                                    <span *ngIf="addSalesForm.get('salesDiscount')?.value > 0">
+                                                        ₹ {{ addSalesForm.get('salesDiscount').value }}
+                                                    </span>
                                                 </p>
-                                                <p>Other Charges<span>₹ {{ addSalesForm.get('otherCharges').value
-                                                        }}</span></p>
+                                                <p>Shipping
+                                                    <span *ngIf="addSalesForm.get('salesShipping')?.value > 0">
+                                                        ₹ {{ addSalesForm.get('salesShipping').value }}
+                                                    </span>
+                                                </p>
+                                                <p>Other Charges
+                                                    <span *ngIf="addSalesForm.get('otherCharges')?.value > 0">
+                                                        ₹ {{ addSalesForm.get('otherCharges').value }}
+                                                    </span>
+                                                </p>
                                             </div>
-
+                                            
                                             <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>₹ {{ addSalesForm.get('salesTotalAmount').value
-                                                        }}</span></h4>
+                                                <h4>Total Amount
+                                                    <span *ngIf="addSalesForm.get('salesTotalAmount')?.value != 0">
+                                                        ₹ {{ addSalesForm.get('salesTotalAmount').value }}
+                                                    </span>
+                                                </h4>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                     <div class="upload-sign">

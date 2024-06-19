@@ -53,7 +53,7 @@ export class AddsalesComponent implements OnInit {
   orderTaxList = [];
   taxesListData = [];
   public itemDetails: number[] = [0];
-  maxQuantity : number;
+  maxQuantity: number;
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
@@ -152,11 +152,11 @@ export class AddsalesComponent implements OnInit {
       this.slabData = resp.data;
       this.slabList = this.slabData.map(e => ({
         slabName: e.slabName,
-              _id: {
-                _id: e._id,
-                slabName: e.slabName,
-                slabNo: e.slabNo,
-              }
+        _id: {
+          _id: e._id,
+          slabName: e.slabName,
+          slabNo: e.slabNo,
+        }
       }));
     });
   }
@@ -175,39 +175,48 @@ export class AddsalesComponent implements OnInit {
     }); 
   }
   onSlabSelect(value, i) {
-    this.maxQuantity = 0;
     const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
-
+  
     const selectedSlab = this.slabData.find(slab => slab._id === value._id);
   
     if (selectedSlab) {
       console.log('Slab Found', selectedSlab);
   
-      const totalSQFT = selectedSlab.totalSQFT;
-      const sellingPricePerSQFT = selectedSlab.sellingPricePerSQFT;
+      // Calculate remaining quantity for the selected slab
+      let remainingQuantity = selectedSlab.totalSQFT;
+      for (let j = 0; j < salesItemDetailsArray.length; j++) {
+        if (j !== i) {
+          const currentRowSlab = salesItemDetailsArray.at(j)?.get("salesItemProduct").value;
+          if (currentRowSlab && currentRowSlab._id === value._id) {
+            remainingQuantity -= salesItemDetailsArray.at(j)?.get("salesItemQuantity").value || 0;
+          }
+        }
+      }
   
       const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
       const maxQuantityControl = salesItemDetailsArray.at(i)?.get("maxQuantity");
   
       if (salesItemUnitPriceControl) {
-        salesItemUnitPriceControl.patchValue(sellingPricePerSQFT);
+        salesItemUnitPriceControl.patchValue(selectedSlab.sellingPricePerSQFT);
         this.calculateTotalAmount();
       }
       if (maxQuantityControl) {
-        maxQuantityControl.setValue(totalSQFT);
+        maxQuantityControl.setValue(remainingQuantity > 0 ? remainingQuantity : 0);
       }
     } else {
       console.error('Slab not found!');
     }
   }
   
+
+
   calculateTotalAmount() {
     let salesGrossTotal = 0;
-    
+
     const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
-    
+
     salesItems.controls.forEach((item: FormGroup) => {
-      if(item.get("salesItemQuantity").value > item.get("maxQuantity").value){
+      if (item.get("salesItemQuantity").value > item.get("maxQuantity").value) {
         item.get("salesItemQuantity").patchValue(item.get("maxQuantity").value)
       }
       const quantity = +item.get("salesItemQuantity").value || 0;
