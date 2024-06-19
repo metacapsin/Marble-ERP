@@ -22,6 +22,7 @@ import { ConfirmDialogComponent } from "../common-component/modals/confirm-dialo
 import { DateMaskDirective } from "./directives/date-mask.directive";
 import { ShowHideDirective } from "../common-component/show-hide-directive/show-hide.directive";
 import { IndianCurrencyPipe } from "./directives/indian-currency.pipe";
+import { WordWrapPipe } from "./directives/word-wrap.pipe";
 
 @NgModule({
   declarations: [],
@@ -62,6 +63,7 @@ import { IndianCurrencyPipe } from "./directives/indian-currency.pipe";
     DateMaskDirective,
     ShowHideDirective,
     IndianCurrencyPipe,
+    WordWrapPipe,
   ],
   exports: [
     CommonModule,
@@ -86,6 +88,7 @@ import { IndianCurrencyPipe } from "./directives/indian-currency.pipe";
     DateMaskDirective,
     ShowHideDirective,
     IndianCurrencyPipe,
+    WordWrapPipe,
   ],
   providers: [DataService],
 })

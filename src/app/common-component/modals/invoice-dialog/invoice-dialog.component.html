@@ -52,14 +52,14 @@
                     <div class="invoice-info" *ngIf="sales.customer?.billingAddress">
                       <div class="invoice-head justify-content-end">
                         <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Billing Address </span><br>
-                          {{sales.customer.billingAddress}}</p>
+                          <span [innerHTML]="sales.customer.billingAddress | wordWrap:2"></span></p>
 
                       </div>
                     </div>
                     <div class="invoice-info" *ngIf="sales.supplier?.billingAddress">
                       <div class="invoice-head justify-content-end">
                         <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Billing Address </span><br>
-                          {{sales.supplier.billingAddress}}</p>
+                          <span [innerHTML]="sales.supplier.billingAddress | wordWrap:2"></span></p>
                       </div>
                     </div>
                   </div>
@@ -341,9 +341,12 @@
                         <p *ngIf="sales.salesGrossTotal">Gross Total <span>₹ {{sales.salesGrossTotal | indianCurrency}}</span></p>
                         <p *ngIf="sales.salesShipping">Shipping Charges <span>₹ {{sales.salesShipping | indianCurrency}}</span></p>
                         <p *ngIf="sales.salesDiscount">Discount <span>₹ {{sales.salesDiscount | indianCurrency}}</span></p>
+                        <p *ngIf="sales.customer">Post Expenses <span>₹ {{sales.postExpenses | indianCurrency}}</span></p>
                         <p *ngIf="sales.purchaseGrossTotal">Gross Total <span>₹ {{sales.purchaseGrossTotal | indianCurrency}}</span></p>
                         <p *ngIf="sales.purchaseShipping">Shipping Charges <span>₹ {{sales.purchaseShipping | indianCurrency}}</span></p>
                         <p *ngIf="sales.purchaseDiscount">Discount <span>₹ {{sales.purchaseDiscount | indianCurrency}}</span></p>
+                        <p *ngIf="sales.supplier">Post Expenses <span>₹ {{sales.postExpenses | indianCurrency}}</span></p>
+                        <p *ngIf="sales.supplier">Ocean Freight <span>₹ {{sales.oceanFrieght | indianCurrency}}</span></p>
                         <p *ngIf="sales.otherCharges">OtherCharges <span>₹ {{sales.otherCharges | indianCurrency}}</span></p>
 
                       </div>

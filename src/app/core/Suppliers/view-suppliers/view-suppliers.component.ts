@@ -64,6 +64,8 @@ export class ViewSuppliersComponent {
   header = "";
   currentUrl: string;
   supplier: any;
+  paymentInvoicePurchaseDataShowById: any; // to hold purchase data by supplier id for payment invoice
+
 
   constructor(
     private SupplierService: SuppliersdataService,
@@ -293,7 +295,13 @@ export class ViewSuppliersComponent {
         purchaseTotalAmount: resp.data.purchaseTotalAmount,
         purchaseDueAmount: resp.data.dueAmount,
       };
-    });
+    })
+    this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
+      // this.showInvoiceDialog = true;
+      this.paymentInvoicePurchaseDataShowById = [resp.data];
+      // this.header = "Purchase Invoice ";
+      console.log("Purchase data by id On Paymnent dialog", this.purchaseDataShowById);
+    });;
   }
   openPaymentReturnDialog(Id: any) {
     this.purchaseReturnService
@@ -314,6 +322,12 @@ export class ViewSuppliersComponent {
           "this is open Payment Return Dialog",
           this.paymentObject.purchaseReturnId
         );
-      });
+      })
+      this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
+        // this.showInvoiceDialog = true;
+        this.paymentInvoicePurchaseDataShowById = [resp.data];
+        // this.header = "Purchase Invoice ";
+        console.log("Purchase data by id On Paymnent dialog", this.purchaseDataShowById);
+      });;;
   }
 }

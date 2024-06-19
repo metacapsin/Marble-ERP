@@ -430,7 +430,7 @@
   [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()"
   [header]="header"></app-invoice-dialog>
 
-<app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataById]="paymentObject" [header]="header"
+<app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataItemsGrid]="salesDataShowById" [dataById]="paymentObject" [header]="header"
   (callbackModal)="callBackModal()" (close)="close()"></app-payments-invoice-dialog>
 
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"

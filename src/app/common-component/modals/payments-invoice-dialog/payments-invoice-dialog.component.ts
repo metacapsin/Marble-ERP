@@ -49,6 +49,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 export class PaymentsInvoiceDialogComponent implements OnInit {
   @Input() ShowPaymentInvoice: boolean;
   @Input() dataById: any = [];
+  @Input() dataItemsGrid: any ;
   @Input() header:any;
   @Output() callbackModalForPayment = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();

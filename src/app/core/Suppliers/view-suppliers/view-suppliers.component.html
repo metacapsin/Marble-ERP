@@ -455,7 +455,7 @@
     [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()"
     [header]="header"></app-invoice-dialog>
 
-<app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataById]="paymentObject"
+<app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataItemsGrid]="paymentInvoicePurchaseDataShowById" [dataById]="paymentObject"
     (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-payments-invoice-dialog>
 
 <!-- <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"

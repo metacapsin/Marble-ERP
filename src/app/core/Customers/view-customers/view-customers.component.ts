@@ -321,7 +321,14 @@ export class ViewCustomersComponent implements OnInit {
         salesDueAmount: resp.data.dueAmount,
       };
       // console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
-    });
+    })
+    this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
+      // this.showInvoiceDialog = true;
+      this.salesDataShowById = [resp.data];
+      // this.header = "Sales Invoice ";
+      console.log("sales data by id On Payment dialog", this.salesDataShowById);
+    });;
+    
   }
   openPaymentReturnDialog(Id: any) {
     this.salesReturnService.getSalesReturnById(Id).subscribe((resp: any) => {
