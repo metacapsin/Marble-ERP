@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { InvoiceDialogComponent } from 'src/app/common-component/modals/invoice-dialog/invoice-dialog.component';
+import { LocalStorageService } from 'src/app/shared/data/local-storage.service';
 @Component({
   selector: 'app-purchase-return',
   standalone: true,
@@ -67,13 +68,31 @@ export class PurchaseReturnComponent {
   header: string;
   PurchaseReturnListData: any[];
   paymentDataListById: any[];
+  currentUrl: string;
 
 
-  constructor(public data : DataService,private service:PurchaseReturnService,private router: Router,private messageService: MessageService,){
+
+  constructor(public data : DataService,private service:PurchaseReturnService,private router: Router,private messageService: MessageService,
+    private localStorageService:LocalStorageService
+  ){
 
   }
   ngOnInit() {
     this.getPurchaseReturn();
+    this.currentUrl = this.router.url;
+    console.log(this.currentUrl)
+    console.log("this is current url on purchase page",this.currentUrl)
+
+    this.localStorageService.removeItem('supplier1');
+    this.localStorageService.removeItem('returnUrl');
+
+  }
+  navigateToCreatePurchaseReturn() {
+    const returnUrl = this.router.url;
+    this.router.navigate(['purchase-return/add-purchase-return']);
+    this.localStorageService.setItem('returnUrl',returnUrl);
+
+    // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
   getPurchaseReturn() {
     this.service.getPurchaseReturnList().subscribe((resp: any) => {

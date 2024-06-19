@@ -121,10 +121,25 @@
         <div class="card">
             <p-tabView>
                 <p-tabPanel header="Purchase">
-                    <div class="tab-header">
+                    <div class="page-table-header mb-2">
+                        <div class="row align-items-center">
+                          <div class="col">
+                            <div class="doctor-table-blk">
+                              <h3>Purchase List</h3>
+                              <div class="doctor-search-blk">
+                                <div class="add-group textbtn">
+                                  <a class="btn btn-primary add-pluss ms-2 " (click)="navigateToCreatePurchase()"><img
+                                      src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <!-- <div class="tab-header">
                         <span class="header-text">Purchase</span>
                         <button pButton type="button" label="Create Purchase" icon="pi pi-plus" (click)="navigateToCreatePurchase()"></button>
-                    </div>
+                    </div> -->
                     <p-table [value]="purchaseDataShowById" styleClass="p-datatable-striped"
                         [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5"
                         [rowsPerPageOptions]="[5, 10, 20]">
@@ -267,10 +282,26 @@
                 </p-tabPanel>
                 <!-- ---- Purchase Return ------ -->
                 <p-tabPanel header="Purchase Return">
-                    <div class="tab-header">
+                    <div class="page-table-header mb-2">
+                        <div class="row align-items-center">
+                          <div class="col">
+                            <div class="doctor-table-blk">
+                              <h3>Purchase Return List</h3>
+                              <div class="doctor-search-blk">
+                                <div class="add-group textbtn">
+                                  <a class="btn btn-primary add-pluss ms-2 " (click)="navigateToCreatePurchaseReturn()"><img
+                                      src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    <!-- <div class="tab-header">
                         <span class="header-text">Purchase Return</span>
                         <button pButton type="button" label="Create Purchase Return" icon="pi pi-plus" (click)="navigateToCreatePurchaseReturn()"></button>
-                    </div>
+                    </div> -->
                     <p-table [value]="purchaseReturnDataShowById" styleClass="p-datatable-striped"
                         [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5"
                         [rowsPerPageOptions]="[5, 10, 20]">

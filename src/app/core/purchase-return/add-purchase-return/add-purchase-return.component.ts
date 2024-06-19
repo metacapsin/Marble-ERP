@@ -1,6 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
 import { MultiSelectModule } from "primeng/multiselect";
 import { routes } from "src/app/shared/routes/routes";
@@ -65,7 +71,7 @@ export class AddPurchaseReturnComponent implements OnInit {
   ];
   orderTaxList = [];
   taxesListData = [];
-  SupplierLists :any= [];
+  SupplierLists: any = [];
   blockDataWithLotId: any;
   purchaseSlabData: any;
   SlabAddValue: any;
@@ -91,7 +97,9 @@ export class AddPurchaseReturnComponent implements OnInit {
   slabData: any;
   unselectedSlab: any;
   LotData: any;
-  supplier: any[] = [];
+  supplier: any = [];
+  returnUrl: string;
+
 
   constructor(
     private taxService: TaxesService,
@@ -106,13 +114,12 @@ export class AddPurchaseReturnComponent implements OnInit {
     private messageService: MessageService,
     private subCategoriesService: SubCategoriesService,
     private localStorageService: LocalStorageService
-
   ) {
     this.addPurchaseReturnForm = this.fb.group({
-      purchaseReturnInvoiceNumber: ["",[Validators.required]],
-      purchaseReturnSupplier: ["",[Validators.required]],
-      purchaseReturnDate: ["",[Validators.required]],
-      purchaseReturnOrderStatus: ["",[Validators.required]],
+      purchaseReturnInvoiceNumber: ["", [Validators.required]],
+      purchaseReturnSupplier: ["", [Validators.required]],
+      purchaseReturnDate: ["", [Validators.required]],
+      purchaseReturnOrderStatus: ["", [Validators.required]],
       purchaseReturnTermsAndCondition: [""],
       purchaseReturnNotes: [""],
       purchaseReturnTotalAmount: [""],
@@ -135,14 +142,18 @@ export class AddPurchaseReturnComponent implements OnInit {
         console.log(resp);
         if (resp && resp.data && Array.isArray(resp.data)) {
           this.purchaseDataById = resp.data;
-          this.LotData = this.purchaseDataById.filter((lot) => lot.purchaseType == 'lot');
-          if(this.LotData.length){
+          this.LotData = this.purchaseDataById.filter(
+            (lot) => lot.purchaseType == "lot"
+          );
+          if (this.LotData.length) {
             // console.log("object","set it");
             const message = "Lot can not return";
             this.messageService.add({ severity: "error", detail: message });
           }
-          this.slabData = this.purchaseDataById.filter((slab) => slab.purchaseType == 'slab');
-// console.log(data);
+          this.slabData = this.purchaseDataById.filter(
+            (slab) => slab.purchaseType == "slab"
+          );
+          // console.log(data);
 
           this.purchaseDataByInvoiceNumber = [];
           this.slabData.forEach((element) => {
@@ -160,7 +171,7 @@ export class AddPurchaseReturnComponent implements OnInit {
         console.error("Error fetching data from service", error);
       }
     );
-    this.PurchaseReturnDataById.purchaseType = ''
+    this.PurchaseReturnDataById.purchaseType = "";
   }
   // slabValues(slabValue: any) {
   //   this.SlabAddValue = 0;
@@ -181,30 +192,35 @@ export class AddPurchaseReturnComponent implements OnInit {
     this.SlabAddValue = 0;
     this.GridDataForLot = [];
     this.GridDataForSlab = slabValue || [];
-    console.log('Selected Slab Value:', slabValue);
-    console.log('Selected Lots:', this.purchaseSlabData);
+    console.log("Selected Slab Value:", slabValue);
+    console.log("Selected Lots:", this.purchaseSlabData);
 
     // Ensure the slabValue array is not empty
-    if (!Array.isArray(this.GridDataForSlab) || this.GridDataForSlab.length === 0) {
-        console.warn('No slab values provided or slabValue is not an array.');
-        return;
+    if (
+      !Array.isArray(this.GridDataForSlab) ||
+      this.GridDataForSlab.length === 0
+    ) {
+      console.warn("No slab values provided or slabValue is not an array.");
+      return;
     }
 
     // Filter out unselected lots
-    this.unselectedSlab = this.purchaseSlabData.filter(lot => !this.GridDataForSlab.includes(lot));
-    console.log('Unselected Slabs:', this.unselectedSlab);
-    this.unselectedSlab.forEach(element => {
-        const totalCosting = parseFloat(element.totalCosting);
-        if (!isNaN(totalCosting)) {
-            this.SlabAddValue += totalCosting;
-        } else {
-            console.error('Invalid totalCosting value:', element.totalCosting);
-        }
+    this.unselectedSlab = this.purchaseSlabData.filter(
+      (lot) => !this.GridDataForSlab.includes(lot)
+    );
+    console.log("Unselected Slabs:", this.unselectedSlab);
+    this.unselectedSlab.forEach((element) => {
+      const totalCosting = parseFloat(element.totalCosting);
+      if (!isNaN(totalCosting)) {
+        this.SlabAddValue += totalCosting;
+      } else {
+        console.error("Invalid totalCosting value:", element.totalCosting);
+      }
     });
     this.subFromPurchaseTotalAmount(this.SlabAddValue);
-    console.log('Slab Add Value:', this.SlabAddValue);
-    console.log('Grid Data For Slab:', this.GridDataForSlab);
-}
+    console.log("Slab Add Value:", this.SlabAddValue);
+    console.log("Grid Data For Slab:", this.GridDataForSlab);
+  }
   lotValues(lotValue: any) {
     this.GridDataForSlab = [];
     this.lotAddValue = 0;
@@ -224,7 +240,6 @@ export class AddPurchaseReturnComponent implements OnInit {
     });
     this.subFromPurchaseTotalAmount(this.lotAddValue || 0);
     console.log(this.lotAddValue);
-    
   }
   subFromPurchaseTotalAmount(subTotal: any) {
     this.totalValue = 0;
@@ -241,7 +256,7 @@ export class AddPurchaseReturnComponent implements OnInit {
     //     purchaseGrossTotal: this.getpurchaseTotalAmount,
     //   });
     // }
-    if(this.totalSlab){
+    if (this.totalSlab) {
       this.totalValue = (this.totalSlab - subTotal).toFixed(2);
       // this.totalValue = subTotal;
       this.addPurchaseReturnForm.patchValue({
@@ -290,14 +305,22 @@ export class AddPurchaseReturnComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.SupplierLists = this.getSupplierData(); 
+    this.SupplierLists = this.getSupplierData();
 
-    this.supplier = this.localStorageService.getItem('supplier');
-    console.log("this is supplier data by local sotrage service",this.supplier)
-      this.addPurchaseReturnForm.patchValue({ 
-        purchaseReturnSupplier: this.supplier
-      }
+    this.supplier = this.localStorageService.getItem("supplier1");
+    this.returnUrl=this.localStorageService.getItem('returnUrl')
+    console.log(this.returnUrl)
+
+    console.log(
+      "this is supplier data by local sotrage service",
+      this.supplier
     );
+    if (this.supplier) {
+      this.addPurchaseReturnForm.patchValue({
+        purchaseReturnSupplier: this.supplier,
+      });
+      this.onSuppliersSelect(this.supplier._id)
+    }
 
     this.unitService.getAllUnitList().subscribe((resp: any) => {
       this.unitListData = resp.data;
@@ -319,10 +342,9 @@ export class AddPurchaseReturnComponent implements OnInit {
       });
     });
     this.getSupplierData();
-    
   }
 
-  getSupplierData(){
+  getSupplierData() {
     this.Service.GetSupplierData().subscribe((data: any) => {
       this.getSupplierShow = data;
       this.SupplierLists = [];
@@ -340,95 +362,97 @@ export class AddPurchaseReturnComponent implements OnInit {
   }
 
   calculateTotalAmount() {
-  //    .log("Enter in caltotal");
-  //   let totalAmount = 0;
-  //   let purchaseGrossTotal = 0;
-  //   let totalTax = 0;
-
-  //   const purchaseItems = this.addPurchaseReturnForm.get(
-  //     "purchaseReturnDetails"
-  //   ) as FormArray;
-
-  //   purchaseItems.controls.forEach((item: FormGroup) => {
-  //     const quantity = +item.get("purchaseReturnQuantity").value || 0;
-  //     const unitPrice = +item.get("purchaseReturnUnitPrice").value || 0;
-  //     const subtotal = quantity * unitPrice;
-
-  //     purchaseGrossTotal += subtotal;
-
-  //     item.get("purchaseItemSubTotal").setValue(subtotal.toFixed(2));
-  //   });
-
-  //   if (
-  //     Array.isArray(this.addPurchaseReturnForm.get("purchaseOrderTax").value)
-  //   ) {
-  //     this.addPurchaseReturnForm
-  //       .get("purchaseOrderTax")
-  //       .value.forEach((element) => {
-  //         totalTax += Number(element.taxRate);
-  //       });
-  //   } else {
-  //     totalTax += Number(
-  //       this.addPurchaseReturnForm.get("purchaseOrderTax").value
-  //     );
-  //   }
-
-  //   this.addTaxTotal = (purchaseGrossTotal * totalTax) / 100;
-  //   let shipping = +this.addPurchaseReturnForm.get("purchaseReturnShipping")
-  //     .value;
-  //   let Discount = +this.addPurchaseReturnForm.get("purchaseReturnDiscount")
-  //     .value;
-  //   let otherCharges = +this.addPurchaseReturnForm.get("otherCharges").value;
-
-  //   totalAmount += purchaseGrossTotal;
-  //   totalAmount += this.addTaxTotal;
-  //   totalAmount -= Discount;
-  //   totalAmount += shipping;
-  //   totalAmount += otherCharges;
-
-  //   this.addPurchaseReturnForm.patchValue({
-  //     purchaseGrossTotal: purchaseGrossTotal.toFixed(2),
-  //     purchaseDiscount: Discount.toFixed(2),
-  //     purchaseShipping: shipping.toFixed(2),
-  //     purchaseTotalAmount: totalAmount.toFixed(2),
-  //     otherCharges: otherCharges.toFixed(2),
-  //   });
+    //    .log("Enter in caltotal");
+    //   let totalAmount = 0;
+    //   let purchaseGrossTotal = 0;
+    //   let totalTax = 0;
+    //   const purchaseItems = this.addPurchaseReturnForm.get(
+    //     "purchaseReturnDetails"
+    //   ) as FormArray;
+    //   purchaseItems.controls.forEach((item: FormGroup) => {
+    //     const quantity = +item.get("purchaseReturnQuantity").value || 0;
+    //     const unitPrice = +item.get("purchaseReturnUnitPrice").value || 0;
+    //     const subtotal = quantity * unitPrice;
+    //     purchaseGrossTotal += subtotal;
+    //     item.get("purchaseItemSubTotal").setValue(subtotal.toFixed(2));
+    //   });
+    //   if (
+    //     Array.isArray(this.addPurchaseReturnForm.get("purchaseOrderTax").value)
+    //   ) {
+    //     this.addPurchaseReturnForm
+    //       .get("purchaseOrderTax")
+    //       .value.forEach((element) => {
+    //         totalTax += Number(element.taxRate);
+    //       });
+    //   } else {
+    //     totalTax += Number(
+    //       this.addPurchaseReturnForm.get("purchaseOrderTax").value
+    //     );
+    //   }
+    //   this.addTaxTotal = (purchaseGrossTotal * totalTax) / 100;
+    //   let shipping = +this.addPurchaseReturnForm.get("purchaseReturnShipping")
+    //     .value;
+    //   let Discount = +this.addPurchaseReturnForm.get("purchaseReturnDiscount")
+    //     .value;
+    //   let otherCharges = +this.addPurchaseReturnForm.get("otherCharges").value;
+    //   totalAmount += purchaseGrossTotal;
+    //   totalAmount += this.addTaxTotal;
+    //   totalAmount -= Discount;
+    //   totalAmount += shipping;
+    //   totalAmount += otherCharges;
+    //   this.addPurchaseReturnForm.patchValue({
+    //     purchaseGrossTotal: purchaseGrossTotal.toFixed(2),
+    //     purchaseDiscount: Discount.toFixed(2),
+    //     purchaseShipping: shipping.toFixed(2),
+    //     purchaseTotalAmount: totalAmount.toFixed(2),
+    //     otherCharges: otherCharges.toFixed(2),
+    //   });
   }
   addPurchaseReturnFormSubmit() {
-    const purchaseReturnItemDetails = [{
-      purchaseSlab:this.addPurchaseReturnForm.value.purchaseSlab
-  }]
+    const purchaseReturnItemDetails = [
+      {
+        purchaseSlab: this.addPurchaseReturnForm.value.purchaseSlab,
+      },
+    ];
     console.log(purchaseReturnItemDetails);
     const payload = {
-      purchaseReturnInvoiceNumber: this.addPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
-      purchaseReturnSupplier: this.addPurchaseReturnForm.value.purchaseReturnSupplier,
+      purchaseReturnInvoiceNumber:
+        this.addPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
+      purchaseReturnSupplier:
+        this.addPurchaseReturnForm.value.purchaseReturnSupplier,
       purchaseReturnDate: this.addPurchaseReturnForm.value.purchaseReturnDate,
-      purchaseReturnTermsAndCondition: this.addPurchaseReturnForm.value.purchaseReturnTermsAndCondition,
+      purchaseReturnTermsAndCondition:
+        this.addPurchaseReturnForm.value.purchaseReturnTermsAndCondition,
       purchaseReturnNotes: this.addPurchaseReturnForm.value.purchaseReturnNotes,
       purchaseReturnTotalAmount: this.totalValue,
       purchaseGrossTotal: this.addPurchaseReturnForm.value.purchaseGrossTotal,
       purchaseReturnItemDetails,
-      purchaseReturnOrderStatus: this.addPurchaseReturnForm.value.purchaseReturnOrderStatus
-    }
+      purchaseReturnOrderStatus:
+        this.addPurchaseReturnForm.value.purchaseReturnOrderStatus,
+    };
     console.log(payload);
     if (this.addPurchaseReturnForm.valid) {
       console.log("valid form");
-      this.PurchaseReturnService.createPurchaseReturn(payload).subscribe((resp: any) => {
-        console.log(resp);
-        if (resp) {
-          if (resp.status === "success") {
-            this.messageService.add({ severity: "success", detail: resp.message });
-            setTimeout(() => {
-              this.router.navigate(["/purchase-return"]);
-            }, 400);
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
+      this.PurchaseReturnService.createPurchaseReturn(payload).subscribe(
+        (resp: any) => {
+          console.log(resp);
+          if (resp) {
+            if (resp.status === "success") {
+              this.messageService.add({
+                severity: "success",
+                detail: resp.message,
+              });
+              setTimeout(() => {
+                this.router.navigateByUrl(this.returnUrl);
+              }, 400);
+            } else {
+              const message = resp.message;
+              this.messageService.add({ severity: "error", detail: message });
+            }
           }
         }
-      });
-    }
-    else {
+      );
+    } else {
       console.log("invalid form");
     }
   }

@@ -13,6 +13,7 @@ import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
 import { InvoiceDialogComponent } from 'src/app/common-component/modals/invoice-dialog/invoice-dialog.component';
+import { LocalStorageService } from 'src/app/shared/data/local-storage.service';
 
 @Component({
   selector: 'app-all-sales-return',
@@ -39,18 +40,33 @@ showInvoiceDialog: boolean = false;
   totalDueAmount: any;
   totalPaidAmount: any;
   paymentDataListById: any[] = [];
+  currentUrl: string;
+
 
   constructor(
     private messageService: MessageService,
     private router: Router,
     public dialog: MatDialog,
-    private Service: SalesReturnService) { }
+    private Service: SalesReturnService,
+  private localStorageService:LocalStorageService) { }
 
   ngOnInit() {
     this.GetSalesReturnData();
+    this.currentUrl = this.router.url;
+    console.log(this.currentUrl)
+    console.log("this is current url on purchase page",this.currentUrl)
+
+    this.localStorageService.removeItem('customer1');
+    this.localStorageService.removeItem('returnUrl');
 
   }
+  navigateToCreateSalesReturn() {
+    const returnUrl = this.router.url;
+    this.router.navigate(['sales-return/add-sales-return']);
+    this.localStorageService.setItem('returnUrl',returnUrl);
 
+    // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
+  }
   deleteSalesReturn(Id: any) {
     this.saleId = Id;
 

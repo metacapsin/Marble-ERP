@@ -126,10 +126,25 @@
     <div class="card ">
       <p-tabView>
         <p-tabPanel header="Sales">
-          <div class="tab-header">
+          <div class="page-table-header mb-2">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="doctor-table-blk">
+                  <h3>Sales List</h3>
+                  <div class="doctor-search-blk">
+                    <div class="add-group textbtn">
+                      <a class="btn btn-primary add-pluss ms-2 " (click)="navigateToCreateSales()"><img
+                          src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="tab-header">
             <span class="header-text">Sales</span>
             <button pButton type="button" label="Create Sales" icon="pi pi-plus" (click)="navigateToCreateSales()"></button>
-        </div>
+        </div> -->
           <p-table [value]="salesDataShowById" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
             [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
@@ -262,6 +277,21 @@
 
         <!-- Sales Return Grid -->
         <p-tabPanel header="Sales Return">
+          <div class="page-table-header mb-2">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="doctor-table-blk">
+                  <h3>Sales Return List</h3>
+                  <div class="doctor-search-blk">
+                    <div class="add-group textbtn">
+                      <a class="btn btn-primary add-pluss ms-2 " (click)="navigateToCreateSalesReturn()"><img
+                          src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <p-table [value]="salesReturnDataShowById" styleClass="p-datatable-striped"
             [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">

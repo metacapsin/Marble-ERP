@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 import { SalesReturnService } from '../sales-return.service';
 import { ToastModule } from 'primeng/toast';
 import { SalesService } from '../../sales/sales.service';
+import { LocalStorageService } from 'src/app/shared/data/local-storage.service';
 @Component({
   selector: 'app-add-sales-return',
   standalone: true,
@@ -26,7 +27,7 @@ export class AddSalesReturnComponent {
   public routes = routes;
   maxDate = new Date();
   public searchData_id = '';
-  customerList = [];
+  customerList : any=[];
   originalCustomerData = [];
   categoryList = [];
   subCategoryList = [];
@@ -45,6 +46,10 @@ export class AddSalesReturnComponent {
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
   tandCRegex = /^(?:.{2,200})$/;
+  customer: any = [];
+  returnUrl: string;
+
+
 
   constructor(
     private router: Router,
@@ -53,6 +58,7 @@ export class AddSalesReturnComponent {
     private customerService: CustomersdataService,
     private salesService: SalesService,
     private fb: FormBuilder,
+    private LocalStorageService: LocalStorageService,
   ) {
     this.addReturnSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
@@ -99,6 +105,26 @@ export class AddSalesReturnComponent {
   }
 
   ngOnInit(): void {
+   
+    this.customerList = this.getCustomerData();
+
+    this.customer = this.LocalStorageService.getItem("customer1");
+    this.returnUrl=this.LocalStorageService.getItem('returnUrl')
+
+    console.log(
+      "this is customer data by local sotrage service",
+      this.customer
+    );
+    if (this.customer) {
+      this.addReturnSalesForm.patchValue({
+        customer: this.customer,
+      });
+      console.log("this is customer in true condition",this.customer)
+      this.onCustomerSelect(this.customer)
+    }
+  }
+
+  getCustomerData(){
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
       this.customerList = [];
@@ -114,8 +140,8 @@ export class AddSalesReturnComponent {
       });
     });
   }
-
   onCustomerSelect(value: any) {
+    // debugger
     this.salesItemDetails.clear();
 
     this.salesService.getAllSalesByCustomerId(value._id).subscribe((resp: any) => {
@@ -214,7 +240,7 @@ export class AddSalesReturnComponent {
             const message = "Sales Return has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              this.router.navigate(["/sales-return"]);
+              this.router.navigateByUrl(this.returnUrl);
             }, 400);
           } else {
             const message = resp.message;

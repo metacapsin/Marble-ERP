@@ -215,15 +215,14 @@ export class ViewSuppliersComponent {
   navigateToCreatePurchaseReturn() {
     const supplier1 = {
       name: this.supplierDataById[0].name,
-      _id: {
-        name: this.supplierDataById[0].name,
-        _id: this.supplierDataById[0]._id,
-      },
+      _id: this.supplierDataById[0]._id,
     };
     this.localStorageService.setItem("supplier1", supplier1);
     console.log("this is supplier 1 object for purchase return", supplier1)
 
     const returnUrl = this.router.url;
+    this.localStorageService.setItem("returnUrl", returnUrl);
+
     console.log(returnUrl);
     this.router.navigateByUrl("/purchase-return/add-purchase-return");
   }

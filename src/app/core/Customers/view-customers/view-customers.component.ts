@@ -294,6 +294,20 @@ export class ViewCustomersComponent implements OnInit {
 
     this.router.navigateByUrl("/sales/add-sales");
   }
+  navigateToCreateSalesReturn() {
+    const customer1 = {
+      name: this.customerDataById[0].name,
+      _id: this.customerDataById[0]._id,
+    };
+
+    this.localStorageService.setItem("customer1", customer1);
+
+    const returnUrl = this.router.url;
+    this.localStorageService.setItem("returnUrl",returnUrl)
+    console.log(returnUrl)
+
+    this.router.navigateByUrl("/sales-return/add-sales-return");
+  }
   openPaymentDialog(Id: any) {
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
