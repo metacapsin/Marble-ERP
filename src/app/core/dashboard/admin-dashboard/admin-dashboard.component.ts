@@ -277,6 +277,7 @@ export class AdminDashboardComponent {
     const totalSalesPaymentDueData = data.map(
       (item) => item.totalSalesPaymentDue
     );
+    console.log(totalSalesPaymentDueData,totalPurchasePaymentDueData,totalPurchasesData,totalSalesData);
 
     this.dataForFirstChat = {
       labels: labels,
@@ -310,38 +311,85 @@ export class AdminDashboardComponent {
   }
   setDataForSecondChart(data: any[]): void {
     console.log(data);
+    const yearArray = data.map((item)=>item.monthName)
     const totalPaymentReceivedData = data.map(
       (item) => item.totalPaymentReceived
     );
     const totalPaymentSentData = data.map((item) => item.totalPaymentSent);
     console.log(totalPaymentReceivedData, totalPaymentSentData);
 
+    // this.dataForSecondChat = {
+    //   labels: [
+    //     "Total Sales",
+    //     "Total Expenses",
+    //     "Payment Sent",
+    //     "Payment Received",
+    //     "Total Payment Due",
+    //   ],
+    //   datasets: [
+    //     {
+    //       data: totalPaymentReceivedData,
+    //       backgroundColor: [
+    //         "#3b82f6",
+    //         "#f59e0b",
+    //         "#6ee7b7",
+    //         "#ffc107",
+    //         "#4caf50",
+    //       ],
+    //       hoverBackgroundColor: [
+    //         "#3b82f6",
+    //         "#f59e0b",
+    //         "#6ee7b7",
+    //         "#ffc107",
+    //         "#4caf50",
+    //       ],
+    //     },
+    //     {
+    //       data: totalPaymentSentData,
+    //       backgroundColor: [
+    //         "#3b82f6",
+    //         "#f59e0b",
+    //         "#6ee7b7",
+    //         "#ffc107",
+    //         "#4caf50",
+    //       ],
+    //       hoverBackgroundColor: [
+    //         "#3b82f6",
+    //         "#f59e0b",
+    //         "#6ee7b7",
+    //         "#ffc107",
+    //         "#4caf50",
+    //       ],
+    //     },
+    //   ],
+    // };
     this.dataForSecondChat = {
-      labels: [
-        "Total Sales",
-        "Total Expenses",
-        "Payment Sent",
-        "Payment Received",
-        "Total Payment Due",
-      ],
+      labels: yearArray,
       datasets: [
         {
+          label: "Payment Sent",
+          backgroundColor: "#ff6384",
+          borderColor: "#ff6384",
           data: totalPaymentReceivedData,
-          backgroundColor: [
-            "#3b82f6",
-            "#f59e0b",
-            "#6ee7b7",
-            "#ffc107",
-            "#4caf50",
-          ],
-          hoverBackgroundColor: [
-            "#3b82f6",
-            "#f59e0b",
-            "#6ee7b7",
-            "#ffc107",
-            "#4caf50",
-          ],
         },
+        {
+          label: "Payment Received",
+          backgroundColor: "#36a2eb",
+          borderColor: "#36a2eb",
+          data: totalPaymentSentData,
+        },
+        // {
+        //   label: "Total Sales Payment Due",
+        //   backgroundColor: "#ff9f40",
+        //   borderColor: "#ff9f40",
+        //   data: totalSalesPaymentDueData,
+        // },
+        // {
+        //   label: "Total Purchase Payment Due",
+        //   backgroundColor: "#9966ff",
+        //   borderColor: "#9966ff",
+        //   data: totalPurchasePaymentDueData,
+        // },
       ],
     };
   }
