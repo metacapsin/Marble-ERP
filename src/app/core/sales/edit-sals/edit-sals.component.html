@@ -176,8 +176,9 @@
 
                             <!-- --------------#######------- -->
                             <div class="invoice-add-table">
-                                <h4 class="d-flex align-items-center">Item Details<p-button [text]=" true"
-                                        icon="fa fa-plus" (click)="addsalesItemDetailsItem()"></p-button></h4>
+                                <h4 class="d-flex align-items-center">Item Details
+                                    <!-- <p-button [text]=" true" icon="fa fa-plus" (click)="addsalesItemDetailsItem()"></p-button> -->
+                                    </h4>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-nowrap mb-0 no-footer add-table-items">
                                         <thead>
@@ -202,6 +203,18 @@
                                                         (onChange)="onSlabSelect($event.value, i)"></p-dropdown>
                                                     <div
                                                         *ngIf="editSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').hasError('required') && editSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').touched">
+                                                        <span class="login-danger">Field is required.</span>
+                                                    </div>
+                                                </td> -->
+<!-- 
+                                                <td class="col-md-3">
+                                                    <p-dropdown [options]="slabList" appendTo="body"
+                                                        [style]="{'width':'100%'}" optionLabel="slabName"
+                                                        [filter]="true" filterBy="slabName" optionValue="_id"
+                                                        formControlName="salesItemProduct" placeholder="Select Product"
+                                                        [disabled]="salesItemDetailsForm.get('salesItemProduct').disabled"
+                                                        (onChange)="onSlabSelect($event.value, i)"></p-dropdown>
+                                                    <div *ngIf="editSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').hasError('required') && editSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').touched">
                                                         <span class="login-danger">Field is required.</span>
                                                     </div>
                                                 </td> -->
@@ -252,12 +265,12 @@
                                                         editSalesForm.get('salesItemDetails').get(i +
                                                         '.salesItemSubTotal').value }}</span>
                                                 </td>
-                                                <td class="add-remove text-end">
-                                                    <p-button [text]="true" icon="fa fa-plus"
-                                                        (click)="addsalesItemDetailsItem()"></p-button>
+                                                <td class="add-remove">
                                                     <p-button [text]="true" icon="fa fa-trash"
                                                         (click)="deletesalesItemDetails(i)"
                                                         (keyup.enter)="deletesalesItemDetails(i)"></p-button>
+                                                    <!-- <p-button [text]="true" icon="fa fa-plus"
+                                                        (click)="addsalesItemDetailsItem()"></p-button> -->
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -411,20 +424,34 @@
                                             </div>
 
                                             <div class="invoice-total-inner">
-                                                <p>Gross Total<span>₹ {{ editSalesForm.get('salesGrossTotal').value |
-                                                        number:
-                                                        '1.2-2' }}</span></p>
-                                                <p>Discount<span>₹ {{ editSalesForm.get('salesDiscount').value }}</span>
+                                                <p>Gross Total
+                                                    <span *ngIf="editSalesForm.get('salesGrossTotal')?.value != 0">
+                                                        ₹ {{ editSalesForm.get('salesGrossTotal').value | number: '1.2-2' }}
+                                                    </span>
                                                 </p>
-                                                <p>Shipping<span>₹ {{ editSalesForm.get('salesShipping').value }}</span>
+                                                <p>Discount
+                                                    <span *ngIf="editSalesForm.get('salesDiscount')?.value > 0">
+                                                        ₹ {{ editSalesForm.get('salesDiscount').value }}
+                                                    </span>
                                                 </p>
-                                                <p>Other Charges<span>₹ {{ editSalesForm.get('otherCharges').value
-                                                        }}</span></p>
+                                                <p>Shipping
+                                                    <span *ngIf="editSalesForm.get('salesShipping')?.value > 0">
+                                                        ₹ {{ editSalesForm.get('salesShipping').value }}
+                                                    </span>
+                                                </p>
+                                                <p>Other Charges
+                                                    <span *ngIf="editSalesForm.get('otherCharges')?.value > 0">
+                                                        ₹ {{ editSalesForm.get('otherCharges').value }}
+                                                    </span>
+                                                </p>
                                             </div>
-
+                                            
                                             <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>₹ {{ editSalesForm.get('salesTotalAmount').value
-                                                        }}</span></h4>
+                                                <h4>Total Amount
+                                                    <span *ngIf="editSalesForm.get('salesTotalAmount')?.value != 0">
+                                                        ₹ {{ editSalesForm.get('salesTotalAmount').value }}
+                                                    </span>
+                                                </h4>
                                             </div>
                                         </div>
                                     </div>

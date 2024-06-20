@@ -42,7 +42,7 @@ export class ViewBlockProcessorComponent {
   routes = routes;
   addSlabProcessingForm!: FormGroup;
   editSlabProcessingForm!: FormGroup;
-  id: any;
+  blockProcessor_id: any;
   slabProcessing_id: any;
   blockProcessorData: any = {};
   slabProcessingPaymentData: any[] = [];
@@ -70,7 +70,7 @@ export class ViewBlockProcessorComponent {
     public dialog: MatDialog,
   ) {
     this.addSlabProcessingForm = this.fb.group({
-      processingInvoiceNo: ['', [Validators.pattern(this.invoiceRegex)]],
+      processingInvoiceNo: ['', [Validators.required,Validators.pattern(this.invoiceRegex)]],
       processor: [''],
       slab: [''],
       processingCost: ['', [Validators.required, Validators.min(1)]],
@@ -85,7 +85,7 @@ export class ViewBlockProcessorComponent {
       processingDate: ['', [Validators.required]],
       note: [''],
     });
-    this.id = this.activeRoute.snapshot.params["id"];
+    this.blockProcessor_id = this.activeRoute.snapshot.params["id"];
   }
   addSlabProcessing() {
     this.addSlabProcessingForm.reset()
@@ -111,7 +111,7 @@ export class ViewBlockProcessorComponent {
     this.getslabProcessingList();
     this.getslabProcessingPeymentList();
 
-    this.blockProcessorService.getSlabsByProcessorId(this.id).subscribe((resp: any) => {
+    this.blockProcessorService.getSlabsByProcessorId(this.blockProcessor_id).subscribe((resp: any) => {
       this.slabListData = resp.data.map(e => ({
         slabName: e.slabName,
         _id: {
@@ -124,20 +124,20 @@ export class ViewBlockProcessorComponent {
     });
   }
   getBlockProcessor() {
-    this.blockProcessorService.getBlockProcessorDataById(this.id).subscribe((data: any) => {
+    this.blockProcessorService.getBlockProcessorDataById(this.blockProcessor_id).subscribe((data: any) => {
       this.blockProcessorData = data;
       console.log(this.blockProcessorData);
     });
   }
   getslabProcessingList() {
-    this.blockProcessorService.getAllSlabProcessing().subscribe(
+    this.blockProcessorService.getAllSlabProcessing(this.blockProcessor_id).subscribe(
       (resp: any) => {
         this.slabProcessingDataList = resp.data;
       }
     );
   }
   getslabProcessingPeymentList() {
-    this.blockProcessorService.getPaymentList().subscribe(
+    this.blockProcessorService.getPaymentList(this.blockProcessor_id).subscribe(
       (resp: any) => {
         this.slabProcessingPaymentData = resp.data;
       }

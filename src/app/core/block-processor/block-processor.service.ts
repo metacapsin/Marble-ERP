@@ -29,13 +29,14 @@ export class blockProcessorService {
   getSlabsByProcessorId(id: any) {
     return this.http.get(environment.apiUrl + `/SlabProcessingController/getSlabsByProcessorId/${id}`);
   }
+
   // ----slab Processing Api's ------ 
 
   addSlabProcessing(data: any) {
     return this.http.post(environment.apiUrl + '/SlabProcessingController/addSlabProcessing', data);
   }
-  getAllSlabProcessing() {
-    return this.http.get(environment.apiUrl + '/SlabProcessingController/getAllSlabProcessing');
+  getAllSlabProcessing(id: any) {
+    return this.http.get(environment.apiUrl + `/SlabProcessingController/getAllSlabProcessing/${id}`);
   }
   getSlabProcessingById(id: any) {
     return this.http.get(environment.apiUrl + `/SlabProcessingController/getSlabProcessingById/${id}`);
@@ -53,8 +54,8 @@ export class blockProcessorService {
   createPayment(data: any) {
     return this.http.post(environment.apiUrl + '/SlabProcessingController/createPayment', data);
   }
-  getPaymentList() {
-    return this.http.get(environment.apiUrl + '/SlabProcessingController/getPaymentList');
+  getPaymentList(id: any) {
+    return this.http.get(environment.apiUrl + `/SlabProcessingController/getProcessorPaymentList/${id}`);
   }
   getPaymentDetailById(id: any) {
     return this.http.get(environment.apiUrl + `/SlabProcessingController/getPaymentDetailById/${id}`);

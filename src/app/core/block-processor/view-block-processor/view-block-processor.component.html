@@ -155,16 +155,15 @@
                 <td appShowHide [roles]="['admin', 'super-admin']">
                   <div class="action-buttons">
 
-                    <p-button  *ngIf="processing.paymentStatus == 'Unpaid' "
-                     [text]="true" icon="fa fa-edit" (click)="editSlabProcessing(processing._id)"></p-button>
-                     <div *ngIf="processing.paymentStatus != 'Unpaid'"
-                     class="placeholder"></div>
+                    <p-button *ngIf="processing.paymentStatus == 'Unpaid' " [text]="true" icon="fa fa-edit"
+                      (click)="editSlabProcessing(processing._id)"></p-button>
+                    <div *ngIf="processing.paymentStatus != 'Unpaid'" class="placeholder"></div>
                     <p-button
                       *ngIf="processing.paymentStatus == 'Unpaid' || processing.paymentStatus ==  'Partial Paid'"
                       [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(processing._id)"></p-button>
                     <div *ngIf="processing.paymentStatus != 'Unpaid' && processing.paymentStatus != 'Partial Paid'"
                       class="placeholder"></div>
-                    <p-button [text]="true" icon="fa fa-trash" 
+                    <p-button [text]="true" icon="fa fa-trash"
                       (click)="deleteSlabProcessing(processing._id)"></p-button>
                   </div>
                 </td>
@@ -233,8 +232,16 @@
 
           <div class="col-12 col-md-6">
             <div class="form-group local-forms">
-              <label for="processingInvoiceNo">Invoice Number </label>
+              <label for="processingInvoiceNo">Invoice Number<span class="login-danger">*</span>
+              </label>
               <input class="form-control" type="text" placeholder="" formControlName="processingInvoiceNo">
+              <div *ngIf="
+                                            addSlabProcessingForm.get('processingInvoiceNo')?.hasError(
+                                              'required'
+                                            ) && addSlabProcessingForm.get('processingInvoiceNo')?.touched
+                                          ">
+                <span class="login-danger">Field is required.</span>
+              </div>
               <div *ngIf="
                                             addSlabProcessingForm.get('processingInvoiceNo')?.hasError(
                                               'pattern'
@@ -251,6 +258,13 @@
               <label for="processingDate">Processing Date <span class="login-danger">*</span></label>
               <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                 formControlName="processingDate" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
+                <div *ngIf="
+                                              addSlabProcessingForm.get('processingDate')?.hasError(
+                                                'required'
+                                              ) && addSlabProcessingForm.get('processingDate')?.touched
+                                            ">
+                  <span class="login-danger">Field is required.</span>
+            </div>
             </div>
           </div>
 
@@ -280,6 +294,13 @@
                 </div>
                 <input class="form-control" type="number" placeholder="" formControlName="processingCost">
               </div>
+              <div *ngIf="
+              addSlabProcessingForm.get('processingCost')?.hasError(
+                'required'
+              ) && addSlabProcessingForm.get('processingCost')?.touched
+            ">
+<span class="login-danger">Field is required.</span>
+</div>
               <div *ngIf="
               addSlabProcessingForm.get('processingCost')?.hasError(
                 'min'
@@ -380,7 +401,7 @@
             ">
                 <span class="login-danger">Input Must be more than 0.</span>
               </div>
-              
+
             </div>
           </div>
 

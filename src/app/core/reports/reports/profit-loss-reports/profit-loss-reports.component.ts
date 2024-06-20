@@ -37,6 +37,19 @@ export class ProfitLossReportsComponent{
     });
   }
 
+  downloadProfitLoss(){
+    console.log(this.rangeDates);
+    const formattedStartDate = this.formatDate(this.rangeDates[0]);
+    const formattedEndDate = this.formatDate(this.rangeDates[1]);
+
+    const data = {
+      startDate: formattedStartDate,
+      endDate: formattedEndDate
+    };
+    
+    this.service.downloadProfitLoss(data).subscribe((resp:any) => {})
+  }
+
   onDateChange(value: any): void {
     const startDate = value[0];
     const endDate = value[1];
