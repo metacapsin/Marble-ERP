@@ -65,6 +65,8 @@ export class ViewCustomersComponent implements OnInit {
   header = "";
   currentUrl: string;
   customer: any;
+  paymentInvoicesalesDataShowById: any; // to hold sales data by customer id
+
 
   salesTotalValues: any = {};
   paymentInTotalValues: any = {};
@@ -205,24 +207,23 @@ export class ViewCustomersComponent implements OnInit {
   }
 
   callBackModal() {
-    if (this.deleteSales)
+    if (this.deleteSales) {
+      // Delete Sales logic
       this.salesService.DeleteSalesData(this.salesId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
-        this.getsales();
+        this.getsales(); // Assuming this method fetches updated sales data
         this.showDialoge = false;
       });
-    if (this.deleteSalesReturn)
-      this.salesReturnService
-        .deleteSalesReturn(this.salesReturnID)
-        .subscribe((resp: any) => {
-          this.messageService.add({
-            severity: "success",
-            detail: resp.message,
-          });
-          this.getsalesReturn();
-          this.showDialoge = false;
-        });
+    } else if (this.deleteSalesReturn) {
+      // Delete Sales Return logic
+      this.salesReturnService.deleteSalesReturn(this.salesReturnID).subscribe((resp: any) => {
+        this.messageService.add({ severity: "success", detail: resp.message });
+        this.getsalesReturn(); // Assuming this method fetches updated sales return data
+        this.showDialoge = false;
+      });
+    }
   }
+  
 
   close() {
     console.log("close dialog triggered");
@@ -320,15 +321,12 @@ export class ViewCustomersComponent implements OnInit {
         salesTotalAmount: resp.data.salesTotalAmount,
         salesDueAmount: resp.data.dueAmount,
       };
-      // console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
     })
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
-      // this.showInvoiceDialog = true;
-      this.salesDataShowById = [resp.data];
-      // this.header = "Sales Invoice ";
-      console.log("sales data by id On Payment dialog", this.salesDataShowById);
-    });;
-    
+      this.showPaymentDialog = true;
+      this.paymentInvoicesalesDataShowById = [resp.data];
+      console.log("sales data by id On Payment dialog", this.paymentInvoicesalesDataShowById);
+    });
   }
   openPaymentReturnDialog(Id: any) {
     this.salesReturnService.getSalesReturnById(Id).subscribe((resp: any) => {
@@ -347,6 +345,12 @@ export class ViewCustomersComponent implements OnInit {
         "this is open Payment Return Dialog",
         this.paymentObject.salesReturnId
       );
+    });
+    this.salesReturnService.getSalesReturnById(Id).subscribe((resp: any) => {
+      this.showPaymentDialog = true;
+      this.paymentInvoicesalesDataShowById = [resp.data];
+      this.header = "Sales Return Invoice ";
+      console.log("sales data by id On Payment Return dialog", this.paymentInvoicesalesDataShowById);
     });
   }
 }

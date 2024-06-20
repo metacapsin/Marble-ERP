@@ -66,7 +66,6 @@ export class ViewSuppliersComponent {
   supplier: any;
   paymentInvoicePurchaseDataShowById: any; // to hold purchase data by supplier id for payment invoice
 
-
   constructor(
     private SupplierService: SuppliersdataService,
     private activeRoute: ActivatedRoute,
@@ -220,7 +219,7 @@ export class ViewSuppliersComponent {
       _id: this.supplierDataById[0]._id,
     };
     this.localStorageService.setItem("supplier1", supplier1);
-    console.log("this is supplier 1 object for purchase return", supplier1)
+    console.log("this is supplier 1 object for purchase return", supplier1);
 
     const returnUrl = this.router.url;
     this.localStorageService.setItem("returnUrl", returnUrl);
@@ -284,31 +283,39 @@ export class ViewSuppliersComponent {
   }
 
   openPaymentDialog(Id: any) {
-    this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
+    if (Id) {
       this.showPaymentDialog = true;
-      this.header = "Purchase Payment ";
-      this.paymentObject = {
-        supplier: resp.data.supplier,
-        purchaseId: Id,
-        isPurchase: true,
-        purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
-        purchaseTotalAmount: resp.data.purchaseTotalAmount,
-        purchaseDueAmount: resp.data.dueAmount,
-      };
-    })
-    this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
-      // this.showInvoiceDialog = true;
-      this.paymentInvoicePurchaseDataShowById = [resp.data];
-      // this.header = "Purchase Invoice ";
-      console.log("Purchase data by id On Paymnent dialog", this.purchaseDataShowById);
-    });;
+      this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
+        this.header = "Purchase Payment ";
+        this.paymentObject = {
+          supplier: resp.data.supplier,
+          purchaseId: Id,
+          isPurchase: true,
+          purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
+          purchaseTotalAmount: resp.data.purchaseTotalAmount,
+          purchaseDueAmount: resp.data.dueAmount,
+        };
+      });
+      this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
+        // this.showInvoiceDialog = true;
+        this.paymentInvoicePurchaseDataShowById = [resp.data];
+        console.log(resp.data);
+        console.log(
+          "Purchase data by id On Paymnent dialog",
+          this.purchaseDataShowById
+        );
+      });
+    }
+    
   }
   openPaymentReturnDialog(Id: any) {
-    this.purchaseReturnService
+    if (Id) {
+      this.purchaseReturnService
       .getPurchaseReturnById(Id)
       .subscribe((resp: any) => {
-        this.showPaymentDialog = true;
         this.header = "Purchase Return Payment ";
+      this.showPaymentDialog = true;
+
         this.paymentObject = {
           supplier: resp.data.supplier,
           purchaseReturnId: Id,
@@ -322,12 +329,23 @@ export class ViewSuppliersComponent {
           "this is open Payment Return Dialog",
           this.paymentObject.purchaseReturnId
         );
-      })
-      this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
+      });
+    this.purchaseReturnService
+      .getPurchaseReturnById(Id)
+      .subscribe((resp: any) => {
+      this.showPaymentDialog = true;
+
         // this.showInvoiceDialog = true;
         this.paymentInvoicePurchaseDataShowById = [resp.data];
-        // this.header = "Purchase Invoice ";
-        console.log("Purchase data by id On Paymnent dialog", this.purchaseDataShowById);
-      });;;
+        // this.header = "Purchase Return Invoice ";
+        console.log(resp.data);
+        console.log(
+          "Purchase Return data by id On dialog",
+          this.paymentInvoicePurchaseDataShowById
+        );
+      });
+      
+    }
+    
   }
 }

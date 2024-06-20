@@ -99,6 +99,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     this.close.emit();
     this.paymentInvoiceForm.reset();
     // this.dataById=[]
+    console.log("this is data from open payment return dialog",this.dataItemsGrid)
   }
 
   onConfirm() {
