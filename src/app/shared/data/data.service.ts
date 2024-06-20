@@ -222,28 +222,41 @@ export class DataService {
 
   public sideBar = [
     {
+      
       tittle: "",
       showAsTab: false,
       separateRoute: false,
       menu: [
+
         {
           menuValue: "Dashboard",
-          hasSubRoute: true,
+          route: routes.adminDashboard,
+          hasSubRoute: false,
           showSubRoute: false,
-          base: "dashboard",
-          route: "dashboard",
           icon: "fa-home",
           faIcon: true,
+          base: "dashboard",
+          subMenus: [],
           role: [Role.Admin, Role.Provider],
-          // img: 'assets/img/icons/menu-icon-01.svg',
-          subMenus: [
-            {
-              menuValue: "Admin Dashboard",
-              route: routes.adminDashboard,
-              base: routes.adminDashboard,
-            },
-          ],
         },
+        // {
+        //   menuValue: "Dashboard",
+        //   hasSubRoute: true,
+        //   showSubRoute: false,
+        //   base: "dashboard",
+        //   route: "dashboard",
+        //   icon: "fa-home",
+        //   faIcon: true,
+        //   role: [Role.Admin, Role.Provider],
+        //   // img: 'assets/img/icons/menu-icon-01.svg',
+        //   subMenus: [
+        //     {
+        //       menuValue: "Admin Dashboard",
+        //       route: routes.adminDashboard,
+        //       base: routes.adminDashboard,
+        //     },
+        //   ],
+        // },
         {
           menuValue: "Parties",
           hasSubRoute: true,

@@ -93,6 +93,7 @@ export class AdminDashboardComponent {
   barChartData: any;
   CategorySlabs: any;
   rangeDatesForAip: any[];
+  stockAlertData: any;
 
   constructor(
     // public data: DataService,
@@ -187,11 +188,12 @@ export class AdminDashboardComponent {
       this.apiCall(formattedDate1,formattedDate2);
     }
   }
-  apiCall(startData,endData): void {
-    console.log(this.rangeDates);
-    this.rangeDatesForAip = [startData, endData];
-    console.log(startData,endData,this.rangeDates);
-    this.Service.getFinancialSummary(this.rangeDatesForAip).subscribe(
+  apiCall(startDate,endDate): void {
+    const data = {
+      startDate:startDate,
+      endDate: endDate
+    }
+    this.Service.getFinancialSummary(data).subscribe(
       (resp: any) => {
         console.log(resp.data);
         this.financialSummaryData = resp.data;
@@ -200,7 +202,7 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getMonthlySalesPurchasesAndCharts(this.rangeDatesForAip).subscribe(
+    this.Service.getMonthlySalesPurchasesAndCharts(data).subscribe(
       (resp: any) => {
         console.log(resp);
         this.barChartData = resp.barChartData;
@@ -211,7 +213,7 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getStockSummary(this.rangeDatesForAip).subscribe(
+    this.Service.getStockSummary(data).subscribe(
       (resp: any) => {
         console.log(resp);
         // this.financialSummaryData = resp.data;
@@ -221,16 +223,16 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getStockAlert(this.rangeDatesForAip).subscribe(
+    this.Service.getStockAlert(data).subscribe(
       (resp: any) => {
         console.log(resp.data);
-        // this.financialSummaryData = resp.data;
+        this.stockAlertData = resp.data;
       },
       (error: any) => {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getTopCustomers(this.rangeDatesForAip).subscribe(
+    this.Service.getTopCustomers(data).subscribe(
       (resp: any) => {
         console.log(resp);
         this.allSlabsDaTa = resp.data
@@ -240,7 +242,7 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getPaymentSentRecivedByMonth(this.rangeDatesForAip).subscribe(
+    this.Service.getPaymentSentRecivedByMonth(data).subscribe(
       (resp: any) => {
         console.log(resp);
         // this.financialSummaryData = resp.data;
@@ -250,7 +252,7 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getRecentSales(this.rangeDatesForAip).subscribe(
+    this.Service.getRecentSales(data).subscribe(
       (resp: any) => {
         console.log(resp);
         // this.financialSummaryData = resp.data;
@@ -324,7 +326,7 @@ export class AdminDashboardComponent {
       ],
       datasets: [
         {
-          data: [ ,10,255,totalPaymentReceivedData],
+          data: totalPaymentReceivedData,
           backgroundColor: [
             "#3b82f6",
             "#f59e0b",
