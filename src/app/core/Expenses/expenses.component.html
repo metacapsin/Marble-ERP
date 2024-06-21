@@ -54,7 +54,7 @@
 
                     <div class="card-body p-2">
                         <p-table [value]="dataSource" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                            [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)" [(selection)]="selectedExpenses">
+                            [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)" [(selection)]="selectedExpenses">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th pSortableColumn="categoryDetails.name">Expense Category <p-sortIcon field="categoryDetails.name"></p-sortIcon>

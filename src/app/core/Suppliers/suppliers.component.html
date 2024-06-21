@@ -70,7 +70,7 @@
 
                     <div class="card-body p-2">
                         <p-table [value]="getSupplierShow" styleClass="p-datatable-striped"  [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
-                            [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)">
+                            [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th pSortableColumn="name">

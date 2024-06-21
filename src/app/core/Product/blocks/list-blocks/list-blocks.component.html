@@ -57,7 +57,7 @@
 
                         <div class="card-body p-2">
                             <p-table [value]="originalData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedLot">
+                                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedLot">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="lotNo">Lot No. <p-sortIcon field="lotNo"></p-sortIcon>

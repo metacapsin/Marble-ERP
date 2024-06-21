@@ -121,7 +121,7 @@
               </div>
               <div class="invoice-add-table">
                 <p-table *ngIf="GridDataForSlab?.length > 0" [value]="GridDataForSlab" styleClass="p-datatable-striped"
-                  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
+                  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10">
                   <ng-template pTemplate="header">
                     <tr>
                       <th pSortableColumn="purchaseInvoiceNumber">Slab No.
@@ -150,7 +150,7 @@
                   </ng-template>
                 </p-table>
                 <p-table *ngIf="GridDataForLot?.length  > 0" [value]="GridDataForLot" styleClass="p-datatable-striped"
-                  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
+                  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10">
                   <ng-template pTemplate="header">
                     <tr>
                       <th pSortableColumn="purchaseInvoiceNumber">Block No.<p-sortIcon

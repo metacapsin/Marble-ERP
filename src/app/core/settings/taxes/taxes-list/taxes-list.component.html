@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="card-body p-2">
-                        <p-table [value]="taxesListData" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+                        <p-table [value]="taxesListData" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
                             [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedTaxes">
                             <ng-template pTemplate="header" >
                                 <tr>

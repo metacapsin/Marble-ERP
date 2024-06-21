@@ -135,7 +135,7 @@
         <div class="card card-table">
           <div class="card-body p-2">
             <p-table [value]="salesListData" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
-              [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedSales">
+              [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedSales">
               <ng-template pTemplate="header">
                 <tr>
                   <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon
