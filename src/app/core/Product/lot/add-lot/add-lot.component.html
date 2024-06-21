@@ -270,10 +270,41 @@
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
+                                            <label for="taxAmount">Tax Amount</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">₹</span>
+                                                </div>
+                                                <input class="form-control" type="number"
+                                                    placeholder="Enter Tax Amount" formControlName="taxAmount"
+                                                    (change)="calculateTotalAmount()" />
+                                            </div>
+                                            <!-- <div *ngIf="
+                                            lotAddForm.get('taxAmount')?.hasError(
+                                              'required'
+                                            ) && lotAddForm.get('taxAmount')?.touched
+                                          ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div> -->
+                                            <div *ngIf="
+                                            lotAddForm.get('taxAmount')?.hasError(
+                                              'min'
+                                            ) && lotAddForm.get('taxAmount')?.touched
+                                          || lotAddForm.get('taxAmount')?.hasError(
+                                            'max'
+                                          ) && lotAddForm.get('taxAmount')?.touched
+                                          ">
+                                                <span class="login-danger">Input Must be between 1 to 100000. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-group local-forms">
                                             <label for="notes">Notes</label>
                                             <textarea class="form-control" type="text"
-                                                placeholder="Please Enter Billing Address" formControlName="notes"
-                                                rows="1"></textarea>
+                                                placeholder="Notes" formControlName="notes"
+                                                rows="3"></textarea>
 
                                             <div *ngIf="
                                               lotAddForm
@@ -317,30 +348,39 @@
 
                             <div class="row practice-card">
 
-                                <div class="col-xl-4 col-lg-4 col-sm-4">
+                                <div class="col-xl-6 col-lg-6 col-sm-6">
                                     <div class="form-group row mb-2">
                                         <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
                                             Average Weight</h5>
                                         <div class="col-lg-6 col-md-6 col-xl-6">
-                                            <p class="col-lg-6 col-form-label heading-bold">{{lotAddForm.get('averageWeight').value}}</p>
+                                            <p class="col-lg-6 col-form-label heading-bold">{{lotAddForm.get('averageWeight').value.toFixed(3)}}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 col-lg-4 col-sm-4">
+                                <div class="col-xl-6 col-lg-6 col-sm-6">
                                     <div class="form-group row mb-2">
                                         <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
                                             Transportation Charge / Ton</h5>
                                         <div class="col-lg-6 col-md-6 col-xl-6">
-                                            <p class="col-lg-6 col-form-label heading-bold">₹ {{lotAddForm.get('averageTransport').value}}</p>
+                                            <p class="col-lg-6 col-form-label heading-bold">₹ {{lotAddForm.get('averageTransport').value.toFixed(3)}}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 col-lg-4 col-sm-4">
+                                <div class="col-xl-6 col-lg-6 col-sm-6">
                                     <div class="form-group row mb-2">
                                         <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
                                             Royalty Charge / Ton</h5>
                                         <div class="col-lg-6 col-md-6 col-xl-6">
-                                            <p class="col-lg-6 col-form-label heading-bold">₹ {{lotAddForm.get('averageRoyalty').value}}</p>
+                                            <p class="col-lg-6 col-form-label heading-bold">₹ {{lotAddForm.get('averageRoyalty').value.toFixed(3)}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-sm-6">
+                                    <div class="form-group row mb-2">
+                                        <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                            Tax Amount / Ton</h5>
+                                        <div class="col-lg-6 col-md-6 col-xl-6">
+                                            <p class="col-lg-6 col-form-label heading-bold">₹ {{lotAddForm.get('averageTaxAmount').value.toFixed(3)}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -353,7 +393,7 @@
                                     <ng-template pTemplate="header">
                                         <span class="d-flex justify-content-between w-full">
                                             <span class="font-bold white-space-nowrap">
-                                                Block No: {{data.blockNo}} ({{data.weightPerBlock}})
+                                                Block No: {{data.blockNo}} ({{data.weightPerBlock.toFixed(3)}} Ton)
                                             </span>
                                             <p-button [text]="true" styleClass="w-2rem h-2rem p-0" icon="fa fa-trash"
                                                 (click)="deleteAccordian(i)"></p-button>
@@ -400,7 +440,7 @@
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                                                     Weigth (Ton)</h5>
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
-                                                                    <p class="col-form-label">{{data.weightPerBlock}}
+                                                                    <p class="col-form-label">{{data.weightPerBlock.toFixed(3)}}
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -410,7 +450,7 @@
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                                                     Raw Costing</h5>
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
-                                                                    <p class="col-form-label">₹ {{data.rawCosting}}</p>
+                                                                    <p class="col-form-label">₹ {{data.rawCosting.toFixed(3)}}</p>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row mb-2">
@@ -418,14 +458,22 @@
                                                                     Transportation</h5>
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                                     <p class="col-form-label">₹ 
-                                                                        {{data.transportationCosting}}</p>
+                                                                        {{data.transportationCosting.toFixed(3)}}</p>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                                                     Royalty</h5>
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
-                                                                    <p class="col-form-label">₹ {{data.royaltyCosting}}
+                                                                    <p class="col-form-label">₹ {{data.royaltyCosting.toFixed(3)}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                                    Tax Amount</h5>
+                                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                                    <p class="col-form-label">₹ {{data.taxAmountCosting.toFixed(3)}}
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -433,7 +481,7 @@
                                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                                                     Total Costing</h5>
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
-                                                                    <p class="col-form-label">₹ {{data.totalCosting}}</p>
+                                                                    <p class="col-form-label">₹ {{data.totalCosting.toFixed(3)}}</p>
                                                                 </div>
                                                             </div>
                                                         </div>

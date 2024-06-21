@@ -192,9 +192,9 @@
                 <td>{{ sales.salesDate | date: "dd-MMM-yyyy" }}</td>
                 <td>{{ sales.salesOrderStatus }}</td>
                 <!-- <td>{{ sales.paymentStatus }}</td> -->
-                <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="danger" value="Partial Paid"></p-tag></td>
-                <td *ngIf="sales.paymentStatus == 'Paid' " ><p-tag severity="success" value="Paid"></p-tag></td>
-                <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="error" value="Unpaid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="success" value="Partial Paid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Paid' " ><p-tag severity="danger" value="Paid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag class="Warning" value="Unpaid"></p-tag></td>
                 <td>₹ {{ sales.paidAmount | indianCurrency }}</td>
                 <td>₹ {{ sales.dueAmount | indianCurrency }}</td>
                 <td>₹ {{ sales.salesTotalAmount | indianCurrency }}</td>

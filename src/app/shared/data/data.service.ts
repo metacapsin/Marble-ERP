@@ -279,7 +279,7 @@ export class DataService {
           ],
         },
         {
-          menuValue: "Product",
+          menuValue: "Stock",
           // route: routes.product,
           hasSubRoute: true,
           showSubRoute: false,

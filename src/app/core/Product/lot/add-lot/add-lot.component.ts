@@ -54,6 +54,7 @@ export class AddLotComponent {
   length: number;
   totalArea: number;
   weightPerBlock: number;
+  taxAmountCosting: number;
   rawCosting: number;
   transportationCosting: number;
   royaltyCosting: number;
@@ -90,11 +91,13 @@ export class AddLotComponent {
       pricePerTon: ["", [Validators.required, Validators.min(1), Validators.max(1000000)]],
       transportationCharge: ["", [Validators.required, Validators.min(1), Validators.max(100000)]],
       royaltyCharge: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
+      taxAmount: ["", [Validators.min(0), Validators.max(100000)]],
       notes: ["", [Validators.pattern(this.descriptionRegex)]],
       blocksCount: [""],
       averageWeight: [""],
       averageTransport: [""],
       averageRoyalty: [""],
+      averageTaxAmount: [""],
     });
 
   }
@@ -142,6 +145,7 @@ export class AddLotComponent {
       rawCosting: this.rawCosting,
       transportationCosting: this.transportationCosting,
       royaltyCosting: this.royaltyCosting,
+      taxAmountCosting: this.taxAmountCosting,
       totalCosting: this.totalCosting,
       isProcessed: this.isProcessed,
     };
@@ -179,28 +183,35 @@ export class AddLotComponent {
     let pricePerTon = this.lotAddForm.get("pricePerTon").value || 0;
     let royaltyCharge: number = this.lotAddForm.get("royaltyCharge").value || 0;
     let transportationCharge: number = this.lotAddForm.get("transportationCharge").value || 0;
+    let taxAmount: number = this.lotAddForm.get("taxAmount").value || 0;
 
     let averageTransportation = transportationCharge / lotWeight;
+    console.log(averageTransportation,"averageTransportation");
+    
     let averageRoyalty = royaltyCharge / lotWeight;
+    let averageTaxAmount = taxAmount / lotWeight;
     let averageBlocksWeight = this.totalBlocksArea / lotWeight
 
     this.blocksDetails.forEach((element: any) => {
-      element.weightPerBlock = (element.totalArea / averageBlocksWeight).toFixed(2);
-      element.rawCosting = (parseFloat(element.weightPerBlock) * pricePerTon).toFixed(2);
-      element.transportationCosting = (parseFloat(element.weightPerBlock) * averageTransportation).toFixed(2);
-      element.royaltyCosting = (parseFloat(element.weightPerBlock) * averageRoyalty).toFixed(2);
+      element.weightPerBlock = (element.totalArea / averageBlocksWeight);
+      element.rawCosting = (parseFloat(element.weightPerBlock) * pricePerTon);
+      element.transportationCosting = (parseFloat(element.weightPerBlock) * averageTransportation);
+      element.royaltyCosting = (parseFloat(element.weightPerBlock) * averageRoyalty);
+      element.taxAmountCosting = (parseFloat(element.weightPerBlock) * averageTaxAmount);
 
       let rawCosting = parseFloat(element.rawCosting);
       let transportationCosting = parseFloat(element.transportationCosting);
       let royaltyCosting = parseFloat(element.royaltyCosting);
-      element.totalCosting = (rawCosting + transportationCosting + royaltyCosting).toFixed(2);
+      let taxAmountCosting = parseFloat(element.taxAmountCosting);
+      element.totalCosting = (rawCosting + transportationCosting + royaltyCosting + taxAmountCosting);
     });
 
 
     this.lotAddForm.patchValue({
-      averageTransport: averageTransportation.toFixed(2),
-      averageRoyalty: averageRoyalty.toFixed(2),
-      averageWeight: averageBlocksWeight.toFixed(2)
+      averageTransport: averageTransportation,
+      averageRoyalty: averageRoyalty,
+      averageTaxAmount: averageTaxAmount,
+      averageWeight: averageBlocksWeight
     });
   }
 
@@ -218,11 +229,13 @@ export class AddLotComponent {
       pricePerTon: data.pricePerTon,
       transportationCharge: data.transportationCharge,
       royaltyCharge: data.royaltyCharge,
+      taxAmount: data.taxAmount,
       notes: data.notes,
       blocksCount: this.blocksDetails.length,
       averageWeight: data.averageWeight,
       averageTransport: data.averageTransport,
       averageRoyalty: data.averageRoyalty,
+      averageTaxAmount: data.averageTaxAmount,
       blockDetails: this.blocksDetails,
     }
     if (this.lotAddForm.valid) {

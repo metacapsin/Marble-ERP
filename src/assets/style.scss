@@ -1,5 +1,5 @@
 $bs-btn-disabled-bg:#b19074;
-
+$orange-100: #feddc7;
 $color_1: #333448;
 $color_2: #009ce7;
 $color_3: #97704f;
@@ -1398,6 +1398,9 @@ table.table {
   .progress {
     margin-bottom: 1.5rem;
   }
+}
+.Warning{
+  background-color: $orange-100;
 }
 .progress-xs {
   height: 4px;
