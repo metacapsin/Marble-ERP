@@ -117,11 +117,12 @@ export class AdminDashboardComponent {
 
   ngOnInit(): void {
     this.maxDate = new Date();
-    const startDate = new Date();
+    const today = new Date();
+    // const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
     const endDate = new Date();
-
+    const startDate = new Date(today.getFullYear(), 0, 1);
     // Set the start date to one month ago
-    startDate.setMonth(startDate.getMonth() - 1);
+    // startDate.setMonth(startDate.getMonth() - 1);
     var Sdate = this.formatDate(startDate);
     var Edate = this.formatDate(endDate);
 

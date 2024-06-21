@@ -46,7 +46,7 @@
                 <div class="col-lg-4 col-md-4 h-2">
                     <div class="form-group local-forms">
                         <!-- <label for="warehouseDetails">searchBy </label> -->
-                        <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Select Date" 
+                        <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Filter By" 
                             [style]="{ width: '100%' }" [filter]="true" filterBy="name"
                             (onChange)="onSearchByChange($event)">
                         </p-dropdown>
@@ -384,7 +384,7 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-Product>
                             <tr>
-                                <td (click)="oneCoustomer(Product.customerId)" style="cursor: pointer;">
+                                <td (click)="oneCoustomer(Product.customerId)" style="cursor: pointer;" class="hoverClass">
                                     {{Product.customerName}}
                                 </td>
                                 <td>
