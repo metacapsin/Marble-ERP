@@ -64,6 +64,7 @@ export class EditExpensesComponent {
     this.editExpensesGroup = this.fb.group({
       categoryDetails: ["", [Validators.required]],
       date: ["", [Validators.required]],
+      recipient: ["", [Validators.required]],
       amount: ["", [Validators.required,Validators.min(0),Validators.max(100000)]],
       notes: [""],
     });
@@ -98,18 +99,19 @@ export class EditExpensesComponent {
       categoryDetails: data.categoryDetails,
       amount: data.amount,
       date: data.date,
+      recipient: data.recipient,
       notes: data.notes,
     });
   }
-  onUpload(e) {
-    console.log("hi");
-    console.log(e);
-    this.messageService.add({
-      severity: "info",
-      summary: "Success",
-      detail: "File Uploaded with Basic Mode",
-    });
-  }
+  // onUpload(e) {
+  //   console.log("hi");
+  //   console.log(e);
+  //   this.messageService.add({
+  //     severity: "info",
+  //     summary: "Success",
+  //     detail: "File Uploaded with Basic Mode",
+  //   });
+  // }
   editCustomerForm() {
     console.log(this.editExpensesGroup.value);
     const fromData = this.editExpensesGroup.value;
@@ -119,6 +121,7 @@ export class EditExpensesComponent {
       categoryDetails: fromData.categoryDetails,
       amount: fromData.amount,
       date: fromData.date,
+      recipient: fromData.recipient,
       notes: fromData.notes,
     };
     console.log(payload); 

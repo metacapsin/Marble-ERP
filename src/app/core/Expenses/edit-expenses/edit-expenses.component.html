@@ -43,11 +43,11 @@
 
                  <div class="row">
 
-                  <div class="col-12 col-md-4 col-xl-4">
+                  <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="categoryDetails">Expense Category<span class="login-danger">*</span></label>
                       <p-dropdown [options]="ExpensesCategoriesArray" optionLabel="name"
-                        placeholder="--Select Expense Category--" formControlName="categoryDetails" [style]="{ width: '100%' }"
+                        placeholder="Select Expense Category" formControlName="categoryDetails" [style]="{ width: '100%' }"
                         filterBy="name" [showClear]="true">
                       </p-dropdown>
                       <div *ngIf="
@@ -61,7 +61,34 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4">
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="date">Date<span
+                                class="login-danger">*</span></label>
+                        <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                            formControlName="date" placeholder="mm/dd/yyyy"
+                            [styleClass]="'col-12'"></p-calendar>
+                        <div
+                            *ngIf="editExpensesGroup.get('date')?.hasError('required')  && editExpensesGroup.get('date')?.touched">
+                            <span class="login-danger">Field is required. </span>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-xl-6 col-12">
+                    <div class="form-group local-forms">
+                      <label for="recipient">Recipient<span class="login-danger">*</span></label>
+                      <input class="form-control" type="text" placeholder="Please Enter Recipient"
+                        formControlName="recipient" />
+                      <div
+                        *ngIf="editExpensesGroup.get('recipient')?.hasError('required')  && editExpensesGroup.get('recipient')?.touched">
+                        <span class="login-danger">Field is required. </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="amount">Amount<span class="login-danger">*</span></label>
                       <input class="form-control" type="number" placeholder="Please Enter Amount"
@@ -92,25 +119,11 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                        <label for="date">Date<span
-                                class="login-danger">*</span></label>
-                        <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                            formControlName="date" placeholder="mm/dd/yyyy"
-                            [styleClass]="'col-12'"></p-calendar>
-                        <div
-                            *ngIf="editExpensesGroup.get('date')?.hasError('required')  && editExpensesGroup.get('date')?.touched">
-                            <span class="login-danger">Field is required. </span>
-                        </div>
-                    </div>
-                  </div>
-
-                  <div class="col-12 col-md-4 col-xl-4">
+                  <div class="col-12 col-md-12 col-xl-12">
                     <div class="form-group local-forms">
                       <label for="notes">Notes</label>
                       <textarea class="form-control" type="text" placeholder="Please Enter Notes"
-                        formControlName="notes" rows="1"></textarea>
+                        formControlName="notes" rows="5"></textarea>
 
                       <div *ngIf="
                           editExpensesGroup
@@ -123,11 +136,10 @@
                     </div>
                   </div>
 
-                  <div class="col-12 mt-2">
+                  <!-- <div class="col-12 mt-2">
                     <p-fileUpload mode="basic" chooseLabel="Choose" chooseIcon="fa-solid fa-upload" name="demo[]"
                       accept="image/*" (onUpload)="onUpload($event)" />
-                    <!-- url="https://www.primefaces.org/cdn/api/upload.php"  -->
-                  </div>
+                  </div> -->
 
                 </div>
               </div>

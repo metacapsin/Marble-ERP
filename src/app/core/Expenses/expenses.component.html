@@ -57,26 +57,29 @@
                             [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)" [(selection)]="selectedExpenses">
                             <ng-template pTemplate="header">
                                 <tr>
+                                    <th pSortableColumn="recipient">Recipient <p-sortIcon field="recipient"></p-sortIcon>
+                                        <p-columnFilter type="text" field="recipient" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>
+                                        <p-columnFilter type="text" field="date" display="menu"></p-columnFilter>
+                                    </th>
                                     <th pSortableColumn="categoryDetails.name">Expense Category <p-sortIcon field="categoryDetails.name"></p-sortIcon>
                                         <p-columnFilter type="text" field="categoryDetails.name" display="menu"></p-columnFilter>
                                     </th>
-                                    <th pSortableColumn="email">Amount	 <p-sortIcon field="email"></p-sortIcon>
-                                        <p-columnFilter type="text" field="email" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="createdOn">Date <p-sortIcon field="createdOn"></p-sortIcon>
-                                        <p-columnFilter type="text" field="createdOn" display="menu"></p-columnFilter>
+                                    <th pSortableColumn="amount">Amount	 <p-sortIcon field="amount"></p-sortIcon>
+                                        <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
                                     </th>
                                     <th width="13%">Action</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-product>
                                 <tr>
-                                    <td class="bold">{{product.categoryDetails.name}}</td>
-                                    <td class="bold">{{product.amount}}</td>
+                                    <td class="bold">{{product.recipient}}</td>
                                     <td>{{product.date | date: 'dd-MMM-yyyy'}}</td>
+                                    <td class="bold">{{product.categoryDetails.name}}</td>
+                                    <td class="bold">₹ {{product.amount}}</td>
                                     <td appShowHide [roles]="['admin', 'super-admin']">
                                         <div class="action-buttons">
-
                                         <p-button [text]="true" icon="fa fa-edit"
                                             (click)="editExpense(product._id)"></p-button>
                                         <p-button [text]=" true" icon="fa fa-trash"

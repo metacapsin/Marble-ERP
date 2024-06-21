@@ -403,22 +403,43 @@ export class AdminDashboardComponent {
         {
           data: totalSubCategorySlabs,
           backgroundColor: [
-            "#3b82f6",
-            "#f59e0b",
-            "#6ee7b7",
-            "#ffc107",
-            "#4caf50",
+            "#3b82f6", // Blue
+            "#f59e0b", // Orange
+            "#6ee7b7", // Teal
+            "#ffc107", // Amber
+            "#4caf50", // Green
+            "#e91e63", // Pink
+            "#9c27b0", // Purple
+            "#673ab7", // Deep Purple
+            "#2196f3", // Light Blue
+            "#00bcd4", // Cyan
+            "#009688", // Teal
+            "#8bc34a", // Light Green
+            "#cddc39", // Lime
+            "#ff9800", // Orange
+            "#ff5722", // Deep Orange
           ],
           hoverBackgroundColor: [
-            "#3b82f6",
-            "#f59e0b",
-            "#6ee7b7",
-            "#ffc107",
-            "#4caf50",
+            "#3b82f6", // Blue
+            "#f59e0b", // Orange
+            "#6ee7b7", // Teal
+            "#ffc107", // Amber
+            "#4caf50", // Green
+            "#e91e63", // Pink
+            "#9c27b0", // Purple
+            "#673ab7", // Deep Purple
+            "#2196f3", // Light Blue
+            "#00bcd4", // Cyan
+            "#009688", // Teal
+            "#8bc34a", // Light Green
+            "#cddc39", // Lime
+            "#ff9800", // Orange
+            "#ff5722", // Deep Orange
           ],
         },
       ],
     };
+    
   }
 
   navigator(value: any) {
