@@ -31,13 +31,34 @@
                         <!-- <h2><span class="counter-up" [countUp]="250" [options]="{duration: 10}">250</span></h2> -->
             </div> 
         </div>
-        <div class="row d-flex justify-content-end">
+        <!-- <div class="row d-flex justify-content-end">
             <div class="col-12 col-md-12 col-xl-4">
                 <div class="form-group local-forms">
-                    <!-- <label for="warehouseDetails">Date </label> -->
+                    
                     <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
                         [maxDate]="maxDate" [style]="{ width: '100%' }" placeholder="Start Date - End Date"
                         (ngModelChange)="getDateOnChange()" />
+                </div>
+            </div>
+        </div> -->
+        <div class="mt-3">
+            <div class="row card-body d-flex justify-content-between p0">
+                <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                        <!-- <label for="warehouseDetails">searchBy </label> -->
+                        <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Select Date" 
+                            [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                            (onChange)="onSearchByChange($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                        <!-- <label for="warehouseDetails">Date </label> -->
+                        <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [maxDate]="maxDate" 
+                            [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="getDateOnChange()"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,12 +67,12 @@
                 <div class="dash-widget">
                     <div class="dash-boxs comman-flex-center">
                         <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <i class="fa-solid fa-dollar" style="font-size: 25px; color: #97704f;"></i>
+                        <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f;"></i>
                         <!-- fa-dollar -->
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Total Sales</h4>
-                        <h2><span class="counter-up" [countUp]="financialSummaryData?.totalSales" [options]="{duration: 10}">{{ financialSummaryData?.totalSales }}</span></h2>
+                        <h2><span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryData?.totalSales" [options]="{duration: 10}">{{ financialSummaryData?.totalSales }}</span></h2>
                         <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
                     </div>
                 </div>
@@ -62,11 +83,11 @@
                     <!-- style="background-color: #fdf5ee;" -->
                     <div class="dash-boxs comman-flex-center">
                         <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <i class="fa-solid fa-wallet" style="font-size: 25px; color: #97704f;"></i>
+                        <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;">
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Total Expenses</h4>
-                        <h2><span class="counter-up" [countUp]="financialSummaryData?.totalExpenses" [options]="{duration: 10}">{{ financialSummaryData?.totalExpenses }}</span></h2>
+                        <h2><span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryData?.totalExpenses" [options]="{duration: 10}">{{ financialSummaryData?.totalExpenses }}</span></h2>
                         <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
                     </div>
                 </div>
@@ -76,11 +97,11 @@
                 <div class="dash-widget">
                     <div class="dash-boxs comman-flex-center">
                         <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <i class="fa-solid fa-wallet" style="font-size: 25px; color: #97704f;"></i>
+                        <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;">
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Payment Out</h4>
-                        <h2><span class="counter-up" [countUp]="financialSummaryData?.paymentOut" [options]="{duration: 10}">{{ financialSummaryData?.paymentOut }}</span></h2>
+                        <h2><span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryData?.paymentOut" [options]="{duration: 10}">{{ financialSummaryData?.paymentOut }}</span></h2>
                         <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
                     </div>
                 </div>
@@ -90,11 +111,11 @@
                 <div class="dash-widget">
                     <div class="dash-boxs comman-flex-center">
                         <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <i class="fa-solid fa-wallet" style="font-size: 25px; color: #97704f;"></i>
+                        <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;">
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Payment In</h4>
-                        <h2><span class="counter-up" [countUp]="financialSummaryData?.paymentIn" [options]="{duration: 10}">{{ financialSummaryData?.paymentIn }}</span></h2>
+                        <h2><span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryData?.paymentIn" [options]="{duration: 10}">{{ financialSummaryData?.paymentIn }}</span></h2>
                         <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
                     </div>
                 </div>
@@ -104,118 +125,188 @@
                 <div class="dash-widget">
                     <div class="dash-boxs comman-flex-center">
                         <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <i class="fa-solid fa-dollar" style="font-size: 25px; color: #97704f;"></i>
+                        <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f;"></i>
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Total Sales Due</h4>
-                        <h2><span class="counter-up" [countUp]="financialSummaryData?.totalSalesDue" [options]="{duration: 10}">{{ financialSummaryData?.totalSalesDue }}</span></h2>
+                        <h2><span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryData?.totalSalesDue" [options]="{duration: 10}">{{ financialSummaryData?.totalSalesDue }}</span></h2>
                         <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
                     </div>
                 </div>
             </div>
-
-            <!-- <div class="col-12 col-md-12 col-lg-6 col-xl-2">
-                <div class="struct-point">
-                    <div class="card patient-structure col-md-3 border border-1">
-                        <div class="card-body">
-                            <h5>Total Sales</h5>
-                            <h3>{{ financialSummaryData?.totalSales }}
-                                <span class="status-green">
-                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">
-                                </span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- <div class="col-12 col-md-12 col-lg-6 col-xl-2">
-                <div class="struct-point">
-                    <div class="card patient-structure col-md-3 border border-1">
-                        <div class="card-body">
-                            <h5>Total Expenses</h5>
-                            <h3>{{ financialSummaryData?.totalExpenses }}
-                                <span class="status-green">
-                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">
-                                </span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-12 col-lg-6 col-xl-2">
-                <div class="struct-point">
-                    <div class="card patient-structure col-md-3 border border-1">
-                        <div class="card-body">
-                            <h5>Payment Out</h5>
-                            <h3>{{ financialSummaryData?.paymentOut }}
-                                <span class="status-green">
-                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">
-                                </span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-12 col-lg-6 col-xl-2">
-                <div class="struct-point">
-                    <div class="card patient-structure col-md-3 border border-1">
-                        <div class="card-body">
-                            <h5>Payment In</h5>
-                            <h3>{{ financialSummaryData?.paymentIn }}
-                                <span class="status-green">
-                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">
-                                </span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-12 col-lg-6 col-xl-2">
-                <div class="struct-point">
-                    <div class="card patient-structure col-md-3 border border-1">
-                        <div class="card-body">
-                            <h5>Total Sales Due</h5>
-                            <h3>{{ financialSummaryData?.totalSalesDue }}
-                                <span class="status-green">
-
-                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">
-                                </span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
 
         <div class="row">
             <div class="col-md-7">
                 <div class="card">
-                    <p-chart type="bar" [data]="dataForFirstChat" [options]="optionsForFirstChat" />
+                    <div class="px-3 pt-3 d-flex justify-content-between">
+                        <h3>Sales & Purchase</h3>
+                        <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">Veiw All</h5></div>
+                    </div>
+                    <p-chart type="bar" [data]="dataForFirstChat" [options]="optionsForFirstChat" style="padding: 0px 10px 5px 10px;"/>
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="card">
-                    <p-chart type="bar" [data]="dataForSecondChat" [options]="optionsForFirstChat" />
+                    <div class="px-3 pt-3 d-flex justify-content-between">
+                        <h3>Payment</h3>
+                        <div><h5 (click)="navigator('payment')" class="breadcrumb">Veiw All</h5></div>
+                    </div>
+                    <p-chart type="bar" [data]="dataForSecondChat" [options]="optionsForFirstChat" style="padding: 0px 10px 5px 10px;"/>
                 </div>
             </div>
-            <!-- <div class="col-md-5">
-                <div class="card">
+        </div>
+
+        <div class="row mt-4" *ngIf="CategorySlabs">
+            <!-- <div class="col-12 col-md-6">
+                <div class="card p-2">
+
+                    <div class="px-2 py-2 d-flex justify-content-between">
+                        <h3>Total Category</h3>
+                        <div><h5 (click)="navigator('Total_Category')" class="breadcrumb">Veiw All</h5></div>
+                    </div>
+                    <div class="">
+                        <p-table [value]="CategorySlabs.totalCategorySlabs" styleClass="p-datatable-striped">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th pSortableColumn="slabNo">Name
+                                    </th>
+                                    <th pSortableColumn="slabName">Total Sales Amount
+                                    </th>
+                                    <th pSortableColumn="size">Square Feet
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-Product>
+                                <tr>
+                                    <td>
+                                        {{Product.name}}
+                                    </td>
+                                    <td>
+                                        {{Product.totalSalesAmount}}
+                                    </td>
+                                    <td>
+                                        {{Product.totalSQFT}}
+                                    </td>
+                                    <td appShowHide [roles]="['admin', 'super-admin']">
+                                        <div class="action-buttons">
+    
+                                            <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
+                                                (click)="updateSlabs(slabs._id)"></p-button>
+                                            <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
+                                            (click)="deleteSlabs(slabs._id)"></p-button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+                <div class="struct-point">
+                    <div class="card patient-structure col-md-3 border border-1">
+                        <div class="card-body">
+                            <h5>Total Category</h5>
+                            <h3>
+                                <span class="status-green me-2" *ngFor="let data of CategorySlabs.totalCategorySlabs">
+                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">{{data.totalSQFT}}
+                                </span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="card p-2">
+                <div class="px-2 py-2 d-flex justify-content-between">
+                    <h3>Total Sub Category</h3>
+                    <div><h5 (click)="navigator('Total_Sub_Category')" class="breadcrumb">Veiw All</h5></div>
+                </div>
+                    <p-table [value]="CategorySlabs.totalSubCategorySlabs" styleClass="p-datatable-striped">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="slabNo">Name
+                                </th>
+                                <th pSortableColumn="slabName">Total Sales Amount
+                                </th>
+                                <th pSortableColumn="size">Square Feet
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-Product>
+                            <tr>
+                                <td>
+                                    {{Product.name}}
+                                </td>
+                                <td>
+                                    {{Product.totalSalesAmount}}
+                                </td>
+                                <td>
+                                    {{Product.totalSQFT}}
+                                </td>
+                                <td appShowHide [roles]="['admin', 'super-admin']">
+                                    <div class="action-buttons">
+
+                                        <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
+                                            (click)="updateSlabs(slabs._id)"></p-button>
+                                        <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
+                                        (click)="deleteSlabs(slabs._id)"></p-button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                 <div class="struct-point">
+                    <div class="card patient-structure col-md-3 border border-1">
+                        <div class="card-body">
+                            <h5>Total Sub Category</h5>
+                            <h3 class="flex-wrap">
+                                <span class="status-green me-2"
+                                    *ngFor="let data of CategorySlabs.totalSubCategorySlabs">
+                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="ps-1">{{data.totalSQFT}}
+                                </span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="col-md-6">
+                <div class="card p-2">
+                    <div class="px-3 pt-2 d-flex justify-content-between">
+                        <h3>Category</h3>
+                        <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">Veiw All</h5></div> -->
+                    </div>
                     <div class="chart-container">
-                        <p-chart type="pie" [data]="dataForSecondChat" [options]="optionsForSecondChat"
+                        <p-chart type="pie" [data]="piDataForFirstChat" [options]="optionsForSecondChat"
                             style="width: 375px; height: 375px;">
                         </p-chart>
                     </div>
                 </div>
-            </div> -->
+            </div>
+            <div class="col-md-6">
+                <div class="card p-2">
+                    <div class="px-3 pt-2 d-flex justify-content-between">
+                        <h3>Sub Category</h3>
+                        <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">Veiw All</h5></div> -->
+                    </div>
+                    <div class="chart-container">
+                        <p-chart type="pie" [data]="piDataForSecondChat" [options]="optionsForSecondChat"
+                            style="width: 375px; height: 375px;">
+                        </p-chart>
+                    </div>
+                </div>
+            </div>
         </div>
-
 
         <div class="row">
             <div class="col-md-5">
                 <div class="card p-2">
-                <h4 class="">Stock Alert</h4>
-                    <p-table [value]="stockAlertData">
+                <div class="px-2 py-2 d-flex justify-content-between">
+                    <h3>Stock Alert</h3>
+                    <div><h5 (click)="navigator('Stock_Alert')" class="breadcrumb">Veiw All</h5></div>
+                </div>
+                    <p-table [value]="stockAlertData" styleClass="p-datatable-striped">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn="slabName">Slab Name
@@ -246,9 +337,9 @@
                                 <td>
                                     {{Product.percentageSold}}
                                 </td>
-                                <td>
-                                    {{Product.alertType}}
-                                </td>
+                                <td *ngIf="Product.alertType == 'high'"><p-tag severity="danger" value="High"></p-tag></td>
+                                <td *ngIf="Product.alertType == 'medium'"><p-tag severity="warning" value="medium"></p-tag></td>
+
                                 <!-- <td>
                                     <span style="color: yellow;" *ngIf="">
                                         {{Product.totalSalesAmount}}
@@ -276,8 +367,11 @@
             </div>
             <div class="col-md-7">
                 <div class="card p-2">
-                <h4>Customer</h4>
-                    <p-table [value]="allSlabsDaTa">
+                <div class="px-2 py-2 d-flex justify-content-between">
+                    <h3>Customer</h3>
+                    <div><h5 (click)="navigator('Customer')" class="breadcrumb">Veiw All</h5></div>
+                </div>
+                    <p-table [value]="allSlabsDaTa" styleClass="p-datatable-striped">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn="slabNo">Customer Name
@@ -290,7 +384,7 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-Product>
                             <tr>
-                                <td>
+                                <td (click)="oneCoustomer(Product.customerId)" style="cursor: pointer;">
                                     {{Product.customerName}}
                                 </td>
                                 <td>
@@ -312,115 +406,6 @@
                         </ng-template>
                     </p-table>
                 </div>
-            </div>
-        </div>
-
-        <div class="row mt-4" *ngIf="CategorySlabs">
-            <div class="col-12 col-md-6">
-                <div class="card p-2">
-
-                    <h4>Total Category</h4>
-                    <!-- <div class=""> -->
-                        <p-table [value]="CategorySlabs.totalCategorySlabs">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th pSortableColumn="slabNo">Name
-                                    </th>
-                                    <!-- <th pSortableColumn="slabName">Total Sales Amount
-                                    </th> -->
-                                    <th pSortableColumn="size">Square Feet
-                                    </th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-Product>
-                                <tr>
-                                    <td>
-                                        {{Product.name}}
-                                    </td>
-                                    <!-- <td>
-                                        {{Product.totalSalesAmount}}
-                                    </td> -->
-                                    <td>
-                                        {{Product.totalSQFT}}
-                                    </td>
-                                    <!-- <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <div class="action-buttons">
-    
-                                            <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
-                                                (click)="updateSlabs(slabs._id)"></p-button>
-                                            <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
-                                            (click)="deleteSlabs(slabs._id)"></p-button>
-                                        </div>
-                                    </td> -->
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    <!-- </div> -->
-                </div>
-                <!-- <div class="struct-point">
-                    <div class="card patient-structure col-md-3 border border-1">
-                        <div class="card-body">
-                            <h5>Total Category</h5>
-                            <h3>
-                                <span class="status-green me-2" *ngFor="let data of CategorySlabs.totalCategorySlabs">
-                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">{{data.totalSQFT}}
-                                </span>
-                            </h3>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="card p-2">
-                <h4>Total Sub Category</h4>
-                    <p-table [value]="CategorySlabs.totalSubCategorySlabs">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="slabNo">Name
-                                </th>
-                                <!-- <th pSortableColumn="slabName">Total Sales Amount
-                                </th> -->
-                                <th pSortableColumn="size">Square Feet
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-Product>
-                            <tr>
-                                <td>
-                                    {{Product.name}}
-                                </td>
-                                <!-- <td>
-                                    {{Product.totalSalesAmount}}
-                                </td> -->
-                                <td>
-                                    {{Product.totalSQFT}}
-                                </td>
-                                <!-- <td appShowHide [roles]="['admin', 'super-admin']">
-                                    <div class="action-buttons">
-
-                                        <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
-                                            (click)="updateSlabs(slabs._id)"></p-button>
-                                        <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
-                                        (click)="deleteSlabs(slabs._id)"></p-button>
-                                    </div>
-                                </td> -->
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-                <!-- <div class="struct-point">
-                    <div class="card patient-structure col-md-3 border border-1">
-                        <div class="card-body">
-                            <h5>Total Sub Category</h5>
-                            <h3 class="flex-wrap">
-                                <span class="status-green me-2"
-                                    *ngFor="let data of CategorySlabs.totalSubCategorySlabs">
-                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="ps-1">{{data.totalSQFT}}
-                                </span>
-                            </h3>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>

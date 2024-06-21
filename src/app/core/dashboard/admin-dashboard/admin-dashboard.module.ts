@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { CalendarModule } from 'primeng/calendar';
     SharedModule,
     ChartModule,
     ButtonModule,
-    CalendarModule
+    CalendarModule,
+    DropdownModule
   ]
 })
 export class AdminDashboardModule { }
