@@ -201,7 +201,7 @@ export class ViewSuppliersComponent {
   }
 
   callBackModal() {
-    if(this.deletePurchase){
+    if(this.purchaseId){
       this.purchaseService
         .DeletePurchaseData(this.purchaseId)
         .subscribe((resp: any) => {
@@ -211,9 +211,9 @@ export class ViewSuppliersComponent {
         });
 
     }
-    else if(this.deletePurchaseReturn){
+    else if(this.purchaseReturnId){
       this.purchaseReturnService
-      .deletePurchaseReturn(this.purchaseId)
+      .deletePurchaseReturn(this.purchaseReturnId)
       .subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
         this.getPurchaseReturn();

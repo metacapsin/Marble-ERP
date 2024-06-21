@@ -345,35 +345,35 @@
                                 <th>Action</th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-purchase>
+                        <ng-template pTemplate="body" let-purchaseReturn>
                             <tr>
-                                <td>{{ purchase.purchaseInvoiceNumber.purchaseInvoiceNumber }}</td>
-                                <td>{{ purchase.returnDate | date : "dd-MMM-yyyy"}}</td>
-                                <td>{{ purchase.purchaseReturnOrderStatus }}</td>
+                                <td>{{ purchaseReturn.purchaseInvoiceNumber.purchaseInvoiceNumber }}</td>
+                                <td>{{ purchaseReturn.returnDate | date : "dd-MMM-yyyy"}}</td>
+                                <td>{{ purchaseReturn.purchaseReturnOrderStatus }}</td>
                                 <!-- <td>{{ purchase.paymentStatus }}</td> -->
-                                <td *ngIf="purchase.paymentStatus == 'Partial Paid'"><p-tag severity="danger"
+                                <td *ngIf="purchaseReturn.paymentStatus == 'Partial Paid'"><p-tag severity="danger"
                                     value="Partial Paid"></p-tag></td>
-                            <td *ngIf="purchase.paymentStatus == 'Paid' "><p-tag severity="success"
+                            <td *ngIf="purchaseReturn.paymentStatus == 'Paid' "><p-tag severity="success"
                                     value="Paid"></p-tag></td>
-                            <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="error"
+                            <td *ngIf="purchaseReturn.paymentStatus == 'Unpaid' "><p-tag severity="error"
                                     value="Unpaid"></p-tag></td>
-                                <td>₹ {{ purchase.paidAmount | indianCurrency }}</td>
-                                <td>₹ {{ purchase.dueAmount | indianCurrency }}</td>
-                                <td>₹ {{ purchase.purchaseReturnTotalAmount | indianCurrency }}</td>
+                                <td>₹ {{ purchaseReturn.paidAmount | indianCurrency }}</td>
+                                <td>₹ {{ purchaseReturn.dueAmount | indianCurrency }}</td>
+                                <td>₹ {{ purchaseReturn.purchaseReturnTotalAmount | indianCurrency }}</td>
                                 
                                     <td appShowHide [roles]="['admin', 'super-admin']" >
                                     <div class="action-buttons">
 
                                         <p-button [text]="true" icon="fa-solid fa-eye"
-                                            (click)="showReturnInvoiceDialoge(purchase._id)"></p-button>
+                                            (click)="showReturnInvoiceDialoge(purchaseReturn._id)"></p-button>
                                         <p-button *ngIf="
-                                        purchase.paymentStatus == 'Unpaid' ||
-                                        purchase.paymentStatus == 'Partial Paid'
+                                        purchaseReturn.paymentStatus == 'Unpaid' ||
+                                        purchaseReturn.paymentStatus == 'Partial Paid'
                                       " [text]="true" icon="fa-solid fa-wallet"
-                                            (click)="openPaymentReturnDialog(purchase._id)"></p-button>
-                                            <div *ngIf="purchase.paymentStatus != 'Unpaid' && purchase.paymentStatus != 'Partial Paid'" class="placeholder"></div>
+                                            (click)="openPaymentReturnDialog(purchaseReturn._id)"></p-button>
+                                            <div *ngIf="purchaseReturn.paymentStatus != 'Unpaid' && purchaseReturn.paymentStatus != 'Partial Paid'" class="placeholder"></div>
                                         <p-button [text]="true" icon="fa-solid fa-trash"
-                                            (click)="deletePurchaseReturn(purchase._id)"></p-button>
+                                            (click)="deletePurchaseReturn(purchaseReturn._id)"></p-button>
                                     </div>
                                 </td>
                             </tr>

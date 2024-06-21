@@ -26,47 +26,33 @@
                   </div>
                 </div> -->
                 <div class="row">
-                  <div class="col-md-6" *ngIf="sales.salesInvoiceNumber">
-                    <div class="invoice-logo d-flex justify-content-start">
-
-                      <div class="add-group">
-                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Invoice Number :</span>
-                          {{sales.salesInvoiceNumber}}</p>
-
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6" *ngIf="sales.purchaseOrderStatus">
-                    <div class="invoice-logo d-flex justify-content-start">
-
-                      <div class="add-group">
-                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Invoice Number :</span>
-                          {{sales.purchaseInvoiceNumber}}</p>
+                  
+                  <div class="col-md-6">
+                    <div  *ngIf="sales.customer?.billingAddress">
+                      <div class="invoice-head justify-content-start text-align-start">
+                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Seller Address </span><br>
+                          <span [innerHTML]="sales.customer.billingAddress | wordWrap:2"></span></p>
 
                       </div>
                     </div>
-                  </div>
-                  <div class="col-md-6" *ngIf="sales.purchaseReturnOrderStatus ">
-                    <div class="invoice-logo d-flex justify-content-start">
-
-                      <div class="add-group">
-                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Invoice Number :</span>
-                          {{sales.purchaseInvoiceNumber.purchaseInvoiceNumber}}</p>
-
+                    <div  *ngIf="sales.supplier?.billingAddress">
+                      <div class="invoice-head justify-content-start text-align-start">
+                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Seller Address </span><br>
+                          <span [innerHTML]="sales.supplier.billingAddress | wordWrap:2"></span></p>
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="invoice-info" *ngIf="sales.customer?.billingAddress">
                       <div class="invoice-head justify-content-end">
-                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Billing Address </span><br>
+                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Buyer Address </span><br>
                           <span [innerHTML]="sales.customer.billingAddress | wordWrap:2"></span></p>
 
                       </div>
                     </div>
                     <div class="invoice-info" *ngIf="sales.supplier?.billingAddress">
                       <div class="invoice-head justify-content-end">
-                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Billing Address </span><br>
+                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Buyer Address </span><br>
                           <span [innerHTML]="sales.supplier.billingAddress | wordWrap:2"></span></p>
                       </div>
                     </div>
@@ -80,6 +66,25 @@
                     <div class="page-table-header mb-2 m-3">
                       <div class="row practice-card">
                         <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                          <div *ngIf="sales.salesInvoiceNumber" class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number :</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label"> {{sales.salesInvoiceNumber}}</p>
+                            </div>
+                          </div>
+                          <div *ngIf="sales.purchaseOrderStatus" class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number :</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label"> {{sales.purchaseInvoiceNumber}}</p>
+                            </div>
+                          </div>
+                          <div *ngIf="sales.purchaseReturnOrderStatus" class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number :</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label"> {{sales.purchaseInvoiceNumber.purchaseInvoiceNumber}}</p>
+                            </div>
+                          </div>
 
                           <div *ngIf="sales.customer?.name" class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Customer:</h5>
@@ -125,12 +130,7 @@
                               <p class="col-lg-9 col-form-label">₹ {{sales.paidAmount | indianCurrency}}</p>
                             </div>
                           </div>
-                          <div class="form-group row mb-2" *ngIf="sales.dueAmount">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">₹ {{sales.dueAmount | indianCurrency}}</p>
-                            </div>
-                          </div>
+                          
                           <div class="form-group row mb-2" *ngIf="sales.purchaseType">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Purchase Type:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
@@ -182,12 +182,19 @@
                               <p class="col-form-label">{{sales.paymentStatus}}</p>
                             </div>
                           </div>
-                          <div class="form-group row mb-2" *ngIf="sales.quality">
+                          <div class="form-group row mb-2" *ngIf="sales.dueAmount">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">₹ {{sales.dueAmount | indianCurrency}}</p>
+                            </div>
+                          </div>
+                          <!-- <div class="form-group row mb-2" *ngIf="sales.quality">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Quality:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-form-label">{{sales.quality}}</p>
                             </div>
-                          </div>
+                          </div> -->
+
 
 
                         </div>

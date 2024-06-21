@@ -207,14 +207,14 @@ export class ViewCustomersComponent implements OnInit {
   }
 
   callBackModal() {
-    if (this.deleteSales) {
+    if (this.salesId) {
       // Delete Sales logic
       this.salesService.DeleteSalesData(this.salesId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
         this.getsales(); // Assuming this method fetches updated sales data
         this.showDialoge = false;
       });
-    } else if (this.deleteSalesReturn) {
+    } else if (this.salesReturnID) {
       // Delete Sales Return logic
       this.salesReturnService.deleteSalesReturn(this.salesReturnID).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });

@@ -332,27 +332,27 @@
                 <th>Action</th>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-sales>
+            <ng-template pTemplate="body" let-salesReturn>
               <tr>
-                <td>{{ sales.salesInvoiceNumber }}</td>
-                <td>{{ sales.returnDate | date: "dd-MMM-yyyy"}}</td>
-                <td>{{ sales.returnOrderStatus }}</td>
+                <td>{{ salesReturn.salesInvoiceNumber }}</td>
+                <td>{{ salesReturn.returnDate | date: "dd-MMM-yyyy"}}</td>
+                <td>{{ salesReturn.returnOrderStatus }}</td>
                 <!-- <td>{{ sales.paymentStatus }}</td> -->
-                <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="danger" value="Partial Paid"></p-tag></td>
-                <td *ngIf="sales.paymentStatus == 'Paid' " ><p-tag severity="success" value="Paid"></p-tag></td>
-                <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="error" value="Unpaid"></p-tag></td>
-                <td>₹ {{ sales.paidAmount | indianCurrency}}</td>
-                <td>₹ {{ sales.dueAmount | indianCurrency}}</td>
-                <td>₹ {{ sales.salesTotalAmount| indianCurrency }}</td>
+                <td *ngIf="salesReturn.paymentStatus == 'Partial Paid'"><p-tag severity="danger" value="Partial Paid"></p-tag></td>
+                <td *ngIf="salesReturn.paymentStatus == 'Paid' " ><p-tag severity="success" value="Paid"></p-tag></td>
+                <td *ngIf="salesReturn.paymentStatus == 'Unpaid' "><p-tag severity="error" value="Unpaid"></p-tag></td>
+                <td>₹ {{ salesReturn.paidAmount | indianCurrency}}</td>
+                <td>₹ {{ salesReturn.dueAmount | indianCurrency}}</td>
+                <td>₹ {{ salesReturn.salesTotalAmount| indianCurrency }}</td>
                 <td appShowHide [roles]="['admin', 'super-admin']">
                   <div class="action-buttons">
 
                   <p-button [text]="true" icon="fa-solid fa-eye"
-                    (click)="showReturnInvoiceDialoge(sales._id)"></p-button>
-                  <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'"
-                    [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentReturnDialog(sales._id)"></p-button>
-                    <div *ngIf="sales.paymentStatus != 'Unpaid' && sales.paymentStatus != 'Partial Paid'" class="placeholder"></div>
-                  <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(sales._id)"></p-button>
+                    (click)="showReturnInvoiceDialoge(salesReturn._id)"></p-button>
+                  <p-button *ngIf="salesReturn.paymentStatus == 'Unpaid' || salesReturn.paymentStatus ==  'Partial Paid'"
+                    [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentReturnDialog(salesReturn._id)"></p-button>
+                    <div *ngIf="salesReturn.paymentStatus != 'Unpaid' && salesReturn.paymentStatus != 'Partial Paid'" class="placeholder"></div>
+                  <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(salesReturn._id)"></p-button>
                   </div>
                 </td>
               </tr>
