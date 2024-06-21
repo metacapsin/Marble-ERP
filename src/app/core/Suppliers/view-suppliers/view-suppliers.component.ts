@@ -52,6 +52,7 @@ export class ViewSuppliersComponent {
   showDialoge: boolean = false; // to enable delete popup
   modalData: any = {}; // to print delete message on delete api
   supplierID: any;
+  purchaseReturnId: any;
   purchaseId: any;
   paymentDataListById: any[] = [];
   paymentReturnDataListById: any[] = [];
@@ -180,23 +181,49 @@ export class ViewSuppliersComponent {
   }
   deletePurchase(Id: any) {
     this.purchaseId = Id;
-
+    console.log(this.purchaseId);
+    this.showDialoge = true;
+    console.log("first")
     this.modalData = {
       title: "Delete",
       messege: "Are you sure you want to delete this Purchase Details",
+    };
+  }
+  deletePurchaseReturn(Id: any) {
+    this.purchaseReturnId = Id;
+    console.log(this.purchaseReturnId);
+
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Purchase Return Details",
     };
     this.showDialoge = true;
   }
 
   callBackModal() {
-    this.purchaseService
-      .DeletePurchaseData(this.purchaseId)
+    if(this.deletePurchase){
+      this.purchaseService
+        .DeletePurchaseData(this.purchaseId)
+        .subscribe((resp: any) => {
+          this.messageService.add({ severity: "success", detail: resp.message });
+          this.getPurchase();
+          this.showDialoge = false;
+        });
+
+    }
+    else if(this.deletePurchaseReturn){
+      this.purchaseReturnService
+      .deletePurchaseReturn(this.purchaseId)
       .subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
-        this.getPurchase();
+        this.getPurchaseReturn();
         this.showDialoge = false;
       });
+
+    }
   }
+
+  
 
   navigateToCreatePurchase() {
     const supplier = {
@@ -306,46 +333,43 @@ export class ViewSuppliersComponent {
         );
       });
     }
-    
   }
   openPaymentReturnDialog(Id: any) {
     if (Id) {
       this.purchaseReturnService
-      .getPurchaseReturnById(Id)
-      .subscribe((resp: any) => {
-        this.header = "Purchase Return Payment ";
-      this.showPaymentDialog = true;
+        .getPurchaseReturnById(Id)
+        .subscribe((resp: any) => {
+          this.header = "Purchase Return Payment ";
+          this.showPaymentDialog = true;
 
-        this.paymentObject = {
-          supplier: resp.data.supplier,
-          purchaseReturnId: Id,
-          isPurchaseReturn: true,
-          // purchaseReturnDataShowById: resp.data
-          purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
-          purchaseReturnTotalAmount: resp.data.purchaseReturnTotalAmount,
-          purchaseDueAmount: resp.data.dueAmount,
-        };
-        console.log(
-          "this is open Payment Return Dialog",
-          this.paymentObject.purchaseReturnId
-        );
-      });
-    this.purchaseReturnService
-      .getPurchaseReturnById(Id)
-      .subscribe((resp: any) => {
-      this.showPaymentDialog = true;
+          this.paymentObject = {
+            supplier: resp.data.supplier,
+            purchaseReturnId: Id,
+            isPurchaseReturn: true,
+            // purchaseReturnDataShowById: resp.data
+            purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
+            purchaseReturnTotalAmount: resp.data.purchaseReturnTotalAmount,
+            purchaseDueAmount: resp.data.dueAmount,
+          };
+          console.log(
+            "this is open Payment Return Dialog",
+            this.paymentObject.purchaseReturnId
+          );
+        });
+      this.purchaseReturnService
+        .getPurchaseReturnById(Id)
+        .subscribe((resp: any) => {
+          this.showPaymentDialog = true;
 
-        // this.showInvoiceDialog = true;
-        this.paymentInvoicePurchaseDataShowById = [resp.data];
-        // this.header = "Purchase Return Invoice ";
-        console.log(resp.data);
-        console.log(
-          "Purchase Return data by id On dialog",
-          this.paymentInvoicePurchaseDataShowById
-        );
-      });
-      
+          // this.showInvoiceDialog = true;
+          this.paymentInvoicePurchaseDataShowById = [resp.data];
+          // this.header = "Purchase Return Invoice ";
+          console.log(resp.data);
+          console.log(
+            "Purchase Return data by id On dialog",
+            this.paymentInvoicePurchaseDataShowById
+          );
+        });
     }
-    
   }
 }

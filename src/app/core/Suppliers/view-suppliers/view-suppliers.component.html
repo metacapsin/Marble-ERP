@@ -373,7 +373,7 @@
                                             (click)="openPaymentReturnDialog(purchase._id)"></p-button>
                                             <div *ngIf="purchase.paymentStatus != 'Unpaid' && purchase.paymentStatus != 'Partial Paid'" class="placeholder"></div>
                                         <p-button [text]="true" icon="fa-solid fa-trash"
-                                            (click)="deletePurchase(purchase._id)"></p-button>
+                                            (click)="deletePurchaseReturn(purchase._id)"></p-button>
                                     </div>
                                 </td>
                             </tr>
@@ -458,5 +458,5 @@
 <app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataItemsGrid]="paymentInvoicePurchaseDataShowById" [dataById]="paymentObject"
     (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-payments-invoice-dialog>
 
-<!-- <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-    [data]="modalData"></app-confirm-dialog> -->
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>
