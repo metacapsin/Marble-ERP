@@ -40,8 +40,8 @@ export class SalesReportsComponent{
 
     this.service.getSalesReports(data).subscribe((resp:any) => {
       console.log(resp);
-      this.salesReportsData = resp.payments
-      this.originalData = resp.payments
+      this.salesReportsData = resp.sales
+      this.originalData = resp.sales
     });
   }
 

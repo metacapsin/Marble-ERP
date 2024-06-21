@@ -15,3 +15,17 @@
 .dash-content h2 {
     margin-bottom: 0px;
 }
+.breadcrumb{
+    font-size: 14px;
+    color: #97704f;
+    cursor: pointer;
+}
+.breadcrumb:hover{
+    color: black;
+    transition: 0.90s;
+}
+.hoverClass:hover{
+    overflow: hidden;
+    color: #97704f;
+    transition: 0.74s;
+}

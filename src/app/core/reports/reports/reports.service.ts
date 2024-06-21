@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 
@@ -36,7 +36,8 @@ export class ReportsService {
   }
 
   downloadProfitLoss(data: {} | null) {
-    return this.http.post(environment.apiUrl + "/ProfitLossController/downloadProfitLoss", data);
+    const headers = new HttpHeaders().set('Accept', 'application/octet-stream');
+    return this.http.post(environment.apiUrl + "/ProfitLossController/downloadProfitLoss", data, { headers, responseType: 'arraybuffer' });
   }
 
 }

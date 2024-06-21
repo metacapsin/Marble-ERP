@@ -47,7 +47,16 @@ export class ProfitLossReportsComponent{
       endDate: formattedEndDate
     };
     
-    this.service.downloadProfitLoss(data).subscribe((resp:any) => {})
+    this.service.downloadProfitLoss(data).subscribe((response: ArrayBuffer) => {
+      const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.setAttribute('download', 'profit_loss.xlsx'); // Replace with your desired file name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
   }
 
   onDateChange(value: any): void {

@@ -444,32 +444,32 @@ export class DataService {
               base: routes.paymentInReport,
             },
             {
-              menuValue: "Payment Out report",
+              menuValue: "Payment Out Reports",
               route: routes.paymentOutReports,
               base: routes.paymentOutReports,
             },
             {
-              menuValue: "Sales Rreport",
+              menuValue: "Sales Reports",
               route: routes.salesReport,
               base: routes.salesReport,
             },
             {
-              menuValue: "Purchase Report",
+              menuValue: "Purchase Reports",
               route: routes.purchaseReport,
               base: routes.purchaseReport,
             },
             {
-              menuValue: "Expenses Report",
+              menuValue: "Expenses Reports",
               route: routes.expensesReport,
               base: routes.expensesReport,
             },
             {
-              menuValue: "Stock Report",
+              menuValue: "Stock Reports",
               route: routes.inventoryReport,
               base: routes.inventoryReport,
             },
             {
-              menuValue: "Profit & Loss",
+              menuValue: "Profit & Loss Reports",
               route: routes.profitLossReports,
               base: routes.profitLossReports,
             },

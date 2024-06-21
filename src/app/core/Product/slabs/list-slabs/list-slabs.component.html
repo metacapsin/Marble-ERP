@@ -59,7 +59,7 @@
 
                         <div class="card-body p-2">
                             <p-table [value]="allSlabsDaTa" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                                [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
+                                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
                                 (onPage)="onPageChange($event)" [(selection)]="selectedSlabs">
                                 <ng-template pTemplate="header">
                                     <tr>
@@ -87,13 +87,13 @@
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="totalSQFT">Total Square Feet Left<p-sortIcon
+                                        <th pSortableColumn="totalSQFT">Square Feet Left<p-sortIcon
                                                 field="totalSQFT"></p-sortIcon>
                                             <p-columnFilter type="text" field="totalSQFT"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="totalCosting">Total Costing <p-sortIcon
+                                        <th pSortableColumn="totalCosting">Total Cost<p-sortIcon
                                                 field="totalCosting"></p-sortIcon>
                                             <p-columnFilter type="text" field="totalCosting"
                                                 display="menu"></p-columnFilter>
@@ -136,10 +136,10 @@
                                             {{slabs.totalSQFT}}
                                         </td>
                                         <td>
-                                            {{slabs.totalCosting}}
+                                            ₹ {{slabs.totalCosting}}
                                         </td>
                                         <td>
-                                            {{slabs.sellingPricePerSQFT}}
+                                            ₹ {{slabs.sellingPricePerSQFT}}
                                         </td>
                                         <td>
                                             {{slabs.warehouseDetails.name}}

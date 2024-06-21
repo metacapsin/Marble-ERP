@@ -63,6 +63,7 @@ export class AddExpensesComponent implements OnInit {
     this.addExpensesGroup = this.fb.group({
       categoryDetails: ["", [Validators.required]],
       date: ["", [Validators.required]],
+      recipient: ["", [Validators.required]],
       amount: ["", [Validators.required,Validators.min(0),Validators.max(100000)]],
       notes: [""],
     });
@@ -97,6 +98,7 @@ export class AddExpensesComponent implements OnInit {
       categoryDetails: fromData.categoryDetails,
       amount: fromData.amount,
       date: fromData.date,
+      recipient: fromData.recipient,
       notes: fromData.notes,
     };
     console.log(payload);

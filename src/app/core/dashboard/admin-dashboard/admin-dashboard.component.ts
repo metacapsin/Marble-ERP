@@ -26,6 +26,7 @@ import {
 } from "src/app/shared/models/models";
 import { AESEncryptDecryptService } from "src/app/shared/auth/AESEncryptDecryptService ";
 import { dashboardService } from "../dashboard.service";
+import { Router } from "@angular/router";
 export type ChartOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   series: ApexAxisChartSeries | any;
@@ -94,9 +95,14 @@ export class AdminDashboardComponent {
   CategorySlabs: any;
   rangeDatesForAip: any[];
   stockAlertData: any;
-
+  piDataForFirstChat: { labels: string[]; datasets: { data: any; backgroundColor: string[]; hoverBackgroundColor: string[]; }[]; };
+  piDataForSecondChat: { labels: any; datasets: { data: any; backgroundColor: string[]; hoverBackgroundColor: string[]; }[]; };
+  searchByData = [
+    "Today", "YesterDay", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
+  ];
   constructor(
     // public data: DataService,
+    private router: Router,
     private Service: dashboardService,
     private crypto: AESEncryptDecryptService
   ) {
@@ -109,16 +115,16 @@ export class AdminDashboardComponent {
     return `${month}/${day}/${year}`;
   }
 
-  
   ngOnInit(): void {
     this.maxDate = new Date();
-    const startDate = new Date();
+    const today = new Date();
+    // const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
     const endDate = new Date();
-
+    const startDate = new Date(today.getFullYear(), 0, 1);
     // Set the start date to one month ago
-    startDate.setMonth(startDate.getMonth() - 1);
-    var Sdate = this.formatDate(startDate)
-    var Edate = this.formatDate(endDate)
+    // startDate.setMonth(startDate.getMonth() - 1);
+    var Sdate = this.formatDate(startDate);
+    var Edate = this.formatDate(endDate);
 
     this.rangeDates = [startDate, endDate];
     console.log(this.rangeDates);
@@ -170,9 +176,10 @@ export class AdminDashboardComponent {
         },
       },
     };
-
   }
   getDateOnChange(): void {
+    console.log("object");
+    console.log(this.rangeDates);
     if (!this.rangeDates[0] || !this.rangeDates[1]) {
       console.log("Please enter both start and end dates");
     } else {
@@ -185,14 +192,14 @@ export class AdminDashboardComponent {
       console.log(formattedDate1);
       console.log(formattedDate2);
       // Call the API when the date range changes
-      this.apiCall(formattedDate1,formattedDate2);
+      this.apiCall(formattedDate1, formattedDate2);
     }
   }
-  apiCall(startDate,endDate): void {
+  apiCall(startDate, endDate): void {
     const data = {
-      startDate:startDate,
-      endDate: endDate
-    }
+      startDate: startDate,
+      endDate: endDate,
+    };
     this.Service.getFinancialSummary(data).subscribe(
       (resp: any) => {
         console.log(resp.data);
@@ -217,7 +224,8 @@ export class AdminDashboardComponent {
       (resp: any) => {
         console.log(resp);
         // this.financialSummaryData = resp.data;
-        this.CategorySlabs = resp.data
+        this.CategorySlabs = resp.data;
+        this.categoryChart(resp.data);
       },
       (error: any) => {
         console.error("Error fetching financial summary:", error);
@@ -235,7 +243,7 @@ export class AdminDashboardComponent {
     this.Service.getTopCustomers(data).subscribe(
       (resp: any) => {
         console.log(resp);
-        this.allSlabsDaTa = resp.data
+        this.allSlabsDaTa = resp.data;
         // this.financialSummaryData = resp.data;
       },
       (error: any) => {
@@ -277,7 +285,12 @@ export class AdminDashboardComponent {
     const totalSalesPaymentDueData = data.map(
       (item) => item.totalSalesPaymentDue
     );
-    console.log(totalSalesPaymentDueData,totalPurchasePaymentDueData,totalPurchasesData,totalSalesData);
+    console.log(
+      totalSalesPaymentDueData,
+      totalPurchasePaymentDueData,
+      totalPurchasesData,
+      totalSalesData
+    );
 
     this.dataForFirstChat = {
       labels: labels,
@@ -311,58 +324,12 @@ export class AdminDashboardComponent {
   }
   setDataForSecondChart(data: any[]): void {
     console.log(data);
-    const yearArray = data.map((item)=>item.monthName)
+    const yearArray = data.map((item) => item.monthName);
     const totalPaymentReceivedData = data.map(
       (item) => item.totalPaymentReceived
     );
     const totalPaymentSentData = data.map((item) => item.totalPaymentSent);
     console.log(totalPaymentReceivedData, totalPaymentSentData);
-
-    // this.dataForSecondChat = {
-    //   labels: [
-    //     "Total Sales",
-    //     "Total Expenses",
-    //     "Payment Sent",
-    //     "Payment Received",
-    //     "Total Payment Due",
-    //   ],
-    //   datasets: [
-    //     {
-    //       data: totalPaymentReceivedData,
-    //       backgroundColor: [
-    //         "#3b82f6",
-    //         "#f59e0b",
-    //         "#6ee7b7",
-    //         "#ffc107",
-    //         "#4caf50",
-    //       ],
-    //       hoverBackgroundColor: [
-    //         "#3b82f6",
-    //         "#f59e0b",
-    //         "#6ee7b7",
-    //         "#ffc107",
-    //         "#4caf50",
-    //       ],
-    //     },
-    //     {
-    //       data: totalPaymentSentData,
-    //       backgroundColor: [
-    //         "#3b82f6",
-    //         "#f59e0b",
-    //         "#6ee7b7",
-    //         "#ffc107",
-    //         "#4caf50",
-    //       ],
-    //       hoverBackgroundColor: [
-    //         "#3b82f6",
-    //         "#f59e0b",
-    //         "#6ee7b7",
-    //         "#ffc107",
-    //         "#4caf50",
-    //       ],
-    //     },
-    //   ],
-    // };
     this.dataForSecondChat = {
       labels: yearArray,
       datasets: [
@@ -393,6 +360,141 @@ export class AdminDashboardComponent {
       ],
     };
   }
+  categoryChart(data) {
+    console.log(data);
+    const totalCategorySlabs = data.totalCategorySlabs.map(
+      (item) => item.totalSQFT
+    );
+    const totalSubCategorySlabs = data.totalSubCategorySlabs.map(
+      (item) => item.totalSQFT
+    );
+    const totalCategorySlabsLable = data.totalCategorySlabs.map(
+      (item) => item.name
+    );
+    const totalSubCategorySlabsLable = data.totalSubCategorySlabs.map(
+      (item) => item.name
+    );
 
-  
+    this.piDataForFirstChat = {
+      labels: totalCategorySlabsLable,
+      datasets: [
+        {
+          data: totalCategorySlabs,
+          backgroundColor: [
+            "#3b82f6",
+            "#f59e0b",
+            "#6ee7b7",
+            "#ffc107",
+            "#4caf50",
+          ],
+          hoverBackgroundColor: [
+            "#3b82f6",
+            "#f59e0b",
+            "#6ee7b7",
+            "#ffc107",
+            "#4caf50",
+          ],
+        },
+      ],
+    };
+    this.piDataForSecondChat = {
+      labels: totalSubCategorySlabsLable,
+      datasets: [
+        {
+          data: totalSubCategorySlabs,
+          backgroundColor: [
+            "#3b82f6", // Blue
+            "#f59e0b", // Orange
+            "#6ee7b7", // Teal
+            "#ffc107", // Amber
+            "#4caf50", // Green
+            "#e91e63", // Pink
+            "#9c27b0", // Purple
+            "#673ab7", // Deep Purple
+            "#2196f3", // Light Blue
+            "#00bcd4", // Cyan
+            "#009688", // Teal
+            "#8bc34a", // Light Green
+            "#cddc39", // Lime
+            "#ff9800", // Orange
+            "#ff5722", // Deep Orange
+          ],
+          hoverBackgroundColor: [
+            "#3b82f6", // Blue
+            "#f59e0b", // Orange
+            "#6ee7b7", // Teal
+            "#ffc107", // Amber
+            "#4caf50", // Green
+            "#e91e63", // Pink
+            "#9c27b0", // Purple
+            "#673ab7", // Deep Purple
+            "#2196f3", // Light Blue
+            "#00bcd4", // Cyan
+            "#009688", // Teal
+            "#8bc34a", // Light Green
+            "#cddc39", // Lime
+            "#ff9800", // Orange
+            "#ff5722", // Deep Orange
+          ],
+        },
+      ],
+    };
+    
+  }
+
+  navigator(value: any) {
+    if (value == "sales_purchase") {
+      this.router.navigate(["/sales"]);
+    }
+    if (value == "payment") {
+      this.router.navigate(["/reports/payment-in-reports"]);
+    }
+    if (value == "Customer") {
+      this.router.navigate(["/customers"]);
+    }
+    if(value == "Stock_Alert"){
+      this.router.navigate(["/reports/inventory-reports"]);
+    }
+    // /customers//
+  }
+  oneCoustomer(id: any) {
+    this.router.navigate([`/customers/view-customers/${id}`]);
+  }
+  onSearchByChange(event: any) {
+    console.log(event);
+    const value = event.value;
+    const today = new Date();
+    let startDate, endDate = today;
+    switch (value) {
+      case 'Today':
+        startDate = today;
+        endDate = today;
+        break;
+      case 'YesterDay':
+        startDate = new Date(today.setDate(today.getDate() - 1));
+        endDate = startDate;
+        break;
+      case 'Last 7 Days':
+        startDate = new Date(today.setDate(today.getDate() - 7));
+        endDate = new Date();
+        break;
+      case 'This Month':
+        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        break;
+      case 'Last 3 Months':
+        startDate = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
+        break;
+      case 'Last 6 Months':
+        startDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+        break;
+      case 'This Year':
+        startDate = new Date(today.getFullYear(), 0, 1);
+        break;
+    }
+
+    this.rangeDates = [startDate, endDate];
+    const formattedDate1 = this.formatDate(startDate);
+    const formattedDate2 = this.formatDate(endDate);
+    this.apiCall(formattedDate1, formattedDate2);
+  }
 }
