@@ -40,7 +40,7 @@
       <div class="col-md-12">
         <div class="card invoices-add-card">
           <div class="card-body">
-            <p-stepper>
+            <p-stepper [linear]="true">
               <p-stepperPanel header="Purchase Information">
                 <ng-template
                   pTemplate="content"
@@ -237,24 +237,21 @@
                       iconPos="right"
                       (onClick)="nextCallback.emit()"
                     /> -->
-                    <button class="btn btn-primary" (click)="nextCallback.emit()">
-                        Next <i class="fa-solid fa-arrow-right"></i>
+                    <button class="btn btn-primary" (click)="nextCallback.emit()" [disabled]="!lotTypeValue">
+                        Next <i class="fa-solid fa-arrow-right" ></i>
                       </button>
                   </div>
                 </ng-template>
               </p-stepperPanel>
-              <p-stepperPanel header="Lot Information">
+              <p-stepperPanel header="{{lotTypeValue}} Information">
                 <ng-template
                   pTemplate="content"
                   let-prevCallback="prevCallback"
                   let-nextCallback="nextCallback"
                   let-index="index"
                 >
-                    <!-- <div
-                      class="card-body"
-                    > -->
-                      <app-add-lot></app-add-lot>
-                    <!-- </div> -->
+                      <app-add-lot *ngIf="lotTypeValue === 'lot'"></app-add-lot>
+                      <app-add-slabs *ngIf="lotTypeValue === 'slab'"></app-add-slabs>
                   <div class="d-flex pt-4 justify-content-between">
                     <button class="btn btn-primary" (click)="prevCallback.emit()">
                         <i class="fa-solid fa-arrow-left"></i> Back
@@ -265,7 +262,7 @@
                   </div>
                 </ng-template>
               </p-stepperPanel>
-              <p-stepperPanel header="Summary">
+              <!-- <p-stepperPanel header="Summary">
                 <ng-template
                   pTemplate="content"
                   let-prevCallback="prevCallback"
@@ -288,32 +285,7 @@
                       </button>
                   </div>
                 </ng-template>
-              </p-stepperPanel>
-              <p-stepperPanel *ngIf="lotTypeValue === 'lot'">
-                <ng-template
-                  pTemplate="content"
-                  let-prevCallback="prevCallback"
-                  let-index="index"
-                >
-                  <div class="d-flex flex-column h-12rem">
-                    <div
-                      class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium"
-                    >
-                      Content IV
-                    </div>
-                  </div>
-                  <div class="d-flex pt-4 justify-content-start">
-                    <!-- <p-button
-                      label="Back"
-                      icon="pi pi-arrow-left"
-                      (onClick)="prevCallback.emit()"
-                    /> -->
-                    <button class="btn btn-primary" (click)="prevCallback.emit()">
-                        <i class="fa-solid fa-arrow-left"></i> Back
-                      </button>
-                  </div>
-                </ng-template>
-              </p-stepperPanel>
+              </p-stepperPanel> -->
             </p-stepper>
           </div>
         </div>

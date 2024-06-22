@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { CalendarModule } from "primeng/calendar";
 import { DropdownModule } from "primeng/dropdown";
 import { AddLotComponent } from "../../Product/lot/add-lot/add-lot.component";
+import { AddSlabsComponent } from "../../Product/slabs/add-slabs/add-slabs.component";
 
 @Component({
   selector: "app-add-new-purchase",
@@ -22,6 +23,7 @@ import { AddLotComponent } from "../../Product/lot/add-lot/add-lot.component";
     CalendarModule,
     AddLotComponent,
     DropdownModule,
+    AddSlabsComponent,
   ],
   templateUrl: "./add-new-purchase.component.html",
   styleUrl: "./add-new-purchase.component.scss",

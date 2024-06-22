@@ -83,7 +83,7 @@ export class ListNewPurchaseComponent {
     { customerName: "Nadim" },
     { customerName: "Kavya" },
   ];
-
+// '/new-purchase/add-new-purchase'
   constructor(
     public data: DataService,
     // private Service: PurchaseService,
@@ -120,7 +120,7 @@ export class ListNewPurchaseComponent {
 
   navigateToCreatePurchase() {
     const returnUrl = this.router.url;
-    this.router.navigate(['/purchase/add-purchase']);
+    this.router.navigate(['/new-purchase/add-new-purchase']);
     this.localStorageService.setItem('returnUrl',returnUrl);
 
     // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
