@@ -177,7 +177,7 @@
                             <td>₹ {{lot.royaltyCosting.toFixed(3)}}</td>
                             <td>₹ {{lot.totalCosting.toFixed(3)}}</td>
                             <td *ngIf="lot.isProcessed"><p-tag severity="success" value="Yes"></p-tag></td>
-                            <td *ngIf="!lot.isProcessed"><p-tag severity="error" value="No"></p-tag></td>
+                            <td *ngIf="!lot.isProcessed"><p-tag severity="warning" value="No"></p-tag></td>
                         </tr>
                     </ng-template>
                 </p-table>

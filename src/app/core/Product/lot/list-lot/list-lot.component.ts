@@ -11,6 +11,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { LotService } from '../lot.service';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import { StepperModule } from 'primeng/stepper';
+
 import { SlabsService } from '../../slabs/slabs.service';
 // import { CsvDownloadService } from 'src/app/common-component/shared/csv-download/shared/csv-download.service';
 
@@ -29,7 +31,7 @@ interface ExportColumn {
 @Component({
   selector: 'app-list-lot',
   standalone: true,
-  imports: [CommonModule, SharedModule, ButtonModule, TableModule, TreeTableModule, ToastModule, DialogModule],
+  imports: [CommonModule, SharedModule, ButtonModule, TableModule, TreeTableModule, ToastModule, DialogModule, StepperModule],
   providers: [MessageService],
   templateUrl: './list-lot.component.html',
   styleUrl: './list-lot.component.scss'

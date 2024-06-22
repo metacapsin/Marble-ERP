@@ -192,7 +192,7 @@
                                         value="Partial Paid"></p-tag></td>
                                 <td *ngIf="purchase.paymentStatus == 'Paid' "><p-tag severity="success"
                                         value="Paid"></p-tag></td>
-                                <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="error"
+                                <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="warning"
                                         value="Unpaid"></p-tag></td>
                                 <td>₹ {{ purchase.paidAmount | indianCurrency}}</td>
                                 <td>₹ {{ purchase.dueAmount | indianCurrency}}</td>
@@ -355,7 +355,7 @@
                                     value="Partial Paid"></p-tag></td>
                             <td *ngIf="purchaseReturn.paymentStatus == 'Paid' "><p-tag severity="success"
                                     value="Paid"></p-tag></td>
-                            <td *ngIf="purchaseReturn.paymentStatus == 'Unpaid' "><p-tag severity="error"
+                            <td *ngIf="purchaseReturn.paymentStatus == 'Unpaid' "><p-tag severity="warning"
                                     value="Unpaid"></p-tag></td>
                                 <td>₹ {{ purchaseReturn.paidAmount | indianCurrency }}</td>
                                 <td>₹ {{ purchaseReturn.dueAmount | indianCurrency }}</td>
