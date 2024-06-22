@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddNewPurchaseComponent } from './add-new-purchase/add-new-purchase.component';
+import { ListNewPurchaseComponent } from './list-new-purchase/list-new-purchase.component';
 // import { PurchaseComponent } from './purchase.component';
 // import { AddPurchaseComponent } from './add-purchase/add-purchase.component';
 // import { EditPurchaseComponent } from './edit-purchase/edit-purchase.component';
@@ -8,6 +9,10 @@ import { AddNewPurchaseComponent } from './add-new-purchase/add-new-purchase.com
 // import { UnpaidPurchaseComponent } from './unpaid-purchase/unpaid-purchase.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: ListNewPurchaseComponent,
+  },
   {
     path: 'add-new-purchase',
     component: AddNewPurchaseComponent,

@@ -349,8 +349,8 @@ export class DataService {
           subMenus: [
             {
               menuValue: "New Purchase",
-              route: routes.addNewPurchase,
-              base: routes.addNewPurchase,
+              route: routes.listNewPurchase,
+              base: routes.listNewPurchase,
             },
             {
               menuValue: "Purchase",
