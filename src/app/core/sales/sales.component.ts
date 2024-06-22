@@ -47,6 +47,7 @@ export class SalesComponent implements OnInit {
   visibleTotalDueAmount: number = 0;
   visibleTotalAmount: number = 0;
   currentUrl: string;
+  header: any;
 
 
   constructor(
@@ -115,6 +116,7 @@ export class SalesComponent implements OnInit {
 
   showInvoiceDialoge(Id: any) { 
     this.Service.GetSalesDataById(Id).subscribe((resp: any) => {
+      this.header="Sales Invoice"
       this.showInvoiceDialog = true;
       this.salesDataById = [resp.data];
       console.log("sales data by id On dialog", this.salesDataById);
