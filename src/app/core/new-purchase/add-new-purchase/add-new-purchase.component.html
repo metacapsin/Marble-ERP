@@ -1,0 +1,323 @@
+<div class="page-wrapper">
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Purchase List</li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Purchase Add</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-header invoices-page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <ul class="breadcrumb invoices-breadcrumb">
+            <li class="breadcrumb-item invoices-breadcrumb-item">
+              <a [routerLink]="routes.purchase">
+                <i class="fa fa-chevron-left"></i> Back to Purchase List
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card invoices-add-card">
+          <div class="card-body">
+            <p-stepper>
+              <p-stepperPanel>
+                <ng-template
+                  pTemplate="content"
+                  let-nextCallback="nextCallback"
+                  let-index="index"
+                >
+                  <div class="flex flex-column h-12rem">
+                    <div
+                      class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium"
+                    >
+                    <h3 class="mb-4">Purchase information</h3>
+                      <form
+                        [formGroup]="addNewPurchaseForm"
+                        (ngSubmit)="addNewPurchaseFormSubmit()"
+                      >
+                        <div class="row">
+                          <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="invoiceNumber"
+                                >Invoice Number<span class="login-danger"></span
+                              ></label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Enter Incoice Number"
+                                formControlName="invoiceNumber"
+                              />
+                              <span style="color: #97704f; font-size: 12px"
+                                >Leave it blank to generate automatically</span
+                              >
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="purchaseDate"
+                                >Purchase Date<span class="login-danger"
+                                  >*</span
+                                ></label
+                              >
+                              <p-calendar
+                                [maxDate]="maxDate"
+                                dataType="string"
+                                appendTo="body"
+                                dateFormat="mm/dd/yy"
+                                formControlName="purchaseDate"
+                                placeholder="mm/dd/yyyy"
+                                [styleClass]="'col-12'"
+                              ></p-calendar>
+                              <div
+                                *ngIf="
+                                  addNewPurchaseForm
+                                    .get('purchaseDate')
+                                    ?.hasError('required') &&
+                                  addNewPurchaseForm.get('purchaseDate')
+                                    ?.touched
+                                "
+                              >
+                                <span class="login-danger"
+                                  >Field is required.
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="supplier"
+                                >Supplier Name<span class="login-danger"
+                                  >*</span
+                                ></label
+                              >
+                              <p-dropdown
+                                [style]="{ width: '100%' }"
+                                placeholder="--Select Supplier--"
+                                [options]="SupplierLists"
+                                formControlName="supplier"
+                                optionLabel="name"
+                                optionValue="_id"
+                                display="chip"
+                                [showClear]="true"
+                              ></p-dropdown>
+
+                              <div
+                                *ngIf="
+                                  addNewPurchaseForm
+                                    .get('supplier')
+                                    ?.hasError('required') &&
+                                  addNewPurchaseForm.get('supplier')?.touched
+                                "
+                              >
+                                <span class="login-danger"
+                                  >Field is required.
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                         
+                          <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="lotsNo"
+                                >Type<span class="login-danger">*</span></label
+                              >
+                              <p-dropdown
+                                [options]="lotsNoArray"
+                                [style]="{ width: '100%' }"
+                                styleClass=""
+                                appendTo="body"
+                                optionLabel="name"
+                                optionValue="_id"
+                                placeholder="Type"
+                                [filter]="true"
+                                filterBy="name"
+                                [showClear]="true"
+                                (onChange)="lotType($event.value)"
+                                formControlName="purchaseType"
+                              >
+                              </p-dropdown>
+                              <div
+                                *ngIf="
+                                  addNewPurchaseForm
+                                    .get('lotsType')
+                                    ?.hasError('required') &&
+                                  addNewPurchaseForm.get('lotsType')?.touched
+                                "
+                              >
+                                <span class="login-danger"
+                                  >Field is required.
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-md-6 col-sm-12 col-12" *ngIf="lotTypeValue === 'lot'">
+                            <div class="form-group local-forms">
+                              <label for="purchaseCost">Purchase Cost</label>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">₹</span>
+                                </div>
+                                <input
+                                  class="form-control"
+                                  formControlName="purchaseCost"
+                                  type="number"
+                                  placeholder="Purchase Cost"
+                                />
+                              </div>
+                              <div
+                                *ngIf="
+                                  addNewPurchaseForm
+                                    .get('purchaseCost')
+                                    ?.hasError('min') &&
+                                  addNewPurchaseForm.get('purchaseCost')
+                                    ?.touched
+                                "
+                              >
+                                <span class="login-danger"
+                                  >Input must be at least 0.
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-md-6 col-sm-12 col-12" *ngIf="lotTypeValue === 'lot'">
+                            <div class="form-group local-forms">
+                              <label for="lotWeight">Lot Weight</label>
+                              <div class="input-group">
+                                <input
+                                  class="form-control"
+                                  formControlName="lotWeight"
+                                  type="number"
+                                  placeholder="Lot Weight"
+                                />
+                              </div>
+                              <div
+                                *ngIf="
+                                  addNewPurchaseForm
+                                    .get('lotWeight')
+                                    ?.hasError('min') &&
+                                  addNewPurchaseForm.get('lotWeight')
+                                    ?.touched
+                                "
+                              >
+                                <span class="login-danger"
+                                  >Input must be at least 0.
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="d-flex pt-4 justify-content-end">
+                    <!-- <p-button
+                      label="Next"
+                      icon="fa fa-arrow-right"
+                      iconPos="right"
+                      (onClick)="nextCallback.emit()"
+                    /> -->
+                    <button class="btn btn-primary" (click)="nextCallback.emit()">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                      </button>
+                  </div>
+                </ng-template>
+              </p-stepperPanel>
+              <p-stepperPanel>
+                <ng-template
+                  pTemplate="content"
+                  let-prevCallback="prevCallback"
+                  let-nextCallback="nextCallback"
+                  let-index="index"
+                >
+                    <!-- <div
+                      class="card-body"
+                    > -->
+                      <app-add-lot></app-add-lot>
+                    <!-- </div> -->
+                  <div class="d-flex pt-4 justify-content-between">
+                    <button class="btn btn-primary" (click)="prevCallback.emit()">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                      </button>
+                    <button class="btn btn-primary" (click)="nextCallback.emit()">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                      </button>
+                  </div>
+                </ng-template>
+              </p-stepperPanel>
+              <p-stepperPanel>
+                <ng-template
+                  pTemplate="content"
+                  let-prevCallback="prevCallback"
+                  let-nextCallback="nextCallback"
+                  let-index="index"
+                >
+                  <div class="d-flex flex-column h-12rem">
+                    <div
+                      class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium"
+                    >
+                      Content III
+                    </div>
+                  </div>
+                  <div class="d-flex pt-4 justify-content-between">
+                    <button class="btn btn-primary" (click)="prevCallback.emit()">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                      </button>
+                    <button class="btn btn-primary" (click)="nextCallback.emit()">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                      </button>
+                  </div>
+                </ng-template>
+              </p-stepperPanel>
+              <p-stepperPanel *ngIf="lotTypeValue === 'lot'">
+                <ng-template
+                  pTemplate="content"
+                  let-prevCallback="prevCallback"
+                  let-index="index"
+                >
+                  <div class="d-flex flex-column h-12rem">
+                    <div
+                      class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium"
+                    >
+                      Content IV
+                    </div>
+                  </div>
+                  <div class="d-flex pt-4 justify-content-start">
+                    <!-- <p-button
+                      label="Back"
+                      icon="pi pi-arrow-left"
+                      (onClick)="prevCallback.emit()"
+                    /> -->
+                    <button class="btn btn-primary" (click)="prevCallback.emit()">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                      </button>
+                  </div>
+                </ng-template>
+              </p-stepperPanel>
+            </p-stepper>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

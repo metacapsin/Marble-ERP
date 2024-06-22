@@ -340,7 +340,7 @@
                 <!-- <td>{{ sales.paymentStatus }}</td> -->
                 <td *ngIf="salesReturn.paymentStatus == 'Partial Paid'"><p-tag severity="danger" value="Partial Paid"></p-tag></td>
                 <td *ngIf="salesReturn.paymentStatus == 'Paid' " ><p-tag severity="success" value="Paid"></p-tag></td>
-                <td *ngIf="salesReturn.paymentStatus == 'Unpaid' "><p-tag severity="error" value="Unpaid"></p-tag></td>
+                <td *ngIf="salesReturn.paymentStatus == 'Unpaid' "><p-tag severity="warning" value="Unpaid"></p-tag></td>
                 <td>₹ {{ salesReturn.paidAmount | indianCurrency}}</td>
                 <td>₹ {{ salesReturn.dueAmount | indianCurrency}}</td>
                 <td>₹ {{ salesReturn.salesTotalAmount| indianCurrency }}</td>

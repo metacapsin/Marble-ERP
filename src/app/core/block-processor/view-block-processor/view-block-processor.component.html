@@ -139,7 +139,7 @@
                   <!-- {{ processing.slab[0].slabName }} -->
                   adnan
                 </td>
-                <td *ngIf="processing.paymentStatus == 'Partial Paid'"><p-tag severity="Warning"
+                <td *ngIf="processing.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
                     value="Partial Paid"></p-tag></td>
                 <td *ngIf="processing.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
                 <td *ngIf="processing.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
@@ -262,7 +262,7 @@
                                               addSlabProcessingForm.get('processingDate')?.hasError(
                                                 'required'
                                               ) && addSlabProcessingForm.get('processingDate')?.touched
-                                            ">
+                                            ">-++++++++++++++
                   <span class="login-danger">Field is required.</span>
             </div>
             </div>

@@ -680,5 +680,11 @@ export class routes {
   public static get blocks(): string {
     return this.baseUrl + '/blocks';
   }
+  public static get addNewPurchase(): string{
+    return this.baseUrl + '/new-purchase/add-new-purchase';
+  }
+  public static get listNewPurchase(): string{
+    return this.baseUrl + '/new-purchase';
+  }
 
 }

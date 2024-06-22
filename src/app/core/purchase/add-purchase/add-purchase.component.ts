@@ -50,7 +50,7 @@ export class AddPurchaseComponent implements OnInit {
   subCategoryList: any;
   unitListData: any;
   id: any;
-  SupplierLists:any= [];
+  SupplierLists: any = [];
   categoryList = [];
   setIT: any;
   data: any;
@@ -105,24 +105,23 @@ export class AddPurchaseComponent implements OnInit {
     private service: SlabsService,
     private activeRoute: ActivatedRoute,
     private localStorageService: LocalStorageService
-
   ) {
     this.addPurchaseForm = this.fb.group({
       purchaseInvoiceNumber: [""],
       supplier: ["", [Validators.required]],
       purchaseDate: ["", [Validators.required]],
-      purchaseOrderStatus: ["", [Validators.required]],
-      purchaseOrderTax: [""],
-      purchaseDiscount: ["", [Validators.min(0)]],
-      purchaseShipping: ["", [Validators.min(0)]],
+      // purchaseOrderStatus: ["", [Validators.required]],
+      // purchaseOrderTax: [""],
+      // purchaseDiscount: ["", [Validators.min(0)]],
+      // purchaseShipping: ["", [Validators.min(0)]],
       purchaseTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       purchaseNotes: ["", [Validators.pattern(this.notesRegex)]],
       purchaseTotalAmount: [""],
-      otherCharges: ["", [Validators.min(0)]],
+      // otherCharges: ["", [Validators.min(0)]],
       purchaseGrossTotal: [""],
-      oceanFrieght: [""],
-      postExpenses: [""],
-      quality: [""],
+      // oceanFrieght: [""],
+      // postExpenses: [""],
+      // quality: [""],
       lotDetail: [""],
       purchaseType: ["", [Validators.required]],
       slabDetails: [""],
@@ -135,7 +134,7 @@ export class AddPurchaseComponent implements OnInit {
     this.GridDataForSlab = [];
     this.TotleLotCost = 0;
     this.SlabAddValue = 0;
-    this.calculateTotalAmount();
+    // this.calculateTotalAmount();
 
     this.addPurchaseForm.get("lotDetail")?.reset();
     this.addPurchaseForm.get("slabDetails")?.reset();
@@ -148,12 +147,16 @@ export class AddPurchaseComponent implements OnInit {
       console.log("blocks", this.GridDataForLot, this.TotleLotCost);
     });
     this.TotleLotCost = LotValue.lotTotalCosting || 0;
-    this.calculateTotalAmount();
+    // this.addPurchaseForm.patchValue({
+    //   purchaseTotalAmount: this.TotleLotCost,
+    // });
+    // this.calculateTotalAmount();
     this.GridDataForSlab = [];
     console.log(LotValue);
   }
 
   slabValues(slabValue: any) {
+    console.log(slabValue);
     this.SlabAddValue = 0;
     this.GridDataForSlab = slabValue || [];
     this.slabValuesAdd = [];
@@ -166,8 +169,8 @@ export class AddPurchaseComponent implements OnInit {
       }
     });
     this.GridDataForLot = [];
-    this.calculateTotalAmount();
-    console.log(slabValue);
+    // this.calculateTotalAmount();
+    console.log(slabValue,this.SlabAddValue);
   }
 
   getSupplier() {
@@ -188,17 +191,18 @@ export class AddPurchaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.SupplierLists = this.getSupplier(); 
-    this.supplier = this.localStorageService.getItem('supplier');
-    this.returnUrl=this.localStorageService.getItem('returnUrl')
-    console.log(this.returnUrl)
-    console.log("this is supplier data by local sotrage service",this.supplier)
-    if (this.supplier) {
-      this.addPurchaseForm.patchValue({ 
-        supplier: this.supplier
-        
-      }
+    this.SupplierLists = this.getSupplier();
+    this.supplier = this.localStorageService.getItem("supplier");
+    this.returnUrl = this.localStorageService.getItem("returnUrl");
+    console.log(this.returnUrl);
+    console.log(
+      "this is supplier data by local sotrage service",
+      this.supplier
     );
+    if (this.supplier) {
+      this.addPurchaseForm.patchValue({
+        supplier: this.supplier,
+      });
     }
 
     this.getSupplier();
@@ -254,59 +258,59 @@ export class AddPurchaseComponent implements OnInit {
       // console.log("API", this.data);
     });
   }
-  calculateTotalAmount() {
-    console.log("Enter in caltotal");
-    let totalAmount = 0;
-    var purchaseGrossTotal = 0;
-    if (this.SlabAddValue) {
-      this.TotleLotCost = 0;
-      purchaseGrossTotal = this.SlabAddValue;
-    }
-    if (this.TotleLotCost) {
-      this.SlabAddValue = 0;
-      purchaseGrossTotal = this.TotleLotCost;
-    }
-    console.log("tocalculateTotalAmount", purchaseGrossTotal);
+  // calculateTotalAmount() {
+  //   console.log("Enter in caltotal");
+  //   let totalAmount = 0;
+  //   var purchaseGrossTotal = 0;
+  //   if (this.SlabAddValue) {
+  //     this.TotleLotCost = 0;
+  //     purchaseGrossTotal = this.SlabAddValue;
+  //   }
+  //   if (this.TotleLotCost) {
+  //     this.SlabAddValue = 0;
+  //     purchaseGrossTotal = this.TotleLotCost;
+  //   }
+  //   console.log("tocalculateTotalAmount", purchaseGrossTotal);
 
-    let totalTax = 0;
-    if (Array.isArray(this.addPurchaseForm.get("purchaseOrderTax").value)) {
-      this.addPurchaseForm.get("purchaseOrderTax").value.forEach((element) => {
-        totalTax += Number(element.taxRate);
-      });
-    } else {
-      totalTax += Number(this.addPurchaseForm.get("purchaseOrderTax").value);
-    }
+  //   let totalTax = 0;
+  //   if (Array.isArray(this.addPurchaseForm.get("purchaseOrderTax").value)) {
+  //     this.addPurchaseForm.get("purchaseOrderTax").value.forEach((element) => {
+  //       totalTax += Number(element.taxRate);
+  //     });
+  //   } else {
+  //     totalTax += Number(this.addPurchaseForm.get("purchaseOrderTax").value);
+  //   }
 
-    let shipping = +this.addPurchaseForm.get("purchaseShipping").value;
-    let Discount = +this.addPurchaseForm.get("purchaseDiscount").value;
-    let otherCharges = +this.addPurchaseForm.get("otherCharges").value;
-    let oceanFrieght = +this.addPurchaseForm.get("oceanFrieght").value;
-    let postExpenses = +this.addPurchaseForm.get("postExpenses").value;
-    this.addTaxTotal = (purchaseGrossTotal * totalTax) / 100;
-    var valueAddTaxTotal = parseFloat(this.addTaxTotal.toFixed(2));
-    totalAmount += purchaseGrossTotal;
-    totalAmount -= Discount;
-    totalAmount += shipping;
-    totalAmount += otherCharges;
-    totalAmount += oceanFrieght;
-    totalAmount += postExpenses;
-    totalAmount += valueAddTaxTotal;
+  //   let shipping = +this.addPurchaseForm.get("purchaseShipping").value;
+  //   let Discount = +this.addPurchaseForm.get("purchaseDiscount").value;
+  //   let otherCharges = +this.addPurchaseForm.get("otherCharges").value;
+  //   let oceanFrieght = +this.addPurchaseForm.get("oceanFrieght").value;
+  //   let postExpenses = +this.addPurchaseForm.get("postExpenses").value;
+  //   this.addTaxTotal = (purchaseGrossTotal * totalTax) / 100;
+  //   var valueAddTaxTotal = parseFloat(this.addTaxTotal.toFixed(2));
+  //   totalAmount += purchaseGrossTotal;
+  //   totalAmount -= Discount;
+  //   totalAmount += shipping;
+  //   totalAmount += otherCharges;
+  //   totalAmount += oceanFrieght;
+  //   totalAmount += postExpenses;
+  //   totalAmount += valueAddTaxTotal;
 
-    this.addPurchaseForm.patchValue({
-      purchaseGrossTotal: purchaseGrossTotal,
-      purchaseDiscount: Discount.toFixed(),
-      purchaseShipping: shipping.toFixed(),
-      purchaseTotalAmount: totalAmount.toFixed(),
-      otherCharges: otherCharges.toFixed(),
-      oceanFrieght: oceanFrieght.toFixed(),
-      postExpenses: postExpenses.toFixed(),
-    });
-  }
+  //   this.addPurchaseForm.patchValue({
+  //     purchaseGrossTotal: purchaseGrossTotal,
+  //     purchaseDiscount: Discount.toFixed(),
+  //     purchaseShipping: shipping.toFixed(),
+  //     purchaseTotalAmount: totalAmount.toFixed(),
+  //     otherCharges: otherCharges.toFixed(),
+  //     oceanFrieght: oceanFrieght.toFixed(),
+  //     postExpenses: postExpenses.toFixed(),
+  //   });
+  // }
 
   addPurchaseFormSubmit() {
     const formData = this.addPurchaseForm.value;
     console.log(formData);
-    if (formData.slabDetails == '' && formData.lotDetail == '') {
+    if (formData.slabDetails == "" && formData.lotDetail == "") {
       this.messageService.add({
         severity: "error",
         detail: "Select one Lot or Slab",
@@ -315,21 +319,21 @@ export class AddPurchaseComponent implements OnInit {
     const payload = {
       supplier: formData.supplier,
       purchaseDate: formData.purchaseDate,
-      quality: formData.purchaseDiscount,
+      // quality: formData.purchaseDiscount,
       purchaseType: formData.purchaseType,
       slabDetail: formData.slabDetails,
       lotDetail: formData.lotDetail,
-      purchaseDiscount: formData.purchaseDiscount,
+      // purchaseDiscount: formData.purchaseDiscount,
       purchaseGrossTotal: formData.purchaseGrossTotal,
       purchaseNotes: formData.purchaseNotes,
-      otherCharges: formData.otherCharges,
-      purchaseOrderStatus: formData.purchaseOrderStatus,
-      purchaseOrderTax: formData.purchaseOrderTax,
-      purchaseShipping: formData.purchaseShipping,
+      // otherCharges: formData.otherCharges,
+      // purchaseOrderStatus: formData.purchaseOrderStatus,
+      // purchaseOrderTax: formData.purchaseOrderTax,
+      // purchaseShipping: formData.purchaseShipping,
       purchaseTermsAndCondition: formData.purchaseTermsAndCondition,
       purchaseTotalAmount: formData.purchaseTotalAmount,
-      postExpenses: formData.postExpenses,
-      oceanFrieght: formData.oceanFrieght,
+      // postExpenses: formData.postExpenses,
+      // oceanFrieght: formData.oceanFrieght,
     };
     console.log(payload);
     if (this.addPurchaseForm.valid) {
