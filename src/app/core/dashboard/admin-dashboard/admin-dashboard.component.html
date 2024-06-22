@@ -28,8 +28,8 @@
                         <img src="assets/img/morning-img-01.png" alt="">
                     </div>
                 </div>
-                        <!-- <h2><span class="counter-up" [countUp]="250" [options]="{duration: 10}">250</span></h2> -->
-            </div> 
+                <!-- <h2><span class="counter-up" [countUp]="250" [options]="{duration: 10}">250</span></h2> -->
+            </div>
         </div>
         <!-- <div class="row d-flex justify-content-end">
             <div class="col-12 col-md-12 col-xl-4">
@@ -37,7 +37,7 @@
                     
                     <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
                         [maxDate]="maxDate" [style]="{ width: '100%' }" placeholder="Start Date - End Date"
-                        (ngModelChange)="getDateOnChange()" />
+                        (ngModelChange)="getDateOnChange()" />counter-up
                 </div>
             </div>
         </div> -->
@@ -46,7 +46,7 @@
                 <div class="col-lg-4 col-md-4 h-2">
                     <div class="form-group local-forms">
                         <!-- <label for="warehouseDetails">searchBy </label> -->
-                        <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Filter By" 
+                        <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Filter By"
                             [style]="{ width: '100%' }" [filter]="true" filterBy="name"
                             (onChange)="onSearchByChange($event)">
                         </p-dropdown>
@@ -56,8 +56,9 @@
                 <div class="col-lg-4 col-md-4 h-2">
                     <div class="form-group local-forms">
                         <!-- <label for="warehouseDetails">Date </label> -->
-                        <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [maxDate]="maxDate" 
-                            [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="getDateOnChange()"/>
+                        <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                            [maxDate]="maxDate" [style]="{ width: '100%' }" placeholder="Start Date - End Date"
+                            (ngModelChange)="getDateOnChange()" />
                     </div>
                 </div>
             </div>
@@ -72,7 +73,9 @@
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Total Sales</h4>
-                        <h2><span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryData?.totalSales" [options]="{duration: 10}">{{ financialSummaryData?.totalSales }}</span></h2>
+                        <h2><span class="me-2">₹</span><span class="counter-up"
+                                [countUp]="financialSummaryData?.totalSales"  [options]="{duration: 2}">{{
+                                financialSummaryData?.totalSales }}</span></h2>
                         <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
                     </div>
                 </div>
@@ -83,11 +86,14 @@
                     <!-- style="background-color: #fdf5ee;" -->
                     <div class="dash-boxs comman-flex-center">
                         <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;">
+                        <!-- <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;"> -->
+                        <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f;"></i>
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Total Expenses</h4>
-                        <h2><span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryData?.totalExpenses" [options]="{duration: 10}">{{ financialSummaryData?.totalExpenses }}</span></h2>
+                        <h2><span class="me-2">₹</span><span class="counter-up"
+                                [countUp]="financialSummaryData?.totalExpenses" [options]="{duration: 0.50}">{{
+                                financialSummaryData?.totalExpenses }}</span></h2>
                         <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
                     </div>
                 </div>
@@ -97,11 +103,14 @@
                 <div class="dash-widget">
                     <div class="dash-boxs comman-flex-center">
                         <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;">
+                        <!-- <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;"> -->
+                        <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f;"></i>
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Payment Out</h4>
-                        <h2><span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryData?.paymentOut" [options]="{duration: 10}">{{ financialSummaryData?.paymentOut }}</span></h2>
+                        <h2><span class="me-2">₹</span><span class="counter-up"
+                                [countUp]="financialSummaryData?.paymentOut" [options]="{duration: 0.50}">{{
+                                financialSummaryData?.paymentOut }}</span></h2>
                         <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
                     </div>
                 </div>
@@ -111,11 +120,14 @@
                 <div class="dash-widget">
                     <div class="dash-boxs comman-flex-center">
                         <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;">
+                        <!-- <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;"> -->
+                        <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f;"></i>
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Payment In</h4>
-                        <h2><span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryData?.paymentIn" [options]="{duration: 10}">{{ financialSummaryData?.paymentIn }}</span></h2>
+                        <h2><span class="me-2">₹</span><span class="counter-up"
+                                [countUp]="financialSummaryData?.paymentIn" [options]="{duration: 0.50}">{{
+                                financialSummaryData?.paymentIn }}</span></h2>
                         <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
                     </div>
                 </div>
@@ -129,7 +141,9 @@
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Total Sales Due</h4>
-                        <h2><span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryData?.totalSalesDue" [options]="{duration: 10}">{{ financialSummaryData?.totalSalesDue }}</span></h2>
+                        <h2><span class="me-2">₹</span><span class="counter-up"
+                                [countUp]="financialSummaryData?.totalSalesDue" [options]="{duration: 0.50}">{{
+                                financialSummaryData?.totalSalesDue }}</span></h2>
                         <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
                     </div>
                 </div>
@@ -141,29 +155,36 @@
                 <div class="card">
                     <div class="px-3 pt-3 d-flex justify-content-between">
                         <h3>Sales & Purchase</h3>
-                        <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">Veiw All</h5></div>
+                        <div>
+                            <h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5>
+                        </div>
                     </div>
-                    <p-chart type="bar" [data]="dataForFirstChat" [options]="optionsForFirstChat" style="padding: 0px 10px 5px 10px;"/>
+                    <p-chart type="bar" [data]="dataForFirstChat" [options]="optionsForFirstChat"
+                        style="padding: 0px 10px 5px 10px;" />
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="card">
                     <div class="px-3 pt-3 d-flex justify-content-between">
                         <h3>Payment</h3>
-                        <div><h5 (click)="navigator('payment')" class="breadcrumb">Veiw All</h5></div>
+                        <div>
+                            <h5 (click)="navigator('payment')" class="breadcrumb">View All</h5>
+                        </div>
                     </div>
-                    <p-chart type="bar" [data]="dataForSecondChat" [options]="optionsForFirstChat" style="padding: 0px 10px 5px 10px;"/>
+                    <p-chart type="bar" [data]="dataForSecondChat" [options]="optionsForFirstChat"
+                        style="padding: 0px 10px 5px 10px;" />
                 </div>
             </div>
         </div>
 
-        <div class="row mt-4" *ngIf="CategorySlabs">
+        <div class="row mt-4"
+            *ngIf="CategorySlabs.totalCategorySlabs.length && CategorySlabs.totalSubCategorySlabs.length ">
             <!-- <div class="col-12 col-md-6">
                 <div class="card p-2">
 
                     <div class="px-2 py-2 d-flex justify-content-between">
                         <h3>Total Category</h3>
-                        <div><h5 (click)="navigator('Total_Category')" class="breadcrumb">Veiw All</h5></div>
+                        <div><h5 (click)="navigator('Total_Category')" class="breadcrumb">View All</h5></div>
                     </div>
                     <div class="">
                         <p-table [value]="CategorySlabs.totalCategorySlabs" styleClass="p-datatable-striped">
@@ -219,7 +240,7 @@
                 <div class="card p-2">
                 <div class="px-2 py-2 d-flex justify-content-between">
                     <h3>Total Sub Category</h3>
-                    <div><h5 (click)="navigator('Total_Sub_Category')" class="breadcrumb">Veiw All</h5></div>
+                    <div><h5 (click)="navigator('Total_Sub_Category')" class="breadcrumb">View All</h5></div>
                 </div>
                     <p-table [value]="CategorySlabs.totalSubCategorySlabs" styleClass="p-datatable-striped">
                         <ng-template pTemplate="header">
@@ -270,12 +291,11 @@
                     </div>
                 </div>
             </div> -->
-
             <div class="col-md-6">
                 <div class="card p-2">
                     <div class="px-3 pt-2 d-flex justify-content-between">
                         <h3>Category</h3>
-                        <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">Veiw All</h5></div> -->
+                        <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5></div> -->
                     </div>
                     <div class="chart-container">
                         <p-chart type="pie" [data]="piDataForFirstChat" [options]="optionsForSecondChat"
@@ -288,7 +308,7 @@
                 <div class="card p-2">
                     <div class="px-3 pt-2 d-flex justify-content-between">
                         <h3>Sub Category</h3>
-                        <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">Veiw All</h5></div> -->
+                        <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5></div> -->
                     </div>
                     <div class="chart-container">
                         <p-chart type="pie" [data]="piDataForSecondChat" [options]="optionsForSecondChat"
@@ -302,10 +322,12 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="card p-2">
-                <div class="px-2 py-2 d-flex justify-content-between">
-                    <h3>Stock Alert</h3>
-                    <div><h5 (click)="navigator('Stock_Alert')" class="breadcrumb">Veiw All</h5></div>
-                </div>
+                    <div class="px-2 py-2 d-flex justify-content-between">
+                        <h3>Stock Alert</h3>
+                        <div>
+                            <h5 (click)="navigator('Stock_Alert')" class="breadcrumb">View All</h5>
+                        </div>
+                    </div>
                     <p-table [value]="stockAlertData" styleClass="p-datatable-striped">
                         <ng-template pTemplate="header">
                             <tr>
@@ -337,8 +359,10 @@
                                 <td>
                                     {{Product.percentageSold}}
                                 </td>
-                                <td *ngIf="Product.alertType == 'high'"><p-tag severity="danger" value="High"></p-tag></td>
-                                <td *ngIf="Product.alertType == 'medium'"><p-tag severity="warning" value="medium"></p-tag></td>
+                                <td *ngIf="Product.alertType == 'high'"><p-tag severity="danger" value="High"></p-tag>
+                                </td>
+                                <td *ngIf="Product.alertType == 'medium'"><p-tag severity="warning"
+                                        value="medium"></p-tag></td>
 
                                 <!-- <td>
                                     <span style="color: yellow;" *ngIf="">
@@ -367,10 +391,12 @@
             </div>
             <div class="col-md-7">
                 <div class="card p-2">
-                <div class="px-2 py-2 d-flex justify-content-between">
-                    <h3>Customer</h3>
-                    <div><h5 (click)="navigator('Customer')" class="breadcrumb">Veiw All</h5></div>
-                </div>
+                    <div class="px-2 py-2 d-flex justify-content-between">
+                        <h3>Top Customers</h3>
+                        <div>
+                            <h5 (click)="navigator('Customer')" class="breadcrumb">View All</h5>
+                        </div>
+                    </div>
                     <p-table [value]="allSlabsDaTa" styleClass="p-datatable-striped">
                         <ng-template pTemplate="header">
                             <tr>
@@ -384,7 +410,8 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-Product>
                             <tr>
-                                <td (click)="oneCoustomer(Product.customerId)" style="cursor: pointer;" class="hoverClass">
+                                <td (click)="oneCoustomer(Product.customerId)" style="cursor: pointer;"
+                                    class="hoverClass">
                                     {{Product.customerName}}
                                 </td>
                                 <td>

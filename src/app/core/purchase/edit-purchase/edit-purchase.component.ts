@@ -106,7 +106,7 @@ export class EditPurchaseComponent implements OnInit {
   ) {
     this.editPurchaseForm = this.fb.group({
       purchaseInvoiceNumber: [""],
-      purchaseSupplierName: ["", [Validators.required]],
+      supplier: ["", [Validators.required]],
       purchaseDate: ["", [Validators.required]],
       purchaseOrderStatus: ["", [Validators.required]],
       purchaseOrderTax: [""],
@@ -177,6 +177,7 @@ export class EditPurchaseComponent implements OnInit {
           _id: {
             _id: element._id,
             name: element.name,
+            billingAddress: element.billingAddress,
           },
         });
       });
@@ -186,7 +187,7 @@ export class EditPurchaseComponent implements OnInit {
     console.log(data);
     this.editPurchaseForm.patchValue({
       purchaseInvoiceNumber: data.purchaseInvoiceNumber,
-      purchaseSupplierName: data.purchaseSupplierName,
+      supplier: data.supplier,  
       purchaseDate: data.purchaseDate,
       purchaseOrderStatus: data.purchaseOrderStatus,
       purchaseOrderTax: data.purchaseOrderTax,
@@ -332,7 +333,7 @@ export class EditPurchaseComponent implements OnInit {
     }
     const payload = {
       purchaseInvoiceNumber: formData.purchaseInvoiceNumber,
-      purchaseSupplierName: formData.purchaseSupplierName,
+      supplier: formData.supplier,
       purchaseDate: formData.purchaseDate,
       purchaseType: formData.purchaseType,
       purchaseDiscount: formData.purchaseDiscount,

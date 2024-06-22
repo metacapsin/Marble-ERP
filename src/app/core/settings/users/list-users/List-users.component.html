@@ -64,7 +64,7 @@
                   <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon>
                     <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="role">Role <p-sortIcon field="role"></p-sortIcon></th>
+                  <!-- <th pSortableColumn="role">Role <p-sortIcon field="role"></p-sortIcon></th> -->
                   <th width="13%">Action</th>
                 </tr>
               </ng-template>
@@ -74,7 +74,7 @@
                   <td>{{product.email}}</td>
                   <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Active"></p-tag></td>
                   <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag></td>
-                  <td><span class="text-uppercase">{{product.role.join(', ')}}</span></td>
+                  <!-- <td><span class="text-uppercase">{{product.role.join(', ')}}</span></td> -->
 
                   <td class="action-buttions" appShowHide [roles]="['admin', 'super-admin']">
                     <!-- <p-button (click)="goToEditPage(product._id)" (keydown.enter)="goToEditPage(product._id)"

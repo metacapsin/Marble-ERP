@@ -168,6 +168,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'new-purchase',
+        loadChildren: () =>
+          import('./new-purchase/new-purchase.module').then(
+            (m) => m.NewPurchaseModule
+          ),
+      },
+      {
         path: 'purchase-return',
         loadChildren: () =>
           import('./purchase-return/purchase-return.module').then(
