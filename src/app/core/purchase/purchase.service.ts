@@ -35,4 +35,7 @@ export class PurchaseService {
   getPendingPurchaseBySupplierId(id: any){//all Purchase by Supplier id paid or unpaid both 
     return this.http.get(environment.apiUrl + `/Purchase/getPendingPurchaseBySupplierId/${id}`);
   }
+  downloadPurchaseInvoice(id:any){
+    return this.http.get(environment.apiUrl + `/PurchaseController/downloadPurchaseInvoice/${id}`)
+  }
 }

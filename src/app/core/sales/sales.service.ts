@@ -32,4 +32,7 @@ export class SalesService {
   getAllSalesByCustomerId(id: any){//all sales by customer id paid or unpaid both 
     return this.http.get(environment.apiUrl + `/Sales/getSalesByCustomerId/${id}`);
   }
+  downloadSalesInvoice(id:any){
+    return this.http.get(environment.apiUrl + `/SalesController/downloadSalesInvoice/${id}`)
+  }
 }

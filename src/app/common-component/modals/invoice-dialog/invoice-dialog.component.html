@@ -1,11 +1,18 @@
-<p-dialog [(visible)]="showInvoiceDialog" [closable]="false" *ngFor="let sales of salesDataById"
-  [responsive]="true" [baseZIndex]="10000" [closeOnEscape]="false" [modal]="true" [style]="{width: '80vw'}">
+<p-dialog [(visible)]="showInvoiceDialog" [closable]="false" *ngFor="let sales of salesDataById" [responsive]="true"
+  [baseZIndex]="10000" [closeOnEscape]="false" [modal]="true" [style]="{width: '80vw'}">
   <ng-template pTemplate="header">
     <div class="d-flex justify-content-between align-items-center w-100">
       <h4>{{header}}</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="closeTheWindow()">
-        <!-- <i class="fa-solid fa-times"></i> -->
-      </button>
+      <div>
+        <button *ngIf="sales.customer?.billingAddress" type="button" class="btn" aria-label="Download" (click)="downloadSalesFile(sales._id)">
+          <i class="fa-solid fa-download"></i>
+        </button>
+        <button *ngIf="sales.supplier?.billingAddress" type="button" class="btn" aria-label="Download" (click)="downloadPurchaseFile(sales._id)">
+          <i class="fa-solid fa-download"></i>
+        </button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeTheWindow()">
+        </button>
+      </div>
     </div>
   </ng-template>
   <div class="modal-content">
@@ -15,45 +22,38 @@
           <div class="card invoice-info-card">
             <div class="card-body pb-0">
               <div class="invoice-item invoice-item-one">
-                <!-- <div class="row">
-                  <div class="col-12">
-                    <div class="settings-btns text-end m-b-10">
-                      <a (click)="closeTheWindow()" class="btn btn-primary  add-pluss ms-2">
-                        <i class="fa-solid fa-arrow-left p-2"></i>Back</a>
-                      <a (click)="print()" class="btn btn-primary add-pluss ms-2">
-                        <i class="fa-solid fa-print p-2"></i>Print</a>
-                    </div>
-                  </div>
-                </div> -->
                 <div class="row">
-                  
+
                   <div class="col-md-6">
-                    <div  *ngIf="sales.customer?.billingAddress">
+                    <div>
                       <div class="invoice-head justify-content-start text-align-start">
                         <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Seller Address </span><br>
-                          <span [innerHTML]="sales.customer.billingAddress | wordWrap:2"></span></p>
+                          <span [innerHTML]="sellerData.address | wordWrap:2"></span>
+                        </p>
 
                       </div>
                     </div>
-                    <div  *ngIf="sales.supplier?.billingAddress">
+                    <!-- <div  *ngIf="sales.supplier?.billingAddress">
                       <div class="invoice-head justify-content-start text-align-start">
                         <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Seller Address </span><br>
                           <span [innerHTML]="sales.supplier.billingAddress | wordWrap:2"></span></p>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="col-md-6">
                     <div class="invoice-info" *ngIf="sales.customer?.billingAddress">
                       <div class="invoice-head justify-content-end">
                         <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Buyer Address </span><br>
-                          <span [innerHTML]="sales.customer.billingAddress | wordWrap:2"></span></p>
+                          <span [innerHTML]="sales.customer.billingAddress | wordWrap:2"></span>
+                        </p>
 
                       </div>
                     </div>
                     <div class="invoice-info" *ngIf="sales.supplier?.billingAddress">
                       <div class="invoice-head justify-content-end">
                         <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Buyer Address </span><br>
-                          <span [innerHTML]="sales.supplier.billingAddress | wordWrap:2"></span></p>
+                          <span [innerHTML]="sales.supplier.billingAddress | wordWrap:2"></span>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -82,7 +82,8 @@
                           <div *ngIf="sales.purchaseReturnOrderStatus" class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number :</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label"> {{sales.purchaseInvoiceNumber.purchaseInvoiceNumber}}</p>
+                              <p class="col-lg-9 col-form-label"> {{sales.purchaseInvoiceNumber.purchaseInvoiceNumber}}
+                              </p>
                             </div>
                           </div>
 
@@ -130,7 +131,7 @@
                               <p class="col-lg-9 col-form-label">₹ {{sales.paidAmount | indianCurrency}}</p>
                             </div>
                           </div>
-                          
+
                           <div class="form-group row mb-2" *ngIf="sales.purchaseType">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Purchase Type:</h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
@@ -353,22 +354,33 @@
                   <div class="invoice-total-card">
                     <div class="invoice-total-box">
                       <div class="invoice-total-inner">
-                        <p *ngIf="sales.salesGrossTotal">Gross Total <span>₹ {{sales.salesGrossTotal | indianCurrency}}</span></p>
-                        <p *ngIf="sales.salesShipping">Shipping Charges <span>₹ {{sales.salesShipping | indianCurrency}}</span></p>
-                        <p *ngIf="sales.salesDiscount">Discount <span>₹ {{sales.salesDiscount | indianCurrency}}</span></p>
+                        <p *ngIf="sales.salesGrossTotal">Gross Total <span>₹ {{sales.salesGrossTotal |
+                            indianCurrency}}</span></p>
+                        <p *ngIf="sales.salesShipping">Shipping Charges <span>₹ {{sales.salesShipping |
+                            indianCurrency}}</span></p>
+                        <p *ngIf="sales.salesDiscount">Discount <span>₹ {{sales.salesDiscount | indianCurrency}}</span>
+                        </p>
                         <!-- <p *ngIf="sales.customer">Post Expenses <span>₹ {{sales.postExpenses | indianCurrency}}</span></p> -->
-                        <p *ngIf="sales.purchaseGrossTotal">Gross Total <span>₹ {{sales.purchaseGrossTotal | indianCurrency}}</span></p>
-                        <p *ngIf="sales.purchaseShipping">Shipping Charges <span>₹ {{sales.purchaseShipping | indianCurrency}}</span></p>
-                        <p *ngIf="sales.purchaseDiscount">Discount <span>₹ {{sales.purchaseDiscount | indianCurrency}}</span></p>
-                        <p *ngIf="sales.postExpenses">Post Expenses <span>₹ {{sales.postExpenses | indianCurrency}}</span></p>
-                        <p *ngIf="sales.oceanFrieght">Ocean Freight <span>₹ {{sales.oceanFrieght | indianCurrency}}</span></p>
-                        <p *ngIf="sales.otherCharges">OtherCharges <span>₹ {{sales.otherCharges | indianCurrency}}</span></p>
+                        <p *ngIf="sales.purchaseGrossTotal">Gross Total <span>₹ {{sales.purchaseGrossTotal |
+                            indianCurrency}}</span></p>
+                        <p *ngIf="sales.purchaseShipping">Shipping Charges <span>₹ {{sales.purchaseShipping |
+                            indianCurrency}}</span></p>
+                        <p *ngIf="sales.purchaseDiscount">Discount <span>₹ {{sales.purchaseDiscount |
+                            indianCurrency}}</span></p>
+                        <p *ngIf="sales.postExpenses">Post Expenses <span>₹ {{sales.postExpenses |
+                            indianCurrency}}</span></p>
+                        <p *ngIf="sales.oceanFrieght">Ocean Freight <span>₹ {{sales.oceanFrieght |
+                            indianCurrency}}</span></p>
+                        <p *ngIf="sales.otherCharges">OtherCharges <span>₹ {{sales.otherCharges |
+                            indianCurrency}}</span></p>
 
                       </div>
                       <div class="invoice-total-footer">
-                        <h4 *ngIf="sales.salesTotalAmount">Total Amount <span>₹ {{sales.salesTotalAmount | indianCurrency}}</span>
+                        <h4 *ngIf="sales.salesTotalAmount">Total Amount <span>₹ {{sales.salesTotalAmount |
+                            indianCurrency}}</span>
                         </h4>
-                        <h4 *ngIf="sales.purchaseTotalAmount">Total Amount <span>₹ {{sales.purchaseTotalAmount | indianCurrency}}</span>
+                        <h4 *ngIf="sales.purchaseTotalAmount">Total Amount <span>₹ {{sales.purchaseTotalAmount |
+                            indianCurrency}}</span>
                         </h4>
                       </div>
                     </div>
