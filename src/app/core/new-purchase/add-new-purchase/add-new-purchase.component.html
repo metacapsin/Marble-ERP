@@ -41,7 +41,7 @@
         <div class="card invoices-add-card">
           <div class="card-body">
             <p-stepper>
-              <p-stepperPanel>
+              <p-stepperPanel header="Purchase Information">
                 <ng-template
                   pTemplate="content"
                   let-nextCallback="nextCallback"
@@ -243,7 +243,7 @@
                   </div>
                 </ng-template>
               </p-stepperPanel>
-              <p-stepperPanel>
+              <p-stepperPanel header="Lot Information">
                 <ng-template
                   pTemplate="content"
                   let-prevCallback="prevCallback"
@@ -265,7 +265,7 @@
                   </div>
                 </ng-template>
               </p-stepperPanel>
-              <p-stepperPanel>
+              <p-stepperPanel header="Summary">
                 <ng-template
                   pTemplate="content"
                   let-prevCallback="prevCallback"

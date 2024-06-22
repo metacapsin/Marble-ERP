@@ -58,7 +58,7 @@
                         <!-- <label for="warehouseDetails">Date </label> -->
                         <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
                             [maxDate]="maxDate" [style]="{ width: '100%' }" placeholder="Start Date - End Date"
-                            (ngModelChange)="getDateOnChange()" />
+                            (ngModelChange)="getDateOnChange()" dateFormat="dd/mm/yy"/>
                     </div>
                 </div>
             </div>

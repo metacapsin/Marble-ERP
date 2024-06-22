@@ -1,17 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { routes } from "src/app/shared/routes/routes";
 import { ReportsService } from "../reports.service";
 
-// interface Column {
-//   field: string;
-//   header: string;
-//   customExportHeader?: string;
-// }
-
-// interface ExportColumn {
-//   title: string;
-//   dataKey: string;
-// }
 @Component({
   selector: "app-payment-in-reports",
   templateUrl: "./payment-in-reports.component.html"
@@ -27,13 +17,15 @@ export class PaymentInReportComponent {
   cols= [];
   exportColumns = [];
 
-  maxDate = new Date();
+  maxDate: Date;
 
   searchByData = [
     "Today", "YesterDay", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
   ];
 
-  constructor(private service: ReportsService) {}
+  constructor(private service: ReportsService) {
+    this.maxDate = new Date()
+  }
 
   getPaymentInReportData(startDate: Date, endDate: Date) {
     const formattedStartDate = this.formatDate(startDate);
@@ -69,23 +61,6 @@ export class PaymentInReportComponent {
         return this.paymetntInData.reduce((total, payment) => total + payment.amount, 0);
     }
 
-
-  // resolveFieldData(data: any, field: string): any {
-  //   if (!data || !field) return '';
-  //   const fields = field.split('.');
-  //   let value = data;
-  //   for (const f of fields) {
-  //     if (value.hasOwnProperty(f)) {
-  //       value = value[f];
-  //     } else {
-  //       value = '';
-  //       break;
-  //     }
-  //   }
-  //   return value;
-  // }
-
-
   onDateChange(value: any): void {
     const startDate = value[0];
     const endDate = value[1];
@@ -96,7 +71,7 @@ export class PaymentInReportComponent {
   ngOnInit(): void {
     const today = new Date();
     const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-    const endDate = today;
+    const endDate = new Date();
     this.rangeDates = [startDate, endDate];
 
     this.getPaymentInReportData(startDate, endDate);
@@ -130,7 +105,13 @@ export class PaymentInReportComponent {
         startDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
         break;
       case 'This Year':
-        startDate = new Date(today.getFullYear(), 0, 1);
+        // startDate = new Date(today.getFullYear(), 0, 1);
+      
+        if (today.getMonth() >= 3) { // Current month is April (3) or later
+          startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
+        } else {
+          startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
+        }
         break;
     }
 
@@ -144,12 +125,6 @@ export class PaymentInReportComponent {
     const year = date?.getFullYear();
     return `${month}/${day}/${year}`;
   }
-
-  // public searchData(value: any): void {
-  //   this.paymetntInData = this.originalData.filter(i =>
-  //     i.customer.name.toLowerCase().includes(value.trim().toLowerCase())
-  //   );
-  // }
 
   public searchData(value: any): void {
 
