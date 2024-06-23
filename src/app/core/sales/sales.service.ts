@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,15 @@ export class SalesService {
   getAllSalesByCustomerId(id: any){//all sales by customer id paid or unpaid both 
     return this.http.get(environment.apiUrl + `/Sales/getSalesByCustomerId/${id}`);
   }
-  downloadSalesInvoice(id:any){
-    return this.http.get(environment.apiUrl + `/SalesController/downloadSalesInvoice/${id}`)
+  downloadSalesInvoice(id: any): Observable<Blob> {
+    const url = `${environment.apiUrl}/SalesController/downloadSalesInvoice/${id}`;
+    return this.http.post(url, {}, { responseType: 'blob' }).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('An error occurred:', error);
+    return throwError('Something went wrong; please try again later.');
   }
 }

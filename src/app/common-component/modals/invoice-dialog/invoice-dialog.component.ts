@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
 
 import { TabViewModule } from "primeng/tabview";
 import { TableModule } from "primeng/table";
@@ -15,6 +14,7 @@ import { UsersdataService } from "src/app/core/users/services/usersdata.service"
 import { AuthService } from "src/app/shared/auth/auth.service";
 import { HttpClient } from "@angular/common/http";
 import { PurchaseService } from "src/app/core/purchase/purchase.service";
+import { RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-invoice-dialog",
@@ -67,13 +67,13 @@ export class InvoiceDialogComponent implements OnInit {
       console.error("No ID provided for download");
       return;
     }
-
+  
     this.salesService.downloadSalesInvoice(id).subscribe(
       (response: Blob) => {
         const url = window.URL.createObjectURL(response);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "sales-invoice.pdf"; // Adjust the file name and extension as needed
+        a.download = "sales-invoice.txt"; // Adjust the file name and extension as needed
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
