@@ -13,14 +13,12 @@ export class PurchaseReportsComponent {
   public routes = routes;
   picker1: any;
   searchDataValue = ""
-
-  maxDate = new Date();
   rangeDates: Date[] | undefined;
   purchaseReportsData = [];
   originalData = [];
 
   searchByData = [
-    "Today", "YesterDay", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
+    "Today", "Yesterday", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
   ];
 
   constructor(

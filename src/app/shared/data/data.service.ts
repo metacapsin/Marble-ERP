@@ -480,27 +480,27 @@ export class DataService {
             },
           ],
         },
-        {
-          menuValue: "Processing",
-          hasSubRoute: true,
-          showSubRoute: false,
-          base: "processing",
-          icon: "fa-gears",
-          faIcon: true,
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-          subMenus: [
-            {     
-              menuValue: "Block Customer",
-              route: routes.blocksCustomerList,
-              base: routes.blocksCustomerList,
-            },
-            // {
-            //   menuValue: "Block Processing",
-            //   route: routes.blocksList,
-            //   base: routes.blocksList,
-            // },
-          ],
-        },
+        // {
+        //   menuValue: "Processing",
+        //   hasSubRoute: true,
+        //   showSubRoute: false,
+        //   base: "processing",
+        //   icon: "fa-gears",
+        //   faIcon: true,
+        //   role: [Role.Admin, Role.Provider, Role.HelpDesk],
+        //   subMenus: [
+        //     {     
+        //       menuValue: "Block Customer",
+        //       route: routes.blocksCustomerList,
+        //       base: routes.blocksCustomerList,
+        //     },
+        //     {
+        //       menuValue: "Block Processing",
+        //       route: routes.blocksList,
+        //       base: routes.blocksList,
+        //     },
+        //   ],
+        // },
         {
           menuValue: "Settings",
           route: routes.practiceInformation,

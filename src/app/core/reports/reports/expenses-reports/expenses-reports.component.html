@@ -88,7 +88,7 @@
                                     <div class="col-lg-4 col-md-4 h-2">
                                         <div class="form-group local-forms">
                                             <label for="warehouseDetails">Date </label>
-                                            <p-calendar [maxDate]="maxDate"[(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [maxDate]="maxDate" 
+                                            <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"  
                                                 [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="onDateChange($event)"/>
                                         </div>
                                     </div>

@@ -99,21 +99,22 @@
                                 <div class="row card-body d-flex justify-content-between p0">
                                     <div class="col-lg-4 col-md-4 h-2">
                                         <div class="form-group local-forms">
-                                            <label for="warehouseDetails">Filter By </label>
-                                            <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Filter By Date" 
-                                                [style]="{ width: '100%' }" [filter]="true" filterBy="name"
-                                                (onChange)="onSearchByChange($event)">
-                                            </p-dropdown>
+                                          <label for="warehouseDetails">Filter By</label>
+                                          <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Filter By Date"
+                                                      [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                                                      (onChange)="onSearchByChange($event)">
+                                          </p-dropdown>
                                         </div>
-                                    </div>
-                    
-                                    <div class="col-lg-4 col-md-4 h-2">
+                                      </div>
+                                      
+                                      <div class="col-lg-4 col-md-4 h-2">
                                         <div class="form-group local-forms">
-                                            <label for="warehouseDetails">Date </label>
-                                            <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [maxDate]="maxDate" 
-                                                [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="onDateChange($event)" dateFormat="dd/mm/yy"/>
+                                          <label for="warehouseDetails">Date</label>
+                                          <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" dateFormat="dd/mm/yy"
+                                                      [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="onDateChange($event)"/>
                                         </div>
-                                    </div>
+                                      </div>
+                                      
                                 </div>
                             </div>
                         </div>

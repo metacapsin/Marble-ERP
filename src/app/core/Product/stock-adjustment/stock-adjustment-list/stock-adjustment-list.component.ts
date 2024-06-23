@@ -38,6 +38,7 @@ export class StockAdjustmentListComponent implements OnInit {
   selectedlot = "";
   showData: any;
   warehouseData: any = []
+  originalSlabData: any = []
   slabData: any = []
   adjustmentTypeData: any = [
     { name: "Add", value: "add" },
@@ -111,23 +112,26 @@ export class StockAdjustmentListComponent implements OnInit {
 
   onWarehouseSelect(value: any) {
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe((resp: any) => {
+      this.originalSlabData = resp.data;
       this.slabData = resp.data.map(element => ({
         name: element.slabName,
         _id: {
           _id: element._id,
           slabName: element.slabName,
           slabNo: element.slabNo,
-          totalSQFT: element.totalSQFT,
+          // totalSQFT: element.totalSQFT,
         },
       }));
     });
   }
 
   settotalSQFT(value: any) {
-    this.addStockAdjustmentForm.get("currentQty").setValue(value.totalSQFT)
+    const selectedSlab = this.originalSlabData.find(slab => slab._id === value._id);
+    this.addStockAdjustmentForm.get("currentQty").setValue(selectedSlab.totalSQFT)
   }
   settotalSQFTEdit(value: any) {
-    this.editStockAdjustmentForm.get("currentQty").setValue(value.totalSQFT)
+    const selectedSlab = this.originalSlabData.find(slab => slab._id === value._id);
+    this.editStockAdjustmentForm.get("currentQty").setValue(selectedSlab.totalSQFT)
   }
   deleteStockAdjustment(_id: any) {
     this.stockAdjustmentId = _id;

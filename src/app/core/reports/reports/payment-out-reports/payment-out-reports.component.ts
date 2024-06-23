@@ -26,7 +26,7 @@ export class PaymentOutReportComponent {
   public routes = routes;
   picker1: any;
   searchDataValue = ""  
-  maxDate = new Date();
+
   rangeDates: Date[] | undefined;
   paymentOutData = [];
   originalData = [];
@@ -36,7 +36,7 @@ export class PaymentOutReportComponent {
 
 
   searchByData = [
-    "Today", "YesterDay", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
+    "Today", "Yesterday", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
   ];
 
   constructor(private service: ReportsService) {}

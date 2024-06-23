@@ -17,14 +17,11 @@ export class PaymentInReportComponent {
   cols= [];
   exportColumns = [];
 
-  maxDate: Date;
-
   searchByData = [
-    "Today", "YesterDay", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
+    "Today", "Yesterday", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
   ];
 
   constructor(private service: ReportsService) {
-    this.maxDate = new Date()
   }
 
   getPaymentInReportData(startDate: Date, endDate: Date) {

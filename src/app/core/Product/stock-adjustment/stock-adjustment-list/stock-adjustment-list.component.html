@@ -67,7 +67,7 @@
                                             <p-columnFilter type="text" field="warehouse.name"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="quantity">Quantity <p-sortIcon
+                                        <th pSortableColumn="quantity">Quantity ( Sq. Ft )<p-sortIcon
                                                 field="quantity"></p-sortIcon>
                                             <p-columnFilter type="text" field="quantity"
                                                 display="menu"></p-columnFilter>
@@ -141,14 +141,14 @@
 
                     <div class="col-md-4">
                         <div class="form-group local-forms">
-                            <label for="currentQty">current Quantity</label>
+                            <label for="currentQty">Current Quantity ( Sq. Ft )</label>
                             <span class="form-control">{{addStockAdjustmentForm.get('currentQty').value}}</span>
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group local-forms">
-                            <label for="quantity">Quantity <span class="login-danger">*</span></label>
+                            <label for="quantity">Quantity ( Sq. Ft )<span class="login-danger">*</span></label>
                             <input type="number" formControlName="quantity" class="form-control">
                             <div
                                 *ngIf="addStockAdjustmentForm.get('quantity')?.hasError('required') && addStockAdjustmentForm.get('quantity')?.touched">
@@ -234,14 +234,14 @@
 
                     <div class="col-md-4">
                         <div class="form-group local-forms">
-                            <label for="currentQty">current Quantity</label>
+                            <label for="currentQty">Current Quantity ( Sq. Ft )</label>
                             <span class="form-control">{{editStockAdjustmentForm.get('currentQty').value}}</span>
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group local-forms">
-                            <label for="quantity">Quantity <span class="login-danger">*</span></label>
+                            <label for="quantity">Quantity ( Sq. Ft )<span class="login-danger">*</span></label>
                             <input type="number" formControlName="quantity" class="form-control">
                             <div
                                 *ngIf="editStockAdjustmentForm.get('quantity')?.hasError('required') && editStockAdjustmentForm.get('quantity')?.touched">

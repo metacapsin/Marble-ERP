@@ -97,9 +97,9 @@
                                 <div class="row card-body d-flex justify-content-between p0">
                                     <div class="col-lg-4 col-md-4 h-2">
                                         <div class="form-group local-forms">
-                                            <label for="warehouseDetails">searchBy </label>
+                                            <label for="warehouseDetails">Filter By </label>
                                             <p-dropdown [options]="searchByData" styleClass="" appendTo="body"
-                                                placeholder="Select Date" [style]="{ width: '100%' }" [filter]="true"
+                                                placeholder="Filter By Date" [style]="{ width: '100%' }" [filter]="true"
                                                 filterBy="name" (onChange)="onSearchByChange($event)">
                                             </p-dropdown>
                                         </div>
@@ -108,7 +108,7 @@
                                     <div class="col-lg-4 col-md-4 h-2">
                                         <div class="form-group local-forms">
                                             <label for="warehouseDetails">Date </label>
-                                            <p-calendar [maxDate]="maxDate" [(ngModel)]="rangeDates"
+                                            <p-calendar  [(ngModel)]="rangeDates"
                                                 selectionMode="range" [readonlyInput]="true" [style]="{ width: '100%' }"
                                                 placeholder="Start Date - End Date"
                                                 (ngModelChange)="onDateChange($event)" />

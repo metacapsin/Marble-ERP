@@ -14,9 +14,8 @@ export class ProfitLossReportsComponent{
   rangeDates: Date[] | undefined;
   profitLossData:any = {};
 
-  maxDate = new Date();
   searchByData = [
-    "Today", "YesterDay", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
+    "Today", "Yesterday", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
   ];
 
   constructor(

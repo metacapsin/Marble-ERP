@@ -22,8 +22,6 @@ export class InventoryReportsComponent  {
   cols= [];
   exportColumns = [];
 
-  maxDate = new Date();
-
   byCategory : any
   bySubCategory : any
 
