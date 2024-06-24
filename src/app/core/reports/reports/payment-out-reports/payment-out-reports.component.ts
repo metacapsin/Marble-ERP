@@ -75,22 +75,6 @@ export class PaymentOutReportComponent {
     }
 
 
-  // resolveFieldData(data: any, field: string): any {
-  //   if (!data || !field) return '';
-  //   const fields = field.split('.');
-  //   let value = data;
-  //   for (const f of fields) {
-  //     if (value.hasOwnProperty(f)) {
-  //       value = value[f];
-  //     } else {
-  //       value = '';
-  //       break;
-  //     }
-  //   }
-  //   return value;
-  // }
-
-
   onDateChange(value: any): void {
     const startDate = value[0];
     const endDate = value[1];
@@ -108,37 +92,53 @@ export class PaymentOutReportComponent {
   }
 
 
-  onSearchByChange(event: any) {
+   onSearchByChange(event: any) {
     const value = event.value;
     const today = new Date();
-    let startDate, endDate = today;
+    let startDate, endDate = new Date(today);
+
     switch (value) {
       case 'Today':
-        startDate = today;
-        endDate = today;
+        startDate = new Date(today);
+        endDate = new Date(today);
         break;
-      case 'YesterDay':
-        startDate = new Date(today.setDate(today.getDate() - 1));
-        endDate = startDate;
+      case 'Yesterday':
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 1);
+        endDate = new Date(startDate);
         break;
       case 'Last 7 Days':
-        startDate = new Date(today.setDate(today.getDate() - 7));
-        endDate = new Date();
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 7);
+        endDate = new Date(today);
         break;
       case 'This Month':
         startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        endDate = new Date(today);
         break;
       case 'Last 3 Months':
-        startDate = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 3);
+        endDate = new Date(today);
         break;
       case 'Last 6 Months':
-        startDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 6);
+        endDate = new Date(today);
         break;
       case 'This Year':
-        startDate = new Date(today.getFullYear(), 0, 1);
+        if (today.getMonth() >= 3) { // Current month is April (3) or later
+          startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
+        } else {
+          startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
+        }
+        endDate = new Date(today);
+        break;
+      default:
+        startDate = null;
+        endDate = null;
         break;
     }
-
     this.rangeDates = [startDate, endDate];
     this.getPaymentOutReportData(startDate, endDate);
   }

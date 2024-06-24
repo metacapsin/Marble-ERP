@@ -14,7 +14,7 @@ export class PaymentInReportComponent {
   paymetntInData = [];
   originalData = [];
 
-  cols= [];
+  cols = [];
   exportColumns = [];
 
   searchByData = [
@@ -25,6 +25,8 @@ export class PaymentInReportComponent {
   }
 
   getPaymentInReportData(startDate: Date, endDate: Date) {
+    console.log("StartDate", startDate, endDate);
+
     const formattedStartDate = this.formatDate(startDate);
     const formattedEndDate = this.formatDate(endDate);
 
@@ -54,9 +56,9 @@ export class PaymentInReportComponent {
     this.exportColumns = this.paymetntInData.map((element) => ({ title: element.header, dataKey: element.field }));
   }
 
-   getTotalAmount(): number {
-        return this.paymetntInData.reduce((total, payment) => total + payment.amount, 0);
-    }
+  getTotalAmount(): number {
+    return this.paymetntInData.reduce((total, payment) => total + payment.amount, 0);
+  }
 
   onDateChange(value: any): void {
     const startDate = value[0];
@@ -78,43 +80,54 @@ export class PaymentInReportComponent {
   onSearchByChange(event: any) {
     const value = event.value;
     const today = new Date();
-    let startDate, endDate = today;
+    let startDate, endDate = new Date(today);
+
     switch (value) {
       case 'Today':
-        startDate = today;
-        endDate = today;
+        startDate = new Date(today);
+        endDate = new Date(today);
         break;
-      case 'YesterDay':
-        startDate = new Date(today.setDate(today.getDate() - 1));
-        endDate = startDate;
+      case 'Yesterday':
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 1);
+        endDate = new Date(startDate);
         break;
       case 'Last 7 Days':
-        startDate = new Date(today.setDate(today.getDate() - 7));
-        endDate = new Date();
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 7);
+        endDate = new Date(today);
         break;
       case 'This Month':
         startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        endDate = new Date(today);
         break;
       case 'Last 3 Months':
-        startDate = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 3);
+        endDate = new Date(today);
         break;
       case 'Last 6 Months':
-        startDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 6);
+        endDate = new Date(today);
         break;
       case 'This Year':
-        // startDate = new Date(today.getFullYear(), 0, 1);
-      
         if (today.getMonth() >= 3) { // Current month is April (3) or later
           startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
         } else {
           startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
         }
+        endDate = new Date(today);
+        break;
+      default:
+        startDate = null;
+        endDate = null;
         break;
     }
-
     this.rangeDates = [startDate, endDate];
     this.getPaymentInReportData(startDate, endDate);
   }
+
 
   formatDate(date: Date): string {
     const month = (date?.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so add 1
@@ -126,12 +139,10 @@ export class PaymentInReportComponent {
   public searchData(value: any): void {
 
     this.paymetntInData = this.originalData.filter(item => {
-        const searchValue = item.customer?.name?.toLowerCase() || item.supplier?.name?.toLowerCase();
-        // const supplierName = item.supplier?.name?.toLowerCase() || '';
-        
-        return searchValue.includes(value.trim().toLowerCase()) 
+      const searchValue = item.customer?.name?.toLowerCase() || item.supplier?.name?.toLowerCase();
+      return searchValue.includes(value.trim().toLowerCase())
     });
-}
+  }
 }
 
 // last 3 month=>{
