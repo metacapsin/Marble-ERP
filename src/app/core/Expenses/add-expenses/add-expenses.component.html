@@ -65,7 +65,7 @@
                   <div class="form-group local-forms">
                     <label for="categoryDetails">Expense Category<span class="login-danger">*</span></label>
                     <p-dropdown [options]="ExpensesCategoriesArray" optionLabel="name"
-                      placeholder="--Select Expense Category--" formControlName="categoryDetails"
+                      placeholder="Select Expense Category" formControlName="categoryDetails"
                       [style]="{ width: '100%' }" filterBy="name" [showClear]="true">
                     </p-dropdown>
                     <div *ngIf="
@@ -97,6 +97,12 @@
                     <label for="recipient">Recipient<span class="login-danger">*</span></label>
                     <input class="form-control" type="text" placeholder="Please Enter Recipient"
                       formControlName="recipient" />
+                      <div *ngIf="
+                      addExpensesGroup.get('recipient')?.hasError('pattern') &&
+                      addExpensesGroup.get('recipient')?.touched
+                    " class="login-danger Font_size">
+                    Input should be between 1 to 30 characters.
+                  </div>
                     <div
                       *ngIf="addExpensesGroup.get('recipient')?.hasError('required')  && addExpensesGroup.get('recipient')?.touched">
                       <span class="login-danger">Field is required. </span>

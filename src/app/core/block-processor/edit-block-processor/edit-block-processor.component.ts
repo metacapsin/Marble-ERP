@@ -38,7 +38,7 @@ export class EditBlockProcessorComponent {
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-  billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
+  billingAddressRegex = /^.{3,500}$/s;
   phoneRegex = /^[0-9]{10}$/;
 
   constructor(

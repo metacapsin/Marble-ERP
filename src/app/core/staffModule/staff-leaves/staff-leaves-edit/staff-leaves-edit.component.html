@@ -46,7 +46,6 @@
                                         optionValue="_id" display="chip" [filter]="true" filterBy="name"
                                         [showClear]="true">
                                     </p-dropdown>
-                                        <!-- <input class="form-control" formControlName="employee" type="text"  > -->
                                         <div
                                         *ngIf="
                                           editLeaveForm.get('employee')?.hasError('required') &&
@@ -85,7 +84,7 @@
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label for="leaveReason">Leave Type <span class="login-danger">*</span></label>
-                                        <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Leave Type --"
+                                        <p-dropdown [style]="{'width':'100%'}" placeholder="Select Leave Type "
                                         [options]="LeaveData" formControlName="leaveType" optionLabel="value"
                                         optionValue="value" display="chip" [filter]="true" filterBy="name"
                                         [showClear]="true">
@@ -104,7 +103,7 @@
                                     <div class="form-group local-forms">
                                         <label for="from">From <span
                                                 class="login-danger">*</span></label>
-                                        <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                        <p-calendar dataType="string" appendTo="body" 
                                          placeholder="mm/dd/yyyy"
                                             [styleClass]="'col-12'" formControlName="from"  ></p-calendar>
                                             <div
@@ -124,7 +123,7 @@
                                     <div class="form-group local-forms">
                                         <label for="to">To <span
                                                 class="login-danger">*</span></label>
-                                        <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                        <p-calendar dataType="string" appendTo="body" 
                                          placeholder="mm/dd/yyyy"
                                             [styleClass]="'col-12'" formControlName="to" ></p-calendar>
                                             <div
@@ -152,6 +151,12 @@
                                       >
                                         <span class="login-danger">Field is required.</span>
                                       </div>
+                                      <div *ngIf="
+                                          editLeaveForm.get('leaveReason')?.hasError('pattern') &&
+                                          editLeaveForm.get('leaveReason')?.touched
+                                        " class="login-danger Font_size">
+                                            Input must be between 3 to 50 characters.
+                                        </div>
                                     </div>
                                 </div>
                                 

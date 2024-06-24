@@ -41,16 +41,13 @@ export class EditExpensesComponent {
   customerData: any;
   id: any;
   ExpensesCategories: any;
-  ExpensesCategoriesArray:any
+  ExpensesCategoriesArray: any
   maxDate = new Date();
-  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
 
-  emailRegex: string =
-    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
 
-  billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
+  descriptionRegex = /^.{3,500}$/s;
 
   phoneRegex = /^[0-9]{10}$/;
   constructor(
@@ -64,9 +61,9 @@ export class EditExpensesComponent {
     this.editExpensesGroup = this.fb.group({
       categoryDetails: ["", [Validators.required]],
       date: ["", [Validators.required]],
-      recipient: ["", [Validators.required]],
-      amount: ["", [Validators.required,Validators.min(0),Validators.max(100000)]],
-      notes: [""],
+      recipient: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      amount: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
+      notes: ["", [Validators.pattern(this.descriptionRegex)]],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -91,10 +88,10 @@ export class EditExpensesComponent {
           name: element.categoryName,
           _id: element._id,
         })
-    });
+      });
     });
   }
-  patchForm(data:any) {
+  patchForm(data: any) {
     this.editExpensesGroup.patchValue({
       categoryDetails: data.categoryDetails,
       amount: data.amount,
@@ -124,7 +121,7 @@ export class EditExpensesComponent {
       recipient: fromData.recipient,
       notes: fromData.notes,
     };
-    console.log(payload); 
+    console.log(payload);
     if (this.editExpensesGroup.valid) {
       this.Service.UpDataExpensesApi(payload).subscribe((resp: any) => {
         if (resp) {

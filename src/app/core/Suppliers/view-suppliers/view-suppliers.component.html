@@ -60,12 +60,12 @@
                                         <p class="col-lg-9 col-form-label">{{ data.email }}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2" *ngIf="data.creaditPeriod">
+                                <div class="form-group row mb-2" *ngIf="data.creditPeriod">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                         Credit Period
                                     </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ data.creaditPeriod }} Days</p>
+                                        <p class="col-form-label">{{ data.creditPeriod }} Days</p>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2" *ngIf="data.billingAddress">
@@ -86,20 +86,20 @@
                                         <p class="col-form-label">{{ data.phoneNo }}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2" *ngIf="data.creaditLimit">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Credit Limit
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">₹ {{ data.creaditLimit }}</p>
-                                    </div>
-                                </div>
                                 <div class="form-group row mb-2" *ngIf="data.taxNo">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                         Tax Number
                                     </h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-form-label">{{ data.taxNo }}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2" *ngIf="data.creditLimit">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Credit Limit
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">₹ {{ data.creditLimit }}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2" *ngIf="data.shippingAddress">

@@ -30,10 +30,13 @@ export class ExpensesCategoriesComponent {
   ExpensesByID: any;
   ExpensesDataById: any;
   addExpensesCategoryForm: FormGroup;
-  editExpensesCategory: FormGroup;
+  editExpensesCategoryForm: FormGroup;
   id: any;
   visible: boolean = false;
   visible1: boolean = false;
+
+  descriptionRegex = /^.{3,500}$/s;
+
   constructor(
     private Service: ExpensesCategoriesdataService,
     private messageService: MessageService,
@@ -41,11 +44,11 @@ export class ExpensesCategoriesComponent {
   ) {
     this.addExpensesCategoryForm = this.fb.group({
       categoryName: ["", [Validators.required]],
-      categoryDescription: [""],
+      categoryDescription: ["", [ Validators.pattern(this.descriptionRegex)]],
     });
-    this.editExpensesCategory = this.fb.group({
+    this.editExpensesCategoryForm = this.fb.group({
       categoryName: ["", [Validators.required]],
-      categoryDescription: [""],
+      categoryDescription: ["", [ Validators.pattern(this.descriptionRegex)]],
     });
   }
   getExpenses() {
@@ -69,7 +72,7 @@ export class ExpensesCategoriesComponent {
     this.visible1 = false;
   }
   showDialogEdit(id: any) {
-    // this.editExpensesCategory.reset();
+    // this.editExpensesCategoryForm.reset();
     this.visible1 = true;
     this.ExpensesByID = id;
     this.Service.GetExpenseCategriesDataById(id).subscribe((resp: any) => {
@@ -77,7 +80,7 @@ export class ExpensesCategoriesComponent {
     });
   }
   patchValuesForm(data: any) {
-    this.editExpensesCategory.patchValue({
+    this.editExpensesCategoryForm.patchValue({
       categoryName: data.categoryName,
       categoryDescription: data.categoryDescription,
     });
@@ -108,7 +111,7 @@ export class ExpensesCategoriesComponent {
 
   public searchData(value: any): void {
     this.dataSource = this.originalData.filter((i) =>
-      i.name.toLowerCase().includes(value.trim().toLowerCase())
+      i.categoryName.toLowerCase().includes(value.trim().toLowerCase())
     );
   }
   onPageChange(event) {
@@ -143,15 +146,15 @@ export class ExpensesCategoriesComponent {
   }
 
 
-  editExpensesCategoryForm() {
+  editExpensesCategoryFormSubmit() {
     const payload = {
       id: this.ExpensesByID,
-      categoryName: this.editExpensesCategory.value.categoryName,
+      categoryName: this.editExpensesCategoryForm.value.categoryName,
       categoryDescription:
-        this.editExpensesCategory.value.categoryDescription,
+        this.editExpensesCategoryForm.value.categoryDescription,
     };
     
-    if (this.editExpensesCategory.valid) {
+    if (this.editExpensesCategoryForm.valid) {
       this.Service.UpDataExpensesCategriesApi(payload).subscribe((resp: any) => {
           if (resp.status === "success") {
             this.closeDialogEdit();

@@ -126,7 +126,13 @@
                             <label for="Description">Description<span class="login-danger"></span></label>
                             <textarea class="form-control" type="text" placeholder="Please Enter Description"
                                 formControlName="categoryDescription" rows="4"></textarea>
-
+                                <div *ngIf="
+                                addExpensesCategoryForm.get('categoryDescription')?.hasError('pattern') &&
+                                addExpensesCategoryForm.get('categoryDescription')?.touched
+                              ">
+                                                        <span class="login-danger">Input Must be between 3 to 500
+                                                            characters.</span>
+                                                    </div>
                         </div>
                     </div>
 
@@ -153,7 +159,7 @@
 
     <div class="modal-content">
         <div class="modal-body">
-            <form [formGroup]="editExpensesCategory" (ngSubmit)="editExpensesCategoryForm()">
+            <form [formGroup]="editExpensesCategoryForm" (ngSubmit)="editExpensesCategoryFormSubmit()">
                 <div class="row mt-2">
                     <div class="col-12 col-md-12 col-xl-12">
                         <div class="form-group local-forms">
@@ -161,10 +167,10 @@
                             <input class="form-control" type="text" autofocus
                                 placeholder="Please Enter Expense Category Name" formControlName="categoryName" />
                             <div *ngIf="
-              addExpensesCategoryForm
+              editExpensesCategoryForm
                 .get('categoryName')
                 ?.hasError('required') &&
-              addExpensesCategoryForm.get('categoryName')?.touched
+              editExpensesCategoryForm.get('categoryName')?.touched
             " class="login-danger Font_size">
                                 Field is required.
                             </div>
@@ -176,13 +182,20 @@
                             <label for="Description">Description<span class="login-danger"></span></label>
                             <textarea class="form-control" type="text" placeholder="Please Enter Description"
                                 formControlName="categoryDescription" rows="4"></textarea>
+                                <div *ngIf="
+                                editExpensesCategoryForm.get('categoryDescription')?.hasError('pattern') &&
+                                editExpensesCategoryForm.get('categoryDescription')?.touched
+                              ">
+                                                        <span class="login-danger">Input Must be between 3 to 500
+                                                            characters.</span>
+                                                    </div>
 
                         </div>
                     </div>
                     <div class=" col-12">
 
                         <div class=" settings-btns text-end m-b-10">
-                            <button type="submit" [disabled]="!editExpensesCategory.valid"
+                            <button type="submit" [disabled]="!editExpensesCategoryForm.valid"
                                 class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
                             <button type="button" class="btn btn-secondary" (click)="closeDialogEdit()">Cancel</button>
                         </div>

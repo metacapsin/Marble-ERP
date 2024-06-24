@@ -29,12 +29,15 @@ export class StaffLeavesAddComponent {
   public selectedValue!: string;
   addLeaveForm!: FormGroup;
   employeeList = []
-  maxDate = new Date();
   LeaveData = [
     { value: "Medical Leave" },
     { value: "Casual Leave" },
     { value: "Loss of Pay" },
+    { value: "Other Reason" },
   ];
+
+  leaveReasonRegex = /^.{3,48}$/s;
+
 
   constructor(
     private fb: FormBuilder,
@@ -57,7 +60,7 @@ export class StaffLeavesAddComponent {
       to: ["", Validators.required],
       leaveReason: [
         "",
-        [Validators.required, Validators.min(3), Validators.max(50)],
+        [Validators.required,Validators.pattern(this.leaveReasonRegex)],
       ],
     });
   }

@@ -35,35 +35,12 @@ export class WarehouseEditComponent {
   warehouseForm!: FormGroup;
   data: any;
   warehouseId: any;
-
-  // Body: {
-  //   warehouseId: "";
-
-  //   name: "Test warehouse";
-
-  //   email: "test@hjhk.com";
-
-  //   phone: "";
-
-  //   showEmailOnInvoice: true;
-
-  //   showPhoneOnInvoice: false;
-
-  //   billingAddress: "test billing address";
-
-  //   termsCondition: "terms";
-
-  //   singnatureUrl: "http:test.com";
-  //   bankDetails:"Rajasthan Bank";
-  //   // slug:"warehouse slug";
-  // };
-
   
 nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
 emailRegex: string = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
 
-billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
+billingAddressRegex = /^.{3,500}$/s;
 
   phoneRegex = /^[0-9]{10}$/;
 

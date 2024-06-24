@@ -83,7 +83,7 @@ export class StaffSalaryListComponent {
   }
   public searchData(value: any): void {
     this.salaryData = this.originalData.filter(i =>
-    i.employee.toLowerCase().includes(value.trim().toLowerCase())
+    i.employee.name.toLowerCase().includes(value.trim().toLowerCase())
   );
   }
 

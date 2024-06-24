@@ -17,8 +17,7 @@ export class EditCategoriesComponent {
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-  descriptionRegex = /^(?!\s)(.{3,500})$/;
-  
+descriptionRegex = /^.{3,500}$/s;  
 
   constructor(private fb: FormBuilder,
     public service: CategoriesService,

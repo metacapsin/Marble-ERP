@@ -21,8 +21,7 @@ export class AddSubCategoriesComponent {
   categoriesList = []
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-  descriptionRegex = /^(?!\s)(.{3,500})$/;
-  constructor(private fb: FormBuilder,
+descriptionRegex = /^.{3,500}$/s;  constructor(private fb: FormBuilder,
     public dialog: MatDialog,
     private dialogRef: MatDialogRef<AddSubCategoriesComponent>,
     private categoryService: CategoriesService,

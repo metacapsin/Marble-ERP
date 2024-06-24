@@ -85,6 +85,13 @@
                         *ngIf="editExpensesGroup.get('recipient')?.hasError('required')  && editExpensesGroup.get('recipient')?.touched">
                         <span class="login-danger">Field is required. </span>
                       </div>
+
+                      <div *ngIf="
+                      editExpensesGroup.get('recipient')?.hasError('pattern') &&
+                      editExpensesGroup.get('recipient')?.touched
+                    " class="login-danger Font_size">
+                    Input should be between 1 to 30 characters.
+                  </div>
                     </div>
                   </div>
 

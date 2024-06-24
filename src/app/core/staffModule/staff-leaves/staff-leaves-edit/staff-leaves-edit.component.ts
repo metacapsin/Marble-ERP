@@ -32,14 +32,13 @@ export class StaffLeavesEditComponent {
   leaveDataById = [];
   employeeList = [];
   LeaveData = [
-  {value: 'Select Leave Type'},
-  {value: 'Medical Leave'},
-  {value: 'Casual Leave'},
-  {value: 'Loss of Pay'},
+    {value: 'Medical Leave'},
+    {value: 'Casual Leave'},
+    {value: 'Loss of Pay'},
+    {value: 'Other Reason'},
 ];
-maxDate = new Date();
-employeeName = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
-  leaveReason = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  employeeName = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  leaveReasonRegex = /^.{3,48}$/s;
   constructor(private fb: FormBuilder,
   private Service: staffLeavesService,
   private staffService: staffService,
@@ -53,7 +52,7 @@ employeeName = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
       leaveType: ['', Validators.required],
       from: ['', Validators.required],
       to: ['', Validators.required],
-      leaveReason: ['', [Validators.required, Validators.min(3), Validators.max(50)]]
+      leaveReason: ['', [Validators.required, Validators.pattern(this.leaveReasonRegex)]]
   })
     this.leaveId = this.activeRoute.snapshot.params["id"];
 

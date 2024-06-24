@@ -54,7 +54,7 @@ export class AddUsersComponent implements OnInit {
 
   emailRegex: string = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   
-  addressRegex = /^(?!\s)(?:.{3,500})$/;
+  addressRegex = /^.{3,500}$/s;
 
   phoneRegex = /^[0-9]{10}$/;
   passwordRegex =
@@ -145,13 +145,7 @@ export class AddUsersComponent implements OnInit {
         // address: formData.address,
         // wareHouse: formData.wareHouse.name,
 
-        warehouse: [
-          {
-            id: "jgg",
-            name: formData.name,
-          },
-        ],
-
+        warehouse: formData.wareHouse,
         role: _roles,
         name: formData.name,
         phoneNumber: formData.phoneNumber,

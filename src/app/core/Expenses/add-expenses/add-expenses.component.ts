@@ -46,13 +46,11 @@ export class AddExpensesComponent implements OnInit {
     { name: "Grocery" },
     { name: "Travel" },
   ];
-  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
-  emailRegex: string =
-    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-  billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
-  phoneRegex = /^[0-9]{10}$/;
   maxDate = new Date();
+  
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
+  descriptionRegex = /^.{3,500}$/s;
+
   constructor(
     private fb: UntypedFormBuilder,
     private messageService: MessageService,
@@ -63,21 +61,21 @@ export class AddExpensesComponent implements OnInit {
     this.addExpensesGroup = this.fb.group({
       categoryDetails: ["", [Validators.required]],
       date: ["", [Validators.required]],
-      recipient: ["", [Validators.required]],
+      recipient: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       amount: ["", [Validators.required,Validators.min(0),Validators.max(100000)]],
-      notes: [""],
+      notes: ["", [Validators.pattern(this.descriptionRegex)]],
     });
   }
 
-  onUpload(e) {
-    console.log("hi");
-    console.log(e);
-    this.messageService.add({
-      severity: "info",
-      summary: "Success",
-      detail: "File Uploaded with Basic Mode",
-    });
-  }
+  // onUpload(e) {
+  //   console.log("hi");
+  //   console.log(e);
+  //   this.messageService.add({
+  //     severity: "info",
+  //     summary: "Success",
+  //     detail: "File Uploaded with Basic Mode",
+  //   });
+  // }
   ngOnInit(): void {
     this.service.GetExpensesCategriesData().subscribe((resp: any) => {
       this.ExpensesCategories = resp.data;
