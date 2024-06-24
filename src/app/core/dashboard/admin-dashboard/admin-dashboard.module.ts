@@ -8,6 +8,10 @@ import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
+import { RatingModule } from 'primeng/rating';
 
 
 @NgModule({
@@ -21,7 +25,13 @@ import { DropdownModule } from 'primeng/dropdown';
     ChartModule,
     ButtonModule,
     CalendarModule,
-    DropdownModule
+    DropdownModule,
+    TableModule,
+    TagModule,
+    ToastModule,
+    RatingModule,
+    ButtonModule,
+    CommonModule,
   ]
 })
 export class AdminDashboardModule { }

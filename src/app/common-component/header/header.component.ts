@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AESEncryptDecryptService } from 'src/app/shared/auth/AESEncryptDecryptService ';
 import { AuthService } from 'src/app/shared/auth/auth.service';
+import { CombinedPaymentService } from 'src/app/shared/data/combined-payment.service';
 import { DataService } from 'src/app/shared/data/data.service';
 import { MenuItem, SideBarData } from 'src/app/shared/models/models';
 import { Role } from 'src/app/shared/models/role';
@@ -155,8 +156,11 @@ export class HeaderComponent {
   page = '';
   sidebarData: any;
   userData: any = {};
+  latestPayments: any[] = [];
 
-  constructor(public router: Router,private sideBar: SideBarService, private data: DataService, private crypto: AESEncryptDecryptService, public auth: AuthService) {
+  constructor(public router: Router,private sideBar: SideBarService, private data: DataService, private crypto: AESEncryptDecryptService, public auth: AuthService,
+    private combinedPaymentService: CombinedPaymentService,
+  ) {
     this.sideBar.toggleSideBar.subscribe((res: string) => {
       if (res == 'true') {
         this.miniSidebar = true;
@@ -165,6 +169,8 @@ export class HeaderComponent {
       }
     });
 
+
+    
 
 
     this.userData = this.crypto.getData('currentUser');
@@ -208,6 +214,17 @@ export class HeaderComponent {
     } else {
       mainWrapper.classList.remove('open-msg-box');
     }
+  }
+
+  loadLatestPayments(): void {
+    this.combinedPaymentService.getCombinedPayments().subscribe(
+      (data) => {
+        this.latestPayments = data;
+      },
+      (error) => {
+        console.error('Error fetching payments:', error);
+      }
+    );
   }
 
   public toggleSideBar(): void {

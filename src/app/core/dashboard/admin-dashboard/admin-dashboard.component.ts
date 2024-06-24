@@ -1,5 +1,7 @@
 import { Component, ViewChild } from "@angular/core";
 import { routes } from "src/app/shared/routes/routes";
+import { RatingModule } from "primeng/rating";
+
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -27,6 +29,11 @@ import {
 import { AESEncryptDecryptService } from "src/app/shared/auth/AESEncryptDecryptService ";
 import { dashboardService } from "../dashboard.service";
 import { Router } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { ButtonModule } from "primeng/button";
+import { TableModule, TableRowCollapseEvent, TableRowExpandEvent } from "primeng/table";
+import { TagModule } from "primeng/tag";
+import { ToastModule } from "primeng/toast";
 export type ChartOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   series: ApexAxisChartSeries | any;
@@ -61,11 +68,38 @@ interface data {
   value: string;
 }
 
+interface Product {
+  id: string;
+  name: string;
+  phoneNo: number;
+  expanded?: boolean;  // Add this property to track the expanded state
+
+  creditAlerts: CreditAlert[];
+}
+
+interface CreditAlert {
+  id: number;
+  // customer: string;
+  saleId: string;
+  salesDate: string;
+  customer: {
+    name: string;
+    phoneNo: number;
+    email: string;
+  };
+  salesTotalAmount: string;
+  dueAmount: string;
+  paidAmount: string;
+  creditPeriod: number;
+  daysLeft: number;
+  alertType: string;
+}
+
 @Component({
   selector: "app-admin-dashboard",
   templateUrl: "./admin-dashboard.component.html",
   styleUrls: ["./admin-dashboard.component.scss"],
-  
+
 })
 export class AdminDashboardComponent {
   public routes = routes;
@@ -96,16 +130,40 @@ export class AdminDashboardComponent {
   CategorySlabs: any;
   rangeDatesForAip: any[];
   stockAlertData: any;
-  piDataForFirstChat: { labels: string[]; datasets: { data: any; backgroundColor: string[]; hoverBackgroundColor: string[]; }[]; };
-  piDataForSecondChat: { labels: any; datasets: { data: any; backgroundColor: string[]; hoverBackgroundColor: string[]; }[]; };
+  piDataForFirstChat: {
+    labels: string[];
+    datasets: {
+      data: any;
+      backgroundColor: string[];
+      hoverBackgroundColor: string[];
+    }[];
+  };
+  piDataForSecondChat: {
+    labels: any;
+    datasets: {
+      data: any;
+      backgroundColor: string[];
+      hoverBackgroundColor: string[];
+    }[];
+  };
   searchByData = [
-    "Today", "YesterDay", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
+    "Today",
+    "YesterDay",
+    "Last 7 Days",
+    "This Month",
+    "Last 3 Months",
+    "Last 6 Months",
+    "This Year",
   ];
+  expandedRows: { [key: string]: boolean } = {};
+  products: Product[] = [];
+
+  
   constructor(
     // public data: DataService,
     private router: Router,
     private Service: dashboardService,
-    private crypto: AESEncryptDecryptService
+    private crypto: AESEncryptDecryptService,
   ) {
     this.userData = this.crypto.getData("currentUser");
   }
@@ -178,6 +236,47 @@ export class AdminDashboardComponent {
       },
     };
   }
+  // expandAll() {
+  //   this.products.forEach(product => {
+  //     product.expanded = true;
+  //   });
+  // }
+  
+  // collapseAll() {
+  //   this.products.forEach(product => {
+  //     product.expanded = false;
+  //   });
+  // }
+  
+  toggleRow(product: Product) {
+    product.expanded = !product.expanded;
+  }
+  
+  getSeverity(alertType: string) {
+    switch (alertType) {
+      case 'high':
+        return 'danger';
+      case 'medium':
+        return 'warning';
+      case 'low':
+        return 'info';
+      default:
+        return 'success';
+    }
+  }
+
+  getStatusSeverity(daysLeft: number) {
+    console.log("credit alerts days left", daysLeft);
+    if (daysLeft < 0) {
+      return 'danger';
+    } else if (daysLeft >= 0 && daysLeft <= 5) {
+      return 'warning';
+    } else if (daysLeft > 5 && daysLeft <= 10) {
+      return 'info';
+    } else {
+      return 'success';
+    }
+  }
   getDateOnChange(): void {
     console.log("object");
     console.log(this.rangeDates);
@@ -241,6 +340,15 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
+    this.Service.getCustomerCreditAlerts(data).subscribe(
+      (resp: any) => {
+        console.log("customer credit alerts summary",resp.data);
+        this.products = resp.data;
+      },
+      (error: any) => {
+        console.error("Error fetching customer Credit Alerts summary:", error);
+      }
+    );
     this.Service.getTopCustomers(data).subscribe(
       (resp: any) => {
         console.log(resp);
@@ -272,6 +380,7 @@ export class AdminDashboardComponent {
       }
     );
   }
+
   setDataForFirstChart(data: any[]): void {
     if (!data || !Array.isArray(data)) {
       // console.error("Invalid data format:", data);
@@ -440,7 +549,6 @@ export class AdminDashboardComponent {
         },
       ],
     };
-    
   }
 
   navigator(value: any) {
@@ -453,7 +561,7 @@ export class AdminDashboardComponent {
     if (value == "Customer") {
       this.router.navigate(["/customers"]);
     }
-    if(value == "Stock_Alert"){
+    if (value == "Stock_Alert") {
       this.router.navigate(["/reports/inventory-reports"]);
     }
     // /customers//
@@ -465,30 +573,39 @@ export class AdminDashboardComponent {
     console.log(event);
     const value = event.value;
     const today = new Date();
-    let startDate, endDate = today;
+    let startDate,
+      endDate = today;
     switch (value) {
-      case 'Today':
+      case "Today":
         startDate = today;
         endDate = today;
         break;
-      case 'YesterDay':
+      case "YesterDay":
         startDate = new Date(today.setDate(today.getDate() - 1));
         endDate = startDate;
         break;
-      case 'Last 7 Days':
+      case "Last 7 Days":
         startDate = new Date(today.setDate(today.getDate() - 7));
         endDate = new Date();
         break;
-      case 'This Month':
+      case "This Month":
         startDate = new Date(today.getFullYear(), today.getMonth(), 1);
         break;
-      case 'Last 3 Months':
-        startDate = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
+      case "Last 3 Months":
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth() - 3,
+          today.getDate()
+        );
         break;
-      case 'Last 6 Months':
-        startDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+      case "Last 6 Months":
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth() - 6,
+          today.getDate()
+        );
         break;
-      case 'This Year':
+      case "This Year":
         startDate = new Date(today.getFullYear(), 0, 1);
         break;
     }

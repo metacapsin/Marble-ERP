@@ -36,6 +36,12 @@ export class dashboardService {
       data
     );
   }
+  getCustomerCreditAlerts(data: {} | null) {
+    return this.http.post(
+      environment.apiUrl + "/DashboardController/getCustomerCreditAlerts",
+      data
+    );
+  }
 
   getTopCustomers(data: {} | null) {
     return this.http.post(
@@ -56,4 +62,5 @@ export class dashboardService {
       data
     );
   }
+
 }
