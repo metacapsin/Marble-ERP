@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -22,7 +22,7 @@ import { CalendarModule } from "primeng/calendar";
 import { AccordionModule } from "primeng/accordion";
 
 @Component({
-  selector: 'app-add-lot',
+  selector: "app-add-lot",
   standalone: true,
   imports: [
     CommonModule,
@@ -35,16 +35,19 @@ import { AccordionModule } from "primeng/accordion";
     ToastModule,
     DialogModule,
     CalendarModule,
-    AccordionModule
+    AccordionModule,
   ],
   providers: [MessageService],
-  templateUrl: './add-lot.component.html',
-  styleUrl: './add-lot.component.scss'
+  templateUrl: "./add-lot.component.html",
+  styleUrl: "./add-lot.component.scss",
 })
 export class AddLotComponent {
+  @Output() dataEmitter: EventEmitter<string> = new EventEmitter<string>();
+
+  @Input() lotAddForm: FormGroup;
   maxDate = new Date();
   public routes = routes;
-  lotAddForm!: FormGroup;
+  // lotAddForm!: FormGroup;
   // blockAddForm!: FormGroup;
   totalBlocksArea: number = 0;
   blocksDetails = [];
@@ -69,28 +72,55 @@ export class AddLotComponent {
   //  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\-]+(\s[a-zA-Z\d\/\-]+)*){3,15}$/;
   // shortNameRegex = /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
   shortNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
-
+  @Input() otherCharges = 0;
+  @Input() transportationCharges = 0;
 
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
   descriptionRegex = /^(?!\s)(?:.{1,500})$/;
+  LotTotalCosting: number = 0;
+  totalRawCosting: number = 0;
+  LotblockDetails: number = 0;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private messageService: MessageService,
-    private service: LotService,
-
-  ) {
+    private service: LotService
+  ) {}
+  ngOnInit(): void {
+    console.log(this.transportationCharges, this.otherCharges);
+    console.log("ds");
     this.lotAddForm = this.fb.group({
-      lotNo: ["", [Validators.required, Validators.pattern(this.shortNameRegex)]],
-      lotName: ["", [Validators.required, Validators.pattern(this.shortNameRegex)]],
+      lotNo: [
+        "",
+        [Validators.required, Validators.pattern(this.shortNameRegex)],
+      ],
+      lotName: [
+        "",
+        [Validators.required, Validators.pattern(this.shortNameRegex)],
+      ],
       vehicleNo: ["", [Validators.pattern(this.shortNameRegex)]],
       date: ["", [Validators.required]],
-      invoiceNo: ["", [Validators.required, Validators.pattern(this.invoiceRegex)]],
-      lotWeight: ["", [Validators.required, Validators.min(1), Validators.max(10000)]],
-      pricePerTon: ["", [Validators.required, Validators.min(1), Validators.max(1000000)]],
-      transportationCharge: ["", [Validators.required, Validators.min(1), Validators.max(100000)]],
-      royaltyCharge: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
+      // invoiceNo: [
+      //   "",
+      //   [Validators.required, Validators.pattern(this.invoiceRegex)],
+      // ],
+      lotWeight: [
+        "",
+        [Validators.required, Validators.min(1), Validators.max(10000)],
+      ],
+      pricePerTon: [
+        "",
+        [Validators.required, Validators.min(1), Validators.max(1000000)],
+      ],
+      // transportationCharge: [
+      //   "",
+      //   [Validators.required, Validators.min(1), Validators.max(100000)],
+      // ],
+      // royaltyCharge: [
+      //   "",
+      //   [Validators.required, Validators.min(0), Validators.max(100000)],
+      // ],
       taxAmount: ["", [Validators.min(0), Validators.max(100000)]],
       notes: ["", [Validators.pattern(this.descriptionRegex)]],
       blocksCount: [""],
@@ -98,21 +128,17 @@ export class AddLotComponent {
       averageTransport: [""],
       averageRoyalty: [""],
       averageTaxAmount: [""],
+      LotTotalCosting: [""],
     });
-
   }
-  ngOnInit(): void {
-  }
-
 
   addBlockDialog() {
-    this.blockNo = '';
+    this.blockNo = "";
     this.height = null;
     this.width = null;
     this.length = null;
     this.totalArea = null;
-
-    this.addvisible = true
+    this.addvisible = true;
   }
 
   deleteAccordian(index: number) {
@@ -120,15 +146,19 @@ export class AddLotComponent {
     this.totalBlocksArea -= Number(this.blocksDetails[index].totalArea);
     this.blocksDetails.splice(index, 1);
     this.calculateTotalAmount();
-
   }
 
-  clossBlock(myForm: NgForm){
+  clossBlock(myForm: NgForm) {
     this.addvisible = false;
     myForm.resetForm();
   }
   addBlock(myForm: NgForm) {
-    if (!this.blockNo || this.height === null || this.width === null || this.length === null) {
+    if (
+      !this.blockNo ||
+      this.height === null ||
+      this.width === null ||
+      this.length === null
+    ) {
       const message = "Please fill all required fields.";
       this.messageService.add({ severity: "error", detail: message });
       return;
@@ -153,7 +183,7 @@ export class AddLotComponent {
     this.blocksDetails.push(newBlock);
     this.totalBlocksArea += Number(this.totalArea);
 
-    this.blockNo = '';
+    this.blockNo = "";
     this.height = null;
     this.width = null;
     this.length = null;
@@ -165,60 +195,88 @@ export class AddLotComponent {
     myForm.resetForm();
   }
 
-
   getblockDetails() {
-    if (isNaN(this.height) || isNaN(this.width) || isNaN(this.length) || this.height === null || this.width === null || this.length === null) {
+    if (
+      isNaN(this.height) ||
+      isNaN(this.width) ||
+      isNaN(this.length) ||
+      this.height === null ||
+      this.width === null ||
+      this.length === null
+    ) {
       return;
     }
     this.totalArea = this.height * this.width * this.length;
     console.log("Total Area:", this.totalArea);
   }
 
-
-
   calculateTotalAmount() {
-
-
     let lotWeight: number = this.lotAddForm.get("lotWeight").value || 0;
     let pricePerTon = this.lotAddForm.get("pricePerTon").value || 0;
-    let royaltyCharge: number = this.lotAddForm.get("royaltyCharge").value || 0;
-    let transportationCharge: number = this.lotAddForm.get("transportationCharge").value || 0;
+    // let royaltyCharge: number = this.lotAddForm.get("royaltyCharge").value || 0;
+    // let transportationCharge: number =
+    //   this.lotAddForm.get("transportationCharge").value || 0;
     let taxAmount: number = this.lotAddForm.get("taxAmount").value || 0;
 
-    let averageTransportation = transportationCharge / lotWeight;
-    console.log(averageTransportation,"averageTransportation");
-    
-    let averageRoyalty = royaltyCharge / lotWeight;
+    let averageTransportation = this.transportationCharges / lotWeight;
+    console.log(averageTransportation, "averageTransportation");
+
+    let averageRoyalty = this.otherCharges / lotWeight;
     let averageTaxAmount = taxAmount / lotWeight;
-    let averageBlocksWeight = this.totalBlocksArea / lotWeight
+    let averageBlocksWeight = this.totalBlocksArea / lotWeight;
+    console.log(averageTransportation, averageRoyalty);
 
     this.blocksDetails.forEach((element: any) => {
-      element.weightPerBlock = (element.totalArea / averageBlocksWeight);
-      element.rawCosting = (parseFloat(element.weightPerBlock) * pricePerTon);
-      element.transportationCosting = (parseFloat(element.weightPerBlock) * averageTransportation);
-      element.royaltyCosting = (parseFloat(element.weightPerBlock) * averageRoyalty);
-      element.taxAmountCosting = (parseFloat(element.weightPerBlock) * averageTaxAmount);
+      element.weightPerBlock = element.totalArea / averageBlocksWeight;
+      element.rawCosting = parseFloat(element.weightPerBlock) * pricePerTon;
+      element.transportationCosting =
+        parseFloat(element.weightPerBlock) * averageTransportation;
+      element.royaltyCosting =
+        parseFloat(element.weightPerBlock) * averageRoyalty;
+      element.taxAmountCosting =
+        parseFloat(element.weightPerBlock) * averageTaxAmount;
 
       let rawCosting = parseFloat(element.rawCosting);
       let transportationCosting = parseFloat(element.transportationCosting);
       let royaltyCosting = parseFloat(element.royaltyCosting);
       let taxAmountCosting = parseFloat(element.taxAmountCosting);
-      element.totalCosting = (rawCosting + transportationCosting + royaltyCosting + taxAmountCosting);
+      element.totalCosting =
+        rawCosting + transportationCosting + royaltyCosting + taxAmountCosting;
+      console.log(rawCosting);
+      console.log(element);
+      this.LotTotalCosting += element.totalCosting; // Accumulate totalCosting
+      console.log(element.totalCosting);
+      console.log(this.LotTotalCosting);
+      this.totalRawCosting += rawCosting; // Accumulate rawCosting
+      console.log(this.totalRawCosting);
     });
-
 
     this.lotAddForm.patchValue({
       averageTransport: averageTransportation,
       averageRoyalty: averageRoyalty,
       averageTaxAmount: averageTaxAmount,
-      averageWeight: averageBlocksWeight
+      LotTotalCosting: this.LotTotalCosting,
+      averageWeight: averageBlocksWeight,
     });
+    const data = {
+      lotWeight: lotWeight,
+      pricePerTon: pricePerTon,
+      taxAmount: taxAmount,
+      totalCosting: this.LotTotalCosting,
+      totalRawCosting: this.totalRawCosting,
+      LotblockDetails: this.LotblockDetails,
+    };
   }
 
   LotAddFormSubmit() {
+    this.totalRawCosting = 0;
+    // this.LotblockDetails = 0;
     const data = this.lotAddForm.value;
-
-
+    this.blocksDetails.forEach((val: any) => {
+      this.LotblockDetails += val.totalCosting;
+      this.totalRawCosting += val.rawCosting;
+    });
+    console.log(this.LotblockDetails);
     const payload = {
       lotNo: data.lotNo,
       lotName: data.lotName,
@@ -237,25 +295,26 @@ export class AddLotComponent {
       averageRoyalty: data.averageRoyalty,
       averageTaxAmount: data.averageTaxAmount,
       blockDetails: this.blocksDetails,
-    }
-    if (this.lotAddForm.valid) {
-      console.log("Form valid lot value", payload);
-      this.service
-        .CreateLot(payload)
-        .subscribe((resp: any) => {
-          if (resp.status === "success") {
-            const message = "Lot has been added";
-            this.messageService.add({ severity: "success", detail: message });
-            setTimeout(() => {
-              this.router.navigate(["/lot/"]);
-            }, 400);
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
-          }
-        });
-    } else {
-      console.log("Form is invalid!");
-    }
+      LotblockDetails: this.LotblockDetails,
+      totalRawCosting: this.totalRawCosting,
+    };
+    this.dataEmitter.emit(JSON.stringify(payload));
+    // if (this.lotAddForm.valid) {
+    //   console.log("Form valid lot value", payload);
+    //   this.service.CreateLot(payload).subscribe((resp: any) => {
+    //     if (resp.status === "success") {
+    //       const message = "Lot has been added";
+    //       this.messageService.add({ severity: "success", detail: message });
+    //       setTimeout(() => {
+    //         this.router.navigate(["/lot/"]);
+    //       }, 400);
+    //     } else {
+    //       const message = resp.message;
+    //       this.messageService.add({ severity: "error", detail: message });
+    //     }
+    //   });
+    // } else {
+    //   console.log("Form is invalid!");
+    // }
   }
 }
