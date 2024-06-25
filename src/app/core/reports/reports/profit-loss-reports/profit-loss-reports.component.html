@@ -109,7 +109,7 @@
                                         <div class="form-group local-forms">
                                             <label for="warehouseDetails">Date </label>
                                             <p-calendar  [(ngModel)]="rangeDates"
-                                                selectionMode="range" [readonlyInput]="true" [style]="{ width: '100%' }"
+                                                selectionMode="range" [readonlyInput]="true" [style]="{ width: '100%' }"dateFormat="dd/mm/yy"
                                                 placeholder="Start Date - End Date"
                                                 (ngModelChange)="onDateChange($event)" />
                                         </div>
