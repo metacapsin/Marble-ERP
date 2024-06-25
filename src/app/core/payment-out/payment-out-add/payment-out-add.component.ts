@@ -64,10 +64,13 @@ export class PaymentOutAddComponent {
       note: ["", [Validators.pattern(this.notesRegex)]],
     });
   }
+
+  get purchase(): FormArray {
+    return this.addPaymentOutForm.get('purchase') as FormArray;
+  }
   addpurchaseControls() {
-    const purchaseArray = this.addPaymentOutForm.get("purchase") as FormArray;
     this.purchaseDataById?.forEach((purchase) => {
-      purchaseArray.push(
+      this.purchase.push(
         this.fb.group({
           _id: [purchase._id],
           amount: ["", [Validators.required, Validators.min(0), Validators.max(purchase.dueAmount)]],

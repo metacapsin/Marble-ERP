@@ -54,12 +54,16 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
     });
     
   }
+  get sales(): FormArray {
+    return this.addPaymentInForm.get('sales') as FormArray;
+  }
+
   addSalesControls() {
-    const salesArray = this.addPaymentInForm.get('sales') as FormArray;
-    this.salesDataById?.forEach(sale => {
-      salesArray.push(this.fb.group({
+    this.sales.clear();
+    this.salesDataById.forEach(sale => {
+      this.sales.push(this.fb.group({
         _id: [sale._id],
-        amount: ["", [Validators.required,Validators.min(0), Validators.max(sale.dueAmount)]]
+        amount: ["", [Validators.required, Validators.min(0), Validators.max(sale.dueAmount)]]
       }));
     });
   }
