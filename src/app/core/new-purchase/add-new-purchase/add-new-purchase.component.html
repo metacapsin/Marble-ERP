@@ -261,13 +261,7 @@
                       </div>
                     </div>
                     <div class="d-flex pt-4 justify-content-end">
-                      <!-- <p-button
-                      label="Next"
-                      icon="fa fa-arrow-right"
-                      iconPos="right"
-                      (onClick)="nextCallback.emit()"
-                    /> -->
-                      <button class="btn btn-primary" (click)="nextCallback.emit()">
+                      <button class="btn btn-primary" (click)="nextStep(nextCallback)">
                         Next <i class="fa-solid fa-arrow-right"></i>
                       </button>
                     </div>
@@ -300,7 +294,6 @@
                       <app-add-lot *ngIf="lotTypeValue === 'lot'" [transportationCharges]="transportationCharges" (dataEmitter)="receiveData($event)"
                         [otherCharges]="otherCharges" ></app-add-lot>
                     </div>
-                    <!-- <app-add-slabs *ngIf="lotTypeValue === 'slab'"></app-add-slabs> -->
                     <div class="card p-3" *ngIf="lotTypeValue === 'slab'">
                       <div class="row card-body">
                         <div class="col-12 col-md-4 col-xl-4">
@@ -325,7 +318,6 @@
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
                             <label for="warehouseDetails">Warehouse<span class="login-danger">*</span></label>
-                            <!-- optionValue="" -->
                             <p-dropdown [options]="wareHousedataListsEditArray" styleClass="" appendTo="body"
                               optionLabel="name" optionValue="_id" placeholder="Select Warehouse"
                               formControlName="warehouseDetails" [style]="{ width: '100%' }" [filter]="true"
@@ -382,9 +374,6 @@
                           <div class="form-group local-forms">
                             <label for="purchaseCost">Purchase Cost<span class="login-danger">*</span></label>
                             <div class="input-group">
-                              <!-- <div class="input-group-prepend">
-                                <span class="input-group-text" style="font-size: 12px;">sq</span>
-                              </div> -->
                               <input class="form-control" type="number" placeholder="Enter Square Feet"
                                 formControlName="purchaseCost" (change)="calculateTotalAmount()" />
                             </div>
@@ -409,9 +398,6 @@
                           <div class="form-group local-forms">
                             <label for="totalSQFT">Square Feet<span class="login-danger">*</span></label>
                             <div class="input-group">
-                              <!-- <div class="input-group-prepend">
-                                <span class="input-group-text" style="font-size: 12px;">SQ.Feet</span>
-                              </div> -->
                               <input class="form-control" type="number" placeholder="Enter Square Feet"
                                 formControlName="totalSQFT" (change)="calculateTotalAmount()" />
                             </div>
@@ -567,21 +553,14 @@
                                 input must be between 1 and 100,000.
                               </span>
                             </div>
-                            <!-- <div *ngIf="if_sellingPricePerSQFT">
-                              <span class="login-danger">
-                                input must be grater then Per Square feet Cost.
-                              </span>
-                            </div> -->
                           </div>
                         </div>
 
                       </div>
-                      <!-- {{totalCost}} -->
                       <div class="invoice-total-footer">
                         <h4>
                           Total Costing
                           <span>
-                            <!-- ₹ {{totalCost | number : "1.2-2"}} -->
                             {{
                               addNewPurchaseForm.get("slabTotalCosthing")?.value
                               ? '₹ ' + (addNewPurchaseForm.get("slabTotalCosthing").value | number: "1.2-2")
@@ -646,16 +625,6 @@
                                     {{totalRawCosting === undefined ? '' : '₹ ' + totalRawCosting}}
                                   </span>
                                 </p>
-                              <!-- <p *ngIf="lotTypeValue === 'slab'">
-                                Total Costing<span>
-                                  {{
-                                 '₹ ' + totalCost | number: "1.2-2"
-                                  }}
-                                </span>
-                              </p> -->
-
-
-
                               <p *ngIf="lotTypeValue === 'slab'">
                                 Per Square Feet Cost<span>
                                   {{
@@ -706,7 +675,7 @@
                                 </span>
                               </p>
                               <p>
-                                Other Charges<span>₹
+                                Other Charges<span>
                                   {{
                                   addNewPurchaseForm.get("otherCharges")?.value
                                   ? '₹ ' + (addNewPurchaseForm.get("otherCharges").value | number: "1.2-2")
@@ -715,7 +684,7 @@
                                 </span>
                               </p>
                               <p>
-                                Port Expenses<span>₹
+                                Port Expenses<span>
                                   {{
                                   addNewPurchaseForm.get("portExpenses")?.value
                                   ? '₹ ' + (addNewPurchaseForm.get("portExpenses").value | number: "1.2-2")
@@ -735,9 +704,6 @@
                               <h4>
                                 Total Costing
                                 <span>
-                                  <!-- {{
-                                  totalCost === undefined ? '' : '₹ ' + totalCost | number: "1.2-2"
-                                   }} -->
                                    {{
                                     addNewPurchaseForm.get("slabTotalCosthing")?.value
                                     ? '₹ ' + (addNewPurchaseForm.get("slabTotalCosthing").value | number: "1.2-2")
@@ -769,9 +735,6 @@
                       <button class="btn btn-primary" (click)="prevCallback.emit()">
                         <i class="fa-solid fa-arrow-left"></i> Back
                       </button>
-                      <!-- <button class="btn btn-primary" (click)="nextCallback.emit()">
-                        Next <i class="fa-solid fa-arrow-right"></i>
-                      </button> -->
                     </div>
                   </ng-template>
                 </p-stepperPanel>

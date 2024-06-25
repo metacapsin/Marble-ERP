@@ -199,6 +199,7 @@ export class AdminDashboardComponent {
           labels: {
             color: "#000000",
           },
+          position: 'bottom',
         },
       },
       scales: {

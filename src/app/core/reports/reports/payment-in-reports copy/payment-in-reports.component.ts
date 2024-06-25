@@ -11,7 +11,7 @@ export class PaymentInReportComponent {
   picker1: any;
   searchDataValue = ""
   rangeDates: Date[] | undefined;
-  paymetntInData = [];
+  paymentInData = [];
   originalData = [];
 
   cols = [];
@@ -36,7 +36,7 @@ export class PaymentInReportComponent {
     };
 
     this.service.getPaymentInReports(data).subscribe((resp: any) => {
-      this.paymetntInData = resp.payments
+      this.paymentInData = resp.payments
       this.originalData = resp.payments
 
       this.cols = [
@@ -53,12 +53,12 @@ export class PaymentInReportComponent {
         dataKey: col.field
       }));
     });
-    this.exportColumns = this.paymetntInData.map((element) => ({ title: element.header, dataKey: element.field }));
+    this.exportColumns = this.paymentInData.map((element) => ({ title: element.header, dataKey: element.field }));
   }
 
   getTotalAmount(): number {
-    return this.paymetntInData.reduce((total, payment) => total + payment.amount, 0);
-  }
+    return this.paymentInData.reduce((total, payment) => total + payment.amount, 0);
+}
 
   onDateChange(value: any): void {
     const startDate = value[0];
@@ -138,7 +138,7 @@ export class PaymentInReportComponent {
 
   public searchData(value: any): void {
 
-    this.paymetntInData = this.originalData.filter(item => {
+    this.paymentInData = this.originalData.filter(item => {
       const searchValue = item.customer?.name?.toLowerCase() || item.supplier?.name?.toLowerCase();
       return searchValue.includes(value.trim().toLowerCase())
     });

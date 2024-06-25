@@ -14,6 +14,7 @@ import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { SubCategoriesService } from "../../settings/sub-categories/sub-categories.service";
 import { CategoriesService } from "../../settings/categories/categories.service";
 import { SuppliersdataService } from "../../Suppliers/suppliers.service";
+import { NewPurchaseService } from "../new-purchase.service";
 
 @Component({
   selector: "app-add-new-purchase",
@@ -62,14 +63,8 @@ export class AddNewPurchaseComponent implements OnInit {
   taxAmount: any;
   totalLotCosting: any;
   totalRawCosting: any;
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private services: WarehouseService,
-    private categoriesService: CategoriesService,
-    private Service: SuppliersdataService,
-    private subCategoriesService: SubCategoriesService
-  ) {
+  constructor(private router: Router, private fb: FormBuilder, private services: WarehouseService, private categoriesService: CategoriesService, private Service: SuppliersdataService,
+    private subCategoriesService: SubCategoriesService, private NewPurchaseService: NewPurchaseService) {
     this.addNewPurchaseForm = this.fb.group({
       supplier: [""],
       invoiceNumber: [""],
@@ -77,7 +72,6 @@ export class AddNewPurchaseComponent implements OnInit {
       purchaseType: [""],
       purchaseCost: [""],
       paidToSupplier: [""],
-      lotWeight: [""],
       transportationCharges: [""],
       otherCharges: [""],
       portExpenses: [""],
@@ -91,7 +85,6 @@ export class AddNewPurchaseComponent implements OnInit {
       finishes: [""],
       sellingPricePerSQFT: [""],
       totalSQFT: [""],
-      processingFee: [""],
       slabTotalCosthing: [''],
     });
   }
@@ -108,7 +101,6 @@ export class AddNewPurchaseComponent implements OnInit {
           },
         });
       });
-      console.log(this.wareHousedataListsEditArray);
     });
     this.Service.GetSupplierData().subscribe((data: any) => {
       this.getSupplierShow = data;
@@ -136,7 +128,6 @@ export class AddNewPurchaseComponent implements OnInit {
           },
         });
       });
-      console.log(this.CategoryListsEditArray);
     });
 
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
@@ -151,50 +142,37 @@ export class AddNewPurchaseComponent implements OnInit {
           },
         });
       });
-      console.log(this.SubCategoryListsEditArray);
     });
   }
-  lotType(value: any) {
-    console.log("1", value);
-    this.lotTypeValue = value;
-    if (value == "lot") {
-      this.transportationCharges =
-        this.addNewPurchaseForm.get("transportationCharges").value || 0;
-      this.otherCharges =
-        this.addNewPurchaseForm.get("otherCharges").value || 0;
-      console.log(this.transportationCharges, this.otherCharges);
+  nextCallback() {
+    this.NewPurchaseService.setFormData("stepperOneData", this.addNewPurchaseForm.value);
+  }
+
+  nextStep(nextCallback: any) {
+    const payload = {
+      otherCharges: this.addNewPurchaseForm.value.otherCharges,
+      portExpenses: this.addNewPurchaseForm.value.portExpenses,
+      transportationCharges: this.addNewPurchaseForm.value.transportationCharges,
     }
-    // if(value == "slab"){
-
-    // }
-  }
-  addNewPurchaseFormSubmit() {
-    console.log("object");
+    this.NewPurchaseService.setFormData("stepperOneData", payload);
+    nextCallback.emit();
+    this.calculateTotalAmount()
   }
 
+  lotType(value: any) {
+    this.lotTypeValue = value;
+  }
   calculateTotalAmount() {
     this.totalCostPerSQFT = 0;
     const purchaseCost = this.addNewPurchaseForm.get("purchaseCost").value || 0;
     const transportationCharges =
-      this.addNewPurchaseForm.get("transportationCharges").value || 0;
+    this.addNewPurchaseForm.get("transportationCharges").value || 0;
     const portExpenses = this.addNewPurchaseForm.get("portExpenses").value || 0;
     const otherCharges = this.addNewPurchaseForm.get("otherCharges").value || 0;
     const totalSQFT = this.addNewPurchaseForm.get("totalSQFT").value || 0;
-    console.log(purchaseCost, totalSQFT);
 
-    // const total:number = +transportationCharges + portExpenses + otherCharges + purchaseCost;
-    // console.log(transportationCharges,portExpenses,otherCharges,purchaseCost);
-    // console.log(total);
-    // this.totalCost = totalSQFT / total;
-    const total: number =
-      transportationCharges + portExpenses + otherCharges + purchaseCost;
-    console.log(
-      transportationCharges,
-      portExpenses,
-      otherCharges,
-      purchaseCost
-    );
-    console.log(total);
+    const total: number = transportationCharges + portExpenses + otherCharges + purchaseCost;
+ 
     if (totalSQFT !== 0) {
       this.totalCostPerSQFT = total / totalSQFT;
     } else {
@@ -218,5 +196,9 @@ export class AddNewPurchaseComponent implements OnInit {
     this.taxAmount = data1.taxAmount;
     this.totalLotCosting = data1.LotblockDetails.toFixed(3);
     this.totalRawCosting = data1.totalRawCosting.toFixed(3);
+  }
+
+  addNewPurchaseFormSubmit() {
+    console.log("object");
   }
 }

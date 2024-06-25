@@ -137,9 +137,11 @@
                                             <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Sales (+)</h5>
                                             <div class="col-lg-6 col-md-6 col-xl-6">
                                                 <p class="col-form-label"><span class="amount-bold">₹
-                                                        {{profitLossData?.sales}} </span>(Due Amount : ₹
+                                                        {{profitLossData?.sales}} </span>
+                                                        <span *ngIf="profitLossData?.sales > 0">(Due Amount : ₹
                                                     {{profitLossData?.salesDueAmount}}, Paid Amount : ₹ {{
-                                                    profitLossData?.salesPaidAmount}})</p>
+                                                    profitLossData?.salesPaidAmount}})</span>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -148,9 +150,11 @@
                                             <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Purchase (-)</h5>
                                             <div class="col-lg-6 col-md-6 col-xl-6">
                                                 <p class=" col-form-label"><span class="amount-bold">₹
-                                                    {{profitLossData?.purchases}} </span>(Due Amount : ₹
+                                                    {{profitLossData?.purchases}} </span> 
+                                                    <span *ngIf="profitLossData?.purchases > 0">(Due Amount : ₹
                                                 {{profitLossData?.purchaseDueAmount}}, Paid Amount : ₹ {{
-                                                profitLossData?.purchasePaidAmount}})</p>
+                                                profitLossData?.purchasePaidAmount}}) </span>
+                                            </p>
                                             </div>
                                         </div>
                                     </div>
@@ -160,9 +164,11 @@
                                             </h5>
                                             <div class="col-lg-6 col-md-6 col-xl-6">
                                                 <p class=" col-form-label"><span class="amount-bold">₹
-                                                    {{profitLossData?.purchase_returns}} </span>(Due Amount : ₹
+                                                    {{profitLossData?.purchase_returns}} </span>
+                                                    <span *ngIf="profitLossData?.purchase_returns > 0">(Due Amount : ₹
                                                 {{profitLossData?.purchaseReturnsDueAmount}}, Paid Amount : ₹ {{
-                                                profitLossData?.purchaseReturnsPaidAmount}})</p>
+                                                profitLossData?.purchaseReturnsPaidAmount}})</span>
+                                            </p>
                                             </div>
                                         </div>
                                     </div>
@@ -171,9 +177,11 @@
                                             <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Sales Return (-)</h5>
                                             <div class="col-lg-6 col-md-6 col-xl-6">
                                                 <p class=" col-form-label"><span class="amount-bold">₹
-                                                    {{profitLossData?.sales_returns}}  </span>(Due Amount : ₹
+                                                    {{profitLossData?.sales_returns}}  </span>
+                                                    <span *ngIf="profitLossData?.sales_returns > 0">(Due Amount : ₹
                                                 {{profitLossData?.salesReturnsDueAmount}}, Paid Amount : ₹ {{
-                                                profitLossData?.salesReturnsPaidAmount}})</p>
+                                                profitLossData?.salesReturnsPaidAmount}}) </span>
+                                            </p>
                                             </div>
                                         </div>
                                     </div>
@@ -190,6 +198,7 @@
                                         <div class="form-group row mb-2">
                                             <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Profit </h5>
                                             <div class="col-lg-6 col-md-6 col-xl-6">
+                                                <p class=" col-form-label" *ngIf="profitLossData?.profit === 0"><span class="amount-bold">₹ {{profitLossData?.expenses}}</span></p>
                                                 <p *ngIf="profitLossData?.profit > 0" class="col-form-label login-positive amount-bold">₹ +{{profitLossData?.profit}}</p>
                                                 <p *ngIf="profitLossData?.profit < 0" class="col-form-label login-danger amount-bold">₹ {{profitLossData?.profit}}</p>
                                             </div>
