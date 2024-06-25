@@ -101,7 +101,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                          <!-- <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                             <div class="form-group local-forms">
                               <label for="paidToSupplier">Purchase Cost(Paid to Supplier)</label>
                               <div class="input-group">
@@ -122,7 +122,7 @@
                                 </span>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
 
                           <!-- <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                             <div class="form-group local-forms">
@@ -576,10 +576,19 @@
                         </div>
 
                       </div>
+                      <!-- {{totalCost}} -->
                       <div class="invoice-total-footer">
                         <h4>
                           Total Costing
-                          <span>₹ {{totalCost | number : "1.2-2"}}</span>
+                          <span>
+                            <!-- ₹ {{totalCost | number : "1.2-2"}} -->
+                            {{
+                              addNewPurchaseForm.get("slabTotalCosthing")?.value
+                              ? '₹ ' + (addNewPurchaseForm.get("slabTotalCosthing").value | number: "1.2-2")
+                              : null
+                              }}
+                          </span>
+                          
                         </h4>
                       </div>
                     </div>
@@ -619,22 +628,22 @@
                                 </p> -->
                                 <p *ngIf="lotTypeValue === 'lot'">
                                   Lot Weight<span>
-                                    {{'' + lotWeight}}
+                                    {{lotWeight  === undefined ? '' : lotWeight}}
                                   </span>
                                 </p>
                                 <p *ngIf="lotTypeValue === 'lot'">
                                   Price Per Ton<span>
-                                    {{'' + priceperTon}}
+                                    {{priceperTon === undefined ? '' : priceperTon}}
                                   </span>
                                 </p>
                                 <p *ngIf="lotTypeValue === 'lot'">
                                   Tax Amount<span>
-                                    {{'₹ ' + taxAmount}}
+                                    {{taxAmount === undefined ? '' : '₹ ' + taxAmount}}
                                   </span>
                                 </p>
                                 <p *ngIf="lotTypeValue === 'lot'">
                                   Total Raw Costing<span>
-                                    {{'₹ ' + totalRawCosting}}
+                                    {{totalRawCosting === undefined ? '' : '₹ ' + totalRawCosting}}
                                   </span>
                                 </p>
                               <!-- <p *ngIf="lotTypeValue === 'slab'">
@@ -650,8 +659,8 @@
                               <p *ngIf="lotTypeValue === 'slab'">
                                 Per Square Feet Cost<span>
                                   {{
-                                  addNewPurchaseForm.get("totalSQFT")?.value
-                                  ? '₹ ' + (addNewPurchaseForm.get("totalSQFT").value | number: "1.2-2")
+                                  addNewPurchaseForm.get("sellingPricePerSQFT")?.value
+                                  ? '₹ ' + (addNewPurchaseForm.get("sellingPricePerSQFT").value | number: "1.2-2")
                                   : null
                                   }}
                                 </span>
@@ -725,9 +734,16 @@
                             <div class="invoice-total-footer" *ngIf="lotTypeValue === 'slab'">
                               <h4>
                                 Total Costing
-                                <span>{{
-                                  '₹ ' + totalCost | number: "1.2-2"
-                                   }}</span>
+                                <span>
+                                  <!-- {{
+                                  totalCost === undefined ? '' : '₹ ' + totalCost | number: "1.2-2"
+                                   }} -->
+                                   {{
+                                    addNewPurchaseForm.get("slabTotalCosthing")?.value
+                                    ? '₹ ' + (addNewPurchaseForm.get("slabTotalCosthing").value | number: "1.2-2")
+                                    : null
+                                    }}
+                                  </span>
                               </h4>
                             </div>
                           </div>

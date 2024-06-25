@@ -282,11 +282,11 @@ export class AddLotComponent {
       lotName: data.lotName,
       date: data.date,
       vehicleNo: data.vehicleNo,
-      invoiceNo: data.invoiceNo,
+      // invoiceNo: data.invoiceNo,
       lotWeight: data.lotWeight,
       pricePerTon: data.pricePerTon,
-      transportationCharge: data.transportationCharge,
-      royaltyCharge: data.royaltyCharge,
+      transportationCharge: this.transportationCharges,
+      royaltyCharge: this.otherCharges,
       taxAmount: data.taxAmount,
       notes: data.notes,
       blocksCount: this.blocksDetails.length,
@@ -298,7 +298,11 @@ export class AddLotComponent {
       LotblockDetails: this.LotblockDetails,
       totalRawCosting: this.totalRawCosting,
     };
-    this.dataEmitter.emit(JSON.stringify(payload));
+    if(payload){
+      this.dataEmitter.emit(JSON.stringify(payload));
+      const message = "Lot has been Saved";
+      this.messageService.add({ severity: "success", detail: message });
+    }
     // if (this.lotAddForm.valid) {
     //   console.log("Form valid lot value", payload);
     //   this.service.CreateLot(payload).subscribe((resp: any) => {

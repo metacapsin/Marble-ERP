@@ -32,10 +32,10 @@ import { SuppliersdataService } from "../../Suppliers/suppliers.service";
   templateUrl: "./add-new-purchase.component.html",
   styleUrl: "./add-new-purchase.component.scss",
 })
-export class AddNewPurchaseComponent implements OnInit{
+export class AddNewPurchaseComponent implements OnInit {
   public routes = routes;
   maxDate = new Date();
-  SupplierLists:any[]
+  SupplierLists: any[];
   lotsNoArray = [
     { name: "Lot", _id: "lot" },
     { name: "Slabs", _id: "slab" },
@@ -54,7 +54,7 @@ export class AddNewPurchaseComponent implements OnInit{
     { name: "Semi polished" },
   ];
   getSupplierShow: any;
-  totalCost: any = 0;
+  totalCostPerSQFT: any = 0;
   transportationCharges: any;
   otherCharges: any;
   lotWeight: any;
@@ -62,30 +62,37 @@ export class AddNewPurchaseComponent implements OnInit{
   taxAmount: any;
   totalLotCosting: any;
   totalRawCosting: any;
-  constructor(private router: Router, private fb: FormBuilder,private services: WarehouseService, private categoriesService: CategoriesService,private Service: SuppliersdataService,
-    private subCategoriesService: SubCategoriesService,) {
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private services: WarehouseService,
+    private categoriesService: CategoriesService,
+    private Service: SuppliersdataService,
+    private subCategoriesService: SubCategoriesService
+  ) {
     this.addNewPurchaseForm = this.fb.group({
       supplier: [""],
       invoiceNumber: [""],
       purchaseDate: [""],
       purchaseType: [""],
       purchaseCost: [""],
-      paidToSupplier:[''],
-      lotWeight: [''],
-      transportationCharges:[''],
-      otherCharges:[''],
-      portExpenses:[''],
-      slabNo:[''],
-      warehouseDetails:[''],
-      categoryDetail:[''],
-      subCategoryDetail:[''],
-      width:[''],
-      length:[''],
-      thickness:[''],
-      finishes:[''],
-      sellingPricePerSQFT:[''],
-      totalSQFT:[''],
-      processingFee:[''],
+      paidToSupplier: [""],
+      lotWeight: [""],
+      transportationCharges: [""],
+      otherCharges: [""],
+      portExpenses: [""],
+      slabNo: [""],
+      warehouseDetails: [""],
+      categoryDetail: [""],
+      subCategoryDetail: [""],
+      width: [""],
+      length: [""],
+      thickness: [""],
+      finishes: [""],
+      sellingPricePerSQFT: [""],
+      totalSQFT: [""],
+      processingFee: [""],
+      slabTotalCosthing: [''],
     });
   }
   ngOnInit(): void {
@@ -147,51 +154,69 @@ export class AddNewPurchaseComponent implements OnInit{
       console.log(this.SubCategoryListsEditArray);
     });
   }
-  lotType(value:any){
-    console.log("1",value);
-    this.lotTypeValue = value; 
-    if(value == "lot"){
-      this.transportationCharges = this.addNewPurchaseForm.get('transportationCharges').value || 0
-      this.otherCharges = this.addNewPurchaseForm.get('otherCharges').value || 0;
-      console.log(this.transportationCharges,this.otherCharges);
+  lotType(value: any) {
+    console.log("1", value);
+    this.lotTypeValue = value;
+    if (value == "lot") {
+      this.transportationCharges =
+        this.addNewPurchaseForm.get("transportationCharges").value || 0;
+      this.otherCharges =
+        this.addNewPurchaseForm.get("otherCharges").value || 0;
+      console.log(this.transportationCharges, this.otherCharges);
     }
     // if(value == "slab"){
 
     // }
   }
-  addNewPurchaseFormSubmit(){
+  addNewPurchaseFormSubmit() {
     console.log("object");
   }
 
+  calculateTotalAmount() {
+    this.totalCostPerSQFT = 0;
+    const purchaseCost = this.addNewPurchaseForm.get("purchaseCost").value || 0;
+    const transportationCharges =
+      this.addNewPurchaseForm.get("transportationCharges").value || 0;
+    const portExpenses = this.addNewPurchaseForm.get("portExpenses").value || 0;
+    const otherCharges = this.addNewPurchaseForm.get("otherCharges").value || 0;
+    const totalSQFT = this.addNewPurchaseForm.get("totalSQFT").value || 0;
+    console.log(purchaseCost, totalSQFT);
 
-  calculateTotalAmount(){
-    const purchaseCost = this.addNewPurchaseForm.get('purchaseCost').value || 0;
-    const transportationCharges = this.addNewPurchaseForm.get('transportationCharges').value || 0;
-    const portExpenses = this.addNewPurchaseForm.get('portExpenses').value || 0;
-    const otherCharges = this.addNewPurchaseForm.get('otherCharges').value || 0;
-    const totalSQFT = this.addNewPurchaseForm.get('totalSQFT').value || 0;
-    console.log(purchaseCost,totalSQFT);
-    
-    const total = +transportationCharges + portExpenses + otherCharges + purchaseCost;
-    console.log(transportationCharges,portExpenses,otherCharges,purchaseCost);
-    if(total){
-      this.totalCost = totalSQFT / total;
-      this.addNewPurchaseForm.patchValue({
-        sellingPricePerSQFT: this.totalCost.toFixed(2)
-      })
-      console.log(this.totalCost);
+    // const total:number = +transportationCharges + portExpenses + otherCharges + purchaseCost;
+    // console.log(transportationCharges,portExpenses,otherCharges,purchaseCost);
+    // console.log(total);
+    // this.totalCost = totalSQFT / total;
+    const total: number =
+      transportationCharges + portExpenses + otherCharges + purchaseCost;
+    console.log(
+      transportationCharges,
+      portExpenses,
+      otherCharges,
+      purchaseCost
+    );
+    console.log(total);
+    if (totalSQFT !== 0) {
+      this.totalCostPerSQFT = total / totalSQFT;
+    } else {
+      console.log("Error: totalSQFT is zero!");
     }
-    console.log(this.totalCost,total);
+    if (total) {
+      this.addNewPurchaseForm.patchValue({
+        sellingPricePerSQFT: this.totalCostPerSQFT.toFixed(2),
+        slabTotalCosthing: total,
+      });
+      console.log(this.totalCostPerSQFT);
+    }
+    console.log(this.totalCostPerSQFT, total);
   }
   receiveData(data: string) {
     const data1 = JSON.parse(data);
     console.log(data1);
     console.log(data);
-    this.lotWeight = data1.lotWeight
-    this.priceperTon = data1.pricePerTon
-    this.taxAmount = data1.taxAmount
-    this.totalLotCosting = data1.LotblockDetails.toFixed(3)
-    this.totalRawCosting = data1.totalRawCosting.toFixed(3)
+    this.lotWeight = data1.lotWeight;
+    this.priceperTon = data1.pricePerTon;
+    this.taxAmount = data1.taxAmount;
+    this.totalLotCosting = data1.LotblockDetails.toFixed(3);
+    this.totalRawCosting = data1.totalRawCosting.toFixed(3);
   }
-
 }
