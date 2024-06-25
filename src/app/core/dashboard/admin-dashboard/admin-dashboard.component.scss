@@ -29,3 +29,10 @@
     color: #97704f;
     transition: 0.74s;
 }
+::ng-deep .p-table .p-datatable .p-datatable-tbody td:nth-child(4),
+::ng-deep .p-table .p-datatable .p-datatable-tbody td:nth-child(3) {
+  font-size: 2.0rem; /* Adjust the font size as needed */
+}
+.p-tag-value{
+    width: 50px;
+}

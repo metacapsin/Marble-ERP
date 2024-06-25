@@ -21,6 +21,7 @@ export class CombinedPaymentService {
       map(([paymentsInResponse, paymentsOutResponse]) => {
         const paymentsIn = this.extractPayments(paymentsInResponse);
         const paymentsOut = this.extractPayments(paymentsOutResponse);
+        console.log(paymentsInResponse,paymentsOutResponse)
         return [...paymentsIn, ...paymentsOut].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       })
     );

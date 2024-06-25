@@ -324,7 +324,7 @@ export class ViewSuppliersComponent {
         };
       });
       this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
-        // this.showInvoiceDialog = true;
+        this.showPaymentDialog = true;
         this.paymentInvoicePurchaseDataShowById = [resp.data];
         console.log(resp.data);
         console.log(

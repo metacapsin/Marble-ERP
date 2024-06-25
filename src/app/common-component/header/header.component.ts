@@ -139,7 +139,21 @@ import { SideBarService } from 'src/app/shared/side-bar/side-bar.service';
 //   }
 // }
 
-
+export interface Payment {
+  id: string;
+  amount: number;
+  date: string;
+  customer?: {
+    name: string;
+  };
+  supplier?: {
+    name: string;
+  };
+  user?: {
+    name: string;
+    avatarUrl?: string;
+  };
+}
 
 @Component({
   selector: 'app-header',
@@ -156,7 +170,7 @@ export class HeaderComponent {
   page = '';
   sidebarData: any;
   userData: any = {};
-  latestPayments: any[] = [];
+  latestPayments: Payment[] = [];
 
   constructor(public router: Router,private sideBar: SideBarService, private data: DataService, private crypto: AESEncryptDecryptService, public auth: AuthService,
     private combinedPaymentService: CombinedPaymentService,
@@ -218,15 +232,15 @@ export class HeaderComponent {
 
   loadLatestPayments(): void {
     this.combinedPaymentService.getCombinedPayments().subscribe(
-      (data) => {
-        this.latestPayments = data;
+      (data: Payment[]) => {
+        console.log("This is the latest 10 payments:", data);
+        this.latestPayments = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       },
       (error) => {
         console.error('Error fetching payments:', error);
       }
     );
   }
-
   public toggleSideBar(): void {
     this.sideBar.switchSideMenuPosition();
   }

@@ -69,11 +69,11 @@ export class InvoiceDialogComponent implements OnInit {
     }
   
     this.salesService.downloadSalesInvoice(id).subscribe(
-      (response: Blob) => {
+      (response: Blob) => { 
         const url = window.URL.createObjectURL(response);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "sales-invoice.txt"; // Adjust the file name and extension as needed
+        a.download = "Sales-Invoice.pdf";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -95,7 +95,7 @@ export class InvoiceDialogComponent implements OnInit {
         const url = window.URL.createObjectURL(response);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "purchase-invoice.pdf"; // Adjust the file name and extension as needed
+        a.download = "Purchase-Invoice.pdf"; // Adjust the file name and extension as needed
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
