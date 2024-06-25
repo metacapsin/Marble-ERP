@@ -60,6 +60,8 @@ export class AddNewPurchaseComponent implements OnInit{
   lotWeight: any;
   priceperTon: any;
   taxAmount: any;
+  totalLotCosting: any;
+  totalRawCosting: any;
   constructor(private router: Router, private fb: FormBuilder,private services: WarehouseService, private categoriesService: CategoriesService,private Service: SuppliersdataService,
     private subCategoriesService: SubCategoriesService,) {
     this.addNewPurchaseForm = this.fb.group({
@@ -151,6 +153,7 @@ export class AddNewPurchaseComponent implements OnInit{
     if(value == "lot"){
       this.transportationCharges = this.addNewPurchaseForm.get('transportationCharges').value || 0
       this.otherCharges = this.addNewPurchaseForm.get('otherCharges').value || 0;
+      console.log(this.transportationCharges,this.otherCharges);
     }
     // if(value == "slab"){
 
@@ -187,6 +190,8 @@ export class AddNewPurchaseComponent implements OnInit{
     this.lotWeight = data1.lotWeight
     this.priceperTon = data1.pricePerTon
     this.taxAmount = data1.taxAmount
+    this.totalLotCosting = data1.LotblockDetails.toFixed(3)
+    this.totalRawCosting = data1.totalRawCosting.toFixed(3)
   }
 
 }

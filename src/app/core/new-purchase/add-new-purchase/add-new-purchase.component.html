@@ -632,13 +632,18 @@
                                     {{'₹ ' + taxAmount}}
                                   </span>
                                 </p>
-                              <p *ngIf="lotTypeValue === 'slab'">
+                                <p *ngIf="lotTypeValue === 'lot'">
+                                  Total Raw Costing<span>
+                                    {{'₹ ' + totalRawCosting}}
+                                  </span>
+                                </p>
+                              <!-- <p *ngIf="lotTypeValue === 'slab'">
                                 Total Costing<span>
                                   {{
                                  '₹ ' + totalCost | number: "1.2-2"
                                   }}
                                 </span>
-                              </p>
+                              </p> -->
 
 
 
@@ -673,6 +678,7 @@
                                       | number : "1.2-2"
                                       }}</span>
                                   </p> -->
+                                  <!-- Comman  -->
                               <p>
                                 Processing Costing<span>
                                   {{
@@ -710,10 +716,18 @@
                               </p>
                             </div>
 
-                            <div class="invoice-total-footer">
+                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'lot'">
                               <h4>
                                 Total Costing
-                                <span>₹</span>
+                                <span>{{'₹ '+ totalLotCosting}}</span>
+                              </h4>
+                            </div>
+                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'slab'">
+                              <h4>
+                                Total Costing
+                                <span>{{
+                                  '₹ ' + totalCost | number: "1.2-2"
+                                   }}</span>
                               </h4>
                             </div>
                           </div>
