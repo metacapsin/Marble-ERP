@@ -63,18 +63,23 @@ export class AddNewPurchaseComponent implements OnInit {
   taxAmount: any;
   totalLotCosting: any;
   totalRawCosting: any;
-  constructor(private router: Router, private fb: FormBuilder, private services: WarehouseService, private categoriesService: CategoriesService, private Service: SuppliersdataService,
-    private subCategoriesService: SubCategoriesService, private NewPurchaseService: NewPurchaseService) {
+  ItemDetails: any = {};
+  constructor(private fb: FormBuilder, 
+    private services: WarehouseService, 
+    private categoriesService: CategoriesService, 
+    private Service: SuppliersdataService,
+    private subCategoriesService: SubCategoriesService, 
+    private NewPurchaseService: NewPurchaseService) {
     this.addNewPurchaseForm = this.fb.group({
       supplier: [""],
       invoiceNumber: [""],
       purchaseDate: [""],
       purchaseType: [""],
-      purchaseCost: [""],
-      paidToSupplier: [""],
+      paidToSupplierPurchaseCost: [""],
+      // paidToSupplierpaidToSupplierPurchaseCost: [""],
       transportationCharges: [""],
       otherCharges: [""],
-      portExpenses: [""],
+      // portExpenses: [""],
       slabNo: [""],
       warehouseDetails: [""],
       categoryDetail: [""],
@@ -157,6 +162,8 @@ export class AddNewPurchaseComponent implements OnInit {
     this.NewPurchaseService.setFormData("stepperOneData", payload);
     nextCallback.emit();
     this.calculateTotalAmount()
+
+    this.ItemDetails = this.NewPurchaseService.getFormData('stepTwoData')
   }
 
   lotType(value: any) {
@@ -164,14 +171,14 @@ export class AddNewPurchaseComponent implements OnInit {
   }
   calculateTotalAmount() {
     this.totalCostPerSQFT = 0;
-    const purchaseCost = this.addNewPurchaseForm.get("purchaseCost").value || 0;
+    const paidToSupplierPurchaseCost = this.addNewPurchaseForm.get("paidToSupplierPurchaseCost").value || 0;
     const transportationCharges =
     this.addNewPurchaseForm.get("transportationCharges").value || 0;
     const portExpenses = this.addNewPurchaseForm.get("portExpenses").value || 0;
     const otherCharges = this.addNewPurchaseForm.get("otherCharges").value || 0;
     const totalSQFT = this.addNewPurchaseForm.get("totalSQFT").value || 0;
 
-    const total: number = transportationCharges + portExpenses + otherCharges + purchaseCost;
+    const total: number = transportationCharges + portExpenses + otherCharges + paidToSupplierPurchaseCost;
  
     if (totalSQFT !== 0) {
       this.totalCostPerSQFT = total / totalSQFT;
@@ -199,6 +206,6 @@ export class AddNewPurchaseComponent implements OnInit {
   }
 
   addNewPurchaseFormSubmit() {
-    console.log("object");
+    console.log("object", this.ItemDetails,);
   }
 }

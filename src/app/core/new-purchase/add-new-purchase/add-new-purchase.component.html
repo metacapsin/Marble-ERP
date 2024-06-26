@@ -206,7 +206,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                          <!-- <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                             <div class="form-group local-forms">
                               <label for="portExpenses">Port Expenses</label>
                               <div class="input-group">
@@ -227,7 +227,7 @@
                                 </span>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                           <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                             <div class="form-group local-forms">
                               <label for="length">Transport Charges<span class="login-danger"></span></label>
@@ -372,21 +372,21 @@
                         </div>
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
-                            <label for="purchaseCost">Purchase Cost<span class="login-danger">*</span></label>
+                            <label for="paidToSupplierPurchaseCost">Purchase Cost<span class="login-danger">*</span></label>
                             <div class="input-group">
                               <input class="form-control" type="number" placeholder="Enter Square Feet"
-                                formControlName="purchaseCost" (change)="calculateTotalAmount()" />
+                                formControlName="paidToSupplierPurchaseCost" (change)="calculateTotalAmount()" />
                             </div>
                             <div *ngIf="
-                                      addNewPurchaseForm.get('purchaseCost')?.hasError('min') &&
-                                      addNewPurchaseForm.get('purchaseCost')?.touched
+                                      addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.hasError('min') &&
+                                      addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.touched
                                     ">
                               <span class="login-danger">Input must be at least 0.
                               </span>
                             </div>
                             <div *ngIf="
-                                      addNewPurchaseForm.get('purchaseCost')?.hasError('required') &&
-                                      addNewPurchaseForm.get('purchaseCost')?.touched
+                                      addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.hasError('required') &&
+                                      addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.touched
                                     ">
                               <span class="login-danger">Field is required.
                               </span>
@@ -575,7 +575,7 @@
                       <button class="btn btn-primary" (click)="prevCallback.emit()">
                         <i class="fa-solid fa-arrow-left"></i> Back
                       </button>
-                      <button class="btn btn-primary" (click)="nextCallback.emit()">
+                      <button class="btn btn-primary" (click)="nextStep(nextCallback)">
                         Next <i class="fa-solid fa-arrow-right"></i>
                       </button>
                     </div>
@@ -718,7 +718,7 @@
                           <div class="settings-btns text-end m-b-10 row">
                             <div class="col-md-12 col-sm-12 col-lg-6 col-xl-6">
                               <button type="submit" class="border-0 btn btn-primary btn-gradient-primary">
-                                <!-- [disabled]="!slabsAddForm.valid" -->
+                                <!-- [disabled]="!slabsAddForm.valid" --> 
                                 Submit
                               </button>
                             </div>

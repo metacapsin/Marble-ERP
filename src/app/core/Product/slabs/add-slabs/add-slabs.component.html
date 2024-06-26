@@ -1,7 +1,7 @@
 <p-toast></p-toast>
-<div class="content">
-  <div class="card-body">
-    <!-- <div class="page-header">
+<div class="page-wrapper">
+  <div class="content">
+    <div class="page-header">
       <div class="row">
         <div class="col-sm-12">
           <ul class="breadcrumb">
@@ -21,7 +21,7 @@
           </ul>
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="row">
       <div class="col-sm-12">
         <div class="card card-table">
@@ -29,10 +29,10 @@
             <div class="page-table-header mb-2">
               <form [formGroup]="slabsAddForm" (ngSubmit)="SlabsAddFormSubmit()">
                 <div class="row">
-                  <!-- <div class="m-b-10 d-flex justify-content-between">
+                  <div class="m-b-10 d-flex justify-content-between">
                     <h3>Add New Slabs</h3>
                     <button class="btn-primary btn" [routerLink]="['/block-processor/add-block-processor']">Block Processor</button>
-                  </div> -->
+                  </div>
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="slabNo">Slab No. <span class="login-danger">*</span></label>

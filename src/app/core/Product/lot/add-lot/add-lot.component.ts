@@ -144,13 +144,6 @@ export class AddLotComponent {
     });
 
     console.log("form value", this.lotAddForm.value);
-    
-    // console.warn("first step value",this.NewPurchaseService.getStepOneData());
-
-
-    // this.subject.subscribe({
-    //   next: (v) => console.log(`observerA: ${v}`),
-    // });
 
     let lotData = this.NewPurchaseService.getFormData("stepTwoData");
     console.log(this.transportationCharges, this.otherCharges);
@@ -339,8 +332,8 @@ export class AddLotComponent {
       // invoiceNo: data.invoiceNo,
       lotWeight: data.lotWeight,
       pricePerTon: data.pricePerTon,
-      transportationCharge: this.transportationCharges,
-      royaltyCharge: this.otherCharges,
+      transportationCharge: data.transportationCharge,
+      royaltyCharge: data.royaltyCharge,
       taxAmount: data.taxAmount,
       notes: data.notes,
       blocksCount: this.blocksDetails.length,
@@ -353,6 +346,9 @@ export class AddLotComponent {
       totalRawCosting: this.totalRawCosting,
     };
     this.dataEmitter.emit(JSON.stringify(payload));
+
+    console.log("payload", payload);
+    
 
     this.NewPurchaseService.setFormData('stepTwoData', payload)
     // this.NewPurchaseService.setFormData(payload)
