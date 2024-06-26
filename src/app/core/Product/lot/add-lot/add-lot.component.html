@@ -226,13 +226,15 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">₹</span>
                         </div>
-                        <input
+                        <!-- <input
                           class="form-control"
                           type="number"
                           placeholder="Enter Price / Ton"
                           (change)="calculateTotalAmount()"
                           formControlName="pricePerTon"
-                        />
+                        /> -->
+                        <span class="form-control">{{ lotAddForm.get('pricePerTon').value }}</span>
+
                       </div>
                       <div
                         *ngIf="
@@ -257,7 +259,7 @@
                     </div>
                   </div>
 
-                  <!-- <div class="col-12 col-md-6">
+                  <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
                       <label for="transportationCharge"
                         >Transportation
@@ -302,9 +304,9 @@
                         </span>
                       </div>
                     </div>
-                  </div> -->
+                  </div>
 
-                  <!-- <div class="col-12 col-md-6">
+                  <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
                       <label for="royaltyCharge"
                         >Royalty (Other Charge)
@@ -345,9 +347,9 @@
                         </span>
                       </div>
                     </div>
-                  </div> -->
+                  </div>
 
-                  <div class="col-12 col-md-6">
+                  <!-- <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
                       <label for="taxAmount">Tax Amount</label>
                       <div class="input-group">
@@ -362,13 +364,6 @@
                           (change)="calculateTotalAmount()"
                         />
                       </div>
-                      <!-- <div *ngIf="
-                                            lotAddForm.get('taxAmount')?.hasError(
-                                              'required'
-                                            ) && lotAddForm.get('taxAmount')?.touched
-                                          ">
-                                                <span class="login-danger">Field is required.</span>
-                                            </div> -->
                       <div
                         *ngIf="
                           (lotAddForm.get('taxAmount')?.hasError('min') &&
@@ -382,7 +377,7 @@
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="col-12">
                     <div class="form-group local-forms">
@@ -482,7 +477,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-6 col-lg-6 col-sm-6">
+                <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
                   <div class="form-group row mb-2">
                     <h5
                       class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold"
@@ -498,7 +493,7 @@
                       </p>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
 
@@ -628,7 +623,7 @@
                                   </p>
                                 </div>
                               </div>
-                              <div class="form-group row mb-2">
+                              <!-- <div class="form-group row mb-2">
                                 <h5
                                   class="col-lg-3 col-md-3 col-xl-3 col-form-label"
                                 >
@@ -640,7 +635,7 @@
                                     {{ data.taxAmountCosting.toFixed(3) }}
                                   </p>
                                 </div>
-                              </div>
+                              </div> -->
                               <div class="form-group row mb-2">
                                 <h5
                                   class="col-lg-3 col-md-3 col-xl-3 col-form-label"

@@ -15,6 +15,7 @@ import { SubCategoriesService } from "../../settings/sub-categories/sub-categori
 import { CategoriesService } from "../../settings/categories/categories.service";
 import { SuppliersdataService } from "../../Suppliers/suppliers.service";
 import { NewPurchaseService } from "../new-purchase.service";
+import { AccordionModule } from "primeng/accordion";
 
 @Component({
   selector: "app-add-new-purchase",
@@ -29,6 +30,7 @@ import { NewPurchaseService } from "../new-purchase.service";
     AddLotComponent,
     DropdownModule,
     AddSlabsComponent,
+    AccordionModule
   ],
   templateUrl: "./add-new-purchase.component.html",
   styleUrl: "./add-new-purchase.component.scss",
@@ -38,8 +40,8 @@ export class AddNewPurchaseComponent implements OnInit {
   maxDate = new Date();
   SupplierLists: any[];
   lotsNoArray = [
-    { name: "Lot", _id: "lot" },
-    { name: "Slabs", _id: "slab" },
+    { name: "Lot", _id: "Lot" },
+    { name: "Slab", _id: "Slab" },
   ];
   addNewPurchaseForm!: FormGroup;
   lotTypeValue: any;
@@ -61,22 +63,22 @@ export class AddNewPurchaseComponent implements OnInit {
   lotWeight: any;
   priceperTon: any;
   taxAmount: any;
-  totalLotCosting: any;
+  lotTotalCost: any;
   totalRawCosting: any;
   ItemDetails: any = {};
-  constructor(private fb: FormBuilder, 
-    private services: WarehouseService, 
-    private categoriesService: CategoriesService, 
+  constructor(private fb: FormBuilder,
+    private services: WarehouseService,
+    private categoriesService: CategoriesService,
     private Service: SuppliersdataService,
-    private subCategoriesService: SubCategoriesService, 
+    private subCategoriesService: SubCategoriesService,
     private NewPurchaseService: NewPurchaseService) {
     this.addNewPurchaseForm = this.fb.group({
-      supplier: [""],
       invoiceNumber: [""],
       purchaseDate: [""],
-      purchaseType: [""],
+      supplier: [""],
       paidToSupplierPurchaseCost: [""],
-      // paidToSupplierpaidToSupplierPurchaseCost: [""],
+      purchaseType: [""],
+      purchaseNotes: [""],
       transportationCharges: [""],
       otherCharges: [""],
       // portExpenses: [""],
@@ -149,16 +151,14 @@ export class AddNewPurchaseComponent implements OnInit {
       });
     });
   }
-  nextCallback() {
-    this.NewPurchaseService.setFormData("stepperOneData", this.addNewPurchaseForm.value);
-  }
+  // nextCallback() {
+  //   this.NewPurchaseService.setFormData("stepperOneData", this.addNewPurchaseForm.value);
+  // }
+
+
 
   nextStep(nextCallback: any) {
-    const payload = {
-      otherCharges: this.addNewPurchaseForm.value.otherCharges,
-      portExpenses: this.addNewPurchaseForm.value.portExpenses,
-      transportationCharges: this.addNewPurchaseForm.value.transportationCharges,
-    }
+    const payload = this.addNewPurchaseForm.value.paidToSupplierPurchaseCost;
     this.NewPurchaseService.setFormData("stepperOneData", payload);
     nextCallback.emit();
     this.calculateTotalAmount()
@@ -173,13 +173,13 @@ export class AddNewPurchaseComponent implements OnInit {
     this.totalCostPerSQFT = 0;
     const paidToSupplierPurchaseCost = this.addNewPurchaseForm.get("paidToSupplierPurchaseCost").value || 0;
     const transportationCharges =
-    this.addNewPurchaseForm.get("transportationCharges").value || 0;
-    const portExpenses = this.addNewPurchaseForm.get("portExpenses").value || 0;
+      this.addNewPurchaseForm.get("transportationCharges").value || 0;
+    // const portExpenses = this.addNewPurchaseForm.get("portExpenses").value || 0;
     const otherCharges = this.addNewPurchaseForm.get("otherCharges").value || 0;
     const totalSQFT = this.addNewPurchaseForm.get("totalSQFT").value || 0;
 
-    const total: number = transportationCharges + portExpenses + otherCharges + paidToSupplierPurchaseCost;
- 
+    const total: number = transportationCharges + otherCharges + paidToSupplierPurchaseCost;
+
     if (totalSQFT !== 0) {
       this.totalCostPerSQFT = total / totalSQFT;
     } else {
@@ -201,11 +201,31 @@ export class AddNewPurchaseComponent implements OnInit {
     this.lotWeight = data1.lotWeight;
     this.priceperTon = data1.pricePerTon;
     this.taxAmount = data1.taxAmount;
-    this.totalLotCosting = data1.LotblockDetails.toFixed(3);
-    this.totalRawCosting = data1.totalRawCosting.toFixed(3);
+    this.lotTotalCost = data1.lotTotalCost.toFixed(3);
+    // this.totalRawCosting = data1.totalRawCosting.toFixed(3);
   }
 
   addNewPurchaseFormSubmit() {
-    console.log("object", this.ItemDetails,);
+    const formData = this.addNewPurchaseForm.value;
+    let payload = {};
+    if (this.addNewPurchaseForm.value.purchaseType == 'Lot') {
+      payload = {
+        purchaseInvoiceNumber: formData.invoiceNumber,
+        supplier: formData.supplier,
+        purchaseDate: formData.purchaseDate,
+        purchaseType: formData.purchaseType,
+        purchaseNotes: formData.purchaseNotes,
+        purchaseCost: formData.paidToSupplierPurchaseCost,
+        purchaseTotalAmount: this.ItemDetails.lotTotalCost,
+        lotDetail: this.ItemDetails,
+      }
+    } else {
+      payload = {
+
+      }
+    }
+    console.log("object", JSON.stringify(payload));
   }
+
+
 }
