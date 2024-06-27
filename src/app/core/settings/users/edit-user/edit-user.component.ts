@@ -101,7 +101,7 @@ export class EditUserComponent implements OnInit {
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
-      email: ["", [Validators.required, Validators.pattern(this.emailRegex)]],
+      email: ["", [Validators.pattern(this.emailRegex)]],
       status: [""],
       address: [
         "",

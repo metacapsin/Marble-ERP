@@ -157,6 +157,8 @@ export class AdminDashboardComponent {
   ];
   expandedRows: { [key: string]: boolean } = {};
   products: Product[] = [];
+  totalCategorySlabs: any;
+  totalSubCategorySlabs: any;
 
   
   constructor(
@@ -473,10 +475,10 @@ export class AdminDashboardComponent {
   }
   categoryChart(data) {
     console.log(data);
-    const totalCategorySlabs = data.totalCategorySlabs.map(
+     this.totalCategorySlabs = data.totalCategorySlabs.map(
       (item) => item.totalSQFT
     );
-    const totalSubCategorySlabs = data.totalSubCategorySlabs.map(
+     this.totalSubCategorySlabs = data.totalSubCategorySlabs.map(
       (item) => item.totalSQFT
     );
     const totalCategorySlabsLable = data.totalCategorySlabs.map(
@@ -490,7 +492,7 @@ export class AdminDashboardComponent {
       labels: totalCategorySlabsLable,
       datasets: [
         {
-          data: totalCategorySlabs,
+          data: this.totalCategorySlabs,
           backgroundColor: [
             "#3b82f6",
             "#f59e0b",
@@ -512,7 +514,7 @@ export class AdminDashboardComponent {
       labels: totalSubCategorySlabsLable,
       datasets: [
         {
-          data: totalSubCategorySlabs,
+          data: this.totalSubCategorySlabs,
           backgroundColor: [
             "#3b82f6", // Blue
             "#f59e0b", // Orange

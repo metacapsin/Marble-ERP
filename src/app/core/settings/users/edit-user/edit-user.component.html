@@ -132,15 +132,15 @@
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="Email">Email<span class="login-danger">*</span></label>
+                      <label for="Email">Email<span class="login-danger"></span></label>
                       <input class="form-control" type="email" placeholder formControlName="email" />
-                      <div *ngIf="
+                      <!-- <div *ngIf="
                                 editUserGroup.get('email')?.hasError(
                                   'required'
                                 ) && editUserGroup.get('email')?.touched
                               " class="login-danger Font_size">
                         Field is required.
-                      </div>
+                      </div> -->
                       <div *ngIf="
                                 editUserGroup.get('email')?.hasError(
                                   'pattern'
@@ -244,7 +244,7 @@
                   </div>
 
 
-                  <div class="col-12 col-md-6 col-xl-6">
+                  <!-- <div class="col-12 col-md-6 col-xl-6">
                     <div class="doctor-submit d-flex justify-content-between">
                       <div class="status-toggle d-flex p-2">
                         <p class="mb-0 me-4">Status</p>
@@ -252,7 +252,7 @@
                         <label for="status_1" class="checktoggle">checkbox</label>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
 
                 </div>
