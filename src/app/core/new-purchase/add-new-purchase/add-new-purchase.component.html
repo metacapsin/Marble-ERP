@@ -87,7 +87,7 @@
                           <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                             <div class="form-group local-forms">
                               <label for="supplier">Supplier Name<span class="login-danger">*</span></label>
-                              <p-dropdown [style]="{ width: '100%' }" placeholder="--Select Supplier--"
+                              <p-dropdown [style]="{ width: '100%' }" placeholder="Select Supplier"
                                 [options]="SupplierLists" formControlName="supplier" optionLabel="name"
                                 optionValue="_id" display="chip" [showClear]="true"></p-dropdown>
 
@@ -408,7 +408,9 @@
                                 formControlName="transportationCharges" (change)="calculateTotalAmount()" />
                             </div>
                             <div *ngIf="
-                                      addNewPurchaseForm.get('transportationCharges')?.hasError('min') &&
+                                      addNewPurchaseForm.get('transportationCharges')?.hasError('min')  &&
+                                      addNewPurchaseForm.get('transportationCharges')?.touched
+                                      || addNewPurchaseForm.get('transportationCharges')?.hasError('max') &&
                                       addNewPurchaseForm.get('transportationCharges')?.touched
                                     ">
                               <span class="login-danger">Input must be between 1 to 100,000.
@@ -427,6 +429,7 @@
                             </div>
                             <div *ngIf="
                                       addNewPurchaseForm.get('otherCharges')?.hasError('min') &&
+                                      addNewPurchaseForm.get('otherCharges')?.touched || addNewPurchaseForm.get('otherCharges')?.hasError('max') &&
                                       addNewPurchaseForm.get('otherCharges')?.touched
                                     ">
                               <span class="login-danger">Input must be between 1 to 100,000.
@@ -486,7 +489,7 @@
                           <div class="invoice-total-card">
                             <h4 class="invoice-total-title">Summary</h4>
                             <div class="invoice-total-box">
-                              <div class="invoice-total-inner" >
+                              <div class="invoice-total-inner">
                                 <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
                                   Cost / Square Feet <span>
                                     ₹ {{ addNewPurchaseForm.get('costPerSQFT').value | number: '1.2-2' }}
@@ -498,16 +501,16 @@
                                   </span>
                                 </p>
                               </div>
-                      
-                              <div class="invoice-total-footer" >
+
+                              <div class="invoice-total-footer">
                                 <h4>
                                   Total Costing
                                   <span>
                                     {{
-                                      addNewPurchaseForm.get("totalCosting")?.value
-                                      ? '₹ ' + (addNewPurchaseForm.get("totalCosting").value | number: "1.2-2")
-                                      : addNewPurchaseForm.get('paidToSupplierPurchaseCost').value | number: '1.2-2' 
-                                      }}
+                                    addNewPurchaseForm.get("totalCosting")?.value
+                                    ? '₹ ' + (addNewPurchaseForm.get("totalCosting").value | number: "1.2-2")
+                                    : addNewPurchaseForm.get('paidToSupplierPurchaseCost').value | number: '1.2-2'
+                                    }}
                                   </span>
                                 </h4>
                               </div>
@@ -987,10 +990,10 @@
                                   <div class="panel-body">
                                     <textarea class="form-control" formControlName="purchaseNotes"></textarea>
                                     <div
-                                                  *ngIf="addNewPurchaseForm.get('purchaseNotes')?.hasError('pattern')  && addNewPurchaseForm.get('purchaseNotes')?.touched">
-                                                  <span class="login-danger">Input must be between 1 to
-                                                      500 characters.</span>
-                                              </div>
+                                      *ngIf="addNewPurchaseForm.get('purchaseNotes')?.hasError('pattern')  && addNewPurchaseForm.get('purchaseNotes')?.touched">
+                                      <span class="login-danger">Input must be between 1 to
+                                        500 characters.</span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -1009,7 +1012,7 @@
                                 </span>
                               </p>
                               <p *ngIf="ItemDetails?.pricePerTon">
-                                Price Per Ton<span>
+                                Price / Ton<span>
                                   {{ItemDetails?.pricePerTon === undefined ? '' : '₹' + ' ' + ItemDetails?.pricePerTon}}
                                 </span>
                               </p>
@@ -1121,8 +1124,8 @@
                         <i class="fa-solid fa-arrow-left"></i> Back
                       </button>
                       <button type="submit" class="border-0 btn btn-primary btn-gradient-primary"
-                      [disabled]="!addNewPurchaseForm.valid">
-                      Submit
+                        [disabled]="!addNewPurchaseForm.valid">
+                        Submit
                       </button>
                     </div>
                   </ng-template>

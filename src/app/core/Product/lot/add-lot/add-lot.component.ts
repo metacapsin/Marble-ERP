@@ -344,9 +344,9 @@ export class AddLotComponent {
 
   LotAddFormSubmit() {
     const data = this.lotAddForm.value;
+    if(!this.lotTotalCost){
     this.blocksDetails.forEach((e: any) => {
       this.lotTotalCost += e.totalCosting;
-      // this.totalRawCosting += val.rawCosting;
     });
     console.log(this.lotTotalCost);
     const payload = {
@@ -372,6 +372,7 @@ export class AddLotComponent {
 
 
     this.NewPurchaseService.setFormData('stepTwoData', payload)
+  }
     // this.NewPurchaseService.setFormData(payload)
     // this.subject.next(payload);
     // if (this.lotAddForm.valid) {
@@ -392,10 +393,4 @@ export class AddLotComponent {
     //   console.log("Form is invalid!");
     // }
   }
-
-
-// ngOnDestroy() {
-//   this.NewPurchaseService.clearFormData();
-// }
-
 }

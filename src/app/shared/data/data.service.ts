@@ -348,15 +348,15 @@ export class DataService {
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
           subMenus: [
             {
-              menuValue: "New Purchase",
+              menuValue: "Purchase",
               route: routes.listNewPurchase,
               base: routes.listNewPurchase,
             },
-            {
-              menuValue: "Purchase",
-              route: routes.purchase,
-              base: routes.purchase,
-            },
+            // {
+            //   menuValue: "Purchase",
+            //   route: routes.purchase,
+            //   base: routes.purchase,
+            // },
             {
               menuValue: "Payment out",
               route: routes.paymentOut,
