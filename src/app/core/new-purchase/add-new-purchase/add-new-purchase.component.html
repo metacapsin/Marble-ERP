@@ -104,13 +104,14 @@
                           </div>
                           <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                             <div class="form-group local-forms">
-                              <label for="paidToSupplierPurchaseCost">Purchase Cost ( Paid to Supplier ) <span class="login-danger">*</span></label>
+                              <label for="paidToSupplierPurchaseCost">Purchase Cost ( Paid to Supplier ) <span
+                                  class="login-danger">*</span></label>
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">₹</span>
                                 </div>
                                 <input class="form-control" formControlName="paidToSupplierPurchaseCost" type="number"
-                                  placeholder="Purchase Cost" />
+                                  placeholder="Purchase Cost" (change)="calculateTotalAmount()" />
                               </div>
                               <div *ngIf="
                             addNewPurchaseForm
@@ -118,9 +119,9 @@
                               ?.hasError('required') &&
                             addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.touched
                           ">
-                            <span class="login-danger">Field is required.
-                            </span>
-                          </div>
+                                <span class="login-danger">Field is required.
+                                </span>
+                              </div>
                               <div *ngIf="
                                   addNewPurchaseForm
                                     .get('paidToSupplierPurchaseCost')
@@ -175,7 +176,7 @@
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
                             <label for="slabNo">Slab Number<span class="login-danger">*</span></label>
-                            <input class="form-control" type="text" placeholder="Select slabs Number"
+                            <input class="form-control" type="text" placeholder="Enter Slab Number"
                               formControlName="slabNo" />
                             <div *ngIf="
                                 addNewPurchaseForm.get('slabNo')?.hasError('required') &&
@@ -186,6 +187,25 @@
                             <div *ngIf="
                                 addNewPurchaseForm.get('slabNo')?.hasError('pattern') &&
                                 addNewPurchaseForm.get('slabNo')?.touched
+                              ">
+                              <span class="login-danger">Input must be at between 3 to 15</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-4 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="slabName">Slab Name<span class="login-danger">*</span></label>
+                            <input class="form-control" type="text" placeholder="Enter Slab Name"
+                              formControlName="slabName" />
+                            <div *ngIf="
+                                addNewPurchaseForm.get('slabName')?.hasError('required') &&
+                                addNewPurchaseForm.get('slabName')?.touched
+                              ">
+                              <span class="login-danger">Field is required.</span>
+                            </div>
+                            <div *ngIf="
+                                addNewPurchaseForm.get('slabName')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('slabName')?.touched
                               ">
                               <span class="login-danger">Input must be at between 3 to 15</span>
                             </div>
@@ -382,43 +402,6 @@
 
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
-                            <label for="totalSqrFt">Selling Price / Sq Ft.<span class="login-danger"></span></label>
-
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                              </div>
-                              <input class="form-control" type="number" placeholder="Enter Selling Price"
-                                formControlName="sellingPricePerSQFT" />
-
-                            </div>
-                            <div *ngIf="
-                                    addNewPurchaseForm
-                                    .get('sellingPricePerSQFT')
-                                    ?.hasError('required') &&
-                                    addNewPurchaseForm.get('sellingPricePerSQFT')?.touched
-                                ">
-                              <span class="login-danger">Field is required.</span>
-                            </div>
-                            <div *ngIf="
-                                    (addNewPurchaseForm
-                                    .get('sellingPricePerSQFT')
-                                    ?.hasError('min') &&
-                                    addNewPurchaseForm.get('sellingPricePerSQFT')?.touched) ||
-                                    (addNewPurchaseForm
-                                    .get('sellingPricePerSQFT')
-                                    ?.hasError('max') &&
-                                    addNewPurchaseForm.get('sellingPricePerSQFT')?.touched)
-                                ">
-                              <span class="login-danger">
-                                input must be between 1 to 100,000.
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-12 col-md-4 col-xl-4">
-                          <div class="form-group local-forms">
                             <label for="transportationCharges">Transportation Charges</label>
                             <div class="input-group">
                               <input class="form-control" type="number" placeholder="Enter Square Feet"
@@ -431,7 +414,7 @@
                               <span class="login-danger">Input must be between 1 to 100,000.
                               </span>
                             </div>
-                            
+
                           </div>
                         </div>
 
@@ -452,8 +435,39 @@
                           </div>
                         </div>
 
+                        <div class="col-12 col-md-4 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="totalSqrFt">Selling Price / Sq Ft.<span class="login-danger">*</span></label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                              </div>
+                              <input class="form-control" type="number" placeholder="Enter Selling Price"
+                                formControlName="sellingPricePerSQFT" />
+                            </div>
+                            <div
+                              *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.hasError('required') && addNewPurchaseForm.get('sellingPricePerSQFT')?.touched">
+                              <span class="login-danger">Field is required.</span>
+                            </div>
+                            <div *ngIf="
+                                    (addNewPurchaseForm
+                                    .get('sellingPricePerSQFT')
+                                    ?.hasError('min') &&
+                                    addNewPurchaseForm.get('sellingPricePerSQFT')?.touched) ||
+                                    (addNewPurchaseForm
+                                    .get('sellingPricePerSQFT')
+                                    ?.hasError('max') &&
+                                    addNewPurchaseForm.get('sellingPricePerSQFT')?.touched)
+                                ">
+                              <span class="login-danger">
+                                input must be between 1 to 100,000.
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
-                      <div class="invoice-total-footer">
+                      <!-- <div class="invoice-total-footer">
                         <h4>
                           Total Costing
                           <span>
@@ -465,6 +479,41 @@
                           </span>
 
                         </h4>
+                      </div> -->
+                      <div class="row">
+                        <div class="col-lg-7 col-md-6"></div>
+                        <div class="col-lg-5 col-md-6">
+                          <div class="invoice-total-card">
+                            <h4 class="invoice-total-title">Summary</h4>
+                            <div class="invoice-total-box">
+                              <div class="invoice-total-inner" >
+                                <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
+                                  Cost / Square Feet <span>
+                                    ₹ {{ addNewPurchaseForm.get('costPerSQFT').value | number: '1.2-2' }}
+                                  </span>
+                                </p>
+                                <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
+                                  Purchase Cost. <span>
+                                    ₹ {{ addNewPurchaseForm.get('paidToSupplierPurchaseCost').value | number: '1.2-2' }}
+                                  </span>
+                                </p>
+                              </div>
+                      
+                              <div class="invoice-total-footer" >
+                                <h4>
+                                  Total Costing
+                                  <span>
+                                    {{
+                                      addNewPurchaseForm.get("totalCosting")?.value
+                                      ? '₹ ' + (addNewPurchaseForm.get("totalCosting").value | number: "1.2-2")
+                                      : addNewPurchaseForm.get('paidToSupplierPurchaseCost').value | number: '1.2-2' 
+                                      }}
+                                  </span>
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="d-flex pt-4 justify-content-between">
@@ -528,7 +577,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost").value }}
+                                  ₹ {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost").value }}
                                 </p>
                               </div>
                             </div>
@@ -596,7 +645,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ ItemDetails?.pricePerTon }}
+                                  ₹ {{ ItemDetails?.pricePerTon }}
                                 </p>
                               </div>
                             </div>
@@ -608,7 +657,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ ItemDetails?.transportationCharge }}
+                                  ₹ {{ ItemDetails?.transportationCharge }}
                                 </p>
                               </div>
                             </div>
@@ -620,7 +669,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ ItemDetails?.royaltyCharge }}
+                                  ₹ {{ ItemDetails?.royaltyCharge }}
                                 </p>
                               </div>
                             </div>
@@ -763,7 +812,7 @@
                                               </div>
                                               <div class="form-group row mb-2">
                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                                  Transportation
+                                                  Transportation Costing
                                                 </h5>
                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                   <p class="col-form-label">
@@ -774,7 +823,7 @@
                                               </div>
                                               <div class="form-group row mb-2">
                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                                  Royalty
+                                                  Royalty Costing
                                                 </h5>
                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                   <p class="col-form-label">
@@ -811,7 +860,7 @@
                     <div class="card" *ngIf="lotTypeValue === 'Slab'">
                       <div class="card-body">
                         <h3>{{ addNewPurchaseForm.get("purchaseType").value }} Information</h3>
-                        <div class="row practice-card" >
+                        <div class="row practice-card">
                           <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
@@ -908,7 +957,7 @@
                               </div>
                             </div>
                           </div>
-                          
+
                         </div>
                       </div>
                     </div>
@@ -937,11 +986,11 @@
                                   aria-labelledby="headingThree" data-bs-parent="#accordion">
                                   <div class="panel-body">
                                     <textarea class="form-control" formControlName="purchaseNotes"></textarea>
-                                    <!-- <div
-                                                  *ngIf="addSalesForm.get('purchaseNotes')?.hasError('pattern')  && addSalesForm.get('purchaseNotes')?.touched">
-                                                  <span class="login-danger">Input must be between 2 to
-                                                      100 characters.</span>
-                                              </div> -->
+                                    <div
+                                                  *ngIf="addNewPurchaseForm.get('purchaseNotes')?.hasError('pattern')  && addNewPurchaseForm.get('purchaseNotes')?.touched">
+                                                  <span class="login-danger">Input must be between 1 to
+                                                      500 characters.</span>
+                                              </div>
                                   </div>
                                 </div>
                               </div>
@@ -995,7 +1044,12 @@
                                 </span>
                               </p>
                               <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
-                                Selling Pric / Sq. Ft.<span>
+                                Cost / Square Feet <span>
+                                  ₹ {{ addNewPurchaseForm.get('costPerSQFT').value | number: '1.2-2' }}
+                                </span>
+                              </p>
+                              <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
+                                Selling Price / Square Feet <span>
                                   ₹ {{ addNewPurchaseForm.get('sellingPricePerSQFT').value | number: '1.2-2' }}
                                 </span>
                               </p>
@@ -1010,10 +1064,10 @@
                                   ₹ {{ addNewPurchaseForm.get('otherCharges').value | number: '1.2-2' }}
                                 </span>
                               </p>
-                              
+
                               <p>
-                                Purchase Cost ( Paid To Supplier)
-                                <span>₹ 
+                                Purchase Cost. ( Paid To Supplier)
+                                <span>₹
                                   {{
                                   addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | number:
                                   "1.2-2"
@@ -1026,8 +1080,9 @@
                               <h4>
                                 Total Purchase Cost.
                                 <span>
-                                    {{ItemDetails?.lotTotalCost ? '₹' + ' ' + ItemDetails.lotTotalCost.toFixed(3) : '₹' + ' ' +
-                                    addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value }}
+                                  {{ItemDetails?.lotTotalCost ? '₹' + ' ' + ItemDetails.lotTotalCost.toFixed(3) : '₹' +
+                                  ' ' +
+                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value }}
                                 </span>
                               </h4>
                             </div>
@@ -1036,7 +1091,8 @@
                                 Total Purchase Cost.
                                 <span>
                                   <!-- ₹ {{ addNewPurchaseForm.get("totalCosting")?.value | number: '1.2-2' }} -->
-                                  {{ addNewPurchaseForm.get("totalCosting")?.value ? '₹' + ' ' + addNewPurchaseForm.get("totalCosting")?.value.toFixed(3) : '₹' + ' ' +
+                                  {{ addNewPurchaseForm.get("totalCosting")?.value ? '₹' + ' ' +
+                                  addNewPurchaseForm.get("totalCosting")?.value.toFixed(3) : '₹' + ' ' +
                                   addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | number:
                                   "1.2-2"}}
                                 </span>
@@ -1064,8 +1120,9 @@
                       <button class="btn btn-primary" (click)="prevCallback.emit()">
                         <i class="fa-solid fa-arrow-left"></i> Back
                       </button>
-                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary" [disabled]="!addNewPurchaseForm.valid">
-                        Submit
+                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary"
+                      [disabled]="!addNewPurchaseForm.valid">
+                      Submit
                       </button>
                     </div>
                   </ng-template>

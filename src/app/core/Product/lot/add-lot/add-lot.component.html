@@ -126,60 +126,30 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
-                      <label for="date"
-                        >Date <span class="login-danger">*</span></label
-                      >
-                      <p-calendar
-                        [maxDate]="maxDate"
-                        dataType="string"
-                        appendTo="body"
-                        dateFormat="mm/dd/yy"
-                        formControlName="date"
-                        placeholder="mm/dd/yyyy"
-                        [styleClass]="'col-12'"
-                      ></p-calendar>
-                      <div
-                        *ngIf="
-                          lotAddForm.get('date')?.hasError('required') &&
-                          lotAddForm.get('date')?.touched
-                        "
-                      >
-                        <span class="login-danger">Field is required. </span>
-                      </div>
+                      <label for="warehouse">Warehouse<span class="login-danger">*</span></label>
+                      <p-dropdown 
+                      [options]="wareHousedata" 
+                      appendTo="body" 
+                      optionLabel="name" 
+                      optionValue="_id" 
+                      placeholder="Select Warehouse" 
+                      formControlName="warehouse" 
+                      [style]="{ width: '100%' }" 
+                      [filter]="true"
+                      filterBy="name" 
+                      [showClear]="true">
+                  </p-dropdown>
+                        <!-- {{ lotAddForm.get('warehouse')?.value}} -->
+                            <div *ngIf="
+                                  lotAddForm
+                                    .get('warehouse')
+                                    ?.hasError('required') &&
+                                  lotAddForm.get('warehouse')?.touched
+                                ">
+                              <span class="login-danger">Field is required.</span>
+                            </div>
                     </div>
                   </div>
-
-                  <!-- <div class="col-12 col-md-6">
-                    <div class="form-group local-forms">
-                      <label for="invoiceNo"
-                        >Invoice No.<span class="login-danger">*</span></label
-                      >
-                      <input
-                        class="form-control"
-                        type="text"
-                        placeholder="Enter Invoice No."
-                        formControlName="invoiceNo"
-                      />
-                      <div
-                        *ngIf="
-                          lotAddForm.get('invoiceNo')?.hasError('required') &&
-                          lotAddForm.get('invoiceNo')?.touched
-                        "
-                      >
-                        <span class="login-danger">Field is required.</span>
-                      </div>
-                      <div
-                        *ngIf="
-                          lotAddForm.get('invoiceNo')?.hasError('pattern') &&
-                          lotAddForm.get('invoiceNo')?.touched
-                        "
-                      >
-                        <span class="login-danger"
-                          >Input Must be between 2 to 15 characters.</span
-                        >
-                      </div>
-                    </div>
-                  </div> -->
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
@@ -226,13 +196,6 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">₹</span>
                         </div>
-                        <!-- <input
-                          class="form-control"
-                          type="number"
-                          placeholder="Enter Price / Ton"
-                          (change)="calculateTotalAmount()"
-                          formControlName="pricePerTon"
-                        /> -->
                         <span class="form-control">{{ lotAddForm.get('pricePerTon').value }}</span>
 
                       </div>
@@ -345,60 +308,6 @@
                         <span class="login-danger"
                           >Input Must be between 1 to 100000.
                         </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- <div class="col-12 col-md-6">
-                    <div class="form-group local-forms">
-                      <label for="taxAmount">Tax Amount</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">₹</span>
-                        </div>
-                        <input
-                          class="form-control"
-                          type="number"
-                          placeholder="Enter Tax Amount"
-                          formControlName="taxAmount"
-                          (change)="calculateTotalAmount()"
-                        />
-                      </div>
-                      <div
-                        *ngIf="
-                          (lotAddForm.get('taxAmount')?.hasError('min') &&
-                            lotAddForm.get('taxAmount')?.touched) ||
-                          (lotAddForm.get('taxAmount')?.hasError('max') &&
-                            lotAddForm.get('taxAmount')?.touched)
-                        "
-                      >
-                        <span class="login-danger"
-                          >Input Must be between 1 to 100000.
-                        </span>
-                      </div>
-                    </div>
-                  </div> -->
-
-                  <div class="col-12">
-                    <div class="form-group local-forms">
-                      <label for="notes">Notes</label>
-                      <textarea
-                        class="form-control"
-                        type="text"
-                        placeholder="Notes"
-                        formControlName="notes"
-                        rows="3"
-                      ></textarea>
-
-                      <div
-                        *ngIf="
-                          lotAddForm.get('notes')?.hasError('pattern') &&
-                          lotAddForm.get('notes')?.touched
-                        "
-                      >
-                        <span class="login-danger"
-                          >Input Must be between 1 to 500 characters.</span
-                        >
                       </div>
                     </div>
                   </div>

@@ -24,6 +24,7 @@ import { NewPurchaseService } from "src/app/core/new-purchase/new-purchase.servi
 
 import { Subject } from 'rxjs';
 import { MatCardLgImage } from "@angular/material/card";
+import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 
 @Component({
   selector: "app-add-lot",
@@ -75,19 +76,15 @@ export class AddLotComponent {
 
   addvisible: boolean = false;
   shortNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
-  @Input() otherCharges = 0;
-  @Input() transportationCharges = 0;
-
-  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
-  descriptionRegex = /^(?!\s)(?:.{1,500})$/;
-  totalRawCosting: number = 0;
-  LotblockDetails: number = 0;
-
+  // @Input() otherCharges = 0;
+  // @Input() transportationCharges = 0;
 
   lotPurchaseCost: number;
 
   lotTotalCost: number = 0;
   previousLotTotalCost: number = 0;
+
+  wareHousedata: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -95,13 +92,8 @@ export class AddLotComponent {
     private messageService: MessageService,
     private service: LotService,
     private NewPurchaseService: NewPurchaseService,
+    private WarehouseService: WarehouseService,
   ) {
-
-  }
-  ngOnInit(): void {
-    this.lotPurchaseCost = this.NewPurchaseService.getFormData("stepperOneData");
-    console.log("stepperOneData", this.lotPurchaseCost);
-
     this.lotAddForm = this.fb.group({
       lotNo: [
         "",
@@ -112,7 +104,7 @@ export class AddLotComponent {
         [Validators.required, Validators.pattern(this.shortNameRegex)],
       ],
       vehicleNo: ["", [Validators.pattern(this.shortNameRegex)]],
-      date: ["", [Validators.required]],
+      warehouse: ["", [Validators.required]],
       // invoiceNo: [
       //   "",
       //   [Validators.required, Validators.pattern(this.invoiceRegex)],
@@ -133,20 +125,27 @@ export class AddLotComponent {
         "",
         [Validators.min(0), Validators.max(100000)],
       ],
-      notes: ["", [Validators.pattern(this.descriptionRegex)]],
+      // notes: ["", [Validators.pattern(this.descriptionRegex)]],
       blocksCount: [""],
       averageWeight: [""],
       averageTransport: [""],
       averageRoyalty: [""],
-      averageTaxAmount: [""],
-      // lotTotalCost: [""],
-      // previouslotTotalCost: [""],
     });
-
-    // console.log("form value", this.lotAddForm.value);
+  }
+  ngOnInit(): void {
+    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
+      this.wareHousedata = resp.data.map((element: any) => ({
+          name: element.name,
+          _id: {
+            name: element.name,
+            _id: element._id,
+          },
+      }));
+  });
+    this.lotPurchaseCost = this.NewPurchaseService.getFormData("stepperOneData");
+    console.log("stepperOneData", this.lotPurchaseCost);
 
     let lotData = this.NewPurchaseService.getFormData("stepTwoData");
-    // console.log(this.transportationCharges, this.otherCharges);
     console.log("adnan service data", lotData);
 
     if (lotData) {
@@ -159,13 +158,12 @@ export class AddLotComponent {
         lotNo: lotData.lotNo,
         lotName: lotData.lotName,
         vehicleNo: lotData.vehicleNo,
-        date: lotData.date,
+        warehouse: lotData.warehouseDetails,
         invoiceNo: lotData.invoiceNo,
         lotWeight: lotData.lotWeight,
         pricePerTon: lotData.pricePerTon,
         transportationCharge: lotData.transportationCharge,
         royaltyCharge: lotData.royaltyCharge,
-        // taxAmount: lotData.taxAmount,
         notes: lotData.notes,
         blocksCount: lotData.blocksCount,
         averageWeight: lotData.averageWeight,
@@ -287,6 +285,10 @@ export class AddLotComponent {
   }
 
   calculateTotalAmount() {
+    console.log(this.lotAddForm
+      .get('warehouse')
+      ?.value);
+    
     let pricePerTon: number;
     let lotWeight: number = this.lotAddForm.get("lotWeight").value || 0;
     if (lotWeight) {
@@ -327,8 +329,8 @@ export class AddLotComponent {
       element.totalCosting =
         rawCosting + transportationCosting + royaltyCosting;
       // this.lotTotalCost += element.totalCosting;
-      this.totalRawCosting += rawCosting; // Accumulate rawCosting
-      console.log(this.totalRawCosting);
+      // this.totalRawCosting += rawCosting; // Accumulate rawCosting
+      // console.log(this.totalRawCosting);
     });
 
     this.lotAddForm.patchValue({
@@ -350,7 +352,7 @@ export class AddLotComponent {
     const payload = {
       lotNo: data.lotNo,
       lotName: data.lotName,
-      date: data.date,
+      warehouseDetails: data.warehouse,
       vehicleNo: data.vehicleNo,
       lotWeight: data.lotWeight,
       pricePerTon: data.pricePerTon,

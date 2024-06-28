@@ -63,38 +63,32 @@ export class AddNewPurchaseComponent implements OnInit {
     { name: "Semi polished" },
   ];
   getSupplierShow: any;
-  totalCostPerSQFT: any = 0;
-  transportationCharges: any;
-  otherCharges: any;
-  lotWeight: any;
-  priceperTon: any;
-  taxAmount: any;
-  lotTotalCost: any;
-  totalRawCosting: any;
   ItemDetails: any = {};
 
   shortNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
-  notesRegex = /^(?:.{2,100})$/;
+  descriptionRegex = /^(?!\s)(?:.{1,500})$/;
 
+  previousSlabValues: any = {};
   returnUrl: any;
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private services: WarehouseService,
+    private WarehouseService: WarehouseService,
     private categoriesService: CategoriesService,
-    private Service: SuppliersdataService,
+    private SuppliersdataService: SuppliersdataService,
     private subCategoriesService: SubCategoriesService,
     private NewPurchaseService: NewPurchaseService,
     private messageService: MessageService,
-  private localStorageService: LocalStorageService) {
+    private localStorageService: LocalStorageService) {
     this.addNewPurchaseForm = this.fb.group({
       invoiceNumber: [""],
       purchaseDate: ["", Validators.required],
       supplier: ["", [Validators.required]],
       paidToSupplierPurchaseCost: ["", [Validators.required, Validators.min(1), Validators.max(9999999)]],
       purchaseType: ["", [Validators.required]],
-      purchaseNotes: ["", [Validators.pattern(this.notesRegex)]],
+      purchaseNotes: ["", [Validators.pattern(this.descriptionRegex)]],
       slabNo: ["", [Validators.required, Validators.pattern(this.shortNameRegex)],],
+      slabName: ["", [Validators.required, Validators.pattern(this.shortNameRegex)],],
       warehouseDetails: ["", [Validators.required]],
       categoryDetail: ["", [Validators.required]],
       subCategoryDetail: ["", [Validators.required]],
@@ -103,17 +97,17 @@ export class AddNewPurchaseComponent implements OnInit {
       length: ["", [Validators.min(1), Validators.max(100000)]],
       thickness: ["", [Validators.min(1), Validators.max(1000)]],
       finishes: ["", [Validators.required]],
-      sellingPricePerSQFT: ["", [Validators.required, Validators.min(1), Validators.max(1000000)]],
+      sellingPricePerSQFT: ["", [Validators.required, Validators.min(1), Validators.max(100000)]],
       transportationCharges: ["", [Validators.min(1), Validators.max(100000)]],
       otherCharges: ["", [Validators.min(1), Validators.max(100000)]],
       totalCosting: [''],
+      costPerSQFT: [''],
 
     });
   }
   ngOnInit(): void {
     this.returnUrl = this.localStorageService.getItem("returnUrl");
-
-    this.services.getAllWarehouseList().subscribe((resp: any) => {
+    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
       this.wareHousedataListsEditArray = [];
       this.wareHousedata.forEach((element: any) => {
@@ -126,7 +120,7 @@ export class AddNewPurchaseComponent implements OnInit {
         });
       });
     });
-    this.Service.GetSupplierData().subscribe((data: any) => {
+    this.SuppliersdataService.GetSupplierData().subscribe((data: any) => {
       this.getSupplierShow = data;
       this.SupplierLists = [];
       this.getSupplierShow.forEach((element: any) => {
@@ -153,7 +147,6 @@ export class AddNewPurchaseComponent implements OnInit {
         });
       });
     });
-
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
       this.SubCategoryListsEditArray = [];
@@ -171,11 +164,10 @@ export class AddNewPurchaseComponent implements OnInit {
 
 
   nextStep(nextCallback: any) {
-    const payload = this.addNewPurchaseForm.value.paidToSupplierPurchaseCost;
-    this.NewPurchaseService.setFormData("stepperOneData", payload);
+    const paidToSupplierPurchaseCost = this.addNewPurchaseForm.value.paidToSupplierPurchaseCost;
+    this.NewPurchaseService.setFormData("stepperOneData", paidToSupplierPurchaseCost);
     nextCallback.emit();
-    this.calculateTotalAmount()
-
+    this.calculateTotalAmount();
     this.ItemDetails = this.NewPurchaseService.getFormData('stepTwoData')
   }
 
@@ -183,8 +175,27 @@ export class AddNewPurchaseComponent implements OnInit {
     this.lotTypeValue = value;
 
     if (this.lotTypeValue == "Lot") {
+      this.previousSlabValues = {
+        slabNo: this.addNewPurchaseForm.value.slabNo,
+        slabName: this.addNewPurchaseForm.value.slabName,
+        warehouseDetails: this.addNewPurchaseForm.value.warehouseDetails,
+        categoryDetail: this.addNewPurchaseForm.value.categoryDetail,
+        subCategoryDetail: this.addNewPurchaseForm.value.subCategoryDetail,
+        finishes: this.addNewPurchaseForm.value.finishes,
+        totalSQFT: this.addNewPurchaseForm.value.totalSQFT,
+        sellingPricePerSQFT: this.addNewPurchaseForm.value.sellingPricePerSQFT,
+        transportationCharges: this.addNewPurchaseForm.value.transportationCharges,
+        otherCharges: this.addNewPurchaseForm.value.otherCharges,
+        totalCosting: this.addNewPurchaseForm.value.totalCosting,
+        thickness: this.addNewPurchaseForm.value.thickness,
+        length: this.addNewPurchaseForm.value.length,
+        width: this.addNewPurchaseForm.value.width,
+        costPerSQFT: this.addNewPurchaseForm.value.costPerSQFT,
+      }
+
       this.addNewPurchaseForm.patchValue({
         slabNo: "slabNo",
+        slabName: "slabName",
         warehouseDetails: {
           "_id": "123",
           "name": "test"
@@ -203,58 +214,52 @@ export class AddNewPurchaseComponent implements OnInit {
         },
         sellingPricePerSQFT: 2,
         totalSQFT: 2,
+        costPerSQFT: 2,
       });
     } else {
       this.addNewPurchaseForm.patchValue({
-        slabNo: "",
-        warehouseDetails: "",
-        categoryDetail: "",
-        subCategoryDetail: "",
-        finishes: "",
-        sellingPricePerSQFT: "",
-        totalSQFT: "",
+        slabNo: this.previousSlabValues.slabNo,
+        slabName: this.previousSlabValues.slabName,
+        warehouseDetails: this.previousSlabValues.warehouseDetails,
+        categoryDetail: this.previousSlabValues.categoryDetail,
+        subCategoryDetail: this.previousSlabValues.subCategoryDetail,
+        finishes: this.previousSlabValues.finishes,
+        totalSQFT: this.previousSlabValues.totalSQFT,
+        sellingPricePerSQFT: this.previousSlabValues.sellingPricePerSQFT,
+        transportationCharges: this.previousSlabValues.transportationCharges,
+        otherCharges: this.previousSlabValues.otherCharges,
+        totalCosting: this.previousSlabValues.totalCosting,
+        thickness: this.previousSlabValues.thickness,
+        length: this.previousSlabValues.length,
+        width: this.previousSlabValues.width,
+        costPerSQFT: this.previousSlabValues.costPerSQFT,
       })
     }
   }
   calculateTotalAmount() {
-    console.log("Log ----");
-
-    this.totalCostPerSQFT = 0;
-    const paidToSupplierPurchaseCost = this.addNewPurchaseForm.get("paidToSupplierPurchaseCost").value || 0;
-
-    if (this.lotTypeValue === "Slab") {
-
+    
+    if (this.lotTypeValue === "Slab") {      
+      const paidToSupplierPurchaseCost = this.addNewPurchaseForm.get("paidToSupplierPurchaseCost").value || 0;
       const transportationCharges = this.addNewPurchaseForm.get("transportationCharges").value || 0;
       const otherCharges = this.addNewPurchaseForm.get("otherCharges").value || 0;
       const totalSQFT = this.addNewPurchaseForm.get("totalSQFT").value || 0;
+      let costPerSQFT = this.addNewPurchaseForm.get("costPerSQFT").value || 0;
 
       const total: number = transportationCharges + otherCharges + paidToSupplierPurchaseCost;
-
       if (totalSQFT !== 0) {
-        this.totalCostPerSQFT = total / totalSQFT;
-      } else {
-        console.log("Error: totalSQFT is zero!");
+        costPerSQFT = total / totalSQFT;
       }
       if (total) {
         this.addNewPurchaseForm.patchValue({
-          sellingPricePerSQFT: this.totalCostPerSQFT.toFixed(2),
+          sellingPricePerSQFT: costPerSQFT.toFixed(2),
+          costPerSQFT: costPerSQFT.toFixed(2),
           totalCosting: total,
         });
-        console.log(this.totalCostPerSQFT);
+        console.log(costPerSQFT);
       }
     }
 
   }
-
-  // receiveData(data: string) {
-  //   const data1 = JSON.parse(data);
-  //   console.log(data1);
-  //   console.log(data);
-  //   this.lotWeight = data1.lotWeight;
-  //   this.priceperTon = data1.pricePerTon;
-  //   this.taxAmount = data1.taxAmount;
-  //   this.lotTotalCost = data1.lotTotalCost.toFixed(3);
-  // }
 
   addNewPurchaseFormSubmit() {
     const formData = this.addNewPurchaseForm.value;
@@ -271,6 +276,13 @@ export class AddNewPurchaseComponent implements OnInit {
         lotDetail: this.ItemDetails,
       }
     } else {
+      if (
+        formData.width ||
+          formData.length ||
+          formData.thickness
+      ) {
+        var _Size = `${formData.width}x${formData.length}x${formData.thickness}`;
+      }
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,
@@ -280,6 +292,7 @@ export class AddNewPurchaseComponent implements OnInit {
         purchaseCost: formData.paidToSupplierPurchaseCost,
         slabDetail: {
           slabNo: formData.slabNo,
+          slabName: formData.slabName,
           warehouseDetails: formData.warehouseDetails,
           categoryDetail: formData.categoryDetail,
           subCategoryDetail: formData.subCategoryDetail,
@@ -292,23 +305,21 @@ export class AddNewPurchaseComponent implements OnInit {
           transportationCharges: formData.transportationCharges,
           otherCharges: formData.otherCharges,
           totalCosting: formData.totalCosting,
+          costPerSQFT: formData.costPerSQFT,
+          slabSize: _Size,
         },
         purchaseTotalAmount: formData.totalCosting
       }
     }
-    console.log("object", JSON.stringify(payload));
-
-    console.log("form valid or not", this.addNewPurchaseForm);
-
     if (this.addNewPurchaseForm.valid) {
       console.log("valid form");
       this.NewPurchaseService.createPurchase(payload).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === "success") {
+            this.NewPurchaseService.clearFormData()
             const message = "Purchase has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              // this.router.navigateByUrl('/new-purchase');
               this.router.navigateByUrl(this.returnUrl);
             }, 400);
           } else {
@@ -319,14 +330,12 @@ export class AddNewPurchaseComponent implements OnInit {
       });
     } else {
       console.log("form is not valid");
-
     }
-
-    for (const key of Object.keys(this.addNewPurchaseForm.controls)) {
-      if (this.addNewPurchaseForm.controls[key].invalid) {
-        console.log(`Invalid control: ${key}, Errors:`, this.addNewPurchaseForm.controls[key].errors);
-      }
-    }
+    // for (const key of Object.keys(this.addNewPurchaseForm.controls)) {
+    //   if (this.addNewPurchaseForm.controls[key].invalid) {
+    //     console.log(`Invalid control: ${key}, Errors:`, this.addNewPurchaseForm.controls[key].errors);
+    //   }
+    // }
   }
 
 
