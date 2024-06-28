@@ -35,7 +35,7 @@ export class AddSuppliersComponent {
 
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
-  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z. ]{0,28}[A-Za-z.])?$/;
 
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
 

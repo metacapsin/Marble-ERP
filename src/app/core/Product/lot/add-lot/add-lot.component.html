@@ -98,7 +98,7 @@
                         "
                       >
                         <span class="login-danger"
-                          >Input Must be between 3 to 15 characters.</span
+                          >Input Must be between 3 to 50 characters.</span
                         >
                       </div>
                     </div>
@@ -197,8 +197,8 @@
                           <span class="input-group-text">₹</span>
                         </div>
                         <span class="form-control">{{ lotAddForm.get('pricePerTon').value }}</span>
-
                       </div>
+                      <span style="color: #97704f; font-size: 12px">This will be auto calculated with Purchase Cost</span>
                       <div
                         *ngIf="
                           lotAddForm.get('pricePerTon')?.hasError('required') &&
@@ -225,7 +225,7 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
                       <label for="transportationCharge"
-                        >Transportation
+                        >Transportation Charge
                         <span class="login-danger">*</span></label
                       >
                       <div class="input-group">

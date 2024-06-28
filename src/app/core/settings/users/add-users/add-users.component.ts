@@ -136,15 +136,6 @@ export class AddUsersComponent implements OnInit {
       
     } else {
       const payload = {
-        // name: formData.name,
-        // phoneNumber: formData.phoneNumber,
-        // email: formData.email,
-        // password: formData.password,
-        // role: _roles,
-        // status: formData.status.name,
-        // address: formData.address,
-        // wareHouse: formData.wareHouse.name,
-
         warehouse: formData.wareHouse,
         role: _roles,
         name: formData.name,

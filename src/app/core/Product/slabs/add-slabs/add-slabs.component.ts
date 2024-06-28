@@ -113,7 +113,7 @@ export class AddSlabsComponent {
           Validators.pattern(this.shortNameRegex),
         ],
       ],
-      processingFee: ["", [Validators.required, Validators.min(1), Validators.max(1000000)]], //p
+      processingFee: ["", [Validators.required, Validators.min(1), Validators.max(100000)]], //p
       totalSQFT: ["", [Validators.required, Validators.min(1), Validators.max(100000)]],
       otherCharges: [
         "",
@@ -125,7 +125,7 @@ export class AddSlabsComponent {
       ],
       sellingPricePerSQFT: [
         "",
-        [Validators.required, Validators.min(1), Validators.max(1000000)],
+        [Validators.required, Validators.min(1), Validators.max(100000)],
       ],
       notes: ["", [Validators.pattern(this.billingAddressRegex)]],
       blockProcessor: ["",[Validators.required]],
