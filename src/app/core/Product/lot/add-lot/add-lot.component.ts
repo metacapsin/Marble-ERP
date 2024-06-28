@@ -80,12 +80,14 @@ export class AddLotComponent {
 
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
   descriptionRegex = /^(?!\s)(?:.{1,500})$/;
-  lotTotalCost: number = 0;
   totalRawCosting: number = 0;
   LotblockDetails: number = 0;
 
 
   lotPurchaseCost: number;
+
+  lotTotalCost: number = 0;
+  previousLotTotalCost: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -137,7 +139,8 @@ export class AddLotComponent {
       averageTransport: [""],
       averageRoyalty: [""],
       averageTaxAmount: [""],
-      lotTotalCost: [""],
+      // lotTotalCost: [""],
+      // previouslotTotalCost: [""],
     });
 
     // console.log("form value", this.lotAddForm.value);
@@ -160,8 +163,8 @@ export class AddLotComponent {
         invoiceNo: lotData.invoiceNo,
         lotWeight: lotData.lotWeight,
         pricePerTon: lotData.pricePerTon,
-        transportationCharge: lotData.transportationCharges,
-        royaltyCharge: lotData.otherCharges,
+        transportationCharge: lotData.transportationCharge,
+        royaltyCharge: lotData.royaltyCharge,
         // taxAmount: lotData.taxAmount,
         notes: lotData.notes,
         blocksCount: lotData.blocksCount,
@@ -172,60 +175,39 @@ export class AddLotComponent {
       });
       this.calculateTotalAmount()
     }
+    // this.NewPurchaseService.clearFormData();
   }
 
-  ngOnChanges
-    () {
+  // ngDoCheck(): void {
+  //   const data = this.lotAddForm.value;
+  //   this.blocksDetails.forEach((e: any) => {
+  //     this.lotTotalCost += e.totalCosting;
+  //     // this.totalRawCosting += val.rawCosting;
+  //   });
+  //   const payload = {
+  //     lotNo: data.lotNo,
+  //     lotName: data.lotName,
+  //     date: data.date,
+  //     vehicleNo: data.vehicleNo,
+  //     lotWeight: data.lotWeight,
+  //     pricePerTon: data.pricePerTon,
+  //     transportationCharge: data.transportationCharge,
+  //     royaltyCharge: data.royaltyCharge,
+  //     notes: data.notes,
+  //     blocksCount: this.blocksDetails.length,
+  //     averageWeight: data.averageWeight,
+  //     averageTransport: data.averageTransport,
+  //     averageRoyalty: data.averageRoyalty,
+  //     blockDetails: this.blocksDetails,
+  //     lotTotalCost: this.lotTotalCost,
+  //   };
+    
+  //   // if(this.lotTotalCost !== this.previousLotTotalCost){
+  //     console.log("hello Adnan",payload);
+  //     this.NewPurchaseService.setFormData('stepTwoData', payload)
 
-      // if (changes.['blocksDetails']) {
-      //   const blockDetailsChanges = changes.blocksDetails as SimpleChange[];
-      //   // now you can iterate over the array of changes
-      //   blockDetailsChanges.forEach((change) => {
-      //     // do something with the change
-      //     console.log(change.currentValue);
-      //   });
-      // }
-    if
-      (this.blocksDetails.length > 0) {
-        
-
-    let lotTotalCost = 0;
-    const data = this.lotAddForm.value;
-    this.blocksDetails.forEach((e: any) => {
-      lotTotalCost += e.totalCosting;
-      // this.totalRawCosting += val.rawCosting;
-    });
-
-    const payload = {
-      lotNo: data.lotNo,
-      lotName: data.lotName,
-      date: data.date,
-      vehicleNo: data.vehicleNo,
-      // invoiceNo: data.invoiceNo,
-      lotWeight: data.lotWeight,
-      pricePerTon: data.pricePerTon,
-      transportationCharge: data.transportationCharge,
-      royaltyCharge: data.royaltyCharge,
-      // taxAmount: data.taxAmount,
-      notes: data.notes,
-      blocksCount: this.blocksDetails.length,
-      averageWeight: data.averageWeight,
-      averageTransport: data.averageTransport,
-      averageRoyalty: data.averageRoyalty,
-      // averageTaxAmount: data.averageTaxAmount,
-      blockDetails: this.blocksDetails,
-      lotTotalCost: lotTotalCost,
-      // totalRawCosting: this.totalRawCosting,
-    };
-    this.dataEmitter.emit(JSON.stringify(payload));
-
-    console.log("payload", payload);
-
-
-    this.NewPurchaseService.setFormData('stepTwoData', payload)
-
-  }
-  }
+  //   // }
+  // }
 
   addBlockDialog() {
     this.blockNo = "";
@@ -359,11 +341,9 @@ export class AddLotComponent {
   }
 
   LotAddFormSubmit() {
-    // this.totalRawCosting = 0;
-    let lotTotalCost = 0;
     const data = this.lotAddForm.value;
     this.blocksDetails.forEach((e: any) => {
-      lotTotalCost += e.totalCosting;
+      this.lotTotalCost += e.totalCosting;
       // this.totalRawCosting += val.rawCosting;
     });
     console.log(this.lotTotalCost);
@@ -372,21 +352,17 @@ export class AddLotComponent {
       lotName: data.lotName,
       date: data.date,
       vehicleNo: data.vehicleNo,
-      // invoiceNo: data.invoiceNo,
       lotWeight: data.lotWeight,
       pricePerTon: data.pricePerTon,
       transportationCharge: data.transportationCharge,
       royaltyCharge: data.royaltyCharge,
-      // taxAmount: data.taxAmount,
       notes: data.notes,
       blocksCount: this.blocksDetails.length,
       averageWeight: data.averageWeight,
       averageTransport: data.averageTransport,
       averageRoyalty: data.averageRoyalty,
-      // averageTaxAmount: data.averageTaxAmount,
       blockDetails: this.blocksDetails,
-      lotTotalCost: lotTotalCost,
-      // totalRawCosting: this.totalRawCosting,
+      lotTotalCost: this.lotTotalCost,
     };
     this.dataEmitter.emit(JSON.stringify(payload));
 
@@ -414,4 +390,10 @@ export class AddLotComponent {
     //   console.log("Form is invalid!");
     // }
   }
+
+
+// ngOnDestroy() {
+//   this.NewPurchaseService.clearFormData();
+// }
+
 }

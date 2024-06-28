@@ -22,6 +22,8 @@ import { TabViewModule } from "primeng/tabview";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 // import { PaymentOutService } from "../payment-out/payment-out.service";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
+import { NewPurchaseService } from "../new-purchase.service";
+import { SlabsService } from "../../Product/slabs/slabs.service";
 @Component({
   selector: 'app-list-new-purchase',
   standalone: true,
@@ -83,14 +85,14 @@ export class ListNewPurchaseComponent {
     { customerName: "Nadim" },
     { customerName: "Kavya" },
   ];
-// '/new-purchase/add-new-purchase'
+
   constructor(
     public data: DataService,
-    // private Service: PurchaseService,
+    private Service: NewPurchaseService,
     // private paymentOutService: PaymentOutService,
     private router: Router,
     private messageService: MessageService,
-    // private service: SlabsService,
+    private SlabsService: SlabsService,
     private localStorageService:LocalStorageService
   ) {}
   ngOnInit() {
@@ -105,11 +107,11 @@ export class ListNewPurchaseComponent {
 
   }
   getPurchase() {
-    // this.Service.GetPurchaseData().subscribe((data: any) => {
-    //   this.purchaseTotalValues = data;
-    //   this.purchaseData = data.data;
-    //   this.originalData = data;
-    // });
+    this.Service.getPurchaseList().subscribe((resp: any) => {
+      this.purchaseTotalValues = resp;
+      this.purchaseData = resp.data;
+      this.originalData = resp.data;
+    });
   }
   blocksEdit(id: any) {
     console.log(id);
@@ -130,23 +132,23 @@ export class ListNewPurchaseComponent {
     let totalTax = 0;
     console.log("id pass to invoice dialoge", id);
     console.log("showInvoiceDialoge is triggered ");
-    // this.Service.GetPurchaseDataById(id).subscribe((resp: any) => {
-    //   this.showInvoiceDialog = true;
-    //   this.PurchaseListData = [resp.data];
-    //   this.header = "Purchase Invoice";
-    //   console.log(this.PurchaseListData[0].lotDetails);
-    //   console.log(this.PurchaseListData);
-    //   console.log(resp);
+    this.Service.getPurchaseById(id).subscribe((resp: any) => {
+      this.showInvoiceDialog = true;
+      this.PurchaseListData = [resp.data];
+      this.header = "Purchase Invoice";
+      console.log(this.PurchaseListData[0].lotDetails);
+      console.log(this.PurchaseListData);
+      console.log(resp);
 
 
-    //   if (resp.data.lotDetails) {
-    //     this.service
-    //       .getBlockDetailByLotId(resp.data.lotDetails._id)
-    //       .subscribe((resp: any) => {
-    //         this.blockDetailsTable = resp.data.blockDetails;
-    //       });
-    //   }
-    // });
+      if (resp.data.lotDetail) {
+        this.SlabsService
+          .getBlockDetailByLotId(resp.data.lotDetails._id)
+          .subscribe((resp: any) => {
+            this.blockDetailsTable = resp.data.blockDetails;
+          });
+      }
+    });
   }
 
   purchaseDelete(id: number) {
@@ -161,13 +163,13 @@ export class ListNewPurchaseComponent {
   // showNewDialog() {
     // }
     callBackModal() {
-    //   this.Service.DeletePurchaseData(this.purchase).subscribe((resp: any) => {
-    //     this.showInvoiceDialog = false;
-    //     this.showDialoge = false;
-    //   let message = "Purchase has been Deleted";
-    //   this.messageService.add({ severity: "success", detail: message });
-    //   this.getPurchase();
-    // });
+      this.Service.deletePurchase(this.purchase).subscribe((resp: any) => {
+        this.showInvoiceDialog = false;
+        this.showDialoge = false;
+      let message = "Purchase has been Deleted";
+      this.messageService.add({ severity: "success", detail: message });
+      this.getPurchase();
+    });
   }
   close() {
     // this.visible = false;
@@ -175,4 +177,5 @@ export class ListNewPurchaseComponent {
       this.showDialoge = false;
     
   }
+  
 }

@@ -62,8 +62,8 @@
                   <th pSortableColumn="supplier.name">Supplier<p-sortIcon field="supplier.name"></p-sortIcon>
                     <p-columnFilter type="text" field="supplier.name" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon
-                      field="purchaseOrderStatus"></p-sortIcon></th>
+                  <!-- <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon
+                      field="purchaseOrderStatus"></p-sortIcon></th> -->
                       <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                       </th>
                   <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
@@ -86,7 +86,7 @@
                   <td>{{purchase.purchaseInvoiceNumber}}</td>
                   <td>{{purchase.purchaseDate | date: 'dd-MMM-yyyy'}}</td>
                   <td>{{purchase.supplier.name}}</td>
-                  <td>{{purchase.purchaseOrderStatus}}</td>
+                  <!-- <td>{{purchase.purchaseOrderStatus}}</td> -->
                   <td>{{purchase.paymentStatus}}</td>
                   <td>₹ {{purchase.paidAmount}}</td>
                   <td>₹ {{purchase.dueAmount}}</td>
@@ -94,9 +94,9 @@
                   <td  appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                     <p-button [text]="true" icon="fa-solid fa-eye"
                       (click)="showInvoiceDialoge(purchase._id)"></p-button>
-                      <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)"
-                        *ngIf="purchase.paymentStatus == 'Unpaid'"></p-button>
-                        <div *ngIf="purchase.paymentStatus != 'Unpaid'" class="placeholder"></div>
+                      <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)"
+                        *ngIf="purchase.paymentStatus == 'Unpaid'"></p-button> -->
+                        <!-- <div *ngIf="purchase.paymentStatus != 'Unpaid'" class="placeholder"></div> -->
                     <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"></p-button>
                   </td>
                   <!-- <td>
@@ -106,8 +106,8 @@
               </ng-template>
 
               <ng-template pTemplate="footer">
-                <tr>
-                  <td colspan="4"></td>
+                <tr *ngIf=" purchaseTotalValues.totalPaidAmount || purchaseTotalValues.totalDueAmount || purchaseTotalValues.totalAmount">
+                  <td colspan="3"></td>
                   <td>Total </td>
                   <td>₹ {{ purchaseTotalValues.totalPaidAmount }}</td>
                   <td>₹ {{ purchaseTotalValues.totalDueAmount }}</td>
