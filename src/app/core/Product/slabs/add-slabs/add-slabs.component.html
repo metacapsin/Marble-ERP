@@ -147,6 +147,7 @@
                         [filter]="true"
                         filterBy="name"
                         [showClear]="true"
+                        (onChange)="onWarehouseSelect($event.value)"
                       >
                       </p-dropdown>
                       <div
@@ -168,7 +169,7 @@
                         >Lot No. <span class="login-danger">*</span
                       ></label>
                       <p-dropdown
-                        [options]="originallotNoList"
+                        [options]="fromWareHouseLotValue"
                         styleClass=""
                         appendTo="body"
                         optionLabel="lotName"
@@ -530,44 +531,6 @@
 
                           <div class="col-12">
                             <div class="form-group local-forms">
-                              <label for="totalSQFT"
-                                >Square Feet<span class="login-danger"
-                                  >*</span
-                                ></label
-                              >
-                              <div class="input-group">
-                                <!-- <div class="input-group-prepend">
-                                  <span class="input-group-text" style="font-size: 12px;">SQ.Feet</span>
-                                </div> -->
-                                <input
-                                  class="form-control"
-                                  type="number"
-                                  placeholder="Enter Square Feet"
-                                  formControlName="totalSQFT"
-                                  (change)="calculateTotalAmount()"
-                                />
-                              </div>
-                              <div
-                                *ngIf="
-                                  (slabsAddForm
-                                    .get('totalSQFT')
-                                    ?.hasError('min') &&
-                                    slabsAddForm.get('totalSQFT')?.touched) ||
-                                  (slabsAddForm
-                                    .get('totalSQFT')
-                                    ?.hasError('max') &&
-                                    slabsAddForm.get('totalSQFT')?.touched)
-                                "
-                              >
-                                <span class="login-danger">
-                                  input must be between 1 and 100,0000.
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-12">
-                            <div class="form-group local-forms">
                               <label for="processingFee"
                                 >Processing Fee / Ton<span class="login-danger"
                                   >*</span
@@ -587,6 +550,19 @@
                               </div>
                               <div
                                 *ngIf="
+                                  slabsAddForm
+                                    .get('processingFee')
+                                    ?.hasError('required') &&
+                                  slabsAddForm.get('processingFee')
+                                    ?.touched
+                                "
+                              >
+                                <span class="login-danger"
+                                  >Field is required.</span
+                                >
+                              </div>
+                              <div
+                                *ngIf="
                                   (slabsAddForm
                                     .get('processingFee')
                                     ?.hasError('min') &&
@@ -600,6 +576,57 @@
                               >
                                 <span class="login-danger">
                                   input must be between 1 and 1000,000.
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-12">
+                            <div class="form-group local-forms">
+                              <label for="totalSQFT"
+                                >Square Feet<span class="login-danger"
+                                  >*</span
+                                ></label
+                              >
+                              <div class="input-group">
+                                <!-- <div class="input-group-prepend">
+                                  <span class="input-group-text" style="font-size: 12px;">SQ.Feet</span>
+                                </div> -->
+                                <input
+                                  class="form-control"
+                                  type="number"
+                                  placeholder="Enter Square Feet"
+                                  formControlName="totalSQFT"
+                                  (change)="calculateTotalAmount()"
+                                />
+                              </div>
+                              <div
+                              *ngIf="
+                                slabsAddForm
+                                  .get('totalSQFT')
+                                  ?.hasError('required') &&
+                                slabsAddForm.get('totalSQFT')
+                                  ?.touched
+                              "
+                            >
+                              <span class="login-danger"
+                                >Field is required.</span
+                              >
+                            </div>
+                              <div
+                                *ngIf="
+                                  (slabsAddForm
+                                    .get('totalSQFT')
+                                    ?.hasError('min') &&
+                                    slabsAddForm.get('totalSQFT')?.touched) ||
+                                  (slabsAddForm
+                                    .get('totalSQFT')
+                                    ?.hasError('max') &&
+                                    slabsAddForm.get('totalSQFT')?.touched)
+                                "
+                              >
+                                <span class="login-danger">
+                                  input must be between 1 and 100,0000.
                                 </span>
                               </div>
                             </div>
@@ -689,7 +716,7 @@
                               <label for="totalSqrFt"
                                 >Selling Price / Sq Ft<span
                                   class="login-danger"
-                                ></span
+                                >*</span
                               ></label>
 
                               <div class="input-group">
@@ -745,13 +772,6 @@
                         </div>
                         <div class="invoice-total-inner">
                           <!-- <p *ngIf="slabsAddForm.get('lotDetails').value">
-                            Processing Costing<span>₹
-                              {{
-                              slabsAddForm.get("processingCost").value
-                              | number : "1.2-2"
-                              }}</span>
-                          </p> -->
-                          <p *ngIf="slabsAddForm.get('lotDetails').value">
                             Processing Costing<span>
                               {{
                                 slabsAddForm.get("processingCost")?.value
@@ -761,13 +781,23 @@
                                   : null
                               }}
                             </span>
+                          </p> -->
+                          <p *ngIf="slabsAddForm.get('totalSQFT')?.value">
+                            Total Square Feet<span>
+                              {{ slabsAddForm.get('totalSQFT').value | number: '1.2-2' }}
+                            </span>
                           </p>
-                          <p>
-                            Block Weight<span>
-                              {{ blockDropDownPerBlockWeight }}</span
+                          <p *ngIf="slabsAddForm.get('sellingPricePerSQFT')?.value">
+                            Selling Price / Square Feet <span>
+                              ₹ {{ slabsAddForm.get('sellingPricePerSQFT').value | number: '1.2-2' }}
+                            </span>
+                          </p>
+                          <p *ngIf="BlockWeight">
+                            Block Weight ( Ton )<span>
+                              {{ BlockWeight }}</span
                             >
                           </p>
-                          <p>
+                          <!-- <p *ngIf="slabsAddForm.get('totalCosting').value">
                             Total Costing<span>
                               {{
                                 slabsAddForm.get("totalCosting")?.value
@@ -777,9 +807,9 @@
                                   : null
                               }}
                             </span>
-                          </p>
-                          <p>
-                            Per Square Feet Cost<span>
+                          </p> -->
+                          <p *ngIf="slabsAddForm.get('costPerSQFT').value">
+                            Cost / Square Feet<span>
                               {{
                                 slabsAddForm.get("costPerSQFT")?.value == 0
                                   ? null
@@ -789,50 +819,75 @@
                               }}
                             </span>
                           </p>
+                          <p *ngIf="slabsAddForm.get('transportationCharges')?.value">
+                            Transport Charges<span>
+                              ₹ {{ slabsAddForm.get('transportationCharges').value | number: '1.2-2' }}
+                            </span>
+                          </p>
+                          <p *ngIf="slabsAddForm.get('otherCharges')?.value">
+                            Other Charges
+                            <span>
+                              ₹ {{ slabsAddForm.get('otherCharges').value | number: '1.2-2' }}
+                            </span>
+                          </p>
+                          <!-- sellingPricePerSQFT -->
+                          <!-- ---------------slab--------------------------- -->
+                          <!-- <div class="invoice-total-inner" *ngIf="lotTypeValue === 'Slab'">
+                            <p *ngIf="addNewPurchaseForm.get('totalSQFT')?.value">
+                              Total Square Feet<span>
+                                {{ addNewPurchaseForm.get('totalSQFT').value | number: '1.2-2' }}
 
-                          <!-- <p>
-                              Discount<span>₹
-                                {{
-                                addPurchaseForm.get("purchaseDiscount").value
-                                | number : "1.2-2"
-                                }}</span>
+                              </span>
                             </p>
-                            <p>
-                              Shipping<span>₹
-                                {{
-                                addPurchaseForm.get("purchaseShipping").value
-                                | number : "1.2-2"
-                                }}</span>
+                            <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
+                              Cost / Square Feet <span>
+                                ₹ {{ addNewPurchaseForm.get('costPerSQFT').value | number: '1.2-2' }}
+                              </span>
                             </p>
-                            <p>
-                              Other Charges<span>₹
-                                {{
-                                addPurchaseForm.get("otherCharges").value
-                                | number : "1.2-2"
-                                }}</span>
+                            <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
+                              Selling Price / Square Feet <span>
+                                ₹ {{ addNewPurchaseForm.get('sellingPricePerSQFT').value | number: '1.2-2' }}
+                              </span>
                             </p>
-                            <p>
-                              Ocean Frieght<span>₹
-                                {{
-                                addPurchaseForm.get("oceanFrieght").value
-                                | number : "1.2-2"
-                                }}</span>
+                            <p *ngIf="addNewPurchaseForm.get('transportationCharges')?.value">
+                              Transport Charges<span>
+                                ₹ {{ addNewPurchaseForm.get('transportationCharges').value | number: '1.2-2' }}
+                              </span>
                             </p>
+                            <p *ngIf="addNewPurchaseForm.get('otherCharges')?.value">
+                              Other Charges
+                              <span>
+                                ₹ {{ addNewPurchaseForm.get('otherCharges').value | number: '1.2-2' }}
+                              </span>
+                            </p>
+
                             <p>
-                              Post Expenses<span>₹
+                              Purchase Cost. ( Paid To Supplier)
+                              <span>₹
                                 {{
-                                addPurchaseForm.get("postExpenses").value
-                                | number : "1.2-2"
-                                }}</span>
-                            </p> -->
+                                addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | number:
+                                "1.2-2"
+                                }}
+                              </span>
+                            </p>
+                          </div> -->
+                          <!-- totalCosting -->
+
                         </div>
 
-                        <!-- <div class="invoice-total-footer">
+                        <div class="invoice-total-footer">
                           <h4>
-                            Total Costing
-                            <span>₹</span>  
+                              Total Costing<span>
+                                {{
+                                  slabsAddForm.get("totalCosting")?.value
+                                    ? "₹ " +
+                                      (slabsAddForm.get("totalCosting").value
+                                        | number : "1.2-2")
+                                    : null
+                                }}
+                              </span>
                           </h4>
-                        </div> -->
+                        </div>
                       </div>
                     </div>
                     <div class="upload-sign">

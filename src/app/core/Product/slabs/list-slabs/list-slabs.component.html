@@ -110,8 +110,8 @@
                                             <p-columnFilter type="text" field="warehouseDetails.name"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th appShowHide [roles]="['admin', 'super-admin']">Action
-                                        </th>
+                                        <!-- <th appShowHide [roles]="['admin', 'super-admin']">Action
+                                        </th> -->
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-slabs>
@@ -144,7 +144,7 @@
                                         <td>
                                             {{slabs.warehouseDetails.name}}
                                         </td>
-                                        <td appShowHide [roles]="['admin', 'super-admin']">
+                                        <!-- <td appShowHide [roles]="['admin', 'super-admin']">
                                             <div class="action-buttons">
 
                                                 <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
@@ -152,7 +152,7 @@
                                                 <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
                                                 (click)="deleteSlabs(slabs._id)"></p-button>
                                             </div>
-                                        </td>
+                                        </td> -->
 
                                     </tr>
                                 </ng-template>

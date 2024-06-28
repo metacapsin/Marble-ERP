@@ -27,6 +27,9 @@ updateLotById(data: {}) {
 deleteLotById(id: string) {
   return this.http.delete(environment.apiUrl + "/LotController/deleteLot/" + id);
 }
+lotByWarehouse(id:any) {
+  return this.http.get(environment.apiUrl + "/LotController/lotByWarehouse/" + id);
+}
 
 getFilesystem() {
   return Promise.resolve(this.getLotList());

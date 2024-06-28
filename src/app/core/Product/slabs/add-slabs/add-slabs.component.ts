@@ -79,6 +79,8 @@ export class AddSlabsComponent {
   originallotNoList: any = [];
   blockProcessorData: any;
   blockProcessorArray: any[];
+  fromWareHouseLotValue: any;
+  BlockWeight: number = 0;
 
   constructor(
     private service: ProductsService,
@@ -112,7 +114,7 @@ export class AddSlabsComponent {
         ],
       ],
       processingFee: ["", [Validators.required, Validators.min(1), Validators.max(1000000)]], //p
-      totalSQFT: ["", [Validators.min(1), Validators.max(100000)]],
+      totalSQFT: ["", [Validators.required, Validators.min(1), Validators.max(100000)]],
       otherCharges: [
         "",
         [ Validators.min(1), Validators.max(100000)],
@@ -163,20 +165,20 @@ export class AddSlabsComponent {
   ngOnInit(): void {
     
     this.getBlockProcessor();
-    console.log(this.slabsAddForm.value.lotDetails);
-    this.Lotservice.getLotList().subscribe((resp: any) => {
-      this.data = resp.data;
-      this.originalData = resp.data;
-      console.log("API lot", this.data);
-      this.originallotNoList = resp.data.map((e) => ({
-        lotName: `${e.lotName} (${e.lotNo})`,
-        _id: {
-          lotName: e.lotName,
-          lotNo: e.lotNo,
-          _id: e._id,
-        },
-      }));
-    });
+    console.log(this.slabsAddForm.value);
+    // this.Lotservice.getLotList().subscribe((resp: any) => {
+    //   this.data = resp.data;
+    //   this.originalData = resp.data;
+    //   console.log("API lot", this.data);
+    //   this.originallotNoList = resp.data.map((e) => ({
+    //     lotName: `${e.lotName} (${e.lotNo})`,
+    //     _id: {
+    //       lotName: e.lotName,
+    //       lotNo: e.lotNo,
+    //       _id: e._id,
+    //     },
+    //   }));
+    // });
 
     this.categoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
@@ -223,6 +225,20 @@ export class AddSlabsComponent {
       console.log(this.wareHousedataListsEditArray);
     });
   }
+  onWarehouseSelect(value:any){
+    console.log(value);
+    this.Lotservice.lotByWarehouse(value._id).subscribe((resp:any)=>{
+      this.fromWareHouseLotValue = resp.data.map((e) => ({
+        lotName: `${e.lotName} (${e.lotNo})`,
+        _id: {
+          lotName: e.lotName,
+          lotNo: e.lotNo,
+          _id: e._id,
+        },
+      }));
+      console.log(this.fromWareHouseLotValue);
+    })
+  }
   onLotSelect(value: any) {
     if(!value){
       this.slabsAddForm.patchValue({
@@ -245,11 +261,11 @@ export class AddSlabsComponent {
     this.blockDropDownPerBlockWeight = block.weightPerBlock;
     if (block.totalCosting) {
       this.slabsAddForm.patchValue({
-        purchaseCost: block.totalCosting || null,
+        purchaseCost: block.totalCosting.toFixed(4) || null,
       });
       this.calculateTotalAmount();
     }
-    console.log(this.blockDropDownPerBlockWeight, this.blockDropDowntotleCost);
+    console.log(this.blockDropDowntotleCost, this.blockDropDowntotleCost);
   }
   calculateTotalAmount() {
     let processingFee = +this.slabsAddForm.get("processingFee").value;
@@ -260,8 +276,8 @@ export class AddSlabsComponent {
     let transportationCharges: number = +this.slabsAddForm.get(
       "transportationCharges"
     ).value;
-    var purchaseCost = +this.slabsAddForm.get("purchaseCost").value;
-    console.log(purchaseCost);
+    var purchaseCostOrg = parseFloat(this.slabsAddForm.get("purchaseCost").value);
+    console.log(purchaseCostOrg);
     console.log(totalSQFT);
     console.log(this.blockDropDownPerBlockWeight ,this.blockDropDowntotleCost);
     // if (!this.blockDropDownPerBlockWeight && !this.blockDropDowntotleCost) {
@@ -279,15 +295,17 @@ export class AddSlabsComponent {
       //   sellingPricePerSQFT: totalAmount === 0 ? null : totalAmount.toFixed(2),
       // });
     // } else {
-      var processingCost = processingFee * this.blockDropDownPerBlockWeight;
-      var totalCosting = +purchaseCost + processingCost + otherCharges + transportationCharges;
+      this.BlockWeight =  this.blockDropDownPerBlockWeight.toFixed(4);
+      console.log(this.BlockWeight);
+      var processingCost = processingFee * this.BlockWeight;
+      var totalCosting = +purchaseCostOrg + processingCost + otherCharges + transportationCharges;
       var totalAmount: number = totalSQFT == 0 ? 0 : totalCosting / totalSQFT;
       console.log("processingCost", processingCost);
       console.log("totalCosting", totalCosting);
       console.log("totalAmount", totalAmount);
       this.slabsAddForm.patchValue({
         processingCost: processingCost,
-        totalCosting: totalCosting.toFixed(2),
+        totalCosting: totalCosting.toFixed(4),
         costPerSQFT: totalAmount.toFixed(2),
         sellingPricePerSQFT: parseFloat(totalAmount.toFixed(2)) === 0.00 ? null : totalAmount.toFixed(2),
       });
