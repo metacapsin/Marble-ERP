@@ -73,7 +73,6 @@ interface Product {
   name: string;
   phoneNo: number;
   expanded?: boolean;  // Add this property to track the expanded state
-
   creditAlerts: CreditAlert[];
 }
 
@@ -159,6 +158,7 @@ export class AdminDashboardComponent {
   products: Product[] = [];
   totalCategorySlabs: any;
   totalSubCategorySlabs: any;
+  data:any;
 
   
   constructor(
@@ -181,12 +181,13 @@ export class AdminDashboardComponent {
     const today = new Date();
     // const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
     const endDate = new Date();
-    const startDate = new Date(today.getFullYear(), 0, 1);
+    const startDate = new Date(today.getFullYear() - 1, 3, 1);
     // Set the start date to one month ago
     // startDate.setMonth(startDate.getMonth() - 1);
     var Sdate = this.formatDate(startDate);
     var Edate = this.formatDate(endDate);
-
+    this.data = 'This Year';
+    // this.onSearchByChange({ value: 'This Year' });
     this.rangeDates = [startDate, endDate];
     console.log(this.rangeDates);
 
@@ -239,17 +240,7 @@ export class AdminDashboardComponent {
       },
     };
   }
-  // expandAll() {
-  //   this.products.forEach(product => {
-  //     product.expanded = true;
-  //   });
-  // }
-  
-  // collapseAll() {
-  //   this.products.forEach(product => {
-  //     product.expanded = false;
-  //   });
-  // }
+
   
   toggleRow(product: Product) {
     product.expanded = !product.expanded;
@@ -269,7 +260,7 @@ export class AdminDashboardComponent {
   }
 
   getStatusSeverity(daysLeft: number) {
-    console.log("credit alerts days left", daysLeft);
+    // console.log("credit alerts days left", daysLeft);
     if (daysLeft < 0) {
       return 'danger';
     } else if (daysLeft >= 0 && daysLeft <= 5) {
@@ -303,6 +294,7 @@ export class AdminDashboardComponent {
       startDate: startDate,
       endDate: endDate,
     };
+    console.log(data);
     this.Service.getFinancialSummary(data).subscribe(
       (resp: any) => {
         console.log(resp.data);
@@ -338,6 +330,7 @@ export class AdminDashboardComponent {
       (resp: any) => {
         console.log(resp.data);
         this.stockAlertData = resp.data;
+        console.log(this.stockAlertData);
       },
       (error: any) => {
         console.error("Error fetching financial summary:", error);
@@ -576,44 +569,53 @@ export class AdminDashboardComponent {
     console.log(event);
     const value = event.value;
     const today = new Date();
-    let startDate,
-      endDate = today;
+    let startDate, endDate = new Date(today);
+
     switch (value) {
-      case "Today":
-        startDate = today;
-        endDate = today;
+      case 'Today':
+        startDate = new Date(today);
+        endDate = new Date(today);
         break;
-      case "YesterDay":
-        startDate = new Date(today.setDate(today.getDate() - 1));
-        endDate = startDate;
+      case 'Yesterday':
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 1);
+        endDate = new Date(startDate);
         break;
-      case "Last 7 Days":
-        startDate = new Date(today.setDate(today.getDate() - 7));
-        endDate = new Date();
+      case 'Last 7 Days':
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 7);
+        endDate = new Date(today);
         break;
-      case "This Month":
+      case 'This Month':
         startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        endDate = new Date(today);
         break;
-      case "Last 3 Months":
-        startDate = new Date(
-          today.getFullYear(),
-          today.getMonth() - 3,
-          today.getDate()
-        );
+      case 'Last 3 Months':
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 3);
+        endDate = new Date(today);
         break;
-      case "Last 6 Months":
-        startDate = new Date(
-          today.getFullYear(),
-          today.getMonth() - 6,
-          today.getDate()
-        );
+      case 'Last 6 Months':
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 6);
+        endDate = new Date(today);
         break;
-      case "This Year":
-        startDate = new Date(today.getFullYear(), 0, 1);
+      case 'This Year':
+        if (today.getMonth() >= 3) { // Current month is April (3) or later
+          startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
+        } else {
+          startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
+        }
+        endDate = new Date(today);
+        break;
+      default:
+        startDate = null;
+        endDate = null;
         break;
     }
 
     this.rangeDates = [startDate, endDate];
+    console.log(this.rangeDates);
     const formattedDate1 = this.formatDate(startDate);
     const formattedDate2 = this.formatDate(endDate);
     this.apiCall(formattedDate1, formattedDate2);

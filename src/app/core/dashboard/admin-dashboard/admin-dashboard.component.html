@@ -1,175 +1,252 @@
 <div class="page-wrapper">
-    <div class="content">
-
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Admin Dashboard</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Admin Dashboard</li>
+          </ul>
         </div>
-        <!-- /Page Header -->
+      </div>
+    </div>
+    <!-- /Page Header -->
 
-        <div class="good-morning-blk">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="morning-user">
-                        <h2>Good Morning, <span>{{userData?.firstName}} {{userData?.lastName}}</span></h2>
-                        <p>Have a nice day at work</p>
-                    </div>
-                </div>
-                <div class="col-md-6 position-blk">
-                    <div class="morning-img">
-                        <img src="assets/img/morning-img-01.png" alt="">
-                    </div>
-                </div>
-                <!-- <h2><span class="counter-up" [countUp]="250" [options]="{duration: 10}">250</span></h2> -->
-            </div>
+    <div class="good-morning-blk">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="morning-user">
+            <h2>
+              Good Morning,
+              <span>{{ userData?.firstName }} {{ userData?.lastName }}</span>
+            </h2>
+            <p>Have a nice day at work</p>
+          </div>
         </div>
-        <div class="mt-3">
-            <div class="row card-body d-flex justify-content-between p0">
-                <div class="col-lg-4 col-md-4 h-2">
-                    <div class="form-group local-forms">
-                        <!-- <label for="warehouseDetails">searchBy </label> -->
-                        <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Filter By"
-                            [style]="{ width: '100%' }" [filter]="true" filterBy="name"
-                            (onChange)="onSearchByChange($event)">
-                        </p-dropdown>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-4 h-2">
-                    <div class="form-group local-forms">
-                        <!-- <label for="warehouseDetails">Date </label> -->
-                        <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
-                            [maxDate]="maxDate" [style]="{ width: '100%' }" placeholder="Start Date - End Date"
-                            (ngModelChange)="getDateOnChange()" dateFormat="dd/mm/yy" />
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-6 position-blk">
+          <div class="morning-img">
+            <img src="assets/img/morning-img-01.png" alt="" />
+          </div>
         </div>
-        <div class="row d-flex justify-content-between">
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
-                <div class="dash-widget">
-                    <div class="dash-boxs comman-flex-center">
-                        <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f;"></i>
-                        <!-- fa-dollar -->
-                    </div>
-                    <div class="dash-content dash-count">
-                        <h4>Total Sales</h4>
-                        <h2><span class="me-2">₹</span><span class="counter-up"
-                                [countUp]="financialSummaryData?.totalSales" [options]="{duration: 2}">{{
-                                financialSummaryData?.totalSales }}</span></h2>
-                        <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
-                <div class="dash-widget">
-                    <!-- style="background-color: #fdf5ee;" -->
-                    <div class="dash-boxs comman-flex-center">
-                        <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <!-- <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;"> -->
-                        <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f;"></i>
-                    </div>
-                    <div class="dash-content dash-count">
-                        <h4>Total Expenses</h4>
-                        <h2><span class="me-2">₹</span><span class="counter-up"
-                                [countUp]="financialSummaryData?.totalExpenses" [options]="{duration: 0.50}">{{
-                                financialSummaryData?.totalExpenses }}</span></h2>
-                        <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
-                <div class="dash-widget">
-                    <div class="dash-boxs comman-flex-center">
-                        <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <!-- <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;"> -->
-                        <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f;"></i>
-                    </div>
-                    <div class="dash-content dash-count">
-                        <h4>Payment Out</h4>
-                        <h2><span class="me-2">₹</span><span class="counter-up"
-                                [countUp]="financialSummaryData?.paymentOut" [options]="{duration: 0.50}">{{
-                                financialSummaryData?.paymentOut }}</span></h2>
-                        <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
-                <div class="dash-widget">
-                    <div class="dash-boxs comman-flex-center">
-                        <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <!-- <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;"> -->
-                        <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f;"></i>
-                    </div>
-                    <div class="dash-content dash-count">
-                        <h4>Payment In</h4>
-                        <h2><span class="me-2">₹</span><span class="counter-up"
-                                [countUp]="financialSummaryData?.paymentIn" [options]="{duration: 0.50}">{{
-                                financialSummaryData?.paymentIn }}</span></h2>
-                        <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
-                <div class="dash-widget">
-                    <div class="dash-boxs comman-flex-center">
-                        <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-                        <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f;"></i>
-                    </div>
-                    <div class="dash-content dash-count">
-                        <h4>Total Sales Due</h4>
-                        <h2><span class="me-2">₹</span><span class="counter-up"
-                                [countUp]="financialSummaryData?.totalSalesDue" [options]="{duration: 0.50}">{{
-                                financialSummaryData?.totalSalesDue }}</span></h2>
-                        <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
-                    </div>
-                </div>
-            </div>
+        <!-- <h2><span class="counter-up" [countUp]="250" [options]="{duration: 10}">250</span></h2> -->
+      </div>
+    </div>
+    <div class="mt-3">
+      <div class="row card-body d-flex justify-content-between p0">
+        <div class="col-lg-4 col-md-4 h-2">
+          <div class="form-group local-forms">
+            <!-- <label for="warehouseDetails">searchBy </label> -->
+            <p-dropdown
+              [options]="searchByData"
+              styleClass=""
+              appendTo="body"
+              placeholder="Filter By"
+              [style]="{ width: '100%' }"
+              [filter]="true"
+              filterBy="name"
+              [(ngModel)]="data"
+              (onChange)="onSearchByChange($event)"
+            >
+            </p-dropdown>
+          </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="px-3 pt-3 d-flex justify-content-between">
-                        <h3>Sales & Purchase</h3>
-                        <div>
-                            <h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5>
-                        </div>
-                    </div>
-                    <p-chart type="bar" [data]="dataForFirstChat" [options]="optionsForFirstChat"
-                        style="padding: 0px 10px 5px 10px;" />
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="px-3 pt-3 d-flex justify-content-between">
-                        <h3>Payment</h3>
-                        <div>
-                            <h5 (click)="navigator('payment')" class="breadcrumb">View All</h5>
-                        </div>
-                    </div>
-                    <p-chart type="bar" [data]="dataForSecondChat" [options]="optionsForFirstChat"
-                        style="padding: 0px 10px 5px 10px;" />
-                </div>
-            </div>
+        <div class="col-lg-4 col-md-4 h-2">
+          <div class="form-group local-forms">
+            <!-- <label for="warehouseDetails">Date </label> -->
+            <p-calendar
+              [(ngModel)]="rangeDates"
+              selectionMode="range"
+              [readonlyInput]="true"
+              [style]="{ width: '100%' }"
+              placeholder="Start Date - End Date"
+              (ngModelChange)="getDateOnChange()"
+              dateFormat="dd/mm/yy"
+            />
+          </div>
         </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-between">
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
+        <div class="dash-widget">
+          <div class="dash-boxs comman-flex-center">
+            <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
+            <i
+              class="fa-solid fa-indian-rupee-sign"
+              style="font-size: 20px; color: #97704f"
+            ></i>
+            <!-- fa-dollar -->
+          </div>
+          <div class="dash-content dash-count">
+            <h4 class="h4_size">Total Sales</h4>
+            <h2 class="font_size">
+              <span class="me-2">₹</span
+              ><span
+                class="counter-up"
+                [countUp]="financialSummaryData?.totalSales"
+                [options]="{ duration: 2 }"
+                >{{ financialSummaryData?.totalSales }}</span
+              >
+            </h2>
+            <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
+          </div>
+        </div>
+      </div>
 
-        <div class="row mt-4">
-            <!-- /    *ngIf="CategorySlabs.totalCategorySlabs.length && CategorySlabs.totalSubCategorySlabs.length " -->
-            <!-- <div class="col-12 col-md-6">
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
+        <div class="dash-widget">
+          <!-- style="background-color: #fdf5ee;" -->
+          <div class="dash-boxs comman-flex-center">
+            <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
+            <!-- <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;"> -->
+            <i
+              class="fa-solid fa-indian-rupee-sign"
+              style="font-size: 20px; color: #97704f"
+            ></i>
+          </div>
+          <div class="dash-content dash-count">
+            <h4>Total Expenses</h4>
+            <h2 class="font_size">
+              <span class="me-2">₹</span
+              ><span
+                class="counter-up"
+                [countUp]="financialSummaryData?.totalExpenses"
+                [options]="{ duration: 0.5 }"
+                >{{ financialSummaryData?.totalExpenses }}</span
+              >
+            </h2>
+            <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
+        <div class="dash-widget">
+          <div class="dash-boxs comman-flex-center">
+            <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
+            <!-- <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;"> -->
+            <i
+              class="fa-solid fa-indian-rupee-sign"
+              style="font-size: 20px; color: #97704f"
+            ></i>
+          </div>
+          <div class="dash-content dash-count">
+            <h4>Payment Out</h4>
+            <h2 class="font_size">
+              <span class="me-2">₹</span
+              ><span
+                class="counter-up"
+                [countUp]="financialSummaryData?.paymentOut"
+                [options]="{ duration: 0.5 }"
+                >{{ financialSummaryData?.paymentOut }}</span
+              >
+            </h2>
+            <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
+        <div class="dash-widget">
+          <div class="dash-boxs comman-flex-center">
+            <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
+            <!-- <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;"> -->
+            <i
+              class="fa-solid fa-indian-rupee-sign"
+              style="font-size: 20px; color: #97704f"
+            ></i>
+          </div>
+          <div class="dash-content dash-count">
+            <h4>Payment In</h4>
+            <h2 class="font_size">
+              <span class="me-2">₹</span
+              ><span
+                class="counter-up"
+                [countUp]="financialSummaryData?.paymentIn"
+                [options]="{ duration: 0.5 }"
+                >{{ financialSummaryData?.paymentIn }}</span
+              >
+            </h2>
+            <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
+        <div class="dash-widget">
+          <div class="dash-boxs comman-flex-center">
+            <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
+            <i
+              class="fa-solid fa-indian-rupee-sign"
+              style="font-size: 20px; color: #97704f"
+            ></i>
+          </div>
+          <div class="dash-content dash-count">
+            <h4>Total Sales Due</h4>
+            <h2 class="font_size">
+              <span class="me-2">₹</span
+              ><span
+                class="counter-up"
+                [countUp]="financialSummaryData?.totalSalesDue"
+                [options]="{ duration: 0.5 }"
+                >{{ financialSummaryData?.totalSalesDue }}</span
+              >
+            </h2>
+            <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="px-3 pt-3 d-flex justify-content-between">
+            <h3>Sales & Purchase</h3>
+            <div>
+              <h5 (click)="navigator('sales_purchase')" class="breadcrumb">
+                View All
+              </h5>
+            </div>
+          </div>
+          <p-chart
+            type="bar"
+            [data]="dataForFirstChat"
+            [options]="optionsForFirstChat"
+            style="padding: 0px 10px 5px 10px"
+          />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="px-3 pt-3 d-flex justify-content-between">
+            <h3>Payment</h3>
+            <div>
+              <h5 (click)="navigator('payment')" class="breadcrumb">
+                View All
+              </h5>
+            </div>
+          </div>
+          <p-chart
+            type="bar"
+            [data]="dataForSecondChat"
+            [options]="optionsForFirstChat"
+            style="padding: 0px 10px 5px 10px"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- /    *ngIf="CategorySlabs.totalCategorySlabs.length && CategorySlabs.totalSubCategorySlabs.length " -->
+      <!-- <div class="col-12 col-md-6">
                 <div class="card p-2">
 
                     <div class="px-2 py-2 d-flex justify-content-between">
@@ -281,84 +358,95 @@
                     </div>
                 </div>
             </div> -->
-            <!-- <div > -->
-            <div class="col-md-6">
-                <!-- <div class="col-md-6" *ngIf="totalCategorySlabs.length > 0"> -->
-                <div class="card p-2">
-                    <div class="px-3 pt-2 d-flex justify-content-between">
-                        <h3>Category</h3>
-                        <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5></div> -->
-                    </div>
-                    <div class="chart-container">
-                        <p-chart type="pie" [data]="piDataForFirstChat" [options]="optionsForSecondChat"
-                            style="width: 375px; height: 375px;">
-                        </p-chart>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card p-2">
-                    <!-- <div class="card p-2" *ngIf="totalSubCategorySlabs.length > 0"> -->
-                    <div class="px-3 pt-2 d-flex justify-content-between">
-                        <h3>Sub Category</h3>
-                        <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5></div> -->
-                    </div>
-                    <div class="chart-container">
-                        <p-chart type="pie" [data]="piDataForSecondChat" [options]="optionsForSecondChat"
-                            style="width: 375px; height: 375px;">
-                        </p-chart>
-                    </div>
-                </div>
-            </div>
-            <!-- </div> -->
+      <!-- <div > -->
+      <div class="col-md-6">
+        <div class="card p-2">
+          <!-- <div class="card p-2" *ngIf="totalCategorySlabs.length > 0"> -->
+          <div class="px-3 pt-2 d-flex justify-content-between">
+            <h3>Category</h3>
+            <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5></div> -->
+          </div>
+          <div class="chart-container">
+            <p-chart
+              type="pie"
+              [data]="piDataForFirstChat"
+              [options]="optionsForSecondChat"
+              style="width: 375px; height: 375px"
+            >
+            </p-chart>
+          </div>
         </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-2">
+          <!-- <div class="card p-2" *ngIf="totalSubCategorySlabs.length > 0"> -->
+          <div class="px-3 pt-2 d-flex justify-content-between">
+            <h3>Sub Category</h3>
+            <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5></div> -->
+          </div>
+          <div class="chart-container">
+            <p-chart
+              type="pie"
+              [data]="piDataForSecondChat"
+              [options]="optionsForSecondChat"
+              style="width: 375px; height: 375px"
+            >
+            </p-chart>
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
 
-        <div class="row">
-            <div class="col-md-5">
-                <div class="card p-2">
-                    <div class="px-2 py-2 d-flex justify-content-between">
-                        <h3>Stock Alert</h3>
-                        <div>
-                            <h5 (click)="navigator('Stock_Alert')" class="breadcrumb">View All</h5>
-                        </div>
-                    </div>
-                    <p-table [value]="stockAlertData" styleClass="p-datatable-striped">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="slabName">Slab Name
-                                </th>
-                                <th pSortableColumn="slabNo">slab No.
-                                </th>
-                                <th pSortableColumn="slabNo">Total Square Feet
-                                </th>
-                                <th pSortableColumn="slabNo">Percentage Sold
-                                </th>
-                                <th pSortableColumn="slabNo">Alert Type
-                                </th>
-                                <!-- <th pSortableColumn="size">Total Sales Quantity
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card p-2">
+          <div class="px-2 py-2 d-flex justify-content-between">
+            <h3>Stock Alert</h3>
+            <div>
+              <h5 (click)="navigator('Stock_Alert')" class="breadcrumb">
+                View All
+              </h5>
+            </div>
+          </div>
+          <div *ngIf="!stockAlertData || stockAlertData.length === 0">
+            <span style="color: #97704f; font-size: 15px">Data is not available.</span>
+          </div>
+          <p-table *ngIf="stockAlertData && stockAlertData.length > 0" [value]="stockAlertData" styleClass="p-datatable-striped" [scrollable]="true"
+          scrollHeight="500px">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="slabName">Slab Name</th>
+                <th pSortableColumn="slabNo">Slab No.</th>
+                <th pSortableColumn="slabNo">Total Sq. Feet</th>
+                <th pSortableColumn="slabNo">Sold %</th>
+                <th pSortableColumn="slabNo">Alert Type</th>
+                <!-- <th pSortableColumn="size">Total Sales Quantity
                                 </th> -->
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-Product>
-                            <tr>
-                                <td>
-                                    {{Product.slabDetails.slabName}}
-                                </td>
-                                <td>
-                                    {{Product.slabDetails.slabNo}}
-                                </td>
-                                <td>
-                                    {{Product.totalSQFT}}
-                                </td>
-                                <td>
-                                    {{Product.percentageSold}}
-                                </td>
-                                <td *ngIf="Product.alertType == 'high'"><p-tag severity="danger" value="High"></p-tag>
-                                </td>
-                                <td *ngIf="Product.alertType == 'medium'"><p-tag severity="warning"
-                                        value="medium"></p-tag></td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-Product>
+              <tr>
+                <td>
+                  {{ Product.slabDetails.slabName }}
+                </td>
+                <td>
+                  {{ Product.slabDetails.slabNo }}
+                </td>
+                <td>
+                  {{ Product.totalSQFT }}
+                </td>
+                <td>
+                  {{ Product.percentageSold }}
+                </td>
+                <td *ngIf="Product.alertType == 'high'">
+                  <p-tag severity="danger" value="High"></p-tag>
+                </td>
+                <td *ngIf="Product.alertType == 'medium'">
+                  <p-tag severity="warning" value="medium"></p-tag>
+                </td>
 
-                                <!-- <td>
+                <!-- <td>
                                     <span style="color: yellow;" *ngIf="">
                                         {{Product.totalSalesAmount}}
                                     </span>
@@ -366,10 +454,10 @@
                                         {{Product.totalSalesAmount}}
                                     </span>
                                 </td> -->
-                                <!-- <td>
+                <!-- <td>
                                     {{Product.totalSalesQuantity}}
                                 </td> -->
-                                <!-- <td appShowHide [roles]="['admin', 'super-admin']">
+                <!-- <td appShowHide [roles]="['admin', 'super-admin']">
                                     <div class="action-buttons">
 
                                         <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
@@ -378,43 +466,45 @@
                                         (click)="deleteSlabs(slabs._id)"></p-button>
                                     </div>
                                 </td> -->
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-2">
+          <div class="px-2 py-2 d-flex justify-content-between">
+            <h3>Top Customers</h3>
+            <div>
+              <h5 (click)="navigator('Customer')" class="breadcrumb">
+                View All
+              </h5>
             </div>
-            <div class="col-md-7">
-                <div class="card p-2">
-                    <div class="px-2 py-2 d-flex justify-content-between">
-                        <h3>Top Customers</h3>
-                        <div>
-                            <h5 (click)="navigator('Customer')" class="breadcrumb">View All</h5>
-                        </div>
-                    </div>
-                    <p-table [value]="allSlabsDaTa" styleClass="p-datatable-striped">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="slabNo">Customer Name
-                                </th>
-                                <th pSortableColumn="slabName">Total Sales Amount
-                                </th>
-                                <th pSortableColumn="size">Total Sales Quantity
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-Product>
-                            <tr>
-                                <td (click)="oneCoustomer(Product.customerId)" style="cursor: pointer;"
-                                    class="hoverClass">
-                                    {{Product.customerName}}
-                                </td>
-                                <td>
-                                    {{Product.totalSalesAmount}}
-                                </td>
-                                <td>
-                                    {{Product.totalSalesQuantity}}
-                                </td>
-                                <!-- <td appShowHide [roles]="['admin', 'super-admin']">
+          </div>
+          <div *ngIf="!allSlabsDaTa || allSlabsDaTa.length === 0">
+            <span style="color: #97704f; font-size: 15px">Data is not available.</span>
+          </div>
+          <p-table *ngIf="allSlabsDaTa && allSlabsDaTa.length > 0 "[value]="allSlabsDaTa" styleClass="p-datatable-striped" [scrollable]="true"
+          scrollHeight="500px">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="slabNo">Customer Name</th>
+                <th pSortableColumn="slabName">Total Sales Amount</th>
+                <th pSortableColumn="size">Total Sales Quantity</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-Product>
+              <tr>
+                <td
+                  (click)="oneCoustomer(Product.customerId)"
+                  style="cursor: pointer"
+                  class="hoverClass"
+                >
+                  {{ Product.customerName }}
+                </td>
+                <td>₹ {{ Product.totalSalesAmount }}</td>
+                <td>Sq. Feet {{ Product.totalSalesQuantity }}</td>
+                <!-- <td appShowHide [roles]="['admin', 'super-admin']">
                                     <div class="action-buttons">
 
                                         <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
@@ -423,77 +513,114 @@
                                         (click)="deleteSlabs(slabs._id)"></p-button>
                                     </div>
                                 </td> -->
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-            </div>
-
-            <div class="card">
-                <p-table [value]="products" dataKey="id" [tableStyle]="{ 'min-width': '60rem' }">
-                    <ng-template pTemplate="caption">
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card p-2">
+          <div class="px-2 py-2 d-flex justify-content-between">
+            <h3>Customer Credit Alerts</h3>
+          </div>
+          <p-table
+            [value]="products"
+            dataKey="id"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [scrollable]="true"
+            scrollHeight="500px"
+          >
+            <!-- <ng-template pTemplate="caption">
                         <div class="flex flex-wrap justify-content-end gap-2">
                             <h3>Customer Credit Alerts</h3>
-                            <!-- <p-button label="Expand All" icon="pi pi-plus" text (onClick)="expandAll()" />
-                      <p-button label="Collapse All" icon="pi pi-minus" text (onClick)="collapseAll()" /> -->
+                            <p-button label="Expand All" icon="pi pi-plus" text (onClick)="expandAll()" />
+                      <p-button label="Collapse All" icon="pi pi-minus" text (onClick)="collapseAll()" />
                         </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th style="width: 5rem"></th>
-                            <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
-                            <th>Phone Number</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-product>
-                        <tr>
-                            <td>
-                                <p-button type="button" pRipple (onClick)="toggleRow(product)" [text]="true"
-                                    [rounded]="true" [plain]="true"
-                                    [icon]="product.expanded ? 'fa-solid fa-chevron-down' : 'fa-solid fa-angle-right'" />
-                            </td>
-                            <td>{{ product.name }}</td>
-                            <td>{{ product.phoneNo }}</td>
-                        </tr>
-                        <tr *ngIf="product.expanded">
-                            <td colspan="3">
-                                <div class="p-3">
-                                    <p-table [value]="product.creditAlerts" dataKey="saleId">
-                                        <ng-template pTemplate="header">
-                        <tr>
-                            <th pSortableColumn="salesDate">Sales Date <p-sortIcon field="salesDate" /></th>
-                            <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount" />
-                            </th>
-                            <th pSortableColumn="alertType">Alert Type <p-sortIcon field="alertType" /></th>
-                            <th pSortableColumn="daysLeft">Days Left <p-sortIcon field="daysLeft" /></th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-alert>
-                        <tr>
-                            <td>{{ alert.salesDate | date: 'dd-MMM-yyyy' }}</td>
-                            <td>₹ {{ alert.salesTotalAmount | indianCurrency }}</td>
-                            <td>
-                                <p-tag [value]="alert.alertType" [severity]="getSeverity(alert.alertType)" />
-                            </td>
-                            <td>
-                                <p-tag [value]="alert.daysLeft" [severity]="getStatusSeverity(alert.daysLeft)" />
-                            </td>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                        <tr>
-                            <td colspan="4">There are no alerts for this product yet.</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </div>
-            </td>
-            </tr>
+                    </ng-template> -->
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 5rem"></th>
+                <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
+                <th>Phone Number</th>
+              </tr>
             </ng-template>
-            </p-table>
+            <ng-template pTemplate="body" let-product>
+              <tr>
+                <td>
+                  <p-button
+                    type="button"
+                    pRipple
+                    (onClick)="toggleRow(product)"
+                    [text]="true"
+                    [rounded]="true"
+                    [plain]="true"
+                    [icon]="
+                      product.expanded
+                        ? 'fa-solid fa-chevron-down'
+                        : 'fa-solid fa-angle-right'
+                    "
+                  />
+                </td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.phoneNo }}</td>
+              </tr>
+              <tr *ngIf="product.expanded">
+                <td colspan="3">
+                  <div class="p-3">
+                    <p-table [value]="product.creditAlerts" dataKey="saleId">
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th pSortableColumn="salesDate">
+                            Sales Date <p-sortIcon field="salesDate" />
+                          </th>
+                          <th pSortableColumn="salesTotalAmount">
+                            Total Amount <p-sortIcon field="salesTotalAmount" />
+                          </th>
+                          <th pSortableColumn="alertType">
+                            Alert Type <p-sortIcon field="alertType" />
+                          </th>
+                          <th pSortableColumn="daysLeft">
+                            Days Left <p-sortIcon field="daysLeft" />
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-alert>
+                        <tr>
+                          <td>{{ alert.salesDate | date : "dd-MMM-yyyy" }}</td>
+                          <td>
+                            ₹ {{ alert.salesTotalAmount | indianCurrency }}
+                          </td>
+                          <td>
+                            <p-tag
+                              [value]="alert.alertType"
+                              [severity]="getSeverity(alert.alertType)"
+                            />
+                          </td>
+                          <td>
+                            <p-tag
+                              [value]="alert.daysLeft"
+                              [severity]="getStatusSeverity(alert.daysLeft)"
+                            />
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="4">
+                            There are no alerts for this product yet.
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
         </div>
-
-
+      </div>
     </div>
-</div>
+  </div>
 </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -13,6 +13,7 @@ import { ToastModule } from "primeng/toast";
 import { SharedModule } from "src/app/shared/shared.module";
 import { blockCustomersDataService } from "../../processing/block-customer/block-customer.service";
 import { blockProcessorService } from "../block-processor.service";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 @Component({
   selector: 'app-add-block-processor',
   standalone: true,
@@ -27,10 +28,10 @@ import { blockProcessorService } from "../block-processor.service";
   styleUrl: './add-block-processor.component.scss',
   providers: [MessageService],
 })
-export class AddBlockProcessorComponent {
+export class AddBlockProcessorComponent implements OnInit{
   addBlockProcessorForm: FormGroup;
   public routes = routes;
-
+  returnUrl: any;
   personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
   emailRegex: string =
@@ -42,6 +43,7 @@ export class AddBlockProcessorComponent {
     private messageService: MessageService,
     private Service: blockProcessorService,
     private router: Router,
+    private localStorageService: LocalStorageService
   ) {
     this.addBlockProcessorForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
@@ -53,7 +55,10 @@ export class AddBlockProcessorComponent {
       taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
     });
   }
-
+  ngOnInit(): void {
+    this.returnUrl = this.localStorageService.getItem("returnUrl");
+    console.log(this.returnUrl);
+  }
   addBlockProcessorFormSubmit() {
     const payload = {
       name: this.addBlockProcessorForm.value.name, 
@@ -70,7 +75,7 @@ export class AddBlockProcessorComponent {
             const message = "Block Processor has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              this.router.navigate(["/block-processor"]);
+              this.router.navigateByUrl(this.returnUrl);
             }, 400);
           } else {
             const message = resp.message;

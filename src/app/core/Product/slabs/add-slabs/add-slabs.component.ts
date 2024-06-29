@@ -24,6 +24,7 @@ import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.serv
 import { SlabsService } from "../slabs.service";
 import { CalendarModule } from "primeng/calendar";
 import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: "app-add-slabs",
@@ -70,6 +71,7 @@ export class AddSlabsComponent {
   blockProcessorArray: any[];
   fromWareHouseLotValue: any;
   BlockWeight: number = 0;
+  currentUrl: string;
 
   constructor(
     private fb: FormBuilder,
@@ -80,7 +82,8 @@ export class AddSlabsComponent {
     private services: WarehouseService,
     private Service: SlabsService,
     private Lotservice: LotService,
-    private ServiceblockProcessor: blockProcessorService
+    private ServiceblockProcessor: blockProcessorService,
+    private localStorageService: LocalStorageService
   ) {
     this.slabsAddForm = this.fb.group({
       slabNo: [
@@ -131,7 +134,11 @@ export class AddSlabsComponent {
     return this.slabsAddForm.controls;
   }
 
+
   ngOnInit(): void {
+    this.currentUrl = this.router.url;
+    console.log(this.currentUrl)
+    console.log("this is current url on slab page",this.currentUrl)
     // API for get all block Processor
     this.ServiceblockProcessor.getAllBlockProcessorData().subscribe(
       (data: any) => {
@@ -259,6 +266,16 @@ export class AddSlabsComponent {
           : totalAmount.toFixed(2),
     });
   }
+
+  navigateToCreateBlockProcessor() {
+    const returnUrl = this.router.url;
+    this.router.navigate(['/block-processor/add-block-processor']);
+    this.localStorageService.setItem('returnUrl',returnUrl);
+
+    // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
+  }
+
+
 
   SlabsAddFormSubmit() {
     if (

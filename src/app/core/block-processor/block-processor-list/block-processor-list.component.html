@@ -31,8 +31,8 @@
                                             <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                         </div>
                                         <div class="add-group textbtn">
-                                            <a appShowHide [roles]="['admin', 'super-admin', 'help-desk']"
-                                                [routerLink]="routes.AddBlockProcessor"
+                                            <a 
+                                                (click)="navigateToCreateBlockProcessor()"
                                                 class="btn btn-primary add-pluss ms-2">
                                                 <img src="assets/img/icons/plus.svg" alt="">Add New</a>
                                         </div>

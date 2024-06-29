@@ -36,3 +36,16 @@
 .p-tag-value{
     width: 50px;
 }
+// card font size
+@media (max-width: 1416px) and (min-width: 1200px) {
+    .dash-count h4 {
+        font-size: 13px;
+        // text-overflow: ellipsis;
+        white-space: nowrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+    }
+    .font_size {
+        font-size: 19px;
+    }
+}

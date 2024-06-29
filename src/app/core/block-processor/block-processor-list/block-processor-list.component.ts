@@ -9,6 +9,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { CommonModule } from "@angular/common";
 import { blockCustomersDataService } from "../../processing/block-customer/block-customer.service";
 import { blockProcessorService } from "../block-processor.service";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 @Component({
   selector: 'app-block-processor-list',
   standalone: true,
@@ -34,11 +35,18 @@ export class BlockProcessorListComponent {
   modalData: any = {};
   blockProcessorId: any;
   visible: boolean = false;
+  currentUrl: any;
   constructor(private router: Router,
   private Service: blockProcessorService, 
-  private messageService: MessageService) { }
+  private messageService: MessageService,private localStorageService:LocalStorageService
+) { }
   ngOnInit() {
     this.getCustomers()
+    this.currentUrl = this.router.url;
+    console.log(this.currentUrl)
+    console.log("this is current url on purchase page",this.currentUrl)
+
+    // this.localStorageService.removeItem('returnUrl'); 
   }
   getCustomers() {
     this.Service.getAllBlockProcessorData().subscribe((data) => {
@@ -60,6 +68,13 @@ export class BlockProcessorListComponent {
   vewBlockProcessor(id) {
     console.log(id);
     this.router.navigate(["/block-processor/view-block-processor/" + id]);
+  }
+  navigateToCreateBlockProcessor() {
+    const returnUrl = this.router.url;
+    this.router.navigate(["/block-processor/add-block-processor/"]);
+    this.localStorageService.setItem('returnUrl',returnUrl);
+
+    // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
 
   deleteBlockProcessor(Id: any) {
