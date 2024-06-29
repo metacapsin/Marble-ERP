@@ -59,6 +59,9 @@ export class InvoiceDialogComponent implements OnInit {
     // console.log("dialog close")
     this.close.emit();
   }
+  clickMe(){
+    console.log(this.salesDataById);
+  }
 
 
 
