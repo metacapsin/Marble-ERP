@@ -24,6 +24,7 @@ import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 import { NewPurchaseService } from "../new-purchase.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
+import { PaymentOutService } from "../../payment-out/payment-out.service";
 @Component({
   selector: 'app-list-new-purchase',
   standalone: true,
@@ -89,7 +90,7 @@ export class ListNewPurchaseComponent {
   constructor(
     public data: DataService,
     private Service: NewPurchaseService,
-    // private paymentOutService: PaymentOutService,
+    private paymentOutService: PaymentOutService,
     private router: Router,
     private messageService: MessageService,
     private SlabsService: SlabsService,
@@ -149,6 +150,13 @@ export class ListNewPurchaseComponent {
           });
       }
     });
+    this.paymentOutService.getPurchasePaymentListByPurchaseId(id).subscribe(
+      (resp: any) => {
+        this.paymentDataListById = resp.data;
+        console.log("this is payment by Purchase id", this.paymentDataListById);
+        console.log(resp.data);
+      }
+    );
   }
 
   purchaseDelete(id: number) {

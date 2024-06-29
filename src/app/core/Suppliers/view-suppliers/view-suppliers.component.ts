@@ -237,7 +237,7 @@ export class ViewSuppliersComponent {
     const returnUrl = this.router.url;
     this.localStorageService.setItem("returnUrl", returnUrl);
 
-    this.router.navigateByUrl("/purchase/add-purchase");
+    this.router.navigateByUrl("/new-purchase/add-new-purchase");
   }
 
   navigateToCreatePurchaseReturn() {
@@ -285,6 +285,7 @@ export class ViewSuppliersComponent {
       }
     );
   }
+
   showReturnInvoiceDialoge(Id: any) {
     console.log("id pass to invoice dialoge", Id);
     console.log("showInvoiceDialoge is triggered ");
@@ -319,7 +320,7 @@ export class ViewSuppliersComponent {
           purchaseId: Id,
           isPurchase: true,
           purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
-          purchaseTotalAmount: resp.data.purchaseTotalAmount,
+          purchaseCost: resp.data.purchaseCost,
           purchaseDueAmount: resp.data.dueAmount,
         };
       });

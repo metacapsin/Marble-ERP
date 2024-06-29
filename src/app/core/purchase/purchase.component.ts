@@ -148,6 +148,13 @@ export class PurchaseComponent {
           });
       }
     });
+    this.paymentOutService.getPurchasePaymentListByPurchaseId(id).subscribe(
+      (resp: any) => {
+        this.paymentDataListById = resp.data;
+        console.log("this is payment by Purchase id", this.paymentDataListById);
+        console.log(resp.data);
+      }
+    );
   }
 
   purchaseDelete(id: number) {
