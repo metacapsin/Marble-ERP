@@ -48,7 +48,7 @@
                         <!-- <label for="warehouseDetails">Date </label> -->
                         <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
                             [maxDate]="maxDate" [style]="{ width: '100%' }" placeholder="Start Date - End Date"
-                            (ngModelChange)="getDateOnChange()" dateFormat="dd/mm/yy"/>
+                            (ngModelChange)="getDateOnChange()" dateFormat="dd/mm/yy" />
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                     <div class="dash-content dash-count">
                         <h4>Total Sales</h4>
                         <h2><span class="me-2">₹</span><span class="counter-up"
-                                [countUp]="financialSummaryData?.totalSales"  [options]="{duration: 2}">{{
+                                [countUp]="financialSummaryData?.totalSales" [options]="{duration: 2}">{{
                                 financialSummaryData?.totalSales }}</span></h2>
                         <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
                     </div>
@@ -168,7 +168,7 @@
         </div>
 
         <div class="row mt-4">
-        <!-- /    *ngIf="CategorySlabs.totalCategorySlabs.length && CategorySlabs.totalSubCategorySlabs.length " -->
+            <!-- /    *ngIf="CategorySlabs.totalCategorySlabs.length && CategorySlabs.totalSubCategorySlabs.length " -->
             <!-- <div class="col-12 col-md-6">
                 <div class="card p-2">
 
@@ -281,8 +281,10 @@
                     </div>
                 </div>
             </div> -->
-            <div class="col-md-6" *ngIf="totalCategorySlabs.length > 0">
-                <div class="card p-2" >
+            <!-- <div > -->
+            <div class="col-md-6">
+                <!-- <div class="col-md-6" *ngIf="totalCategorySlabs.length > 0"> -->
+                <div class="card p-2">
                     <div class="px-3 pt-2 d-flex justify-content-between">
                         <h3>Category</h3>
                         <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5></div> -->
@@ -295,7 +297,8 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card p-2" *ngIf="totalSubCategorySlabs.length > 0">
+                <div class="card p-2">
+                    <!-- <div class="card p-2" *ngIf="totalSubCategorySlabs.length > 0"> -->
                     <div class="px-3 pt-2 d-flex justify-content-between">
                         <h3>Sub Category</h3>
                         <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5></div> -->
@@ -307,6 +310,7 @@
                     </div>
                 </div>
             </div>
+            <!-- </div> -->
         </div>
 
         <div class="row">
@@ -427,74 +431,69 @@
 
             <div class="card">
                 <p-table [value]="products" dataKey="id" [tableStyle]="{ 'min-width': '60rem' }">
-                  <ng-template pTemplate="caption">
-                    <div class="flex flex-wrap justify-content-end gap-2">
-                      <h3>Customer Credit Alerts</h3>
-                      <!-- <p-button label="Expand All" icon="pi pi-plus" text (onClick)="expandAll()" />
+                    <ng-template pTemplate="caption">
+                        <div class="flex flex-wrap justify-content-end gap-2">
+                            <h3>Customer Credit Alerts</h3>
+                            <!-- <p-button label="Expand All" icon="pi pi-plus" text (onClick)="expandAll()" />
                       <p-button label="Collapse All" icon="pi pi-minus" text (onClick)="collapseAll()" /> -->
-                    </div>
-                  </ng-template>
-                  <ng-template pTemplate="header">
-                    <tr>
-                      <th style="width: 5rem"></th>
-                      <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
-                      <th>Phone Number</th>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-product>
-                    <tr>
-                      <td>
-                        <p-button 
-                          type="button" 
-                          pRipple 
-                          (onClick)="toggleRow(product)" 
-                          [text]="true" 
-                          [rounded]="true" 
-                          [plain]="true" 
-                          [icon]="product.expanded ? 'fa-solid fa-chevron-down' : 'fa-solid fa-angle-right'"
-                        />
-                      </td>
-                      <td>{{ product.name }}</td>
-                      <td>{{ product.phoneNo }}</td>
-                    </tr>
-                    <tr *ngIf="product.expanded">
-                      <td colspan="3">
-                        <div class="p-3">
-                          <p-table [value]="product.creditAlerts" dataKey="saleId">
-                            <ng-template pTemplate="header">
-                              <tr>
-                                <th pSortableColumn="salesDate">Sales Date <p-sortIcon field="salesDate" /></th>
-                                <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount" /></th>
-                                <th pSortableColumn="alertType">Alert Type <p-sortIcon field="alertType" /></th>
-                                <th pSortableColumn="daysLeft">Days Left <p-sortIcon field="daysLeft" /></th>
-                              </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-alert>
-                              <tr>
-                                <td>{{ alert.salesDate | date: 'dd-MMM-yyyy' }}</td>
-                                <td>₹ {{ alert.salesTotalAmount | indianCurrency }}</td>
-                                <td>
-                                  <p-tag [value]="alert.alertType" [severity]="getSeverity(alert.alertType)" />
-                                </td>
-                                <td>
-                                  <p-tag [value]="alert.daysLeft" [severity]="getStatusSeverity(alert.daysLeft)" />
-                                </td>
-                              </tr>
-                            </ng-template>
-                            <ng-template pTemplate="emptymessage">
-                              <tr>
-                                <td colspan="4">There are no alerts for this product yet.</td>
-                              </tr>
-                            </ng-template>
-                          </p-table>
                         </div>
-                      </td>
-                    </tr>
-                  </ng-template>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 5rem"></th>
+                            <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
+                            <th>Phone Number</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-product>
+                        <tr>
+                            <td>
+                                <p-button type="button" pRipple (onClick)="toggleRow(product)" [text]="true"
+                                    [rounded]="true" [plain]="true"
+                                    [icon]="product.expanded ? 'fa-solid fa-chevron-down' : 'fa-solid fa-angle-right'" />
+                            </td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.phoneNo }}</td>
+                        </tr>
+                        <tr *ngIf="product.expanded">
+                            <td colspan="3">
+                                <div class="p-3">
+                                    <p-table [value]="product.creditAlerts" dataKey="saleId">
+                                        <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="salesDate">Sales Date <p-sortIcon field="salesDate" /></th>
+                            <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount" />
+                            </th>
+                            <th pSortableColumn="alertType">Alert Type <p-sortIcon field="alertType" /></th>
+                            <th pSortableColumn="daysLeft">Days Left <p-sortIcon field="daysLeft" /></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-alert>
+                        <tr>
+                            <td>{{ alert.salesDate | date: 'dd-MMM-yyyy' }}</td>
+                            <td>₹ {{ alert.salesTotalAmount | indianCurrency }}</td>
+                            <td>
+                                <p-tag [value]="alert.alertType" [severity]="getSeverity(alert.alertType)" />
+                            </td>
+                            <td>
+                                <p-tag [value]="alert.daysLeft" [severity]="getStatusSeverity(alert.daysLeft)" />
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="4">There are no alerts for this product yet.</td>
+                        </tr>
+                    </ng-template>
                 </p-table>
-              </div>
-              
-
+            </div>
+            </td>
+            </tr>
+            </ng-template>
+            </p-table>
         </div>
+
+
     </div>
+</div>
 </div>

@@ -115,19 +115,19 @@ export class EditUserComponent implements OnInit {
   }
   patchForm() {
     this.editUserGroup.patchValue({
-      name: this.EditUserData[0].name,
-      phoneNumber: this.EditUserData[0].phoneNumber,
-      email: this.EditUserData[0].email,
-      status: this.EditUserData[0].status,
-      address: this.EditUserData[0].address,
-      warehouse: this.EditUserData[0].warehouse,
+      name: this.EditUserData.name,
+      phoneNumber: this.EditUserData.phoneNumber,
+      email: this.EditUserData.email,
+      status: this.EditUserData.status,
+      address: this.EditUserData.address,
+      warehouse: this.EditUserData.warehouse,
       adminCheckBox:
-        this.EditUserData[0].role.indexOf("admin") != -1 ? true : false,
+        this.EditUserData.role.indexOf("admin") != -1 ? true : false,
       SalesmanCheckBox:
-        this.EditUserData[0].role.indexOf("Salesman") > -1 ? true : false,
+        this.EditUserData.role.indexOf("Salesman") > -1 ? true : false,
       stockManagerCheckBox:
-        this.EditUserData[0].role.indexOf("stockManager") > -1 ? true : false,
-      isUserLocked: this.EditUserData[0].isUserLocked ? true : false,
+        this.EditUserData.role.indexOf("stockManager") > -1 ? true : false,
+      isUserLocked: this.EditUserData.isUserLocked ? true : false,
     });
   }
 
