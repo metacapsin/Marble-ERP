@@ -65,7 +65,7 @@ export class AddNewPurchaseComponent implements OnInit {
   getSupplierShow: any;
   ItemDetails: any = {};
 
-  shortNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
+  shortNameRegex = /^[^\s.-][a-zA-Z0-9_.\s-]{2,50}$/;
   descriptionRegex = /^(?!\s)(?:.{1,500})$/;
 
   previousSlabValues: any = {};

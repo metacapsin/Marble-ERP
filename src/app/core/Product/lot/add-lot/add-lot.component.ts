@@ -75,7 +75,7 @@ export class AddLotComponent {
   perBlockWeight: number;
 
   addvisible: boolean = false;
-  shortNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,50}$/;
+  shortNameRegex = /^[^\s.-][a-zA-Z0-9_.\s-]{2,50}$/;
   // @Input() otherCharges = 0;
   // @Input() transportationCharges = 0;
 

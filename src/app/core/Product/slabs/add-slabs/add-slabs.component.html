@@ -730,6 +730,8 @@
                                   formControlName="sellingPricePerSQFT"
                                 />
                               </div>
+                              <span style="color: #97704f; font-size: 12px"> input must be grater then Per Square feet
+                                Cost.</span>
                               <div
                                 *ngIf="
                                   slabsAddForm
@@ -759,12 +761,6 @@
                               >
                                 <span class="login-danger">
                                   input must be between 1 and 100,000.
-                                </span>
-                              </div>
-                              <div *ngIf="if_sellingPricePerSQFT">
-                                <span class="login-danger">
-                                  input must be grater then Per Square feet
-                                  Cost.
                                 </span>
                               </div>
                             </div>
