@@ -48,12 +48,13 @@ export class ViewBlockProcessorComponent {
   slabProcessingPaymentData: any[] = [];
   slabProcessingDataList: any[] = [];
   slabListData: any[] = [];
+  paymentInvoicePurchaseDataShowById = [];
   addSlabVisible: boolean = false;
   editSlabVisible: boolean = false;
   showDialog: boolean = false;
   modalData: any = {};
 
-  showPaymentDialog: boolean = false;
+  ShowPaymentInvoice: boolean = false;
   paymentObject: any = {}
   header: string = "";
 
@@ -108,9 +109,6 @@ export class ViewBlockProcessorComponent {
   }
   ngOnInit() {
     this.getBlockProcessor();
-    this.getslabProcessingList();
-    this.getslabProcessingPeymentList();
-
     this.blockProcessorService.getSlabsByProcessorId(this.blockProcessor_id).subscribe((resp: any) => {
       this.slabListData = resp.data.map(e => ({
         slabName: e.slabName,
@@ -118,10 +116,13 @@ export class ViewBlockProcessorComponent {
           _id: e._id,
           slabName: e.slabName,
           slabNo: e.slabNo,
-          processingCost: e.purchaseCost
+          processingCost: e.processingCost
         }
       }));
     });
+    this.getslabProcessingList();
+    this.getslabProcessingPeymentList();
+
   }
   getBlockProcessor() {
     this.blockProcessorService.getBlockProcessorDataById(this.blockProcessor_id).subscribe((data: any) => {
@@ -133,6 +134,7 @@ export class ViewBlockProcessorComponent {
     this.blockProcessorService.getAllSlabProcessing(this.blockProcessor_id).subscribe(
       (resp: any) => {
         this.slabProcessingDataList = resp.data;
+        // this.paymentInvoicePurchaseDataShowById = resp.data;
       }
     );
   }
@@ -172,7 +174,7 @@ export class ViewBlockProcessorComponent {
 
   close() {
     this.showDialog = false;
-    this.showPaymentDialog = false;
+    this.ShowPaymentInvoice = false;
 
     
     this.getslabProcessingList();
@@ -249,7 +251,7 @@ export class ViewBlockProcessorComponent {
 
   openPaymentDialog(_id: any) {
     this.blockProcessorService.getSlabProcessingById(_id).subscribe((resp: any) => {
-      this.showPaymentDialog = true;
+      this.ShowPaymentInvoice = true;
       this.header = "Slab Processing Payment ";
       this.paymentObject = {
         customer: resp.data.processor,
@@ -260,6 +262,15 @@ export class ViewBlockProcessorComponent {
         dueAmount: resp.data.dueAmount,
         paidAmount: resp.data.paidAmount,
       };
+      this.paymentInvoicePurchaseDataShowById.push({
+        customer: resp.data.processor,
+        slabProcessing_id: _id,
+        isSlabProcessing: true,
+        processingInvoiceNo: resp.data.processingInvoiceNo,
+        processingCost: resp.data.processingCost,
+        dueAmount: resp.data.dueAmount,
+        paidAmount: resp.data.paidAmount,
+      })
       // console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
     });
   }

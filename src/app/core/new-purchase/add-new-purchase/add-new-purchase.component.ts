@@ -171,11 +171,14 @@ export class AddNewPurchaseComponent implements OnInit {
   }
 
 
-  nextStep(nextCallback: any) {
+  nextStep(nextCallback: any, page: string) {
     const paidToSupplierPurchaseCost = this.addNewPurchaseForm.value.paidToSupplierPurchaseCost;
     this.NewPurchaseService.setFormData("stepperOneData", paidToSupplierPurchaseCost);
     nextCallback.emit();
-    this.calculateTotalAmount();
+
+    if(page == 'first'){
+      this.calculateTotalAmount();
+    }
     this.ItemDetails = this.NewPurchaseService.getFormData('stepTwoData')
   }
 

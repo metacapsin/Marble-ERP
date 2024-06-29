@@ -74,7 +74,7 @@
     </div>
     <div class="card">
       <p-tabView>
-        <p-tabPanel header="Purchase">
+        <p-tabPanel header="Processed List">
           <div class="page-table-header mb-2">
             <div class="row align-items-center">
               <div class="col">
@@ -215,9 +215,12 @@
   [data]="modalData"></app-confirm-dialog>
 
 
-<app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataById]="paymentObject" [header]="header"
+<app-payments-invoice-dialog [ShowPaymentInvoice]="ShowPaymentInvoice" [dataById]="paymentObject" [header]="header"  [dataItemsGrid]="paymentInvoicePurchaseDataShowById"
   (callbackModal)="callBackModal()" (close)="close()"></app-payments-invoice-dialog>
 
+  
+<!-- <app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataItemsGrid]="paymentInvoicePurchaseDataShowById" [dataById]="paymentObject"
+(callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-payments-invoice-dialog> -->
 
 
 

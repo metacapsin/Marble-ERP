@@ -72,9 +72,9 @@
                   <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="purchaseTotalAmount">Total Amount <p-sortIcon
-                      field="purchaseTotalAmount"></p-sortIcon>
-                    <p-columnFilter type="text" field="purchaseTotalAmount" display="menu"></p-columnFilter>
+                  <th pSortableColumn="purchaseCost">Purchase Amount <p-sortIcon
+                      field="purchaseCost"></p-sortIcon>
+                    <p-columnFilter type="text" field="purchaseCost" display="menu"></p-columnFilter>
                   </th>
 
                   <th width="13%">Action</th>
@@ -90,7 +90,7 @@
                   <td>{{purchase.paymentStatus}}</td>
                   <td>₹ {{purchase.paidAmount}}</td>
                   <td>₹ {{purchase.dueAmount}}</td>
-                  <td>₹ {{purchase.purchaseTotalAmount}}</td>
+                  <td>₹ {{purchase.purchaseCost}}</td>
                   <td  appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                     <p-button [text]="true" icon="fa-solid fa-eye"
                       (click)="showInvoiceDialoge(purchase._id)"></p-button>
