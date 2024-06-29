@@ -31,13 +31,13 @@
                                                     (ngModelChange)="searchData(searchDataValue)">
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
-                                            <div class="add-group textbtn">
+                                            <!-- <div class="add-group textbtn">
                                                 <a appShowHide [roles]="['admin', 'super-admin']"
                                                     [routerLink]="['/lot/add']"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""> Add New</a>
 
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -107,10 +107,10 @@
                                             [roles]="['admin', 'super-admin']" class="action-buttons">
                                             <p-button [text]="true" icon="fa-solid fa-eye"
                                                 (click)="showLotDetails(lot._id)"></p-button>
-                                            <p-button [text]="true" icon="fa-solid fa-edit" *ngIf="!isAnyBlockProcessed(lot.blockDetails)"
+                                            <!-- <p-button [text]="true" icon="fa-solid fa-edit" *ngIf="!isAnyBlockProcessed(lot.blockDetails)"
                                                 (click)="editPage(lot._id)"></p-button>
                                             <p-button [text]="true" icon="fa-solid fa-trash" *ngIf="!isAnyBlockProcessed(lot.blockDetails)"
-                                                (click)="deleteLot(lot._id)"></p-button>
+                                                (click)="deleteLot(lot._id)"></p-button> -->
                                         </td>
                                     </tr>
                                 </ng-template>

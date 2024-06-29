@@ -787,36 +787,14 @@
                               {{ slabsAddForm.get('totalSQFT').value | number: '1.0-0' }}
                             </span>
                           </p>
-                          <p *ngIf="slabsAddForm.get('sellingPricePerSQFT')?.value">
-                            Selling Price / Square Feet <span>
-                              ₹ {{ slabsAddForm.get('sellingPricePerSQFT').value | number: '1.2-2' }}
-                            </span>
-                          </p>
                           <p *ngIf="BlockWeight">
                             Block Weight ( Ton )<span>
                               {{ BlockWeight }}</span
                             >
                           </p>
-                          <!-- <p *ngIf="slabsAddForm.get('totalCosting').value">
-                            Total Costing<span>
-                              {{
-                                slabsAddForm.get("totalCosting")?.value
-                                  ? "₹ " +
-                                    (slabsAddForm.get("totalCosting").value
-                                      | number : "1.2-2")
-                                  : null
-                              }}
-                            </span>
-                          </p> -->
-                          <p *ngIf="slabsAddForm.get('costPerSQFT').value">
-                            Cost / Square Feet<span>
-                              {{
-                                slabsAddForm.get("costPerSQFT")?.value == 0
-                                  ? null
-                                  : "₹ " +
-                                    (slabsAddForm.get("costPerSQFT").value
-                                      | number : "1.2-2")
-                              }}
+                          <p *ngIf="slabsAddForm.get('processingCost')?.value">
+                            Processing Cost<span>
+                              ₹ {{ slabsAddForm.get('processingCost').value | number: '1.2-2' }}
                             </span>
                           </p>
                           <p *ngIf="slabsAddForm.get('transportationCharges')?.value">
@@ -830,52 +808,9 @@
                               ₹ {{ slabsAddForm.get('otherCharges').value | number: '1.2-2' }}
                             </span>
                           </p>
-                          <!-- sellingPricePerSQFT -->
-                          <!-- ---------------slab--------------------------- -->
-                          <!-- <div class="invoice-total-inner" *ngIf="lotTypeValue === 'Slab'">
-                            <p *ngIf="addNewPurchaseForm.get('totalSQFT')?.value">
-                              Total Square Feet<span>
-                                {{ addNewPurchaseForm.get('totalSQFT').value | number: '1.2-2' }}
-
-                              </span>
-                            </p>
-                            <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
-                              Cost / Square Feet <span>
-                                ₹ {{ addNewPurchaseForm.get('costPerSQFT').value | number: '1.2-2' }}
-                              </span>
-                            </p>
-                            <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
-                              Selling Price / Square Feet <span>
-                                ₹ {{ addNewPurchaseForm.get('sellingPricePerSQFT').value | number: '1.2-2' }}
-                              </span>
-                            </p>
-                            <p *ngIf="addNewPurchaseForm.get('transportationCharges')?.value">
-                              Transport Charges<span>
-                                ₹ {{ addNewPurchaseForm.get('transportationCharges').value | number: '1.2-2' }}
-                              </span>
-                            </p>
-                            <p *ngIf="addNewPurchaseForm.get('otherCharges')?.value">
-                              Other Charges
-                              <span>
-                                ₹ {{ addNewPurchaseForm.get('otherCharges').value | number: '1.2-2' }}
-                              </span>
-                            </p>
-
-                            <p>
-                              Purchase Cost. ( Paid To Supplier)
-                              <span>₹
-                                {{
-                                addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | number:
-                                "1.2-2"
-                                }}
-                              </span>
-                            </p>
-                          </div> -->
-                          <!-- totalCosting -->
-
                         </div>
 
-                        <div class="invoice-total-footer">
+                        <div class="invoice-total-footer d-flex flex-column gap-2">
                           <h4>
                               Total Costing<span>
                                 {{
@@ -886,6 +821,16 @@
                                     : null
                                 }}
                               </span>
+                          </h4>
+                          <h4>
+                            Cost / Square Feet<span>
+                              ₹ {{ slabsAddForm.get('costPerSQFT').value | number: '1.2-2' }}
+                            </span>
+                          </h4>
+                          <h4>
+                            Selling Price / Square Feet <span>
+                              ₹ {{ slabsAddForm.get('sellingPricePerSQFT').value | number: '1.2-2' }}
+                            </span>
                           </h4>
                         </div>
                       </div>

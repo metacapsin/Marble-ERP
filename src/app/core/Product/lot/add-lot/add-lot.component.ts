@@ -358,13 +358,15 @@ export class AddLotComponent {
       pricePerTon: data.pricePerTon,
       transportationCharge: data.transportationCharge,
       royaltyCharge: data.royaltyCharge,
-      notes: data.notes,
       blocksCount: this.blocksDetails.length,
       averageWeight: data.averageWeight,
       averageTransport: data.averageTransport,
       averageRoyalty: data.averageRoyalty,
       blockDetails: this.blocksDetails,
       lotTotalCost: this.lotTotalCost,
+      purchaseCost: "",
+      date: "",
+      notes: "",
     };
     this.dataEmitter.emit(JSON.stringify(payload));
 

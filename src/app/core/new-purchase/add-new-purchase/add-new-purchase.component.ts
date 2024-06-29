@@ -70,6 +70,7 @@ export class AddNewPurchaseComponent implements OnInit {
 
   previousSlabValues: any = {};
   returnUrl: any;
+  supplier: any;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -106,7 +107,14 @@ export class AddNewPurchaseComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.supplier = this.localStorageService.getItem("supplier");
     this.returnUrl = this.localStorageService.getItem("returnUrl");
+    if (this.supplier) {
+      this.addNewPurchaseForm.patchValue({
+        supplier: this.supplier,
+      });
+    }
+
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
       this.wareHousedataListsEditArray = [];
@@ -264,6 +272,16 @@ export class AddNewPurchaseComponent implements OnInit {
   addNewPurchaseFormSubmit() {
     const formData = this.addNewPurchaseForm.value;
     let payload = {};
+    this.ItemDetails = this.ItemDetails || {};
+
+    if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
+      this.ItemDetails.purchaseCost = formData.paidToSupplierPurchaseCost;
+      this.ItemDetails.date = formData.purchaseDate;
+      this.ItemDetails.notes = formData.purchaseNotes;
+    } else {
+      console.error("formData.paidToSupplierPurchaseCost is not defined");
+    }
+    
     if (this.addNewPurchaseForm.value.purchaseType == 'Lot') {
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
@@ -307,6 +325,9 @@ export class AddNewPurchaseComponent implements OnInit {
           totalCosting: formData.totalCosting,
           costPerSQFT: formData.costPerSQFT,
           slabSize: _Size,
+          purchaseCost: formData.paidToSupplierPurchaseCost,
+          date: formData.purchaseDate,
+          notes: formData.purchaseNotes,
         },
         purchaseTotalAmount: formData.totalCosting
       }

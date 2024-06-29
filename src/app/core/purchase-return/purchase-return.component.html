@@ -26,7 +26,7 @@
                             <div class="invoices-tabs">
                                 <ul>
                                     <li>
-                                        <a [routerLink]="routes.purchaseReturn" class="active">All Purchase Return</a>
+                                        <a (click)="navigateToCreatePurchaseReturn()"class="active">All Purchase Return</a>
                                     </li>
                                     <!-- <li><a [routerLink]="routes.paidPurchaseReturn">Paid</a></li>
                     <li><a [routerLink]="routes.unpaidPurchaseReturn">Unpaid</a></li> -->
@@ -72,25 +72,25 @@
                                             <p-columnFilter type="text" field="supplier.name"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="purchaseReturnOrderStatus">
+                                        <!-- <th pSortableColumn="purchaseReturnOrderStatus">
                                             Status
                                             <p-sortIcon field="purchaseReturnOrderStatus"></p-sortIcon>
+                                        </th> -->
+                                        <th pSortableColumn="paymentStatus">
+                                            Payment Status
+                                            <p-sortIcon field="paymentStatus"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="salesTotalAmount">
+                                            Gross Total
+                                            <p-sortIcon field="salesTotalAmount"></p-sortIcon>
+                                            <p-columnFilter type="text" field="salesTotalAmount"
+                                            display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="purchaseReturnTotalAmount">
                                             Total Amount
                                             <p-sortIcon field="purchaseReturnTotalAmount"></p-sortIcon>
                                             <p-columnFilter type="text" field="purchaseReturnTotalAmount"
                                                 display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="salesTotalAmount">
-                                            Gross Total
-                                            <p-sortIcon field="salesTotalAmount"></p-sortIcon>
-                                            <p-columnFilter type="text" field="salesTotalAmount"
-                                                display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="paymentStatus">
-                                            Payment Status
-                                            <p-sortIcon field="paymentStatus"></p-sortIcon>
                                         </th>
 
                                         <th width="10%">Action</th>
@@ -105,19 +105,19 @@
                                         </td>
                                         <td>{{ purchaseReturn.returnDate | date: 'dd-MMM-yyyy'}}</td>
                                         <td>{{ purchaseReturn.supplier.name }}</td>
-                                        <td>{{ purchaseReturn.purchaseReturnOrderStatus }}</td>
+                                        <!-- <td>{{ purchaseReturn.purchaseReturnOrderStatus }}</td> -->
                                         <!-- <td>{{ purchaseReturn.Status }}</td> -->
-
-                                        <td>{{ purchaseReturn.purchaseReturnTotalAmount }}</td>
-                                        <td>{{ purchaseReturn.purchaseGrossTotal }}</td>
                                         <td>{{ purchaseReturn.paymentStatus }}</td>
+
+                                        <td>{{ purchaseReturn.purchaseGrossTotal }}</td>
+                                        <td>{{ purchaseReturn.purchaseReturnTotalAmount }}</td>
 
                                         <td class="action-buttons">
                                             <p-button [text]="true" data-bs-toggle="modal"
                                                 data-bs-target="#invoices_preview" icon="fa-solid fa-eye"
                                                 (click)="showInvoiceDialoge(purchaseReturn._id)"></p-button>
-                                            <p-button [text]="true" icon="fa-solid fa-edit"
-                                                (click)="purchaseReturnUpdate(purchaseReturn._id)"></p-button>
+                                            <!-- <p-button [text]="true" icon="fa-solid fa-edit"
+                                                (click)="purchaseReturnUpdate(purchaseReturn._id)"></p-button> -->
                                             <p-button [text]="true" icon="fa-solid fa-trash"
                                                 (click)="purchaseReturnDelete(purchaseReturn._id)"></p-button>
                                             <!-- <a class="p-2 border-1 border" href=""><i
