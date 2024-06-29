@@ -455,6 +455,9 @@
                           <th pSortableColumn="lotTotalCosting">
                             Lot Total Costing
                           </th>
+                          <th pSortableColumn="lotPurchaseCost">
+                            Lot Purchase Cost
+                          </th>
                         </tr>
                         <tr *ngIf="sales.slabDetails">
                           <th pSortableColumn="slabNo">Slab No</th>
@@ -473,8 +476,8 @@
                           </th>
 
                           <th pSortableColumn="totalSQFT">Total Square Feet</th>
-                          <th pSortableColumn="slabTotalCosting">
-                            Slab Purchase Costing
+                          <th pSortableColumn="slabPurchaseCost">
+                            Purchase Cost
                           </th>
                         </tr>
                         <tr *ngIf="sales.purchaseReturnItemDetails">
@@ -488,8 +491,8 @@
                           <th pSortableColumn="sellingPricePerSQFT">
                             Price Per Square Feet
                           </th>
-                          <th pSortableColumn="slabTotalCosting">
-                            Slab Total Costing
+                          <th pSortableColumn="slabPurchaseCost">
+                           Slab Purchase Cost
                           </th>
                           <th pSortableColumn="totalSQFT">Total Square Feet</th>
                         </tr>
@@ -523,6 +526,12 @@
                             ₹
                             {{
                               sales.lotDetails.lotTotalCosting | indianCurrency
+                            }}
+                          </td>
+                          <td>
+                            ₹
+                            {{
+                              sales.purchaseCost | indianCurrency
                             }}
                           </td>
                         </tr>
@@ -700,6 +709,24 @@
                           Transport Charges
                           <span
                           >₹ {{ sales?.slabDetails?.transportationCharges | indianCurrency }}</span
+                          >
+                        </p>
+                        <p *ngIf="sales?.lotDetails?.lotWeight">
+                          Lot Weight
+                          <span
+                          >{{ sales?.lotDetails?.lotWeight | indianCurrency }}</span
+                          >
+                        </p>
+                        <p *ngIf="sales?.lotDetails?.transportationCharge">
+                          Transport Charges
+                          <span
+                          >₹ {{ sales?.lotDetails?.transportationCharge | indianCurrency }}</span
+                          >
+                        </p>
+                        <p *ngIf="sales?.lotDetails?.royaltyCharge">
+                          Royalty Charges (Other Charges)
+                          <span
+                          >₹ {{ sales?.lotDetails?.royaltyCharge | indianCurrency }}</span
                           >
                         </p>
                         <p *ngIf="sales?.slabDetails?.otherCharges">
