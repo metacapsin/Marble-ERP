@@ -317,12 +317,12 @@
                                     Return Date <p-sortIcon field="returnDate"></p-sortIcon>
                                     <p-columnFilter type="text" field="returnDate" display="menu"></p-columnFilter>
                                 </th>
-                                <th pSortableColumn="purchaseReturnOrderStatus">
+                                <!-- <th pSortableColumn="purchaseReturnOrderStatus">
                                     Return Status
                                     <p-sortIcon field="purchaseReturnOrderStatus"></p-sortIcon>
                                     <p-columnFilter type="text" field="purchaseReturnOrderStatus" display="menu"></p-columnFilter>
 
-                                </th>
+                                </th> -->
                                 <th pSortableColumn="paymentStatus">
                                     Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                                     <p-columnFilter type="text" field="paymentStatus" display="menu"></p-columnFilter>
@@ -349,7 +349,7 @@
                             <tr>
                                 <td>{{ purchaseReturn.purchaseInvoiceNumber.purchaseInvoiceNumber }}</td>
                                 <td>{{ purchaseReturn.returnDate | date : "dd-MMM-yyyy"}}</td>
-                                <td>{{ purchaseReturn.purchaseReturnOrderStatus }}</td>
+                                <!-- <td>{{ purchaseReturn.purchaseReturnOrderStatus }}</td> -->
                                 <!-- <td>{{ purchase.paymentStatus }}</td> -->
                                 <td *ngIf="purchaseReturn.paymentStatus == 'Partial Paid'"><p-tag severity="danger"
                                     value="Partial Paid"></p-tag></td>
