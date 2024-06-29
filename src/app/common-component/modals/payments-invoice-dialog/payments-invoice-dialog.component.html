@@ -1,5 +1,5 @@
-<p-dialog  [(visible)]="ShowPaymentInvoice" [closable]="false" [closeOnEscape]="false" [modal]="true" *ngFor="let sales of dataItemsGrid"
-  [style]="{width: '80vw'}">
+<p-dialog [(visible)]="ShowPaymentInvoice" [closable]="false" [closeOnEscape]="false" [modal]="true"
+  *ngFor="let sales of dataItemsGrid" [style]="{width: '80vw'}">
   <ng-template pTemplate="header">
     <div class="d-flex justify-content-between align-items-center w-100">
       <h4>{{header}}</h4>
@@ -251,12 +251,12 @@
                                   </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data *ngIf="sales.slabDetails">
-                                  <tr *ngFor="let sales of data.slabDetails">
-                                    <td>{{sales.slabName}}</td>
-                                    <td>{{sales.slabNo}}</td>
-                                    <td>₹ {{sales.sellingPricePerSQFT | indianCurrency}}</td>
-                                    <td>₹ {{sales.totalCosting | indianCurrency}}</td>
-                                    <td>₹ {{sales.totalSQFT}}</td>
+                                  <tr>
+                                    <td>{{sales.slabDetails.slabName}}</td>
+                                    <td>{{sales.slabDetails.slabNo}}</td>
+                                    <td>₹ {{sales.slabDetails.sellingPricePerSQFT | indianCurrency}}</td>
+                                    <td>₹ {{sales.slabDetails.totalCosting | indianCurrency}}</td>
+                                    <td> {{sales.slabDetails.totalSQFT}}</td>
                                   </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data *ngIf="sales.purchaseReturnItemDetails">
@@ -370,7 +370,8 @@
 
                           <div class="col-12 col-md-3">
                             <div class="form-group d-flex flex-wrap gap-2">
-                              <button type="submit" class="btn btn-primary btn-gradient-primary w-100 w-md-auto" [disabled]="!paymentInvoiceForm.valid">
+                              <button type="submit" class="btn btn-primary btn-gradient-primary w-100 w-md-auto"
+                                [disabled]="!paymentInvoiceForm.valid">
                                 Submit
                               </button>
                               <button class="btn btn-secondary w-100 w-md-auto" (click)="closeTheWindow()">

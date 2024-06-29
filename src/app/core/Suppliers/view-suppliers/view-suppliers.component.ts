@@ -323,16 +323,17 @@ export class ViewSuppliersComponent {
           purchaseCost: resp.data.purchaseCost,
           purchaseDueAmount: resp.data.dueAmount,
         };
+        this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
+          this.showPaymentDialog = true;
+          this.paymentInvoicePurchaseDataShowById = [resp.data];
+          console.log(resp.data);
+          console.log(
+            "Purchase data by id On Paymnent dialog",
+            this.purchaseDataShowById
+          );
+        });
       });
-      this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
-        this.showPaymentDialog = true;
-        this.paymentInvoicePurchaseDataShowById = [resp.data];
-        console.log(resp.data);
-        console.log(
-          "Purchase data by id On Paymnent dialog",
-          this.purchaseDataShowById
-        );
-      });
+      
     }
   }
   openPaymentReturnDialog(Id: any) {
@@ -341,7 +342,7 @@ export class ViewSuppliersComponent {
         .getPurchaseReturnById(Id)
         .subscribe((resp: any) => {
           this.header = "Purchase Return Payment ";
-          this.showPaymentDialog = true;
+          // this.showPaymentDialog = true;
 
           this.paymentObject = {
             supplier: resp.data.supplier,
@@ -352,12 +353,7 @@ export class ViewSuppliersComponent {
             purchaseReturnTotalAmount: resp.data.purchaseReturnTotalAmount,
             purchaseDueAmount: resp.data.dueAmount,
           };
-          console.log(
-            "this is open Payment Return Dialog",
-            this.paymentObject.purchaseReturnId
-          );
-        });
-      this.purchaseReturnService
+          this.purchaseReturnService
         .getPurchaseReturnById(Id)
         .subscribe((resp: any) => {
           this.showPaymentDialog = true;
@@ -371,6 +367,12 @@ export class ViewSuppliersComponent {
             this.paymentInvoicePurchaseDataShowById
           );
         });
+          console.log(
+            "this is open Payment Return Dialog",
+            this.paymentObject.purchaseReturnId
+          );
+        });
+      
     }
   }
 }
