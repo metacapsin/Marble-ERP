@@ -690,22 +690,22 @@
                           >₹ {{ sales?.slabDetails.costPerSQFT | indianCurrency }}</span
                           >
                         </p> -->
-                        <p *ngIf="sales?.slabDetails.sellingPricePerSQFT">
+                        <p *ngIf="sales?.slabDetails?.sellingPricePerSQFT">
                           Selling Price / Square Feet
                           <span
-                            >₹ {{ sales?.slabDetails.sellingPricePerSQFT | indianCurrency }}</span
+                            >₹ {{ sales?.slabDetails?.sellingPricePerSQFT | indianCurrency }}</span
                           >
                         </p>
-                        <p *ngIf="sales?.slabDetails.transportationCharges">
+                        <p *ngIf="sales?.slabDetails?.transportationCharges">
                           Transport Charges
                           <span
-                          >₹ {{ sales?.slabDetails.transportationCharges | indianCurrency }}</span
+                          >₹ {{ sales?.slabDetails?.transportationCharges | indianCurrency }}</span
                           >
                         </p>
-                        <p *ngIf="sales?.slabDetails.otherCharges">
+                        <p *ngIf="sales?.slabDetails?.otherCharges">
                           Other Charges
                           <span
-                            >₹ {{ sales?.slabDetails.otherCharges | indianCurrency }}</span
+                            >₹ {{ sales?.slabDetails?.otherCharges | indianCurrency }}</span
                           >
                         </p>
                         <p *ngIf="sales?.purchaseCost">
