@@ -47,7 +47,7 @@
       <div class="col-sm-12">
         <div class="card card-table">
           <div class="card-body p-2">
-            <p-table [value]="purchaseData" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
+            <p-table [value]="purchaseData | filter:searchDataValue:['purchaseInvoiceNumber', 'purchaseDate','supplier.name','paymentStatus', 'paidAmount', 'dueAmount','purchaseCost']" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
             [paginator]="true" [rows]="10"
             [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedPurchase">
               <ng-template pTemplate="header">

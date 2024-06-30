@@ -181,12 +181,12 @@ export class AdminDashboardComponent {
     const today = new Date();
     // const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
     const endDate = new Date();
-    const startDate = new Date(today.getFullYear() - 1, 3, 1);
+    const startDate = new Date(today.getFullYear(), 3, 1);
+    this.data = 'This Year';
     // Set the start date to one month ago
     // startDate.setMonth(startDate.getMonth() - 1);
     var Sdate = this.formatDate(startDate);
     var Edate = this.formatDate(endDate);
-    this.data = 'This Year';
     // this.onSearchByChange({ value: 'This Year' });
     this.rangeDates = [startDate, endDate];
     console.log(this.rangeDates);

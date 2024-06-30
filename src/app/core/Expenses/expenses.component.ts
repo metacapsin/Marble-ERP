@@ -95,11 +95,11 @@ this.expenseId = Id;
   close() {
     this.showDialoge = false;
   }
-  public searchData(value: any): void {
-    this.dataSource = this.originalData.filter(i =>
-    i.name.toLowerCase().includes(value.trim().toLowerCase())
-  );
-  }
+  // public searchData(value: any): void {
+  //   this.dataSource = this.originalData.filter(i =>
+  //   i.name.toLowerCase().includes(value.trim().toLowerCase())
+  // );
+  // }
   onPageChange(event) {
     const startIndex = event.first;
     const endIndex = startIndex + event.rows; 

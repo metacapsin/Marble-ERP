@@ -45,17 +45,17 @@
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="name">Name<span class="login-danger">*</span></label>
-                      <input class="form-control" type="text" placeholder="Please Enter Name" formControlName="name" />
+                      <label for="name">Company Name<span class="login-danger">*</span></label>
+                      <input class="form-control" type="text" placeholder="Please Enter Name" formControlName="companyName" />
                       <div *ngIf="
-                          addBlockProcessorForm.get('name')?.hasError('required') &&
-                          addBlockProcessorForm.get('name')?.touched
+                          addBlockProcessorForm.get('companyName')?.hasError('required') &&
+                          addBlockProcessorForm.get('companyName')?.touched
                         " class="login-danger Font_size">
                         Field is required.
                       </div>
                       <div *ngIf="
-                          addBlockProcessorForm.get('name')?.hasError('pattern') &&
-                          addBlockProcessorForm.get('name')?.touched
+                          addBlockProcessorForm.get('companyName')?.hasError('pattern') &&
+                          addBlockProcessorForm.get('companyName')?.touched
                         " class="login-danger Font_size">
                         Input should be between 1 to 30 characters.
                       </div>
@@ -102,14 +102,14 @@
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
-                      <input class="form-control" type="text" placeholder="Please Enter Tax Number"
-                        formControlName="taxNumber" />
+                      <label for="address">Address<span class="login-danger"></span></label>
+                      <input class="form-control" type="text" placeholder="Please Enter Address"
+                        formControlName="address" />
                       <div *ngIf="
                           addBlockProcessorForm
-                            .get('taxNumber')
+                            .get('address')
                             ?.hasError('pattern') &&
-                          addBlockProcessorForm.get('taxNumber')?.touched
+                          addBlockProcessorForm.get('address')?.touched
                         " class="login-danger Font_size">
                         Input Must be between 3 to 15 characters.
                       </div>

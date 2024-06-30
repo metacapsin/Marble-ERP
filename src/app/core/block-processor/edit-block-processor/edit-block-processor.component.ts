@@ -49,13 +49,13 @@ export class EditBlockProcessorComponent {
     private activeRoute: ActivatedRoute,
   ) {
     this.editBlockProcessorForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      companyName: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       phoneNo: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
-      taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
+      address: ["", [Validators.pattern(this.shortNameRegex)]],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -72,22 +72,22 @@ export class EditBlockProcessorComponent {
   }
   patchForm() {
     this.editBlockProcessorForm.patchValue({
-      name: this.blockProcessorData.name,
+      companyName: this.blockProcessorData.companyName,
       phoneNo: this.blockProcessorData.phoneNo,
       email: this.blockProcessorData.email,
       status: true,
-      taxNumber: this.blockProcessorData.taxNumber,
+      address: this.blockProcessorData.address,
     });
   }
   editBlockProcessorFormSubmit() {
 
     const payload = {
       id: this.id,
-      name: this.editBlockProcessorForm.value.name,
+      companyName: this.editBlockProcessorForm.value.companyName,
       phoneNo: this.editBlockProcessorForm.value.phoneNo,
       email: this.editBlockProcessorForm.value.email,
       status: this.editBlockProcessorForm.value.status,
-      taxNumber: this.editBlockProcessorForm.value.taxNumber,
+      address: this.editBlockProcessorForm.value.address,
     };
     if (this.editBlockProcessorForm.valid) {
       this.Service.updateBlockProcessorData(payload).subscribe((resp: any) => {

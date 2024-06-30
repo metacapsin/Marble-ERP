@@ -361,12 +361,18 @@
       <!-- <div > -->
       <div class="col-md-6">
         <div class="card p-2">
-          <!-- <div class="card p-2" *ngIf="totalCategorySlabs.length > 0"> -->
           <div class="px-3 pt-2 d-flex justify-content-between">
             <h3>Category</h3>
-            <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5></div> -->
           </div>
-          <div class="chart-container">
+          <div *ngIf="!totalCategorySlabs || totalCategorySlabs.length === 0">
+            <span style="color: #97704f; font-size: 15px"
+              >Data is not available.</span
+            >
+          </div>
+          <div
+            class="chart-container"
+            *ngIf="totalCategorySlabs && totalCategorySlabs.length > 0"
+          >
             <p-chart
               type="pie"
               [data]="piDataForFirstChat"
@@ -379,12 +385,20 @@
       </div>
       <div class="col-md-6">
         <div class="card p-2">
-          <!-- <div class="card p-2" *ngIf="totalSubCategorySlabs.length > 0"> -->
           <div class="px-3 pt-2 d-flex justify-content-between">
             <h3>Sub Category</h3>
-            <!-- <div><h5 (click)="navigator('sales_purchase')" class="breadcrumb">View All</h5></div> -->
           </div>
-          <div class="chart-container">
+          <div
+            *ngIf="!totalSubCategorySlabs || totalSubCategorySlabs.length === 0"
+          >
+            <span style="color: #97704f; font-size: 15px"
+              >Data is not available.</span
+            >
+          </div>
+          <div
+            class="chart-container"
+            *ngIf="totalSubCategorySlabs && totalSubCategorySlabs.length > 0"
+          >
             <p-chart
               type="pie"
               [data]="piDataForSecondChat"
@@ -410,15 +424,22 @@
             </div>
           </div>
           <div *ngIf="!stockAlertData || stockAlertData.length === 0">
-            <span style="color: #97704f; font-size: 15px">Data is not available.</span>
+            <span style="color: #97704f; font-size: 15px"
+              >Data is not available.</span
+            >
           </div>
-          <p-table *ngIf="stockAlertData && stockAlertData.length > 0" [value]="stockAlertData" styleClass="p-datatable-striped" [scrollable]="true"
-          scrollHeight="500px">
+          <p-table
+            *ngIf="stockAlertData && stockAlertData.length > 0"
+            [value]="stockAlertData"
+            styleClass="p-datatable-striped"
+            [scrollable]="true"
+            scrollHeight="500px"
+          >
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="slabName">Slab Name</th>
                 <th pSortableColumn="slabNo">Slab No.</th>
-                <th pSortableColumn="slabNo">Total Sq. Feet</th>
+                <th pSortableColumn="slabNo">Total Sq. Feet Left</th>
                 <th pSortableColumn="slabNo">Sold %</th>
                 <th pSortableColumn="slabNo">Alert Type</th>
                 <!-- <th pSortableColumn="size">Total Sales Quantity
@@ -482,10 +503,17 @@
             </div>
           </div>
           <div *ngIf="!allSlabsDaTa || allSlabsDaTa.length === 0">
-            <span style="color: #97704f; font-size: 15px">Data is not available.</span>
+            <span style="color: #97704f; font-size: 15px"
+              >Data is not available.</span
+            >
           </div>
-          <p-table *ngIf="allSlabsDaTa && allSlabsDaTa.length > 0 "[value]="allSlabsDaTa" styleClass="p-datatable-striped" [scrollable]="true"
-          scrollHeight="500px">
+          <p-table
+            *ngIf="allSlabsDaTa && allSlabsDaTa.length > 0"
+            [value]="allSlabsDaTa"
+            styleClass="p-datatable-striped"
+            [scrollable]="true"
+            scrollHeight="500px"
+          >
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="slabNo">Customer Name</th>
@@ -525,7 +553,13 @@
           <div class="px-2 py-2 d-flex justify-content-between">
             <h3>Customer Credit Alerts</h3>
           </div>
+          <div *ngIf="!products || products.length === 0">
+            <span style="color: #97704f; font-size: 15px"
+              >Data is not available.</span
+            >
+          </div>
           <p-table
+            *ngIf="products && products.length > 0"
             [value]="products"
             dataKey="id"
             [tableStyle]="{ 'min-width': '50rem' }"

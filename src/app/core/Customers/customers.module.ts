@@ -8,6 +8,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
+import { FilterPipe } from '../filter.pipe';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ButtonModule } from 'primeng/button';
     PanelMenuModule,
     DialogModule,
     ToastModule,
-    ButtonModule
+    ButtonModule,
+    FilterPipe,
   ]
 })
 export class CustomersModule { }

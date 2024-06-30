@@ -25,6 +25,7 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 import { NewPurchaseService } from "../new-purchase.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
 import { PaymentOutService } from "../../payment-out/payment-out.service";
+import { FilterPipe } from "../../filter.pipe";
 @Component({
   selector: 'app-list-new-purchase',
   standalone: true,
@@ -37,6 +38,7 @@ import { PaymentOutService } from "../../payment-out/payment-out.service";
     ToastModule,
     InvoiceDialogComponent,
     TabViewModule,
+    FilterPipe
   ],
   templateUrl: './list-new-purchase.component.html',
   styleUrl: './list-new-purchase.component.scss',
@@ -103,7 +105,7 @@ export class ListNewPurchaseComponent {
     console.log("this is current url on purchase page",this.currentUrl)
 
     this.localStorageService.removeItem('supplier');
-    this.localStorageService.removeItem('returnUrl');
+    this.localStorageService.removeItem('returnUrl'); 
 
 
   }

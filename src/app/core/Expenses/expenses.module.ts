@@ -8,6 +8,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
+import { FilterPipe } from '../filter.pipe';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ButtonModule } from 'primeng/button';
     SharedModule,
     PanelMenuModule,
     DialogModule,
+    FilterPipe,
     ToastModule,
     ButtonModule
   ]

@@ -17,6 +17,7 @@ import { MultiSelectModule } from "primeng/multiselect";
 import { CalendarModule } from "primeng/calendar";
 import { FileUploadModule } from "primeng/fileupload";
 import { ExpensesCategoriesdataService } from "../../expenseCategories/expenseCategories.service";
+import { FilterPipe } from "../../filter.pipe";
 
 @Component({
   selector: "app-add-expenses",

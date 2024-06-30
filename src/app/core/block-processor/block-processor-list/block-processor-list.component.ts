@@ -10,6 +10,7 @@ import { CommonModule } from "@angular/common";
 import { blockCustomersDataService } from "../../processing/block-customer/block-customer.service";
 import { blockProcessorService } from "../block-processor.service";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
+import { FilterPipe } from "../../filter.pipe";
 @Component({
   selector: 'app-block-processor-list',
   standalone: true,
@@ -18,6 +19,7 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
     SharedModule,
     DialogModule,
     ToastModule,
+    FilterPipe,
     ButtonModule],
   templateUrl: './block-processor-list.component.html',
   styleUrl: './block-processor-list.component.scss',

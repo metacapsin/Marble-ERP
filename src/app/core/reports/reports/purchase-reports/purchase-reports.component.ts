@@ -20,6 +20,7 @@ export class PurchaseReportsComponent {
   searchByData = [
     "Today", "Yesterday", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
   ];
+  searchBy: string;
 
   constructor(
     private service:ReportsService
@@ -58,8 +59,9 @@ export class PurchaseReportsComponent {
   
   ngOnInit(): void {
     const today = new Date();
-    const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-    const endDate = today;
+    const endDate = new Date();
+    const startDate = new Date(today.getFullYear(), 3, 1);
+    this.searchBy = 'This Year';
     this.rangeDates = [startDate, endDate];
 
     this.getPaymentOutReportData(startDate, endDate);

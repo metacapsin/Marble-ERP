@@ -46,13 +46,13 @@ export class AddBlockProcessorComponent implements OnInit{
     private localStorageService: LocalStorageService
   ) {
     this.addBlockProcessorForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      companyName: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
       phoneNo: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
-      taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
+      address: ["", [Validators.pattern(this.shortNameRegex)]],
     });
   }
   ngOnInit(): void {
@@ -61,11 +61,11 @@ export class AddBlockProcessorComponent implements OnInit{
   }
   addBlockProcessorFormSubmit() {
     const payload = {
-      name: this.addBlockProcessorForm.value.name, 
+      companyName: this.addBlockProcessorForm.value.companyName, 
       email: this.addBlockProcessorForm.value.email, 
       status: true, 
       phoneNo: this.addBlockProcessorForm.value.phoneNo,
-      taxNumber: this.addBlockProcessorForm.value.taxNumber,
+      address: this.addBlockProcessorForm.value.address,
     };
     
     if (this.addBlockProcessorForm.valid) {

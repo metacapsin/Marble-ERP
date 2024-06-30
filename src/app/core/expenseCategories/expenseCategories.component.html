@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="card-body p-2">
-                        <p-table [value]="dataSource" styleClass="p-datatable-striped"
+                        <p-table [value]="dataSource | filter:searchDataValue:['categoryName', 'categoryDescription']" styleClass="p-datatable-striped"
                             [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
                             [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)"
                             [(selection)]="selectedCustomer">

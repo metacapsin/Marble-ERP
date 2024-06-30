@@ -98,7 +98,7 @@
                                     <div class="col-lg-4 col-md-4 h-2">
                                         <div class="form-group local-forms">
                                             <label for="warehouseDetails">Filter By </label>
-                                            <p-dropdown [options]="searchByData" styleClass="" appendTo="body"
+                                            <p-dropdown [options]="searchByData" styleClass="" appendTo="body" [(ngModel)]="searchBy"
                                                 placeholder="Filter By Date" [style]="{ width: '100%' }" [filter]="true"
                                                 filterBy="name" (onChange)="onSearchByChange($event)">
                                             </p-dropdown>

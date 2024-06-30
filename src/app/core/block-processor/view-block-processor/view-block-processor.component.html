@@ -59,9 +59,9 @@
                   </div>
                 </div>
                 <div class="form-group row mb-2">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Tax Number</h5>
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Address</h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-form-label">{{blockProcessorData.taxNumber}}</p>
+                    <p class="col-form-label">{{blockProcessorData?.address}}</p>
                   </div>
                 </div>
 
@@ -78,14 +78,11 @@
           <div class="page-table-header mb-2">
             <div class="row align-items-center">
               <div class="col">
-                <div class="doctor-table-blk">
-                  <h3>Processed Slab List</h3>
-                  <div class="doctor-search-blk">
+                <div class="doctor-table-blk d-flex justify-content-end">
                     <div class="add-group textbtn">
                       <a class="btn btn-primary add-pluss ms-2 " (click)="addSlabProcessing()"><img
                           src="assets/img/icons/plus.svg" alt=""> Add New</a>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -170,8 +167,6 @@
               </tr>
             </ng-template>
           </p-table>
-
-
         </p-tabPanel>
 
         <p-tabPanel header="Payments">
