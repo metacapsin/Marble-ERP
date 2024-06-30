@@ -261,9 +261,9 @@ export class AdminDashboardComponent {
 
   getStatusSeverity(daysLeft: number) {
     // console.log("credit alerts days left", daysLeft);
-    if (daysLeft < 0) {
+    if (daysLeft <= 0) {
       return 'danger';
-    } else if (daysLeft >= 0 && daysLeft <= 5) {
+    } else if (daysLeft > 0 && daysLeft <= 5) {
       return 'warning';
     } else if (daysLeft > 5 && daysLeft <= 10) {
       return 'info';

@@ -86,10 +86,13 @@
                   <td>{{sales.returnDate | date: 'dd-MMM-yyyy'}}</td>
                   <td>{{sales.customer.name}}</td>
                   <td>{{sales.returnOrderStatus}}</td>
-                  <td>{{sales.paymentStatus}}</td>
-                  <td>₹ {{sales.paidAmount}}</td>
-                  <td>₹ {{sales.dueAmount}}</td>
-                  <td>₹ {{sales.salesTotalAmount}}</td>
+                  <!-- <td>{{sales.paymentStatus}}</td> -->
+                  <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning" value="Partial Paid"></p-tag></td>
+                  <td *ngIf="sales.paymentStatus == 'Paid' " ><p-tag severity="success" value="Paid"></p-tag></td>
+                  <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
+                  <td>₹ {{sales.paidAmount | indianCurrency}}</td>
+                  <td>₹ {{sales.dueAmount | indianCurrency}}</td>
+                  <td>₹ {{sales.salesTotalAmount | indianCurrency}}</td>
                   <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttions">
                     <p-button [text]="true" data-bs-toggle="modal" icon="fa-solid fa-eye"
                       (click)="showReturnInvoiceDialoge(sales._id)"></p-button>
@@ -102,9 +105,9 @@
                 <tr>
                   <td colspan="4"></td>
                   <td>Total </td>
-                  <td>₹ {{ totalPaidAmount }}</td>
-                  <td>₹ {{ totalDueAmount }}</td>
-                  <td>₹ {{ totalAmount }}</td>
+                  <td>₹ {{ totalPaidAmount  | indianCurrency}}</td>
+                  <td class="text-danger-dark">₹ {{ totalDueAmount  | indianCurrency}}</td>
+                  <td>₹ {{ totalAmount  | indianCurrency}}</td>
                   <td></td>
                 </tr>
               </ng-template>

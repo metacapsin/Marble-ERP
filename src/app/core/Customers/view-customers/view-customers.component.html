@@ -192,9 +192,9 @@
                 <td>{{ sales.salesDate | date: "dd-MMM-yyyy" }}</td>
                 <td>{{ sales.salesOrderStatus }}</td>
                 <!-- <td>{{ sales.paymentStatus }}</td> -->
-                <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="success" value="Partial Paid"></p-tag></td>
-                <td *ngIf="sales.paymentStatus == 'Paid' " ><p-tag severity="danger" value="Paid"></p-tag></td>
-                <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag class="Warning" value="Unpaid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning" value="Partial Paid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Paid' " ><p-tag severity="success" value="Paid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
                 <td>₹ {{ sales.paidAmount | indianCurrency }}</td>
                 <td>₹ {{ sales.dueAmount | indianCurrency }}</td>
                 <td>₹ {{ sales.salesTotalAmount | indianCurrency }}</td>
@@ -214,7 +214,7 @@
                 <td colspan="3"></td>
                 <td>Total</td>
                 <td>₹ {{ salesTotalValues.totalPaidAmount | indianCurrency }}</td>
-                <td>₹ {{ salesTotalValues.totalDueAmount | indianCurrency }}</td>
+                <td class="text-danger-dark">₹ {{ salesTotalValues.totalDueAmount | indianCurrency }}</td>
                 <td>₹ {{ salesTotalValues.totalAmount | indianCurrency }}</td>
                 <td></td>
               </tr>
@@ -338,9 +338,9 @@
                 <td>{{ salesReturn.returnDate | date: "dd-MMM-yyyy"}}</td>
                 <td>{{ salesReturn.returnOrderStatus }}</td>
                 <!-- <td>{{ sales.paymentStatus }}</td> -->
-                <td *ngIf="salesReturn.paymentStatus == 'Partial Paid'"><p-tag severity="danger" value="Partial Paid"></p-tag></td>
+                <td *ngIf="salesReturn.paymentStatus == 'Partial Paid'"><p-tag severity="warning" value="Partial Paid"></p-tag></td>
                 <td *ngIf="salesReturn.paymentStatus == 'Paid' " ><p-tag severity="success" value="Paid"></p-tag></td>
-                <td *ngIf="salesReturn.paymentStatus == 'Unpaid' "><p-tag severity="warning" value="Unpaid"></p-tag></td>
+                <td *ngIf="salesReturn.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
                 <td>₹ {{ salesReturn.paidAmount | indianCurrency}}</td>
                 <td>₹ {{ salesReturn.dueAmount | indianCurrency}}</td>
                 <td>₹ {{ salesReturn.salesTotalAmount| indianCurrency }}</td>
@@ -362,7 +362,7 @@
                 <td colspan="3"></td>
                   <td>Total</td>
                   <td  >₹ {{ salesReturnTotalValues.totalPaidAmount | indianCurrency}}</td>
-                  <td >₹ {{ salesReturnTotalValues.totalDueAmount  | indianCurrency}}</td>
+                  <td class="text-danger-dark" >₹ {{ salesReturnTotalValues.totalDueAmount  | indianCurrency}}</td>
                   <td  >₹ {{ salesReturnTotalValues.totalSalesReturnAmount | indianCurrency }}</td>
                   <td></td>
               </tr>

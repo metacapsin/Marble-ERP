@@ -144,10 +144,18 @@
                                       </div>
                                     </div>
                                     <div class="form-group row mb-2" *ngIf="dataById.purchaseReturnTotalAmount">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Purchase Cost:</h5>
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Amount:</h5>
                                       <div class="col-lg-9 col-md-9 col-xl-9">
                                         <p class="col-lg-9 col-form-label">
                                           ₹ {{ dataById.purchaseReturnTotalAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById.isPurchaseReturn">
+                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
+                                      <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">
+                                          ₹ {{ dataById.purchasePaidAmount | indianCurrency}}
                                         </p>
                                       </div>
                                     </div>
@@ -217,19 +225,14 @@
                                     </th>
                                   </tr>
                                   <tr *ngIf="sales.purchaseReturnItemDetails">
-                                    <th pSortableColumn="slabName
-                                    ">Slab Name
-                                    </th>
-                                    <th pSortableColumn="slabNo">Slab No
-                                    </th>
-                                    <th pSortableColumn="sellingPricePerSQFT">Price Per Square Feet
-                                    </th>
-                                    <th pSortableColumn="slabTotalCosting">Slab Total Costing
-                                    </th>
-                                    <th pSortableColumn="totalSQFT">Total Square Feet
-                                    </th>
-
-
+                                    <th >Slab No</th>
+                                    <th>Slab Name</th>
+                                    <th >Category</th>
+                                    <th >Sub Category</th>
+                                    <th >Warehouse</th>
+                                    <th >Cost / Square Feet</th>
+                                    <th >Total Square Feet</th>
+                                    <th >Purchase Cost</th>
                                   </tr>
 
 
@@ -259,17 +262,31 @@
                                     <td> {{sales.slabDetails.totalSQFT}}</td>
                                   </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-data *ngIf="sales.purchaseReturnItemDetails">
-
-                                  <tr *ngFor="let slab of sales.purchaseReturnItemDetails[0].purchaseSlab">
-                                    <td>{{ slab.slabName }}</td>
-                                    <td>{{ slab.slabNo }}</td>
-                                    <td>₹ {{ slab.sellingPricePerSQFT | indianCurrency }}</td>
-                                    <td>₹ {{ slab.totalCosting | indianCurrency }}</td>
-                                    <td>{{ slab.totalSQFT }}</td>
-                                  </tr>
-
-                                </ng-template>
+                                <ng-template
+                        pTemplate="body"
+                        let-data
+                        *ngIf="sales.purchaseReturnItemDetails"
+                      >
+                      <tr>
+                        <td>{{ sales.purchaseReturnItemDetails[0].slabName }}</td>
+                        <td>{{ sales.purchaseReturnItemDetails[0].slabNo }}</td>
+                        <td>{{ sales.purchaseReturnItemDetails[0].categoryDetail.name }}</td>
+                        <td>{{ sales.purchaseReturnItemDetails[0].subCategoryDetail.name }}</td>
+                        <td>{{ sales.purchaseReturnItemDetails[0].warehouseDetails.name }}</td>
+                        <td>₹ {{
+                            sales.purchaseReturnItemDetails[0].costPerSQFT
+                              | indianCurrency
+                          }}
+                        </td>
+                        <td>{{ sales.purchaseReturnItemDetails[0].totalSQFT }}</td>
+                        <td>
+                          ₹
+                          {{
+                            sales.purchaseReturnItemDetails[0].purchaseCost | indianCurrency
+                          }}
+                        </td>
+                      </tr>
+                      </ng-template>
                               </p-table>
 
                             </p-tabPanel>

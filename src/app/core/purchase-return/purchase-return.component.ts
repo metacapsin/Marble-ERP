@@ -69,7 +69,7 @@ export class PurchaseReturnComponent {
   PurchaseReturnListData: any[];
   paymentDataListById: any[];
   currentUrl: string;
-
+  purchaseTotalValues: any = {};
 
 
   constructor(public data : DataService,private service:PurchaseReturnService,private router: Router,private messageService: MessageService,
@@ -96,6 +96,7 @@ export class PurchaseReturnComponent {
   }
   getPurchaseReturn() {
     this.service.getPurchaseReturnList().subscribe((resp: any) => {
+      this.purchaseTotalValues = resp;
       this.purchaseReturnData = resp.data;
     });
   }

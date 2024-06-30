@@ -352,6 +352,7 @@ export class ViewSuppliersComponent {
             purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
             purchaseReturnTotalAmount: resp.data.purchaseReturnTotalAmount,
             purchaseDueAmount: resp.data.dueAmount,
+            purchasePaidAmount: resp.data.paidAmount,
           };
           this.purchaseReturnService
         .getPurchaseReturnById(Id)

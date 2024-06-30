@@ -135,9 +135,9 @@
                       value="Partial Paid"></p-tag></td>
                   <td *ngIf="sales.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
                   <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
-                  <td>₹ {{sales.paidAmount}}</td>
-                  <td>₹ {{sales.dueAmount}}</td>
-                  <td>₹ {{sales.salesTotalAmount}}</td>
+                  <td>₹ {{sales.paidAmount | indianCurrency}}</td>
+                  <td>₹ {{sales.dueAmount | indianCurrency}}</td>
+                  <td>₹ {{sales.salesTotalAmount | indianCurrency}}</td>
                   <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
                     <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"
@@ -154,9 +154,9 @@
                 <tr *ngIf="totalPaidAmount > 0 || totalDueAmount > 0 || totalAmount >0 ">
                   <td colspan="4"></td>
                   <td>Total </td>
-                  <td>₹ {{ totalPaidAmount }}</td>
-                  <td>₹ {{ totalDueAmount }}</td>
-                  <td>₹ {{ totalAmount }}</td>
+                  <td>₹ {{ totalPaidAmount  | indianCurrency}}</td>
+                  <td class="text-danger-dark">₹ {{ totalDueAmount  | indianCurrency}}</td>
+                  <td>₹ {{ totalAmount  | indianCurrency}}</td>
                   <td></td>
                 </tr>
               </ng-template>

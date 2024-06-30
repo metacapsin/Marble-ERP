@@ -47,9 +47,10 @@
       <div class="col-sm-12">
         <div class="card card-table">
           <div class="card-body p-2">
-            <p-table [value]="purchaseData | filter:searchDataValue:['purchaseInvoiceNumber', 'purchaseDate','supplier.name','paymentStatus', 'paidAmount', 'dueAmount','purchaseCost']" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
-            [paginator]="true" [rows]="10"
-            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedPurchase">
+            <p-table
+              [value]="purchaseData | filter:searchDataValue:['purchaseInvoiceNumber', 'purchaseDate','supplier.name','paymentStatus', 'paidAmount', 'dueAmount','purchaseCost']"
+              styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedPurchase">
               <ng-template pTemplate="header">
                 <tr>
                   <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon
@@ -62,18 +63,18 @@
                   <th pSortableColumn="supplier.name">Supplier<p-sortIcon field="supplier.name"></p-sortIcon>
                     <p-columnFilter type="text" field="supplier.name" display="menu"></p-columnFilter>
                   </th>
-                  <!-- <th pSortableColumn="purchaseOrderStatus">Purchase Status <p-sortIcon
-                      field="purchaseOrderStatus"></p-sortIcon></th> -->
-                      <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                      </th>
+                  <th pSortableColumn="purchaseType">Purchase Type <p-sortIcon
+                      field="purchaseType"></p-sortIcon><p-columnFilter type="text" field="purchaseType" display="menu"></p-columnFilter>
+                    </th>
+                  <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon><p-columnFilter type="text" field="paymentStatus" display="menu"></p-columnFilter>
+</th>
                   <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="purchaseCost">Purchase Amount <p-sortIcon
-                      field="purchaseCost"></p-sortIcon>
+                  <th pSortableColumn="purchaseCost">Purchase Amount <p-sortIcon field="purchaseCost"></p-sortIcon>
                     <p-columnFilter type="text" field="purchaseCost" display="menu"></p-columnFilter>
                   </th>
 
@@ -86,17 +87,24 @@
                   <td>{{purchase.purchaseInvoiceNumber}}</td>
                   <td>{{purchase.purchaseDate | date: 'dd-MMM-yyyy'}}</td>
                   <td>{{purchase.supplier.name}}</td>
-                  <!-- <td>{{purchase.purchaseOrderStatus}}</td> -->
-                  <td>{{purchase.paymentStatus}}</td>
-                  <td>₹ {{purchase.paidAmount}}</td>
-                  <td>₹ {{purchase.dueAmount}}</td>
-                  <td>₹ {{purchase.purchaseCost}}</td>
-                  <td  appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
+                  <td>{{purchase.purchaseType.toUpperCase()}}</td>
+                  <!-- <td>{{purchase.paymentStatus}}</td> -->
+
+                  <td *ngIf="purchase.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                      value="Partial Paid"></p-tag></td>
+                  <td *ngIf="purchase.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag>
+                  </td>
+                  <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag>
+                  </td>
+                  <td>₹ {{ purchase.paidAmount | indianCurrency }}</td>
+                  <td>₹ {{purchase.dueAmount | indianCurrency }}</td>
+                  <td>₹ {{purchase.purchaseCost | indianCurrency }}</td>
+                  <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                     <p-button [text]="true" icon="fa-solid fa-eye"
                       (click)="showInvoiceDialoge(purchase._id)"></p-button>
-                      <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)"
+                    <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="purchaseUpdate(purchase._id)"
                         *ngIf="purchase.paymentStatus == 'Unpaid'"></p-button> -->
-                        <!-- <div *ngIf="purchase.paymentStatus != 'Unpaid'" class="placeholder"></div> -->
+                    <!-- <div *ngIf="purchase.paymentStatus != 'Unpaid'" class="placeholder"></div> -->
                     <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"></p-button>
                   </td>
                   <!-- <td>
@@ -106,12 +114,13 @@
               </ng-template>
 
               <ng-template pTemplate="footer">
-                <tr *ngIf=" purchaseTotalValues.totalPaidAmount || purchaseTotalValues.totalDueAmount || purchaseTotalValues.totalAmount">
-                  <td colspan="3"></td>
+                <tr
+                  *ngIf=" purchaseTotalValues.totalPaidAmount || purchaseTotalValues.totalDueAmount || purchaseTotalValues.totalAmount">
+                  <td colspan="4"></td>
                   <td>Total </td>
-                  <td>₹ {{ purchaseTotalValues.totalPaidAmount }}</td>
-                  <td>₹ {{ purchaseTotalValues.totalDueAmount }}</td>
-                  <td>₹ {{ purchaseTotalValues.totalAmount }}</td>
+                  <td>₹ {{ purchaseTotalValues.totalPaidAmount  | indianCurrency }}</td>
+                  <td style="color: red;">₹ {{ purchaseTotalValues.totalDueAmount  | indianCurrency }}</td>
+                  <td>₹ {{ purchaseTotalValues.totalPurchaseCost  | indianCurrency }}</td>
                   <td></td>
                 </tr>
               </ng-template>
@@ -130,6 +139,3 @@
 
 <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="PurchaseListData"
   (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>
-
-
-              

@@ -142,7 +142,7 @@
                             </div>
                           </div>
                           <div
-                            *ngIf="sales.purchaseOrderStatus"
+                            *ngIf="header == 'Purchase Invoice'"
                             class="form-group row mb-2"
                           >
                             <h5
@@ -157,7 +157,7 @@
                             </div>
                           </div>
                           <div
-                            *ngIf="sales.purchaseReturnOrderStatus"
+                            *ngIf="header == 'Purchase Return'"
                             class="form-group row mb-2"
                           >
                             <h5
@@ -272,6 +272,22 @@
 
                           <div
                             class="form-group row mb-2"
+                            *ngIf="sales.purchaseType"
+                          >
+                            <h5
+                              class="col-lg-3 col-md-3 col-xl-3 col-form-label"
+                            >
+                              Purchase Type:
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">
+                                {{ sales.purchaseType }}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div
+                            class="form-group row mb-2"
                             *ngIf="sales.paidAmount"
                           >
                             <h5
@@ -286,21 +302,7 @@
                             </div>
                           </div>
 
-                          <div
-                            class="form-group row mb-2"
-                            *ngIf="sales.purchaseType"
-                          >
-                            <h5
-                              class="col-lg-3 col-md-3 col-xl-3 col-form-label"
-                            >
-                              Purchase Type:
-                            </h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-lg-9 col-form-label">
-                                {{ sales.purchaseType }}
-                              </p>
-                            </div>
-                          </div>
+                          
                         </div>
                         <div class="col-xl-6 col-lg-6 col-sm-12">
                           <div
@@ -445,56 +447,31 @@
                           <th pSortableColumn="salesItemSubTotal">Sub Total</th>
                         </tr>
                         <tr *ngIf="sales.lotDetails">
-                          <th
-                            pSortableColumn="lotName
-                          "
-                          >
-                            Lot Name
-                          </th>
-                          <th pSortableColumn="lotNo">Lot No</th>
-                          <th pSortableColumn="lotTotalCosting">
-                            Lot Total Costing
-                          </th>
-                          <th pSortableColumn="lotPurchaseCost">
-                            Lot Purchase Cost
-                          </th>
+                          <th >Lot Name</th>
+                          <th >Lot Number</th>
+                          <th >Price / Ton</th>
+                          <th >Total Blocks</th>
+                          <th >Total Cost</th>
                         </tr>
                         <tr *ngIf="sales.slabDetails">
-                          <th pSortableColumn="slabNo">Slab No</th>
-                          <th
-                            pSortableColumn="slabName
-                          "
-                          >
-                            Slab Name
-                          </th>
-                          <th pSortableColumn="slabName">Category</th>
-                          <th pSortableColumn="slabName">Sub Category</th>
-                          <th pSortableColumn="slabName">Warehouse</th>
-
-                          <th pSortableColumn="sellingPricePerSQFT">
-                            Cost / Square Feet
-                          </th>
-
-                          <th pSortableColumn="totalSQFT">Total Square Feet</th>
-                          <th pSortableColumn="slabPurchaseCost">
-                            Purchase Cost
-                          </th>
+                          <th >Slab No</th>
+                          <th>Slab Name</th>
+                          <th >Category</th>
+                          <th >Sub Category</th>
+                          <th >Warehouse</th>
+                          <th >Cost / Square Feet</th>
+                          <th >Total Square Feet</th>
+                          <th >Purchase Cost</th>
                         </tr>
                         <tr *ngIf="sales.purchaseReturnItemDetails">
-                          <th
-                            pSortableColumn="slabName
-                          "
-                          >
-                            Slab Name
-                          </th>
-                          <th pSortableColumn="slabNo">Slab No</th>
-                          <th pSortableColumn="sellingPricePerSQFT">
-                            Price Per Square Feet
-                          </th>
-                          <th pSortableColumn="slabPurchaseCost">
-                           Slab Purchase Cost
-                          </th>
-                          <th pSortableColumn="totalSQFT">Total Square Feet</th>
+                          <th >Slab No</th>
+                          <th>Slab Name</th>
+                          <th >Category</th>
+                          <th >Sub Category</th>
+                          <th >Warehouse</th>
+                          <th >Cost / Square Feet</th>
+                          <th >Total Square Feet</th>
+                          <th >Purchase Cost</th>
                         </tr>
                       </ng-template>
                       <ng-template
@@ -522,18 +499,9 @@
                         <tr>
                           <td>{{ sales.lotDetails.lotName }}</td>
                           <td>{{ sales.lotDetails.lotNo }}</td>
-                          <td>
-                            ₹
-                            {{
-                              sales.lotDetails.lotTotalCosting | indianCurrency
-                            }}
-                          </td>
-                          <td>
-                            ₹
-                            {{
-                              sales.purchaseCost | indianCurrency
-                            }}
-                          </td>
+                          <td>₹ {{ sales.lotDetails.pricePerTon | indianCurrency }}</td>
+                          <td>{{ sales.lotDetails.blocksCount }}</td>
+                          <td>{{ sales.lotDetails.lotTotalCosting }}</td>
                         </tr>
                       </ng-template>
                       <ng-template
@@ -568,20 +536,25 @@
                         let-data
                         *ngIf="sales.purchaseReturnItemDetails"
                       >
-                        <tr
-                          *ngFor="
-                            let slab of sales.purchaseReturnItemDetails[0]
-                              .purchaseSlab
-                          "
-                        >
-                        <td>{{ slab.slabName }}</td>
-                        <td>{{ slab.slabNo }}</td>
-                          <td>
-                            ₹ {{ slab.sellingPricePerSQFT | indianCurrency }}
-                          </td>
-                          <td>₹ {{ slab.totalCosting | indianCurrency }}</td>
-                          <td>{{ slab.totalSQFT }}</td>
-                        </tr>
+                      <tr>
+                        <td>{{ sales.purchaseReturnItemDetails[0].slabName }}</td>
+                        <td>{{ sales.purchaseReturnItemDetails[0].slabNo }}</td>
+                        <td>{{ sales.purchaseReturnItemDetails[0].categoryDetail.name }}</td>
+                        <td>{{ sales.purchaseReturnItemDetails[0].subCategoryDetail.name }}</td>
+                        <td>{{ sales.purchaseReturnItemDetails[0].warehouseDetails.name }}</td>
+                        <td>₹ {{
+                            sales.purchaseReturnItemDetails[0].costPerSQFT
+                              | indianCurrency
+                          }}
+                        </td>
+                        <td>{{ sales.purchaseReturnItemDetails[0].totalSQFT }}</td>
+                        <td>
+                          ₹
+                          {{
+                            sales.purchaseReturnItemDetails[0].purchaseCost | indianCurrency
+                          }}
+                        </td>
+                      </tr>
                       </ng-template>
                     </p-table>
                   </p-tabPanel>
@@ -630,13 +603,10 @@
                         {{ sales.purchaseNotes }}
                       </p>
                     </div>
-                    <div class="invoice-terms mb-0">
+                    <div class="invoice-terms mb-0" *ngIf="sales.salesTermsAndCondition">
                       <h6>Terms and Conditions:</h6>
                       <p *ngIf="sales.salesTermsAndCondition" class="mb-0">
                         {{ sales.salesTermsAndCondition }}
-                      </p>
-                      <p *ngIf="sales.purchaseTermsAndCondition" class="mb-0">
-                        {{ sales.purchaseTermsAndCondition }}
                       </p>
                     </div>
                   </div>
@@ -687,12 +657,12 @@
                             {{ sales?.purchaseDiscount | indianCurrency }}</span
                           >
                         </p>
-                        <p *ngIf="sales?.postExpenses">
+                        <!-- <p *ngIf="sales?.postExpenses">
                           Post Expenses
                           <span
                             >₹ {{ sales?.postExpenses | indianCurrency }}</span
                           >
-                        </p>
+                        </p> -->
                         <!-- <p *ngIf="sales?.slabDetails.costPerSQFT">
                           Cost / Square Feet
                           <span
@@ -712,7 +682,7 @@
                           >
                         </p>
                         <p *ngIf="sales?.lotDetails?.lotWeight">
-                          Lot Weight
+                          Lot Weight ( Ton )
                           <span
                           >{{ sales?.lotDetails?.lotWeight | indianCurrency }}</span
                           >
@@ -724,7 +694,7 @@
                           >
                         </p>
                         <p *ngIf="sales?.lotDetails?.royaltyCharge">
-                          Royalty Charges (Other Charges)
+                          Royalty (Other Charges)
                           <span
                           >₹ {{ sales?.lotDetails?.royaltyCharge | indianCurrency }}</span
                           >
@@ -747,6 +717,12 @@
                             >₹ {{ sales?.otherCharges | indianCurrency }}</span
                           >
                         </p>
+                        <p *ngIf="sales?.purchaseReturnOtherCharges">
+                          Return Other Charges
+                          <span
+                            >₹ {{ sales?.purchaseReturnOtherCharges | indianCurrency }}</span
+                          >
+                        </p>
                       </div>
                       <div class="invoice-total-footer">
                         <h4 *ngIf="sales?.salesTotalAmount">
@@ -762,6 +738,15 @@
                             >₹
                             {{
                               sales?.purchaseTotalAmount | indianCurrency
+                            }}</span
+                          >
+                        </h4>
+                        <h4 *ngIf="sales?.purchaseReturnTotalAmount">
+                          Total Amount
+                          <span
+                            >₹
+                            {{
+                              sales?.purchaseReturnTotalAmount | indianCurrency
                             }}</span
                           >
                         </h4>

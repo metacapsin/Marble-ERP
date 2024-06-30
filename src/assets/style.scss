@@ -608,6 +608,9 @@ textarea.form-control {
     background: #ff0000;
   }
 }
+.text-danger-dark {
+  color: #ff0000;
+}
 table.table {
   td {
     border-color: $border-color_2;
@@ -12931,7 +12934,7 @@ app-header{
 .p-datatable{
   td{
     max-width: 10rem;
-    text-overflow: ellipsis;
+    // text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     .p-button.p-button-icon-only {

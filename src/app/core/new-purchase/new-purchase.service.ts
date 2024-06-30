@@ -34,6 +34,10 @@ export class NewPurchaseService {
     return this.http.get(environment.apiUrl + `/Purchase/getPendingPurchaseBySupplierId/${id}`);
   }
 
+  getPurchaseWithSlabDetail(id: any){//all Purchase by Supplier id paid or unpaid both 
+    return this.http.get(environment.apiUrl + `/Purchase/getPurchaseWithSlabDetail/${id}`);
+  }
+
   // getPurchasePaymentList(id: any){
   //   return this.http.get(environment.apiUrl + `/Purchase/getPurchasePaymentList/${id}`);
   // }
