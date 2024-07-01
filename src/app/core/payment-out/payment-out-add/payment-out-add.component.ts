@@ -79,6 +79,19 @@ export class PaymentOutAddComponent {
     });
   }
 
+  enableSaveButton(id, value){
+    this.purchaseDataById?.forEach((purchase) => {
+      if(id != purchase._id && value){
+      this.purchase.push(
+        this.fb.group({
+          _id: [purchase._id],
+          amount: ["", [Validators.min(0), Validators.max(purchase.dueAmount)]],
+        })
+      );
+    }
+    });
+  }
+
   ngOnInit(): void {
     this.SuppliersService.GetSupplierData().subscribe((resp: any) => {
       this.originalSuppliersData = resp;

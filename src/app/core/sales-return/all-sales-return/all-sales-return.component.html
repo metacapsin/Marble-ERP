@@ -102,7 +102,7 @@
                 </tr>
               </ng-template>
               <ng-template pTemplate="footer">
-                <tr>
+                <tr *ngIf="totalPaidAmount > 0 || totalDueAmount > 0 || totalAmount >0 ">
                   <td colspan="4"></td>
                   <td>Total </td>
                   <td>₹ {{ totalPaidAmount  | indianCurrency}}</td>

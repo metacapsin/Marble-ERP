@@ -273,7 +273,7 @@ export class ViewSuppliersComponent {
     this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
       this.showInvoiceDialog = true;
       this.purchaseDataShowById = [resp.data];
-      this.header = "Purchase Invoice ";
+      this.header = "Purchase Invoice";
       console.log("Purchase data by id On dialog", this.purchaseDataShowById);
     });
 

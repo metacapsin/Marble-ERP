@@ -107,6 +107,10 @@
                                 [columns]="cols" selectionMode="multiple" [exportHeader]="'customExportHeader'">
                                 <ng-template pTemplate="header">
                                     <tr>
+                                        <th pSortableColumn="bySales">Warehouse<p-sortIcon
+                                            field="bySales"></p-sortIcon>
+                                        <p-columnFilter type="text" field="bySales" display="menu"></p-columnFilter>
+                                    </th>
                                         <th pSortableColumn="slabNo">Slab No<p-sortIcon field="slabNo"></p-sortIcon>
                                             <p-columnFilter type="text" field="slabNo" display="menu"></p-columnFilter>
 
@@ -129,27 +133,24 @@
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="costPerSQFT">Purchase Price / Sq. Feet <p-sortIcon
-                                                field="costPerSQFT"></p-sortIcon>
-                                            <p-columnFilter type="text" field="costPerSQFT"
-                                                display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="sellingPricePerSQFT">Selling Price<p-sortIcon
-                                                field="sellingPricePerSQFT"></p-sortIcon>
-                                            <p-columnFilter type="text" field="sellingPricePerSQFT"
-                                                display="menu"></p-columnFilter>
-
-                                        </th>
                                         <th pSortableColumn="totalSQFT">Current Stock<p-sortIcon
                                                 field="totalSQFT"></p-sortIcon>
                                             <p-columnFilter type="text" field="totalSQFT"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="bySales">Warehouse<p-sortIcon
-                                                field="bySales"></p-sortIcon>
-                                            <p-columnFilter type="text" field="bySales" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="costPerSQFT">Cost / Sq. Ft.<p-sortIcon
+                                                field="costPerSQFT"></p-sortIcon>
+                                            <p-columnFilter type="text" field="costPerSQFT"
+                                                display="menu"></p-columnFilter>
                                         </th>
+                                        <th pSortableColumn="sellingPricePerSQFT">Selling Price / Sq. Ft.<p-sortIcon
+                                                field="sellingPricePerSQFT"></p-sortIcon>
+                                            <p-columnFilter type="text" field="sellingPricePerSQFT"
+                                                display="menu"></p-columnFilter>
+
+                                        </th>
+                                        
                                         <!-- <th pSortableColumn="bySales">StockValue<p-sortIcon
                                                 field="bySales"></p-sortIcon>
                                             <p-columnFilter type="text" field="bySales" display="menu"></p-columnFilter>
@@ -159,6 +160,9 @@
                                 <ng-template pTemplate="body" let-slabs>
 
                                     <tr>
+                                        <td style="width: 15%;">
+                                            {{slabs.warehouseDetails.name}}
+                                         </td>
                                         <td>
                                             {{slabs.slabNo}}
                                         </td>
@@ -171,23 +175,21 @@
                                         <td>
                                             {{slabs.subCategoryDetail.name}}
                                         </td>
+                                        <td *ngIf="slabs.totalSQFT; else noData">
+                                            {{ slabs.totalSQFT }} SqFt.
+                                        </td>
                                         <td>
                                             {{slabs.costPerSQFT}}
                                         </td>
                                         <td>
                                             {{slabs.sellingPricePerSQFT}}
                                         </td>
-                                        <td *ngIf="slabs.totalSQFT; else noData">
-                                            {{ slabs.totalSQFT }} SqFt.
-                                        </td>
                                         <ng-template #noData>
                                             <td #noData>
                                                 0
                                             </td>
                                         </ng-template>
-                                        <td style="width: 15%;">
-                                           {{slabs.warehouseDetails.name}}
-                                        </td>
+                                        
                                         <!-- <td style="width: 15%;">
                                             By Purchase: ₹{{slabs.byPurchase}}
                                             <br>

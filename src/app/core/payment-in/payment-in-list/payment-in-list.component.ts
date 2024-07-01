@@ -29,7 +29,7 @@ export class PaymentInListComponent {
   visible: boolean = false;
   selectedCategory = [];
   paymentListData = [];
-  totalAmount : any;
+  totalAmount : number = 0;
 
   constructor( private Service: PaymentInService,
     private messageService: MessageService

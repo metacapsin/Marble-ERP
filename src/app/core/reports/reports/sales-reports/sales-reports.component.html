@@ -136,6 +136,8 @@
                   </th>
                   <th pSortableColumn="salesOrderStatus">Sales Status <p-sortIcon field="salesOrderStatus"></p-sortIcon>
                   </th>
+                  <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                  </th>
                   <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
                   </th>
@@ -145,8 +147,6 @@
                   <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
                     <p-columnFilter type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                  </th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-sales>
@@ -155,10 +155,14 @@
                   <td>{{sales.salesDate | date: 'dd-MMM-yyyy'}}</td>
                   <td>{{sales.customer.name}}</td>
                   <td>{{sales.salesOrderStatus}}</td>
+                  <!-- <td>{{sales.paymentStatus}}</td> -->                   
+                  <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                    value="Partial Paid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
+                <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
                   <td>₹ {{sales.paidAmount}}</td>
                   <td>₹ {{sales.dueAmount}}</td>
                   <td>₹ {{sales.salesTotalAmount}}</td>
-                  <td>{{sales.paymentStatus}}</td>
                   <!-- <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
                   </td> -->

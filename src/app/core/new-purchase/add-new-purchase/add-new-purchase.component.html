@@ -127,6 +127,10 @@
                                     .get('paidToSupplierPurchaseCost')
                                     ?.hasError('min') &&
                                   addNewPurchaseForm.get('paidToSupplierPurchaseCost')
+                                    ?.touched || addNewPurchaseForm
+                                    .get('paidToSupplierPurchaseCost')
+                                    ?.hasError('max') &&
+                                  addNewPurchaseForm.get('paidToSupplierPurchaseCost')
                                     ?.touched
                                 ">
                                 <span class="login-danger">Input must be between 1 to 7 Digits.

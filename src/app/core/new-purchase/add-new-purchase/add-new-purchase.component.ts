@@ -85,7 +85,7 @@ export class AddNewPurchaseComponent implements OnInit {
       invoiceNumber: [""],
       purchaseDate: ["", Validators.required],
       supplier: ["", [Validators.required]],
-      paidToSupplierPurchaseCost: ["", [Validators.required, Validators.min(1), Validators.max(9999999)]],
+      paidToSupplierPurchaseCost: ["", [Validators.required, Validators.min(0), Validators.max(9999999)]],
       purchaseType: ["", [Validators.required]],
       purchaseNotes: ["", [Validators.pattern(this.descriptionRegex)]],
       slabNo: ["", [Validators.required, Validators.pattern(this.shortNameRegex)],],
