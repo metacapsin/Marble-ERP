@@ -251,8 +251,8 @@
                                                                 placeholder="">
                                                         </div>
                                                         <div
-                                                            *ngIf="addSalesForm.get('salesDiscount')?.hasError('min')  && addSalesForm.get('salesDiscount')?.touched">
-                                                            <span class="login-danger">Input must be at least 0.</span>
+                                                            *ngIf="addSalesForm.get('salesDiscount')?.hasError('min')  && addSalesForm.get('salesDiscount')?.touched && addSalesForm.get('salesDiscount')?.hasError('max')  && addSalesForm.get('salesDiscount')?.touched">
+                                                            <span class="login-danger">Input must be between 1 to 10000.</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -269,9 +269,8 @@
                                                                 placeholder="">
                                                         </div>
                                                         <div
-                                                            *ngIf="addSalesForm.get('salesShipping')?.hasError('min') && addSalesForm.get('salesShipping')?.touched">
-                                                            <span class="login-danger">Input must be more than
-                                                                0.</span>
+                                                            *ngIf="addSalesForm.get('salesShipping')?.hasError('min') && addSalesForm.get('salesShipping')?.touched && addSalesForm.get('salesShipping')?.hasError('max') && addSalesForm.get('salesShipping')?.touched">
+                                                            <span class="login-danger">Input must be between 1 to 100000.</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -288,9 +287,8 @@
                                                                 placeholder="">
                                                         </div>
                                                         <div
-                                                            *ngIf="addSalesForm.get('otherCharges')?.hasError('min') && addSalesForm.get('otherCharges')?.touched">
-                                                            <span class="login-danger">Input must be more than
-                                                                0.</span>
+                                                            *ngIf="addSalesForm.get('otherCharges')?.hasError('min') && addSalesForm.get('otherCharges')?.touched && addSalesForm.get('otherCharges')?.hasError('max') && addSalesForm.get('otherCharges')?.touched">
+                                                            <span class="login-danger">Input must be between 1 to 100000.</span>
                                                         </div>
                                                     </div>
                                                 </div>

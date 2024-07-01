@@ -76,7 +76,7 @@ export class AddsalesComponent implements OnInit {
     this.addSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
-      salesDiscount: ["", [Validators.min(0)]],
+      salesDiscount: ["", [Validators.min(1), Validators.max(100000)]],
       salesInvoiceNumber: [""],
       salesItemDetails: this.fb.array([
         this.fb.group({
@@ -94,10 +94,10 @@ export class AddsalesComponent implements OnInit {
       salesOrderStatus: ["", [Validators.required]],
       salesOrderTax: ["", []],
       appliedTax: [""],
-      salesShipping: ["", [Validators.min(0)]],
+      salesShipping: ["", [Validators.min(1), Validators.max(100000)]],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       salesTotalAmount: [""],
-      otherCharges: ["", [Validators.min(0)]],
+      otherCharges: ["", [Validators.min(1), Validators.max(100000)]],
     });
   }
 

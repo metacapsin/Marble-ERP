@@ -74,14 +74,6 @@
                                 <div class="col">
                                     <div class="doctor-table-blk">
                                         <h3>Profit & Loss Details </h3>
-                                        <!-- <div class="doctor-search-blk">
-                                            <div class="top-nav-search table-search-blk">
-                                                <input type="text" class="form-control" placeholder="Search here"
-                                                    [(ngModel)]="searchDataValue"
-                                                    (ngModelChange)="searchData(searchDataValue)">
-                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                            </div>
-                                        </div> -->
                                     </div>
                                 </div>
                                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
@@ -137,24 +129,11 @@
                                             <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Sales (+)</h5>
                                             <div class="col-lg-6 col-md-6 col-xl-6">
                                                 <p class="col-form-label"><span class="amount-bold">₹
-                                                        {{profitLossData?.sales}} </span>
+                                                        {{profitLossData?.sales | indianCurrency }} </span>
                                                         <span *ngIf="profitLossData?.sales > 0">(Due Amount : ₹
-                                                    {{profitLossData?.salesDueAmount}}, Paid Amount : ₹ {{
-                                                    profitLossData?.salesPaidAmount}})</span>
+                                                    {{profitLossData?.salesDueAmount | indianCurrency }}, Paid Amount : ₹ {{
+                                                    profitLossData?.salesPaidAmount | indianCurrency }})</span>
                                                 </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-lg-12 col-sm-12">
-                                        <div class="form-group row mb-2">
-                                            <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Purchase (-)</h5>
-                                            <div class="col-lg-6 col-md-6 col-xl-6">
-                                                <p class=" col-form-label"><span class="amount-bold">₹
-                                                    {{profitLossData?.purchases}} </span> 
-                                                    <span *ngIf="profitLossData?.purchases > 0">(Due Amount : ₹
-                                                {{profitLossData?.purchaseDueAmount}}, Paid Amount : ₹ {{
-                                                profitLossData?.purchasePaidAmount}}) </span>
-                                            </p>
                                             </div>
                                         </div>
                                     </div>
@@ -164,10 +143,23 @@
                                             </h5>
                                             <div class="col-lg-6 col-md-6 col-xl-6">
                                                 <p class=" col-form-label"><span class="amount-bold">₹
-                                                    {{profitLossData?.purchase_returns}} </span>
+                                                    {{profitLossData?.purchase_returns | indianCurrency }} </span>
                                                     <span *ngIf="profitLossData?.purchase_returns > 0">(Due Amount : ₹
-                                                {{profitLossData?.purchaseReturnsDueAmount}}, Paid Amount : ₹ {{
-                                                profitLossData?.purchaseReturnsPaidAmount}})</span>
+                                                {{profitLossData?.purchaseReturnsDueAmount | indianCurrency }}, Paid Amount : ₹ {{
+                                                profitLossData?.purchaseReturnsPaidAmount | indianCurrency }})</span>
+                                            </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-sm-12">
+                                        <div class="form-group row mb-2">
+                                            <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Purchase (-)</h5>
+                                            <div class="col-lg-6 col-md-6 col-xl-6">
+                                                <p class=" col-form-label"><span class="amount-bold">₹
+                                                    {{profitLossData?.purchases | indianCurrency }} </span> 
+                                                    <span *ngIf="profitLossData?.purchases > 0">(Due Amount : ₹
+                                                {{profitLossData?.purchaseDueAmount | indianCurrency }}, Paid Amount : ₹ {{
+                                                profitLossData?.purchasePaidAmount | indianCurrency }}) </span>
                                             </p>
                                             </div>
                                         </div>
@@ -177,20 +169,42 @@
                                             <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Sales Return (-)</h5>
                                             <div class="col-lg-6 col-md-6 col-xl-6">
                                                 <p class=" col-form-label"><span class="amount-bold">₹
-                                                    {{profitLossData?.sales_returns}}  </span>
+                                                    {{profitLossData?.sales_returns | indianCurrency }}  </span>
                                                     <span *ngIf="profitLossData?.sales_returns > 0">(Due Amount : ₹
-                                                {{profitLossData?.salesReturnsDueAmount}}, Paid Amount : ₹ {{
-                                                profitLossData?.salesReturnsPaidAmount}}) </span>
+                                                {{profitLossData?.salesReturnsDueAmount | indianCurrency }}, Paid Amount : ₹ {{
+                                                profitLossData?.salesReturnsPaidAmount | indianCurrency }}) </span>
                                             </p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-sm-12">
                                         <div class="form-group row mb-2">
-                                            <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Expenses (-)</h5>
+                                            <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Processing Expenses (-)</h5>
                                             <div class="col-lg-6 col-md-6 col-xl-6">
                                                 <p class=" col-form-label"><span class="amount-bold">₹
-                                                    {{profitLossData?.expenses}}  </span></p>
+                                                    {{profitLossData?.processingExpenses | indianCurrency }}  </span>
+                                                    <span *ngIf="profitLossData?.processingExpenses > 0">(Due Amount : ₹
+                                                {{profitLossData?.processingDueAmount | indianCurrency }}, Paid Amount : ₹ {{
+                                                profitLossData?.processingPaidAmount | indianCurrency }}) </span>
+                                            </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-sm-12">
+                                        <div class="form-group row mb-2">
+                                            <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Slab Other Expenses (-)</h5>
+                                            <div class="col-lg-6 col-md-6 col-xl-6">
+                                                <p class=" col-form-label"><span class="amount-bold">₹
+                                                    {{profitLossData?.slabExpenses | indianCurrency }}  </span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-sm-12">
+                                        <div class="form-group row mb-2">
+                                            <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">General Expenses (-)</h5>
+                                            <div class="col-lg-6 col-md-6 col-xl-6">
+                                                <p class=" col-form-label"><span class="amount-bold">₹
+                                                    {{profitLossData?.expenses | indianCurrency }}  </span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -198,9 +212,9 @@
                                         <div class="form-group row mb-2">
                                             <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold">Profit </h5>
                                             <div class="col-lg-6 col-md-6 col-xl-6">
-                                                <p class=" col-form-label" *ngIf="profitLossData?.profit === 0"><span class="amount-bold">₹ {{profitLossData?.expenses}}</span></p>
-                                                <p *ngIf="profitLossData?.profit > 0" class="col-form-label login-positive amount-bold">₹ +{{profitLossData?.profit}}</p>
-                                                <p *ngIf="profitLossData?.profit < 0" class="col-form-label login-danger amount-bold">₹ {{profitLossData?.profit}}</p>
+                                                <p class=" col-form-label" *ngIf="profitLossData?.profit === 0"><span class="amount-bold">₹ {{profitLossData?.expenses | indianCurrency }}</span></p>
+                                                <p *ngIf="profitLossData?.profit > 0" class="col-form-label login-positive amount-bold">₹ +{{profitLossData?.profit | indianCurrency }}</p>
+                                                <p *ngIf="profitLossData?.profit < 0" class="col-form-label login-danger amount-bold">₹ {{profitLossData?.profit | indianCurrency }}</p>
                                             </div>
                                         </div>
                                     </div>
