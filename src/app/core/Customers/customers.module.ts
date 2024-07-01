@@ -23,7 +23,7 @@ import { FilterPipe } from '../filter.pipe';
     DialogModule,
     ToastModule,
     ButtonModule,
-    FilterPipe,
+    // FilterPipe,
   ]
 })
 export class CustomersModule { }

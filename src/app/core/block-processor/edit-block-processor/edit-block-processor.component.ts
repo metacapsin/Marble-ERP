@@ -72,7 +72,7 @@ export class EditBlockProcessorComponent {
   }
   patchForm() {
     this.editBlockProcessorForm.patchValue({
-      companyName: this.blockProcessorData.companyName,
+      companyName: this.blockProcessorData.name,
       phoneNo: this.blockProcessorData.phoneNo,
       email: this.blockProcessorData.email,
       status: true,
@@ -83,7 +83,7 @@ export class EditBlockProcessorComponent {
 
     const payload = {
       id: this.id,
-      companyName: this.editBlockProcessorForm.value.companyName,
+      name: this.editBlockProcessorForm.value.companyName,
       phoneNo: this.editBlockProcessorForm.value.phoneNo,
       email: this.editBlockProcessorForm.value.email,
       status: this.editBlockProcessorForm.value.status,

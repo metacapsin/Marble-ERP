@@ -23,6 +23,7 @@ import { DateMaskDirective } from "./directives/date-mask.directive";
 import { ShowHideDirective } from "../common-component/show-hide-directive/show-hide.directive";
 import { IndianCurrencyPipe } from "./directives/indian-currency.pipe";
 import { WordWrapPipe } from "./directives/word-wrap.pipe";
+import { FilterPipe } from "../core/filter.pipe";
 
 @NgModule({
   declarations: [],
@@ -64,6 +65,7 @@ import { WordWrapPipe } from "./directives/word-wrap.pipe";
     ShowHideDirective,
     IndianCurrencyPipe,
     WordWrapPipe,
+    FilterPipe,
   ],
   exports: [
     CommonModule,
@@ -89,6 +91,7 @@ import { WordWrapPipe } from "./directives/word-wrap.pipe";
     ShowHideDirective,
     IndianCurrencyPipe,
     WordWrapPipe,
+    FilterPipe
   ],
   providers: [DataService],
 })

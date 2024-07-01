@@ -7,11 +7,12 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PaymentOutService } from '../payment-out.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { FilterPipe } from '../../filter.pipe';
 
 @Component({
   selector: 'app-payment-in-list',
   standalone: true,
-  imports: [CommonModule, SharedModule, TableModule, ButtonModule, ToastModule],
+  imports: [CommonModule, SharedModule, TableModule, ButtonModule, ToastModule,FilterPipe],
   templateUrl: './payment-out-list.component.html',
   styleUrl: './payment-out-list.component.scss',
   providers: [MessageService]

@@ -61,7 +61,7 @@ export class AddBlockProcessorComponent implements OnInit{
   }
   addBlockProcessorFormSubmit() {
     const payload = {
-      companyName: this.addBlockProcessorForm.value.companyName, 
+      name: this.addBlockProcessorForm.value.companyName, 
       email: this.addBlockProcessorForm.value.email, 
       status: true, 
       phoneNo: this.addBlockProcessorForm.value.phoneNo,
