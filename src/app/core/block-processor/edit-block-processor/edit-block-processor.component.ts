@@ -40,7 +40,7 @@ export class EditBlockProcessorComponent {
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^.{3,500}$/s;
   phoneRegex = /^[0-9]{10}$/;
-
+  descriptionRegex = /^.{3,500}$/s;
   constructor(
     private fb: FormBuilder,
     private Service: blockProcessorService,
@@ -55,7 +55,7 @@ export class EditBlockProcessorComponent {
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
-      address: ["", [Validators.pattern(this.shortNameRegex)]],
+      address: ["", [Validators.pattern(this.descriptionRegex)]],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }

@@ -123,6 +123,7 @@ export class CoreComponent {
         this.mobileSidebar = 'false';
       }
     });
+    
     // sidebarData: SideBarData[] = [];
     this.sideBar.expandSideBar.subscribe((res: string) => {
       this.expandMenu = res;

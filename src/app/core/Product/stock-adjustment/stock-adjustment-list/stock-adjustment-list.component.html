@@ -67,9 +67,19 @@
                                             <p-columnFilter type="text" field="warehouse.name"
                                                 display="menu"></p-columnFilter>
                                         </th>
+                                        <th pSortableColumn="adjustmentType">Type <p-sortIcon
+                                            field="adjustmentType"></p-sortIcon>
+                                        <p-columnFilter type="text" field="adjustmentType"
+                                            display="menu"></p-columnFilter>
+                                    </th>
                                         <th pSortableColumn="quantity">Quantity ( Sq. Ft )<p-sortIcon
                                                 field="quantity"></p-sortIcon>
                                             <p-columnFilter type="text" field="quantity"
+                                                display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="currentQty">Current Quantity<p-sortIcon
+                                                field="currentQty"></p-sortIcon>
+                                            <p-columnFilter type="text" field="currentQty"
                                                 display="menu"></p-columnFilter>
                                         </th>
                                         <th width="13%" >Action</th>
@@ -79,7 +89,9 @@
                                     <tr>
                                         <td>{{stock.slabs.slabName}}</td>
                                         <td>{{stock.warehouse.name}}</td>
+                                        <td>{{stock.adjustmentType}}</td>
                                         <td>{{stock.quantity}}</td>
+                                        <td>{{stock.currentQty}}</td>
                                         <td appShowHide
                                             [roles]="['admin', 'super-admin']" class="action-buttons">
                                             <p-button [text]="true" icon="fa-solid fa-edit"

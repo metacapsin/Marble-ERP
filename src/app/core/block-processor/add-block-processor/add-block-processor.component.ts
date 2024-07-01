@@ -37,7 +37,7 @@ export class AddBlockProcessorComponent implements OnInit{
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   phoneRegex = /^[0-9]{10}$/;
-
+  descriptionRegex = /^.{3,500}$/s;  
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
@@ -52,7 +52,7 @@ export class AddBlockProcessorComponent implements OnInit{
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
-      address: ["", [Validators.pattern(this.shortNameRegex)]],
+      address: ["", [Validators.pattern(this.descriptionRegex)]],
     });
   }
   ngOnInit(): void {

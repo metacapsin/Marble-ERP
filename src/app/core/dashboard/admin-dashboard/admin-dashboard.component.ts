@@ -168,6 +168,7 @@ export class AdminDashboardComponent {
     private crypto: AESEncryptDecryptService,
   ) {
     this.userData = this.crypto.getData("currentUser");
+    console.log(this.userData);
   }
   formatDate(date: Date): string {
     const month = (date?.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based, so add 1

@@ -16,17 +16,16 @@
         </div>
       </div>
     </div>
-    <!-- /Page Header -->
 
     <div class="good-morning-blk">
       <div class="row">
         <div class="col-md-6">
           <div class="morning-user">
             <h2>
-              Good Morning,
-              <span>{{ userData?.firstName }} {{ userData?.lastName }}</span>
+              Have a nice day at work,
+              <span>{{ userData?.name }}</span>
             </h2>
-            <p>Have a nice day at work</p>
+            <!-- <p>Have a nice day at work</p> -->
           </div>
         </div>
         <div class="col-md-6 position-blk">
@@ -364,7 +363,7 @@
           <div class="px-3 pt-2 d-flex justify-content-between">
             <h3>Category</h3>
           </div>
-          <div *ngIf="!totalCategorySlabs || totalCategorySlabs.length === 0">
+          <div class="text-center" *ngIf="!totalCategorySlabs || totalCategorySlabs.length === 0">
             <span style="color: #97704f; font-size: 15px"
               >Data is not available.</span
             >
@@ -388,7 +387,7 @@
           <div class="px-3 pt-2 d-flex justify-content-between">
             <h3>Sub Category</h3>
           </div>
-          <div
+          <div class="text-center"
             *ngIf="!totalSubCategorySlabs || totalSubCategorySlabs.length === 0"
           >
             <span style="color: #97704f; font-size: 15px"
@@ -423,7 +422,7 @@
               </h5>
             </div>
           </div>
-          <div *ngIf="!stockAlertData || stockAlertData.length === 0">
+          <div class="text-center" *ngIf="!stockAlertData || stockAlertData.length === 0">
             <span style="color: #97704f; font-size: 15px"
               >Data is not available.</span
             >
@@ -502,7 +501,7 @@
               </h5>
             </div>
           </div>
-          <div *ngIf="!allSlabsDaTa || allSlabsDaTa.length === 0">
+          <div class="text-center" *ngIf="!allSlabsDaTa || allSlabsDaTa.length === 0">
             <span style="color: #97704f; font-size: 15px"
               >Data is not available.</span
             >
@@ -553,7 +552,7 @@
           <div class="px-2 py-2 d-flex justify-content-between">
             <h3>Customer Credit Alerts</h3>
           </div>
-          <div *ngIf="!products || products.length === 0">
+          <div class="text-center" *ngIf="!products || products.length === 0">
             <span style="color: #97704f; font-size: 15px"
               >Data is not available.</span
             >
