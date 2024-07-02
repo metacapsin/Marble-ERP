@@ -76,9 +76,7 @@ export class AddLotComponent {
 
   addvisible: boolean = false;
   shortNameRegex = /^[^\s.-][a-zA-Z0-9_.\s-]{2,50}$/;
-  // @Input() otherCharges = 0;
-  // @Input() transportationCharges = 0;
-
+  vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   lotPurchaseCost: number;
 
   lotTotalCost: number = 0;
@@ -103,7 +101,7 @@ export class AddLotComponent {
         "",
         [Validators.required, Validators.pattern(this.shortNameRegex)],
       ],
-      vehicleNo: ["", [Validators.pattern(this.shortNameRegex)]],
+      vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
       warehouse: ["", [Validators.required]],
       // invoiceNo: [
       //   "",
@@ -173,39 +171,7 @@ export class AddLotComponent {
       });
       this.calculateTotalAmount()
     }
-    // this.NewPurchaseService.clearFormData();
   }
-
-  // ngDoCheck(): void {
-  //   const data = this.lotAddForm.value;
-  //   this.blocksDetails.forEach((e: any) => {
-  //     this.lotTotalCost += e.totalCosting;
-  //     // this.totalRawCosting += val.rawCosting;
-  //   });
-  //   const payload = {
-  //     lotNo: data.lotNo,
-  //     lotName: data.lotName,
-  //     date: data.date,
-  //     vehicleNo: data.vehicleNo,
-  //     lotWeight: data.lotWeight,
-  //     pricePerTon: data.pricePerTon,
-  //     transportationCharge: data.transportationCharge,
-  //     royaltyCharge: data.royaltyCharge,
-  //     notes: data.notes,
-  //     blocksCount: this.blocksDetails.length,
-  //     averageWeight: data.averageWeight,
-  //     averageTransport: data.averageTransport,
-  //     averageRoyalty: data.averageRoyalty,
-  //     blockDetails: this.blocksDetails,
-  //     lotTotalCost: this.lotTotalCost,
-  //   };
-    
-  //   // if(this.lotTotalCost !== this.previousLotTotalCost){
-  //     console.log("hello Adnan",payload);
-  //     this.NewPurchaseService.setFormData('stepTwoData', payload)
-
-  //   // }
-  // }
 
   addBlockDialog() {
     this.blockNo = "";
@@ -293,7 +259,7 @@ export class AddLotComponent {
     let lotWeight: number = this.lotAddForm.get("lotWeight").value || 0;
     if (lotWeight) {
       pricePerTon = this.lotPurchaseCost / lotWeight;
-      this.lotAddForm.get("pricePerTon").patchValue(pricePerTon);
+      this.lotAddForm.get("pricePerTon").patchValue(pricePerTon.toFixed(3));
       // this.lotAddForm.get("pricePerTon").disable();
     } else {
       this.lotAddForm.get("pricePerTon").enable();

@@ -24,6 +24,7 @@ import { ShowHideDirective } from "../common-component/show-hide-directive/show-
 import { IndianCurrencyPipe } from "./directives/indian-currency.pipe";
 import { WordWrapPipe } from "./directives/word-wrap.pipe";
 import { FilterPipe } from "../core/filter.pipe";
+import { ToastModule } from "primeng/toast";
 
 @NgModule({
   declarations: [],
@@ -66,6 +67,7 @@ import { FilterPipe } from "../core/filter.pipe";
     IndianCurrencyPipe,
     WordWrapPipe,
     FilterPipe,
+    ToastModule
   ],
   exports: [
     CommonModule,
@@ -91,7 +93,8 @@ import { FilterPipe } from "../core/filter.pipe";
     ShowHideDirective,
     IndianCurrencyPipe,
     WordWrapPipe,
-    FilterPipe
+    FilterPipe,
+    ToastModule
   ],
   providers: [DataService],
 })

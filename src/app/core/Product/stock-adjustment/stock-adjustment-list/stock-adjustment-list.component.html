@@ -67,17 +67,17 @@
                                             <p-columnFilter type="text" field="warehouse.name"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="adjustmentType">Type <p-sortIcon
+                                        <th pSortableColumn="adjustmentType">Adjustment Type <p-sortIcon
                                             field="adjustmentType"></p-sortIcon>
                                         <p-columnFilter type="text" field="adjustmentType"
                                             display="menu"></p-columnFilter>
                                     </th>
-                                        <th pSortableColumn="quantity">Quantity ( Sq. Ft )<p-sortIcon
+                                        <th pSortableColumn="quantity">Quantity ( Sq. Ft. )<p-sortIcon
                                                 field="quantity"></p-sortIcon>
                                             <p-columnFilter type="text" field="quantity"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="currentQty">Current Quantity<p-sortIcon
+                                        <th pSortableColumn="currentQty">Current Quantity ( Sq. Ft. )<p-sortIcon
                                                 field="currentQty"></p-sortIcon>
                                             <p-columnFilter type="text" field="currentQty"
                                                 display="menu"></p-columnFilter>
@@ -89,7 +89,7 @@
                                     <tr>
                                         <td>{{stock.slabs.slabName}}</td>
                                         <td>{{stock.warehouse.name}}</td>
-                                        <td>{{stock.adjustmentType}}</td>
+                                        <td>{{stock.adjustmentType.toUpperCase()}}</td>
                                         <td>{{stock.quantity}}</td>
                                         <td>{{stock.currentQty}}</td>
                                         <td appShowHide

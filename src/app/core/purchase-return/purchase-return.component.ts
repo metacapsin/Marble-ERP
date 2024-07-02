@@ -89,8 +89,8 @@ export class PurchaseReturnComponent {
   }
   navigateToCreatePurchaseReturn() {
     const returnUrl = this.router.url;
-    this.router.navigate(['purchase-return/add-purchase-return']);
     this.localStorageService.setItem('returnUrl',returnUrl);
+    this.router.navigate(['purchase-return/add-purchase-return']);
 
     // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
@@ -101,6 +101,8 @@ export class PurchaseReturnComponent {
     });
   }
   purchaseReturnUpdate(id:any){
+    const returnUrl = this.router.url;
+    this.localStorageService.setItem('returnUrl',returnUrl);
     this.router.navigate(["/purchase-return/edit-purchase-return/" + id]);
   }
   purchaseReturnDelete(id: number) {

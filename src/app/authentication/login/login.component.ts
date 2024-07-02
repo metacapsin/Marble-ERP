@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/shared/auth/auth.service';
 import { routes } from 'src/app/shared/routes/routes';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AESEncryptDecryptService } from 'src/app/shared/auth/AESEncryptDecryptService ';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
       Validators.required,
       Validators.email,
     ]),
-    password: new FormControl('admin@123', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
   });
 
 
@@ -31,7 +32,9 @@ export class LoginComponent implements OnInit {
     return this.form.controls;
   }
 
-  constructor(public auth: AuthService, private router: Router, private _snackBar: MatSnackBar, private crypto: AESEncryptDecryptService) { }
+  constructor(public auth: AuthService, private router: Router, private _snackBar: MatSnackBar, private crypto: AESEncryptDecryptService,
+    private messageService: MessageService
+  ) { }
   ngOnInit(): void {
     if (localStorage.getItem('authenticated')) {
       localStorage.removeItem('authenticated');
@@ -61,22 +64,27 @@ export class LoginComponent implements OnInit {
               })
             } else {
               this.error = 'Invalid Login';
-              this._snackBar.open("Credentials are not matched", '', {
-                duration: 2000,
-                verticalPosition: 'top',
-                horizontalPosition: 'right',
-                panelClass: "blue",
-              });
+              // this._snackBar.open("Credentials are not matched", '', {
+              //   duration: 2000,
+              //   verticalPosition: 'top',
+              //   horizontalPosition: 'right',
+              //   panelClass: "blue",
+              // });
+              const message = "Credentials are not matched"
+              this.messageService.add({ severity: "error", detail: message });
+
             }
           },
           error: (error) => {
             this.loading = false;
-            this._snackBar.open(error, '', {
-              duration: 2000,
-              verticalPosition: 'top',
-              horizontalPosition: 'right',
-              panelClass: "blue",
-            });
+            // this._snackBar.open(error, '', {
+            //   duration: 2000,
+            //   verticalPosition: 'top',
+            //   horizontalPosition: 'right',
+            //   panelClass: "blue",
+            // });
+            this.messageService.add({ severity: "error", detail: error });
+
           },
         });
     }

@@ -116,16 +116,14 @@
                                         <td>₹ {{ purchaseReturn.purchaseReturnTotalAmount | indianCurrency }}</td>
 
                                         <td class="action-buttons">
-                                            <p-button [text]="true" data-bs-toggle="modal"
-                                                data-bs-target="#invoices_preview" icon="fa-solid fa-eye"
+                                            <p-button [text]="true" icon="fa-solid fa-eye"
                                                 (click)="showInvoiceDialoge(purchaseReturn._id)"></p-button>
-                                            <!-- <p-button [text]="true" icon="fa-solid fa-edit"
-                                                (click)="purchaseReturnUpdate(purchaseReturn._id)"></p-button> -->
-                                            <p-button [text]="true" icon="fa-solid fa-trash"
+                                                <p-button *ngIf="purchaseReturn.paymentStatus == 'Partial Paid' || purchaseReturn.paymentStatus == 'Unpaid' "
+                                                 [text]="true" icon="fa-solid fa-edit"
+                                                    (click)="purchaseReturnUpdate(purchaseReturn._id)"></p-button>
+                                                    <div *ngIf="purchaseReturn.paymentStatus == 'Paid'" class="placeholder"></div>
+                                                <p-button [text]="true" icon="fa-solid fa-trash"
                                                 (click)="purchaseReturnDelete(purchaseReturn._id)"></p-button>
-                                            <!-- <a class="p-2 border-1 border" href=""><i
-                                                class="fa-solid fa-pen-to-square"></i></a> -->
-                                            <!-- <a class="p-2 border-1 border" href=""><i class="fa-solid fa-trash"></i></a> -->
                                         </td>
                                     </tr>
                                 </ng-template>
