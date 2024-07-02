@@ -71,35 +71,40 @@ export class EditPurchaseReturnComponent {
     });
     this.purchaseReturnId = this.activeRoute.snapshot.params["id"];
   }
-  onSuppliersSelect(_id: any) {
-    this.GridDataForSlab = [];
-    this.NewPurchaseService.getPurchaseWithSlabDetail(_id).subscribe(
-      (resp: any) => {
-        if (resp.status == "error") {
-          this.messageService.add({ severity: "error", detail: resp.message });
-        }
-        this.purchaseDataByInvoiceNumber = resp.data.map((e) => ({
-          _id: e._id,
-          purchaseInvoiceNumber: e.purchaseInvoiceNumber,
-        }));
-      },
-      );
-  }
+  // onSuppliersSelect(_id: any) {
+  //   this.GridDataForSlab = [];
+  //   this.NewPurchaseService.getPurchaseWithSlabDetail(_id).subscribe(
+  //     (resp: any) => {
+  //       if (resp.status == "error") {
+  //         this.messageService.add({ severity: "error", detail: resp.message });
+  //         this.purchaseDataByInvoiceNumber=[]
+  //       }
+  //       this.purchaseDataByInvoiceNumber = resp.data.map((e) => ({
+  //         purchaseInvoiceNumber: e.purchaseInvoiceNumber,
+  //         _id: {
+  //           _id: e._id,
+  //         purchaseInvoiceNumber: e.purchaseInvoiceNumber,
+  //         },
+  //       }));
+  //       // this.resetTotalAmounts()
+  //     },
+  //     );
+  // }
 
   onInvoiceNumber(purchaseId: any) {
     this.GridDataForSlab = [];
     this.PurchaseReturnService.GetPurchaseDataById(purchaseId).subscribe((resp: any) => {
       this.PurchaseReturnDataById = resp.data;
       this.GridDataForSlab = [resp.data.slabDetails];
-      if (this.PurchaseReturnDataById.purchaseType == "slab") {
-        const totalCosting = parseFloat(this.PurchaseReturnDataById.slabDetails.purchaseCost);
-        if (!this.editPurchaseReturnForm.value.purchaseReturnTotalAmount) {
-          this.editPurchaseReturnForm.patchValue({
-            purchaseGrossTotal: totalCosting,
-            purchaseReturnTotalAmount: totalCosting,
-          });
-        }
-      }
+      // if (this.PurchaseReturnDataById.purchaseType == "slab") {
+      //   const totalCosting = parseFloat(this.PurchaseReturnDataById.slabDetails.purchaseCost);
+      //   if (!this.editPurchaseReturnForm.value.purchaseReturnTotalAmount) {
+      //     this.editPurchaseReturnForm.patchValue({
+      //       purchaseGrossTotal: totalCosting,
+      //       purchaseReturnTotalAmount: totalCosting,
+      //     });
+      //   }
+      // }
     }
     );
   }
@@ -109,18 +114,18 @@ export class EditPurchaseReturnComponent {
     this.returnUrl = this.localStorageService.getItem('returnUrl')
     console.log(this.returnUrl)
     
-    this.Service.GetSupplierData().subscribe((resp: any) => {
-      this.SupplierLists = [];
-      resp.forEach((element: any) => {
-        this.SupplierLists.push({
-          name: element.name,
-          _id: {
-            _id: element._id,
-            name: element.name,
-          },
-        });
-      });
-    });
+    // this.Service.GetSupplierData().subscribe((resp: any) => {
+    //   this.SupplierLists = [];
+    //   resp.forEach((element: any) => {
+    //     this.SupplierLists.push({
+    //       name: element.name,
+    //       _id: {
+    //         _id: element._id,
+    //         name: element.name,
+    //       },
+    //     });
+    //   });
+    // });
     this.PurchaseReturnService.getPurchaseReturnById(
       this.purchaseReturnId
     ).subscribe((resp: any) => {
@@ -148,7 +153,6 @@ export class EditPurchaseReturnComponent {
       purchaseGrossTotal: data.purchaseGrossTotal,
       purchaseReturnItemDetails: data.purchaseReturnItemDetails
     });
-    this.onSuppliersSelect(data.supplier._id);
     this.onInvoiceNumber(data.purchaseInvoiceNumber._id);
   }
 

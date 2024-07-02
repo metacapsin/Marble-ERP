@@ -46,11 +46,13 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseReturnSupplier">Supplier Name<span class="login-danger">*</span></label>
-                      <p-dropdown [style]="{ width: '100%' }" placeholder="Select supplier" [options]="SupplierLists"
+                      <!-- <p-dropdown [style]="{ width: '100%' }" placeholder="Select supplier" [options]="SupplierLists"
                         optionLabel="name" optionValue="_id" display="chip" [filter]="true" filterBy="name"
                         formControlName="purchaseReturnSupplier" [showClear]="true"
-                        (onChange)="onSuppliersSelect($event.value._id)"></p-dropdown>
-                      <div *ngIf="
+                        (onChange)="onSuppliersSelect($event.value._id)"></p-dropdown> -->
+                        <span class="form-control">{{ editPurchaseReturnForm.get('purchaseReturnSupplier').value.name}}</span>
+
+                      <!-- <div *ngIf="
                             editPurchaseReturnForm
                               .get('purchaseReturnSupplier')
                               ?.hasError('required') &&
@@ -59,26 +61,29 @@
                             )?.touched
                           ">
                         <span class="login-danger">Field is required. </span>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
 
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseReturnInvoiceNumber">Invoice Number<span class="login-danger">*</span></label>
-                      <p-dropdown [style]="{ width: '100%' }" placeholder="Select Invoice"
+                      <!-- <p-dropdown [style]="{ width: '100%' }" placeholder="Select Invoice"
                         [options]="purchaseDataByInvoiceNumber" formControlName="purchaseReturnInvoiceNumber"
-                        optionLabel="purchaseInvoiceNumber" display="chip"
-                        (onChange)="onInvoiceNumber($event.value._id)" [showClear]="true"></p-dropdown>
+                        optionLabel="purchaseInvoiceNumber" display="chip" optionLabel="purchaseInvoiceNumber" optionValue="_id"
+                        (onChange)="onInvoiceNumber($event.value._id)" [showClear]="true"></p-dropdown> -->
+                        <span class="form-control">{{ editPurchaseReturnForm.get('purchaseReturnInvoiceNumber').value.purchaseInvoiceNumber}}</span>
                     </div>
                   </div>
 
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="purchaseReturnDate">purchase Return Date<span class="login-danger">*</span></label>
-                      <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                      <!-- <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                         formControlName="purchaseReturnDate" placeholder="mm/dd/yyyy" [maxDate]="maxDate"
-                        [styleClass]="'col-12'"></p-calendar>
+                        [styleClass]="'col-12'"></p-calendar> -->
+                        <span class="form-control">{{ editPurchaseReturnForm.get('purchaseReturnDate').value}}</span>
+
                     </div>
                   </div>
 
@@ -170,7 +175,7 @@
                                       <span class="input-group-text">₹</span>
                                   </div>
                                   <input class="form-control"
-                                      (change)="calculateTotalPurchaseAmount()"
+                                      (focusout)="calculateTotalPurchaseAmount()"
                                       formControlName="otherCharges" type="number"
                                       placeholder="">
                               </div>
