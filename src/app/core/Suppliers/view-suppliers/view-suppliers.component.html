@@ -195,7 +195,7 @@
                                 <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="danger"
                                         value="Unpaid"></p-tag></td>
                                 <td>₹ {{ purchase.paidAmount | indianCurrency}}</td>
-                                <td>₹ {{ purchase.dueAmount | indianCurrency}}</td>
+                                <td >₹ {{ purchase.dueAmount | indianCurrency}}</td>
                                 <td>₹ {{ purchase.purchaseCost | indianCurrency}}</td>
                                 <td>
 
@@ -221,7 +221,7 @@
                                 <td colspan="2"></td>
                                 <td>Total</td>
                                 <td >₹ {{ purchaseTotalValues.totalPaidAmount | indianCurrency}}</td>
-                                <td class="text-danger-dark" >₹ {{ purchaseTotalValues.totalDueAmount | indianCurrency }}</td>
+                                <td class="text-danger-dark">₹ {{ purchaseTotalValues.totalDueAmount | indianCurrency }}</td>
                                 <td >₹ {{ purchaseTotalValues.totalPurchaseCost | indianCurrency}}</td>
                                 <td></td>
 
@@ -384,7 +384,7 @@
                                 <td colspan="2"></td>
                               <td>Total</td>
                               <td >₹ {{ purchaseReturnTotalValues.totalPaidAmount | indianCurrency }}</td>
-                              <td class="text-danger-dark">₹ {{ purchaseReturnTotalValues.totalDueAmount | indianCurrency }}</td>
+                              <td class="text-danger-dark" >₹ {{ purchaseReturnTotalValues.totalDueAmount | indianCurrency }}</td>
                               <td >₹ {{ purchaseReturnTotalValues.totalAmount | indianCurrency }}</td>
                               <td></td>
                             </tr>

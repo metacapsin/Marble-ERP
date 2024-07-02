@@ -135,6 +135,32 @@ export class PurchaseReportsComponent {
         return i.supplier.name.toLowerCase().includes(value.trim().toLowerCase());
     });
 }
+getTotalPaidAmount(): number {
+  return this.purchaseReportsData.reduce(
+    (total, payment) => total + parseFloat(payment.paidAmount),
+    0
+  );
+}
+
+getTotalDueAmount(): number {
+  return this.purchaseReportsData.reduce(
+    (sum, item) => sum + parseFloat(item.dueAmount),
+    0
+  );
+}
+getTotalSupplierAmount(): number {
+  return this.purchaseReportsData.reduce(
+    (sum, item) => sum + parseFloat(item.purchaseCost),
+    0
+  );
+}
+
+getTotalPurchaseAmount(): number {
+  return this.purchaseReportsData.reduce(
+    (sum, item) => sum + parseFloat(item.purchaseTotalAmount),
+    0
+  );
+}
 
 
 }

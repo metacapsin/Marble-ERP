@@ -123,7 +123,7 @@
                   <td colspan="4"></td>
                   <td>Total </td>
                   <td>₹ {{ purchaseTotalValues.totalPaidAmount  | indianCurrency }}</td>
-                  <td style="color: red;">₹ {{ purchaseTotalValues.totalDueAmount  | indianCurrency }}</td>
+                  <td class="text-danger-dark">₹ {{ purchaseTotalValues.totalDueAmount  | indianCurrency }}</td>
                   <td>₹ {{ purchaseTotalValues.totalPurchaseCost  | indianCurrency }}</td>
                   <td>₹ {{ purchaseTotalValues.totalAmount  | indianCurrency }}</td>
                   <td></td>
@@ -142,5 +142,5 @@
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>
 
-<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="PurchaseListData"
+<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="PurchaseListData" [paymentDataListById]="paymentDataListById"
   (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>

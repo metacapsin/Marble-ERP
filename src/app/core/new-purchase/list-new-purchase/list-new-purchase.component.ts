@@ -156,7 +156,7 @@ export class ListNewPurchaseComponent {
       (resp: any) => {
         this.paymentDataListById = resp.data;
         console.log("this is payment by Purchase id", this.paymentDataListById);
-        console.log(resp.data);
+        console.log("this is payment data on inovice by id",resp.data);
       }
     );
   }

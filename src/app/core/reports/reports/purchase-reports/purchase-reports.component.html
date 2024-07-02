@@ -155,13 +155,23 @@
                                         <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag>
                                         </td>
                                         <td>₹ {{purchase.paidAmount | indianCurrency}}</td>
-                                        <td>₹ {{purchase.dueAmount | indianCurrency}}</td>
+                                        <td >₹ {{purchase.dueAmount | indianCurrency}}</td>
                                         <td>₹ {{purchase.purchaseCost | indianCurrency }}</td>
                                         <td>₹ {{purchase.purchaseTotalAmount | indianCurrency}}</td>
                                         <!-- <td>{{purchase.paymentStatus}}</td> -->
                                         <!-- <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(purchase._id)"></p-button>
                   </td> -->
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="footer" >
+                                    <tr  *ngIf="getTotalPaidAmount() > 0 || getTotalDueAmount() > 0 || getTotalSupplierAmount() > 0 || getTotalPurchaseAmount() > 0">
+                                        <td colspan="4"></td>
+                                        <td>Total Amount</td>
+                                        <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td> 
+                                        <td class="text-danger-dark">₹ {{ getTotalDueAmount()  | indianCurrency}}</td> 
+                                        <td>₹ {{ getTotalSupplierAmount()  | indianCurrency}}</td> 
+                                        <td>₹ {{ getTotalPurchaseAmount()  | indianCurrency}}</td> 
                                     </tr>
                                 </ng-template>
                             </p-table>

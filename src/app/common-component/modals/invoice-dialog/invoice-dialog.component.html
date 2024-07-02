@@ -46,7 +46,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div>
-                      <div
+                      <div  *ngIf="sales.customer?.billingAddress"
                         class="invoice-head justify-content-start text-align-start"
                       >
                         <p>
@@ -60,6 +60,24 @@
                           ><br />
                           <span
                             [innerHTML]="sellerData?.address | wordWrap : 2"
+                          ></span>
+                        </p>
+                      </div>
+                      <div  *ngIf="sales.supplier?.billingAddress"
+                        class="invoice-head justify-content-start text-align-start"
+                      >
+                        <p>
+                          <span
+                            style="
+                              color: #97704f;
+                              font-weight: bold;
+                              font-size: 16px;
+                            "
+                            >Seller Address </span
+                          ><br />
+                          <span
+                        
+                            [innerHTML]="sales.supplier.billingAddress | wordWrap : 2"
                           ></span>
                         </p>
                       </div>
@@ -110,7 +128,7 @@
                           ><br />
                           <span
                             [innerHTML]="
-                              sales.supplier.billingAddress | wordWrap : 2
+                            sellerData?.address  | wordWrap : 2
                             "
                           ></span>
                         </p>
@@ -281,7 +299,7 @@
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                               <p class="col-lg-9 col-form-label">
-                                {{ sales.purchaseType }}
+                                {{ sales.purchaseType.toUpperCase() }}
                               </p>
                             </div>
                           </div>
@@ -560,12 +578,22 @@
                   </p-tabPanel>
 
                   <p-tabPanel header="Payments">
+                    <ng-template #noPayments>
+                      <div class="no-notifications" style="text-align: center;">
+                        No payments made yet.
+                      </div>
+                    </ng-template>
                     <p-table
                       [value]="paymentDataListById"
                       styleClass="p-datatable-striped"
-                      *ngIf="paymentDataListById?.length > 0"
+                      *ngIf="paymentDataListById?.length > 0; else noPayments" 
                       [tableStyle]="{ 'min-width': '60rem' }"
                     >
+                    <!-- <ng-template pTemplate="header" #noPayments>
+                      <div class="no-notifications " style="text-align: center;">
+                        No payments made yet.
+                      </div>
+                    </ng-template> -->
                       <ng-template pTemplate="header">
                         <tr>
                           <th pSortableColumn="transactionNo">Trnx No.</th>
@@ -574,6 +602,7 @@
                           <th pSortableColumn="paymentMode">Payment Mode</th>
                         </tr>
                       </ng-template>
+                      
                       <ng-template pTemplate="body" let-payment>
                         <tr>
                           <td class="bold">{{ payment.transactionNo }}</td>
