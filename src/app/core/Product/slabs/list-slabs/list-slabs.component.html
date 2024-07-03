@@ -110,8 +110,8 @@
                                             <p-columnFilter type="text" field="warehouseDetails.name"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <!-- <th appShowHide [roles]="['admin', 'super-admin']">Action
-                                        </th> -->
+                                        <th appShowHide [roles]="['admin', 'super-admin']">Action
+                                        </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-slabs>
@@ -144,12 +144,16 @@
                                         <td>
                                             {{slabs.warehouseDetails.name}}
                                         </td>
+                                        <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
+                                            <p-button [text]="true" icon="fa-solid fa-eye"
+                                                (click)="showSlabDetails(slabs._id)"></p-button>
+                                        </td>
                                         <!-- <td appShowHide [roles]="['admin', 'super-admin']">
                                             <div class="action-buttons">
 
-                                                <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
+                                                <p-button === false" [text]="true" icon="fa fa-edit"
                                                     (click)="updateSlabs(slabs._id)"></p-button>
-                                                <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
+                                                <p-button === false" [text]=" true" icon="fa fa-trash"
                                                 (click)="deleteSlabs(slabs._id)"></p-button>
                                             </div>
                                         </td> -->
@@ -167,3 +171,170 @@
 
 <app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
     [data]="modalData"></app-confirm-dialog>
+
+
+<!-- ----------------Slab Details Pop Up --------------- -->
+
+<p-dialog header="Slab Details" [(visible)]="slabVisible" [modal]="true" [style]="{width: '80vw'}">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="card-body p-2">
+                <div class="row practice-card">
+                    <div class="col-xl-6 col-lg-6 col-sm-12">
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Slab Name
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-lg-9 col-form-label">{{ slabDetail?.slabName}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Slab Creation Date
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-lg-9 col-form-label">{{ slabDetail?.date }}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Category
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.categoryDetail?.name}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Size
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.slabSize}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Cost. / Sq. Ft.
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.costPerSQFT | indianCurrency}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Total Square Feet
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.costPerSQFT}}</p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-sm-12">
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Slab Number
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.slabNo}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Warehouse
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.warehouseDetails?.name}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Sub Category
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.subCategoryDetail?.name}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Thickness
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.thickness}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Selling Price / Sq. Ft.
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.sellingPricePerSQFT | indianCurrency}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Finishes
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.finishes?.name}}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-lg-7 col-md-6">
+                        <div class="invoice-fields">
+                            <h4 class="field-title">More Details</h4>
+                        </div>
+                        <div class="invoice-faq">
+                            <div class="col-lg-8 col-md-8">
+                                <div class="invoice-terms">
+                                  <h6>Notes:</h6>
+                                  <p class="mb-0">
+                                    {{ slabDetail?.notes }}
+                                  </p>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                        <div class="invoice-total-card">
+                            <h4 class="invoice-total-title">Summary</h4>
+                            <div class="invoice-total-box">
+                                <div class="invoice-total-inner">
+                                    <p >
+                                        Purchase Cost. <span>₹ {{ slabDetail?.purchaseCost | indianCurrency }}</span>
+                                    </p>
+                                    <p *ngIf="slabDetail?.transportationCharges">
+                                        Transportation Charges <span>₹ {{ slabDetail?.transportationCharges | indianCurrency }}</span>
+                                    </p>
+                                    <p *ngIf="slabDetail?.otherCharges">
+                                        Other Charges <span>₹ {{ slabDetail?.otherCharges | indianCurrency }}</span>
+                                    </p>
+                                    <p *ngIf="slabDetail?.processingFee">
+                                        Processing Fee. <span>₹ {{ slabDetail?.processingFee | indianCurrency }}</span>
+                                    </p>
+                                    <p *ngIf="slabDetail?.processingCost">
+                                        Processing Cost. <span>₹ {{ slabDetail?.processingCost | indianCurrency }}</span>
+                                    </p>
+                                </div>
+
+                                <div class="invoice-total-footer">
+                                    <h4>
+                                        Total Amount
+                                        <span>₹ {{ slabDetail?.totalCosting | indianCurrency }}</span>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>

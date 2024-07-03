@@ -9,10 +9,11 @@ import { ToastModule } from 'primeng/toast';
 import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SlabsService } from '../slabs.service';
+import { DialogModule } from 'primeng/dialog';
 @Component({
   selector: 'app-list-slabs',
   standalone: true,
-  imports: [CommonModule,SharedModule,ButtonModule, ToastModule],
+  imports: [CommonModule,SharedModule,ButtonModule, ToastModule, DialogModule],
   providers: [MessageService],
   templateUrl: './list-slabs.component.html',
   styleUrl: './list-slabs.component.scss'
@@ -22,6 +23,8 @@ export class ListSlabsComponent {
   data: any = null;
   originalData:any = []
   public showDialog: boolean = false;
+  public slabVisible: boolean = false;
+  slabDetail: any = {}
   modalData: any = {}
   slabsID: any;
   searchDataValue = "";
@@ -37,6 +40,11 @@ export class ListSlabsComponent {
       console.log("API", this.data);
 
     })
+  }
+  showSlabDetails(_id:any){
+    this.slabVisible = true;
+     this.slabDetail = this.allSlabsDaTa.find(e => e._id === _id );
+    console.log("slabDetail",this.slabDetail);
   }
   ngOnInit(): void {
     this.getSlabsList();
