@@ -34,10 +34,19 @@ export class ReportsService {
   getProfitLoss(data: {} | null) {
     return this.http.post(environment.apiUrl + "/ProfitLossController/getProfitLoss", data);
   }
-
+  
   downloadProfitLoss(data: {} | null) {
     const headers = new HttpHeaders().set('Accept', 'application/octet-stream');
     return this.http.post(environment.apiUrl + "/ProfitLossController/downloadProfitLoss", data, { headers, responseType: 'arraybuffer' });
+  }
+  
+  
+  getSalesCreditReport(data: {} | null) { // getSalesCreditReport > Sales Credit Alert Report Api 
+    return this.http.post(environment.apiUrl + "/SalesReportController/getSalesCreditReport", data);
+  }
+
+  getSalesTaxReport(data: {} | null) { // getSalesTaxReport > Sales Tax  Report Api 
+    return this.http.post(environment.apiUrl + "/SalesReportController/getSalesTaxReport", data);
   }
 
 }
