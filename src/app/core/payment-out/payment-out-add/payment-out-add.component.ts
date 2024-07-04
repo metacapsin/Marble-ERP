@@ -69,28 +69,30 @@ export class PaymentOutAddComponent {
     return this.addPaymentOutForm.get('purchase') as FormArray;
   }
   addpurchaseControls() {
+    this.purchase.clear();
     this.purchaseDataById?.forEach((purchase) => {
       this.purchase.push(
         this.fb.group({
           _id: [purchase._id],
-          amount: ["", [Validators.required, Validators.min(0), Validators.max(purchase.dueAmount)]],
+          amount: ["", [Validators.required, Validators.min(1), Validators.max(purchase.dueAmount)]],
         })
       );
     });
   }
 
-  enableSaveButton(id, value){
-    this.purchaseDataById?.forEach((purchase) => {
-      if(id != purchase._id && value){
-      this.purchase.push(
-        this.fb.group({
-          _id: [purchase._id],
-          amount: ["", [Validators.min(0), Validators.max(purchase.dueAmount)]],
-        })
-      );
-    }
-    });
-  }
+  // enableSaveButton(id, value){
+  //   this.purchaseDataById?.forEach((purchase) => {
+  //     console.log(this.purchaseDataById);
+  //     if(id != purchase._id && value){
+  //     this.purchase.push(
+  //       this.fb.group({
+  //         _id: [purchase._id],
+  //         amount: ["", [Validators.min(0), Validators.max(purchase.dueAmount)]],
+  //       })
+  //     );
+  //   }
+  //   });
+  // }
 
   ngOnInit(): void {
     this.SuppliersService.GetSupplierData().subscribe((resp: any) => {
@@ -112,8 +114,8 @@ export class PaymentOutAddComponent {
     console.log("hrlk adnns", customerId);
     this.PurchaseService.getPendingPurchaseBySupplierId(customerId).subscribe((resp: any) => {
       this.purchaseDataById = resp.data;
-      console.log(this.purchaseDataById);
       this.addpurchaseControls();
+      console.log(this.purchaseDataById);
     });
   }
 

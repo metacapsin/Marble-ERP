@@ -5,6 +5,7 @@ import { SalesReportsRoutingModule } from './sales-reports-routing.module';
 import { SalesReportsComponent } from './sales-reports.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { FilterPipe } from 'src/app/core/filter.pipe';
 
 
 @NgModule({
@@ -15,7 +16,9 @@ import { CalendarModule } from 'primeng/calendar';
     CommonModule,
     SalesReportsRoutingModule,
     SharedModule,
-    DropdownModule, CalendarModule
+    DropdownModule, 
+    CalendarModule,
+    FilterPipe,
   ]
 })
 export class SalesReportsModule { }
