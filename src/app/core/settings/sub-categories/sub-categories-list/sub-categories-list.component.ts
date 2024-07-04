@@ -18,13 +18,14 @@ import { ToastModule } from 'primeng/toast';
 import { AddSubCategoriesComponent } from '../add-sub-categories/add-sub-categories.component';
 import { EditSubCategoriesComponent } from '../edit-sub-categories/edit-sub-categories.component';
 import { SubCategoriesService } from '../sub-categories.service';
+import { FilterPipe } from 'src/app/core/filter.pipe';
 
 @Component({
   selector: 'app-sub-categories-list',
   templateUrl: './sub-categories-list.component.html',
   styleUrl: './sub-categories-list.component.scss',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, SharedModule, TableModule, CommonModule,
+  imports: [MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, SharedModule, TableModule, CommonModule, FilterPipe,
     SharedModule, RouterModule, ButtonModule, FormsModule, ConfirmDialogComponent, ShowHideDirective, ToastModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageService]

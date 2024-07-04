@@ -14,13 +14,14 @@ import { WarehouseService } from 'src/app/core/settings/warehouse/warehouse.serv
 import { DropdownModule } from 'primeng/dropdown';
 import { Validators } from '@angular/forms';
 import { StockAdjustmentService } from '../stock-adjustment.service';
+import { FilterPipe } from 'src/app/core/filter.pipe';
 
 @Component({
   selector: 'app-stock-adjustment-list',
   templateUrl: './stock-adjustment-list.component.html',
   styleUrl: './stock-adjustment-list.component.scss',
   standalone: true,
-  imports: [CommonModule, SharedModule, ButtonModule, TableModule, ToastModule, DialogModule, DropdownModule],
+  imports: [CommonModule, SharedModule, ButtonModule, TableModule, ToastModule, DialogModule, DropdownModule,FilterPipe],
   providers: [MessageService],
 })
 export class StockAdjustmentListComponent implements OnInit {

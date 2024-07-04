@@ -18,6 +18,7 @@ import { WarehouseService } from 'src/app/core/settings/warehouse/warehouse.serv
 import { DropdownModule } from 'primeng/dropdown';
 import { Validators } from '@angular/forms';
 import { StockTransferService } from '../stock-transfer.service';
+import { FilterPipe } from 'src/app/core/filter.pipe';
 
 @Component({
 
@@ -25,7 +26,7 @@ import { StockTransferService } from '../stock-transfer.service';
   templateUrl: './stock-transfer-list.component.html',
   styleUrl: './stock-transfer-list.component.scss',
   standalone: true,
-  imports: [CommonModule, SharedModule, ButtonModule, TableModule, TreeTableModule, ToastModule, DialogModule, DropdownModule],
+  imports: [CommonModule, SharedModule, ButtonModule, TableModule, TreeTableModule, ToastModule, DialogModule, DropdownModule,FilterPipe],
   providers: [MessageService],
 })
 export class StockTransferListComponent implements OnInit {

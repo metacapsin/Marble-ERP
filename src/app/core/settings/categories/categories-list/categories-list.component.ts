@@ -14,13 +14,14 @@ import { AddCategoriesComponent } from '../add-categories/add-categories.compone
 import { EditCategoriesComponent } from '../edit-categories/edit-categories.component';
 import { CategoriesService } from '../categories.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { FilterPipe } from 'src/app/core/filter.pipe';
 
 @Component({
   selector: 'app-categories-list',
   templateUrl: './categories-list.component.html',
   styleUrl: './categories-list.component.scss',
   standalone: true,
-  imports: [ TableModule, CommonModule,SharedModule, RouterModule, ButtonModule, FormsModule, ConfirmDialogComponent, ShowHideDirective, ToastModule],
+  imports: [ TableModule, CommonModule,SharedModule, RouterModule, FilterPipe,ButtonModule, FormsModule, ConfirmDialogComponent, ShowHideDirective, ToastModule],
   providers: [MessageService]
 })
 export class CategoriesListComponent {

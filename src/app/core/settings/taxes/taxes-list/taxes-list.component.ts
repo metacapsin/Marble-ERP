@@ -13,6 +13,7 @@ import { ToastModule } from 'primeng/toast';
 import { AddTaxesComponent } from '../add-taxes/add-taxes.component';
 import { EditTaxesComponent } from '../edit-taxes/edit-taxes.component';
 import { TaxesService } from '../taxes.service';
+import { FilterPipe } from 'src/app/core/filter.pipe';
 
 @Component({
   selector: 'app-taxes-list',
@@ -20,7 +21,7 @@ import { TaxesService } from '../taxes.service';
   styleUrl: './taxes-list.component.scss',
   
   standalone: true,
-  imports: [ SharedModule, TableModule, CommonModule,SharedModule, RouterModule, ButtonModule, FormsModule, ConfirmDialogComponent, ShowHideDirective, ToastModule],
+  imports: [ SharedModule, TableModule, FilterPipe,CommonModule,SharedModule, RouterModule, ButtonModule, FormsModule, ConfirmDialogComponent, ShowHideDirective, ToastModule],
   providers: [MessageService]
 })
 export class TaxesListComponent {

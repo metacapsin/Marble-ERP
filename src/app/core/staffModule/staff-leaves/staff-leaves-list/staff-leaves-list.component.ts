@@ -15,6 +15,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
+import { FilterPipe } from 'src/app/core/filter.pipe';
 
 @Component({
   selector: 'app-staff-leaves-list',
@@ -26,6 +27,7 @@ import { TabViewModule } from 'primeng/tabview';
      , ToastModule,
       DialogModule,
       TabViewModule,
+      FilterPipe
       ],
   templateUrl: './staff-leaves-list.component.html',
   styleUrl: './staff-leaves-list.component.scss',

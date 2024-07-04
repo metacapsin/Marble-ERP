@@ -35,8 +35,7 @@
                     <h3>Units List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
-                          (ngModelChange)="searchData(searchDataValue)" />
+                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue" />
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                       <div class="add-group textbtn">
@@ -55,8 +54,8 @@
               </div>
             </div>
             <div class="card-body p-2">
-            <p-table [value]="unitListData" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10"
-              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedUnit"  (onPage)="onPageChange($event)">
+            <p-table [value]="unitListData | filter:searchDataValue:['unitName', 'shortName',]" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10"
+              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedUnit" (onPage)="onPageChange($event)">
               <ng-template pTemplate="header">
                 <tr>
                   <th pSortableColumn="unitName">

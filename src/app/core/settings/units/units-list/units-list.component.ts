@@ -9,6 +9,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { UnitsService } from "../units.service";
 import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
+import { FilterPipe } from "src/app/core/filter.pipe";
 
 @Component({
   selector: "app-units-list",
@@ -20,6 +21,7 @@ import { ToastModule } from "primeng/toast";
     ButtonModule,
     DialogModule,
     ToastModule,
+    FilterPipe
   ],
   templateUrl: "./units-list.component.html",
   styleUrl: "./units-list.component.scss",

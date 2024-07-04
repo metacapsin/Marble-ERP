@@ -10,6 +10,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { WarehouseService } from '../warehouse.service';
 import { Subscription } from 'rxjs';
+import { FilterPipe } from 'src/app/core/filter.pipe';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   templateUrl: './warehouse-list.component.html',
   styleUrl: './warehouse-list.component.scss',
-  imports: [CommonModule,SharedModule,ButtonModule, ToastModule],
+  imports: [CommonModule,SharedModule,ButtonModule, ToastModule,FilterPipe],
   providers: [MessageService]
 })
 export class WarehouseListComponent {

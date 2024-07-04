@@ -30,8 +30,7 @@
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input type="text" class="form-control" placeholder="Search here"
-                                                    [(ngModel)]="searchDataValue"
-                                                    (ngModelChange)="searchData(searchDataValue)">
+                                                    [(ngModel)]="searchDataValue">
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="add-group textbtn">
@@ -58,7 +57,7 @@
                             </div>
                         </div>
                         <div class="card-body p-2">
-                        <p-table [value]="data" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                        <p-table [value]="data | filter:searchDataValue:['name', 'email','phone']" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"  (onPage)="onPageChange($event)" [(selection)]="selectedProducts">
                             <ng-template pTemplate="header">
                                 <tr>

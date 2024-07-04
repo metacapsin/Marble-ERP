@@ -11,6 +11,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ShowHideDirective } from 'src/app/common-component/show-hide-directive/show-hide.directive';
 import { routes } from 'src/app/shared/routes/routes';
+import { FilterPipe } from 'src/app/core/filter.pipe';
 
 
 
@@ -18,7 +19,7 @@ import { routes } from 'src/app/shared/routes/routes';
   selector: 'app-edit-users',
   templateUrl: './List-users.component.html',
   styleUrls: ['./List-users.component.scss'],
-  imports: [MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, SharedModule, CommonModule,TableModule, ButtonModule, ShowHideDirective],
+  imports: [MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, SharedModule, CommonModule,TableModule, ButtonModule, ShowHideDirective,FilterPipe],
   standalone: true,
 })
 export class ListUsersComponent implements  OnInit {

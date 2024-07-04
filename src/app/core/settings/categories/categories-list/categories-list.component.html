@@ -29,8 +29,7 @@
                       <h3>Categories List</h3>
                       <div class="doctor-search-blk">
                         <div class="top-nav-search table-search-blk">
-                          <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
-                            (ngModelChange)="searchData(searchDataValue)">
+                          <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue">
                           <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                         </div>
                         <div class="add-group textbtn">
@@ -56,7 +55,7 @@
   
               <!-- /Page content start -->
               <div class="card-body p-2">
-              <p-table [value]="categoriesListData" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+              <p-table [value]="categoriesListData | filter:searchDataValue:['name', 'description',]" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
               [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedCategory">
                 <ng-template pTemplate="header">
                   <tr>

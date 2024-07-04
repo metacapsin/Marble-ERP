@@ -11,6 +11,7 @@ import { ToastModule } from "primeng/toast";
 import { DialogModule } from "primeng/dialog";
 import { TabViewModule } from "primeng/tabview";
 import { staffService } from "../staff-service.service";
+import { FilterPipe } from "src/app/core/filter.pipe";
 
 @Component({
   selector: "app-staff-list",
@@ -20,7 +21,7 @@ import { staffService } from "../staff-service.service";
   imports: [CommonModule, 
     SharedModule, 
     DropdownModule, 
-    CalendarModule, ToastModule, DialogModule,TabViewModule,],
+    CalendarModule, ToastModule, DialogModule,TabViewModule,FilterPipe],
     providers: [MessageService]
 })
 export class StaffListComponent {

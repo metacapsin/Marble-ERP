@@ -5,11 +5,7 @@ import { Subscription } from "rxjs";
 import { routes } from "src/app/shared/routes/routes";
 import { DialogModule } from "primeng/dialog";
 import { ExpensesCategoriesdataService } from "./expenseCategories.service";
-import {
-  FormBuilder,
-  Validators,
-  FormGroup,
-} from "@angular/forms";
+import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-expenseCategories",
@@ -40,19 +36,19 @@ export class ExpensesCategoriesComponent {
   constructor(
     private Service: ExpensesCategoriesdataService,
     private messageService: MessageService,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {
     this.addExpensesCategoryForm = this.fb.group({
       categoryName: ["", [Validators.required]],
-      categoryDescription: ["", [ Validators.pattern(this.descriptionRegex)]],
+      categoryDescription: ["", [Validators.pattern(this.descriptionRegex)]],
     });
     this.editExpensesCategoryForm = this.fb.group({
       categoryName: ["", [Validators.required]],
-      categoryDescription: ["", [ Validators.pattern(this.descriptionRegex)]],
+      categoryDescription: ["", [Validators.pattern(this.descriptionRegex)]],
     });
   }
   getExpenses() {
-    this.Service.GetExpensesCategriesData().subscribe((resp:any) => {
+    this.Service.GetExpensesCategriesData().subscribe((resp: any) => {
       this.dataSource = resp.data;
       this.originalData = resp.data;
     });
@@ -98,11 +94,13 @@ export class ExpensesCategoriesComponent {
     this.showDialoge = true;
   }
   callBackModal() {
-    this.Service.DeleteExpensesCategriesApi(this.expenseId).subscribe((resp: any) => {
-      this.messageService.add({ severity: "success", detail: resp.message });
-      this.getExpenses();
-      this.close();
-    });
+    this.Service.DeleteExpensesCategriesApi(this.expenseId).subscribe(
+      (resp: any) => {
+        this.messageService.add({ severity: "success", detail: resp.message });
+        this.getExpenses();
+        this.close();
+      }
+    );
   }
   close() {
     this.showDialoge = false;
@@ -123,7 +121,8 @@ export class ExpensesCategoriesComponent {
   addExpensesCategoryFormsubmit() {
     const payload = {
       categoryName: this.addExpensesCategoryForm.value.categoryName,
-      categoryDescription: this.addExpensesCategoryForm.value.categoryDescription,
+      categoryDescription:
+        this.addExpensesCategoryForm.value.categoryDescription,
     };
     if (this.addExpensesCategoryForm.valid) {
       this.Service.AddExpensesCategriesdata(payload).subscribe((resp: any) => {
@@ -141,10 +140,8 @@ export class ExpensesCategoriesComponent {
       });
     } else {
       console.log("Form is invalid");
-      
     }
   }
-
 
   editExpensesCategoryFormSubmit() {
     const payload = {
@@ -153,9 +150,10 @@ export class ExpensesCategoriesComponent {
       categoryDescription:
         this.editExpensesCategoryForm.value.categoryDescription,
     };
-    
+
     if (this.editExpensesCategoryForm.valid) {
-      this.Service.UpDataExpensesCategriesApi(payload).subscribe((resp: any) => {
+      this.Service.UpDataExpensesCategriesApi(payload).subscribe(
+        (resp: any) => {
           if (resp.status === "success") {
             this.closeDialogEdit();
             const message = "Expenses Category has been updated";
