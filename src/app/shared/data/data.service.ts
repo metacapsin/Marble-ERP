@@ -459,6 +459,16 @@ export class DataService {
               base: routes.salesReport,
             },
             {
+              menuValue: "Sales Credit Reports",
+              route: routes.salesCreditReport,
+              base: routes.salesCreditReport,
+            },
+            {
+              menuValue: "Sales Tax Reports",
+              route: routes.salesTaxReport,
+              base: routes.salesTaxReport,
+            },
+            {
               menuValue: "Purchase Reports",
               route: routes.purchaseReport,
               base: routes.purchaseReport,

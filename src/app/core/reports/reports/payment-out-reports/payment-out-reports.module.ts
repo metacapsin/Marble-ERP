@@ -8,6 +8,7 @@ import { PaymentOutReportComponent } from './payment-out-reports.component';
 import { PaymentOutReportsRoutingModule } from './payment-out-reports-routing.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { FilterPipe } from 'src/app/core/filter.pipe';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { CalendarModule } from 'primeng/calendar';
     PaymentOutReportsRoutingModule,
     SharedModule,
     DropdownModule,
-    CalendarModule
+    CalendarModule,
+    FilterPipe
   ]
 })
 export class PaymentOutReportsModule { }

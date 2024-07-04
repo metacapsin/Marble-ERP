@@ -57,8 +57,7 @@
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input type="text" class="form-control" placeholder="Search here"
-                                                    [(ngModel)]="searchDataValue"
-                                                    (ngModelChange)="searchData(searchDataValue)">
+                                                    [(ngModel)]="searchDataValue">
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                         </div>
@@ -97,7 +96,7 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="expensesData" styleClass="p-datatable-striped"
+                            <p-table [value]="expensesData | filter:searchDataValue:['categoryDetails.name','date','amount',]" styleClass="p-datatable-striped"
                                 [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]"
                                 #dt 

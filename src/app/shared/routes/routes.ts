@@ -549,6 +549,12 @@ export class routes {
   public static get salesReport(): string {
     return this.baseUrl + '/reports/sales-reports';
   }  
+  public static get salesCreditReport(): string {
+    return this.baseUrl + '/reports/sales-credit-report';
+  }  
+  public static get salesTaxReport(): string {
+    return this.baseUrl + '/reports/sales-tax-report';
+  }  
   public static get purchaseReport(): string {
     return this.baseUrl + '/reports/purchase-reports';
   }  
