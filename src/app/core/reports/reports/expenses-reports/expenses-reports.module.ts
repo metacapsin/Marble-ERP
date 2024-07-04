@@ -5,7 +5,6 @@ import { expensesReportsRoutingModule } from './expenses-reports-routing.module'
 import { expensesReportsComponent } from './expenses-reports.component';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
-import { FilterPipe } from 'src/app/core/filter.pipe';
 
 
 @NgModule({
@@ -17,8 +16,7 @@ import { FilterPipe } from 'src/app/core/filter.pipe';
     expensesReportsRoutingModule,
     SharedModule,
     DropdownModule,
-    CalendarModule,
-    FilterPipe
+    CalendarModule
   ]
 })
 export class expensesReportsModule { }

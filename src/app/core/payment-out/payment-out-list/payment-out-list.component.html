@@ -60,6 +60,9 @@
                             [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory">
                             <ng-template pTemplate="header">
                                 <tr>
+                                    <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
+                                        <p-columnFilter type="text" field="purchaseInvoiceNumber" display="menu"></p-columnFilter>
+                                    </th>
                                     <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
                                         <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
                                     </th>
@@ -77,6 +80,7 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-payment>
                                 <tr>
+                                    <td class="bold">{{payment.purchaseInvoiceNumber}}</td>
                                     <td class="bold">{{payment.paymentDate | date: 'dd-MMM-yyyy'}}</td>
                                     <td class="bold">{{payment.supplier.name}}</td>
                                     <td>{{payment.paymentMode}}</td>

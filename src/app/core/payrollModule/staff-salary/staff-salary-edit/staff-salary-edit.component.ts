@@ -36,7 +36,6 @@ export class StaffSalaryEditComponent {
   ];
 
   descriptionRegex = /^(?!\s)(?:.{1,500})$/;
-  TotalSalary: any = 0;
 
 
   constructor(
@@ -49,14 +48,14 @@ export class StaffSalaryEditComponent {
   ) {
     this.editSalaryForm = this.fb.group({
       employee: ['', Validators.required],
-      netSalary: ['',],
-      basicSalary: ['', [Validators.required, Validators.min(100), Validators.max(1000000)]],
-      hra: ['', [Validators.required, Validators.min(100), Validators.max(100000)]],
-      esi: ['', [Validators.required, Validators.min(100), Validators.max(1000000)]],
-      tds: ['', [Validators.required, Validators.min(100), Validators.max(100000)]],
+      netSalary: ['', [Validators.required, Validators.min(1000), Validators.max(1000000)]],
+      basicSalary: ['', [Validators.required, Validators.min(1000), Validators.max(1000000)]],
+      hra: ['', [Validators.required, Validators.min(1000), Validators.max(100000)]],
+      esi: ['', [Validators.required, Validators.min(1000), Validators.max(1000000)]],
+      tds: ['', [Validators.required, Validators.min(1000), Validators.max(100000)]],
       type: ['', Validators.required],
-      pf: ['', [Validators.required, Validators.min(100), Validators.max(100000)]],
-      deductions: ['', [Validators.min(100), Validators.max(100000)]],
+      pf: ['', [Validators.required, Validators.min(1000), Validators.max(100000)]],
+      deductions: ['', [Validators.min(1000), Validators.max(100000)]],
       reason: ['', [Validators.pattern(this.descriptionRegex)]],
     });
     this.salaryId = this.activeRoute.snapshot.params["id"];
@@ -78,19 +77,7 @@ export class StaffSalaryEditComponent {
       this.patchForm(resp);
     });
   }
-  findNetSalary() {
-    const basicSalary = this.editSalaryForm.get("basicSalary").value || 0;
-    const tds = this.editSalaryForm.get("tds").value || 0;
-    const hra = this.editSalaryForm.get("hra").value || 0;
-    const esi = this.editSalaryForm.get("esi").value || 0;
-    const pf = this.editSalaryForm.get("pf").value || 0;
-    const deductions = this.editSalaryForm.get("deductions").value || 0;
-    this.TotalSalary = basicSalary + tds + hra + esi + pf;
-    const netSalary = this.TotalSalary - deductions;
-    this.editSalaryForm.patchValue({
-      netSalary: netSalary || 0,
-    });
-  }
+
   patchForm(data) {
     this.editSalaryForm.patchValue({
       employee: data.employee,

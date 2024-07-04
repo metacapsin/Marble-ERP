@@ -251,7 +251,6 @@
                   Amount <p-sortIcon field="amount"></p-sortIcon>
                   <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
                 </th>
-                <th width="10%">Action</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-payment>
@@ -263,11 +262,6 @@
                 </td>
                 <td>{{ payment.paymentMode }}</td>
                 <td>₹ {{ payment.amount | indianCurrency }}</td>
-                <td class="action-buttons">
-                  <p-button [text]=" true" icon="fa fa-trash"
-                      (click)=" deleteSalesPayment(payment._id)"></p-button>
-
-              </td>
               </tr>
             </ng-template>
             <ng-template pTemplate="footer">
@@ -384,12 +378,12 @@
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="salesInvoiceNumber">
-                  Invoice Number
+                  Invoice Numbers
                   <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
                   <p-columnFilter type="text" field="salesInvoiceNumber" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="transactionNo">
-                  Transaction Number
+                  Transaction No.
                   <p-sortIcon field="transactionNo"></p-sortIcon>
                   <p-columnFilter type="text" field="transactionNo" display="menu"></p-columnFilter>
                 </th>
@@ -405,7 +399,6 @@
                   Amount <p-sortIcon field="amount"></p-sortIcon>
                   <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
                 </th>
-                <th width="10%">Action</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-payment>
@@ -417,10 +410,6 @@
                 </td>
                 <td>{{ payment.paymentMode }}</td>
                 <td>₹ {{ payment.amount | indianCurrency}}</td>
-                <td class="action-buttons">
-                  <p-button [text]=" true" icon="fa fa-trash"
-                      (click)=" deleteSalesReturnPayment(payment._id)"></p-button>
-              </td>
               </tr>
             </ng-template>
             <ng-template pTemplate="footer">

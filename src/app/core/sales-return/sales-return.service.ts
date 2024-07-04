@@ -12,14 +12,29 @@ export class SalesReturnService {
   createSalesReturn(data: any) {
     return this.http.post(environment.apiUrl + '/Sales/createSalesReturn', data);
   }
+  createSalesReturnPayment(data: any) {
+    return this.http.post(environment.apiUrl + '/Sales/createSalesReturnPayment', data);
+  }
   getSalesReturnList() {
     return this.http.get(environment.apiUrl + '/Sales/getSalesReturnList');
   }
+  // getSalesReturnPaymentList() { //on payment
+  //   return this.http.get(environment.apiUrl + '/Sales/getSalesReturnPaymentList');
+  // }
   getSalesReturnById(id: any) {
     return this.http.get(environment.apiUrl + `/Sales/getSalesReturnById/${id}`);
   }
+  getSalesReturnPaymentById(id: any) {//on popup of sales Return
+    return this.http.get(environment.apiUrl + `/Sales/getSalesReturnPaymentById/${id}`);
+  }
   getSalesReturnByCustomerId(id: any) {
     return this.http.get(environment.apiUrl + `/Sales/getSalesReturnByCustomerId/${id}`);
+  }
+  getSalesReturnPaymentListByCustomerId(id: any) {//on payment out list 
+    return this.http.get(environment.apiUrl + `/Sales/getSalesReturnPaymentListByCustomerId/${id}`);
+  }
+  getSalesReturnPaymentListBySalesReturnId(id: any) {//on payment out list 
+    return this.http.get(environment.apiUrl + `/Sales/getSalesReturnPaymentListBySalesReturnId/${id}`);
   }
   updateSalesReturn(data: any) {
     return this.http.put(environment.apiUrl + '/Sales/updateSalesReturn', data);
@@ -27,27 +42,4 @@ export class SalesReturnService {
   deleteSalesReturn(id: any){
     return this.http.delete(environment.apiUrl + `/Sales/deleteSalesReturn/${id}`);
   }
-
-  //sales Return Payment
-  createSalesReturnPayment(data: any) {
-    return this.http.post(environment.apiUrl + '/Sales/createSalesReturnPayment', data);
-  }
-  // getSalesReturnPaymentList() { //on payment
-  //   return this.http.get(environment.apiUrl + '/Sales/getSalesReturnPaymentList');
-  // }
-  // getSalesReturnPaymentById(id: any) {//on popup of sales Return
-  //   return this.http.get(environment.apiUrl + `/Sales/getSalesReturnPaymentById/${id}`);
-  // }
-  getSalesReturnPaymentListByCustomerId(id: any) {//on payment out list 
-    return this.http.get(environment.apiUrl + `/Sales/getSalesReturnPaymentListByCustomerId/${id}`);
-  }
-  getSalesReturnPaymentListBySalesReturnId(id: any) {//on payment out list 
-    return this.http.get(environment.apiUrl + `/Sales/getSalesReturnPaymentListBySalesReturnId/${id}`);
-  }
-
-  deleteSalesReturnPayment(id: any){
-    return this.http.delete(environment.apiUrl + `/Sales/deleteSalesReturnPayment/${id}`);
-  }
 }
-
- 

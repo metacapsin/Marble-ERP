@@ -188,8 +188,8 @@
                                 <td>{{ purchase.purchaseInvoiceNumber }}</td>
                                 <td>{{ purchase.purchaseDate | date : "dd-MMM-yyyy"}}</td>
                                 <!-- <td>{{ purchase.purchaseOrderStatus }}</td> -->
-                                <td *ngIf="purchase.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
-                                        value="Partial Paid"></p-tag></td>
+                                <td *ngIf="purchase.paymentStatus == 'Partial Paid ' || purchase.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                                        value="Partial Paid "></p-tag></td>
                                 <td *ngIf="purchase.paymentStatus == 'Paid' "><p-tag severity="success"
                                         value="Paid"></p-tag></td>
                                 <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="danger"
@@ -206,9 +206,9 @@
                                             (click)="showInvoiceDialoge(purchase._id)"></p-button>
                                         <p-button *ngIf="
                       purchase.paymentStatus == 'Unpaid' ||
-                      purchase.paymentStatus == 'Partial Paid'
+                      purchase.paymentStatus == 'Partial Paid ' ||purchase.paymentStatus == 'Partial Paid'
                     " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id)"></p-button>
-                    <div *ngIf="purchase.paymentStatus != 'Unpaid' && purchase.paymentStatus != 'Partial Paid'" class="placeholder"></div>
+                    <div *ngIf="purchase.paymentStatus =='Paid'" class="placeholder"></div>
                                         <p-button [text]="true" icon="fa-solid fa-trash"
                                             (click)="deletePurchase(purchase._id)"></p-button>
                                     </div>
@@ -258,6 +258,7 @@
                                     Amount <p-sortIcon field="amount"></p-sortIcon>
                                     <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
                                 </th>
+                                <th>Action</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-payment>
@@ -269,6 +270,9 @@
                                 </td>
                                 <td>{{ payment.paymentMode }}</td>
                                 <td>₹ {{ payment.amount | indianCurrency}}</td>
+                                <td>
+                                    <p-button [text]=" true" icon="fa fa-trash" (click)="  deletePurchasePayment(payment._id)"></p-button>
+                                </td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="footer">
@@ -351,8 +355,8 @@
                                 <td>{{ purchaseReturn.returnDate | date : "dd-MMM-yyyy"}}</td>
                                 <!-- <td>{{ purchaseReturn.purchaseReturnOrderStatus }}</td> -->
                                 <!-- <td>{{ purchase.paymentStatus }}</td> -->
-                                <td *ngIf="purchaseReturn.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
-                                    value="Partial Paid"></p-tag></td>
+                                <td *ngIf="purchaseReturn.paymentStatus == 'Partial Paid ' || purchaseReturn.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                                    value="Partial Paid "></p-tag></td>
                             <td *ngIf="purchaseReturn.paymentStatus == 'Paid' "><p-tag severity="success"
                                     value="Paid"></p-tag></td>
                             <td *ngIf="purchaseReturn.paymentStatus == 'Unpaid' "><p-tag severity="danger"
@@ -368,10 +372,10 @@
                                             (click)="showReturnInvoiceDialoge(purchaseReturn._id)"></p-button>
                                         <p-button *ngIf="
                                         purchaseReturn.paymentStatus == 'Unpaid' ||
-                                        purchaseReturn.paymentStatus == 'Partial Paid'
+                                        purchaseReturn.paymentStatus == 'Partial Paid ' ||  purchaseReturn.paymentStatus == 'Partial Paid'
                                       " [text]="true" icon="fa-solid fa-wallet"
                                             (click)="openPaymentReturnDialog(purchaseReturn._id)"></p-button>
-                                            <div *ngIf="purchaseReturn.paymentStatus != 'Unpaid' && purchaseReturn.paymentStatus != 'Partial Paid'" class="placeholder"></div>
+                                            <div *ngIf="purchaseReturn.paymentStatus != 'Unpaid' && purchaseReturn.paymentStatus != 'Partial Paid ' && purchaseReturn.paymentStatus != 'Partial Paid'" class="placeholder"></div>
                                         <p-button [text]="true" icon="fa-solid fa-trash"
                                             (click)="deletePurchaseReturn(purchaseReturn._id)"></p-button>
                                     </div>
@@ -420,6 +424,7 @@
                                     Amount <p-sortIcon field="amount"></p-sortIcon>
                                     <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
                                 </th>
+                                <th>Action</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-payment>
@@ -431,6 +436,9 @@
                                 </td>
                                 <td>{{ payment.paymentMode }}</td>
                                 <td>₹ {{ payment.amount | indianCurrency}}</td>
+                                <td>
+                                    <p-button [text]=" true" icon="fa fa-trash" (click)="  deletePurchaseReturnPayment(payment._id)"></p-button>
+                                </td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="footer">

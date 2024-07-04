@@ -63,7 +63,7 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
     this.salesDataById.forEach(sale => {
       this.sales.push(this.fb.group({
         _id: [sale._id],
-        amount: ["", [Validators.required, Validators.min(1), Validators.max(sale.dueAmount)]]
+        amount: ["", [Validators.required, Validators.min(0), Validators.max(sale.dueAmount)]]
       }));
     });
   }

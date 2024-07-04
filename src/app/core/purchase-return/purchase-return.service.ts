@@ -58,4 +58,7 @@ export class PurchaseReturnService {
   deletePurchaseReturn(id: any){
     return this.http.delete(environment.apiUrl + `/Purchase/deletePurchaseReturn/${id}`);
   }
+  deletePurchaseReturnPaymentById(id: any) {
+    return this.http.delete(environment.apiUrl + "/Purchase/deletePurchaseReturnPayment/" + id)
+  }
 }

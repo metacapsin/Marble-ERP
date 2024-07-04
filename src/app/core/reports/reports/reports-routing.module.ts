@@ -20,20 +20,6 @@ const routes: Routes = [
         ),
     },
     {
-      path: 'sales-credit-report',
-      loadChildren: () =>
-        import('./sales-credit-report/sales-credit-report.module').then(
-          (m) => m.SalesCreditReportsModule
-        ),
-    },
-    {
-      path: 'sales-tax-report',
-      loadChildren: () =>
-        import('./sales-tax-report/sales-tax-report.module').then(
-          (m) => m.SalesTaxReportsModule
-        ),
-    },
-    {
       path: 'purchase-reports',
       loadChildren: () =>
         import('./purchase-reports/purchase-reports.module').then(

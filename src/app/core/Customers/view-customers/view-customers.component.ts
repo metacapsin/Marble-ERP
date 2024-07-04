@@ -58,8 +58,6 @@ export class ViewCustomersComponent implements OnInit {
   customerID: any;
   salesId: any;
   salesReturnID: any;
-  salesPaymentId: any;
-  salesReturnPaymentId: any;
   paymentDataListById: any[] = [];
   paymentReturnDataListById: any[] = [];
   paymentObject: any = {};
@@ -208,60 +206,19 @@ export class ViewCustomersComponent implements OnInit {
     this.showDialoge = true;
   }
 
-  deleteSalesPayment(_id: any) {
-    this.salesPaymentId = _id;
-
-    this.modalData = {
-      title: "Delete",
-      messege: "Are you sure you want to delete this Payment Details"
-    }
-    this.showDialoge = true;
-  }
-  deleteSalesReturnPayment(_id: any) {
-    this.salesReturnPaymentId = _id;
-
-    this.modalData = {
-      title: "Delete",
-      messege: "Are you sure you want to delete this Payment Details"
-    }
-    this.showDialoge = true;
-  }
-
   callBackModal() {
     if (this.salesId) {
       // Delete Sales logic
       this.salesService.DeleteSalesData(this.salesId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
-        this.getsales();
-        this.getPaymentListByCustomerId();
-        this.getsalesReturn();
-        this.getSalesReturnPaymentListByCustomerId();
-         this.showDialoge = false;
+        this.getsales(); // Assuming this method fetches updated sales data
+        this.showDialoge = false;
       });
     } else if (this.salesReturnID) {
       // Delete Sales Return logic
       this.salesReturnService.deleteSalesReturn(this.salesReturnID).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
-        this.getsales();
-        this.getPaymentListByCustomerId();
-        this.getsalesReturn();
-        this.getSalesReturnPaymentListByCustomerId();        this.showDialoge = false;
-      });
-    }
-    else if (this.salesPaymentId) {
-      // Delete Sales Payment logic
-      this.salesPayment.deletePaymentById(this.salesPaymentId).subscribe((resp: any) => {
-        this.messageService.add({ severity: "success", detail: resp.message });
-        this.getsales();
-        this.getPaymentListByCustomerId();
-      });
-    }
-    else if (this.salesReturnPaymentId) {
-      // Delete Sales Return logic
-      this.salesReturnService.deleteSalesReturnPayment(this.salesReturnPaymentId).subscribe((resp: any) => {
-        this.messageService.add({ severity: "success", detail: resp.message });
-        this.getsalesReturn(); 
-        this.getSalesReturnPaymentListByCustomerId();   
+        this.getsalesReturn(); // Assuming this method fetches updated sales return data
         this.showDialoge = false;
       });
     }

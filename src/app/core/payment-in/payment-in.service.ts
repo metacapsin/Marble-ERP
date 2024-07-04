@@ -33,8 +33,7 @@ export class PaymentInService {
   deletePaymentById(id: any) {
     return this.http.delete(environment.apiUrl + "/Sales/deletePayment/" + id)
   }
-  
-  
+ 
   getPaymentDetailById(id: any) {
     return this.http.get(environment.apiUrl + "/Sales/getPaymentDetailById/" + id)
   }
