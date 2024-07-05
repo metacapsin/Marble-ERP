@@ -305,11 +305,10 @@
                           <div class="invoice-total-box">
                             <div class="invoice-total-footer">
                               <h4>
-                                Total Purchase Cost.
+                                Net Salary
                                     <span>
-                                        {{ addSalaryForm.get('netSalary')?.value  }}
-                                    </span>
-                                      
+                                        {{'₹ ' + addSalaryForm.get('netSalary')?.value  | indianCurrency }}
+                                    </span> 
                               </h4>
                             </div>
                           </div>

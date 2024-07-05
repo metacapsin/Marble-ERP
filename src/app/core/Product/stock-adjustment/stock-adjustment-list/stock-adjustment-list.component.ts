@@ -1,27 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
-import { routes } from 'src/app/shared/routes/routes';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { TableModule } from 'primeng/table';
-import { DialogModule } from 'primeng/dialog';
-import { SlabsService } from '../../slabs/slabs.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { WarehouseService } from 'src/app/core/settings/warehouse/warehouse.service';
-import { DropdownModule } from 'primeng/dropdown';
-import { Validators } from '@angular/forms';
-import { StockAdjustmentService } from '../stock-adjustment.service';
-import { FilterPipe } from 'src/app/core/filter.pipe';
+import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { Router } from "@angular/router";
+import { MessageService } from "primeng/api";
+import { ButtonModule } from "primeng/button";
+import { ToastModule } from "primeng/toast";
+import { routes } from "src/app/shared/routes/routes";
+import { SharedModule } from "src/app/shared/shared.module";
+import { TableModule } from "primeng/table";
+import { DialogModule } from "primeng/dialog";
+import { SlabsService } from "../../slabs/slabs.service";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
+import { DropdownModule } from "primeng/dropdown";
+import { Validators } from "@angular/forms";
+import { StockAdjustmentService } from "../stock-adjustment.service";
+import { FilterPipe } from "src/app/core/filter.pipe";
 
 @Component({
-  selector: 'app-stock-adjustment-list',
-  templateUrl: './stock-adjustment-list.component.html',
-  styleUrl: './stock-adjustment-list.component.scss',
+  selector: "app-stock-adjustment-list",
+  templateUrl: "./stock-adjustment-list.component.html",
+  styleUrl: "./stock-adjustment-list.component.scss",
   standalone: true,
-  imports: [CommonModule, SharedModule, ButtonModule, TableModule, ToastModule, DialogModule, DropdownModule,FilterPipe],
+  imports: [
+    CommonModule,
+    SharedModule,
+    ButtonModule,
+    TableModule,
+    ToastModule,
+    DialogModule,
+    DropdownModule,
+    FilterPipe,
+  ],
   providers: [MessageService],
 })
 export class StockAdjustmentListComponent implements OnInit {
@@ -29,30 +38,32 @@ export class StockAdjustmentListComponent implements OnInit {
   editStockAdjustmentForm: FormGroup;
   public routes = routes;
   stockAdjustmentDataList: any = [];
-  originalData: any = []
+  originalData: any = [];
   public showDialog: boolean = false;
   public addstockAdjustment: boolean = false;
   public editstockAdjustment: boolean = false;
-  modalData: any = {}
+  modalData: any = {};
   stockAdjustmentId: any;
   searchDataValue = "";
   selectedlot = "";
   showData: any;
-  warehouseData: any = []
-  originalSlabData: any = []
-  slabData: any = []
+  warehouseData: any = [];
+  originalSlabData: any = [];
+  slabData: any = [];
   adjustmentTypeData: any = [
     { name: "Add", value: "add" },
-    { name: "Subtract", value: "subtract" }
+    { name: "Subtract", value: "subtract" },
   ];
   descriptionRegex = /^(?!\s)(?:.{1,250})$/;
 
-  constructor(public router: Router,
+  constructor(
+    public router: Router,
     private service: StockAdjustmentService,
     private SlabsService: SlabsService,
     private WarehouseService: WarehouseService,
     private fb: FormBuilder,
-    private messageService: MessageService) {
+    private messageService: MessageService
+  ) {
     this.addStockAdjustmentForm = this.fb.group({
       warehouse: ["", [Validators.required]],
       slabs: ["", [Validators.required]],
@@ -82,12 +93,12 @@ export class StockAdjustmentListComponent implements OnInit {
     this.getAdjustmentList();
 
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
-      this.warehouseData = resp.data.map(element => ({
+      this.warehouseData = resp.data.map((element) => ({
         name: element.name,
         _id: {
           _id: element._id,
-          name: element.name
-        }
+          name: element.name,
+        },
       }));
     });
   }
@@ -112,46 +123,56 @@ export class StockAdjustmentListComponent implements OnInit {
   }
 
   onWarehouseSelect(value: any) {
-    this.SlabsService.getSlabListByWarehouseId(value._id).subscribe((resp: any) => {
-      this.originalSlabData = resp.data;
-      this.slabData = resp.data.map(element => ({
-        name: element.slabName,
-        _id: {
-          _id: element._id,
-          slabName: element.slabName,
-          slabNo: element.slabNo,
-          // totalSQFT: element.totalSQFT,
-        },
-      }));
-    });
+    this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
+      (resp: any) => {
+        this.originalSlabData = resp.data;
+        this.slabData = resp.data.map((element) => ({
+          name: element.slabName,
+          _id: {
+            _id: element._id,
+            slabName: element.slabName,
+            slabNo: element.slabNo,
+            // totalSQFT: element.totalSQFT,
+          },
+        }));
+      }
+    );
   }
 
   settotalSQFT(value: any) {
-    const selectedSlab = this.originalSlabData.find(slab => slab._id === value._id);
-    this.addStockAdjustmentForm.get("currentQty").setValue(selectedSlab.totalSQFT)
+    const selectedSlab = this.originalSlabData.find(
+      (slab) => slab._id === value._id
+    );
+    this.addStockAdjustmentForm
+      .get("currentQty")
+      .setValue(selectedSlab.totalSQFT);
   }
   settotalSQFTEdit(value: any) {
-    const selectedSlab = this.originalSlabData.find(slab => slab._id === value._id);
-    this.editStockAdjustmentForm.get("currentQty").setValue(selectedSlab.totalSQFT)
+    const selectedSlab = this.originalSlabData.find(
+      (slab) => slab._id === value._id
+    );
+    this.editStockAdjustmentForm
+      .get("currentQty")
+      .setValue(selectedSlab.totalSQFT);
   }
   deleteStockAdjustment(_id: any) {
     this.stockAdjustmentId = _id;
     this.modalData = {
       title: "Delete",
       messege: "Are you sure want to delete this Stock Adjustment?",
-    }
+    };
     this.showDialog = true;
   }
   showNewDialog() {
     this.showDialog = true;
   }
   callBackModal() {
-    this.service.deleteAdjustment(this.stockAdjustmentId).subscribe(resp => {
-      const message = "Stock Adjustment has been deleted"
-      this.messageService.add({ severity: 'success', detail: message });
+    this.service.deleteAdjustment(this.stockAdjustmentId).subscribe((resp) => {
+      const message = "Stock Adjustment has been deleted";
+      this.messageService.add({ severity: "success", detail: message });
       this.getAdjustmentList();
       this.showDialog = false;
-    })
+    });
   }
   close() {
     this.showDialog = false;
@@ -163,7 +184,7 @@ export class StockAdjustmentListComponent implements OnInit {
       adjustmentType: this.addStockAdjustmentForm.value.adjustmentType,
       quantity: this.addStockAdjustmentForm.value.quantity,
       note: this.addStockAdjustmentForm.value.note,
-    }
+    };
     if (this.addStockAdjustmentForm.valid) {
       this.service.addNewAdjustment(payload).subscribe((resp: any) => {
         if (resp.status === "success") {
@@ -187,8 +208,8 @@ export class StockAdjustmentListComponent implements OnInit {
       adjustmentType: this.editStockAdjustmentForm.value.adjustmentType,
       quantity: this.editStockAdjustmentForm.value.quantity,
       note: this.editStockAdjustmentForm.value.note,
-      id: this.stockAdjustmentId
-    }
+      id: this.stockAdjustmentId,
+    };
     if (this.editStockAdjustmentForm.valid) {
       this.service.updateAdjustment(payload).subscribe((resp: any) => {
         if (resp.status === "success") {
@@ -207,13 +228,16 @@ export class StockAdjustmentListComponent implements OnInit {
   }
 
   public searchData(value: any): void {
-    this.stockAdjustmentDataList = this.originalData.filter(i =>
+    this.stockAdjustmentDataList = this.originalData.filter((i) =>
       i.slabs.slabName.toLowerCase().includes(value.trim().toLowerCase())
     );
   }
   onPageChange(event) {
     const startIndex = event.first;
     const endIndex = startIndex + event.rows;
-    const currentPageData = this.stockAdjustmentDataList.slice(startIndex, endIndex);
+    const currentPageData = this.stockAdjustmentDataList.slice(
+      startIndex,
+      endIndex
+    );
   }
 }
