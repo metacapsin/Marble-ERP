@@ -1,18 +1,10 @@
-import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { SuppliersdataService } from "../suppliers.service";
 import { PurchaseService } from "../../purchase/purchase.service";
-import { TabViewModule } from "primeng/tabview";
-import { TableModule } from "primeng/table";
 import { PaymentOutService } from "../../payment-out/payment-out.service";
 import { MessageService } from "primeng/api";
-import { PurchaseInvoiceDialogComponent } from "src/app/common-component/modals/purchase-invoice-dialog/purchase-invoice-dialog.component";
-import { CalendarModule } from "primeng/calendar";
-import { DialogModule } from "primeng/dialog";
-import { DropdownModule } from "primeng/dropdown";
-import { ToastModule } from "primeng/toast";
 import { PaymentInService } from "../../payment-in/payment-in.service";
 import { PurchaseReturnService } from "../../purchase-return/purchase-return.service";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
@@ -24,19 +16,10 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
   selector: "app-view-suppliers",
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
-    DropdownModule,
-    RouterModule,
-    TableModule,
-    CalendarModule,
-    DialogModule,
-    ToastModule,
-    TabViewModule,
     InvoiceDialogComponent,
     PaymentsInvoiceDialogComponent,
   ],
-  providers: [MessageService],
   templateUrl: "./view-suppliers.component.html",
   styleUrl: "./view-suppliers.component.scss",
 })

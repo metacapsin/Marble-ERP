@@ -1,31 +1,21 @@
 import { Component, OnInit } from "@angular/core";
 import {
-  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
-import { DropdownModule } from "primeng/dropdown";
-import { CommonModule } from "@angular/common";
 import { MessageService } from "primeng/api";
 import { SuppliersdataService } from "../suppliers.service";
-import { ToastModule } from "primeng/toast";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: "app-edit-suppliers",
   standalone: true,
-  imports: [
-    RouterModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    CommonModule,
-    ToastModule,
-  ],
+  imports: [SharedModule],
   templateUrl: "./edit-suppliers.component.html",
   styleUrl: "./edit-suppliers.component.scss",
-  providers: [MessageService],
 })
 export class EditSuppliersComponent implements OnInit {
   editSupplierGroup: UntypedFormGroup;

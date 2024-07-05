@@ -1,33 +1,21 @@
-import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import {
-  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { Router, RouterModule } from "@angular/router";
+import { Router} from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
-import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
 import { SuppliersdataService } from "../suppliers.service";
-import { ToastModule } from "primeng/toast";
-import { MultiSelectModule } from "primeng/multiselect";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: "app-add-suppliers",
   standalone: true,
-  imports: [
-    RouterModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    CommonModule,
-    ToastModule,
-    MultiSelectModule,
-  ],
+  imports: [SharedModule],
   templateUrl: "./add-suppliers.component.html",
   styleUrl: "./add-suppliers.component.scss",
-  providers: [MessageService],
 })
 export class AddSuppliersComponent {
   addSupplierGroup: UntypedFormGroup;

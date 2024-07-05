@@ -4,13 +4,11 @@ import { MenuItem, MessageService } from "primeng/api";
 import { Subscription } from "rxjs";
 import { routes } from "src/app/shared/routes/routes";
 import { SuppliersdataService } from "./suppliers.service";
-// import { DialogModule } from "primeng/dialog";
 
 @Component({
   selector: "app-suppliers",
   templateUrl: "./suppliers.component.html",
   styleUrls: ["./suppliers.component.scss"],
-  providers: [MessageService],
 })
 export class SuppliersComponent {
   items: MenuItem[] = [];
