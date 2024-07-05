@@ -34,6 +34,7 @@ import { MultiSelectModule } from "primeng/multiselect";
 import { RouterModule } from "@angular/router";
 import { PanelMenuModule } from "primeng/panelmenu";
 import { ButtonModule } from "primeng/button";
+import { TooltipModule } from "primeng/tooltip";
 
 @NgModule({
   declarations: [],
@@ -84,7 +85,9 @@ import { ButtonModule } from "primeng/button";
     MultiSelectModule,
     RouterModule,
     PanelMenuModule,
-    ButtonModule
+    ButtonModule,
+    TooltipModule
+    
     
   ],
   exports: [
@@ -119,7 +122,9 @@ import { ButtonModule } from "primeng/button";
     DropdownModule,
     RouterModule,
     PanelMenuModule,
-    ButtonModule
+    ButtonModule,
+    TooltipModule
+    
 
   ],
   providers: [DataService,MessageService],

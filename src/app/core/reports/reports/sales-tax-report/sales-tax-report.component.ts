@@ -129,16 +129,23 @@ export class SalesTaxReportsComponent {
 
   // New methods to calculate totals
 
-  getTotalPaidAmount(): number {
-    return this.salesTaxReportsData.reduce(
-      (total, payment) => total + parseFloat(payment.paidAmount),
-      0
-    );
-  }
+  // getTotalPaidAmount(): number {
+  //   return this.salesTaxReportsData.reduce(
+  //     (total, payment) => total + parseFloat(payment.paidAmount),
+  //     0
+  //   );
+  // }
 
-  getTotalDueAmount(): number {
+  // getTotalDueAmount(): number {
+  //   return this.salesTaxReportsData.reduce(
+  //     (sum, item) => sum + parseFloat(item.dueAmount),
+  //     0
+  //   );
+  // }
+
+  getTotalTaxAmount(): number {
     return this.salesTaxReportsData.reduce(
-      (sum, item) => sum + parseFloat(item.dueAmount),
+      (sum, item) => sum + parseFloat(item.salesOrderTax),
       0
     );
   }

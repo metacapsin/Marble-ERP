@@ -302,17 +302,17 @@
                                                 </p>
                                                 <p>Discount
                                                     <span *ngIf="addSalesForm.get('salesDiscount')?.value > 0">
-                                                        ₹ {{ addSalesForm.get('salesDiscount').value }}
+                                                        ₹ {{ addSalesForm.get('salesDiscount').value | number: '1.2-2' }}
                                                     </span>
                                                 </p>
                                                 <p>Shipping
                                                     <span *ngIf="addSalesForm.get('salesShipping')?.value > 0">
-                                                        ₹ {{ addSalesForm.get('salesShipping').value }}
+                                                        ₹ {{ addSalesForm.get('salesShipping').value | number: '1.2-2' }}
                                                     </span>
                                                 </p>
                                                 <p>Other Charges
                                                     <span *ngIf="addSalesForm.get('otherCharges')?.value > 0">
-                                                        ₹ {{ addSalesForm.get('otherCharges').value }}
+                                                        ₹ {{ addSalesForm.get('otherCharges').value | number: '1.2-2' }}
                                                     </span>
                                                 </p>
                                             </div>
@@ -320,7 +320,7 @@
                                             <div class="invoice-total-footer">
                                                 <h4>Total Amount
                                                     <span *ngIf="addSalesForm.get('salesTotalAmount')?.value != 0">
-                                                        ₹ {{ addSalesForm.get('salesTotalAmount').value }}
+                                                        ₹ {{ addSalesForm.get('salesTotalAmount').value | number: '1.2-2' }}
                                                     </span>
                                                 </h4>
                                             </div>

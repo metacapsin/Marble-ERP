@@ -1,20 +1,14 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { DropdownModule } from "primeng/dropdown";
 import { MultiSelectModule } from "primeng/multiselect";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
-import { CalendarModule } from "primeng/calendar";
 import { TaxesService } from "../../settings/taxes/taxes.service";
 import { CustomersdataService } from "../../Customers/customers.service";
 import { SalesService } from "../sales.service";
 import { MessageService } from "primeng/api";
 import { Router } from "@angular/router";
-import { CategoriesService } from "../../settings/categories/categories.service";
-import { ToastModule } from "primeng/toast";
-import { SubCategoriesService } from "../../settings/sub-categories/sub-categories.service";
-import { UnitsService } from "../../settings/units/units.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
@@ -25,13 +19,9 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
     CommonModule,
     SharedModule,
     MultiSelectModule,
-    DropdownModule,
-    CalendarModule,
-    ToastModule,
   ],
   templateUrl: "./addsales.component.html",
   styleUrls: ["./addsales.component.scss"],
-  providers: [MessageService],
 })
 export class AddsalesComponent implements OnInit {
   addSalesForm!: FormGroup;
@@ -255,7 +245,12 @@ export class AddsalesComponent implements OnInit {
 
   addSalesFormSubmit() {
     const formData = this.addSalesForm.value;
-
+    let salesOrderTax: number = 0;
+    formData.salesItemDetails.forEach(element => {
+      salesOrderTax += element.salesItemTaxAmount
+    });
+    console.log("salesOrderTax",salesOrderTax);
+    
     const payload = {
       customer: formData.customer,
       salesDate: formData.salesDate,
@@ -269,6 +264,7 @@ export class AddsalesComponent implements OnInit {
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
       otherCharges: formData.otherCharges,
+      salesOrderTax: salesOrderTax
     };
 
     if (this.addSalesForm.valid) {

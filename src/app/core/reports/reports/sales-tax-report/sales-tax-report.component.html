@@ -142,7 +142,7 @@
 
             <div class="card-body p-2">
               <p-table
-                [value]="salesTaxReportsData | filter:searchDataValue:['salesInvoiceNumber', 'salesDate','customerName','dueAmount']"
+                [value]="salesTaxReportsData | filter:searchDataValue:['salesInvoiceNumber', 'salesDate','customerName','salesOrderStatus','customerPhoneNo','customerEmail','salesOrderTax','salesTotalAmount']"
                 styleClass="p-datatable-striped"
                 [tableStyle]="{ 'min-width': '60rem' }"
                 [paginator]="true"
@@ -180,23 +180,28 @@
                       Sales Status
                       <p-sortIcon field="salesOrderStatus"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="paymentStatus">
-                      Payment Status
-                      <p-sortIcon field="paymentStatus"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="paidAmount">
-                      Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
+                    <th pSortableColumn="customerPhoneNo">
+                      Phone Number
+                      <p-sortIcon field="customerPhoneNo"></p-sortIcon>
                       <p-columnFilter
                         type="text"
-                        field="paidAmount"
+                        field="customerPhoneNo"
                         display="menu"
                       ></p-columnFilter>
                     </th>
-                    <th pSortableColumn="dueAmount">
-                      Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                    <th pSortableColumn="customerEmail">
+                      Email <p-sortIcon field="customerEmail"></p-sortIcon>
                       <p-columnFilter
                         type="text"
-                        field="dueAmount"
+                        field="customerEmail"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="salesOrderTax">
+                      Tax Amount <p-sortIcon field="salesOrderTax"></p-sortIcon>
+                      <p-columnFilter
+                        type="text"
+                        field="salesOrderTax"
                         display="menu"
                       ></p-columnFilter>
                     </th>
@@ -217,19 +222,9 @@
                     <td>{{ sales.salesDate | date : "dd-MMM-yyyy" }}</td>
                     <td>{{ sales.customerName }}</td>
                     <td>{{ sales.salesOrderStatus }}</td>
-                    <!-- <td>{{sales.paymentStatus}}</td> -->
-                    <td *ngIf="sales.paymentStatus == 'Partial Paid'">
-                      <p-tag severity="warning" value="Partial Paid"></p-tag>
-                    </td>
-                    <td *ngIf="sales.paymentStatus == 'Paid'">
-                      <p-tag severity="success" value="Paid"></p-tag>
-                    </td>
-                    <td *ngIf="sales.paymentStatus == 'Unpaid'">
-                      <p-tag severity="danger" value="Unpaid"></p-tag>
-                    </td>
-                    <td>₹ {{ sales.paidAmount | indianCurrency }}</td>
-                    <td>₹ {{ sales.dueAmount | indianCurrency }}</td>
-                    <td>₹ {{ sales.dueAmount | indianCurrency }}</td>
+                    <td>{{sales.customerPhoneNo}}</td>
+                    <td>{{sales.customerEmail}}</td>
+                    <td>₹ {{ sales.salesOrderTax | indianCurrency }}</td>
                     <td>₹ {{ sales.salesTotalAmount | indianCurrency }}</td>
                     <!-- <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
@@ -237,19 +232,10 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="footer">
-                  <tr
-                    *ngIf="
-                      getTotalPaidAmount() > 0 ||
-                      getTotalDueAmount() > 0 ||
-                      getTotalSalesAmount() > 0
-                    "
-                  >
-                    <td colspan="4"></td>
+                  <tr *ngIf=" getTotalSalesAmount() > 0 || getTotalTaxAmount() > 0 ">
+                    <td colspan="5"></td>
                     <td>Total Amount</td>
-                    <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>
-                    <td class="text-danger-dark">
-                      ₹ {{ getTotalDueAmount() | indianCurrency }}
-                    </td>
+                    <td>₹ {{ getTotalTaxAmount() | indianCurrency }}</td>
                     <td>₹ {{ getTotalSalesAmount() | indianCurrency }}</td>
                   </tr>
                 </ng-template>
