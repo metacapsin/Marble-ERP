@@ -10,6 +10,8 @@ import { Dropdown, DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { staffService } from "../../staff/staff-service.service";
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-staff-leaves-add',
@@ -63,6 +65,14 @@ export class StaffLeavesAddComponent {
         [Validators.required,Validators.pattern(this.leaveReasonRegex)],
       ],
     });
+    // Subscribe to changes in the date fields to calculate the number of days
+    this.addLeaveForm.get('from').valueChanges.subscribe(() => {
+      this.calculateNumberOfDays();
+    });
+
+    this.addLeaveForm.get('to').valueChanges.subscribe(() => {
+      this.calculateNumberOfDays();
+    });
   }
 
   ngOnInit(): void {
@@ -78,6 +88,20 @@ export class StaffLeavesAddComponent {
       
     });
   }
+
+  calculateNumberOfDays(): void {
+    const fromDate = this.addLeaveForm.get('from').value;
+    const toDate = this.addLeaveForm.get('to').value;
+
+    if (fromDate && toDate) {
+      const from = moment(fromDate, 'MM/DD/YYYY');
+      const to = moment(toDate, 'MM/DD/YYYY');
+      const days = to.diff(from, 'days') + 1; // Including the start date
+
+      this.addLeaveForm.get('noOfDay').setValue(days > 0 ? days : 0);
+    }
+  }
+
 
   addLeaveFormSubmit() {
     const formData = this.addLeaveForm.value;

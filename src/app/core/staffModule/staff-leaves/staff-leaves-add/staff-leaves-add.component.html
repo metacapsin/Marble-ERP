@@ -65,23 +65,24 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
-                                        <label for="noOfDay">Number of Days <span class="login-danger">*</span></label>
-                                        <input class="form-control" formControlName="noOfDay" type="number">
-
-                                        <div *ngIf="
+                                      <label for="noOfDay">Number of Days <span class="login-danger">*</span></label>
+                                      <input
+                                        class="form-control"
+                                        formControlName="noOfDay"
+                                        type="text"
+                                        readonly
+                                        [value]="addLeaveForm.get('noOfDay').value"
+                                      />
+                                      <div
+                                        *ngIf="
                                           addLeaveForm.get('noOfDay')?.hasError('required') &&
                                           addLeaveForm.get('noOfDay')?.touched
-                                        ">
-                                            <span class="login-danger">Field is required.</span>
-                                        </div>
-                                        <div *ngIf="
-                                          addLeaveForm.get('noOfDay')?.hasError('min') &&
-                                          addLeaveForm.get('noOfDay')?.touched
-                                        ">
-                                            <span class="login-danger">Input must be more than 0.</span>
-                                        </div>
+                                        "
+                                      >
+                                        <span class="login-danger">Field is required.</span>
+                                      </div>
                                     </div>
-                                </div>
+                                  </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label for="leaveType">Leave Type <span class="login-danger">*</span></label>

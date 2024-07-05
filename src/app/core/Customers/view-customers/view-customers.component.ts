@@ -320,11 +320,13 @@ export class ViewCustomersComponent implements OnInit {
   navigateToCreateSalesReturn() {
     const customer1 = {
       name: this.customerDataById[0].name,
+      billingAddress: this.customerDataById[0].billingAddress,
+
       _id: this.customerDataById[0]._id,
     };
 
     this.localStorageService.setItem("customer1", customer1);
-
+console.log("this is sales return object send to sales return page",customer1)
     const returnUrl = this.router.url;
     this.localStorageService.setItem("returnUrl",returnUrl)
     console.log(returnUrl)

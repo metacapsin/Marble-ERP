@@ -10,6 +10,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { staffService } from '../../staff/staff-service.service';
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-staff-leaves-edit',
   templateUrl: './staff-leaves-edit.component.html',
@@ -55,6 +57,13 @@ export class StaffLeavesEditComponent {
       leaveReason: ['', [Validators.required, Validators.pattern(this.leaveReasonRegex)]]
   })
     this.leaveId = this.activeRoute.snapshot.params["id"];
+    this.editLeaveForm.get('from').valueChanges.subscribe(() => {
+      this.calculateNumberOfDays();
+    });
+
+    this.editLeaveForm.get('to').valueChanges.subscribe(() => {
+      this.calculateNumberOfDays();
+    });
 
   }
   ngOnInit(): void {
@@ -87,6 +96,18 @@ export class StaffLeavesEditComponent {
     });
   }
 
+  calculateNumberOfDays(): void {
+    const fromDate = this.editLeaveForm.get('from').value;
+    const toDate = this.editLeaveForm.get('to').value;
+
+    if (fromDate && toDate) {
+      const from = moment(fromDate, 'MM/DD/YYYY');
+      const to = moment(toDate, 'MM/DD/YYYY');
+      const days = to.diff(from, 'days') + 1; // Including the start date
+
+      this.editLeaveForm.get('noOfDay').setValue(days > 0 ? days : 0);
+    }
+  }
 editLeaveFormSubmit(){
    const formData = this.editLeaveForm.value;
   console.log(this.editLeaveForm.value);
