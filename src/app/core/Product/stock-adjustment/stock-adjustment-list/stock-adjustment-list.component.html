@@ -121,7 +121,7 @@
         <div class="modal-body">
             <form [formGroup]="addStockAdjustmentForm" (ngSubmit)="addStockAdjustmentFormSubmit()">
                 <div class="row mt-2">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-12 ">
                         <div class="form-group local-forms">
                             <label for="warehouse">Warehouse <span class="login-danger">*</span></label>
                             <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
@@ -136,7 +136,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group local-forms">
                             <label for="slabs">Slab<span class="login-danger">*</span></label>
                             <p-dropdown [options]="slabData" styleClass="" appendTo="body" optionLabel="name"
@@ -151,14 +151,14 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group local-forms">
                             <label for="currentQty">Current Quantity ( Sq. Ft )</label>
                             <span class="form-control">{{addStockAdjustmentForm.get('currentQty').value}}</span>
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group local-forms">
                             <label for="quantity">Quantity ( Sq. Ft )<span class="login-danger">*</span></label>
                             <input type="number" formControlName="quantity" class="form-control">
@@ -173,7 +173,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group local-forms">
                             <label for="adjustmentType">Adjustment Type<span class="login-danger">*</span></label>
                             <p-dropdown [options]="adjustmentTypeData" styleClass="" appendTo="body" optionLabel="name"
@@ -187,10 +187,10 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group local-forms">
                             <label for="note">Notes</label>
-                            <textarea class="form-control" type="text" formControlName="note" placeholder=""></textarea>
+                            <textarea class="form-control" type="text" formControlName="note" placeholder="" rows="1"></textarea>
                             <div
                                 *ngIf="addStockAdjustmentForm.get('note')?.hasError('pattern') && addStockAdjustmentForm.get('note')?.touched">
                                 <span class="login-danger">Input must be between 1 to 250 characters.</span>
@@ -198,7 +198,7 @@
                         </div>
                     </div>
 
-                    <div class=" col-12">
+                    <div class="col-12 col-sm-12">
                         <div class=" settings-btns text-end m-b-10">
                             <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
                                 [disabled]="!addStockAdjustmentForm.valid">Submit</button>
@@ -218,7 +218,7 @@
         <div class="modal-body">
             <form [formGroup]="editStockAdjustmentForm" (ngSubmit)="editStockAdjustmentFormSubmit()">
                 <div class="row mt-2">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group local-forms">
                             <label for="warehouse">Warehouse</label>
                             <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
@@ -229,7 +229,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group local-forms">
                             <label for="slabs">Slab<span class="login-danger">*</span></label>
                             <p-dropdown [options]="slabData" styleClass="" appendTo="body" optionLabel="name"
@@ -244,14 +244,14 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group local-forms">
                             <label for="currentQty">Current Quantity ( Sq. Ft )</label>
                             <span class="form-control">{{editStockAdjustmentForm.get('currentQty').value}}</span>
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group local-forms">
                             <label for="quantity">Quantity ( Sq. Ft )<span class="login-danger">*</span></label>
                             <input type="number" formControlName="quantity" class="form-control">
@@ -266,7 +266,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group local-forms">
                             <label for="adjustmentType">Adjustment Type<span class="login-danger">*</span></label>
                             <span class="form-control">{{editStockAdjustmentForm.get('adjustmentType').value}}</span>
@@ -281,10 +281,10 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group local-forms">
                             <label for="note">Notes</label>
-                            <textarea class="form-control" type="text" formControlName="note" placeholder=""></textarea>
+                            <textarea class="form-control" type="text" formControlName="note" placeholder="" rows="1"></textarea>
                             <div
                                 *ngIf="editStockAdjustmentForm.get('note')?.hasError('pattern') && editStockAdjustmentForm.get('note')?.touched">
                                 <span class="login-danger">Input must be between 1 to 250 characters.</span>

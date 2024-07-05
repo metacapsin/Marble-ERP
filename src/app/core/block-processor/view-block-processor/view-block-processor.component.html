@@ -107,13 +107,13 @@
                   Payment Status<p-sortIcon field="paymentStatus"></p-sortIcon>
                   <p-columnFilter type="text" field="paymentStatus" display="menu"></p-columnFilter>
                 </th>
-                <th pSortableColumn="dueAmount">
-                  Due Amount<p-sortIcon field="dueAmount"></p-sortIcon>
-                  <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
-                </th>
                 <th pSortableColumn="paidAmount">
                   Paid Amount<p-sortIcon field="paidAmount"></p-sortIcon>
                   <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="dueAmount">
+                  Due Amount<p-sortIcon field="dueAmount"></p-sortIcon>
+                  <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="processingCost">
                   Processing Cost<p-sortIcon field="processingCost"></p-sortIcon>
@@ -126,13 +126,13 @@
             </ng-template>
             <ng-template pTemplate="body" let-processing>
               <tr>
-                <td class="">
+                <td>
                   {{ processing.processingInvoiceNo }}
                 </td>
                 <td>
                   {{ processing.processingDate }}
                 </td>
-                <td class="">
+                <td>
                   <!-- {{ processing.slab[0].slabName }} -->
                   adnan
                 </td>
@@ -140,14 +140,14 @@
                     value="Partial Paid"></p-tag></td>
                 <td *ngIf="processing.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
                 <td *ngIf="processing.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
-                <td class="">
-                  ₹ {{ processing.dueAmount }}
+                <td>
+                  ₹ {{ processing.paidAmount.toFixed(3) }}
                 </td>
                 <td>
-                  ₹ {{ processing.paidAmount }}
+                  ₹ {{ processing.dueAmount.toFixed(3) }}
                 </td>
                 <td>
-                  ₹ {{ processing.processingCost }}
+                  ₹ {{ processing.processingCost.toFixed(3) }}
                 </td>
                 <td appShowHide [roles]="['admin', 'super-admin']">
                   <div class="action-buttons">
