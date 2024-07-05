@@ -1,34 +1,21 @@
 import { Component } from "@angular/core";
 import {
-  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
-import { DropdownModule } from "primeng/dropdown";
-import { CommonModule } from "@angular/common";
 import { CustomersdataService } from "../customers.service";
 import { MessageService } from "primeng/api";
-import { ToastModule } from "primeng/toast";
-// import { WarehouseService } from "../../settings/warehouse/warehouse.service";
-import { MultiSelectModule } from "primeng/multiselect";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: "app-edit-customers",
   standalone: true,
-  imports: [
-    RouterModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    CommonModule,
-    ToastModule,
-    MultiSelectModule,
-  ],
+  imports: [SharedModule],
   templateUrl: "./edit-customers.component.html",
   styleUrl: "./edit-customers.component.scss",
-  providers: [MessageService],
 }) 
 export class EditCustomersComponent {
   editCustomerGroup: UntypedFormGroup;

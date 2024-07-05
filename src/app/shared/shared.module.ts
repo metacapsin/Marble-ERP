@@ -25,6 +25,15 @@ import { IndianCurrencyPipe } from "./directives/indian-currency.pipe";
 import { WordWrapPipe } from "./directives/word-wrap.pipe";
 import { FilterPipe } from "../core/filter.pipe";
 import { ToastModule } from "primeng/toast";
+import { CalendarModule } from "primeng/calendar";
+import { DialogModule } from "primeng/dialog";
+import { TabViewModule } from "primeng/tabview";
+import { DropdownModule } from "primeng/dropdown";
+import { MessageService } from "primeng/api";
+import { MultiSelectModule } from "primeng/multiselect";
+import { RouterModule } from "@angular/router";
+import { PanelMenuModule } from "primeng/panelmenu";
+import { ButtonModule } from "primeng/button";
 
 @NgModule({
   declarations: [],
@@ -67,7 +76,16 @@ import { ToastModule } from "primeng/toast";
     IndianCurrencyPipe,
     WordWrapPipe,
     FilterPipe,
-    ToastModule
+    ToastModule,
+    CalendarModule,
+    DialogModule,
+    TabViewModule,
+    DropdownModule,
+    MultiSelectModule,
+    RouterModule,
+    PanelMenuModule,
+    ButtonModule
+    
   ],
   exports: [
     CommonModule,
@@ -94,8 +112,16 @@ import { ToastModule } from "primeng/toast";
     IndianCurrencyPipe,
     WordWrapPipe,
     FilterPipe,
-    ToastModule
+    ToastModule,
+    CalendarModule,
+    DialogModule,
+    TabViewModule,
+    DropdownModule,
+    RouterModule,
+    PanelMenuModule,
+    ButtonModule
+
   ],
-  providers: [DataService],
+  providers: [DataService,MessageService],
 })
 export class SharedModule {}

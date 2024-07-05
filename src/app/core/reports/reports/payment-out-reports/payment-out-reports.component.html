@@ -214,7 +214,7 @@
                     <td *ngIf="data.customer">{{ data?.customer.name }}</td>
                     <td *ngIf="data.supplier">{{ data?.supplier.name }}</td>
                     <td>{{ data.paymentMode }}</td>
-                    <td>₹ {{ data.amount }}</td>
+                    <td>₹ {{ data.amount | indianCurrency }}</td>
                   </tr>
                 </ng-template>
 
@@ -222,7 +222,7 @@
                   <tr *ngIf="getTotalAmount() > 0">
                     <td colspan="4"></td>
                     <td>Total Amount</td>
-                    <td>₹ {{ getTotalAmount() }}</td>
+                    <td>₹ {{ getTotalAmount() | indianCurrency }}</td>
                   </tr>
                 </ng-template>
               </p-table>

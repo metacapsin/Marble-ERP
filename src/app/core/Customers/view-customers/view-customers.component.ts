@@ -1,45 +1,22 @@
-import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { CustomersdataService } from "../customers.service";
 import { PaymentInService } from "../../payment-in/payment-in.service";
-import { TabViewModule } from "primeng/tabview";
-import { TableModule } from "primeng/table";
 import { SalesService } from "../../sales/sales.service";
 import { MessageService } from "primeng/api";
-import { DropdownModule } from "primeng/dropdown";
-import { CalendarModule } from "primeng/calendar";
-import { DialogModule } from "primeng/dialog";
-import { ToastModule } from "primeng/toast";
-
-// import { MatDialog } from "@angular/material/dialog";
 import { SharedModule } from "src/app/shared/shared.module";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
 import { SalesReturnService } from "../../sales-return/sales-return.service";
 import { PaymentOutService } from "../../payment-out/payment-out.service";
-import { IndianCurrencyPipe } from "src/app/shared/directives/indian-currency.pipe";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: "app-view-customers",
   standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    DropdownModule,
-    RouterModule,
-    TableModule,
-    CalendarModule,
-    DialogModule,
-    ToastModule,
-    TabViewModule,
-    InvoiceDialogComponent,
-    PaymentsInvoiceDialogComponent,
-    IndianCurrencyPipe,
-  ],
-  providers: [MessageService],
+  imports: [SharedModule,RouterModule,InvoiceDialogComponent,PaymentsInvoiceDialogComponent,],
+  // providers: [MessageService],
 
   templateUrl: "./view-customers.component.html",
   styleUrl: "./view-customers.component.scss",
@@ -245,7 +222,8 @@ export class ViewCustomersComponent implements OnInit {
         this.getsales();
         this.getPaymentListByCustomerId();
         this.getsalesReturn();
-        this.getSalesReturnPaymentListByCustomerId();        this.showDialoge = false;
+        this.getSalesReturnPaymentListByCustomerId();        
+        this.showDialoge = false;
       });
     }
     else if (this.salesPaymentId) {
@@ -254,6 +232,7 @@ export class ViewCustomersComponent implements OnInit {
         this.messageService.add({ severity: "success", detail: resp.message });
         this.getsales();
         this.getPaymentListByCustomerId();
+        this.showDialoge = false;
       });
     }
     else if (this.salesReturnPaymentId) {

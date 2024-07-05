@@ -178,10 +178,10 @@
                                             {{ slabs.totalSQFT }} SqFt.
                                         </td>
                                         <td>
-                                            {{slabs.costPerSQFT}}
+                                            ₹ {{slabs.costPerSQFT | indianCurrency }}
                                         </td>
                                         <td>
-                                            {{slabs.sellingPricePerSQFT}}
+                                            ₹ {{slabs.sellingPricePerSQFT | indianCurrency }}
                                         </td>
                                         <ng-template #noData>
                                             <td #noData>

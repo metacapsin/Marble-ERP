@@ -13,21 +13,14 @@ import { MessageService } from "primeng/api";
 import { CustomersdataService } from "../customers.service";
 import { ToastModule } from "primeng/toast";
 import { MultiSelectModule } from "primeng/multiselect";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: "app-add-customers",
   standalone: true,
-  imports: [
-    RouterModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    CommonModule,
-    ToastModule,
-    MultiSelectModule,
-  ],
+  imports: [SharedModule],
   templateUrl: "./add-customers.component.html",
   styleUrl: "./add-customers.component.scss",
-  providers: [MessageService],
 })
 export class AddCustomersComponent {
   addcustomerGroup: UntypedFormGroup;
