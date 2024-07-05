@@ -324,7 +324,7 @@ export class AddSlabsComponent {
       if (this.slabsAddForm.valid) {
         // Api call for creating slab
         this.Service.CreateSlabs(payload).subscribe((resp: any) => {
-          if (resp.status === "success") {
+          if (resp.lotResponse.status === "success") {
             const message = "Slabs has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {

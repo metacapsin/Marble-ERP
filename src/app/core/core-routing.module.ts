@@ -27,11 +27,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./accounts/accounts.module').then((m) => m.AccountsModule),
       },
-      {
-        path: 'payroll',
-        loadChildren: () =>
-          import('./payroll/payroll.module').then((m) => m.PayrollModule),
-      },
+      // {
+      //   path: 'payroll',
+      //   loadChildren: () =>
+      //     import('./payroll/payroll.module').then((m) => m.PayrollModule),
+      // },
       
       
       

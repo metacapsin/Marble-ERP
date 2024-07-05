@@ -4,16 +4,12 @@ import { routes } from "src/app/shared/routes/routes";
 import { Router } from "@angular/router";
 import { StaffSalaryService } from "../staff-salary.service";
 import { staffService } from "src/app/core/staffModule/staff/staff-service.service";
-import { CommonModule } from "@angular/common";
 import { SharedModule } from "src/app/shared/shared.module";
-import { DropdownModule } from "primeng/dropdown";
-import { ToastModule } from "primeng/toast";
 import { MessageService } from "primeng/api";
 @Component({
   selector: "app-staff-salary-add",
   standalone: true,
-  imports: [CommonModule, SharedModule, DropdownModule, ToastModule],
-  providers: [MessageService],
+  imports: [SharedModule],
   templateUrl: "./staff-salary-add.component.html",
   styleUrl: "./staff-salary-add.component.scss",
 })
