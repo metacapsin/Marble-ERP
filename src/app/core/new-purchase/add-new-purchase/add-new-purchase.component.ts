@@ -25,17 +25,9 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
   selector: "app-add-new-purchase",
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
-    RouterModule,
-    StepperModule,
-    ButtonModule,
-    CalendarModule,
     AddLotComponent,
-    DropdownModule,
     AddSlabsComponent,
-    AccordionModule,
-    ToastModule
   ],
   templateUrl: "./add-new-purchase.component.html",
   styleUrl: "./add-new-purchase.component.scss",

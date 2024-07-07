@@ -15,7 +15,7 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 @Component({
   selector: "app-view-customers",
   standalone: true,
-  imports: [SharedModule,RouterModule,InvoiceDialogComponent,PaymentsInvoiceDialogComponent,],
+  imports: [SharedModule,InvoiceDialogComponent,PaymentsInvoiceDialogComponent,],
   // providers: [MessageService],
 
   templateUrl: "./view-customers.component.html",
@@ -185,8 +185,9 @@ export class ViewCustomersComponent implements OnInit {
     this.showDialoge = true;
   }
 
-  deleteSalesPayment(_id: any) {
-    this.salesPaymentId = _id;
+  deleteSalesPayment(Id: any) {
+    this.salesPaymentId = Id;
+    console.log("sales Payment Delete Dialog triggred and this is its id", Id);
 
     this.modalData = {
       title: "Delete",
@@ -194,8 +195,9 @@ export class ViewCustomersComponent implements OnInit {
     }
     this.showDialoge = true;
   }
-  deleteSalesReturnPayment(_id: any) {
-    this.salesReturnPaymentId = _id;
+  deleteSalesReturnPayment(Id: any) {
+    this.salesReturnPaymentId = Id;
+    console.log("sales Return payment Delete Dialog triggred and this is its id", Id);
 
     this.modalData = {
       title: "Delete",

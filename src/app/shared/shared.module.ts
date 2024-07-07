@@ -35,6 +35,9 @@ import { RouterModule } from "@angular/router";
 import { PanelMenuModule } from "primeng/panelmenu";
 import { ButtonModule } from "primeng/button";
 import { TooltipModule } from "primeng/tooltip";
+import { FileUploadModule } from "primeng/fileupload";
+import { StepperModule } from "primeng/stepper";
+import { AccordionModule } from "primeng/accordion";
 
 @NgModule({
   declarations: [],
@@ -86,7 +89,11 @@ import { TooltipModule } from "primeng/tooltip";
     RouterModule,
     PanelMenuModule,
     ButtonModule,
-    TooltipModule
+    TooltipModule,
+    FileUploadModule,
+    StepperModule,
+    AccordionModule
+
     
     
   ],
@@ -123,7 +130,11 @@ import { TooltipModule } from "primeng/tooltip";
     RouterModule,
     PanelMenuModule,
     ButtonModule,
-    TooltipModule
+    TooltipModule,
+    FileUploadModule,
+    StepperModule,
+    AccordionModule
+    
     
 
   ],

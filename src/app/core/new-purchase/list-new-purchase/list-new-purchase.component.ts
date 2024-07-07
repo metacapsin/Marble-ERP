@@ -30,15 +30,8 @@ import { FilterPipe } from "../../filter.pipe";
   selector: 'app-list-new-purchase',
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
-    DialogModule,
-    DropdownModule,
-    CalendarModule,
-    ToastModule,
     InvoiceDialogComponent,
-    TabViewModule,
-    FilterPipe
   ],
   templateUrl: './list-new-purchase.component.html',
   styleUrl: './list-new-purchase.component.scss',

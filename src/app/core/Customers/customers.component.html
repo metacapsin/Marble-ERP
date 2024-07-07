@@ -29,8 +29,7 @@
                                     <div class="doctor-search-blk gap-3">
                                         <div class="top-nav-search table-search-blk">
                                             <input type="text" class="form-control" placeholder="Search here"
-                                                [(ngModel)]="searchDataValue"
-                                                >
+                                                [(ngModel)]="searchDataValue">
                                             <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                         </div>
                                         <div class="add-group textbtn gap-3">
@@ -53,9 +52,10 @@
                     </div>
 
                     <div class="card-body p-2">
-                        <p-table [value]="dataSource | filter:searchDataValue:['name', 'email', 'status', 'createdOn']" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                            [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"  (change)="onPageChange($event)"
-                            [(selection)]="selectedCustomer">
+                        <p-table [value]="dataSource | filter:searchDataValue:['name', 'email', 'status', 'createdOn']"
+                            [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+                            [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
+                            (change)="onPageChange($event)" [(selection)]="selectedCustomer">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
@@ -69,7 +69,7 @@
                                     </th>
                                     <th pSortableColumn="createdOn">Created At <p-sortIcon
                                             field="createdOn"></p-sortIcon></th>
-                                    <th width="13%" >Action</th>
+                                    <th width="13%">Action</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-product>
@@ -85,14 +85,20 @@
                                     <td appShowHide [roles]="['admin', 'super-admin']">
                                         <div class="action-buttons">
 
-                                        <p-button [text]=" true" icon="fa fa-eye"
-                                            (click)="vewCustomer(product._id)"></p-button>
-                                        <p-button [text]="true" icon="fa fa-edit"
-                                            (click)="editCustomer(product._id)"></p-button>
-                                        <p-button [text]=" true" icon="fa fa-trash"
-                                            (click)="deleteCustomer(product._id)"></p-button>
+                                            <p-button [text]=" true" icon="fa fa-eye"
+                                                (click)="vewCustomer(product._id)"></p-button>
+                                            <p-button [text]="true" icon="fa fa-edit"
+                                                (click)="editCustomer(product._id)"></p-button>
+                                            <p-button [text]=" true" icon="fa fa-trash"
+                                                (click)="deleteCustomer(product._id)"></p-button>
                                         </div>
                                     </td>
+                                </tr>
+                            </ng-template>
+
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="5" class="text-center">No records found. Please First Add Customer.</td>
                                 </tr>
                             </ng-template>
                         </p-table>
