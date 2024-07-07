@@ -8,13 +8,14 @@ import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
 import { TableModule } from "primeng/table";
 import { DialogModule } from "primeng/dialog";
-import { SlabsService } from "../../slabs/slabs.service";
+// import { SlabsService } from "../../slabs/slabs.service";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 import { DropdownModule } from "primeng/dropdown";
 import { Validators } from "@angular/forms";
 import { StockAdjustmentService } from "../stock-adjustment.service";
 import { FilterPipe } from "src/app/core/filter.pipe";
+import { SlabsService } from "../../slabs/slabs.service";
 
 @Component({
   selector: "app-stock-adjustment-list",
