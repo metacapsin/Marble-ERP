@@ -17,7 +17,6 @@ import { SlabsService } from "../../Product/slabs/slabs.service";
   selector: "app-addsales",
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
     MultiSelectModule,
   ],

@@ -140,107 +140,12 @@
               </div>
             </div>
 
-            <div class="card-body p-2">
-              <!-- <p-table
-                [value]="salesTaxReportsData | filter:searchDataValue:['salesInvoiceNumber', 'salesDate','customerName','salesOrderStatus','customerPhoneNo','customerEmail','salesOrderTax','salesTotalAmount']"
-                styleClass="p-datatable-striped"
-                [tableStyle]="{ 'min-width': '60rem' }"
-                [paginator]="true"
-                [rows]="10"
-                [rowsPerPageOptions]="[5, 10, 20]"
-              >
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th pSortableColumn="salesInvoiceNumber">
-                      Invoice Number
-                      <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
-                      <p-columnFilter
-                        type="text"
-                        field="salesInvoiceNumber"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="salesDate">
-                      Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
-                      <p-columnFilter
-                        type="text"
-                        field="salesDate"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="customer.customerName">
-                      Customer <p-sortIcon field="customer"></p-sortIcon>
-                      <p-columnFilter
-                        type="text"
-                        field="customer"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="salesOrderStatus">
-                      Sales Status
-                      <p-sortIcon field="salesOrderStatus"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="customerPhoneNo">
-                      Phone Number
-                      <p-sortIcon field="customerPhoneNo"></p-sortIcon>
-                      <p-columnFilter
-                        type="text"
-                        field="customerPhoneNo"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="customerEmail">
-                      Email <p-sortIcon field="customerEmail"></p-sortIcon>
-                      <p-columnFilter
-                        type="text"
-                        field="customerEmail"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="salesOrderTax">
-                      Tax Amount <p-sortIcon field="salesOrderTax"></p-sortIcon>
-                      <p-columnFilter
-                        type="text"
-                        field="salesOrderTax"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="salesTotalAmount">
-                      Total Amount
-                      <p-sortIcon field="salesTotalAmount"></p-sortIcon>
-                      <p-columnFilter
-                        type="text"
-                        field="salesTotalAmount"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-sales>
-                  <tr>
-                    <td>{{ sales.salesInvoiceNumber }}</td>
-                    <td>{{ sales.salesDate | date : "dd-MMM-yyyy" }}</td>
-                    <td>{{ sales.customerName }}</td>
-                    <td>{{ sales.salesOrderStatus }}</td>
-                    <td>{{sales.customerPhoneNo}}</td>
-                    <td>{{sales.customerEmail}}</td>
-                    <td>₹ {{ sales.salesOrderTax | indianCurrency }}</td>
-                    <td>₹ {{ sales.salesTotalAmount | indianCurrency }}</td>
-                    <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                    <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
-                  </td>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="footer">
-                  <tr *ngIf=" getTotalSalesAmount() > 0 || getTotalTaxAmount() > 0 ">
-                    <td colspan="5"></td>
-                    <td>Total Amount</td>
-                    <td>₹ {{ getTotalTaxAmount() | indianCurrency }}</td>
-                    <td>₹ {{ getTotalSalesAmount() | indianCurrency }}</td>
-                  </tr>
-                </ng-template>
-              </p-table> -->
-
+            <div class="card-body p-2">              
+              <!-- <div class="text-center" *ngIf="!salesTaxReportsData || salesTaxReportsData.length === 0">
+                <span style="color: #97704f; font-size: 15px"
+                  >Data is not available.</span
+                >
+              </div> -->
               <p-table
               *ngIf="salesTaxReportsData && salesTaxReportsData.length > 0"
               [value]="salesTaxReportsData | filter:searchDataValue:['salesInvoiceNumber', 'salesDate','customerName','salesOrderStatus','customerPhoneNo','customerEmail','salesOrderTax','salesTotalAmount']"
@@ -249,17 +154,18 @@
               [paginator]="true"
               [rows]="10"
               [rowsPerPageOptions]="[5, 10, 20]"
+
               >
               <!-- [scrollable]="true"
               scrollHeight="500px" -->
               <ng-template pTemplate="header">
                 <tr>
                   <th style="width: 5rem"></th>
-                  <th>Invoice Number</th>
-                  <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
-                  <th>Email</th>
-                  <th>Phone Number</th>
-                  <th>Status</th>
+                  <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon field="salesInvoiceNumber" /></th>
+                  <th pSortableColumn="customerName">Name <p-sortIcon field="customerName" /></th>
+                  <th pSortableColumn="customerEmail">Email<p-sortIcon field="customerEmail" /></th>
+                  <th pSortableColumn="customerPhoneNo">Phone Number <p-sortIcon field="customerPhoneNo" /></th>
+                  <th pSortableColumn="salesOrderStatus">Status <p-sortIcon field="salesOrderStatus" /></th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-product>
@@ -288,20 +194,25 @@
                 <tr *ngIf="product.expanded">
                   <td colspan="6">
                     <div class="p-3">
+                      <!-- <div class="text-center" *ngIf="!product.salesItemDetails || product.salesItemDetails.length === 0">
+                        <span style="color: #97704f; font-size: 15px"
+                          >Data is not available.</span
+                        >
+                      </div> -->
                       <p-table [value]="product.salesItemDetails">
                         <ng-template pTemplate="header">
                           <tr>
-                            <th width="20%" pSortableColumn="salesDate">
-                               Slab Name <p-sortIcon field="salesDate" />
+                            <th width="20%" pSortableColumn="salesItemProduct.slabName">
+                               Slab Name <p-sortIcon field="salesItemProduct.slabName" />
                             </th>
-                            <th width="20%" pSortableColumn="salesTotalAmount">
-                              Max Quantity <p-sortIcon field="salesTotalAmount" />
+                            <th width="20%" pSortableColumn="maxQuantity">
+                              Max Quantity <p-sortIcon field="maxQuantity" />
                             </th>
-                            <th width="20%" pSortableColumn="daysLeft">
-                              Item Sub Total <p-sortIcon field="daysLeft" />
+                            <th width="20%" pSortableColumn="salesItemSubTotal">
+                              Item Sub Total <p-sortIcon field="salesItemSubTotal" />
                             </th>
-                            <th width="40%" pSortableColumn="alertType">
-                              Tax Rate <p-sortIcon field="alertType" />
+                            <th width="40%">
+                              Tax taxRate
                             </th>
                           </tr>
                         </ng-template>
@@ -316,7 +227,7 @@
                             <td>{{alert.salesItemSubTotal}}</td>
                             <td>
                               <div class="col3" *ngFor="let tax of alert.salesItemTax">
-                                <span>{{tax.name + ': ' + tax.taxRate}}</span>
+                                <span>{{tax.name + ': ' + tax.taxRate + '%'}}</span>
                               </div>
                             </td>
                             
