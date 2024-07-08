@@ -2,6 +2,52 @@ import { Component, OnInit } from "@angular/core";
 import { routes } from "src/app/shared/routes/routes";
 import { ReportsService } from "../reports.service";
 
+
+interface Product {
+  id: string;
+  salesInvoiceNumber: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhoneNo: number;
+  expanded?: boolean;
+  salesOrderStatus: string;
+  createdBy: string;
+  createdByName: string;
+  createdOn: string;
+  salesDate: string;
+  salesItemDetails: SalesItemDetail[];
+  salesOrderTax: number;
+  salesTotalAmount: number;
+  status: boolean;
+}
+
+
+interface SalesItemDetail {
+  maxQuantity: number;
+  salesItemProduct: SalesItemProduct;
+  salesItemQuantity: number;
+  salesItemSubTotal: string;
+  salesItemTax: SalesItemTax[];
+  salesItemTaxAmount: string;
+  salesItemUnitPrice: number;
+}
+
+interface SalesItemProduct {
+  slabName: string;
+  slabNo: string;
+  _id: string;
+}
+
+interface SalesItemTax {
+  createdBy: string;
+  createdOn: string;
+  name: string;
+  status: boolean;
+  taxRate: number;
+  _id: string;
+}
+
+
 @Component({
   selector: "app-sales-tax-report",
   templateUrl: "./sales-tax-report.component.html",
@@ -9,6 +55,7 @@ import { ReportsService } from "../reports.service";
 })
 export class SalesTaxReportsComponent {
   public routes = routes;
+  products: Product[] = [];
   picker1: any;
   searchDataValue = "";
   rangeDates: Date[] | undefined;
@@ -51,6 +98,20 @@ export class SalesTaxReportsComponent {
     this.getPaymentInReportData(startDate, endDate);
   }
 
+  toggleRow(product:Product) {
+    product.expanded = !product.expanded;
+  }
+  isArray(value: any): boolean {
+    return Array.isArray(value);
+  }
+
+  // Define the formatTax method to format the tax object as a string
+  formatTax(tax: any): string {
+    if (typeof tax === 'object' && tax !== null) {
+      return `${tax.name}: ${tax.taxRate}`;
+    }
+    return tax;
+  }
   ngOnInit(): void {
     const today = new Date();
     const endDate = new Date();
