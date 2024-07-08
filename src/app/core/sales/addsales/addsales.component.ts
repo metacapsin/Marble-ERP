@@ -9,14 +9,14 @@ import { CustomersdataService } from "../../Customers/customers.service";
 import { SalesService } from "../sales.service";
 import { MessageService } from "primeng/api";
 import { Router } from "@angular/router";
-import { SlabsService } from "../../Product/slabs/slabs.service";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
+import { WarehouseService } from "../../settings/warehouse/warehouse.service";
+import { SlabsService } from "../../Product/slabs/slabs.service";
 
 @Component({
   selector: "app-addsales",
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
     MultiSelectModule,
   ],
@@ -50,6 +50,9 @@ export class AddsalesComponent implements OnInit {
   tandCRegex = /^(?:.{2,200})$/;
   customer: any[] = [];
   returnUrl: string;
+  wareHousedataListsEditArray: any[];
+  originalSlabData: any;
+  slabDatas: any;
 
 
   constructor(
@@ -60,8 +63,9 @@ export class AddsalesComponent implements OnInit {
     private slabService: SlabsService,
     private taxService: TaxesService,
     private fb: FormBuilder,
-    private localStorageService: LocalStorageService
-
+    private SlabsService: SlabsService,
+    private localStorageService: LocalStorageService,
+    private services: WarehouseService,
   ) {
     this.addSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
@@ -77,6 +81,7 @@ export class AddsalesComponent implements OnInit {
           salesItemTaxAmount: [''],
           salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
           maxQuantity: [" "],
+          salesWarehouseDetails:['',[Validators.required]]
         }),
       ]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
@@ -109,10 +114,26 @@ export class AddsalesComponent implements OnInit {
       salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
       salesItemTaxAmount: [''],
       maxQuantity: [''],
+      salesWarehouseDetails:['',[Validators.required]]
     });
     this.salesItemDetails.push(item);
   }
-
+  onWareHouseSelect(value:any,i){
+    this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
+      (resp: any) => {
+        this.originalSlabData = resp.data;
+        this.slabDatas = resp.data.map((element) => ({
+          name: element.slabName,
+          _id: {
+            _id: element._id,
+            slabName: element.slabName,
+            slabNo: element.slabNo,
+          },
+        }));
+      }
+    );
+    console.log(this.slabDatas);
+  }
   ngOnInit() {
 
     
@@ -129,6 +150,19 @@ export class AddsalesComponent implements OnInit {
     );
     }
    
+    this.services.getAllWarehouseList().subscribe((resp: any) => {
+      this.wareHousedataListsEditArray = [];
+      resp.data.forEach((element: any) => {
+        this.wareHousedataListsEditArray.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name,
+          },
+        });
+      });
+      console.log(this.wareHousedataListsEditArray);
+    });
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
@@ -250,7 +284,7 @@ export class AddsalesComponent implements OnInit {
       salesOrderTax += element.salesItemTaxAmount
     });
     console.log("salesOrderTax",salesOrderTax);
-    
+    console.log(formData);
     const payload = {
       customer: formData.customer,
       salesDate: formData.salesDate,

@@ -96,6 +96,7 @@
                                     <table class="table table-striped table-nowrap mb-0 no-footer add-table-items">
                                         <thead>
                                             <tr>
+                                                <th>Warehouse</th>
                                                 <th>Product</th>
                                                 <th>Quantity (Sq. Feet)</th>
                                                 <th>Price / Sq. Feet</th>
@@ -107,8 +108,18 @@
                                         <tbody formArrayName="salesItemDetails">
                                             <tr class="add-row" *ngFor="let salesItemDetailsForm of salesItemDetails.controls; let i = index" [formGroupName]="i">
                                                 <td class="col-md-3">
-                                                    <p-dropdown [options]="slabList" appendTo="body"
-                                                        [style]="{'width':'100%'}" optionLabel="slabName"
+                                                    <p-dropdown [options]="wareHousedataListsEditArray" appendTo="body"
+                                                        [style]="{'width':'100%'}" optionLabel="name"
+                                                        [filter]="true" filterBy="slabName" optionValue="_id"
+                                                        formControlName="salesWarehouseDetails" placeholder="Select Warehouse"
+                                                        (onChange)="onWareHouseSelect($event.value, i)"></p-dropdown>
+                                                    <div *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesWarehouseDetails').hasError('required') && addSalesForm.get('salesItemDetails').get(i + '.salesWarehouseDetails').touched">
+                                                        <span class="login-danger">Field is required.</span>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-3">
+                                                    <p-dropdown [options]="slabDatas" appendTo="body"
+                                                        [style]="{'width':'100%'}" optionLabel="name"
                                                         [filter]="true" filterBy="slabName" optionValue="_id"
                                                         formControlName="salesItemProduct" placeholder="Select Product"
                                                         (onChange)="onSlabSelect($event.value, i)"></p-dropdown>
