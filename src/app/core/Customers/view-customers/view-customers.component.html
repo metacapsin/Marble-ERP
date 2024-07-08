@@ -208,6 +208,11 @@
                 </td>
               </tr>
             </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                  <td colspan="8" class="text-center">No records found. Please First Create Sales.</td>
+              </tr>
+          </ng-template>
 
             <ng-template pTemplate="footer">
               <tr *ngIf="salesTotalValues.totalPaidAmount > 0 || salesTotalValues.totalDueAmount > 0 || salesTotalValues.totalAmount > 0">
@@ -270,6 +275,11 @@
               </td>
               </tr>
             </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                  <td colspan="6" class="text-center">No records found. Please Create Sales and make Payment.</td>
+              </tr>
+          </ng-template>
             <ng-template pTemplate="footer">
               <tr *ngIf="paymentInTotalValues.totalPaymentAmount">
                 <td colspan="3"></td>
@@ -363,6 +373,11 @@
                 </td>
               </tr>
             </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                  <td colspan="8" class="text-center">No records found. Please First Create Sales Return.</td>
+              </tr>
+          </ng-template>
             <ng-template pTemplate="footer">
               <tr *ngIf="salesReturnTotalValues.totalPaidAmount > 0 || salesReturnTotalValues.totalDueAmount > 0 || salesReturnTotalValues.totalAmount > 0">
                 <td colspan="3"></td>
@@ -423,6 +438,11 @@
               </td>
               </tr>
             </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                  <td colspan="6" class="text-center">No records found. Please Create Sales Return and make Payment.</td>
+              </tr>
+          </ng-template>
             <ng-template pTemplate="footer">
               <tr  *ngIf="paymentOutTotalValues.totalAmount ">
                 <td colspan="3"></td>

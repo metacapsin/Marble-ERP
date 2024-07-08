@@ -8,29 +8,16 @@ import {
 } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
-import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
 import { ExpensesdataService } from "../expenses.service";
-import { ToastModule } from "primeng/toast";
-import { WarehouseService } from "../../settings/warehouse/warehouse.service";
-import { MultiSelectModule } from "primeng/multiselect";
-import { CalendarModule } from "primeng/calendar";
-import { FileUploadModule } from "primeng/fileupload";
 import { ExpensesCategoriesdataService } from "../../expenseCategories/expenseCategories.service";
-import { FilterPipe } from "../../filter.pipe";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: "app-add-expenses",
   standalone: true,
   imports: [
-    RouterModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    CommonModule,
-    CalendarModule,
-    ToastModule,
-    MultiSelectModule,
-    FileUploadModule,
+    SharedModule
   ],
   templateUrl: "./add-expenses.component.html",
   styleUrl: "./add-expenses.component.scss",

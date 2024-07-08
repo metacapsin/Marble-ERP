@@ -17,19 +17,13 @@ import { MultiSelectModule } from "primeng/multiselect";
 import { CalendarModule } from "primeng/calendar";
 import { FileUploadModule } from "primeng/fileupload";
 import { ExpensesCategoriesdataService } from "../../expenseCategories/expenseCategories.service";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: "app-edit-expenses",
   standalone: true,
   imports: [
-    RouterModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    CommonModule,
-    ToastModule,
-    MultiSelectModule,
-    CalendarModule,
-    FileUploadModule,
+    SharedModule
   ],
   templateUrl: "./edit-expenses.component.html",
   styleUrl: "./edit-expenses.component.scss",
