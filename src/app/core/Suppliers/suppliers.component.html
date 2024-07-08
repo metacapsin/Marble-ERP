@@ -30,9 +30,8 @@
                                     <div class="doctor-search-blk col-md-6">
                                         <div class="top-nav-search table-search-blk me-3">
                                             <input type="text" class="form-control" placeholder="Search here"
-                                                [(ngModel)]="searchDataValue"
-                                                />
-                                                <!-- (ngModelChange)="searchData(searchDataValue)"  -->
+                                                [(ngModel)]="searchDataValue" />
+                                            <!-- (ngModelChange)="searchData(searchDataValue)"  -->
                                             <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                                         </div>
                                         <div class="add-group textbtn gap-3">
@@ -70,7 +69,9 @@
                     </div>
 
                     <div class="card-body p-2">
-                        <p-table [value]="getSupplierShow | filter:searchDataValue:['name', 'email','status','createdOn',]" styleClass="p-datatable-striped"  [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
+                        <p-table
+                            [value]="getSupplierShow | filter:searchDataValue:['name', 'email','status','createdOn',]"
+                            styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
                             [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -97,7 +98,7 @@
                                         <p-columnFilter type="text" field="openingBalance"
                                             display="menu"></p-columnFilter>
                                     </th> -->
-                                    <th width="13%" >Action</th>
+                                    <th width="13%">Action</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-product>
@@ -115,16 +116,21 @@
                                     <!-- <td>{{ product.openingBalance }}</td> -->
 
                                     <td appShowHide [roles]="['admin', 'super-admin']">
-                  <div class="action-buttons">
+                                        <div class="action-buttons">
 
-                                        <p-button [text]=" true" icon="fa fa-eye"
-                                            (click)="suppliersView(product._id)"></p-button>
-                                        <p-button [text]="true" icon="fa fa-edit"
-                                            (click)="editSuppliers(product._id)"></p-button>
-                                        <p-button [text]=" true" icon="fa fa-trash"
-                                            (click)="deleteSuppliers(product._id)"></p-button>
-                  </div>
+                                            <p-button [text]=" true" icon="fa fa-eye"
+                                                (click)="suppliersView(product._id)"></p-button>
+                                            <p-button [text]="true" icon="fa fa-edit"
+                                                (click)="editSuppliers(product._id)"></p-button>
+                                            <p-button [text]=" true" icon="fa fa-trash"
+                                                (click)="deleteSuppliers(product._id)"></p-button>
+                                        </div>
                                     </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="5" class="text-center">No suppliers found. Please add a supplier to see it listed here.</td>
                                 </tr>
                             </ng-template>
                         </p-table>
@@ -133,7 +139,7 @@
             </div>
         </div>
 
-     
+
     </div>
 </div>
 

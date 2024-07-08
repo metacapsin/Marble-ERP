@@ -215,6 +215,11 @@
                                 </td>
                             </tr>
                         </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="8" class="text-center">No purchase records found. Please create a new purchase to see it listed here.</td>
+                            </tr>
+                        </ng-template>
 
                         <ng-template pTemplate="footer">
                             <tr *ngIf="purchaseTotalValues.totalPaidAmount > 0 || purchaseTotalValues.totalDueAmount > 0 || purchaseTotalValues.totalAmount >0 ">
@@ -227,6 +232,7 @@
 
                             </tr>
                         </ng-template>
+
                     </p-table>
                 </p-tabPanel>
 
@@ -273,6 +279,11 @@
                                 <td>
                                     <p-button [text]=" true" icon="fa fa-trash" (click)="  deletePurchasePayment(payment._id)"></p-button>
                                 </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="6" class="text-center">No payment out records found. Please record a payment out to see it listed here.</td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="footer">
@@ -382,6 +393,11 @@
                                 </td>
                             </tr>
                         </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="6" class="text-center">No purchase return records found. Please create a purchase return to see it listed here.</td>
+                            </tr>
+                        </ng-template>
 
                         <ng-template pTemplate="footer">
                             <tr *ngIf="purchaseReturnTotalValues.totalPaidAmount > 0 || purchaseReturnTotalValues.totalDueAmount > 0 || purchaseReturnTotalValues.totalAmount >0 ">
@@ -439,6 +455,11 @@
                                 <td>
                                     <p-button [text]=" true" icon="fa fa-trash" (click)="  deletePurchaseReturnPayment(payment._id)"></p-button>
                                 </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="6" class="text-center">No payment records found. Please record a payment to see it listed here.</td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="footer">
