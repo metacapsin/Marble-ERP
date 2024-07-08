@@ -16,14 +16,8 @@ import { FilterPipe } from '../filter.pipe';
     ExpensesCategoriesComponent,
   ],
   imports: [
-    CommonModule,
     ExpensesCategoriesRoutingModule,
     SharedModule,
-    PanelMenuModule,
-    DialogModule,
-    ToastModule,
-    ButtonModule,
-    FilterPipe,
   ]
 })
 export class ExpensesCategoriesModule { }

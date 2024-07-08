@@ -30,7 +30,7 @@ interface ExportColumn {
 @Component({
   selector: 'app-list-lot',
   standalone: true,
-  imports: [CommonModule, SharedModule, ButtonModule, TableModule, TreeTableModule, ToastModule, DialogModule],
+  imports: [ SharedModule],
   providers: [MessageService],
   templateUrl: './list-lot.component.html',
   styleUrl: './list-lot.component.scss'

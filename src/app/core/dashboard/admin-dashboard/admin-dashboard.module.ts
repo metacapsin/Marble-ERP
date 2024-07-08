@@ -19,19 +19,8 @@ import { RatingModule } from 'primeng/rating';
     AdminDashboardComponent
   ],
   imports: [
-    CommonModule,
     AdminDashboardRoutingModule,
     SharedModule,
-    ChartModule,
-    ButtonModule,
-    CalendarModule,
-    DropdownModule,
-    TableModule,
-    TagModule,
-    ToastModule,
-    RatingModule,
-    ButtonModule,
-    CommonModule,
   ]
 })
 export class AdminDashboardModule { }

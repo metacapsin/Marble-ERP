@@ -13,12 +13,8 @@ import { FilterPipe } from 'src/app/core/filter.pipe';
     SalesReportsComponent
   ],
   imports: [
-    CommonModule,
     SalesReportsRoutingModule,
     SharedModule,
-    DropdownModule, 
-    CalendarModule,
-    FilterPipe,
   ]
 })
 export class SalesReportsModule { }

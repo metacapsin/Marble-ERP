@@ -1,10 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
 import { MultiSelectModule } from "primeng/multiselect";
 import { routes } from "src/app/shared/routes/routes";
@@ -25,14 +21,7 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 @Component({
   selector: "app-add-purchase-return",
   standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    MultiSelectModule,
-    DropdownModule,
-    CalendarModule,
-    ToastModule,
-  ],
+  imports: [SharedModule],
   templateUrl: "./add-purchase-return.component.html",
   styleUrl: "./add-purchase-return.component.scss",
   providers: [MessageService],
@@ -43,7 +32,6 @@ export class AddPurchaseReturnComponent implements OnInit {
   maxDate = new Date();
   PurchaseReturnDataById: any = {};
 
-
   SupplierLists: any = [];
   purchaseDataByInvoiceNumber = [];
   GridDataForSlab: any;
@@ -51,7 +39,6 @@ export class AddPurchaseReturnComponent implements OnInit {
   isProcess: any;
   supplier: any = [];
   returnUrl: string;
-
 
   constructor(
     private fb: FormBuilder,
@@ -87,40 +74,48 @@ export class AddPurchaseReturnComponent implements OnInit {
           _id: e._id,
           purchaseInvoiceNumber: e.purchaseInvoiceNumber,
         }));
-      },
-      
+      }
+
       // (error) => {
-        //   console.error("Error fetching data from service", error);
-        // }
-      );
-      console.log(this.purchaseDataByInvoiceNumber);
+      //   console.error("Error fetching data from service", error);
+      // }
+    );
+    console.log(this.purchaseDataByInvoiceNumber);
   }
 
   calculateTotalPurchaseAmount() {
-    let purchaseGrossTotal = this.addPurchaseReturnForm.get('purchaseGrossTotal').value || 0;
-    let ReturnOtherCharges = this.addPurchaseReturnForm.get('otherCharges').value || 0;
+    let purchaseGrossTotal =
+      this.addPurchaseReturnForm.get("purchaseGrossTotal").value || 0;
+    let ReturnOtherCharges =
+      this.addPurchaseReturnForm.get("otherCharges").value || 0;
     let purchaseReturnTotalAmount = purchaseGrossTotal - ReturnOtherCharges;
 
-    this.addPurchaseReturnForm.get('purchaseReturnTotalAmount').patchValue(purchaseReturnTotalAmount);
+    this.addPurchaseReturnForm
+      .get("purchaseReturnTotalAmount")
+      .patchValue(purchaseReturnTotalAmount);
     console.log(
-      this.addPurchaseReturnForm.get('purchaseReturnTotalAmount').value); 
+      this.addPurchaseReturnForm.get("purchaseReturnTotalAmount").value
+    );
   }
 
   onInvoiceNumber(purchaseId: any) {
     this.GridDataForSlab = [];
-    this.PurchaseReturnService.GetPurchaseDataById(purchaseId).subscribe((resp: any) => {
-      this.PurchaseReturnDataById = resp.data;
-      this.GridDataForSlab = [resp.data.slabDetails];
-      if (this.PurchaseReturnDataById.purchaseType == "slab") {
-        const totalCosting = parseFloat(this.PurchaseReturnDataById.slabDetails.purchaseCost);
-        if (!isNaN(totalCosting)) {
-          this.addPurchaseReturnForm.patchValue({
-            purchaseGrossTotal: totalCosting,
-            purchaseReturnTotalAmount: totalCosting,
-          });
+    this.PurchaseReturnService.GetPurchaseDataById(purchaseId).subscribe(
+      (resp: any) => {
+        this.PurchaseReturnDataById = resp.data;
+        this.GridDataForSlab = [resp.data.slabDetails];
+        if (this.PurchaseReturnDataById.purchaseType == "slab") {
+          const totalCosting = parseFloat(
+            this.PurchaseReturnDataById.slabDetails.purchaseCost
+          );
+          if (!isNaN(totalCosting)) {
+            this.addPurchaseReturnForm.patchValue({
+              purchaseGrossTotal: totalCosting,
+              purchaseReturnTotalAmount: totalCosting,
+            });
+          }
         }
       }
-    }
     );
   }
 
@@ -128,16 +123,15 @@ export class AddPurchaseReturnComponent implements OnInit {
     this.getSupplierData();
 
     this.supplier = this.localStorageService.getItem("supplier1");
-    this.returnUrl = this.localStorageService.getItem('returnUrl')
-    console.log(this.returnUrl)
+    this.returnUrl = this.localStorageService.getItem("returnUrl");
+    console.log(this.returnUrl);
 
     if (this.supplier) {
       this.addPurchaseReturnForm.patchValue({
         purchaseReturnSupplier: this.supplier,
       });
-      this.onSuppliersSelect(this.supplier._id)
+      this.onSuppliersSelect(this.supplier._id);
     }
-
 
     this.getSupplierData();
   }
@@ -158,12 +152,15 @@ export class AddPurchaseReturnComponent implements OnInit {
   }
   addPurchaseReturnFormSubmit() {
     const payload = {
-      purchaseReturnInvoiceNumber: this.addPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
-      purchaseReturnSupplier: this.addPurchaseReturnForm.value.purchaseReturnSupplier,
+      purchaseReturnInvoiceNumber:
+        this.addPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
+      purchaseReturnSupplier:
+        this.addPurchaseReturnForm.value.purchaseReturnSupplier,
       purchaseReturnDate: this.addPurchaseReturnForm.value.purchaseReturnDate,
       purchaseReturnOtherCharges: this.addPurchaseReturnForm.value.otherCharges,
       purchaseReturnNotes: this.addPurchaseReturnForm.value.purchaseReturnNotes,
-      purchaseReturnTotalAmount: this.addPurchaseReturnForm.value.purchaseReturnTotalAmount,
+      purchaseReturnTotalAmount:
+        this.addPurchaseReturnForm.value.purchaseReturnTotalAmount,
       purchaseGrossTotal: this.addPurchaseReturnForm.value.purchaseGrossTotal,
       purchaseReturnItemDetails: this.GridDataForSlab,
       // purchaseReturnOrderStatus: "Static",

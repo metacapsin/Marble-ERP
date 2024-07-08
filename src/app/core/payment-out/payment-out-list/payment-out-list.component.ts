@@ -1,26 +1,27 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
-import { routes } from 'src/app/shared/routes/routes';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { PaymentOutService } from '../payment-out.service';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { FilterPipe } from '../../filter.pipe';
+import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
+import { ButtonModule } from "primeng/button";
+import { TableModule } from "primeng/table";
+import { routes } from "src/app/shared/routes/routes";
+import { SharedModule } from "src/app/shared/shared.module";
+import { PaymentOutService } from "../payment-out.service";
+import { MessageService } from "primeng/api";
+import { ToastModule } from "primeng/toast";
+import { FilterPipe } from "../../filter.pipe";
 
 @Component({
-  selector: 'app-payment-in-list',
+  selector: "app-payment-in-list",
   standalone: true,
-  imports: [CommonModule, SharedModule, TableModule, ButtonModule, ToastModule,FilterPipe],
-  templateUrl: './payment-out-list.component.html',
-  styleUrl: './payment-out-list.component.scss',
-  providers: [MessageService]
+  imports: [
+    SharedModule,
+  ],
+  templateUrl: "./payment-out-list.component.html",
+  styleUrl: "./payment-out-list.component.scss",
+  providers: [MessageService],
 })
 export class PaymentOutListComponent {
-
   public routes = routes;
-  public searchDataValue = '';
+  public searchDataValue = "";
   customerList = [];
   saleId: any;
   showDialoge = false;
@@ -31,17 +32,16 @@ export class PaymentOutListComponent {
   selectedCategory = [];
   paymentListData = [];
 
-  constructor( private Service: PaymentOutService,
+  constructor(
+    private Service: PaymentOutService,
     private messageService: MessageService
-  ) {
-  }
+  ) {}
 
-  
   ngOnInit(): void {
-  this.getPaymentList();
+    this.getPaymentList();
   }
 
-  getPaymentList(){
+  getPaymentList() {
     this.Service.getPurchasePaymentList().subscribe((resp: any) => {
       this.paymentListData = resp.data;
       console.log(resp);
@@ -53,25 +53,26 @@ export class PaymentOutListComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Payment Details"
-    }
+      messege: "Are you sure you want to delete this Payment Details",
+    };
     this.showDialoge = true;
   }
   showNewDialog() {
     this.showDialoge = true;
   }
   callBackModal() {
-    this.Service.deletePurchasePayment(this.paymentId).subscribe((resp: any) => {
-      this.messageService.add({ severity: 'success', detail: resp.message });
-      this.getPaymentList();
-      this.showDialoge = false;
-    })
+    this.Service.deletePurchasePayment(this.paymentId).subscribe(
+      (resp: any) => {
+        this.messageService.add({ severity: "success", detail: resp.message });
+        this.getPaymentList();
+        this.showDialoge = false;
+      }
+    );
   }
 
   close() {
     this.showDialoge = false;
   }
-
 
   public searchData(value: any): void {
     // this.categoriesListData = this.originalData.map(i => {

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { BlockProcessorRoutingModule } from './block-customer-routing.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
+    SharedModule,
     BlockProcessorRoutingModule
   ]
 })

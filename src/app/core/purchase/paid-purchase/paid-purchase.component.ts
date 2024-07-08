@@ -1,20 +1,24 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
-import { DataService } from 'src/app/shared/data/data.service';
-import { pageSelection, apiResultFormat, allInvoice } from 'src/app/shared/models/models';
+import { CommonModule } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
+import { Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { SharedModule } from "src/app/shared/shared.module";
+import { CalendarModule } from "primeng/calendar";
+import { DropdownModule } from "primeng/dropdown";
+import { DataService } from "src/app/shared/data/data.service";
+import {
+  pageSelection,
+  apiResultFormat,
+  allInvoice,
+} from "src/app/shared/models/models";
 import { routes } from "src/app/shared/routes/routes";
 
 @Component({
-  selector: 'app-paid-purchase',
+  selector: "app-paid-purchase",
   standalone: true,
-  imports:[CommonModule, SharedModule, DropdownModule, CalendarModule],
-  templateUrl: './paid-purchase.component.html',
-  styleUrl: './paid-purchase.component.scss'
+  imports: [SharedModule],
+  templateUrl: "./paid-purchase.component.html",
+  styleUrl: "./paid-purchase.component.scss",
 })
 export class PaidPurchaseComponent {
   public routes = routes;
@@ -37,7 +41,7 @@ export class PaidPurchaseComponent {
   dataSource!: MatTableDataSource<allInvoice>;
   maxDate = new Date();
   public showFilter = false;
-  public searchDataValue = '';
+  public searchDataValue = "";
   public lastIndex = 0;
   public pageSize = 10;
   public totalData = 0;
@@ -52,34 +56,33 @@ export class PaidPurchaseComponent {
 
   salesData = [
     {
-      salesInvoiceNumber:1112,
-      salesDate:"16 April 2024",
-      salesCustomer:"Adnan",
-      salesStatus:"Delivered",
-      salesPaidAmount:"$2250",
-      salesTotalAmount:"$3000",
-      salesPaymentStatus:"Paid",
-    }
-  ];
-
-  salesItem=[
-    {salesProduct:"Electronic",
-      salesQuantity:"3",
-      salesUnitPrice:"120",
-      salesDiscount:"20",
-      salesTax:"10",
-      salesSubTotal:"350"
+      salesInvoiceNumber: 1112,
+      salesDate: "16 April 2024",
+      salesCustomer: "Adnan",
+      salesStatus: "Delivered",
+      salesPaidAmount: "$2250",
+      salesTotalAmount: "$3000",
+      salesPaymentStatus: "Paid",
     },
-  ]
-  CustomerList=[
-    {customerName:"Adnan"},
-    {customerName:"Nadim"},
-    {customerName:"Kavya"},
   ];
 
-  constructor(public data : DataService){
+  salesItem = [
+    {
+      salesProduct: "Electronic",
+      salesQuantity: "3",
+      salesUnitPrice: "120",
+      salesDiscount: "20",
+      salesTax: "10",
+      salesSubTotal: "350",
+    },
+  ];
+  CustomerList = [
+    { customerName: "Adnan" },
+    { customerName: "Nadim" },
+    { customerName: "Kavya" },
+  ];
 
-  }
+  constructor(public data: DataService) {}
   ngOnInit() {
     this.getTableData();
   }
@@ -92,7 +95,6 @@ export class PaidPurchaseComponent {
       data.data.map((res: allInvoice, index: number) => {
         const serialNumber = index + 1;
         if (index >= this.skip && serialNumber <= this.limit) {
-        
           this.allInvoice.push(res);
           this.serialNumberArray.push(serialNumber);
         }
@@ -110,27 +112,27 @@ export class PaidPurchaseComponent {
   public sortData(sort: Sort) {
     const data = this.allInvoice.slice();
 
-    if (!sort.active || sort.direction === '') {
+    if (!sort.active || sort.direction === "") {
       this.allInvoice = data;
     } else {
       this.allInvoice = data.sort((a, b) => {
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const aValue = (a as any)[sort.active];
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
+        return (aValue < bValue ? -1 : 1) * (sort.direction === "asc" ? 1 : -1);
       });
     }
   }
 
   public getMoreData(event: string): void {
-    if (event == 'next') {
+    if (event == "next") {
       this.currentPage++;
       this.pageIndex = this.currentPage - 1;
       this.limit += this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
       this.getTableData();
-    } else if (event == 'previous') {
+    } else if (event == "previous") {
       this.currentPage--;
       this.pageIndex = this.currentPage - 1;
       this.limit -= this.pageSize;
@@ -173,7 +175,7 @@ export class PaidPurchaseComponent {
       this.pageSelection.push({ skip: skip, limit: limit });
     }
   }
-  public openCheckBoxes(val: string){
+  public openCheckBoxes(val: string) {
     if (this.checkboxes[0] != val) {
       this.checkboxes[0] = val;
     } else {

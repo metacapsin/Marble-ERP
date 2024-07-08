@@ -32,12 +32,7 @@ import { format } from "crypto-js";
   selector: "app-edit-purchase",
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
-    MultiSelectModule,
-    DropdownModule,
-    CalendarModule,
-    ToastModule,
   ],
   templateUrl: "./edit-purchase.component.html",
   styleUrl: "./edit-purchase.component.scss",
@@ -187,7 +182,7 @@ export class EditPurchaseComponent implements OnInit {
     console.log(data);
     this.editPurchaseForm.patchValue({
       purchaseInvoiceNumber: data.purchaseInvoiceNumber,
-      supplier: data.supplier,  
+      supplier: data.supplier,
       purchaseDate: data.purchaseDate,
       purchaseOrderStatus: data.purchaseOrderStatus,
       purchaseOrderTax: data.purchaseOrderTax,
@@ -214,10 +209,10 @@ export class EditPurchaseComponent implements OnInit {
         this.patchForm(this.PurchaseListData);
         console.log(resp.data.lotDetails);
 
-        if(resp.data.purchaseType == 'slab'){
+        if (resp.data.purchaseType == "slab") {
           this.slabValues(resp.data.slabDetails);
         }
-        if(resp.data.purchaseType == 'lot'){
+        if (resp.data.purchaseType == "lot") {
           console.log(resp.data.lotDetails.blockDetails);
           this.lotValues(resp.data.lotDetails);
         }
@@ -325,7 +320,7 @@ export class EditPurchaseComponent implements OnInit {
   editPurchaseFormSubmit() {
     const formData = this.editPurchaseForm.value;
     console.log(formData);
-    if (formData.slabDetails == '' && formData.lotDetail == '') {
+    if (formData.slabDetails == "" && formData.lotDetail == "") {
       this.messageService.add({
         severity: "error",
         detail: "Select one Lot or Slab",
@@ -349,24 +344,32 @@ export class EditPurchaseComponent implements OnInit {
       slabDetail: formData.slabDetails,
       quality: formData.quality,
       purchaseOrderStatus: formData.purchaseOrderStatus,
-      id:this.purchaseId,
+      id: this.purchaseId,
     };
     console.log(payload);
     if (this.editPurchaseForm.valid) {
       console.log("valid form");
-      this.PurchaseService.UpdatePurchaseData(payload).subscribe((resp: any) => {
-        console.log(resp);
-        if (resp) {
-          if (resp.status === "success") {
-            this.messageService.add({ severity: "success", detail: resp.message });
-            setTimeout(() => {
-              this.router.navigate(["/purchase"]);
-            }, 400);
-          } else {
-            this.messageService.add({ severity: "error", detail: resp.message });
+      this.PurchaseService.UpdatePurchaseData(payload).subscribe(
+        (resp: any) => {
+          console.log(resp);
+          if (resp) {
+            if (resp.status === "success") {
+              this.messageService.add({
+                severity: "success",
+                detail: resp.message,
+              });
+              setTimeout(() => {
+                this.router.navigate(["/purchase"]);
+              }, 400);
+            } else {
+              this.messageService.add({
+                severity: "error",
+                detail: resp.message,
+              });
+            }
           }
         }
-      });
+      );
     } else {
     }
   }

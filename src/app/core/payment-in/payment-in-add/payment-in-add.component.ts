@@ -1,73 +1,84 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
-import { routes } from 'src/app/shared/routes/routes';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { CustomersdataService } from '../../Customers/customers.service';
-import { PaymentInService } from '../payment-in.service';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { Router } from '@angular/router';
-import { min } from 'rxjs';
+import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { CalendarModule } from "primeng/calendar";
+import { DropdownModule } from "primeng/dropdown";
+import { routes } from "src/app/shared/routes/routes";
+import { SharedModule } from "src/app/shared/shared.module";
+import { CustomersdataService } from "../../Customers/customers.service";
+import { PaymentInService } from "../payment-in.service";
+import { MessageService } from "primeng/api";
+import { ToastModule } from "primeng/toast";
+import { Router } from "@angular/router";
+import { min } from "rxjs";
 
 @Component({
-  selector: 'app-payment-in-add',
+  selector: "app-payment-in-add",
   standalone: true,
-  imports: [CommonModule, SharedModule, DropdownModule, CalendarModule, ToastModule],
-  templateUrl: './payment-in-add.component.html',
-  styleUrl: './payment-in-add.component.scss',
-  providers: [MessageService]
+  imports: [
+    SharedModule,
+  ],
+  templateUrl: "./payment-in-add.component.html",
+  styleUrl: "./payment-in-add.component.scss",
+  providers: [MessageService],
 })
 export class PaymentInAddComponent {
-  public routes = routes
-  addPaymentInForm! : FormGroup;
-  customerList= [];
-  originalCustomerData= [];
-  
+  public routes = routes;
+  addPaymentInForm!: FormGroup;
+  customerList = [];
+  originalCustomerData = [];
+
   selectedCustomer: any;
   salesDataById = [];
-  paymentModeList = [{
-    paymentMode: 'Cash'
-  },
-{
-  paymentMode:'Online'
-}];
-maxDate = new Date();
-notesRegex = /^(?:.{2,100})$/;
-nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  paymentModeList = [
+    {
+      paymentMode: "Cash",
+    },
+    {
+      paymentMode: "Online",
+    },
+  ];
+  maxDate = new Date();
+  notesRegex = /^(?:.{2,100})$/;
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-  constructor( 
+  constructor(
     private customerService: CustomersdataService,
     private Service: PaymentInService,
     private messageService: MessageService,
     private router: Router,
     private fb: FormBuilder
-  ){
+  ) {
     this.addPaymentInForm = this.fb.group({
       sales: this.fb.array([]),
-      customer: ['',[Validators.required]],
-      paymentDate: ['',[Validators.required]],
-      paymentMode: ['',[Validators.required]],
-      note: ['',[Validators.pattern(this.notesRegex)]],
+      customer: ["", [Validators.required]],
+      paymentDate: ["", [Validators.required]],
+      paymentMode: ["", [Validators.required]],
+      note: ["", [Validators.pattern(this.notesRegex)]],
     });
-    
   }
   get sales(): FormArray {
-    return this.addPaymentInForm.get('sales') as FormArray;
+    return this.addPaymentInForm.get("sales") as FormArray;
   }
 
   addSalesControls() {
     this.sales.clear();
-    this.salesDataById.forEach(sale => {
-      this.sales.push(this.fb.group({
-        _id: [sale._id],
-        amount: ["", [Validators.required, Validators.min(1), Validators.max(sale.dueAmount)]]
-      }));
+    this.salesDataById.forEach((sale) => {
+      this.sales.push(
+        this.fb.group({
+          _id: [sale._id],
+          amount: [
+            "",
+            [
+              Validators.required,
+              Validators.min(1),
+              Validators.max(sale.dueAmount),
+            ],
+          ],
+        })
+      );
     });
   }
-  
 
   ngOnInit(): void {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
@@ -84,29 +95,26 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
       });
     });
   }
-  onCustomerSelect(customerId: any){
-   
-    this.Service.getSalesByCustomerId(customerId).subscribe((resp:any) => {
+  onCustomerSelect(customerId: any) {
+    this.Service.getSalesByCustomerId(customerId).subscribe((resp: any) => {
       this.salesDataById = resp.data;
       // console.log("sales Data by id ",this.salesDataById);
       this.addSalesControls();
     });
-    
   }
 
-
-  addPaymentInFormSubmit(){
+  addPaymentInFormSubmit() {
     const formData = this.addPaymentInForm.value;
-    console.log('Submitted data:', formData);
+    console.log("Submitted data:", formData);
 
     const payload = {
       customer: formData.customer,
       sales: formData.sales,
       paymentDate: formData.paymentDate,
       paymentMode: formData.paymentMode,
-      note: formData.note
-    }
-    
+      note: formData.note,
+    };
+
     if (this.addPaymentInForm.valid) {
       console.log("valid form");
 
@@ -125,12 +133,8 @@ nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
           }
         }
       });
-    }
-    else {
+    } else {
       console.log("invalid form");
-
     }
-
   }
-
 }

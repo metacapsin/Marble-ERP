@@ -15,12 +15,8 @@ import { FilterPipe } from "../../filter.pipe";
   selector: 'app-block-processor-list',
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
-    DialogModule,
-    ToastModule,
-    FilterPipe,
-    ButtonModule],
+    ],
   templateUrl: './block-processor-list.component.html',
   styleUrl: './block-processor-list.component.scss',
   providers: [MessageService],

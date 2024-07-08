@@ -1,29 +1,36 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { routes } from 'src/app/shared/routes/routes';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { CalendarModule } from 'primeng/calendar';
-import { Validators } from 'ngx-editor';
-import { el } from '@fullcalendar/core/internal-common';
-import { allInvoice, apiResultFormat, pageSelection } from 'src/app/shared/models/models';
-import { MatTableDataSource } from '@angular/material/table';
-import { DataService } from 'src/app/shared/data/data.service';
-import { Sort } from '@angular/material/sort';
-import { PurchaseReturnService } from './purchase-return.service';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { InvoiceDialogComponent } from 'src/app/common-component/modals/invoice-dialog/invoice-dialog.component';
-import { LocalStorageService } from 'src/app/shared/data/local-storage.service';
+import { CommonModule } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { DropdownModule } from "primeng/dropdown";
+import { MultiSelectModule } from "primeng/multiselect";
+import { routes } from "src/app/shared/routes/routes";
+import { SharedModule } from "src/app/shared/shared.module";
+import { CalendarModule } from "primeng/calendar";
+import { Validators } from "ngx-editor";
+import { el } from "@fullcalendar/core/internal-common";
+import {
+  allInvoice,
+  apiResultFormat,
+  pageSelection,
+} from "src/app/shared/models/models";
+import { MatTableDataSource } from "@angular/material/table";
+import { DataService } from "src/app/shared/data/data.service";
+import { Sort } from "@angular/material/sort";
+import { PurchaseReturnService } from "./purchase-return.service";
+import { Router } from "@angular/router";
+import { MessageService } from "primeng/api";
+import { ToastModule } from "primeng/toast";
+import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 @Component({
-  selector: 'app-purchase-return',
+  selector: "app-purchase-return",
   standalone: true,
-  imports: [CommonModule,SharedModule, ToastModule, DropdownModule,CalendarModule,InvoiceDialogComponent ],
-  templateUrl: './purchase-return.component.html',
-  styleUrl: './purchase-return.component.scss',
+  imports: [
+    SharedModule,
+    InvoiceDialogComponent,
+  ],
+  templateUrl: "./purchase-return.component.html",
+  styleUrl: "./purchase-return.component.scss",
   providers: [MessageService],
 })
 export class PurchaseReturnComponent {
@@ -34,7 +41,7 @@ export class PurchaseReturnComponent {
   dataSource!: MatTableDataSource<allInvoice>;
 
   public showFilter = false;
-  public searchDataValue = '';
+  public searchDataValue = "";
   public lastIndex = 0;
   public pageSize = 10;
   public totalData = 0;
@@ -49,48 +56,48 @@ export class PurchaseReturnComponent {
 
   salesData = [
     {
-      salesInvoiceNumber:1112,
-      salesDate:"16 April 2024",
-      salesCustomer:"Adnan",
-      salesStatus:"Delivered",
-      salesPaidAmount:"$2250",
-      salesTotalAmount:"$3000",
-      salesPaymentStatus:"Paid",
-    }
+      salesInvoiceNumber: 1112,
+      salesDate: "16 April 2024",
+      salesCustomer: "Adnan",
+      salesStatus: "Delivered",
+      salesPaidAmount: "$2250",
+      salesTotalAmount: "$3000",
+      salesPaymentStatus: "Paid",
+    },
   ];
   purchaseReturnData: any;
   originalData: any;
   purchaseReturn: number;
-  modalData: { title: string; messege: string; };
+  modalData: { title: string; messege: string };
   showDialoge: boolean;
   showInvoiceDialog: boolean;
-  selectedPurchaseReturn:''
+  selectedPurchaseReturn: "";
   header: string;
   PurchaseReturnListData: any[];
   paymentDataListById: any[];
   currentUrl: string;
   purchaseTotalValues: any = {};
 
-
-  constructor(public data : DataService,private service:PurchaseReturnService,private router: Router,private messageService: MessageService,
-    private localStorageService:LocalStorageService
-  ){
-
-  }
+  constructor(
+    public data: DataService,
+    private service: PurchaseReturnService,
+    private router: Router,
+    private messageService: MessageService,
+    private localStorageService: LocalStorageService
+  ) {}
   ngOnInit() {
     this.getPurchaseReturn();
     this.currentUrl = this.router.url;
-    console.log(this.currentUrl)
-    console.log("this is current url on purchase page",this.currentUrl)
+    console.log(this.currentUrl);
+    console.log("this is current url on purchase page", this.currentUrl);
 
-    this.localStorageService.removeItem('supplier1');
-    this.localStorageService.removeItem('returnUrl');
-
+    this.localStorageService.removeItem("supplier1");
+    this.localStorageService.removeItem("returnUrl");
   }
   navigateToCreatePurchaseReturn() {
     const returnUrl = this.router.url;
-    this.localStorageService.setItem('returnUrl',returnUrl);
-    this.router.navigate(['purchase-return/add-purchase-return']);
+    this.localStorageService.setItem("returnUrl", returnUrl);
+    this.router.navigate(["purchase-return/add-purchase-return"]);
 
     // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
@@ -100,9 +107,9 @@ export class PurchaseReturnComponent {
       this.purchaseReturnData = resp.data;
     });
   }
-  purchaseReturnUpdate(id:any){
+  purchaseReturnUpdate(id: any) {
     const returnUrl = this.router.url;
-    this.localStorageService.setItem('returnUrl',returnUrl);
+    this.localStorageService.setItem("returnUrl", returnUrl);
     this.router.navigate(["/purchase-return/edit-purchase-return/" + id]);
   }
   purchaseReturnDelete(id: number) {
@@ -114,24 +121,28 @@ export class PurchaseReturnComponent {
     };
     this.showDialoge = true;
   }
-    callBackModal() {
-      this.showDialoge = false;
-      this.service.deletePurchaseReturn(this.purchaseReturn).subscribe((resp: any) => {
-        if(resp.status == "success"){
-          this.messageService.add({ severity: "success", detail: resp.message });
-        }else{
+  callBackModal() {
+    this.showDialoge = false;
+    this.service
+      .deletePurchaseReturn(this.purchaseReturn)
+      .subscribe((resp: any) => {
+        if (resp.status == "success") {
+          this.messageService.add({
+            severity: "success",
+            detail: resp.message,
+          });
+        } else {
           this.messageService.add({ severity: "error", detail: resp.message });
         }
-      this.getPurchaseReturn();
-    });
+        this.getPurchaseReturn();
+      });
   }
   close() {
     // this.visible = false;
     this.showInvoiceDialog = false;
-      this.showDialoge = false;
-    
+    this.showDialoge = false;
   }
-  showInvoiceDialoge(id: any)  {
+  showInvoiceDialoge(id: any) {
     let totalTax = 0;
     console.log("id pass to invoice dialoge", id);
     console.log("showInvoiceDialoge is triggered ");
@@ -142,15 +153,15 @@ export class PurchaseReturnComponent {
       console.log(this.PurchaseReturnListData[0].lotDetails);
       console.log(this.PurchaseReturnListData);
       console.log(resp);
-    }
-  )
-  this.service
-  .getPurchaseReturnPaymentListByPurchaseReturnId(id)
-  .subscribe((resp: any) => {
-    this.paymentDataListById = resp.data;
-    console.log("purchase Return data",resp.data)
-  });}
-    
+    });
+    this.service
+      .getPurchaseReturnPaymentListByPurchaseReturnId(id)
+      .subscribe((resp: any) => {
+        this.paymentDataListById = resp.data;
+        console.log("purchase Return data", resp.data);
+      });
+  }
+
   public searchData(value: any): void {
     this.purchaseReturnData.filter = value.trim().toLowerCase();
     this.originalData = this.purchaseReturnData.filteredData;
@@ -158,26 +169,26 @@ export class PurchaseReturnComponent {
   public sortData(sort: Sort) {
     const data = this.allInvoice.slice();
 
-    if (!sort.active || sort.direction === '') {
+    if (!sort.active || sort.direction === "") {
       this.allInvoice = data;
     } else {
       this.allInvoice = data.sort((a, b) => {
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const aValue = (a as any)[sort.active];
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
+        return (aValue < bValue ? -1 : 1) * (sort.direction === "asc" ? 1 : -1);
       });
     }
   }
   public getMoreData(event: string): void {
-    if (event == 'next') {
+    if (event == "next") {
       this.currentPage++;
       this.pageIndex = this.currentPage - 1;
       this.limit += this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
       // this.getTableData();
-    } else if (event == 'previous') {
+    } else if (event == "previous") {
       this.currentPage--;
       this.pageIndex = this.currentPage - 1;
       this.limit -= this.pageSize;
@@ -217,7 +228,7 @@ export class PurchaseReturnComponent {
       this.pageSelection.push({ skip: skip, limit: limit });
     }
   }
-  public openCheckBoxes(val: string){
+  public openCheckBoxes(val: string) {
     if (this.checkboxes[0] != val) {
       this.checkboxes[0] = val;
     } else {

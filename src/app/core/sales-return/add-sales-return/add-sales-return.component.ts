@@ -1,33 +1,40 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { routes } from 'src/app/shared/routes/routes';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { CalendarModule } from 'primeng/calendar';
-import { CustomersdataService } from '../../Customers/customers.service';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { SalesReturnService } from '../sales-return.service';
-import { ToastModule } from 'primeng/toast';
-import { SalesService } from '../../sales/sales.service';
-import { LocalStorageService } from 'src/app/shared/data/local-storage.service';
+import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { DropdownModule } from "primeng/dropdown";
+import { MultiSelectModule } from "primeng/multiselect";
+import { routes } from "src/app/shared/routes/routes";
+import { SharedModule } from "src/app/shared/shared.module";
+import { CalendarModule } from "primeng/calendar";
+import { CustomersdataService } from "../../Customers/customers.service";
+import { Router } from "@angular/router";
+import { MessageService } from "primeng/api";
+import { SalesReturnService } from "../sales-return.service";
+import { ToastModule } from "primeng/toast";
+import { SalesService } from "../../sales/sales.service";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 @Component({
-  selector: 'app-add-sales-return',
+  selector: "app-add-sales-return",
   standalone: true,
-  imports: [CommonModule, SharedModule, MultiSelectModule, DropdownModule, CalendarModule, ToastModule],
-  templateUrl: './add-sales-return.component.html',
-  styleUrl: './add-sales-return.component.scss',
-  providers: [MessageService]
+  imports: [
+    SharedModule,
+  ],
+  templateUrl: "./add-sales-return.component.html",
+  styleUrl: "./add-sales-return.component.scss",
+  providers: [MessageService],
 })
 export class AddSalesReturnComponent {
-
   addReturnSalesForm!: FormGroup;
   public routes = routes;
   maxDate = new Date();
-  public searchData_id = '';
-  customerList : any=[];
+  public searchData_id = "";
+  customerList: any = [];
   originalCustomerData = [];
   categoryList = [];
   subCategoryList = [];
@@ -35,7 +42,7 @@ export class AddSalesReturnComponent {
     { orderStatus: "Accepted" },
     { orderStatus: "Pending" },
     { orderStatus: "Processing" },
-    { orderStatus: "Rejected" }
+    { orderStatus: "Rejected" },
   ];
   unitListData = [];
   orderTaxList = [];
@@ -49,8 +56,6 @@ export class AddSalesReturnComponent {
   customer: any = [];
   returnUrl: string;
 
-
-
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -58,18 +63,15 @@ export class AddSalesReturnComponent {
     private customerService: CustomersdataService,
     private salesService: SalesService,
     private fb: FormBuilder,
-    private LocalStorageService: LocalStorageService,
+    private LocalStorageService: LocalStorageService
   ) {
     this.addReturnSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
       returnDate: ["", [Validators.required]],
-      salesInvoiceNumber: [
-        "",
-        [Validators.required],
-      ],
+      salesInvoiceNumber: ["", [Validators.required]],
       salesItemDetails: this.fb.array([]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
-      salesGrossTotal: [''],
+      salesGrossTotal: [""],
       returnOrderStatus: ["", [Validators.required]],
       // salesDiscount: ["", ],
       // otherCharges: ["", ],
@@ -81,7 +83,7 @@ export class AddSalesReturnComponent {
   }
 
   get salesItemDetails() {
-    return this.addReturnSalesForm.controls['salesItemDetails'] as FormArray;
+    return this.addReturnSalesForm.controls["salesItemDetails"] as FormArray;
   }
 
   deletesalesReturnItemDetails(salesReturnItemDetailsIndex: number) {
@@ -105,38 +107,37 @@ export class AddSalesReturnComponent {
   // }
 
   ngOnInit(): void {
-   
     this.customerList = this.getCustomerData();
 
     this.customer = this.LocalStorageService.getItem("customer1");
-    this.returnUrl=this.LocalStorageService.getItem('returnUrl')
+    this.returnUrl = this.LocalStorageService.getItem("returnUrl");
 
     console.log(
       "this is customer data by local sotrage service",
       this.customer
-    ); 
+    );
     if (this.customer) {
       this.addReturnSalesForm.patchValue({
         customer: this.customer,
       });
-      console.log("this is customer in true condition",this.customer)
-      this.onCustomerSelect(this.customer)
+      console.log("this is customer in true condition", this.customer);
+      this.onCustomerSelect(this.customer);
     }
   }
 
-  getCustomerData(){
+  getCustomerData() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
       this.customerList = [];
-      this.originalCustomerData.forEach(element => {
+      this.originalCustomerData.forEach((element) => {
         this.customerList.push({
           name: element.name,
           _id: {
             _id: element._id,
             name: element.name,
             billingAddress: element.billingAddress,
-          }
-        })
+          },
+        });
       });
     });
   }
@@ -144,30 +145,37 @@ export class AddSalesReturnComponent {
     // debugger
     this.salesItemDetails.clear();
 
-    this.salesService.getAllSalesByCustomerId(value._id).subscribe((resp: any) => {
-      this.salesInvoiceList = resp.data;
-      console.log("All Sales", resp.data);
-    });
-
+    this.salesService
+      .getAllSalesByCustomerId(value._id)
+      .subscribe((resp: any) => {
+        this.salesInvoiceList = resp.data;
+        console.log("All Sales", resp.data);
+      });
   }
 
   onInvoiceSelect(value: any) {
     this.salesItemDetails.clear();
 
     // this.addsalesReturnItemDetailsItem(value.salesItemDetails);
-        const salesArray = this.addReturnSalesForm.get('salesItemDetails') as FormArray;
+    const salesArray = this.addReturnSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
 
-    value.salesItemDetails?.forEach(sale => {
-          salesArray.push(this.fb.group({
-            salesItemProduct: [sale.salesItemProduct],
-            salesItemQuantity: [sale.salesItemQuantity,[Validators.max(sale.salesItemQuantity)]],
-            salesItemSubTotal: [sale.salesItemSubTotal],
-            salesItemTax: [sale.salesItemTax],
-            salesItemTaxAmount: [sale.salesItemTaxAmount],
-            salesItemUnitPrice: [sale.salesItemUnitPrice],
-    
-          }));
-        });
+    value.salesItemDetails?.forEach((sale) => {
+      salesArray.push(
+        this.fb.group({
+          salesItemProduct: [sale.salesItemProduct],
+          salesItemQuantity: [
+            sale.salesItemQuantity,
+            [Validators.max(sale.salesItemQuantity)],
+          ],
+          salesItemSubTotal: [sale.salesItemSubTotal],
+          salesItemTax: [sale.salesItemTax],
+          salesItemTaxAmount: [sale.salesItemTaxAmount],
+          salesItemUnitPrice: [sale.salesItemUnitPrice],
+        })
+      );
+    });
 
     this.addReturnSalesForm.patchValue({
       salesGrossTotal: value.salesGrossTotal,
@@ -181,13 +189,14 @@ export class AddSalesReturnComponent {
   calculateTotalAmount() {
     let salesGrossTotal = 0;
 
-    const salesItems = this.addReturnSalesForm.get("salesItemDetails") as FormArray;
+    const salesItems = this.addReturnSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];
-
 
       let totalTaxAmount = 0;
       if (Array.isArray(tax)) {
@@ -197,21 +206,24 @@ export class AddSalesReturnComponent {
       } else {
         totalTaxAmount = (quantity * unitPrice * tax) / 100;
       }
-      const subtotal = (quantity * unitPrice) + totalTaxAmount;
+      const subtotal = quantity * unitPrice + totalTaxAmount;
 
       salesGrossTotal += subtotal;
-      item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2))
+      item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2));
       item.get("salesItemSubTotal").patchValue(subtotal.toFixed(2));
     });
 
     // Update the total gross amount
-    this.addReturnSalesForm.get('salesGrossTotal').setValue(salesGrossTotal.toFixed(2));
+    this.addReturnSalesForm
+      .get("salesGrossTotal")
+      .setValue(salesGrossTotal.toFixed(2));
 
     let totalAmount = salesGrossTotal;
     // const discount = +this.addReturnSalesForm.get("salesDiscount").value || 0;
     // const shipping = +this.addReturnSalesForm.get("salesShipping").value || 0;
     // const otherCharges = +this.addReturnSalesForm.get("otherCharges").value || 0;
-    const returnOtherCharges = +this.addReturnSalesForm.get("returnOtherCharges").value || 0;
+    const returnOtherCharges =
+      +this.addReturnSalesForm.get("returnOtherCharges").value || 0;
 
     // totalAmount -= discount;
     // totalAmount += shipping;
@@ -223,7 +235,7 @@ export class AddSalesReturnComponent {
       // salesDiscount: discount.toFixed(2),
       // salesShipping: shipping.toFixed(2),
       // otherCharges: otherCharges.toFixed(2),
-      returnOtherCharges: returnOtherCharges
+      returnOtherCharges: returnOtherCharges,
     });
   }
 
@@ -242,8 +254,8 @@ export class AddSalesReturnComponent {
       // salesTermsAndCondition: formData.salesTermsAndCondition,
       salesNotes: formData.salesNotes,
       salesTotalAmount: formData.salesTotalAmount,
-      returnOtherCharges: formData.returnOtherCharges
-    }
+      returnOtherCharges: formData.returnOtherCharges,
+    };
     if (this.addReturnSalesForm.valid) {
       console.log("valid form");
       this.Service.createSalesReturn(payload).subscribe((resp: any) => {
@@ -261,8 +273,7 @@ export class AddSalesReturnComponent {
           }
         }
       });
-    }
-    else {
+    } else {
       console.log("invalid form");
     }
   }

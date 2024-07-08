@@ -18,11 +18,7 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
   selector: 'app-add-block-processor',
   standalone: true,
   imports: [
-    RouterModule,
-    DropdownModule,
-    CommonModule,
     SharedModule, 
-    ToastModule
   ],
   templateUrl: './add-block-processor.component.html',
   styleUrl: './add-block-processor.component.scss',

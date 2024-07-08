@@ -18,7 +18,6 @@ import { SlabsService } from "../../Product/slabs/slabs.service";
   standalone: true,
   imports: [
     SharedModule,
-    MultiSelectModule,
   ],
   templateUrl: "./addsales.component.html",
   styleUrls: ["./addsales.component.scss"],

@@ -1,6 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
 import { MultiSelectModule } from "primeng/multiselect";
 import { routes } from "src/app/shared/routes/routes";
@@ -24,12 +29,7 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
   selector: "app-edit-purchase-return",
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
-    MultiSelectModule,
-    DropdownModule,
-    CalendarModule,
-    ToastModule,
   ],
   templateUrl: "./edit-purchase-return.component.html",
   styleUrl: "./edit-purchase-return.component.scss",
@@ -93,27 +93,28 @@ export class EditPurchaseReturnComponent {
 
   onInvoiceNumber(purchaseId: any) {
     this.GridDataForSlab = [];
-    this.PurchaseReturnService.GetPurchaseDataById(purchaseId).subscribe((resp: any) => {
-      this.PurchaseReturnDataById = resp.data;
-      this.GridDataForSlab = [resp.data.slabDetails];
-      // if (this.PurchaseReturnDataById.purchaseType == "slab") {
-      //   const totalCosting = parseFloat(this.PurchaseReturnDataById.slabDetails.purchaseCost);
-      //   if (!this.editPurchaseReturnForm.value.purchaseReturnTotalAmount) {
-      //     this.editPurchaseReturnForm.patchValue({
-      //       purchaseGrossTotal: totalCosting,
-      //       purchaseReturnTotalAmount: totalCosting,
-      //     });
-      //   }
-      // }
-    }
+    this.PurchaseReturnService.GetPurchaseDataById(purchaseId).subscribe(
+      (resp: any) => {
+        this.PurchaseReturnDataById = resp.data;
+        this.GridDataForSlab = [resp.data.slabDetails];
+        // if (this.PurchaseReturnDataById.purchaseType == "slab") {
+        //   const totalCosting = parseFloat(this.PurchaseReturnDataById.slabDetails.purchaseCost);
+        //   if (!this.editPurchaseReturnForm.value.purchaseReturnTotalAmount) {
+        //     this.editPurchaseReturnForm.patchValue({
+        //       purchaseGrossTotal: totalCosting,
+        //       purchaseReturnTotalAmount: totalCosting,
+        //     });
+        //   }
+        // }
+      }
     );
   }
 
   ngOnInit(): void {
     this.supplier = this.localStorageService.getItem("supplier1");
-    this.returnUrl = this.localStorageService.getItem('returnUrl')
-    console.log(this.returnUrl)
-    
+    this.returnUrl = this.localStorageService.getItem("returnUrl");
+    console.log(this.returnUrl);
+
     // this.Service.GetSupplierData().subscribe((resp: any) => {
     //   this.SupplierLists = [];
     //   resp.forEach((element: any) => {
@@ -134,16 +135,22 @@ export class EditPurchaseReturnComponent {
   }
 
   calculateTotalPurchaseAmount() {
-    let purchaseGrossTotal = this.editPurchaseReturnForm.get('purchaseGrossTotal').value || 0;
-    let ReturnOtherCharges = this.editPurchaseReturnForm.get('otherCharges').value || 0;
+    let purchaseGrossTotal =
+      this.editPurchaseReturnForm.get("purchaseGrossTotal").value || 0;
+    let ReturnOtherCharges =
+      this.editPurchaseReturnForm.get("otherCharges").value || 0;
     let purchaseReturnTotalAmount = purchaseGrossTotal - ReturnOtherCharges;
 
-    this.editPurchaseReturnForm.get('purchaseReturnTotalAmount').patchValue(purchaseReturnTotalAmount);
+    this.editPurchaseReturnForm
+      .get("purchaseReturnTotalAmount")
+      .patchValue(purchaseReturnTotalAmount);
     console.log(
-      this.editPurchaseReturnForm.get('purchaseReturnTotalAmount').value); 
+      this.editPurchaseReturnForm.get("purchaseReturnTotalAmount").value
+    );
   }
 
-  patchForm(data) {this.editPurchaseReturnForm.patchValue({
+  patchForm(data) {
+    this.editPurchaseReturnForm.patchValue({
       purchaseReturnInvoiceNumber: data.purchaseInvoiceNumber,
       purchaseReturnSupplier: data.supplier,
       purchaseReturnDate: data.returnDate,
@@ -151,7 +158,7 @@ export class EditPurchaseReturnComponent {
       purchaseReturnNotes: data.purchaseReturnNotes,
       purchaseReturnTotalAmount: data.purchaseReturnTotalAmount,
       purchaseGrossTotal: data.purchaseGrossTotal,
-      purchaseReturnItemDetails: data.purchaseReturnItemDetails
+      purchaseReturnItemDetails: data.purchaseReturnItemDetails,
     });
     this.onInvoiceNumber(data.purchaseInvoiceNumber._id);
   }
@@ -159,33 +166,41 @@ export class EditPurchaseReturnComponent {
   editPurchaseReturnFormSubmit() {
     const payload = {
       id: this.purchaseReturnId,
-      purchaseReturnInvoiceNumber: this.editPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
-      purchaseReturnSupplier: this.editPurchaseReturnForm.value.purchaseReturnSupplier,
+      purchaseReturnInvoiceNumber:
+        this.editPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
+      purchaseReturnSupplier:
+        this.editPurchaseReturnForm.value.purchaseReturnSupplier,
       purchaseReturnDate: this.editPurchaseReturnForm.value.purchaseReturnDate,
-      purchaseReturnOtherCharges: this.editPurchaseReturnForm.value.otherCharges,
-      purchaseReturnNotes: this.editPurchaseReturnForm.value.purchaseReturnNotes,
-      purchaseReturnTotalAmount: this.editPurchaseReturnForm.value.purchaseReturnTotalAmount,
+      purchaseReturnOtherCharges:
+        this.editPurchaseReturnForm.value.otherCharges,
+      purchaseReturnNotes:
+        this.editPurchaseReturnForm.value.purchaseReturnNotes,
+      purchaseReturnTotalAmount:
+        this.editPurchaseReturnForm.value.purchaseReturnTotalAmount,
       purchaseGrossTotal: this.editPurchaseReturnForm.value.purchaseGrossTotal,
       purchaseReturnItemDetails: this.GridDataForSlab,
-            purchaseReturnOrderStatus: "Static",
-
+      purchaseReturnOrderStatus: "Static",
     };
     if (this.editPurchaseReturnForm.valid) {
-      this.PurchaseReturnService.updatePurchaseReturn(payload).subscribe((resp: any) => {
-        if (resp) {
-          if (resp.status === "success") {
-            this.messageService.add({ severity: "success", detail: resp.message });
-            setTimeout(() => {
-              this.router.navigateByUrl(this.returnUrl);
-            }, 400);
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
+      this.PurchaseReturnService.updatePurchaseReturn(payload).subscribe(
+        (resp: any) => {
+          if (resp) {
+            if (resp.status === "success") {
+              this.messageService.add({
+                severity: "success",
+                detail: resp.message,
+              });
+              setTimeout(() => {
+                this.router.navigateByUrl(this.returnUrl);
+              }, 400);
+            } else {
+              const message = resp.message;
+              this.messageService.add({ severity: "error", detail: message });
+            }
           }
         }
-      });
-    }
-    else {
+      );
+    } else {
       console.log("invalid form");
     }
   }

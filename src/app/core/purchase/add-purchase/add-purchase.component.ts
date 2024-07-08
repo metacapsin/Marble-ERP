@@ -32,12 +32,7 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
   selector: "app-add-purchase",
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
-    MultiSelectModule,
-    DropdownModule,
-    CalendarModule,
-    ToastModule,
   ],
   templateUrl: "./add-purchase.component.html",
   styleUrl: "./add-purchase.component.scss",
@@ -170,7 +165,7 @@ export class AddPurchaseComponent implements OnInit {
     });
     this.GridDataForLot = [];
     // this.calculateTotalAmount();
-    console.log(slabValue,this.SlabAddValue);
+    console.log(slabValue, this.SlabAddValue);
   }
 
   getSupplier() {

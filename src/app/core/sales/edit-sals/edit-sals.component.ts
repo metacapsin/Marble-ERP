@@ -17,14 +17,7 @@ import { SlabsService } from "../../Product/slabs/slabs.service";
 @Component({
   selector: "app-edit-sals",
   standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    DropdownModule,
-    CalendarModule,
-    ToastModule,
-    MultiSelectModule,
-  ],
+  imports: [SharedModule],
   templateUrl: "./edit-sals.component.html",
   styleUrl: "./edit-sals.component.scss",
   providers: [MessageService],
@@ -70,9 +63,7 @@ export class EditSalsComponent {
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
       salesDiscount: ["", [Validators.min(0)]],
-      salesInvoiceNumber: [
-        "",
-      ],
+      salesInvoiceNumber: [""],
       salesItemDetails: this.fb.array([]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
       salesGrossTotal: [""],
@@ -96,23 +87,28 @@ export class EditSalsComponent {
   }
   addsalesItemDetailsItem() {
     const item = this.fb.group({
-      salesItemProduct: ['', [Validators.required]],
-      salesItemQuantity: ["", [Validators.required, Validators.min(0), Validators.max(this.maxQuantity)]],
+      salesItemProduct: ["", [Validators.required]],
+      salesItemQuantity: [
+        "",
+        [
+          Validators.required,
+          Validators.min(0),
+          Validators.max(this.maxQuantity),
+        ],
+      ],
       salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-      salesItemTax: [''],
-      salesItemTaxAmount: [''],
+      salesItemTax: [""],
+      salesItemTaxAmount: [""],
       salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
       maxQuantity: [" "],
-    })
+    });
     this.salesItemDetails.push(item);
-
   }
 
   ngOnInit(): void {
     this.slabService.getSlabsList().subscribe((resp: any) => {
-
       this.slabData = resp.data;
-      this.slabList = this.slabData.map(e => ({
+      this.slabList = this.slabData.map((e) => ({
         slabName: e.slabName,
         _id: {
           _id: e._id,
@@ -120,12 +116,12 @@ export class EditSalsComponent {
           slabNo: e.slabNo,
           // sellingPricePerSQFT: e.sellingPricePerSQFT,
           // totalSQFT: e.totalSQFT,
-        }
+        },
       }));
 
       this.customerService.GetCustomerData().subscribe((resp: any) => {
         this.originalCustomerData = resp;
-        this.customerList = this.originalCustomerData.map(element => ({
+        this.customerList = this.originalCustomerData.map((element) => ({
           name: element.name,
           _id: {
             _id: element._id,
@@ -137,66 +133,68 @@ export class EditSalsComponent {
 
       this.taxService.getAllTaxList().subscribe((resp: any) => {
         this.taxesListData = resp.data;
-        this.orderTaxList = this.taxesListData.map(element => ({
+        this.orderTaxList = this.taxesListData.map((element) => ({
           orderTaxName: `${element.name} (${element.taxRate}%)`,
           orderNamevalue: element,
         }));
       });
 
-
-
       this.Service.GetSalesDataById(this.salesId).subscribe((resp: any) => {
         // resp.data?.salesItemDetails?.forEach((lang) => {
         //   console.log("Product value",lang);
         // });
-        this.getTotalQuantity()
+        this.getTotalQuantity();
         this.patchForm(resp.data);
       });
     });
 
-
-
     this.calculateTotalAmount();
   }
 
-  getTotalQuantity() {
-
-  }
+  getTotalQuantity() {}
 
   onSlabSelect(value, i) {
-    const salesItemDetailsArray = this.editSalesForm.get("salesItemDetails") as FormArray;
+    const salesItemDetailsArray = this.editSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
 
-    const selectedSlab = this.slabData.find(slab => slab._id === value._id);
+    const selectedSlab = this.slabData.find((slab) => slab._id === value._id);
 
     if (selectedSlab) {
-
       let totalUsedQuantity = 0;
       for (let j = 0; j < salesItemDetailsArray.length; j++) {
-        const currentRowSlab = salesItemDetailsArray.at(j)?.get("salesItemProduct").value;
+        const currentRowSlab = salesItemDetailsArray
+          .at(j)
+          ?.get("salesItemProduct").value;
         if (currentRowSlab && currentRowSlab._id === value._id) {
-          totalUsedQuantity += salesItemDetailsArray.at(j)?.get("salesItemQuantity").value || 0;
+          totalUsedQuantity +=
+            salesItemDetailsArray.at(j)?.get("salesItemQuantity").value || 0;
         }
       }
 
       // Calculate the remaining quantity for the selected slab
       let remainingQuantity = selectedSlab.totalSQFT - totalUsedQuantity;
 
-      const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
-      const maxQuantityControl = salesItemDetailsArray.at(i)?.get("maxQuantity");
+      const salesItemUnitPriceControl = salesItemDetailsArray
+        .at(i)
+        ?.get("salesItemUnitPrice");
+      const maxQuantityControl = salesItemDetailsArray
+        .at(i)
+        ?.get("maxQuantity");
 
       if (salesItemUnitPriceControl) {
         salesItemUnitPriceControl.patchValue(selectedSlab.sellingPricePerSQFT);
         this.calculateTotalAmount();
       }
       if (maxQuantityControl) {
-        maxQuantityControl.setValue(remainingQuantity > 0 ? remainingQuantity : 0);
+        maxQuantityControl.setValue(
+          remainingQuantity > 0 ? remainingQuantity : 0
+        );
       }
     } else {
-      console.error('Slab not found!');
+      console.error("Slab not found!");
     }
   }
-
-
 
   calculateTotalAmount() {
     let salesGrossTotal = 0;
@@ -205,7 +203,7 @@ export class EditSalsComponent {
 
     salesItems.controls.forEach((item: FormGroup) => {
       if (item.get("salesItemQuantity").value > item.get("maxQuantity").value) {
-        item.get("salesItemQuantity").patchValue(item.get("maxQuantity").value)
+        item.get("salesItemQuantity").patchValue(item.get("maxQuantity").value);
       }
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
@@ -220,14 +218,16 @@ export class EditSalsComponent {
         totalTaxAmount = (quantity * unitPrice * tax) / 100;
       }
 
-      const subtotal = (quantity * unitPrice) + totalTaxAmount;
+      const subtotal = quantity * unitPrice + totalTaxAmount;
 
       salesGrossTotal += subtotal;
-      item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2))
+      item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2));
       item.get("salesItemSubTotal").setValue(subtotal.toFixed(2));
     });
 
-    this.editSalesForm.get('salesGrossTotal').setValue(salesGrossTotal.toFixed(2));
+    this.editSalesForm
+      .get("salesGrossTotal")
+      .setValue(salesGrossTotal.toFixed(2));
 
     let totalAmount = salesGrossTotal;
     const discount = +this.editSalesForm.get("salesDiscount").value;
@@ -238,7 +238,7 @@ export class EditSalsComponent {
     totalAmount += shipping;
     totalAmount += otherCharges;
 
-    this.editSalesForm.get("salesTotalAmount").setValue(totalAmount)
+    this.editSalesForm.get("salesTotalAmount").setValue(totalAmount);
   }
 
   patchForm(data) {
@@ -256,17 +256,29 @@ export class EditSalsComponent {
       otherCharges: data.otherCharges,
     });
 
-    this.salesItemDetails.clear();  // Clear existing items
+    this.salesItemDetails.clear(); // Clear existing items
 
     // Patch sales item details and disable product field
     data.salesItemDetails.forEach((item: any, index: number) => {
       const salesItem = this.fb.group({
-        salesItemProduct: [{ value: item.salesItemProduct, disabled: true }, [Validators.required]],
-        salesItemQuantity: [item.salesItemQuantity, [Validators.required, Validators.min(0)]],
-        salesItemUnitPrice: [item.salesItemUnitPrice, [Validators.required, Validators.min(0)]],
+        salesItemProduct: [
+          { value: item.salesItemProduct, disabled: true },
+          [Validators.required],
+        ],
+        salesItemQuantity: [
+          item.salesItemQuantity,
+          [Validators.required, Validators.min(0)],
+        ],
+        salesItemUnitPrice: [
+          item.salesItemUnitPrice,
+          [Validators.required, Validators.min(0)],
+        ],
         salesItemTax: [item.salesItemTax],
         salesItemTaxAmount: [item.salesItemTaxAmount],
-        salesItemSubTotal: [item.salesItemSubTotal, [Validators.required, Validators.min(0)]],
+        salesItemSubTotal: [
+          item.salesItemSubTotal,
+          [Validators.required, Validators.min(0)],
+        ],
         maxQuantity: [item.maxQuantity],
       });
 
@@ -274,14 +286,11 @@ export class EditSalsComponent {
 
       // this.onSlabSelect(item.salesItemProduct, index);
     });
-
   }
-
 
   editSalesFormSubmit() {
     const formData = this.editSalesForm.getRawValue();
     const payload = {
-
       customer: formData.customer,
       salesDate: formData.salesDate,
       salesDiscount: formData.salesDiscount,

@@ -18,11 +18,7 @@ import { PurchaseService } from "../../purchase/purchase.service";
   selector: "app-payment-in-add",
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
-    DropdownModule,
-    CalendarModule,
-    ToastModule,
   ],
   templateUrl: "./payment-out-add.component.html",
   styleUrl: "./payment-out-add.component.scss",

@@ -38,6 +38,11 @@ import { TooltipModule } from "primeng/tooltip";
 import { FileUploadModule } from "primeng/fileupload";
 import { StepperModule } from "primeng/stepper";
 import { AccordionModule } from "primeng/accordion";
+import { ChartModule } from "primeng/chart";
+import { RatingModule } from "primeng/rating";
+import { TreeTableModule } from "primeng/treetable";
+import { MatButtonModule } from "@angular/material/button";
+import { CheckboxModule } from "primeng/checkbox";
 
 @NgModule({
   declarations: [],
@@ -92,7 +97,12 @@ import { AccordionModule } from "primeng/accordion";
     TooltipModule,
     FileUploadModule,
     StepperModule,
-    AccordionModule
+    AccordionModule,
+    ChartModule,
+    RatingModule,
+    TreeTableModule,
+    MatButtonModule,
+    CheckboxModule,
 
     
     
@@ -133,7 +143,14 @@ import { AccordionModule } from "primeng/accordion";
     TooltipModule,
     FileUploadModule,
     StepperModule,
-    AccordionModule
+    AccordionModule,
+    ChartModule,
+    RatingModule,
+    TreeTableModule,
+    MatButtonModule,
+    CheckboxModule,
+    MultiSelectModule,
+
     
     
 

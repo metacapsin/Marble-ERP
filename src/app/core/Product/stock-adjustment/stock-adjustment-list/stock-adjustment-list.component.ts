@@ -23,14 +23,7 @@ import { SlabsService } from "../../slabs/slabs.service";
   styleUrl: "./stock-adjustment-list.component.scss",
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
-    ButtonModule,
-    TableModule,
-    ToastModule,
-    DialogModule,
-    DropdownModule,
-    FilterPipe,
   ],
   providers: [MessageService],
 })

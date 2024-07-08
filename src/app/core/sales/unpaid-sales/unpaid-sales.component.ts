@@ -11,7 +11,7 @@ import { CustomersdataService } from '../../Customers/customers.service';
   templateUrl: './unpaid-sales.component.html',
   styleUrl: './unpaid-sales.component.scss',
   standalone: true,
-  imports:[CommonModule, SharedModule, DropdownModule, CalendarModule]
+  imports:[ SharedModule ]
 })
 export class UnpaidSalesComponent   implements OnInit{
   public routes = routes;

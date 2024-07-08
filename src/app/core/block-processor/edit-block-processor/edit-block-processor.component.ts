@@ -18,11 +18,7 @@ import { blockProcessorService } from "../block-processor.service";
   selector: 'app-edit-block-processor',
   standalone: true,
   imports: [
-    RouterModule,
-    DropdownModule,
-    CommonModule,
     SharedModule,
-    ToastModule,
   ],
   templateUrl: './edit-block-processor.component.html',
   styleUrl: './edit-block-processor.component.scss',
