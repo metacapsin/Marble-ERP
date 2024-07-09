@@ -202,17 +202,17 @@
                       <p-table [value]="product.salesItemDetails">
                         <ng-template pTemplate="header">
                           <tr>
-                            <th width="20%" pSortableColumn="salesItemProduct.slabName">
+                            <th width="30%" pSortableColumn="salesItemProduct.slabName">
                                Slab Name <p-sortIcon field="salesItemProduct.slabName" />
                             </th>
-                            <th width="20%" pSortableColumn="maxQuantity">
-                              Max Quantity <p-sortIcon field="maxQuantity" />
+                            <th width="30%" pSortableColumn="salesItemQuantity">
+                              Quantity (Sq. Feet) <p-sortIcon field="salesItemQuantity" />
                             </th>
-                            <th width="20%" pSortableColumn="salesItemSubTotal">
+                            <th width="30%" pSortableColumn="salesItemSubTotal">
                               Item Sub Total <p-sortIcon field="salesItemSubTotal" />
                             </th>
-                            <th width="40%">
-                              Tax taxRate
+                            <th width="30%">
+                              Tax Rate
                             </th>
                           </tr>
                         </ng-template>
@@ -222,13 +222,13 @@
                             <td>{{ alert.salesItemProduct.slabName }}</td>
                             <td>
                               <!-- ₹ {{ alert.maxQuantity | indianCurrency }} -->
-                              ₹ {{ alert.maxQuantity }}
-                            </td>
+                              {{ alert.salesItemQuantity }}
+                              </td>
                             <td>{{alert.salesItemSubTotal}}</td>
-                            <td>
-                              <div class="col3" *ngFor="let tax of alert.salesItemTax">
-                                <span>{{tax.name + ': ' + tax.taxRate + '%'}}</span>
-                              </div>
+                            <td class="" id="tdSet">
+                              <!-- <div class="border border-1"> -->
+                                <div  class="col3 me-2" *ngFor="let tax of alert.salesItemTax"> {{tax.name + ': ' + tax.taxRate + '%,'}}</div>
+                              <!-- </div>   -->
                             </td>
                             
                             <!-- <td>{{alert.salesItemSubTotal}}</td> -->
