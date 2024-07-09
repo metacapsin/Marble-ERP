@@ -20,12 +20,7 @@ import { WarehouseRoutingModule } from './warehouse-routing.module';
     WarehouseAddComponent,
     WarehouseEditComponent,
     WarehouseRoutingModule,
-    CommonModule,
     SharedModule,
-    MatButtonModule,
-    ButtonModule,
-    CheckboxModule,
-    DropdownModule
   ]
 })
 export class WarehouseModule { }

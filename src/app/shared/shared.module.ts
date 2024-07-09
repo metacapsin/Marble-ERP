@@ -43,6 +43,12 @@ import { RatingModule } from "primeng/rating";
 import { TreeTableModule } from "primeng/treetable";
 import { MatButtonModule } from "@angular/material/button";
 import { CheckboxModule } from "primeng/checkbox";
+import { MatTableModule } from "@angular/material/table";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatRadioModule } from "@angular/material/radio";
 
 @NgModule({
   declarations: [],
@@ -103,6 +109,13 @@ import { CheckboxModule } from "primeng/checkbox";
     TreeTableModule,
     MatButtonModule,
     CheckboxModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatTabsModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    
 
     
     
@@ -150,6 +163,14 @@ import { CheckboxModule } from "primeng/checkbox";
     MatButtonModule,
     CheckboxModule,
     MultiSelectModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatTabsModule,
+    MatCheckboxModule,
+MatRadioModule,
+
+    
 
     
     

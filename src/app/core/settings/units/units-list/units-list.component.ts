@@ -14,15 +14,7 @@ import { FilterPipe } from "src/app/core/filter.pipe";
 @Component({
   selector: "app-units-list",
   standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    TableModule,
-    ButtonModule,
-    DialogModule,
-    ToastModule,
-    FilterPipe
-  ],
+  imports: [SharedModule],
   templateUrl: "./units-list.component.html",
   styleUrl: "./units-list.component.scss",
   providers: [MessageService],

@@ -83,7 +83,7 @@ export class StaffSalaryAddComponent {
       netSalary: netSalary || 0,
     });
   }
-  
+
   addSalaryFormSubmit() {
     const payload = {
       employee: this.addSalaryForm.value.employee,

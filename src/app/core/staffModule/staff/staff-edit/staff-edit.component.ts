@@ -1,31 +1,25 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
-import { ToastModule } from 'primeng/toast';
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { SharedModule } from "src/app/shared/shared.module";
+import { CalendarModule } from "primeng/calendar";
+import { DropdownModule } from "primeng/dropdown";
+import { ToastModule } from "primeng/toast";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
-import { staffService } from '../staff-service.service';
+import { staffService } from "../staff-service.service";
 import { MessageService } from "primeng/api";
-import { WarehouseService } from 'src/app/core/settings/warehouse/warehouse.service';
+import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 
 @Component({
-  selector: 'app-staff-edit',
+  selector: "app-staff-edit",
   standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    CalendarModule,
-    DropdownModule,
-    ToastModule],
-  templateUrl: './staff-edit.component.html',
-  styleUrl: './staff-edit.component.scss',
-  providers: [MessageService]
+  imports: [SharedModule],
+  templateUrl: "./staff-edit.component.html",
+  styleUrl: "./staff-edit.component.scss",
+  providers: [MessageService],
 })
 export class StaffEditComponent {
-
   public routes = routes;
   public deleteIcon = true;
   editStaffForm!: FormGroup;
@@ -53,7 +47,7 @@ export class StaffEditComponent {
   //   "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   phoneRegex = /^[0-9]{10}$/;
-  emailRegex = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  emailRegex = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   REGX_For_UID = /^[\w.-]+@[\w.-]+$/;
   pinRegex = /^\d{6}$/;
   upiIdRegex = /^[a-zA-Z0-9.-]{2,256}@[a-zA-Z]{2,64}$/;
@@ -96,18 +90,27 @@ export class StaffEditComponent {
       // ifscCode: ["", [Validators.pattern(this.IfscupiId: ["", [Validators.pattern(this.REGX_For_UID)]],
       dateOfBirth: ["", Validators.required],
       warehouseDetails: ["", Validators.required],
-      firstName: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
-      lastName: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      firstName: [
+        "",
+        [Validators.required, Validators.pattern(this.personNameRegex)],
+      ],
+      lastName: [
+        "",
+        [Validators.required, Validators.pattern(this.personNameRegex)],
+      ],
       mobile: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
       email: ["", [Validators.pattern(this.emailRegex)]],
       pinCode: ["", [Validators.required, Validators.pattern(this.pinRegex)]],
       designation: ["", [Validators.required]],
-      city: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      city: [
+        "",
+        [Validators.required, Validators.pattern(this.personNameRegex)],
+      ],
       address: ["", [Validators.pattern(this.addressRegex)]],
       bankName: ["", [Validators.pattern(this.BankName)]],
       accountName: ["", [Validators.pattern(this.accountHolderRegex)]],
       accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
-      ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]]
+      ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
     });
     this.staffId = this.activeRoute.snapshot.params["id"];
   }
@@ -119,10 +122,10 @@ export class StaffEditComponent {
       this.staffDataById = resp;
       console.log("resp dta", resp);
       this.patchForm(resp);
-    })
+    });
     this.warehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.warehouseDetails = resp.data;
-    })
+    });
   }
 
   patchForm(data) {
@@ -146,15 +149,15 @@ export class StaffEditComponent {
   }
 
   editStaffFormSubmit() {
-    console.log(this.editStaffForm.value)
+    console.log(this.editStaffForm.value);
     const payload = {
-      id:this.staffId,
+      id: this.staffId,
       firstName: this.editStaffForm.value.firstName,
       lastName: this.editStaffForm.value.lastName,
       dateOfBirth: this.editStaffForm.value.dateOfBirth,
       email: this.editStaffForm.value.email,
-      mobile:this.editStaffForm.value.mobile,
-      warehouseDetails:this.editStaffForm.value.warehouseDetails,
+      mobile: this.editStaffForm.value.mobile,
+      warehouseDetails: this.editStaffForm.value.warehouseDetails,
       designation: this.editStaffForm.value.designation,
       city: this.editStaffForm.value.city,
       pinCode: this.editStaffForm.value.pinCode,
@@ -165,24 +168,23 @@ export class StaffEditComponent {
       accountNumber: this.editStaffForm.value.accountNumber,
       ifscCode: this.editStaffForm.value.ifscCode,
     };
-  //  if (this.editStaffForm.valid) {
-      console.log("valid form");
-      console.log(payload);
-      this.Service.updateStaffData(payload).subscribe((resp: any) => {
-        console.log(resp);
-        if (resp) {
-          if (resp.status === "success") {
-            const message = "Sales has been updated";
-            this.messageService.add({ severity: "success", detail: message });
-            setTimeout(() => {
-              this.router.navigate(["/staff"]);
-            }, 400);
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
-          }
+    //  if (this.editStaffForm.valid) {
+    console.log("valid form");
+    console.log(payload);
+    this.Service.updateStaffData(payload).subscribe((resp: any) => {
+      console.log(resp);
+      if (resp) {
+        if (resp.status === "success") {
+          const message = "Sales has been updated";
+          this.messageService.add({ severity: "success", detail: message });
+          setTimeout(() => {
+            this.router.navigate(["/staff"]);
+          }, 400);
+        } else {
+          const message = resp.message;
+          this.messageService.add({ severity: "error", detail: message });
         }
-      });
+      }
+    });
   }
-
 }

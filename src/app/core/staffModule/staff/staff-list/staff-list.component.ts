@@ -18,11 +18,8 @@ import { FilterPipe } from "src/app/core/filter.pipe";
   templateUrl: "./staff-list.component.html",
   styleUrls: ["./staff-list.component.scss"],
   standalone: true,
-  imports: [CommonModule, 
-    SharedModule, 
-    DropdownModule, 
-    CalendarModule, ToastModule, DialogModule,TabViewModule,FilterPipe],
-    providers: [MessageService]
+  imports: [SharedModule],
+  providers: [MessageService],
 })
 export class StaffListComponent {
   public routes = routes;
@@ -78,13 +75,13 @@ export class StaffListComponent {
     this.getStaffData();
   }
   public searchData(value: any): void {
-    this.staffData = this.originalData.filter(i =>
-    i.firstName.toLowerCase().includes(value.trim().toLowerCase())
-  );
+    this.staffData = this.originalData.filter((i) =>
+      i.firstName.toLowerCase().includes(value.trim().toLowerCase())
+    );
   }
   onPageChange(event) {
     const startIndex = event.first;
-    const endIndex = startIndex + event.rows; 
+    const endIndex = startIndex + event.rows;
     const currentPageData = this.staffData.slice(startIndex, endIndex);
   }
 }

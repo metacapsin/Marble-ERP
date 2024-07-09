@@ -16,15 +16,7 @@ import { WarehouseService } from "../warehouse.service";
 @Component({
   selector: "app-warehouse-add",
   standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    MatButtonModule,
-    ButtonModule,
-    CheckboxModule,
-    DropdownModule,
-    ToastModule,
-  ],
+  imports: [SharedModule],
   providers: [MessageService],
   templateUrl: "./warehouse-add.component.html",
   styleUrl: "./warehouse-add.component.scss",
@@ -33,11 +25,12 @@ export class WarehouseAddComponent {
   public routes = routes;
   warehouseForm!: FormGroup;
 
-nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-emailRegex: string = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
-billingAddressRegex = /^.{3,500}$/s;
+  billingAddressRegex = /^.{3,500}$/s;
 
   phoneRegex = /^[0-9]{10}$/;
 

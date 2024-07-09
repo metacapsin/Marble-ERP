@@ -18,11 +18,7 @@ import * as moment from 'moment';
   styleUrl: './staff-leaves-edit.component.scss',
   standalone: true,
   imports: [
-    CommonModule,
     SharedModule,
-    CalendarModule,
-    DropdownModule,
-    ToastModule
   ],
   providers:[MessageService]
 })

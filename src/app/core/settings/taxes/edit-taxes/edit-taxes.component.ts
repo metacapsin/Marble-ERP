@@ -10,7 +10,7 @@ import { TaxesService } from '../taxes.service';
   templateUrl: './edit-taxes.component.html',
   styleUrl: './edit-taxes.component.scss',  
   standalone: true,
-  imports: [CommonModule, SharedModule, DropdownModule]
+  imports: [ SharedModule]
 })
 export class EditTaxesComponent {
 

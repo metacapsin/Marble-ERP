@@ -11,7 +11,6 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { SharedModule } from "primeng/api";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MessageService } from "primeng/api";
@@ -22,27 +21,14 @@ import { CheckboxModule } from "primeng/checkbox";
 import { MultiSelectModule } from "primeng/multiselect";
 import { WarehouseService } from "../../warehouse/warehouse.service";
 import { ShowHideDirective } from "src/app/common-component/show-hide-directive/show-hide.directive";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
   selector: "app-edit-user",
   templateUrl: "./edit-user.component.html",
   styleUrls: ["./edit-user.component.scss"],
   standalone: true,
-  imports: [
-    SharedModule,
-    MatTabsModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    ToastModule,
-    DropdownModule,
-    CheckboxModule,
-    MultiSelectModule,
-    ShowHideDirective
-  ],
+  imports: [SharedModule],
   providers: [MessageService],
 })
 export class EditUserComponent implements OnInit {
@@ -78,8 +64,9 @@ export class EditUserComponent implements OnInit {
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-  emailRegex: string = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
-  
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
   addressRegex = /^.{3,500}$/s;
 
   phoneRegex = /^[0-9]{10}$/;
@@ -134,7 +121,7 @@ export class EditUserComponent implements OnInit {
   editUserForm() {
     const formData = this.editUserGroup.value;
     console.log(formData);
-    const _roles = ['admin'];
+    const _roles = ["admin"];
     if (formData.adminCheckBox) {
       _roles.push("admin");
     }
