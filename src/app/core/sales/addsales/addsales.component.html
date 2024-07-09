@@ -311,17 +311,22 @@
                                                         ₹ {{ addSalesForm.get('salesGrossTotal').value | number: '1.2-2' }}
                                                     </span>
                                                 </p>
-                                                <p>Discount
+                                                <p *ngIf="addSalesForm.get('salesOrderTax').value > 0">Applied Tax Amount
+                                                    <span *ngIf="addSalesForm.get('salesOrderTax')?.value > 0">
+                                                        ₹ {{ addSalesForm.get('salesOrderTax').value | number: '1.2-2' }}
+                                                    </span>
+                                                </p>
+                                                <p *ngIf="addSalesForm.get('salesDiscount').value">Discount
                                                     <span *ngIf="addSalesForm.get('salesDiscount')?.value > 0">
                                                         ₹ {{ addSalesForm.get('salesDiscount').value | number: '1.2-2' }}
                                                     </span>
                                                 </p>
-                                                <p>Shipping
+                                                <p *ngIf="addSalesForm.get('salesShipping').value">Shipping
                                                     <span *ngIf="addSalesForm.get('salesShipping')?.value > 0">
                                                         ₹ {{ addSalesForm.get('salesShipping').value | number: '1.2-2' }}
                                                     </span>
                                                 </p>
-                                                <p>Other Charges
+                                                <p *ngIf="addSalesForm.get('otherCharges').value">Other Charges
                                                     <span *ngIf="addSalesForm.get('otherCharges')?.value > 0">
                                                         ₹ {{ addSalesForm.get('otherCharges').value | number: '1.2-2' }}
                                                     </span>

@@ -43,12 +43,15 @@ export class InventoryReportsComponent  {
       this.originalData = resp.slab
 
       this.cols = [
-        { field: 'paymentDate', header: 'Payment Date' },
-        { field: 'amount', header: 'Amount' },
-        { field: 'paymentMode', header: 'Payment Mode' },
-        { field: 'customer.name', header: 'Customer Name' },
-        { field: 'transactionNo', header: 'Transaction No' },
-        { field: 'source', header: 'Payment Source' }
+        { field: 'slabNo', header: 'Slab Number' },
+        { field: 'slabName', header: 'Slab Name' },
+        { field: 'categoryDetail.name', header: 'Category' },
+        { field: 'subCategoryDetail.name', header: 'Sub Category' },
+        { field: 'warehouseDetails.name', header: 'Warehouse' },
+        { field: 'totalSQFT', header: 'Current stock ( Square Feet ) ' },
+        { field: 'totalSlabSQFT', header: 'Stock When Made ( Square Feet )' },
+        { field: 'costPerSQFT', header: 'Cost / Square Feet' },
+        { field: 'sellingPricePerSQFT', header: 'Selling Price / Square Feet' }
       ];
 
       this.exportColumns = this.cols.map(col => ({

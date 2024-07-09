@@ -96,6 +96,7 @@
                                     <table class="table table-striped table-nowrap  mb-0 no-footer add-table-items">
                                         <thead>
                                             <tr>
+                                                <th>Warehouse</th>
                                                 <th>Product</th>
                                                 <th>Quantity (Sq. Feet) </th>
                                                 <th>Price / Sq. Feet</th>
@@ -109,6 +110,12 @@
                                                 *ngFor="let salesItemDetailsForm of salesItemDetails.controls; let i = index"
                                                 [formGroupName]="i">
 
+                                                <td class="col-md-3">
+
+                                                    <span class="form-control">{{
+                                                        addReturnSalesForm.get('salesItemDetails').get(i +
+                                                        '.salesWarehouseDetails').value.name }}</span>
+                                                </td>
                                                 <td class="col-md-3">
 
                                                     <span class="form-control">{{
@@ -282,17 +289,25 @@
                                                 </div>
                                             </div>
                                             <div class="invoice-total-inner">
-                                                <p>Gross Total<span>₹ {{ addReturnSalesForm.get('salesGrossTotal').value
-                                                        }}</span></p>
+                                                <p>Gross Total<span>{{addReturnSalesForm.get('salesTotalAmount').value
+                                                        ? "₹ " +(addReturnSalesForm.get('salesGrossTotal')?.value | number : "1.2-2")
+                                                        : null}}</span></p>
                                                 <!-- <p>Discount<span>₹ {{ addReturnSalesForm.get('salesDiscount').value }}</span></p> -->
                                                 <!-- <p>Shipping<span>₹ {{ addReturnSalesForm.get('salesShipping').value }}</span></p> -->
-                                                <p>Return Other Charges<span>- ₹ {{
-                                                        addReturnSalesForm.get('returnOtherCharges').value }}</span></p>
+                                                <p>Return Other Charges<span> 
+                                                    <!-- {{'- ₹' + addReturnSalesForm.get('returnOtherCharges').value }} -->
+                                                        {{addReturnSalesForm.get('returnOtherCharges').value
+                                                        ? "- ₹ " + (addReturnSalesForm.get('returnOtherCharges').value | number : "1.2-2")
+                                                        : null}}</span></p>
                                             </div>
 
                                             <div class="invoice-total-footer">
-                                                <h4>Total Amount <span>₹ {{
-                                                        addReturnSalesForm.get('salesTotalAmount').value}}</span></h4>
+                                                <h4>Total Amount <span>
+                                                    <!-- ₹ {{ addReturnSalesForm.get('salesTotalAmount').value}} -->
+                                                    {{addReturnSalesForm.get('salesTotalAmount')?.value
+                                                    ? "₹ " +(addReturnSalesForm.get('salesTotalAmount')?.value | number : "1.2-2")
+                                                    : null}}
+                                                </span></h4>
                                             </div>
                                         </div>
                                     </div>

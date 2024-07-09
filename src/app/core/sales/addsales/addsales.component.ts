@@ -86,7 +86,7 @@ export class AddsalesComponent implements OnInit {
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
       salesGrossTotal: [""],
       salesOrderStatus: ["", [Validators.required]],
-      salesOrderTax: ["", []],
+      salesOrderTax: ["",],
       appliedTax: [""],
       salesShipping: ["", [Validators.min(1), Validators.max(100000)]],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
@@ -117,7 +117,7 @@ export class AddsalesComponent implements OnInit {
     });
     this.salesItemDetails.push(item);
   }
-  onWareHouseSelect(value:any,i){
+  onWareHouseSelect(value: any, i: number){
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
       (resp: any) => {
         this.originalSlabData = resp.data;
@@ -235,7 +235,7 @@ export class AddsalesComponent implements OnInit {
 
   calculateTotalAmount() {
     let salesGrossTotal = 0;
-
+    let salesOrderTax: number = 0;
     const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
@@ -256,12 +256,14 @@ export class AddsalesComponent implements OnInit {
       }
 
       const subtotal = (quantity * unitPrice) + totalTaxAmount;
+      salesOrderTax += totalTaxAmount;
 
       salesGrossTotal += subtotal;
-      item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2))
+      item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2));
       item.get("salesItemSubTotal").setValue(subtotal.toFixed(2));
     });
-
+    
+    this.addSalesForm.get('salesOrderTax').setValue(salesOrderTax.toFixed(2));
     this.addSalesForm.get('salesGrossTotal').setValue(salesGrossTotal.toFixed(2));
 
     let totalAmount = salesGrossTotal;
@@ -278,11 +280,11 @@ export class AddsalesComponent implements OnInit {
 
   addSalesFormSubmit() {
     const formData = this.addSalesForm.value;
-    let salesOrderTax: number = 0;
-    formData.salesItemDetails.forEach(element => {
-      salesOrderTax += element.salesItemTaxAmount
-    });
-    console.log("salesOrderTax",salesOrderTax);
+    // let salesOrderTax: number = 0;
+    // formData.salesItemDetails.forEach(element => {
+    //   salesOrderTax += element.salesItemTaxAmount
+    // });
+    // console.log("salesOrderTax",salesOrderTax);
     console.log(formData);
     const payload = {
       customer: formData.customer,
@@ -297,7 +299,7 @@ export class AddsalesComponent implements OnInit {
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: formData.salesTotalAmount,
       otherCharges: formData.otherCharges,
-      salesOrderTax: salesOrderTax
+      salesOrderTax: formData.salesOrderTax
     };
 
     if (this.addSalesForm.valid) {

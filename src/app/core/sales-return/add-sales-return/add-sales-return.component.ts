@@ -173,6 +173,7 @@ export class AddSalesReturnComponent {
           salesItemTax: [sale.salesItemTax],
           salesItemTaxAmount: [sale.salesItemTaxAmount],
           salesItemUnitPrice: [sale.salesItemUnitPrice],
+          salesWarehouseDetails: [sale.salesWarehouseDetails],
         })
       );
     });

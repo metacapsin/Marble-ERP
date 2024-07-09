@@ -59,7 +59,7 @@ export class PaymentOutReportComponent {
         { field: 'paymentDate', header: 'Payment Date' },
         { field: 'amount', header: 'Amount' },
         { field: 'paymentMode', header: 'Payment Mode' },
-        { field: 'customer.name', header: 'Customer Name' },
+        { field: 'customer.name', header: 'Name' },
         { field: 'transactionNo', header: 'Transaction No' }
       ];
 

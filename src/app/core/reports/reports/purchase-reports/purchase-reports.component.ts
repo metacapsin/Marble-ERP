@@ -17,18 +17,21 @@ export class PurchaseReportsComponent {
   purchaseReportsData = [];
   originalData = [];
 
+  cols = [];
+  exportColumns = [];
+
   searchByData = [
     "Today", "Yesterday", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
   ];
   searchBy: string;
 
   constructor(
-    private service:ReportsService
+    private service: ReportsService
   ) {
 
   }
 
-  getPaymentOutReportData(startDate: Date, endDate: Date){
+  getPaymentOutReportData(startDate: Date, endDate: Date) {
     const formattedStartDate = this.formatDate(startDate);
     const formattedEndDate = this.formatDate(endDate);
 
@@ -41,11 +44,28 @@ export class PurchaseReportsComponent {
       endDate: "",
     };
 
-    this.service.getPurchaseReports(data).subscribe((resp:any) => {
+    this.service.getPurchaseReports(data).subscribe((resp: any) => {
       console.log(resp);
       this.purchaseReportsData = resp.purchases
       this.originalData = resp.purchases
+      this.cols = [
+        { field: 'purchaseDate', header: 'Purchase Date' },
+        { field: 'purchaseInvoiceNumber', header: 'Purchase Invoice Number' },
+        { field: 'supplier.name', header: 'Supplier' },
+        { field: 'purchaseType', header: 'Purchase Type' },
+        { field: 'paymentStatus', header: 'Payment Status' },
+        { field: 'purchaseCost', header: 'Purchase Cost' },
+        { field: 'purchaseTotalAmount', header: 'Purchase Total Amount' },
+        { field: 'paidAmount', header: 'Paid Amount' },
+        { field: 'dueAmount', header: 'Due Amount' }
+      ];
+
+      this.exportColumns = this.cols.map(col => ({
+        title: col.header,
+        dataKey: col.field
+      }));
     });
+    this.exportColumns = this.purchaseReportsData.map((element) => ({ title: element.header, dataKey: element.field }));
   }
 
 
@@ -56,7 +76,7 @@ export class PurchaseReportsComponent {
     this.getPaymentOutReportData(startDate, endDate);
   }
 
-  
+
   ngOnInit(): void {
     const today = new Date();
     const endDate = new Date();
@@ -68,7 +88,7 @@ export class PurchaseReportsComponent {
   }
 
 
-   onSearchByChange(event: any) {
+  onSearchByChange(event: any) {
     const value = event.value;
     const today = new Date();
     let startDate, endDate = new Date(today);
@@ -126,41 +146,41 @@ export class PurchaseReportsComponent {
     return `${month}/${day}/${year}`;
   }
 
-  public searchData(value: any): void {    
+  public searchData(value: any): void {
     this.purchaseReportsData = this.originalData.filter(i => {
-        if (!i.supplier || !i.supplier.name) {
-            console.warn('Missing supplier or supplier name:', i);
-            return false;
-        }
-        return i.supplier.name.toLowerCase().includes(value.trim().toLowerCase());
+      if (!i.supplier || !i.supplier.name) {
+        console.warn('Missing supplier or supplier name:', i);
+        return false;
+      }
+      return i.supplier.name.toLowerCase().includes(value.trim().toLowerCase());
     });
-}
-getTotalPaidAmount(): number {
-  return this.purchaseReportsData.reduce(
-    (total, payment) => total + parseFloat(payment.paidAmount),
-    0
-  );
-}
+  }
+  getTotalPaidAmount(): number {
+    return this.purchaseReportsData.reduce(
+      (total, payment) => total + parseFloat(payment.paidAmount),
+      0
+    );
+  }
 
-getTotalDueAmount(): number {
-  return this.purchaseReportsData.reduce(
-    (sum, item) => sum + parseFloat(item.dueAmount),
-    0
-  );
-}
-getTotalSupplierAmount(): number {
-  return this.purchaseReportsData.reduce(
-    (sum, item) => sum + parseFloat(item.purchaseCost),
-    0
-  );
-}
+  getTotalDueAmount(): number {
+    return this.purchaseReportsData.reduce(
+      (sum, item) => sum + parseFloat(item.dueAmount),
+      0
+    );
+  }
+  getTotalSupplierAmount(): number {
+    return this.purchaseReportsData.reduce(
+      (sum, item) => sum + parseFloat(item.purchaseCost),
+      0
+    );
+  }
 
-getTotalPurchaseAmount(): number {
-  return this.purchaseReportsData.reduce(
-    (sum, item) => sum + parseFloat(item.purchaseTotalAmount),
-    0
-  );
-}
+  getTotalPurchaseAmount(): number {
+    return this.purchaseReportsData.reduce(
+      (sum, item) => sum + parseFloat(item.purchaseTotalAmount),
+      0
+    );
+  }
 
 
 }
@@ -170,5 +190,5 @@ getTotalPurchaseAmount(): number {
 // today.getMonth() return this month = 5 = june ; because jan index is 0 ;
 // so 5- 3 = 2 = march;
 // today.getDate( return) today date = 6 ;
-// startdate= new Date(2024, 2, 6) = it return new date = 03/06/2024 
+// startdate= new Date(2024, 2, 6) = it return new date = 03/06/2024
 // }
