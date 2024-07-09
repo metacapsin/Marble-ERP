@@ -202,16 +202,16 @@
                       <p-table [value]="product.salesItemDetails">
                         <ng-template pTemplate="header">
                           <tr>
-                            <th width="30%" pSortableColumn="salesItemProduct.slabName">
+                            <th width="25%" pSortableColumn="salesItemProduct.slabName">
                                Slab Name <p-sortIcon field="salesItemProduct.slabName" />
                             </th>
-                            <th width="30%" pSortableColumn="salesItemQuantity">
+                            <th width="25%" pSortableColumn="salesItemQuantity">
                               Quantity (Sq. Feet) <p-sortIcon field="salesItemQuantity" />
                             </th>
-                            <th width="30%" pSortableColumn="salesItemSubTotal">
+                            <th width="25%" pSortableColumn="salesItemSubTotal">
                               Item Sub Total <p-sortIcon field="salesItemSubTotal" />
                             </th>
-                            <th width="30%">
+                            <th width="25%">
                               Tax Rate
                             </th>
                           </tr>
@@ -227,7 +227,7 @@
                             <td>{{alert.salesItemSubTotal}}</td>
                             <td class="" id="tdSet">
                               <!-- <div class="border border-1"> -->
-                                <div  class="col3 me-2" *ngFor="let tax of alert.salesItemTax"> {{tax.name + ': ' + tax.taxRate + '%,'}}</div>
+                                <div class="col3 me-2" *ngFor="let tax of alert.salesItemTax"> {{tax.name + ': ' + tax.taxRate + '%,'}}</div>
                               <!-- </div>   -->
                             </td>
                             
