@@ -1,28 +1,23 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { staffService } from '../staff-service.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { SharedModule } from "src/app/shared/shared.module";
+import { CalendarModule } from "primeng/calendar";
+import { DropdownModule } from "primeng/dropdown";
+import { MessageService } from "primeng/api";
+import { ToastModule } from "primeng/toast";
+import { staffService } from "../staff-service.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { routes } from "src/app/shared/routes/routes";
-import { Router } from '@angular/router';
-import { WarehouseService } from 'src/app/core/settings/warehouse/warehouse.service';
-
+import { Router } from "@angular/router";
+import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 
 @Component({
-  selector: 'app-staff-add',
+  selector: "app-staff-add",
   standalone: true,
-  imports: [CommonModule,
-    SharedModule,
-    CalendarModule,
-    DropdownModule,
-    ToastModule],
-  templateUrl: './staff-add.component.html',
-  styleUrl: './staff-add.component.scss',
-  providers: [MessageService]
+  imports: [SharedModule],
+  templateUrl: "./staff-add.component.html",
+  styleUrl: "./staff-add.component.scss",
+  providers: [MessageService],
 })
 export class StaffAddComponent {
   public routes = routes;
@@ -51,8 +46,9 @@ export class StaffAddComponent {
   // AccountNumberRegex = "^\d{9,18}$";
   // IfscCodeRegex = "^[^\s]{4}\d{7}$";
   // addressRegex = /^(?!\s)(?:.{3,500})$/;
-  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;  phoneRegex = /^[0-9]{10}$/;
-  emailRegex = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
+  phoneRegex = /^[0-9]{10}$/;
+  emailRegex = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   REGX_For_UID = /^[\w.-]+@[\w.-]+$/;
   pinRegex = /^\d{6}$/;
   upiIdRegex = /^[a-zA-Z0-9.-]{2,256}@[a-zA-Z]{2,64}$/;
@@ -96,18 +92,27 @@ export class StaffAddComponent {
       upiId: ["", [Validators.pattern(this.REGX_For_UID)]],
       dateOfBirth: ["", Validators.required],
       warehouseDetails: ["", Validators.required],
-      firstName: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
-      lastName: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      firstName: [
+        "",
+        [Validators.required, Validators.pattern(this.personNameRegex)],
+      ],
+      lastName: [
+        "",
+        [Validators.required, Validators.pattern(this.personNameRegex)],
+      ],
       mobile: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
       email: ["", [Validators.pattern(this.emailRegex)]],
       pincode: ["", [Validators.required, Validators.pattern(this.pinRegex)]],
       designation: ["", [Validators.required]],
-      city: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      city: [
+        "",
+        [Validators.required, Validators.pattern(this.personNameRegex)],
+      ],
       address: ["", [Validators.pattern(this.addressRegex)]],
       bankName: ["", [Validators.pattern(this.BankName)]],
       accountName: ["", [Validators.pattern(this.accountHolderRegex)]],
       accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
-      ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]]
+      ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
     });
   }
 
@@ -118,7 +123,7 @@ export class StaffAddComponent {
   }
 
   addStaffFormSubmit() {
-    const formData = this.addStaffForm.value
+    const formData = this.addStaffForm.value;
     const paylode = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -134,7 +139,7 @@ export class StaffAddComponent {
       accountName: formData.accountName,
       accountNumber: formData.accountNumber,
       ifscCode: formData.ifscCode,
-      address: formData.address,      
+      address: formData.address,
     };
     if (this.addStaffForm.valid) {
       console.log("Form is valid", this.addStaffForm.value);
@@ -156,5 +161,4 @@ export class StaffAddComponent {
       console.log("Form is inValid!");
     }
   }
-
 }

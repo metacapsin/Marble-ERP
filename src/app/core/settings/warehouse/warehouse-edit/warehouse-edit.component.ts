@@ -19,15 +19,7 @@ import { WarehouseService } from "../warehouse.service";
   templateUrl: "./warehouse-edit.component.html",
   styleUrl: "./warehouse-edit.component.scss",
   standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    MatButtonModule,
-    ButtonModule,
-    CheckboxModule,
-    DropdownModule,
-    ToastModule,
-  ],
+  imports: [SharedModule],
   providers: [MessageService],
 })
 export class WarehouseEditComponent {
@@ -35,15 +27,15 @@ export class WarehouseEditComponent {
   warehouseForm!: FormGroup;
   data: any;
   warehouseId: any;
-  
-nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-emailRegex: string = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-billingAddressRegex = /^.{3,500}$/s;
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
+  billingAddressRegex = /^.{3,500}$/s;
 
   phoneRegex = /^[0-9]{10}$/;
-
 
   constructor(
     private service: WarehouseService,

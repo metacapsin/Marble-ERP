@@ -19,7 +19,7 @@ import { DropdownModule } from "primeng/dropdown";
   templateUrl: "./add-taxes.component.html",
   styleUrl: "./add-taxes.component.scss",
   standalone: true,
-  imports: [CommonModule, SharedModule, DropdownModule],
+  imports: [ SharedModule],
 })
 export class AddTaxesComponent {
   addTaxesForm!: FormGroup;

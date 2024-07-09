@@ -9,13 +9,6 @@ import { FilterPipe } from "src/app/core/filter.pipe";
 
 @NgModule({
   declarations: [SalesCreditReportsComponent],
-  imports: [
-    CommonModule,
-    SalesCreditReportsRoutingModule,
-    SharedModule,
-    DropdownModule,
-    CalendarModule,
-    FilterPipe,
-  ],
+  imports: [SalesCreditReportsRoutingModule, SharedModule],
 })
 export class SalesCreditReportsModule {}

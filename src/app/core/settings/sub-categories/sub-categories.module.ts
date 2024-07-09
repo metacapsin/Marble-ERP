@@ -1,14 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { subCategoriesRoutingModule } from './sub-categories-routing.module';
-
-
+import { NgModule } from "@angular/core";
+import { subCategoriesRoutingModule } from "./sub-categories-routing.module";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    subCategoriesRoutingModule
-  ]
+  imports: [SharedModule, subCategoriesRoutingModule],
 })
-export class SubCategoriesModule { }
+export class SubCategoriesModule {}

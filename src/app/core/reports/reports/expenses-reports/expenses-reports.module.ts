@@ -13,12 +13,8 @@ import { FilterPipe } from 'src/app/core/filter.pipe';
     expensesReportsComponent
   ],
   imports: [
-    CommonModule,
     expensesReportsRoutingModule,
     SharedModule,
-    DropdownModule,
-    CalendarModule,
-    FilterPipe
   ]
 })
 export class expensesReportsModule { }

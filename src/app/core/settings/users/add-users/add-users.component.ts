@@ -27,18 +27,7 @@ import { WarehouseService } from "../../warehouse/warehouse.service";
   standalone: true,
   templateUrl: "./add-users.component.html",
   styleUrls: ["./add-users.component.scss"],
-  imports: [
-    SharedModule,
-    MatTabsModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    CommonModule,
-    DropdownModule,
-    ToastModule,
-    CheckboxModule,
-    MultiSelectModule,
-  ],
+  imports: [SharedModule],
   providers: [MessageService],
 })
 export class AddUsersComponent implements OnInit {
@@ -52,8 +41,9 @@ export class AddUsersComponent implements OnInit {
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
-  emailRegex: string = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
-  
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
   addressRegex = /^.{3,500}$/s;
 
   phoneRegex = /^[0-9]{10}$/;
@@ -74,7 +64,7 @@ export class AddUsersComponent implements OnInit {
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
-      email: ["", [ Validators.pattern(this.emailRegex)]],
+      email: ["", [Validators.pattern(this.emailRegex)]],
       status: [""],
       password: [
         "",
@@ -133,7 +123,6 @@ export class AddUsersComponent implements OnInit {
       const message = "Please select at least one role.";
       this.messageService.add({ severity: "error", detail: message });
       console.log("hi");
-      
     } else {
       const payload = {
         warehouse: formData.wareHouse,
