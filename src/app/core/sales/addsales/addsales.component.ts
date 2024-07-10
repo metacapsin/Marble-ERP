@@ -28,7 +28,7 @@ export class AddsalesComponent implements OnInit {
   maxDate = new Date();
   public searchData_id = "";
   addTaxTotal: any;
-  customerList :any = [];
+  customerList: any = [];
   originalCustomerData = [];
   slabList = [];
   slabData = [];
@@ -52,6 +52,7 @@ export class AddsalesComponent implements OnInit {
   wareHousedataListsEditArray: any[];
   originalSlabData: any;
   slabDatas: any;
+  slabDataList: any = []
 
 
   constructor(
@@ -80,7 +81,7 @@ export class AddsalesComponent implements OnInit {
           salesItemTaxAmount: [''],
           salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
           maxQuantity: [" "],
-          salesWarehouseDetails:['',[Validators.required]]
+          salesWarehouseDetails: ['', [Validators.required]]
         }),
       ]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
@@ -101,6 +102,12 @@ export class AddsalesComponent implements OnInit {
 
   deletesalesItemDetails(salesItemDetailsIndex: number) {
     this.salesItemDetails.removeAt(salesItemDetailsIndex);
+
+    if (salesItemDetailsIndex > -1 && salesItemDetailsIndex < this.slabDataList.length) {
+      this.slabDataList.splice(salesItemDetailsIndex, 1);
+    } else {
+      console.log("salesItemDetailsIndex out of range");
+    }
     this.calculateTotalAmount();
   }
 
@@ -113,11 +120,11 @@ export class AddsalesComponent implements OnInit {
       salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
       salesItemTaxAmount: [''],
       maxQuantity: [''],
-      salesWarehouseDetails:['',[Validators.required]]
+      salesWarehouseDetails: ['', [Validators.required]]
     });
     this.salesItemDetails.push(item);
   }
-  onWareHouseSelect(value: any, i: number){
+  onWareHouseSelect(value: any, i: number) {
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
       (resp: any) => {
         this.originalSlabData = resp.data;
@@ -129,26 +136,49 @@ export class AddsalesComponent implements OnInit {
             slabNo: element.slabNo,
           },
         }));
+        this.salesItemDetails.controls.forEach((element, index) => {
+          console.log("before if", "index", index, "element", element);
+
+          if (i === index) {
+            this.slabDataList[index] = this.slabDatas;
+            console.log("if", this.slabDataList[index]);
+           
+            
+            const control = this.salesItemDetails.at(i);
+            control.get('salesItemProduct').reset();
+            control.get('salesItemQuantity').reset();
+            control.get('salesItemUnitPrice').reset();
+            control.get('salesItemTax').reset();
+            control.get('salesItemSubTotal').reset();
+            this.calculateTotalAmount()
+          } else if (!this.slabDataList[index]) {
+            this.slabDataList[index] = [];
+            console.log("else", this.slabDataList);
+
+          }
+        });
+        //this.slabDataList.push(this.slabDatas)
+        console.log("this.slabDataList", this.slabDataList);
       }
     );
-    console.log(this.slabDatas);
+    console.log("----------------------------####################----------------");
   }
   ngOnInit() {
 
-    
-    this.customerList = this.getCustomer(); 
+
+    this.customerList = this.getCustomer();
     this.customer = this.localStorageService.getItem('customer');
-    this.returnUrl=this.localStorageService.getItem('returnUrl')
-    console.log("this is retrun url",this.returnUrl)
-    console.log("this is customer data by local sotrage service",this.customer)
+    this.returnUrl = this.localStorageService.getItem('returnUrl')
+    console.log("this is retrun url", this.returnUrl)
+    console.log("this is customer data by local sotrage service", this.customer)
     if (this.customer) {
-      this.addSalesForm.patchValue({ 
+      this.addSalesForm.patchValue({
         customer: this.customer
-        
+
       }
-    );
+      );
     }
-   
+
     this.services.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedataListsEditArray = [];
       resp.data.forEach((element: any) => {
@@ -184,7 +214,7 @@ export class AddsalesComponent implements OnInit {
     });
   }
 
-  getCustomer(){
+  getCustomer() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
       this.customerList = this.originalCustomerData.map(element => ({
@@ -195,16 +225,16 @@ export class AddsalesComponent implements OnInit {
           billingAddress: element.billingAddress,
         },
       }));
-    }); 
+    });
   }
   onSlabSelect(value, i) {
     const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
-  
+
     const selectedSlab = this.slabData.find(slab => slab._id === value._id);
-  
+
     if (selectedSlab) {
       console.log('Slab Found', selectedSlab);
-  
+
       // Calculate remaining quantity for the selected slab
       let remainingQuantity = selectedSlab.totalSQFT;
       for (let j = 0; j < salesItemDetailsArray.length; j++) {
@@ -215,10 +245,10 @@ export class AddsalesComponent implements OnInit {
           }
         }
       }
-  
+
       const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
       const maxQuantityControl = salesItemDetailsArray.at(i)?.get("maxQuantity");
-  
+
       if (salesItemUnitPriceControl) {
         salesItemUnitPriceControl.patchValue(selectedSlab.sellingPricePerSQFT);
         this.calculateTotalAmount();
@@ -230,7 +260,7 @@ export class AddsalesComponent implements OnInit {
       console.error('Slab not found!');
     }
   }
-  
+
 
 
   calculateTotalAmount() {
@@ -262,7 +292,7 @@ export class AddsalesComponent implements OnInit {
       item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2));
       item.get("salesItemSubTotal").setValue(subtotal.toFixed(2));
     });
-    
+
     this.addSalesForm.get('salesOrderTax').setValue(salesOrderTax.toFixed(2));
     this.addSalesForm.get('salesGrossTotal').setValue(salesGrossTotal.toFixed(2));
 
