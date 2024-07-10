@@ -58,7 +58,7 @@ export class SalesCreditReportsComponent {
     const startDate = new Date(today.getFullYear(), 3, 1);
     this.searchBy = "This Year";
     this.rangeDates = [startDate, endDate];
-
+    console.log(this.getTotalPaidAmount())
     this.getPaymentInReportData(startDate, endDate);
   }
 
@@ -122,30 +122,31 @@ export class SalesCreditReportsComponent {
     return `${month}/${day}/${year}`;
   }
 
-  public searchData(value: any): void {
-    this.salesReportsData = this.originalData.filter((i) =>
-      i.customer.name.toLowerCase().includes(value.trim().toLowerCase())
-    );
-  }
+  // public searchData(value: any): void {
+  //   this.salesCreditReportsData = this.originalData.filter((i) =>
+  //     i.customer.name.toLowerCase().includes(value.trim().toLowerCase())
+  //   );
+  // }
 
   // New methods to calculate totals
 
   getTotalPaidAmount(): number {
-    return this.salesReportsData.reduce(
+    return this.salesCreditReportsData.reduce(
       (total, payment) => total + parseFloat(payment.paidAmount),
       0
     );
   }
 
   getTotalDueAmount(): number {
-    return this.salesReportsData.reduce(
+    return this.salesCreditReportsData.reduce(
       (sum, item) => sum + parseFloat(item.dueAmount),
+
       0
     );
   }
 
   getTotalSalesAmount(): number {
-    return this.salesReportsData.reduce(
+    return this.salesCreditReportsData.reduce(
       (sum, item) => sum + parseFloat(item.salesTotalAmount),
       0
     );

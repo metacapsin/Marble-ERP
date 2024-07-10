@@ -89,10 +89,18 @@ export class SalesTaxReportsComponent {
       console.log(resp);
       this.salesTaxReportsData = resp.sales;
       this.originalData = resp.sales;
+      console.log(this.salesTaxReportsData);
+      this.getSalesOrderTax()
+      console.log(this.getSalesOrderTax());
     });
   }
-
+  getSalesOrderTax():number {
+    console.log(this.originalData);
+    return this.salesTaxReportsData.reduce(
+      (total, payment) => total + parseFloat(payment.salesOrderTax),0);
+  }
   onDateChange(value: any): void {
+    console.log(this.originalData);
     const startDate = value[0];
     const endDate = value[1];
     this.getPaymentInReportData(startDate, endDate);
@@ -121,7 +129,6 @@ export class SalesTaxReportsComponent {
 
     this.getPaymentInReportData(startDate, endDate);
   }
-
   onSearchByChange(event: any) {
     const value = event.value;
     const today = new Date();
@@ -182,11 +189,11 @@ export class SalesTaxReportsComponent {
     return `${month}/${day}/${year}`;
   }
 
-  public searchData(value: any): void {
-    this.salesTaxReportsData = this.originalData.filter((i) =>
-      i.customer.name.toLowerCase().includes(value.trim().toLowerCase())
-    );
-  }
+  // public searchData(value: any): void {
+  //   this.salesTaxReportsData = this.originalData.filter((i) =>
+  //     i.customer.name.toLowerCase().includes(value.trim().toLowerCase())
+  //   );
+  // }
 
   // New methods to calculate totals
 
@@ -204,19 +211,19 @@ export class SalesTaxReportsComponent {
   //   );
   // }
 
-  getTotalTaxAmount(): number {
-    return this.salesTaxReportsData.reduce(
-      (sum, item) => sum + parseFloat(item.salesOrderTax),
-      0
-    );
-  }
+  // getTotalTaxAmount(): number {
+  //   return this.salesTaxReportsData.reduce(
+  //     (sum, item) => sum + parseFloat(item.salesOrderTax),
+  //     0
+  //   );
+  // }
 
-  getTotalSalesAmount(): number {
-    return this.salesTaxReportsData.reduce(
-      (sum, item) => sum + parseFloat(item.salesTotalAmount),
-      0
-    );
-  }
+  // getTotalSalesAmount(): number {
+  //   return this.salesTaxReportsData.reduce(
+  //     (sum, item) => sum + parseFloat(item.salesTotalAmount),
+  //     0
+  //   );
+  // }
 }
 
 // last 3 month=>{

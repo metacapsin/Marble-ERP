@@ -140,111 +140,183 @@
               </div>
             </div>
 
-            <div class="card-body p-2">              
+            <div class="card-body p-2">
               <!-- <div class="text-center" *ngIf="!salesTaxReportsData || salesTaxReportsData.length === 0">
                 <span style="color: #97704f; font-size: 15px"
                   >Data is not available.</span
                 >
               </div> -->
               <p-table
-              *ngIf="salesTaxReportsData && salesTaxReportsData.length > 0"
-              [value]="salesTaxReportsData | filter:searchDataValue:['salesInvoiceNumber', 'salesDate','customerName','salesOrderStatus','customerPhoneNo','customerEmail','salesOrderTax','salesTotalAmount']"
-              dataKey="id"
-              [tableStyle]="{ 'min-width': '50rem' }"
-              [paginator]="true"
-              [rows]="10"
-              [rowsPerPageOptions]="[5, 10, 20]"
-
+                *ngIf="salesTaxReportsData && salesTaxReportsData.length > 0"
+                [value]="
+                  salesTaxReportsData
+                    | filter
+                      : searchDataValue
+                      : [
+                          'salesInvoiceNumber',
+                          'salesDate',
+                          'customerName',
+                          'salesOrderStatus',
+                          'customerPhoneNo',
+                          'customerEmail',
+                          'salesOrderTax',
+                          'salesTotalAmount'
+                        ]
+                "
+                dataKey="id"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                [paginator]="true"
+                [rows]="10"
+                [rowsPerPageOptions]="[5, 10, 20]"
               >
-              <!-- [scrollable]="true"
+                <!-- [scrollable]="true"
               scrollHeight="500px" -->
-              <ng-template pTemplate="header">
-                <tr>
-                  <th style="width: 5rem"></th>
-                  <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon field="salesInvoiceNumber" /></th>
-                  <th pSortableColumn="customerName">Name <p-sortIcon field="customerName" /></th>
-                  <th pSortableColumn="customerEmail">Email<p-sortIcon field="customerEmail" /></th>
-                  <th pSortableColumn="customerPhoneNo">Phone Number <p-sortIcon field="customerPhoneNo" /></th>
-                  <th pSortableColumn="salesOrderStatus">Status <p-sortIcon field="salesOrderStatus" /></th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-product>
-                <tr>
-                  <td>
-                    <p-button
-                      type="button"
-                      pRipple
-                      (onClick)="toggleRow(product)"
-                      [text]="true"
-                      [rounded]="true"
-                      [plain]="true"
-                      [icon]="
-                        product.expanded
-                          ? 'fa-solid fa-chevron-down'
-                          : 'fa-solid fa-angle-right'
-                      "
-                    />
-                  </td>
-                  <td>{{product.salesInvoiceNumber}}</td>
-                  <td>{{ product.customerName }}</td>
-                  <td>{{product.customerEmail}}</td>
-                  <td>{{ product.customerPhoneNo }}</td>
-                  <td>{{product.salesOrderStatus}}</td>
-                </tr>
-                <tr *ngIf="product.expanded">
-                  <td colspan="6">
-                    <div class="p-3">
-                      <!-- <div class="text-center" *ngIf="!product.salesItemDetails || product.salesItemDetails.length === 0">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width: 5rem"></th>
+                    <th pSortableColumn="salesInvoiceNumber">
+                      Invoice Number <p-sortIcon field="salesInvoiceNumber" />
+                    </th>
+                    <th pSortableColumn="salesDate">
+                      Sales Date<p-sortIcon field="salesDate" />
+                    </th>
+                    <th pSortableColumn="customerName">
+                      Name <p-sortIcon field="customerName" />
+                    </th>
+                    <!-- <th pSortableColumn="customerEmail">Email<p-sortIcon field="customerEmail" /></th> -->
+                    <th pSortableColumn="customerPhoneNo">
+                      Phone Number <p-sortIcon field="customerPhoneNo" />
+                    </th>
+                    <!-- <th pSortableColumn="salesOrderStatus">Status <p-sortIcon field="salesOrderStatus" /></th> -->
+                    <th pSortableColumn="salesTotalAmount">
+                      Tax Amount <p-sortIcon field="salesTotalAmount" />
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                  <tr>
+                    <td>
+                      <p-button
+                        type="button"
+                        pRipple
+                        (onClick)="toggleRow(product)"
+                        [text]="true"
+                        [rounded]="true"
+                        [plain]="true"
+                        [icon]="
+                          product.expanded
+                            ? 'fa-solid fa-chevron-down'
+                            : 'fa-solid fa-angle-right'
+                        "
+                      />
+                    </td>
+                    <td>{{ product.salesInvoiceNumber }}</td>
+                    <td>{{ product.salesDate }}</td>
+                    <td>{{ product.customerName }}</td>
+                    <!-- <td>{{product.customerEmail}}</td> -->
+                    <td>{{ product.customerPhoneNo }}</td>
+                    <!-- <td>{{product.salesOrderStatus}}</td> -->
+                    <td>
+                      {{ "₹ " + product.salesOrderTax | indianCurrency }}
+                    </td>
+                  </tr>
+                  <tr *ngIf="product.expanded">
+                    <td colspan="7">
+                      <div class="p-3">
+                        <!-- <div class="text-center" *ngIf="!product.salesItemDetails || product.salesItemDetails.length === 0">
                         <span style="color: #97704f; font-size: 15px"
                           >Data is not available.</span
                         >
                       </div> -->
-                      <p-table [value]="product.salesItemDetails">
-                        <ng-template pTemplate="header">
-                          <tr>
-                            <th width="25%" pSortableColumn="salesItemProduct.slabName">
-                               Slab Name <p-sortIcon field="salesItemProduct.slabName" />
-                            </th>
-                            <th width="25%" pSortableColumn="salesItemQuantity">
-                              Quantity (Sq. Feet) <p-sortIcon field="salesItemQuantity" />
-                            </th>
-                            <th width="25%" pSortableColumn="salesItemSubTotal">
-                              Item Sub Total <p-sortIcon field="salesItemSubTotal" />
-                            </th>
-                            <th width="25%">
-                              Tax Rate
-                            </th>
-                          </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-alert>
-                          <tr>
-                            <!-- <td>{{ alert.salesItemProduct.slabName | date : "dd-MMM-yyyy" }}</td> -->
-                            <td>{{ alert.salesItemProduct.slabName }}</td>
-                            <td>
-                              <!-- ₹ {{ alert.maxQuantity | indianCurrency }} -->
-                              {{ alert.salesItemQuantity }}
+                        <p-table [value]="product.salesItemDetails">
+                          <ng-template pTemplate="header">
+                            <tr>
+                              <th
+                                width="16.5%"
+                                pSortableColumn="salesItemProduct.slabName"
+                              >
+                                Slab Name
+                                <p-sortIcon field="salesItemProduct.slabName" />
+                              </th>
+                              <th
+                                width="16.5%"
+                                pSortableColumn="salesItemQuantity"
+                              >
+                                Quantity (Sq. Feet)
+                                <p-sortIcon field="salesItemQuantity" />
+                              </th>
+                              <th
+                                width="16.5%"
+                                pSortableColumn="salesItemUnitPrice"
+                              >
+                                Unit Price
+                                <p-sortIcon field="salesItemUnitPrice" />
+                              </th>
+                              <th
+                                width="16.5%"
+                                pSortableColumn="salesItemSubTotal"
+                              >
+                                Sub Total
+                                <p-sortIcon field="salesItemSubTotal" />
+                              </th>
+                              <th width="16.5%" pSortableColumn="salesOrderTax">
+                                Taxable Amount
+                                <p-sortIcon field="salesOrderTax" />
+                              </th>
+                              <th width="16.5%">Tax Rate</th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-alert>
+                            <tr>
+                              <td>{{ alert.salesItemProduct.slabName }}</td>
+                              <td>
+                                {{ alert.salesItemQuantity }}
                               </td>
-                            <td>{{alert.salesItemSubTotal}}</td>
-                            <td class="" id="tdSet">
-                              <!-- <div class="border border-1"> -->
-                                <div class="col3 me-2" *ngFor="let tax of alert.salesItemTax"> {{tax.name + ': ' + tax.taxRate + '%,'}}</div>
-                              <!-- </div>   -->
-                            </td>
-                            
-                            <!-- <td>{{alert.salesItemSubTotal}}</td> -->
-                          </tr>
-                        </ng-template>
-                        <ng-template pTemplate="emptymessage">
-                          <tr>
-                              <td colspan="4" class="text-center">No sales tax reports found. Please generate a sales tax report to see it listed here.</td>
-                          </tr>
-                      </ng-template>
-                      </p-table>
-                    </div>
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
+                              <td>
+                                ₹
+                                {{ alert.salesItemUnitPrice | indianCurrency }}
+                              </td>
+                              <td>
+                                ₹ {{ alert.salesItemSubTotal | indianCurrency }}
+                              </td>
+                              <td>
+                                ₹ {{ alert.salesItemTaxAmount | indianCurrency }}
+                              </td>
+                              <td class="" id="tdSet">
+                                <!-- <div class="border border-1"> -->
+                                <div
+                                  class="col3 me-2"
+                                  *ngFor="let tax of alert.salesItemTax"
+                                >
+                                  {{ tax.name + ": " + tax.taxRate + "%," }}
+                                </div>
+                              </td>
+                            </tr>
+                          </ng-template>
+                          
+                        </p-table>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="4" class="text-center">
+                      No sales tax reports found. Please generate a
+                      sales tax report to see it listed here.
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                  <tr *ngIf="getSalesOrderTax() > 0">
+                    <td colspan="4"></td>
+                    <td>Total Amount</td>
+                    <td>
+                      ₹ {{ getSalesOrderTax() | indianCurrency }}
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
             </div>
           </div>
         </div>
