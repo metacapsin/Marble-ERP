@@ -39,7 +39,7 @@ export class SalesCreditReportsComponent {
       endDate: formattedEndDate,
     };
 
-    this.service.getSalesReports(data).subscribe((resp: any) => {
+    this.service.getSalesCreditReport(data).subscribe((resp: any) => {
       console.log(resp);
       this.salesCreditReportsData = resp.sales;
       this.originalData = resp.sales;

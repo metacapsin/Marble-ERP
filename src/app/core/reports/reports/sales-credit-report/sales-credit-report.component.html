@@ -142,7 +142,7 @@
 
             <div class="card-body p-2">
               <p-table
-                [value]="salesCreditReportsData | filter:searchDataValue:['salesInvoiceNumber', 'salesDate','customer.name','dueAmount']"
+                [value]="salesCreditReportsData | filter:searchDataValue:['salesInvoiceNumber', 'salesDate','customerName','dueAmount']"
                 styleClass="p-datatable-striped"
                 [tableStyle]="{ 'min-width': '60rem' }"
                 [paginator]="true"
@@ -168,7 +168,7 @@
                         display="menu"
                       ></p-columnFilter>
                     </th>
-                    <th pSortableColumn="customer.name">
+                    <th pSortableColumn="customerName">
                       Customer <p-sortIcon field="customer"></p-sortIcon>
                       <p-columnFilter
                         type="text"
@@ -176,10 +176,10 @@
                         display="menu"
                       ></p-columnFilter>
                     </th>
-                    <th pSortableColumn="salesOrderStatus">
+                    <!-- <th pSortableColumn="salesOrderStatus">
                       Sales Status
                       <p-sortIcon field="salesOrderStatus"></p-sortIcon>
-                    </th>
+                    </th> -->
                     <th pSortableColumn="paymentStatus">
                       Payment Status
                       <p-sortIcon field="paymentStatus"></p-sortIcon>
@@ -215,8 +215,8 @@
                   <tr>
                     <td>{{ sales.salesInvoiceNumber }}</td>
                     <td>{{ sales.salesDate | date : "dd-MMM-yyyy" }}</td>
-                    <td>{{ sales.customer.name }}</td>
-                    <td>{{ sales.salesOrderStatus }}</td>
+                    <td>{{ sales.customerName }}</td>
+                    <!-- <td>{{ sales.salesOrderStatus }}</td> -->
                     <!-- <td>{{sales.paymentStatus}}</td> -->
                     <td *ngIf="sales.paymentStatus == 'Partial Paid'">
                       <p-tag severity="warning" value="Partial Paid"></p-tag>
@@ -248,7 +248,7 @@
                       getTotalSalesAmount() > 0
                     "
                   >
-                    <td colspan="4"></td>
+                    <td colspan="3"></td>
                     <td>Total Amount</td>
                     <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>
                     <td class="text-danger-dark">
