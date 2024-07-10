@@ -26,6 +26,8 @@ export class SalesReportsComponent {
     "This Year",
   ];
   searchBy: string;
+  cols = [];
+  exportColumns = [];
 
   constructor(private service: ReportsService) {}
 
@@ -42,7 +44,23 @@ export class SalesReportsComponent {
       console.log(resp);
       this.salesReportsData = resp.sales;
       this.originalData = resp.sales;
+      this.cols = [
+        { field: 'salesDate', header: 'Sales Date' },
+        { field: 'salesInvoiceNumber', header: 'Sales Invoice Number' },
+        { field: 'customer.name', header: 'Customer' },
+        { field: 'salesOrderStatus', header: 'Sales Status' },
+        { field: 'paymentStatus', header: 'Payment Status' },
+        { field: 'paidAmount', header: 'Paid Amount' },
+        { field: 'dueAmount', header: 'Due Amount' },
+        { field: 'salesTotalAmount', header: 'Sales Total Amount' },
+      ];
+
+      this.exportColumns = this.cols.map(col => ({
+        title: col.header,
+        dataKey: col.field
+      }));
     });
+    this.exportColumns = this.salesReportsData.map((element) => ({ title: element.header, dataKey: element.field }));  
   }
 
   onDateChange(value: any): void {

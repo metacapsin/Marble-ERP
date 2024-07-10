@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="allSlabsDaTa | filter:searchDataValue:['slabNo', 'slabName','size','categoryDetail.name','subCategoryDetail.name','totalSQFT','totalCosting','sellingPricePerSQFT','warehouseDetails.name']" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                            <p-table [value]="allSlabsDaTa | filter:searchDataValue:['slabNo', 'slabName','size','categoryDetail.name','subCategoryDetail.name','totalSQFT','costPerSQFT','sellingPricePerSQFT','warehouseDetails.name']" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                                 [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
                                 (onPage)="onPageChange($event)" [(selection)]="selectedSlabs">
                                 <ng-template pTemplate="header">
@@ -72,8 +72,8 @@
                                             <p-columnFilter type="text" field="slabName"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="size">Size<p-sortIcon field="size"></p-sortIcon>
-                                            <p-columnFilter type="text" field="size" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="slabSize">Size<p-sortIcon field="slabSize"></p-sortIcon>
+                                            <p-columnFilter type="text" field="slabSize" display="menu"></p-columnFilter>
 
                                         </th>
                                         <th pSortableColumn="categoryDetail.name">Category<p-sortIcon
@@ -88,15 +88,15 @@
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="totalSQFT">Square Feet Left<p-sortIcon
+                                        <th pSortableColumn="totalSQFT">Sq. Feet Left<p-sortIcon
                                                 field="totalSQFT"></p-sortIcon>
                                             <p-columnFilter type="text" field="totalSQFT"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="totalCosting">Total Cost<p-sortIcon
-                                                field="totalCosting"></p-sortIcon>
-                                            <p-columnFilter type="text" field="totalCosting"
+                                        <th pSortableColumn="costPerSQFT">Cost / Sq. Feet<p-sortIcon
+                                                field="costPerSQFT"></p-sortIcon>
+                                            <p-columnFilter type="text" field="costPerSQFT"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
@@ -137,10 +137,10 @@
                                             {{slabs.totalSQFT}}
                                         </td>
                                         <td>
-                                            ₹ {{slabs.totalCosting}}
+                                            ₹ {{slabs.costPerSQFT | indianCurrency}}
                                         </td>
                                         <td>
-                                            ₹ {{slabs.sellingPricePerSQFT}}
+                                            ₹ {{slabs.sellingPricePerSQFT | indianCurrency}}
                                         </td>
                                         <td>
                                             {{slabs.warehouseDetails.name}}
@@ -197,7 +197,7 @@
                         </div>
                         <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Slab Creation Date
+                                Creation Date
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                                 <p class="col-lg-9 col-form-label">{{ slabDetail?.date }}</p>
@@ -221,7 +221,7 @@
                         </div>
                         <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Cost. / Sq. Ft.
+                                Cost / Sq. Feet
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                                 <p class="col-form-label">{{ slabDetail?.costPerSQFT | indianCurrency}}</p>
@@ -229,10 +229,27 @@
                         </div>
                         <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Total Square Feet
+                                Sq. Feet Left
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{ slabDetail?.costPerSQFT}}</p>
+                                <p class="col-form-label">{{ slabDetail?.totalSQFT}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Total Sales (Sq. Feet)
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.totalSale}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Total Cost
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.totalCosting}}</p>
                             </div>
                         </div>
 
@@ -286,6 +303,23 @@
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                                 <p class="col-form-label">{{ slabDetail?.finishes?.name}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Total Sales Return (Sq. Feet)
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.totalSalesReturn}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Slab Profit & Loss
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">{{ slabDetail?.slabProfit}}</p>
                             </div>
                         </div>
 
