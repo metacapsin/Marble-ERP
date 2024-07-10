@@ -242,7 +242,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data *ngIf="sales.salesItemDetails">
                                   <tr *ngFor="let sales of data.salesItemDetails">
-                                    <td>{{sales.salesWarehouseDetails.name}}</td>
+                                    <td>{{sales.salesWarehouseDetails?.name}}</td>
                                     <td>{{sales.salesItemProduct.slabName}}</td>
                                     <td>{{sales.salesItemQuantity}}</td>
                                     <td>₹ {{sales.salesItemUnitPrice}}</td>

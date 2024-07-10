@@ -235,55 +235,59 @@
                 </a>
                 <div class="dropdown-menu notifications">
                     <div class="topnav-dropdown-header">
-                      <span>Notifications</span>
+                        <span>Notifications</span>
                     </div>
                     <div class="drop-scroll">
-                      <ul class="notification-list">
-                        <ng-container *ngIf="latestPayments.length; else noPayments">
-                          <li *ngFor="let payment of latestPayments" class="notification-message">
-                            <a [routerLink]="['/activities']">
-                              <div class="media">
-                                <span class="avatar">
-                                  <img [alt]="payment.user?.name || payment.supplier?.name"
-                                       [src]="payment.user?.avatarUrl || 'assets/img/user.jpg'"
-                                       class="img-fluid">
-                                </span>
-                                <div class="media-body">
-                                  <p class="noti-details">
-                                    <span class="noti-title">{{payment.customer?.name || payment.supplier?.name}}</span>
-                                    <span *ngIf="payment.customer; else credited">
-                                      debited a payment of 
-                                    </span>
-                                    <ng-template #credited>
-                                      credited a payment of 
-                                    </ng-template>
-                                    <span class="noti-title">{{payment.amount | indianCurrency}}</span>
-                                  </p>
-                                  <p class="noti-time">
-                                    <span class="notification-time">{{payment.date | date:'shortTime'}}</span>
-                                  </p>
-                                </div>
-                              </div>
-                            </a>
-                          </li>
-                        </ng-container>
-                      </ul>
-                      <ng-template #noPayments>
-                        <div class="no-notifications " style="text-align: center;">
-                          No payments made yet.
-                        </div>
-                      </ng-template>
+                        <ul class="notification-list">
+                            <ng-container *ngIf="latestPayments.length; else noPayments">
+                                <li *ngFor="let payment of latestPayments" class="notification-message">
+                                    <!-- (click)="showInvoiceDialoge({ salesId: payment.salesId, purchaseId: payment.purchaseId }) -->
+                                    <a>
+
+                                        <div class="media">
+                                            <span class="avatar">
+                                                <img [alt]="payment.user?.name || payment.supplier?.name"
+                                                    [src]="payment.user?.avatarUrl || 'assets/img/user.jpg'"
+                                                    class="img-fluid">
+                                            </span>
+                                            <div class="media-body">
+                                                <p class="noti-details">
+                                                    <span class="noti-title">{{payment.customer?.name ||
+                                                        payment.supplier?.name}}</span>
+                                                    <span *ngIf="payment.customer; else credited">
+                                                        debited a payment of
+                                                    </span>
+                                                    <ng-template #credited>
+                                                        credited a payment of
+                                                    </ng-template>
+                                                    <span class="noti-title">{{payment.amount | indianCurrency}}</span>
+                                                </p>
+                                                <p class="noti-time">
+                                                    <span class="notification-time">{{payment.date |
+                                                        date:'shortTime'}}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ng-container>
+                        </ul>
+                        <ng-template #noPayments>
+                            <div class="no-notifications " style="text-align: center;">
+                                No payments made yet.
+                            </div>
+                        </ng-template>
                     </div>
                     <div class="d-flex justify-content-between">
-                      <div class="topnav-dropdown-footer" style="text-align: left;">
-                        <a [routerLink]="['/payment-in']">View all Payments In</a>
-                      </div>
-                      <div class="topnav-dropdown-footer" style="text-align: right;">
-                        <a [routerLink]="['/payment-out']">View all Payments Out</a>
-                      </div>
+                        <div class="topnav-dropdown-footer" style="text-align: left;">
+                            <a [routerLink]="['/payment-in']">View all Payments In</a>
+                        </div>
+                        <div class="topnav-dropdown-footer" style="text-align: right;">
+                            <a [routerLink]="['/payment-out']">View all Payments Out</a>
+                        </div>
                     </div>
-                  </div>
-                  
+                </div>
+
             </li>
             <!-- <li class="nav-item dropdown d-sm-block">
                 <a (click)="openBoxFunc()" style="cursor: pointer;" (keyup.enter)="openBoxFunc()" id="open_msg_box"
@@ -567,3 +571,6 @@
         </div>
     </div>
 </div>
+<!-- <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="notificationDataShowById"
+    [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()"
+    [header]="header"></app-invoice-dialog> -->

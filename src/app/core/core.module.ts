@@ -8,6 +8,7 @@ import { SidebarComponent } from '../common-component/sidebar/sidebar.component'
 import { SharedModule } from '../shared/shared.module';
 import { ModalComponent } from './modal/modal.component';
 import { FilterPipe } from './filter.pipe';
+import { InvoiceDialogComponent } from '../common-component/modals/invoice-dialog/invoice-dialog.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { FilterPipe } from './filter.pipe';
   imports: [
     CommonModule,
     CoreRoutingModule,
-    SharedModule
+    SharedModule,
+    // InvoiceDialogComponent
   ],
 })
 export class CoreModule { }
