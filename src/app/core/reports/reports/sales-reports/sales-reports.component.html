@@ -87,7 +87,8 @@
                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                   [roles]="['admin', 'super-admin']">
                   <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt="" /></a>
-                  <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"><img src="assets/img/icons/pdf-icon-03.svg" alt="" /></a>
+                  <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"><img
+                      src="assets/img/icons/pdf-icon-03.svg" alt="" /></a>
                 </div>
               </div>
 
@@ -162,7 +163,8 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-sales>
                   <tr>
-                    <td><span class="spanLink">{{ sales.salesInvoiceNumber }} </span></td>
+                    <td><span class="spanLink" (click)="showInvoiceDialoge(sales._id)">{{ sales.salesInvoiceNumber }}
+                      </span></td>
                     <td>{{ sales.salesDate | date : "dd-MMM-yyyy" }}</td>
                     <td>{{ sales.customer.name }}</td>
                     <td>{{ sales.salesOrderStatus }}</td>
@@ -178,9 +180,7 @@
                     <td>₹ {{ sales.paidAmount | indianCurrency }}</td>
                     <td>₹ {{ sales.dueAmount | indianCurrency }}</td>
                     <td>₹ {{ sales.salesTotalAmount | indianCurrency }}</td>
-                    <!-- <td style="display: flex; gap: 5px;" appShowHide [roles]="['admin', 'super-admin']">
-                    <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"></p-button>
-                  </td> -->
+
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
@@ -212,3 +212,6 @@
     </div>
   </div>
 </div>
+
+<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="salesReportDataShowById"   [paymentDataListById]="paymentDataListById"
+  (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>

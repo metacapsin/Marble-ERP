@@ -210,7 +210,8 @@
                         "
                       />
                     </td>
-                    <td>{{ product.salesInvoiceNumber }}</td>
+                    <td><span class="spanLink" (click)="showInvoiceDialoge(product._id)">{{ product.salesInvoiceNumber }}
+                    </span></td>
                     <td>{{ product.salesDate }}</td>
                     <td>{{ product.customerName }}</td>
                     <!-- <td>{{product.customerEmail}}</td> -->
@@ -324,3 +325,5 @@
     </div>
   </div>
 </div>
+<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="salesTaxReportDataShowById"   [paymentDataListById]="paymentDataListById"
+  (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>

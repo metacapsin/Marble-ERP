@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { routes } from "src/app/shared/routes/routes";
 import { ReportsService } from "../reports.service";
+import { SalesService } from "src/app/core/sales/sales.service";
 
 
 interface Product {
   id: string;
+  _id: string;
   salesInvoiceNumber: string;
   customerName: string;
   customerEmail: string;
@@ -74,7 +76,14 @@ export class SalesTaxReportsComponent {
   ];
   searchBy: string;
 
-  constructor(private service: ReportsService) {}
+  salesTaxReportDataShowById: any; // to hold sales data by customer id
+  showInvoiceDialog: boolean = false; // to enable sales invoice popup
+  header = "";
+  paymentDataListById: any;
+  constructor(private service: ReportsService,
+    private salesService: SalesService,
+
+  ) {}
 
   getPaymentInReportData(startDate: Date, endDate: Date) {
     const formattedStartDate = this.formatDate(startDate);
@@ -128,6 +137,31 @@ export class SalesTaxReportsComponent {
     this.rangeDates = [startDate, endDate];
 
     this.getPaymentInReportData(startDate, endDate);
+  }
+
+  showInvoiceDialoge(Id: any) {
+    // to open the sales invoice popup
+    console.log("id pass to invoice dialoge", Id);
+    console.log("showInvoiceDialoge is triggered ");
+    this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
+      this.showInvoiceDialog = true;
+      this.salesTaxReportDataShowById = [resp.data];
+      this.header = "Sales Tax Reports Invoice ";
+      console.log("sales data by id On dialog", this.salesTaxReportDataShowById);
+    });
+
+    this.salesService.getSalesPaymentList(Id).subscribe((resp: any) => {
+      this.paymentDataListById = resp.data;
+      console.log("this is payment by sales id", this.paymentDataListById);
+    });
+  }
+
+
+  callBackModal() {}
+  close() {
+    console.log("close dialog triggered");
+    this.showInvoiceDialog = false;
+
   }
   onSearchByChange(event: any) {
     const value = event.value;

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { routes } from "src/app/shared/routes/routes";
 import { ReportsService } from "../reports.service";
+import { SalesService } from "src/app/core/sales/sales.service";
 
 @Component({
   selector: "app-sales-reports",
@@ -29,7 +30,16 @@ export class SalesReportsComponent {
   cols = [];
   exportColumns = [];
 
-  constructor(private service: ReportsService) {}
+  salesReportDataShowById: any; // to hold sales data by customer id
+  showInvoiceDialog: boolean = false; // to enable sales invoice popup
+  header = "";
+  paymentDataListById: any;
+
+  constructor(
+    private service: ReportsService,
+    private salesService: SalesService,
+
+  ) {}
 
   getPaymentInReportData(startDate: Date, endDate: Date) {
     const formattedStartDate = this.formatDate(startDate);
@@ -45,22 +55,25 @@ export class SalesReportsComponent {
       this.salesReportsData = resp.sales;
       this.originalData = resp.sales;
       this.cols = [
-        { field: 'salesDate', header: 'Sales Date' },
-        { field: 'salesInvoiceNumber', header: 'Sales Invoice Number' },
-        { field: 'customer.name', header: 'Customer' },
-        { field: 'salesOrderStatus', header: 'Sales Status' },
-        { field: 'paymentStatus', header: 'Payment Status' },
-        { field: 'paidAmount', header: 'Paid Amount' },
-        { field: 'dueAmount', header: 'Due Amount' },
-        { field: 'salesTotalAmount', header: 'Sales Total Amount' },
+        { field: "salesDate", header: "Sales Date" },
+        { field: "salesInvoiceNumber", header: "Sales Invoice Number" },
+        { field: "customer.name", header: "Customer" },
+        { field: "salesOrderStatus", header: "Sales Status" },
+        { field: "paymentStatus", header: "Payment Status" },
+        { field: "paidAmount", header: "Paid Amount" },
+        { field: "dueAmount", header: "Due Amount" },
+        { field: "salesTotalAmount", header: "Sales Total Amount" },
       ];
 
-      this.exportColumns = this.cols.map(col => ({
+      this.exportColumns = this.cols.map((col) => ({
         title: col.header,
-        dataKey: col.field
+        dataKey: col.field,
       }));
     });
-    this.exportColumns = this.salesReportsData.map((element) => ({ title: element.header, dataKey: element.field }));  
+    this.exportColumns = this.salesReportsData.map((element) => ({
+      title: element.header,
+      dataKey: element.field,
+    }));
   }
 
   onDateChange(value: any): void {
@@ -79,6 +92,30 @@ export class SalesReportsComponent {
     this.getPaymentInReportData(startDate, endDate);
   }
 
+  showInvoiceDialoge(Id: any) {
+    // to open the sales invoice popup
+    console.log("id pass to invoice dialoge", Id);
+    console.log("showInvoiceDialoge is triggered ");
+    this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
+      this.showInvoiceDialog = true;
+      this.salesReportDataShowById = [resp.data];
+      this.header = "Sales Reports Invoice ";
+      console.log("sales data by id On dialog", this.salesReportDataShowById);
+    });
+
+    this.salesService.getSalesPaymentList(Id).subscribe((resp: any) => {
+      this.paymentDataListById = resp.data;
+      console.log("this is payment by sales id", this.paymentDataListById);
+    });
+  }
+
+
+  callBackModal() {}
+  close() {
+    console.log("close dialog triggered");
+    this.showInvoiceDialog = false;
+
+  }
   onSearchByChange(event: any) {
     const value = event.value;
     const today = new Date();

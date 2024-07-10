@@ -213,7 +213,8 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-sales>
                   <tr>
-                    <td>{{ sales.salesInvoiceNumber }}</td>
+                    <td><span class="spanLink" (click)="showInvoiceDialoge(sales._id)">{{ sales.salesInvoiceNumber }}
+                    </span></td>
                     <td>{{ sales.salesDate | date : "dd-MMM-yyyy" }}</td>
                     <td>{{ sales.customerName }}</td>
                     <!-- <td>{{ sales.salesOrderStatus }}</td> -->
@@ -265,3 +266,6 @@
     </div>
   </div>
 </div>
+
+<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="salesCreditReportDataShowById"   [paymentDataListById]="paymentDataListById"
+  (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>
