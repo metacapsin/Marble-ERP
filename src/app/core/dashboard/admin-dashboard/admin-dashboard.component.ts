@@ -159,7 +159,13 @@ export class AdminDashboardComponent {
   totalCategorySlabs: any;
   totalSubCategorySlabs: any;
   data:any;
+  stateCategory: any[] = [{ label: 'Graph', value: 'graph' },{ label: 'Table', value: 'table' }];
+  valueCategory: string = 'graph';
 
+  stateSubCategory: any[] = [{ label: 'Graph', value: 'graph' },{ label: 'Table', value: 'table' }];
+  valueSubCategory: string = 'graph';
+  orgCategorySlabs: any;
+  orgSubCategorySlabs: any;
   
   constructor(
     // public data: DataService,
@@ -176,6 +182,7 @@ export class AdminDashboardComponent {
     const year = date?.getFullYear();
     return `${month}/${day}/${year}`;
   }
+  
 
   ngOnInit(): void {
     this.maxDate = new Date();
@@ -442,15 +449,15 @@ export class AdminDashboardComponent {
       datasets: [
         {
           label: "Payment Sent",
-          backgroundColor: "#ff6384",
-          borderColor: "#ff6384",
-          data: totalPaymentReceivedData,
+          backgroundColor: "#ef4444",
+          borderColor: "#ef4444",
+          data: totalPaymentSentData,
         },
         {
           label: "Payment Received",
-          backgroundColor: "#36a2eb",
-          borderColor: "#36a2eb",
-          data: totalPaymentSentData,
+          backgroundColor: "#22c55e",
+          borderColor: "#22c55e",
+          data: totalPaymentReceivedData,
         },
         // {
         //   label: "Total Sales Payment Due",
@@ -469,6 +476,9 @@ export class AdminDashboardComponent {
   }
   categoryChart(data) {
     console.log(data);
+    this.orgCategorySlabs = data.totalCategorySlabs;
+    this.orgSubCategorySlabs = data.totalSubCategorySlabs;
+    console.log(this.orgCategorySlabs, this.orgSubCategorySlabs);
      this.totalCategorySlabs = data.totalCategorySlabs.map(
       (item) => item.totalSQFT
     );
@@ -547,7 +557,7 @@ export class AdminDashboardComponent {
       ],
     };
   }
-
+  
   navigator(value: any) {
     if (value == "sales_purchase") {
       this.router.navigate(["/sales"]);
@@ -559,7 +569,7 @@ export class AdminDashboardComponent {
       this.router.navigate(["/customers"]);
     }
     if (value == "Stock_Alert") {
-      this.router.navigate(["/reports/inventory-reports"]);
+      this.router.navigate(["/slabs"]);
     }
     // /customers//
   }

@@ -49,6 +49,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatRadioModule } from "@angular/material/radio";
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @NgModule({
   declarations: [],
@@ -74,6 +75,7 @@ import { MatRadioModule } from "@angular/material/radio";
     }),
     SlickCarouselModule,
     materialModule,
+    SelectButtonModule,
     NgxEditorModule,
     FullCalendarModule,
     HttpClientModule,
@@ -121,6 +123,7 @@ import { MatRadioModule } from "@angular/material/radio";
     
   ],
   exports: [
+    SelectButtonModule,
     CommonModule,
     NgxBootstrapModule,
     CountUpModule,

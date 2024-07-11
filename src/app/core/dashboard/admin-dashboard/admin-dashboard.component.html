@@ -40,7 +40,6 @@
       <div class="row card-body d-flex justify-content-between p0">
         <div class="col-lg-4 col-md-4 h-2">
           <div class="form-group local-forms">
-            <!-- <label for="warehouseDetails">searchBy </label> -->
             <p-dropdown
               [options]="searchByData"
               styleClass=""
@@ -244,133 +243,34 @@
     </div>
 
     <div class="row">
-      <!-- /    *ngIf="CategorySlabs.totalCategorySlabs.length && CategorySlabs.totalSubCategorySlabs.length " -->
-      <!-- <div class="col-12 col-md-6">
-                <div class="card p-2">
-
-                    <div class="px-2 py-2 d-flex justify-content-between">
-                        <h3>Total Category</h3>
-                        <div><h5 (click)="navigator('Total_Category')" class="breadcrumb">View All</h5></div>
-                    </div>
-                    <div class="">
-                        <p-table [value]="CategorySlabs.totalCategorySlabs" styleClass="p-datatable-striped">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th pSortableColumn="slabNo">Name
-                                    </th>
-                                    <th pSortableColumn="slabName">Total Sales Amount
-                                    </th>
-                                    <th pSortableColumn="size">Square Feet
-                                    </th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-Product>
-                                <tr>
-                                    <td>
-                                        {{Product.name}}
-                                    </td>
-                                    <td>
-                                        {{Product.totalSalesAmount}}
-                                    </td>
-                                    <td>
-                                        {{Product.totalSQFT}}
-                                    </td>
-                                    <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <div class="action-buttons">
-    
-                                            <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
-                                                (click)="updateSlabs(slabs._id)"></p-button>
-                                            <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
-                                            (click)="deleteSlabs(slabs._id)"></p-button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </div>
-                </div>
-                <div class="struct-point">
-                    <div class="card patient-structure col-md-3 border border-1">
-                        <div class="card-body">
-                            <h5>Total Category</h5>
-                            <h3>
-                                <span class="status-green me-2" *ngFor="let data of CategorySlabs.totalCategorySlabs">
-                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="me-1">{{data.totalSQFT}}
-                                </span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="card p-2">
-                <div class="px-2 py-2 d-flex justify-content-between">
-                    <h3>Total Sub Category</h3>
-                    <div><h5 (click)="navigator('Total_Sub_Category')" class="breadcrumb">View All</h5></div>
-                </div>
-                    <p-table [value]="CategorySlabs.totalSubCategorySlabs" styleClass="p-datatable-striped">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="slabNo">Name
-                                </th>
-                                <th pSortableColumn="slabName">Total Sales Amount
-                                </th>
-                                <th pSortableColumn="size">Square Feet
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-Product>
-                            <tr>
-                                <td>
-                                    {{Product.name}}
-                                </td>
-                                <td>
-                                    {{Product.totalSalesAmount}}
-                                </td>
-                                <td>
-                                    {{Product.totalSQFT}}
-                                </td>
-                                <td appShowHide [roles]="['admin', 'super-admin']">
-                                    <div class="action-buttons">
-
-                                        <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
-                                            (click)="updateSlabs(slabs._id)"></p-button>
-                                        <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
-                                        (click)="deleteSlabs(slabs._id)"></p-button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-                 <div class="struct-point">
-                    <div class="card patient-structure col-md-3 border border-1">
-                        <div class="card-body">
-                            <h5>Total Sub Category</h5>
-                            <h3 class="flex-wrap">
-                                <span class="status-green me-2"
-                                    *ngFor="let data of CategorySlabs.totalSubCategorySlabs">
-                                    <img src="assets/img/icons/sort-icon-01.svg" alt="" class="ps-1">{{data.totalSQFT}}
-                                </span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-      <!-- <div > -->
       <div class="col-md-6">
-        <div class="card p-2">
+        <div class="card p-2 W-50">
           <div class="px-3 pt-2 d-flex justify-content-between">
             <h3>Category</h3>
+            <div class="">
+              <p-selectButton
+                [options]="stateCategory"
+                [(ngModel)]="valueCategory"
+                optionLabel="label"
+                optionValue="value"
+              />
+            </div>
           </div>
-          <div class="text-center" *ngIf="!totalCategorySlabs || totalCategorySlabs.length === 0">
+          <div
+            class="text-center m-auto"
+            *ngIf="!orgCategorySlabs || orgCategorySlabs.length === 0"
+          >
             <span style="color: #97704f; font-size: 15px"
               >Data is not available.</span
             >
           </div>
           <div
+            *ngIf="
+              valueCategory == 'graph' &&
+              orgCategorySlabs &&
+              orgCategorySlabs.length > 0
+            "
             class="chart-container"
-            *ngIf="totalCategorySlabs && totalCategorySlabs.length > 0"
           >
             <p-chart
               type="pie"
@@ -380,23 +280,63 @@
             >
             </p-chart>
           </div>
+          <div *ngIf="valueCategory == 'table'" class="mt-2">
+            <p-table
+              [value]="orgCategorySlabs"
+              [paginator]="true"
+              [rows]="5"
+              styleClass="p-datatable-striped"
+              selectionMode="multiple"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th width="50%" pSortableColumn="slabNo">Name</th>
+                  <th width="50%" pSortableColumn="slabName">Total SQFT</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-Product>
+                <tr>
+                  <td>
+                    {{ Product.name }}
+                  </td>
+                  <td>
+                    {{ Product.totalSQFT }}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
         </div>
       </div>
+
       <div class="col-md-6">
-        <div class="card p-2">
+        <div class="card p-2 W-50">
           <div class="px-3 pt-2 d-flex justify-content-between">
             <h3>Sub Category</h3>
+            <div class="">
+              <p-selectButton
+                [options]="stateSubCategory"
+                [(ngModel)]="valueSubCategory"
+                optionLabel="label"
+                optionValue="value"
+              />
+            </div>
           </div>
-          <div class="text-center"
-            *ngIf="!totalSubCategorySlabs || totalSubCategorySlabs.length === 0"
+          <div
+            class="text-center m-auto"
+            *ngIf="!orgSubCategorySlabs || orgSubCategorySlabs.length === 0"
           >
             <span style="color: #97704f; font-size: 15px"
               >Data is not available.</span
             >
           </div>
           <div
+            *ngIf="
+              valueSubCategory == 'graph' &&
+              orgSubCategorySlabs &&
+              orgSubCategorySlabs.length > 0
+            "
             class="chart-container"
-            *ngIf="totalSubCategorySlabs && totalSubCategorySlabs.length > 0"
           >
             <p-chart
               type="pie"
@@ -406,14 +346,42 @@
             >
             </p-chart>
           </div>
+          <div *ngIf="valueSubCategory == 'table'" class="mt-2">
+            <p-table
+              [value]="orgSubCategorySlabs"
+              [paginator]="true"
+              [rows]="5"
+              appendTo="body"
+              styleClass="p-datatable-striped"
+              selectionMode="multiple"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th width="50%" pSortableColumn="slabNo">Name</th>
+                  <th width="50%" pSortableColumn="slabName">Total SQFT</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-Product>
+                <tr>
+                  <td>
+                    {{ Product.name }}
+                  </td>
+                  <td>
+                    {{ Product.totalSQFT }}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
         </div>
       </div>
+
       <!-- </div> -->
     </div>
 
     <div class="row">
       <div class="col-md-6">
-        <div class="card p-2">
+        <div class="card p-2" style="height: 500px">
           <div class="px-2 py-2 d-flex justify-content-between">
             <h3>Stock Alert</h3>
             <div>
@@ -422,7 +390,10 @@
               </h5>
             </div>
           </div>
-          <div class="text-center" *ngIf="!stockAlertData || stockAlertData.length === 0">
+          <div
+            class="text-center m-auto"
+            *ngIf="!stockAlertData || stockAlertData.length === 0"
+          >
             <span style="color: #97704f; font-size: 15px"
               >Data is not available.</span
             >
@@ -431,8 +402,7 @@
             *ngIf="stockAlertData && stockAlertData.length > 0"
             [value]="stockAlertData"
             styleClass="p-datatable-striped"
-            [scrollable]="true"
-            scrollHeight="500px"
+            selectionMode="multiple"
           >
             <ng-template pTemplate="header">
               <tr>
@@ -441,8 +411,6 @@
                 <th pSortableColumn="slabNo">Total Sq. Feet Left</th>
                 <th pSortableColumn="slabNo">Sold %</th>
                 <th pSortableColumn="slabNo">Alert Type</th>
-                <!-- <th pSortableColumn="size">Total Sales Quantity
-                                </th> -->
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-Product>
@@ -465,34 +433,13 @@
                 <td *ngIf="Product.alertType == 'medium'">
                   <p-tag severity="warning" value="medium"></p-tag>
                 </td>
-
-                <!-- <td>
-                                    <span style="color: yellow;" *ngIf="">
-                                        {{Product.totalSalesAmount}}
-                                    </span>
-                                    <span style="color: red;" *ngIf="">
-                                        {{Product.totalSalesAmount}}
-                                    </span>
-                                </td> -->
-                <!-- <td>
-                                    {{Product.totalSalesQuantity}}
-                                </td> -->
-                <!-- <td appShowHide [roles]="['admin', 'super-admin']">
-                                    <div class="action-buttons">
-
-                                        <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
-                                            (click)="updateSlabs(slabs._id)"></p-button>
-                                        <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
-                                        (click)="deleteSlabs(slabs._id)"></p-button>
-                                    </div>
-                                </td> -->
               </tr>
             </ng-template>
           </p-table>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="card p-2">
+        <div class="card p-2" style="height: 500px">
           <div class="px-2 py-2 d-flex justify-content-between">
             <h3>Top Customers</h3>
             <div>
@@ -501,7 +448,10 @@
               </h5>
             </div>
           </div>
-          <div class="text-center" *ngIf="!allSlabsDaTa || allSlabsDaTa.length === 0">
+          <div
+            class="text-center m-auto"
+            *ngIf="!allSlabsDaTa || allSlabsDaTa.length === 0"
+          >
             <span style="color: #97704f; font-size: 15px"
               >Data is not available.</span
             >
@@ -512,6 +462,7 @@
             styleClass="p-datatable-striped"
             [scrollable]="true"
             scrollHeight="500px"
+            selectionMode="multiple"
           >
             <ng-template pTemplate="header">
               <tr>
@@ -522,24 +473,15 @@
             </ng-template>
             <ng-template pTemplate="body" let-Product>
               <tr>
-                <td
-                  (click)="oneCoustomer(Product.customerId)"
-                  style="cursor: pointer"
-                  class="hoverClass"
-                >
-                  {{ Product.customerName }}
+                <td>
+                  <span
+                    class="spanLink"
+                    (click)="oneCoustomer(Product.customerId)"
+                    >{{ Product.customerName }}
+                  </span>
                 </td>
                 <td>₹ {{ Product.totalSalesAmount }}</td>
                 <td>Sq. Feet {{ Product.totalSalesQuantity }}</td>
-                <!-- <td appShowHide [roles]="['admin', 'super-admin']">
-                                    <div class="action-buttons">
-
-                                        <p-button *ngIf="slabs.isInUse === false" [text]="true" icon="fa fa-edit"
-                                            (click)="updateSlabs(slabs._id)"></p-button>
-                                        <p-button *ngIf="slabs.isInUse === false" [text]=" true" icon="fa fa-trash"
-                                        (click)="deleteSlabs(slabs._id)"></p-button>
-                                    </div>
-                                </td> -->
               </tr>
             </ng-template>
           </p-table>
@@ -548,11 +490,14 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <div class="card p-2">
+        <div class="card p-2" style="height: 500px">
           <div class="px-2 py-2 d-flex justify-content-between">
             <h3>Customer Credit Alerts</h3>
           </div>
-          <div class="text-center" *ngIf="!products || products.length === 0">
+          <div
+            class="text-center m-auto"
+            *ngIf="!products || products.length === 0"
+          >
             <span style="color: #97704f; font-size: 15px"
               >Data is not available.</span
             >
@@ -564,6 +509,8 @@
             [tableStyle]="{ 'min-width': '50rem' }"
             [scrollable]="true"
             scrollHeight="500px"
+            styleClass="p-datatable-striped"
+            selectionMode="multiple"
           >
             <ng-template pTemplate="header">
               <tr>
@@ -595,7 +542,12 @@
               <tr *ngIf="product.expanded">
                 <td colspan="3">
                   <div class="p-3">
-                    <p-table [value]="product.creditAlerts" dataKey="saleId">
+                    <p-table
+                      [value]="product.creditAlerts"
+                      dataKey="saleId"
+                      styleClass="p-datatable-striped"
+                      selectionMode="multiple"
+                    >
                       <ng-template pTemplate="header">
                         <tr>
                           <th pSortableColumn="salesDate">

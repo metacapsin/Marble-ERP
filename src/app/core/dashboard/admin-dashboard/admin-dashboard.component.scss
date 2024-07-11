@@ -1,51 +1,78 @@
 .donut-chart-custom {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 .chart-container {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 375px; /* Set the desired height */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 375px; /* Set the desired height */
 }
 .patient-structure h3 {
-    font-size: 25px;
-    display: block;
+  font-size: 25px;
+  display: block;
 }
 .dash-content h2 {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
-.breadcrumb{
-    font-size: 14px;
-    color: #97704f;
-    cursor: pointer;
+.breadcrumb {
+  font-size: 14px;
+  color: #97704f;
+  cursor: pointer;
 }
-.breadcrumb:hover{
-    color: black;
-    transition: 0.90s;
+.breadcrumb:hover {
+  color: black;
+  transition: 0.9s;
 }
-.hoverClass:hover{
-    overflow: hidden;
-    color: #97704f;
-    transition: 0.74s;
+.hoverClass:hover {
+  overflow: hidden;
+  color: #97704f;
+  transition: 0.74s;
+}
+p-selectButton {
+  padding: 0px;
 }
 ::ng-deep .p-table .p-datatable .p-datatable-tbody td:nth-child(4),
 ::ng-deep .p-table .p-datatable .p-datatable-tbody td:nth-child(3) {
-  font-size: 2.0rem; /* Adjust the font size as needed */
+  font-size: 2rem; /* Adjust the font size as needed */
 }
-.p-tag-value{
-    width: 50px;
+::ng-deep .p-selectbutton .p-button {
+  background-color: #fff !important; /* Background color for the button */
+  color: #97704f !important; /* Text color */
+  transition: 0.3s ease; /* Smooth transition for hover effect */
+  border: none !important;
+  padding: 7px 10px;
+  outline: none !important;
+}
+.W-50{
+    height: 450px;
+}
+::ng-deep .p-selectbutton .p-button:hover {
+//    color: #fff;
+    background-color: #f0e4d7 !important; /* Background color on hover */
+}
+
+::ng-deep .p-selectbutton .p-button.p-highlight {
+  outline: none !important;
+  background-color: #97704f !important; /* Background color for selected button */
+  color: white !important; /* Text color for selected button */
+  border: none !important; /* Remove border for selected button */
+  transition: background-color 0.74s ease; /* Smooth transition for selection effect */
+}
+
+.p-tag-value {
+  width: 50px;
 }
 // card font size
 @media (max-width: 1416px) and (min-width: 1200px) {
-    .dash-count h4 {
-        font-size: 13px;
-        // text-overflow: ellipsis;
-        white-space: nowrap;
-        // overflow: hidden;
-        // text-overflow: ellipsis;
-    }
-    .font_size {
-        font-size: 19px;
-    }
+  .dash-count h4 {
+    font-size: 13px;
+    // text-overflow: ellipsis;
+    white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+  }
+  .font_size {
+    font-size: 19px;
+  }
 }
