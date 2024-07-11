@@ -236,20 +236,20 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-2">
+                        <!-- <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Total Sales (Sq. Feet)
+                                Total Sales 
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{ slabDetail?.totalSale}}</p>
+                                <p class="col-form-label">{{'₹ ' + slabDetail?.totalSales?.toFixed(3) | indianCurrency}}</p>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                 Total Cost
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{ slabDetail?.totalCosting}}</p>
+                                <p class="col-form-label">{{'₹ ' + slabDetail?.totalCosting?.toFixed(3) | indianCurrency}}</p>
                             </div>
                         </div>
 
@@ -299,28 +299,40 @@
                         </div>
                         <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Finishes
+                                Total Sq. Feet
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{ slabDetail?.finishes?.name}}</p>
+                                <p class="col-form-label">{{ slabDetail?.totalSlabSQFT}}</p>
                             </div>
                         </div>
-                        <div class="form-group row mb-2">
+                        <!-- <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Total Sales Return (Sq. Feet)
+                                Total Sales Return
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{ slabDetail?.totalSalesReturn}}</p>
+                                <p class="col-form-label">{{'₹ ' + slabDetail?.totalSalesReturn?.toFixed(3) | indianCurrency}}</p>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Slab Profit & Loss
+                                Slab Sales
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{ slabDetail?.slabProfit}}</p>
-                            </div>
+                                <p class="col-form-label">
+                                    <span class="amount-bold"
+                                      >{{ '₹ ' + slabProfit.toFixed(3)}}
+                                    </span>
+                                    <span 
+                                      >( Sales :
+                                      {{
+                                        '₹ ' + slabDetail?.totalSales?.toFixed(3) | indianCurrency
+                                      }} - Sales Return :
+                                      {{
+                                        '₹ ' + slabDetail?.totalSalesReturn?.toFixed(3) | indianCurrency 
+                                      }})</span
+                                    >
+                                  </p>                            </div>
                         </div>
 
                     </div>
@@ -348,26 +360,26 @@
                             <div class="invoice-total-box">
                                 <div class="invoice-total-inner">
                                     <p >
-                                        Purchase Cost. <span>₹ {{ slabDetail?.purchaseCost | indianCurrency }}</span>
+                                        Purchase Cost. <span>₹ {{ slabDetail?.purchaseCost?.toFixed(3) | indianCurrency }}</span>
                                     </p>
                                     <p *ngIf="slabDetail?.transportationCharges">
-                                        Transportation Charges <span>₹ {{ slabDetail?.transportationCharges | indianCurrency }}</span>
+                                        Transportation Charges <span>₹ {{ slabDetail?.transportationCharges?.toFixed(3) | indianCurrency }}</span>
                                     </p>
                                     <p *ngIf="slabDetail?.otherCharges">
-                                        Other Charges <span>₹ {{ slabDetail?.otherCharges | indianCurrency }}</span>
+                                        Other Charges <span>₹ {{ slabDetail?.otherCharges?.toFixed(3) | indianCurrency }}</span>
                                     </p>
                                     <p *ngIf="slabDetail?.processingFee">
-                                        Processing Fee. <span>₹ {{ slabDetail?.processingFee | indianCurrency }}</span>
+                                        Processing Fee. <span>₹ {{ slabDetail?.processingFee?.toFixed(3) | indianCurrency }}</span>
                                     </p>
                                     <p *ngIf="slabDetail?.processingCost">
-                                        Processing Cost. <span>₹ {{ slabDetail?.processingCost | indianCurrency }}</span>
+                                        Processing Cost. <span>₹ {{ slabDetail?.processingCost?.toFixed(3) | indianCurrency }}</span>
                                     </p>
                                 </div>
 
                                 <div class="invoice-total-footer">
                                     <h4>
                                         Total Amount
-                                        <span>₹ {{ slabDetail?.totalCosting | indianCurrency }}</span>
+                                        <span>₹ {{ slabDetail?.totalCosting?.toFixed(3)  | indianCurrency }}</span>
                                     </h4>
                                 </div>
                             </div>

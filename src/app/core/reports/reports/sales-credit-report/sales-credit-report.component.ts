@@ -27,6 +27,9 @@ export class SalesCreditReportsComponent {
     "This Year",
   ];
   searchBy: string;
+  exportColumns: any = [];
+  cols: any = [];
+
   salesCreditReportsData: any = [];
   salesCreditReportDataShowById: any; // to hold sales data by customer id
   showInvoiceDialog: boolean = false; // to enable sales invoice popup
@@ -51,8 +54,27 @@ export class SalesCreditReportsComponent {
       console.log(resp);
       this.salesCreditReportsData = resp.sales;
       this.originalData = resp.sales;
+      this.cols = [
+        { field: "salesDate", header: "Sales Date" },
+        { field: "salesInvoiceNumber", header: "Sales Invoice Number" },
+        { field: "customerName", header: "Customer" },
+        { field: "customerEmail", header: "Email" },
+        { field: "customerPhoneNo", header: "Phone Number" },
+        { field: "paymentStatus", header: "Payment Status" },
+        { field: "paidAmount", header: "Paid Amount" },
+        { field: "dueAmount", header: "Due Amount" },
+        { field: "salesTotalAmount", header: "Sales Total Amount" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
     });
-  }
+    this.exportColumns = this.salesReportsData.map((element) => ({
+      title: element.header,
+      dataKey: element.field,
+    }));  }
 
   onDateChange(value: any): void {
     const startDate = value[0];

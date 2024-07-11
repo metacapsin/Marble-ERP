@@ -97,7 +97,7 @@
                   <a href="javascript:;" class="me-2"
                     ><img src="assets/img/icons/pdf-icon-01.svg" alt=""
                   /></a>
-                  <a href="javascript:;" class="me-2"
+                  <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"
                     ><img src="assets/img/icons/pdf-icon-03.svg" alt=""
                   /></a>
                 </div>
@@ -147,7 +147,8 @@
                 [tableStyle]="{ 'min-width': '60rem' }"
                 [paginator]="true"
                 [rows]="10"
-                [rowsPerPageOptions]="[5, 10, 20]"
+                [rowsPerPageOptions]="[5, 10, 20]"  #dt [columns]="cols" selectionMode="multiple"
+                [exportHeader]="'customExportHeader'" exportFilename="Sales Credit Reports"
               >
                 <ng-template pTemplate="header">
                   <tr>

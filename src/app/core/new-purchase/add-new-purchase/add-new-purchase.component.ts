@@ -63,6 +63,8 @@ export class AddNewPurchaseComponent implements OnInit {
   previousSlabValues: any = {};
   returnUrl: any;
   supplier: any;
+
+  subCategorListByCategory: any = [];
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -160,6 +162,18 @@ export class AddNewPurchaseComponent implements OnInit {
         });
       });
     });
+  }
+
+  findSubCategory(value: any){
+    let SubCategoryData: any = [];
+    SubCategoryData = this.subCategoryList.filter(e => e.categoryId._id == value._id);
+      this.subCategorListByCategory = SubCategoryData.map((e) => ({
+        name: e.name,
+        _id: {
+          _id: e._id,
+          name: e.name,
+        },
+      }));
   }
 
 

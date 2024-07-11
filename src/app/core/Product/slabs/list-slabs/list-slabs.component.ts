@@ -33,6 +33,8 @@ export class ListSlabsComponent {
   selectedSlabs = [];
   allSlabsDaTa: any;
 
+  slabProfit: number = 0;
+
   constructor(
     public dialog: MatDialog,
     public router: Router,
@@ -49,9 +51,10 @@ export class ListSlabsComponent {
     });
   }
   showSlabDetails(_id: any) {
+    this.slabProfit = 0;
     this.slabVisible = true;
     this.slabDetail = this.allSlabsDaTa.find((e) => e._id === _id);
-    console.log("slabDetail", this.slabDetail);
+    this.slabProfit = this.slabDetail?.totalSales - this.slabDetail?.totalSalesReturn;
   }
   ngOnInit(): void {
     this.getSlabsList();
