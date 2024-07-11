@@ -239,7 +239,7 @@
                             <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body"
                               optionLabel="name" optionValue="_id" placeholder="Select Category"
                               formControlName="categoryDetail" [style]="{ width: '100%' }" [filter]="true"
-                              filterBy="name" [showClear]="true" (onChange)="findSubCategory($event.value)">
+                              filterBy="name" [showClear]="false" (onChange)="findSubCategory($event.value)">
                             </p-dropdown>
                             <div *ngIf="
                                 addNewPurchaseForm
@@ -258,7 +258,7 @@
                             <p-dropdown [options]="subCategorListByCategory" styleClass="" appendTo="body"
                               optionValue="_id" placeholder="Select Sub Category" optionLabel="name"
                               formControlName="subCategoryDetail" [style]="{ width: '100%' }" [filter]="true"
-                              filterBy="name" [showClear]="true">
+                              filterBy="name" [showClear]="false">
                             </p-dropdown>
                             <div *ngIf="
                                 addNewPurchaseForm

@@ -29,9 +29,7 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 @Component({
   selector: "app-add-slabs",
   standalone: true,
-  imports: [
-    SharedModule,
-  ],
+  imports: [SharedModule],
   providers: [MessageService],
   templateUrl: "./add-slabs.component.html",
   styleUrl: "./add-slabs.component.scss",
@@ -59,11 +57,14 @@ export class AddSlabsComponent {
   CategoryListsEditArray: any;
   wareHousedataListsEditArray: any;
   SubCategoryListsEditArray: any;
+  SubCategoryFilterArray: any;
+
   blockProcessorData: any;
   blockProcessorArray: any[];
   fromWareHouseLotValue: any;
   BlockWeight: number = 0;
   currentUrl: string;
+  subCategoryList: any;
 
   constructor(
     private fb: FormBuilder,
@@ -125,12 +126,10 @@ export class AddSlabsComponent {
   get f() {
     return this.slabsAddForm.controls;
   }
-
-
   ngOnInit(): void {
     this.currentUrl = this.router.url;
-    console.log(this.currentUrl)
-    console.log("this is current url on slab page",this.currentUrl)
+    console.log(this.currentUrl);
+    console.log("this is current url on slab page", this.currentUrl);
     // API for get all block Processor
     this.ServiceblockProcessor.getAllBlockProcessorData().subscribe(
       (data: any) => {
@@ -163,6 +162,7 @@ export class AddSlabsComponent {
     });
     // API for get all Sub Categories
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
+      this.subCategoryList = resp.data;
       this.SubCategoryListsEditArray = [];
       resp.data.forEach((element: any) => {
         this.SubCategoryListsEditArray.push({
@@ -189,7 +189,22 @@ export class AddSlabsComponent {
       });
       console.log(this.wareHousedataListsEditArray);
     });
+    
   }
+
+  findSubCategory(value: any){
+    let SubCategoryData: any = [];
+    SubCategoryData = this.subCategoryList.filter(e => e.categoryId._id == value._id);
+      this.SubCategoryFilterArray = SubCategoryData.map((e) => ({
+        name: e.name,
+        _id: {
+          _id: e._id,
+          name: e.name,
+        },
+      }));
+  }
+
+
   // Function call for on warehouse Select
   onWarehouseSelect(value: any) {
     this.Lotservice.lotByWarehouse(value._id).subscribe((resp: any) => {
@@ -230,12 +245,16 @@ export class AddSlabsComponent {
     }
   }
   calculateTotalAmount() {
-    // Gatting data with input 
+    // Gatting data with input
     let processingFee = +this.slabsAddForm.get("processingFee").value;
     let otherCharges: number = +this.slabsAddForm.get("otherCharges").value;
     let totalSQFT = +this.slabsAddForm.get("totalSQFT").value;
-    let transportationCharges: number = +this.slabsAddForm.get("transportationCharges").value;
-    var purchaseCostOrg = parseFloat(this.slabsAddForm.get("purchaseCost").value);
+    let transportationCharges: number = +this.slabsAddForm.get(
+      "transportationCharges"
+    ).value;
+    var purchaseCostOrg = parseFloat(
+      this.slabsAddForm.get("purchaseCost").value
+    );
     console.log(purchaseCostOrg);
     console.log(totalSQFT);
     console.log(this.blockDropDownPerBlockWeight, this.blockDropDowntotleCost);
@@ -243,7 +262,8 @@ export class AddSlabsComponent {
     console.log(this.BlockWeight);
     // calculate for creating slabs
     var processingCost = processingFee * this.BlockWeight;
-    var totalCosting = +purchaseCostOrg + processingCost + otherCharges + transportationCharges;
+    var totalCosting =
+      +purchaseCostOrg + processingCost + otherCharges + transportationCharges;
     var totalAmount: number = totalSQFT == 0 ? 0 : totalCosting / totalSQFT;
     console.log("processingCost", processingCost);
     console.log("totalCosting", totalCosting);
@@ -261,13 +281,11 @@ export class AddSlabsComponent {
 
   navigateToCreateBlockProcessor() {
     const returnUrl = this.router.url;
-    this.router.navigate(['/block-processor/add-block-processor']);
-    this.localStorageService.setItem('returnUrl',returnUrl);
+    this.router.navigate(["/block-processor/add-block-processor"]);
+    this.localStorageService.setItem("returnUrl", returnUrl);
 
     // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
-
-
 
   SlabsAddFormSubmit() {
     if (
