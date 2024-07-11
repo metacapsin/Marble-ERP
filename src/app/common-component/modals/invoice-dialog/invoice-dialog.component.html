@@ -8,10 +8,10 @@
           (click)="downloadSalesFile(sales._id)">
           <i class="fa-solid fa-download"></i>
         </button>
-        <button *ngIf="sales.supplier?.billingAddress" type="button" class="btn icon-button" aria-label="Download"
+        <!-- <button *ngIf="sales.supplier?.billingAddress" type="button" class="btn icon-button" aria-label="Download"
           (click)="downloadPurchaseFile(sales._id)">
           <i class="fa-solid fa-download"></i>
-        </button>
+        </button> -->
         <button type="button" class="btn icon-button" aria-label="Close" (click)="closeTheWindow()">
           <i class="fa-solid fa-xmark"></i>
         </button>
@@ -28,38 +28,25 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div>
-                      <div *ngIf="sales.customer?.billingAddress"
-                        class="invoice-head justify-content-start text-align-start">
-                        <p>
-                          <span style="
-                              color: #97704f;
-                              font-weight: bold;
-                              font-size: 16px;
-                            ">Seller Address </span><br />
-                          <span [innerHTML]="sellerData?.address | wordWrap : 2"></span>
-                        </p>
-                      </div>
-                      <div *ngIf="sales.supplier?.billingAddress"
-                        class="invoice-head justify-content-start text-align-start">
-                        <p>
-                          <span style="
-                              color: #97704f;
-                              font-weight: bold;
-                              font-size: 16px;
-                            ">Seller Address </span><br />
-                          <span [innerHTML]="sales.supplier.billingAddress | wordWrap : 2"></span>
-                        </p>
-                      </div>
-                    </div>
-                    <!-- <div  *ngIf="sales.supplier?.billingAddress">
                       <div class="invoice-head justify-content-start text-align-start">
-                        <p><span style="color: #97704f; font-weight: bold; font-size: 16px;">Seller Address </span><br>
-                          <span [innerHTML]="sales.supplier.billingAddress | wordWrap:2"></span></p>
+                        <p>
+                          <span style="
+                              color: #97704f;
+                              font-weight: bold;
+                              font-size: 16px;
+                            ">Seller Address </span><br />
+                          <span *ngIf="sales.customer?.billingAddress"
+                            [innerHTML]="sellerData?.address | wordWrap : 2"></span>
+                          <span *ngIf="sales.supplier?.billingAddress"
+                            [innerHTML]="sales.supplier.billingAddress | wordWrap : 2"></span>
+
+                        </p>
                       </div>
-                    </div> -->
+
+                    </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="invoice-info" *ngIf="sales.customer?.billingAddress">
+                    <div class="invoice-info">
                       <div class="invoice-head justify-content-end">
                         <p>
                           <span style="
@@ -67,26 +54,20 @@
                               font-weight: bold;
                               font-size: 16px;
                             ">Buyer Address </span><br />
-                          <span [innerHTML]="
+                          <span *ngIf="sales.customer?.billingAddress" [innerHTML]="
                               sales.customer.billingAddress | wordWrap : 2
                             "></span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="invoice-info" *ngIf="sales.supplier?.billingAddress">
-                      <div class="invoice-head justify-content-end">
-                        <p>
-                          <span style="
-                              color: #97704f;
-                              font-weight: bold;
-                              font-size: 16px;
-                            ">Buyer Address </span><br />
-                          <span [innerHTML]="
+                          <span *ngIf="sales.supplier?.billingAddress" [innerHTML]="
                             sellerData?.address  | wordWrap : 2
                             "></span>
+                          <span *ngIf="sales.purchaseReturnTotalAmount
+                            " [innerHTML]="
+                              sellerData?.address  | wordWrap : 2
+                              "></span>
                         </p>
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -117,7 +98,7 @@
                               </p>
                             </div>
                           </div>
-                          <div *ngIf="header == 'Purchase Return Invoice '" class="form-group row mb-2">
+                          <div *ngIf="header == 'Purchase Return Invoice'" class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                               Invoice Number :
                             </h5>
@@ -182,21 +163,8 @@
                               </p>
                             </div>
                           </div>
-                          <div *ngIf="sales.purchaseReturnDate" class="form-group row mb-2">
-                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                              Return Date:
-                            </h5>
-                            <div class="col-lg-9 col-md-9 col-xl-9">
-                              <p class="col-form-label">
-                                {{
-                                sales.purchaseReturnDate
-                                | date : "dd-MMM-yyyy"
-                                }}
-                              </p>
-                            </div>
-                          </div>
 
-                          <div class="form-group row mb-2" *ngIf="sales.purchaseType else ReturnType">
+                          <div class="form-group row mb-2" *ngIf="sales.purchaseType ">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                               Purchase Type:
                             </h5>
@@ -206,22 +174,37 @@
                               </p>
                             </div>
                           </div>
-                          <ng-template #ReturnType>
-
-                            <div class="form-group row mb-2">
-                              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Return Type:
-                              </h5>
-                              <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-lg-9 col-form-label">
-                                  SLAB
-                                </p>
-                              </div>
+                          <div class="form-group row mb-2" *ngIf="sales.salesDate ">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                              Sales Type:
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">
+                                SLAB
+                              </p>
                             </div>
-                          </ng-template>
-
-
-
+                          </div>
+                          <div class="form-group row mb-2"
+                            *ngIf="sales.salesReturnTermsAndCondition || sales.returnDate ">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                              Return Type:
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">
+                                SLAB
+                              </p>
+                            </div>
+                          </div>
+                          <!-- <div class="form-group row mb-2" *ngIf="sales.purchaseReturnOtherCharges ">
+                            <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                              Return Type:
+                            </h5>
+                            <div class="col-lg-9 col-md-9 col-xl-9">
+                              <p class="col-lg-9 col-form-label">
+                                SLAB
+                              </p>
+                            </div>
+                          </div> -->
                         </div>
                         <div class="col-xl-6 col-lg-6 col-sm-12">
                           <div class="form-group row mb-2" *ngIf="sales.createdByName">
@@ -234,7 +217,7 @@
                               </p>
                             </div>
                           </div>
-                          <div class="form-group row mb-2" *ngIf="sales.salesOrderStatus">
+                          <!-- <div class="form-group row mb-2" *ngIf="sales.salesOrderStatus">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                               Order Status:
                             </h5>
@@ -253,10 +236,10 @@
                                 {{ sales.purchaseOrderStatus }}
                               </p>
                             </div>
-                          </div>
+                          </div> -->
 
                           <!-- Conditionally display returnOrderStatus if it exists -->
-                          <div *ngIf="sales.returnOrderStatus" class="form-group row mb-2">
+                          <!-- <div *ngIf="sales.returnOrderStatus" class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                               Return Order Status:
                             </h5>
@@ -275,7 +258,7 @@
                                 {{ sales.purchaseReturnOrderStatus }}
                               </p>
                             </div>
-                          </div>
+                          </div> -->
 
                           <div class="form-group row mb-2" *ngIf="sales.paymentStatus">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">

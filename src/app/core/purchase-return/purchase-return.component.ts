@@ -149,7 +149,7 @@ export class PurchaseReturnComponent {
     this.service.getPurchaseReturnById(id).subscribe((resp: any) => {
       this.showInvoiceDialog = true;
       this.PurchaseReturnListData = [resp.data];
-      this.header = "Purchase Return";
+      this.header = "Purchase Return Invoice";
       console.log(this.PurchaseReturnListData[0].lotDetails);
       console.log(this.PurchaseReturnListData);
       console.log(resp);

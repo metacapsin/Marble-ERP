@@ -273,7 +273,7 @@ export class ViewCustomersComponent implements OnInit {
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.showInvoiceDialog = true;
       this.salesDataShowById = [resp.data];
-      this.header = "Sales Invoice ";
+      this.header = "Sales Invoice";
       console.log("sales data by id On dialog", this.salesDataShowById);
     });
 
@@ -289,7 +289,7 @@ export class ViewCustomersComponent implements OnInit {
     this.salesReturnService.getSalesReturnById(Id).subscribe((resp: any) => {
       this.showInvoiceDialog = true;
       this.salesDataShowById = [resp.data];
-      this.header = "Sales Return Invoice ";
+      this.header = "Sales Return Invoice";
       console.log("sales data by id On dialog", this.salesDataShowById);
     });
 

@@ -328,7 +328,7 @@ export class ViewSuppliersComponent {
       .subscribe((resp: any) => {
         this.showInvoiceDialog = true;
         this.purchaseDataShowById = [resp.data];
-        this.header = "Purchase Return Invoice ";
+        this.header = "Purchase Return Invoice";
         console.log(resp.data);
         console.log(
           "Purchase Return data by id On dialog",

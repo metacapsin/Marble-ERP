@@ -44,6 +44,7 @@ export class AllSalesReturnComponent implements OnInit {
   totalPaidAmount: any;
   paymentDataListById: any[] = [];
   currentUrl: string;
+  header: string;
 
   constructor(
     private messageService: MessageService,
@@ -131,6 +132,7 @@ export class AllSalesReturnComponent implements OnInit {
     console.log("id pass to invoice dialoge", Id);
     console.log("showInvoiceDialoge is triggered ");
     this.Service.getSalesReturnById(Id).subscribe((resp: any) => {
+      this.header="Sales Return Invoice"
       this.showInvoiceDialog = true;
       this.salesDataShowById = [resp.data];
       console.log("sales data by id On dialog", this.salesDataShowById);
