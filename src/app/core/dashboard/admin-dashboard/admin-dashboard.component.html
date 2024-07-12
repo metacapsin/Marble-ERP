@@ -302,15 +302,15 @@
                     <p-columnFilter
                       type="text"
                       field="name"
-                      display="menu"
+                      display="menu" matchMode="contains"
                     ></p-columnFilter>
                   </th>
                   <th width="50%" pSortableColumn="totalSQFT">
-                    Total SQFT <p-sortIcon field="totalSQFT"></p-sortIcon>
+                    Total Quantity ( Sq. Feet ) <p-sortIcon field="totalSQFT"></p-sortIcon>
                     <p-columnFilter
                       type="text"
                       field="totalSQFT"
-                      display="menu"
+                      display="menu" matchMode="contains"
                     ></p-columnFilter>
                   </th>
                 </tr>
@@ -392,17 +392,16 @@
                     <p-columnFilter
                       type="text"
                       field="name"
-                      display="menu"
+                      display="menu" matchMode="contains"
                     ></p-columnFilter>
                   </th>
                   <th width="50%" pSortableColumn="totalSQFT">
-                    Total SQFT
-
+                    Total Quantity ( Sq. Feet )
                     <p-sortIcon field="totalSQFT"></p-sortIcon>
                     <p-columnFilter
                       type="text"
                       field="totalSQFT"
-                      display="menu"
+                      display="menu" matchMode="contains"
                     ></p-columnFilter>
                   </th>
                 </tr>
@@ -449,6 +448,8 @@
             [value]="stockAlertData"
             styleClass="p-datatable-striped"
             selectionMode="multiple"
+            [paginator]="true"
+              [rows]="5"
           >
             <ng-template pTemplate="header">
               <tr>
@@ -458,7 +459,7 @@
                   <p-columnFilter
                     type="text"
                     field="slabDetails.slabName"
-                    display="menu"
+                    display="menu" matchMode="contains"
                   ></p-columnFilter>
                 </th>
                 <th pSortableColumn="slabDetails.slabNo">
@@ -466,7 +467,7 @@
                   <p-columnFilter
                     type="text"
                     field="slabDetails.slabNo"
-                    display="menu"
+                    display="menu" matchMode="contains"
                   ></p-columnFilter>
                 </th>
                 <th pSortableColumn="totalSQFT">
@@ -475,7 +476,7 @@
                   <p-columnFilter
                     type="text"
                     field="totalSQFT"
-                    display="menu"
+                    display="menu" matchMode="contains"
                   ></p-columnFilter>
                 </th>
                 <th pSortableColumn="totalSQFT">
@@ -483,7 +484,7 @@
                   <p-columnFilter
                     type="text"
                     field="totalSQFT"
-                    display="menu"
+                    display="menu" matchMode="contains"
                   ></p-columnFilter>
                 </th>
                 <th pSortableColumn="">Alert Type</th>
@@ -539,6 +540,8 @@
             [scrollable]="true"
             scrollHeight="500px"
             selectionMode="multiple"
+            [paginator]="true"
+              [rows]="5"
           >
             <ng-template pTemplate="header">
               <tr>
@@ -547,29 +550,28 @@
                   <p-columnFilter
                     type="text"
                     field="customerName"
-                    display="menu"
-                  ></p-columnFilter>
-                </th>
-
-                <th pSortableColumn="totalSalesAmount">
-                  Total Sales Amount
-                  <p-sortIcon field="totalSalesAmount"></p-sortIcon>
-                  <p-columnFilter
-                    type="text"
-                    field="totalSalesAmount"
-                    display="menu"
+                    display="menu" matchMode="contains"
                   ></p-columnFilter>
                 </th>
 
                 <th pSortableColumn="totalSalesQuantity">
-                  Total Sales Quantity
+                   Sales Quantity ( Sq. Feet )
                   <p-sortIcon field="totalSalesQuantity"></p-sortIcon>
                   <p-columnFilter
                     type="text"
                     field="totalSalesQuantity"
-                    display="menu"
+                    display="menu" matchMode="contains"
                   ></p-columnFilter>
                 </th>
+                <th pSortableColumn="totalSalesAmount">
+                  Sales Amount
+                 <p-sortIcon field="totalSalesAmount"></p-sortIcon>
+                 <p-columnFilter
+                   type="text"
+                   field="totalSalesAmount"
+                   display="menu" matchMode="contains"
+                 ></p-columnFilter>
+               </th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-Product>
@@ -581,8 +583,8 @@
                     >{{ Product.customerName }}
                   </span>
                 </td>
-                <td>₹ {{ Product.totalSalesAmount }}</td>
-                <td>Sq. Feet {{ Product.totalSalesQuantity }}</td>
+                <td>{{ Product.totalSalesQuantity }}</td>
+                <td>₹ {{ Product.totalSalesAmount | indianCurrency }}</td>
               </tr>
             </ng-template>
           </p-table>
@@ -612,6 +614,8 @@
             scrollHeight="500px"
             styleClass="p-datatable-striped"
             selectionMode="multiple"
+            [paginator]="true"
+              [rows]="5"
           >
             <ng-template pTemplate="header">
               <tr>
@@ -621,7 +625,7 @@
                   <p-columnFilter
                     type="text"
                     field="totalSalesQuantity"
-                    display="menu"
+                    display="menu" matchMode="contains"
                   ></p-columnFilter>
                 </th>
                 <th pSortableColumn="phoneNo">
@@ -629,7 +633,7 @@
                   <p-columnFilter
                     type="text"
                     field="phoneNo"
-                    display="menu"
+                    display="menu" matchMode="contains"
                   ></p-columnFilter>
                 </th>
               </tr>
@@ -670,7 +674,7 @@
                             <p-sortIcon field="salesDate" /><p-columnFilter
                               type="text"
                               field="salesDate"
-                              display="menu"
+                              display="menu" matchMode="contains"
                             ></p-columnFilter>
                           </th>
                           <th pSortableColumn="salesTotalAmount">
@@ -680,7 +684,7 @@
                             /><p-columnFilter
                               type="text"
                               field="salesTotalAmount"
-                              display="menu"
+                              display="menu" matchMode="contains"
                             ></p-columnFilter>
                           </th>
                           <th pSortableColumn="alertType">
@@ -688,7 +692,7 @@
                             <p-sortIcon field="alertType" /><p-columnFilter
                               type="text"
                               field="alertType"
-                              display="menu"
+                              display="menu" matchMode="contains"
                             ></p-columnFilter>
                           </th>
                           <th pSortableColumn="daysLeft">
@@ -696,7 +700,7 @@
                             <p-sortIcon field="daysLeft" /><p-columnFilter
                               type="text"
                               field="daysLeft"
-                              display="menu"
+                              display="menu" matchMode="contains"
                             ></p-columnFilter>
                           </th>
                         </tr>
