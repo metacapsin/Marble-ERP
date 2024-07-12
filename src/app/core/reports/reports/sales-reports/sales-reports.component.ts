@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { routes } from "src/app/shared/routes/routes";
 import { ReportsService } from "../reports.service";
 import { SalesService } from "src/app/core/sales/sales.service";
+// import { Router } from "@angular/router";
+// import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: "app-sales-reports",
@@ -38,6 +40,8 @@ export class SalesReportsComponent {
   constructor(
     private service: ReportsService,
     private salesService: SalesService,
+    // private router: Router,
+    // private localStorageService: LocalStorageService,
 
   ) {}
 
@@ -108,6 +112,14 @@ export class SalesReportsComponent {
       console.log("this is payment by sales id", this.paymentDataListById);
     });
   }
+
+  // navigateToViewCustomer(id){
+  //   console.log(id);
+  //   this.router.navigate(["/customers/view-customers/"+id]);
+  //   const returnUrl = this.router.url;
+  //   this.localStorageService.setItem("returnUrl",returnUrl)
+  //   console.log(returnUrl)
+  // }
 
 
   callBackModal() {}

@@ -44,6 +44,8 @@ export class ViewCustomersComponent implements OnInit {
   header = "";
   currentUrl: string;
   customer: any;
+  // returnUrl: string;
+
   paymentInvoicesalesDataShowById: any; // to hold sales data by customer id
 
 
@@ -72,6 +74,8 @@ export class ViewCustomersComponent implements OnInit {
     this.getPaymentListByCustomerId();
     this.getsalesReturn();
     this.getSalesReturnPaymentListByCustomerId();
+    // this.returnUrl = this.localStorageService.getItem('returnUrl')
+    // console.log("this is retrun url", this.returnUrl)
   }
   getCoustomers() {
     this.customerService.GetCustomerDataById(this.id).subscribe((data: any) => {
