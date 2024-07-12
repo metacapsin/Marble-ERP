@@ -175,6 +175,9 @@ export class AdminDashboardComponent {
   valueSubCategory: string = "graph";
   orgCategorySlabs: any;
   orgSubCategorySlabs: any;
+  categorySearchDataValue:any
+  subCategorySearchDataValue:any
+  stockAlertSearchDataValue:any
 
   constructor(
     // public data: DataService,

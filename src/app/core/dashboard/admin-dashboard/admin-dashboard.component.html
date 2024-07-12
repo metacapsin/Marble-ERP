@@ -84,7 +84,7 @@
           </div>
           <div class="dash-content dash-count">
             <h4 class="h4_size">Total Sales</h4>
-            <h2 class="font_size">
+            <span class="font_size">
               <span class="me-2">₹</span
               ><span
                 class="counter-up"
@@ -92,7 +92,7 @@
                 [options]="{ duration: 2 }"
                 >{{ financialSummaryData?.totalSales }}</span
               >
-            </h2>
+            </span>
             <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
           </div>
         </div>
@@ -111,7 +111,7 @@
           </div>
           <div class="dash-content dash-count">
             <h4>Total Expenses</h4>
-            <h2 class="font_size">
+            <span class="font_size">
               <span class="me-2">₹</span
               ><span
                 class="counter-up"
@@ -119,7 +119,7 @@
                 [options]="{ duration: 0.5 }"
                 >{{ financialSummaryData?.totalExpenses }}</span
               >
-            </h2>
+            </span>
             <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
           </div>
         </div>
@@ -137,7 +137,7 @@
           </div>
           <div class="dash-content dash-count">
             <h4>Payment Out</h4>
-            <h2 class="font_size">
+            <span class="font_size">
               <span class="me-2">₹</span
               ><span
                 class="counter-up"
@@ -145,7 +145,7 @@
                 [options]="{ duration: 0.5 }"
                 >{{ financialSummaryData?.paymentOut }}</span
               >
-            </h2>
+            </span>
             <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
           </div>
         </div>
@@ -163,7 +163,7 @@
           </div>
           <div class="dash-content dash-count">
             <h4>Payment In</h4>
-            <h2 class="font_size">
+            <span class="font_size">
               <span class="me-2">₹</span
               ><span
                 class="counter-up"
@@ -171,7 +171,7 @@
                 [options]="{ duration: 0.5 }"
                 >{{ financialSummaryData?.paymentIn }}</span
               >
-            </h2>
+            </span>
             <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
           </div>
         </div>
@@ -188,7 +188,7 @@
           </div>
           <div class="dash-content dash-count">
             <h4>Total Sales Due</h4>
-            <h2 class="font_size">
+            <span class="font_size">
               <span class="me-2">₹</span
               ><span
                 class="counter-up"
@@ -196,7 +196,7 @@
                 [options]="{ duration: 0.5 }"
                 >{{ financialSummaryData?.totalSalesDue }}</span
               >
-            </h2>
+            </span>
             <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
           </div>
         </div>
@@ -294,12 +294,25 @@
               [rows]="5"
               styleClass="p-datatable-striped"
               selectionMode="multiple"
-              [tableStyle]="{'min-height': '20rem'}"
             >
               <ng-template pTemplate="header">
                 <tr>
-                  <th width="50%" pSortableColumn="slabNo">Name</th>
-                  <th width="50%" pSortableColumn="slabName">Total SQFT</th>
+                  <th width="50%" pSortableColumn="name">
+                    Name <p-sortIcon field="name"></p-sortIcon>
+                    <p-columnFilter
+                      type="text"
+                      field="name"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
+                  <th width="50%" pSortableColumn="totalSQFT">
+                    Total SQFT <p-sortIcon field="totalSQFT"></p-sortIcon>
+                    <p-columnFilter
+                      type="text"
+                      field="totalSQFT"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-Product>
@@ -372,8 +385,26 @@
             >
               <ng-template pTemplate="header">
                 <tr>
-                  <th width="50%" pSortableColumn="slabNo">Name</th>
-                  <th width="50%" pSortableColumn="slabName">Total SQFT</th>
+                  <th width="50%" pSortableColumn="name">
+                    Name
+
+                    <p-sortIcon field="name"></p-sortIcon>
+                    <p-columnFilter
+                      type="text"
+                      field="name"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
+                  <th width="50%" pSortableColumn="totalSQFT">
+                    Total SQFT
+
+                    <p-sortIcon field="totalSQFT"></p-sortIcon>
+                    <p-columnFilter
+                      type="text"
+                      field="totalSQFT"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-Product>
@@ -421,11 +452,41 @@
           >
             <ng-template pTemplate="header">
               <tr>
-                <th pSortableColumn="slabName">Slab Name</th>
-                <th pSortableColumn="slabNo">Slab No.</th>
-                <th pSortableColumn="slabNo">Total Sq. Feet Left</th>
-                <th pSortableColumn="slabNo">Sold %</th>
-                <th pSortableColumn="slabNo">Alert Type</th>
+                <th pSortableColumn="slabDetails.slabName">
+                  Slab Name
+                  <p-sortIcon field="slabDetails.slabName"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="slabDetails.slabName"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="slabDetails.slabNo">
+                  Slab No. <p-sortIcon field="slabDetails.slabNo"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="slabDetails.slabNo"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="totalSQFT">
+                  Total Sq. Feet Left
+                  <p-sortIcon field="totalSQFT"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="totalSQFT"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="totalSQFT">
+                  Sold % <p-sortIcon field="totalSQFT"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="totalSQFT"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="">Alert Type</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-Product>
@@ -481,9 +542,34 @@
           >
             <ng-template pTemplate="header">
               <tr>
-                <th pSortableColumn="slabNo">Customer Name</th>
-                <th pSortableColumn="slabName">Total Sales Amount</th>
-                <th pSortableColumn="size">Total Sales Quantity</th>
+                <th pSortableColumn="customerName">
+                  Customer Name <p-sortIcon field="customerName"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="customerName"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+
+                <th pSortableColumn="totalSalesAmount">
+                  Total Sales Amount
+                  <p-sortIcon field="totalSalesAmount"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="totalSalesAmount"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+
+                <th pSortableColumn="totalSalesQuantity">
+                  Total Sales Quantity
+                  <p-sortIcon field="totalSalesQuantity"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="totalSalesQuantity"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-Product>
@@ -530,8 +616,22 @@
             <ng-template pTemplate="header">
               <tr>
                 <th style="width: 5rem"></th>
-                <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
-                <th>Phone Number</th>
+                <th pSortableColumn="name">
+                  Name <p-sortIcon field="name"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="totalSalesQuantity"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="phoneNo">
+                  Phone Number <p-sortIcon field="phoneNo"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="phoneNo"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-product>
@@ -566,16 +666,38 @@
                       <ng-template pTemplate="header">
                         <tr>
                           <th pSortableColumn="salesDate">
-                            Sales Date <p-sortIcon field="salesDate" />
+                            Sales Date
+                            <p-sortIcon field="salesDate" /><p-columnFilter
+                              type="text"
+                              field="salesDate"
+                              display="menu"
+                            ></p-columnFilter>
                           </th>
                           <th pSortableColumn="salesTotalAmount">
-                            Total Amount <p-sortIcon field="salesTotalAmount" />
+                            Total Amount
+                            <p-sortIcon
+                              field="salesTotalAmount"
+                            /><p-columnFilter
+                              type="text"
+                              field="salesTotalAmount"
+                              display="menu"
+                            ></p-columnFilter>
                           </th>
                           <th pSortableColumn="alertType">
-                            Alert Type <p-sortIcon field="alertType" />
+                            Alert Type
+                            <p-sortIcon field="alertType" /><p-columnFilter
+                              type="text"
+                              field="alertType"
+                              display="menu"
+                            ></p-columnFilter>
                           </th>
                           <th pSortableColumn="daysLeft">
-                            Days Left <p-sortIcon field="daysLeft" />
+                            Days Left
+                            <p-sortIcon field="daysLeft" /><p-columnFilter
+                              type="text"
+                              field="daysLeft"
+                              display="menu"
+                            ></p-columnFilter>
                           </th>
                         </tr>
                       </ng-template>
