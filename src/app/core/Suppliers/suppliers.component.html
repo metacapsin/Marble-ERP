@@ -72,7 +72,7 @@
                         <p-table
                             [value]="getSupplierShow | filter:searchDataValue:['name', 'email','status','createdOn',]"
                             styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
-                            [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)">
+                            [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)" selectionMode="multiple">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th pSortableColumn="name">

@@ -57,7 +57,7 @@
 
                         <div class="card-body p-2">
                             <p-table [value]="paymentListData | filter:searchDataValue:['paymentDate', 'salesId', 'paymentMode', 'amount']" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
-                            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory">
+                            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory" selectionMode="multiple">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>

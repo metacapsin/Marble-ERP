@@ -31,7 +31,11 @@ import { dashboardService } from "../dashboard.service";
 import { Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { ButtonModule } from "primeng/button";
-import { TableModule, TableRowCollapseEvent, TableRowExpandEvent } from "primeng/table";
+import {
+  TableModule,
+  TableRowCollapseEvent,
+  TableRowExpandEvent,
+} from "primeng/table";
 import { TagModule } from "primeng/tag";
 import { ToastModule } from "primeng/toast";
 export type ChartOptions = {
@@ -72,7 +76,7 @@ interface Product {
   id: string;
   name: string;
   phoneNo: number;
-  expanded?: boolean;  // Add this property to track the expanded state
+  expanded?: boolean; // Add this property to track the expanded state
   creditAlerts: CreditAlert[];
 }
 
@@ -98,7 +102,6 @@ interface CreditAlert {
   selector: "app-admin-dashboard",
   templateUrl: "./admin-dashboard.component.html",
   styleUrls: ["./admin-dashboard.component.scss"],
-
 })
 export class AdminDashboardComponent {
   public routes = routes;
@@ -158,20 +161,26 @@ export class AdminDashboardComponent {
   products: Product[] = [];
   totalCategorySlabs: any;
   totalSubCategorySlabs: any;
-  data:any;
-  stateCategory: any[] = [{ label: 'Graph', value: 'graph' },{ label: 'Table', value: 'table' }];
-  valueCategory: string = 'graph';
+  data: any;
+  stateCategory: any[] = [
+    { label: "Graph", value: "graph" },
+    { label: "Table", value: "table" },
+  ];
+  valueCategory: string = "graph";
 
-  stateSubCategory: any[] = [{ label: 'Graph', value: 'graph' },{ label: 'Table', value: 'table' }];
-  valueSubCategory: string = 'graph';
+  stateSubCategory: any[] = [
+    { label: "Graph", value: "graph" },
+    { label: "Table", value: "table" },
+  ];
+  valueSubCategory: string = "graph";
   orgCategorySlabs: any;
   orgSubCategorySlabs: any;
-  
+
   constructor(
     // public data: DataService,
     private router: Router,
     private Service: dashboardService,
-    private crypto: AESEncryptDecryptService,
+    private crypto: AESEncryptDecryptService
   ) {
     this.userData = this.crypto.getData("currentUser");
     console.log(this.userData);
@@ -182,7 +191,6 @@ export class AdminDashboardComponent {
     const year = date?.getFullYear();
     return `${month}/${day}/${year}`;
   }
-  
 
   ngOnInit(): void {
     this.maxDate = new Date();
@@ -190,7 +198,7 @@ export class AdminDashboardComponent {
     // const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
     const endDate = new Date();
     const startDate = new Date(today.getFullYear(), 3, 1);
-    this.data = 'This Year';
+    this.data = "This Year";
     // Set the start date to one month ago
     // startDate.setMonth(startDate.getMonth() - 1);
     var Sdate = this.formatDate(startDate);
@@ -210,7 +218,7 @@ export class AdminDashboardComponent {
           labels: {
             color: "#000000",
           },
-          position: 'bottom',
+          position: "bottom",
         },
       },
       scales: {
@@ -249,34 +257,33 @@ export class AdminDashboardComponent {
     };
   }
 
-  
   toggleRow(product: Product) {
     product.expanded = !product.expanded;
   }
-  
+
   getSeverity(alertType: string) {
     switch (alertType) {
-      case 'high':
-        return 'danger';
-      case 'medium':
-        return 'warning';
-      case 'low':
-        return 'info';
+      case "high":
+        return "danger";
+      case "medium":
+        return "warning";
+      case "low":
+        return "info";
       default:
-        return 'success';
+        return "success";
     }
   }
 
   getStatusSeverity(daysLeft: number) {
     // console.log("credit alerts days left", daysLeft);
     if (daysLeft <= 0) {
-      return 'danger';
+      return "danger";
     } else if (daysLeft > 0 && daysLeft <= 5) {
-      return 'warning';
+      return "warning";
     } else if (daysLeft > 5 && daysLeft <= 10) {
-      return 'info';
+      return "info";
     } else {
-      return 'success';
+      return "success";
     }
   }
   getDateOnChange(): void {
@@ -346,7 +353,7 @@ export class AdminDashboardComponent {
     );
     this.Service.getCustomerCreditAlerts(data).subscribe(
       (resp: any) => {
-        console.log("customer credit alerts summary",resp.data);
+        console.log("customer credit alerts summary", resp.data);
         this.products = resp.data;
       },
       (error: any) => {
@@ -479,10 +486,10 @@ export class AdminDashboardComponent {
     this.orgCategorySlabs = data.totalCategorySlabs;
     this.orgSubCategorySlabs = data.totalSubCategorySlabs;
     console.log(this.orgCategorySlabs, this.orgSubCategorySlabs);
-     this.totalCategorySlabs = data.totalCategorySlabs.map(
+    this.totalCategorySlabs = data.totalCategorySlabs.map(
       (item) => item.totalSQFT
     );
-     this.totalSubCategorySlabs = data.totalSubCategorySlabs.map(
+    this.totalSubCategorySlabs = data.totalSubCategorySlabs.map(
       (item) => item.totalSQFT
     );
     const totalCategorySlabsLable = data.totalCategorySlabs.map(
@@ -557,7 +564,7 @@ export class AdminDashboardComponent {
       ],
     };
   }
-  
+
   navigator(value: any) {
     if (value == "sales_purchase") {
       this.router.navigate(["/sales"]);
@@ -580,53 +587,54 @@ export class AdminDashboardComponent {
     console.log(event);
     const value = event.value;
     const today = new Date();
-    let startDate, endDate = new Date(today);
-
-    switch (value) {
-      case 'Today':
-        startDate = new Date(today);
-        endDate = new Date(today);
-        break;
-      case 'Yesterday':
-        startDate = new Date(today);
-        startDate.setDate(today.getDate() - 1);
-        endDate = new Date(startDate);
-        break;
-      case 'Last 7 Days':
-        startDate = new Date(today);
-        startDate.setDate(today.getDate() - 7);
-        endDate = new Date(today);
-        break;
-      case 'This Month':
-        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-        endDate = new Date(today);
-        break;
-      case 'Last 3 Months':
-        startDate = new Date(today);
-        startDate.setMonth(today.getMonth() - 3);
-        endDate = new Date(today);
-        break;
-      case 'Last 6 Months':
-        startDate = new Date(today);
-        startDate.setMonth(today.getMonth() - 6);
-        endDate = new Date(today);
-        break;
-      case 'This Year':
-        if (today.getMonth() >= 3) { // Current month is April (3) or later
-          startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
-        } else {
-          startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
-        }
-        endDate = new Date(today);
-        break;
-      default:
-        startDate = null;
-        endDate = null;
-        break;
+    console.log(value);
+    let startDate,
+      endDate = new Date(today);
+      switch (value) {
+        case "Today":
+            startDate = new Date(today);
+            endDate = new Date(today);
+            break;
+        case "YesterDay":
+            startDate = new Date(today);
+            startDate.setDate(today.getDate() - 1);
+            endDate = new Date(startDate);
+            break;
+        case "Last 7 Days":
+            startDate = new Date(today);
+            startDate.setDate(today.getDate() - 7);
+            endDate = new Date(today);
+            break;
+        case "This Month":
+            startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+            endDate = new Date(today);
+            break;
+        case "Last 3 Months":
+            startDate = new Date(today);
+            startDate.setMonth(today.getMonth() - 3);
+            endDate = new Date(today);
+            break;
+        case "Last 6 Months":
+            startDate = new Date(today);
+            startDate.setMonth(today.getMonth() - 6);
+            endDate = new Date(today);
+            break;
+        case "This Year":
+            if (today.getMonth() >= 3) {
+                // Current month is April (3) or later
+                startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
+            } else {
+                startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
+            }
+            endDate = new Date(today);
+            break;
+        default:
+            startDate = null;
+            endDate = null;
+            break;
     }
 
     this.rangeDates = [startDate, endDate];
-    console.log(this.rangeDates);
     const formattedDate1 = this.formatDate(startDate);
     const formattedDate2 = this.formatDate(endDate);
     this.apiCall(formattedDate1, formattedDate2);

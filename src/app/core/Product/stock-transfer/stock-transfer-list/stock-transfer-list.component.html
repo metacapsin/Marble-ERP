@@ -55,7 +55,7 @@
 
                             <p-table [value]="stockTransferDataList | filter:searchDataValue:['slab.slabName', 'fromWarehouse.name', 'transferType', 'transferQty']" [tableStyle]="{'min-width': '60rem'}"
                                 [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
-                                [(selection)]="selectedlot" styleClass="p-datatable-striped">
+                                [(selection)]="selectedlot" styleClass="p-datatable-striped" selectionMode="multiple">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="slab.slabName">slab Name <p-sortIcon field="slab.slabName"></p-sortIcon>

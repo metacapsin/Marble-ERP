@@ -145,7 +145,7 @@
             <span class="header-text">Sales</span>
             <button pButton type="button" label="Create Sales" icon="pi pi-plus" (click)="navigateToCreateSales()"></button>
         </div> -->
-          <p-table [value]="salesDataShowById" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
+          <p-table selectionMode="multiple" [value]="salesDataShowById" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
             [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr class="text-center">
@@ -230,7 +230,7 @@
 
         <!-- PAYMENTS GRID -->
         <p-tabPanel header="Payment In">
-          <p-table [value]="paymentListDataByCustomerId" styleClass="p-datatable-striped"
+          <p-table selectionMode="multiple" [value]="paymentListDataByCustomerId" styleClass="p-datatable-striped"
             [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr>
@@ -308,7 +308,7 @@
               </div>
             </div>
           </div>
-          <p-table [value]="salesReturnDataShowById" styleClass="p-datatable-striped"
+          <p-table selectionMode="multiple" [value]="salesReturnDataShowById" styleClass="p-datatable-striped"
             [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr class="text-center">
@@ -394,7 +394,7 @@
         <!-- Payment Out Grid -->
 
         <p-tabPanel header="Payments Out">
-          <p-table [value]="paymentReturnDataListById" styleClass="p-datatable-striped" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+          <p-table selectionMode="multiple" [value]="paymentReturnDataListById" styleClass="p-datatable-striped" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
             [tableStyle]="{ 'min-width': '60rem' }">
             <ng-template pTemplate="header">
               <tr>

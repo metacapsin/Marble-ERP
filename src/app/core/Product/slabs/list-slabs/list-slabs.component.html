@@ -61,7 +61,7 @@
                         <div class="card-body p-2">
                             <p-table [value]="allSlabsDaTa | filter:searchDataValue:['slabNo', 'slabName','size','categoryDetail.name','subCategoryDetail.name','totalSQFT','costPerSQFT','sellingPricePerSQFT','warehouseDetails.name']" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                                 [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
-                                (onPage)="onPageChange($event)" [(selection)]="selectedSlabs">
+                                (onPage)="onPageChange($event)" [(selection)]="selectedSlabs" selectionMode="multiple">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="slabNo">Slab No<p-sortIcon field="slabNo"></p-sortIcon>

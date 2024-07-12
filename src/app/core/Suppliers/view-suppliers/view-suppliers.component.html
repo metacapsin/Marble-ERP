@@ -140,7 +140,7 @@
                         <span class="header-text">Purchase</span>
                         <button pButton type="button" label="Create Purchase" icon="pi pi-plus" (click)="navigateToCreatePurchase()"></button>
                     </div> -->
-                    <p-table [value]="purchaseDataShowById" styleClass="p-datatable-striped"
+                    <p-table selectionMode="multiple" [value]="purchaseDataShowById" styleClass="p-datatable-striped"
                         [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10"
                         [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">
@@ -239,7 +239,7 @@
                 <!-- Payment Out Frid -->
 
                 <p-tabPanel header="Payments Out">
-                    <p-table [value]="paymentListDataBySupplierId" styleClass="p-datatable-striped"
+                    <p-table selectionMode="multiple" [value]="paymentListDataBySupplierId" styleClass="p-datatable-striped"
                         [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10"
                         [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">
@@ -317,7 +317,7 @@
                         <span class="header-text">Purchase Return</span>
                         <button pButton type="button" label="Create Purchase Return" icon="pi pi-plus" (click)="navigateToCreatePurchaseReturn()"></button>
                     </div> -->
-                    <p-table [value]="purchaseReturnDataShowById" styleClass="p-datatable-striped"
+                    <p-table selectionMode="multiple" [value]="purchaseReturnDataShowById" styleClass="p-datatable-striped"
                         [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10"
                         [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">
@@ -415,7 +415,7 @@
                 <!-- Payment In Grid -->
 
                 <p-tabPanel header="Payments In">
-                    <p-table [value]="paymentReturnDataListById" styleClass="p-datatable-striped"
+                    <p-table selectionMode="multiple" [value]="paymentReturnDataListById" styleClass="p-datatable-striped"
                         [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10"
                         [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">

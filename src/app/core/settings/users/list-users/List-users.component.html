@@ -50,7 +50,7 @@
               </div>
             </div>
             <div class="card-body p-2">
-            <p-table [value]="dataSource | filter:searchDataValue:['name', 'email',]" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+            <p-table [value]="dataSource | filter:searchDataValue:['name', 'email',]" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10" selectionMode="multiple"
               [rowsPerPageOptions]="[5, 10, 20]"  (onPage)="onPageChange($event)" [(selection)]="selectedProducts">
               <ng-template pTemplate="header">
                 <tr>

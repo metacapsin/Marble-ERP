@@ -206,7 +206,7 @@
                                     [value]="purchaseReturnData | filter:searchDataValue:['purchaseInvoiceNumber.purchaseInvoiceNumber', 'returnDate','supplier.name','paymentStatus', 'paidAmount', 'dueAmount','purchaseCost','purchaseTotalAmount']"
                                     styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
                                     [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
-                                    [(selection)]="selectedPurchaseReturn">
+                                    [(selection)]="selectedPurchaseReturn" selectionMode="multiple">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th pSortableColumn="purchaseInvoiceNumber

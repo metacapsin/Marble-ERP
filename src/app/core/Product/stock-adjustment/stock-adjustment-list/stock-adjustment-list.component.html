@@ -54,7 +54,7 @@
 
                             <p-table [value]="stockAdjustmentDataList | filter:searchDataValue:['slab.slabName', 'warehouse.name', 'adjustmentType', 'quantity','currentQty']" [tableStyle]="{'min-width': '60rem'}"
                                 [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
-                                [(selection)]="selectedlot" styleClass="p-datatable-striped">
+                                [(selection)]="selectedlot" styleClass="p-datatable-striped" selectionMode="multiple">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="slabs.slabName">Slab Name <p-sortIcon

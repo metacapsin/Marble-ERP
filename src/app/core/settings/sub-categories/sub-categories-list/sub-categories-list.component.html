@@ -57,7 +57,7 @@
               <!-- <p-table [value]="subCategoriesListData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
               [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory"> -->
               <div class="card-body p-2">
-              <p-table [value]="subCategoriesListData | filter:searchDataValue:['name', 'categoryId.name','description']" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+              <p-table [value]="subCategoriesListData | filter:searchDataValue:['name', 'categoryId.name','description']" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10" selectionMode="multiple"
   [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory" (onPage)="onPageChange($event)">
 
                 <ng-template pTemplate="header">

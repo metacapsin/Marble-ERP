@@ -55,7 +55,7 @@
                         <p-table [value]="dataSource | filter:searchDataValue:['name', 'email', 'status', 'createdOn']"
                             [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
                             [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
-                            (change)="onPageChange($event)" [(selection)]="selectedCustomer">
+                            (change)="onPageChange($event)" [(selection)]="selectedCustomer" selectionMode="multiple">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>

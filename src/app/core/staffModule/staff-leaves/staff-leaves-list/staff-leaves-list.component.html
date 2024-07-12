@@ -53,7 +53,7 @@
 
           <div class="card-body p-2">
             <p-table [value]="LeaveData | filter:searchDataValue:['employee.name','leaveType','from','to','noOfDay','leaveReason']" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
-              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedLeave">
+              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedLeave" selectionMode="multiple" >
               <ng-template pTemplate="header">
                 <tr>
                   <th pSortableColumn="employee.name">Employee Name <p-sortIcon field="employee.name"></p-sortIcon>

@@ -280,7 +280,14 @@
             >
             </p-chart>
           </div>
-          <div *ngIf="valueCategory == 'table'" class="mt-2">
+          <div
+            *ngIf="
+              valueCategory == 'table' &&
+              orgCategorySlabs &&
+              orgCategorySlabs.length > 0
+            "
+            class="mt-2"
+          >
             <p-table
               [value]="orgCategorySlabs"
               [paginator]="true"
@@ -346,7 +353,14 @@
             >
             </p-chart>
           </div>
-          <div *ngIf="valueSubCategory == 'table'" class="mt-2">
+          <div
+            *ngIf="
+              valueSubCategory == 'table' &&
+              orgSubCategorySlabs &&
+              orgSubCategorySlabs.length > 0
+            "
+            class="mt-2"
+          >
             <p-table
               [value]="orgSubCategorySlabs"
               [paginator]="true"
@@ -490,7 +504,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <div class="card p-2" style="height: 500px">
+        <div class="card p-2" style="height: 570px">
           <div class="px-2 py-2 d-flex justify-content-between">
             <h3>Customer Credit Alerts</h3>
           </div>

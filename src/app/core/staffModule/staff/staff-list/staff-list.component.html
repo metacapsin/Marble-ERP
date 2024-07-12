@@ -52,7 +52,7 @@
 
           <div class="card-body p-2">
             <p-table [value]="staffData | filter:searchDataValue:['firstName','lastName','designation','mobile','city','email']" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10" 
-            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedstaff">
+            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedstaff" selectionMode="multiple">
               <ng-template pTemplate="header" >
                 <tr>
                   <th pSortableColumn="firstName">Name <p-sortIcon field="firstName"></p-sortIcon>
