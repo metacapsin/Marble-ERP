@@ -42,7 +42,7 @@ export class PurchaseReturnComponent {
     "Last 6 Months",
     "This Year",
   ];
-  searchBy: string;
+  searchBy: string ="This Year";
   rangeDates: Date[] | undefined;
 
 
@@ -53,7 +53,6 @@ export class PurchaseReturnComponent {
     private localStorageService: LocalStorageService
   ) { }
   ngOnInit() {
-    this.getPurchaseReturn();
     this.currentUrl = this.router.url;
     console.log(this.currentUrl);
     console.log("this is current url on purchase page", this.currentUrl);
@@ -61,21 +60,28 @@ export class PurchaseReturnComponent {
     this.localStorageService.removeItem("supplier1");
     this.localStorageService.removeItem("returnUrl");
 
-    const today = new Date();
-    const endDate = new Date();
-    const startDate = new Date(today.getFullYear(), 3, 1);
-    this.searchBy = "This Year";
-    this.rangeDates = [startDate, endDate];
+    // const today = new Date();
+    // const endDate = new Date();
+    // const startDate = new Date(today.getFullYear(), 3, 1);
+    // this.searchBy = "This Year";
+    // this.rangeDates = [startDate, endDate];
 
-    this.getPaymentInReportData(startDate, endDate);
+    // this.getPurchaseReturn(startDate, endDate);
+    this.onSearchByChange(this.searchBy)
   }
   navigateToCreatePurchaseReturn() {
     const returnUrl = this.router.url;
     this.localStorageService.setItem("returnUrl", returnUrl);
     this.router.navigate(["purchase-return/add-purchase-return"]);
   }
-  getPurchaseReturn() {
-    this.service.getPurchaseReturnList().subscribe((resp: any) => {
+  getPurchaseReturn(startDate: Date, endDate: Date) {
+    const formattedStartDate = this.formatDate(startDate);
+    const formattedEndDate = this.formatDate(endDate);
+    const data = {
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    };
+    this.service.getPurchaseReturnList(data).subscribe((resp: any) => {
       this.purchaseTotalValues = resp;
       this.purchaseReturnData = resp.data;
     });
@@ -107,7 +113,7 @@ export class PurchaseReturnComponent {
         } else {
           this.messageService.add({ severity: "error", detail: resp.message });
         }
-        this.getPurchaseReturn();
+        this.onSearchByChange(this.searchBy);
       });
   }
   close() {
@@ -135,27 +141,26 @@ export class PurchaseReturnComponent {
       });
   };
 
-  getPaymentInReportData(startDate: Date, endDate: Date) {
-    const formattedStartDate = this.formatDate(startDate);
-    const formattedEndDate = this.formatDate(endDate);
-    const data = {
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-    };
-  }
+  // getPurchaseReturn(startDate: Date, endDate: Date) {
+  //   const formattedStartDate = this.formatDate(startDate);
+  //   const formattedEndDate = this.formatDate(endDate);
+  //   const data = {
+  //     startDate: formattedStartDate,
+  //     endDate: formattedEndDate,
+  //   };
+  // }
 
   onDateChange(value: any): void {
     const startDate = value[0];
     const endDate = value[1];
-    this.getPaymentInReportData(startDate, endDate);
+    this.getPurchaseReturn(startDate, endDate);
   }
 
   onSearchByChange(event: any) {
-    const value = event.value;
     const today = new Date();
     let startDate,
       endDate = today;
-    switch (value) {
+    switch (event) {
       case "Today":
         startDate = new Date(today);
         endDate = new Date(today);
@@ -200,7 +205,7 @@ export class PurchaseReturnComponent {
     }
 
     this.rangeDates = [startDate, endDate];
-    this.getPaymentInReportData(startDate, endDate);
+    this.getPurchaseReturn(startDate, endDate);
   }
 
   formatDate(date: Date): string {

@@ -183,7 +183,7 @@
                                                 <p-dropdown [options]="searchByData" styleClass="" appendTo="body"
                                                     placeholder="Filter By Date" [style]="{ width: '100%' }"
                                                     [filter]="true" [(ngModel)]="searchBy"
-                                                    (onChange)="onSearchByChange($event)">
+                                                    (onChange)="onSearchByChange($event.value)">
                                                 </p-dropdown>
                                             </div>
                                         </div>

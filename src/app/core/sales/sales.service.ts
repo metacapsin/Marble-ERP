@@ -13,8 +13,8 @@ export class SalesService {
   AddSalesData(data: any) {
     return this.http.post(environment.apiUrl + '/Sales/createSales', data);
   }
-  GetSalesData() {
-    return this.http.get(environment.apiUrl + '/Sales/getSalesList ');
+  GetSalesData(data: any) {
+    return this.http.post(environment.apiUrl + '/Sales/getSalesList', data );
   }
   GetSalesDataById(id: any) {
     return this.http.get(environment.apiUrl + `/Sales/getSalesById/${id}`);

@@ -32,12 +32,10 @@ export class AllSalesReturnComponent implements OnInit {
   salesReturnListData = [];
 
   salesDataShowById: any;
-  totalAmount: any;
-  totalDueAmount: any;
-  totalPaidAmount: any;
   paymentDataListById: any[] = [];
   currentUrl: string;
   header: string;
+  totalAmountValues: any = {};
 
   searchByData = [
     "Today",
@@ -48,7 +46,7 @@ export class AllSalesReturnComponent implements OnInit {
     "Last 6 Months",
     "This Year",
   ];
-  searchBy: string;
+  searchBy: string ="This Year";
   rangeDates: Date[] | undefined;
 
   constructor(
@@ -60,7 +58,6 @@ export class AllSalesReturnComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.GetSalesReturnData();
     this.currentUrl = this.router.url;
     console.log(this.currentUrl);
     console.log("this is current url on purchase page", this.currentUrl);
@@ -69,13 +66,15 @@ export class AllSalesReturnComponent implements OnInit {
     this.localStorageService.removeItem("returnUrl");
 
 
-    const today = new Date();
-    const endDate = new Date();
-    const startDate = new Date(today.getFullYear(), 3, 1);
-    this.searchBy = "This Year";
-    this.rangeDates = [startDate, endDate];
+    // const today = new Date();
+    // const endDate = new Date();
+    // const startDate = new Date(today.getFullYear(), 3, 1);
+    // this.searchBy = "This Year";
+    // this.rangeDates = [startDate, endDate];
+    // this.GetSalesReturnData(startDate, endDate);
 
-    this.getPaymentInReportData(startDate, endDate);
+    this.onSearchByChange(this.searchBy);
+
   }
   navigateToCreateSalesReturn() {
     const returnUrl = this.router.url;
@@ -101,7 +100,7 @@ export class AllSalesReturnComponent implements OnInit {
   callBackModal() {
     this.Service.deleteSalesReturn(this.saleId).subscribe((resp: any) => {
       this.messageService.add({ severity: "success", detail: resp.message });
-      this.GetSalesReturnData();
+      this.onSearchByChange(this.searchBy);
       this.showDialoge = false;
     });
   }
@@ -109,15 +108,20 @@ export class AllSalesReturnComponent implements OnInit {
   close() {
     this.showDialoge = false;
     this.showInvoiceDialog = false;
-
-    this.GetSalesReturnData();
   }
 
-  GetSalesReturnData() {
-    this.Service.getSalesReturnList().subscribe((resp: any) => {
-      this.totalPaidAmount = resp.totalPaidAmount;
-      this.totalDueAmount = resp.totalDueAmount;
-      this.totalAmount = resp.totalAmount;
+  GetSalesReturnData(startDate: Date, endDate: Date) {
+
+    const formattedStartDate = this.formatDate(startDate);
+    const formattedEndDate = this.formatDate(endDate);
+
+    const data = {
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    };
+
+    this.Service.getSalesReturnList(data).subscribe((resp: any) => {
+      this.totalAmountValues = resp;
       this.salesReturnListData = resp.data;
       this.originalData = resp.data;
     });
@@ -142,30 +146,17 @@ export class AllSalesReturnComponent implements OnInit {
       }
     );
   }
-
-
-  getPaymentInReportData(startDate: Date, endDate: Date) {
-    const formattedStartDate = this.formatDate(startDate);
-    const formattedEndDate = this.formatDate(endDate);
-
-    const data = {
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-    };
-  }
-
   onDateChange(value: any): void {
     const startDate = value[0];
     const endDate = value[1];
-    this.getPaymentInReportData(startDate, endDate);
+    this.GetSalesReturnData(startDate, endDate);
   }
 
   onSearchByChange(event: any) {
-    const value = event.value;
     const today = new Date();
     let startDate,
       endDate = today;
-    switch (value) {
+    switch (event) {
       case "Today":
         startDate = new Date(today);
         endDate = new Date(today);
@@ -210,7 +201,7 @@ export class AllSalesReturnComponent implements OnInit {
     }
 
     this.rangeDates = [startDate, endDate];
-    this.getPaymentInReportData(startDate, endDate);
+    this.GetSalesReturnData(startDate, endDate);
   }
 
   formatDate(date: Date): string {

@@ -12,8 +12,8 @@ export class SalesReturnService {
   createSalesReturn(data: any) {
     return this.http.post(environment.apiUrl + '/Sales/createSalesReturn', data);
   }
-  getSalesReturnList() {
-    return this.http.get(environment.apiUrl + '/Sales/getSalesReturnList');
+  getSalesReturnList(data: any) {
+    return this.http.post(environment.apiUrl + '/Sales/getSalesReturnList', data);
   }
   getSalesReturnById(id: any) {
     return this.http.get(environment.apiUrl + `/Sales/getSalesReturnById/${id}`);

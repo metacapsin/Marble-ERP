@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { an } from '@fullcalendar/core/internal-common';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +14,8 @@ export class NewPurchaseService {
   createPurchase(data: any) {
     return this.http.post(environment.apiUrl + '/Purchase/createPurchase', data);
   }
-  getPurchaseList() {
-    return this.http.get(environment.apiUrl + '/Purchase/getPurchaseList');
+  getPurchaseList(data: any) {
+    return this.http.post(environment.apiUrl + '/Purchase/getPurchaseList', data);
   }
   getPurchaseById(id: any) {
     return this.http.get(environment.apiUrl + `/Purchase/getPurchaseById/${id}`);

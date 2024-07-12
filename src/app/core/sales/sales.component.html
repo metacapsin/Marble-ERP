@@ -257,7 +257,7 @@
                       <label for="warehouseDetails">Filter By</label>
                       <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Filter By Date"
                         [style]="{ width: '100%' }" [filter]="true" [(ngModel)]="searchBy"
-                        (onChange)="onSearchByChange($event)">
+                        (onChange)="onSearchByChange($event.value)">
                       </p-dropdown>
                     </div>
                   </div>
@@ -343,12 +343,12 @@
                 </ng-template>
 
                 <ng-template pTemplate="footer">
-                  <tr *ngIf="totalPaidAmount > 0 || totalDueAmount > 0 || totalAmount >0 ">
+                  <tr *ngIf="totalAmountValues.totalPaidAmount > 0 || totalAmountValues.totalDueAmount > 0 || totalAmountValues.totalAmount >0 ">
                     <td colspan="4"></td>
                     <td>Total </td>
-                    <td>₹ {{ totalPaidAmount | indianCurrency}}</td>
-                    <td class="text-danger-dark">₹ {{ totalDueAmount | indianCurrency}}</td>
-                    <td>₹ {{ totalAmount | indianCurrency}}</td>
+                    <td>₹ {{ totalAmountValues.totalPaidAmount | indianCurrency}}</td>
+                    <td class="text-danger-dark">₹ {{ totalAmountValues.totalDueAmount | indianCurrency}}</td>
+                    <td>₹ {{ totalAmountValues.totalAmount | indianCurrency}}</td>
                     <td></td>
                   </tr>
                 </ng-template>

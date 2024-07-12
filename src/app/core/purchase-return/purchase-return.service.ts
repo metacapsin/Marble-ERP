@@ -31,8 +31,8 @@ export class PurchaseReturnService {
   createPurchaseReturnPayment(data: any) {
     return this.http.post(environment.apiUrl + '/Purchase/createPurchaseReturnPayment', data);
   }
-  getPurchaseReturnList() {
-    return this.http.get(environment.apiUrl + '/Purchase/getPurchaseReturnList');
+  getPurchaseReturnList(data: any) {
+    return this.http.post(environment.apiUrl + '/Purchase/getPurchaseReturnList', data);
   }
   // getPurchaseReturnPaymentList() { //on payment
   //   return this.http.get(environment.apiUrl + '/Purchase/getPurchaseReturnPaymentList');

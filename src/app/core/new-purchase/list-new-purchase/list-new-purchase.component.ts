@@ -29,7 +29,6 @@ export class ListNewPurchaseComponent {
   showDialoge: any;
   modalData: any;
   PurchaseListData: any;
-  // visible: boolean = false;
   addTaxTotal: any;
   setDataInPopPu: any;
   purchaseId: any;
@@ -50,7 +49,7 @@ export class ListNewPurchaseComponent {
     "Last 6 Months",
     "This Year",
   ];
-  searchBy: string;
+  searchBy: string ="This Year";
   rangeDates: Date[] | undefined;
 
   CustomerList = [
@@ -68,27 +67,33 @@ export class ListNewPurchaseComponent {
     private localStorageService: LocalStorageService
   ) { }
   ngOnInit() {
-    this.getPurchase();
     this.currentUrl = this.router.url;
     console.log(this.currentUrl)
     console.log("this is current url on purchase page", this.currentUrl)
-
     this.localStorageService.removeItem('supplier');
     this.localStorageService.removeItem('returnUrl');
 
-    const today = new Date();
-    const endDate = new Date();
-    const startDate = new Date(today.getFullYear(), 3, 1);
-    this.searchBy = "This Year";
-    this.rangeDates = [startDate, endDate];
+    // const today = new Date();
+    // const endDate = new Date();
+    // const startDate = new Date(today.getFullYear(), 3, 1);
+    // this.searchBy = "This Year";
+    // this.rangeDates = [startDate, endDate];
 
-    this.getPaymentInReportData(startDate, endDate);
+    // this.getPurchase(startDate, endDate);
+    this.onSearchByChange(this.searchBy)
   }
-  getPurchase() {
-    this.Service.getPurchaseList().subscribe((resp: any) => {
+  getPurchase(startDate: Date, endDate: Date) {
+    const formattedStartDate = this.formatDate(startDate);
+    const formattedEndDate = this.formatDate(endDate);
+
+    const data = {
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    };
+
+    this.Service.getPurchaseList(data).subscribe((resp: any) => {
       this.purchaseTotalValues = resp;
       this.purchaseData = resp.data;
-      this.originalData = resp.data;
     });
   }
   purchaseUpdate(id: number) {
@@ -149,7 +154,7 @@ export class ListNewPurchaseComponent {
       this.showDialoge = false;
       let message = "Purchase has been Deleted";
       this.messageService.add({ severity: "success", detail: message });
-      this.getPurchase();
+      this.onSearchByChange(this.searchBy);
     });
   }
   close() {
@@ -160,28 +165,27 @@ export class ListNewPurchaseComponent {
   }
 
 
-  getPaymentInReportData(startDate: Date, endDate: Date) {
-    const formattedStartDate = this.formatDate(startDate);
-    const formattedEndDate = this.formatDate(endDate);
+  // getPurchase(startDate: Date, endDate: Date) {
+  //   const formattedStartDate = this.formatDate(startDate);
+  //   const formattedEndDate = this.formatDate(endDate);
 
-    const data = {
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-    };
-  }
+  //   const data = {
+  //     startDate: formattedStartDate,
+  //     endDate: formattedEndDate,
+  //   };
+  // }
 
   onDateChange(value: any): void {
     const startDate = value[0];
     const endDate = value[1];
-    this.getPaymentInReportData(startDate, endDate);
+    this.getPurchase(startDate, endDate);
   }
 
   onSearchByChange(event: any) {
-    const value = event.value;
     const today = new Date();
     let startDate,
       endDate = today;
-    switch (value) {
+    switch (event) {
       case "Today":
         startDate = new Date(today);
         endDate = new Date(today);
@@ -226,7 +230,7 @@ export class ListNewPurchaseComponent {
     }
 
     this.rangeDates = [startDate, endDate];
-    this.getPaymentInReportData(startDate, endDate);
+    this.getPurchase(startDate, endDate);
   }
 
   formatDate(date: Date): string {

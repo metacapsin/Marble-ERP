@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 import { MessageService } from "primeng/api";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
+import { s } from "@fullcalendar/core/internal-common";
 
 @Component({
   selector: "app-sales",
@@ -26,13 +27,9 @@ export class SalesComponent implements OnInit {
   saleId: any;
   showDialoge = false;
   modalData: any = {};
-  originalData = [];
   showInvoiceDialog: boolean = false;
   salesDataById = [];
   salesListData = [];
-  totalPaidAmount: any;
-  totalDueAmount: any;
-  totalAmount: any;
   currentUrl: string;
   header: any;
   searchByData = [
@@ -44,8 +41,9 @@ export class SalesComponent implements OnInit {
     "Last 6 Months",
     "This Year",
   ];
-  searchBy: string;
+  searchBy: string = "This Year";
   rangeDates: Date[] | undefined;
+  totalAmountValues: any = {}
 
   constructor(
     private messageService: MessageService,
@@ -56,20 +54,19 @@ export class SalesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.GetSalesData();
+    // this.GetSalesData();
     this.currentUrl = this.router.url;
     console.log("this is current url on sales page", this.currentUrl);
     this.localStorageService.removeItem("customer");
     this.localStorageService.removeItem("returnUrl");
+    // this.searchBy = "This Year";
+    // const today = new Date();
+    // const endDate = new Date();
+    // const startDate = new Date(today.getFullYear(), 3, 1);
+    // this.rangeDates = [startDate, endDate];
+    // this.GetSalesData(startDate, endDate);
+    this.onSearchByChange(this.searchBy)
 
-
-    const today = new Date();
-    const endDate = new Date();
-    const startDate = new Date(today.getFullYear(), 3, 1);
-    this.searchBy = "This Year";
-    this.rangeDates = [startDate, endDate];
-
-    this.getPaymentInReportData(startDate, endDate);
   }
 
   deleteSales(Id: any) {
@@ -89,7 +86,7 @@ export class SalesComponent implements OnInit {
   callBackModal() {
     this.Service.DeleteSalesData(this.saleId).subscribe((resp: any) => {
       this.messageService.add({ severity: "success", detail: resp.message });
-      this.GetSalesData();
+      this.onSearchByChange(this.searchBy)
       this.showDialoge = false;
     });
   }
@@ -104,13 +101,16 @@ export class SalesComponent implements OnInit {
     this.router.navigate(["/sales/add-sales"]);
   }
 
-  GetSalesData() {
-    this.Service.GetSalesData().subscribe((resp: any) => {
-      this.totalPaidAmount = resp.totalPaidAmount;
-      this.totalDueAmount = resp.totalDueAmount;
-      this.totalAmount = resp.totalAmount;
+  GetSalesData(startDate: Date, endDate: Date) {
+    const formattedStartDate = this.formatDate(startDate);
+    const formattedEndDate = this.formatDate(endDate);
+    const data = {
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    };
+    this.Service.GetSalesData(data).subscribe((resp: any) => {
+      this.totalAmountValues = resp;
       this.salesListData = resp.data;
-      this.originalData = resp.data;
     });
   }
 
@@ -136,28 +136,17 @@ export class SalesComponent implements OnInit {
     this.showInvoiceDialog = false;
   }
 
-  getPaymentInReportData(startDate: Date, endDate: Date) {
-    const formattedStartDate = this.formatDate(startDate);
-    const formattedEndDate = this.formatDate(endDate);
-
-    const data = {
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-    };
-  }
-
   onDateChange(value: any): void {
     const startDate = value[0];
     const endDate = value[1];
-    this.getPaymentInReportData(startDate, endDate);
+    this.GetSalesData(startDate, endDate);
   }
 
   onSearchByChange(event: any) {
-    const value = event.value;
     const today = new Date();
     let startDate,
       endDate = today;
-    switch (value) {
+    switch (event) {
       case "Today":
         startDate = new Date(today);
         endDate = new Date(today);
@@ -202,7 +191,7 @@ export class SalesComponent implements OnInit {
     }
 
     this.rangeDates = [startDate, endDate];
-    this.getPaymentInReportData(startDate, endDate);
+    this.GetSalesData(startDate, endDate);
   }
 
   formatDate(date: Date): string {
