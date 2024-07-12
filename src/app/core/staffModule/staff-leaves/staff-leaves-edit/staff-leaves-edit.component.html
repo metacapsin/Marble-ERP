@@ -38,7 +38,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-6 col-sm-6">
                                     <div class="form-group local-forms">
                                         <label for="employee">Employee Name  <span class="login-danger">*</span></label>
                                         <p-dropdown [style]="{'width':'100%'}" placeholder="Select Employee"
@@ -56,27 +56,7 @@
                                       </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                  <div class="form-group local-forms">
-                                    <label for="noOfDay">Number of Days <span class="login-danger">*</span></label>
-                                    <input
-                                      class="form-control"
-                                      formControlName="noOfDay"
-                                      type="text"
-                                      readonly
-                                      [value]="editLeaveForm.get('noOfDay').value"
-                                    />
-                                    <div
-                                      *ngIf="
-                                        editLeaveForm.get('noOfDay')?.hasError('required') &&
-                                        editLeaveForm.get('noOfDay')?.touched
-                                      "
-                                    >
-                                      <span class="login-danger">Field is required.</span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
+                                <div class="col-12 col-md-6 col-sm-6">
                                     <div class="form-group local-forms">
                                         <label for="leaveReason">Leave Type <span class="login-danger">*</span></label>
                                         <p-dropdown [style]="{'width':'100%'}" placeholder="Select Leave Type "
@@ -94,7 +74,7 @@
                                       </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4">
+                                <div class="col-12 col-md-6 col-sm-6">
                                     <div class="form-group local-forms">
                                         <label for="from">From <span
                                                 class="login-danger">*</span></label>
@@ -114,7 +94,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4">
+                                <div class="col-12 col-md-6 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label for="to">To <span
                                                 class="login-danger">*</span></label>
@@ -134,10 +114,30 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-12">
+                                <div class="col-12 col-md-6 col-sm-6">
+                                  <div class="form-group local-forms">
+                                    <label for="noOfDay">Number of Days <span class="login-danger">*</span></label>
+                                    <input
+                                      class="form-control"
+                                      formControlName="noOfDay"
+                                      type="text"
+                                      readonly
+                                      [value]="editLeaveForm.get('noOfDay').value"
+                                    />
+                                    <div
+                                      *ngIf="
+                                        editLeaveForm.get('noOfDay')?.hasError('required') &&
+                                        editLeaveForm.get('noOfDay')?.touched
+                                      "
+                                    >
+                                      <span class="login-danger">Field is required.</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-sm-12">
                                     <div class="form-group local-forms">
                                         <label for="leaveReason">Leave Reason  <span class="login-danger">*</span></label>
-                                        <textarea class="form-control" formControlName="leaveReason" rows="3" cols="30"></textarea>
+                                        <textarea class="form-control" formControlName="leaveReason" rows="1"></textarea>
                                         <div
                                         *ngIf="
                                           editLeaveForm.get('leaveReason')?.hasError('required') &&

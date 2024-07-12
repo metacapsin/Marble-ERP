@@ -40,7 +40,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-md-6 col-sm-12">
                                     <div class="form-group local-forms">
                                         <label for="employee">Employee Name <span class="login-danger">*</span></label>
                                         <p-dropdown [style]="{'width':'100%'}" placeholder="Select Employee"
@@ -63,27 +63,7 @@
                                         </div> -->
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="form-group local-forms">
-                                      <label for="noOfDay">Number of Days <span class="login-danger">*</span></label>
-                                      <input
-                                        class="form-control"
-                                        formControlName="noOfDay"
-                                        type="text"
-                                        readonly
-                                        [value]="addLeaveForm.get('noOfDay').value"
-                                      />
-                                      <div
-                                        *ngIf="
-                                          addLeaveForm.get('noOfDay')?.hasError('required') &&
-                                          addLeaveForm.get('noOfDay')?.touched
-                                        "
-                                      >
-                                        <span class="login-danger">Field is required.</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                <div class="col-12 col-md-6 col-xl-4">
+                                <div class="col-md-6 col-sm-12">
                                     <div class="form-group local-forms">
                                         <label for="leaveType">Leave Type <span class="login-danger">*</span></label>
                                         <p-dropdown [style]="{'width':'100%'}" placeholder="Select Leave Type "
@@ -99,12 +79,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4">
+                                <div class="col-md-6 col-sm-12">
                                     <div class="form-group local-forms">
                                         <label for="from">From <span class="login-danger">*</span></label>
-                                        <p-calendar dataType="string" appendTo="body" 
-                                            placeholder="mm/dd/yyyy" [styleClass]="'col-12'"
-                                            formControlName="from"></p-calendar>
+                                        <p-calendar dataType="string" appendTo="body" placeholder="mm/dd/yyyy"
+                                            [styleClass]="'col-12'" formControlName="from"></p-calendar>
                                         <div *ngIf="
                                           addLeaveForm.get('from')?.hasError('required') &&
                                           addLeaveForm.get('from')?.touched
@@ -116,12 +95,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4">
+                                <div class="col-md-6 col-sm-12">
                                     <div class="form-group local-forms">
                                         <label for="to">To <span class="login-danger">*</span></label>
-                                        <p-calendar dataType="string" appendTo="body" 
-                                            placeholder="mm/dd/yyyy" [styleClass]="'col-12'"
-                                            formControlName="to"></p-calendar>
+                                        <p-calendar dataType="string" appendTo="body" placeholder="mm/dd/yyyy"
+                                            [styleClass]="'col-12'" formControlName="to"></p-calendar>
                                         <div *ngIf="
                                           addLeaveForm.get('to')?.hasError('required') &&
                                           addLeaveForm.get('to')?.touched
@@ -133,12 +111,25 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-12">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group local-forms">
+                                        <label for="noOfDay">Number of Days <span class="login-danger">*</span></label>
+                                        <input class="form-control" formControlName="noOfDay" type="text" readonly
+                                            [value]="addLeaveForm.get('noOfDay').value" />
+                                        <div *ngIf="
+                                          addLeaveForm.get('noOfDay')?.hasError('required') &&
+                                          addLeaveForm.get('noOfDay')?.touched
+                                        ">
+                                            <span class="login-danger">Field is required.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
                                     <div class="form-group local-forms">
                                         <label for="leaveReason">Leave Reason <span
                                                 class="login-danger">*</span></label>
-                                        <textarea class="form-control" formControlName="leaveReason" rows="3"
-                                            cols="30"></textarea>
+                                        <textarea class="form-control" formControlName="leaveReason" rows="1"
+                                            cols=""></textarea>
                                         <div *ngIf="
                                           addLeaveForm.get('leaveReason')?.hasError('required') &&
                                           addLeaveForm.get('leaveReason')?.touched
@@ -154,7 +145,7 @@
                                     </div>
                                 </div>
 
-                                <!-- <div class="col-12">
+                                <!-- <div class=">
                                     <div class="doctor-submit text-end">
                                         <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
                                         <button type="submit" class="btn btn-primary cancel-form">Cancel</button>
