@@ -1,31 +1,14 @@
-import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
-import { Sort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { Component} from "@angular/core";
 import { SharedModule } from "src/app/shared/shared.module";
-import { CalendarModule } from "primeng/calendar";
-import { DropdownModule } from "primeng/dropdown";
-import { DataService } from "src/app/shared/data/data.service";
-import {
-  pageSelection,
-  apiResultFormat,
-  allInvoice,
-} from "src/app/shared/models/models";
 import { routes } from "src/app/shared/routes/routes";
-// import { PurchaseService } from "./purchase.service";
-import { ActivatedRoute, Router } from "@angular/router";
 import { MessageService } from "primeng/api";
-import { ToastModule } from "primeng/toast";
-import { DialogModule } from "primeng/dialog";
-import { TabViewModule } from "primeng/tabview";
-// import { SlabsService } from "../Product/slabs/slabs.service";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
-// import { PaymentOutService } from "../payment-out/payment-out.service";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 import { NewPurchaseService } from "../new-purchase.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
 import { PaymentOutService } from "../../payment-out/payment-out.service";
-import { FilterPipe } from "../../filter.pipe";
+import { Router } from "@angular/router";
+
 @Component({
   selector: 'app-list-new-purchase',
   standalone: true,
@@ -39,24 +22,7 @@ import { FilterPipe } from "../../filter.pipe";
 })
 export class ListNewPurchaseComponent {
   public routes = routes;
-  public checkboxes: string[] = [];
-
-  public allInvoice: Array<allInvoice> = [];
-  dataSource!: MatTableDataSource<allInvoice>;
-  selectedPurchase:''
-  public showFilter = false;
-  public searchDataValue = "";
-  public lastIndex = 0;
-  public pageSize = 10;
-  public totalData = 0;
-  public skip = 0;
-  public limit: number = this.pageSize;
-  public pageIndex = 0;
-  public serialNumberArray: Array<number> = [];
-  public currentPage = 1;
-  public pageNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
-  public totalPages = 0;
+  searchDataValue: any;
   originalData: any;
   purchaseData: any;
   purchase: any;
@@ -69,12 +35,23 @@ export class ListNewPurchaseComponent {
   purchaseId: any;
   blockDetailsTable: any;
   header = "";
-  showInvoiceDialog: boolean = false; 
+  showInvoiceDialog: boolean = false;
   paymentDataListById: any[] = [];
-  visible:any
+  visible: any
   purchaseTotalValues: any = {};
   currentUrl: string;
 
+  searchByData = [
+    "Today",
+    "Yesterday",
+    "Last 7 Days",
+    "This Month",
+    "Last 3 Months",
+    "Last 6 Months",
+    "This Year",
+  ];
+  searchBy: string;
+  rangeDates: Date[] | undefined;
 
   CustomerList = [
     { customerName: "Adnan" },
@@ -83,24 +60,29 @@ export class ListNewPurchaseComponent {
   ];
 
   constructor(
-    public data: DataService,
     private Service: NewPurchaseService,
     private paymentOutService: PaymentOutService,
     private router: Router,
     private messageService: MessageService,
     private SlabsService: SlabsService,
-    private localStorageService:LocalStorageService
-  ) {}
+    private localStorageService: LocalStorageService
+  ) { }
   ngOnInit() {
     this.getPurchase();
     this.currentUrl = this.router.url;
     console.log(this.currentUrl)
-    console.log("this is current url on purchase page",this.currentUrl)
+    console.log("this is current url on purchase page", this.currentUrl)
 
     this.localStorageService.removeItem('supplier');
-    this.localStorageService.removeItem('returnUrl'); 
+    this.localStorageService.removeItem('returnUrl');
 
+    const today = new Date();
+    const endDate = new Date();
+    const startDate = new Date(today.getFullYear(), 3, 1);
+    this.searchBy = "This Year";
+    this.rangeDates = [startDate, endDate];
 
+    this.getPaymentInReportData(startDate, endDate);
   }
   getPurchase() {
     this.Service.getPurchaseList().subscribe((resp: any) => {
@@ -109,9 +91,6 @@ export class ListNewPurchaseComponent {
       this.originalData = resp.data;
     });
   }
-  blocksEdit(id: any) {
-    console.log(id);
-  }
   purchaseUpdate(id: number) {
     this.router.navigate(["/purchase/edit-purchase/" + id]);
   }
@@ -119,12 +98,12 @@ export class ListNewPurchaseComponent {
   navigateToCreatePurchase() {
     const returnUrl = this.router.url;
     this.router.navigate(['/new-purchase/add-new-purchase']);
-    this.localStorageService.setItem('returnUrl',returnUrl);
+    this.localStorageService.setItem('returnUrl', returnUrl);
 
     // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
 
-  showInvoiceDialoge(id: any)  {
+  showInvoiceDialoge(id: any) {
     let totalTax = 0;
     console.log("id pass to invoice dialoge", id);
     console.log("showInvoiceDialoge is triggered ");
@@ -149,7 +128,7 @@ export class ListNewPurchaseComponent {
       (resp: any) => {
         this.paymentDataListById = resp.data;
         console.log("this is payment by Purchase id", this.paymentDataListById);
-        console.log("this is payment data on inovice by id",resp.data);
+        console.log("this is payment data on inovice by id", resp.data);
       }
     );
   }
@@ -163,12 +142,11 @@ export class ListNewPurchaseComponent {
     };
     this.showDialoge = true;
   }
-  // showNewDialog() {
-    // }
-    callBackModal() {
-      this.Service.deletePurchase(this.purchase).subscribe((resp: any) => {
-        this.showInvoiceDialog = false;
-        this.showDialoge = false;
+
+  callBackModal() {
+    this.Service.deletePurchase(this.purchase).subscribe((resp: any) => {
+      this.showInvoiceDialog = false;
+      this.showDialoge = false;
       let message = "Purchase has been Deleted";
       this.messageService.add({ severity: "success", detail: message });
       this.getPurchase();
@@ -177,8 +155,84 @@ export class ListNewPurchaseComponent {
   close() {
     // this.visible = false;
     this.showInvoiceDialog = false;
-      this.showDialoge = false;
-    
+    this.showDialoge = false;
+
   }
-  
+
+
+  getPaymentInReportData(startDate: Date, endDate: Date) {
+    const formattedStartDate = this.formatDate(startDate);
+    const formattedEndDate = this.formatDate(endDate);
+
+    const data = {
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    };
+  }
+
+  onDateChange(value: any): void {
+    const startDate = value[0];
+    const endDate = value[1];
+    this.getPaymentInReportData(startDate, endDate);
+  }
+
+  onSearchByChange(event: any) {
+    const value = event.value;
+    const today = new Date();
+    let startDate,
+      endDate = today;
+    switch (value) {
+      case "Today":
+        startDate = new Date(today);
+        endDate = new Date(today);
+        break;
+      case "Yesterday":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 1);
+        endDate = new Date(startDate);
+        break;
+      case "Last 7 Days":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 7);
+        endDate = new Date(today);
+        break;
+      case "This Month":
+        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        endDate = new Date(today);
+        break;
+      case "Last 3 Months":
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 3);
+        endDate = new Date(today);
+        break;
+      case "Last 6 Months":
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 6);
+        endDate = new Date(today);
+        break;
+      case "This Year":
+        if (today.getMonth() >= 3) {
+          // Current month is April (3) or later
+          startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
+        } else {
+          startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
+        }
+        endDate = new Date(today);
+        break;
+      default:
+        startDate = null;
+        endDate = null;
+        break;
+    }
+
+    this.rangeDates = [startDate, endDate];
+    this.getPaymentInReportData(startDate, endDate);
+  }
+
+  formatDate(date: Date): string {
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based, so add 1
+    const day = date.getDate().toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
 }

@@ -1,25 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { DropdownModule } from "primeng/dropdown";
-import { MultiSelectModule } from "primeng/multiselect";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
-import { CalendarModule } from "primeng/calendar";
-import { Validators } from "ngx-editor";
-import { el } from "@fullcalendar/core/internal-common";
-import {
-  allInvoice,
-  apiResultFormat,
-  pageSelection,
-} from "src/app/shared/models/models";
-import { MatTableDataSource } from "@angular/material/table";
-import { DataService } from "src/app/shared/data/data.service";
-import { Sort } from "@angular/material/sort";
 import { PurchaseReturnService } from "./purchase-return.service";
 import { Router } from "@angular/router";
 import { MessageService } from "primeng/api";
-import { ToastModule } from "primeng/toast";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 @Component({
@@ -31,40 +16,11 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
   ],
   templateUrl: "./purchase-return.component.html",
   styleUrl: "./purchase-return.component.scss",
-  providers: [MessageService],
 })
 export class PurchaseReturnComponent {
   public routes = routes;
-  public checkboxes: string[] = [];
-
-  public allInvoice: Array<allInvoice> = [];
-  dataSource!: MatTableDataSource<allInvoice>;
-
-  public showFilter = false;
   public searchDataValue = "";
-  public lastIndex = 0;
-  public pageSize = 10;
-  public totalData = 0;
-  public skip = 0;
-  public limit: number = this.pageSize;
-  public pageIndex = 0;
-  public serialNumberArray: Array<number> = [];
-  public currentPage = 1;
-  public pageNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
-  public totalPages = 0;
 
-  salesData = [
-    {
-      salesInvoiceNumber: 1112,
-      salesDate: "16 April 2024",
-      salesCustomer: "Adnan",
-      salesStatus: "Delivered",
-      salesPaidAmount: "$2250",
-      salesTotalAmount: "$3000",
-      salesPaymentStatus: "Paid",
-    },
-  ];
   purchaseReturnData: any;
   originalData: any;
   purchaseReturn: number;
@@ -77,14 +33,25 @@ export class PurchaseReturnComponent {
   paymentDataListById: any[];
   currentUrl: string;
   purchaseTotalValues: any = {};
+  searchByData = [
+    "Today",
+    "Yesterday",
+    "Last 7 Days",
+    "This Month",
+    "Last 3 Months",
+    "Last 6 Months",
+    "This Year",
+  ];
+  searchBy: string;
+  rangeDates: Date[] | undefined;
+
 
   constructor(
-    public data: DataService,
     private service: PurchaseReturnService,
     private router: Router,
     private messageService: MessageService,
     private localStorageService: LocalStorageService
-  ) {}
+  ) { }
   ngOnInit() {
     this.getPurchaseReturn();
     this.currentUrl = this.router.url;
@@ -93,13 +60,19 @@ export class PurchaseReturnComponent {
 
     this.localStorageService.removeItem("supplier1");
     this.localStorageService.removeItem("returnUrl");
+
+    const today = new Date();
+    const endDate = new Date();
+    const startDate = new Date(today.getFullYear(), 3, 1);
+    this.searchBy = "This Year";
+    this.rangeDates = [startDate, endDate];
+
+    this.getPaymentInReportData(startDate, endDate);
   }
   navigateToCreatePurchaseReturn() {
     const returnUrl = this.router.url;
     this.localStorageService.setItem("returnUrl", returnUrl);
     this.router.navigate(["purchase-return/add-purchase-return"]);
-
-    // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
   getPurchaseReturn() {
     this.service.getPurchaseReturnList().subscribe((resp: any) => {
@@ -160,79 +133,80 @@ export class PurchaseReturnComponent {
         this.paymentDataListById = resp.data;
         console.log("purchase Return data", resp.data);
       });
+  };
+
+  getPaymentInReportData(startDate: Date, endDate: Date) {
+    const formattedStartDate = this.formatDate(startDate);
+    const formattedEndDate = this.formatDate(endDate);
+    const data = {
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    };
   }
 
-  public searchData(value: any): void {
-    this.purchaseReturnData.filter = value.trim().toLowerCase();
-    this.originalData = this.purchaseReturnData.filteredData;
+  onDateChange(value: any): void {
+    const startDate = value[0];
+    const endDate = value[1];
+    this.getPaymentInReportData(startDate, endDate);
   }
-  public sortData(sort: Sort) {
-    const data = this.allInvoice.slice();
 
-    if (!sort.active || sort.direction === "") {
-      this.allInvoice = data;
-    } else {
-      this.allInvoice = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === "asc" ? 1 : -1);
-      });
+  onSearchByChange(event: any) {
+    const value = event.value;
+    const today = new Date();
+    let startDate,
+      endDate = today;
+    switch (value) {
+      case "Today":
+        startDate = new Date(today);
+        endDate = new Date(today);
+        break;
+      case "Yesterday":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 1);
+        endDate = new Date(startDate);
+        break;
+      case "Last 7 Days":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 7);
+        endDate = new Date(today);
+        break;
+      case "This Month":
+        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        endDate = new Date(today);
+        break;
+      case "Last 3 Months":
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 3);
+        endDate = new Date(today);
+        break;
+      case "Last 6 Months":
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 6);
+        endDate = new Date(today);
+        break;
+      case "This Year":
+        if (today.getMonth() >= 3) {
+          // Current month is April (3) or later
+          startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
+        } else {
+          startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
+        }
+        endDate = new Date(today);
+        break;
+      default:
+        startDate = null;
+        endDate = null;
+        break;
     }
+
+    this.rangeDates = [startDate, endDate];
+    this.getPaymentInReportData(startDate, endDate);
   }
-  public getMoreData(event: string): void {
-    if (event == "next") {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      // this.getTableData();
-    } else if (event == "previous") {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      // this.getTableData();
-    }
-  }
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    // this.getTableData();
-  }
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    // this.getTableData();
-  }
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
-  }
-  public openCheckBoxes(val: string) {
-    if (this.checkboxes[0] != val) {
-      this.checkboxes[0] = val;
-    } else {
-      this.checkboxes = [];
-    }
+
+  formatDate(date: Date): string {
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based, so add 1
+    const day = date.getDate().toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
   }
 }

@@ -145,6 +145,7 @@ export class AddPurchaseReturnComponent implements OnInit {
           _id: {
             _id: element._id,
             name: element.name,
+            billingAddress: element.billingAddress,
           },
         });
       });

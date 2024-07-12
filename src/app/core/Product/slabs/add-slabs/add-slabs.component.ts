@@ -194,6 +194,7 @@ export class AddSlabsComponent {
 
   findSubCategory(value: any){
     let SubCategoryData: any = [];
+    this.slabsAddForm.get('subCategoryDetail').reset();
     SubCategoryData = this.subCategoryList.filter(e => e.categoryId._id == value._id);
       this.SubCategoryFilterArray = SubCategoryData.map((e) => ({
         name: e.name,

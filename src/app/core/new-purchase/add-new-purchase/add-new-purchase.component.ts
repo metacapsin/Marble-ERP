@@ -166,6 +166,7 @@ export class AddNewPurchaseComponent implements OnInit {
 
   findSubCategory(value: any){
     let SubCategoryData: any = [];
+    this.addNewPurchaseForm.get('subCategoryDetail').reset();
     SubCategoryData = this.subCategoryList.filter(e => e.categoryId._id == value._id);
       this.subCategorListByCategory = SubCategoryData.map((e) => ({
         name: e.name,

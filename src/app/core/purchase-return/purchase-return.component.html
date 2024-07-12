@@ -19,7 +19,7 @@
         <!-- /Page Header -->
         <!-- Report Filter -->
         <div class="card invoices-tabs-card">
-            <div class="card-body card-body pt-0 pb-0">
+            <!-- <div class="card-body card-body pt-0 pb-0">
                 <div class="invoices-main-tabs">
                     <div class="row align-items-center">
                         <div class="col-lg-8 col-md-8">
@@ -28,8 +28,6 @@
                                     <li>
                                         <a (click)="navigateToCreatePurchaseReturn()"class="active">All Purchase Return</a>
                                     </li>
-                                    <!-- <li><a [routerLink]="routes.paidPurchaseReturn">Paid</a></li>
-                    <li><a [routerLink]="routes.unpaidPurchaseReturn">Unpaid</a></li> -->
                                 </ul>
                          </div>
                         </div>
@@ -59,23 +57,19 @@
                                             <p-sortIcon field="purchaseInvoiceNumber
                                             .purchaseInvoiceNumber"></p-sortIcon>
                                             <p-columnFilter type="text" field="purchaseInvoiceNumber
-                                            .purchaseInvoiceNumber" display="menu"></p-columnFilter>
+                                            .purchaseInvoiceNumber" display="menu" matchMode="contains"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="returnDate">
                                              Return Date
                                             <p-sortIcon field="returnDate"></p-sortIcon>
                                             <p-columnFilter type="text" field="returnDate"
-                                                display="menu"></p-columnFilter>
+                                                display="menu" matchMode="contains"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="supplier.name">
                                             Supplier <p-sortIcon field="supplier.name"></p-sortIcon>
                                             <p-columnFilter type="text" field="supplier.name"
-                                                display="menu"></p-columnFilter>
+                                                display="menu" matchMode="contains"></p-columnFilter>
                                         </th>
-                                        <!-- <th pSortableColumn="purchaseReturnOrderStatus">
-                                            Status
-                                            <p-sortIcon field="purchaseReturnOrderStatus"></p-sortIcon>
-                                        </th> -->
                                         <th pSortableColumn="paymentStatus">
                                             Payment Status
                                             <p-sortIcon field="paymentStatus"></p-sortIcon>
@@ -84,19 +78,19 @@
                                             Paid Amount
                                             <p-sortIcon field="paidAmount"></p-sortIcon>
                                             <p-columnFilter type="text" field="paidAmount"
-                                            display="menu"></p-columnFilter>
+                                            display="menu" matchMode="contains"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="salesTotalAmount">
+                                        <th pSortableColumn="dueAmount">
                                             Due Amount
-                                            <p-sortIcon field="salesTotalAmount"></p-sortIcon>
-                                            <p-columnFilter type="text" field="salesTotalAmount"
-                                            display="menu"></p-columnFilter>
+                                            <p-sortIcon field="dueAmount"></p-sortIcon>
+                                            <p-columnFilter type="text" field="dueAmount"
+                                            display="menu" matchMode="contains"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="purchaseReturnTotalAmount">
                                             Total Amount
                                             <p-sortIcon field="purchaseReturnTotalAmount"></p-sortIcon>
                                             <p-columnFilter type="text" field="purchaseReturnTotalAmount"
-                                                display="menu"></p-columnFilter>
+                                                display="menu" matchMode="contains"></p-columnFilter>
                                         </th>
 
                                         <th width="10%">Action</th>
@@ -107,7 +101,6 @@
                                         <td>{{purchaseReturn.purchaseInvoiceNumber.purchaseInvoiceNumber}}</td>
                                         <td>{{ purchaseReturn.returnDate | date: 'dd-MMM-yyyy'}}</td>
                                         <td>{{ purchaseReturn.supplier.name }}</td>
-                                        <!-- <td>{{ purchaseReturn.paymentStatus }}</td> -->
                   <td *ngIf="purchaseReturn.paymentStatus == 'Partial Paid'"><p-tag severity="warning" value="Partial Paid"></p-tag></td>
                   <td *ngIf="purchaseReturn.paymentStatus == 'Paid' " ><p-tag severity="success" value="Paid"></p-tag></td>
                   <td *ngIf="purchaseReturn.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
@@ -147,6 +140,173 @@
                         </div>
                     </div>
                 </div>
+            </div> -->
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card card-table show-entire">
+                        <div class="card-body">
+                            <div class="page-table-header mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <div class="doctor-table-blk">
+                                            <h3>Purchase Return List</h3>
+                                            <div class="doctor-search-blk">
+                                                <div class="top-nav-search table-search-blk">
+                                                    <input type="text" class="form-control" placeholder="Search here"
+                                                        [(ngModel)]="searchDataValue" />
+                                                    <a class="btn"><img src="assets/img/icons/search-normal.svg"
+                                                            alt="" /></a>
+                                                </div>
+                                                <div class="add-group textbtn">
+                                                    <a (click)="navigateToCreatePurchaseReturn()"
+                                                        class="btn btn-primary add-pluss ms-2">
+                                                        <img src="assets/img/icons/plus.svg" alt="">Add New</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                                        [roles]="['admin', 'super-admin']">
+                                        <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                                alt="" /></a>
+                                        <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                                alt="" /></a>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <div class="row card-body d-flex justify-content-between p0">
+                                        <div class="col-lg-4 col-md-4 h-2">
+                                            <div class="form-group local-forms">
+                                                <label for="warehouseDetails">Filter By</label>
+                                                <p-dropdown [options]="searchByData" styleClass="" appendTo="body"
+                                                    placeholder="Filter By Date" [style]="{ width: '100%' }"
+                                                    [filter]="true" [(ngModel)]="searchBy"
+                                                    (onChange)="onSearchByChange($event)">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 h-2">
+                                            <div class="form-group local-forms">
+                                                <label for="warehouseDetails">Date </label>
+                                                <p-calendar [(ngModel)]="rangeDates" selectionMode="range"
+                                                    [readonlyInput]="true" dateFormat="dd/mm/yy"
+                                                    [style]="{ width: '100%' }" placeholder="Start Date - End Date"
+                                                    (ngModelChange)="onDateChange($event)" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body p-2">
+                                <p-table
+                                    [value]="purchaseReturnData | filter:searchDataValue:['purchaseInvoiceNumber.purchaseInvoiceNumber', 'returnDate','supplier.name','paymentStatus', 'paidAmount', 'dueAmount','purchaseCost','purchaseTotalAmount']"
+                                    styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
+                                    [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+                                    [(selection)]="selectedPurchaseReturn">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th pSortableColumn="purchaseInvoiceNumber
+                                        .purchaseInvoiceNumber">
+                                                Invoice Number
+                                                <p-sortIcon field="purchaseInvoiceNumber
+                                            .purchaseInvoiceNumber"></p-sortIcon>
+                                                <p-columnFilter type="text" field="purchaseInvoiceNumber
+                                            .purchaseInvoiceNumber" display="menu" matchMode="contains"></p-columnFilter>
+                                            </th>
+                                            <th pSortableColumn="returnDate">
+                                                Return Date
+                                                <p-sortIcon field="returnDate"></p-sortIcon>
+                                                <p-columnFilter type="text" field="returnDate"
+                                                    display="menu" matchMode="contains"></p-columnFilter>
+                                            </th>
+                                            <th pSortableColumn="supplier.name">
+                                                Supplier <p-sortIcon field="supplier.name"></p-sortIcon>
+                                                <p-columnFilter type="text" field="supplier.name"
+                                                    display="menu" matchMode="contains"></p-columnFilter>
+                                            </th>
+                                            <th pSortableColumn="paymentStatus">
+                                                Payment Status
+                                                <p-sortIcon field="paymentStatus"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="paidAmount">
+                                                Paid Amount
+                                                <p-sortIcon field="paidAmount"></p-sortIcon>
+                                                <p-columnFilter type="text" field="paidAmount"
+                                                    display="menu" matchMode="contains"></p-columnFilter>
+                                            </th>
+                                            <th pSortableColumn="dueAmount">
+                                                Due Amount
+                                                <p-sortIcon field="dueAmount"></p-sortIcon>
+                                                <p-columnFilter type="text" field="dueAmount"
+                                                    display="menu" matchMode="contains"></p-columnFilter>
+                                            </th>
+                                            <th pSortableColumn="purchaseReturnTotalAmount">
+                                                Total Amount
+                                                <p-sortIcon field="purchaseReturnTotalAmount"></p-sortIcon>
+                                                <p-columnFilter type="text" field="purchaseReturnTotalAmount"
+                                                    display="menu" matchMode="contains"></p-columnFilter>
+                                            </th>
+
+                                            <th width="10%">Action</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-purchaseReturn>
+                                        <tr>
+                                            <td>{{purchaseReturn.purchaseInvoiceNumber.purchaseInvoiceNumber}}</td>
+                                            <td>{{ purchaseReturn.returnDate | date: 'dd-MMM-yyyy'}}</td>
+                                            <td>{{ purchaseReturn.supplier.name }}</td>
+                                            <td *ngIf="purchaseReturn.paymentStatus == 'Partial Paid'"><p-tag
+                                                    severity="warning" value="Partial Paid"></p-tag></td>
+                                            <td *ngIf="purchaseReturn.paymentStatus == 'Paid' "><p-tag
+                                                    severity="success" value="Paid"></p-tag></td>
+                                            <td *ngIf="purchaseReturn.paymentStatus == 'Unpaid' "><p-tag
+                                                    severity="danger" value="Unpaid"></p-tag></td>
+                                            <td>₹ {{ purchaseReturn.paidAmount | indianCurrency }}</td>
+                                            <td>₹ {{ purchaseReturn.dueAmount | indianCurrency }}</td>
+                                            <td>₹ {{ purchaseReturn.purchaseReturnTotalAmount | indianCurrency }}</td>
+
+                                            <td class="action-buttons">
+                                                <p-button [text]="true" icon="fa-solid fa-eye"
+                                                    (click)="showInvoiceDialoge(purchaseReturn._id)"></p-button>
+                                                <p-button
+                                                    *ngIf="purchaseReturn.paymentStatus == 'Partial Paid' || purchaseReturn.paymentStatus == 'Unpaid' "
+                                                    [text]="true" icon="fa-solid fa-edit"
+                                                    (click)="purchaseReturnUpdate(purchaseReturn._id)"></p-button>
+                                                <div *ngIf="purchaseReturn.paymentStatus == 'Paid'" class="placeholder">
+                                                </div>
+                                                <p-button [text]="true" icon="fa-solid fa-trash"
+                                                    (click)="purchaseReturnDelete(purchaseReturn._id)"></p-button>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="emptymessage">
+                                        <tr>
+                                            <td colspan="8" class="text-center">No purchase return records found. Please
+                                                create a purchase return to see it listed here.</td>
+                                        </tr>
+                                    </ng-template>
+
+                                    <ng-template pTemplate="footer">
+                                        <tr
+                                            *ngIf=" purchaseTotalValues.totalPaidAmount || purchaseTotalValues.totalDueAmount || purchaseTotalValues.totalAmount">
+                                            <td colspan="3"></td>
+                                            <td>Total </td>
+                                            <td>₹ {{ purchaseTotalValues.totalPaidAmount | indianCurrency }}</td>
+                                            <td class="text-danger-dark">₹ {{ purchaseTotalValues.totalDueAmount |
+                                                indianCurrency }}</td>
+                                            <td>₹ {{ purchaseTotalValues.totalAmount | indianCurrency }}</td>
+                                            <td></td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -155,8 +315,9 @@
         [data]="modalData"></app-confirm-dialog>
     <p-toast></p-toast>
     <!-- -- Preview model -- -->
-    <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="PurchaseReturnListData" [paymentDataListById]="paymentDataListById" 
-        (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>
+    <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="PurchaseReturnListData"
+        [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()"
+        [header]="header"></app-invoice-dialog>
 
     <!-- -- end preview model --  -->
 </div>
