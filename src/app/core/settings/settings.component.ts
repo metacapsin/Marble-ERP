@@ -15,6 +15,7 @@ export class SettingsComponent {
     settingCategory = ""
     routes = routes
     currentRoute!: string;
+    text: string = "";
     routerChangeSubscription: Subscription;
     constructor(private router: Router) {
         this.routerChangeSubscription = this.router.events.subscribe(
@@ -25,6 +26,7 @@ export class SettingsComponent {
         )
     }
     ngOnInit() {
+        this.findPageName('Profile Information')
         this.items = [
             {
                 label: 'File',
@@ -154,7 +156,7 @@ export class SettingsComponent {
         this.routerChangeSubscription.unsubscribe();
     }
 
-    isRouteActive(text) {
+    isRouteActive(text) {        
         if(!this.currentRoute) return ''
         let str = this.currentRoute?.includes(text)
             if (str) {
@@ -162,5 +164,8 @@ export class SettingsComponent {
         } else {
             return 'non-active'
         }
+    }
+    findPageName(text){
+        this.text = text;
     }
 }

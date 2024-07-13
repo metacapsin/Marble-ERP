@@ -38,7 +38,7 @@
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
                       <label for="slabNo">Slab No. <span class="login-danger">*</span></label>
-                      <input class="form-control" type="text" placeholder="Select slabs Number"
+                      <input class="form-control" type="text" placeholder="Enter Slab Number"
                         formControlName="slabNo" />
                       <div *ngIf="
                           slabsAddForm.get('slabNo')?.hasError('required') &&
@@ -290,7 +290,7 @@
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
                       <label for="subCategory">Finishes<span class="login-danger">*</span></label>
-                      <p-dropdown [options]="finishes" styleClass="" appendTo="body" placeholder="Select finishes"
+                      <p-dropdown [options]="finishes" styleClass="" appendTo="body" placeholder="Select Finishes"
                         optionLabel="name" formControlName="finishes" [style]="{ width: '100%' }" [filter]="true"
                         filterBy="name" [showClear]="true">
                       </p-dropdown>
@@ -335,7 +335,7 @@
                                 <!-- <div class="input-group-prepend">
                                   <span class="input-group-text" style="font-size: 12px;">sq</span>
                                 </div> -->
-                                <input class="form-control" type="number" placeholder="Enter Square Feet"
+                                <input class="form-control" type="number" placeholder="Enter Purchase Cost."
                                   formControlName="purchaseCost" (change)="calculateTotalAmount()" />
                               </div>
                               <div *ngIf="
@@ -493,7 +493,7 @@
 
                           <div class="col-12 mt-1">
                             <div class="form-group local-forms">
-                              <label for="totalSqrFt">Selling Price / Sq Ft<span class="login-danger">*</span></label>
+                              <label for="totalSqrFt">Selling Price / Sq. Feet<span class="login-danger">*</span></label>
 
                               <div class="input-group">
                                 <div class="input-group-prepend">
@@ -502,8 +502,7 @@
                                 <input class="form-control" type="number" placeholder="Enter Selling Price"
                                   formControlName="sellingPricePerSQFT" />
                               </div>
-                              <span style="color: #97704f; font-size: 12px"> input must be grater then Per Square feet
-                                Cost.</span>
+                              <span style="color: #97704f; font-size: 12px"> Input must be greater than Cost / Sq. Feet</span>
                               <div *ngIf="
                                   slabsAddForm
                                     .get('sellingPricePerSQFT')
@@ -584,12 +583,12 @@
                             </span>
                           </h4>
                           <h4>
-                            Cost / Square Feet<span>
+                            Cost / Sq. Feet<span>
                               ₹ {{ slabsAddForm.get('costPerSQFT').value | number: '1.2-2' }}
                             </span>
                           </h4>
                           <h4>
-                            Selling Price / Square Feet <span>
+                            Selling Price / Sq. Feet <span>
                               ₹ {{ slabsAddForm.get('sellingPricePerSQFT').value | number: '1.2-2' }}
                             </span>
                           </h4>

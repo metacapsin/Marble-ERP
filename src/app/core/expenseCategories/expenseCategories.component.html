@@ -102,8 +102,7 @@
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
     [data]="modalData"></app-confirm-dialog>
 
-<p-dialog header="Add Expenses Categories" [(visible)]="visible" [modal]="true" [style]="{ width: '40%' }"
-    [draggable]="false" [resizable]="false">
+<p-dialog header="Add Expenses Categories" [(visible)]="visible" [modal]="true" [style]="{ 'min-width': '2rem' }">
     <div class="modal-content">
         <div class="modal-body">
             <form [formGroup]="addExpensesCategoryForm" (ngSubmit)="addExpensesCategoryFormsubmit()">
@@ -111,9 +110,9 @@
 
                     <div class="col-12 col-md-12 col-xl-12">
                         <div class="form-group local-forms">
-                            <label for="categoryName">Expense Category Name<span class="login-danger">*</span></label>
+                            <label for="categoryName">Expense Category<span class="login-danger">*</span></label>
                             <input class="form-control" type="text" autofocus
-                                placeholder="Please Enter Expense Category Name" formControlName="categoryName" />
+                                placeholder="Please Enter Expense Category" formControlName="categoryName" />
                             <div *ngIf="
                   addExpensesCategoryForm
                     .get('categoryName')
@@ -142,15 +141,21 @@
 
 
 
-                    <div class=" col-12">
-
+                    <!-- <div class=" col-12">
                         <div class=" settings-btns text-end m-b-10">
                             <button type="submit" [disabled]="!addExpensesCategoryForm.valid"
                                 class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
                             <button class="btn btn-secondary" (click)="addCloseDialog()">Cancel</button>
                         </div>
+                    </div> -->
 
-                    </div>
+                    <div class="col-12 col-xl-12 col-sm-12">
+                        <div class="ettings-btns text-end m-b-10 gap-2">
+                            <button type="submit" [disabled]="!addExpensesCategoryForm.valid"
+                            class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
+                        <button class="btn btn-secondary" (click)="addCloseDialog()">Cancel</button>
+                        </div>
+                      </div>
 
                 </div>
             </form>
@@ -158,8 +163,8 @@
     </div>
 </p-dialog>
 
-<p-dialog header="Edit Expenses Categories" [(visible)]="visible1" [modal]="true" [style]="{ width: '50%' }"
-    [draggable]="false" [resizable]="false">
+<p-dialog header="Edit Expenses Categories" [(visible)]="visible1" [modal]="true" 
+    >
 
     <div class="modal-content">
         <div class="modal-body">
@@ -167,9 +172,9 @@
                 <div class="row mt-2">
                     <div class="col-12 col-md-12 col-xl-12">
                         <div class="form-group local-forms">
-                            <label for="categoryName">Expense Category Name<span class="login-danger">*</span></label>
+                            <label for="categoryName">Expense Category<span class="login-danger">*</span></label>
                             <input class="form-control" type="text" autofocus
-                                placeholder="Please Enter Expense Category Name" formControlName="categoryName" />
+                                placeholder="Please Enter Expense Category" formControlName="categoryName" />
                             <div *ngIf="
               editExpensesCategoryForm
                 .get('categoryName')

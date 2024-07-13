@@ -6,8 +6,8 @@ import { SettingsComponent } from './settings.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { TabViewModule } from 'primeng/tabview';
-import { WarehouseListComponent } from './warehouse/warehouse-list/warehouse-list.component';
 import { UnitsModule } from './units/units.module';
+import { WarehouseListComponent } from './warehouse/warehouse-list/warehouse-list.component';
 
 
 @NgModule({
