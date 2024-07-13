@@ -29,9 +29,8 @@
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input type="text" class="form-control" placeholder="Search here"
-                                                    [(ngModel)]="searchDataValue"
-                                                    >
-                                                    <!-- (ngModelChange)="searchData(searchDataValue)" -->
+                                                    [(ngModel)]="searchDataValue">
+                                                <!-- (ngModelChange)="searchData(searchDataValue)" -->
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="add-group textbtn">
@@ -59,9 +58,11 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="allSlabsDaTa | filter:searchDataValue:['slabNo', 'slabName','size','categoryDetail.name','subCategoryDetail.name','totalSQFT','costPerSQFT','sellingPricePerSQFT','warehouseDetails.name']" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
-                                (onPage)="onPageChange($event)" [(selection)]="selectedSlabs" selectionMode="multiple">
+                            <p-table
+                                [value]="allSlabsDaTa | filter:searchDataValue:['slabNo', 'slabName','size','categoryDetail.name','subCategoryDetail.name','totalSQFT','costPerSQFT','sellingPricePerSQFT','warehouseDetails.name']"
+                                [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+                                [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
+                                (onPage)="onPageChange($event)" [(selection)]="selectedSlabs">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="slabNo">Slab No<p-sortIcon field="slabNo"></p-sortIcon>
@@ -73,7 +74,8 @@
                                                 display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="slabSize">Size<p-sortIcon field="slabSize"></p-sortIcon>
-                                            <p-columnFilter type="text" field="slabSize" display="menu"></p-columnFilter>
+                                            <p-columnFilter type="text" field="slabSize"
+                                                display="menu"></p-columnFilter>
 
                                         </th>
                                         <th pSortableColumn="categoryDetail.name">Category<p-sortIcon
@@ -163,7 +165,8 @@
                                 </ng-template>
                                 <ng-template pTemplate="emptymessage">
                                     <tr>
-                                        <td colspan="10" class="text-center">No slabs found. Please add new slabs to see them listed here.</td>
+                                        <td colspan="10" class="text-center">No slabs found. Please add new slabs to see
+                                            them listed here.</td>
                                     </tr>
                                 </ng-template>
                             </p-table>
@@ -200,7 +203,7 @@
                                 Creation Date
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-lg-9 col-form-label">{{ slabDetail?.date }}</p>
+                                <p class="col-lg-9 col-form-label">{{ slabDetail?.date | date: 'dd-MMM-yyyy'}}</p>
                             </div>
                         </div>
                         <div class="form-group row mb-2">
@@ -224,7 +227,7 @@
                                 Cost / Sq. Feet
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{ slabDetail?.costPerSQFT | indianCurrency}}</p>
+                                <p class="col-form-label">₹ {{ slabDetail?.costPerSQFT | indianCurrency}}</p>
                             </div>
                         </div>
                         <div class="form-group row mb-2">
@@ -249,11 +252,9 @@
                                 Total Cost
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{'₹ ' + slabDetail?.totalCosting?.toFixed(3) | indianCurrency}}</p>
+                                <p class="col-form-label">₹ {{ + slabDetail?.totalCosting | indianCurrency}}</p>
                             </div>
                         </div>
-
-
                     </div>
                     <div class="col-xl-6 col-lg-6 col-sm-12">
                         <div class="form-group row mb-2">
@@ -291,10 +292,10 @@
                         </div>
                         <div class="form-group row mb-2">
                             <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Selling Price / Sq. Ft.
+                                Selling Price / Sq. Feet.
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">{{ slabDetail?.sellingPricePerSQFT | indianCurrency}}</p>
+                                <p class="col-form-label">₹ {{ slabDetail?.sellingPricePerSQFT | indianCurrency}}</p>
                             </div>
                         </div>
                         <div class="form-group row mb-2">
@@ -320,19 +321,17 @@
                             </h5>
                             <div class="col-lg-9 col-md-9 col-xl-9">
                                 <p class="col-form-label">
-                                    <span class="amount-bold"
-                                      >{{ '₹ ' + slabProfit.toFixed(3)}}
+                                    <span class="amount-bold">₹ {{slabProfit | indianCurrency}}
                                     </span>
-                                    <span 
-                                      >( Sales :
-                                      {{
-                                        '₹ ' + slabDetail?.totalSales?.toFixed(3) | indianCurrency
-                                      }} - Sales Return :
-                                      {{
-                                        '₹ ' + slabDetail?.totalSalesReturn?.toFixed(3) | indianCurrency 
-                                      }})</span
-                                    >
-                                  </p>                            </div>
+                                    <span>( Sales : ₹ 
+                                        {{
+                                        + slabDetail?.totalSales | indianCurrency
+                                        }} - Sales Return : ₹ 
+                                        {{
+                                         slabDetail?.totalSalesReturn | indianCurrency
+                                        }})</span>
+                                </p>
+                            </div>
                         </div>
 
                     </div>
@@ -346,12 +345,12 @@
                         <div class="invoice-faq">
                             <div class="col-lg-8 col-md-8">
                                 <div class="invoice-terms">
-                                  <h6>Notes:</h6>
-                                  <p class="mb-0">
-                                    {{ slabDetail?.notes }}
-                                  </p>
+                                    <h6>Notes:</h6>
+                                    <p class="mb-0">
+                                        {{ slabDetail?.notes }}
+                                    </p>
                                 </div>
-                              </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-5 col-md-6">
@@ -359,27 +358,29 @@
                             <h4 class="invoice-total-title">Summary</h4>
                             <div class="invoice-total-box">
                                 <div class="invoice-total-inner">
-                                    <p >
-                                        Purchase Cost. <span>₹ {{ slabDetail?.purchaseCost?.toFixed(3) | indianCurrency }}</span>
+                                    <p>
+                                        Purchase Cost. <span>₹ {{ slabDetail?.purchaseCost | indianCurrency }}</span>
                                     </p>
                                     <p *ngIf="slabDetail?.transportationCharges">
-                                        Transportation Charges <span>₹ {{ slabDetail?.transportationCharges?.toFixed(3) | indianCurrency }}</span>
+                                        Transportation Charges <span>₹ {{ slabDetail?.transportationCharges |
+                                            indianCurrency }}</span>
                                     </p>
                                     <p *ngIf="slabDetail?.otherCharges">
-                                        Other Charges <span>₹ {{ slabDetail?.otherCharges?.toFixed(3) | indianCurrency }}</span>
+                                        Other Charges <span>₹ {{ slabDetail?.otherCharges | indianCurrency }}</span>
                                     </p>
                                     <p *ngIf="slabDetail?.processingFee">
-                                        Processing Fee. <span>₹ {{ slabDetail?.processingFee?.toFixed(3) | indianCurrency }}</span>
+                                        Processing Fee. <span>₹ {{ slabDetail?.processingFee | indianCurrency }}</span>
                                     </p>
                                     <p *ngIf="slabDetail?.processingCost">
-                                        Processing Cost. <span>₹ {{ slabDetail?.processingCost?.toFixed(3) | indianCurrency }}</span>
+                                        Processing Cost. <span>₹ {{ slabDetail?.processingCost | indianCurrency
+                                            }}</span>
                                     </p>
                                 </div>
 
                                 <div class="invoice-total-footer">
                                     <h4>
                                         Total Amount
-                                        <span>₹ {{ slabDetail?.totalCosting?.toFixed(3)  | indianCurrency }}</span>
+                                        <span>₹ {{ slabDetail?.totalCosting | indianCurrency }}</span>
                                     </h4>
                                 </div>
                             </div>

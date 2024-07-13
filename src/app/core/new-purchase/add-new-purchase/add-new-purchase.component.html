@@ -496,12 +496,12 @@
                               <div class="invoice-total-inner">
                                 <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
                                   Cost / Square Feet <span>
-                                    ₹ {{ addNewPurchaseForm.get('costPerSQFT').value | number: '1.2-2' }}
+                                    ₹ {{ addNewPurchaseForm.get('costPerSQFT').value | indianCurrency}}
                                   </span>
                                 </p>
                                 <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
                                   Purchase Cost. <span>
-                                    ₹ {{ addNewPurchaseForm.get('paidToSupplierPurchaseCost').value | number: '1.2-2' }}
+                                    ₹ {{ addNewPurchaseForm.get('paidToSupplierPurchaseCost').value | indianCurrency}}
                                   </span>
                                 </p>
                               </div>
@@ -584,7 +584,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  ₹ {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost").value }}
+                                  ₹ {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost").value |indianCurrency}}
                                 </p>
                               </div>
                             </div>
@@ -629,6 +629,18 @@
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
                                   {{ ItemDetails?.vehicleNo }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Warehouse
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ ItemDetails?.warehouseDetails.name }}
                                 </p>
                               </div>
                             </div>
@@ -716,7 +728,7 @@
                                       <p class="col-lg-6 col-form-label heading-bold">
                                         ₹
                                         {{
-                                        ItemDetails.averageTransport.toFixed(3)
+                                        ItemDetails.averageTransport | indianCurrency
                                         }}
                                       </p>
                                     </div>
@@ -730,7 +742,7 @@
                                     <div class="col-lg-6 col-md-6 col-xl-6">
                                       <p class="col-lg-6 col-form-label heading-bold">
                                         ₹
-                                        {{ ItemDetails.averageRoyalty.toFixed(3) }}
+                                        {{ ItemDetails.averageRoyalty | indianCurrency }}
                                       </p>
                                     </div>
                                   </div>
@@ -813,7 +825,7 @@
                                                 </h5>
                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                   <p class="col-form-label">
-                                                    ₹ {{ data.rawCosting.toFixed(3) }}
+                                                    ₹ {{ data.rawCosting | indianCurrency }}
                                                   </p>
                                                 </div>
                                               </div>
@@ -824,7 +836,7 @@
                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                   <p class="col-form-label">
                                                     ₹
-                                                    {{ data.transportationCosting.toFixed(3) }}
+                                                    {{ data.transportationCosting | indianCurrency }}
                                                   </p>
                                                 </div>
                                               </div>
@@ -835,7 +847,7 @@
                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                   <p class="col-form-label">
                                                     ₹
-                                                    {{ data.royaltyCosting.toFixed(3) }}
+                                                    {{ data.royaltyCosting | indianCurrency }}
                                                   </p>
                                                 </div>
                                               </div>
@@ -845,7 +857,7 @@
                                                 </h5>
                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                   <p class="col-form-label">
-                                                    ₹ {{ data.totalCosting.toFixed(3) }}
+                                                    ₹ {{ data.totalCosting | indianCurrency }}
                                                   </p>
                                                 </div>
                                               </div>
@@ -1017,7 +1029,7 @@
                               </p>
                               <p *ngIf="ItemDetails?.pricePerTon">
                                 Price / Ton<span>
-                                  {{ItemDetails?.pricePerTon === undefined ? '' : '₹' + ' ' + ItemDetails?.pricePerTon}}
+                                  {{ItemDetails?.pricePerTon === undefined ? '' : '₹' + ' ' + ItemDetails?.pricePerTon |indianCurrency}}
                                 </span>
                               </p>
                               <p *ngIf="ItemDetails?.transportationCharge">
@@ -1036,8 +1048,7 @@
                                 Purchase Cost ( Paid To Supplier)
                                 <span>₹
                                   {{
-                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | number:
-                                  "1.2-2"
+                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |indianCurrency
                                   }}
                                 </span>
                               </p>
@@ -1046,29 +1057,29 @@
                             <div class="invoice-total-inner" *ngIf="lotTypeValue === 'Slab'">
                               <p *ngIf="addNewPurchaseForm.get('totalSQFT')?.value">
                                 Total Square Feet<span>
-                                  {{ addNewPurchaseForm.get('totalSQFT').value | number: '1.2-2' }}
+                                  {{ addNewPurchaseForm.get('totalSQFT').value | indianCurrency}}
 
                                 </span>
                               </p>
                               <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
                                 Cost / Square Feet <span>
-                                  ₹ {{ addNewPurchaseForm.get('costPerSQFT').value | number: '1.2-2' }}
+                                  ₹ {{ addNewPurchaseForm.get('costPerSQFT').value | indianCurrency}}
                                 </span>
                               </p>
                               <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
                                 Selling Price / Square Feet <span>
-                                  ₹ {{ addNewPurchaseForm.get('sellingPricePerSQFT').value | number: '1.2-2' }}
+                                  ₹ {{ addNewPurchaseForm.get('sellingPricePerSQFT').value | indianCurrency}}
                                 </span>
                               </p>
                               <p *ngIf="addNewPurchaseForm.get('transportationCharges')?.value">
                                 Transport Charges<span>
-                                  ₹ {{ addNewPurchaseForm.get('transportationCharges').value | number: '1.2-2' }}
+                                  ₹ {{ addNewPurchaseForm.get('transportationCharges').value | indianCurrency}}
                                 </span>
                               </p>
                               <p *ngIf="addNewPurchaseForm.get('otherCharges')?.value">
                                 Other Charges
                                 <span>
-                                  ₹ {{ addNewPurchaseForm.get('otherCharges').value | number: '1.2-2' }}
+                                  ₹ {{ addNewPurchaseForm.get('otherCharges').value | indianCurrency}}
                                 </span>
                               </p>
 
@@ -1076,8 +1087,7 @@
                                 Purchase Cost. ( Paid To Supplier)
                                 <span>₹
                                   {{
-                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | number:
-                                  "1.2-2"
+                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value| indianCurrency
                                   }}
                                 </span>
                               </p>
@@ -1087,9 +1097,10 @@
                               <h4>
                                 Total Purchase Cost.
                                 <span>
-                                  {{ItemDetails?.lotTotalCost ? '₹' + ' ' + ItemDetails.lotTotalCost.toFixed(3) : '₹' +
-                                  ' ' +
-                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value }}
+                                  {{ ItemDetails?.lotTotalCost 
+                                    ? '₹ ' + (ItemDetails.lotTotalCost | indianCurrency) 
+                                    : '₹ ' + (addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | indianCurrency) 
+                                  }}
                                 </span>
                               </h4>
                             </div>
@@ -1097,11 +1108,10 @@
                               <h4>
                                 Total Purchase Cost.
                                 <span>
-                                  <!-- ₹ {{ addNewPurchaseForm.get("totalCosting")?.value | number: '1.2-2' }} -->
-                                  {{ addNewPurchaseForm.get("totalCosting")?.value ? '₹' + ' ' +
-                                  addNewPurchaseForm.get("totalCosting")?.value.toFixed(3) : '₹' + ' ' +
-                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | number:
-                                  "1.2-2"}}
+                                  {{ addNewPurchaseForm.get("totalCosting")?.value 
+                                    ? ('₹ ' + (addNewPurchaseForm.get("totalCosting")?.value | indianCurrency)) 
+                                    : ('₹ ' + (addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | indianCurrency)) 
+                                  }}
                                 </span>
                               </h4>
                             </div>

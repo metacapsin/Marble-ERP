@@ -280,6 +280,7 @@ export class ViewSuppliersComponent {
     const supplier1 = {
       name: this.supplierDataById[0].name,
       _id: this.supplierDataById[0]._id,
+      billingAddress: this.supplierDataById[0].billingAddress,
     };
     this.localStorageService.setItem("supplier1", supplier1);
     console.log("this is supplier 1 object for purchase return", supplier1);
