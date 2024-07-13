@@ -28,81 +28,58 @@
       <div class="col-sm-12">
         <div class="card">
           <div class="card-body">
-            <form
-              [formGroup]="editSalaryForm"
-              (ngSubmit)="editSalaryFormSubmit()"
-            >
+            <form [formGroup]="editSalaryForm" (ngSubmit)="editSalaryFormSubmit()">
               <div class="row">
-                <div
-                  class="d-flex m-b-10"
-                  style="justify-content: space-between"
-                >
+                
+                <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
                   <h4>Edit Employee Salary</h4>
                   <div class="settings-btns text-end m-b-10">
-                    <button
-                      type="submit"
-                      class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                      [disabled]="!editSalaryForm.valid"
-                    >
+                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                      [disabled]="!editSalaryForm.valid">
                       Submit
                     </button>
-                    <button
-                      class="btn btn-secondary"
-                      [routerLink]="routes.salary"
-                    >
+                    <button class="btn btn-secondary" [routerLink]="routes.salary">
                       Cancel
                     </button>
+                  </div>
+                </div> -->
+                <div class="row mt-2 mb-2">
+                  <div class="col-md-6 col-sm-12">
+                    <h4>Edit Employee Salary</h4>
+                  </div>
+                  <div class="col-md-6 col-sm-12 text-end mb-2">
+                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                    [disabled]="!editSalaryForm.valid">
+                    Submit
+                  </button>
+                  <button class="btn btn-secondary" [routerLink]="routes.salary">
+                    Cancel
+                  </button>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-6">
                   <div class="form-group local-forms">
-                    <label for="employee"
-                      >Employee <span class="login-danger">*</span></label
-                    >
-                    <p-dropdown
-                      [style]="{ width: '100%' }"
-                      placeholder="Select staff"
-                      [options]="employeeList"
-                      formControlName="employee"
-                      optionLabel="name"
-                      optionValue="_id"
-                      display="chip"
-                      [filter]="true"
-                      filterBy="name"
-                      [showClear]="true"
-                    >
+                    <label for="employee">Employee <span class="login-danger">*</span></label>
+                    <p-dropdown [style]="{ width: '100%' }" placeholder="Select staff" [options]="employeeList"
+                      formControlName="employee" optionLabel="name" optionValue="_id" display="chip" [filter]="true"
+                      filterBy="name" [showClear]="true">
                     </p-dropdown>
                     <div
                       *ngIf="editSalaryForm.get('employee')?.errors?.['required'] && editSalaryForm.get('employee').touched"
-                      class="login-danger Font_size"
-                    >
+                      class="login-danger Font_size">
                       Field is required.
                     </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-6">
                   <div class="form-group local-forms">
-                    <label for="type"
-                      >Type <span class="login-danger">*</span></label
-                    >
-                    <p-dropdown
-                      [style]="{ width: '100%' }"
-                      placeholder="Select Type"
-                      [options]="type"
-                      formControlName="type"
-                      formControlName="type"
-                      optionLabel="value"
-                      optionValue="value"
-                      display="chip"
-                      [filter]="true"
-                      filterBy="name"
-                      [showClear]="true"
-                    >
+                    <label for="type">Type <span class="login-danger">*</span></label>
+                    <p-dropdown [style]="{ width: '100%' }" placeholder="Select Type" [options]="type"
+                      formControlName="type" formControlName="type" optionLabel="value" optionValue="value"
+                      display="chip" [filter]="true" filterBy="name" [showClear]="true">
                     </p-dropdown>
-                    <div
-                      *ngIf="editSalaryForm.get('type')?.errors?.['required'] && editSalaryForm.get('type').touched"
-                      class="login-danger Font_size"
-                    >
+                    <div *ngIf="editSalaryForm.get('type')?.errors?.['required'] && editSalaryForm.get('type').touched"
+                      class="login-danger Font_size">
                       Field is required.
                     </div>
                   </div>
@@ -129,150 +106,104 @@
                                 </div> -->
                 <div class="col-12 col-md-6 col-xl-6" (change)="findNetSalary()">
                   <div class="form-group local-forms">
-                    <label for="basicSalary"
-                      >Basic Salary <span class="login-danger">*</span></label
-                    >
+                    <label for="basicSalary">Basic Salary <span class="login-danger">*</span></label>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">₹</span>
                       </div>
-                      <input
-                        class="form-control"
-                        formControlName="basicSalary"
-                        type="number"
-                        value="$1000"
-                      />
+                      <input class="form-control" formControlName="basicSalary" type="number" value="$1000" />
                     </div>
                     <div
                       *ngIf="editSalaryForm.get('basicSalary')?.errors?.['required'] && editSalaryForm.get('basicSalary').touched"
-                      class="login-danger Font_size"
-                    >
+                      class="login-danger Font_size">
                       Field is required.
                     </div>
                     <div
                       *ngIf="editSalaryForm.get('basicSalary')?.errors?.['min'] && editSalaryForm.get('basicSalary').touched || editSalaryForm.get('basicSalary')?.errors?.['max'] && editSalaryForm.get('basicSalary').touched"
-                      class="login-danger Font_size"
-                    >
+                      class="login-danger Font_size">
                       Input must be between 100 to 10,000,00.
                     </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-6" (change)="findNetSalary()">
                   <div class="form-group local-forms">
-                    <label for="tds"
-                      >TDS <span class="login-danger">*</span>
+                    <label for="tds">TDS <span class="login-danger">*</span>
                     </label>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">₹</span>
                       </div>
-                      <input
-                        class="form-control"
-                        formControlName="tds"
-                        type="number"
-                        value="$600"
-                      />
+                      <input class="form-control" formControlName="tds" type="number" value="$600" />
                     </div>
-                    <div
-                      *ngIf="editSalaryForm.get('tds')?.errors?.['required'] && editSalaryForm.get('tds').touched"
-                      class="login-danger Font_size"
-                    >
+                    <div *ngIf="editSalaryForm.get('tds')?.errors?.['required'] && editSalaryForm.get('tds').touched"
+                      class="login-danger Font_size">
                       Field is required.
                     </div>
                     <div
                       *ngIf="editSalaryForm.get('tds')?.errors?.['min'] && editSalaryForm.get('tds').touched || editSalaryForm.get('tds')?.errors?.['max'] && editSalaryForm.get('tds').touched"
-                      class="login-danger Font_size"
-                    >
+                      class="login-danger Font_size">
                       Input must be between 100 to 10,000,00.
                     </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-6" (change)="findNetSalary()">
                   <div class="form-group local-forms">
-                    <label for="hra"
-                      >HRA<span class="login-danger">*</span>
+                    <label for="hra">HRA<span class="login-danger">*</span>
                     </label>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">₹</span>
                       </div>
-                      <input
-                        class="form-control"
-                        formControlName="hra"
-                        type="number"
-                        value="$600"
-                      />
+                      <input class="form-control" formControlName="hra" type="number" value="$600" />
                     </div>
-                    <div
-                      *ngIf="editSalaryForm.get('hra')?.errors?.['required'] && editSalaryForm.get('hra').touched"
-                      class="login-danger Font_size"
-                    >
+                    <div *ngIf="editSalaryForm.get('hra')?.errors?.['required'] && editSalaryForm.get('hra').touched"
+                      class="login-danger Font_size">
                       Field is required.
                     </div>
                     <div
                       *ngIf="editSalaryForm.get('hra')?.errors?.['min'] && editSalaryForm.get('hra').touched || editSalaryForm.get('hra')?.errors?.['max'] && editSalaryForm.get('hra').touched"
-                      class="login-danger Font_size"
-                    >
+                      class="login-danger Font_size">
                       Input must be between 100 to 10,000,00.
                     </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-6" (change)="findNetSalary()">
                   <div class="form-group local-forms">
-                    <label for="esi"
-                      >ESI <span class="login-danger">*</span></label
-                    >
+                    <label for="esi">ESI <span class="login-danger">*</span></label>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">₹</span>
                       </div>
-                      <input
-                        class="form-control"
-                        formControlName="esi"
-                        type="number"
-                        value="$500"
-                      />
+                      <input class="form-control" formControlName="esi" type="number" value="$500" />
                     </div>
-                    <div
-                      *ngIf="editSalaryForm.get('esi')?.errors?.['required'] && editSalaryForm.get('esi').touched"
-                      class="login-danger Font_size"
-                    >
+                    <div *ngIf="editSalaryForm.get('esi')?.errors?.['required'] && editSalaryForm.get('esi').touched"
+                      class="login-danger Font_size">
                       Field is required.
                     </div>
                     <div
                       *ngIf="editSalaryForm.get('esi')?.errors?.['min'] && editSalaryForm.get('esi').touched || editSalaryForm.get('esi')?.errors?.['max'] && editSalaryForm.get('esi').touched"
-                      class="login-danger Font_size"
-                    >
+                      class="login-danger Font_size">
                       Input must be between 100 to 10,000,00.
                     </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-6" (change)="findNetSalary()">
                   <div class="form-group local-forms">
-                    <label for="pf"
-                      >PF <span class="login-danger">*</span>
+                    <label for="pf">PF <span class="login-danger">*</span>
                     </label>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">₹</span>
                       </div>
-                      <input
-                        class="form-control"
-                        formControlName="pf"
-                        type="number"
-                        value="$60"
-                      />
+                      <input class="form-control" formControlName="pf" type="number" value="$60" />
                     </div>
-                    <div
-                      *ngIf="editSalaryForm.get('pf')?.errors?.['required'] && editSalaryForm.get('pf').touched"
-                      class="login-danger Font_size"
-                    >
+                    <div *ngIf="editSalaryForm.get('pf')?.errors?.['required'] && editSalaryForm.get('pf').touched"
+                      class="login-danger Font_size">
                       Field is required.
                     </div>
                     <div
                       *ngIf="editSalaryForm.get('pf')?.errors?.['min'] && editSalaryForm.get('pf').touched || editSalaryForm.get('pf')?.errors?.['max'] && editSalaryForm.get('pf').touched"
-                      class="login-danger Font_size"
-                    >
+                      class="login-danger Font_size">
                       Input must be between 100 to 10,000,00.
                     </div>
                   </div>
@@ -285,53 +216,43 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text">₹</span>
                       </div>
-                      <input
-                        class="form-control"
-                        formControlName="deductions"
-                        type="number"
-                      />
+                      <input class="form-control" formControlName="deductions" type="number" />
                     </div>
                     <div
                       *ngIf="editSalaryForm.get('deductions')?.errors?.['min'] && editSalaryForm.get('deductions').touched || editSalaryForm.get('pf')?.errors?.['max'] && editSalaryForm.get('pf').touched"
-                      class="login-danger Font_size"
-                    >
+                      class="login-danger Font_size">
                       Input must be between 100 to 10,000,00.
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-xl-6" (change)="findNetSalary()">
+                <div class="col-12">
                   <div class="form-group local-forms">
                     <label for="pf">Reason</label>
-                    <textarea
-                      class="form-control"
-                      formControlName="reason"
-                      type="text"
-                      cols="1"
-                      rows="1"
-                    ></textarea>
+                    <textarea class="form-control" formControlName="reason" type="text" cols="1" rows="3"></textarea>
                     <div
                       *ngIf="editSalaryForm.get('reason')?.errors?.['pattern'] && editSalaryForm.get('reason').touched"
-                      class="login-danger Font_size"
-                    >
+                      class="login-danger Font_size">
                       Input must be between 1 to 500.
                     </div>
                   </div>
                 </div>
                 <div class="row d-flex justify-content-end">
-                    <div class="col-12 col-md-6 col-xl-6">
-                        <div class="invoice-total-card">
-                          <div class="invoice-total-box">
-                            <div class="invoice-total-footer">
-                              <h4>
-                                Net Salary
-                                    <span>
-                                        {{'₹ ' + editSalaryForm.get('netSalary')?.value  | indianCurrency }}
-                                    </span> 
-                              </h4>
-                            </div>
-                          </div>
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="invoice-total-card">
+                      <div class="invoice-total-box">
+                        <div class="invoice-total-footer">
+                          <h4>
+                            Net Salary
+                            <span>
+                              {{
+                              "₹ " + editSalaryForm.get("netSalary")?.value
+                              }}
+                            </span>
+                          </h4>
                         </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
               </div>
             </form>

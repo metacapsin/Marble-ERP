@@ -1,178 +1,337 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a [routerLink]="routes.adminDashboard">Dashboard </a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <i class="feather icon-chevron-right"></i>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a [routerLink]="routes.staffList">Staff </a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <i class="feather icon-chevron-right"></i>
-                        </li>
-                        <li class="breadcrumb-item active">Edit Staff</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.staffList">Staff </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Edit Staff</li>
+          </ul>
         </div>
-        <!-- /Page Header -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <form [formGroup]="editStaffForm" (ngSubmit)="editStaffFormSubmit()">
-                            <div class="row">
-                                <div class="d-flex m-b-10" style="justify-content: space-between">
+      </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <form
+              [formGroup]="editStaffForm"
+              (ngSubmit)="editStaffFormSubmit()"
+            >
+              <div class="row">
+                <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
                                     <h3>Edit Staff</h3>
                                     <div class="settings-btns text-end m-b-10">
                                         <button type="submit"
                                             class="border-0 btn btn-primary btn-gradient-primary m-r-10">
-                                            <!-- [disabled]="!editStaffForm.valid" -->
                                             Submit
                                         </button>
                                         <button class="btn btn-secondary" [routerLink]="routes.staffList">
                                             Cancel
                                         </button>
                                     </div>
+                                </div> -->
 
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="firstName">First Name <span class="login-danger">*</span></label>
-                                        <input class="form-control" formControlName="firstName" type="text" />
-                                        <div *ngIf="editStaffForm.get('firstName')?.hasError('required') && editStaffForm.get('firstName')?.touched"
-                                            class="login-danger Font_size">Field is required.</div>
-                                        <div *ngIf="editStaffForm.get('firstName')?.hasError('pattern') && editStaffForm.get('firstName')?.touched"
-                                            class="login-danger Font_size">Input must be between 1 to 30 characters.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="lastName">Last Name <span class="login-danger">*</span></label>
-                                        <input class="form-control" formControlName="lastName" type="text" />
-                                        <div *ngIf="editStaffForm.get('lastName')?.hasError('required') && editStaffForm.get('lastName')?.touched"
-                                            class="login-danger Font_size">Field is required.</div>
-                                        <div *ngIf="editStaffForm.get('lastName')?.hasError('pattern') && editStaffForm.get('lastName')?.touched"
-                                            class="login-danger Font_size">Input must be between 1 to 30 characters.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="dateOfBirth">Date of birth <span
-                                                class="login-danger">*</span></label>
-                                        <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                            placeholder="mm/dd/yyyy" [styleClass]="'col-12'"
-                                            formControlName="dateOfBirth"></p-calendar>
-                                        <div *ngIf="
-                        editStaffForm.get('dateOfBirth')?.hasError('required') &&
+                <div class="row mt-2 mb-2">
+                  <div class="col-md-6 col-sm-12"><h3>Edit Staff</h3></div>
+                  <div class="col-md-6 col-sm-12 text-end mb-2">
+                    <button
+                      type="submit"
+                      class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                    >
+                      Submit
+                    </button>
+                    <button
+                      class="btn btn-secondary"
+                      [routerLink]="routes.staffList"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="firstName"
+                      >First Name <span class="login-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      formControlName="firstName"
+                      type="text"
+                    />
+                    <div
+                      *ngIf="
+                        editStaffForm.get('firstName')?.hasError('required') &&
+                        editStaffForm.get('firstName')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="
+                        editStaffForm.get('firstName')?.hasError('pattern') &&
+                        editStaffForm.get('firstName')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Input must be between 1 to 30 characters.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="lastName"
+                      >Last Name <span class="login-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      formControlName="lastName"
+                      type="text"
+                    />
+                    <div
+                      *ngIf="
+                        editStaffForm.get('lastName')?.hasError('required') &&
+                        editStaffForm.get('lastName')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="
+                        editStaffForm.get('lastName')?.hasError('pattern') &&
+                        editStaffForm.get('lastName')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Input must be between 1 to 30 characters.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="dateOfBirth"
+                      >Date of birth <span class="login-danger">*</span></label
+                    >
+                    <p-calendar
+                      [maxDate]="maxDate"
+                      dataType="string"
+                      appendTo="body"
+                      dateFormat="mm/dd/yy"
+                      placeholder="mm/dd/yyyy"
+                      [styleClass]="'col-12'"
+                      formControlName="dateOfBirth"
+                    ></p-calendar>
+                    <div
+                      *ngIf="
+                        editStaffForm
+                          .get('dateOfBirth')
+                          ?.hasError('required') &&
                         editStaffForm.get('dateOfBirth')?.touched
-                      " class="login-danger Font_size">
-                                            Field is required.
-                                        </div>
-                                        <div></div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="mobile">Mobile <span class="login-danger">*</span></label>
-                                        <input class="form-control" formControlName="mobile" type="text" />
-                                        <div *ngIf="
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                    <div></div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="mobile"
+                      >Mobile <span class="login-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      formControlName="mobile"
+                      type="text"
+                    />
+                    <div
+                      *ngIf="
                         editStaffForm.get('mobile')?.hasError('required') &&
                         editStaffForm.get('mobile')?.touched
-                      " class="login-danger Font_size">
-                                            Field is required.
-                                        </div>
-                                        <div *ngIf="
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="
                         editStaffForm.get('mobile')?.hasError('pattern') &&
                         editStaffForm.get('mobile')?.touched
-                      " class="login-danger Font_size">
-                                            Input must be between 1 to 10 Digit.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="designation">Designation <span class="login-danger">*</span></label>
-                                        <p-dropdown [style]="{ width: '100%' }" placeholder="Select Designation"
-                                            [options]="Designation" formControlName="designation" optionLabel="value"
-                                            optionValue="value" display="chip" [filter]="true" filterBy="name"
-                                            [showClear]="true">
-                                        </p-dropdown>
-                                        <div *ngIf="editStaffForm.get('designation')?.hasError('required') && editStaffForm.get('designation')?.touched"
-                                            class="login-danger Font_size">Field is required.</div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="warehouseDetails">WareHouse <span
-                                                class="login-danger">*</span></label>
-                                        <p-dropdown [style]="{ width: '100%' }" placeholder="Select warehouse "
-                                            [options]="warehouseDetails" formControlName="warehouseDetails"
-                                            optionLabel="name" display="chip" [filter]="true" filterBy="name"
-                                            [showClear]="true">
-                                        </p-dropdown>
-                                        <div *ngIf="editStaffForm.get('warehouseDetails')?.hasError('required') && editStaffForm.get('warehouseDetails')?.touched"
-                                            class="login-danger Font_size">Field is required.</div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="pinCode">pin Code <span class="login-danger">*</span></label>
-                                        <input class="form-control" formControlName="pinCode" type="text" />
-                                        <div *ngIf="
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Input must be between 1 to 10 Digit.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="designation"
+                      >Designation <span class="login-danger">*</span></label
+                    >
+                    <p-dropdown
+                      [style]="{ width: '100%' }"
+                      placeholder="Select Designation"
+                      [options]="Designation"
+                      formControlName="designation"
+                      optionLabel="value"
+                      optionValue="value"
+                      display="chip"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true"
+                    >
+                    </p-dropdown>
+                    <div
+                      *ngIf="
+                        editStaffForm
+                          .get('designation')
+                          ?.hasError('required') &&
+                        editStaffForm.get('designation')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="warehouseDetails"
+                      >WareHouse <span class="login-danger">*</span></label
+                    >
+                    <p-dropdown
+                      [style]="{ width: '100%' }"
+                      placeholder="Select warehouse "
+                      [options]="warehouseDetails"
+                      formControlName="warehouseDetails"
+                      optionLabel="name"
+                      display="chip"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true"
+                    >
+                    </p-dropdown>
+                    <div
+                      *ngIf="
+                        editStaffForm
+                          .get('warehouseDetails')
+                          ?.hasError('required') &&
+                        editStaffForm.get('warehouseDetails')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="pinCode"
+                      >pin Code <span class="login-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      formControlName="pinCode"
+                      type="text"
+                    />
+                    <div
+                      *ngIf="
                         editStaffForm.get('pinCode')?.hasError('required') &&
                         editStaffForm.get('pinCode')?.touched
-                      " class="login-danger Font_size">
-                                            Field is required.
-                                        </div>
-                                        <div *ngIf="
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="
                         editStaffForm.get('pinCode')?.hasError('pattern') &&
                         editStaffForm.get('pinCode')?.touched
-                      " class="login-danger Font_size">
-                                            Input must be between 1 to 6 Digit.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="city">City <span class="login-danger">*</span></label>
-                                        <input class="form-control" formControlName="city" type="text" />
-                                        <div *ngIf="editStaffForm.get('city')?.hasError('required') && editStaffForm.get('city')?.touched"
-                                            class="login-danger Font_size">Field is required.</div>
-                                        <div *ngIf="editStaffForm.get('city')?.hasError('pattern') && editStaffForm.get('city')?.touched"
-                                            class="login-danger Font_size">Input must be between 1 to 30 characters.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="email">Email</label>
-                                        <input class="form-control" formControlName="email" type="email" />
-                                        <div *ngIf="
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Input must be between 1 to 6 Digit.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="city"
+                      >City <span class="login-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      formControlName="city"
+                      type="text"
+                    />
+                    <div
+                      *ngIf="
+                        editStaffForm.get('city')?.hasError('required') &&
+                        editStaffForm.get('city')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="
+                        editStaffForm.get('city')?.hasError('pattern') &&
+                        editStaffForm.get('city')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Input must be between 1 to 30 characters.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="email">Email</label>
+                    <input
+                      class="form-control"
+                      formControlName="email"
+                      type="email"
+                    />
+                    <div
+                      *ngIf="
                         editStaffForm.get('email')?.hasError('required') &&
                         editStaffForm.get('email')?.touched
-                      " class="login-danger Font_size">
-                                            Field is required.
-                                        </div>
-                                        <div *ngIf="
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="
                         editStaffForm.get('email')?.hasError('pattern') &&
                         editStaffForm.get('email')?.touched
-                      " class="login-danger Font_size">
-                                            Please enter valid Email address.
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- <div class="col-12 col-md-6 col-xl-4">
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Please enter valid Email address.
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label for="upiId">UPI ID</label>
                                         <input class="form-control" formControlName="upiId" type="text" />
@@ -225,66 +384,130 @@
                                         </div>
                                     </div>
                                 </div> -->
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="upiId">UPI ID</label>
-                                        <input class="form-control" formControlName="upiId" type="text" />
-                                        <div *ngIf="editStaffForm.get('upiId')?.hasError('pattern') && editStaffForm.get('upiId')?.touched"
-                                            class="login-danger Font_size">Invalid UPI ID format.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="bankName">Bank Name </label>
-                                        <input class="form-control" formControlName="bankName" type="text" />
-                                        <div *ngIf="editStaffForm.get('bankName')?.hasError('pattern') && editStaffForm.get('bankName')?.touched"
-                                            class="login-danger Font_size">Input must be between 3 to 100 characters.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                      <label for="accountName">Account Holder Name</label>
-                                      <input class="form-control" formControlName="accountName" type="text" />
-                                      <div *ngIf="editStaffForm.get('accountName')?.hasError('pattern') && editStaffForm.get('accountName')?.touched"
-                                           class="login-danger Font_size">Input must be between 3 to 20 characters.
-                                      </div>
-                                    </div>
-                                  </div>
-                                  
-                                  <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                      <label for="accountNumber">Account Number</label>
-                                      <input class="form-control" formControlName="accountNumber" type="number" />
-                                      <div *ngIf="editStaffForm.get('accountNumber')?.hasError('pattern') && editStaffForm.get('accountNumber')?.touched"
-                                           class="login-danger Font_size">Input must be between 9 to 18 digits.</div>
-                                    </div>
-                                  </div>
-                                  <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="ifscCode">IFSC Code</label>
-                                        <input class="form-control" formControlName="ifscCode" type="text" />
-                                        <div *ngIf="editStaffForm.get('ifscCode')?.hasError('pattern') && editStaffForm.get('ifscCode')?.touched"
-                                            class="login-danger Font_size">Input must be 11 characters (4 letters followed by 7 digits).
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="city">Address</label>
-                                        <textarea class="form-control" formControlName="address" rows="1" cols="30"></textarea>
-                                        <div *ngIf="editStaffForm.get('address')?.hasError('pattern') && editStaffForm.get('address')?.touched"
-                                            class="login-danger Font_size">Input must be between 3 to 100 characters.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="upiId">UPI ID</label>
+                    <input
+                      class="form-control"
+                      formControlName="upiId"
+                      type="text"
+                    />
+                    <div
+                      *ngIf="
+                        editStaffForm.get('upiId')?.hasError('pattern') &&
+                        editStaffForm.get('upiId')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Invalid UPI ID format.
                     </div>
+                  </div>
                 </div>
-            </div>
-        </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="bankName">Bank Name </label>
+                    <input
+                      class="form-control"
+                      formControlName="bankName"
+                      type="text"
+                    />
+                    <div
+                      *ngIf="
+                        editStaffForm.get('bankName')?.hasError('pattern') &&
+                        editStaffForm.get('bankName')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Input must be between 3 to 100 characters.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="accountName">Account Holder Name</label>
+                    <input
+                      class="form-control"
+                      formControlName="accountName"
+                      type="text"
+                    />
+                    <div
+                      *ngIf="
+                        editStaffForm.get('accountName')?.hasError('pattern') &&
+                        editStaffForm.get('accountName')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Input must be between 3 to 20 characters.
+                    </div>
+                  </div>
+                </div>
 
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="accountNumber">Account Number</label>
+                    <input
+                      class="form-control"
+                      formControlName="accountNumber"
+                      type="number"
+                    />
+                    <div
+                      *ngIf="
+                        editStaffForm
+                          .get('accountNumber')
+                          ?.hasError('pattern') &&
+                        editStaffForm.get('accountNumber')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Input must be between 9 to 18 digits.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="ifscCode">IFSC Code</label>
+                    <input
+                      class="form-control"
+                      formControlName="ifscCode"
+                      type="text"
+                    />
+                    <div
+                      *ngIf="
+                        editStaffForm.get('ifscCode')?.hasError('pattern') &&
+                        editStaffForm.get('ifscCode')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Input must be 11 characters (4 letters followed by 7
+                      digits).
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-xl-4">
+                  <div class="form-group local-forms">
+                    <label for="city">Address</label>
+                    <textarea
+                      class="form-control"
+                      formControlName="address"
+                      rows="1"
+                      cols="30"
+                    ></textarea>
+                    <div
+                      *ngIf="
+                        editStaffForm.get('address')?.hasError('pattern') &&
+                        editStaffForm.get('address')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Input must be between 3 to 100 characters.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

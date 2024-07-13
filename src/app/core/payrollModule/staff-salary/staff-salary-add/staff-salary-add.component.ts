@@ -79,9 +79,12 @@ export class StaffSalaryAddComponent {
     const deductions = this.addSalaryForm.get("deductions").value || 0;
     this.TotalSalary = basicSalary + tds + hra + esi + pf;
     const netSalary = this.TotalSalary - deductions;
+    console.log(netSalary);
     this.addSalaryForm.patchValue({
       netSalary: netSalary || 0,
     });
+    console.log(this.addSalaryForm);
+    console.log(this.addSalaryForm.get('netSalary')?.value);
   }
 
   addSalaryFormSubmit() {

@@ -11339,8 +11339,9 @@ blockquote {
 form {
   .btn-gradient-primary {
     font-size: 14px;
-    padding: 8px 40px;
+    padding: 8px 30px;
     color: $color_16;
+    // margin-right: 10px;
   }
   .btn-secondary {
     font-size: 14px;

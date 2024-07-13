@@ -13,3 +13,4 @@ import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-
   imports: [SalesReportsRoutingModule, SharedModule, InvoiceDialogComponent],
 })
 export class SalesReportsModule {}
+  
