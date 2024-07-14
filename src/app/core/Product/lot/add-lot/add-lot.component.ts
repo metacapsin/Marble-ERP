@@ -327,9 +327,14 @@ export class AddLotComponent {
     this.dataEmitter.emit(JSON.stringify(payload));
 
     console.log("payload", payload);
-
-
-    this.NewPurchaseService.setFormData('stepTwoData', payload)
+    if(this.lotAddForm.valid){
+      this.NewPurchaseService.setFormData('stepTwoData', payload)
+          const message = "Lot Values has been saved";
+          this.messageService.add({ severity: "success", detail: message });
+    } else {
+          const message = "Lot Values are not valid";
+          this.messageService.add({ severity: "error", detail: message });
+    }
   }
     // this.NewPurchaseService.setFormData(payload)
     // this.subject.next(payload);

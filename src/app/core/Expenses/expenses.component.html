@@ -20,7 +20,6 @@
             <div class="col-sm-12">
 
                 <div class="card card-table show-entire">
-
                     <div class="page-table-header mb-2">
                         <div class="row align-items-center">
                             <div class="col">
@@ -35,7 +34,7 @@
                                         </div>
                                         <div class="add-group textbtn gap-3">
                                             <a [routerLink]="routes.addExpenses" class="btn btn-primary"><img
-                                                    src="assets/img/icons/plus.svg" alt="">Add Expenses</a>
+                                                    src="assets/img/icons/plus.svg" alt=""> Add Customer</a>
                                             <!-- <a class="btn btn-primary" (click)="showDialog()">Import Customers</a> -->
                                         </div>
                                     </div>
@@ -58,16 +57,16 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th pSortableColumn="recipient">Recipient <p-sortIcon field="recipient"></p-sortIcon>
-                                        <p-columnFilter type="text" field="recipient" display="menu"></p-columnFilter>
+                                        <p-columnFilter type="text" field="recipient" display="menu" matchMode="contains"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>
-                                        <p-columnFilter type="text" field="date" display="menu"></p-columnFilter>
+                                        <p-columnFilter type="text" field="date" display="menu" matchMode="contains"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="categoryDetails.name">Expense Category <p-sortIcon field="categoryDetails.name"></p-sortIcon>
-                                        <p-columnFilter type="text" field="categoryDetails.name" display="menu"></p-columnFilter>
+                                        <p-columnFilter type="text" field="categoryDetails.name" display="menu" matchMode="contains"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="amount">Amount	 <p-sortIcon field="amount"></p-sortIcon>
-                                        <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
+                                        <p-columnFilter type="text" field="amount" display="menu" matchMode="contains"></p-columnFilter>
                                     </th>
                                     <th width="13%">Action</th>
                                 </tr>

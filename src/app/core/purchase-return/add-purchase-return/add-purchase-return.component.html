@@ -126,7 +126,7 @@
                       <th pSortableColumn="purchaseDate">Slab Name
                       </th>
                       <th pSortableColumn="paidAmount">Size</th>
-                      <th pSortableColumn="purchaseOrderStatus">Total Sq. Ft.</th>
+                      <th pSortableColumn="purchaseOrderStatus">Total Sq. Feet.</th>
                       <th pSortableColumn="supplier.name">Purchase Cost.
                       </th>
                       <!-- <th>Actions</th> -->
@@ -138,7 +138,7 @@
                       <td>{{purchase.slabName}}</td>
                       <td>{{purchase.slabSize }}</td>
                       <td>{{purchase.totalSQFT}}</td>
-                      <td>{{purchase.purchaseCost}}</td>
+                      <td>₹ {{purchase.purchaseCost | indianCurrency}}</td>
                       <!-- <td><p-button [text]=" true" icon="fa fa-trash"
                             (click)="deleteSlab(purchase._id)"></p-button></td> -->
                     </tr>
@@ -244,8 +244,8 @@
                                       placeholder="">
                               </div>
                               <div
-                                  *ngIf="addPurchaseReturnForm.get('otherCharges')?.hasError('min')  && addPurchaseReturnForm.get('otherCharges')?.touched">
-                                  <span class="login-danger">Input must be more than 0.</span>
+                                  *ngIf="addPurchaseReturnForm.get('otherCharges')?.hasError('min') || addPurchaseReturnForm.get('otherCharges')?.hasError('max')  && addPurchaseReturnForm.get('otherCharges')?.touched">
+                                  <span class="login-danger">Input must be between 0 to {{ returnMaxValue }}.</span>
                               </div>
                           </div>
                       </div>

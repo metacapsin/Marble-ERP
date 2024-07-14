@@ -39,7 +39,7 @@ export class AddPurchaseReturnComponent implements OnInit {
   isProcess: any;
   supplier: any = [];
   returnUrl: string;
-
+  returnMaxValue: number = 0;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -56,7 +56,7 @@ export class AddPurchaseReturnComponent implements OnInit {
       purchaseReturnNotes: [""],
       purchaseReturnTotalAmount: [""],
       purchaseGrossTotal: [""],
-      otherCharges: [""],
+      otherCharges: ["", [Validators.min(0), Validators.max(100000)]],
       purchaseSlab: [[]],
     });
   }
@@ -90,6 +90,8 @@ export class AddPurchaseReturnComponent implements OnInit {
       this.addPurchaseReturnForm.get("otherCharges").value || 0;
     let purchaseReturnTotalAmount = purchaseGrossTotal - ReturnOtherCharges;
 
+    console.log("ReturnOtherCharges",ReturnOtherCharges);
+    
     this.addPurchaseReturnForm
       .get("purchaseReturnTotalAmount")
       .patchValue(purchaseReturnTotalAmount);
@@ -106,6 +108,9 @@ export class AddPurchaseReturnComponent implements OnInit {
         this.GridDataForSlab = [resp.data.slabDetails];
         if (this.PurchaseReturnDataById.purchaseType == "slab") {
           const totalCosting = parseFloat(
+            this.PurchaseReturnDataById.slabDetails.purchaseCost
+          );
+          this.returnMaxValue = parseFloat(
             this.PurchaseReturnDataById.slabDetails.purchaseCost
           );
           if (!isNaN(totalCosting)) {
@@ -169,25 +174,35 @@ export class AddPurchaseReturnComponent implements OnInit {
     console.log(payload);
     if (this.addPurchaseReturnForm.valid) {
       console.log("valid form");
-      this.PurchaseReturnService.createPurchaseReturn(payload).subscribe(
-        (resp: any) => {
-          console.log(resp);
-          if (resp) {
-            if (resp.status === "success") {
-              this.messageService.add({
-                severity: "success",
-                detail: resp.message,
-              });
-              setTimeout(() => {
-                this.router.navigateByUrl(this.returnUrl);
-              }, 400);
-            } else {
-              const message = resp.message;
-              this.messageService.add({ severity: "error", detail: message });
+      if(this.GridDataForSlab[0].totalSQFT === 0){
+        const message = "This Purchase has been already return!";
+        this.messageService.add({ severity: "error", detail: message });
+      } else if (payload.purchaseReturnOtherCharges >= payload.purchaseReturnTotalAmount) {
+        const message = "Return Other Charges cannot be greater than or equal to the Total Amount.";
+        this.messageService.add({ severity: "error", detail: message });
+    } 
+      else {
+        this.PurchaseReturnService.createPurchaseReturn(payload).subscribe(
+          (resp: any) => {
+            console.log(resp);
+            if (resp) {
+              if (resp.status === "success") {
+                this.messageService.add({
+                  severity: "success",
+                  detail: resp.message,
+                });
+                setTimeout(() => {
+                  this.router.navigateByUrl(this.returnUrl);
+                }, 400);
+              } else {
+                const message = resp.message;
+                this.messageService.add({ severity: "error", detail: message });
+              }
             }
           }
-        }
-      );
+        );
+
+      }
     } else {
       console.log("invalid form");
     }

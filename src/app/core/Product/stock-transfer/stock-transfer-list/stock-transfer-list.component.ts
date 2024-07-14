@@ -65,7 +65,7 @@ export class StockTransferListComponent implements OnInit {
       slab: ["", [Validators.required]],
       transferType: [""],
       currentQty: [""],
-      transferQty: ["", [Validators.required]],
+      transferQty: ["", [Validators.required, Validators.min(1)]],
       transportCharges: [""],
       otherCharges: [""],
     });
@@ -75,7 +75,7 @@ export class StockTransferListComponent implements OnInit {
       slab: ["", [Validators.required]],
       transferType: [""],
       currentQty: [""],
-      transferQty: ["", [Validators.required]],
+      transferQty: ["", [Validators.required, Validators.min(1)]],
       transportCharges: [""],
       otherCharges: [""],
     });
@@ -188,7 +188,7 @@ export class StockTransferListComponent implements OnInit {
       this.addStockTransferForm.value.fromWarehouse ===
       this.addStockTransferForm.value.toWarehouse
     ) {
-      const message = "From-Warehouse and To-Warehouse cannot be the same.";
+      const message = "From-Warehouse and To-Warehouse Can not be the same.";
       this.messageService.add({ severity: "error", detail: message });
     } else if (
       this.addStockTransferForm.value.transferQty >

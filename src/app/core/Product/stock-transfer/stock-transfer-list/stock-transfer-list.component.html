@@ -185,9 +185,11 @@
                         <div class="form-group local-forms">
                             <label for="transferQty">Transfer Quantity <span class="login-danger">*</span></label>
                             <input type="number" formControlName="transferQty" class="form-control">
-                            <div
-                                *ngIf="addStockTransferForm.get('transferQty')?.hasError('required') && addStockTransferForm.get('transferQty')?.touched">
+                            <div *ngIf="addStockTransferForm.get('transferQty')?.hasError('required') && addStockTransferForm.get('transferQty')?.touched">
                                 <span class="login-danger">Field is required.</span>
+                            </div>
+                            <div *ngIf="addStockTransferForm.get('transferQty')?.hasError('min') && addStockTransferForm.get('transferQty')?.touched">
+                                <span class="login-danger">Transfer Quantity must be more than 0.</span>
                             </div>
                         </div>
                     </div>
@@ -292,9 +294,11 @@
                         <div class="form-group local-forms">
                             <label for="transferQty">Transfer Quantity <span class="login-danger">*</span></label>
                             <input type="number" formControlName="transferQty" class="form-control">
-                            <div
-                                *ngIf="editStockTransferForm.get('transferQty')?.hasError('required') && editStockTransferForm.get('transferQty')?.touched">
+                            <div *ngIf="editStockTransferForm.get('transferQty')?.hasError('required') && editStockTransferForm.get('transferQty')?.touched">
                                 <span class="login-danger">Field is required.</span>
+                            </div>
+                            <div *ngIf="editStockTransferForm.get('transferQty')?.hasError('min') && editStockTransferForm.get('transferQty')?.touched">
+                                <span class="login-danger">Transfer Quantity must be more than 0.</span>
                             </div>
                         </div>
                     </div>
