@@ -13,7 +13,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   imports: [
     AdminDashboardRoutingModule,
-    SharedModule,
-  ]
+SharedModule  ]
 })
 export class AdminDashboardModule { }

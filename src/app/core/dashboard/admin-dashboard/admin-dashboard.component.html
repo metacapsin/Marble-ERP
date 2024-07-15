@@ -90,7 +90,7 @@
                 class="counter-up"
                 [countUp]="financialSummaryData?.totalSales"
                 [options]="{ duration: 2 }"
-                >{{ financialSummaryData?.totalSales }}</span
+                >{{ financialSummaryData?.totalSales | indianCurrency}}</span
               >
             </span>
             <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
@@ -117,7 +117,7 @@
                 class="counter-up"
                 [countUp]="financialSummaryData?.totalExpenses"
                 [options]="{ duration: 0.5 }"
-                >{{ financialSummaryData?.totalExpenses }}</span
+                >{{ financialSummaryData?.totalExpenses | indianCurrency }}</span
               >
             </span>
             <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
@@ -143,7 +143,7 @@
                 class="counter-up"
                 [countUp]="financialSummaryData?.paymentOut"
                 [options]="{ duration: 0.5 }"
-                >{{ financialSummaryData?.paymentOut }}</span
+                >{{ financialSummaryData?.paymentOut | indianCurrency }}</span
               >
             </span>
             <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
@@ -169,7 +169,7 @@
                 class="counter-up"
                 [countUp]="financialSummaryData?.paymentIn"
                 [options]="{ duration: 0.5 }"
-                >{{ financialSummaryData?.paymentIn }}</span
+                >{{ financialSummaryData?.paymentIn | indianCurrency }}</span
               >
             </span>
             <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
@@ -194,7 +194,7 @@
                 class="counter-up"
                 [countUp]="financialSummaryData?.totalSalesDue"
                 [options]="{ duration: 0.5 }"
-                >{{ financialSummaryData?.totalSalesDue }}</span
+                >{{ financialSummaryData?.totalSalesDue | indianCurrency }}</span
               >
             </span>
             <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
