@@ -247,15 +247,15 @@ export class AddSalesReturnComponent {
       salesInvoiceNumber: formData.salesInvoiceNumber.salesInvoiceNumber,
       returnDate: formData.returnDate,
       salesItemDetails: formData.salesItemDetails,
-      salesGrossTotal: formData.salesGrossTotal,
+      salesGrossTotal: Number(formData.salesGrossTotal),
       returnOrderStatus: formData.returnOrderStatus,
-      // salesDiscount: formData.salesDiscount,
+      // salesDiscount: Number(formData.salesDiscount),
       // salesShipping: formData.salesShipping,
       // otherCharges: formData.otherCharges,
       // salesTermsAndCondition: formData.salesTermsAndCondition,
       salesNotes: formData.salesNotes,
-      salesTotalAmount: formData.salesTotalAmount,
-      returnOtherCharges: formData.returnOtherCharges,
+      salesTotalAmount: Number(formData.salesTotalAmount),
+      returnOtherCharges: Number(formData.returnOtherCharges),
     };
     if (this.addReturnSalesForm.valid) {
       console.log("valid form");

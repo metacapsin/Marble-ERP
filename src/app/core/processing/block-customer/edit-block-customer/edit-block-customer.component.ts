@@ -102,10 +102,10 @@ export class EditBlockCustomerComponent {
       status:this.editBlockCustomerForm.value.status,
       taxNumber: this.editBlockCustomerForm.value.taxNumber,
       creditPeriod: this.editBlockCustomerForm.value.creditPeriod,
-      creditLimit: this.editBlockCustomerForm.value.creditLimit,
+      creditLimit: Number(this.editBlockCustomerForm.value.creditLimit),
       billingAddress: this.editBlockCustomerForm.value.billingAddress,
       shippingAddress: this.editBlockCustomerForm.value.shippingAddress,
-      openingBalance: this.editBlockCustomerForm.value.openingBalance,
+      openingBalance: Number(this.editBlockCustomerForm.value.openingBalance),
     };
     console.log(payload);
     if (this.editBlockCustomerForm.valid) {

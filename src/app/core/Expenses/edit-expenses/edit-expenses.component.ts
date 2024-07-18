@@ -110,7 +110,7 @@ export class EditExpensesComponent {
     const payload = {
       id: this.id,
       categoryDetails: fromData.categoryDetails,
-      amount: fromData.amount,
+      amount: Number(fromData.amount),
       date: fromData.date,
       recipient: fromData.recipient,
       notes: fromData.notes,

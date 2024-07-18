@@ -172,12 +172,12 @@ export class EditPurchaseReturnComponent {
         this.editPurchaseReturnForm.value.purchaseReturnSupplier,
       purchaseReturnDate: this.editPurchaseReturnForm.value.purchaseReturnDate,
       purchaseReturnOtherCharges:
-        this.editPurchaseReturnForm.value.otherCharges,
+       Number(this.editPurchaseReturnForm.value.otherCharges),
       purchaseReturnNotes:
         this.editPurchaseReturnForm.value.purchaseReturnNotes,
       purchaseReturnTotalAmount:
-        this.editPurchaseReturnForm.value.purchaseReturnTotalAmount,
-      purchaseGrossTotal: this.editPurchaseReturnForm.value.purchaseGrossTotal,
+       Number( this.editPurchaseReturnForm.value.purchaseReturnTotalAmount),
+      purchaseGrossTotal:Number(this.editPurchaseReturnForm.value.purchaseGrossTotal),
       purchaseReturnItemDetails: this.GridDataForSlab,
       purchaseReturnOrderStatus: "Static",
     };

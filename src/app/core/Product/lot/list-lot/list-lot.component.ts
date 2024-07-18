@@ -112,6 +112,7 @@ export class ListLotComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLotList();
+
   }
 
   editPage(_id: any) {

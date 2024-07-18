@@ -74,10 +74,10 @@ export class AddBlockCustomerComponent {
       phoneNo: this.addBlockCustomerForm.value.phoneNumber,
       taxNumber: this.addBlockCustomerForm.value.taxNumber,
       creditPeriod: this.addBlockCustomerForm.value.creditPeriod,
-      creditLimit: this.addBlockCustomerForm.value.creditLimit,
+      creditLimit: Number(this.addBlockCustomerForm.value.creditLimit),
       billingAddress: this.addBlockCustomerForm.value.billingAddress,
       shippingAddress: this.addBlockCustomerForm.value.shippingAddress,
-      openingBalance: this.addBlockCustomerForm.value.openingBalance,
+      openingBalance: Number(this.addBlockCustomerForm.value.openingBalance),
     };
     
     if (this.addBlockCustomerForm.valid) {

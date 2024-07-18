@@ -241,22 +241,22 @@ export class EditLotComponent {
       vehicleNo: data.vehicleNo,
       invoiceNo: data.invoiceNo,
       lotWeight: data.lotWeight,
-      pricePerTon: data.pricePerTon,
-      transportationCharge: data.transportationCharge,
-      royaltyCharge: data.royaltyCharge,
+      pricePerTon: Number(data.pricePerTon),
+      transportationCharge: Number(data.transportationCharge),
+      royaltyCharge: Number(data.royaltyCharge),
       notes: data.notes,
       blocksCount: this.blockDetails.length,
       averageWeight: data.averageWeight,
-      averageTransport: data.averageTransport,
-      averageRoyalty: data.averageRoyalty,
-      averageTaxAmount: data.averageTaxAmount,
+      averageTransport: Number(data.averageTransport),
+      averageRoyalty: Number(data.averageRoyalty),
+      averageTaxAmount: Number(data.averageTaxAmount),
       blockDetails: this.blockDetails,
       id: this.lotId
     }
     console.log(payload);
     if (this.lotEditForm.valid) {
       // payload.id = this.lotId;
-      this.service.updateLotById(payload).subscribe(
+      this.service.updateLotById(payload).subscribe( 
         (resp: any) => {
           if (resp) {
             if (resp.status === "success") {

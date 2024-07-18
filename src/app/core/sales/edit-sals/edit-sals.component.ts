@@ -293,16 +293,16 @@ export class EditSalsComponent {
     const payload = {
       customer: formData.customer,
       salesDate: formData.salesDate,
-      salesDiscount: formData.salesDiscount,
+      salesDiscount: Number(formData.salesDiscount),
       salesInvoiceNumber: formData.salesInvoiceNumber,
       salesItemDetails: formData.salesItemDetails,
       salesNotes: formData.salesNotes,
-      salesGrossTotal: formData.salesGrossTotal,
+      salesGrossTotal: Number(formData.salesGrossTotal),
       salesOrderStatus: formData.salesOrderStatus,
-      salesShipping: formData.salesShipping,
+      salesShipping: Number(formData.salesShipping),
       salesTermsAndCondition: formData.salesTermsAndCondition,
-      salesTotalAmount: formData.salesTotalAmount,
-      otherCharges: formData.otherCharges,
+      salesTotalAmount: Number(formData.salesTotalAmount),
+      otherCharges: Number(formData.otherCharges),
       id: this.salesId,
     };
 

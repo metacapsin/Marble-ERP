@@ -285,7 +285,7 @@ export class AddNewPurchaseComponent implements OnInit {
     this.ItemDetails = this.ItemDetails || {};
 
     if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
-      this.ItemDetails.purchaseCost = formData.paidToSupplierPurchaseCost;
+      this.ItemDetails.purchaseCost = Number(formData.paidToSupplierPurchaseCost);
       this.ItemDetails.date = formData.purchaseDate;
       this.ItemDetails.notes = formData.purchaseNotes;
     } else {
@@ -299,8 +299,8 @@ export class AddNewPurchaseComponent implements OnInit {
         purchaseDate: formData.purchaseDate,
         purchaseType: 'lot',
         purchaseNotes: formData.purchaseNotes,
-        purchaseCost: formData.paidToSupplierPurchaseCost,
-        purchaseTotalAmount: this.ItemDetails.lotTotalCost,
+        purchaseCost: Number(formData.paidToSupplierPurchaseCost),
+        purchaseTotalAmount: Number(this.ItemDetails.lotTotalCost),
         lotDetail: this.ItemDetails,
       }
     } else {
@@ -317,7 +317,7 @@ export class AddNewPurchaseComponent implements OnInit {
         purchaseDate: formData.purchaseDate,
         purchaseType: 'slab',
         purchaseNotes: formData.purchaseNotes,
-        purchaseCost: formData.paidToSupplierPurchaseCost,
+        purchaseCost: Number(formData.paidToSupplierPurchaseCost),
         slabDetail: {
           slabNo: formData.slabNo,
           slabName: formData.slabName,
@@ -329,17 +329,17 @@ export class AddNewPurchaseComponent implements OnInit {
           length: formData.length,
           thickness: formData.thickness,
           finishes: formData.finishes,
-          sellingPricePerSQFT: formData.sellingPricePerSQFT,
-          transportationCharges: formData.transportationCharges,
-          otherCharges: formData.otherCharges,
-          totalCosting: formData.totalCosting,
-          costPerSQFT: formData.costPerSQFT,
+          sellingPricePerSQFT: Number(formData.sellingPricePerSQFT),
+          transportationCharges: Number(formData.transportationCharges),
+          otherCharges: Number(formData.otherCharges),
+          totalCosting: Number(formData.totalCosting),
+          costPerSQFT: Number(formData.costPerSQFT),
           slabSize: _Size,
-          purchaseCost: formData.paidToSupplierPurchaseCost,
+          purchaseCost: Number(formData.paidToSupplierPurchaseCost),
           date: formData.purchaseDate,
           notes: formData.purchaseNotes,
         },
-        purchaseTotalAmount: formData.totalCosting
+        purchaseTotalAmount: Number(formData.totalCosting)
       }
     }
     if (this.addNewPurchaseForm.valid) {

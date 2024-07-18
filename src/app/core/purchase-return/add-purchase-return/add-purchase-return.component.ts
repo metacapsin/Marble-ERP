@@ -163,11 +163,11 @@ export class AddPurchaseReturnComponent implements OnInit {
       purchaseReturnSupplier:
         this.addPurchaseReturnForm.value.purchaseReturnSupplier,
       purchaseReturnDate: this.addPurchaseReturnForm.value.purchaseReturnDate,
-      purchaseReturnOtherCharges: this.addPurchaseReturnForm.value.otherCharges,
+      purchaseReturnOtherCharges: Number(this.addPurchaseReturnForm.value.otherCharges),
       purchaseReturnNotes: this.addPurchaseReturnForm.value.purchaseReturnNotes,
       purchaseReturnTotalAmount:
-        this.addPurchaseReturnForm.value.purchaseReturnTotalAmount,
-      purchaseGrossTotal: this.addPurchaseReturnForm.value.purchaseGrossTotal,
+        Number(this.addPurchaseReturnForm.value.purchaseReturnTotalAmount),
+      purchaseGrossTotal: Number(this.addPurchaseReturnForm.value.purchaseGrossTotal),
       purchaseReturnItemDetails: this.GridDataForSlab,
       // purchaseReturnOrderStatus: "Static",
     };

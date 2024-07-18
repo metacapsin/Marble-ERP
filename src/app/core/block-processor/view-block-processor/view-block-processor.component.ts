@@ -190,7 +190,7 @@ export class ViewBlockProcessorComponent {
       },
       slab: this.addSlabProcessingForm.value.slab,
       processingDate: this.addSlabProcessingForm.value.processingDate,
-      processingCost: this.addSlabProcessingForm.value.processingCost,
+      processingCost: Number(this.addSlabProcessingForm.value.processingCost),
       processingInvoiceNo: this.addSlabProcessingForm.value.processingInvoiceNo,
       note: this.addSlabProcessingForm.value.note,
     };
@@ -220,7 +220,7 @@ export class ViewBlockProcessorComponent {
       processor: this.editSlabProcessingForm.value.processor,
       slab: this.editSlabProcessingForm.value.slab,
       processingDate: this.editSlabProcessingForm.value.processingDate,
-      processingCost: this.editSlabProcessingForm.value.processingCost,
+      processingCost: Number(this.editSlabProcessingForm.value.processingCost),
       processingInvoiceNo:
         this.editSlabProcessingForm.value.processingInvoiceNo,
       note: this.editSlabProcessingForm.value.note,

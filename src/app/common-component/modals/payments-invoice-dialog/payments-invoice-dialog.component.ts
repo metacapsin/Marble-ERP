@@ -117,7 +117,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         paymentDate: formData.paymentDate,
         paymentMode: formData.paymentMode,
         salesReturnId: this.dataById.salesReturnId,
-        amount: formData.totalAmount,
+        amount: Number(formData.totalAmount),
         note: formData.note,
       };
       if (this.paymentInvoiceForm.valid) {
@@ -155,7 +155,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         sales: [
           {
             _id: this.dataById.salesId,
-            amount: formData.totalAmount,
+            amount: Number(formData.totalAmount),
           },
         ],
         note: formData.note,
@@ -192,7 +192,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         purchase: [
           {
             _id: this.dataById.purchaseId,
-            amount: formData.totalAmount,
+            amount: Number(formData.totalAmount),
           },
         ],
         note: formData.note,
@@ -227,7 +227,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         paymentDate: formData.paymentDate,
         paymentMode: formData.paymentMode,
         purchaseReturnId: this.dataById.purchaseReturnId,
-        amount: formData.totalAmount,
+        amount: Number(formData.totalAmount),
         note: formData.note,
       };
       if (this.paymentInvoiceForm.valid) {
@@ -260,7 +260,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         paymentMode: formData.paymentMode,
         slabProcessing: {
             _id: this.dataById.slabProcessing_id,
-            amount: formData.totalAmount,
+            amount: Number(formData.totalAmount),
           },
           slabInvoiceNumber: this.dataById.processingInvoiceNo,
         note: formData.note,

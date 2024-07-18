@@ -253,18 +253,18 @@ export class EditSalesReturnComponent {
     const payload = {
       customer: formData.customer,
       returnDate: formData.returnDate,
-      salesDiscount: formData.salesDiscount,
+      salesDiscount: Number(formData.salesDiscount),
       salesInvoiceNumber: formData.salesInvoiceNumber,
       salesItemDetails: formData.salesItemDetails,
       salesNotes: formData.salesNotes,
-      salesGrossTotal: formData.salesGrossTotal,
+      salesGrossTotal: Number(formData.salesGrossTotal),
       returnOrderStatus: formData.returnOrderStatus,
       // salesOrderTax: totalTax,
-      salesShipping: formData.salesShipping,
+      salesShipping: Number(formData.salesShipping),
       // appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,
-      salesTotalAmount: formData.salesTotalAmount,
-      otherCharges: formData.otherCharges,
+      salesTotalAmount: Number(formData.salesTotalAmount),
+      otherCharges: Number(formData.otherCharges),
       id: "",
     };
 

@@ -106,10 +106,10 @@ export class EditBlocksComponent {
       blockCount: formData.blockCount,
       vehicleNumber: formData.vehicleNumber,
       blocksDetails: formData.blocksDetails,
-      otherCharges: formData.otherCharges,
+      otherCharges: Number(formData.otherCharges),
       notes: formData.notes,
       termAndCondition: formData.termAndCondition,
-      totalAmount: formData.totalAmount
+      totalAmount: Number(formData.totalAmount)
     }
 
     if (this.editBlocksForm.valid) {

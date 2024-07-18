@@ -68,7 +68,7 @@ descriptionRegex = /^.{3,500}$/s;
       taxNo: this.addSupplierGroup.value.taxNumber,
       status: true,
       creditPeriod: this.addSupplierGroup.value.creditPeriod,
-      creditLimit: this.addSupplierGroup.value.creditLimit,
+      creditLimit: Number(this.addSupplierGroup.value.creditLimit),
       billingAddress: this.addSupplierGroup.value.billingAddress,
       shippingAddress: this.addSupplierGroup.value.shippingAddress,
     };

@@ -70,7 +70,7 @@ export class AddCustomersComponent {
       phoneNo: this.addcustomerGroup.value.phoneNo,
       taxNo: this.addcustomerGroup.value.taxNo,
       creaditPeriod: this.addcustomerGroup.value.creditPeriod,
-      creaditLimit: this.addcustomerGroup.value.creditLimit,
+      creaditLimit: Number(this.addcustomerGroup.value.creditLimit),
       billingAddress: this.addcustomerGroup.value.billingAddress,
       shippingAddress: this.addcustomerGroup.value.shippingAddress,
     };

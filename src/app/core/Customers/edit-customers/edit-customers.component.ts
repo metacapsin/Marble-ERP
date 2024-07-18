@@ -96,7 +96,7 @@ export class EditCustomersComponent {
       taxNumber: this.customerData.taxNo,
       // openingBalance: this.customerData.openingBalance,
       creditPeriod: this.customerData.creaditPeriod,
-      creditLimit: this.customerData.creaditLimit,
+      creditLimit: Number(this.customerData.creaditLimit),
       billingAddress: this.customerData.billingAddress,
       shippingAddress: this.customerData.shippingAddress,
     });
@@ -113,7 +113,7 @@ export class EditCustomersComponent {
       status: true,
       taxNo: this.editCustomerGroup.value.taxNumber,
       creaditPeriod: this.editCustomerGroup.value.creditPeriod,
-      creaditLimit: this.editCustomerGroup.value.creditLimit,
+      creaditLimit: Number(this.editCustomerGroup.value.creditLimit),
       billingAddress: this.editCustomerGroup.value.billingAddress,
       shippingAddress: this.editCustomerGroup.value.shippingAddress,
       // openingBalance: this.editCustomerGroup.value.openingBalance,

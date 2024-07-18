@@ -82,7 +82,7 @@ export class AddExpensesComponent implements OnInit {
     const fromData = this.addExpensesGroup.value;
     const payload = {
       categoryDetails: fromData.categoryDetails,
-      amount: fromData.amount,
+      amount: Number(fromData.amount),
       date: fromData.date,
       recipient: fromData.recipient,
       notes: fromData.notes,

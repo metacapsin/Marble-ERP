@@ -204,8 +204,8 @@ export class StockTransferListComponent implements OnInit {
         slab: this.addStockTransferForm.value.slab,
         transferType: this.addStockTransferForm.value.transferType,
         transferQty: this.addStockTransferForm.value.transferQty,
-        transportCharges: this.addStockTransferForm.value.transportCharges,
-        otherCharges: this.addStockTransferForm.value.otherCharges,
+        transportCharges: Number(this.addStockTransferForm.value.transportCharges),
+        otherCharges: Number(this.addStockTransferForm.value.otherCharges),
       };
       if (this.addStockTransferForm.valid) {
         this.service.addStockTransfer(payload).subscribe((resp: any) => {
@@ -234,8 +234,8 @@ export class StockTransferListComponent implements OnInit {
       slab: this.editStockTransferForm.value.slab,
       transferType: this.editStockTransferForm.value.transferType,
       transferQty: this.editStockTransferForm.value.transferQty,
-      transportCharges: this.editStockTransferForm.value.transportCharges,
-      otherCharges: this.editStockTransferForm.value.otherCharges,
+      transportCharges: Number(this.editStockTransferForm.value.transportCharges),
+      otherCharges: Number(this.editStockTransferForm.value.otherCharges),
     };
     if (this.editStockTransferForm.valid) {
       this.service.updateStockTransfer(payload).subscribe((resp: any) => {
