@@ -336,6 +336,11 @@ export class DataService {
               route: routes.salesReturn,
               base: routes.salesReturn,
             },
+            {
+              menuValue: "Quotations",
+              route: routes.quotations,
+              base: routes.quotations,
+            },
           ],
         },
         {

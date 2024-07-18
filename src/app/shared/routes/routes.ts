@@ -693,4 +693,13 @@ export class routes {
     return this.baseUrl + '/new-purchase';
   }
 
+  public static get quotations(): string {
+    return this.baseUrl + '/quotations';
+  }
+  public static get addQuotations(): string {
+    return this.baseUrl + '/quotations/add-quotations';
+  }
+  public static get editQuotations(): string {
+    return this.baseUrl + '/quotations/edit-quotations';
+  }
 }

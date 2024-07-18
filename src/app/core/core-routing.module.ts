@@ -27,14 +27,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./accounts/accounts.module').then((m) => m.AccountsModule),
       },
-      // {
-      //   path: 'payroll',
-      //   loadChildren: () =>
-      //     import('./payroll/payroll.module').then((m) => m.PayrollModule),
-      // },
-      
-      
-      
       {
         path: 'assets',
         loadChildren: () =>
@@ -108,8 +100,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./block-processor/block-processor.module').then((m) => m.BlockProcessorModule),
       },
-
-
       { 
         path: 'tables',
         loadChildren: () =>
@@ -130,6 +120,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./edit-profile/edit-profile.module').then(
             (m) => m.EditProfileModule
+          ),
+      },
+      {
+        path: 'quotations',
+        loadChildren: () =>
+          import('./quotations/quotations.module').then(
+            (m) => m.QuotationsModule
           ),
       },
       {
