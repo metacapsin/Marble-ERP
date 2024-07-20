@@ -30,13 +30,6 @@ export class AddQuotationsComponent implements OnInit {
   originalCustomerData = [];
   slabList = [];
   slabData = [];
-  orderStatusList = [
-    { orderStatus: "Ordered" },
-    { orderStatus: "Confirmed" },
-    { orderStatus: "Processing" },
-    { orderStatus: "Shipping" },
-    { orderStatus: "Delivered" },
-  ];
   orderTaxList = [];
   taxesListData = [];
   public itemDetails: number[] = [0];
@@ -84,7 +77,7 @@ export class AddQuotationsComponent implements OnInit {
       ]),
       quotationNotes: ["", [Validators.pattern(this.notesRegex)]],
       quotationGrossTotal: [""],
-      quotationStatus: ["", [Validators.required]],
+      // quotationStatus: ["", [Validators.required]],
       quotationTax: ["",],
       appliedTax: [""],
       quotationShipping: ["", [Validators.min(1), Validators.max(100000)]],
@@ -321,7 +314,7 @@ export class AddQuotationsComponent implements OnInit {
       quotationItemDetails: formData.quotationItemDetails,
       quotationNotes: formData.quotationNotes,
       quotationGrossTotal: Number(formData.quotationGrossTotal),
-      quotationStatus: formData.quotationStatus,
+      // quotationStatus: formData.quotationStatus,
       quotationShipping: formData.quotationShipping,
       quotationTermsAndCondition: formData.quotationTermsAndCondition,
       quotationTotalAmount: formData.quotationTotalAmount,

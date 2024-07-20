@@ -72,6 +72,16 @@ export class ListQuotationsComponent implements OnInit {
     this.showDialoge = true;
   }
 
+  editQuotation(id) {
+    const returnUrl = this.router.url;
+    this.localStorageService.setItem("returnUrl", returnUrl);
+    console.log(
+      "this is return url on quotations  page for quotations create",
+      returnUrl
+    );
+    this.router.navigate(["/quotations/edit-quotations/" + id]);
+}
+
   showNewDialog() {
     this.showDialoge = true;
   }
@@ -107,16 +117,13 @@ export class ListQuotationsComponent implements OnInit {
     });
   }
 
-  editSalesRout(id) {
-    this.router.navigate(["/quotations/edit-quotations/" + id]);
-  }
 
   showInvoiceDialoge(Id: any) {
     this.Service.getQuotationById(Id).subscribe((resp: any) => {
-      this.header = "Sales Invoice";
+      this.header = "Quotation Invoice";
       this.showInvoiceDialog = true;
       this.quotationDataById = [resp.data];
-      console.log("sales data by id On dialog", this.quotationDataById);
+      console.log("quotation data by id On dialog", this.quotationDataById);
     });
     // this.Service.getSalesPaymentList(Id).subscribe((resp: any) => {
     //   this.paymentListData = resp.data;
