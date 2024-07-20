@@ -58,7 +58,10 @@
                                 [(selection)]="selectedlot" styleClass="p-datatable-striped" selectionMode="multiple">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="slab.slabName">slab Name <p-sortIcon field="slab.slabName"></p-sortIcon>
+                                        <th pSortableColumn="createdOn">Transfer Date <p-sortIcon field="createdOn"></p-sortIcon>
+                                            <p-columnFilter type="text" field="createdOn" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="slab.slabName">Slab Name <p-sortIcon field="slab.slabName"></p-sortIcon>
                                             <p-columnFilter type="text" field="slab.slabName" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="fromWarehouse.name">From-Warehouse <p-sortIcon field="fromWarehouse.name"></p-sortIcon>
@@ -78,6 +81,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-stock>
                                     <tr>
+                                        <td>{{stock.createdOn | date: 'dd-MMM-yyyy'}}</td>
                                         <td>{{stock.slab.slabName}}</td>
                                         <td>{{stock.fromWarehouse.name}}</td>
                                         <td>{{stock.toWarehouse.name}}</td>

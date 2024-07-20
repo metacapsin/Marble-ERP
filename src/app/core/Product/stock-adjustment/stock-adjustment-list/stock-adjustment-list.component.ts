@@ -48,6 +48,8 @@ export class StockAdjustmentListComponent implements OnInit {
     { name: "Add", value: "add" },
     { name: "Subtract", value: "subtract" },
   ];
+  searchByWarehouseData: any = [];
+  searchBy: any ;
   descriptionRegex = /^(?!\s)(?:.{1,250})$/;
 
   constructor(
@@ -76,10 +78,23 @@ export class StockAdjustmentListComponent implements OnInit {
     });
   }
 
+  onSearchByChange(value: any): void{
+    console.log("value asyock adjustment", value);
+    if(value === null){
+      return this.stockAdjustmentDataList = this.originalData;
+    } else {
+    this.stockAdjustmentDataList = this.originalData.map(i => { 
+      if(i.warehouse._id === value._id){
+        return i
+      }
+     });
+    }
+  }
   getAdjustmentList(): void {
     this.service.getAdjustmentList().subscribe((resp: any) => {
       this.stockAdjustmentDataList = resp.data;
       this.originalData = resp.data;
+      console.log("original data",this.originalData);
     });
   }
 
@@ -178,6 +193,7 @@ export class StockAdjustmentListComponent implements OnInit {
       adjustmentType: this.addStockAdjustmentForm.value.adjustmentType,
       quantity: this.addStockAdjustmentForm.value.quantity,
       note: this.addStockAdjustmentForm.value.note,
+      previousQty: this.addStockAdjustmentForm.value.currentQty,
     };
     if (this.addStockAdjustmentForm.valid) {
       this.service.addNewAdjustment(payload).subscribe((resp: any) => {
@@ -202,6 +218,7 @@ export class StockAdjustmentListComponent implements OnInit {
       adjustmentType: this.editStockAdjustmentForm.value.adjustmentType,
       quantity: this.editStockAdjustmentForm.value.quantity,
       note: this.editStockAdjustmentForm.value.note,
+      previousQty: this.editStockAdjustmentForm.value.currentQty,
       id: this.stockAdjustmentId,
     };
     if (this.editStockAdjustmentForm.valid) {

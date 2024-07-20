@@ -289,12 +289,12 @@ export class AddsalesComponent implements OnInit {
       salesOrderTax += totalTaxAmount;
 
       salesGrossTotal += subtotal;
-      item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2));
-      item.get("salesItemSubTotal").setValue(subtotal.toFixed(2));
+      item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount.toFixed(2)));
+      item.get("salesItemSubTotal").setValue(Number(subtotal.toFixed(2)));
     });
 
-    this.addSalesForm.get('salesOrderTax').setValue(salesOrderTax.toFixed(2));
-    this.addSalesForm.get('salesGrossTotal').setValue(salesGrossTotal.toFixed(2));
+    this.addSalesForm.get('salesOrderTax').setValue(Number(salesOrderTax.toFixed(2)));
+    this.addSalesForm.get('salesGrossTotal').setValue(Number(salesGrossTotal.toFixed(2)));
 
     let totalAmount = salesGrossTotal;
     const discount = +this.addSalesForm.get("salesDiscount").value;
@@ -305,7 +305,7 @@ export class AddsalesComponent implements OnInit {
     totalAmount += shipping;
     totalAmount += otherCharges;
 
-    this.addSalesForm.get("salesTotalAmount").setValue(totalAmount)
+    this.addSalesForm.get("salesTotalAmount").setValue(Number(totalAmount))
   }
 
   addSalesFormSubmit() {

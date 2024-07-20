@@ -210,14 +210,14 @@ export class AddSalesReturnComponent {
       const subtotal = quantity * unitPrice + totalTaxAmount;
 
       salesGrossTotal += subtotal;
-      item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2));
-      item.get("salesItemSubTotal").patchValue(subtotal.toFixed(2));
+      item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount.toFixed(2)));
+      item.get("salesItemSubTotal").patchValue(Number(subtotal.toFixed(2)));
     });
 
     // Update the total gross amount
     this.addReturnSalesForm
       .get("salesGrossTotal")
-      .setValue(salesGrossTotal.toFixed(2));
+      .setValue(Number(salesGrossTotal.toFixed(2)));
 
     let totalAmount = salesGrossTotal;
     // const discount = +this.addReturnSalesForm.get("salesDiscount").value || 0;
@@ -232,10 +232,10 @@ export class AddSalesReturnComponent {
     totalAmount -= returnOtherCharges;
 
     this.addReturnSalesForm.patchValue({
-      salesTotalAmount: totalAmount.toFixed(2),
-      // salesDiscount: discount.toFixed(2),
-      // salesShipping: shipping.toFixed(2),
-      // otherCharges: otherCharges.toFixed(2),
+      salesTotalAmount: Number(totalAmount.toFixed(2)),
+      // salesDiscount: Number(discount.toFixed(2)),
+      // salesShipping: Number(shipping.toFixed(2)), 
+      // otherCharges: Number(otherCharges.toFixed(2)),
       returnOtherCharges: returnOtherCharges,
     });
   }

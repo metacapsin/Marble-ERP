@@ -259,7 +259,7 @@ export class AddSlabsComponent {
     console.log(purchaseCostOrg);
     console.log(totalSQFT);
     console.log(this.blockDropDownPerBlockWeight, this.blockDropDowntotleCost);
-    this.BlockWeight = this.blockDropDownPerBlockWeight.toFixed(4);
+    this.BlockWeight = this.blockDropDownPerBlockWeight;
     console.log(this.BlockWeight);
     // calculate for creating slabs
     var processingCost = processingFee * this.BlockWeight;
