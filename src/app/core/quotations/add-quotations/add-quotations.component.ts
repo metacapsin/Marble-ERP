@@ -67,7 +67,7 @@ export class AddQuotationsComponent implements OnInit {
   ) {
     this.addQuotationForm = this.fb.group({
       customer: ["", [Validators.required]],
-      quotationDate: [new Date(), [Validators.required]],
+      quotationDate: ["", [Validators.required]],
       quotationDiscount: ["", [Validators.min(1), Validators.max(100000)]],
       quotationInvoiceNumber: [""],
       quotationItemDetails: this.fb.array([
@@ -290,8 +290,8 @@ export class AddQuotationsComponent implements OnInit {
       item.get("quotationItemSubTotal").setValue(Number(subtotal.toFixed(2)));
     });
 
-    this.addQuotationForm.get('quotationTax').setValue(quotationTax.toFixed(2));
-    this.addQuotationForm.get('quotationGrossTotal').setValue(quotationGrossTotal.toFixed(2));
+    this.addQuotationForm.get('quotationTax').setValue(Number(quotationTax.toFixed(2)));
+    this.addQuotationForm.get('quotationGrossTotal').setValue(Number(quotationGrossTotal.toFixed(2)));
 
     let totalAmount = quotationGrossTotal;
     const discount = +this.addQuotationForm.get("quotationDiscount").value;
@@ -302,7 +302,7 @@ export class AddQuotationsComponent implements OnInit {
     totalAmount += shipping;
     totalAmount += otherCharges;
 
-    this.addQuotationForm.get("quotationTotalAmount").setValue(totalAmount)
+    this.addQuotationForm.get("quotationTotalAmount").setValue(Number(totalAmount))
   }
 
   addQuotationFormSubmit() {
