@@ -281,7 +281,7 @@
             class="chart-container"
           >
             <p-chart
-              type="pie"
+              type="doughnut"
               [data]="piDataForFirstChat"
               [options]="optionsForSecondChat"
               style="width: 375px; height: 375px"
@@ -375,7 +375,7 @@ hideOnClear="true"
             class="chart-container"
           >
             <p-chart
-              type="pie"
+              type="doughnut"
               [data]="piDataForSecondChat"
               [options]="optionsForSecondChat"
               style="width: 375px; height: 375px"
@@ -626,7 +626,7 @@ hideOnClear="true"
     </div>
     
     <div class="row">
-      <div class="col-md-3">
+      <!-- <div class="col-md-3">
         <div class="row">
           <div class="col-12 card-style p-3 d-flex justify-content-between mb-4" style="background-color: #f7ede4;">
             <div class="w-40">
@@ -646,6 +646,69 @@ hideOnClear="true"
             <div class="w-60">
               <div>Warehouse list</div>
               <div class="mt-1">5000 Sqr. Feet</div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="col-md-3">
+        <div class="row">
+          <!-- <div class="col-12 card-style p-3 d-flex justify-content-between mb-4" style="background-color: #f7ede4;">
+            <div class="w-40">
+              <div class="card-text-heading">Total Slab Stock</div>
+              <div class="card-text-price mt-1">5000 Sqr. Feet</div>
+            </div>
+            <div class="w-60">
+              <div>Warehouse list</div>
+              <div class="mt-1">5000 Sqr. Feet</div>
+            </div>
+          </div> -->
+          <!-- <div class="col-12 card-style p-3 d-flex justify-content-between mb-4" style="background-color: #f7ede4;">
+            <div class="w-40">
+              <div class="card-text-heading">Total Slab Stock</div>
+              <div class="card-text-price mt-1">5000 Sqr. Feet</div>
+            </div>
+            <div class="w-60">
+              <div>Warehouse list</div>
+              <div class="mt-1">5000 Sqr. Feet</div>
+            </div>
+          </div> -->
+          <div class="col-12">
+            <div class="dash-widget">
+              <div class="dash-boxs comman-flex-center">
+                <i
+                  class="fa-solid fa-indian-rupee-sign"
+                  style="font-size: 20px; color: #97704f"
+                ></i>
+              </div>
+              <div class="dash-content dash-count">
+                <h4>Slab Stock </h4>
+               <p><span class="font_size">500</span> Sq. Feet</p>
+               <div class="text-end">
+
+                 <p><span class="passive-view">Warehouse One</span> 300 Sq. Feet</p>
+                 <p><span class="passive-view">Warehouse Two</span>200 Sq. Feet</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="dash-widget">
+              <div class="dash-boxs comman-flex-center">
+                <i
+                  class="fa-solid fa-indian-rupee-sign"
+                  style="font-size: 20px; color: #97704f"
+                ></i>
+              </div>
+              <div class="dash-content dash-count">
+                <h4>Block Stock</h4>
+               <p><span class="font_size">500</span> Ton</p>
+               <p><span class="font_size">10</span> Block</p>
+               <div class="text-end">
+
+                 <p><span class="passive-view">Warehouse One</span> 300 Ton, 7 Block</p>
+                 <p><span class="passive-view">Warehouse Two</span>200 Ton, 3 Block</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
