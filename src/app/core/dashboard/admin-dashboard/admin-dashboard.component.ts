@@ -178,6 +178,8 @@ export class AdminDashboardComponent {
   categorySearchDataValue:any
   subCategorySearchDataValue:any
   stockAlertSearchDataValue:any
+  StockWarehouseWiseLot: any;
+  StockWarehouseWiseSlab: any;
 
   constructor(
     // public data: DataService,
@@ -380,7 +382,7 @@ export class AdminDashboardComponent {
         this.setDataForSecondChart(resp.barChartData);
       },
       (error: any) => {
-        console.error("Error fetching financial summary:", error);
+        console.error("getPaymentSentRecivedByMonth:", error);
       }
     );
     this.Service.getRecentSales(data).subscribe(
@@ -390,7 +392,18 @@ export class AdminDashboardComponent {
         // this.setDataForSecondChart(resp.barChartData);
       },
       (error: any) => {
-        console.error("Error fetching financial summary:", error);
+        console.error("getRecentSales:", error);
+      }
+    );
+    this.Service.getStockWarehouseWise().subscribe(
+      (resp: any) => {
+        console.log(resp);
+        this.StockWarehouseWiseLot = resp.lot
+        this.StockWarehouseWiseSlab = resp.slab
+        console.log(this.StockWarehouseWiseLot,this.StockWarehouseWiseSlab);
+      },
+      (error: any) => {
+        console.error("Stock Warehouse Wise:", error);
       }
     );
   }

@@ -374,7 +374,17 @@ ul.p-dropdown-items{
   width: 100%;
   table-layout: auto;
 }
-
+@media (max-width:1375px) {
+  .card-text-heading{
+    font-size: 13px;
+    margin-bottom: 5px;
+    font-weight: 100;
+  }
+  .card-text-price{
+    font-size: 15px;
+    font-weight: 500;
+  }
+}
 /* Responsive table adjustments */
 @media (max-width: 768px) {
   .p-datatable-striped {

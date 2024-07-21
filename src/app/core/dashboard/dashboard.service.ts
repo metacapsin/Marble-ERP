@@ -62,5 +62,9 @@ export class dashboardService {
       data
     );
   }
+  getStockWarehouseWise() {
+    return this.http.get(
+      environment.apiUrl + "/DashboardController/getStockWarehouseWise");
+  }
 
 }

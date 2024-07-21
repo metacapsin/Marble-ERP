@@ -189,9 +189,9 @@
                       Customer <p-sortIcon field="customerName" />
                     </th>
                     <!-- <th pSortableColumn="customerEmail">Email<p-sortIcon field="customerEmail" /></th> -->
-                    <th pSortableColumn="customerPhoneNo">
+                    <!-- <th pSortableColumn="customerPhoneNo">
                       Phone Number <p-sortIcon field="customerPhoneNo" />
-                    </th>
+                    </th> -->
                     <!-- <th pSortableColumn="salesOrderStatus">Status <p-sortIcon field="salesOrderStatus" /></th> -->
                     <th pSortableColumn="salesTotalAmount">
                       Tax Amount <p-sortIcon field="salesTotalAmount" />
@@ -220,10 +220,10 @@
                     <td>{{ product.salesDate }}</td>
                     <td>{{ product.customerName }}</td>
                     <!-- <td>{{product.customerEmail}}</td> -->
-                    <td>{{ product.customerPhoneNo }}</td>
+                    <!-- <td>{{ product.customerPhoneNo }}</td> -->
                     <!-- <td>{{product.salesOrderStatus}}</td> -->
                     <td>
-                      {{ "₹ " + product.salesOrderTax | indianCurrency }}
+                      {{ "₹ " + product.salesOrderTax }}
                     </td>
                   </tr>
                   <tr *ngIf="product.expanded">

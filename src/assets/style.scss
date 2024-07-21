@@ -10993,6 +10993,32 @@ blockquote {
   padding: 10px 20px;
   text-align: center;
 }
+.card_scrol{
+  height: 500px;
+  overflow-y: scroll;
+}
+.card-text-heading{
+  font-size: 15px;
+  margin-bottom: 10px;
+  font-weight: 100;
+}
+.w-40{
+  width: 40%;
+}
+.w-60{
+  width: 60%;
+  text-align: end;
+}
+.card-text-price{
+  font-size: 20px;
+  font-weight: 500;
+}
+.card-style{
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
 .paid-cancel-btn {
   background-color: $background-color_1;
   border: 1px solid #2e37a4;
