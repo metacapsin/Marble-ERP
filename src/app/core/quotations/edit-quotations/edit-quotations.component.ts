@@ -131,6 +131,8 @@ export class EditQuotationsComponent {
     this.quotationItemDetails.push(item);
   }
   onWareHouseSelect(value: any, i: number) {
+    console.log("value",value, "i",i);
+    
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
       (resp: any) => {
         this.originalSlabData = resp.data;
@@ -149,19 +151,19 @@ export class EditQuotationsComponent {
             this.slabDataList[index] = this.slabDatas;
             console.log("if", this.slabDataList[index]);
 
-            const control = this.quotationItemDetails.at(i);
-            control.get("quotationItemProduct").reset();
-            control.get("quotationItemQuantity").reset();
-            control.get("quotationItemUnitPrice").reset();
-            control.get("quotationItemTax").reset();
-            control.get("quotationItemSubTotal").reset();
+            // const control = this.quotationItemDetails.at(i);
+            // control.get("quotationItemProduct").reset();
+            // control.get("quotationItemQuantity").reset();
+            // control.get("quotationItemUnitPrice").reset();
+            // control.get("quotationItemTax").reset();
+            // control.get("quotationItemSubTotal").reset();
             this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];
             console.log("else", this.slabDataList);
           }
         });
-        //this.slabDataList.push(this.slabDatas)
+        this.slabDataList.push(this.slabDatas)
         console.log("this.slabDataList", this.slabDataList);
       }
     );
@@ -183,8 +185,6 @@ export class EditQuotationsComponent {
         customer: this.customer,
       });
     }
-
-   
 
     this.services.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedataListsEditArray = [];
@@ -217,22 +217,18 @@ export class EditQuotationsComponent {
     //       slabName: e.slabName,
     //       slabNo: e.slabNo,
     //     },
-        
     //   }
-    // ));
-   
-   
-
+    //   ));
     // });
     this.quotationsService
-    .getQuotationById(this.quotationId)
-    .subscribe((resp: any) => {
-      console.log(resp)
-      this.patchForm(resp.data);
-      // this.getCustomer();
-      
-    });
-    
+      .getQuotationById(this.quotationId)
+      .subscribe((resp: any) => {
+        console.log(resp)
+        this.patchForm(resp.data);
+        // this.getCustomer();
+
+      });
+
   }
 
   getCustomer() {
@@ -248,53 +244,53 @@ export class EditQuotationsComponent {
       }));
     });
   }
-  // onSlabSelect(value, i) {
-  //   const quotationItemDetailsArray = this.editQuotationForm.get(
-  //     "quotationItemDetails"
-  //   ) as FormArray;
+  onSlabSelect(value, i) {
+    const quotationItemDetailsArray = this.editQuotationForm.get(
+      "quotationItemDetails"
+    ) as FormArray;
 
-  //   const selectedSlab = this.slabData.find((slab) => slab._id === value._id);
+    const selectedSlab = this.slabData.find((slab) => slab._id === value._id);
 
-  //   if (selectedSlab) {
-  //     console.log("Slab Found", selectedSlab);
+    if (selectedSlab) {
+      console.log("Slab Found", selectedSlab);
 
-  //     // Calculate remaining quantity for the selected slab
-  //     let remainingQuantity = selectedSlab.totalSQFT;
-  //     for (let j = 0; j < quotationItemDetailsArray.length; j++) {
-  //       if (j !== i) {
-  //         const currentRowSlab = quotationItemDetailsArray
-  //           .at(j)
-  //           ?.get("quotationItemProduct").value;
-  //         if (currentRowSlab && currentRowSlab._id === value._id) {
-  //           remainingQuantity -=
-  //             quotationItemDetailsArray.at(j)?.get("quotationItemQuantity")
-  //               .value || 0;
-  //         }
-  //       }
-  //     }
+      // Calculate remaining quantity for the selected slab
+      let remainingQuantity = selectedSlab.totalSQFT;
+      for (let j = 0; j < quotationItemDetailsArray.length; j++) {
+        if (j !== i) {
+          const currentRowSlab = quotationItemDetailsArray
+            .at(j)
+            ?.get("quotationItemProduct").value;
+          if (currentRowSlab && currentRowSlab._id === value._id) {
+            remainingQuantity -=
+              quotationItemDetailsArray.at(j)?.get("quotationItemQuantity")
+                .value || 0;
+          }
+        }
+      }
 
-  //     const quotationItemUnitPriceControl = quotationItemDetailsArray
-  //       .at(i)
-  //       ?.get("quotationItemUnitPrice");
-  //     const maxQuantityControl = quotationItemDetailsArray
-  //       .at(i)
-  //       ?.get("maxQuantity");
+      const quotationItemUnitPriceControl = quotationItemDetailsArray
+        .at(i)
+        ?.get("quotationItemUnitPrice");
+      const maxQuantityControl = quotationItemDetailsArray
+        .at(i)
+        ?.get("maxQuantity");
 
-  //     if (quotationItemUnitPriceControl) {
-  //       quotationItemUnitPriceControl.patchValue(
-  //         selectedSlab.sellingPricePerSQFT
-  //       );
-  //       this.calculateTotalAmount();
-  //     }
-  //     if (maxQuantityControl) {
-  //       maxQuantityControl.setValue(
-  //         remainingQuantity > 0 ? remainingQuantity : 0
-  //       );
-  //     }
-  //   } else {
-  //     console.error("Slab not found!");
-  //   }
-  // }
+      if (quotationItemUnitPriceControl) {
+        quotationItemUnitPriceControl.patchValue(
+          selectedSlab.sellingPricePerSQFT
+        );
+        this.calculateTotalAmount();
+      }
+      if (maxQuantityControl) {
+        maxQuantityControl.setValue(
+          remainingQuantity > 0 ? remainingQuantity : 0
+        );
+      }
+    } else {
+      console.error("Slab not found!");
+    }
+  }
 
   calculateTotalAmount() {
     let quotationGrossTotal = 0;
@@ -376,7 +372,7 @@ export class EditQuotationsComponent {
     data.quotationItemDetails.forEach((item: any, index: number) => {
       const quotationItem = this.fb.group({
         quotationItemProduct: [item.quotationItemProduct,
-          [Validators.required],
+        [Validators.required],
         ],
         quotationItemQuantity: [
           item.quotationItemQuantity,
@@ -393,12 +389,10 @@ export class EditQuotationsComponent {
           [Validators.required, Validators.min(0)],
         ],
         maxQuantity: [item.maxQuantity],
-        quotationWarehouseDetails: [ item.quotationWarehouseDetails, [Validators.required]]
-
+        quotationWarehouseDetails: [item.quotationWarehouseDetails, [Validators.required]]
       });
-
+      this.onWareHouseSelect(item.quotationWarehouseDetails, index)
       this.quotationItemDetails.push(quotationItem);
-
     });
   }
 

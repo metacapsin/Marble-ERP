@@ -46,7 +46,7 @@
                                 <div class="row">
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="quotationInvoiceNumber">Invoice Number </label>
+                                            <label for="quotationInvoiceNumber">Quotation Number </label>
                                             <input type="text" class="form-control" placeholder="Enter Invoice Number"
                                                 formControlName="quotationInvoiceNumber">
                                             <span style="color: #97704f; font-size: 12px;
@@ -55,16 +55,15 @@
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="customer">Customer Name <span
-                                                    class="login-danger">*</span></label>
+                                            <label for="customer">Customer Name </label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="Select Customer"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
                                                 optionValue="_id" display="chip" [filter]="true" filterBy="name">
                                             </p-dropdown>
-                                            <div
+                                            <!-- <div
                                                 *ngIf="editQuotationForm.get('customer')?.hasError('required')  && editQuotationForm.get('customer')?.touched">
                                                 <span class="login-danger">Field is required. </span>
-                                            </div>
+                                            </div> -->
 
                                         </div>
                                     </div>
@@ -90,7 +89,7 @@
                                 <h4 class="d-flex align-items-center">Item Details<p-button [text]=" true"
                                         >
 
-                                        <!-- icon="fa fa-plus" (click)="addquotationItemDetailsItem()" -->
+                                        <p-button [text]="true" icon="fa fa-plus" (click)="addquotationItemDetailsItem()"></p-button>
                                     </p-button></h4>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-nowrap mb-0 no-footer add-table-items">
@@ -108,18 +107,26 @@
                                         <tbody formArrayName="quotationItemDetails">
                                             <tr class="add-row" *ngFor="let quotationItemDetailsForm of quotationItemDetails.controls; let i = index" [formGroupName]="i">
                                                 <td class="col-md-2">
-                                                    <span class="form-control">{{ editQuotationForm.get('quotationItemDetails').get(i + '.quotationWarehouseDetails').value.name }}</span>
+                                                    <!-- <span class="form-control">{{ editQuotationForm.get('quotationItemDetails').get(i + '.quotationWarehouseDetails').value.name }}</span> -->
+                                                    <p-dropdown [options]="wareHousedataListsEditArray" appendTo="body"
+                                                    [style]="{'width':'100%'}" optionLabel="name"
+                                                    [filter]="true" filterBy="slabName" optionValue="_id"
+                                                    formControlName="quotationWarehouseDetails" placeholder="Select Warehouse"
+                                                    (onChange)="onWareHouseSelect($event.value, i)"></p-dropdown>
+                                                <div *ngIf="editQuotationForm.get('quotationItemDetails').get(i + '.quotationWarehouseDetails').hasError('required') && editQuotationForm.get('quotationItemDetails').get(i + '.quotationWarehouseDetails').touched">
+                                                    <span class="login-danger">Field is required.</span>
+                                                </div>
                                                 </td>
                                                 <td class="col-md-2">
-                                                    <span class="form-control">{{ editQuotationForm.get('quotationItemDetails').get(i + '.quotationItemProduct').value.slabName }}</span>
-                                                    <!-- <p-dropdown [options]="slabDataList[i]" appendTo="body"
+                                                    <!-- <span class="form-control">{{ editQuotationForm.get('quotationItemDetails').get(i + '.quotationItemProduct').value.slabName }}</span> -->
+                                                    <p-dropdown [options]="slabDataList[i]" appendTo="body"
                                                         [style]="{'width':'100%'}" optionLabel="name"
                                                         [filter]="true" filterBy="slabName" optionValue="_id"
                                                         formControlName="quotationItemProduct" placeholder="Select Product"
                                                         (onChange)="onSlabSelect($event.value, i)"></p-dropdown>
                                                     <div *ngIf="editQuotationForm.get('quotationItemDetails').get(i + '.quotationItemProduct').hasError('required') && editQuotationForm.get('quotationItemDetails').get(i + '.quotationItemProduct').touched">
                                                         <span class="login-danger">Field is required.</span>
-                                                    </div> -->
+                                                    </div>
                                                 </td>
                                                 <td class="col-md-2">
                                                     <input type="number" formControlName="quotationItemQuantity" (change)="calculateTotalAmount()" class="form-control">
@@ -144,10 +151,10 @@
                                                 <td class="col-md-2">
                                                     <span class="form-control">{{ editQuotationForm.get('quotationItemDetails').get(i + '.quotationItemSubTotal').value }}</span>
                                                 </td>
-                                                <!-- <td class="add-remove text-end">
+                                                <td class="add-remove text-end">
                                                     <p-button [text]="true" icon="fa fa-plus" (click)="addquotationItemDetailsItem()"></p-button>
                                                     <p-button [text]="true" icon="fa fa-trash" (click)="deletequotationItemDetails(i)" (keyup.enter)="deletequotationItemDetails(i)"></p-button>
-                                                </td> -->
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
