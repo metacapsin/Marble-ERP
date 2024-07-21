@@ -478,7 +478,7 @@
                     </p-table>
                   </p-tabPanel>
 
-                  <p-tabPanel *ngif="!sales.quotationDate" header="Payments">
+                  <p-tabPanel *ngIf="!sales.quotationDate" header="Payments">
                     <ng-template #noPayments>
                       <div class="no-notifications" style="text-align: center;">
                         No payments made yet.

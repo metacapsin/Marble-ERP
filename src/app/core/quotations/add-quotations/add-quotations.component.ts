@@ -59,7 +59,7 @@ export class AddQuotationsComponent implements OnInit {
     private services: WarehouseService,
   ) {
     this.addQuotationForm = this.fb.group({
-      customer: ["", [Validators.required]],
+      customer: [""],
       quotationDate: ["", [Validators.required]],
       quotationDiscount: ["", [Validators.min(1), Validators.max(100000)]],
       quotationInvoiceNumber: [""],

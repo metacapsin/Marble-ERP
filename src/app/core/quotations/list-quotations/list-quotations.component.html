@@ -104,7 +104,7 @@
                   [rowsPerPageOptions]="[5, 10, 20]" selectionMode="multiple">
                   <ng-template pTemplate="header">
                     <tr>
-                      <th pSortableColumn="quotationInvoiceNumber">Invoice Number <p-sortIcon
+                      <th pSortableColumn="quotationInvoiceNumber">Quotation Number <p-sortIcon
                           field="quotationInvoiceNumber"></p-sortIcon>
                         <p-columnFilter type="text" field="quotationInvoiceNumber" display="menu" matchMode="contains"></p-columnFilter>
                       </th>
@@ -121,7 +121,7 @@
                       <!-- <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                         <p-columnFilter type="text" field="paymentStatus" display="menu" matchMode="contains"></p-columnFilter>
                       </th> -->
-                      <th pSortableColumn="quotationTax">Quotation Tax <p-sortIcon field="quotationTax"></p-sortIcon>
+                      <th pSortableColumn="quotationTax">Tax <p-sortIcon field="quotationTax"></p-sortIcon>
                         <p-columnFilter type="text" field="quotationTax" display="menu" matchMode="contains"></p-columnFilter>
                       </th>
                       <th pSortableColumn="quotationDiscount">Discount <p-sortIcon field="quotationDiscount"></p-sortIcon>
@@ -160,14 +160,14 @@
                   </ng-template>
                   <ng-template pTemplate="emptymessage">
                     <tr>
-                      <td colspan="9" class="text-center">No quotations records found. Please create a new quotation to see it
+                      <td colspan="7" class="text-center">No quotations records found. Please create a new quotation to see it
                         listed here.</td>
                     </tr>
                   </ng-template>
   
                   <ng-template pTemplate="footer">
                     <tr *ngIf="totalAmountValues.totalTax > 0 || totalAmountValues.totalDiscount > 0 || totalAmountValues.totalAmount >0 ">
-                      <td colspan="3"></td>
+                      <td colspan="2"></td>
                       <td>Total </td>
                       <td>₹ {{ totalAmountValues.totalTax | indianCurrency}}</td>
                       <td class="text-danger-dark">₹ {{ totalAmountValues.totalDiscount | indianCurrency}}</td>

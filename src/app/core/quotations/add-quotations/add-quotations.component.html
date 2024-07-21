@@ -46,7 +46,7 @@
                                 <div class="row">
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="quotationInvoiceNumber">Invoice Number </label>
+                                            <label for="quotationInvoiceNumber">Quotation Number </label>
                                             <input type="text" class="form-control" placeholder="Enter Invoice Number"
                                                 formControlName="quotationInvoiceNumber">
                                             <span style="color: #97704f; font-size: 12px;
@@ -55,16 +55,15 @@
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="customer">Customer Name <span
-                                                    class="login-danger">*</span></label>
+                                            <label for="customer">Customer Name </label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="Select Customer"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
                                                 optionValue="_id" display="chip" [filter]="true" filterBy="name">
                                             </p-dropdown>
-                                            <div
+                                            <!-- <div
                                                 *ngIf="addQuotationForm.get('customer')?.hasError('required')  && addQuotationForm.get('customer')?.touched">
                                                 <span class="login-danger">Field is required. </span>
-                                            </div>
+                                            </div> -->
 
                                         </div>
                                     </div>

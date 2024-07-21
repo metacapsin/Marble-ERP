@@ -60,20 +60,20 @@ export class StockTransferListComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.addStockTransferForm = this.fb.group({
-      fromWarehouse: [""],
-      toWarehouse: [""],
+      fromWarehouse: ["", [Validators.required]],
+      toWarehouse: ["", [Validators.required]],
       slab: ["", [Validators.required]],
-      transferType: [""],
+      transferType: ["", [Validators.required]],
       currentQty: [""],
       transferQty: ["", [Validators.required, Validators.min(1)]],
       transportCharges: [""],
       otherCharges: [""],
     });
     this.editStockTransferForm = this.fb.group({
-      fromWarehouse: [""],
-      toWarehouse: [""],
+      fromWarehouse: ["", [Validators.required]],
+      toWarehouse: ["", [Validators.required]],
       slab: ["", [Validators.required]],
-      transferType: [""],
+      transferType: ["", [Validators.required]],
       currentQty: [""],
       transferQty: ["", [Validators.required, Validators.min(1)]],
       transportCharges: [""],

@@ -53,7 +53,7 @@
 
                         <div class="card-body p-2">
 
-                            <p-table [value]="stockTransferDataList | filter:searchDataValue:['slab.slabName', 'fromWarehouse.name', 'transferType', 'transferQty']" [tableStyle]="{'min-width': '60rem'}"
+                            <p-table [value]="stockTransferDataList | filter:searchDataValue:['createdOn','slab.slabName', 'fromWarehouse.name', 'transferType', 'transferQty']" [tableStyle]="{'min-width': '60rem'}"
                                 [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
                                 [(selection)]="selectedlot" styleClass="p-datatable-striped" selectionMode="multiple">
                                 <ng-template pTemplate="header">
@@ -86,7 +86,7 @@
                                         <td>{{stock.fromWarehouse.name}}</td>
                                         <td>{{stock.toWarehouse.name}}</td>
                                         <td>{{stock.transferType}}</td>
-                                        <td>{{stock.transferQty}}</td>
+                                        <td>{{stock.transferQty + ' Sq. Feet. '}}</td>
                                         <td appShowHide
                                             [roles]="['admin', 'super-admin']" class="action-buttons">
                                             <!-- <p-button [text]="true" icon="fa-solid fa-edit"
@@ -134,6 +134,10 @@
                                 optionValue="_id" placeholder="Select Warehouse" formControlName="fromWarehouse"
                                 [style]="{ width: '100%' }" [filter]="true"  filterBy="name" (onChange)="onWarehouseSelect($event.value)" >
                             </p-dropdown>
+                            <div
+                                *ngIf="addStockTransferForm.get('fromWarehouse')?.hasError('required') && addStockTransferForm.get('fromWarehouse')?.touched">
+                                <span class="login-danger">Field is required.</span>
+                            </div>
                         </div>
                     </div>
 
@@ -144,6 +148,10 @@
                                 optionValue="_id" placeholder="Select Warehouse" formControlName="toWarehouse"
                                 [style]="{ width: '100%' }" [filter]="true"  filterBy="name" >
                             </p-dropdown>
+                            <div
+                                *ngIf="addStockTransferForm.get('slab')?.hasError('required') && addStockTransferForm.get('slab')?.touched">
+                                <span class="login-danger">Field is required.</span>
+                            </div>
                         </div>
                     </div>
 
