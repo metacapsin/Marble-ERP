@@ -107,16 +107,19 @@
                                     <tr>
                                         <th pSortableColumn="date">Expenses Date <p-sortIcon
                                                 field="date"></p-sortIcon>
-                                            <p-columnFilter type="text" field="date" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="date" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="categoryDetails.name">Expenses Category <p-sortIcon
                                                 field="categoryDetails.name"></p-sortIcon>
-                                            <p-columnFilter type="text" field="categoryDetails.name"
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="categoryDetails.name"
                                                 display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="amount">Amount <p-sortIcon
                                                 field="amount"></p-sortIcon>
-                                            <p-columnFilter type="text" field="amount"
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="amount"
                                                 display="menu"></p-columnFilter>
                                         </th>
                                     </tr>

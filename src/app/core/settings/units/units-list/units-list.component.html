@@ -60,11 +60,13 @@
                 <tr>
                   <th pSortableColumn="unitName">
                     Name <p-sortIcon field="unitName"></p-sortIcon>
-                    <p-columnFilter type="text" field="unitName" display="menu"></p-columnFilter>
+                    <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="unitName" display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="shortName">
                     Short Name<p-sortIcon field="shortName"></p-sortIcon>
-                    <p-columnFilter type="text" field="shortName" display="menu"></p-columnFilter>
+                    <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="shortName" display="menu"></p-columnFilter>
                   </th>
                   <th width="13%" appShowHide [roles]="['admin', 'super-admin']" >
                     Action

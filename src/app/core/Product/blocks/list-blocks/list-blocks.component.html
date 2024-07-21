@@ -61,27 +61,33 @@
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="lotNo">Lot No. <p-sortIcon field="lotNo"></p-sortIcon>
-                                            <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="lotNo" display="menu"></p-columnFilter>
     
                                         </th>
                                         <th pSortableColumn="blockNo">Blocks  No. <p-sortIcon field="blockNo"></p-sortIcon>
-                                            <p-columnFilter type="text" field="blockNo" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="blockNo" display="menu"></p-columnFilter>
     
                                         </th>
                                         <th pSortableColumn="processingCharge">Processing Charge<p-sortIcon field="processingCharge"></p-sortIcon>
-                                            <p-columnFilter type="processingCharge" field="processingCharge" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="processingCharge" field="processingCharge" display="menu"></p-columnFilter>
     
                                         </th>
                                         <th pSortableColumn="height">Height  <p-sortIcon field="height"></p-sortIcon>
-                                            <p-columnFilter type="text" field="height" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="height" display="menu"></p-columnFilter>
     
                                         </th>
                                         <th pSortableColumn="width">Widht <p-sortIcon field="width"></p-sortIcon>
-                                            <p-columnFilter type="text" field="width" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="width" display="menu"></p-columnFilter>
                                             
                                         </th>
                                         <th pSortableColumn="length">Length <p-sortIcon field="length"></p-sortIcon>
-                                            <p-columnFilter type="text" field="length" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="length" display="menu"></p-columnFilter>
     
                                         </th>
                                         <th appShowHide [roles]="['admin', 'super-admin']" >Action

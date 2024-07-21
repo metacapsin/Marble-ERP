@@ -68,19 +68,23 @@
                   </th>
                   <th pSortableColumn="visitReasonName" style="width:20%">Name <p-sortIcon
                       field="visitReasonName"></p-sortIcon>
-                      <p-columnFilter type="text" field="visitReasonName" display="menu"></p-columnFilter>
+                      <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="visitReasonName" display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="visitReasonDuration" style="width:20%">Duration(mins) <p-sortIcon
                       field="visitReasonDuration"></p-sortIcon>
-                      <p-columnFilter type="text" field="visitReasonDuration" display="menu"></p-columnFilter>
+                      <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="visitReasonDuration" display="menu"></p-columnFilter>
                      </th>
                   <th pSortableColumn="visitReasonServices" style="width:40%">Service Procedure Code <p-sortIcon
                       field="visitReasonServices"></p-sortIcon>
-                      <p-columnFilter type="text" field="visitReasonServices" display="menu"></p-columnFilter>
+                      <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="visitReasonServices" display="menu"></p-columnFilter>
                      </th>
                   <th pSortableColumn="visitReasonColorInCalender" style="width:20%">Color <p-sortIcon
                       field="visitReasonColorInCalender"></p-sortIcon>
-                      <p-columnFilter type="text" field="visitReasonColorInCalender" display="menu"></p-columnFilter>
+                      <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="visitReasonColorInCalender" display="menu"></p-columnFilter>
                     </th>
                   <th appShowHide [roles]="['admin', 'super-admin', 'help-desk']">Action</th>
                 </tr>

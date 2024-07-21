@@ -66,28 +66,34 @@
                                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                     </th>
                                     <th pSortableColumn="product">Product <p-sortIcon field="product"></p-sortIcon>
-                                        <p-columnFilter type="text" field="product" display="menu"></p-columnFilter>
+                                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="product" display="menu"></p-columnFilter>
 
                                     </th>
                                     <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon>
-                                        <p-columnFilter type="category" field="category" display="menu"></p-columnFilter>
+                                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="category" field="category" display="menu"></p-columnFilter>
 
                                     </th>
                                     <th pSortableColumn="brand">Sub Category <p-sortIcon field="subCatergory"></p-sortIcon>
-                                        <p-columnFilter type="text" field="subCatergory" display="menu"></p-columnFilter>
+                                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="subCatergory" display="menu"></p-columnFilter>
 
                                     </th>
                                     <th pSortableColumn="warehouse">Warehouse<p-sortIcon
                                             field="warehouse"></p-sortIcon>
-                                        <p-columnFilter field="warehouse" display="menu"></p-columnFilter>
+                                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  field="warehouse" display="menu"></p-columnFilter>
 
                                     </th>
                                     <th pSortableColumn="purchasePrice">Purchase Price <p-sortIcon field="purchasePrice"></p-sortIcon>
-                                        <p-columnFilter type="text" field="purchasePrice" display="menu"></p-columnFilter>
+                                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="purchasePrice" display="menu"></p-columnFilter>
                                         
                                     </th>
                                     <th pSortableColumn="salesPrice">Sales Price <p-sortIcon field="salesPrice"></p-sortIcon>
-                                        <p-columnFilter type="text" field="salesPrice" display="menu"></p-columnFilter>
+                                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="salesPrice" display="menu"></p-columnFilter>
 
                                     </th>
                                     <th appShowHide [roles]="['admin', 'super-admin']" >Action

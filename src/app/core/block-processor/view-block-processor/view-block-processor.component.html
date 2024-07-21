@@ -93,31 +93,38 @@
               <tr>
                 <th pSortableColumn="processingInvoiceNo">
                   Invoice Number <p-sortIcon field="processingInvoiceNo"></p-sortIcon>
-                  <p-columnFilter type="text" field="processingInvoiceNo" display="menu"></p-columnFilter>
+                  <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="processingInvoiceNo" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="processingDate">
                   Processing Date<p-sortIcon field="processingDate"></p-sortIcon>
-                  <p-columnFilter type="text" field="processingDate" display="menu"></p-columnFilter>
+                  <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="processingDate" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="slab">
                   Slab<p-sortIcon field="slab"></p-sortIcon>
-                  <p-columnFilter type="text" field="slab" display="menu"></p-columnFilter>
+                  <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="slab" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paymentStatus">
                   Payment Status<p-sortIcon field="paymentStatus"></p-sortIcon>
-                  <p-columnFilter type="text" field="paymentStatus" display="menu"></p-columnFilter>
+                  <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="paymentStatus" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paidAmount">
                   Paid Amount<p-sortIcon field="paidAmount"></p-sortIcon>
-                  <p-columnFilter type="text" field="paidAmount" display="menu"></p-columnFilter>
+                  <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="paidAmount" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="dueAmount">
                   Due Amount<p-sortIcon field="dueAmount"></p-sortIcon>
-                  <p-columnFilter type="text" field="dueAmount" display="menu"></p-columnFilter>
+                  <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="dueAmount" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="processingCost">
                   Processing Cost<p-sortIcon field="processingCost"></p-sortIcon>
-                  <p-columnFilter type="text" field="processingCost" display="menu"></p-columnFilter>
+                  <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="processingCost" display="menu"></p-columnFilter>
                 </th>
                 <th width="13%" appShowHide [roles]="['admin', 'super-admin']">
                   Action
@@ -175,16 +182,20 @@
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="transactionNo">Transaction No.<p-sortIcon field="transactionNo"></p-sortIcon>
-                  <p-columnFilter type="text" field="transactionNo" display="menu"></p-columnFilter>
+                  <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="transactionNo" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
-                  <p-columnFilter type="text" field="paymentDate" display="menu"></p-columnFilter>
+                  <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="paymentDate" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
-                  <p-columnFilter type="text" field="paymentMode" display="menu"></p-columnFilter>
+                  <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="paymentMode" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
-                  <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
+                  <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="amount" display="menu"></p-columnFilter>
                 </th>
               </tr>
             </ng-template>

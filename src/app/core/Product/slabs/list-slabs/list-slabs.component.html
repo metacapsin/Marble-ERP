@@ -59,59 +59,61 @@
 
                         <div class="card-body p-2">
                             <p-table
-                                [value]="allSlabsDaTa | filter:searchDataValue:['slabNo', 'slabName','size','categoryDetail.name','subCategoryDetail.name','totalSQFT','costPerSQFT','sellingPricePerSQFT','warehouseDetails.name']"
+                                [value]="allSlabsDaTa | filter:searchDataValue:['slabNo', 'slabName','slabSize','categoryDetail.name','subCategoryDetail.name','totalSQFT','costPerSQFT','sellingPricePerSQFT','warehouseDetails.name']"
                                 [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
                                 (onPage)="onPageChange($event)" [(selection)]="selectedSlabs">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="slabNo">Slab No<p-sortIcon field="slabNo"></p-sortIcon>
-                                            <p-columnFilter type="text" field="slabNo" display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="slabNo" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="slabName">Slab Name<p-sortIcon
                                                 field="slabName"></p-sortIcon>
-                                            <p-columnFilter type="text" field="slabName"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="slabName" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="slabSize">Size<p-sortIcon field="slabSize"></p-sortIcon>
-                                            <p-columnFilter type="text" field="slabSize"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="slabSize" display="menu"></p-columnFilter>
 
                                         </th>
                                         <th pSortableColumn="categoryDetail.name">Category<p-sortIcon
                                                 field="categoryDetail.name"></p-sortIcon>
-                                            <p-columnFilter type="categoryDetail.name" field="categoryDetail.name"
+                                            <p-columnFilter matchMode="contains" hideOnClear="true"
+                                                type="text" field="categoryDetail.name"
                                                 display="menu"></p-columnFilter>
 
                                         </th>
                                         <th pSortableColumn="subCategoryDetail.name">Sub Category<p-sortIcon
                                                 field="subCategoryDetail.name"></p-sortIcon>
-                                            <p-columnFilter type="text" field="subCategoryDetail.name"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="subCategoryDetail.name" display="menu"></p-columnFilter>
 
                                         </th>
                                         <th pSortableColumn="totalSQFT">Sq. Feet Left<p-sortIcon
                                                 field="totalSQFT"></p-sortIcon>
-                                            <p-columnFilter type="text" field="totalSQFT"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="totalSQFT" display="menu"></p-columnFilter>
 
                                         </th>
                                         <th pSortableColumn="costPerSQFT">Cost / Sq. Feet<p-sortIcon
                                                 field="costPerSQFT"></p-sortIcon>
-                                            <p-columnFilter type="text" field="costPerSQFT"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="costPerSQFT" display="menu"></p-columnFilter>
 
                                         </th>
                                         <th pSortableColumn="sellingPricePerSQFT">Selling Price<p-sortIcon
                                                 field="sellingPricePerSQFT"></p-sortIcon>
-                                            <p-columnFilter type="text" field="sellingPricePerSQFT"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="sellingPricePerSQFT" display="menu"></p-columnFilter>
 
                                         </th>
                                         <th pSortableColumn="warehouseDetails.name">Warehouse<p-sortIcon
                                                 field="warehouseDetails.name"></p-sortIcon>
-                                            <p-columnFilter type="text" field="warehouseDetails.name"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="warehouseDetails.name" display="menu"></p-columnFilter>
                                         </th>
                                         <th appShowHide [roles]="['admin', 'super-admin']">Action
                                         </th>
@@ -323,12 +325,12 @@
                                 <p class="col-form-label">
                                     <span class="amount-bold">₹ {{slabProfit | indianCurrency}}
                                     </span>
-                                    <span>( Sales : ₹ 
+                                    <span>( Sales : ₹
                                         {{
                                         + slabDetail?.totalSales | indianCurrency
-                                        }} - Sales Return : ₹ 
+                                        }} - Sales Return : ₹
                                         {{
-                                         slabDetail?.totalSalesReturn | indianCurrency
+                                        slabDetail?.totalSalesReturn | indianCurrency
                                         }})</span>
                                 </p>
                             </div>

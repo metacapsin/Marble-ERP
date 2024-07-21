@@ -59,22 +59,28 @@
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="createdOn">Transfer Date <p-sortIcon field="createdOn"></p-sortIcon>
-                                            <p-columnFilter type="text" field="createdOn" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="createdOn" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="slab.slabName">Slab Name <p-sortIcon field="slab.slabName"></p-sortIcon>
-                                            <p-columnFilter type="text" field="slab.slabName" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="slab.slabName" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="fromWarehouse.name">From-Warehouse <p-sortIcon field="fromWarehouse.name"></p-sortIcon>
-                                            <p-columnFilter type="text" field="fromWarehouse.name" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="fromWarehouse.name" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="toWarehouse.name">To-Warehouse <p-sortIcon field="toWarehouse.name"></p-sortIcon>
-                                            <p-columnFilter type="text" field="toWarehouse.name" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="toWarehouse.name" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="transferType">Transfer-Type <p-sortIcon field="transferType"></p-sortIcon>
-                                            <p-columnFilter type="text" field="transferType" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="transferType" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="transferQty">Transfer Quantity <p-sortIcon field="transferQty"></p-sortIcon>
-                                            <p-columnFilter type="text" field="transferQty" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFilter>
                                         </th>
                                         <th>Action</th>
                                     </tr>

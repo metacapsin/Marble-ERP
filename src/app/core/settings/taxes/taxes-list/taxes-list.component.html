@@ -55,10 +55,12 @@
                             <ng-template pTemplate="header" >
                                 <tr>
                                     <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
-                                        <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="name" display="menu"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="taxRate">Tax Rate ( % ) <p-sortIcon field="taxRate"></p-sortIcon>
-                                        <p-columnFilter type="text" field="taxRate" display="menu"></p-columnFilter>
+                                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="taxRate" display="menu"></p-columnFilter>
 
                                     </th>
                                     <th width="13%" appShowHide [roles]="['admin', 'super-admin']" >Action

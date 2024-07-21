@@ -56,14 +56,17 @@
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="lotNo">Lot No. <p-sortIcon field="lotNo"></p-sortIcon>
-                                            <p-columnFilter type="text" field="lotNo" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="lotNo" display="menu"></p-columnFilter>
     
                                         </th>
                                         <th pSortableColumn="VehicleNo">Vehicle No. <p-sortIcon field="VehicleNo"></p-sortIcon>
-                                            <p-columnFilter type="text" field="VehicleNo" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="VehicleNo" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="blockNo">Block No. <p-sortIcon field="blockNo"></p-sortIcon>
-                                            <p-columnFilter type="text" field="blockNo" display="menu"></p-columnFilter>
+                                            <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="blockNo" display="menu"></p-columnFilter>
                                         </th>
                                         <th appShowHide [roles]="['admin', 'super-admin']">Action
                                         </th>

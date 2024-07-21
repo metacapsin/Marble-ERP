@@ -64,19 +64,23 @@
                   <tr>
                     <th pSortableColumn="name" >Sub Category <p-sortIcon
                         field="name"></p-sortIcon>
-                        <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="name" display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="categoryId" >Category <p-sortIcon
                         field="categoryId"></p-sortIcon>
-                        <p-columnFilter type="text" field="categoryId" display="menu"></p-columnFilter>
+                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="categoryId" display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="description" >Description <p-sortIcon
                         field="description"></p-sortIcon>
-                        <p-columnFilter type="text" field="description" display="menu"></p-columnFilter>
+                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="description" display="menu"></p-columnFilter>
                     </th>
                     <!-- <th pSortableColumn="category" ">Category <p-sortIcon
                         field="category"></p-sortIcon>
-                        <p-columnFilter type="text" field="category" display="menu"></p-columnFilter>
+                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="category" display="menu"></p-columnFilter>
                     </th> -->
                     <th width="13%"  appShowHide [roles]="['admin', 'super-admin', 'help-desk']">Action</th>
                   </tr>

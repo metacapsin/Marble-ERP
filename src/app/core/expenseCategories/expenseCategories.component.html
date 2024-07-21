@@ -59,12 +59,14 @@
                                 <tr>
                                     <th pSortableColumn="categoryName">Expense Category
                                         <p-sortIcon field="categoryName"></p-sortIcon>
-                                        <p-columnFilter type="text" field="categoryName"
+                                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="categoryName"
                                             display="menu"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="categoryDescription">Description<p-sortIcon
                                             field="categoryDescription"></p-sortIcon>
-                                        <p-columnFilter type="text" field="categoryDescription"
+                                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="categoryDescription"
                                             display="menu"></p-columnFilter>
                                     </th>
                                     <th width="13%">Action</th>

@@ -55,10 +55,12 @@
               <ng-template pTemplate="header">
                 <tr>
                   <th pSortableColumn="employee.name">Employee<p-sortIcon field="employee.name"></p-sortIcon>
-                    <p-columnFilter type="text" field="employee.name" display="menu"></p-columnFilter>
+                    <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="employee.name" display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon>
-                    <p-columnFilter type="text" field="type" display="menu"></p-columnFilter>
+                    <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="type" display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="basicSalary">Basic Salary<p-sortIcon field="basicSalary"></p-sortIcon></th>
                   <th pSortableColumn="netSalary">Net Salary<p-sortIcon field="netSalary"></p-sortIcon></th>
