@@ -50,6 +50,7 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatRadioModule } from "@angular/material/radio";
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { TotalValueDirective } from "../core/reports/reports/totalValues.directive";
 
 @NgModule({
   declarations: [],
@@ -117,6 +118,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     MatTabsModule,
     MatCheckboxModule,
     MatRadioModule,
+    TotalValueDirective
     
 
     
@@ -172,6 +174,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     MatTabsModule,
     MatCheckboxModule,
 MatRadioModule,
+TotalValueDirective
 
     
 

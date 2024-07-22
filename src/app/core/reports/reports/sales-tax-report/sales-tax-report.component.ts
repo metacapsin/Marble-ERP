@@ -121,10 +121,13 @@ export class SalesTaxReportsComponent {
     }));  
   
   }
+  onFilter(value: any){
+    console.log("value Filter", value);
+    
+  }
   getSalesOrderTax():number {
-    console.log(this.originalData);
     return this.salesTaxReportsData.reduce(
-      (total, payment) => total + parseFloat(payment.salesOrderTax),0);
+      (total, payment) => total + Number(payment.salesOrderTax),0);      
   }
   onDateChange(value: any): void {
     console.log(this.originalData);
