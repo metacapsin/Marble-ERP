@@ -19,6 +19,7 @@
   .local-forms {
     margin-bottom: 0;
   }
+
   .form-group {
     margin-bottom: 1rem;
   }
@@ -94,10 +95,10 @@
                   appShowHide
                   [roles]="['admin', 'super-admin']"
                 >
-                  <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"
+                  <a href="javascript:;" class="me-2" 
                     ><img src="assets/img/icons/pdf-icon-01.svg" alt=""
                   /></a>
-                  <a href="javascript:;" class="me-2" 
+                  <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"
                     ><img src="assets/img/icons/pdf-icon-03.svg" alt=""
                   /></a>
                 </div>
@@ -141,52 +142,50 @@
             </div>
 
             <div class="card-body p-2">
-              <!-- <div class="text-center" *ngIf="!salesTaxReportsData || salesTaxReportsData.length === 0">
-                <span style="color: #97704f; font-size: 15px"
-                  >Data is not available.</span
-                >
-              </div> -->
               <p-table
-  [value]="
-    salesTaxReportsData
-      | filter
-        : searchDataValue
-        : [
-            'salesInvoiceNumber',
-            'salesDate',
-            'customerName',
-            'salesOrderStatus',
-            'customerPhoneNo',
-            'customerEmail',
-            'salesOrderTax',
-            'salesTotalAmount'
-          ]
-  "
-  styleClass="p-datatable-striped"
-  dataKey="id"
-  [tableStyle]="{ 'min-width': '50rem' }"
-  [paginator]="true"
-  [rows]="10"
-  [rowsPerPageOptions]="[5, 10, 20]"
-  #dt
-  [columns]="cols"
-  selectionMode="multiple"
-  [exportHeader]="'customExportHeader'"
-  exportFilename="Sales Tax Reports"
->
-                <!-- [scrollable]="true"
-              scrollHeight="500px" -->
+                [value]="
+                  salesTaxReportsData
+                    | filter
+                      : searchDataValue
+                      : [
+                          'salesInvoiceNumber',
+                          'salesDate',
+                          'customerName',
+                          'salesOrderStatus',
+                          'customerPhoneNo',
+                          'customerEmail',
+                          'salesOrderTax',
+                          'salesTotalAmount'
+                        ]
+                "
+                styleClass="p-datatable-striped"
+                dataKey="id"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                [paginator]="true"
+                [rows]="10"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                #dt
+                [columns]="cols"
+                selectionMode="multiple"
+                [exportHeader]="'customExportHeader'"
+                exportFilename="Sales Tax Reports"
+                (onFilter)="onFilter($event)"
+              >
                 <ng-template pTemplate="header">
                   <tr>
                     <th style="width: 5rem"></th>
                     <th pSortableColumn="salesInvoiceNumber">
                       Invoice Number <p-sortIcon field="salesInvoiceNumber" />
+                      <p-columnFilter type="text" field="salesInvoiceNumber" hideOnClear="true" matchMode="contains" display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="salesDate">
                       Sales Date<p-sortIcon field="salesDate" />
+                      <p-columnFilter type="text" field="salesDate" hideOnClear="true" matchMode="contains" display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="customerName">
                       Customer <p-sortIcon field="customerName" />
+                      <p-columnFilter type="text" field="customerName" hideOnClear="true" matchMode="contains" display="menu"></p-columnFilter>
+
                     </th>
                     <!-- <th pSortableColumn="customerEmail">Email<p-sortIcon field="customerEmail" /></th> -->
                     <!-- <th pSortableColumn="customerPhoneNo">
@@ -215,25 +214,22 @@
                         "
                       />
                     </td>
-                    <td><span class="spanLink" (click)="showInvoiceDialoge(product._id)">{{ product.salesInvoiceNumber }}
-                    </span></td>
+                    <td>
+                      <span
+                        class="spanLink"
+                        (click)="showInvoiceDialoge(product._id)"
+                        >{{ product.salesInvoiceNumber }}
+                      </span>
+                    </td>
                     <td>{{ product.salesDate }}</td>
                     <td>{{ product.customerName }}</td>
-                    <!-- <td>{{product.customerEmail}}</td> -->
-                    <!-- <td>{{ product.customerPhoneNo }}</td> -->
-                    <!-- <td>{{product.salesOrderStatus}}</td> -->
                     <td>
-                      {{ "₹ " + product.salesOrderTax }}
+                      {{ "₹ " + product.salesOrderTax}}
                     </td>
                   </tr>
                   <tr *ngIf="product.expanded">
                     <td colspan="7">
                       <div class="p-3">
-                        <!-- <div class="text-center" *ngIf="!product.salesItemDetails || product.salesItemDetails.length === 0">
-                        <span style="color: #97704f; font-size: 15px"
-                          >Data is not available.</span
-                        >
-                      </div> -->
                         <p-table [value]="product.salesItemDetails">
                           <ng-template pTemplate="header">
                             <tr>
@@ -286,7 +282,8 @@
                                 ₹ {{ alert.salesItemSubTotal | indianCurrency }}
                               </td>
                               <td>
-                                ₹ {{ alert.salesItemTaxAmount | indianCurrency }}
+                                ₹
+                                {{ alert.salesItemTaxAmount | indianCurrency }}
                               </td>
                               <td class="" id="tdSet">
                                 <!-- <div class="border border-1"> -->
@@ -299,7 +296,6 @@
                               </td>
                             </tr>
                           </ng-template>
-                          
                         </p-table>
                       </div>
                     </td>
@@ -307,19 +303,18 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                   <tr>
-                    <td colspan="4" class="text-center">
+                    <td colspan="3" class="text-center">
                       No sales tax reports found. Please generate a
                       sales tax report to see it listed here.
                     </td>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="footer">
-                  <tr *ngIf="getSalesOrderTax() > 0">
-                    <td colspan="4"></td>
+                  <tr>
+                    <td colspan="3"></td>
                     <td>Total Amount</td>
-                    <td>
-                      ₹ {{ getSalesOrderTax() | indianCurrency }}
-                    </td>
+                    <!-- <td>₹ {{ getSalesOrderTax() | indianCurrency }}</td> -->
+                     <td totalValueDirective [data]="salesTaxReportsData"></td>
                   </tr>
                 </ng-template>
               </p-table>
@@ -330,5 +325,11 @@
     </div>
   </div>
 </div>
-<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="salesTaxReportDataShowById"   [paymentDataListById]="paymentDataListById"
-  (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>
+<app-invoice-dialog
+  [showInvoiceDialog]="showInvoiceDialog"
+  [salesDataById]="salesTaxReportDataShowById"
+  [paymentDataListById]="paymentDataListById"
+  (callbackModal)="callBackModal()"
+  (close)="close()"
+  [header]="header"
+></app-invoice-dialog>

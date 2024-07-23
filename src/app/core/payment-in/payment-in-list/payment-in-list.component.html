@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="paymentListData | filter:searchDataValue:['paymentDate', 'salesId','paymentMode','amount']" styleClass="p-datatable-striped"
+                            <p-table [value]="paymentListData | filter:searchDataValue:['paymentDate', 'customer.name','paymentMode','amount']" styleClass="p-datatable-striped"
                                 [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory" selectionMode="multiple">
                                 <ng-template pTemplate="header">
@@ -73,9 +73,9 @@ hideOnClear="true"  type="text" field="transactionNo"
 hideOnClear="true"  type="text" field="paymentDate"
                                                 display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="salesId">customer <p-sortIcon field="salesId"></p-sortIcon>
+                                        <th pSortableColumn="customer.name">Customer <p-sortIcon field="customer.name"></p-sortIcon>
                                             <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="salesId" display="menu"></p-columnFilter>
+hideOnClear="true"  type="text" field="customer.name" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon
                                                 field="paymentMode"></p-sortIcon>
@@ -96,7 +96,7 @@ hideOnClear="true"  type="text" field="amount" display="menu"></p-columnFilter>
                                         <td class="bold">{{payment.paymentDate | date: 'dd-MMM-yyyy'}}</td>
                                         <td class="bold">{{payment.customer.name}}</td>
                                         <td>{{payment.paymentMode}}</td>
-                                        <td>{{payment.amount}}</td>
+                                        <td>₹ {{payment.amount |indianCurrency}}</td>
                                         <td class="action-buttons">
                                             <!-- <p-button [text]=" true" icon="fa fa-eye"></p-button> -->
                                             <!-- <p-button [text]="true" icon="fa fa-edit"></p-button> -->
@@ -114,7 +114,7 @@ hideOnClear="true"  type="text" field="amount" display="menu"></p-columnFilter>
 
                                 <ng-template pTemplate="footer">
                     <tr *ngIf="totalAmount > 0 ">
-                                        <td colspan="2"></td>
+                                        <td colspan="3"></td>
                                         <td>Total </td>
                                         <td>₹ {{ totalAmount }}</td>
                                         <td></td>

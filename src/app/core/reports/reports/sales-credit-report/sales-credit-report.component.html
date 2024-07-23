@@ -142,21 +142,36 @@
 
             <div class="card-body p-2">
               <p-table
-                [value]="salesCreditReportsData | filter:searchDataValue:['salesInvoiceNumber', 'salesDate','customerName','dueAmount']"
+                [value]="
+                  salesCreditReportsData
+                    | filter
+                      : searchDataValue
+                      : [
+                          'salesInvoiceNumber',
+                          'salesDate',
+                          'customerName',
+                          'dueAmount'
+                        ]
+                "
                 styleClass="p-datatable-striped"
                 [tableStyle]="{ 'min-width': '60rem' }"
                 [paginator]="true"
                 [rows]="10"
-                [rowsPerPageOptions]="[5, 10, 20]"  #dt [columns]="cols" selectionMode="multiple"
-                [exportHeader]="'customExportHeader'" exportFilename="Sales Credit Reports"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                #dt
+                [columns]="cols"
+                selectionMode="multiple"
+                [exportHeader]="'customExportHeader'"
+                exportFilename="Sales Credit Reports"
               >
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="salesInvoiceNumber">
                       Invoice Number
                       <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
                         field="salesInvoiceNumber"
                         display="menu"
@@ -164,19 +179,21 @@ hideOnClear="true"
                     </th>
                     <th pSortableColumn="salesDate">
                       Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
                         field="salesDate"
                         display="menu"
                       ></p-columnFilter>
                     </th>
                     <th pSortableColumn="customerName">
-                      Customer <p-sortIcon field="customer"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      Customer <p-sortIcon field="customerName"></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
-                        field="customer"
+                        field="customerName"
                         display="menu"
                       ></p-columnFilter>
                     </th>
@@ -190,8 +207,9 @@ hideOnClear="true"
                     </th>
                     <th pSortableColumn="paidAmount">
                       Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
                         field="paidAmount"
                         display="menu"
@@ -199,8 +217,9 @@ hideOnClear="true"
                     </th>
                     <th pSortableColumn="dueAmount">
                       Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
                         field="dueAmount"
                         display="menu"
@@ -209,8 +228,9 @@ hideOnClear="true"
                     <th pSortableColumn="salesTotalAmount">
                       Total Amount
                       <p-sortIcon field="salesTotalAmount"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
                         field="salesTotalAmount"
                         display="menu"
@@ -220,8 +240,13 @@ hideOnClear="true"
                 </ng-template>
                 <ng-template pTemplate="body" let-sales>
                   <tr>
-                    <td><span class="spanLink" (click)="showInvoiceDialoge(sales._id)">{{ sales.salesInvoiceNumber }}
-                    </span></td>
+                    <td>
+                      <span
+                        class="spanLink"
+                        (click)="showInvoiceDialoge(sales._id)"
+                        >{{ sales.salesInvoiceNumber }}
+                      </span>
+                    </td>
                     <td>{{ sales.salesDate | date : "dd-MMM-yyyy" }}</td>
                     <td>{{ sales.customerName }}</td>
                     <!-- <td>{{ sales.salesOrderStatus }}</td> -->
@@ -245,9 +270,12 @@ hideOnClear="true"
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="8" class="text-center">No sales credit reports found. Please generate a sales credit report to see it listed here.</td>
+                    <td colspan="8" class="text-center">
+                      No sales credit reports found. Please generate a sales
+                      credit report to see it listed here.
+                    </td>
                   </tr>
-              </ng-template>
+                </ng-template>
                 <ng-template pTemplate="footer">
                   <tr
                     *ngIf="
@@ -274,5 +302,11 @@ hideOnClear="true"
   </div>
 </div>
 
-<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="salesCreditReportDataShowById"   [paymentDataListById]="paymentDataListById"
-  (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-invoice-dialog>
+<app-invoice-dialog
+  [showInvoiceDialog]="showInvoiceDialog"
+  [salesDataById]="salesCreditReportDataShowById"
+  [paymentDataListById]="paymentDataListById"
+  (callbackModal)="callBackModal()"
+  (close)="close()"
+  [header]="header"
+></app-invoice-dialog>

@@ -121,10 +121,13 @@ export class SalesTaxReportsComponent {
     }));  
   
   }
+  onFilter(value: any){
+    console.log("value Filter", value);
+    this.salesTaxReportsData  = value.filteredValue
+  }
   getSalesOrderTax():number {
-    console.log(this.originalData);
     return this.salesTaxReportsData.reduce(
-      (total, payment) => total + parseFloat(payment.salesOrderTax),0);
+      (total, payment) => total + Number(payment.salesOrderTax),0);      
   }
   onDateChange(value: any): void {
     console.log(this.originalData);
@@ -173,7 +176,6 @@ export class SalesTaxReportsComponent {
       console.log("this is payment by sales id", this.paymentDataListById);
     });
   }
-
 
   callBackModal() {}
   close() {

@@ -141,7 +141,20 @@
 
             <div class="card-body p-2">
               <p-table
-                [value]="paymentOutData | filter:searchDataValue:['transactionNo','paymentDate','source','customer.name','supplier.name','paymentMode','amount']"
+                [value]="
+                  paymentOutData
+                    | filter
+                      : searchDataValue
+                      : [
+                          'transactionNo',
+                          'paymentDate',
+                          'source',
+                          'customer.name',
+                          'supplier.name',
+                          'paymentMode',
+                          'amount'
+                        ]
+                "
                 styleClass="p-datatable-striped"
                 [tableStyle]="{ 'min-width': '60rem' }"
                 [paginator]="true"
@@ -152,14 +165,14 @@
                 selectionMode="multiple"
                 [exportHeader]="'customExportHeader'"
                 exportFilename="Payment Out Reports"
-
               >
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="paymentDate">
                       Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
                         field="paymentDate"
                         display="menu"
@@ -168,8 +181,9 @@ hideOnClear="true"
                     <th pSortableColumn="transactionNo">
                       Transaction Number
                       <p-sortIcon field="transactionNo"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
                         field="transactionNo"
                         display="menu"
@@ -177,8 +191,9 @@ hideOnClear="true"
                     </th>
                     <th pSortableColumn="source">
                       Payment Source <p-sortIcon field="source"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
                         field="source"
                         display="menu"
@@ -187,8 +202,9 @@ hideOnClear="true"
                     <th pSortableColumn="customer.name">
                       Customer / Supplier
                       <p-sortIcon field="customer.name"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
                         field="customer.name"
                         display="menu"
@@ -196,8 +212,9 @@ hideOnClear="true"
                     </th>
                     <th pSortableColumn="paymentMode">
                       Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
                         field="paymentMode"
                         display="menu"
@@ -205,8 +222,9 @@ hideOnClear="true"
                     </th>
                     <th pSortableColumn="amount">
                       Amount <p-sortIcon field="amount"></p-sortIcon>
-                      <p-columnFilter  matchMode="contains"  
-hideOnClear="true" 
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
                         type="text"
                         field="amount"
                         display="menu"
@@ -227,9 +245,12 @@ hideOnClear="true"
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                   <tr>
-                      <td colspan="6" class="text-center">No payment out reports found. Please generate a payment out report to see it listed here.</td>
+                    <td colspan="6" class="text-center">
+                      No payment out reports found. Please generate a payment
+                      out report to see it listed here.
+                    </td>
                   </tr>
-              </ng-template>
+                </ng-template>
 
                 <ng-template pTemplate="footer">
                   <tr *ngIf="getTotalAmount() > 0">

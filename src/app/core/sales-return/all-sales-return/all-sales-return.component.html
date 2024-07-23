@@ -198,7 +198,8 @@ hideOnClear="true"  type="text" field="returnDate" display="menu"  ></p-columnFi
 hideOnClear="true"  type="text" field="customer.name" display="menu"  ></p-columnFilter>
                   </th>
                   <th pSortableColumn="returnOrderStatus">Return Status <p-sortIcon
-                      field="returnOrderStatus"></p-sortIcon><p-columnFilter type="text" field="returnOrderStatus" display="menu"  ></p-columnFilter>
+                      field="returnOrderStatus"></p-sortIcon><p-columnFilter matchMode="contains"  
+                      hideOnClear="true"  type="text" field="returnOrderStatus" display="menu"  ></p-columnFilter>
                     </th>
                   <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                     <p-columnFilter  matchMode="contains"  

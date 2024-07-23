@@ -180,6 +180,7 @@ export class AdminDashboardComponent {
   stockAlertSearchDataValue:any
   StockWarehouseWiseLot: any;
   StockWarehouseWiseSlab: any;
+  StockWarehouseWise: any;
 
   constructor(
     // public data: DataService,
@@ -398,9 +399,9 @@ export class AdminDashboardComponent {
     this.Service.getStockWarehouseWise().subscribe(
       (resp: any) => {
         console.log(resp);
-        this.StockWarehouseWiseLot = resp.lot
-        this.StockWarehouseWiseSlab = resp.slab
-        console.log(this.StockWarehouseWiseLot,this.StockWarehouseWiseSlab);
+        this.StockWarehouseWise = resp
+        // this.StockWarehouseWiseSlab = resp.slab
+        console.log(this.StockWarehouseWise);
       },
       (error: any) => {
         console.error("Stock Warehouse Wise:", error);
@@ -655,4 +656,6 @@ export class AdminDashboardComponent {
     const formattedDate2 = this.formatDate(endDate);
     this.apiCall(formattedDate1, formattedDate2);
   }
+
+
 }
