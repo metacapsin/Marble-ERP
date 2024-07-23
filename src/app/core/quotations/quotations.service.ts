@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { an } from '@fullcalendar/core/internal-common';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -28,5 +29,17 @@ export class QuotationsService {
 
   getQuotationByCustomerId(id: any) {
     return this.http.get(environment.apiUrl + `/QuotationController/getQuotationByCustomerId/${id}`)
+  }
+
+  downloadQuotationInvoice(id: any): Observable<Blob> {
+    const url = `${environment.apiUrl}/QuotationController/downloadQuotationInvoice/${id}`;
+    return this.http.post(url, {}, { responseType: 'blob' }).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('An error occurred:', error);
+    return throwError('Something went wrong; please try again later.');
   }
 }

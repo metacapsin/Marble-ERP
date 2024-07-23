@@ -67,11 +67,8 @@
           <div class="dash-content dash-count">
             <h4 class="h4_size">Total Sales</h4>
             <span class="font_size">
-              <span class="me-2">₹</span
-              ><span class="counter-up"
-              [options]="{ duration: 2 }"
-              [countUp]="financialSummaryData?.totalSales"
-              >
+              <span class="me-2">₹</span><span class="counter-up" [options]="{ duration: 2 }"
+                [countUp]="financialSummaryData?.totalSales">
                 {{ financialSummaryData?.totalSales | indianCurrency }}
               </span>
             </span>
@@ -482,10 +479,7 @@
           <div class="col-12">
             <div class="dash-widget">
               <div class="dash-boxs comman-flex-center">
-                <i
-                  class="fa fa-cubes"
-                  style="font-size: 20px; color: #97704f"
-                ></i>
+                <i class="fa fa-cubes" style="font-size: 20px; color: #97704f"></i>
               </div>
               <div class="dash-content dash-count">
                 <h4>Slab Stock</h4>
@@ -493,17 +487,14 @@
                   <p>
                     <span class="font_size">{{
                       StockWarehouseWise.totalSlabStock
-                    }}</span>
+                      }}</span>
                     Sq. Feet
                     <span class="font_size">{{
                       StockWarehouseWise.totalSlabs
-                    }}</span>
+                      }}</span>
                     Slabs
                   </p>
-                  <div
-                    class="d-flex justify-content-end mt-1"
-                    *ngFor="let sub of StockWarehouseWise.slab"
-                  >
+                  <div class="d-flex justify-content-end mt-1" *ngFor="let sub of StockWarehouseWise.slab">
                     <!-- <p>
                       <span class="passive-view me-2">{{
                         sub.warehouseName
@@ -515,7 +506,7 @@
                         <p>
                           <span class="passive-view me-2">{{
                             sub.warehouseName
-                          }}:</span>
+                            }}:</span>
                         </p>
                         <p>
                           {{ sub.totalSlabStock | number : "1.2-2" }} Sq. Feet
@@ -531,10 +522,7 @@
           <div class="col-12">
             <div class="dash-widget">
               <div class="dash-boxs comman-flex-center">
-                <i
-                  class="fa fa-cubes"
-                  style="font-size: 20px; color: #97704f"
-                ></i>
+                <i class="fa fa-cubes" style="font-size: 20px; color: #97704f"></i>
               </div>
               <div class="dash-content dash-count">
                 <h4>Block Stock</h4>
@@ -543,26 +531,23 @@
                     <p>
                       <span class="font_size">{{
                         StockWarehouseWise.totalBlockStock | number : "1.2-2"
-                      }}</span>
+                        }}</span>
                       Ton
                     </p>
                     <p>
                       <span class="font_size">{{
                         StockWarehouseWise.totalBlock
-                      }}</span>
+                        }}</span>
                       Block
                     </p>
                   </div>
-                  <div
-                    class="mt-1 d-flex justify-content-end"
-                    *ngFor="let sub of StockWarehouseWise.lot"
-                  >
+                  <div class="mt-1 d-flex justify-content-end" *ngFor="let sub of StockWarehouseWise.lot">
                     <div class="w-55">
                       <div class="d-flex justify-content-between">
                         <p>
                           <span class="passive-view me-2">{{
                             sub.warehouseName
-                          }}:</span>
+                            }}:</span>
                         </p>
                         <p>
                           {{ sub.totalWeightInTon | number : "1.2-2" }} Ton,
@@ -622,96 +607,59 @@
                     <p-table [value]="product.creditAlerts" dataKey="saleId" styleClass="p-datatable-striped"
                       selectionMode="multiple">
                       <ng-template pTemplate="header">
-                        <tr>
-                          <th pSortableColumn="invoiceNo">
-                            Invoice No
-                            <p-sortIcon field="invoiceNo" /><p-columnFilter
-                              type="text"
-                              field="invoiceNo"
-                              display="menu"
-                              matchMode="contains"
-                            ></p-columnFilter>
-                          </th>
-                          <th pSortableColumn="salesDate">
-                            Sales Date
-                            <p-sortIcon field="salesDate" /><p-columnFilter
-                              type="text"
-                              field="salesDate"
-                              display="menu"
-                               
-                            ></p-columnFilter>
-                          </th>
-                          <th pSortableColumn="dueAmount">
-                            Due Amount
-                            <p-sortIcon field="dueAmount" /><p-columnFilter
-                              type="text"
-                              field="dueAmount"
-                              display="menu"
-                              matchMode="contains"
-                            ></p-columnFilter>
-                          </th>
-                          <th pSortableColumn="salesTotalAmount">
-                            Total Amount
-                            <p-sortIcon
-                              field="salesTotalAmount"
-                            /><p-columnFilter
-                              type="text"
-                              field="salesTotalAmount"
-                              display="menu"
-                               
-                            ></p-columnFilter>
-                          </th>
-                          <th pSortableColumn="alertType">
-                            Alert Type
-                            <p-sortIcon field="alertType" /><p-columnFilter
-                              type="text"
-                              field="alertType"
-                              display="menu"
-                               
-                            ></p-columnFilter>
-                          </th>
-                          <th pSortableColumn="daysLeft">
-                            Days Left
-                            <p-sortIcon field="daysLeft" /><p-columnFilter
-                              type="text"
-                              field="daysLeft"
-                              display="menu"
-                               
-                            ></p-columnFilter>
-                          </th>
-                        </tr>
-                      </ng-template>
-                      <ng-template pTemplate="body" let-alert>
-                        <tr>
-                          <td>{{ alert.invoiceNo }}</td>
-                          <td>{{ alert.salesDate | date : "dd-MMM-yyyy" }}</td>
-                          <td>₹ {{ alert.dueAmount | indianCurrency }}</td>
-                          <td>
-                            ₹ {{ alert.salesTotalAmount | indianCurrency }}
-                          </td>
-                          <td>
-                            <p-tag
-                              [value]="alert.alertType"
-                              [severity]="getSeverity(alert.alertType)"
-                            />
-                          </td>
-                          <td>
-                            <p-tag
-                              [value]="alert.daysLeft"
-                              [severity]="getStatusSeverity(alert.daysLeft)"
-                            />
-                          </td>
-                        </tr>
-                      </ng-template>
-                      <ng-template pTemplate="emptymessage">
-                        <tr>
-                          <td colspan="4">
-                            There are no alerts for this product yet.
-                          </td>
-                        </tr>
-                      </ng-template>
-                    </p-table>
-                  </div>
+              <tr>
+                <th pSortableColumn="invoiceNo">
+                  Invoice No
+                  <p-sortIcon field="invoiceNo" /><p-columnFilter type="text" field="invoiceNo" display="menu"
+                    matchMode="contains" hideOnClear="true"></p-columnFilter>
+                </th>
+                <th pSortableColumn="salesDate">
+                  Sales Date
+                  <p-sortIcon field="salesDate" /><p-columnFilter type="text" field="salesDate" matchMode="contains"
+                    hideOnClear="true" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="dueAmount">
+                  Due Amount
+                  <p-sortIcon field="dueAmount" /><p-columnFilter type="text" field="dueAmount" display="menu"
+                    matchMode="contains" hideOnClear="true"></p-columnFilter>
+                </th>
+                <th pSortableColumn="salesTotalAmount">
+                  Total Amount
+                  <p-sortIcon field="salesTotalAmount" /><p-columnFilter matchMode="contains" hideOnClear="true"
+                    type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="alertType">
+                  Alert Type
+                  <p-sortIcon field="alertType" /><p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                    field="alertType" display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="daysLeft">
+                  Days Left
+                  <p-sortIcon field="daysLeft" /><p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                    field="daysLeft" display="menu"></p-columnFilter>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-alert>
+              <tr>
+                <td>{{ alert.invoiceNo }}</td>
+                <td>{{ alert.salesDate | date : "dd-MMM-yyyy" }}</td>
+                <td>₹ {{ alert.dueAmount | indianCurrency }}</td>
+                <td>
+                  ₹ {{ alert.salesTotalAmount | indianCurrency }}
+                </td>
+                <td>
+                  <p-tag [value]="alert.alertType" [severity]="getSeverity(alert.alertType)" />
+                </td>
+                <td>
+                  <p-tag [value]="alert.daysLeft" [severity]="getStatusSeverity(alert.daysLeft)" />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="4">
+                  There are no alerts for this product yet.
                 </td>
               </tr>
             </ng-template>
@@ -720,16 +668,21 @@
         </td>
         </tr>
         </ng-template>
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="4" class="text-center">
-              There are no alerts for the Customer yet.
-            </td>
-          </tr>
-        </ng-template>
         </p-table>
       </div>
+      <!-- </td>
+      </tr> -->
+      <!-- </ng-template> -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" class="text-center">
+            There are no alerts for the Customer yet.
+          </td>
+        </tr>
+      </ng-template>
+      <!-- </p-table> -->
     </div>
   </div>
 </div>
 </div>
+<!-- </div> -->

@@ -40,6 +40,8 @@ export class PaymentInReportComponent {
       this.paymentInData = resp.payments
       this.originalData = resp.payments
 
+      console.log("this is original data",this.originalData)
+
       this.cols = [
         { field: 'paymentDate', header: 'Payment Date' },
         { field: 'amount', header: 'Amount' },

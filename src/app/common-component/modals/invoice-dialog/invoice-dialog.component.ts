@@ -15,6 +15,7 @@ import { AuthService } from "src/app/shared/auth/auth.service";
 import { HttpClient } from "@angular/common/http";
 import { PurchaseService } from "src/app/core/purchase/purchase.service";
 import { RouterModule } from "@angular/router";
+import { QuotationsService } from "src/app/core/quotations/quotations.service";
 
 @Component({
   selector: "app-invoice-dialog",
@@ -45,7 +46,7 @@ export class InvoiceDialogComponent implements OnInit {
     private userData: AuthService,
     private salesService: SalesService,
     private purchaseService: PurchaseService,
-
+    private quotationService: QuotationsService,
     private http: HttpClient
   ) {}
   ngOnInit() {
@@ -87,18 +88,18 @@ export class InvoiceDialogComponent implements OnInit {
       }
     );
   }
-  downloadPurchaseFile(id: any) {
+  downloadQuotationFile(id: any) {
     if (!id) {
       console.error("No ID provided for download");
       return;
     }
 
-    this.purchaseService.downloadPurchaseInvoice(id).subscribe(
+    this.quotationService.downloadQuotationInvoice(id).subscribe(
       (response: Blob) => {
         const url = window.URL.createObjectURL(response);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "Purchase-Invoice.pdf"; // Adjust the file name and extension as needed
+        a.download = "Quotation-Invoice.pdf"; // Adjust the file name and extension as needed
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

@@ -26,13 +26,11 @@
                                     <div class="doctor-search-blk">
                                         <div class="top-nav-search table-search-blk">
                                             <input type="text" class="form-control" placeholder="Search here"
-                                                [(ngModel)]="searchDataValue"
-                                                >
+                                                [(ngModel)]="searchDataValue">
                                             <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                         </div>
                                         <div class="add-group textbtn">
-                                            <a 
-                                                (click)="navigateToCreateBlockProcessor()"
+                                            <a (click)="navigateToCreateBlockProcessor()"
                                                 class="btn btn-primary add-pluss ms-2">
                                                 <img src="assets/img/icons/plus.svg" alt="">Add New</a>
                                         </div>
@@ -51,28 +49,33 @@
                     </div>
 
                     <div class="card-body p-2">
-                        <p-table [value]="blockProcessorData | filter:searchDataValue:['name', 'email', 'status', 'createdOn']" styleClass="p-datatable-striped"
-                            [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
-                            [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)" selectionMode="multiple"
-                            [(selection)]="selectedCustomer" styleClass="p-datatable-striped" >
+                        <p-table
+                            [value]="blockProcessorData | filter:searchDataValue:['name', 'email', 'status', 'createdOn']"
+                            styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                            [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)"
+                            selectionMode="multiple" [(selection)]="selectedCustomer" styleClass="p-datatable-striped">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th pSortableColumn="name">Company Name <p-sortIcon field="name"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="name" display="menu"></p-columnFilter>
+                                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="name"
+                                            display="menu"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="email" display="menu"></p-columnFilter>
+                                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                            field="email" display="menu"></p-columnFilter>
                                     </th>
                                     <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon>
                                     </th>
                                     <th pSortableColumn="createdOn">Created At <p-sortIcon
-                                            field="createdOn"></p-sortIcon></th>
-                                    <th width="13%" >Action</th>
+                                            field="createdOn"></p-sortIcon>
+                                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                            field="createdOn" display="menu"></p-columnFilter>
+                                    </th>
+
+                                    <th width="13%">Action</th>
                                 </tr>
                             </ng-template>
-                                <ng-template pTemplate="body" let-product>
+                            <ng-template pTemplate="body" let-product>
                                 <tr>
                                     <td class="bold">{{product.name}}</td>
                                     <td class="bold">{{product.email}}</td>
@@ -95,7 +98,8 @@ hideOnClear="true"  type="text" field="email" display="menu"></p-columnFilter>
                             </ng-template>
                             <ng-template pTemplate="emptymessage">
                                 <tr>
-                                    <td colspan="5" class="text-center">No block/slab processor records found. Please add a block/slab processor to see it listed here.</td>
+                                    <td colspan="5" class="text-center">No block/slab processor records found. Please
+                                        add a block/slab processor to see it listed here.</td>
                                 </tr>
                             </ng-template>
                         </p-table>

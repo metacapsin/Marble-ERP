@@ -28,7 +28,7 @@
                   <h3>Employee Salary List</h3>
                   <div class="doctor-search-blk">
                     <div class="top-nav-search table-search-blk">
-                      <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue" >
+                      <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue">
                       <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                     </div>
                     <div class="add-group textbtn">
@@ -50,43 +50,51 @@
             </div>
           </div>
           <div class="card-body p-2">
-            <p-table [value]="salaryData | filter:searchDataValue:['employee.name','type','basicSalary','netSalary',]" styleClass="p-datatable-striped"  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+            <p-table [value]="salaryData | filter:searchDataValue:['employee.name','type','basicSalary','netSalary',]"
+              styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
               [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedsalary">
               <ng-template pTemplate="header">
                 <tr>
                   <th pSortableColumn="employee.name">Employee<p-sortIcon field="employee.name"></p-sortIcon>
-                    <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="employee.name" display="menu"></p-columnFilter>
+                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="employee.name"
+                      display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon>
-                    <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="type" display="menu"></p-columnFilter>
+                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="type"
+                      display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="basicSalary">Basic Salary<p-sortIcon field="basicSalary"></p-sortIcon></th>
-                  <th pSortableColumn="netSalary">Net Salary<p-sortIcon field="netSalary"></p-sortIcon></th>
+                  <th pSortableColumn="basicSalary">Basic Salary<p-sortIcon field="basicSalary"></p-sortIcon>
+                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="basicSalary"
+                    display="menu"></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="netSalary">Net Salary<p-sortIcon field="netSalary"></p-sortIcon>
+                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="netSalary"
+                    display="menu"></p-columnFilter>
+                  </th>
                   <th width="13%">Action</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-salary>
                 <tr>
-                  <td >{{salary.employee.name}}</td>
-                  <td >{{salary.type}}</td>
-                  <td >₹ {{salary.basicSalary}}</td>
-                  <td >₹ {{salary.netSalary}}</td>
-                  <td  class="action-buttons" appShowHide [roles]="['admin', 'super-admin']">
-                    <p-button [text]="true" icon="fa-solid fa-edit"(click)="editSalary(salary._id)"></p-button>
+                  <td>{{salary.employee.name}}</td>
+                  <td>{{salary.type}}</td>
+                  <td>₹ {{salary.basicSalary |indianCurrency}}</td>
+                  <td>₹ {{salary.netSalary |indianCurrency}}</td>
+                  <td class="action-buttons" appShowHide [roles]="['admin', 'super-admin']">
+                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalary(salary._id)"></p-button>
                     <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalaryList(salary._id)"></p-button>
                   </td>
                 </tr>
               </ng-template>
               <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="5" class="text-center">No salary records found. Please record an employee salary to see it listed here.</td>
+                  <td colspan="5" class="text-center">No salary records found. Please record an employee salary to see
+                    it listed here.</td>
                 </tr>
-            </ng-template>
+              </ng-template>
             </p-table>
           </div>
-          
+
 
         </div>
       </div>

@@ -57,24 +57,27 @@
                             </div>
                         </div>
                         <div class="card-body p-2">
-                        <p-table [value]="data | filter:searchDataValue:['name', 'email','phone']" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" selectionMode="multiple"
-                            [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"  (onPage)="onPageChange($event)" [(selection)]="selectedProducts">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <!-- <th appShowHide [roles]="['admin', 'super-admin']">
+                            <p-table [value]="data | filter:searchDataValue:['name', 'email','phone']"
+                                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
+                                [paginator]="true" selectionMode="multiple" [rows]="10"
+                                [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
+                                [(selection)]="selectedProducts">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <!-- <th appShowHide [roles]="['admin', 'super-admin']">
                                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                     </th> -->
-                                    <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="name" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="name" display="menu"></p-columnFilter>
 
-                                    </th>
-                                    <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="email" field="email" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="email" display="menu"></p-columnFilter>
 
-                                    </th>
-                                    <!-- <th pSortableColumn="city">City <p-sortIcon field="city"></p-sortIcon>
+                                        </th>
+                                        <!-- <th pSortableColumn="city">City <p-sortIcon field="city"></p-sortIcon>
                                         <p-columnFilter  matchMode="contains"  
 hideOnClear="true"  type="text" field="city" display="menu"></p-columnFilter>
 
@@ -84,37 +87,45 @@ hideOnClear="true"  type="text" field="city" display="menu"></p-columnFilter>
 hideOnClear="true"  type="text" field="zip" display="menu"></p-columnFilter>
 
                                     </th> -->
-                                    <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="phone" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="phone" display="menu"></p-columnFilter>
 
-                                    </th>
-                                    <!-- <th pSortableColumn="onlineStore">Online Store <p-sortIcon
+                                        </th>
+                                        <th pSortableColumn="billingAddress">Billing Address <p-sortIcon field="billingAddress"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="billingAddress" display="menu"></p-columnFilter>
+
+                                        </th>
+                                        <!-- <th pSortableColumn="onlineStore">Online Store <p-sortIcon
                                             field="onlineStore"></p-sortIcon>
                                         <p-columnFilter  matchMode="contains"  
 hideOnClear="true"  field="onlineStore" display="menu"></p-columnFilter>
 
                                     </th> -->
-                                    <th width="13%" >Action
-                                    </th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-warehouse>
+                                        <th width="10%">Action
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-warehouse>
 
-                                <tr>
-                                    <!-- <td appShowHide [roles]="['admin', 'super-admin']">
+                                    <tr>
+                                        <!-- <td appShowHide [roles]="['admin', 'super-admin']">
                                         <p-tableCheckbox [value]="warehouse"></p-tableCheckbox>
                                     </td> -->
-                                    <td>
-                                        {{warehouse.name}}
-                                    </td>
-                                    <td>
-                                        {{warehouse.email}}
-                                    </td>
-                                    <td>
-                                        {{warehouse.phone}}
-                                    </td>
-                                    <!-- <td >
+                                        <td>
+                                            {{warehouse.name}}
+                                        </td>
+                                        <td>
+                                            {{warehouse.email}}
+                                        </td>
+                                        <td>
+                                            {{warehouse.phone}}
+                                        </td>
+                                        <td>
+                                            {{warehouse.billingAddress}}
+                                        </td>
+                                        <!-- <td >
 
 
 
@@ -128,24 +139,25 @@ hideOnClear="true"  field="onlineStore" display="menu"></p-columnFilter>
                                         <label for="status_1" class="checktoggle">checkbox</label>
 
                                     </td> -->
-                                    <td appShowHide [roles]="['admin', 'super-admin']" >
-                  <div class="action-buttons">
+                                        <td appShowHide [roles]="['admin', 'super-admin']">
+                                            <div class="action-buttons">
 
-                                        <p-button [text]="true" icon="fa fa-edit"
-                                            [routerLink]="['/settings/warehouse/edit', warehouse._id]"></p-button>
-                                        <p-button [text]=" true" icon="fa fa-trash"
-                                            (click)="deleteLocation(warehouse._id)"></p-button>
-                  </div>
-                                    </td>
+                                                <p-button [text]="true" icon="fa fa-edit"
+                                                    [routerLink]="['/settings/warehouse/edit', warehouse._id]"></p-button>
+                                                <p-button [text]=" true" icon="fa fa-trash"
+                                                    (click)="deleteLocation(warehouse._id)"></p-button>
+                                            </div>
+                                        </td>
 
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="emptymessage">
-                                <tr>
-                                    <td colspan="3" class="text-center">No warehouses found. Please add a warehouse to see it listed here.</td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="3" class="text-center">No warehouses found. Please add a warehouse
+                                            to see it listed here.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
                     </div>
                 </div>

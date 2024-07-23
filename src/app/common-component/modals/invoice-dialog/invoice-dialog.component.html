@@ -4,14 +4,14 @@
     <div class="d-flex justify-content-between align-items-center w-100">
       <h4>{{ header }}</h4>
       <div class="d-flex">
-        <button *ngIf="sales.customer?.billingAddress" type="button" class="btn icon-button" aria-label="Download"
+        <button *ngIf="sales?.salesOrderStatus" type="button" class="btn icon-button" aria-label="Download"
           (click)="downloadSalesFile(sales._id)">
           <i class="fa-solid fa-download"></i>
         </button>
-        <!-- <button *ngIf="sales.supplier?.billingAddress" type="button" class="btn icon-button" aria-label="Download"
-          (click)="downloadPurchaseFile(sales._id)">
+        <button *ngIf="sales.quotationInvoiceNumber" type="button" class="btn icon-button" aria-label="Download"
+          (click)="downloadQuotationFile(sales._id)">
           <i class="fa-solid fa-download"></i>
-        </button> -->
+        </button>
         <button type="button" class="btn icon-button" aria-label="Close" (click)="closeTheWindow()">
           <i class="fa-solid fa-xmark"></i>
         </button>

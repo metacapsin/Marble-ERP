@@ -29,15 +29,15 @@
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input type="text" class="form-control" placeholder="Search here"
-                                                    [(ngModel)]="searchDataValue"
-                                                    >
-                                                    <!-- / (ngModelChange)="searchData(searchDataValue)" -->
+                                                    [(ngModel)]="searchDataValue">
+                                                <!-- / (ngModelChange)="searchData(searchDataValue)" -->
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="add-group textbtn">
                                                 <a appShowHide [roles]="['admin', 'super-admin', 'help-desk']"
-                                             class="btn btn-primary add-pluss ms-2" [routerLink]="routes.addPaymentOut">
-                                            <img src="assets/img/icons/plus.svg" alt="">Add New</a>
+                                                    class="btn btn-primary add-pluss ms-2"
+                                                    [routerLink]="routes.addPaymentOut">
+                                                    <img src="assets/img/icons/plus.svg" alt="">Add New</a>
                                             </div>
                                         </div>
                                     </div>
@@ -56,54 +56,63 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="paymentListData | filter:searchDataValue:['paymentDate', 'salesId', 'paymentMode', 'amount']" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
-                            [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory" selectionMode="multiple">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="purchaseInvoiceNumber" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="paymentDate" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="salesId">Suppliers <p-sortIcon field="salesId"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="salesId" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="paymentMode" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="amount" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th>Action</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-payment>
-                                <tr>
-                                    <td class="bold">{{payment.purchaseInvoiceNumber}}</td>
-                                    <td class="bold">{{payment.paymentDate | date: 'dd-MMM-yyyy'}}</td>
-                                    <td class="bold">{{payment.supplier.name}}</td>
-                                    <td>{{payment.paymentMode}}</td>
-                                    <td>{{payment.amount}}</td>
-                                    <td>
-                                        <!-- <p-button [text]=" true" icon="fa fa-eye"></p-button> -->
-                                        <!-- <p-button [text]="true" icon="fa fa-edit"></p-button> -->
-                                        <p-button [text]=" true" icon="fa fa-trash" (click)="  deletePayment(payment._id)"></p-button>
+                            <p-table
+                                [value]="paymentListData | filter:searchDataValue:['paymentDate', 'salesId', 'paymentMode', 'amount']"
+                                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
+                                [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+                                [(selection)]="selectedCategory" selectionMode="multiple">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="purchaseInvoiceNumber">Invoice Number <p-sortIcon
+                                                field="purchaseInvoiceNumber"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="purchaseInvoiceNumber" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="paymentDate">Payment Date <p-sortIcon
+                                                field="paymentDate"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="paymentDate" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="supplier.name">Suppliers <p-sortIcon
+                                                field="supplier.name"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="supplier.name" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon
+                                                field="paymentMode"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="paymentMode" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="amount" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-payment>
+                                    <tr>
+                                        <td class="bold">{{payment.purchaseInvoiceNumber}}</td>
+                                        <td class="bold">{{payment.paymentDate | date: 'dd-MMM-yyyy'}}</td>
+                                        <td class="bold">{{payment.supplier.name}}</td>
+                                        <td>{{payment.paymentMode}}</td>
+                                        <td>{{payment.amount}}</td>
+                                        <td>
+                                            <!-- <p-button [text]=" true" icon="fa fa-eye"></p-button> -->
+                                            <!-- <p-button [text]="true" icon="fa fa-edit"></p-button> -->
+                                            <p-button [text]=" true" icon="fa fa-trash"
+                                                (click)="  deletePayment(payment._id)"></p-button>
 
-                                    </td>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="emptymessage">
-                                <tr>
-                                    <td colspan="6" class="text-center">No payment out records found. Please record a payment out to see it listed here.</td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="6" class="text-center">No payment out records found. Please record
+                                            a payment out to see it listed here.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
 
 
