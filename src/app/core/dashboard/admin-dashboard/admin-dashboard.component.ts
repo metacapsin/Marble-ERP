@@ -656,4 +656,6 @@ export class AdminDashboardComponent {
     const formattedDate2 = this.formatDate(endDate);
     this.apiCall(formattedDate1, formattedDate2);
   }
+
+
 }

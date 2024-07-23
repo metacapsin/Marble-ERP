@@ -14,9 +14,11 @@ import { ConfirmationService } from 'primeng/api';
 import { WarehouseRoutingModule } from './core/settings/warehouse/warehouse-routing.module';
 import { ProductsRoutingModule } from './core/settings/products/products-routing.module';
 import { ProductsModule } from './core/settings/products/products.module';
+import { IndianCurrencyPipe } from './shared/directives/indian-currency.pipe';
 
 
 @NgModule({
+  // providers: [IndianCurrencyPipe],
   declarations: [
     AppComponent
   ],
@@ -31,6 +33,7 @@ import { ProductsModule } from './core/settings/products/products.module';
     ProductsModule
   ],
   providers: [
+    IndianCurrencyPipe,
     ConfirmationService,
     provideHttpClient(withInterceptors(
       [JwtInterceptor]

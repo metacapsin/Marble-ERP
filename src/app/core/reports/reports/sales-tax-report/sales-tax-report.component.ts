@@ -123,7 +123,7 @@ export class SalesTaxReportsComponent {
   }
   onFilter(value: any){
     console.log("value Filter", value);
-    
+    this.salesTaxReportsData  = value.filteredValue
   }
   getSalesOrderTax():number {
     return this.salesTaxReportsData.reduce(
@@ -176,7 +176,6 @@ export class SalesTaxReportsComponent {
       console.log("this is payment by sales id", this.paymentDataListById);
     });
   }
-
 
   callBackModal() {}
   close() {

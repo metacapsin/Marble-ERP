@@ -51,6 +51,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatRadioModule } from "@angular/material/radio";
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TotalValueDirective } from "../core/reports/reports/totalValues.directive";
+import { CarouselModule } from 'primeng/carousel';
 
 @NgModule({
   declarations: [],
@@ -74,6 +75,7 @@ import { TotalValueDirective } from "../core/reports/reports/totalValues.directi
       showUnits: false,
       showBackground: false,
     }),
+    CarouselModule,
     SlickCarouselModule,
     materialModule,
     SelectButtonModule,
@@ -174,8 +176,8 @@ import { TotalValueDirective } from "../core/reports/reports/totalValues.directi
     MatTabsModule,
     MatCheckboxModule,
 MatRadioModule,
-TotalValueDirective
-
+TotalValueDirective,
+CarouselModule,
     
 
     
