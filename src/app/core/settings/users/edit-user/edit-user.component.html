@@ -49,15 +49,6 @@
               <form [formGroup]="editUserGroup" (ngSubmit)="editUserForm()">
                 <div class="row">
 
-                  <!-- <div class="d-flex m-b-10" style="justify-content: space-between;">
-                    <h3>Edit User</h3>
-                    <div class=" settings-btns text-end m-b-10">
-                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                        [disabled]="!editUserGroup.valid">Submit</button>
-                      <button class="btn btn-secondary" [routerLink]="['/settings/users']">Cancel</button>
-                    </div>
-
-                  </div> -->
                   <div class="row mt-2 mb-2">
                     <div class="col-md-6 col-sm-12">
                       <h3>Edit User</h3>
@@ -163,55 +154,6 @@
 
 
 
-
-
-                  <!-- <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                      <label for="Status">Status
-                        <span class="login-danger">*</span></label>
-                      <input class="form-control" formControlName="status" type="text" placeholder />
-                      <div *ngIf="
-                                editUserGroup.get('status')?.hasError(
-                                  'required'
-                                ) && editUserGroup.get('status')?.touched
-                              " class="login-danger Font_size">
-                        Status field is reqiured.
-                      </div>
-                      <div *ngIf="
-                                editUserGroup.get('status')?.hasError(
-                                  'pattern'
-                                ) && editUserGroup.get('status')?.touched
-                              " class="login-danger Font_size">
-                        Input must be between 1 and 50 characters.
-                      </div>
-                    </div>
-                  </div> -->
-
-
-                  <!-- <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                      <label for="password">Password
-                        <span class="login-danger">*</span></label>
-                      <input class="form-control" formControlName="password" type="text" placeholder />
-                      <div *ngIf="
-                                editUserGroup.get('password')?.hasError(
-                                  'required'
-                                ) && editUserGroup.get('password')?.touched
-                              " class="login-danger Font_size">
-                        Password field is reqiured.
-                      </div>
-                      <div *ngIf="
-                                editUserGroup.get('password')?.hasError(
-                                  'pattern'
-                                ) && editUserGroup.get('password')?.touched
-                              " class="login-danger Font_size">
-                        Input must be between 1 and 50 characters.
-                      </div>
-                    </div>
-                  </div> -->
-
-
-
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="wareHouse">Warehouse
@@ -250,6 +192,14 @@
                               " class="login-danger Font_size">
                         Input must be between 3 and 500 characters.
                       </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="billingAddress">Billing Address
+                        <span class="login-danger"></span></label>
+                      <textarea class="form-control" formControlName="billingAddress" type="text" placeholder
+                        rows="1"></textarea>
                     </div>
                   </div>
 

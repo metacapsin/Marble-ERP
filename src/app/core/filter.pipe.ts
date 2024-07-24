@@ -30,7 +30,7 @@ export class FilterPipe implements PipeTransform {
       return items;
     }
     searchText = searchText.toLowerCase();
-  
+  console.log(items);
     return items.filter(item => {
       return fields.some(field => {
         const value = field.split('.').reduce((prev, curr) => prev ? prev[curr] : null, item);

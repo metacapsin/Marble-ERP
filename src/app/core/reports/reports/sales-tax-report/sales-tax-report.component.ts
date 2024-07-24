@@ -81,6 +81,7 @@ export class SalesTaxReportsComponent {
   showInvoiceDialog: boolean = false; // to enable sales invoice popup
   header = "";
   paymentDataListById: any;
+  salesTaxReports = 'salesTaxReports'
   constructor(private service: ReportsService,
     private salesService: SalesService,
 
@@ -130,7 +131,7 @@ export class SalesTaxReportsComponent {
       (total, payment) => total + Number(payment.salesOrderTax),0);      
   }
   onDateChange(value: any): void {
-    console.log(this.originalData);
+    // console.log(this.originalData);
     const startDate = value[0];
     const endDate = value[1];
     this.getPaymentInReportData(startDate, endDate);

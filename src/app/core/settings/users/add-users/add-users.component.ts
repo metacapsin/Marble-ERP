@@ -79,6 +79,7 @@ export class AddUsersComponent implements OnInit {
       SalesmanCheckBox: [""],
       stockManagerCheckBox: [""],
       isUserLocked: [""],
+      billingAddress: [''],
     });
   }
   ngOnInit(): void {
@@ -134,6 +135,7 @@ export class AddUsersComponent implements OnInit {
         password: formData.password,
         address: formData.address,
         isUserLocked: formData.isUserLocked,
+        billingAddress: formData.billingAddress,
       };
 
       console.log(payload);

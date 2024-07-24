@@ -19,6 +19,7 @@ export class SalesReportsComponent {
   originalData = [];
   paymentInData = [];
   paymentOutData = [];
+  salesReports = 'salesReports';
   searchByData = [
     "Today",
     "Yesterday",
@@ -85,6 +86,7 @@ export class SalesReportsComponent {
     const endDate = value[1];
     this.getPaymentInReportData(startDate, endDate);
   }
+  
 
   ngOnInit(): void {
     const today = new Date();
@@ -95,6 +97,10 @@ export class SalesReportsComponent {
 
     this.getPaymentInReportData(startDate, endDate);
   }
+
+  onFilter(value: any) {
+    this.salesReportsData = value.filteredValue;
+}
 
   showInvoiceDialoge(Id: any) {
     // to open the sales invoice popup

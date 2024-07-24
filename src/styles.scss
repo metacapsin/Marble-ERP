@@ -386,6 +386,11 @@ ul.p-dropdown-items{
   }
 }
 /* Responsive table adjustments */
+@media (max-width: 1044px) {
+  .d-flexCu {
+    display: block !important;
+}
+}
 @media (max-width: 768px) {
   .p-datatable-striped {
       display: block;

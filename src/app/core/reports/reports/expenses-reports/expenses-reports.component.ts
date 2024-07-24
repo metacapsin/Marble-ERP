@@ -15,7 +15,7 @@ export class expensesReportsComponent {
 
   categoryData = [];
   subCategoryData = [];
-
+  expensesDataName = 'expensesDataName'
   cols = [];
   exportColumns = [];
   searchBy:any
@@ -54,6 +54,10 @@ export class expensesReportsComponent {
     this.exportColumns = this.expensesData.map((element) => ({ title: element.header, dataKey: element.field }));
 
   }
+
+  onFilter(value: any) {
+    this.expensesData = value.filteredValue;
+}
 
   getTotalAmount(): number {
     return this.expensesData.reduce((total, payment) => total + payment.amount, 0);

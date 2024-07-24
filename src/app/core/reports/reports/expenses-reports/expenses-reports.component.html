@@ -96,13 +96,13 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="expensesData | filter:searchDataValue:['categoryDetails.name','date','amount',]" styleClass="p-datatable-striped"
+                            <p-table [value]="originalData | filter:searchDataValue:['categoryDetails.name','date','amount',]" styleClass="p-datatable-striped"
                                 [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]"
                                 #dt 
                                 [columns]="cols"
                                 selectionMode="multiple" 
-                                [exportHeader]="'customExportHeader'"  exportFilename="Expenses Reports" >
+                                [exportHeader]="'customExportHeader'"  exportFilename="Expenses Reports" (onFilter)="onFilter($event)">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="date">Expenses Date <p-sortIcon
@@ -138,10 +138,10 @@ hideOnClear="true"  type="text" field="amount"
                                 </ng-template>
 
                                 <ng-template pTemplate="footer">
-                                    <tr *ngIf="getTotalAmount() > 0">
+                                    <tr>
                                         <td ></td>
                                         <td class="text-end">Total Amount</td>
-                                        <td>₹ {{ getTotalAmount() | indianCurrency }}</td>
+                                        <td totalValueDirective [data]="expensesData" [name]="expensesDataName"></td>
                                     </tr>
                                 </ng-template>
                             </p-table>

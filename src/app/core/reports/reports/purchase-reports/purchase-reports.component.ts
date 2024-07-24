@@ -16,7 +16,7 @@ export class PurchaseReportsComponent {
   rangeDates: Date[] | undefined;
   purchaseReportsData = [];
   originalData = [];
-
+  purchaseReports = 'purchaseReports';
   cols = [];
   exportColumns = [];
 
@@ -30,6 +30,8 @@ export class PurchaseReportsComponent {
   ) {
 
   }
+
+  
 
   getPaymentOutReportData(startDate: Date, endDate: Date) {
     const formattedStartDate = this.formatDate(startDate);
@@ -67,6 +69,10 @@ export class PurchaseReportsComponent {
     });
     this.exportColumns = this.purchaseReportsData.map((element) => ({ title: element.header, dataKey: element.field }));
   }
+
+  onFilter(value: any) {
+    this.purchaseReportsData = value.filteredValue;
+}
 
 
 

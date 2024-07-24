@@ -117,8 +117,9 @@
             </div>
 
             <div class="card-body p-2">
-              <p-table [value]="
-                  salesReportsData
+              <p-table
+                [value]="
+                   originalData
                     | filter
                       : searchDataValue
                       : [
@@ -127,9 +128,19 @@
                           'customer.name',
                           'dueAmount'
                         ]
-                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
-                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols" selectionMode="multiple"
-                [exportHeader]="'customExportHeader'" exportFilename="Sales Reports">
+                "
+                styleClass="p-datatable-striped"
+                [tableStyle]="{ 'min-width': '60rem' }"
+                [paginator]="true"
+                [rows]="10"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                #dt
+                [columns]="cols"
+                selectionMode="multiple"
+                [exportHeader]="'customExportHeader'"
+                exportFilename="Sales Reports"
+                (onFilter)="onFilter($event)"
+              >
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="salesInvoiceNumber">
@@ -212,18 +223,18 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="footer">
-                  <tr *ngIf="
-                      getTotalPaidAmount() > 0 ||
-                      getTotalDueAmount() > 0 ||
-                      getTotalSalesAmount() > 0
-                    ">
-                    <td colspan="4"></td>
-                    <td>Total Amount</td>
-                    <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>
+                  <tr totalValueDirective
+                  [data]="salesReportsData"
+                  [name]="salesReports"
+                    >
+                    <!-- <td colspan="4"></td>
+                    <td>Total Amount</td> -->
+                    <!-- <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>
                     <td class="text-danger-dark">
                       ₹ {{ getTotalDueAmount() | indianCurrency }}
-                    </td>
-                    <td>₹ {{ getTotalSalesAmount() | indianCurrency }}</td>
+                    </td> -->
+                    <!-- <td>₹ {{ getTotalSalesAmount() | indianCurrency }}</td> -->
+                    <!-- <td totalValueDirective [data]="salesReportsData"></td> -->
                   </tr>
                 </ng-template>
               </p-table>

@@ -98,6 +98,7 @@ export class EditUserComponent implements OnInit {
       adminCheckBox: [""],
       SalesmanCheckBox: [""],
       stockManagerCheckBox: [""],
+      billingAddress:[""]
     });
   }
   patchForm() {
@@ -108,6 +109,7 @@ export class EditUserComponent implements OnInit {
       status: this.EditUserData.status,
       address: this.EditUserData.address,
       warehouse: this.EditUserData.warehouse,
+      billingAddress:this.EditUserData.billingAddress,
       adminCheckBox:
         this.EditUserData.role.indexOf("admin") != -1 ? true : false,
       SalesmanCheckBox:
@@ -145,6 +147,7 @@ export class EditUserComponent implements OnInit {
         status: formData.status,
         address: formData.address,
         warehouse: formData.warehouse,
+        billingAddress: formData.billingAddress,
       };
       console.log(payload);
 

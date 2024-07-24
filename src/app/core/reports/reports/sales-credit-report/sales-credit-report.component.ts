@@ -29,7 +29,7 @@ export class SalesCreditReportsComponent {
   searchBy: string;
   exportColumns: any = [];
   cols: any = [];
-
+  salesCreditReports= 'salesCreditReports'
   salesCreditReportsData: any = [];
   salesCreditReportDataShowById: any; // to hold sales data by customer id
   showInvoiceDialog: boolean = false; // to enable sales invoice popup
@@ -40,7 +40,10 @@ export class SalesCreditReportsComponent {
     private salesService: SalesService,
 
   ) {}
-
+  onFilter(value: any) {
+    this.salesCreditReportsData = value.filteredValue;
+    console.log(value.filteredValue);
+}
   getPaymentInReportData(startDate: Date, endDate: Date) {
     const formattedStartDate = this.formatDate(startDate);
     const formattedEndDate = this.formatDate(endDate);
@@ -48,7 +51,7 @@ export class SalesCreditReportsComponent {
     const data = {
       startDate: formattedStartDate,
       endDate: formattedEndDate,
-    };
+    };  
 
     this.service.getSalesCreditReport(data).subscribe((resp: any) => {
       console.log(resp);

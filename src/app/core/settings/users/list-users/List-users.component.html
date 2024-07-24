@@ -68,6 +68,10 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="phoneNumber"
                         display="menu"></p-columnFilter>
                     </th>
+                    <th pSortableColumn="billingAddress">Billing Address <p-sortIcon field="billingAddress"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="billingAddress"
+                        display="menu"></p-columnFilter>
+                    </th>
                     <th pSortableColumn="createdOn">Created On <p-sortIcon field="createdOn"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="createdOn"
                         display="menu"></p-columnFilter>
@@ -81,6 +85,7 @@
                     <td class="bold">{{product.name}}</td>
                     <td>{{product.email}}</td>
                     <td>{{product.phoneNumber}}</td>
+                    <td>{{product.billingAddress}}</td>
                     <td>{{product.createdOn | date:'dd-MMM-YYYY'}}</td>
                     <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Active"></p-tag></td>
                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag></td> -->

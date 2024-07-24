@@ -30,6 +30,7 @@ export class PaymentOutReportComponent {
   rangeDates: Date[] | undefined;
   paymentOutData = [];
   originalData = [];
+  paymentOut= 'paymentOut'
 
   cols= [];
   exportColumns = [];
@@ -74,6 +75,9 @@ export class PaymentOutReportComponent {
    getTotalAmount(): number {
         return this.paymentOutData.reduce((total, payment) => total + payment.amount, 0);
     }
+    onFilter(value: any) {
+      this.paymentOutData = value.filteredValue;
+  }
 
 
   onDateChange(value: any): void {
@@ -158,16 +162,16 @@ export class PaymentOutReportComponent {
   //   );
   // }
 
-  public searchData(value: any): void {
-    const searchTerm = value.trim().toLowerCase();
+//   public searchData(value: any): void {
+//     const searchTerm = value.trim().toLowerCase();
 
-    this.paymentOutData = this.originalData.filter(item => {
-        const customerName = item.customer?.name?.toLowerCase() || '';
-        const supplierName = item.supplier?.name?.toLowerCase() || '';
+//     this.paymentOutData = this.originalData.filter(item => {
+//         const customerName = item.customer?.name?.toLowerCase() || '';
+//         const supplierName = item.supplier?.name?.toLowerCase() || '';
         
-        return customerName.includes(searchTerm) || supplierName.includes(searchTerm);
-    });
-}
+//         return customerName.includes(searchTerm) || supplierName.includes(searchTerm);
+//     });
+// }
 }
 
 // last 3 month=>{
