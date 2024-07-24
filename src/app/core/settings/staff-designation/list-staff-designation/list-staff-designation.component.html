@@ -1,0 +1,111 @@
+<div class="">
+    <!-- Page Content -->
+    <div class="content container-fluid">
+  
+      <!-- Page Header -->
+      <!-- <div class="page-header">
+          <div class="row">
+            <div class="col-sm-12">
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                            <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                <li class="breadcrumb-item active">Settings</li>
+                <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                <li class="breadcrumb-item active">Staff Designation</li>
+              </ul>
+            </div>
+          </div>
+        </div> -->
+  
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card card-table show-entire">
+            <div class="card-body">
+  
+              <div class="page-table-header mb-2">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <div class="doctor-table-blk">
+                      <h3>Staff Designation List</h3>
+                      <div class="doctor-search-blk">
+                        <div class="top-nav-search table-search-blk">
+                          <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue">
+                          <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                        </div>
+                        <div class="add-group textbtn">
+                          <a appShowHide [roles]="['admin', 'super-admin', 'help-desk']" (click)="openAddDialog()"
+                            class="btn btn-primary add-pluss ms-2">
+                            <img src="assets/img/icons/plus.svg" alt="">Add New</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                    [roles]="['admin', 'super-admin', 'help-desk']">
+                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
+                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                    <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+  
+                  </div>
+                </div>
+              </div>
+  
+  
+              <!-- /Table Header -->
+              <!-- /Page Header -->
+  
+              <!-- /Page content start -->
+              <div class="card-body p-2">
+                <p-table [value]="staffDesignationListData | filter:searchDataValue:['name', 'description',]"
+                  styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+                  selectionMode="multiple" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
+                  [(selection)]="selectedStaffDesignation">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="name"
+                          display="menu"></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="description"
+                          display="menu"></p-columnFilter>
+                      </th>
+                      <th width="10%" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">Action</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-staffDesignation>
+                    <tr>
+                      <td>{{staffDesignation.designation}}</td>
+                      <td>{{staffDesignation.description}}</td>
+                      <td class="action-buttions" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
+                        <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(staffDesignation._id)"></p-button>
+                        <p-button [text]=" true" icon="fa fa-trash" (click)="deleteStaffDesignation(staffDesignation._id)"></p-button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="3" class="text-center">No Staff Designation found. Please add a Staff Designation to see it listed
+                        here.</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+              <!-- /page content end -->
+  
+  
+  
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+  <p-toast></p-toast>
+  
+  
+  <app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>

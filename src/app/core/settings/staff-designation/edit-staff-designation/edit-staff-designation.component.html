@@ -1,0 +1,52 @@
+<mat-dialog-content class="mat-typography mat-lg" style="width: 100%;">
+
+    <div class="m-b-20">
+      <h3>Edit Designation</h3>
+    </div>
+  
+    <div class="modal-body">
+      <form [formGroup]="editDesignationForm" (ngSubmit)="editStaffDesignationFormSubmit()">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group local-forms">
+              <label for="designation">Name <span class="login-danger">*</span></label>
+              <input class="form-control" type="text" placeholder="" formControlName="designation">
+  
+              <div *ngIf="editDesignationForm.get('designation')?.hasError('required') && editDesignationForm.get('designation')?.touched">
+                <span class="login-danger">Field is required</span>
+              </div>
+              <div *ngIf="editDesignationForm.get('designation')?.hasError('pattern') && editDesignationForm.get('designation')?.touched">
+                <span class="login-danger">Input must be between 3 to 50 characters.</span>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12">
+            <div class="form-group local-forms">
+              <label for="description">Description</label>
+              <textarea class="form-control" type="text" formControlName="description" placeholder=""></textarea>
+  
+              <div
+                *ngIf="editDesignationForm.get('description')?.hasError('pattern') && editDesignationForm.get('description')?.touched">
+                <span class="login-danger">Input must be between 3 to 500 characters.</span>
+              </div>
+  
+  
+  
+            </div>
+          </div>
+  
+          <div class=" col-12">
+  
+            <div class=" settings-btns text-end m-b-10">
+              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                [disabled]="!editDesignationForm.valid">Submit</button>
+              <button class="btn btn-secondary" [mat-dialog-close]="true">Cancel</button>
+            </div>
+  
+          </div>
+  
+        </div>
+      </form>
+    </div>
+  </mat-dialog-content>
