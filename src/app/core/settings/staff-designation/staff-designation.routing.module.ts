@@ -7,7 +7,7 @@ import { EditStaffDesignationComponent } from "./edit-staff-designation/edit-sta
 
 const routes: Routes = [{ path: "", component: ListStaffDesignationComponent },
   { path: "add-staff-Designation", component: AddStaffDesignationComponent },
-  { path: "'edit-staff-designation/:id'", component: EditStaffDesignationComponent },
+  { path: "'edit-staff-Designation/:id'", component: EditStaffDesignationComponent },
 ];
 
 @NgModule({

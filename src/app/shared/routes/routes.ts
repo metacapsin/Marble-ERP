@@ -538,7 +538,7 @@ export class routes {
     return this.baseUrl + '/settings/subCategories';
   }
   public static get staffDesignation(): string {
-    return this.baseUrl + '/settings/staffDesignation';
+    return this.baseUrl + '/staffDesignation';
   }
   public static get taxes(): string {
     return this.baseUrl + '/settings/taxes';

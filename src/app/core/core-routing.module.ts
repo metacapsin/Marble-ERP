@@ -207,6 +207,14 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'staffDesignation',
+        loadChildren: () =>
+          import('./settings/staff-designation/staff-designation.module').then(
+            (m) => m.StaffDesignationModule
+
+          ),
+      },
+      {
         path: 'staff-salary',
         loadChildren: () =>
           import('./payrollModule/staff-salary/staff-salary.module').then(

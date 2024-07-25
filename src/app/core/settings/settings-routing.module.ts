@@ -105,14 +105,7 @@ const routes: Routes = [
 
           ),
       },
-      {
-        path: 'staffDesignation',
-        loadChildren: () =>
-          import('./staff-designation/staff-designation.module').then(
-            (m) => m.StaffDesignationModule
-
-          ),
-      },
+      
     ],
   },
 ];

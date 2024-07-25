@@ -420,6 +420,11 @@ export class DataService {
               route: routes.staffLeave,
               base: routes.staffLeave,
             },
+            {
+              menuValue: "Designation",
+              route: routes.staffDesignation,
+              base: routes.staffDesignation,
+            },
           ],
         },
 
