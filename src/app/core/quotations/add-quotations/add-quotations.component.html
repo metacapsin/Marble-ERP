@@ -44,7 +44,7 @@
                         <form [formGroup]="addQuotationForm" (ngSubmit)="addQuotationFormSubmit()">
                             <div class="invoices-main-form">
                                 <div class="row">
-                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                    <!-- <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="quotationInvoiceNumber">Quotation Number </label>
                                             <input type="text" class="form-control" placeholder="Enter Invoice Number"
@@ -52,7 +52,7 @@
                                             <span style="color: #97704f; font-size: 12px;
                                             ">Leave it blank to generate automatically</span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="customer">Customer Name </label>
@@ -125,7 +125,7 @@
                                                 </td>
                                                 <td class="col-md-2">
                                                     <input type="number" formControlName="quotationItemQuantity" (change)="calculateTotalAmount()" class="form-control">
-                                                    <span style="color: #97704f; font-size: 12px;">Max Quantity: {{addQuotationForm.get('quotationItemDetails').get(i + '.maxQuantity').value }}</span>
+                                                    <!-- <span style="color: #97704f; font-size: 12px;">Max Quantity: {{addQuotationForm.get('quotationItemDetails').get(i + '.maxQuantity').value }}</span> -->
                                                     <div *ngIf="addQuotationForm.get('quotationItemDetails').get(i + '.quotationItemQuantity').hasError('required') && addQuotationForm.get('quotationItemDetails').get(i + '.quotationItemQuantity').touched">
                                                         <span class="login-danger">Field is required.</span>
                                                     </div>

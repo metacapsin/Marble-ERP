@@ -49,19 +49,19 @@ export class StaffSalaryEditComponent {
         "",
         [Validators.required, Validators.min(100), Validators.max(100000)],
       ],
-      esi: [
+      special: [
         "",
         [Validators.required, Validators.min(100), Validators.max(1000000)],
       ],
-      tds: [
+      lts: [
         "",
         [Validators.required, Validators.min(100), Validators.max(100000)],
       ],
-      type: ["", Validators.required],
-      pf: [
-        "",
-        [Validators.required, Validators.min(100), Validators.max(100000)],
-      ],
+      // type: ["", Validators.required],
+      // pf: [
+      //   "",
+      //   [Validators.required, Validators.min(100), Validators.max(100000)],
+      // ],
       deductions: ["", [Validators.min(100), Validators.max(100000)]],
       reason: ["", [Validators.pattern(this.descriptionRegex)]],
     });
@@ -88,12 +88,11 @@ export class StaffSalaryEditComponent {
   }
   findNetSalary() {
     const basicSalary = this.editSalaryForm.get("basicSalary").value || 0;
-    const tds = this.editSalaryForm.get("tds").value || 0;
+    const special = this.editSalaryForm.get("special").value || 0;
     const hra = this.editSalaryForm.get("hra").value || 0;
-    const esi = this.editSalaryForm.get("esi").value || 0;
-    const pf = this.editSalaryForm.get("pf").value || 0;
+    const lts = this.editSalaryForm.get("lts").value || 0;
     const deductions = this.editSalaryForm.get("deductions").value || 0;
-    this.TotalSalary = basicSalary + tds + hra + esi + pf;
+    this.TotalSalary = basicSalary  + hra + lts + special;
     const netSalary = this.TotalSalary - deductions;
     this.editSalaryForm.patchValue({
       netSalary: netSalary || 0,
@@ -121,9 +120,9 @@ export class StaffSalaryEditComponent {
       basicSalary: this.editSalaryForm.value.basicSalary,
       hra: this.editSalaryForm.value.hra,
       esi: this.editSalaryForm.value.esi,
-      tds: this.editSalaryForm.value.tds,
-      type: this.editSalaryForm.value.type,
-      pf: this.editSalaryForm.value.pf,
+      // tds: this.editSalaryForm.value.tds,
+      // type: this.editSalaryForm.value.type,
+      // pf: this.editSalaryForm.value.pf,
       deductions: this.editSalaryForm.value.deductions,
       reason: this.editSalaryForm.value.reason,
       id: this.salaryId,

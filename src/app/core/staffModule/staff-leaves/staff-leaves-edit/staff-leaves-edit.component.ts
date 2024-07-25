@@ -35,6 +35,10 @@ export class StaffLeavesEditComponent {
     {value: 'Loss of Pay'},
     {value: 'Other Reason'},
 ];
+stateOptions: any[] = [
+  { label: "Yes", value: "yes" },
+  { label: "No", value: "no" },
+];
   employeeName = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   leaveReasonRegex = /^.{3,48}$/s;
   constructor(private fb: FormBuilder,
@@ -50,6 +54,7 @@ export class StaffLeavesEditComponent {
       leaveType: ['', Validators.required],
       from: ['', Validators.required],
       to: ['', Validators.required],
+      halfday: ["", Validators.required],
       leaveReason: ['', [Validators.required, Validators.pattern(this.leaveReasonRegex)]]
   })
     this.leaveId = this.activeRoute.snapshot.params["id"];

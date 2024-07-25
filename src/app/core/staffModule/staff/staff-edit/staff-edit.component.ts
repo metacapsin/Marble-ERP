@@ -36,6 +36,14 @@ export class StaffEditComponent {
     { value: "Transporter" },
     { value: "Marketing Manager" },
   ];
+  idType = [
+    { value: "Labor" },
+    { value: "Gaurd" },
+  ];
+  isActive = [
+    { value: "Enabled" },
+    { value: "Disabled" },
+  ];
   // personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   // AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
   // AccountNumberRegex = /^[0-9]{14}$/;
@@ -89,6 +97,9 @@ export class StaffEditComponent {
       // accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
       // ifscCode: ["", [Validators.pattern(this.IfscupiId: ["", [Validators.pattern(this.REGX_For_UID)]],
       dateOfBirth: ["", Validators.required],
+      idNumber: ["", Validators.required],
+      isActive: ["", Validators.required],
+      idType: ["", Validators.required],
       warehouseDetails: ["", Validators.required],
       firstName: [
         "",

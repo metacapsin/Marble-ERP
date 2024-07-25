@@ -25,14 +25,10 @@
             <div class="form-group local-forms">
               <label for="description">Description</label>
               <textarea class="form-control" type="text" formControlName="description" placeholder=""></textarea>
-  
               <div
                 *ngIf="addDesignationForm.get('description')?.hasError('pattern') && addDesignationForm.get('description')?.touched">
                 <span class="login-danger">Input must be between 3 to 500 characters.</span>
               </div>
-  
-  
-  
             </div>
           </div>
   

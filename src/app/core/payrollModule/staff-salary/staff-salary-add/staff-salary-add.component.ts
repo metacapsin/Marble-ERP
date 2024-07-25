@@ -41,19 +41,23 @@ export class StaffSalaryAddComponent {
         "",
         [Validators.required, Validators.min(100), Validators.max(100000)],
       ],
-      esi: [
+      special: [
         "",
         [Validators.required, Validators.min(100), Validators.max(1000000)],
       ],
-      tds: [
+      lts: [
         "",
         [Validators.required, Validators.min(100), Validators.max(100000)],
       ],
-      type: ["", Validators.required],
-      pf: [
-        "",
-        [Validators.required, Validators.min(100), Validators.max(100000)],
-      ],
+      // tds: [
+      //   "",
+      //   [Validators.required, Validators.min(100), Validators.max(100000)],
+      // ],
+      // type: ["", Validators.required],
+      // pf: [
+      //   "",
+      //   [Validators.required, Validators.min(100), Validators.max(100000)],
+      // ],
       deductions: ["", [Validators.min(100), Validators.max(100000)]],
       reason: ["", [Validators.pattern(this.descriptionRegex)]],
     });
@@ -72,19 +76,15 @@ export class StaffSalaryAddComponent {
   }
   findNetSalary() {
     const basicSalary = this.addSalaryForm.get("basicSalary").value || 0;
-    const tds = this.addSalaryForm.get("tds").value || 0;
+    const special = this.addSalaryForm.get("special").value || 0;
     const hra = this.addSalaryForm.get("hra").value || 0;
-    const esi = this.addSalaryForm.get("esi").value || 0;
-    const pf = this.addSalaryForm.get("pf").value || 0;
+    const lts = this.addSalaryForm.get("lts").value || 0;
     const deductions = this.addSalaryForm.get("deductions").value || 0;
-    this.TotalSalary = basicSalary + tds + hra + esi + pf;
+    this.TotalSalary = basicSalary  + hra + lts + special;
     const netSalary = this.TotalSalary - deductions;
-    console.log(netSalary);
     this.addSalaryForm.patchValue({
       netSalary: netSalary || 0,
     });
-    console.log(this.addSalaryForm);
-    console.log(this.addSalaryForm.get('netSalary')?.value);
   }
 
   addSalaryFormSubmit() {
@@ -94,9 +94,9 @@ export class StaffSalaryAddComponent {
       basicSalary: this.addSalaryForm.value.basicSalary,
       hra: this.addSalaryForm.value.hra,
       esi: this.addSalaryForm.value.esi,
-      tds: this.addSalaryForm.value.tds,
-      type: this.addSalaryForm.value.type,
-      pf: this.addSalaryForm.value.pf,
+      // tds: this.addSalaryForm.value.tds,
+      // type: this.addSalaryForm.value.type,
+      // pf: this.addSalaryForm.value.pf,
       deductions: this.addSalaryForm.value.deductions,
       reason: this.addSalaryForm.value.reason,
     };

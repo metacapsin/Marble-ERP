@@ -1,32 +1,36 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a [routerLink]="routes.adminDashboard">Dashboard </a>
-                        </li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item"><a [routerLink]="routes.staffLeave">Leave Request List </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Add Leave Request</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.staffLeave">Leave Request List </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Add Leave Request</li>
+          </ul>
         </div>
-        <!-- /Page Header -->
-        <div class="row">
-            <div class="col-sm-12">
-
-                <div class="card">
-                    <div class="card-body">
-                        <form [formGroup]="addLeaveForm" (ngSubmit)="addLeaveFormSubmit()">
-                            <div class="row">
-                                <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
+      </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <form [formGroup]="addLeaveForm" (ngSubmit)="addLeaveFormSubmit()">
+              <div class="row">
+                <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
                                     <h3>Add Leave Request</h3>
                                     <div class="settings-btns text-end m-b-10">
                                         <button type="submit"
@@ -40,136 +44,225 @@
                                     </div>
                                 </div> -->
 
-                                <div class="row mt-2 mb-2">
-                                    <div class="col-md-6 col-sm-12"><h3>Add Leave Request</h3></div>
-                                    <div class="col-md-6 col-sm-12 text-end mb-2">
-                                        <button type="submit"
-                                        class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                        [disabled]="!addLeaveForm.valid">
-                                        Submit
-                                    </button>
-                                    <button class="btn btn-secondary" [routerLink]="routes.staffLeave">
-                                        Cancel
-                                    </button>
-                                    </div>
-                                  </div>
+                <div class="row mt-2 mb-2">
+                  <div class="col-md-6 col-sm-12">
+                    <h3>Add Leave Request</h3>
+                  </div>
+                  <div class="col-md-6 col-sm-12 text-end mb-2">
+                    <button
+                      type="submit"
+                      class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                      [disabled]="!addLeaveForm.valid"
+                    >
+                      Submit
+                    </button>
+                    <button
+                      class="btn btn-secondary"
+                      [routerLink]="routes.staffLeave"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
 
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="form-group local-forms">
-                                        <label for="employee">Employee Name <span class="login-danger">*</span></label>
-                                        <p-dropdown [style]="{'width':'100%'}" placeholder="Select Employee"
-                                            [options]="employeeList" formControlName="employee" optionLabel="name"
-                                            optionValue="_id" display="chip" [filter]="true" filterBy="name"
-                                            [showClear]="true">
-                                        </p-dropdown>
-                                        <!-- <input class="form-control" formControlName="employee" type="text"> -->
-                                        <div *ngIf="
-                          addLeaveForm.get('employee')?.hasError('required') &&
-                          addLeaveForm.get('employee')?.touched
-                        " class="login-danger Font_size">
-                                            Field is required.
-                                        </div>
-                                        <!-- <div *ngIf="
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="employee"
+                      >Employee Name <span class="login-danger">*</span></label
+                    >
+                    <p-dropdown
+                      [style]="{ width: '100%' }"
+                      placeholder="Select Employee"
+                      [options]="employeeList"
+                      formControlName="employee"
+                      optionLabel="name"
+                      optionValue="_id"
+                      display="chip"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true"
+                    >
+                    </p-dropdown>
+                    <!-- <input class="form-control" formControlName="employee" type="text"> -->
+                    <div
+                      *ngIf="
+                        addLeaveForm.get('employee')?.hasError('required') &&
+                        addLeaveForm.get('employee')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                    <!-- <div *ngIf="
                           addLeaveForm.get('employee')?.hasError('pattern') &&
                           addLeaveForm.get('employee')?.touched
                         " class="login-danger Font_size">
                                             Input must be between 3 to 50 characters.
                                         </div> -->
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="form-group local-forms">
-                                        <label for="leaveType">Leave Type <span class="login-danger">*</span></label>
-                                        <p-dropdown [style]="{'width':'100%'}" placeholder="Select Leave Type "
-                                            [options]="LeaveData" formControlName="leaveType" optionLabel="value"
-                                            optionValue="value" display="chip" [filter]="true" filterBy="name"
-                                            [showClear]="true">
-                                        </p-dropdown>
-                                        <div *ngIf="
-                                          addLeaveForm.get('leaveType')?.hasError('required') &&
-                                          addLeaveForm.get('leaveType')?.touched
-                                        ">
-                                            <span class="login-danger">Field is required.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="form-group local-forms">
-                                        <label for="from">From <span class="login-danger">*</span></label>
-                                        <p-calendar dataType="string" appendTo="body" placeholder="mm/dd/yyyy"
-                                            [styleClass]="'col-12'" formControlName="from"></p-calendar>
-                                        <div *ngIf="
-                                          addLeaveForm.get('from')?.hasError('required') &&
-                                          addLeaveForm.get('from')?.touched
-                                        ">
-                                            <span class="login-danger">Field is required.</span>
-                                        </div>
-                                        <div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="form-group local-forms">
-                                        <label for="to">To <span class="login-danger">*</span></label>
-                                        <p-calendar dataType="string" appendTo="body" placeholder="mm/dd/yyyy"
-                                            [styleClass]="'col-12'" formControlName="to"></p-calendar>
-                                        <div *ngIf="
-                                          addLeaveForm.get('to')?.hasError('required') &&
-                                          addLeaveForm.get('to')?.touched
-                                        ">
-                                            <span class="login-danger">Field is required.</span>
-                                        </div>
-                                        <div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="form-group local-forms">
-                                        <label for="noOfDay">Number of Days <span class="login-danger">*</span></label>
-                                        <input class="form-control" formControlName="noOfDay" type="text" readonly
-                                            [value]="addLeaveForm.get('noOfDay').value" />
-                                        <div *ngIf="
-                                          addLeaveForm.get('noOfDay')?.hasError('required') &&
-                                          addLeaveForm.get('noOfDay')?.touched
-                                        ">
-                                            <span class="login-danger">Field is required.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="form-group local-forms">
-                                        <label for="leaveReason">Leave Reason <span
-                                                class="login-danger">*</span></label>
-                                        <textarea class="form-control" formControlName="leaveReason" rows="1"
-                                            cols=""></textarea>
-                                        <div *ngIf="
-                                          addLeaveForm.get('leaveReason')?.hasError('required') &&
-                                          addLeaveForm.get('leaveReason')?.touched
-                                        " class="login-danger Font_size">
-                                            Field is required.
-                                        </div>
-                                        <div *ngIf="
-                                          addLeaveForm.get('leaveReason')?.hasError('pattern') &&
-                                          addLeaveForm.get('leaveReason')?.touched
-                                        " class="login-danger Font_size">
-                                            Input must be between 3 to 50 characters.
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- <div class=">
-                                    <div class="doctor-submit text-end">
-                                        <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
-                                        <button type="submit" class="btn btn-primary cancel-form">Cancel</button>
-                                    </div>
-                                </div> -->
-                            </div>
-                        </form>
-                    </div>
+                  </div>
                 </div>
-            </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="leaveType"
+                      >Leave Type <span class="login-danger">*</span></label
+                    >
+                    <p-dropdown
+                      [style]="{ width: '100%' }"
+                      placeholder="Select Leave Type "
+                      [options]="LeaveData"
+                      formControlName="leaveType"
+                      optionLabel="value"
+                      optionValue="value"
+                      display="chip"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true"
+                    >
+                    </p-dropdown>
+                    <div
+                      *ngIf="
+                        addLeaveForm.get('leaveType')?.hasError('required') &&
+                        addLeaveForm.get('leaveType')?.touched
+                      "
+                    >
+                      <span class="login-danger">Field is required.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="from"
+                      >From <span class="login-danger">*</span></label
+                    >
+                    <p-calendar
+                      dataType="string"
+                      appendTo="body"
+                      placeholder="mm/dd/yyyy"
+                      [styleClass]="'col-12'"
+                      formControlName="from"
+                    ></p-calendar>
+                    <div
+                      *ngIf="
+                        addLeaveForm.get('from')?.hasError('required') &&
+                        addLeaveForm.get('from')?.touched
+                      "
+                    >
+                      <span class="login-danger">Field is required.</span>
+                    </div>
+                    <div></div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="to"
+                      >To <span class="login-danger">*</span></label
+                    >
+                    <p-calendar
+                      dataType="string"
+                      appendTo="body"
+                      placeholder="mm/dd/yyyy"
+                      [styleClass]="'col-12'"
+                      formControlName="to"
+                    ></p-calendar>
+                    <div
+                      *ngIf="
+                        addLeaveForm.get('to')?.hasError('required') &&
+                        addLeaveForm.get('to')?.touched
+                      "
+                    >
+                      <span class="login-danger">Field is required.</span>
+                    </div>
+                    <div></div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="noOfDay"
+                      >Number of Days <span class="login-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      formControlName="noOfDay"
+                      type="text"
+                      readonly
+                      [value]="addLeaveForm.get('noOfDay').value"
+                    />
+                    <div
+                      *ngIf="
+                        addLeaveForm.get('noOfDay')?.hasError('required') &&
+                        addLeaveForm.get('noOfDay')?.touched
+                      "
+                    >
+                      <span class="login-danger">Field is required.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="halfday"
+                      >half day<span class="login-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      formControlName="halfday"
+                      type="text"
+                      readonly
+                      [value]="addLeaveForm.get('halfday').value"
+                    />
+                    <div
+                      *ngIf="
+                        addLeaveForm.get('halfday')?.hasError('required') &&
+                        addLeaveForm.get('halfday')?.touched
+                      "
+                    >
+                      <span class="login-danger">Field is required.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="leaveReason"
+                      >Leave Reason <span class="login-danger">*</span></label
+                    >
+                    <textarea
+                      class="form-control"
+                      formControlName="leaveReason"
+                      rows="1"
+                      cols=""
+                    ></textarea>
+                    <div
+                      *ngIf="
+                        addLeaveForm.get('leaveReason')?.hasError('required') &&
+                        addLeaveForm.get('leaveReason')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="
+                        addLeaveForm.get('leaveReason')?.hasError('pattern') &&
+                        addLeaveForm.get('leaveReason')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Input must be between 3 to 50 characters.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <p-selectButton
+                    [options]="stateOptions"
+                    formControlName="value"
+                    optionLabel="label"
+                    optionValue="value"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

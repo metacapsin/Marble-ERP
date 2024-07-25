@@ -72,7 +72,7 @@ export class EditQuotationsComponent {
             [
               Validators.required,
               Validators.min(0),
-              Validators.max(this.maxQuantity),
+              // Validators.max(this.maxQuantity),
             ],
           ],
           quotationItemUnitPrice: [
@@ -293,6 +293,7 @@ export class EditQuotationsComponent {
   }
 
   calculateTotalAmount() {
+    console.log("object");
     let quotationGrossTotal = 0;
     let quotationTax: number = 0;
     const salesItems = this.editQuotationForm.get(
@@ -300,13 +301,14 @@ export class EditQuotationsComponent {
     ) as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
-      if (
-        item.get("quotationItemQuantity").value > item.get("maxQuantity").value
-      ) {
-        item
-          .get("quotationItemQuantity")
-          .patchValue(item.get("maxQuantity").value);
-      }
+      // if (
+      //   item.get("quotationItemQuantity").value > item.get("maxQuantity").value
+      // ) {
+      //   item
+      //     .get("quotationItemQuantity")
+      //     .patchValue(item.get("maxQuantity").value);
+      // }
+      debugger
       const quantity = +item.get("quotationItemQuantity").value || 0;
       const unitPrice = +item.get("quotationItemUnitPrice").value || 0;
       const tax = item.get("quotationItemTax").value || [];

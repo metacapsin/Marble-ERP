@@ -32,6 +32,14 @@ export class StaffAddComponent {
     { value: "Transporter" },
     { value: "Marketing Manager" },
   ];
+  idType = [
+    { value: "Labor" },
+    { value: "Gaurd" },
+  ];
+  isActive = [
+    { value: "Enabled" },
+    { value: "Disabled" },
+  ];
   warehouseData = [];
   // personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   // phoneRegex = /^[0-9]{10}$/;
@@ -91,6 +99,9 @@ export class StaffAddComponent {
       // ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
       upiId: ["", [Validators.pattern(this.REGX_For_UID)]],
       dateOfBirth: ["", Validators.required],
+      idNumber: ["", Validators.required],
+      idType: ["", Validators.required],
+      isActive: ["", Validators.required],
       warehouseDetails: ["", Validators.required],
       firstName: [
         "",

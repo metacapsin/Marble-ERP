@@ -438,9 +438,14 @@ export class DataService {
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
           subMenus: [
             {
-              menuValue: "Empoyee Salary",
+              menuValue: "Basic Salary",
               route: routes.salary,
               base: routes.salary,
+            },
+            {
+              menuValue: "Employee Payment",
+              route: routes.EmployeePayment,
+              base: routes.EmployeePayment,
             },
           ],
         },

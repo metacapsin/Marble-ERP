@@ -270,6 +270,15 @@ export class routes {
   public static get editSalary(): string {
     return this.baseUrl + '/staff-salary/edit-staff-salary/:id';
   }
+  public static get EmployeePayment(): string {
+    return this.baseUrl + '/employee-payment';
+  }
+  public static get addEmployeePayment(): string {
+    return this.baseUrl + '/employee-payment/add-employee-payment';
+  }
+  // public static get editSalary(): string {
+  //   return this.baseUrl + '/employee-payment/edit-employee-payment/:id';
+  // }
   public static get salaryView(): string {
     return this.baseUrl + '/payroll/salary-view';
   }

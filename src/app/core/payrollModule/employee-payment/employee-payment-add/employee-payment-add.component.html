@@ -1,0 +1,414 @@
+  <p-toast></p-toast>
+  <div class="page-wrapper">
+    <div class="content">
+      <div class="page-header">
+        <div class="row">
+          <div class="col-sm-12">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a [routerLink]="routes.adminDashboard">Dashboard </a>
+              </li>
+              <li class="breadcrumb-item">
+                <i class="feather icon-chevron-right"></i>
+              </li>
+              <li class="breadcrumb-item active">Employee Payment</li>
+              <li class="breadcrumb-item">
+                <i class="feather icon-chevron-right"></i>
+              </li>
+              <li class="breadcrumb-item active">Add Employee Payment</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card card-table">
+            <div class="card-body">
+              <div class="page-table-header mb-2">
+                <form
+                  [formGroup]="addEmployeepPaymentForm"
+                  (ngSubmit)="addEmployeepPaymentFormSubmit()"
+                >
+                  <div class="row">
+                    <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
+                                          <h3>Add Payment</h3>
+                                          <div class="settings-btns text-end m-b-10">
+                                              <button type="submit"
+                                                  class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                  [disabled]="!addEmployeepPaymentForm.valid">
+                                                  Submit
+                                              </button>
+                                              <button class="btn btn-secondary" [routerLink]="routes.EmployeepPayment">
+                                                  Cancel
+                                              </button>
+                                          </div>
+                                      </div> -->
+                    <div class="row mt-2 mb-2">
+                      <div class="col-md-6 col-sm-12"><h3>Add Employee Payment</h3></div>
+                      <div class="col-md-6 col-sm-12 text-end mb-2">
+                        <button
+                          type="submit"
+                          class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                          [disabled]="!addEmployeepPaymentForm.valid"
+                        >
+                          Submit
+                        </button>
+                        <button
+                          class="btn btn-secondary"
+                          [routerLink]="routes.EmployeePayment"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group local-forms">
+                        <label for="name"
+                          >Employee Name<span class="login-danger">*</span></label
+                        >
+                        <p-dropdown
+                          [style]="{ width: '100%' }"
+                          placeholder="Employee"
+                          [options]="employeeList"
+                          optionLabel="name"
+                          optionValue="_id"
+                          display="chip"
+                          [filter]="true"
+                          filterBy="name"
+                          formControlName="employee"
+                          [showClear]="true"
+                          (onChange)="onEmployeeSelect($event.value)"
+                        ></p-dropdown>
+                        <div
+                          *ngIf="
+                            addEmployeepPaymentForm
+                              .get('employee')
+                              ?.hasError('required') &&
+                            addEmployeepPaymentForm.get('employee')?.touched
+                          "
+                        >
+                          <span class="login-danger">Field is required. </span>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-6">
+                      <div class="form-group local-forms">
+                        <label for="name"
+                          >Date <span class="login-danger">*</span></label
+                        >
+                        <p-calendar
+                          [maxDate]="maxDate"
+                          dataType="string"
+                          appendTo="body"
+                          view="month"
+                          dateFormat="mm/yy"
+                          formControlName="date"
+                          placeholder="mm/yy"
+                          [styleClass]="'col-12'"
+                        ></p-calendar>
+                        <div
+                          *ngIf="
+                            addEmployeepPaymentForm
+                              .get('date')
+                              ?.hasError('required') &&
+                            addEmployeepPaymentForm.get('date')?.touched
+                          "
+                        >
+                          <span class="login-danger">Field is required. </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                      <div class="form-group local-forms">
+                        <label for="amount">Deduction </label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          placeholder="Deduction"
+                          formControlName="deduction"
+                          (change)="calculateSalary()"
+                        />
+                        <div
+                          *ngIf="
+                            addEmployeepPaymentForm
+                              .get('deduction')
+                              ?.hasError('pattern') &&
+                            addEmployeepPaymentForm.get('deduction')?.touched
+                          "
+                        >
+                          <span class="login-danger"
+                            >Input must be between 2 to 100 characters.</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="col-12 col-md-6">
+                      <div class="form-group local-forms">
+                        <label for="Nots">Nots </label>
+                        <textarea
+                          class="form-control"
+                          type="text"
+                          placeholder=""
+                          formControlName="nots"
+                        ></textarea>
+                        <div
+                          *ngIf="
+                            addEmployeepPaymentForm
+                              .get('nots')
+                              ?.hasError('pattern') &&
+                            addEmployeepPaymentForm.get('nots')?.touched">
+                          <span class="login-danger"
+                            >Input must be between 2 to 100 characters.</span
+                          >
+                        </div>
+                      </div>
+                    </div> -->
+
+                  </div>
+
+                  <!-- <div class="invoice-add-table">
+                    <div class="table-responsive">
+                      <table
+                        class="table table-striped table-nowrap mb-0 no-footer add-table-items"
+                      >
+                        <thead>
+                          <tr>
+                            <th>Invoice Number</th>
+                            <th>Date</th>
+                            <th>Invoice Amount</th>
+                            <th>Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody formArrayName="payment">
+                          <tr
+                            *ngFor="let sale of salesDataById; let i = index"
+                            [formGroupName]="i"
+                          >
+                            <td>
+                              <span class="bold">{{
+                                sale.salesInvoiceNumber
+                              }}</span>
+                            </td>
+                            <td>
+                              <span class="bold">{{ sale.salesDate }}</span>
+                            </td>
+                            <td>
+                              <label>{{ sale.salesTotalAmount }}</label>
+                            </td>
+                            <td>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">₹</span>
+                                </div>
+                                <input
+                                  type="number"
+                                  formControlName="amount"
+                                  class="form-control"
+                                />
+                              </div>
+                              <span style="color: #97704f; font-size: 12px"
+                                >Due Amount : {{ sale.dueAmount }}</span
+                              >
+                              <div
+                                *ngIf="
+                                  addEmployeepPaymentForm
+                                    .get('sales')
+                                    .get(i + '.amount')
+                                    .hasError('required') &&
+                                  addEmployeepPaymentForm
+                                    .get('sales')
+                                    .get(i + '.amount').touched
+                                "
+                              >
+                                <span class="login-danger"
+                                  >Field is required.</span
+                                >
+                              </div>
+                              <div
+                                *ngIf="
+                                  addEmployeepPaymentForm
+                                    .get('sales')
+                                    .get(i + '.amount')
+                                    .hasError('min') &&
+                                  addEmployeepPaymentForm
+                                    .get('sales')
+                                    .get(i + '.amount').touched
+                                "
+                              >
+                                <span class="login-danger"
+                                  >Input must be more than 0.</span
+                                >
+                              </div>
+                              <div
+                                *ngIf="
+                                  addEmployeepPaymentForm
+                                    .get('sales')
+                                    .get(i + '.amount')
+                                    .hasError('max') &&
+                                  addEmployeepPaymentForm
+                                    .get('sales')
+                                    .get(i + '.amount').touched
+                                "
+                              >
+                                <span class="login-danger"
+                                  >Input should not more than
+                                  {{ sale.dueAmount }}.</span
+                                >
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div> -->
+                </form>
+              </div>
+              <!-- --------------#######------- -->
+              <div class="row p-3">
+                <div class="col-lg-7 col-md-6">
+                  <div class="invoice-fields">
+                    <h4 class="field-title">More Fields</h4>
+                  </div>
+                  <div class="invoice-faq">
+                    <div
+                      class="panel-group"
+                      id="accordion"
+                      role="tablist"
+                      aria-multiselectable="true"
+                    >
+                      <div class="faq-tab">
+                        <div class="panel panel-default">
+                          <div class="panel-heading" role="tab" id="headingTwo">
+                            <p class="panel-title">
+                              <a
+                                class="collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-parent="#accordion"
+                                href="#collapseTwo"
+                                aria-expanded="false"
+                                aria-controls="collapseTwo"
+                              >
+                                <i class="fas fa-plus-circle me-1"></i> Add
+                                Terms & Conditions
+                              </a>
+                            </p>
+                          </div>
+                          <div
+                            id="collapseTwo"
+                            class="panel-collapse collapse"
+                            role="tabpanel"
+                            aria-labelledby="headingTwo"
+                            data-bs-parent="#accordion"
+                          >
+                            <div class="panel-body">
+                              <textarea
+                                class="form-control"
+                                formControlName="salesTermsAndCondition"
+                              ></textarea>
+                              <!-- <div>
+                                <span class="login-danger"
+                                  >Input must be between 2 to 200
+                                  characters.</span
+                                >
+                              </div> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="faq-tab">
+                        <div class="panel panel-default">
+                          <div
+                            class="panel-heading"
+                            role="tab"
+                            id="headingThree"
+                          >
+                            <p class="panel-title">
+                              <a
+                                class="collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-parent="#accordion"
+                                href="#collapseThree"
+                                aria-expanded="false"
+                                aria-controls="collapseThree"
+                              >
+                                <i class="fas fa-plus-circle me-1"></i> Add
+                                Notes
+                              </a>
+                            </p>
+                          </div>
+                          <div
+                            id="collapseThree"
+                            class="panel-collapse collapse"
+                            role="tabpanel"
+                            aria-labelledby="headingThree"
+                            data-bs-parent="#accordion"
+                          >
+                            <div class="panel-body">
+                              <textarea
+                                class="form-control"
+                                formControlName="salesNotes"
+                              ></textarea>
+                              <div>
+                                <!-- <span class="login-danger"
+                                  >Input must be between 2 to 100
+                                  characters.</span
+                                > -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-5 col-md-6">
+                  <div class="invoice-total-card">
+                    <h4 class="invoice-total-title">Summary</h4>
+                    <div class="invoice-total-box">
+                      <div class="invoice-total-inner">
+                        <p>
+                          Deduction
+                          <span>
+                            ₹
+                            <!-- {{
+                              addSalesForm.get("salesGrossTotal").value
+                                | number : "1.2-2"
+                            }} -->
+                          </span>
+                        </p>
+                        <p>
+                          Net Salary
+                          <span>
+                            ₹ 321
+                            <!-- {{
+                              addSalesForm.get("salesGrossTotal").value
+                                | number : "1.2-2"
+                            }} -->
+                          </span>
+                        </p>
+                      </div>
+
+                      <div class="invoice-total-footer">
+                        <h4>
+                          Total Salary
+                          <span>
+                            ₹
+                            {{addEmployeepPaymentForm.get("TotalSalary").value | number : "1.2-2"}}
+                          </span>
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

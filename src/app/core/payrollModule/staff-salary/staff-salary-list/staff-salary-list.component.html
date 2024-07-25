@@ -59,10 +59,10 @@
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="employee.name"
                       display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon>
+                  <!-- <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon>
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="type"
                       display="menu"></p-columnFilter>
-                  </th>
+                  </th> -->
                   <th pSortableColumn="basicSalary">Basic Salary<p-sortIcon field="basicSalary"></p-sortIcon>
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="basicSalary"
                     display="menu"></p-columnFilter>
@@ -77,7 +77,7 @@
               <ng-template pTemplate="body" let-salary>
                 <tr>
                   <td>{{salary.employee.name}}</td>
-                  <td>{{salary.type}}</td>
+                  <!-- <td>{{salary.type}}</td> -->
                   <td>₹ {{salary.basicSalary |indianCurrency}}</td>
                   <td>₹ {{salary.netSalary |indianCurrency}}</td>
                   <td class="action-buttons" appShowHide [roles]="['admin', 'super-admin']">

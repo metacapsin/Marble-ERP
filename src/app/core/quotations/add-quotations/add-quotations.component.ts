@@ -66,7 +66,7 @@ export class AddQuotationsComponent implements OnInit {
       quotationItemDetails: this.fb.array([
         this.fb.group({
           quotationItemProduct: ['', [Validators.required]],
-          quotationItemQuantity: ["", [Validators.required, Validators.min(0), Validators.max(this.maxQuantity)]],
+          quotationItemQuantity: ["", [Validators.required, Validators.min(0),]],
           quotationItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
           quotationItemTax: [''],
           quotationItemTaxAmount: [''],
@@ -259,9 +259,9 @@ export class AddQuotationsComponent implements OnInit {
     const salesItems = this.addQuotationForm.get("quotationItemDetails") as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
-      if (item.get("quotationItemQuantity").value > item.get("maxQuantity").value) {
-        item.get("quotationItemQuantity").patchValue(item.get("maxQuantity").value)
-      }
+      // if (item.get("quotationItemQuantity").value > item.get("maxQuantity").value) {
+      //   item.get("quotationItemQuantity").patchValue(item.get("maxQuantity").value)
+      // }
       const quantity = +item.get("quotationItemQuantity").value || 0;
       const unitPrice = +item.get("quotationItemUnitPrice").value || 0;
       const tax = item.get("quotationItemTax").value || [];

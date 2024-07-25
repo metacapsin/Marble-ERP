@@ -31,6 +31,10 @@ export class StaffLeavesAddComponent {
     { value: "Loss of Pay" },
     { value: "Other Reason" },
   ];
+  stateOptions: any[] = [
+    { label: "Yes", value: "yes" },
+    { label: "No", value: "no" },
+  ];
 
   leaveReasonRegex = /^.{3,48}$/s;
 
@@ -50,10 +54,12 @@ export class StaffLeavesAddComponent {
       leaveType: ["", Validators.required],
       from: ["", Validators.required],
       to: ["", Validators.required],
+      halfday: ["", Validators.required],
       leaveReason: [
         "",
         [Validators.required, Validators.pattern(this.leaveReasonRegex)],
       ],
+      value: ['yes'],
     });
     // Subscribe to changes in the date fields to calculate the number of days
     this.addLeaveForm.get("from").valueChanges.subscribe(() => {

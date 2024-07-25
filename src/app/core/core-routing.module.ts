@@ -221,6 +221,13 @@ const routes: Routes = [
             (m) => m.StaffSalaryModule
           ),
       },
+      {
+        path: 'employee-payment',
+        loadChildren: () =>
+          import('./payrollModule/employee-payment/employee-payment.module').then(
+            (m) => m.EmployeepPaymentModule
+          ),
+      },
 
     ],
   },
