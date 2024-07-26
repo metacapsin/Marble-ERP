@@ -18,7 +18,7 @@
             <li class="breadcrumb-item">
               <i class="feather icon-chevron-right"></i>
             </li>
-            <li class="breadcrumb-item active">Edit Employee Salary</li>
+            <li class="breadcrumb-item active">Edit Basic Salary</li>
           </ul>
         </div>
       </div>
@@ -45,7 +45,7 @@
                 </div> -->
                 <div class="row mt-2 mb-2">
                   <div class="col-md-6 col-sm-12">
-                    <h4>Edit Employee Salary</h4>
+                    <h4>Edit Basic Salary</h4>
                   </div>
                   <div class="col-md-6 col-sm-12 text-end mb-2">
                     <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
@@ -71,6 +71,19 @@
                     </div>
                   </div>
                 </div>
+                <!-- <div class="col-12 col-md-6 col-xl-6">
+                  <div class="form-group local-forms">
+                    <label for="idType">ID Type<span class="login-danger">*</span></label>
+                    <p-dropdown [style]="{ width: '100%' }" placeholder="Select ID Type" [options]="idType"
+                       formControlName="idType" optionLabel="value" optionValue="value"
+                      display="chip" [filter]="true" filterBy="name" [showClear]="true">
+                    </p-dropdown>
+                    <div *ngIf="editSalaryForm.get('idType')?.errors?.['required'] && editSalaryForm.get('idType').touched"
+                      class="login-danger Font_size">
+                      Field is required.
+                    </div>
+                  </div>
+                </div> -->
                 <!-- <div class="col-12 col-md-6 col-xl-6">
                   <div class="form-group local-forms">
                     <label for="type">Type <span class="login-danger">*</span></label>
@@ -189,12 +202,12 @@
                 </div>
                 <div class="col-12 col-md-6 col-xl-6" >
                   <div class="form-group local-forms">
-                    <label for="special">Special<span class="login-danger">*</span></label>
+                    <label for="special">Special Pay<span class="login-danger">*</span></label>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">₹</span>
                       </div>
-                      <input class="form-control" formControlName="special" placeholder="Enter Special" type="number" value="$500" (change)="findNetSalary()"/>
+                      <input class="form-control" formControlName="special" placeholder="Enter Special Pay" type="number" value="$500" (change)="findNetSalary()"/>
                     </div>
                     <div *ngIf="editSalaryForm.get('special')?.errors?.['required'] && editSalaryForm.get('special').touched"
                       class="login-danger Font_size">

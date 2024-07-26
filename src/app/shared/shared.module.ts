@@ -52,6 +52,8 @@ import { MatRadioModule } from "@angular/material/radio";
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TotalValueDirective } from "../core/reports/reports/totalValues.directive";
 import { CarouselModule } from 'primeng/carousel';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [],
@@ -83,7 +85,9 @@ import { CarouselModule } from 'primeng/carousel';
     FullCalendarModule,
     HttpClientModule,
     MatSortModule,
+    InputSwitchModule,
     FormsModule,
+    RadioButtonModule,
     ReactiveFormsModule,
     ProgressSpinnerModule,
     MenubarModule,
@@ -130,6 +134,7 @@ import { CarouselModule } from 'primeng/carousel';
     SelectButtonModule,
     CommonModule,
     NgxBootstrapModule,
+    InputSwitchModule,
     CountUpModule,
     NgApexchartsModule,
     NgCircleProgressModule,
@@ -169,6 +174,7 @@ import { CarouselModule } from 'primeng/carousel';
     TreeTableModule,
     MatButtonModule,
     CheckboxModule,
+    RadioButtonModule,
     MultiSelectModule,
     MatTableModule,
     MatPaginatorModule,

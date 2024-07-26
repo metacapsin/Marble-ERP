@@ -11,7 +11,7 @@
               <a [routerLink]="routes.adminDashboard">Dashboard </a>
             </li>
             <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-            <li class="breadcrumb-item active">Employee Salary</li>
+            <li class="breadcrumb-item active">Basic Salary</li>
           </ul>
         </div>
       </div>
@@ -25,7 +25,7 @@
             <div class="row align-item-center">
               <div class="col">
                 <div class="doctor-table-blk">
-                  <h3>Employee Salary List</h3>
+                  <h3>Basic Salary List</h3>
                   <div class="doctor-search-blk">
                     <div class="top-nav-search table-search-blk">
                       <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue">
@@ -59,8 +59,8 @@
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="employee.name"
                       display="menu"></p-columnFilter>
                   </th>
-                  <!-- <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon>
-                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="type"
+                  <!-- <th pSortableColumn="idType">Id Type<p-sortIcon field="idType"></p-sortIcon>
+                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="idType"
                       display="menu"></p-columnFilter>
                   </th> -->
                   <th pSortableColumn="basicSalary">Basic Salary<p-sortIcon field="basicSalary"></p-sortIcon>
@@ -77,6 +77,7 @@
               <ng-template pTemplate="body" let-salary>
                 <tr>
                   <td>{{salary.employee.name}}</td>
+                  <!-- <td>{{salary.idType}}</td> -->
                   <!-- <td>{{salary.type}}</td> -->
                   <td>₹ {{salary.basicSalary |indianCurrency}}</td>
                   <td>₹ {{salary.netSalary |indianCurrency}}</td>

@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { routes } from "src/app/shared/routes/routes";
 import { Router } from "@angular/router";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
+import { StaffDesignationService } from "src/app/core/settings/staff-designation/staff-designation.service";
 
 @Component({
   selector: "app-staff-add",
@@ -32,28 +33,8 @@ export class StaffAddComponent {
     { value: "Transporter" },
     { value: "Marketing Manager" },
   ];
-  idType = [
-    { value: "Labor" },
-    { value: "Gaurd" },
-  ];
-  isActive = [
-    { value: "Enabled" },
-    { value: "Disabled" },
-  ];
+  idType = [{ value: "Labor" }, { value: "Gaurd" }];
   warehouseData = [];
-  // personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
-  // phoneRegex = /^[0-9]{10}$/;
-  // emailRegex: string = '^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
-  // REGX_For_UID:string = "/^[\w.-]+@[\w.-]+$/";
-  // pinRegex = /^\d{6}$/;
-  // upiIdRegex = /^[a-zA-Z0-9.-]{2,256}@[a-zA-Z][a-zA-Z]{2,64}$/;
-  // BankName = "^[A-Za-z\s]+$"
-  // password= /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@])[A-Za-z\d@]{8,16}$/;
-  // AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
-  // accountHolderRegex = "^[A-Za-z\s]{3,20}$";
-  // AccountNumberRegex = "^\d{9,18}$";
-  // IfscCodeRegex = "^[^\s]{4}\d{7}$";
-  // addressRegex = /^(?!\s)(?:.{3,500})$/;
   personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   phoneRegex = /^[0-9]{10}$/;
   emailRegex = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -67,41 +48,26 @@ export class StaffAddComponent {
   AccountNumberRegex = /^\d{9,18}$/;
   IfscCodeRegex = /^[^\s]{4}\d{7}$/;
   addressRegex = /^(?!\s)(?:.{3,500})$/;
+  IdTypeList: any;
+  orgIdTypeList: any;
+  orgWarehouseData: any;
+  orgStaffDesignation: any;
+  StaffDesignation: any[];
 
   constructor(
     private fb: FormBuilder,
     private service: staffService,
     private messageService: MessageService,
     private router: Router,
-    private warehouseService: WarehouseService
+    private warehouseService: WarehouseService,
+    private StaffDesignationService:StaffDesignationService
   ) {
     this.addStaffForm = this.fb.group({
-      // upiId: ["", [Validators.pattern(this.REGX_For_UID)]],
-      // dateOfBirth: ["", Validators.required],
-      // warehouseDetails: ["", Validators.required],
-      // firstName: [
-      //   "",
-      //   [Validators.required, Validators.pattern(this.personNameRegex)],
-      // ],
-      // lastName: [
-      //   "",
-      //   [Validators.required, Validators.pattern(this.personNameRegex)],
-      // ],
-      // mobile: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
-      // email: ["", [Validators.pattern(this.emailRegex)]],
-      // pincode: ["", [Validators.required, Validators.pattern(this.pinRegex)]],
-      // designation: ["", [Validators.required]],
-      // city: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
-      // address: ["", [Validators.pattern(this.AddressRegex)]],
-      // bankName: ["", [Validators.pattern(this.BankName)]],
-      // accountName: ["", [Validators.pattern(this.personNameRegex)]],
-      // accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
-      // ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
       upiId: ["", [Validators.pattern(this.REGX_For_UID)]],
-      dateOfBirth: ["", Validators.required],
-      idNumber: ["", Validators.required],
-      idType: ["", Validators.required],
-      isActive: ["", Validators.required],
+      dateOfBirth: [""],
+      idNumber: [""],
+      idType: [""],
+      status: [],
       warehouseDetails: ["", Validators.required],
       firstName: [
         "",
@@ -113,12 +79,9 @@ export class StaffAddComponent {
       ],
       mobile: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
       email: ["", [Validators.pattern(this.emailRegex)]],
-      pincode: ["", [Validators.required, Validators.pattern(this.pinRegex)]],
+      pincode: ["", [, Validators.pattern(this.pinRegex)]],
       designation: ["", [Validators.required]],
-      city: [
-        "",
-        [Validators.required, Validators.pattern(this.personNameRegex)],
-      ],
+      city: ["", [, Validators.pattern(this.personNameRegex)]],
       address: ["", [Validators.pattern(this.addressRegex)]],
       bankName: ["", [Validators.pattern(this.BankName)]],
       accountName: ["", [Validators.pattern(this.accountHolderRegex)]],
@@ -129,12 +92,43 @@ export class StaffAddComponent {
 
   ngOnInit(): void {
     this.warehouseService.getAllWarehouseList().subscribe((resp: any) => {
-      this.warehouseData = resp.data;
+      this.orgWarehouseData = resp.data;
+      this.warehouseData = [];
+      this.orgWarehouseData.forEach((element) => {
+        this.warehouseData.push({
+          name: element.name,
+          _id: element._id,
+        });
+      });
     });
+    this.service.getIdTypeList().subscribe((resp: any) => {
+      this.orgIdTypeList = resp.data;
+      this.IdTypeList = [];
+      this.orgIdTypeList.forEach((element) => {
+        this.IdTypeList.push({
+          name: element.name,
+          code: element.code,
+        });
+      });
+      console.log(this.IdTypeList);
+    });
+    this.StaffDesignationService.getStaffDesignation().subscribe((resp: any) => {
+      this.orgStaffDesignation = resp.data;
+      this.StaffDesignation = [];
+      this.orgStaffDesignation.forEach((element)=>{
+        this.StaffDesignation.push({
+          designation:element.designation,
+          description:element.description
+        })
+      })
+      console.log(this.orgStaffDesignation);
+    });
+
   }
 
   addStaffFormSubmit() {
     const formData = this.addStaffForm.value;
+
     const paylode = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -144,14 +138,18 @@ export class StaffAddComponent {
       warehouseDetails: formData.warehouseDetails,
       pinCode: formData.pincode,
       city: formData.city,
-      email: formData.firstName,
+      email: formData.email,
       upiId: formData.upiId,
+      idNumber: formData.idNumber,
       bankName: formData.bankName,
       accountName: formData.accountName,
       accountNumber: formData.accountNumber,
       ifscCode: formData.ifscCode,
       address: formData.address,
+      idType: formData.idType,
+      status: formData.status,
     };
+    console.log("Form is valid", this.addStaffForm.value);
     if (this.addStaffForm.valid) {
       console.log("Form is valid", this.addStaffForm.value);
       this.service.addStaffData(paylode).subscribe((resp: any) => {

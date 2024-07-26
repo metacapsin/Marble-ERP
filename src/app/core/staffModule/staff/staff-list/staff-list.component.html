@@ -76,12 +76,12 @@ hideOnClear="true"  type="text" field="city" display="menu"></p-columnFilter>
 hideOnClear="true"  type="text" field="email" display="menu"></p-columnFilter>
                   </th>
                   <th width="13%">Action</th>
-                </tr>
+                </tr>   
               </ng-template>
               <ng-template pTemplate="body" let-staff>
                 <tr>
                   <td>{{staff.firstName}} {{staff.lastName}}</td>
-                  <td>{{staff.designation}}</td>
+                  <td>{{staff.designation.designation}}</td>
                   <td>{{staff.mobile}}</td>
                   <td>{{staff.city}}</td>
                   <td>{{staff.email}}</td>

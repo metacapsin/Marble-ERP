@@ -10,6 +10,7 @@ import { routes } from "src/app/shared/routes/routes";
 import { staffService } from "../staff-service.service";
 import { MessageService } from "primeng/api";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
+import { StaffDesignationService } from "src/app/core/settings/staff-designation/staff-designation.service";
 
 @Component({
   selector: "app-staff-edit",
@@ -40,10 +41,6 @@ export class StaffEditComponent {
     { value: "Labor" },
     { value: "Gaurd" },
   ];
-  isActive = [
-    { value: "Enabled" },
-    { value: "Disabled" },
-  ];
   // personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   // AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
   // AccountNumberRegex = /^[0-9]{14}$/;
@@ -51,8 +48,6 @@ export class StaffEditComponent {
   // IfscCodeRegex = /^[0-9]{11}$/;
   // pinRegex = /^\d{6}$/;
   maxDate = new Date();
-  // emailRegex: string =
-  //   "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
   phoneRegex = /^[0-9]{10}$/;
   emailRegex = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -66,39 +61,26 @@ export class StaffEditComponent {
   AccountNumberRegex = /^\d{9,18}$/;
   IfscCodeRegex = /^[^\s]{4}\d{7}$/;
   addressRegex = /^(?!\s)(?:.{3,500})$/;
+  orgIdTypeList: any;
+  IdTypeList: any[];
+  warehouseData: any;
+  orgWarehouseData: any;
+  orgStaffDesignation: any;
+  StaffDesignation: any[];
   constructor(
     private fb: FormBuilder,
     private Service: staffService,
     private messageService: MessageService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private warehouseService: WarehouseService
+    private warehouseService: WarehouseService,
+    private StaffDesignationService:StaffDesignationService
   ) {
     this.editStaffForm = this.fb.group({
       upiId: ["", [Validators.pattern(this.REGX_For_UID)]],
-      // dateOfBirth: ["", Validators.required],
-      // warehouseDetails: ["", Validators.required],
-      // firstName: [
-      //   "",
-      //   [Validators.required, Validators.pattern(this.personNameRegex)],
-      // ],
-      // lastName: [
-      //   "",
-      //   [Validators.required, Validators.pattern(this.personNameRegex)],
-      // ],
-      // mobile: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
-      // email: ["", [Validators.pattern(this.emailRegex)]],
-      // pinCode: ["", [Validators.required, Validators.pattern(this.pinRegex)]],
-      // designation: ["", [Validators.required]],
-      // city: ["", [Validators.required, Validators.pattern(this.AddressRegex)]],
-      // address: ["", [Validators.pattern(this.AddressRegex)]],
-      // bankName: ["", [Validators.pattern(this.AddressRegex)]],
-      // accountName: ["", [Validators.pattern(this.AddressRegex)]],
-      // accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
-      // ifscCode: ["", [Validators.pattern(this.IfscupiId: ["", [Validators.pattern(this.REGX_For_UID)]],
       dateOfBirth: ["", Validators.required],
       idNumber: ["", Validators.required],
-      isActive: ["", Validators.required],
+      status: ["",],
       idType: ["", Validators.required],
       warehouseDetails: ["", Validators.required],
       firstName: [
@@ -135,11 +117,41 @@ export class StaffEditComponent {
       this.patchForm(resp);
     });
     this.warehouseService.getAllWarehouseList().subscribe((resp: any) => {
-      this.warehouseDetails = resp.data;
+      this.orgWarehouseData = resp.data;
+      this.warehouseData = [];
+      this.orgWarehouseData.forEach((element) => {
+        this.warehouseData.push({
+          name: element.name,
+          _id: element._id,
+        });
+      });
+    });
+    this.Service.getIdTypeList().subscribe((resp: any) => {
+      this.orgIdTypeList = resp.data;
+      this.IdTypeList = [];
+      this.orgIdTypeList.forEach(element => {
+        this.IdTypeList.push({
+          name:element.name,
+          code:element.code,
+        })
+      });
+      console.log(this.IdTypeList);
+    });
+    this.StaffDesignationService.getStaffDesignation().subscribe((resp: any) => {
+      this.orgStaffDesignation = resp.data;
+      this.StaffDesignation = [];
+      this.orgStaffDesignation.forEach((element)=>{
+        this.StaffDesignation.push({
+          designation:element.designation,
+          description:element.description
+        })
+      })
+      console.log(this.orgStaffDesignation);
     });
   }
 
   patchForm(data) {
+    console.log(data);
     this.editStaffForm.patchValue({
       accountName: data.accountName,
       accountNumber: data.accountNumber,
@@ -152,6 +164,9 @@ export class StaffEditComponent {
       firstName: data.firstName,
       ifscCode: data.ifscCode,
       lastName: data.lastName,
+      idType: data.idType,
+      status: data.status,
+      idNumber: data.idNumber,
       mobile: data.mobile,
       pinCode: data.pinCode,
       upiId: data.upiId,
@@ -178,6 +193,9 @@ export class StaffEditComponent {
       accountName: this.editStaffForm.value.accountName,
       accountNumber: this.editStaffForm.value.accountNumber,
       ifscCode: this.editStaffForm.value.ifscCode,
+      idNumber: this.editStaffForm.value.idNumber,
+      idType: this.editStaffForm.value.idType,
+      status: this.editStaffForm.value.status,
     };
     //  if (this.editStaffForm.valid) {
     console.log("valid form");

@@ -18,7 +18,16 @@ export class StaffSalaryAddComponent {
   public selectedValue!: string;
   addSalaryForm!: FormGroup;
   employeeList: [];
-  type = [{ value: "cash" }, { value: "online" }];
+  idType = [
+    { value: "Aadhaar (India)" },
+    { value: "Passport" },
+    { value: "Driver's License" },
+    { value: "Voter ID (India)" },
+    { value: "PAN Card (India)" },
+    { value: "Social Security Number (SSN) (USA)" },
+    { value: "National ID Card (various countries)" },
+    { value: "Resident Permit (various countries)" },
+  ];
 
   descriptionRegex = /^(?!\s)(?:.{1,500})$/;
   TotalSalary: any = 0;
@@ -45,9 +54,13 @@ export class StaffSalaryAddComponent {
         "",
         [Validators.required, Validators.min(100), Validators.max(1000000)],
       ],
-      lts: [
+      lta: [
         "",
         [Validators.required, Validators.min(100), Validators.max(100000)],
+      ],
+      idType: [
+        "",
+        [],
       ],
       // tds: [
       //   "",
@@ -58,7 +71,7 @@ export class StaffSalaryAddComponent {
       //   "",
       //   [Validators.required, Validators.min(100), Validators.max(100000)],
       // ],
-      deductions: ["", [Validators.min(100), Validators.max(100000)]],
+      // special: ["", [Validators.min(100), Validators.max(100000)]],
       reason: ["", [Validators.pattern(this.descriptionRegex)]],
     });
   }
@@ -75,15 +88,15 @@ export class StaffSalaryAddComponent {
     });
   }
   findNetSalary() {
+    this.TotalSalary = 0;
     const basicSalary = this.addSalaryForm.get("basicSalary").value || 0;
     const special = this.addSalaryForm.get("special").value || 0;
     const hra = this.addSalaryForm.get("hra").value || 0;
-    const lts = this.addSalaryForm.get("lts").value || 0;
-    const deductions = this.addSalaryForm.get("deductions").value || 0;
-    this.TotalSalary = basicSalary  + hra + lts + special;
-    const netSalary = this.TotalSalary - deductions;
+    const lta = this.addSalaryForm.get("lta").value || 0;
+    this.TotalSalary = basicSalary + hra + lta + special;
+    // const netSalary = this.TotalSalary - deductions;
     this.addSalaryForm.patchValue({
-      netSalary: netSalary || 0,
+      netSalary: this.TotalSalary
     });
   }
 
@@ -92,13 +105,9 @@ export class StaffSalaryAddComponent {
       employee: this.addSalaryForm.value.employee,
       netSalary: this.addSalaryForm.value.netSalary,
       basicSalary: this.addSalaryForm.value.basicSalary,
+      special: this.addSalaryForm.value.special,
       hra: this.addSalaryForm.value.hra,
-      esi: this.addSalaryForm.value.esi,
-      // tds: this.addSalaryForm.value.tds,
-      // type: this.addSalaryForm.value.type,
-      // pf: this.addSalaryForm.value.pf,
-      deductions: this.addSalaryForm.value.deductions,
-      reason: this.addSalaryForm.value.reason,
+      lta: this.addSalaryForm.value.lta,
     };
     if (this.addSalaryForm.value) {
       this.Service.addEmployeeSalaryData(payload).subscribe((resp: any) => {
