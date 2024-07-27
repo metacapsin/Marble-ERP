@@ -44,15 +44,17 @@
                 </div> -->
 
                 <div class="row mt-2 mb-2">
-                  <div class="col-md-6 col-sm-12"><h3>Edit Leave Request</h3></div>
+                  <div class="col-md-6 col-sm-12">
+                    <h3>Edit Leave Request</h3>
+                  </div>
                   <div class="col-md-6 col-sm-12 text-end mb-2">
                     <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                    [disabled]="!editLeaveForm.valid">
-                    Submit
-                  </button>
-                  <button class="btn btn-secondary" [routerLink]="routes.staffLeave">
-                    Cancel
-                  </button>
+                      [disabled]="!editLeaveForm.valid">
+                      Submit
+                    </button>
+                    <button class="btn btn-secondary" [routerLink]="routes.staffLeave">
+                      Cancel
+                    </button>
                   </div>
                 </div>
 
@@ -88,47 +90,49 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-sm-6">
+                <div class="col-12 col-md-4 col-sm-6">
                   <div class="form-group local-forms">
                     <label for="from">From <span class="login-danger">*</span></label>
                     <p-calendar dataType="string" appendTo="body" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"
                       formControlName="from"></p-calendar>
-                    <div *ngIf="
-                        editLeaveForm.get('from')?.hasError('required') &&
-                        editLeaveForm.get('from')?.touched
-                      ">
+                    <div *ngIf="editLeaveForm.get('from')?.hasError('required') && editLeaveForm.get('from')?.touched">
                       <span class="login-danger">Field is required.</span>
                     </div>
                     <div></div>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-sm-4">
+                <div class="col-12 col-md-4 col-sm-4">
                   <div class="form-group local-forms">
                     <label for="to">To <span class="login-danger">*</span></label>
                     <p-calendar dataType="string" appendTo="body" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"
                       formControlName="to"></p-calendar>
-                    <div *ngIf="
-                        editLeaveForm.get('to')?.hasError('required') &&
-                        editLeaveForm.get('to')?.touched
-                      ">
+                    <div *ngIf="editLeaveForm.get('to')?.hasError('required') && editLeaveForm.get('to')?.touched">
                       <span class="login-danger">Field is required.</span>
                     </div>
                     <div></div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="halfDay">Include Half Day<span class="login-danger">*</span></label>
+                    <p-selectButton [options]="stateOptions" formControlName="halfDay" optionLabel="label"
+                      optionValue="value" (onChange)="onhalfDayChange($event)"></p-selectButton>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-sm-6">
                   <div class="form-group local-forms">
                     <label for="noOfDay">Number of Days <span class="login-danger">*</span></label>
-                    <input class="form-control" formControlName="noOfDay" type="text" readonly
-                      [value]="editLeaveForm.get('noOfDay').value" />
-                    <div *ngIf="
-                        editLeaveForm.get('noOfDay')?.hasError('required') &&
-                        editLeaveForm.get('noOfDay')?.touched
-                      ">
+                    <input type="number" formControlName="noOfDay" step="0.1" readonly />
+
+
+                    <div
+                      *ngIf="editLeaveForm.get('noOfDay')?.hasError('required') && editLeaveForm.get('noOfDay')?.touched">
                       <span class="login-danger">Field is required.</span>
                     </div>
                   </div>
                 </div>
+
+
                 <div class="col-12 col-md-6 col-sm-12">
                   <div class="form-group local-forms">
                     <label for="leaveReason">Leave Reason <span class="login-danger">*</span></label>
@@ -149,14 +153,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-sm-12">
-                  <p-selectButton
-                    [options]="stateOptions"
-                    formControlName="value"
-                    optionLabel="label"
-                    optionValue="value"
-                  />
-                </div>
+
               </div>
             </form>
           </div>

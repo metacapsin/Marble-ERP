@@ -11,6 +11,7 @@ import { ToastModule } from "primeng/toast";
 import { MessageService } from "primeng/api";
 import { staffService } from "../../staff/staff-service.service";
 import * as moment from "moment";
+import { SelectButtonChangeEvent } from "primeng/selectbutton";
 
 @Component({
   selector: "app-staff-leaves-add",
@@ -49,17 +50,16 @@ export class StaffLeavesAddComponent {
       employee: ["", [Validators.required]],
       noOfDay: [
         "",
-        [Validators.required, Validators.min(1), Validators.max(30)],
+        [Validators.required, Validators.min(0.5), Validators.max(30)],
       ],
       leaveType: ["", Validators.required],
       from: ["", Validators.required],
       to: ["", Validators.required],
-      halfday: ["", Validators.required],
+      halfDay: ['no'],
       leaveReason: [
         "",
         [Validators.required, Validators.pattern(this.leaveReasonRegex)],
       ],
-      value: ['yes'],
     });
     // Subscribe to changes in the date fields to calculate the number of days
     this.addLeaveForm.get("from").valueChanges.subscribe(() => {
@@ -68,6 +68,12 @@ export class StaffLeavesAddComponent {
 
     this.addLeaveForm.get("to").valueChanges.subscribe(() => {
       this.calculateNumberOfDays();
+    });
+
+
+    this.addLeaveForm.get("halfDay").valueChanges.subscribe(value => {
+      console.log("halfDay value changed:", value);
+      this.calculateNumberOfDays(); // Update calculation if needed
     });
   }
 
@@ -87,30 +93,50 @@ export class StaffLeavesAddComponent {
   calculateNumberOfDays(): void {
     const fromDate = this.addLeaveForm.get("from").value;
     const toDate = this.addLeaveForm.get("to").value;
+    const halfDay = this.addLeaveForm.get("halfDay").value;
 
     if (fromDate && toDate) {
       const from = moment(fromDate, "MM/DD/YYYY");
       const to = moment(toDate, "MM/DD/YYYY");
-      const days = to.diff(from, "days") + 1; // Including the start date
+      // Calculate the total number of days between fromDate and toDate, including both
+    let days = to.diff(from, "days") + 1; // Including the start date
 
+    // If it's the same day, set days to 0.5 if halfDay is selected
+    if (days === 1) {
+      days = halfDay === 'yes' ? 0.5 : 1;
+    } else {
+      // Add 0.5 if halfDay is 'yes'
+      if (halfDay === 'yes') {
+        days += 0.5;
+      }
+    }
       this.addLeaveForm.get("noOfDay").setValue(days > 0 ? days : 0);
     }
   }
-
+  
+ 
+  onhalfDayChange(event: SelectButtonChangeEvent): void {
+    this.calculateNumberOfDays();
+    console.log(this.addLeaveForm.get('noOfDay').value);
+  }
+  
+  
   addLeaveFormSubmit() {
     const formData = this.addLeaveForm.value;
 
-    const paylode = {
+    const payload = {
       employee: formData.employee,
-      from: formData.from,
-      leaveType: formData.leaveType,
-      to: formData.to,
       noOfDay: formData.noOfDay,
+      leaveType: formData.leaveType,
+      from: formData.from,
+      to: formData.to,
       leaveReason: formData.leaveReason,
+      halfDay:formData.halfDay,
+
     };
     if (this.addLeaveForm.valid) {
       console.log("Form is valid", this.addLeaveForm.value);
-      this.service.addLeaveData(paylode).subscribe((resp: any) => {
+      this.service.addLeaveData(payload).subscribe((resp: any) => {
         console.log(resp);
 
         if (resp) {

@@ -129,7 +129,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                   <div class="form-group local-forms">
                     <label for="from"
                       >From <span class="login-danger">*</span></label
@@ -152,7 +152,7 @@
                     <div></div>
                   </div>
                 </div>
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                   <div class="form-group local-forms">
                     <label for="to"
                       >To <span class="login-danger">*</span></label
@@ -173,6 +173,18 @@
                       <span class="login-danger">Field is required.</span>
                     </div>
                     <div></div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="halfDay">Include Half Day<span class="login-danger">*</span></label>
+                    <p-selectButton
+                      [options]="stateOptions"
+                      formControlName="halfDay"
+                      optionLabel="label"
+                      optionValue="value"
+                      (onChange)="onhalfDayChange($event)"
+                    ></p-selectButton>
                   </div>
                 </div>
                 <div class="col-md-6 col-sm-12">
@@ -197,28 +209,28 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-sm-12">
+                <!-- <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
-                    <label for="halfday"
+                    <label for="halfDay"
                       >half day<span class="login-danger">*</span></label
                     >
                     <input
                       class="form-control"
-                      formControlName="halfday"
+                      formControlName="halfDay"
                       type="text"
                       readonly
-                      [value]="addLeaveForm.get('halfday').value"
+                      [value]="addLeaveForm.get('halfDay').value"
                     />
                     <div
                       *ngIf="
-                        addLeaveForm.get('halfday')?.hasError('required') &&
-                        addLeaveForm.get('halfday')?.touched
+                        addLeaveForm.get('halfDay')?.hasError('required') &&
+                        addLeaveForm.get('halfDay')?.touched
                       "
                     >
                       <span class="login-danger">Field is required.</span>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
                     <label for="leaveReason"
@@ -250,14 +262,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-sm-12">
-                  <p-selectButton
-                    [options]="stateOptions"
-                    formControlName="value"
-                    optionLabel="label"
-                    optionValue="value"
-                  />
-                </div>
+                
               </div>
             </form>
           </div>
