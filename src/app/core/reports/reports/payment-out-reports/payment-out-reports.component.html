@@ -254,10 +254,9 @@
                 </ng-template>
 
                 <ng-template pTemplate="footer">
-                  <tr *ngIf="getTotalAmount() > 0">
+                  <tr>
                     <td colspan="4"></td>
                     <td>Total Amount</td>
-                    <!-- <td>₹ {{ getTotalAmount() | indianCurrency }}</td> -->
                     <td totalValueDirective [data]="paymentOutData" [name]="paymentOut"></td>
                   </tr>
                 </ng-template>

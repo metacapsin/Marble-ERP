@@ -1457,7 +1457,7 @@ table.table {
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 1039;
+  z-index: 1000;
   height: 70px;
   background:$color_3 ;
  box-shadow: 0px 0px 14px rgba(204, 204, 204, 0.25);
@@ -2049,7 +2049,9 @@ table.table {
   display: none;
 }
 .logout-btn {
-  margin: 50px 0px;
+  padding: 12px 23px;
+  position: absolute;
+  bottom: 0px;
   a {
     span.menu-side {
       font-size: 18px;
@@ -2079,8 +2081,10 @@ table.table {
     justify-content: flex-start;
     position: relative;
     transition: all 0.2s ease-in-out 0s;
-    color: $color_3;
+    color: white;
+    background-color: $color_3;
     font-weight: 500;
+    border-radius: 8px;  
     span {
       margin-left: 10px;
     }

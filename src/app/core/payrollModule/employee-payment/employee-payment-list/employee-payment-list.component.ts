@@ -27,8 +27,9 @@ export class EmployeepPaymentListComponent {
   originalData = [];
   visible: boolean = false;
   selectedCategory = [];
-  paymentListData = [];
+  paymentListData:any = [];
   totalAmount: number = 0;
+  SalaryPaymentList: any;
 
   constructor(
     private Service: EmployeepPaymentService,
@@ -36,14 +37,15 @@ export class EmployeepPaymentListComponent {
   ) {}
 
   ngOnInit(): void {
-    this.getPaymentList();
+    this.employeeSalaryPaymentList();
   }
 
-  getPaymentList() {
+  employeeSalaryPaymentList() {
     this.Service.getSalaryPaymentList().subscribe((resp: any) => {
-      // this.totalAmount = resp.totalAmount;
-      this.paymentListData = resp.data;
+      this.SalaryPaymentList = resp.data;
+      console.log(this.SalaryPaymentList);
     });
+    console.log(this.SalaryPaymentList);
   }
 
   deletePayment(Id: any) {
@@ -51,7 +53,7 @@ export class EmployeepPaymentListComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Payment Details",
+      messege: "Are you sure you want to delete this Employee Salary",
     };
     this.showDialoge = true;
   }
@@ -61,22 +63,14 @@ export class EmployeepPaymentListComponent {
   }
 
   callBackModal() {
-    // this.Service.deletePaymentById(this.paymentId).subscribe((resp: any) => {
-    //   this.messageService.add({ severity: "success", detail: resp.message });
-    //   this.getPaymentList();
-    //   this.showDialoge = false;
-    // });
+    this.Service.deleteSalaryPayment(this.paymentId).subscribe((resp: any) => {
+      this.messageService.add({ severity: "success", detail: resp.message });
+      this.employeeSalaryPaymentList();
+      this.showDialoge = false;
+    });
   }
 
   close() {
     this.showDialoge = false;
-  }
-
-  public searchData(value: any): void {
-    // this.categoriesListData = this.originalData.map(i => {
-    //   if (i.name.toLowerCase().includes(value.trim().toLowerCase())) {
-    //     return i;
-    //   }
-    // });
   }
 }

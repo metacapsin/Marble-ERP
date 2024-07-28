@@ -1,0 +1,510 @@
+<p-toast></p-toast>
+<div class="">
+  <div class="content">
+    <!-- <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item">
+              <a>Settings</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/settings/users']">Users</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Add User</li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body card-table">
+            <div class="page-table-header mb-2">
+              <form [formGroup]="addUserGroup" (ngSubmit)="addUserForm()">
+                <div class="row">
+                  <div
+                    class="d-flex m-b-10"
+                    style="justify-content: space-between"
+                  >
+                    <h3>Billing Address</h3>
+                    <div class="settings-btns text-end m-b-10">
+                      <button
+                        type="submit"
+                        class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                        [disabled]="!addUserGroup.valid"
+                      >
+                        Submit
+                      </button>
+                      <button
+                        class="btn btn-secondary"
+                        [routerLink]="['/settings/billing-Address']"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- <div
+                    class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3"
+                    appShowHide
+                    [roles]="['super-admin']"
+                  >
+                    <h4>Please select the user roles</h4>
+                    <div>
+                      <div class="row">
+                        <div class="col-md-4 checkbox">
+                          <p-checkbox
+                            [binary]="true"
+                            formControlName="adminCheckBox"
+                            class="m-r-10"
+                          >
+                          </p-checkbox>
+                          <label for="adminCheckBox">Admin</label>
+                        </div>
+                        <div class="col-md-4 checkbox">
+                          <p-checkbox
+                            [binary]="true"
+                            formControlName="SalesmanCheckBox"
+                            class="m-r-10"
+                          >
+                          </p-checkbox>
+                          <label for="">Salesman</label>
+                        </div>
+                        <div class="col-md-4 checkbox">
+                          <p-checkbox
+                            [binary]="true"
+                            formControlName="stockManagerCheckBox"
+                            class="m-r-10"
+                          >
+                          </p-checkbox>
+                          <label for="">Stock Manager</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+                <br />
+                <div class="row">
+                  <!-- second row -->
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="companyName"
+                        >Company Name <span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control bor"
+                        type="text"
+                        formControlName="companyName"
+                        placeholder
+                      />
+                      <div
+                        *ngIf="
+                          addUserGroup
+                            .get('companyName')
+                            ?.hasError('required') &&
+                          addUserGroup.get('companyName')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          addUserGroup
+                            .get('companyName')
+                            ?.hasError('pattern') &&
+                          addUserGroup.get('companyName')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Input must be between 3 to 50 characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="countryDetails"
+                        >Country<span class="login-danger">*</span></label
+                      >
+                      <p-dropdown
+                        [options]="countriesList"
+                        styleClass=""
+                        appendTo="body"
+                        optionLabel="name"
+                        placeholder="Select Country"
+                        formControlName="country"
+                        [style]="{ width: '100%' }"
+                        [filter]="true"
+                        filterBy="name"
+                        [showClear]="true"
+                      >
+                      </p-dropdown>
+                      <!-- <div *ngIf="
+                          slabsAddForm
+                            .get('countryDetails')
+                            ?.hasError('required') &&
+                          slabsAddForm.get('countryDetails')?.touched
+                        ">
+                        <span class="login-danger">Field is required.</span>
+                      </div> -->
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="state"
+                        >State<span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control bor"
+                        type="text"
+                        formControlName="state"
+                        placeholder
+                      />
+                      <div
+                        *ngIf="
+                          addUserGroup.get('state')?.hasError('required') &&
+                          addUserGroup.get('state')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          addUserGroup.get('state')?.hasError('pattern') &&
+                          addUserGroup.get('state')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Input must be between 3 to 50 characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="city"
+                        >City <span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control bor"
+                        type="text"
+                        formControlName="city"
+                        placeholder
+                      />
+                      <div
+                        *ngIf="
+                          addUserGroup.get('city')?.hasError('required') &&
+                          addUserGroup.get('city')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          addUserGroup.get('city')?.hasError('pattern') &&
+                          addUserGroup.get('city')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Input must be between 3 to 50 characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="postalCode"
+                        >Postal Code (ZIP)<span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control bor"
+                        type="text"
+                        formControlName="postalCode"
+                        placeholder
+                      />
+                      <div
+                        *ngIf="
+                          addUserGroup
+                            .get('postalCode')
+                            ?.hasError('required') &&
+                          addUserGroup.get('postalCode')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          addUserGroup.get('postalCode')?.hasError('pattern') &&
+                          addUserGroup.get('postalCode')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Input must be between 3 to 50 characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="PhoneNumber"
+                        >Phone Number <span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control"
+                        type="number"
+                        formControlName="phoneNumber"
+                        placeholder="xxx-xxx-xxxx"
+                      />
+                      <div
+                        *ngIf="
+                          addUserGroup
+                            .get('phoneNumber')
+                            ?.hasError('required') &&
+                          addUserGroup.get('phoneNumber')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        class="login-danger Font_size"
+                        *ngIf="
+                          addUserGroup
+                            .get('phoneNumber')
+                            ?.hasError('pattern') &&
+                          addUserGroup.get('phoneNumber')?.touched
+                        "
+                      >
+                        Please Enter 10-Digit number.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="email"
+                        >Email <span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control"
+                        formControlName="email"
+                        type="text"
+                        placeholder
+                      />
+                      <div
+                        *ngIf="
+                          addUserGroup.get('email')?.hasError('required') &&
+                          addUserGroup.get('email')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          addUserGroup.get('email')?.hasError('pattern') &&
+                          addUserGroup.get('email')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Contain Upto 8-16 chars, uppercase, lowercase, digit,
+                        special char.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="addressLine1"
+                        >Address Line 1<span class="login-danger"></span
+                      ></label>
+                      <input
+                        class="form-control"
+                        type="addressLine1"
+                        placeholder
+                        formControlName="addressLine1"
+                      />
+                      <!-- <div *ngIf="
+                          addUserGroup.get('addressLine1')?.hasError('required') &&
+                          addUserGroup.get('addressLine1')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
+                      </div> -->
+                      <div
+                        *ngIf="
+                          addUserGroup
+                            .get('addressLine1')
+                            ?.hasError('pattern') &&
+                          addUserGroup.get('addressLine1')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Please enter a valid Email address.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="addressLine2"
+                        >Address Line 2<span class="login-danger"></span
+                      ></label>
+                      <input
+                        class="form-control"
+                        type="addressLine2"
+                        placeholder
+                        formControlName="addressLine2"
+                      />
+                      <!-- <div *ngIf="
+                          addUserGroup.get('addressLine2')?.hasError('required') &&
+                          addUserGroup.get('addressLine2')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
+                      </div> -->
+                      <div
+                        *ngIf="
+                          addUserGroup
+                            .get('addressLine2')
+                            ?.hasError('pattern') &&
+                          addUserGroup.get('addressLine2')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Please enter a valid Email address.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="doctor-submit d-flex justify-content-between">
+                      <!-- <div class="status-toggle d-flex">
+                        <p class="mb-0 me-4">Status</p>
+                        <input type="checkbox" formControlName="setAsDefault" id="status_1" class="check" />
+                        <label for="status_1" class="checktoggle">checkbox</label>
+                      </div> -->
+                      <div class="col-md-4 checkbox">
+                        <p-checkbox
+                          [binary]="true"
+                          formControlName="adminCheckBox"
+                          class="m-r-10"
+                          id="adminCheckBox">
+                        </p-checkbox>
+                        <label for="adminCheckBox">Status</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="Status">Status
+                        <span class="login-danger">*</span></label>
+                      <input class="form-control" formControlName="status" type="text" placeholder />
+                      <div *ngIf="
+                                addUserGroup.get('status')?.hasError(
+                                  'pattern'
+                                ) && addUserGroup.get('status')?.touched
+                              " class="login-danger Font_size">
+                        Input must be between 1 and 50 characters.
+                      </div>
+                    </div>
+                  </div> -->
+                  <!-- <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="password">Password <span class="login-danger">*</span></label>
+                      <input class="form-control" formControlName="password" type="text" placeholder />
+                      <div *ngIf="
+                          addUserGroup.get('password')?.hasError('required') &&
+                          addUserGroup.get('password')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
+                      </div>
+                      <div *ngIf="
+                          addUserGroup.get('password')?.hasError('pattern') &&
+                          addUserGroup.get('password')?.touched
+                        " class="login-danger Font_size">
+                        Contain Upto 8-16 chars, uppercase, lowercase, digit,
+                        special char.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="wareHouse">Warehouse <span class="login-danger"></span></label>
+                      <p-multiSelect [style]="{ width: '100%' }" placeholder="--Select Warehouse--"
+                        [options]="wareHouseLists" formControlName="warehouse" optionLabel="name" optionValue="_id"
+                        display="chip" [showClear]="true"></p-multiSelect>
+                      <div *ngIf="
+                          addUserGroup.get('wareHouse')?.hasError('required') &&
+                          addUserGroup.get('wareHouse')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="address">Address <span class="login-danger">*</span></label>
+                      <textarea class="form-control" formControlName="address" type="text" placeholder
+                        rows="1"></textarea>
+                      <div *ngIf="
+                          addUserGroup.get('address')?.hasError('required') &&
+                          addUserGroup.get('address')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
+                      </div>
+                      <div *ngIf="
+                          addUserGroup.get('address')?.hasError('pattern') &&
+                          addUserGroup.get('address')?.touched
+                        " class="login-danger Font_size">
+                        Input must be between 3 to 500 characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="billingAddress">Billing Address
+                        <span class="login-danger"></span></label>
+                      <textarea class="form-control" formControlName="billingAddress" type="text" placeholder
+                        rows="1"></textarea>
+                    </div>
+                  </div> -->
+                  <!-- <div class="col-12 col-md-6 col-xl-6">
+                    <div class="doctor-submit d-flex justify-content-between">
+                      <div class="status-toggle d-flex">
+                        <p class="mb-0 me-4">Status</p>
+                        <input type="checkbox" formControlName="status" id="status_1" class="check" />
+                        <label for="status_1" class="checktoggle">checkbox</label>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

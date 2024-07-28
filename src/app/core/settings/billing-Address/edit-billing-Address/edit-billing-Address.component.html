@@ -1,0 +1,411 @@
+<style>
+  .example-margin .mat-checkbox-checked .mat-checkbox-background,
+  .example-margin .mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: #000 !important;
+    /* Change the background color */
+  }
+
+  .example-margin .mat-checkbox-checked .mat-checkbox-frame {
+    border-color: #fff !important;
+    /* Change the border color */
+  }
+</style>
+<p-toast></p-toast>
+<div class="">
+  <div class="content">
+
+
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+            <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item">
+              <a>Settings</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/settings/users']">Users</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Edit User</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body card-table">
+            <div class="page-table-header mb-2">
+
+              <form [formGroup]="editUserGroup" (ngSubmit)="editUserForm()">
+                <div class="row">
+
+                  <div class="row mt-2 mb-2">
+                    <div class="col-md-6 col-sm-12">
+                      <h3>Edit User</h3>
+                    </div>
+                    <div class="col-md-6 col-sm-12 text-end mb-2">
+                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                      [disabled]="!editUserGroup.valid">Submit</button>
+                    <button class="btn btn-secondary" [routerLink]="['/settings/billing-Address']">Cancel</button>
+                    </div>
+                  </div>
+
+                  <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3" appShowHide [roles]="['super-admin']">
+                    <h4>Please select the user roles</h4>
+                    <div>
+                      <div class="row">
+                        <div class="col-md-4 checkbox">
+                          <p-checkbox [binary]="true" formControlName="adminCheckBox" class="m-r-10">
+                          </p-checkbox>
+                          <label for="adminCheckBox">Admin</label>
+                        </div>
+                        <div class="col-md-4 checkbox">
+                          <p-checkbox [binary]="true" formControlName="SalesmanCheckBox" class="m-r-10">
+                          </p-checkbox>
+                          <label for="">Salesman</label>
+                        </div>
+                        <div class="col-md-4 checkbox">
+                          <p-checkbox [binary]="true" formControlName="stockManagerCheckBox" class="m-r-10">
+                          </p-checkbox>
+                          <label for="">Stock Manager</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+                <br />
+                <div class="row">
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="companyName"
+                        >Company Name <span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control bor"
+                        type="text"
+                        formControlName="companyName"
+                        placeholder
+                      />
+                      <div
+                        *ngIf="
+                          editUserGroup
+                            .get('companyName')
+                            ?.hasError('required') &&
+                          editUserGroup.get('companyName')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          editUserGroup
+                            .get('companyName')
+                            ?.hasError('pattern') &&
+                          editUserGroup.get('companyName')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Input must be between 3 to 50 characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="countryDetails"
+                        >Country<span class="login-danger">*</span></label
+                      >
+                      <p-dropdown
+                        [options]="countriesList"
+                        styleClass=""
+                        appendTo="body"
+                        optionLabel="name"
+                        placeholder="Select Country"
+                        formControlName="country"
+                        [style]="{ width: '100%' }"
+                        [filter]="true"
+                        filterBy="name"
+                        [showClear]="true"
+                      >
+                      </p-dropdown>
+                      <!-- <div *ngIf="
+                          slabsAddForm
+                            .get('countryDetails')
+                            ?.hasError('required') &&
+                          slabsAddForm.get('countryDetails')?.touched
+                        ">
+                        <span class="login-danger">Field is required.</span>
+                      </div> -->
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="state"
+                        >State<span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control bor"
+                        type="text"
+                        formControlName="state"
+                        placeholder
+                      />
+                      <div
+                        *ngIf="
+                          editUserGroup.get('state')?.hasError('required') &&
+                          editUserGroup.get('state')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          editUserGroup.get('state')?.hasError('pattern') &&
+                          editUserGroup.get('state')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Input must be between 3 to 50 characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="city"
+                        >City <span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control bor"
+                        type="text"
+                        formControlName="city"
+                        placeholder
+                      />
+                      <div
+                        *ngIf="
+                          editUserGroup.get('city')?.hasError('required') &&
+                          editUserGroup.get('city')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          editUserGroup.get('city')?.hasError('pattern') &&
+                          editUserGroup.get('city')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Input must be between 3 to 50 characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="postalCode"
+                        >Postal Code (ZIP)<span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control bor"
+                        type="text"
+                        formControlName="postalCode"
+                        placeholder
+                      />
+                      <div
+                        *ngIf="
+                          editUserGroup
+                            .get('postalCode')
+                            ?.hasError('required') &&
+                          editUserGroup.get('postalCode')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          editUserGroup.get('postalCode')?.hasError('pattern') &&
+                          editUserGroup.get('postalCode')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Input must be between 3 to 50 characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="PhoneNumber"
+                        >Phone Number <span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control"
+                        type="number"
+                        formControlName="phoneNumber"
+                        placeholder="xxx-xxx-xxxx"
+                      />
+                      <div
+                        *ngIf="
+                          editUserGroup
+                            .get('phoneNumber')
+                            ?.hasError('required') &&
+                          editUserGroup.get('phoneNumber')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        class="login-danger Font_size"
+                        *ngIf="
+                          editUserGroup
+                            .get('phoneNumber')
+                            ?.hasError('pattern') &&
+                          editUserGroup.get('phoneNumber')?.touched
+                        "
+                      >
+                        Please Enter 10-Digit number.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="email"
+                        >Email <span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control"
+                        formControlName="email"
+                        type="text"
+                        placeholder
+                      />
+                      <div
+                        *ngIf="
+                          editUserGroup.get('email')?.hasError('required') &&
+                          editUserGroup.get('email')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          editUserGroup.get('email')?.hasError('pattern') &&
+                          editUserGroup.get('email')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Contain Upto 8-16 chars, uppercase, lowercase, digit,
+                        special char.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="addressLine1"
+                        >Address Line 1<span class="login-danger"></span
+                      ></label>
+                      <input
+                        class="form-control"
+                        type="addressLine1"
+                        placeholder
+                        formControlName="addressLine1"
+                      />
+                      <!-- <div *ngIf="
+                          editUserGroup.get('addressLine1')?.hasError('required') &&
+                          editUserGroup.get('addressLine1')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
+                      </div> -->
+                      <div
+                        *ngIf="
+                          editUserGroup
+                            .get('addressLine1')
+                            ?.hasError('pattern') &&
+                          editUserGroup.get('addressLine1')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Please enter a valid Email address.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="addressLine2"
+                        >Address Line 2<span class="login-danger"></span
+                      ></label>
+                      <input
+                        class="form-control"
+                        type="addressLine2"
+                        placeholder
+                        formControlName="addressLine2"
+                      />
+                      <!-- <div *ngIf="
+                          editUserGroup.get('addressLine2')?.hasError('required') &&
+                          editUserGroup.get('addressLine2')?.touched
+                        " class="login-danger Font_size">
+                        Field is required.
+                      </div> -->
+                      <div
+                        *ngIf="
+                          editUserGroup
+                            .get('addressLine2')
+                            ?.hasError('pattern') &&
+                          editUserGroup.get('addressLine2')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Please enter a valid Email address.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="doctor-submit d-flex justify-content-between">
+                      <!-- <div class="status-toggle d-flex">
+                        <p class="mb-0 me-4">Status</p>
+                        <input type="checkbox" formControlName="setAsDefault" id="status_1" class="check" />
+                        <label for="status_1" class="checktoggle">checkbox</label>
+                      </div> -->
+                      <div class="col-md-4 checkbox">
+                        <p-checkbox
+                          [binary]="true"
+                          formControlName="setAsDefault"
+                          class="m-r-10"
+                          id="setAsDefault">
+                        </p-checkbox>
+                        <label for="setAsDefault">Status</label>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

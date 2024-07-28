@@ -16,6 +16,9 @@ export class EmployeepPaymentService {
   getSalaryPaymentListByEmployeeId(id: string) {
     return this.http.get(environment.apiUrl + "/PayrollController/getSalaryPaymentListByEmployeeId/" + id);
   }
+  getEmployeeLeaves(data: any) {
+    return this.http.post(environment.apiUrl + "/PayrollController/getEmployeeLeaves", data);
+  }
   getSalaryPaymentById(id: string) {
     return this.http.get(environment.apiUrl + "/PayrollController/getSalaryPaymentById/" + id);
   }

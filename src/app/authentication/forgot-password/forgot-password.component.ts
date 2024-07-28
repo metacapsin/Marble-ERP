@@ -15,10 +15,13 @@ export class ForgotPasswordComponent {
   submitted: boolean = false;
   loading: boolean = false;
   error: string = "";
+  setError:boolean = false;
+  setEmailError:boolean = false;
   authForm = new FormGroup({
     email: new FormControl('', [
       Validators.required,
       Validators.email,
+      Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
     ]),
   });
 
@@ -35,6 +38,14 @@ export class ForgotPasswordComponent {
 
   onSubmit() {
     this.submitted = true;
+    if(this.f.email.errors?.['required'] && this.f.email.touched){
+      this.setError = true;
+    }
+    if(this.f.email.errors?.['email'] && this.f.email.touched){
+      this.setError = false;
+      this.setEmailError = true;
+      console.log("object");
+    }
     if (this.authForm.invalid) {
       return;
     }
@@ -43,6 +54,8 @@ export class ForgotPasswordComponent {
       this.error = 'Email is not valid !';
       return;
     } else {
+      this.setError = false;
+      this.setEmailError = false;
       console.log(this.f['email'].value);
       this.authService
         .forgotPassword(this.f['email'].value)
@@ -67,10 +80,10 @@ export class ForgotPasswordComponent {
             }
           },
           error: (error) => {
-            this.error = error.error.message;
+            this.error = error.message;
             this.submitted = false;
             this.loading = false;
-            this._snackBar.open(error.error.message ?? "Error Occured ", '', {
+            this._snackBar.open(error.message ?? "Error Occured ", '', {
               duration: 2000,
               verticalPosition: 'top',
               horizontalPosition: 'right',

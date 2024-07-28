@@ -105,6 +105,13 @@ const routes: Routes = [
 
           ),
       },
+      {
+        path: 'billing-Address',
+        loadChildren: () =>
+          import('./billing-Address/billing-Address.module').then(
+            (m) => m.BillingAddressModule
+          ),
+      },
       
     ],
   },

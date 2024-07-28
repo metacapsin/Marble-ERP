@@ -170,6 +170,7 @@ export class StaffEditComponent {
       mobile: data.mobile,
       pinCode: data.pinCode,
       upiId: data.upiId,
+      inActive: data.inActive,
       warehouseDetails: data.warehouseDetails,
     });
   }
@@ -195,7 +196,7 @@ export class StaffEditComponent {
       ifscCode: this.editStaffForm.value.ifscCode,
       idNumber: this.editStaffForm.value.idNumber,
       idType: this.editStaffForm.value.idType,
-      status: this.editStaffForm.value.status,
+      inActive: this.editStaffForm.value.inActive,
     };
     //  if (this.editStaffForm.valid) {
     console.log("valid form");

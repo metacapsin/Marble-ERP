@@ -47,6 +47,7 @@
     employeeList: any =[];
     TotalSalary:any
     SalaryPaymentListByEmployeeId: any;
+    employeeLeavesData: any =[ ];
 
     constructor(
       // private customerService: CustomersdataService,
@@ -59,11 +60,9 @@
       this.addEmployeepPaymentForm = this.fb.group({
         payment: this.fb.array([]),
         employee: ["", [Validators.required]],
-        date: ["", [Validators.required]],
-        netSalary: ["", [Validators.required]],
-        totalLeaves: ["", [Validators.required]],
-        paymentMode: ["", [Validators.required]],
-        nots: ["", []],
+        netSalary: ["",],
+        totalLeaves: ["",],
+        date:["",[Validators.required]],
         TotalSalary: ["", []],
         deduction: ["", [Validators.pattern(this.notesRegex)]],
       });
@@ -111,38 +110,54 @@
         this.originalData.forEach((element)=>{
           this.employeeList.push({
             name:element.employee.name,
-            _id:element.employee,
+            id:element.employee
           })
         })
-        console.log("salary data", this.employeeList);
       });
     }
-    onEmployeeSelect(employeeId: any) {
-      console.log(employeeId);
-      this.Service.getSalaryPaymentListByEmployeeId(employeeId._id).subscribe((resp: any) => {
-        this.SalaryPaymentListByEmployeeId = resp.data;
-        // console.log("sales Data by id ",this.salesDataById);
-        this.addEmployeeControls();
-      });
+    onSelect() {
+      const employee = this.addEmployeepPaymentForm.get("employee").value;
+      console.log(employee);
+      const date = this.addEmployeepPaymentForm.get("date").value;
+      const [month, year] = date.split('/');
+      if(month || year || employee){
+        const data = {
+          employeeId:employee._id,
+          month:month,
+          year:year
+        }
+        this.Service.getEmployeeLeaves(data).subscribe((resp: any) => {
+          this.employeeLeavesData = resp.data;
+          console.log(this.employeeLeavesData.employee.netSalary);
+          console.log(this.employeeLeavesData);
+          this.addEmployeepPaymentForm.patchValue({
+            netSalary:this.employeeLeavesData.employee.netSalary | 0,
+            totalLeaves:this.employeeLeavesData.leaves.totalDays | 0
+          })
+        });
+      }
     }
     calculateSalary(){
       const deduction = this.addEmployeepPaymentForm.get("deduction").value | 0;
       const netSalary = this.addEmployeepPaymentForm.get("netSalary").value | 0;
       this.TotalSalary = netSalary - deduction;
+      this.addEmployeepPaymentForm.patchValue({
+        TotalSalary:this.TotalSalary,
+      })
     }
     addEmployeepPaymentFormSubmit() {
       const formData = this.addEmployeepPaymentForm.value;
+      const date = this.addEmployeepPaymentForm.get("date").value;
+      const [month, year] = date.split('/');
       console.log("Submitted data:", formData);
 
       const payload = {
-        payment: formData.payment,
         employee: formData.employee,
-        date: formData.data,
         netSalary: formData.netSalary,
         totalLeaves: formData.totalLeaves,
-        paymentMode: formData.paymentMode,
         deduction: formData.deduction,
-        nots: formData.nots,
+        year:year,
+        month:month
       };
 
       if (this.addEmployeepPaymentForm.valid) {
@@ -155,7 +170,7 @@
               const message = "Payment has been added";
               this.messageService.add({ severity: "success", detail: message });
               setTimeout(() => {
-                this.router.navigate(["/payment-in"]);
+                this.router.navigate(["/employee-payment"]);
               }, 400);
             } else {
               const message = resp.message;

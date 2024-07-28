@@ -684,17 +684,17 @@
                 <div>
                   <p>
                     <span class="font_size">{{
-                      StockWarehouseWise.totalSlabStock
+                      StockWarehouseWise?.totalSlabStock
                     }}</span>
                     Sq. Feet
                     <span class="font_size ms-2">{{
-                      StockWarehouseWise.totalSlabs
+                      StockWarehouseWise?.totalSlabs
                     }}</span>
                     Slabs
                   </p>
                   <div
                     class="d-flex justify-content-end gap-2 mt-1"
-                    *ngFor="let sub of StockWarehouseWise.slab"
+                    *ngFor="let sub of StockWarehouseWise?.slab"
                   >
                     <!-- <p>
                       <span class="passive-view me-2">{{
@@ -734,20 +734,20 @@
                   <div class="d-flex gap-2">
                     <p>
                       <span class="font_size">{{
-                        StockWarehouseWise.totalBlockStock | number : "1.2-2"
+                        StockWarehouseWise?.totalBlockStock | number : "1.2-2"
                       }}</span>
                       Ton
                     </p>
                     <p>
                       <span class="font_size ms-2">{{
-                        StockWarehouseWise.totalBlock
+                        StockWarehouseWise?.totalBlock
                       }}</span>
                       Block
                     </p>
                   </div>
                   <div
                     class="mt-1 d-flexCu justify-content-end"
-                    *ngFor="let sub of StockWarehouseWise.lot"
+                    *ngFor="let sub of StockWarehouseWise?.lot"
                   >
                     <div class="">
                       <div class="d-flex justify-content-end">

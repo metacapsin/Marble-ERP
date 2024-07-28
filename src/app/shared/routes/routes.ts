@@ -714,4 +714,13 @@ export class routes {
   public static get editQuotations(): string {
     return this.baseUrl + '/quotations/edit-quotations';
   }
+  public static get billingAddress(): string {
+    return this.baseUrl + '/settings/billing-Address';
+  }
+  public static get addbillingAddress(): string {
+    return this.baseUrl + '/settings/billing-Address/add-billing-Address';
+  }
+  public static get editbillingAddress(): string {
+    return this.baseUrl + '/settings/billing-Address/edit-billing-Address';
+  }
 }

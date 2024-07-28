@@ -56,7 +56,7 @@ export class SuppliersComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Customer"
+      messege: "Are you sure you want to delete this Suppliers"
     }
     this.showDialoge = true;
   }

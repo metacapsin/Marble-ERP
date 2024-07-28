@@ -231,7 +231,7 @@
             <li class="nav-item dropdown d-sm-block">
                 <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"
                     (click)="loadLatestPayments()">
-                    <img src="assets/img/icons/note-icon-02.svg" alt=""><span class="pulse"></span>
+                    <img src="assets/img/icons/note-icon-02.svg" alt=""><span *ngIf="latestPayments" class="pulse"></span>
                 </a>
                 <div class="dropdown-menu notifications">
                     <div class="topnav-dropdown-header">
@@ -241,7 +241,6 @@
                         <ul class="notification-list">
                             <ng-container *ngIf="latestPayments.length; else noPayments">
                                 <li *ngFor="let payment of latestPayments" class="notification-message">
-                                    <!-- (click)="showInvoiceDialoge({ salesId: payment.salesId, purchaseId: payment.purchaseId }) -->
                                     <a>
 
                                         <div class="media">
@@ -294,7 +293,7 @@
                     class="hasnotifications nav-link" tabindex="0"><img src="assets/img/icons/note-icon-01.svg"
                         alt=""><span class="pulse"></span> </a>
             </li> -->
-            <li class="nav-item dropdown has-arrow user-profile-list">
+            <li class="nav-item dropdown has-arrow user-profile-list" [routerLink]="routes.practiceInformation">
                 <a href="javascript:void(0);" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                     <div class="user-names">
                         <h5>{{userData?.name}}</h5>
@@ -304,12 +303,12 @@
                         <img src="../../../assets/img/user-vector2.jpg" alt="Admin">
                     </span>
                 </a>
-                <div class="dropdown-menu">
+                <!-- <div class="dropdown-menu">
                     <a class="dropdown-item" [routerLink]="routes.practiceInformation">My Profile</a>
-                    <!-- <a class="dropdown-item" [routerLink]="routes.editProfile">Edit Profile</a> -->
+                    <a class="dropdown-item" [routerLink]="routes.editProfile">Edit Profile</a>
                     <a class="dropdown-item" [routerLink]="routes.practiceInformation">Settings</a>
                     <a class="dropdown-item" [routerLink]="routes.login">Logout</a>
-                </div>
+                </div> -->
             </li>
             <!-- <li class="nav-item ">
                 <a [routerLink]="routes.settings" class="hasnotifications nav-link"><img
