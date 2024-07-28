@@ -129,7 +129,7 @@ export class StaffLeavesEditComponent {
       if (days === 1) {
         days = halfDay === "yes" ? 0.5 : 1;
       } else if (halfDay === "yes") {
-        days += 0.5;
+        days -= 0.5;
       }
       // Log the calculated value before setting it
       console.log("Setting noOfDay value:", days);

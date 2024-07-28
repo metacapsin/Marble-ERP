@@ -107,7 +107,7 @@ export class StaffLeavesAddComponent {
     } else {
       // Add 0.5 if halfDay is 'yes'
       if (halfDay === 'yes') {
-        days += 0.5;
+        days -= 0.5;
       }
     }
       this.addLeaveForm.get("noOfDay").setValue(days > 0 ? days : 0);
