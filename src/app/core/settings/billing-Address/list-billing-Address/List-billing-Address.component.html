@@ -134,7 +134,7 @@
                       ></p-columnFilter>
                     </th>
                     <th pSortableColumn="postalCode">
-                      postalCode<p-sortIcon field="postalCode"></p-sortIcon>
+                      Postal Code<p-sortIcon field="postalCode"></p-sortIcon>
                       <p-columnFilter
                         matchMode="contains"
                         hideOnClear="true"
@@ -153,11 +153,11 @@
                     <td>{{ product.state }}</td>
                     <td>{{ product.city }}</td>
                     <td>{{ product.email }}</td>
-                    <td *ngIf="!product.isUserLocked">
-                      <p-tag severity="success" value="Active"></p-tag>
-                    </td>
-                    <td *ngIf="product.isUserLocked">
+                    <td *ngIf="!product.setAsDefault">
                       <p-tag severity="danger" value="Locked"></p-tag>
+                    </td>
+                    <td *ngIf="product.setAsDefault">
+                      <p-tag severity="success" value="Active"></p-tag>
                     </td>
                     <td
                       class="action-buttions"

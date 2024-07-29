@@ -58,15 +58,14 @@ export class StaffSalaryEditComponent {
         "",
         [Validators.required, Validators.min(100), Validators.max(100000)],
       ],
-      special: [
+      specialPay: [
         "",
         [Validators.required, Validators.min(100), Validators.max(1000000)],
       ],
-      lts: [
+      lta: [
         "",
         [Validators.required, Validators.min(100), Validators.max(100000)],
       ],
-      idType: ["", Validators.required],
       reason: ["", [Validators.pattern(this.descriptionRegex)]],
     });
     this.salaryId = this.activeRoute.snapshot.params["id"];
@@ -91,30 +90,32 @@ export class StaffSalaryEditComponent {
     );
   }
   findNetSalary() {
+    this.TotalSalary = 0;
     const basicSalary = this.editSalaryForm.get("basicSalary").value || 0;
     const specialPay = this.editSalaryForm.get("specialPay").value || 0;
     const hra = this.editSalaryForm.get("hra").value || 0;
-    const lts = this.editSalaryForm.get("lts").value || 0;
-    const deductions = this.editSalaryForm.get("deductions").value || 0;
-    this.TotalSalary = basicSalary + hra + lts + specialPay;
-    const netSalary = this.TotalSalary - deductions;
+    const lta = this.editSalaryForm.get("lta").value || 0;
+    this.TotalSalary = basicSalary + hra + lta + specialPay;
+    // const netSalary = this.TotalSalary - deductions;
     this.editSalaryForm.patchValue({
-      netSalary: netSalary || 0,
+      netSalary: this.TotalSalary
     });
   }
   patchForm(data) {
+    console.log(data);
     this.editSalaryForm.patchValue({
+      // employee: data.employee,
+      // netSalary: data.netSalary,
+      // basicSalary: data.basicSalary,
+      // hra: data.hra,
+      // esi: data.esi,
+      // specialPay: data.specialPay,
       employee: data.employee,
       netSalary: data.netSalary,
       basicSalary: data.basicSalary,
+      specialPay: data.specialPay,
       hra: data.hra,
-      esi: data.esi,
-      tds: data.tds,
-      type: data.type,
-      pf: data.pf,
-      deductions: data.deductions,
-      reason: data.reason,
-      idType: data.idType,
+      lta: data.lta,
     });
   }
   editSalaryFormSubmit() {
@@ -123,9 +124,9 @@ export class StaffSalaryEditComponent {
       employee: this.editSalaryForm.value.employee,
       netSalary: this.editSalaryForm.value.netSalary,
       basicSalary: this.editSalaryForm.value.basicSalary,
+      specialPay: this.editSalaryForm.value.specialPay,
       hra: this.editSalaryForm.value.hra,
-      esi: this.editSalaryForm.value.esi,
-      special: this.editSalaryForm.value.special,
+      lta: this.editSalaryForm.value.lta,
       id: this.salaryId,
     };
     // if (this.editSalaryForm.valid) {

@@ -32,12 +32,17 @@ export class StaffLeavesAddComponent {
     { value: "Loss of Pay" },
     { value: "Other Reason" },
   ];
+  LeaveDuration = [
+    { value: "Half Day" },
+    { value: "Full Day" },
+  ];
   stateOptions: any[] = [
     { label: "Yes", value: "yes" },
     { label: "No", value: "no" },
   ];
 
   leaveReasonRegex = /^.{3,48}$/s;
+  reasonSet: any;
 
   constructor(
     private fb: FormBuilder,
@@ -48,6 +53,7 @@ export class StaffLeavesAddComponent {
   ) {
     this.addLeaveForm = this.fb.group({
       employee: ["", [Validators.required]],
+      LeaveDuration: ["", [Validators.required]],
       noOfDay: [
         "",
         [Validators.required, Validators.min(0.5), Validators.max(30)],
@@ -71,10 +77,10 @@ export class StaffLeavesAddComponent {
     });
 
 
-    this.addLeaveForm.get("halfDay").valueChanges.subscribe(value => {
-      console.log("halfDay value changed:", value);
-      this.calculateNumberOfDays(); // Update calculation if needed
-    });
+    // this.addLeaveForm.get("halfDay").valueChanges.subscribe(value => {
+    //   console.log("halfDay value changed:", value);
+    //   this.calculateNumberOfDays(); // Update calculation if needed
+    // });
   }
 
   ngOnInit(): void {
@@ -86,7 +92,6 @@ export class StaffLeavesAddComponent {
           name: `${e.firstName} ${e.lastName}`,
         },
       }));
-      console.log(this.employeeList);
     });
   }
 
@@ -102,18 +107,23 @@ export class StaffLeavesAddComponent {
     let days = to.diff(from, "days") + 1; // Including the start date
 
     // If it's the same day, set days to 0.5 if halfDay is selected
-    if (days === 1) {
-      days = halfDay === 'yes' ? 0.5 : 1;
-    } else {
-      // Add 0.5 if halfDay is 'yes'
-      if (halfDay === 'yes') {
-        days -= 0.5;
-      }
-    }
+    // if (days === 1) {
+    //   days = halfDay === 'yes' ? 0.5 : 1;
+    // } else {
+    //   // Add 0.5 if halfDay is 'yes'
+    //   if (halfDay === 'yes') {
+    //     days -= 0.5;
+    //   }
+    // }
       this.addLeaveForm.get("noOfDay").setValue(days > 0 ? days : 0);
     }
   }
   
+
+  durationChange(){
+    this.reasonSet = this.addLeaveForm.get("leaveType").value;
+    console.log(this.reasonSet);
+  }
  
   onhalfDayChange(event: SelectButtonChangeEvent): void {
     this.calculateNumberOfDays();
@@ -123,7 +133,7 @@ export class StaffLeavesAddComponent {
   
   addLeaveFormSubmit() {
     const formData = this.addLeaveForm.value;
-
+    console.log(formData);
     const payload = {
       employee: formData.employee,
       noOfDay: formData.noOfDay,
@@ -132,28 +142,28 @@ export class StaffLeavesAddComponent {
       to: formData.to,
       leaveReason: formData.leaveReason,
       halfDay:formData.halfDay,
-
+      LeaveDuration:formData.LeaveDuration,
     };
-    if (this.addLeaveForm.valid) {
-      console.log("Form is valid", this.addLeaveForm.value);
-      this.service.addLeaveData(payload).subscribe((resp: any) => {
-        console.log(resp);
+    // if (this.addLeaveForm.valid) {
+    //   console.log("Form is valid", this.addLeaveForm.value);
+    //   this.service.addLeaveData(payload).subscribe((resp: any) => {
+    //     console.log(resp);
 
-        if (resp) {
-          if (resp.status === "success") {
-            const message = "leave request has been added";
-            this.messageService.add({ severity: "success", detail: message });
-            setTimeout(() => {
-              this.router.navigate(["/staff-leaves"]);
-            }, 400);
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
-          }
-        }
-      });
-    } else {
-      console.log("Form is inValid!");
-    }
+    //     if (resp) {
+    //       if (resp.status === "success") {
+    //         const message = "leave request has been added";
+    //         this.messageService.add({ severity: "success", detail: message });
+    //         setTimeout(() => {
+    //           this.router.navigate(["/staff-leaves"]);
+    //         }, 400);
+    //       } else {
+    //         const message = resp.message;
+    //         this.messageService.add({ severity: "error", detail: message });
+    //       }
+    //     }
+    //   });
+    // } else {
+    //   console.log("Form is inValid!");
+    // }
   }
 }

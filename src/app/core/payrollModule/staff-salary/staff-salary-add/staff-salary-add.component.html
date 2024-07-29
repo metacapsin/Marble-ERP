@@ -171,75 +171,24 @@
                 </div>
                 <div class="col-12 col-md-6 col-xl-6" (change)="findNetSalary()">
                   <div class="form-group local-forms">
-                    <label for="special">Special Pay<span class="login-danger">*</span></label>
+                    <label for="specialPay">specialPay<span class="login-danger">*</span></label>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">₹</span>
                       </div>
-                      <input class="form-control" formControlName="special" placeholder="Enter Special Pay" type="number" value="$500" />
+                      <input class="form-control" formControlName="specialPay" placeholder="Enter specialPay" type="number" value="$500" />
                     </div>
-                    <div *ngIf="addSalaryForm.get('special')?.errors?.['required'] && addSalaryForm.get('special').touched"
+                    <div *ngIf="addSalaryForm.get('specialPay')?.errors?.['required'] && addSalaryForm.get('specialPay').touched"
                       class="login-danger Font_size">
                       Field is required.
                     </div>
                     <div
-                      *ngIf="addSalaryForm.get('special')?.errors?.['min'] && addSalaryForm.get('special').touched || addSalaryForm.get('special')?.errors?.['max'] && addSalaryForm.get('lts').touched"
+                      *ngIf="addSalaryForm.get('specialPay')?.errors?.['min'] && addSalaryForm.get('specialPay').touched || addSalaryForm.get('specialPay')?.errors?.['max'] && addSalaryForm.get('lts').touched"
                       class="login-danger Font_size">
                       Input must be between 100 to 10,000,00.
                     </div>
                   </div>
                 </div>
-                <!-- <div class="col-12 col-md-6 col-xl-6" (change)="findNetSalary()">
-                  <div class="form-group local-forms">
-                    <label for="pf">PF <span class="login-danger">*</span>
-                    </label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">₹</span>
-                      </div>
-                      <input class="form-control" formControlName="pf" type="number" />
-                    </div>
-                    <div *ngIf="addSalaryForm.get('pf')?.errors?.['required'] && addSalaryForm.get('pf').touched"
-                      class="login-danger Font_size">
-                      Field is required.
-                    </div>
-                    <div
-                      *ngIf="addSalaryForm.get('pf')?.errors?.['min'] && addSalaryForm.get('pf').touched || addSalaryForm.get('pf')?.errors?.['max'] && addSalaryForm.get('pf').touched"
-                      class="login-danger Font_size">
-                      Input must be between 100 to 10,000,00.
-                    </div>
-                  </div>
-                </div> -->
-                <!-- <div class="col-12 col-md-6 col-xl-6" (change)="findNetSalary()">
-                  <div class="form-group local-forms">
-                    <label for="pf">Deductions</label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">₹</span>
-                      </div>
-                      <input class="form-control" formControlName="deductions" placeholder="Enter Deductions" type="number" />
-                    </div>
-                    <div *ngIf="addSalaryForm.get('deductions')?.errors?.['required'] && addSalaryForm.get('deductions').touched"
-                                            class="login-danger Font_size">
-                                            Field is required.
-                                        </div>
-                    <div
-                      *ngIf="addSalaryForm.get('deductions')?.errors?.['min'] && addSalaryForm.get('deductions').touched || addSalaryForm.get('pf')?.errors?.['max'] && addSalaryForm.get('pf').touched"
-                      class="login-danger Font_size">
-                      Input must be between 100 to 10,000,00.
-                    </div>
-                  </div>
-                </div> -->
-                <!-- <div class="col-12 col-md-6 col-xl-6">
-                  <div class="form-group local-forms">
-                    <label for="pf">Reason</label>
-                    <textarea class="form-control" formControlName="reason" placeholder="Enter Reason" type="text" cols="1" rows="1"></textarea>
-                    <div *ngIf="addSalaryForm.get('reason')?.errors?.['pattern'] && addSalaryForm.get('reason').touched"
-                      class="login-danger Font_size">
-                      Input must be between 1 to 500.
-                    </div>
-                  </div>
-                </div> -->
                 <div class="row d-flex justify-content-end">
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="invoice-total-card">

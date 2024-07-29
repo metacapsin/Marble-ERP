@@ -87,7 +87,7 @@ export class StaffAddComponent {
       accountName: ["", [Validators.pattern(this.accountHolderRegex)]],
       accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
       ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
-      inActive: [""],
+      isActive: [""],
     });
   }
 
@@ -148,7 +148,7 @@ export class StaffAddComponent {
       ifscCode: formData.ifscCode,
       address: formData.address,
       idType: formData.idType,
-      inActive: formData.inActive,
+      isActive: formData.isActive,
     };
     console.log("Form is valid", this.addStaffForm.value);
     if (this.addStaffForm.valid) {

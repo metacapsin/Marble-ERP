@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-// import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -25,7 +24,7 @@ export class UsersdataService {
   createBillingAddress(data: any) {
     return this.http.post(environment.apiUrl + '/Billing/createBillingAddress', data);
   }
-  UpDateUserApi(id: any, data: any) {
+  updateBillingAddress(data: any) {
     return this.http.put(environment.apiUrl + '/Billing/updateBillingAddress', data);
   }
   deleteBillingAddressById(id:any){

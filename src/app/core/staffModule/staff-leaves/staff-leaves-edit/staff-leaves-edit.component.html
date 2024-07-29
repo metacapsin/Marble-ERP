@@ -58,97 +58,200 @@
                   </div>
                 </div>
 
-                <div class="col-12 col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
-                    <label for="employee">Employee Name <span class="login-danger">*</span></label>
-                    <p-dropdown [style]="{ width: '100%' }" placeholder="Select Employee" [options]="employeeList"
-                      formControlName="employee" optionLabel="name" optionValue="_id" display="chip" [filter]="true"
-                      filterBy="name" [showClear]="true">
+                    <label for="employee"
+                      >Employee Name <span class="login-danger">*</span></label
+                    >
+                    <p-dropdown
+                      [style]="{ width: '100%' }"
+                      placeholder="Select Employee"
+                      [options]="employeeList"
+                      formControlName="employee"
+                      optionLabel="name"
+                      optionValue="_id"
+                      display="chip"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true"
+                    >
                     </p-dropdown>
-                    <div *ngIf="
+                    <!-- <input class="form-control" formControlName="employee" type="text"> -->
+                    <div
+                      *ngIf="
                         editLeaveForm.get('employee')?.hasError('required') &&
                         editLeaveForm.get('employee')?.touched
-                      ">
-                      <span class="login-danger">Field is required.</span>
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
                     </div>
+                    <!-- <div *ngIf="
+                          editLeaveForm.get('employee')?.hasError('pattern') &&
+                          editLeaveForm.get('employee')?.touched
+                        " class="login-danger Font_size">
+                                            Input must be between 3 to 50 characters.
+                                        </div> -->
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-sm-6">
+                  
+                <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
-                    <label for="leaveReason">Leave Type <span class="login-danger">*</span></label>
-                    <p-dropdown [style]="{ width: '100%' }" placeholder="Select Leave Type " [options]="LeaveData"
-                      formControlName="leaveType" optionLabel="value" optionValue="value" display="chip" [filter]="true"
-                      filterBy="name" [showClear]="true">
+                    <label for="LeaveDuration"
+                      >Leave Duration<span class="login-danger">*</span></label
+                    >
+                    <p-dropdown
+                      [style]="{ width: '100%' }"
+                      placeholder="Select Leave Duration"
+                      [options]="LeaveDuration"
+                      formControlName="LeaveDuration"
+                      optionLabel="value"
+                      optionValue="value"
+                      display="chip"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true"
+                    >
                     </p-dropdown>
-                    <div *ngIf="
-                        editLeaveForm
-                          .get('leaveReason')
-                          ?.hasError('required') &&
-                        editLeaveForm.get('leaveReason')?.touched
-                      ">
-                      <span class="login-danger">Field is required.</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-4 col-sm-6">
-                  <div class="form-group local-forms">
-                    <label for="from">From <span class="login-danger">*</span></label>
-                    <p-calendar dataType="string" appendTo="body" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"
-                      formControlName="from"></p-calendar>
-                    <div *ngIf="editLeaveForm.get('from')?.hasError('required') && editLeaveForm.get('from')?.touched">
-                      <span class="login-danger">Field is required.</span>
-                    </div>
-                    <div></div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-4 col-sm-4">
-                  <div class="form-group local-forms">
-                    <label for="to">To <span class="login-danger">*</span></label>
-                    <p-calendar dataType="string" appendTo="body" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"
-                      formControlName="to"></p-calendar>
-                    <div *ngIf="editLeaveForm.get('to')?.hasError('required') && editLeaveForm.get('to')?.touched">
-                      <span class="login-danger">Field is required.</span>
-                    </div>
-                    <div></div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-4 col-sm-12">
-                  <div class="form-group local-forms">
-                    <label for="halfDay">Include Half Day<span class="login-danger">*</span></label>
-                    <p-selectButton [options]="stateOptions" formControlName="halfDay" optionLabel="label"
-                      optionValue="value" (onChange)="onhalfDayChange($event)"></p-selectButton>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 col-sm-6">
-                  <div class="form-group local-forms">
-                    <label for="noOfDay">Number of Days <span class="login-danger">*</span></label>
-                    <input type="number" formControlName="noOfDay" step="0.1" readonly />
-
-
                     <div
-                      *ngIf="editLeaveForm.get('noOfDay')?.hasError('required') && editLeaveForm.get('noOfDay')?.touched">
+                      *ngIf="
+                        editLeaveForm.get('LeaveDuration')?.hasError('required') &&
+                        editLeaveForm.get('LeaveDuration')?.touched
+                      "
+                    >
                       <span class="login-danger">Field is required.</span>
                     </div>
                   </div>
                 </div>
 
-
-                <div class="col-12 col-md-6 col-sm-12">
+                <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
-                    <label for="leaveReason">Leave Reason <span class="login-danger">*</span></label>
-                    <textarea class="form-control" formControlName="leaveReason" rows="1"></textarea>
-                    <div *ngIf="
-                        editLeaveForm
-                          .get('leaveReason')
-                          ?.hasError('required') &&
-                        editLeaveForm.get('leaveReason')?.touched
-                      ">
+                    <label for="from"
+                      >From <span class="login-danger">*</span></label
+                    >
+                    <p-calendar
+                      dataType="string"
+                      appendTo="body"
+                      placeholder="mm/dd/yyyy"
+                      [styleClass]="'col-12'"
+                      formControlName="from"
+                    ></p-calendar>
+                    <div
+                      *ngIf="
+                        editLeaveForm.get('from')?.hasError('required') &&
+                        editLeaveForm.get('from')?.touched
+                      "
+                    >
                       <span class="login-danger">Field is required.</span>
                     </div>
-                    <div *ngIf="
+                    <div></div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="to"
+                      >To <span class="login-danger">*</span></label
+                    >
+                    <p-calendar
+                      dataType="string"
+                      appendTo="body"
+                      placeholder="mm/dd/yyyy"
+                      [styleClass]="'col-12'"
+                      formControlName="to"
+                    ></p-calendar>
+                    <div
+                      *ngIf="
+                        editLeaveForm.get('to')?.hasError('required') &&
+                        editLeaveForm.get('to')?.touched
+                      "
+                    >
+                      <span class="login-danger">Field is required.</span>
+                    </div>
+                    <div></div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="noOfDay"
+                      >Number of Days <span class="login-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      formControlName="noOfDay"
+                      type="text"
+                      readonly
+                      [value]="editLeaveForm.get('noOfDay').value"
+                    />
+                    <div
+                      *ngIf="
+                        editLeaveForm.get('noOfDay')?.hasError('required') &&
+                        editLeaveForm.get('noOfDay')?.touched
+                      "
+                    >
+                      <span class="login-danger">Field is required.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group local-forms">
+                    <label for="leaveType"
+                      >Leave Type <span class="login-danger">*</span></label
+                    >
+                    <p-dropdown
+                      [style]="{ width: '100%' }"
+                      placeholder="Select Leave Type "
+                      [options]="LeaveData"
+                      formControlName="leaveType"
+                      optionLabel="value"
+                      optionValue="value"
+                      display="chip"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true"
+                      (onChange)="durationChange()"
+                    >
+                    </p-dropdown>
+                    <div
+                      *ngIf="
+                        editLeaveForm.get('leaveType')?.hasError('required') &&
+                        editLeaveForm.get('leaveType')?.touched
+                      "
+                    >
+                      <span class="login-danger">Field is required.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12" *ngIf="reasonSet == 'Other Reason'">
+                  <div class="form-group local-forms">
+                    <label for="leaveReason"
+                      >Leave Reason <span class="login-danger">*</span></label
+                    >
+                    <textarea
+                      class="form-control"
+                      formControlName="leaveReason"
+                      rows="1"
+                      cols=""
+                    ></textarea>
+                    <div
+                      *ngIf="
+                        editLeaveForm.get('leaveReason')?.hasError('required') &&
+                        editLeaveForm.get('leaveReason')?.touched
+                      "
+                      class="login-danger Font_size"
+                    >
+                      Field is required.
+                    </div>
+                    <div
+                      *ngIf="
                         editLeaveForm.get('leaveReason')?.hasError('pattern') &&
                         editLeaveForm.get('leaveReason')?.touched
-                      " class="login-danger Font_size">
+                      "
+                      class="login-danger Font_size"
+                    >
                       Input must be between 3 to 50 characters.
                     </div>
                   </div>

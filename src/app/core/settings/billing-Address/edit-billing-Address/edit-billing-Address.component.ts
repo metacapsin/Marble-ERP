@@ -35,7 +35,7 @@ export class EditBillingAddressComponent implements OnInit {
   public routes = routes;
   id = "";
   EditUserData: any;
-  editUserGroup: UntypedFormGroup;
+  editBillingAddress: UntypedFormGroup;
   data: any = null;
   wareHousedata: any = [];
   wareHouseLists = [];
@@ -82,29 +82,29 @@ export class EditBillingAddressComponent implements OnInit {
     private service: WarehouseService
   ) {
     this.id = this.activeRoute.snapshot.params["id"];
-    this.editUserGroup = this.fb.group({
+    this.editBillingAddress = this.fb.group({
       city: [''],
-      state: [''],
-      ZIP: [''],
-      companyName:[''],
-      postalCode:[''],
-      country: [''],
-      phoneNumber: [''],
+      setAsDefault: [''],
+      companyName:['',[Validators.required]],
+      postalCode:['',[Validators.required]],
+      country: ['',[Validators.required]],
+      phoneNumber: ['',[Validators.required]],
       email:[''],
-      addressLine1:[''],
+      addressLine1:['',[Validators.required]],
       addressLine2:[''],
-      setAsDefault:['']
+      state:[''],
     });
   }
   patchForm(data) {
-    this.editUserGroup.patchValue({
+    console.log(data);
+    this.editBillingAddress.patchValue({
       city: data.city,
       state: data.state,
       zip: data.zip,
       country: data.country,
       phoneNumber: data.phoneNumber,
       email:data.email,
-      setAsDefault:data.setAsDefaul,
+      setAsDefault:data.setAsDefault,
       postalCode:data.postalCode,
       companyName:data.companyName,
       addressLine1:data.addressLine1,
@@ -112,27 +112,26 @@ export class EditBillingAddressComponent implements OnInit {
     });
   }
 
-  editUserForm() {
-    const formData = this.editUserGroup.value;
+  editBillingAddressForm() {
+    const formData = this.editBillingAddress.value;
     console.log(formData);
       const payload = {
         id: this.id,
-        city: formData.city,
-        state: formData.state,
-        zip: formData.zip,
-        country: formData.country,
-        phoneNumber: formData.phoneNumber,
-        email:formData.email,
-        setAsDefault:formData.setAsDefaul,
-        postalCode:formData.postalCode,
         companyName:formData.companyName,
         addressLine1:formData.addressLine1,
         addressLine2:formData.addressLine2,
+        city: formData.city,
+        state: formData.state,
+        postalCode:formData.postalCode,
+        country: formData.country,
+        phoneNumber: formData.phoneNumber,
+        email:formData.email,
+        setAsDefault:formData.setAsDefault,
       };
       console.log(payload);
 
-      if (this.editUserGroup.value) {
-        this.UserEditData.UpDateUserApi(this.id, payload).subscribe(
+      if (this.editBillingAddress.value) {
+        this.UserEditData.updateBillingAddress(payload).subscribe(
           (resp: any) => {
             if (resp) {
               if (resp.status === "success") {

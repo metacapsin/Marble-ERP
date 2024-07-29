@@ -32,7 +32,7 @@ import { WarehouseService } from "../../warehouse/warehouse.service";
 })
 export class AddBillingAddressComponent implements OnInit {
   public routes = routes;
-  addUserGroup: UntypedFormGroup;
+  addBillingAddress: UntypedFormGroup;
   public passwordClass = false;
   wareHousedata: any = [];
   wareHouseLists = [];
@@ -60,7 +60,7 @@ export class AddBillingAddressComponent implements OnInit {
     private messageService: MessageService,
     private service: WarehouseService
   ) {
-    this.addUserGroup = this.fb.group({
+    this.addBillingAddress = this.fb.group({
       // name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
       // phoneNumber: [
       //   "",
@@ -83,16 +83,15 @@ export class AddBillingAddressComponent implements OnInit {
       // isUserLocked: [""],
       // billingAddress: [''],
       city: [''],
-      state: [''],
-      ZIP: [''],
-      companyName:[''],
-      postalCode:[''],
-      country: [''],
-      phoneNumber: [''],
+      setAsDefault: [''],
+      companyName:['',[Validators.required]],
+      postalCode:['',[Validators.required]],
+      country: ['',[Validators.required]],
+      phoneNumber: ['',[Validators.required]],
       email:[''],
-      addressLine1:[''],
+      addressLine1:['',[Validators.required]],
       addressLine2:[''],
-      setAsDefault:['']
+      state:[''],
     });
   }
   ngOnInit(): void {
@@ -109,18 +108,18 @@ export class AddBillingAddressComponent implements OnInit {
     })
   }
 
-  addUserForm() {
-    const formData = this.addUserGroup.value;
+  addBillingAddressFrom() {
+    const formData = this.addBillingAddress.value;
     console.log(formData);
    
       const payload = {
       city: formData.city,
-      state: formData.state,
       zip: formData.zip,
       country: formData.country,
       phoneNumber: formData.phoneNumber,
       email:formData.email,
-      setAsDefault:formData.setAsDefaul,
+      state:formData.state,
+      setAsDefault:formData.setAsDefault,
       postalCode:formData.postalCode,
       companyName:formData.companyName,
       addressLine1:formData.addressLine1,

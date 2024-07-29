@@ -50,7 +50,7 @@ export class StaffSalaryAddComponent {
         "",
         [Validators.required, Validators.min(100), Validators.max(100000)],
       ],
-      special: [
+      specialPay: [
         "",
         [Validators.required, Validators.min(100), Validators.max(1000000)],
       ],
@@ -58,21 +58,6 @@ export class StaffSalaryAddComponent {
         "",
         [Validators.required, Validators.min(100), Validators.max(100000)],
       ],
-      idType: [
-        "",
-        [],
-      ],
-      // tds: [
-      //   "",
-      //   [Validators.required, Validators.min(100), Validators.max(100000)],
-      // ],
-      // type: ["", Validators.required],
-      // pf: [
-      //   "",
-      //   [Validators.required, Validators.min(100), Validators.max(100000)],
-      // ],
-      // special: ["", [Validators.min(100), Validators.max(100000)]],
-      reason: ["", [Validators.pattern(this.descriptionRegex)]],
     });
   }
 
@@ -90,10 +75,10 @@ export class StaffSalaryAddComponent {
   findNetSalary() {
     this.TotalSalary = 0;
     const basicSalary = this.addSalaryForm.get("basicSalary").value || 0;
-    const special = this.addSalaryForm.get("special").value || 0;
+    const specialPay = this.addSalaryForm.get("specialPay").value || 0;
     const hra = this.addSalaryForm.get("hra").value || 0;
     const lta = this.addSalaryForm.get("lta").value || 0;
-    this.TotalSalary = basicSalary + hra + lta + special;
+    this.TotalSalary = basicSalary + hra + lta + specialPay;
     // const netSalary = this.TotalSalary - deductions;
     this.addSalaryForm.patchValue({
       netSalary: this.TotalSalary
@@ -105,7 +90,7 @@ export class StaffSalaryAddComponent {
       employee: this.addSalaryForm.value.employee,
       netSalary: this.addSalaryForm.value.netSalary,
       basicSalary: this.addSalaryForm.value.basicSalary,
-      special: this.addSalaryForm.value.special,
+      specialPay: this.addSalaryForm.value.specialPay,
       hra: this.addSalaryForm.value.hra,
       lta: this.addSalaryForm.value.lta,
     };

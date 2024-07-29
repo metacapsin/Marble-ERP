@@ -1,67 +1,128 @@
 <div class="row p-2">
-    <div class="col-xl-12 col-lg-12 col-md-12">
-        <div class="page-wrapper">
-            <div class="content container-fluid">
+  <div class="col-xl-12 col-lg-12 col-md-12">
+    <div class="page-wrapper">
+      <div class="content container-fluid">
+        <div class="page-header">
+          <div class="row">
+            <div class="col-sm-12">
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a [routerLink]="routes.adminDashboard">Dashboard </a>
+                </li>
+                <li class="breadcrumb-item">
+                  <i class="feather icon-chevron-right"></i>
+                </li>
+                <li class="breadcrumb-item active">Settings</li>
+                <li class="breadcrumb-item">
+                  <i class="feather icon-chevron-right"></i>
+                </li>
+                <li class="breadcrumb-item active">{{ text }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
 
-                <div class="page-header">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
-                                <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                                <li class="breadcrumb-item active">Settings</li>
-                                <li class="breadcrumb-item">
-                                    <i class="feather icon-chevron-right"></i>
-                                </li>
-                                <li class="breadcrumb-item active">{{ text }}</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Page Header -->
-                <div class="">
-                    <div class="row mt-3">
-                        <div class="settings-menu-links">
-                            <ul class="nav nav-tabs menu-tabs">
-                                <li class="nav-item pe-2 {{isRouteActive('practice-information')}}">
-                                    <a class="nav-link " [routerLink]="routes.practiceInformation" (click)="findPageName('Profile Information')">Profile</a>
-                                </li>
-                                <li class="nav-item pe-2 {{isRouteActive('warehouse')}}">
-                                    <a class="nav-link " [routerLink]="routes.warehouse" (click)="findPageName('Warehouse')">Warehouse</a>
-                                </li>
-                                <!-- <li class="nav-item pe-2 {{isRouteActive('product')}}">
+        <!-- Page Header -->
+        <div class="">
+          <div class="row mt-3">
+            <div class="settings-menu-links">
+              <ul class="nav nav-tabs menu-tabs">
+                <li
+                  class="nav-item pe-2 {{
+                    isRouteActive('practice-information')
+                  }}"
+                >
+                  <a
+                    class="nav-link"
+                    [routerLink]="routes.practiceInformation"
+                    (click)="findPageName('Profile Information')"
+                    >Profile</a
+                  >
+                </li>
+                <li class="nav-item pe-2 {{ isRouteActive('warehouse') }}">
+                  <a
+                    class="nav-link"
+                    [routerLink]="routes.warehouse"
+                    (click)="findPageName('Warehouse')"
+                    >Warehouse</a
+                  >
+                </li>
+                <!-- <li class="nav-item pe-2 {{isRouteActive('product')}}">
                                     <a class="nav-link " [routerLink]="routes.product">Product</a>
                                 </li> -->
-                                <li appShowHide [roles]="['admin','super-admin']"
-                                    class="nav-item pe-2 {{isRouteActive('users')}}">
-                                    <a class="nav-link " [routerLink]="routes.listUsers" (click)="findPageName('Users')">Users Settings</a>
-                                </li>
-                                <li class="nav-item pe-2" [ngClass]="{'active': this.currentRoute===routes.categories}">
-                                    <a class="nav-link " [routerLink]="routes.categories" (click)="findPageName('Categories')">Categories</a>
-                                </li>
-                                <li class="nav-item pe-2"
-                                    [ngClass]="{'active': this.currentRoute===routes.subCategories}">
-                                    <a class="nav-link " [routerLink]="routes.subCategories" (click)="findPageName('Sub Categories')">Sub Categories</a>
-                                </li>
-                                <li class="nav-item pe-2"
-                                    [ngClass]="{'active': this.currentRoute===routes.billingAddress}">
-                                    <a class="nav-link " [routerLink]="routes.billingAddress" (click)="findPageName('Billing Address')">Billing Address</a>
-                                </li>
-                                <li class="nav-item pe-2" [ngClass]="{'active': this.currentRoute===routes.taxes}">
-                                    <a class="nav-link " [routerLink]="routes.taxes" (click)="findPageName('Taxes')">Taxes</a>
-                                </li>
-                                <!-- <li class="nav-item pe-2" [ngClass]="{'active': this.currentRoute===routes.unitsList}">
+                <li
+                  appShowHide
+                  [roles]="['admin', 'super-admin']"
+                  class="nav-item pe-2 {{ isRouteActive('users') }}"
+                >
+                  <a
+                    class="nav-link"
+                    [routerLink]="routes.listUsers"
+                    (click)="findPageName('Users')"
+                    >Users Setting</a
+                  >
+                </li>
+                <li
+                  class="nav-item pe-2"
+                  [ngClass]="{
+                    active: this.currentRoute === routes.categories
+                  }"
+                >
+                  <a
+                    class="nav-link"
+                    [routerLink]="routes.categories"
+                    (click)="findPageName('Categories')"
+                    >Categories</a
+                  >
+                </li>
+                <li
+                  class="nav-item pe-2"
+                  [ngClass]="{
+                    active: this.currentRoute === routes.subCategories
+                  }"
+                >
+                  <a
+                    class="nav-link"
+                    [routerLink]="routes.subCategories"
+                    (click)="findPageName('Sub Categories')"
+                    >Sub Categories</a
+                  >
+                </li>
+                <li
+                  class="nav-item pe-2"
+                  [ngClass]="{
+                    active: this.currentRoute === routes.billingAddress
+                  }"
+                >
+                  <a
+                    class="nav-link"
+                    [routerLink]="routes.billingAddress"
+                    (click)="findPageName('Billing Address')"
+                    >Billing Address</a
+                  >
+                </li>
+                <li
+                  class="nav-item pe-2"
+                  [ngClass]="{ active: this.currentRoute === routes.taxes }"
+                >
+                  <a
+                    class="nav-link"
+                    [routerLink]="routes.taxes"
+                    (click)="findPageName('Taxes')"
+                    >Taxes</a
+                  >
+                </li>
+                <!-- <li class="nav-item pe-2" [ngClass]="{'active': this.currentRoute===routes.unitsList}">
                                     <a class="nav-link " [routerLink]="routes.unitsList">Units</a>
                                 </li> -->
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+              </ul>
             </div>
-            <div class="pe-4 ps-4">
-                <router-outlet></router-outlet>
-            </div>
+          </div>
         </div>
+      </div>
+      <div class="pe-4 ps-4">
+        <router-outlet></router-outlet>
+      </div>
     </div>
+  </div>
 </div>

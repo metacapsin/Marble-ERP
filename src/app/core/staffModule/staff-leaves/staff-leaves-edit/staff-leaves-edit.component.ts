@@ -39,12 +39,17 @@ export class StaffLeavesEditComponent {
     { value: "Loss of Pay" },
     { value: "Other Reason" },
   ];
+  LeaveDuration = [
+    { value: "Half Day" },
+    { value: "Full Day" },
+  ];
   stateOptions: any[] = [
     { label: "Yes", value: "yes" },
     { label: "No", value: "no" },
   ];
   employeeName = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   leaveReasonRegex = /^.{3,48}$/s;
+  reasonSet: any;
   constructor(
     private fb: FormBuilder,
     private Service: staffLeavesService,
@@ -55,6 +60,7 @@ export class StaffLeavesEditComponent {
   ) {
     this.editLeaveForm = this.fb.group({
       employee: ["", [Validators.required]],
+      LeaveDuration: ["", [Validators.required]],
       noOfDay: [
         ,
         [Validators.required, Validators.min(0.5), Validators.max(30)],
@@ -78,9 +84,9 @@ export class StaffLeavesEditComponent {
     });
 
     // **Subscribe to changes in the halfDay field**
-    this.editLeaveForm.get("halfDay").valueChanges.subscribe(() => {
-      this.onhalfDayChange(this.editLeaveForm.get("halfDay").value);
-    });
+    // this.editLeaveForm.get("halfDay").valueChanges.subscribe(() => {
+    //   this.onhalfDayChange(this.editLeaveForm.get("halfDay").value);
+    // });
   }
   ngOnInit(): void {
     this.staffService.getStaffData().subscribe((resp: any) => {
@@ -112,6 +118,7 @@ export class StaffLeavesEditComponent {
       to: data.to,
       leaveReason: data.leaveReason,
       halfDay: data.halfDay,
+      LeaveDuration: data.LeaveDuration,
     });
     console.log("halfDay value after patching:", this.editLeaveForm.get('halfDay')?.value);
 
@@ -126,16 +133,16 @@ export class StaffLeavesEditComponent {
       const to = moment(toDate, "MM/DD/YYYY");
       let days = to.diff(from, "days") + 1;
 
-      if (days === 1) {
-        days = halfDay === "yes" ? 0.5 : 1;
-      } else if (halfDay === "yes") {
-        days -= 0.5;
-      }
-      // Log the calculated value before setting it
-      console.log("Setting noOfDay value:", days);
-      this.editLeaveForm
-        .get("noOfDay")
-        ?.setValue(parseFloat(days.toFixed(1)), { emitEvent: false });
+      // if (days === 1) {
+      //   days = halfDay === "yes" ? 0.5 : 1;
+      // } else if (halfDay === "yes") {
+      //   days -= 0.5;
+      // }
+      // // Log the calculated value before setting it
+      // console.log("Setting noOfDay value:", days);
+      // this.editLeaveForm
+      //   .get("noOfDay")
+      //   ?.setValue(parseFloat(days.toFixed(1)), { emitEvent: false });
       // Log the current value in the form after setting it
       console.log(
         "Current noOfDay value in form:",
@@ -143,6 +150,12 @@ export class StaffLeavesEditComponent {
       );
     }
   }
+
+  durationChange(){
+    this.reasonSet = this.editLeaveForm.get("leaveType").value;
+    console.log(this.reasonSet);
+  }
+  
   onhalfDayChange(event: SelectButtonChangeEvent): void {
     this.calculateNumberOfDays();
   }

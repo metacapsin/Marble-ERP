@@ -101,16 +101,17 @@
                                         </div> -->
                   </div>
                 </div>
+                  
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
-                    <label for="leaveType"
-                      >Leave Type <span class="login-danger">*</span></label
+                    <label for="LeaveDuration"
+                      >Leave Duration<span class="login-danger">*</span></label
                     >
                     <p-dropdown
                       [style]="{ width: '100%' }"
-                      placeholder="Select Leave Type "
-                      [options]="LeaveData"
-                      formControlName="leaveType"
+                      placeholder="Select Leave Duration"
+                      [options]="LeaveDuration"
+                      formControlName="LeaveDuration"
                       optionLabel="value"
                       optionValue="value"
                       display="chip"
@@ -121,15 +122,16 @@
                     </p-dropdown>
                     <div
                       *ngIf="
-                        addLeaveForm.get('leaveType')?.hasError('required') &&
-                        addLeaveForm.get('leaveType')?.touched
+                        addLeaveForm.get('LeaveDuration')?.hasError('required') &&
+                        addLeaveForm.get('LeaveDuration')?.touched
                       "
                     >
                       <span class="login-danger">Field is required.</span>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4 col-sm-12">
+
+                <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
                     <label for="from"
                       >From <span class="login-danger">*</span></label
@@ -152,7 +154,8 @@
                     <div></div>
                   </div>
                 </div>
-                <div class="col-md-4 col-sm-12">
+
+                <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
                     <label for="to"
                       >To <span class="login-danger">*</span></label
@@ -175,18 +178,7 @@
                     <div></div>
                   </div>
                 </div>
-                <div class="col-md-4 col-sm-12">
-                  <div class="form-group local-forms">
-                    <label for="halfDay">Include Half Day<span class="login-danger">*</span></label>
-                    <p-selectButton
-                      [options]="stateOptions"
-                      formControlName="halfDay"
-                      optionLabel="label"
-                      optionValue="value"
-                      (onChange)="onhalfDayChange($event)"
-                    ></p-selectButton>
-                  </div>
-                </div>
+
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
                     <label for="noOfDay"
@@ -209,29 +201,38 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="col-md-6 col-sm-12">
+
+                <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
-                    <label for="halfDay"
-                      >half day<span class="login-danger">*</span></label
+                    <label for="leaveType"
+                      >Leave Type <span class="login-danger">*</span></label
                     >
-                    <input
-                      class="form-control"
-                      formControlName="halfDay"
-                      type="text"
-                      readonly
-                      [value]="addLeaveForm.get('halfDay').value"
-                    />
+                    <p-dropdown
+                      [style]="{ width: '100%' }"
+                      placeholder="Select Leave Type "
+                      [options]="LeaveData"
+                      formControlName="leaveType"
+                      optionLabel="value"
+                      optionValue="value"
+                      display="chip"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true"
+                      (onChange)="durationChange()"
+                    >
+                    </p-dropdown>
                     <div
                       *ngIf="
-                        addLeaveForm.get('halfDay')?.hasError('required') &&
-                        addLeaveForm.get('halfDay')?.touched
+                        addLeaveForm.get('leaveType')?.hasError('required') &&
+                        addLeaveForm.get('leaveType')?.touched
                       "
                     >
                       <span class="login-danger">Field is required.</span>
                     </div>
                   </div>
-                </div> -->
-                <div class="col-md-6 col-sm-12">
+                </div>
+
+                <div class="col-md-6 col-sm-12" *ngIf="reasonSet == 'Other Reason'">
                   <div class="form-group local-forms">
                     <label for="leaveReason"
                       >Leave Reason <span class="login-danger">*</span></label

@@ -104,6 +104,7 @@ export class StaffEditComponent {
       accountName: ["", [Validators.pattern(this.accountHolderRegex)]],
       accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
       ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
+      isActive:[''],
     });
     this.staffId = this.activeRoute.snapshot.params["id"];
   }
@@ -170,7 +171,7 @@ export class StaffEditComponent {
       mobile: data.mobile,
       pinCode: data.pinCode,
       upiId: data.upiId,
-      inActive: data.inActive,
+      isActive: data.isActive,
       warehouseDetails: data.warehouseDetails,
     });
   }
@@ -196,7 +197,7 @@ export class StaffEditComponent {
       ifscCode: this.editStaffForm.value.ifscCode,
       idNumber: this.editStaffForm.value.idNumber,
       idType: this.editStaffForm.value.idType,
-      inActive: this.editStaffForm.value.inActive,
+      isActive: this.editStaffForm.value.isActive,
     };
     //  if (this.editStaffForm.valid) {
     console.log("valid form");
