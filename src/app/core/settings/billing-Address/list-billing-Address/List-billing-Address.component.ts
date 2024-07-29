@@ -3,7 +3,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { UsersdataService } from "../billingAddress.service";
+import { BillingAddressService } from "../billingAddress.service";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "src/app/shared/shared.module";
 import { Router } from "@angular/router";
@@ -35,7 +35,7 @@ export class ListBillingAddressComponent implements OnInit {
   showDialog: boolean;
 
   constructor(
-    private userDataService: UsersdataService,
+    private userDataService: BillingAddressService,
     private router: Router,
     private messageService: MessageService
   ) {}

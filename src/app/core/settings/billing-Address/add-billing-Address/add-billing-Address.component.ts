@@ -10,7 +10,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { SharedModule } from "src/app/shared/shared.module";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { UsersdataService } from "../billingAddress.service";
+import { BillingAddressService } from "../billingAddress.service";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -54,7 +54,7 @@ export class AddBillingAddressComponent implements OnInit {
 
   constructor(
     private fb: UntypedFormBuilder,
-    private Addusersdata: UsersdataService,
+    private Addusersdata: BillingAddressService,
     private router: Router,
     private _snackBar: MatSnackBar,
     private messageService: MessageService,

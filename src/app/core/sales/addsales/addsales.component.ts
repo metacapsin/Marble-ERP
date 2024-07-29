@@ -12,6 +12,7 @@ import { Router } from "@angular/router";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
+import { BillingAddressService } from "../../settings/billing-Address/billingAddress.service";
 
 @Component({
   selector: "app-addsales",
@@ -32,6 +33,7 @@ export class AddsalesComponent implements OnInit {
   originalCustomerData = [];
   slabList = [];
   slabData = [];
+  addressVisible:any = false
   orderStatusList = [
     { orderStatus: "Ordered" },
     { orderStatus: "Confirmed" },
@@ -53,6 +55,12 @@ export class AddsalesComponent implements OnInit {
   originalSlabData: any;
   slabDatas: any;
   slabDataList: any = []
+  address: any;
+  orgAddress: any;
+  dropAddress: any[];
+  editedAddress: any = null;
+  setAddressData: any;
+  customerAddress: any;
 
 
   constructor(
@@ -66,10 +74,12 @@ export class AddsalesComponent implements OnInit {
     private SlabsService: SlabsService,
     private localStorageService: LocalStorageService,
     private services: WarehouseService,
+    private BillingAddressService: BillingAddressService,
   ) {
     this.addSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
+      editedAddress:[''],
       salesDiscount: ["", [Validators.min(1), Validators.max(100000)]],
       salesInvoiceNumber: [""],
       salesItemDetails: this.fb.array([
@@ -163,10 +173,28 @@ export class AddsalesComponent implements OnInit {
     );
     console.log("----------------------------####################----------------");
   }
+  editAddressWithDrop(){
+    this.setAddressData = this.addSalesForm.get('editedAddress')?.value;
+    console.log(this.setAddressData);
+  }
+  
+ 
   ngOnInit() {
-
+    this.BillingAddressService.getBillingAddressList().subscribe((resp:any)=>{
+      this.address = resp.data;
+      this.orgAddress = resp.data;
+      this.dropAddress = []
+      this.orgAddress.forEach((ele)=>{
+        this.dropAddress.push({
+          name:`${ele.companyName} / ${ele.city},${ele.state},${ele.addressLine1},${ele.country.name},`,
+          _id:ele
+        })
+      })
+      console.log(this.address);
+    })
 
     this.customerList = this.getCustomer();
+    console.log(this.customerList);
     this.customer = this.localStorageService.getItem('customer');
     this.returnUrl = this.localStorageService.getItem('returnUrl')
     console.log("this is retrun url", this.returnUrl)
@@ -213,10 +241,19 @@ export class AddsalesComponent implements OnInit {
       }));
     });
   }
-
+  editAddress(){
+    // this.editAddressWithDrop()
+    this.addressVisible = true
+  }
+  setCustomer(){
+    const data = this.addSalesForm.get('customer').value;
+    console.log(data);
+    this.customerAddress = data.billingAddress
+  }
   getCustomer() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
+     
       this.customerList = this.originalCustomerData.map(element => ({
         name: element.name,
         _id: {
@@ -226,8 +263,12 @@ export class AddsalesComponent implements OnInit {
         },
       }));
     });
+    
+
   }
   onSlabSelect(value, i) {
+      // console.log(data);
+      // this.customerAddress = data._id.billingAddress
     const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
 
     const selectedSlab = this.slabData.find(slab => slab._id === value._id);
@@ -319,6 +360,7 @@ export class AddsalesComponent implements OnInit {
     const payload = {
       customer: formData.customer,
       salesDate: formData.salesDate,
+      editedAddress: formData.editedAddress,
       salesDiscount: Number(formData.salesDiscount),
       salesInvoiceNumber: formData.salesInvoiceNumber,
       salesItemDetails: formData.salesItemDetails,

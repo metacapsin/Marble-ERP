@@ -143,6 +143,16 @@
                         display="menu"
                       ></p-columnFilter>
                     </th>
+                    <th pSortableColumn="setAsDefault">
+                      Set As Default<p-sortIcon field="setAsDefault"></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="setAsDefault"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
                     <th width="10%">Action</th>
                   </tr>
                 </ng-template>
@@ -153,6 +163,7 @@
                     <td>{{ product.state }}</td>
                     <td>{{ product.city }}</td>
                     <td>{{ product.email }}</td>
+                    <td>{{ product.postalCode }}</td>
                     <td *ngIf="!product.setAsDefault">
                       <p-tag severity="danger" value="Locked"></p-tag>
                     </td>

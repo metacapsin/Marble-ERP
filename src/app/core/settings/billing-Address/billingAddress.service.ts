@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment.development';
   providedIn: 'root',
 })
 
-export class UsersdataService {
+export class BillingAddressService {
   constructor(private http: HttpClient) { }
   GetUserDataByID(id: string) {
     return this.http.get(environment.apiUrl + '/Users/getUserById/' + id);

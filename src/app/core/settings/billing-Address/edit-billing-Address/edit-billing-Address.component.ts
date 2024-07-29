@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
-import { UsersdataService } from "../billingAddress.service";
+import { BillingAddressService } from "../billingAddress.service";
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -73,7 +73,7 @@ export class EditBillingAddressComponent implements OnInit {
 
   constructor(
     private activeRoute: ActivatedRoute,
-    private UserEditData: UsersdataService,
+    private UserEditData: BillingAddressService,
     private form: UntypedFormBuilder,
     private _snackBar: MatSnackBar,
     private router: Router,

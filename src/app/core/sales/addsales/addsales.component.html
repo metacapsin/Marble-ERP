@@ -40,6 +40,76 @@
       <div class="col-md-12">
         <div class="card invoices-add-card">
           <div class="card-body">
+            <div class="col-12 col-12 d-flex justify-content-between mb-3">
+              <div class="seller">
+                <div class="d-flex gap-3 align-items-center">
+                  <h3 style="color: #970">Seller Address</h3>
+                  <p-button
+                    [text]="true"
+                    icon="fa-solid fa-edit"
+                    (click)="editAddress()"
+                  ></p-button>
+                </div>
+                <div *ngIf="!setAddressData && address">
+                  <div *ngFor="let addressData of address">
+                    <div
+                      *ngIf="addressData.setAsDefault"
+                      style="line-height: 100%"
+                    >
+                      <h5>
+                        <span style="font-weight: bold">Company Name:</span>
+                        {{ addressData.companyName }}
+                      </h5>
+                      <h5 title="address Line 1">
+                        {{ addressData.addressLine1 }}
+                      </h5>
+                      <h5 title="address Line 2">
+                        {{ addressData.addressLine2 }}
+                      </h5>
+                      <h5>
+                        <span title="City">{{ addressData.city }}</span
+                        >, <span title="State">{{ addressData.state }}</span
+                        >,
+                        <span title="Postal Code">{{
+                          addressData.postalCode
+                        }}</span>
+                      </h5>
+                      <h5 title="Country">{{ addressData.country.name }}</h5>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="setAddressData" style="line-height: 100%">
+                  <h5>
+                    <span style="font-weight: bold">Company Name:</span>
+                    {{ setAddressData.companyName }}
+                  </h5>
+                  <h5 title="address Line 1">
+                    {{ setAddressData.addressLine1 }}
+                  </h5>
+                  <h5 title="address Line 2">
+                    {{ setAddressData.addressLine2 }}
+                  </h5>
+                  <h5>
+                    <span title="City">{{ setAddressData.city }}</span
+                    >, <span title="State">{{ setAddressData.state }}</span
+                    >,
+                    <span title="Postal Code">{{
+                      setAddressData.postalCode
+                    }}</span>
+                  </h5>
+                  <h5 title="Country">{{ setAddressData.country.name }}</h5>
+                </div>
+              </div>
+
+              <div class="buyer">
+                <h3 style="color: #970">Buyer Address</h3>
+                <div>
+                  <h4 title="address">
+                    {{ customerAddress }}
+                  </h4>
+                </div>
+              </div>
+            </div>
             <form [formGroup]="addSalesForm" (ngSubmit)="addSalesFormSubmit()">
               <div class="invoices-main-form">
                 <div class="row">
@@ -73,6 +143,7 @@
                         display="chip"
                         [filter]="true"
                         filterBy="name"
+                        (onChange)="setCustomer()"
                       >
                       </p-dropdown>
                       <div
@@ -640,6 +711,53 @@
                   </div>
                 </div>
               </div>
+
+              <p-dialog
+                header="Edit Profile"
+                [modal]="true"
+                [(visible)]="addressVisible"
+                [style]="{ width: '35rem' }"
+              >
+                <span class="p-text-secondary block mb-5"
+                  >Update your information.</span
+                >
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group local-forms">
+                      <label for="customer"
+                        >Select Address<span class="login-danger"
+                          >*</span
+                        ></label
+                      >
+                      <p-dropdown
+                        [style]="{ width: '100%' }"
+                        placeholder="Select Address"
+                        [options]="dropAddress"
+                        formControlName="editedAddress"
+                        optionLabel="name"
+                        optionValue="_id"
+                        display="chip"
+                        [filter]="true"
+                        appendTo="body"
+                        filterBy="name"
+                        (onChange)="editAddressWithDrop()"
+                      >
+                      </p-dropdown>
+                      <div
+                        *ngIf="
+                          addSalesForm
+                            .get('editedAddress')
+                            ?.hasError('required') &&
+                          addSalesForm.get('editedAddress')?.touched
+                        "
+                      >
+                        <span class="login-danger">Field is required. </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-dialog>
             </form>
           </div>
         </div>
@@ -647,5 +765,4 @@
     </div>
   </div>
 </div>
-
 <p-toast></p-toast>
