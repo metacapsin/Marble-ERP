@@ -35,8 +35,28 @@
                               font-weight: bold;
                               font-size: 16px;
                             ">Seller Address </span><br />
-                          <span *ngIf="sales.customer?.billingAddress"
-                            [innerHTML]="sellerData?.address | wordWrap : 2"></span>
+                          <span>
+                            <div *ngIf="sales?.billingAddress" style="line-height: 100%">
+                              <h5>
+                                {{ sales?.billingAddress.companyName + ' ,' }}
+                              </h5>
+                              <h5 title="address Line 1">
+                                {{ sales?.billingAddress.addressLine1 + ' ,' }}
+                              </h5>
+                              <h5 title="address Line 2">
+                                {{ sales?.billingAddress.addressLine2 + ' ,' }}
+                              </h5>
+                              <h5>
+                                <span title="City">{{ sales?.billingAddress.city }}</span
+                                >, <span title="State">{{ sales?.billingAddress.state }}</span
+                                >,
+                                <span title="Postal Code">{{
+                                  sales?.billingAddress.postalCode + ' ,'
+                                }}</span>
+                              </h5>
+                              <h5 title="Country">{{ sales?.billingAddress.country.name }}</h5>
+                            </div>
+                          </span>
                           <span *ngIf="sales.supplier?.billingAddress"
                             [innerHTML]="sales.supplier.billingAddress | wordWrap : 2"></span>
 
