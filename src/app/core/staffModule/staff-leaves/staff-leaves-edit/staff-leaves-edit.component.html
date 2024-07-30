@@ -97,26 +97,27 @@
                   
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
-                    <label for="LeaveDuration"
+                    <label for="leaveDuration"
                       >Leave Duration<span class="login-danger">*</span></label
                     >
                     <p-dropdown
                       [style]="{ width: '100%' }"
                       placeholder="Select Leave Duration"
-                      [options]="LeaveDuration"
-                      formControlName="LeaveDuration"
+                      [options]="leaveDuration"
+                      formControlName="leaveDuration"
                       optionLabel="value"
                       optionValue="value"
                       display="chip"
                       [filter]="true"
                       filterBy="name"
                       [showClear]="true"
+                      (onChange)="leaveDurationChange()"
                     >
                     </p-dropdown>
                     <div
                       *ngIf="
-                        editLeaveForm.get('LeaveDuration')?.hasError('required') &&
-                        editLeaveForm.get('LeaveDuration')?.touched
+                        editLeaveForm.get('leaveDuration')?.hasError('required') &&
+                        editLeaveForm.get('leaveDuration')?.touched
                       "
                     >
                       <span class="login-danger">Field is required.</span>
@@ -211,7 +212,7 @@
                       [filter]="true"
                       filterBy="name"
                       [showClear]="true"
-                      (onChange)="durationChange()"
+                      (onChange)="leaveTypeChange()"
                     >
                     </p-dropdown>
                     <div

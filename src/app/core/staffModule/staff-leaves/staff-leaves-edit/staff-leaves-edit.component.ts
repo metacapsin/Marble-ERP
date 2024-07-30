@@ -39,10 +39,7 @@ export class StaffLeavesEditComponent {
     { value: "Loss of Pay" },
     { value: "Other Reason" },
   ];
-  LeaveDuration = [
-    { value: "Half Day" },
-    { value: "Full Day" },
-  ];
+  leaveDuration = [{ value: "Half Day" }, { value: "Full Day" }];
   stateOptions: any[] = [
     { label: "Yes", value: "yes" },
     { label: "No", value: "no" },
@@ -60,7 +57,7 @@ export class StaffLeavesEditComponent {
   ) {
     this.editLeaveForm = this.fb.group({
       employee: ["", [Validators.required]],
-      LeaveDuration: ["", [Validators.required]],
+      leaveDuration: ["", [Validators.required]],
       noOfDay: [
         ,
         [Validators.required, Validators.min(0.5), Validators.max(30)],
@@ -68,13 +65,15 @@ export class StaffLeavesEditComponent {
       leaveType: ["", Validators.required],
       from: ["", Validators.required],
       to: ["", Validators.required],
-      halfDay: [""],
-      leaveReason: [
-        "",
-        [Validators.required, Validators.pattern(this.leaveReasonRegex)],
-      ],
+      // halfDay: [""],
+      leaveReason: [""],
+
     });
     this.leaveId = this.activeRoute.snapshot.params["id"];
+    // Subscribe to changes in the Leave Type field
+    this.editLeaveForm.get("leaveType").valueChanges.subscribe(() => {
+      this.leaveTypeChange();
+    });
     this.editLeaveForm.get("from").valueChanges.subscribe(() => {
       this.calculateNumberOfDays();
     });
@@ -117,47 +116,70 @@ export class StaffLeavesEditComponent {
       from: data.from,
       to: data.to,
       leaveReason: data.leaveReason,
-      halfDay: data.halfDay,
-      LeaveDuration: data.LeaveDuration,
+      // halfDay: data.halfDay,
+      leaveDuration: data.leaveDuration,
     });
-    console.log("halfDay value after patching:", this.editLeaveForm.get('halfDay')?.value);
-
+    this.calculateNumberOfDays()
+    // console.log(
+    //   "halfDay value after patching:",
+    //   this.editLeaveForm.get("halfDay")?.value
+    // );
   }
   calculateNumberOfDays(): void {
-    const fromDate = this.editLeaveForm.get("from")?.value;
-    const toDate = this.editLeaveForm.get("to")?.value;
-    const halfDay = this.editLeaveForm.get("halfDay")?.value;
+    const fromDate = this.editLeaveForm.get("from").value;
+    const toDate = this.editLeaveForm.get("to").value;
+    const leaveDuration = this.editLeaveForm.get("leaveDuration").value;
 
     if (fromDate && toDate) {
       const from = moment(fromDate, "MM/DD/YYYY");
       const to = moment(toDate, "MM/DD/YYYY");
-      let days = to.diff(from, "days") + 1;
+      // Calculate the total number of days between fromDate and toDate, including both
+      let days = to.diff(from, "days") + 1; // Including the start date
 
-      // if (days === 1) {
-      //   days = halfDay === "yes" ? 0.5 : 1;
-      // } else if (halfDay === "yes") {
-      //   days -= 0.5;
-      // }
-      // // Log the calculated value before setting it
-      // console.log("Setting noOfDay value:", days);
-      // this.editLeaveForm
-      //   .get("noOfDay")
-      //   ?.setValue(parseFloat(days.toFixed(1)), { emitEvent: false });
-      // Log the current value in the form after setting it
-      console.log(
-        "Current noOfDay value in form:",
-        this.editLeaveForm.get("noOfDay")?.value
-      );
+      // If it's the same day, set days to 0.5 if halfDay is selected
+      if (days === 1) {
+        days = leaveDuration === "Half Day" ? 0.5 : 1;
+      } else {
+        // Add 0.5 if leaveDuration is 'Half Day'
+        if (leaveDuration === "Half Day") {
+          days *= 0.5;
+        }
+      }
+      this.editLeaveForm.get("noOfDay").setValue(days > 0 ? days : 0);
     }
   }
 
-  durationChange(){
+
+  leaveTypeChange() {
     this.reasonSet = this.editLeaveForm.get("leaveType").value;
     console.log(this.reasonSet);
+    const leaveType = this.editLeaveForm.get("leaveType").value;
+    const leaveReasonControl = this.editLeaveForm.get("leaveReason");
+
+    if (leaveType === "Other Reason") {
+      leaveReasonControl.setValidators([
+        Validators.required,
+        Validators.pattern(/^.{3,48}$/s),
+      ]);
+    } else {
+      leaveReasonControl.clearValidators();
+    }
+
+    leaveReasonControl.updateValueAndValidity();
   }
-  
-  onhalfDayChange(event: SelectButtonChangeEvent): void {
-    this.calculateNumberOfDays();
+
+  leaveDurationChange() {
+    // Clear the 'from' and 'to' date fields when Leave Duration changes to 'Half Day' or 'Full Day'
+    const leaveDuration = this.editLeaveForm.get("leaveDuration").value;
+
+    if (leaveDuration === "Half Day" || leaveDuration === "Full Day") {
+      // Clear the 'from' and 'to' fields
+      this.editLeaveForm.get("from").setValue("");
+      this.editLeaveForm.get("to").setValue("");
+
+      // Recalculate the number of days since 'from' and 'to' are cleared
+      this.editLeaveForm.get("noOfDay").setValue("");
+    }
   }
   editLeaveFormSubmit() {
     const formData = this.editLeaveForm.value;
@@ -173,7 +195,9 @@ export class StaffLeavesEditComponent {
       noOfDay: formData.noOfDay,
       leaveReason: formData.leaveReason,
       id: "",
-      halfDay: formData.halfDay,
+      // halfDay: formData.halfDay,
+      leaveDuration: formData.leaveDuration,
+
     };
     console.log("valid form");
     console.log(payload);

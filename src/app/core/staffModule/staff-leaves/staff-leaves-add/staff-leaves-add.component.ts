@@ -32,10 +32,7 @@ export class StaffLeavesAddComponent {
     { value: "Loss of Pay" },
     { value: "Other Reason" },
   ];
-  LeaveDuration = [
-    { value: "Half Day" },
-    { value: "Full Day" },
-  ];
+  leaveDuration = [{ value: "Half Day" }, { value: "Full Day" }];
   stateOptions: any[] = [
     { label: "Yes", value: "yes" },
     { label: "No", value: "no" },
@@ -53,7 +50,7 @@ export class StaffLeavesAddComponent {
   ) {
     this.addLeaveForm = this.fb.group({
       employee: ["", [Validators.required]],
-      LeaveDuration: ["", [Validators.required]],
+      leaveDuration: ["", [Validators.required]],
       noOfDay: [
         "",
         [Validators.required, Validators.min(0.5), Validators.max(30)],
@@ -61,11 +58,13 @@ export class StaffLeavesAddComponent {
       leaveType: ["", Validators.required],
       from: ["", Validators.required],
       to: ["", Validators.required],
-      halfDay: ['no'],
-      leaveReason: [
-        "",
-        [Validators.required, Validators.pattern(this.leaveReasonRegex)],
-      ],
+      // halfDay: ["no"],
+      leaveReason: [""],
+    });
+
+    // Subscribe to changes in the Leave Type field
+    this.addLeaveForm.get("leaveType").valueChanges.subscribe(() => {
+      this.leaveTypeChange();
     });
     // Subscribe to changes in the date fields to calculate the number of days
     this.addLeaveForm.get("from").valueChanges.subscribe(() => {
@@ -75,7 +74,6 @@ export class StaffLeavesAddComponent {
     this.addLeaveForm.get("to").valueChanges.subscribe(() => {
       this.calculateNumberOfDays();
     });
-
 
     // this.addLeaveForm.get("halfDay").valueChanges.subscribe(value => {
     //   console.log("halfDay value changed:", value);
@@ -98,39 +96,60 @@ export class StaffLeavesAddComponent {
   calculateNumberOfDays(): void {
     const fromDate = this.addLeaveForm.get("from").value;
     const toDate = this.addLeaveForm.get("to").value;
-    const halfDay = this.addLeaveForm.get("halfDay").value;
+    const leaveDuration = this.addLeaveForm.get("leaveDuration").value;
 
     if (fromDate && toDate) {
       const from = moment(fromDate, "MM/DD/YYYY");
       const to = moment(toDate, "MM/DD/YYYY");
       // Calculate the total number of days between fromDate and toDate, including both
-    let days = to.diff(from, "days") + 1; // Including the start date
+      let days = to.diff(from, "days") + 1; // Including the start date
 
-    // If it's the same day, set days to 0.5 if halfDay is selected
-    // if (days === 1) {
-    //   days = halfDay === 'yes' ? 0.5 : 1;
-    // } else {
-    //   // Add 0.5 if halfDay is 'yes'
-    //   if (halfDay === 'yes') {
-    //     days -= 0.5;
-    //   }
-    // }
+      // If it's the same day, set days to 0.5 if halfDay is selected
+      if (days === 1) {
+        days = leaveDuration === "Half Day" ? 0.5 : 1;
+      } else {
+        // Add 0.5 if leaveDuration is 'Half Day'
+        if (leaveDuration === "Half Day") {
+          days *= 0.5;
+        }
+      }
       this.addLeaveForm.get("noOfDay").setValue(days > 0 ? days : 0);
     }
   }
-  
 
-  durationChange(){
+  leaveTypeChange() {
     this.reasonSet = this.addLeaveForm.get("leaveType").value;
     console.log(this.reasonSet);
+    const leaveType = this.addLeaveForm.get("leaveType").value;
+    const leaveReasonControl = this.addLeaveForm.get("leaveReason");
+
+    if (leaveType === "Other Reason") {
+      leaveReasonControl.setValidators([
+        Validators.required,
+        Validators.pattern(/^.{3,48}$/s),
+      ]);
+    } else {
+      leaveReasonControl.clearValidators();
+    }
+
+    leaveReasonControl.updateValueAndValidity();
   }
- 
-  onhalfDayChange(event: SelectButtonChangeEvent): void {
-    this.calculateNumberOfDays();
-    console.log(this.addLeaveForm.get('noOfDay').value);
+
+  leaveDurationChange() {
+    // Clear the 'from' and 'to' date fields when Leave Duration changes to 'Half Day' or 'Full Day'
+    const leaveDuration = this.addLeaveForm.get("leaveDuration").value;
+
+    if (leaveDuration === "Half Day" || leaveDuration === "Full Day") {
+      // Clear the 'from' and 'to' fields
+      this.addLeaveForm.get("from").setValue("");
+      this.addLeaveForm.get("to").setValue("");
+
+      // Recalculate the number of days since 'from' and 'to' are cleared
+      this.addLeaveForm.get("noOfDay").setValue("");
+    }
   }
-  
-  
+
+
   addLeaveFormSubmit() {
     const formData = this.addLeaveForm.value;
     console.log(formData);
@@ -141,29 +160,29 @@ export class StaffLeavesAddComponent {
       from: formData.from,
       to: formData.to,
       leaveReason: formData.leaveReason,
-      halfDay:formData.halfDay,
-      LeaveDuration:formData.LeaveDuration,
+      // halfDay: formData.halfDay,
+      leaveDuration: formData.leaveDuration,
     };
-    // if (this.addLeaveForm.valid) {
-    //   console.log("Form is valid", this.addLeaveForm.value);
-    //   this.service.addLeaveData(payload).subscribe((resp: any) => {
-    //     console.log(resp);
+    if (this.addLeaveForm.valid) {
+      console.log("Form is valid", this.addLeaveForm.value);
+      this.service.addLeaveData(payload).subscribe((resp: any) => {
+        console.log(resp);
 
-    //     if (resp) {
-    //       if (resp.status === "success") {
-    //         const message = "leave request has been added";
-    //         this.messageService.add({ severity: "success", detail: message });
-    //         setTimeout(() => {
-    //           this.router.navigate(["/staff-leaves"]);
-    //         }, 400);
-    //       } else {
-    //         const message = resp.message;
-    //         this.messageService.add({ severity: "error", detail: message });
-    //       }
-    //     }
-    //   });
-    // } else {
-    //   console.log("Form is inValid!");
-    // }
+        if (resp) {
+          if (resp.status === "success") {
+            const message = "leave request has been added";
+            this.messageService.add({ severity: "success", detail: message });
+            setTimeout(() => {
+              this.router.navigate(["/staff-leaves"]);
+            }, 400);
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      });
+    } else {
+      console.log("Form is inValid!");
+    }
   }
 }
