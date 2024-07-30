@@ -58,7 +58,7 @@ export class AddsalesComponent implements OnInit {
   address: any;
   orgAddress: any;
   dropAddress: any[];
-  editedAddress: any = null;
+  billingAddress: any = null;
   setAddressData: any;
   customerAddress: any;
 
@@ -79,7 +79,7 @@ export class AddsalesComponent implements OnInit {
     this.addSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
-      editedAddress:[''],
+      billingAddress:[''],
       salesDiscount: ["", [Validators.min(1), Validators.max(100000)]],
       salesInvoiceNumber: [""],
       salesItemDetails: this.fb.array([
@@ -174,7 +174,7 @@ export class AddsalesComponent implements OnInit {
     console.log("----------------------------####################----------------");
   }
   editAddressWithDrop(){
-    this.setAddressData = this.addSalesForm.get('editedAddress')?.value;
+    this.setAddressData = this.addSalesForm.get('billingAddress')?.value;
     console.log(this.setAddressData);
   }
   
@@ -186,11 +186,15 @@ export class AddsalesComponent implements OnInit {
       this.dropAddress = []
       this.orgAddress.forEach((ele)=>{
         this.dropAddress.push({
-          name:`${ele.companyName} / ${ele.city},${ele.state},${ele.addressLine1},${ele.country.name},`,
+          name:`${ele.companyName} / ${ele.city},`,
           _id:ele
         })
       })
       console.log(this.address);
+      const filterData =  this.address.find((e) => e.setAsDefault)
+      this.addSalesForm.get('billingAddress').patchValue(filterData)
+      console.log(this.addSalesForm.get('billingAddress')?.value);
+      console.log(filterData);
     })
 
     this.customerList = this.getCustomer();
@@ -202,7 +206,6 @@ export class AddsalesComponent implements OnInit {
     if (this.customer) {
       this.addSalesForm.patchValue({
         customer: this.customer
-
       }
       );
     }
@@ -360,7 +363,7 @@ export class AddsalesComponent implements OnInit {
     const payload = {
       customer: formData.customer,
       salesDate: formData.salesDate,
-      editedAddress: formData.editedAddress,
+      billingAddress: formData.billingAddress,
       salesDiscount: Number(formData.salesDiscount),
       salesInvoiceNumber: formData.salesInvoiceNumber,
       salesItemDetails: formData.salesItemDetails,

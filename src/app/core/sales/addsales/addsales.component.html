@@ -57,21 +57,20 @@
                       style="line-height: 100%"
                     >
                       <h5>
-                        <span style="font-weight: bold">Company Name:</span>
-                        {{ addressData.companyName }}
+                        {{ addressData.companyName + ' ,' }}
                       </h5>
                       <h5 title="address Line 1">
-                        {{ addressData.addressLine1 }}
+                        {{ addressData.addressLine1 + ' ,' }}
                       </h5>
                       <h5 title="address Line 2">
-                        {{ addressData.addressLine2 }}
+                        {{ addressData.addressLine2 + ' ,' }}
                       </h5>
                       <h5>
                         <span title="City">{{ addressData.city }}</span
                         >, <span title="State">{{ addressData.state }}</span
                         >,
                         <span title="Postal Code">{{
-                          addressData.postalCode
+                          addressData.postalCode + ' ,'
                         }}</span>
                       </h5>
                       <h5 title="Country">{{ addressData.country.name }}</h5>
@@ -80,21 +79,20 @@
                 </div>
                 <div *ngIf="setAddressData" style="line-height: 100%">
                   <h5>
-                    <span style="font-weight: bold">Company Name:</span>
-                    {{ setAddressData.companyName }}
+                    {{ setAddressData.companyName + ' ,' }}
                   </h5>
                   <h5 title="address Line 1">
-                    {{ setAddressData.addressLine1 }}
+                    {{ setAddressData.addressLine1 + ' ,' }}
                   </h5>
                   <h5 title="address Line 2">
-                    {{ setAddressData.addressLine2 }}
+                    {{ setAddressData.addressLine2 + ' ,' }}
                   </h5>
                   <h5>
                     <span title="City">{{ setAddressData.city }}</span
                     >, <span title="State">{{ setAddressData.state }}</span
                     >,
                     <span title="Postal Code">{{
-                      setAddressData.postalCode
+                      setAddressData.postalCode + ' ,'
                     }}</span>
                   </h5>
                   <h5 title="Country">{{ setAddressData.country.name }}</h5>
@@ -718,21 +716,18 @@
                 [(visible)]="addressVisible"
                 [style]="{ width: '35rem' }"
               >
-                <span class="p-text-secondary block mb-5"
-                  >Update your information.</span
-                >
 
                 <div class="row">
                   <div class="col-12">
-                    <div class="form-group local-forms">
+                    <div class="form-group local-forms mt-2">
                       <label for="customer"
-                        >Select Address<span class="login-danger"
+                        >Select billing address<span class="login-danger"
                           >*</span
                         ></label
                       >
                       <p-dropdown
                         [style]="{ width: '100%' }"
-                        placeholder="Select Address"
+                        placeholder="Select billing address"
                         [options]="dropAddress"
                         formControlName="editedAddress"
                         optionLabel="name"
