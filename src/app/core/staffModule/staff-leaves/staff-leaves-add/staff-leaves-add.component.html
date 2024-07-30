@@ -101,29 +101,32 @@
                                         </div> -->
                   </div>
                 </div>
-                  
+
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group local-forms">
-                    <label for="LeaveDuration"
+                    <label for="leaveDuration"
                       >Leave Duration<span class="login-danger">*</span></label
                     >
                     <p-dropdown
                       [style]="{ width: '100%' }"
                       placeholder="Select Leave Duration"
-                      [options]="LeaveDuration"
-                      formControlName="LeaveDuration"
+                      [options]="leaveDuration"
+                      formControlName="leaveDuration"
                       optionLabel="value"
                       optionValue="value"
                       display="chip"
                       [filter]="true"
                       filterBy="name"
                       [showClear]="true"
+                      (onChange)="leaveDurationChange()"
                     >
                     </p-dropdown>
                     <div
                       *ngIf="
-                        addLeaveForm.get('LeaveDuration')?.hasError('required') &&
-                        addLeaveForm.get('LeaveDuration')?.touched
+                        addLeaveForm
+                          .get('leaveDuration')
+                          ?.hasError('required') &&
+                        addLeaveForm.get('leaveDuration')?.touched
                       "
                     >
                       <span class="login-danger">Field is required.</span>
@@ -218,7 +221,7 @@
                       [filter]="true"
                       filterBy="name"
                       [showClear]="true"
-                      (onChange)="durationChange()"
+                      (onChange)="leaveTypeChange()"
                     >
                     </p-dropdown>
                     <div
@@ -232,7 +235,10 @@
                   </div>
                 </div>
 
-                <div class="col-md-6 col-sm-12" *ngIf="reasonSet == 'Other Reason'">
+                <div
+                  class="col-md-6 col-sm-12"
+                  *ngIf="reasonSet == 'Other Reason'"
+                >
                   <div class="form-group local-forms">
                     <label for="leaveReason"
                       >Leave Reason <span class="login-danger">*</span></label
@@ -245,8 +251,8 @@
                     ></textarea>
                     <div
                       *ngIf="
-                        addLeaveForm.get('leaveReason')?.hasError('required') &&
-                        addLeaveForm.get('leaveReason')?.touched
+                        addLeaveForm.get('leaveReason').hasError('required') &&
+                        addLeaveForm.get('leaveReason').touched
                       "
                       class="login-danger Font_size"
                     >
@@ -254,8 +260,8 @@
                     </div>
                     <div
                       *ngIf="
-                        addLeaveForm.get('leaveReason')?.hasError('pattern') &&
-                        addLeaveForm.get('leaveReason')?.touched
+                        addLeaveForm.get('leaveReason').hasError('pattern') &&
+                        addLeaveForm.get('leaveReason').touched
                       "
                       class="login-danger Font_size"
                     >
@@ -263,7 +269,6 @@
                     </div>
                   </div>
                 </div>
-                
               </div>
             </form>
           </div>
