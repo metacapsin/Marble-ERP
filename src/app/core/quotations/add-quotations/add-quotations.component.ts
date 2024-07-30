@@ -10,6 +10,7 @@ import { Router } from "@angular/router";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
+import { BillingAddressService } from "../../settings/billing-Address/billingAddress.service";
 
 @Component({
   selector: 'app-add-quotations',
@@ -44,6 +45,12 @@ export class AddQuotationsComponent implements OnInit {
   originalSlabData: any;
   slabDatas: any;
   slabDataList: any = []
+  setAddressData: any;
+  address: any;
+  orgAddress: any;
+  dropAddress: any;
+  addressVisible: boolean;
+  customerAddress: any;
 
 
   constructor(
@@ -57,9 +64,11 @@ export class AddQuotationsComponent implements OnInit {
     private SlabsService: SlabsService,
     private localStorageService: LocalStorageService,
     private services: WarehouseService,
+    private BillingAddressService: BillingAddressService,
   ) {
     this.addQuotationForm = this.fb.group({
       customer: [""],
+      billingAddress: [""],
       quotationDate: ["", [Validators.required]],
       quotationDiscount: ["", [Validators.min(1), Validators.max(100000)]],
       quotationInvoiceNumber: [""],
@@ -101,7 +110,13 @@ export class AddQuotationsComponent implements OnInit {
     }
     this.calculateTotalAmount();
   }
-
+  editAddressWithDrop(){
+    this.setAddressData = this.addQuotationForm.get('billingAddress')?.value;
+    console.log(this.setAddressData);
+  }
+  editAddress(){
+    this.addressVisible = true
+  }
   addquotationItemDetailsItem() {
     const item = this.fb.group({
       quotationItemProduct: ['', [Validators.required]],
@@ -156,6 +171,23 @@ export class AddQuotationsComponent implements OnInit {
   }
   ngOnInit() {
 
+    this.BillingAddressService.getBillingAddressList().subscribe((resp:any)=>{
+      this.address = resp.data;
+      this.orgAddress = resp.data;
+      this.dropAddress = []
+      this.orgAddress.forEach((ele)=>{
+        this.dropAddress.push({
+          name:`${ele.companyName} / ${ele.city},`,
+          _id:ele
+        })
+      })
+      console.log(this.address);
+      const filterData =  this.address.find((e) => e.setAsDefault)
+      this.addQuotationForm.get('billingAddress').patchValue(filterData)
+      console.log(this.addQuotationForm.get('billingAddress')?.value);
+      console.log(filterData);
+    })
+
 
     this.customerList = this.getCustomer();
     this.customer = this.localStorageService.getItem('customer');
@@ -203,7 +235,11 @@ export class AddQuotationsComponent implements OnInit {
       }));
     });
   }
-
+  setCustomer(){
+    const data = this.addQuotationForm.get('customer').value;
+    console.log(data);
+    this.customerAddress = data.billingAddress
+  }
   getCustomer() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
@@ -319,6 +355,7 @@ export class AddQuotationsComponent implements OnInit {
       quotationTermsAndCondition: formData.quotationTermsAndCondition,
       quotationTotalAmount: formData.quotationTotalAmount,
       otherCharges: formData.otherCharges,
+      billingAddress: formData.billingAddress,
       quotationTax: Number(formData.quotationTax)
     };
 
