@@ -156,6 +156,16 @@
                         display="menu"
                       ></p-columnFilter>
                     </th>
+                    <th pSortableColumn="paymentDate">
+                      Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="paymentDate"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
                     <th width="10%">Action</th>
                   </tr>
                 </ng-template>
@@ -168,6 +178,7 @@
                     <td class="bold">{{ payment.totalLeaves }}</td>
                     <td>{{ payment.netSalary }}</td>
                     <td>₹ {{ payment.totalSalary }}</td>
+                    <td>{{ payment.paymentDate | date:'dd/MMM/yyyy' }}</td>
                     <td class="action-buttons">
                       <p-button
                         [text]="true"

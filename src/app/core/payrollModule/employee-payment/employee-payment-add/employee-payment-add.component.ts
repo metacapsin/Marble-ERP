@@ -63,8 +63,10 @@
         netSalary: ["",],
         totalLeaves: ["",],
         date:["",[Validators.required]],
+        paymentDate:["",[Validators.required]],
         TotalSalary: ["", []],
         deduction: ["", [Validators.pattern(this.notesRegex)]],
+
       });
     }
     get payment(): FormArray {
@@ -157,7 +159,9 @@
         totalLeaves: formData.totalLeaves,
         deduction: formData.deduction,
         year:year,
-        month:month
+        month:month,
+        paymentDate:formData.paymentDate,
+
       };
 
       if (this.addEmployeepPaymentForm.valid) {
