@@ -15,7 +15,7 @@ export class ProfitLossReportsComponent{
   profitLossData:any = {};
 
   searchByData = [
-    "Today", "Yesterday", "Last 7 Days", "This Month", "Last 3 Months", "Last 6 Months", "This Year"
+     "This Month", "Last 3 Months", "Last 6 Months", "This Year"
   ];
   searchBy: string;
 
