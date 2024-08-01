@@ -624,53 +624,8 @@
     </div>
 
     <div class="row">
-      <!-- <div class="col-md-3">
-      <div class="col-md-3 bg-whtie p-2">
-        <div class="row">
-          <div class="col-12 card-style p-3 d-flex justify-content-between mb-4" style="background-color: #f7ede4;">
-            <div class="w-40">
-              <div class="card-text-heading">Total Slab Stock</div>
-              <div class="card-text-price mt-1">5000 Sqr. Feet</div>
-            </div>
-            <div class="w-60">
-              <div>Warehouse list</div>
-              <div class="mt-1">5000 Sqr. Feet</div>
-            </div>
-          </div>
-          <div class="col-12 card-style p-3 d-flex justify-content-between mb-4" style="background-color: #f7ede4;">
-            <div class="w-40">
-              <div class="card-text-heading">Total Slab Stock</div>
-              <div class="card-text-price mt-1">5000 Sqr. Feet</div>
-            </div>
-            <div class="w-60">
-              <div>Warehouse list</div>
-              <div class="mt-1">5000 Sqr. Feet</div>
-            </div>
-          </div>
-        </div>
-      </div> -->
       <div class="col-md-3">
         <div class="row">
-          <!-- <div class="col-12 card-style p-3 d-flex justify-content-between mb-4" style="background-color: #f7ede4;">
-            <div class="w-40">
-              <div class="card-text-heading">Total Slab Stock</div>
-              <div class="card-text-price mt-1">5000 Sqr. Feet</div>
-            </div>
-            <div class="w-60">
-              <div>Warehouse list</div>
-              <div class="mt-1">5000 Sqr. Feet</div>
-            </div>
-          </div> -->
-          <!-- <div class="col-12 card-style p-3 d-flex justify-content-between mb-4" style="background-color: #f7ede4;">
-            <div class="w-40">
-              <div class="card-text-heading">Total Slab Stock</div>
-              <div class="card-text-price mt-1">5000 Sqr. Feet</div>
-            </div>
-            <div class="w-60">
-              <div>Warehouse list</div>
-              <div class="mt-1">5000 Sqr. Feet</div>
-            </div>
-          </div> -->
           <div class="col-12">
             <div class="dash-widget">
               <div class="dash-boxs comman-flex-center">
@@ -773,6 +728,14 @@
         <div class="p-2 card" style="height: 570px; overflow-y: auto">
           <div class="pLeftpRight py-2 d-flex justify-content-between">
             <h3>Customer Credit Alerts</h3>
+          </div>
+          <div
+            class="text-center m-auto"
+            *ngIf="!products || products.length === 0"
+          >
+            <span style="color: #97704f; font-size: 15px"
+              >Data is not available.</span
+            >
           </div>
           <p-table
             *ngIf="products && products.length > 0"

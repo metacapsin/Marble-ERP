@@ -142,6 +142,51 @@
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
+                      <label for="countryDetails"
+                        >Country<span class="login-danger">*</span></label
+                      >
+                      <p-dropdown
+                        [options]="countriesList"
+                        styleClass=""
+                        appendTo="body"
+                        optionLabel="name"
+                        placeholder="Select Country"
+                        formControlName="country"
+                        [style]="{ width: '100%' }"
+                        [filter]="true"
+                        filterBy="name"
+                        [showClear]="true"
+                      >
+                      </p-dropdown>
+                      <div
+                        *ngIf="
+                          addBillingAddress
+                            .get('countryDetails')
+                            ?.hasError('required') &&
+                          addBillingAddress.get('countryDetails')?.touched
+                        "
+                      >
+                        <span class="login-danger">Field is required.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="state"
+                        >State<span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control bor"
+                        type="text"
+                        formControlName="state"
+                        placeholder
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
                       <label for="city"
                         >City <span class="login-danger"></span></label
                       >
@@ -169,20 +214,6 @@
                       >
                         Input must be between 3 to 50 characters.
                       </div> -->
-                    </div>
-                  </div>
-
-                  <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                      <label for="state"
-                        >State<span class="login-danger">*</span></label
-                      >
-                      <input
-                        class="form-control bor"
-                        type="text"
-                        formControlName="state"
-                        placeholder
-                      />
                     </div>
                   </div>
 
@@ -221,37 +252,6 @@
                       >
                         Input must be between 3 to 50 characters.
                       </div> -->
-                    </div>
-                  </div>
-
-                  <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                      <label for="countryDetails"
-                        >Country<span class="login-danger">*</span></label
-                      >
-                      <p-dropdown
-                        [options]="countriesList"
-                        styleClass=""
-                        appendTo="body"
-                        optionLabel="name"
-                        placeholder="Select Country"
-                        formControlName="country"
-                        [style]="{ width: '100%' }"
-                        [filter]="true"
-                        filterBy="name"
-                        [showClear]="true"
-                      >
-                      </p-dropdown>
-                      <div
-                        *ngIf="
-                          addBillingAddress
-                            .get('countryDetails')
-                            ?.hasError('required') &&
-                          addBillingAddress.get('countryDetails')?.touched
-                        "
-                      >
-                        <span class="login-danger">Field is required.</span>
-                      </div>
                     </div>
                   </div>
 
