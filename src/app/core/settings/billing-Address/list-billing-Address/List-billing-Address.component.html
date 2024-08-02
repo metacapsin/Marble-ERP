@@ -143,7 +143,7 @@
                         display="menu"
                       ></p-columnFilter>
                     </th>
-                    <!-- <th pSortableColumn="setAsDefault">
+                    <th pSortableColumn="setAsDefault">
                       Set As Default<p-sortIcon field="setAsDefault"></p-sortIcon>
                       <p-columnFilter
                         matchMode="contains"
@@ -152,7 +152,7 @@
                         field="setAsDefault"
                         display="menu"
                       ></p-columnFilter>
-                    </th> -->
+                    </th>
                     <th width="10%">Action</th>
                   </tr>
                 </ng-template>
@@ -164,12 +164,12 @@
                     <td>{{ product.city }}</td>
                     <td>{{ product.email }}</td>
                     <td>{{ product.postalCode }}</td>
-                    <!-- <td *ngIf="!product.setAsDefault">
+                    <td *ngIf="!product.setAsDefault">
                       <p-tag severity="danger" value="Locked"></p-tag>
                     </td>
                     <td *ngIf="product.setAsDefault">
                       <p-tag severity="success" value="Active"></p-tag>
-                    </td> -->
+                    </td>
                     <td
                       class="action-buttions"
                       appShowHide
@@ -178,7 +178,7 @@
                       <p-button
                         [text]="true"
                         icon="fa-solid fa-trash"
-                        (click)="delete(product._id)"
+                        (click)="delete(product)"
                       ></p-button>
                       <p-button
                         [text]="true"
@@ -197,6 +197,6 @@
   </div>
 </div>
 
-
+<p-toast></p-toast>
 <app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>

@@ -127,14 +127,14 @@
           employeeId:employee._id,
           month:month,
           year:year
-        }
+        } 
         this.Service.getEmployeeLeaves(data).subscribe((resp: any) => {
           this.employeeLeavesData = resp.data;
           console.log(this.employeeLeavesData.employee.netSalary);
-          console.log(this.employeeLeavesData);
+          console.log(this.employeeLeavesData.leaves);
           this.addEmployeepPaymentForm.patchValue({
             netSalary:this.employeeLeavesData.employee.netSalary | 0,
-            totalLeaves:this.employeeLeavesData.leaves.totalDays | 0
+            totalLeaves:this.employeeLeavesData.leaves | 0
           })
         });
       }

@@ -13,6 +13,7 @@ import { ShowHideDirective } from "src/app/common-component/show-hide-directive/
 import { routes } from "src/app/shared/routes/routes";
 import { FilterPipe } from "src/app/core/filter.pipe";
 import { MessageService } from "primeng/api";
+import { __values } from "tslib";
 
 @Component({
   selector: "app-edit-billing-Address",
@@ -54,18 +55,24 @@ export class ListBillingAddressComponent implements OnInit {
     });
   }
   edit(id:any){
-    console.log(id);
     this.router.navigate(["/settings/billing-Address/edit-billing-Address/" + id]);
   }
 
-  delete(Id: any) {
-    this.billingAddressID = Id;
-
-    this.modalData = {
-      title: "Delete",
-      messege: "Are you sure you want to delete this Billing Address",
-    };
-    this.showDialog = true;
+  delete(values: any) {
+    console.log(values);
+    // debugger
+    if (values.setAsDefault == true) {
+      const message = "Please First Add Default Address";
+      this.messageService.add({ severity: "error", detail: message });
+    } else {
+      this.billingAddressID = values._id;
+      
+      this.modalData = {
+        title: "Delete",
+        messege: "Are you sure you want to delete this Billing Address",
+      };
+      this.showDialog = true;
+    }
   }
 
   showNewDialog() {
