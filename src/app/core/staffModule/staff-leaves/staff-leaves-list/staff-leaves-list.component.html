@@ -52,7 +52,7 @@
 
           <div class="card-body p-2">
             <p-table
-              [value]="LeaveData | filter:searchDataValue:['employee.name','leaveType','from','to','noOfDay','leaveReason']"
+              [value]="LeaveData | filter:searchDataValue:['employee.name','leaveType','from','to','noOfDay','leaveDuration']"
               styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
               [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedLeave" selectionMode="multiple">
               <ng-template pTemplate="header">
@@ -77,10 +77,10 @@
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="noOfDay"
                       display="menu"></p-columnFilter>
                   </th>
-                  <!-- <th pSortableColumn="leaveReason">leave Reason <p-sortIcon field="leaveReason"></p-sortIcon>
-                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="leaveReason"
+                  <th pSortableColumn="leaveDuration">leave Duration <p-sortIcon field="leaveDuration"></p-sortIcon>
+                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="leaveDuration"
                       display="menu"></p-columnFilter>
-                  </th> -->
+                  </th>
                   <th width="13%">Action</th>
                 </tr>
               </ng-template>
@@ -91,7 +91,7 @@
                   <td>{{leave.from | date: 'dd-MMM-yyyy'}}</td>
                   <td>{{leave.to | date: 'dd-MMM-yyyy'}}</td>
                   <td>{{leave.noOfDay}}</td>
-                  <!-- <td>{{leave.leaveReason}}</td> -->
+                  <td>{{leave.leaveDuration}}</td>
                   <td class="action-buttons" appShowHide [roles]="['admin', 'super-admin']">
 
                     <p-button [text]="true" icon="fa-solid fa-edit" (click)="editLeave(leave._id)"></p-button>

@@ -116,6 +116,10 @@ hideOnClear="true"  type="text" field="salesDate" display="menu"  ></p-columnFil
                       <p-columnFilter  matchMode="contains"  
 hideOnClear="true"  type="text" field="customer.name" display="menu"  ></p-columnFilter>
                     </th>
+                    <th pSortableColumn="billingAddress.companyName">Company <p-sortIcon field="billingAddress.companyName"></p-sortIcon>
+                      <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="billingAddress.companyName" display="menu"  ></p-columnFilter>
+                    </th>
                     <th pSortableColumn="salesOrderStatus">Sales Status <p-sortIcon
                         field="salesOrderStatus"></p-sortIcon>
                       <p-columnFilter  matchMode="contains"  
@@ -146,6 +150,7 @@ hideOnClear="true"  type="text" field="salesTotalAmount" display="menu"  ></p-co
                     <td>{{sales.salesInvoiceNumber}}</td>
                     <td>{{sales.salesDate | date: 'dd-MMM-yyyy'}}</td>
                     <td>{{sales.customer.name}}</td>
+                    <td>{{sales.billingAddress.companyName}}</td>
                     <td>{{sales.salesOrderStatus}}</td>
                     <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
                         value="Partial Paid"></p-tag></td>
