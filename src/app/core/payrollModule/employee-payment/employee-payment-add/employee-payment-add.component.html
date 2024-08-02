@@ -26,10 +26,7 @@
         <div class="card card-table">
           <div class="card-body">
             <div class="page-table-header mb-2">
-              <form
-                [formGroup]="addEmployeepPaymentForm"
-                (ngSubmit)="addEmployeepPaymentFormSubmit()"
-              >
+              <form [formGroup]="addEmployeepPaymentForm" (ngSubmit)="addEmployeepPaymentFormSubmit()">
                 <div class="row">
                   <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
                                           <h3>Add Payment</h3>
@@ -49,17 +46,11 @@
                       <h3>Add Employee Salary</h3>
                     </div>
                     <div class="col-md-6 col-sm-12 text-end mb-2">
-                      <button
-                        type="submit"
-                        class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                        [disabled]="!addEmployeepPaymentForm.valid"
-                      >
+                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                        [disabled]="!addEmployeepPaymentForm.valid">
                         Submit
                       </button>
-                      <button
-                        class="btn btn-secondary"
-                        [routerLink]="routes.EmployeePayment"
-                      >
+                      <button class="btn btn-secondary" [routerLink]="routes.EmployeePayment">
                         Cancel
                       </button>
                     </div>
@@ -67,29 +58,16 @@
 
                   <div class="col-md-6">
                     <div class="form-group local-forms">
-                      <label for="name"
-                        >Employee Name<span class="login-danger">*</span></label
-                      >
-                      <p-dropdown
-                        [style]="{ width: '100%' }"
-                        placeholder="Employee"
-                        [options]="employeeList"
-                        optionLabel="name"
-                        optionValue="id"
-                        display="chip"
-                        [filter]="true"
-                        filterBy="name"
-                        formControlName="employee"
-                        [showClear]="true"
-                      ></p-dropdown>
-                      <div
-                        *ngIf="
+                      <label for="name">Employee Name<span class="login-danger">*</span></label>
+                      <p-dropdown [style]="{ width: '100%' }" placeholder="Employee" [options]="employeeList"
+                        optionLabel="name" optionValue="id" display="chip" [filter]="true" filterBy="name"
+                        formControlName="employee" [showClear]="true"></p-dropdown>
+                      <div *ngIf="
                           addEmployeepPaymentForm
                             .get('employee')
                             ?.hasError('required') &&
                           addEmployeepPaymentForm.get('employee')?.touched
-                        "
-                      >
+                        ">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
@@ -97,28 +75,16 @@
 
                   <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
-                      <label for="name"
-                        >MM / YY <span class="login-danger">*</span></label
-                      >
-                      <p-calendar
-                        [maxDate]="maxDate"
-                        dataType="string"
-                        appendTo="body"
-                        view="month"
-                        dateFormat="mm/yy"
-                        formControlName="date"
-                        placeholder="mm/yy"
-                        [styleClass]="'col-12'"
-                        (ngModelChange)="onSelect()"
-                      ></p-calendar>
-                      <div
-                        *ngIf="
+                      <label for="name">MM / YY <span class="login-danger">*</span></label>
+                      <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" view="month" dateFormat="mm/yy"
+                        formControlName="date" placeholder="mm/yy" [styleClass]="'col-12'"
+                        (ngModelChange)="onSelect()"></p-calendar>
+                      <div *ngIf="
                           addEmployeepPaymentForm
                             .get('date')
                             ?.hasError('required') &&
                           addEmployeepPaymentForm.get('date')?.touched
-                        "
-                      >
+                        ">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
@@ -127,24 +93,41 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
                       <label for="amount">Deduction </label>
-                      <input
-                        class="form-control"
-                        type="text"
-                        placeholder="Deduction"
-                        formControlName="deduction"
-                        (change)="calculateSalary()"
-                      />
-                      <div
-                        *ngIf="
+                      <input class="form-control" type="text" placeholder="Deduction" formControlName="deduction"
+                        (change)="calculateSalary()" />
+                      <div *ngIf="
                           addEmployeepPaymentForm
                             .get('deduction')
                             ?.hasError('pattern') &&
                           addEmployeepPaymentForm.get('deduction')?.touched
+                        ">
+                        <span class="login-danger">Input must be between 2 to 100 characters.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group local-forms">
+                      <label for="name"
+                        >Payment Date <span class="login-danger">*</span></label
+                      >
+                      <p-calendar
+                        [maxDate]="maxDate"
+                        dataType="string"
+                        appendTo="body"
+                        dateFormat="mm/dd/yy"
+                        formControlName="paymentDate"
+                        placeholder="mm/dd/yyyy"
+                        [styleClass]="'col-12'"
+                      ></p-calendar>
+                      <div
+                        *ngIf="
+                          addEmployeepPaymentForm
+                            .get('paymentDate')
+                            ?.hasError('required') &&
+                          addEmployeepPaymentForm.get('paymentDate')?.touched
                         "
                       >
-                        <span class="login-danger"
-                          >Input must be between 2 to 100 characters.</span
-                        >
+                        <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
                   </div>
@@ -275,19 +258,14 @@
                   <h4 class="field-title">Total Leaves</h4>
                 </div>
                 <div class="invoice-faq">
-                  <div
-                    class="panel-group"
-                    id="accordion"
-                    role="tablist"
-                    aria-multiselectable="true"
-                  >
+                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     <div class="invoice-total-box">
                       <div class="invoice-total-inner">
                         <p>
                           Total Leaves
                           <span>
                             {{
-                              addEmployeepPaymentForm.get("totalLeaves").value
+                            addEmployeepPaymentForm.get("totalLeaves").value
                             }}
                           </span>
                         </p>
@@ -305,11 +283,11 @@
                         Deduction
                         <span>
                           {{
-                            addEmployeepPaymentForm.get("deduction").value
-                              ? "₹" +
-                                (addEmployeepPaymentForm.get("deduction").value
-                                  | number : "1.2-2")
-                              : null
+                          addEmployeepPaymentForm.get("deduction").value
+                          ? "₹" +
+                          (addEmployeepPaymentForm.get("deduction").value
+                          | number : "1.2-2")
+                          : null
                           }}
                         </span>
                       </p>
@@ -318,11 +296,11 @@
                         <span>
                           <!-- '₹' + -->
                           {{
-                            addEmployeepPaymentForm.get("netSalary").value
-                              ? "₹" +
-                                (addEmployeepPaymentForm.get("netSalary").value
-                                  | number : "1.2-2")
-                              : null
+                          addEmployeepPaymentForm.get("netSalary").value
+                          ? "₹" +
+                          (addEmployeepPaymentForm.get("netSalary").value
+                          | number : "1.2-2")
+                          : null
                           }}
                         </span>
                       </p>
@@ -333,11 +311,11 @@
                         Total Salary
                         <span>
                           {{
-                            addEmployeepPaymentForm.get("TotalSalary").value
-                              ? "₹" +
-                                (addEmployeepPaymentForm.get("TotalSalary").value
-                                  | number : "1.2-2")
-                              : null
+                          addEmployeepPaymentForm.get("TotalSalary").value
+                          ? "₹" +
+                          (addEmployeepPaymentForm.get("TotalSalary").value
+                          | number : "1.2-2")
+                          : null
                           }}
                         </span>
                       </h4>
