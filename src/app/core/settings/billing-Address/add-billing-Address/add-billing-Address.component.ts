@@ -61,27 +61,6 @@ export class AddBillingAddressComponent implements OnInit {
     private service: WarehouseService
   ) {
     this.addBillingAddress = this.fb.group({
-      // name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
-      // phoneNumber: [
-      //   "",
-      //   [Validators.required, Validators.pattern(this.phoneRegex)],
-      // ],
-      // email: ["", [Validators.pattern(this.emailRegex)]],
-      // status: [""],
-      // password: [
-      //   "",
-      //   [Validators.required, Validators.pattern(this.passwordRegex)],
-      // ],
-      // address: [
-      //   "",
-      //   [Validators.required, Validators.pattern(this.addressRegex)],
-      // ],
-      // wareHouse: [""],
-      // adminCheckBox: [""],
-      // SalesmanCheckBox: [""],
-      // stockManagerCheckBox: [""],
-      // isUserLocked: [""],
-      // billingAddress: [''],
       city: [''],
       setAsDefault: [''],
       companyName:['',[Validators.required]],

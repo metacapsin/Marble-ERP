@@ -55,6 +55,9 @@ export class AddBlockProcessorComponent implements OnInit{
     this.returnUrl = this.localStorageService.getItem("returnUrl");
     console.log(this.returnUrl);
   }
+  onCancel(){
+    this.router.navigateByUrl(this.returnUrl);
+  }
   addBlockProcessorFormSubmit() {
     const payload = {
       name: this.addBlockProcessorForm.value.companyName, 
