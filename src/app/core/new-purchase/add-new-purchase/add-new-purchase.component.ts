@@ -101,6 +101,8 @@ export class AddNewPurchaseComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+
+    this.NewPurchaseService.clearFormData()
     this.supplier = this.localStorageService.getItem("supplier");
     this.returnUrl = this.localStorageService.getItem("returnUrl");
     if (this.supplier) {

@@ -319,7 +319,7 @@ export class AddSlabsComponent {
         processingCost: Number(this.slabsAddForm.value.processingCost),
         otherCharges: Number(this.slabsAddForm.value.otherCharges),
         transportationChargesNumber:( this.slabsAddForm.value.transportationCharges),
-        totalCostingNumber:( this.slabsAddForm.value.totalCosting),
+        totalCosting:Number( this.slabsAddForm.value.totalCosting),
         costPerSQFTNumber:( this.slabsAddForm.value.costPerSQFT),
         sellingPricePerSQFT: Number(this.slabsAddForm.value.sellingPricePerSQFT),
         notes: this.slabsAddForm.value.notes,
