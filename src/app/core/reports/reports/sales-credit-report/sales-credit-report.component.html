@@ -199,6 +199,11 @@
                         display="menu"
                       ></p-columnFilter>
                     </th>
+                   <th pSortableColumn="companyName">
+                      Billing Company <p-sortIcon field="companyName"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="companyName"
+                        display="menu"></p-columnFilter>
+                    </th>
                     <!-- <th pSortableColumn="salesOrderStatus">
                       Sales Status
                       <p-sortIcon field="salesOrderStatus"></p-sortIcon>
@@ -258,6 +263,7 @@
                     </td>
                     <td>{{ sales.salesDate | date : "dd-MMM-yyyy" }}</td>
                     <td>{{ sales.customerName }}</td>
+                    <td>{{ sales.companyName }}</td>
                     <!-- <td>{{ sales.salesOrderStatus }}</td> -->
                     <!-- <td>{{sales.paymentStatus}}</td> -->
                     <td *ngIf="sales.paymentStatus == 'Partial Paid'">

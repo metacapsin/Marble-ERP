@@ -107,51 +107,31 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
-                      <label for="name"
-                        >Payment Date <span class="login-danger">*</span></label
-                      >
-                      <p-calendar
-                        [maxDate]="maxDate"
-                        dataType="string"
-                        appendTo="body"
-                        dateFormat="mm/dd/yy"
-                        formControlName="paymentDate"
-                        placeholder="mm/dd/yyyy"
-                        [styleClass]="'col-12'"
-                      ></p-calendar>
-                      <div
-                        *ngIf="
+                      <label for="name">Payment Date <span class="login-danger">*</span></label>
+                      <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                        formControlName="paymentDate" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
+                      <div *ngIf="
                           addEmployeepPaymentForm
                             .get('paymentDate')
                             ?.hasError('required') &&
                           addEmployeepPaymentForm.get('paymentDate')?.touched
-                        "
-                      >
+                        ">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="col-12 col-md-6">
-                      <div class="form-group local-forms">
-                        <label for="Nots">Nots </label>
-                        <textarea
-                          class="form-control"
-                          type="text"
-                          placeholder=""
-                          formControlName="nots"
-                        ></textarea>
-                        <div
-                          *ngIf="
-                            addEmployeepPaymentForm
-                              .get('nots')
-                              ?.hasError('pattern') &&
-                            addEmployeepPaymentForm.get('nots')?.touched">
-                          <span class="login-danger"
-                            >Input must be between 2 to 100 characters.</span
-                          >
-                        </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group local-forms">
+                      <label for="paymentMode">Payment Mode <span class="login-danger">*</span></label>
+                      <p-dropdown [style]="{'width':'100%'}" placeholder="--Payment Mode--" [options]="paymentModeList"
+                        formControlName="paymentMode" optionLabel="paymentMode" optionValue="paymentMode" display="chip"
+                        [filter]="true" filterBy="paymentMode"></p-dropdown>
+                      <div
+                        *ngIf="addEmployeepPaymentForm.get('paymentMode')?.hasError('required')  && addEmployeepPaymentForm.get('paymentMode')?.touched">
+                        <span class="login-danger">Field is required. </span>
                       </div>
-                    </div> -->
+                    </div>
+                  </div>
                 </div>
 
                 <!-- <div class="invoice-add-table">

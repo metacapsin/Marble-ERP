@@ -159,6 +159,11 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="customer.name"
                         display="menu"></p-columnFilter>
                     </th>
+                    <th pSortableColumn="billingAddress.companyName">
+                      Billing Company <p-sortIcon field="billingAddress.companyName"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="billingAddress.companyName"
+                        display="menu"></p-columnFilter>
+                    </th>
                     <th pSortableColumn="salesOrderStatus">
                       Sales Status
                       <p-sortIcon field="salesOrderStatus"></p-sortIcon>
@@ -199,6 +204,7 @@
                     <!-- <td><span class="spanLink" (click)="navigateToViewCustomer(sales.customer._id)">{{ sales.customer.name }}
                     </span></td> -->
                     <td>{{ sales.customer.name }}</td>
+                    <td>{{ sales.billingAddress.companyName }}</td>
                     <td>{{ sales.salesOrderStatus }}</td>
                     <td *ngIf="sales.paymentStatus == 'Partial Paid'">
                       <p-tag severity="warning" value="Partial Paid"></p-tag>

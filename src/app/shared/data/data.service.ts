@@ -443,7 +443,7 @@ export class DataService {
               base: routes.salary,
             },
             {
-              menuValue: "Employee Salary",
+              menuValue: "Generate Salary",
               route: routes.EmployeePayment,
               base: routes.EmployeePayment,
             },

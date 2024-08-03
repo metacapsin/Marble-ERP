@@ -77,54 +77,70 @@
         <p-tabPanel header="Processed List">
           <div class="page-table-header mb-2">
             <div class="row align-items-center">
+                <div class="col">
+                    <div class="doctor-table-blk">
+                        <h3>Processed List</h3>
+                        <div class="doctor-search-blk">
+                            <div class="add-group textbtn">
+                                <a class="btn btn-primary add-pluss ms-2 "
+                                    (click)="addSlabProcessing()"><img
+                                        src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+          <!-- <div class="page-table-header mb-2">
+            <div class="row align-items-center">
               <div class="col">
                 <div class="doctor-table-blk d-flex justify-content-end">
-                    <div class="add-group textbtn">
-                      <a class="btn btn-primary add-pluss ms-2 " (click)="addSlabProcessing()"><img
-                          src="assets/img/icons/plus.svg" alt=""> Add New</a>
-                    </div>
+                  <div class="add-group textbtn">
+                    <a class="btn btn-primary add-pluss ms-2 " (click)="addSlabProcessing()"><img
+                        src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <p-table [value]="slabProcessingDataList" styleClass="p-datatable-striped"
             [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="processingInvoiceNo">
                   Invoice Number <p-sortIcon field="processingInvoiceNo"></p-sortIcon>
-                  <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="processingInvoiceNo" display="menu"></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="processingInvoiceNo"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="processingDate">
                   Processing Date<p-sortIcon field="processingDate"></p-sortIcon>
-                  <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="processingDate" display="menu"></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="processingDate"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="slab">
                   Slab<p-sortIcon field="slab"></p-sortIcon>
-                  <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="slab" display="menu"></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="slab"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paymentStatus">
                   Payment Status<p-sortIcon field="paymentStatus"></p-sortIcon>
-                  <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="paymentStatus" display="menu"></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentStatus"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paidAmount">
                   Paid Amount<p-sortIcon field="paidAmount"></p-sortIcon>
-                  <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="paidAmount" display="menu"></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paidAmount"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="dueAmount">
                   Due Amount<p-sortIcon field="dueAmount"></p-sortIcon>
-                  <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="dueAmount" display="menu"></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="dueAmount"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="processingCost">
                   Processing Cost<p-sortIcon field="processingCost"></p-sortIcon>
-                  <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="processingCost" display="menu"></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="processingCost"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th width="13%" appShowHide [roles]="['admin', 'super-admin']">
                   Action
@@ -173,6 +189,12 @@ hideOnClear="true"  type="text" field="processingCost" display="menu"></p-column
                 </td>
               </tr>
             </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                  <td colspan="8" class="text-center">No Block processor records found. Please create a new
+                      Block processor to see it listed here.</td>
+              </tr>
+          </ng-template>
           </p-table>
         </p-tabPanel>
 
@@ -182,20 +204,20 @@ hideOnClear="true"  type="text" field="processingCost" display="menu"></p-column
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="transactionNo">Transaction No.<p-sortIcon field="transactionNo"></p-sortIcon>
-                  <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="transactionNo" display="menu"></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="transactionNo"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paymentDate">Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
-                  <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="paymentDate" display="menu"></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentDate"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
-                  <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="paymentMode" display="menu"></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentMode"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
-                  <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="amount" display="menu"></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="amount"
+                    display="menu"></p-columnFilter>
                 </th>
               </tr>
             </ng-template>
@@ -207,6 +229,12 @@ hideOnClear="true"  type="text" field="amount" display="menu"></p-columnFilter>
                 <td>₹ {{payment.amount}}</td>
               </tr>
             </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                  <td colspan="4" class="text-center">No payment records found. Please record a
+                      payment to see it listed here.</td>
+              </tr>
+          </ng-template>
           </p-table>
         </p-tabPanel>
       </p-tabView>
@@ -221,10 +249,11 @@ hideOnClear="true"  type="text" field="amount" display="menu"></p-columnFilter>
   [data]="modalData"></app-confirm-dialog>
 
 
-<app-payments-invoice-dialog [ShowPaymentInvoice]="ShowPaymentInvoice" [dataById]="paymentObject" [header]="header"  [dataItemsGrid]="paymentInvoicePurchaseDataShowById"
-  (callbackModal)="callBackModal()" (close)="close()"></app-payments-invoice-dialog>
+<app-payments-invoice-dialog [ShowPaymentInvoice]="ShowPaymentInvoice" [dataById]="paymentObject" [header]="header"
+  [dataItemsGrid]="paymentInvoicePurchaseDataShowById" (callbackModal)="callBackModal()"
+  (close)="close()"></app-payments-invoice-dialog>
 
-  
+
 <!-- <app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataItemsGrid]="paymentInvoicePurchaseDataShowById" [dataById]="paymentObject"
 (callbackModal)="callBackModal()" (close)="close()" [header]="header"></app-payments-invoice-dialog> -->
 
@@ -267,13 +296,13 @@ hideOnClear="true"  type="text" field="amount" display="menu"></p-columnFilter>
               <label for="processingDate">Processing Date <span class="login-danger">*</span></label>
               <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                 formControlName="processingDate" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
-                <div *ngIf="
+              <div *ngIf="
                                               addSlabProcessingForm.get('processingDate')?.hasError(
                                                 'required'
                                               ) && addSlabProcessingForm.get('processingDate')?.touched
                                             ">-++++++++++++++
-                  <span class="login-danger">Field is required.</span>
-            </div>
+                <span class="login-danger">Field is required.</span>
+              </div>
             </div>
           </div>
 
@@ -308,8 +337,8 @@ hideOnClear="true"  type="text" field="amount" display="menu"></p-columnFilter>
                 'required'
               ) && addSlabProcessingForm.get('processingCost')?.touched
             ">
-<span class="login-danger">Field is required.</span>
-</div>
+                <span class="login-danger">Field is required.</span>
+              </div>
               <div *ngIf="
               addSlabProcessingForm.get('processingCost')?.hasError(
                 'min'

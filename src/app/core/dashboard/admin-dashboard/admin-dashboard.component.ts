@@ -38,6 +38,8 @@ import {
 } from "primeng/table";
 import { TagModule } from "primeng/tag";
 import { ToastModule } from "primeng/toast";
+import { ProfitLossModule } from "../../reports/reports/profit-loss-reports/profit-loss-reports.module";
+import { ReportsService } from "../../reports/reports/reports.service";
 export type ChartOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   series: ApexAxisChartSeries | any;
@@ -128,6 +130,7 @@ export class AdminDashboardComponent {
     isInUse: boolean;
   }[];
   financialSummaryData: any;
+  financialSummaryDataForPayment: any;
   barChartData: any;
   CategorySlabs: any;
   rangeDatesForAip: any[];
@@ -186,6 +189,7 @@ export class AdminDashboardComponent {
     // public data: DataService,
     private router: Router,
     private Service: dashboardService,
+    private reportsService: ReportsService,
     private crypto: AESEncryptDecryptService
   ) {
     this.userData = this.crypto.getData("currentUser");
@@ -316,10 +320,19 @@ export class AdminDashboardComponent {
       endDate: endDate,
     };
     console.log(data);
-    this.Service.getFinancialSummary(data).subscribe(
+    this.reportsService.getProfitLoss(data).subscribe(
       (resp: any) => {
         console.log(resp.data);
         this.financialSummaryData = resp.data;
+      },
+      (error: any) => {
+        console.error("Error fetching financial summary:", error);
+      }
+    );
+    this.Service.getFinancialSummary(data).subscribe(
+      (resp: any) => {
+        console.log(resp.data);
+        this.financialSummaryDataForPayment = resp.data;
       },
       (error: any) => {
         console.error("Error fetching financial summary:", error);

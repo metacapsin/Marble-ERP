@@ -64,6 +64,7 @@
         totalLeaves: ["",],
         date:["",[Validators.required]],
         paymentDate:["",[Validators.required]],
+        paymentMode:["",[Validators.required]],
         TotalSalary: ["", []],
         deduction: ["", [Validators.pattern(this.notesRegex)]],
 
@@ -161,6 +162,7 @@
         year:year,
         month:month,
         paymentDate:formData.paymentDate,
+        paymentMode:formData.paymentMode,
 
       };
 
