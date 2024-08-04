@@ -164,13 +164,13 @@
                 <td *ngIf="processing.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
                 <td *ngIf="processing.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
                 <td>
-                  ₹ {{ processing.paidAmount.toFixed(3) }}
+                  ₹ {{ processing.paidAmount |indianCurrency }}
                 </td>
                 <td>
-                  ₹ {{ processing.dueAmount.toFixed(3) }}
+                  ₹ {{ processing.dueAmount |indianCurrency }}
                 </td>
                 <td>
-                  ₹ {{ processing.processingCost.toFixed(3) }}
+                  ₹ {{ processing.processingCost |indianCurrency }}
                 </td>
                 <td appShowHide [roles]="['admin', 'super-admin']">
                   <div class="action-buttons">
