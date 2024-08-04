@@ -57,7 +57,7 @@
       </div>
     </div>
     <div class="row d-flex justify-content-between">
-      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2 ">
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 ">
         <div class="dash-widget">
           <div class="dash-boxs comman-flex-center">
             <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
@@ -71,7 +71,7 @@
                 [countUp]="financialSummaryData?.results.sales">
                 {{ financialSummaryData?.results.sales | indianCurrency }}
               </span>
-              <div class="due-amount">
+              <!-- <div class="due-amount">
                 <div>
                   (Paid Amount:) <span class="me-2"> ₹</span><span>{{ financialSummaryData?.results.salesPaidAmount | indianCurrency }}
                   </span>
@@ -82,9 +82,68 @@
                   </span>
                 </div>
 
-              </div>
+              </div> -->
             </span>
-            <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.salesPaidAmount | indianCurrency }}</span> Paid</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.salesDueAmount | indianCurrency }}</span> Due</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 ">
+        <div class="dash-widget">
+          <div class="dash-boxs comman-flex-center">
+            <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f"></i>
+          </div>
+          <div class="dash-content dash-count">
+            <h4 class="h4_size">Purchase</h4>
+            <span class="font_size">
+              <span class="me-2">₹</span><span class="counter-up" [options]="{ duration: 2 }"
+                [countUp]="financialSummaryData?.results.purchases">
+                {{ financialSummaryData?.results.purchases | indianCurrency }}
+              </span>
+            </span>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.purchasePaidAmount | indianCurrency }}</span> Paid</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.purchaseDueAmount | indianCurrency }}</span> Due</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 ">
+        <div class="dash-widget">
+          <div class="dash-boxs comman-flex-center">
+            <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f"></i>
+          </div>
+          <div class="dash-content dash-count">
+            <h4 class="h4_size">Payment In</h4>
+            <span class="font_size">
+              <span class="me-2">₹</span><span class="counter-up" [options]="{ duration: 2 }"
+                [countUp]="(financialSummaryData?.results.totalPaymentInPaid + financialSummaryData?.results.totalPaymentInDue)">
+                {{ (financialSummaryData?.results.totalPaymentInPaid + financialSummaryData?.results.totalPaymentInDue) | indianCurrency }}
+              </span>
+            </span>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.totalPaymentInPaid | indianCurrency }}</span> Paid</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.totalPaymentInDue | indianCurrency }}</span> Due</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 ">
+        <div class="dash-widget">
+          <div class="dash-boxs comman-flex-center">
+            <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f"></i>
+          </div>
+          <div class="dash-content dash-count">
+            <h4 class="h4_size">Payment Out</h4>
+            <span class="font_size">
+              <span class="me-2">₹</span><span class="counter-up" [options]="{ duration: 2 }"
+                [countUp]="(financialSummaryData?.results.totalPaymentOutPaid + financialSummaryData?.results.totalPaymentOutDue)">
+                {{ (financialSummaryData?.results.totalPaymentOutPaid + financialSummaryData?.results.totalPaymentOutDue) | indianCurrency }}
+              </span>
+            </span>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.totalPaymentOutPaid | indianCurrency }}</span> Paid</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.totalPaymentOutDue | indianCurrency }}</span> Due</p>
+
           </div>
         </div>
       </div>
@@ -118,82 +177,6 @@
       <!-- </div> -->
       <!-- </div> -->
 
-      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
-        <div class="dash-widget">
-          <div class="dash-boxs comman-flex-center">
-            <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-            <!-- <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;"> -->
-            <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f"></i>
-          </div>
-          <div class="dash-content dash-count">
-            <h4>Payment Sent</h4>
-            <span class="font_size">
-              <span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryDataForPayment?.paymentOut"
-                [options]="{ duration: 0.5 }">{{ financialSummaryDataForPayment?.paymentOut | indianCurrency }}</span>
-            </span>
-            <div class="due-amount">
-              <div>
-                (Paid Amount:) <span class="me-2"> ₹</span><span> {{ financialSummaryData?.results.totalPaymentOutPaid | indianCurrency }}
-                </span>
-              </div>
-              <div>
-                (Due Amount:) <span class="me-2"> ₹</span><span> {{ financialSummaryData?.results.totalPaymentOutDue | indianCurrency }}
-                </span>
-              </div>
-
-            </div>
-            <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
-        <div class="dash-widget">
-          <div class="dash-boxs comman-flex-center">
-            <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-            <!-- <img src="assets/img/icons/empty-wallet.svg" alt="" style="font-size: 25px; color: #97704f;"> -->
-            <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f"></i>
-          </div>
-          <div class="dash-content dash-count">
-            <h4>Payment Received</h4>
-            <span class="font_size">
-              <span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryDataForPayment?.paymentIn"
-                [options]="{ duration: 0.5 }">{{ financialSummaryDataForPayment?.paymentIn | indianCurrency }}</span>
-            </span>
-            <div class="due-amount">
-              <div>
-                (Paid Amount:) <span class="me-2"> ₹</span><span> {{ financialSummaryData?.results.totalPaymentInPaid | indianCurrency }}
-                </span>
-              </div>
-              <div>
-                (Due Amount:) <span class="me-2"> ₹</span><span> {{ financialSummaryData?.results.totalPaymentInDue | indianCurrency }}
-                </span>
-              </div>
-
-            </div>
-            <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2">
-        <div class="dash-widget">
-          <div class="dash-boxs comman-flex-center">
-            <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-            <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f"></i>
-          </div>
-          <div class="dash-content dash-count">
-            <h4>Purchase</h4>
-            <span class="font_size">
-              <span class="me-2">₹</span><span class="counter-up" [countUp]="financialSummaryDataForPayment?.sales"
-                [options]="{ duration: 0.5 }">{{
-                financialSummaryDataForPayment?.sales | indianCurrency
-                }}</span>
-            </span>
-            <!-- <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p> -->
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="row">
@@ -231,7 +214,7 @@
       <div class="col-md-6">
         <div class="card p-2 W-50 hidden_over">
           <div class="pLeftpRight pt-2 d-flex justify-content-between align-items-center">
-            <h3>Category</h3>
+            <h3>Stock Category</h3>
             <div class="">
               <p-selectButton [options]="stateCategory" [(ngModel)]="valueCategory" optionLabel="label"
                 optionValue="value" />
@@ -264,7 +247,7 @@
                       display="menu"></p-columnFilter>
                   </th>
                   <th width="50%" pSortableColumn="totalSQFT">
-                    Total Quantity ( Sq. Feet )
+                    Total Quantity
                     <p-sortIcon field="totalSQFT"></p-sortIcon>
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalSQFT"
                       display="menu"></p-columnFilter>
@@ -277,7 +260,7 @@
                     {{ Product.name }}
                   </td>
                   <td>
-                    {{ Product.totalSQFT }}
+                    {{ Product.totalSQFT }} Sq. Feet
                   </td>
                 </tr>
               </ng-template>
@@ -289,7 +272,7 @@
       <div class="col-md-6">
         <div class="card p-2 W-50 hidden_over">
           <div class="pLeftpRight pt-2 d-flex justify-content-between align-items-center">
-            <h3>Sub Category</h3>
+            <h3>Stock Sub Category</h3>
             <div class="">
               <p-selectButton [options]="stateSubCategory" [(ngModel)]="valueSubCategory" optionLabel="label"
                 optionValue="value" />
@@ -324,7 +307,7 @@
                       display="menu"></p-columnFilter>
                   </th>
                   <th width="50%" pSortableColumn="totalSQFT">
-                    Total Quantity ( Sq. Feet )
+                    Total Quantity
                     <p-sortIcon field="totalSQFT"></p-sortIcon>
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalSQFT"
                       display="menu"></p-columnFilter>
@@ -337,7 +320,7 @@
                     {{ Product.name }}
                   </td>
                   <td>
-                    {{ Product.totalSQFT }}
+                    {{ Product.totalSQFT }} Sq. Feet
                   </td>
                 </tr>
               </ng-template>
@@ -374,18 +357,18 @@
                     display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="slabDetails.slabNo">
-                  Slab No. <p-sortIcon field="slabDetails.slabNo"></p-sortIcon>
+                  Slab No <p-sortIcon field="slabDetails.slabNo"></p-sortIcon>
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="slabDetails.slabNo"
                     display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="totalSQFT">
-                  Stock Left ( Sq. Feet )
+                  Stock Left
                   <p-sortIcon field="totalSQFT"></p-sortIcon>
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalSQFT"
                     display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="percentageSold">
-                  Sold ( % ) <p-sortIcon field="percentageSold"></p-sortIcon>
+                  Sold <p-sortIcon field="percentageSold"></p-sortIcon>
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="percentageSold"
                     display="menu"></p-columnFilter>
                 </th>
@@ -401,10 +384,10 @@
                   {{ Product.slabDetails.slabNo }}
                 </td>
                 <td>
-                  {{ Product.totalSQFT }}
+                  {{ Product.totalSQFT }} Sq. Feet
                 </td>
                 <td>
-                  {{ Product.percentageSold }}
+                  {{ Product.percentageSold }} %
                 </td>
                 <td *ngIf="Product.alertType == 'high'">
                   <p-tag severity="danger" value="High"></p-tag>
@@ -442,7 +425,7 @@
                 </th>
 
                 <th pSortableColumn="totalSalesQuantity">
-                  Sales Quantity ( Sq. Feet )
+                  Sales Quantity
                   <p-sortIcon field="totalSalesQuantity"></p-sortIcon>
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalSalesQuantity"
                     display="menu"></p-columnFilter>
@@ -461,7 +444,7 @@
                   <span class="spanLink" (click)="oneCoustomer(Product.customerId)">{{ Product.customerName }}
                   </span>
                 </td>
-                <td>{{ Product.totalSalesQuantity }}</td>
+                <td>{{ Product.totalSalesQuantity }} Sq. Feet</td>
                 <td>₹ {{ Product.totalSalesAmount | indianCurrency }}</td>
               </tr>
             </ng-template>
@@ -557,7 +540,7 @@
         </div>
       </div>
       <div class="col-md-9">
-        <div class="p-2 card" style="height: 570px; overflow-y: auto">
+        <div class="p-2 card" style="overflow-y: auto">
           <div class="pLeftpRight py-2 d-flex justify-content-between">
             <h3>Customer Credit Alerts</h3>
           </div>
