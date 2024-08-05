@@ -55,7 +55,7 @@ descriptionRegex = /^.{3,500}$/s;
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
-      shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
+      // shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
   }
 
@@ -70,7 +70,7 @@ descriptionRegex = /^.{3,500}$/s;
       creditPeriod: this.addSupplierGroup.value.creditPeriod,
       creditLimit: Number(this.addSupplierGroup.value.creditLimit),
       billingAddress: this.addSupplierGroup.value.billingAddress,
-      shippingAddress: this.addSupplierGroup.value.shippingAddress,
+      // shippingAddress: this.addSupplierGroup.value.shippingAddress,
     };
     if (this.addSupplierGroup.value) {
       this.Service.AddSupplierdata(payload).subscribe((resp: any) => {

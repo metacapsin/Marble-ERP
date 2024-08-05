@@ -54,7 +54,7 @@ descriptionRegex = /^.{3,500}$/s;
       creditPeriod:  ["", [Validators.min(0), Validators.max(180)]],
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
-      shippingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
+      // shippingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -75,7 +75,7 @@ descriptionRegex = /^.{3,500}$/s;
       creditPeriod: this.SupplierData.creditPeriod,
       creditLimit: this.SupplierData.creditLimit,
       billingAddress: this.SupplierData.billingAddress,
-      shippingAddress: this.SupplierData.shippingAddress,
+      // shippingAddress: this.SupplierData.shippingAddress,
     });
   }
 
@@ -91,7 +91,7 @@ descriptionRegex = /^.{3,500}$/s;
       creditPeriod: this.editSupplierGroup.value.creditPeriod,
       creditLimit: Number(this.editSupplierGroup.value.creditLimit),
       billingAddress: this.editSupplierGroup.value.billingAddress,
-      shippingAddress: this.editSupplierGroup.value.shippingAddress,
+      // shippingAddress: this.editSupplierGroup.value.shippingAddress,
     };
     if (this.editSupplierGroup.value) {
       this.Service.UpDataSupplierApi(payload).subscribe((resp: any) => {
