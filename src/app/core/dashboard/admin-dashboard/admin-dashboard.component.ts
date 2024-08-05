@@ -342,8 +342,8 @@ export class AdminDashboardComponent {
       (resp: any) => {
         console.log(resp);
         this.barChartData = resp.barChartData;
-        console.log(this.barChartData);
-        this.setDataForFirstChart(resp.barChartData);
+        console.log("Monthly Bar Chart Data ",this.barChartData);
+        this.setDataForChart(resp.barChartData);
       },
       (error: any) => {
         console.error("Error fetching financial summary:", error);
@@ -389,16 +389,16 @@ export class AdminDashboardComponent {
         console.error("Error fetching financial summary:", error);
       }
     );
-    this.Service.getPaymentSentRecivedByMonth(data).subscribe(
-      (resp: any) => {
-        console.log(resp);
-        // this.financialSummaryData = resp.data;
-        this.setDataForSecondChart(resp.barChartData);
-      },
-      (error: any) => {
-        console.error("getPaymentSentRecivedByMonth:", error);
-      }
-    );
+    // this.Service.getPaymentSentRecivedByMonth(data).subscribe(
+    //   (resp: any) => {
+    //     console.log(resp);
+    //     // this.financialSummaryData = resp.data;
+    //     this.setDataForSecondChart(resp.barChartData);
+    //   },
+    //   (error: any) => {
+    //     console.error("getPaymentSentRecivedByMonth:", error);
+    //   }
+    // );
     this.Service.getRecentSales(data).subscribe(
       (resp: any) => {
         console.log(resp);
@@ -422,25 +422,37 @@ export class AdminDashboardComponent {
     );
   }
 
-  setDataForFirstChart(data: any[]): void {
+  setDataForChart(data: any[]): void {
     if (!data || !Array.isArray(data)) {
       // console.error("Invalid data format:", data);
       return;
     }
     const labels = data.map((item) => item.monthName);
     const totalSalesData = data.map((item) => item.totalSales);
-    const totalPurchasesData = data.map((item) => item.totalPurchases);
-    const totalPurchasePaymentDueData = data.map(
-      (item) => item.totalPurchasePaymentDue
+    const totalSalesReturnData = data.map((item) => item.totalSalesReturn);
+    const totalSalesReturnPaymentDueData = data.map(
+      (item) => item.totalSalesReturnPaymentDue
     );
     const totalSalesPaymentDueData = data.map(
       (item) => item.totalSalesPaymentDue
     );
+    const totalPurchaseData = data.map((item) => item.totalPurchases);
+    const totalPurchaseReturnData = data.map((item) => item.totalPurchaseReturn);
+    const totalPurchaseReturnPaymentDueData = data.map(
+      (item) => item.totalPurchaseReturnPaymentDue
+    );
+    const totalPurchasePaymentDueData = data.map(
+      (item) => item.totalPurchasePaymentDue
+    );
     console.log(
       totalSalesPaymentDueData,
+      totalSalesReturnPaymentDueData,
+      totalSalesReturnData,
+      totalSalesData,
       totalPurchasePaymentDueData,
-      totalPurchasesData,
-      totalSalesData
+      totalPurchaseReturnPaymentDueData,
+      totalPurchaseReturnData,
+      totalPurchaseData,
     );
 
     this.dataForFirstChat = {
@@ -453,10 +465,10 @@ export class AdminDashboardComponent {
           data: totalSalesData,
         },
         {
-          label: "Total Purchases",
+          label: "Total Sales Return",
           backgroundColor: "#36a2eb",
           borderColor: "#36a2eb",
-          data: totalPurchasesData,
+          data: totalSalesReturnData,
         },
         {
           label: "Total Sales Payment Due",
@@ -465,10 +477,39 @@ export class AdminDashboardComponent {
           data: totalSalesPaymentDueData,
         },
         {
-          label: "Total Purchase Payment Due",
+          label: "Total Sales Return Payment Due",
           backgroundColor: "#9966ff",
           borderColor: "#9966ff",
+          data: totalSalesReturnPaymentDueData,
+        },
+      ],
+    };
+    this.dataForSecondChat = {
+      labels: labels,
+      datasets: [
+        {
+          label: "Total Purchase",
+          backgroundColor: "#ff6384",
+          borderColor: "#ff6384",
+          data: totalPurchaseData,
+        },
+        {
+          label: "Total Purchase Return",
+          backgroundColor: "#36a2eb",
+          borderColor: "#36a2eb",
+          data: totalPurchaseReturnData,
+        },
+        {
+          label: "Total Purchase Payment Due",
+          backgroundColor: "#ff9f40",
+          borderColor: "#ff9f40",
           data: totalPurchasePaymentDueData,
+        },
+        {
+          label: "Total Purchase Return Payment Due",
+          backgroundColor: "#9966ff",
+          borderColor: "#9966ff",
+          data: totalPurchaseReturnPaymentDueData,
         },
       ],
     };
@@ -596,7 +637,7 @@ export class AdminDashboardComponent {
   }
 
   navigator(value: any) {
-    if (value == "sales_purchase") {
+    if (value == "sales_salesReturn") {
       this.router.navigate(["/sales"]);
     }
     if (value == "payment") {
