@@ -84,8 +84,10 @@
 
               </div> -->
             </span>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.salesPaidAmount | indianCurrency }}</span> Paid</p>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.salesDueAmount | indianCurrency }}</span> Due</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
+                financialSummaryData?.results.salesPaidAmount | indianCurrency }}</span> Paid</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
+                financialSummaryData?.results.salesDueAmount | indianCurrency }}</span> Due</p>
 
           </div>
         </div>
@@ -103,8 +105,10 @@
                 {{ financialSummaryData?.results.purchases | indianCurrency }}
               </span>
             </span>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.purchasePaidAmount | indianCurrency }}</span> Paid</p>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.purchaseDueAmount | indianCurrency }}</span> Due</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
+                financialSummaryData?.results.purchasePaidAmount | indianCurrency }}</span> Paid</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
+                financialSummaryData?.results.purchaseDueAmount | indianCurrency }}</span> Due</p>
 
           </div>
         </div>
@@ -119,11 +123,14 @@
             <span class="font_size">
               <span class="me-2">₹</span><span class="counter-up" [options]="{ duration: 2 }"
                 [countUp]="(financialSummaryData?.results.totalPaymentInPaid + financialSummaryData?.results.totalPaymentInDue)">
-                {{ (financialSummaryData?.results.totalPaymentInPaid + financialSummaryData?.results.totalPaymentInDue) | indianCurrency }}
+                {{ (financialSummaryData?.results.totalPaymentInPaid + financialSummaryData?.results.totalPaymentInDue)
+                | indianCurrency }}
               </span>
             </span>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.totalPaymentInPaid | indianCurrency }}</span> Paid</p>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.totalPaymentInDue | indianCurrency }}</span> Due</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
+                financialSummaryData?.results.totalPaymentInPaid | indianCurrency }}</span> Paid</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
+                financialSummaryData?.results.totalPaymentInDue | indianCurrency }}</span> Due</p>
 
           </div>
         </div>
@@ -138,11 +145,14 @@
             <span class="font_size">
               <span class="me-2">₹</span><span class="counter-up" [options]="{ duration: 2 }"
                 [countUp]="(financialSummaryData?.results.totalPaymentOutPaid + financialSummaryData?.results.totalPaymentOutDue)">
-                {{ (financialSummaryData?.results.totalPaymentOutPaid + financialSummaryData?.results.totalPaymentOutDue) | indianCurrency }}
+                {{ (financialSummaryData?.results.totalPaymentOutPaid +
+                financialSummaryData?.results.totalPaymentOutDue) | indianCurrency }}
               </span>
             </span>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.totalPaymentOutPaid | indianCurrency }}</span> Paid</p>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{ financialSummaryData?.results.totalPaymentOutDue | indianCurrency }}</span> Due</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
+                financialSummaryData?.results.totalPaymentOutPaid | indianCurrency }}</span> Paid</p>
+            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
+                financialSummaryData?.results.totalPaymentOutDue | indianCurrency }}</span> Due</p>
 
           </div>
         </div>
@@ -183,9 +193,9 @@
       <div class="col-md-6">
         <div class="card">
           <div class="px-3 pt-3 d-flex justify-content-between">
-            <h3>Sales & Sales Return</h3>
+            <h3>Sales</h3>
             <div>
-              <h5 (click)="navigator('sales_salesReturn')" class="breadcrumb">
+              <h5 (click)="showDialogForChart('viewSales')" class="breadcrumb">
                 View All
               </h5>
             </div>
@@ -197,9 +207,9 @@
       <div class="col-md-6">
         <div class="card">
           <div class="px-3 pt-3 d-flex justify-content-between">
-            <h3>Purchase & Purchase Return</h3>
+            <h3>Purchase</h3>
             <div>
-              <h5 (click)="navigator('payment')" class="breadcrumb">
+              <h5 (click)="showDialogForChart('viewPurchase')" class="breadcrumb">
                 View All
               </h5>
             </div>
@@ -662,3 +672,23 @@
   </div>
 </div>
 </div>
+<p-button (onClick)="showDialogForChart('data')" label="View All" />
+
+<p-dialog [(visible)]="visible" [modal]="true" [draggable]="true" [resizable]="false" header="View Information For">
+  <div *ngIf="chartType === 'viewSales'">
+
+    <div class="add-group textbtn gap-3">
+
+      <a class="btn btn-primary" (click)="navigator('sales')">Sales</a>
+      <a class="btn btn-primary" (click)="navigator('sales_return')">Sales Return</a>
+    </div>
+  </div>
+
+  <div *ngIf="chartType === 'viewPurchase'">
+    <div class="add-group textbtn gap-3">
+
+      <a class="btn btn-primary" (click)="navigator('purchase')">Purchase</a>
+      <a class="btn btn-primary" (click)="navigator('purchase_return')">Purchase Return</a>
+    </div>
+  </div>
+</p-dialog>

@@ -185,6 +185,10 @@ export class AdminDashboardComponent {
   StockWarehouseWiseSlab: any;
   StockWarehouseWise: any;
 
+  visible: boolean = false;
+  chartType: string = '';
+
+
   constructor(
     // public data: DataService,
     private router: Router,
@@ -270,6 +274,7 @@ export class AdminDashboardComponent {
   toggleRow(product: Product) {
     product.expanded = !product.expanded;
   }
+
 
   getSeverity(alertType: string) {
     switch (alertType) {
@@ -514,44 +519,44 @@ export class AdminDashboardComponent {
       ],
     };
   }
-  setDataForSecondChart(data: any[]): void {
-    console.log(data);
-    const yearArray = data.map((item) => item.monthName);
-    const totalPaymentReceivedData = data.map(
-      (item) => item.totalPaymentReceived
-    );
-    const totalPaymentSentData = data.map((item) => item.totalPaymentSent);
-    console.log(totalPaymentReceivedData, totalPaymentSentData);
-    this.dataForSecondChat = {
-      labels: yearArray,
-      datasets: [
-        {
-          label: "Payment Sent",
-          backgroundColor: "#ef4444",
-          borderColor: "#ef4444",
-          data: totalPaymentSentData,
-        },
-        {
-          label: "Payment Received",
-          backgroundColor: "#22c55e",
-          borderColor: "#22c55e",
-          data: totalPaymentReceivedData,
-        },
-        // {
-        //   label: "Total Sales Payment Due",
-        //   backgroundColor: "#ff9f40",
-        //   borderColor: "#ff9f40",
-        //   data: totalSalesPaymentDueData,
-        // },
-        // {
-        //   label: "Total Purchase Payment Due",
-        //   backgroundColor: "#9966ff",
-        //   borderColor: "#9966ff",
-        //   data: totalPurchasePaymentDueData,
-        // },
-      ],
-    };
-  }
+  // setDataForSecondChart(data: any[]): void {
+  //   console.log(data);
+  //   const yearArray = data.map((item) => item.monthName);
+  //   const totalPaymentReceivedData = data.map(
+  //     (item) => item.totalPaymentReceived
+  //   );
+  //   const totalPaymentSentData = data.map((item) => item.totalPaymentSent);
+  //   console.log(totalPaymentReceivedData, totalPaymentSentData);
+  //   this.dataForSecondChat = {
+  //     labels: yearArray,
+  //     datasets: [
+  //       {
+  //         label: "Payment Sent",
+  //         backgroundColor: "#ef4444",
+  //         borderColor: "#ef4444",
+  //         data: totalPaymentSentData,
+  //       },
+  //       {
+  //         label: "Payment Received",
+  //         backgroundColor: "#22c55e",
+  //         borderColor: "#22c55e",
+  //         data: totalPaymentReceivedData,
+  //       },
+  //       // {
+  //       //   label: "Total Sales Payment Due",
+  //       //   backgroundColor: "#ff9f40",
+  //       //   borderColor: "#ff9f40",
+  //       //   data: totalSalesPaymentDueData,
+  //       // },
+  //       // {
+  //       //   label: "Total Purchase Payment Due",
+  //       //   backgroundColor: "#9966ff",
+  //       //   borderColor: "#9966ff",
+  //       //   data: totalPurchasePaymentDueData,
+  //       // },
+  //     ],
+  //   };
+  // }
   categoryChart(data) {
     console.log(data);
     this.orgCategorySlabs = data.totalCategorySlabs;
@@ -635,13 +640,23 @@ export class AdminDashboardComponent {
       ],
     };
   }
+  showDialogForChart(type: string) {
+    this.chartType = type;
+    this.visible = true;
+  }
 
-  navigator(value: any) {
-    if (value == "sales_salesReturn") {
+  navigator(value: string) {
+    if (value == "sales") {
       this.router.navigate(["/sales"]);
     }
-    if (value == "payment") {
-      this.router.navigate(["/reports/payment-in-reports"]);
+    if (value == "sales_return") {
+      this.router.navigate(["/sales-return"]);
+    }
+    if (value == "purchase") {
+      this.router.navigate(["/new-purchase"]);
+    }
+    if (value == "purchase_return") {
+      this.router.navigate(["/purchase-return"]);
     }
     if (value == "Customer") {
       this.router.navigate(["/customers"]);
