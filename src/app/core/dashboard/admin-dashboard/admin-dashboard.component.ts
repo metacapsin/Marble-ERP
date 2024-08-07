@@ -465,28 +465,28 @@ export class AdminDashboardComponent {
       datasets: [
         {
           label: "Total Sales",
-          backgroundColor: "#ff6384",
-          borderColor: "#ff6384",
+          backgroundColor: "#008000",
+          borderColor: "#008000",
           data: totalSalesData,
         },
         {
           label: "Total Sales Return",
-          backgroundColor: "#36a2eb",
-          borderColor: "#36a2eb",
+          backgroundColor: "#FF0000",
+          borderColor: "#FF0000",
           data: totalSalesReturnData,
         },
-        {
-          label: "Total Sales Payment Due",
-          backgroundColor: "#ff9f40",
-          borderColor: "#ff9f40",
-          data: totalSalesPaymentDueData,
-        },
-        {
-          label: "Total Sales Return Payment Due",
-          backgroundColor: "#9966ff",
-          borderColor: "#9966ff",
-          data: totalSalesReturnPaymentDueData,
-        },
+        // {
+        //   label: "Total Sales Payment Due",
+        //   backgroundColor: "#ff9f40",
+        //   borderColor: "#ff9f40",
+        //   data: totalSalesPaymentDueData,
+        // },
+        // {
+        //   label: "Total Sales Return Payment Due",
+        //   backgroundColor: "#9966ff",
+        //   borderColor: "#9966ff",
+        //   data: totalSalesReturnPaymentDueData,
+        // },
       ],
     };
     this.dataForSecondChat = {
@@ -494,28 +494,28 @@ export class AdminDashboardComponent {
       datasets: [
         {
           label: "Total Purchase",
-          backgroundColor: "#ff6384",
-          borderColor: "#ff6384",
+          backgroundColor: "#008000",
+          borderColor: "#008000",
           data: totalPurchaseData,
         },
         {
           label: "Total Purchase Return",
-          backgroundColor: "#36a2eb",
-          borderColor: "#36a2eb",
+          backgroundColor: "#FF0000",
+          borderColor: "#FF0000",
           data: totalPurchaseReturnData,
         },
-        {
-          label: "Total Purchase Payment Due",
-          backgroundColor: "#ff9f40",
-          borderColor: "#ff9f40",
-          data: totalPurchasePaymentDueData,
-        },
-        {
-          label: "Total Purchase Return Payment Due",
-          backgroundColor: "#9966ff",
-          borderColor: "#9966ff",
-          data: totalPurchaseReturnPaymentDueData,
-        },
+        // {
+        //   label: "Total Purchase Payment Due",
+        //   backgroundColor: "#ff9f40",
+        //   borderColor: "#ff9f40",
+        //   data: totalPurchasePaymentDueData,
+        // },
+        // {
+        //   label: "Total Purchase Return Payment Due",
+        //   backgroundColor: "#9966ff",
+        //   borderColor: "#9966ff",
+        //   data: totalPurchaseReturnPaymentDueData,
+        // },
       ],
     };
   }
