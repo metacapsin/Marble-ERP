@@ -276,6 +276,11 @@ export class DataService {
               route: routes.suppliers,
               base: routes.suppliers,
             },
+            {
+              menuValue: "Block / Slab Processor",
+              route: routes.blockProcessor,
+              base: routes.blockProcessor,
+            },
           ],
         },
         {
@@ -393,11 +398,6 @@ export class DataService {
               menuValue: "General Expenses",
               route: routes.expenses,
               base: routes.expenses,
-            },
-            {
-              menuValue: "Block / Slab Processor",
-              route: routes.blockProcessor,
-              base: routes.blockProcessor,
             },
           ],
         },

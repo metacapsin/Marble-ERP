@@ -1,6 +1,132 @@
-.p-toast-message-icon{
-    display: none;
-  }
+.p-toast-message-icon {
+  display: none;
+}
+
 .p-toast .p-toast-message .p-toast-message-content .p-toast-detail {
-    margin: 0px;
- }
+  margin: 0px;
+}
+
+/* Default styles for larger screens (min-width: 992px) */
+// // .login-body {
+// //   display: flex;
+// //   flex-direction: row; /* Default to row for larger screens */
+// //   align-items: center;
+// //   padding: 20px;
+// // }
+
+// .login-wrap {
+//   display: flex;
+//   flex-direction: flex; /* Default to row for larger screens */
+//   align-items: center;
+//   text-align: left;
+// }
+
+// .login-wrap-bg {
+//   width: auto;
+//   display: flex;
+//   justify-content: center;
+// }
+
+// // .login-wrapper {
+// //   width: auto;
+// //   max-width: 600px;
+// //   max-height: 700px;
+// // }
+
+// .log-img img {
+//   margin-top: 0;
+//   width: 100%;
+//   max-width: 300px; /* Adjust as needed for larger screens */
+// }
+
+// .form-group {
+//   margin-bottom: 20px;
+// }
+
+// .btn {
+//   width: auto;
+// }
+
+/* Styles for tablets and smaller desktops (min-width: 768px and max-width: 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .login-body {
+    flex-direction: column; /* Change to column for tablets and smaller desktops */
+    align-items: center;
+    padding: 20px;
+  }
+
+  .login-wrap {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .login-wrap-bg {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .login-wrapper {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .log-img img {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* Styles for mobile screens (max-width: 767px) */
+@media (max-width: 767px) {
+  .login-body {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .login-wrap {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .login-sec {
+    margin-bottom: 10px;
+  }
+
+  .login-wrap-bg {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .login-wrapper {
+    width: 100%;
+    max-width: 400px; /* Adjust as needed for smaller screens */
+  }
+
+  .log-img img {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
