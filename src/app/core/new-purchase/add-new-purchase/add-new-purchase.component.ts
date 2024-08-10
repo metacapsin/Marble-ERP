@@ -56,6 +56,7 @@ export class AddNewPurchaseComponent implements OnInit {
   ];
   getSupplierShow: any;
   ItemDetails: any = {};
+  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,50})$/;
 
   shortNameRegex = /^[^\s.-][a-zA-Z0-9_.\s-]{2,50}$/;
   descriptionRegex = /^(?!\s)(?:.{1,500})$/;
@@ -82,8 +83,8 @@ export class AddNewPurchaseComponent implements OnInit {
       paidToSupplierPurchaseCost: ["", [Validators.required, Validators.min(0), Validators.max(9999999)]],
       purchaseType: ["", [Validators.required]],
       purchaseNotes: ["", [Validators.pattern(this.descriptionRegex)]],
-      slabNo: ["", [Validators.required, Validators.pattern(this.shortNameRegex)],],
-      slabName: ["", [Validators.required, Validators.pattern(this.shortNameRegex)],],
+      slabNo: ["", [Validators.required, Validators.pattern(this.invoiceRegex)],],
+      slabName: ["", [Validators.required, Validators.pattern(this.invoiceRegex)],],
       warehouseDetails: ["", [Validators.required]],
       categoryDetail: ["", [Validators.required]],
       subCategoryDetail: ["", [Validators.required]],

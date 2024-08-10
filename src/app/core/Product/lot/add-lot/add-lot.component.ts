@@ -68,6 +68,8 @@ export class AddLotComponent {
   shortNameRegex = /^[^\s.-][a-zA-Z0-9_.\s-]{2,50}$/;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   lotPurchaseCost: number;
+  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,50})$/;
+
 
   lotTotalCost: number = 0;
   previousLotTotalCost: number = 0;
@@ -85,11 +87,11 @@ export class AddLotComponent {
     this.lotAddForm = this.fb.group({
       lotNo: [
         "",
-        [Validators.required, Validators.pattern(this.shortNameRegex)],
+        [Validators.required, Validators.pattern(this.invoiceRegex)],
       ],
       lotName: [
         "",
-        [Validators.required, Validators.pattern(this.shortNameRegex)],
+        [Validators.required, Validators.pattern(this.invoiceRegex)],
       ],
       vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
       warehouse: ["", [Validators.required]],
@@ -129,6 +131,13 @@ export class AddLotComponent {
             _id: element._id,
           },
       }));
+
+      this.lotAddForm.get('vehicleNo')?.valueChanges.subscribe(value => {
+        if (value) {
+          const upperCaseValue = value.toUpperCase();
+          this.lotAddForm.get('vehicleNo')?.setValue(upperCaseValue, { emitEvent: false });
+        }
+      });
   });
     this.lotPurchaseCost = this.NewPurchaseService.getFormData("stepperOneData");
     console.log("stepperOneData", this.lotPurchaseCost);

@@ -46,6 +46,8 @@ export class EditSalsComponent {
   // public itemDetails: number[] = [0];
   maxQuantity: number;
 
+  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,50})$/;
+
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
   tandCRegex = /^(?:.{2,200})$/;
@@ -63,7 +65,7 @@ export class EditSalsComponent {
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
       salesDiscount: ["", [Validators.min(0)]],
-      salesInvoiceNumber: [""],
+      salesInvoiceNumber: ["",[Validators.pattern(this.invoiceRegex)]],
       salesItemDetails: this.fb.array([]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
       salesGrossTotal: [""],

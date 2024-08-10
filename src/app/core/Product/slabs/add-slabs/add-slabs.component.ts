@@ -44,6 +44,8 @@ export class AddSlabsComponent {
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   shortNameRegex =
     /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
+  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,50})$/;
+
   finishes = [
     { name: "Polished" },
     { name: "Unpolished" },
@@ -81,7 +83,7 @@ export class AddSlabsComponent {
     this.slabsAddForm = this.fb.group({
       slabNo: [
         "",
-        [Validators.required, Validators.pattern(this.shortNameRegex)],
+        [Validators.required, Validators.pattern(this.invoiceRegex)],
       ],
       lotDetails: ["", [Validators.required]],
       blockDetails: ["", [Validators.required]],
@@ -92,7 +94,7 @@ export class AddSlabsComponent {
         [
           Validators.required,
           Validators.min(0),
-          Validators.pattern(this.shortNameRegex),
+          Validators.pattern(this.invoiceRegex),
         ],
       ],
       processingFee: [

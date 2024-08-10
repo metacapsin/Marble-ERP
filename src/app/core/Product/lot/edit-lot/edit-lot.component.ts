@@ -58,9 +58,12 @@ export class EditLotComponent {
   addvisible: boolean = false;
 
   categoryList: any = [];
+  vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
+
   shortNameRegex = /^[^-\s][a-zA-Z0-9_\s-]{2,14}$/;
-  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
+  // invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
   descriptionRegex = /^(?!\s)(?:.{1,500})$/;
+  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,50})$/;
 
   constructor(
     private fb: FormBuilder,
@@ -71,17 +74,17 @@ export class EditLotComponent {
     private service: LotService
   ) {
     this.lotEditForm = this.fb.group({
-      lotNo: ["", [Validators.required, Validators.pattern(this.shortNameRegex)]],
-      lotName: ["", [Validators.required, Validators.pattern(this.shortNameRegex)]],
-      vehicleNo: ["", [Validators.pattern(this.shortNameRegex)]],
+      lotNo: ["", [Validators.required, Validators.pattern(this.invoiceRegex)]],
+      lotName: ["", [Validators.required, Validators.pattern(this.invoiceRegex)]],
+      vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
       date: ["", [Validators.required]],
-      invoiceNo: ["", [Validators.required, Validators.pattern(this.invoiceRegex)]],
+      // invoiceNo: ["", [Validators.required, Validators.pattern(this.invoiceRegex)]],
       lotWeight: ["", [Validators.required, Validators.min(1), Validators.max(10000)]],
       pricePerTon: ["", [Validators.required, Validators.min(1), Validators.max(1000000)]],
       transportationCharge: ["", [Validators.required, Validators.min(1), Validators.max(100000)]],
       royaltyCharge: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
       taxAmount: ["", [Validators.min(0), Validators.max(100000)]],
-      notes: ["", [Validators.pattern(this.descriptionRegex)]],
+      // notes: ["", [Validators.pattern(this.descriptionRegex)]],
       blocksCount: [""],
       averageWeight: [""],
       averageTransport: [""],
@@ -95,7 +98,12 @@ export class EditLotComponent {
       this.lotId = params["id"];
       console.log("user id ", this.lotId);
     });
-
+    this.lotEditForm.get('vehicleNo')?.valueChanges.subscribe(value => {
+      if (value) {
+        const upperCaseValue = value.toUpperCase();
+        this.lotEditForm.get('vehicleNo')?.setValue(upperCaseValue, { emitEvent: false });
+      }
+    });
     this.service.getLotById(this.lotId).subscribe((resp: any) => {
       this.data = resp.data; 
       this.blockDetails = resp.data.blockDetails

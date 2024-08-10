@@ -55,6 +55,8 @@ export class EditSlabsComponent {
     { name: "Unpolished" },
     { name: "Semi polished" },
   ];
+  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,50})$/;
+
   shortNameRegex =
     /^(?!.*\s\s)[a-zA-Z\d\/\-]{1,15}(?:\s[a-zA-Z\d\/\-]{1,15}){0,14}$/;
   originalData: any;
@@ -85,7 +87,7 @@ export class EditSlabsComponent {
     this.slabsEditForm = this.fb.group({
       slabNo: [
         "",
-        [Validators.required, Validators.pattern(this.shortNameRegex)],
+        [Validators.required, Validators.pattern(this.invoiceRegex)],
       ],
       lotDetails: ["", []],
       blockDetails: ["", []],
@@ -96,7 +98,7 @@ export class EditSlabsComponent {
         [
           Validators.required,
           Validators.min(0),
-          Validators.pattern(this.shortNameRegex),
+          Validators.pattern(this.invoiceRegex),
         ],
       ],
       blockDropDownPerBlockWeight: [""],

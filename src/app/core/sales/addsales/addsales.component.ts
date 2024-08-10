@@ -17,9 +17,7 @@ import { BillingAddressService } from "../../settings/billing-Address/billingAdd
 @Component({
   selector: "app-addsales",
   standalone: true,
-  imports: [
-    SharedModule,
-  ],
+  imports: [SharedModule],
   templateUrl: "./addsales.component.html",
   styleUrls: ["./addsales.component.scss"],
 })
@@ -33,7 +31,7 @@ export class AddsalesComponent implements OnInit {
   originalCustomerData = [];
   slabList = [];
   slabData = [];
-  addressVisible:any = false
+  addressVisible: any = false;
   orderStatusList = [
     { orderStatus: "Ordered" },
     { orderStatus: "Confirmed" },
@@ -46,7 +44,8 @@ export class AddsalesComponent implements OnInit {
   public itemDetails: number[] = [0];
   maxQuantity: number;
 
-  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,50})$/;
+
   notesRegex = /^(?:.{2,100})$/;
   tandCRegex = /^(?:.{2,200})$/;
   customer: any[] = [];
@@ -54,14 +53,13 @@ export class AddsalesComponent implements OnInit {
   wareHousedataListsEditArray: any[];
   originalSlabData: any;
   slabDatas: any;
-  slabDataList: any = []
+  slabDataList: any = [];
   address: any;
   orgAddress: any;
   dropAddress: any[];
   billingAddress: any = null;
   setAddressData: any;
   customerAddress: any;
-
 
   constructor(
     private router: Router,
@@ -74,30 +72,37 @@ export class AddsalesComponent implements OnInit {
     private SlabsService: SlabsService,
     private localStorageService: LocalStorageService,
     private services: WarehouseService,
-    private BillingAddressService: BillingAddressService,
+    private BillingAddressService: BillingAddressService
   ) {
     this.addSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
-      billingAddress:[''],
+      billingAddress: [""],
       salesDiscount: ["", [Validators.min(1), Validators.max(100000)]],
-      salesInvoiceNumber: [""],
+      salesInvoiceNumber: ["",[Validators.pattern(this.invoiceRegex)]],
       salesItemDetails: this.fb.array([
         this.fb.group({
-          salesItemProduct: ['', [Validators.required]],
-          salesItemQuantity: ["", [Validators.required, Validators.min(0), Validators.max(this.maxQuantity)]],
+          salesItemProduct: ["", [Validators.required]],
+          salesItemQuantity: [
+            "",
+            [
+              Validators.required,
+              Validators.min(0),
+              Validators.max(this.maxQuantity),
+            ],
+          ],
           salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-          salesItemTax: [''],
-          salesItemTaxAmount: [''],
+          salesItemTax: [""],
+          salesItemTaxAmount: [""],
           salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
           maxQuantity: [" "],
-          salesWarehouseDetails: ['', [Validators.required]]
+          salesWarehouseDetails: ["", [Validators.required]],
         }),
       ]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
       salesGrossTotal: [""],
       salesOrderStatus: ["", [Validators.required]],
-      salesOrderTax: ["",],
+      salesOrderTax: [""],
       appliedTax: [""],
       salesShipping: ["", [Validators.min(1), Validators.max(100000)]],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
@@ -113,7 +118,10 @@ export class AddsalesComponent implements OnInit {
   deletesalesItemDetails(salesItemDetailsIndex: number) {
     this.salesItemDetails.removeAt(salesItemDetailsIndex);
 
-    if (salesItemDetailsIndex > -1 && salesItemDetailsIndex < this.slabDataList.length) {
+    if (
+      salesItemDetailsIndex > -1 &&
+      salesItemDetailsIndex < this.slabDataList.length
+    ) {
       this.slabDataList.splice(salesItemDetailsIndex, 1);
     } else {
       console.log("salesItemDetailsIndex out of range");
@@ -123,14 +131,14 @@ export class AddsalesComponent implements OnInit {
 
   addsalesItemDetailsItem() {
     const item = this.fb.group({
-      salesItemProduct: ['', [Validators.required]],
+      salesItemProduct: ["", [Validators.required]],
       salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
       salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-      salesItemTax: [''],
+      salesItemTax: [""],
       salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
-      salesItemTaxAmount: [''],
-      maxQuantity: [''],
-      salesWarehouseDetails: ['', [Validators.required]]
+      salesItemTaxAmount: [""],
+      maxQuantity: [""],
+      salesWarehouseDetails: ["", [Validators.required]],
     });
     this.salesItemDetails.push(item);
   }
@@ -152,62 +160,65 @@ export class AddsalesComponent implements OnInit {
           if (i === index) {
             this.slabDataList[index] = this.slabDatas;
             console.log("if", this.slabDataList[index]);
-           
-            
+
             const control = this.salesItemDetails.at(i);
-            control.get('salesItemProduct').reset();
-            control.get('salesItemQuantity').reset();
-            control.get('salesItemUnitPrice').reset();
-            control.get('salesItemTax').reset();
-            control.get('salesItemSubTotal').reset();
-            this.calculateTotalAmount()
+            control.get("salesItemProduct").reset();
+            control.get("salesItemQuantity").reset();
+            control.get("salesItemUnitPrice").reset();
+            control.get("salesItemTax").reset();
+            control.get("salesItemSubTotal").reset();
+            this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];
             console.log("else", this.slabDataList);
-
           }
         });
         //this.slabDataList.push(this.slabDatas)
         console.log("this.slabDataList", this.slabDataList);
       }
     );
-    console.log("----------------------------####################----------------");
+    console.log(
+      "----------------------------####################----------------"
+    );
   }
-  editAddressWithDrop(){
-    this.setAddressData = this.addSalesForm.get('billingAddress')?.value;
+  editAddressWithDrop() {
+    this.setAddressData = this.addSalesForm.get("billingAddress")?.value;
     console.log(this.setAddressData);
   }
-  
- 
+
   ngOnInit() {
-    this.BillingAddressService.getBillingAddressList().subscribe((resp:any)=>{
-      this.address = resp.data;
-      this.orgAddress = resp.data;
-      this.dropAddress = []
-      this.orgAddress.forEach((ele)=>{
-        this.dropAddress.push({
-          name:`${ele.companyName} / ${ele.city},`,
-          _id:ele
-        })
-      })
-      console.log(this.address);
-      const filterData =  this.address.find((e) => e.setAsDefault)
-      this.addSalesForm.get('billingAddress').patchValue(filterData)
-      console.log(this.addSalesForm.get('billingAddress')?.value);
-      console.log(filterData);
-    })
+    this.BillingAddressService.getBillingAddressList().subscribe(
+      (resp: any) => {
+        this.address = resp.data;
+        this.orgAddress = resp.data;
+        this.dropAddress = [];
+        this.orgAddress.forEach((ele) => {
+          this.dropAddress.push({
+            name: `${ele.companyName} / ${ele.city},`,
+            _id: ele,
+          });
+        });
+        console.log(this.address);
+        const filterData = this.address.find((e) => e.setAsDefault);
+        this.addSalesForm.get("billingAddress").patchValue(filterData);
+        console.log(this.addSalesForm.get("billingAddress")?.value);
+        console.log(filterData);
+      }
+    );
 
     this.customerList = this.getCustomer();
     console.log(this.customerList);
-    this.customer = this.localStorageService.getItem('customer');
-    this.returnUrl = this.localStorageService.getItem('returnUrl')
-    console.log("this is retrun url", this.returnUrl)
-    console.log("this is customer data by local sotrage service", this.customer)
+    this.customer = this.localStorageService.getItem("customer");
+    this.returnUrl = this.localStorageService.getItem("returnUrl");
+    console.log("this is retrun url", this.returnUrl);
+    console.log(
+      "this is customer data by local sotrage service",
+      this.customer
+    );
     if (this.customer) {
       this.addSalesForm.patchValue({
-        customer: this.customer
-      }
-      );
+        customer: this.customer,
+      });
     }
 
     this.services.getAllWarehouseList().subscribe((resp: any) => {
@@ -226,7 +237,7 @@ export class AddsalesComponent implements OnInit {
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
-      this.orderTaxList = this.taxesListData.map(element => ({
+      this.orderTaxList = this.taxesListData.map((element) => ({
         orderTaxName: `${element.name} (${element.taxRate}%)`,
         orderNamevalue: element,
       }));
@@ -234,30 +245,30 @@ export class AddsalesComponent implements OnInit {
 
     this.slabService.getSlabsList().subscribe((resp: any) => {
       this.slabData = resp.data;
-      this.slabList = this.slabData.map(e => ({
+      this.slabList = this.slabData.map((e) => ({
         slabName: e.slabName,
         _id: {
           _id: e._id,
           slabName: e.slabName,
           slabNo: e.slabNo,
-        }
+        },
       }));
     });
   }
-  editAddress(){
+  editAddress() {
     // this.editAddressWithDrop()
-    this.addressVisible = true
+    this.addressVisible = true;
   }
-  setCustomer(){
-    const data = this.addSalesForm.get('customer').value;
+  setCustomer() {
+    const data = this.addSalesForm.get("customer").value;
     console.log(data);
-    this.customerAddress = data.billingAddress
+    this.customerAddress = data.billingAddress;
   }
   getCustomer() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
-     
-      this.customerList = this.originalCustomerData.map(element => ({
+
+      this.customerList = this.originalCustomerData.map((element) => ({
         name: element.name,
         _id: {
           _id: element._id,
@@ -266,46 +277,53 @@ export class AddsalesComponent implements OnInit {
         },
       }));
     });
-    
-
   }
   onSlabSelect(value, i) {
-      // console.log(data);
-      // this.customerAddress = data._id.billingAddress
-    const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
+    // console.log(data);
+    // this.customerAddress = data._id.billingAddress
+    const salesItemDetailsArray = this.addSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
 
-    const selectedSlab = this.slabData.find(slab => slab._id === value._id);
+    const selectedSlab = this.slabData.find((slab) => slab._id === value._id);
 
     if (selectedSlab) {
-      console.log('Slab Found', selectedSlab);
+      console.log("Slab Found", selectedSlab);
 
       // Calculate remaining quantity for the selected slab
       let remainingQuantity = selectedSlab.totalSQFT;
       for (let j = 0; j < salesItemDetailsArray.length; j++) {
         if (j !== i) {
-          const currentRowSlab = salesItemDetailsArray.at(j)?.get("salesItemProduct").value;
+          const currentRowSlab = salesItemDetailsArray
+            .at(j)
+            ?.get("salesItemProduct").value;
           if (currentRowSlab && currentRowSlab._id === value._id) {
-            remainingQuantity -= salesItemDetailsArray.at(j)?.get("salesItemQuantity").value || 0;
+            remainingQuantity -=
+              salesItemDetailsArray.at(j)?.get("salesItemQuantity").value || 0;
           }
         }
       }
 
-      const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
-      const maxQuantityControl = salesItemDetailsArray.at(i)?.get("maxQuantity");
+      const salesItemUnitPriceControl = salesItemDetailsArray
+        .at(i)
+        ?.get("salesItemUnitPrice");
+      const maxQuantityControl = salesItemDetailsArray
+        .at(i)
+        ?.get("maxQuantity");
 
       if (salesItemUnitPriceControl) {
         salesItemUnitPriceControl.patchValue(selectedSlab.sellingPricePerSQFT);
         this.calculateTotalAmount();
       }
       if (maxQuantityControl) {
-        maxQuantityControl.setValue(remainingQuantity > 0 ? remainingQuantity : 0);
+        maxQuantityControl.setValue(
+          remainingQuantity > 0 ? remainingQuantity : 0
+        );
       }
     } else {
-      console.error('Slab not found!');
+      console.error("Slab not found!");
     }
   }
-
-
 
   calculateTotalAmount() {
     let salesGrossTotal = 0;
@@ -314,7 +332,7 @@ export class AddsalesComponent implements OnInit {
 
     salesItems.controls.forEach((item: FormGroup) => {
       if (item.get("salesItemQuantity").value > item.get("maxQuantity").value) {
-        item.get("salesItemQuantity").patchValue(item.get("maxQuantity").value)
+        item.get("salesItemQuantity").patchValue(item.get("maxQuantity").value);
       }
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
@@ -329,16 +347,22 @@ export class AddsalesComponent implements OnInit {
         totalTaxAmount = (quantity * unitPrice * tax) / 100;
       }
 
-      const subtotal = (quantity * unitPrice) + totalTaxAmount;
+      const subtotal = quantity * unitPrice + totalTaxAmount;
       salesOrderTax += totalTaxAmount;
 
       salesGrossTotal += subtotal;
-      item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount.toFixed(2)));
+      item
+        .get("salesItemTaxAmount")
+        .setValue(Number(totalTaxAmount.toFixed(2)));
       item.get("salesItemSubTotal").setValue(Number(subtotal.toFixed(2)));
     });
 
-    this.addSalesForm.get('salesOrderTax').setValue(Number(salesOrderTax.toFixed(2)));
-    this.addSalesForm.get('salesGrossTotal').setValue(Number(salesGrossTotal.toFixed(2)));
+    this.addSalesForm
+      .get("salesOrderTax")
+      .setValue(Number(salesOrderTax.toFixed(2)));
+    this.addSalesForm
+      .get("salesGrossTotal")
+      .setValue(Number(salesGrossTotal.toFixed(2)));
 
     let totalAmount = salesGrossTotal;
     const discount = +this.addSalesForm.get("salesDiscount").value;
@@ -349,7 +373,7 @@ export class AddsalesComponent implements OnInit {
     totalAmount += shipping;
     totalAmount += otherCharges;
 
-    this.addSalesForm.get("salesTotalAmount").setValue(Number(totalAmount))
+    this.addSalesForm.get("salesTotalAmount").setValue(Number(totalAmount));
   }
 
   addSalesFormSubmit() {
@@ -374,7 +398,7 @@ export class AddsalesComponent implements OnInit {
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: Number(formData.salesTotalAmount),
       otherCharges: Number(formData.otherCharges),
-      salesOrderTax: Number(formData.salesOrderTax)
+      salesOrderTax: Number(formData.salesOrderTax),
     };
 
     if (this.addSalesForm.valid) {
