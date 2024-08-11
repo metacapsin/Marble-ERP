@@ -81,9 +81,8 @@
                                         </th>
                                         <th pSortableColumn="categoryDetail.name">Category<p-sortIcon
                                                 field="categoryDetail.name"></p-sortIcon>
-                                            <p-columnFilter matchMode="contains" hideOnClear="true"
-                                                type="text" field="categoryDetail.name"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="categoryDetail.name" display="menu"></p-columnFilter>
 
                                         </th>
                                         <th pSortableColumn="subCategoryDetail.name">Sub Category<p-sortIcon
@@ -152,6 +151,8 @@
                                         <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                                             <p-button [text]="true" icon="fa-solid fa-eye"
                                                 (click)="showSlabDetails(slabs._id)"></p-button>
+                                            <p-button [text]="true" icon="fa-solid fa-clock-rotate-left"
+                                                (click)="showSlabHistoryDetails(slabs._id)"></p-button>
                                         </td>
                                         <!-- <td appShowHide [roles]="['admin', 'super-admin']">
                                             <div class="action-buttons">
@@ -391,5 +392,226 @@
                 </div>
             </div>
         </div>
+    </div>
+</p-dialog>
+<p-dialog [(visible)]="visibleSlabHistory" [modal]="true" [draggable]="true" 
+[breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+[style]="{ width: '80vw', height: ' 60vh' }"
+[resizable]="false"
+    header="Slab History">
+
+    <div class="card ">
+        <p-tabView>
+            <p-tabPanel header="Sales">
+                <p-table selectionMode="multiple" [value]="slabHistoryData.sales" styleClass="p-datatable-striped"
+                    [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10"
+                    [rowsPerPageOptions]="[5, 10, 20]">
+                    <ng-template pTemplate="header">
+                        <tr class="text-center">
+                            <th pSortableColumn="salesInvoiceNumber">
+                                Invoice Number
+                                <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                    field="salesInvoiceNumber" display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="salesDate">
+                                Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesDate"
+                                    display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="salesOrderStatus">
+                                Sales Status
+                                <p-sortIcon field="salesOrderStatus"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                    field="salesOrderStatus" display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="paymentStatus">
+                                Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                    field="paymentStatus" display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="paidAmount">
+                                Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paidAmount"
+                                    display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="dueAmount">
+                                Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="dueAmount"
+                                    display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="salesTotalAmount">
+                                Total Amount
+                                <p-sortIcon field="salesTotalAmount"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                    field="salesTotalAmount" display="menu"></p-columnFilter>
+                            </th>
+                            <!-- <th pSortableColumn="paymentStatus">
+                    Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                  </th> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-sales>
+                        <tr *ngFor="let sales of slabHistoryData.sales">
+                            <td>{{ sales.salesInvoiceNumber }}</td>
+                            <td>{{ sales.salesDate | date: "dd-MMM-yyyy" }}</td>
+                            <td>{{ sales.salesOrderStatus }}</td>
+                            <!-- <td>{{ sales.paymentStatus }}</td> -->
+                            <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                                    value="Partial Paid"></p-tag></td>
+                            <td *ngIf="sales.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag>
+                            </td>
+                            <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="danger"
+                                    value="Unpaid"></p-tag></td>
+                            <td>₹ {{ sales.paidAmount | indianCurrency }}</td>
+                            <td>₹ {{ sales.dueAmount | indianCurrency }}</td>
+                            <td>₹ {{ sales.salesTotalAmount | indianCurrency }}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8" class="text-center">No sales records found. Please create a new sale to see
+                                it listed here.</td>
+                        </tr>
+                    </ng-template>
+
+                    <!-- <ng-template pTemplate="footer">
+                        <tr
+                            *ngIf="salesTotalValues.totalPaidAmount > 0 || salesTotalValues.totalDueAmount > 0 || salesTotalValues.totalAmount > 0">
+                            <td colspan="3"></td>
+                            <td>Total</td>
+                            <td>₹ {{ salesTotalValues.totalPaidAmount | indianCurrency }}</td>
+                            <td class="text-danger-dark">₹ {{ salesTotalValues.totalDueAmount | indianCurrency }}</td>
+                            <td>₹ {{ salesTotalValues.totalAmount | indianCurrency }}</td>
+                            <td></td>
+                        </tr>
+                    </ng-template> -->
+                </p-table>
+            </p-tabPanel>
+
+
+       
+
+
+            <!-- Stock Adjustment Grid -->
+            <p-tabPanel header="Stock Adjustment">
+
+                <p-table selectionMode="multiple" [value]="slabHistoryData.adjustments" styleClass="p-datatable-striped"
+                    [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10"
+                    [rowsPerPageOptions]="[5, 10, 20]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="createdOn">Adjustment Date <p-sortIcon field="createdOn"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="createdOn"
+                                    display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="slabs.slabName">Slab Name <p-sortIcon
+                                    field="slabs.slabName"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                    field="slabs.slabName" display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="warehouse.name">Warehouse <p-sortIcon
+                                    field="warehouse.name"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                    field="warehouse.name" display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="adjustmentType">Adjustment Type <p-sortIcon
+                                    field="adjustmentType"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                    field="adjustmentType" display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="previousQty">Previous Qty<p-sortIcon field="previousQty"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="previousQty"
+                                    display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="quantity">Adjustment Qty<p-sortIcon field="quantity"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="quantity"
+                                    display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="currentQty">Adjusted Qty<p-sortIcon field="currentQty"></p-sortIcon>
+                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="currentQty"
+                                    display="menu"></p-columnFilter>
+                            </th>
+                            <!-- <th width="13%">Action</th> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-stock>
+                        <tr>
+                            <td>{{stock.createdOn | date: 'dd-MMM-yyyy'}}</td>
+                            <td>{{stock.slabs.slabName}}</td>
+                            <td>{{stock.warehouse.name}}</td>
+                            <td>{{stock.adjustmentType.toUpperCase()}}</td>
+                            <td>{{stock.previousQty + ' Sq. Feet. '}}</td>
+                            <td>{{stock.quantity + ' Sq. Feet. '}}</td>
+                            <td>{{stock.currentQty + ' Sq. Feet. '}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8" class="text-center">No stock adjustments have been made. Please
+                                adjust stock to see records here.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-tabPanel>
+
+                 <!-- Transfer GRID -->
+                 <p-tabPanel header="Stock Transfer">
+                    <p-table selectionMode="multiple" [value]="slabHistoryData.transfers" styleClass="p-datatable-striped"
+                        [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10"
+                        [rowsPerPageOptions]="[5, 10, 20]">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="createdOn">Transfer Date <p-sortIcon field="createdOn"></p-sortIcon>
+                                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="createdOn"
+                                        display="menu"></p-columnFilter>
+                                </th>
+                                <th pSortableColumn="slab.slabName">Slab Name <p-sortIcon
+                                        field="slab.slabName"></p-sortIcon>
+                                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                        field="slab.slabName" display="menu"></p-columnFilter>
+                                </th>
+                                <th pSortableColumn="fromWarehouse.name">From-Warehouse <p-sortIcon
+                                        field="fromWarehouse.name"></p-sortIcon>
+                                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                        field="fromWarehouse.name" display="menu"></p-columnFilter>
+                                </th>
+                                <th pSortableColumn="toWarehouse.name">To-Warehouse <p-sortIcon
+                                        field="toWarehouse.name"></p-sortIcon>
+                                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                        field="toWarehouse.name" display="menu"></p-columnFilter>
+                                </th>
+                                <th pSortableColumn="transferType">Transfer-Type <p-sortIcon
+                                        field="transferType"></p-sortIcon>
+                                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="transferType"
+                                        display="menu"></p-columnFilter>
+                                </th>
+                                <th pSortableColumn="transferQty">Transfer Quantity <p-sortIcon
+                                        field="transferQty"></p-sortIcon>
+                                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="transferQty"
+                                        display="menu"></p-columnFilter>
+                                </th>
+                                <!-- <th>Action</th> -->
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-stock>
+                            <tr>
+                                <td>{{stock.createdOn | date: 'dd-MMM-yyyy'}}</td>
+                                <td>{{stock.slab.slabName}}</td>
+                                <td>{{stock.fromWarehouse.name}}</td>
+                                <td>{{stock.toWarehouse.name}}</td>
+                                <td>{{stock.transferType}}</td>
+                                <td>{{stock.transferQty + ' Sq. Feet. '}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="6" class="text-center">No stock transfers found. Please transfer
+                                    stock to see records here.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+        </p-tabView>
     </div>
 </p-dialog>

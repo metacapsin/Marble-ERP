@@ -20,6 +20,9 @@ getSlabsList() {
 getSlabsById(locationId: string) {
   return this.http.get(environment.apiUrl + "/SlabController/getSlabById/" + locationId);
 }
+getSlabHistoryById(data: {} | null) {
+  return this.http.get(environment.apiUrl + "/SlabController/getSlabHistoryById/" + data);
+}
 
 updateSlabsById(data: {}) {
   return this.http.put(environment.apiUrl + "/SlabController/updateSlab" , data);

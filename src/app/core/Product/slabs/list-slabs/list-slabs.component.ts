@@ -13,9 +13,7 @@ import { DialogModule } from "primeng/dialog";
 @Component({
   selector: "app-list-slabs",
   standalone: true,
-  imports: [
-    SharedModule,
-  ],
+  imports: [SharedModule],
   providers: [MessageService],
   templateUrl: "./list-slabs.component.html",
   styleUrl: "./list-slabs.component.scss",
@@ -34,6 +32,8 @@ export class ListSlabsComponent {
   allSlabsDaTa: any;
 
   slabProfit: number = 0;
+  slabHistoryData: any=[];
+  visibleSlabHistory: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -47,14 +47,24 @@ export class ListSlabsComponent {
     this.service.getSlabsList().subscribe((resp: any) => {
       this.allSlabsDaTa = resp.data;
       this.originalData = resp.data;
-      console.log("API", this.data);
+      console.log("API", this.allSlabsDaTa);
     });
   }
   showSlabDetails(_id: any) {
     this.slabProfit = 0;
     this.slabVisible = true;
     this.slabDetail = this.allSlabsDaTa.find((e) => e._id === _id);
-    this.slabProfit = this.slabDetail?.totalSales - this.slabDetail?.totalSalesReturn;
+    this.slabProfit =
+      this.slabDetail?.totalSales - this.slabDetail?.totalSalesReturn;
+  }
+
+  showSlabHistoryDetails(_id) {
+    this.service.getSlabHistoryById(_id).subscribe((resp: any) => {
+      this.visibleSlabHistory = true;
+      this.slabHistoryData = resp.data;
+      this.originalData = resp.data;
+      console.log("Slab History API", this.slabHistoryData);
+    });
   }
   ngOnInit(): void {
     this.getSlabsList();
