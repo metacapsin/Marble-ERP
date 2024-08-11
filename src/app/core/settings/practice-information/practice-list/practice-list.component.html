@@ -1,22 +1,6 @@
 <div class="">
     <!-- Page Content -->
     <div class="content container-fluid">
-
-        <!-- Page Header -->
-        <!-- <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Settings</li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Profile Information</li>
-                    </ul>
-                </div>
-            </div>
-        </div> -->
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="card card-table ">
@@ -24,59 +8,18 @@
                         <div class="page-table-header mb-2">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <div class="doctor-table-blk">
+                                    <div class="doctor-table-blk d-flex justify-content-between">
                                         <h3>User Profile</h3>
-                                        <div class="doctor-search-blk">
-                                            <div class="add-group textbtn">
-                                                <!-- <a [routerLink]="['/settings/practice-information/add-practice']"
-                                                    class="btn btn-primary add-pluss ms-2"
-                                                    *ngIf="data?.length == 0"><img src="assets/img/icons/plus.svg"
-                                                        alt=""> Add New</a> -->
-                                                <!-- <a appShowHide [roles]="['admin', 'super-admin']"
-                                                    [routerLink]="['/settings/practice-information/edit-practice', userData_id]"
-                                                    class="btn btn-primary add-pluss ms-2" *ngIf="data?.length > 0"><img
-                                                        src="assets/icons/fontawesome/svgs/solid/pencil.svg"
-                                                        class="editico" alt="" />Edit</a> -->
-                                                <!-- <a appShowHide [roles]="['admin', 'super-admin']" href="javascript:;" (click)="getPracticeListData()"
-                                                    class="btn btn-primary doctor-refresh ms-2"><img
-                                                        src="assets/img/icons/re-fresh.svg" alt=""></a> -->
-                                            </div>
+                                        <div class="add-group textbtn text-end">
+                                            <a (click)="changePassword()" class="btn btn-primary add-pluss ms-2"><img
+                                                    src="assets/img/icons/plus.svg" alt="">Change Password</a>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="col-auto text-end float-end ms-auto download-grp" appShowHide [roles]="['admin', 'super-admin']">
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
-                                            alt=""></a>
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
-                                            alt=""></a>
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                                            alt=""></a>
-                                    <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
-
-                                </div> -->
                             </div>
                         </div>
-                        <!-- <div class="table-responsive px-3" *ngIf="data?.length > 0">
-                        <table class="table">                            
-                            <thead>
-                              <tr>
-                                <th class="bg-primary-light" scope="col">Name</th>
-                                <th class="bg-primary-light" scope="col">Address</th>
-                                <th class="bg-primary-light" scope="col">Phone No.</th>
-                                <th class="bg-primary-light" scope="col">Fax No.</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th >{{userDataname}}</th>
-                                <td>{{userDataaddress}} </td>
-                                <td>{{userDataphone}}</td>
-                                <td>{{userDatafax}}</td>
-                              </tr>                             
-                            </tbody>
-                          </table>
-                        </div> -->
-                        <div class="page-table-header mb-2 m-3" >
+
+                        <div class="page-table-header mb-2 m-3">
                             <div class="row practice-card">
                                 <div class="col-xl-6 col-lg-6 col-sm-12">
                                     <div class="form-group row mb-2">
@@ -85,13 +28,6 @@
                                             <p class="col-lg-9 col-form-label">{{userData?.name}}</p>
                                         </div>
                                     </div>
-                                    <!-- <div class="form-group row mb-2">
-                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Address</h5>
-                                        <div class="col-lg-9 col-md-9 col-xl-9">
-                                            <p class="col-lg-9 col-form-label">{{userData.address}}
-                                            </p>
-                                        </div>
-                                    </div> -->
                                     <div class="form-group row mb-2">
                                         <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone No.</h5>
                                         <div class="col-lg-9 col-md-9 col-xl-9">
@@ -104,12 +40,6 @@
                                             <p class="col-form-label">{{userData?.role.join(', ')}}</p>
                                         </div>
                                     </div>
-                                    <!-- <div class="form-group row mb-2">
-                                        <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone No.</h5>
-                                        <div class="col-lg-9 col-md-9 col-xl-9">
-                                            <p class="col-form-label">{{userData?phone}}</p>
-                                        </div>
-                                    </div> -->
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-sm-12">
                                     <div class="form-group row mb-2">
@@ -143,3 +73,85 @@
     </div>
     <!-- /Page Content -->
 </div>
+
+<p-toast></p-toast>
+
+<p-dialog header="Add Stock Adjustment" [(visible)]="changePasswordVisible" [modal]="true" [style]="{width: '50%'}">
+    <div class="modal-content">
+        <div class="modal-body">
+            <form [formGroup]="changePasswordForm" (ngSubmit)="changePasswordFormSubmit()">
+                <div class="row mt-2">
+
+
+                    <div class="col-12">
+                        <div class="form-group local-forms">
+                            <label for="currentPassword">Current Password<span class="login-danger">*</span></label>
+                            <input class="form-control" formControlName="currentPassword" type="text" placeholder="Current Password" />
+                            <div *ngIf="
+                          changePasswordForm.get('currentPassword')?.hasError('required') &&
+                          changePasswordForm.get('currentPassword')?.touched
+                        " class="login-danger Font_size">
+                                Field is required.
+                            </div>
+                            <div *ngIf="
+                          changePasswordForm.get('currentPassword')?.hasError('pattern') &&
+                          changePasswordForm.get('currentPassword')?.touched
+                        " class="login-danger Font_size">
+                                Contain Upto 8-16 chars, uppercase, lowercase, digit,
+                                special char.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group local-forms">
+                            <label for="newPassword">New Password<span class="login-danger">*</span></label>
+                            <input class="form-control" formControlName="newPassword" type="text" placeholder="New Password" />
+                            <div *ngIf="
+                          changePasswordForm.get('newPassword')?.hasError('required') &&
+                          changePasswordForm.get('newPassword')?.touched
+                        " class="login-danger Font_size">
+                                Field is required.
+                            </div>
+                            <div *ngIf="
+                          changePasswordForm.get('newPassword')?.hasError('pattern') &&
+                          changePasswordForm.get('newPassword')?.touched
+                        " class="login-danger Font_size">
+                                Contain Upto 8-16 chars, uppercase, lowercase, digit,
+                                special char.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group local-forms">
+                            <label for="confirmNewPassword">Confirm New Password<span
+                                    class="login-danger">*</span></label>
+                            <input class="form-control" formControlName="confirmNewPassword" type="text" placeholder="Confirm New Password" />
+                            <div *ngIf="
+                          changePasswordForm.get('confirmNewPassword')?.hasError('required') &&
+                          changePasswordForm.get('confirmNewPassword')?.touched
+                        " class="login-danger Font_size">
+                                Field is required.
+                            </div>
+                            <div *ngIf="
+                          changePasswordForm.get('confirmNewPassword')?.hasError('pattern') &&
+                          changePasswordForm.get('confirmNewPassword')?.touched
+                        " class="login-danger Font_size">
+                                Contain Upto 8-16 chars, uppercase, lowercase, digit,
+                                special char.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12">
+                        <div class=" settings-btns text-end m-b-10">
+                            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                [disabled]="!changePasswordForm.valid">Submit</button>
+                            <button class="btn btn-secondary" (click)="changePasswordVisible = false">Cancel</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</p-dialog>

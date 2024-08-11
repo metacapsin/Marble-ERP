@@ -56,47 +56,53 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="paymentListData | filter:searchDataValue:['paymentDate', 'customer.name','paymentMode','amount']" styleClass="p-datatable-striped"
-                                [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
-                                [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory" selectionMode="multiple">
+                            <p-table
+                                [value]="paymentListData | filter:searchDataValue:['paymentDate', 'customer.name','paymentMode','amount']"
+                                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
+                                [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+                                [(selection)]="selectedCategory" selectionMode="multiple">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="transactionNo">Invoice Number <p-sortIcon
+                                        <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon
+                                                field="salesInvoiceNumber"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="salesInvoiceNumber" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="transactionNo">Transaction Number <p-sortIcon
                                                 field="transactionNo"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="transactionNo"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="transactionNo" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="paymentDate">Payment Date <p-sortIcon
                                                 field="paymentDate"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="paymentDate"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="paymentDate" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="customer.name">Customer <p-sortIcon field="customer.name"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="customer.name" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="customer.name">Customer <p-sortIcon
+                                                field="customer.name"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="customer.name" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="paymentMode">Payment Mode <p-sortIcon
                                                 field="paymentMode"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="paymentMode"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="paymentMode" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="amount" display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="amount" display="menu"></p-columnFilter>
                                         </th>
                                         <th width="10%">Action</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-payment>
                                     <tr>
-                                        <td class="bold">{{payment.transactionNo }}</td>
-                                        <td class="bold">{{payment.paymentDate | date: 'dd-MMM-yyyy'}}</td>
-                                        <td class="bold">{{payment.customer.name}}</td>
-                                        <td>{{payment.paymentMode}}</td>
-                                        <td>₹ {{payment.amount |indianCurrency}}</td>
+                                        <td class="bold">{{payment?.salesInvoiceNumber }}</td>
+                                        <td class="bold">{{payment?.transactionNo }}</td>
+                                        <td class="bold">{{payment?.paymentDate | date: 'dd-MMM-yyyy'}}</td>
+                                        <td class="bold">{{payment?.customer.name}}</td>
+                                        <td>{{payment?.paymentMode}}</td>
+                                        <td>₹ {{payment?.amount |indianCurrency}}</td>
                                         <td class="action-buttons">
                                             <!-- <p-button [text]=" true" icon="fa fa-eye"></p-button> -->
                                             <!-- <p-button [text]="true" icon="fa fa-edit"></p-button> -->
@@ -108,12 +114,13 @@ hideOnClear="true"  type="text" field="amount" display="menu"></p-columnFilter>
                                 </ng-template>
                                 <ng-template pTemplate="emptymessage">
                                     <tr>
-                                        <td colspan="6" class="text-center">No payment records found. Please record a payment to see it listed here.</td>
+                                        <td colspan="6" class="text-center">No payment records found. Please record a
+                                            payment to see it listed here.</td>
                                     </tr>
                                 </ng-template>
 
                                 <ng-template pTemplate="footer">
-                    <tr *ngIf="totalAmount > 0 ">
+                                    <tr *ngIf="totalAmount > 0 ">
                                         <td colspan="3"></td>
                                         <td>Total </td>
                                         <td>₹ {{ totalAmount }}</td>

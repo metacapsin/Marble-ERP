@@ -121,21 +121,9 @@
                                                     <span class="form-control">{{
                                                         addReturnSalesForm.get('salesItemDetails').get(i +
                                                         '.salesItemProduct').value.slabName }}</span>
-                                                    <!-- <p-dropdown [options]="categoryList" appendTo="body"
-                                                        [style]="{'width':'100%'}" optionLabel="name" optionValue="name"
-                                                        placeholder="Category" [filter]="true" filterBy="name"
-                                                        formControlName="salesItemProduct">
-                                                    </p-dropdown>
-                                                    <div
-                                                        *ngIf="addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').hasError('required') && addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemProduct').touched">
-                                                        <span class="login-danger">Field is required.</span>
-                                                    </div> -->
                                                 </td>
 
                                                 <td class="col-md-2">
-                                                    <!-- <span class="form-control">{{
-                                                        addReturnSalesForm.get('salesItemDetails').get(i +
-                                                        '.salesItemQuantity').value }}</span> -->
                                                     <input type="number" formControlName="salesItemQuantity"
                                                         (change)="calculateTotalAmount()" class="form-control">
                                                     <div
@@ -156,15 +144,11 @@
                                                 </td>
 
                                                 <td class="col-md-2">
-                                                    <span class="form-control">{{
+                                                    <input type="number" formControlName="salesItemTaxAmount"
+                                                    class="form-control">
+                                                    <!-- <span class="form-control">{{
                                                         addReturnSalesForm.get('salesItemDetails').get(i +
-                                                        '.salesItemTaxAmount').value }}</span>
-                                                    <!-- <p-multiSelect [style]="{'width':'100%'}" placeholder="Select Tax"
-                                                        [options]="orderTaxList" appendTo="body"
-                                                        formControlName="salesItemTax" optionLabel="orderTaxName"
-                                                        optionValue="orderNamevalue" display="chip"
-                                                        (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1">
-                                                    </p-multiSelect> -->
+                                                        '.salesItemTaxAmount').value }}</span> -->
                                                 </td>
 
                                                 <td class="col-md-2">

@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 import { routes } from "src/app/shared/routes/routes";
 import { DialogModule } from "primeng/dialog";
 import { CustomersdataService } from "./customers.service";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: "app-customers",
@@ -25,7 +26,7 @@ export class CustomersComponent {
   showDialoge = false;
   modalData: any = {};
   customerId: any;
-  constructor(private router: Router,private Service: CustomersdataService,private messageService: MessageService) {
+  constructor(private router: Router,private Service: CustomersdataService,private messageService: MessageService,private localStorageService:LocalStorageService) {
     this.routerChangeSubscription = this.router.events.subscribe((event) => {
       this.currentRoute = this.router.url;
       // console.log(this.currentRoute);
@@ -117,5 +118,10 @@ this.customerId = Id;
     const currentPageData = this.dataSource.slice(startIndex, endIndex);
   }
 
+  navigateToCreateCustomer() {
+    const returnUrl = this.router.url;
+    this.localStorageService.setItem("returnUrl", returnUrl)
+    this.router.navigateByUrl("/customers/add-customers");
+  }
   
 }

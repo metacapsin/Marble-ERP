@@ -14,6 +14,7 @@ import { CustomersdataService } from "../customers.service";
 import { ToastModule } from "primeng/toast";
 import { MultiSelectModule } from "primeng/multiselect";
 import { SharedModule } from "src/app/shared/shared.module";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: "app-add-customers",
@@ -22,10 +23,10 @@ import { SharedModule } from "src/app/shared/shared.module";
   templateUrl: "./add-customers.component.html",
   styleUrl: "./add-customers.component.scss",
 })
-export class AddCustomersComponent {
+export class AddCustomersComponent implements OnInit {
   addcustomerGroup: UntypedFormGroup;
   public routes = routes;
-
+  returnUrl: string;
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
   personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z. ]{0,28}[A-Za-z.])?$/;
@@ -44,6 +45,8 @@ export class AddCustomersComponent {
     private messageService: MessageService,
     private Service: CustomersdataService,
     private router: Router,
+    private localStorageService: LocalStorageService,
+
   ) {
     this.addcustomerGroup = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
@@ -60,6 +63,9 @@ export class AddCustomersComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.returnUrl = this.localStorageService.getItem("returnUrl");
+  }
   
   addcustomerForm() {
     console.log(this.addcustomerGroup.value);
@@ -84,7 +90,8 @@ export class AddCustomersComponent {
             const message = "Customers has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              this.router.navigate(["/customers"]);
+              // this.router.navigate(["/customers"]);
+              this.router.navigateByUrl(this.returnUrl);
             }, 400);
           } else {
             const message = resp.message;

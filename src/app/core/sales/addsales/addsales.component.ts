@@ -376,6 +376,12 @@ export class AddsalesComponent implements OnInit {
     this.addSalesForm.get("salesTotalAmount").setValue(Number(totalAmount));
   }
 
+  navigateToCreateCustomer() {
+    const returnUrl = this.router.url;
+    this.localStorageService.setItem("returnUrl", returnUrl)
+    this.router.navigateByUrl("/customers/add-customers");
+  }
+
   addSalesFormSubmit() {
     const formData = this.addSalesForm.value;
     // let salesOrderTax: number = 0;

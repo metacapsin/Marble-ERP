@@ -24,11 +24,16 @@
     <div class="page-header invoices-page-header">
       <div class="row align-items-center">
         <div class="col">
-          <ul class="breadcrumb invoices-breadcrumb">
+          <ul class="breadcrumb invoices-breadcrumb d-flex justify-content-between">
             <li class="breadcrumb-item invoices-breadcrumb-item">
               <a [routerLink]="routes.Sales">
                 <i class="fa fa-chevron-left"></i> Back to Sales List
               </a>
+            </li>
+            <li class="breadcrumb-item invoices-breadcrumb-item">
+              <button class="btn btn-primary" type="submit" (click)="navigateToCreateCustomer()">
+                Add New Customer
+              </button>
             </li>
           </ul>
         </div>
@@ -44,18 +49,11 @@
               <div class="seller">
                 <div class="d-flex gap-3 align-items-center">
                   <h3 style="color: #970">Seller Address</h3>
-                  <p-button
-                    [text]="true"
-                    icon="fa-solid fa-edit"
-                    (click)="editAddress()"
-                  ></p-button>
+                  <p-button [text]="true" icon="fa-solid fa-edit" (click)="editAddress()"></p-button>
                 </div>
                 <div *ngIf="!setAddressData && address">
                   <div *ngFor="let addressData of address">
-                    <div
-                      *ngIf="addressData.setAsDefault"
-                      style="line-height: 100%"
-                    >
+                    <div *ngIf="addressData.setAsDefault" style="line-height: 100%">
                       <h5>
                         {{ addressData.companyName + ' ,' }}
                       </h5>
@@ -66,12 +64,11 @@
                         {{ addressData.addressLine2 + ' ,' }}
                       </h5>
                       <h5>
-                        <span title="City">{{ addressData.city }}</span
-                        >, <span title="State">{{ addressData.state }}</span
-                        >,
+                        <span title="City">{{ addressData.city }}</span>, <span title="State">{{ addressData.state
+                          }}</span>,
                         <span title="Postal Code">{{
                           addressData.postalCode + ' ,'
-                        }}</span>
+                          }}</span>
                       </h5>
                       <h5 title="Country">{{ addressData.country.name }}</h5>
                     </div>
@@ -88,12 +85,11 @@
                     {{ setAddressData.addressLine2 + ' ,' }}
                   </h5>
                   <h5>
-                    <span title="City">{{ setAddressData.city }}</span
-                    >, <span title="State">{{ setAddressData.state }}</span
-                    >,
+                    <span title="City">{{ setAddressData.city }}</span>, <span title="State">{{ setAddressData.state
+                      }}</span>,
                     <span title="Postal Code">{{
                       setAddressData.postalCode + ' ,'
-                    }}</span>
+                      }}</span>
                   </h5>
                   <h5 title="Country">{{ setAddressData.country.name }}</h5>
                 </div>
@@ -114,66 +110,36 @@
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="salesInvoiceNumber">Invoice Number </label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Enter Invoice Number"
-                        formControlName="salesInvoiceNumber"
-                      />
-                      <span style="color: #97704f; font-size: 12px"
-                        >Leave it blank to generate automatically</span
-                      >
+                      <input type="text" class="form-control" placeholder="Enter Invoice Number"
+                        formControlName="salesInvoiceNumber" />
+                      <span style="color: #97704f; font-size: 12px">Leave it blank to generate automatically</span>
                     </div>
                   </div>
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="customer"
-                        >Customer Name
-                        <span class="login-danger">*</span></label
-                      >
-                      <p-dropdown
-                        [style]="{ width: '100%' }"
-                        placeholder="Select Customer"
-                        [options]="customerList"
-                        formControlName="customer"
-                        optionLabel="name"
-                        optionValue="_id"
-                        display="chip"
-                        [filter]="true"
-                        filterBy="name"
-                        (onChange)="setCustomer()"
-                      >
+                      <label for="customer">Customer Name
+                        <span class="login-danger">*</span></label>
+                      <p-dropdown [style]="{ width: '100%' }" placeholder="Select Customer" [options]="customerList"
+                        formControlName="customer" optionLabel="name" optionValue="_id" display="chip" [filter]="true"
+                        filterBy="name" (onChange)="setCustomer()">
                       </p-dropdown>
-                      <div
-                        *ngIf="
+                      <div *ngIf="
                           addSalesForm.get('customer')?.hasError('required') &&
                           addSalesForm.get('customer')?.touched
-                        "
-                      >
+                        ">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
                   </div>
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="salesDate"
-                        >Sales Date <span class="login-danger">*</span></label
-                      >
-                      <p-calendar
-                        [maxDate]="maxDate"
-                        dataType="string"
-                        appendTo="body"
-                        dateFormat="mm/dd/yy"
-                        formControlName="salesDate"
-                        placeholder="mm/dd/yyyy"
-                        [styleClass]="'col-12'"
-                      ></p-calendar>
-                      <div
-                        *ngIf="
+                      <label for="salesDate">Sales Date <span class="login-danger">*</span></label>
+                      <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                        formControlName="salesDate" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
+                      <div *ngIf="
                           addSalesForm.get('salesDate')?.hasError('required') &&
                           addSalesForm.get('salesDate')?.touched
-                        "
-                      >
+                        ">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
@@ -185,16 +151,10 @@
 
               <div class="invoice-add-table">
                 <h4 class="d-flex align-items-center">
-                  Item Details<p-button
-                    [text]="true"
-                    icon="fa fa-plus"
-                    (click)="addsalesItemDetailsItem()"
-                  ></p-button>
+                  Item Details<p-button [text]="true" icon="fa fa-plus" (click)="addsalesItemDetailsItem()"></p-button>
                 </h4>
                 <div class="table-responsive">
-                  <table
-                    class="table table-striped table-nowrap mb-0 no-footer add-table-items"
-                  >
+                  <table class="table table-striped table-nowrap mb-0 no-footer add-table-items">
                     <thead>
                       <tr>
                         <th>Warehouse</th>
@@ -207,29 +167,16 @@
                       </tr>
                     </thead>
                     <tbody formArrayName="salesItemDetails">
-                      <tr
-                        class="add-row"
-                        *ngFor="
+                      <tr class="add-row" *ngFor="
                           let salesItemDetailsForm of salesItemDetails.controls;
                           let i = index
-                        "
-                        [formGroupName]="i"
-                      >
+                        " [formGroupName]="i">
                         <td class="col-md-3">
-                          <p-dropdown
-                            [options]="wareHousedataListsEditArray"
-                            appendTo="body"
-                            [style]="{ width: '100%' }"
-                            optionLabel="name"
-                            [filter]="true"
-                            filterBy="slabName"
-                            optionValue="_id"
-                            formControlName="salesWarehouseDetails"
-                            placeholder="Select Warehouse"
-                            (onChange)="onWareHouseSelect($event.value, i)"
-                          ></p-dropdown>
-                          <div
-                            *ngIf="
+                          <p-dropdown [options]="wareHousedataListsEditArray" appendTo="body"
+                            [style]="{ width: '100%' }" optionLabel="name" [filter]="true" filterBy="slabName"
+                            optionValue="_id" formControlName="salesWarehouseDetails" placeholder="Select Warehouse"
+                            (onChange)="onWareHouseSelect($event.value, i)"></p-dropdown>
+                          <div *ngIf="
                               addSalesForm
                                 .get('salesItemDetails')
                                 .get(i + '.salesWarehouseDetails')
@@ -237,26 +184,16 @@
                               addSalesForm
                                 .get('salesItemDetails')
                                 .get(i + '.salesWarehouseDetails').touched
-                            "
-                          >
+                            ">
                             <span class="login-danger">Field is required.</span>
                           </div>
                         </td>
                         <td class="col-md-3">
-                          <p-dropdown
-                            [options]="slabDataList[i]"
-                            appendTo="body"
-                            [style]="{ width: '100%' }"
-                            optionLabel="name"
-                            [filter]="true"
-                            filterBy="slabName"
-                            optionValue="_id"
-                            formControlName="salesItemProduct"
-                            placeholder="Select Product"
-                            (onChange)="onSlabSelect($event.value, i)"
-                          ></p-dropdown>
-                          <div
-                            *ngIf="
+                          <p-dropdown [options]="slabDataList[i]" appendTo="body" [style]="{ width: '100%' }"
+                            optionLabel="name" [filter]="true" filterBy="slabName" optionValue="_id"
+                            formControlName="salesItemProduct" placeholder="Select Product"
+                            (onChange)="onSlabSelect($event.value, i)"></p-dropdown>
+                          <div *ngIf="
                               addSalesForm
                                 .get('salesItemDetails')
                                 .get(i + '.salesItemProduct')
@@ -264,28 +201,20 @@
                               addSalesForm
                                 .get('salesItemDetails')
                                 .get(i + '.salesItemProduct').touched
-                            "
-                          >
+                            ">
                             <span class="login-danger">Field is required.</span>
                           </div>
                         </td>
                         <td class="col-md-2">
-                          <input
-                            type="number"
-                            formControlName="salesItemQuantity"
-                            (change)="calculateTotalAmount()"
-                            class="form-control"
-                          />
-                          <span style="color: #97704f; font-size: 12px"
-                            >Max Quantity:
+                          <input type="number" formControlName="salesItemQuantity" (change)="calculateTotalAmount()"
+                            class="form-control" />
+                          <span style="color: #97704f; font-size: 12px">Max Quantity:
                             {{
-                              addSalesForm
-                                .get("salesItemDetails")
-                                .get(i + ".maxQuantity").value
-                            }}</span
-                          >
-                          <div
-                            *ngIf="
+                            addSalesForm
+                            .get("salesItemDetails")
+                            .get(i + ".maxQuantity").value
+                            }}</span>
+                          <div *ngIf="
                               addSalesForm
                                 .get('salesItemDetails')
                                 .get(i + '.salesItemQuantity')
@@ -293,12 +222,10 @@
                               addSalesForm
                                 .get('salesItemDetails')
                                 .get(i + '.salesItemQuantity').touched
-                            "
-                          >
+                            ">
                             <span class="login-danger">Field is required.</span>
                           </div>
-                          <div
-                            *ngIf="
+                          <div *ngIf="
                               addSalesForm
                                 .get('salesItemDetails')
                                 .get(i + '.salesItemQuantity')
@@ -306,54 +233,37 @@
                               addSalesForm
                                 .get('salesItemDetails')
                                 .get(i + '.salesItemQuantity').touched
-                            "
-                          >
-                            <span class="login-danger"
-                              >Input must be at least 0.</span
-                            >
+                            ">
+                            <span class="login-danger">Input must be at least 0.</span>
                           </div>
                         </td>
                         <td class="col-md-2">
-                          <input
-                            type="number"
-                            formControlName="salesItemUnitPrice"
-                            (change)="calculateTotalAmount()"
-                            class="form-control"
-                          />
+                          <input type="number" formControlName="salesItemUnitPrice" (change)="calculateTotalAmount()"
+                            class="form-control" />
                         </td>
                         <td class="col-md-2">
-                          <p-multiSelect
-                            [style]="{ width: '100%' }"
-                            placeholder="Select Tax"
-                            [options]="orderTaxList"
-                            appendTo="body"
-                            formControlName="salesItemTax"
-                            optionLabel="orderTaxName"
-                            optionValue="orderNamevalue"
-                            display="chip"
-                            (onChange)="calculateTotalAmount()"
-                            [maxSelectedLabels]="1"
-                          ></p-multiSelect>
+                          <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax" [options]="orderTaxList"
+                            appendTo="body" formControlName="salesItemTax" optionLabel="orderTaxName"
+                            optionValue="orderNamevalue" display="chip" (onChange)="calculateTotalAmount()"
+                            [maxSelectedLabels]="1"></p-multiSelect>
+                          <div style="color: #97704f; font-size: 12px">Applied Tax:
+                            {{
+                            addSalesForm
+                            .get("salesItemDetails")
+                            .get(i + ".salesItemTaxAmount").value
+                            }}</div>
                         </td>
                         <td class="col-md-2">
                           <span class="form-control">{{
                             addSalesForm
-                              .get("salesItemDetails")
-                              .get(i + ".salesItemSubTotal").value
-                          }}</span>
+                            .get("salesItemDetails")
+                            .get(i + ".salesItemSubTotal").value
+                            }}</span>
                         </td>
                         <td class="add-remove text-end">
-                          <p-button
-                            [text]="true"
-                            icon="fa fa-plus"
-                            (click)="addsalesItemDetailsItem()"
-                          ></p-button>
-                          <p-button
-                            [text]="true"
-                            icon="fa fa-trash"
-                            (click)="deletesalesItemDetails(i)"
-                            (keyup.enter)="deletesalesItemDetails(i)"
-                          ></p-button>
+                          <p-button [text]="true" icon="fa fa-plus" (click)="addsalesItemDetailsItem()"></p-button>
+                          <p-button [text]="true" icon="fa fa-trash" (click)="deletesalesItemDetails(i)"
+                            (keyup.enter)="deletesalesItemDetails(i)"></p-button>
                         </td>
                       </tr>
                     </tbody>
@@ -367,54 +277,31 @@
                     <h4 class="field-title">More Fields</h4>
                   </div>
                   <div class="invoice-faq">
-                    <div
-                      class="panel-group"
-                      id="accordion"
-                      role="tablist"
-                      aria-multiselectable="true"
-                    >
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                       <div class="faq-tab">
                         <div class="panel panel-default">
                           <div class="panel-heading" role="tab" id="headingTwo">
                             <p class="panel-title">
-                              <a
-                                class="collapsed"
-                                data-bs-toggle="collapse"
-                                data-bs-parent="#accordion"
-                                href="#collapseTwo"
-                                aria-expanded="false"
-                                aria-controls="collapseTwo"
-                              >
+                              <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion"
+                                href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 <i class="fas fa-plus-circle me-1"></i> Add
                                 Terms & Conditions
                               </a>
                             </p>
                           </div>
-                          <div
-                            id="collapseTwo"
-                            class="panel-collapse collapse"
-                            role="tabpanel"
-                            aria-labelledby="headingTwo"
-                            data-bs-parent="#accordion"
-                          >
+                          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                            aria-labelledby="headingTwo" data-bs-parent="#accordion">
                             <div class="panel-body">
-                              <textarea
-                                class="form-control"
-                                formControlName="salesTermsAndCondition"
-                              ></textarea>
-                              <div
-                                *ngIf="
+                              <textarea class="form-control" formControlName="salesTermsAndCondition"></textarea>
+                              <div *ngIf="
                                   addSalesForm
                                     .get('salesTermsAndCondition')
                                     ?.hasError('pattern') &&
                                   addSalesForm.get('salesTermsAndCondition')
                                     ?.touched
-                                "
-                              >
-                                <span class="login-danger"
-                                  >Input must be between 2 to 200
-                                  characters.</span
-                                >
+                                ">
+                                <span class="login-danger">Input must be between 2 to 200
+                                  characters.</span>
                               </div>
                             </div>
                           </div>
@@ -422,49 +309,27 @@
                       </div>
                       <div class="faq-tab">
                         <div class="panel panel-default">
-                          <div
-                            class="panel-heading"
-                            role="tab"
-                            id="headingThree"
-                          >
+                          <div class="panel-heading" role="tab" id="headingThree">
                             <p class="panel-title">
-                              <a
-                                class="collapsed"
-                                data-bs-toggle="collapse"
-                                data-bs-parent="#accordion"
-                                href="#collapseThree"
-                                aria-expanded="false"
-                                aria-controls="collapseThree"
-                              >
+                              <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion"
+                                href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 <i class="fas fa-plus-circle me-1"></i> Add
                                 Notes
                               </a>
                             </p>
                           </div>
-                          <div
-                            id="collapseThree"
-                            class="panel-collapse collapse"
-                            role="tabpanel"
-                            aria-labelledby="headingThree"
-                            data-bs-parent="#accordion"
-                          >
+                          <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                            aria-labelledby="headingThree" data-bs-parent="#accordion">
                             <div class="panel-body">
-                              <textarea
-                                class="form-control"
-                                formControlName="salesNotes"
-                              ></textarea>
-                              <div
-                                *ngIf="
+                              <textarea class="form-control" formControlName="salesNotes"></textarea>
+                              <div *ngIf="
                                   addSalesForm
                                     .get('salesNotes')
                                     ?.hasError('pattern') &&
                                   addSalesForm.get('salesNotes')?.touched
-                                "
-                              >
-                                <span class="login-danger"
-                                  >Input must be between 2 to 100
-                                  characters.</span
-                                >
+                                ">
+                                <span class="login-danger">Input must be between 2 to 100
+                                  characters.</span>
                               </div>
                             </div>
                           </div>
@@ -480,35 +345,20 @@
                       <div class="row p-3">
                         <div class="col-12 mt-3">
                           <div class="form-group local-forms">
-                            <label for="salesOrderStatus"
-                              >Order Status
-                              <span class="login-danger">*</span></label
-                            >
-                            <p-dropdown
-                              [options]="orderStatusList"
-                              styleClass=""
-                              appendTo="body"
-                              optionLabel="orderStatus"
-                              optionValue="orderStatus"
-                              placeholder="Select  Status"
-                              [style]="{ width: '100%' }"
-                              formControlName="salesOrderStatus"
-                              [filter]="true"
-                              filterBy="orderStatus"
-                              [showClear]="true"
-                            >
+                            <label for="salesOrderStatus">Order Status
+                              <span class="login-danger">*</span></label>
+                            <p-dropdown [options]="orderStatusList" styleClass="" appendTo="body"
+                              optionLabel="orderStatus" optionValue="orderStatus" placeholder="Select  Status"
+                              [style]="{ width: '100%' }" formControlName="salesOrderStatus" [filter]="true"
+                              filterBy="orderStatus" [showClear]="true">
                             </p-dropdown>
-                            <div
-                              *ngIf="
+                            <div *ngIf="
                                 addSalesForm
                                   .get('salesOrderStatus')
                                   ?.hasError('required') &&
                                 addSalesForm.get('salesOrderStatus')?.touched
-                              "
-                            >
-                              <span class="login-danger"
-                                >Field is required.</span
-                              >
+                              ">
+                              <span class="login-danger">Field is required.</span>
                             </div>
                           </div>
                         </div>
@@ -519,16 +369,10 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
                               </div>
-                              <input
-                                class="form-control"
-                                (change)="calculateTotalAmount()"
-                                formControlName="salesDiscount"
-                                type="number"
-                                placeholder=""
-                              />
+                              <input class="form-control" (change)="calculateTotalAmount()"
+                                formControlName="salesDiscount" type="number" placeholder="" />
                             </div>
-                            <div
-                              *ngIf="
+                            <div *ngIf="
                                 addSalesForm
                                   .get('salesDiscount')
                                   ?.hasError('min') &&
@@ -537,11 +381,8 @@
                                   .get('salesDiscount')
                                   ?.hasError('max') &&
                                 addSalesForm.get('salesDiscount')?.touched
-                              "
-                            >
-                              <span class="login-danger"
-                                >Input must be between 1 to 10000.</span
-                              >
+                              ">
+                              <span class="login-danger">Input must be between 1 to 10000.</span>
                             </div>
                           </div>
                         </div>
@@ -552,16 +393,10 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
                               </div>
-                              <input
-                                class="form-control"
-                                (change)="calculateTotalAmount()"
-                                formControlName="salesShipping"
-                                type="number"
-                                placeholder=""
-                              />
+                              <input class="form-control" (change)="calculateTotalAmount()"
+                                formControlName="salesShipping" type="number" placeholder="" />
                             </div>
-                            <div
-                              *ngIf="
+                            <div *ngIf="
                                 addSalesForm
                                   .get('salesShipping')
                                   ?.hasError('min') &&
@@ -570,11 +405,8 @@
                                   .get('salesShipping')
                                   ?.hasError('max') &&
                                 addSalesForm.get('salesShipping')?.touched
-                              "
-                            >
-                              <span class="login-danger"
-                                >Input must be between 1 to 100000.</span
-                              >
+                              ">
+                              <span class="login-danger">Input must be between 1 to 100000.</span>
                             </div>
                           </div>
                         </div>
@@ -585,16 +417,10 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
                               </div>
-                              <input
-                                class="form-control"
-                                (change)="calculateTotalAmount()"
-                                formControlName="otherCharges"
-                                type="number"
-                                placeholder=""
-                              />
+                              <input class="form-control" (change)="calculateTotalAmount()"
+                                formControlName="otherCharges" type="number" placeholder="" />
                             </div>
-                            <div
-                              *ngIf="
+                            <div *ngIf="
                                 addSalesForm
                                   .get('otherCharges')
                                   ?.hasError('min') &&
@@ -603,11 +429,8 @@
                                   .get('otherCharges')
                                   ?.hasError('max') &&
                                 addSalesForm.get('otherCharges')?.touched
-                              "
-                            >
-                              <span class="login-danger"
-                                >Input must be between 1 to 100000.</span
-                              >
+                              ">
+                              <span class="login-danger">Input must be between 1 to 100000.</span>
                             </div>
                           </div>
                         </div>
@@ -616,19 +439,17 @@
                       <div class="invoice-total-inner">
                         <p>
                           Gross Total
-                          <span
-                            *ngIf="
+                          <span *ngIf="
                               addSalesForm.get('salesGrossTotal')?.value != 0
-                            "
-                          >
+                            ">
                             ₹
                             {{
-                              addSalesForm.get("salesGrossTotal").value
-                                | number : "1.2-2"
+                            addSalesForm.get("salesGrossTotal").value
+                            | number : "1.2-2"
                             }}
                           </span>
                         </p>
-                        <p *ngIf="addSalesForm.get('salesOrderTax').value > 0">
+                        <!-- <p *ngIf="addSalesForm.get('salesOrderTax').value > 0">
                           Applied Tax Amount
                           <span
                             *ngIf="addSalesForm.get('salesOrderTax')?.value > 0"
@@ -639,40 +460,34 @@
                                 | number : "1.2-2"
                             }}
                           </span>
-                        </p>
+                        </p> -->
                         <p *ngIf="addSalesForm.get('salesDiscount').value">
                           Discount
-                          <span
-                            *ngIf="addSalesForm.get('salesDiscount')?.value > 0"
-                          >
+                          <span *ngIf="addSalesForm.get('salesDiscount')?.value > 0">
                             ₹
                             {{
-                              addSalesForm.get("salesDiscount").value
-                                | number : "1.2-2"
+                            addSalesForm.get("salesDiscount").value
+                            | number : "1.2-2"
                             }}
                           </span>
                         </p>
                         <p *ngIf="addSalesForm.get('salesShipping').value">
                           Shipping
-                          <span
-                            *ngIf="addSalesForm.get('salesShipping')?.value > 0"
-                          >
+                          <span *ngIf="addSalesForm.get('salesShipping')?.value > 0">
                             ₹
                             {{
-                              addSalesForm.get("salesShipping").value
-                                | number : "1.2-2"
+                            addSalesForm.get("salesShipping").value
+                            | number : "1.2-2"
                             }}
                           </span>
                         </p>
                         <p *ngIf="addSalesForm.get('otherCharges').value">
                           Other Charges
-                          <span
-                            *ngIf="addSalesForm.get('otherCharges')?.value > 0"
-                          >
+                          <span *ngIf="addSalesForm.get('otherCharges')?.value > 0">
                             ₹
                             {{
-                              addSalesForm.get("otherCharges").value
-                                | number : "1.2-2"
+                            addSalesForm.get("otherCharges").value
+                            | number : "1.2-2"
                             }}
                           </span>
                         </p>
@@ -681,15 +496,13 @@
                       <div class="invoice-total-footer">
                         <h4>
                           Total Amount
-                          <span
-                            *ngIf="
+                          <span *ngIf="
                               addSalesForm.get('salesTotalAmount')?.value != 0
-                            "
-                          >
+                            ">
                             ₹
                             {{
-                              addSalesForm.get("salesTotalAmount").value
-                                | number : "1.2-2"
+                            addSalesForm.get("salesTotalAmount").value
+                            | number : "1.2-2"
                             }}
                           </span>
                         </h4>
@@ -698,11 +511,7 @@
                   </div>
                   <div class="upload-sign">
                     <div class="form-group float-end mb-0">
-                      <button
-                        class="btn btn-primary"
-                        type="submit"
-                        [disabled]="!addSalesForm.valid"
-                      >
+                      <button class="btn btn-primary" type="submit" [disabled]="!addSalesForm.valid">
                         Save Sales
                       </button>
                     </div>
@@ -710,43 +519,23 @@
                 </div>
               </div>
 
-              <p-dialog
-                header="Edit Profile"
-                [modal]="true"
-                [(visible)]="addressVisible"
-                [style]="{ width: '35rem' }"
-              >
+              <p-dialog header="Edit Profile" [modal]="true" [(visible)]="addressVisible" [style]="{ width: '35rem' }">
 
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group local-forms mt-2">
-                      <label for="customer"
-                        >Select billing address<span class="login-danger"
-                          >*</span
-                        ></label
-                      >
-                      <p-dropdown
-                        [style]="{ width: '100%' }"
-                        placeholder="Select billing address"
-                        [options]="dropAddress"
-                        formControlName="billingAddress"
-                        optionLabel="name"
-                        optionValue="_id"
-                        display="chip"
-                        [filter]="true"
-                        appendTo="body"
-                        filterBy="name"
-                        (onChange)="editAddressWithDrop()"
-                      >
+                      <label for="customer">Select billing address<span class="login-danger">*</span></label>
+                      <p-dropdown [style]="{ width: '100%' }" placeholder="Select billing address"
+                        [options]="dropAddress" formControlName="billingAddress" optionLabel="name" optionValue="_id"
+                        display="chip" [filter]="true" appendTo="body" filterBy="name"
+                        (onChange)="editAddressWithDrop()">
                       </p-dropdown>
-                      <div
-                        *ngIf="
+                      <div *ngIf="
                           addSalesForm
                             .get('editedAddress')
                             ?.hasError('required') &&
                           addSalesForm.get('editedAddress')?.touched
-                        "
-                      >
+                        ">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>

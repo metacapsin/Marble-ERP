@@ -41,4 +41,7 @@ export class AuthService {
   getUserProfile() {
     return this.http.get(environment.apiUrl + "/Users/getUserProfile ")
   }
+  changePassword(data: any) {
+    return this.http.post(environment.apiUrl + "/changePassword ", data)
+  }
 }

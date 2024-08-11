@@ -27,8 +27,6 @@ export class PaymentInAddComponent {
   addPaymentInForm!: FormGroup;
   customerList = [];
   originalCustomerData = [];
-
-  selectedCustomer: any;
   salesDataById = [];
   paymentModeList = [
     {
@@ -67,6 +65,7 @@ export class PaymentInAddComponent {
       this.sales.push(
         this.fb.group({
           _id: [sale._id],
+          salesInvoiceNumber: [sale.salesInvoiceNumber],
           amount: [
             "",
             [
