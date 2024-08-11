@@ -39,9 +39,17 @@
       <div class="row card-body d-flex justify-content-between p0">
         <div class="col-lg-4 col-md-4 h-2">
           <div class="form-group local-forms">
-            <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Filter By"
-              [style]="{ width: '100%' }" [filter]="true" filterBy="name" [(ngModel)]="data"
-              (onChange)="onSearchByChange($event)">
+            <p-dropdown
+              [options]="searchByData"
+              styleClass=""
+              appendTo="body"
+              placeholder="Filter By"
+              [style]="{ width: '100%' }"
+              [filter]="true"
+              filterBy="name"
+              [(ngModel)]="data"
+              (onChange)="onSearchByChange($event)"
+            >
             </p-dropdown>
           </div>
         </div>
@@ -49,26 +57,39 @@
         <div class="col-lg-4 col-md-4 h-2">
           <div class="form-group local-forms">
             <!-- <label for="warehouseDetails">Date </label> -->
-            <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
-              [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="getDateOnChange()"
-              dateFormat="dd/mm/yy" />
+            <p-calendar
+              [(ngModel)]="rangeDates"
+              selectionMode="range"
+              [readonlyInput]="true"
+              [style]="{ width: '100%' }"
+              placeholder="Start Date - End Date"
+              (ngModelChange)="getDateOnChange()"
+              dateFormat="dd/mm/yy"
+            />
           </div>
         </div>
       </div>
     </div>
     <div class="row d-flex justify-content-between">
-      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 ">
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
         <div class="dash-widget">
           <div class="dash-boxs comman-flex-center">
             <!-- <img src="assets/img/icons/calendar.svg" alt=""> -->
-            <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f"></i>
+            <i
+              class="fa-solid fa-indian-rupee-sign"
+              style="font-size: 20px; color: #97704f"
+            ></i>
             <!-- fa-dollar -->
           </div>
           <div class="dash-content dash-count">
             <h4 class="h4_size">Sales</h4>
             <span class="font_size">
-              <span class="me-2">₹</span><span class="counter-up" [options]="{ duration: 2 }"
-                [countUp]="financialSummaryData?.results.sales">
+              <span class="me-2">₹</span
+              ><span
+                class="counter-up"
+                [options]="{ duration: 2 }"
+                [countUp]="financialSummaryData?.results.sales"
+              >
                 {{ financialSummaryData?.results.sales | indianCurrency }}
               </span>
               <!-- <div class="due-amount">
@@ -84,76 +105,167 @@
 
               </div> -->
             </span>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
-                financialSummaryData?.results.salesPaidAmount | indianCurrency }}</span> Paid</p>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
-                financialSummaryData?.results.salesDueAmount | indianCurrency }}</span> Due</p>
-
+            <p>
+              <span class="passive-view"
+                ><i class="feather icon-arrow-up-right me-1"></i
+                >{{
+                  financialSummaryData?.results.salesPaidAmount | indianCurrency
+                }}</span
+              >
+              Paid
+            </p>
+            <p>
+              <span class="passive-view"
+                ><i class="feather icon-arrow-up-right me-1"></i
+                >{{
+                  financialSummaryData?.results.salesDueAmount | indianCurrency
+                }}</span
+              >
+              Due
+            </p>
           </div>
         </div>
       </div>
-      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 ">
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
         <div class="dash-widget">
           <div class="dash-boxs comman-flex-center">
-            <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f"></i>
+            <i
+              class="fa-solid fa-indian-rupee-sign"
+              style="font-size: 20px; color: #97704f"
+            ></i>
           </div>
           <div class="dash-content dash-count">
             <h4 class="h4_size">Purchase</h4>
             <span class="font_size">
-              <span class="me-2">₹</span><span class="counter-up" [options]="{ duration: 2 }"
-                [countUp]="financialSummaryData?.results.purchases">
+              <span class="me-2">₹</span
+              ><span
+                class="counter-up"
+                [options]="{ duration: 2 }"
+                [countUp]="financialSummaryData?.results.purchases"
+              >
                 {{ financialSummaryData?.results.purchases | indianCurrency }}
               </span>
             </span>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
-                financialSummaryData?.results.purchasePaidAmount | indianCurrency }}</span> Paid</p>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
-                financialSummaryData?.results.purchaseDueAmount | indianCurrency }}</span> Due</p>
-
+            <p>
+              <span class="passive-view"
+                ><i class="feather icon-arrow-up-right me-1"></i
+                >{{
+                  financialSummaryData?.results.purchasePaidAmount
+                    | indianCurrency
+                }}</span
+              >
+              Paid
+            </p>
+            <p>
+              <span class="passive-view"
+                ><i class="feather icon-arrow-up-right me-1"></i
+                >{{
+                  financialSummaryData?.results.purchaseDueAmount
+                    | indianCurrency
+                }}</span
+              >
+              Due
+            </p>
           </div>
         </div>
       </div>
-      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 ">
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
         <div class="dash-widget">
           <div class="dash-boxs comman-flex-center">
-            <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f"></i>
+            <i
+              class="fa-solid fa-indian-rupee-sign"
+              style="font-size: 20px; color: #97704f"
+            ></i>
           </div>
           <div class="dash-content dash-count">
             <h4 class="h4_size">Payment In</h4>
             <span class="font_size">
-              <span class="me-2">₹</span><span class="counter-up" [options]="{ duration: 2 }"
-                [countUp]="(financialSummaryData?.results.totalPaymentInPaid + financialSummaryData?.results.totalPaymentInDue)">
-                {{ (financialSummaryData?.results.totalPaymentInPaid + financialSummaryData?.results.totalPaymentInDue)
-                | indianCurrency }}
+              <span class="me-2">₹</span
+              ><span
+                class="counter-up"
+                [options]="{ duration: 2 }"
+                [countUp]="
+                  financialSummaryData?.results.totalPaymentInPaid +
+                  financialSummaryData?.results.totalPaymentInDue
+                "
+              >
+                {{
+                  financialSummaryData?.results.totalPaymentInPaid +
+                    financialSummaryData?.results.totalPaymentInDue
+                    | indianCurrency
+                }}
               </span>
             </span>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
-                financialSummaryData?.results.totalPaymentInPaid | indianCurrency }}</span> Paid</p>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
-                financialSummaryData?.results.totalPaymentInDue | indianCurrency }}</span> Due</p>
-
+            <p>
+              <span class="passive-view"
+                ><i class="feather icon-arrow-up-right me-1"></i
+                >{{
+                  financialSummaryData?.results.totalPaymentInPaid
+                    | indianCurrency
+                }}</span
+              >
+              Paid
+            </p>
+            <p>
+              <span class="passive-view"
+                ><i class="feather icon-arrow-up-right me-1"></i
+                >{{
+                  financialSummaryData?.results.totalPaymentInDue
+                    | indianCurrency
+                }}</span
+              >
+              Due
+            </p>
           </div>
         </div>
       </div>
-      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 ">
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
         <div class="dash-widget">
           <div class="dash-boxs comman-flex-center">
-            <i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px; color: #97704f"></i>
+            <i
+              class="fa-solid fa-indian-rupee-sign"
+              style="font-size: 20px; color: #97704f"
+            ></i>
           </div>
           <div class="dash-content dash-count">
             <h4 class="h4_size">Payment Out</h4>
             <span class="font_size">
-              <span class="me-2">₹</span><span class="counter-up" [options]="{ duration: 2 }"
-                [countUp]="(financialSummaryData?.results.totalPaymentOutPaid + financialSummaryData?.results.totalPaymentOutDue)">
-                {{ (financialSummaryData?.results.totalPaymentOutPaid +
-                financialSummaryData?.results.totalPaymentOutDue) | indianCurrency }}
+              <span class="me-2">₹</span
+              ><span
+                class="counter-up"
+                [options]="{ duration: 2 }"
+                [countUp]="
+                  financialSummaryData?.results.totalPaymentOutPaid +
+                  financialSummaryData?.results.totalPaymentOutDue
+                "
+              >
+                {{
+                  financialSummaryData?.results.totalPaymentOutPaid +
+                    financialSummaryData?.results.totalPaymentOutDue
+                    | indianCurrency
+                }}
               </span>
             </span>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
-                financialSummaryData?.results.totalPaymentOutPaid | indianCurrency }}</span> Paid</p>
-            <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>{{
-                financialSummaryData?.results.totalPaymentOutDue | indianCurrency }}</span> Due</p>
-
+            <p>
+              <span class="passive-view"
+                ><i class="feather icon-arrow-up-right me-1"></i
+                >{{
+                  financialSummaryData?.results.totalPaymentOutPaid
+                    | indianCurrency
+                }}</span
+              >
+              Paid
+            </p>
+            <p>
+              <span class="passive-view"
+                ><i class="feather icon-arrow-up-right me-1"></i
+                >{{
+                  financialSummaryData?.results.totalPaymentOutDue
+                    | indianCurrency
+                }}</span
+              >
+              Due
+            </p>
           </div>
         </div>
       </div>
@@ -186,7 +298,6 @@
       <!-- </div> -->
       <!-- </div> -->
       <!-- </div> -->
-
     </div>
 
     <div class="row">
@@ -200,8 +311,12 @@
               </h5>
             </div>
           </div>
-          <p-chart type="bar" [data]="dataForFirstChat" [options]="optionsForFirstChat"
-            style="padding: 0px 10px 5px 10px" />
+          <p-chart
+            type="bar"
+            [data]="dataForFirstChat"
+            [options]="optionsForFirstChat"
+            style="padding: 0px 10px 5px 10px"
+          />
         </div>
       </div>
       <div class="col-md-6">
@@ -209,13 +324,20 @@
           <div class="px-3 pt-3 d-flex justify-content-between">
             <h3>Purchase</h3>
             <div>
-              <h5 (click)="showDialogForChart('viewPurchase')" class="breadcrumb">
+              <h5
+                (click)="showDialogForChart('viewPurchase')"
+                class="breadcrumb"
+              >
                 View All
               </h5>
             </div>
           </div>
-          <p-chart type="bar" [data]="dataForSecondChat" [options]="optionsForFirstChat"
-            style="padding: 0px 10px 5px 10px" />
+          <p-chart
+            type="bar"
+            [data]="dataForSecondChat"
+            [options]="optionsForFirstChat"
+            style="padding: 0px 10px 5px 10px"
+          />
         </div>
       </div>
     </div>
@@ -223,44 +345,80 @@
     <div class="row">
       <div class="col-md-6">
         <div class="card p-2 W-50 hidden_over">
-          <div class="pLeftpRight pt-2 d-flex justify-content-between align-items-center">
+          <div
+            class="pLeftpRight pt-2 d-flex justify-content-between align-items-center"
+          >
             <h3>Stock Category</h3>
             <div class="">
-              <p-selectButton [options]="stateCategory" [(ngModel)]="valueCategory" optionLabel="label"
-                optionValue="value" />
+              <p-selectButton
+                [options]="stateCategory"
+                [(ngModel)]="valueCategory"
+                optionLabel="label"
+                optionValue="value"
+              />
             </div>
           </div>
-          <div class="text-center m-auto" *ngIf="!orgCategorySlabs || orgCategorySlabs.length === 0">
-            <span style="color: #97704f; font-size: 15px">Data is not available.</span>
+          <div
+            class="text-center m-auto"
+            *ngIf="!orgCategorySlabs || orgCategorySlabs.length === 0"
+          >
+            <span style="color: #97704f; font-size: 15px"
+              >Data is not available.</span
+            >
           </div>
-          <div *ngIf="
+          <div
+            *ngIf="
               valueCategory == 'graph' &&
               orgCategorySlabs &&
               orgCategorySlabs.length > 0
-            " class="chart-container">
-            <p-chart type="doughnut" [data]="piDataForFirstChat" [options]="optionsForSecondChat"
-              style="width: 375px; height: 375px">
+            "
+            class="chart-container"
+          >
+            <p-chart
+              type="doughnut"
+              [data]="piDataForFirstChat"
+              [options]="optionsForSecondChat"
+              style="width: 375px; height: 375px"
+            >
             </p-chart>
           </div>
-          <div *ngIf="
+          <div
+            *ngIf="
               valueCategory == 'table' &&
               orgCategorySlabs &&
               orgCategorySlabs.length > 0
-            " class="mt-2">
-            <p-table [value]="orgCategorySlabs" [paginator]="true" [rows]="5" styleClass="p-datatable-striped"
-              selectionMode="multiple">
+            "
+            class="mt-2"
+          >
+            <p-table
+              [value]="orgCategorySlabs"
+              [paginator]="true"
+              [rows]="5"
+              styleClass="p-datatable-striped"
+              selectionMode="multiple"
+            >
               <ng-template pTemplate="header">
                 <tr>
                   <th width="50%" pSortableColumn="name">
                     Name <p-sortIcon field="name"></p-sortIcon>
-                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="name"
-                      display="menu"></p-columnFilter>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="name"
+                      display="menu"
+                    ></p-columnFilter>
                   </th>
                   <th width="50%" pSortableColumn="totalSQFT">
                     Total Quantity
                     <p-sortIcon field="totalSQFT"></p-sortIcon>
-                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalSQFT"
-                      display="menu"></p-columnFilter>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="totalSQFT"
+                      display="menu"
+                    ></p-columnFilter>
                   </th>
                 </tr>
               </ng-template>
@@ -269,9 +427,7 @@
                   <td>
                     {{ Product.name }}
                   </td>
-                  <td>
-                    {{ Product.totalSQFT }} Sq. Feet
-                  </td>
+                  <td>{{ Product.totalSQFT }} Sq. Feet</td>
                 </tr>
               </ng-template>
             </p-table>
@@ -281,46 +437,98 @@
 
       <div class="col-md-6">
         <div class="card p-2 W-50 hidden_over">
-          <div class="pLeftpRight pt-2 d-flex justify-content-between align-items-center">
+          <div class="pLeftpRight pt-2 d-flex justify-content-between align-items-center"
+          >
             <h3>Stock Sub Category</h3>
+            <div class="col-4">
+              <p-dropdown
+                [options]="orgCategorySlabs"
+                styleClass=""
+                appendTo="body"
+                optionLabel="name"
+                placeholder="Select Category"
+                formControlName="categoryForDrpdown"
+                [style]="{ width: '100%' }"
+                [filter]="true"
+                filterBy="name"
+                [showClear]="true"
+                (onChange)="categoryForDrpdownChange($event.value)"
+                >
+              </p-dropdown>
+            </div>
             <div class="">
-              <p-selectButton [options]="stateSubCategory" [(ngModel)]="valueSubCategory" optionLabel="label"
-                optionValue="value" />
+              <p-selectButton
+                [options]="stateSubCategory"
+                [(ngModel)]="valueSubCategory"
+                optionLabel="label"
+                optionValue="value"
+              />
             </div>
           </div>
-          <div class="text-center m-auto" *ngIf="!orgSubCategorySlabs || orgSubCategorySlabs.length === 0">
-            <span style="color: #97704f; font-size: 15px">Data is not available.</span>
+          <div
+            class="text-center m-auto"
+            *ngIf="!orgSubCategorySlabs || orgSubCategorySlabs.length === 0"
+          >
+            <span style="color: #97704f; font-size: 15px"
+              >Data is not available.</span
+            >
           </div>
-          <div *ngIf="
+          <div
+            *ngIf="
               valueSubCategory == 'graph' &&
               orgSubCategorySlabs &&
               orgSubCategorySlabs.length > 0
-            " class="chart-container">
-            <p-chart type="doughnut" [data]="piDataForSecondChat" [options]="optionsForSecondChat"
-              style="width: 375px; height: 375px">
+            "
+            class="chart-container"
+          >
+            <p-chart
+              type="doughnut"
+              [data]="piDataForSecondChat"
+              [options]="optionsForSecondChat"
+              style="width: 375px; height: 375px"
+            >
             </p-chart>
           </div>
-          <div *ngIf="
+          <div
+            *ngIf="
               valueSubCategory == 'table' &&
-              orgSubCategorySlabs &&
-              orgSubCategorySlabs.length > 0
-            " class="mt-2">
-            <p-table [value]="orgSubCategorySlabs" [paginator]="true" [rows]="5" appendTo="body"
-              styleClass="p-datatable-striped" selectionMode="multiple">
+              subCategoryslabsData &&
+              subCategoryslabsData.length > 0
+            "
+            class="mt-2"
+          >
+            <p-table
+              [value]="subCategoryslabsData"
+              [paginator]="true"
+              [rows]="5"
+              appendTo="body"
+              styleClass="p-datatable-striped"
+              selectionMode="multiple"
+            >
               <ng-template pTemplate="header">
                 <tr>
                   <th width="50%" pSortableColumn="name">
                     Name
 
                     <p-sortIcon field="name"></p-sortIcon>
-                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="name"
-                      display="menu"></p-columnFilter>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="name"
+                      display="menu"
+                    ></p-columnFilter>
                   </th>
                   <th width="50%" pSortableColumn="totalSQFT">
                     Total Quantity
                     <p-sortIcon field="totalSQFT"></p-sortIcon>
-                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalSQFT"
-                      display="menu"></p-columnFilter>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="totalSQFT"
+                      display="menu"
+                    ></p-columnFilter>
                   </th>
                 </tr>
               </ng-template>
@@ -329,9 +537,7 @@
                   <td>
                     {{ Product.name }}
                   </td>
-                  <td>
-                    {{ Product.totalSQFT }} Sq. Feet
-                  </td>
+                  <td>{{ Product.totalSQFT | number : "1.2-2"  }} Sq. Feet</td>
                 </tr>
               </ng-template>
             </p-table>
@@ -353,34 +559,71 @@
               </h5>
             </div>
           </div>
-          <div class="text-center m-auto" *ngIf="!stockAlertData || stockAlertData.length === 0">
-            <span style="color: #97704f; font-size: 15px">Data is not available.</span>
+          <div
+            class="text-center m-auto"
+            *ngIf="!stockAlertData || stockAlertData.length === 0"
+          >
+            <span style="color: #97704f; font-size: 15px"
+              >Data is not available.</span
+            >
           </div>
-          <p-table *ngIf="stockAlertData && stockAlertData.length > 0" [value]="stockAlertData"
-            styleClass="p-datatable-striped" selectionMode="multiple" [paginator]="true" [rows]="5">
+          <p-table
+            *ngIf="stockAlertData && stockAlertData.length > 0"
+            [value]="stockAlertData"
+            styleClass="p-datatable-striped"
+            selectionMode="multiple"
+            [paginator]="true"
+            [rows]="5"
+          >
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="slabDetails.slabName">
                   Slab Name
                   <p-sortIcon field="slabDetails.slabName"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="slabDetails.slabName"
-                    display="menu"></p-columnFilter>
+                  <p-columnFilter
+                    matchMode="contains"
+                    hideOnClear="true"
+                    type="text"
+                    field="slabDetails.slabName"
+                    display="menu"
+                  ></p-columnFilter>
                 </th>
-                <th pSortableColumn="slabDetails.slabNo">
+                <!-- <th pSortableColumn="slabDetails.slabNo">
                   Slab No <p-sortIcon field="slabDetails.slabNo"></p-sortIcon>
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="slabDetails.slabNo"
                     display="menu"></p-columnFilter>
-                </th>
+                </th> -->
                 <th pSortableColumn="totalSQFT">
                   Stock Left
                   <p-sortIcon field="totalSQFT"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalSQFT"
-                    display="menu"></p-columnFilter>
+                  <p-columnFilter
+                    matchMode="contains"
+                    hideOnClear="true"
+                    type="text"
+                    field="totalSQFT"
+                    display="menu"
+                  ></p-columnFilter>
                 </th>
                 <th pSortableColumn="percentageSold">
                   Sold <p-sortIcon field="percentageSold"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="percentageSold"
-                    display="menu"></p-columnFilter>
+                  <p-columnFilter
+                    matchMode="contains"
+                    hideOnClear="true"
+                    type="text"
+                    field="percentageSold"
+                    display="menu"
+                  ></p-columnFilter>
+                </th>
+                <th pSortableColumn="warehouseDetails.name">
+                  Warehouse
+                  <p-sortIcon field="warehouseDetails.name"></p-sortIcon>
+                  <p-columnFilter
+                    matchMode="contains"
+                    hideOnClear="true"
+                    type="text"
+                    field="warehouseDetails.name"
+                    display="menu"
+                  ></p-columnFilter>
                 </th>
                 <th pSortableColumn="">Alert Type</th>
               </tr>
@@ -390,14 +633,13 @@
                 <td>
                   {{ Product.slabDetails.slabName }}
                 </td>
-                <td>
+                <!-- <td>
                   {{ Product.slabDetails.slabNo }}
-                </td>
+                </td> -->
+                <td>{{ Product.totalSQFT}} Sq. Feet</td>
+                <td>{{ Product.percentageSold }} %</td>
                 <td>
-                  {{ Product.totalSQFT }} Sq. Feet
-                </td>
-                <td>
-                  {{ Product.percentageSold }} %
+                  {{ Product.warehouseDetails.name }}
                 </td>
                 <td *ngIf="Product.alertType == 'high'">
                   <p-tag severity="danger" value="High"></p-tag>
@@ -420,38 +662,68 @@
               </h5>
             </div>
           </div>
-          <div class="text-center m-auto" *ngIf="!allSlabsDaTa || allSlabsDaTa.length === 0">
-            <span style="color: #97704f; font-size: 15px">Data is not available.</span>
+          <div
+            class="text-center m-auto"
+            *ngIf="!allSlabsDaTa || allSlabsDaTa.length === 0"
+          >
+            <span style="color: #97704f; font-size: 15px"
+              >Data is not available.</span
+            >
           </div>
-          <p-table *ngIf="allSlabsDaTa && allSlabsDaTa.length > 0" [value]="allSlabsDaTa"
-            styleClass="p-datatable-striped" [scrollable]="true" scrollHeight="500px" selectionMode="multiple"
-            [paginator]="true" [rows]="5">
+          <p-table
+            *ngIf="allSlabsDaTa && allSlabsDaTa.length > 0"
+            [value]="allSlabsDaTa"
+            styleClass="p-datatable-striped"
+            [scrollable]="true"
+            scrollHeight="500px"
+            selectionMode="multiple"
+            [paginator]="true"
+            [rows]="5"
+          >
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="customerName">
                   Customer Name <p-sortIcon field="customerName"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="customerName"
-                    display="menu"></p-columnFilter>
+                  <p-columnFilter
+                    matchMode="contains"
+                    hideOnClear="true"
+                    type="text"
+                    field="customerName"
+                    display="menu"
+                  ></p-columnFilter>
                 </th>
 
                 <th pSortableColumn="totalSalesQuantity">
                   Sales Quantity
                   <p-sortIcon field="totalSalesQuantity"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalSalesQuantity"
-                    display="menu"></p-columnFilter>
+                  <p-columnFilter
+                    matchMode="contains"
+                    hideOnClear="true"
+                    type="text"
+                    field="totalSalesQuantity"
+                    display="menu"
+                  ></p-columnFilter>
                 </th>
                 <th pSortableColumn="totalSalesAmount">
                   Sales Amount
                   <p-sortIcon field="totalSalesAmount"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalSalesAmount"
-                    display="menu"></p-columnFilter>
+                  <p-columnFilter
+                    matchMode="contains"
+                    hideOnClear="true"
+                    type="text"
+                    field="totalSalesAmount"
+                    display="menu"
+                  ></p-columnFilter>
                 </th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-Product>
               <tr>
                 <td>
-                  <span class="spanLink" (click)="oneCoustomer(Product.customerId)">{{ Product.customerName }}
+                  <span
+                    class="spanLink"
+                    (click)="oneCoustomer(Product.customerId)"
+                    >{{ Product.customerName }}
                   </span>
                 </td>
                 <td>{{ Product.totalSalesQuantity }} Sq. Feet</td>
@@ -469,23 +741,28 @@
           <div class="col-12">
             <div class="dash-widget">
               <div class="dash-boxs comman-flex-center">
-                <i class="fa fa-cubes" style="font-size: 20px; color: #97704f"></i>
+                <i
+                  class="fa fa-cubes"
+                  style="font-size: 20px; color: #97704f"
+                ></i>
               </div>
               <div class="dash-content dash-count">
                 <h4>Slab Stock</h4>
                 <div>
                   <p>
                     <span class="font_size">{{
-                      StockWarehouseWise?.totalSlabStock
-                      | number : "1.2-2"
-                      }}</span>
+                      StockWarehouseWise?.totalSlabStock | number : "1.2-2"
+                    }}</span>
                     Sq. Feet
                     <span class="font_size ms-2">{{
                       StockWarehouseWise?.totalSlabs
-                      }}</span>
+                    }}</span>
                     Slabs
                   </p>
-                  <div class="d-flex justify-content-end gap-2 mt-1" *ngFor="let sub of StockWarehouseWise?.slab">
+                  <div
+                    class="d-flex justify-content-end gap-2 mt-1"
+                    *ngFor="let sub of StockWarehouseWise?.slab"
+                  >
                     <!-- <p>
                       <span class="passive-view me-2">{{
                         sub.warehouseName
@@ -495,7 +772,9 @@
                     <div class="">
                       <div class="d-flex justify-content-end">
                         <p>
-                          <span class="passive-view me-2">{{ sub.warehouseName }}:</span>
+                          <span class="passive-view me-2"
+                            >{{ sub.warehouseName }}:</span
+                          >
                         </p>
                         <p>
                           {{ sub.totalSlabStock | number : "1.2-2" }} Sq. Feet
@@ -511,7 +790,10 @@
           <div class="col-12">
             <div class="dash-widget">
               <div class="dash-boxs comman-flex-center">
-                <i class="fa fa-cubes" style="font-size: 20px; color: #97704f"></i>
+                <i
+                  class="fa fa-cubes"
+                  style="font-size: 20px; color: #97704f"
+                ></i>
               </div>
               <div class="dash-content dash-count">
                 <h4>Block Stock</h4>
@@ -520,21 +802,26 @@
                     <p>
                       <span class="font_size">{{
                         StockWarehouseWise?.totalBlockStock | number : "1.2-2"
-                        }}</span>
+                      }}</span>
                       Ton
                     </p>
                     <p>
                       <span class="font_size ms-2">{{
                         StockWarehouseWise?.totalBlock
-                        }}</span>
+                      }}</span>
                       Block
                     </p>
                   </div>
-                  <div class="mt-1 d-flexCu justify-content-end" *ngFor="let sub of StockWarehouseWise?.lot">
+                  <div
+                    class="mt-1 d-flexCu justify-content-end"
+                    *ngFor="let sub of StockWarehouseWise?.lot"
+                  >
                     <div class="">
                       <div class="d-flex justify-content-end">
                         <p>
-                          <span class="passive-view">{{ sub.warehouseName + ':' }}</span>
+                          <span class="passive-view">{{
+                            sub.warehouseName + ":"
+                          }}</span>
                         </p>
                         <p>
                           {{ sub.totalWeightInTon | number : "1.2-2" }} Ton,
@@ -554,36 +841,67 @@
           <div class="pLeftpRight py-2 d-flex justify-content-between">
             <h3>Customer Credit Alerts</h3>
           </div>
-          <div class="text-center m-auto" *ngIf="!products || products.length === 0">
-            <span style="color: #97704f; font-size: 15px">Data is not available.</span>
+          <div
+            class="text-center m-auto"
+            *ngIf="!products || products.length === 0"
+          >
+            <span style="color: #97704f; font-size: 15px"
+              >Data is not available.</span
+            >
           </div>
-          <p-table *ngIf="products && products.length > 0" [value]="products" dataKey="id"
-            [tableStyle]="{ 'min-width': '25rem' }" [scrollable]="true" scrollHeight="500px"
-            styleClass="p-datatable-striped" selectionMode="multiple" [paginator]="true" [rows]="5">
+          <p-table
+            *ngIf="products && products.length > 0"
+            [value]="products"
+            dataKey="id"
+            [tableStyle]="{ 'min-width': '25rem' }"
+            [scrollable]="true"
+            scrollHeight="500px"
+            styleClass="p-datatable-striped"
+            selectionMode="multiple"
+            [paginator]="true"
+            [rows]="5"
+          >
             <ng-template pTemplate="header">
               <tr>
                 <th style="width: 5rem"></th>
                 <th pSortableColumn="name">
                   Name <p-sortIcon field="name"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="name"
-                    display="menu"></p-columnFilter>
+                  <p-columnFilter
+                    matchMode="contains"
+                    hideOnClear="true"
+                    type="text"
+                    field="name"
+                    display="menu"
+                  ></p-columnFilter>
                 </th>
                 <th pSortableColumn="phoneNo">
                   Phone Number <p-sortIcon field="phoneNo"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="phoneNo"
-                    display="menu"></p-columnFilter>
+                  <p-columnFilter
+                    matchMode="contains"
+                    hideOnClear="true"
+                    type="text"
+                    field="phoneNo"
+                    display="menu"
+                  ></p-columnFilter>
                 </th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-product>
               <tr>
                 <td>
-                  <p-button type="button" pRipple (onClick)="toggleRow(product)" [text]="true" [rounded]="true"
-                    [plain]="true" [icon]="
+                  <p-button
+                    type="button"
+                    pRipple
+                    (onClick)="toggleRow(product)"
+                    [text]="true"
+                    [rounded]="true"
+                    [plain]="true"
+                    [icon]="
                       product.expanded
                         ? 'fa-solid fa-chevron-down'
                         : 'fa-solid fa-angle-right'
-                    " />
+                    "
+                  />
                 </td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.phoneNo }}</td>
@@ -591,104 +909,153 @@
               <tr *ngIf="product.expanded">
                 <td colspan="3">
                   <div class="p-3">
-                    <p-table [value]="product.creditAlerts" dataKey="saleId" styleClass="p-datatable-striped"
-                      selectionMode="multiple">
+                    <p-table
+                      [value]="product.creditAlerts"
+                      dataKey="saleId"
+                      styleClass="p-datatable-striped"
+                      selectionMode="multiple"
+                    >
                       <ng-template pTemplate="header">
-              <tr>
-                <th pSortableColumn="invoiceNo">
-                  Invoice No
-                  <p-sortIcon field="invoiceNo" /><p-columnFilter type="text" field="invoiceNo" display="menu"
-                    matchMode="contains" hideOnClear="true"></p-columnFilter>
-                </th>
-                <th pSortableColumn="salesDate">
-                  Sales Date
-                  <p-sortIcon field="salesDate" /><p-columnFilter type="text" field="salesDate" matchMode="contains"
-                    hideOnClear="true" display="menu"></p-columnFilter>
-                </th>
-                <th pSortableColumn="dueAmount">
-                  Due Amount
-                  <p-sortIcon field="dueAmount" /><p-columnFilter type="text" field="dueAmount" display="menu"
-                    matchMode="contains" hideOnClear="true"></p-columnFilter>
-                </th>
-                <th pSortableColumn="salesTotalAmount">
-                  Total Amount
-                  <p-sortIcon field="salesTotalAmount" /><p-columnFilter matchMode="contains" hideOnClear="true"
-                    type="text" field="salesTotalAmount" display="menu"></p-columnFilter>
-                </th>
-                <th pSortableColumn="alertType">
-                  Alert Type
-                  <p-sortIcon field="alertType" /><p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                    field="alertType" display="menu"></p-columnFilter>
-                </th>
-                <th pSortableColumn="daysLeft">
-                  Days Left
-                  <p-sortIcon field="daysLeft" /><p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                    field="daysLeft" display="menu"></p-columnFilter>
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-alert>
-              <tr>
-                <td>{{ alert.invoiceNo }}</td>
-                <td>{{ alert.salesDate | date : "dd-MMM-yyyy" }}</td>
-                <td>₹ {{ alert.dueAmount | indianCurrency }}</td>
-                <td>
-                  ₹ {{ alert.salesTotalAmount | indianCurrency }}
-                </td>
-                <td>
-                  <p-tag [value]="alert.alertType" [severity]="getSeverity(alert.alertType)" />
-                </td>
-                <td>
-                  <p-tag [value]="alert.daysLeft" [severity]="getStatusSeverity(alert.daysLeft)" />
-                </td>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-              <tr>
-                <td colspan="4">
-                  There are no alerts for this product yet.
+                        <tr>
+                          <th pSortableColumn="invoiceNo">
+                            Invoice No
+                            <p-sortIcon field="invoiceNo" /><p-columnFilter
+                              type="text"
+                              field="invoiceNo"
+                              display="menu"
+                              matchMode="contains"
+                              hideOnClear="true"
+                            ></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="salesDate">
+                            Sales Date
+                            <p-sortIcon field="salesDate" /><p-columnFilter
+                              type="text"
+                              field="salesDate"
+                              matchMode="contains"
+                              hideOnClear="true"
+                              display="menu"
+                            ></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="dueAmount">
+                            Due Amount
+                            <p-sortIcon field="dueAmount" /><p-columnFilter
+                              type="text"
+                              field="dueAmount"
+                              display="menu"
+                              matchMode="contains"
+                              hideOnClear="true"
+                            ></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="salesTotalAmount">
+                            Total Amount
+                            <p-sortIcon
+                              field="salesTotalAmount"
+                            /><p-columnFilter
+                              matchMode="contains"
+                              hideOnClear="true"
+                              type="text"
+                              field="salesTotalAmount"
+                              display="menu"
+                            ></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="alertType">
+                            Alert Type
+                            <p-sortIcon field="alertType" /><p-columnFilter
+                              matchMode="contains"
+                              hideOnClear="true"
+                              type="text"
+                              field="alertType"
+                              display="menu"
+                            ></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="daysLeft">
+                            Days Left
+                            <p-sortIcon field="daysLeft" /><p-columnFilter
+                              matchMode="contains"
+                              hideOnClear="true"
+                              type="text"
+                              field="daysLeft"
+                              display="menu"
+                            ></p-columnFilter>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-alert>
+                        <tr>
+                          <td>{{ alert.invoiceNo }}</td>
+                          <td>{{ alert.salesDate | date : "dd-MMM-yyyy" }}</td>
+                          <td>₹ {{ alert.dueAmount | indianCurrency }}</td>
+                          <td>
+                            ₹ {{ alert.salesTotalAmount | indianCurrency }}
+                          </td>
+                          <td>
+                            <p-tag
+                              [value]="alert.alertType"
+                              [severity]="getSeverity(alert.alertType)"
+                            />
+                          </td>
+                          <td>
+                            <p-tag
+                              [value]="alert.daysLeft"
+                              [severity]="getStatusSeverity(alert.daysLeft)"
+                            />
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="4">
+                            There are no alerts for this product yet.
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
                 </td>
               </tr>
             </ng-template>
           </p-table>
         </div>
-        </td>
-        </tr>
-        </ng-template>
-        </p-table>
-      </div>
-      <!-- </td>
+        <!-- </td>
       </tr> -->
-      <!-- </ng-template> -->
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="4" class="text-center">
-            There are no alerts for the Customer yet.
-          </td>
-        </tr>
-      </ng-template>
-      <!-- </p-table> -->
+        <!-- </ng-template> -->
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="4" class="text-center">
+              There are no alerts for the Customer yet.
+            </td>
+          </tr>
+        </ng-template>
+        <!-- </p-table> -->
+      </div>
     </div>
   </div>
 </div>
-</div>
 <p-button (onClick)="showDialogForChart('data')" label="View All" />
 
-<p-dialog [(visible)]="visible" [modal]="true" [draggable]="true" [resizable]="false" header="View Information For">
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [draggable]="true"
+  [resizable]="false"
+  header="View Information For"
+>
   <div *ngIf="chartType === 'viewSales'">
-
     <div class="add-group textbtn gap-3">
-
       <a class="btn btn-primary" (click)="navigator('sales')">Sales</a>
-      <a class="btn btn-primary" (click)="navigator('sales_return')">Sales Return</a>
+      <a class="btn btn-primary" (click)="navigator('sales_return')"
+        >Sales Return</a
+      >
     </div>
   </div>
 
   <div *ngIf="chartType === 'viewPurchase'">
     <div class="add-group textbtn gap-3">
-
       <a class="btn btn-primary" (click)="navigator('purchase')">Purchase</a>
-      <a class="btn btn-primary" (click)="navigator('purchase_return')">Purchase Return</a>
+      <a class="btn btn-primary" (click)="navigator('purchase_return')"
+        >Purchase Return</a
+      >
     </div>
   </div>
 </p-dialog>

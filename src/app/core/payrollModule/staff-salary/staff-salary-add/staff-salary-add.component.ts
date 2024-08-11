@@ -48,15 +48,15 @@ export class StaffSalaryAddComponent {
       ],
       hra: [
         "",
-        [Validators.required, Validators.min(100), Validators.max(100000)],
+        [ Validators.min(100), Validators.max(100000)],
       ],
       specialPay: [
         "",
-        [Validators.required, Validators.min(100), Validators.max(1000000)],
+        [ Validators.min(100), Validators.max(1000000)],
       ],
       lta: [
         "",
-        [Validators.required, Validators.min(100), Validators.max(100000)],
+        [ Validators.min(100), Validators.max(100000)],
       ],
     });
   }

@@ -49,13 +49,27 @@
 
                                 </div>
                             </div>
+                            <!-- <div class="mt-3">
+                                <div class="row card-body d-flex justify-content-between p0">
+                                    <div class="col-lg-4 col-md-4 h-2">
+                                        <div class="form-group local-forms">
+                                            <label for="warehouseDetails">Filter By</label>
+                                            <p-dropdown [options]="warehouseData" styleClass="" appendTo="body"
+                                                placeholder="Filter By Warehouse" [style]="{ width: '100%' }"
+                                                [filter]="true" optionLabel="name" optionValue="_id" [showClear]="true"
+                                                (onChange)="onSearchByChange($event.value)">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
                         </div>
 
                         <div class="card-body p-2">
 
-                            <p-table [value]="stockTransferDataList | filter:searchDataValue:['createdOn','slab.slabName', 'fromWarehouse.name', 'transferType', 'transferQty']" [tableStyle]="{'min-width': '60rem'}"
+                            <p-table [value]="originalData | filter:searchDataValue:['createdOn','slab.slabName', 'fromWarehouse.name', 'transferType', 'transferQty']" [tableStyle]="{'min-width': '60rem'}"
                                 [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
-                                [(selection)]="selectedlot" styleClass="p-datatable-striped" selectionMode="multiple">
+                                [(selection)]="selectedlot" styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="createdOn">Transfer Date <p-sortIcon field="createdOn"></p-sortIcon>
@@ -107,6 +121,14 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                                         <td colspan="6" class="text-center">No stock transfers found. Please transfer stock to see records here.</td>
                                     </tr>
                                 </ng-template>
+                                <!-- <ng-template pTemplate="footer">
+                                    <tr >
+                                        <td colspan="4"></td>
+                                        <td class="">Transfer Quantity</td>
+                                        <td totalValueDirective [data]="stockTransferDataList" [name]="stockTransDataList"></td>
+                                        <td colspan="2"></td>
+                                    </tr>
+                                </ng-template> -->
                             </p-table>
 
 

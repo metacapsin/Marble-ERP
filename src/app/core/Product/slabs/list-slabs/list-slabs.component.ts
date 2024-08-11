@@ -10,6 +10,7 @@ import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
 import { SlabsService } from "../slabs.service";
 import { DialogModule } from "primeng/dialog";
+import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 @Component({
   selector: "app-list-slabs",
   standalone: true,
@@ -30,17 +31,21 @@ export class ListSlabsComponent {
   searchDataValue = "";
   selectedSlabs = [];
   allSlabsDaTa: any;
-
+  slabsDaTa = "slabsDaTa";
   slabProfit: number = 0;
   slabHistoryData: any=[];
   visibleSlabHistory: boolean = false;
+  warehouseData: any;
+  warehouseDropDown: any;
+  allInDropDown: any;
 
   constructor(
     public dialog: MatDialog,
     public router: Router,
     private service: SlabsService,
     private _snackBar: MatSnackBar,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private WarehouseService: WarehouseService
   ) {}
 
   getSlabsList(): void {
@@ -68,6 +73,20 @@ export class ListSlabsComponent {
   }
   ngOnInit(): void {
     this.getSlabsList();
+    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
+      this.warehouseData = resp.data.map((element) => ({
+        name: element.name,
+        _id: {
+          _id: element._id,
+          name: element.name,
+        },
+      }));
+      console.log(this.warehouseData);
+    });
+  }
+
+  onFilter(value: any) {
+    this.allSlabsDaTa = value.filteredValue;
   }
 
   deleteSlabs(_id: any) {
@@ -82,6 +101,24 @@ export class ListSlabsComponent {
 
   showNewDialog() {
     this.showDialog = true;
+  }
+
+  onSearchByChange(value: any): void {
+    // if(this.searchDataValue  == ''){
+    //   return this.allSlabsDaTa = this.originalData;
+    // }
+    console.log("value asyock adjustment", value);
+    if (value == null) {
+      return (this.allSlabsDaTa = this.originalData);
+    } else {
+      this.allSlabsDaTa = this.originalData.map((i) => {
+        console.log(i);
+        if (i.warehouseDetails._id === value._id) {
+          return i;
+        }
+      });
+      this.allInDropDown = this.allSlabsDaTa
+    }
   }
 
   callBackModal() {
@@ -100,10 +137,15 @@ export class ListSlabsComponent {
     this.showDialog = false;
   }
 
-  public searchData(value: any): void {
-    this.allSlabsDaTa = this.originalData.filter((i) =>
-      i.slabNo.toLowerCase().includes(value.trim().toLowerCase())
-    );
+  searchData() {
+    if (this.searchDataValue == "") {
+      this.onSearchByChange(null)
+      console.log(this.warehouseDropDown);
+      if(this.warehouseDropDown.name == '' ){
+        this.allSlabsDaTa = this.originalData
+      }
+      return (this.allSlabsDaTa = this.allInDropDown);
+    }
   }
   onPageChange(event) {
     const startIndex = event.first;

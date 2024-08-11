@@ -54,6 +54,9 @@ import { TotalValueDirective } from "../core/reports/reports/totalValues.directi
 import { CarouselModule } from 'primeng/carousel';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+
+
 
 @NgModule({
   declarations: [],
@@ -113,6 +116,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     FileUploadModule,
     StepperModule,
     AccordionModule,
+    OverlayPanelModule,
     ChartModule,
     RatingModule,
     TreeTableModule,
@@ -176,6 +180,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     CheckboxModule,
     RadioButtonModule,
     MultiSelectModule,
+    OverlayPanelModule,
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,

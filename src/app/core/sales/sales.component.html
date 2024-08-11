@@ -179,7 +179,7 @@ hideOnClear="true"  type="text" field="salesTotalAmount" display="menu"  ></p-co
 
                 <ng-template pTemplate="footer">
                   <tr *ngIf="totalAmountValues.totalPaidAmount > 0 || totalAmountValues.totalDueAmount > 0 || totalAmountValues.totalAmount >0 ">
-                    <td colspan="4"></td>
+                    <td colspan="5"></td>
                     <td>Total </td>
                     <td>₹ {{ totalAmountValues.totalPaidAmount | indianCurrency}}</td>
                     <td class="text-danger-dark">₹ {{ totalAmountValues.totalDueAmount | indianCurrency}}</td>

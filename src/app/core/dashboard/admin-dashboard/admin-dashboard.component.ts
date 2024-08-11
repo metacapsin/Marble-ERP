@@ -177,7 +177,7 @@ export class AdminDashboardComponent {
   ];
   valueSubCategory: string = "graph";
   orgCategorySlabs: any;
-  orgSubCategorySlabs: any;
+  orgSubCategorySlabs:any[];
   categorySearchDataValue:any
   subCategorySearchDataValue:any
   stockAlertSearchDataValue:any
@@ -187,6 +187,7 @@ export class AdminDashboardComponent {
 
   visible: boolean = false;
   chartType: string = '';
+  subCategoryslabsData: any[];
 
 
   constructor(
@@ -557,21 +558,75 @@ export class AdminDashboardComponent {
   //     ],
   //   };
   // }
+  categoryForDrpdownChange(value){
+    console.log("value",value);
+   this.subCategoryslabsData = []
+    if(value == null){
+      console.log("null");
+      this.subCategoryslabsData = this.orgSubCategorySlabs;
+    }
+    else { this.subCategoryslabsData = this.orgSubCategorySlabs.filter(element => element.categoryName === value.name);
+    console.log(this.subCategoryslabsData);
+    }
+    this.piDataForSecondChat = {
+      labels: this.subCategoryslabsData.map(element => element.name), // Array of names
+      datasets: [
+        {
+          data: this.subCategoryslabsData.map(element => element.totalSQFT), // Array of totalSQFT values
+          backgroundColor: [
+            "#3b82f6", // Blue
+            "#f59e0b", // Orange
+            "#6ee7b7", // Teal
+            "#ffc107", // Amber
+            "#4caf50", // Green
+            "#e91e63", // Pink
+            "#9c27b0", // Purple
+            "#673ab7", // Deep Purple
+            "#2196f3", // Light Blue
+            "#00bcd4", // Cyan
+            "#009688", // Teal
+            "#8bc34a", // Light Green
+            "#cddc39", // Lime
+            "#ff9800", // Orange
+            "#ff5722", // Deep Orange
+          ],
+          hoverBackgroundColor: [
+            "#3b82f6", // Blue
+            "#f59e0b", // Orange
+            "#6ee7b7", // Teal
+            "#ffc107", // Amber
+            "#4caf50", // Green
+            "#e91e63", // Pink
+            "#9c27b0", // Purple
+            "#673ab7", // Deep Purple
+            "#2196f3", // Light Blue
+            "#00bcd4", // Cyan
+            "#009688", // Teal
+            "#8bc34a", // Light Green
+            "#cddc39", // Lime
+            "#ff9800", // Orange
+            "#ff5722", // Deep Orange
+          ],
+        },
+      ],
+    };
+  }
   categoryChart(data) {
     console.log(data);
     this.orgCategorySlabs = data.totalCategorySlabs;
     this.orgSubCategorySlabs = data.totalSubCategorySlabs;
+    this.subCategoryslabsData = data.totalSubCategorySlabs;
     console.log(this.orgCategorySlabs, this.orgSubCategorySlabs);
     this.totalCategorySlabs = data.totalCategorySlabs.map(
       (item) => item.totalSQFT
     );
-    this.totalSubCategorySlabs = data.totalSubCategorySlabs.map(
+    this.totalSubCategorySlabs = this.orgSubCategorySlabs.map(
       (item) => item.totalSQFT
     );
     const totalCategorySlabsLable = data.totalCategorySlabs.map(
       (item) => item.name
     );
-    const totalSubCategorySlabsLable = data.totalSubCategorySlabs.map(
+    const totalSubCategorySlabsLable = this.orgSubCategorySlabs.map(
       (item) => item.name
     );
 

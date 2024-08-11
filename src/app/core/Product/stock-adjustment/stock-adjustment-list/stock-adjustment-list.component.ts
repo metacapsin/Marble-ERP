@@ -39,6 +39,7 @@ export class StockAdjustmentListComponent implements OnInit {
   modalData: any = {};
   stockAdjustmentId: any;
   searchDataValue = "";
+  stockAdjustmentData = 'stockAdjustmentData'
   selectedlot = "";
   showData: any;
   warehouseData: any = [];
@@ -66,7 +67,7 @@ export class StockAdjustmentListComponent implements OnInit {
       currentQty: [""],
       quantity: ["", [Validators.required, Validators.min(1)]],
       adjustmentType: ["", [Validators.required]],
-      note: ["", [Validators.pattern(this.descriptionRegex)]],
+      note: ["", [Validators.required,Validators.pattern(this.descriptionRegex)]],
     });
     this.editStockAdjustmentForm = this.fb.group({
       warehouse: ["", [Validators.required]],
@@ -74,7 +75,7 @@ export class StockAdjustmentListComponent implements OnInit {
       currentQty: [""],
       quantity: ["", [Validators.required, Validators.min(1)]],
       adjustmentType: ["", [Validators.required]],
-      note: ["", [Validators.pattern(this.descriptionRegex)]],
+      note: ["", [Validators.required,Validators.pattern(this.descriptionRegex)]],
     });
   }
 
@@ -90,6 +91,7 @@ export class StockAdjustmentListComponent implements OnInit {
      });
     }
   }
+  
   getAdjustmentList(): void {
     this.service.getAdjustmentList().subscribe((resp: any) => {
       this.stockAdjustmentDataList = resp.data;
@@ -97,6 +99,10 @@ export class StockAdjustmentListComponent implements OnInit {
       console.log("original data",this.originalData);
     });
   }
+
+  onFilter(value: any) {
+    this.stockAdjustmentDataList = value.filteredValue;
+}
 
   ngOnInit(): void {
     this.getAdjustmentList();
@@ -238,11 +244,6 @@ export class StockAdjustmentListComponent implements OnInit {
     }
   }
 
-  public searchData(value: any): void {
-    this.stockAdjustmentDataList = this.originalData.filter((i) =>
-      i.slabs.slabName.toLowerCase().includes(value.trim().toLowerCase())
-    );
-  }
   onPageChange(event) {
     const startIndex = event.first;
     const endIndex = startIndex + event.rows;
@@ -250,5 +251,10 @@ export class StockAdjustmentListComponent implements OnInit {
       startIndex,
       endIndex
     );
+  }
+  searchData() {
+    if(this.searchDataValue  == ''){
+      return this.stockAdjustmentDataList = this.originalData;
+    }
   }
 }

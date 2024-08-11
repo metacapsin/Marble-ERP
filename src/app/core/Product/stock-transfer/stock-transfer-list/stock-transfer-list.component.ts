@@ -44,6 +44,7 @@ export class StockTransferListComponent implements OnInit {
   searchDataValue = "";
   selectedlot = "";
   showData: any;
+  stockTransDataList ='stockTransDataList'
   warehouseData: any = [];
   slabData: any = [];
   transferType: any = [
@@ -81,6 +82,10 @@ export class StockTransferListComponent implements OnInit {
     });
   }
 
+  onFilter(value: any) {
+    // this.expensesData = value.filteredValue;
+  }
+
   getStockTransferList(): void {
     this.service.getStockTransferList().subscribe((resp: any) => {
       this.stockTransferDataList = resp.data;
@@ -100,6 +105,20 @@ export class StockTransferListComponent implements OnInit {
       }));
     });
   }
+
+  // onSearchByChange(value: any): void{
+  //   console.log("value asyock adjustment", value);
+  //   if(value === null){
+  //     return this.stockTransferDataList = this.originalData;
+  //   } else {
+  //   this.stockTransferDataList = this.originalData.map(i => { 
+  //     console.log(i);
+  //     if(i.warehouseDetails._id === value._id){
+  //       return i
+  //     }
+  //    });
+  //   }
+  // }
 
   onWarehouseSelect(value: any) {
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(

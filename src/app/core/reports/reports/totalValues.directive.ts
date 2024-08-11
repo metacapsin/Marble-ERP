@@ -14,7 +14,6 @@ export class TotalValueDirective {
   paidAmount: number = 0;
   purchaseCost: number = 0;
   purchaseTotalAmount: number = 0;
-
   constructor(
     private elementRef: ElementRef,
     private indianCurrencyPipe: IndianCurrencyPipe
@@ -26,6 +25,33 @@ export class TotalValueDirective {
   @Input() set data(value: any) {
     this._data = value;
     this.totalValue = 0;
+    if (this._name == "stockAdjustmentData") {
+      if (this._data == false) {
+        const setvalue = 0
+        this.elementRef.nativeElement.textContent = `${setvalue}`;
+      }
+      this._data.forEach((element) => {
+        if (element.currentQty) {
+          this.totalValue += element.currentQty;
+        }
+        // const setValue = this.indianCurrencyPipe.transform(this.totalValue);
+        this.elementRef.nativeElement.textContent = `${this.totalValue} Sq. Feet.`;
+      });
+    }
+    if (this._name == "slabsDaTa") {
+      if (this._data == false) {
+        const setvalue = 0;
+        this.elementRef.nativeElement.textContent = `₹ ${setvalue}`;
+      }
+      this._data.forEach((element) => {
+          if (element && element.totalSQFT) {
+            const fixedTotalSQFT = parseFloat(element.totalSQFT.toFixed(2));
+            this.totalValue += fixedTotalSQFT;
+        }
+        // const setValue = this.indianCurrencyPipe.transform(this.totalValue);
+        this.elementRef.nativeElement.textContent = `${this.totalValue}`;
+      });
+    }
     if (this._name == "expensesDataName") {
       if (this._data == false) {
         const setvalue = 0
