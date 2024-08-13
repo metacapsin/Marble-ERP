@@ -34,66 +34,78 @@
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="add-group textbtn">
-                                                <a appShowHide [roles]="['admin', 'super-admin']" (click)="openAddDialog()"
+                                                <a appShowHide [roles]="['admin', 'super-admin']"
+                                                    (click)="openAddDialog()"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""> Add New</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide [roles]="['admin', 'super-admin']">
+                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                                    [roles]="['admin', 'super-admin']">
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
-                                            alt=""></a>
+                                            pTooltip="Download data in PDF file" tooltipPosition="bottom"
+                                            tooltipStyleClass="tooltip" alt=""></a>
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                                            alt=""></a>
+                                            pTooltip="Download data in CSV file " tooltipPosition="bottom"
+                                            tooltipStyleClass="tooltip" alt=""></a>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body p-2">
-                        <p-table [value]="taxesListData | filter:searchDataValue:['name', 'taxRate',]" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10" selectionMode="multiple"
-                            [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedTaxes">
-                            <ng-template pTemplate="header" >
-                                <tr>
-                                    <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="name" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="taxRate">Tax Rate ( % ) <p-sortIcon field="taxRate"></p-sortIcon>
-                                        <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="taxRate" display="menu"></p-columnFilter>
+                            <p-table [value]="taxesListData | filter:searchDataValue:['name', 'taxRate',]"
+                                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
+                                [paginator]="true" [rows]="10" selectionMode="multiple"
+                                [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
+                                [(selection)]="selectedTaxes">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="name" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="taxRate">Tax Rate ( % ) <p-sortIcon
+                                                field="taxRate"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="taxRate" display="menu"></p-columnFilter>
 
-                                    </th>
-                                    <th width="13%" appShowHide [roles]="['admin', 'super-admin']" >Action
-                                       
-                                    </th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-taxes>
+                                        </th>
+                                        <th width="13%" appShowHide [roles]="['admin', 'super-admin']">Action
 
-                                <tr>
-                                    <td class="">
-                                        {{taxes.name}}
-                                    </td>
-                                    <td>
-                                        {{taxes.taxRate}}
-                                    </td>
-                                    <td appShowHide [roles]="['admin', 'super-admin']" >
-                  <div class="action-buttons">
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-taxes>
 
-                                        <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(taxes._id)"></p-button>
-                                        <p-button [text]=" true" icon="fa fa-trash"
-                                            (click)="deletetaxes(taxes._id)"></p-button>
-                  </div>
-                                    </td>
+                                    <tr>
+                                        <td class="">
+                                            {{taxes.name}}
+                                        </td>
+                                        <td>
+                                            {{taxes.taxRate}}
+                                        </td>
+                                        <td appShowHide [roles]="['admin', 'super-admin']">
+                                            <div class="action-buttons">
 
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="emptymessage">
-                                <tr>
-                                    <td colspan="3" class="text-center">No taxes found. Please add a tax to see it listed here.</td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
+                                                <p-button [text]="true" icon="fa fa-edit" pTooltip="Edit"
+                                                    tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                                                    (click)="openEditDialog(taxes._id)"></p-button>
+                                                <p-button [text]=" true" icon="fa fa-trash" pTooltip="Delete"
+                                                    tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                                                    (click)="deletetaxes(taxes._id)"></p-button>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="3" class="text-center">No taxes found. Please add a tax to see it
+                                            listed here.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
                     </div>
                 </div>

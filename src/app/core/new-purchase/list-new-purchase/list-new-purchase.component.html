@@ -165,8 +165,10 @@ hideOnClear="true"  type="text" field="purchaseTotalAmount" display="menu"  ></p
                 </div>
                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                   [roles]="['admin', 'super-admin']">
-                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt="" /></a>
-                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="" /></a>
+                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""  pTooltip="Download data in PDF file" tooltipPosition="bottom"
+                                        tooltipStyleClass="tooltip" /></a>
+                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="" pTooltip="Download data in CSV file " tooltipPosition="bottom"
+                                        tooltipStyleClass="tooltip" /></a>
                 </div>
               </div>
 
@@ -262,9 +264,9 @@ hideOnClear="true"  type="text" field="purchaseTotalAmount" display="menu"  ></p
                     <td>₹ {{purchase.purchaseCost | indianCurrency }}</td>
                     <td>₹ {{purchase.purchaseTotalAmount | indianCurrency }}</td>
                     <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
-                      <p-button [text]="true" icon="fa-solid fa-eye"
+                      <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"
                         (click)="showInvoiceDialoge(purchase._id)"></p-button>
-                      <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"></p-button>
+                      <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"  pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                     </td>
                   </tr>
                 </ng-template>

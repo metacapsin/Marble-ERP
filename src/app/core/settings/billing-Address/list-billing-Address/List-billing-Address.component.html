@@ -28,130 +28,75 @@
                     <h3>Billing Address List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Search here"
-                          [(ngModel)]="searchDataValue"
-                        />
-                        <a class="btn"
-                          ><img src="assets/img/icons/search-normal.svg" alt=""
-                        /></a>
+                        <input type="text" class="form-control" placeholder="Search here"
+                          [(ngModel)]="searchDataValue" />
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                       <div class="add-group textbtn">
-                        <a
-                          [routerLink]="routes.addbillingAddress"
-                          class="btn btn-primary add-pluss ms-2"
-                          ><img src="assets/img/icons/plus.svg" alt="" />Add
-                          New</a
-                        >
+                        <a [routerLink]="routes.addbillingAddress" class="btn btn-primary add-pluss ms-2"><img
+                            src="assets/img/icons/plus.svg" alt="" />Add
+                          New</a>
                         <!-- <a href="javascript:;" (click)="getuserList()" class="btn btn-primary doctor-refresh ms-2"><img
                             src="assets/img/icons/re-fresh.svg" alt=""></a> -->
                       </div>
                     </div>
                   </div>
                 </div>
-                <div
-                  class="col-auto text-end float-end ms-auto download-grp"
-                  appShowHide
-                  [roles]="['admin', 'super-admin']"
-                >
-                  <a href="javascript:;" class="me-2"
-                    ><img src="assets/img/icons/pdf-icon-01.svg" alt=""
-                  /></a>
+                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                  [roles]="['admin', 'super-admin']">
+                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                      pTooltip="Download data in PDF file" tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                      alt="" /></a>
                   <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
-                  <a href="javascript:;" class="me-2"
-                    ><img src="assets/img/icons/pdf-icon-03.svg" alt=""
-                  /></a>
+                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                      pTooltip="Download data in CSV file " tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                      alt="" /></a>
                   <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
                 </div>
               </div>
             </div>
             <div class="card-body p-2">
-              <p-table
-                [value]="
+              <p-table [value]="
                   dataSource | filter : searchDataValue : ['name', 'email']
-                "
-                styleClass="p-datatable-striped"
-                [tableStyle]="{ 'min-width': '60rem' }"
-                [paginator]="true"
-                [rows]="10"
-                selectionMode="multiple"
-                [rowsPerPageOptions]="[5, 10, 20]"
-                (onPage)="onPageChange($event)"
-                [(selection)]="selectedProducts"
-              >
+                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
+                [rows]="10" selectionMode="multiple" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
+                [(selection)]="selectedProducts">
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="companyName">
                       Company Name <p-sortIcon field="companyName"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="companyName"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="companyName"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="country.name">
                       Country <p-sortIcon field="country.name"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="country.name"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="country.name"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="state">
                       State <p-sortIcon field="state"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="state"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="state"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="city">
                       City<p-sortIcon field="city"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="city"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="city"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="email">
                       Email<p-sortIcon field="email"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="email"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="email"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="postalCode">
                       Postal Code<p-sortIcon field="postalCode"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="postalCode"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="postalCode"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="setAsDefault">
                       Set As Default<p-sortIcon field="setAsDefault"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="setAsDefault"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="setAsDefault"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th width="10%">Action</th>
                   </tr>
@@ -170,21 +115,11 @@
                     <td *ngIf="product.setAsDefault">
                       <p-tag severity="success" value="Active"></p-tag>
                     </td>
-                    <td
-                      class="action-buttions"
-                      appShowHide
-                      [roles]="['admin', 'super-admin']"
-                    >
-                      <p-button
-                        [text]="true"
-                        icon="fa-solid fa-trash"
-                        (click)="delete(product)"
-                      ></p-button>
-                      <p-button
-                        [text]="true"
-                        icon="fa-solid fa-edit"
-                        (click)="edit(product._id)"
-                      ></p-button>
+                    <td class="action-buttions" appShowHide [roles]="['admin', 'super-admin']">
+                      <p-button [text]="true" icon="fa-solid fa-edit" (click)="edit(product._id)" pTooltip="Edit"
+                        tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      <p-button [text]="true" icon="fa-solid fa-trash" (click)="delete(product)" pTooltip="Delete"
+                        tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                     </td>
                   </tr>
                 </ng-template>

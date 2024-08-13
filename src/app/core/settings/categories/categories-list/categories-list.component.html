@@ -42,9 +42,13 @@
                 </div>
                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                   [roles]="['admin', 'super-admin', 'help-desk']">
-                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                      pTooltip="Download data in PDF file" tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                      alt=""></a>
                   <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
-                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                      pTooltip="Download data in CSV file " tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                      alt=""></a>
                   <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
                 </div>
@@ -79,8 +83,10 @@
                     <td>{{categories.name}}</td>
                     <td>{{categories.description}}</td>
                     <td class="action-buttions" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">
-                      <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(categories._id)"></p-button>
-                      <p-button [text]=" true" icon="fa fa-trash" (click)="deleteCategory(categories._id)"></p-button>
+                      <p-button [text]="true" icon="fa fa-edit" (click)="openEditDialog(categories._id)" pTooltip="Edit"
+                        tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      <p-button [text]=" true" icon="fa fa-trash" (click)="deleteCategory(categories._id)"
+                        pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                     </td>
                   </tr>
                 </ng-template>

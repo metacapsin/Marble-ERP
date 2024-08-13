@@ -41,9 +41,11 @@
               </div>
               <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                 [roles]="['admin', 'super-admin']">
-                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"  pTooltip="Download data in PDF file" tooltipPosition="bottom"
+                                        tooltipStyleClass="tooltip"alt=""></a>
                 <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
-                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"  pTooltip="Download data in CSV file " tooltipPosition="bottom"
+                                        tooltipStyleClass="tooltip"alt=""></a>
                 <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
               </div>
@@ -94,8 +96,10 @@
                   <td>{{leave.leaveDuration}}</td>
                   <td class="action-buttons" appShowHide [roles]="['admin', 'super-admin']">
 
-                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editLeave(leave._id)"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteLeave(leave._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editLeave(leave._id)" pTooltip="Edit"
+                                                    tooltipPosition="bottom" tooltipStyleClass="tooltip" ></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteLeave(leave._id)" pTooltip="Delete"
+                                                tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                   </td>
                 </tr>
               </ng-template>

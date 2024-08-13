@@ -86,9 +86,9 @@
                 </div>
                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                   [roles]="['admin', 'super-admin']">
-                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt="" /></a>
+                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" pTooltip="Download data in PDF file" tooltipPosition="bottom" tooltipStyleClass="tooltip"   alt="" /></a>
                   <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"><img
-                      src="assets/img/icons/pdf-icon-03.svg" alt="" /></a>
+                      src="assets/img/icons/pdf-icon-03.svg"    pTooltip="Download data in CSV file " tooltipPosition="bottom" tooltipStyleClass="tooltip" alt="" /></a>
                 </div>
               </div>
 
@@ -117,8 +117,7 @@
             </div>
 
             <div class="card-body p-2">
-              <p-table
-                [value]="
+              <p-table [value]="
                    originalData
                     | filter
                       : searchDataValue
@@ -128,19 +127,9 @@
                           'customer.name',
                           'dueAmount'
                         ]
-                "
-                styleClass="p-datatable-striped"
-                [tableStyle]="{ 'min-width': '60rem' }"
-                [paginator]="true"
-                [rows]="10"
-                [rowsPerPageOptions]="[5, 10, 20]"
-                #dt
-                [columns]="cols"
-                selectionMode="multiple"
-                [exportHeader]="'customExportHeader'"
-                exportFilename="Sales Reports"
-                (onFilter)="onFilter($event)"
-              >
+                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
+                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols" selectionMode="multiple"
+                [exportHeader]="'customExportHeader'" exportFilename="Sales Reports" (onFilter)="onFilter($event)">
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="salesInvoiceNumber">
@@ -161,8 +150,8 @@
                     </th>
                     <th pSortableColumn="billingAddress.companyName">
                       Billing Company <p-sortIcon field="billingAddress.companyName"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="billingAddress.companyName"
-                        display="menu"></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                        field="billingAddress.companyName" display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="salesOrderStatus">
                       Sales Status
@@ -229,10 +218,7 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="footer">
-                  <tr totalValueDirective
-                  [data]="salesReportsData"
-                  [name]="salesReports"
-                    >
+                  <tr totalValueDirective [data]="salesReportsData" [name]="salesReports">
                     <!-- <td colspan="4"></td>
                     <td>Total Amount</td> -->
                     <!-- <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>

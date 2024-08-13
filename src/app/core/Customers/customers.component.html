@@ -42,11 +42,12 @@
                             </div>
                             <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                                 [roles]="['admin', 'super-admin', 'help-desk']">
-                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
-                                        alt=""></a>
-                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                                        alt=""></a>
-
+                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""
+                                        pTooltip="Download data in PDF file" tooltipPosition="bottom"
+                                        tooltipStyleClass="tooltip"></a>
+                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""
+                                        pTooltip="Download data in CSV file " tooltipPosition="bottom"
+                                        tooltipStyleClass="tooltip"></a>
                             </div>
                         </div>
                     </div>
@@ -72,8 +73,9 @@
                                     </th>
                                     <th pSortableColumn="createdOn">Created At <p-sortIcon
                                             field="createdOn"></p-sortIcon>
-                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                            field="createdOn" display="menu"></p-columnFilter></th>
+                                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                            field="createdOn" display="menu"></p-columnFilter>
+                                    </th>
 
                                     <th width="13%">Action</th>
                                 </tr>
@@ -91,11 +93,14 @@
                                     <td appShowHide [roles]="['admin', 'super-admin']">
                                         <div class="action-buttons">
 
-                                            <p-button [text]=" true" icon="fa fa-eye"
+                                            <p-button [text]=" true" icon="fa fa-eye" pTooltip="View"
+                                                tooltipPosition="bottom" tooltipStyleClass="tooltip"
                                                 (click)="vewCustomer(product._id)"></p-button>
-                                            <p-button [text]="true" icon="fa fa-edit"
+                                            <p-button [text]="true" icon="fa fa-edit" pTooltip="Edit"
+                                                tooltipPosition="bottom" tooltipStyleClass="tooltip"
                                                 (click)="editCustomer(product._id)"></p-button>
-                                            <p-button [text]=" true" icon="fa fa-trash"
+                                            <p-button [text]=" true" icon="fa fa-trash" pTooltip="Delete"
+                                                tooltipPosition="bottom" tooltipStyleClass="tooltip"
                                                 (click)="deleteCustomer(product._id)"></p-button>
                                         </div>
                                     </td>

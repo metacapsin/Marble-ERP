@@ -41,9 +41,11 @@
               </div>
               <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                 [roles]="['admin', 'super-admin']">
-                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""
+                    pTooltip="Download data in PDF file" tooltipPosition="bottom" tooltipStyleClass="tooltip"></a>
                 <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
-                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""
+                    pTooltip="Download data in CSV file " tooltipPosition="bottom" tooltipStyleClass="tooltip"></a>
                 <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
               </div>
@@ -65,11 +67,11 @@
                   </th> -->
                   <th pSortableColumn="basicSalary">Basic Salary<p-sortIcon field="basicSalary"></p-sortIcon>
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="basicSalary"
-                    display="menu"></p-columnFilter>
+                      display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="netSalary">Net Salary<p-sortIcon field="netSalary"></p-sortIcon>
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="netSalary"
-                    display="menu"></p-columnFilter>
+                      display="menu"></p-columnFilter>
                   </th>
                   <th width="13%">Action</th>
                 </tr>
@@ -82,8 +84,10 @@
                   <td>₹ {{salary.basicSalary |indianCurrency}}</td>
                   <td>₹ {{salary.netSalary |indianCurrency}}</td>
                   <td class="action-buttons" appShowHide [roles]="['admin', 'super-admin']">
-                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalary(salary._id)"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalaryList(salary._id)"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalary(salary._id)" pTooltip="Edit"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalaryList(salary._id)"
+                      pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                   </td>
                 </tr>
               </ng-template>

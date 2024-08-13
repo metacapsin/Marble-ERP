@@ -54,6 +54,7 @@ export class PaymentOutReportComponent {
 
     this.service.getPaymentOutReports(data).subscribe((resp: any) => {
       this.paymentOutData = resp.payments
+      console.log("this is payment out data",resp.payments)
       this.originalData = resp.payments
 
       this.cols = [
@@ -70,10 +71,12 @@ export class PaymentOutReportComponent {
       }));
     });
     this.exportColumns = this.paymentOutData.map((element) => ({ title: element.header, dataKey: element.field }));
+    
   }
 
    getTotalAmount(): number {
-        return this.paymentOutData.reduce((total, payment) => total + payment.amount, 0);
+        return this.paymentOutData.reduce((total, payment) => total + payment.amount + payment.otherCharges +
+        payment.transportationCharges, 0);
     }
     onFilter(value: any) {
       this.paymentOutData = value.filteredValue;

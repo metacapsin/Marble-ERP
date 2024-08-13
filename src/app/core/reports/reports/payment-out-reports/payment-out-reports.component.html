@@ -77,30 +77,18 @@
                     <h3>Payment Out Details</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Search here"
-                          [(ngModel)]="searchDataValue"
-                        />
-                        <a class="btn"
-                          ><img src="assets/img/icons/search-normal.svg" alt=""
-                        /></a>
+                        <input type="text" class="form-control" placeholder="Search here"
+                          [(ngModel)]="searchDataValue" />
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div
-                  class="col-auto text-end float-end ms-auto download-grp"
-                  appShowHide
-                  [roles]="['admin', 'super-admin']"
-                >
-                  <a href="javascript:;" class="me-2"
-                    ><img src="assets/img/icons/pdf-icon-01.svg" alt=""
-                  /></a>
-                  <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"
-                    ><img src="assets/img/icons/pdf-icon-03.svg" alt=""
-                  /></a>
+                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                  [roles]="['admin', 'super-admin']">
+                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"  pTooltip="Download data in PDF file" tooltipPosition="bottom" tooltipStyleClass="tooltip"  alt="" /></a>
+                  <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"><img
+                      src="assets/img/icons/pdf-icon-03.svg"   pTooltip="Download data in CSV file " tooltipPosition="bottom" tooltipStyleClass="tooltip" alt="" /></a>
                 </div>
               </div>
 
@@ -109,15 +97,9 @@
                   <div class="col-lg-4 col-md-4 h-2">
                     <div class="form-group local-forms">
                       <label for="warehouseDetails">Filter By </label>
-                      <p-dropdown
-                        [options]="searchByData"
-                        appendTo="body"
-                        placeholder="Filter By Date"
-                        [style]="{ width: '100%' }"
-                        [filter]="true"
-                        [(ngModel)]="searchBy"
-                        (onChange)="onSearchByChange($event)"
-                      >
+                      <p-dropdown [options]="searchByData" appendTo="body" placeholder="Filter By Date"
+                        [style]="{ width: '100%' }" [filter]="true" [(ngModel)]="searchBy"
+                        (onChange)="onSearchByChange($event)">
                       </p-dropdown>
                     </div>
                   </div>
@@ -125,14 +107,8 @@
                   <div class="col-lg-4 col-md-4 h-2">
                     <div class="form-group local-forms">
                       <label for="warehouseDetails">Date </label>
-                      <p-calendar
-                        [(ngModel)]="rangeDates"
-                        selectionMode="range"
-                        [readonlyInput]="true"
-                        dateFormat="dd/mm/yy"
-                        [style]="{ width: '100%' }"
-                        placeholder="Start Date - End Date"
-                      />
+                      <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                        dateFormat="dd/mm/yy" [style]="{ width: '100%' }" placeholder="Start Date - End Date" />
                     </div>
                   </div>
                 </div>
@@ -140,8 +116,7 @@
             </div>
 
             <div class="card-body p-2">
-              <p-table
-                [value]="
+              <p-table [value]="
                    originalData
                     | filter
                       : searchDataValue
@@ -154,82 +129,43 @@
                           'paymentMode',
                           'amount'
                         ]
-                "
-                styleClass="p-datatable-striped"
-                [tableStyle]="{ 'min-width': '60rem' }"
-                [paginator]="true"
-                [rows]="10"
-                [rowsPerPageOptions]="[5, 10, 20]"
-                #dt
-                [columns]="cols"
-                selectionMode="multiple"
-                [exportHeader]="'customExportHeader'"
-                exportFilename="Payment Out Reports"
-                (onFilter)="onFilter($event)"
-              >
+                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
+                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols" selectionMode="multiple"
+                [exportHeader]="'customExportHeader'" exportFilename="Payment Out Reports"
+                (onFilter)="onFilter($event)">
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="paymentDate">
                       Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="paymentDate"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentDate"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="transactionNo">
                       Transaction Number
                       <p-sortIcon field="transactionNo"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="transactionNo"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="transactionNo"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="source">
                       Payment Source <p-sortIcon field="source"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="source"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="source"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="customer.name">
                       Receiver
                       <p-sortIcon field="customer.name"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="customer.name"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="customer.name"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="paymentMode">
                       Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="paymentMode"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentMode"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="amount">
                       Amount <p-sortIcon field="amount"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="amount"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="amount"
+                        display="menu"></p-columnFilter>
                     </th>
                   </tr>
                 </ng-template>

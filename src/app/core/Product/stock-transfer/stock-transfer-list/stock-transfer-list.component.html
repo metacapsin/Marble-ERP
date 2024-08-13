@@ -43,9 +43,11 @@
                                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                                     [roles]="['admin', 'super-admin']">
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
-                                            alt=""></a>
+                                            alt="" pTooltip="Download data in PDF file" tooltipPosition="bottom"
+                                        tooltipStyleClass="tooltip"></a>
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                                            alt=""></a>
+                                            alt="" pTooltip="Download data in CSV file " tooltipPosition="bottom"
+                                        tooltipStyleClass="tooltip"></a>
 
                                 </div>
                             </div>
@@ -111,7 +113,8 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                                             [roles]="['admin', 'super-admin']" class="action-buttons">
                                             <!-- <p-button [text]="true" icon="fa-solid fa-edit"
                                                 (click)="editstockTransferDialog(stock._id)"></p-button> -->
-                                            <p-button [text]="true" icon="fa-solid fa-trash"
+                                            <p-button [text]="true" icon="fa-solid fa-trash" pTooltip="Delete"
+                                            tooltipPosition="bottom" tooltipStyleClass="tooltip"
                                                 (click)="deleteStockTransfer(stock._id)"></p-button>
                                         </td>
                                     </tr>

@@ -42,9 +42,13 @@
                 </div>
                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                   [roles]="['admin', 'super-admin']">
-                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                      pTooltip="Download data in PDF file" tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                      alt=""></a>
                   <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
-                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                      pTooltip="Download data in CSV file " tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                      alt=""></a>
                   <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
                 </div>
@@ -68,8 +72,8 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="phoneNumber"
                         display="menu"></p-columnFilter>
                     </th>
-                    <th pSortableColumn="billingAddress">Billing Address <p-sortIcon field="billingAddress"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="billingAddress"
+                    <th pSortableColumn="address">Billing Address <p-sortIcon field="address"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="address"
                         display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="createdOn">Created On <p-sortIcon field="createdOn"></p-sortIcon>
@@ -85,7 +89,7 @@
                     <td class="bold">{{product.name}}</td>
                     <td>{{product.email}}</td>
                     <td>{{product.phoneNumber}}</td>
-                    <td>{{product.billingAddress}}</td>
+                    <td>{{product.address}}</td>
                     <td>{{product.createdOn | date:'dd-MMM-YYYY'}}</td>
                     <!-- <td *ngIf="!product.isUserLocked"><p-tag severity="success" value="Active"></p-tag></td>
                     <td *ngIf="product.isUserLocked"><p-tag severity="danger" value="Locked"></p-tag></td> -->
@@ -94,8 +98,9 @@
                     <td class="action-buttions" appShowHide [roles]="['admin', 'super-admin']">
                       <!-- <p-button (click)="goToEditPage(product._id)" (keydown.enter)="goToEditPage(product._id)"
                       tabindex="0">Edit</p-button> -->
-                      <p-button [text]="true" (keydown.enter)="goToEditPage(product._id)" tabindex="0"
-                        (click)="goToEditPage(product._id)">Edit</p-button>
+                      <p-button [text]="true" (keydown.enter)="goToEditPage(product._id)" icon="fa fa-edit" tabindex="0"
+                        pTooltip="Edit" tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                        (click)="goToEditPage(product._id)"></p-button>
                     </td>
                   </tr>
                 </ng-template>

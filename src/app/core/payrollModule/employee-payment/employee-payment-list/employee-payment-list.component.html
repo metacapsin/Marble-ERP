@@ -29,50 +29,33 @@
                     <h3>Employee Salary List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Search here"
-                          [(ngModel)]="searchDataValue"
-                        />
-                        <a class="btn"
-                          ><img src="assets/img/icons/search-normal.svg" alt=""
-                        /></a>
+                        <input type="text" class="form-control" placeholder="Search here"
+                          [(ngModel)]="searchDataValue" />
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                       <div class="add-group textbtn">
-                        <a
-                          appShowHide
-                          [roles]="['admin', 'super-admin', 'help-desk']"
-                          class="btn btn-primary add-pluss ms-2"
-                          [routerLink]="routes.addEmployeePayment"
-                        >
+                        <a appShowHide [roles]="['admin', 'super-admin', 'help-desk']"
+                          class="btn btn-primary add-pluss ms-2" [routerLink]="routes.addEmployeePayment">
                           <img src="assets/img/icons/plus.svg" alt="" />Add
-                          New</a
-                        >
+                          New</a>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div
-                  class="col-auto text-end float-end ms-auto download-grp"
-                  appShowHide
-                  [roles]="['admin', 'super-admin', 'help-desk']"
-                >
-                  <a href="javascript:;" class="me-2"
-                    ><img src="assets/img/icons/pdf-icon-01.svg" alt=""
-                  /></a>
+                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                  [roles]="['admin', 'super-admin', 'help-desk']">
+                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""
+                      pTooltip="Download data in PDF file" tooltipPosition="bottom" tooltipStyleClass="tooltip" /></a>
                   <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
-                  <a href="javascript:;" class="me-2"
-                    ><img src="assets/img/icons/pdf-icon-03.svg" alt=""
-                  /></a>
+                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""
+                      pTooltip="Download data in CSV file " tooltipPosition="bottom" tooltipStyleClass="tooltip" /></a>
                   <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
                 </div>
               </div>
             </div>
 
             <div class="card-body p-2">
-              <p-table
-                [value]="
+              <p-table [value]="
                   SalaryPaymentList
                     | filter
                       : searchDataValue
@@ -84,37 +67,21 @@
                           'netSalary',
                           'totalLeaves'
                         ]
-                "
-                styleClass="p-datatable-striped"
-                [tableStyle]="{ 'min-width': '60rem' }"
-                [paginator]="true"
-                [rows]="10"
-                [rowsPerPageOptions]="[5, 10, 20]"
-                [(selection)]="selectedCategory"
-                selectionMode="multiple"
-              >
+                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
+                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory"
+                selectionMode="multiple">
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="employee.name">
                       Employee Name
                       <p-sortIcon field="employee.name"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="employee.name"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="employee.name"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="month">
                       MM / YY <p-sortIcon field="month"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="month"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="month"
+                        display="menu"></p-columnFilter>
                     </th>
                     <!-- <th pSortableColumn="year">
                         Year <p-sortIcon field="year"></p-sortIcon>
@@ -128,43 +95,23 @@
                     </th> -->
                     <th pSortableColumn="totalLeaves">
                       Total Leaves <p-sortIcon field="totalLeaves"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="totalLeaves"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalLeaves"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="netSalary">
                       Net Salary <p-sortIcon field="netSalary"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="netSalary"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="netSalary"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="totalSalary">
                       Total Salary <p-sortIcon field="totalSalary"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="totalSalary"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalSalary"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="paymentDate">
                       Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="paymentDate"
-                        display="menu"
-                      ></p-columnFilter>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentDate"
+                        display="menu"></p-columnFilter>
                     </th>
                     <th width="10%">Action</th>
                   </tr>
@@ -180,11 +127,8 @@
                     <td>₹ {{ payment.totalSalary }}</td>
                     <td>{{ payment.paymentDate | date:'dd/MMM/yyyy' }}</td>
                     <td class="action-buttons">
-                      <p-button
-                        [text]="true"
-                        icon="fa fa-trash"
-                        (click)="deletePayment(payment._id)"
-                      ></p-button>
+                      <p-button [text]="true" icon="fa fa-trash" (click)="deletePayment(payment._id)" pTooltip="Delete"
+                        tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                     </td>
                   </tr>
                 </ng-template>
@@ -216,9 +160,5 @@
 
 <p-toast></p-toast>
 
-<app-confirm-dialog
-  [showDialog]="showDialoge"
-  (callbackModal)="callBackModal()"
-  (close)="close()"
-  [data]="modalData"
-></app-confirm-dialog>
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog>

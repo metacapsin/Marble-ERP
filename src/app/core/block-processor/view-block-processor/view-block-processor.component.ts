@@ -37,6 +37,7 @@ export class ViewBlockProcessorComponent {
   editSlabProcessingForm!: FormGroup;
   blockProcessor_id: any;
   slabProcessing_id: any;
+  payment_id: any;
   blockProcessorData: any = {};
   slabProcessingPaymentData: any[] = [];
   slabProcessingDataList: any[] = [];
@@ -50,6 +51,7 @@ export class ViewBlockProcessorComponent {
   ShowPaymentInvoice: boolean = false;
   paymentObject: any = {};
   header: string = "";
+  showDialoge: boolean = false; // to enable delete popup
 
   maxDate = new Date();
 
@@ -158,20 +160,49 @@ export class ViewBlockProcessorComponent {
     };
     this.showDialog = true;
   }
+  deletePayment(Id: any) {
+    this.payment_id = Id;
+    console.log(
+      "Block Processor Payment Delete Dialog triggred and this is its id",
+      Id
+    );
 
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Payment Details",
+    };
+    this.showDialog = true;
+  }
   // showNewDialog() {
   //   this.showDialog = true;
   // }
 
   callBackModal() {
-    this.blockProcessorService
-      .deleteSlabProcessing(this.slabProcessing_id)
-      .subscribe((resp) => {
-        const message = "Slab Processing Details has been deleted";
-        this.messageService.add({ severity: "success", detail: message });
-        this.getslabProcessingList();
-        this.showDialog = false;
-      });
+    if (this.slabProcessing_id) {
+      this.blockProcessorService
+        .deleteSlabProcessing(this.slabProcessing_id)
+        .subscribe((resp) => {
+          const message = "Slab Processing Details has been deleted";
+          this.messageService.add({ severity: "success", detail: message });
+          this.getslabProcessingList();
+          this.getslabProcessingPeymentList();
+          console.log("Block Processor deleted")
+
+          this.showDialog = false;
+        });
+    } else if (this.payment_id) {
+      this.blockProcessorService
+        .deletePayment(this.payment_id)
+        .subscribe((resp) => {
+          const message = "Payment Details has been deleted";
+          this.messageService.add({ severity: "success", detail: message });
+          this.getslabProcessingList();
+          this.getslabProcessingPeymentList();
+          console.log("Block Processor Payment deleted")
+
+          this.showDialog = false;
+        });
+    }
   }
 
   close() {
@@ -215,6 +246,7 @@ export class ViewBlockProcessorComponent {
       console.log("Form is Invalid");
     }
   }
+ 
   editSlabProcessingFormSubmit() {
     const payload = {
       processor: this.editSlabProcessingForm.value.processor,

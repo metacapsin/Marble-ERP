@@ -46,11 +46,13 @@
                                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                                     [roles]="['admin', 'super-admin']">
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
-                                            alt=""></a>
+                                            pTooltip="Download data in PDF file" tooltipPosition="bottom"
+                                            tooltipStyleClass="tooltip" alt=""></a>
                                     <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
                                             alt=""></a> -->
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                                            alt=""></a>
+                                            pTooltip="Download data in CSV file " tooltipPosition="bottom"
+                                            tooltipStyleClass="tooltip" alt=""></a>
                                     <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
                                 </div>
@@ -92,7 +94,8 @@ hideOnClear="true"  type="text" field="zip" display="menu"></p-columnFilter>
                                                 field="phone" display="menu"></p-columnFilter>
 
                                         </th>
-                                        <th pSortableColumn="billingAddress">Billing Address <p-sortIcon field="billingAddress"></p-sortIcon>
+                                        <th pSortableColumn="billingAddress">Billing Address <p-sortIcon
+                                                field="billingAddress"></p-sortIcon>
                                             <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
                                                 field="billingAddress" display="menu"></p-columnFilter>
 
@@ -142,9 +145,11 @@ hideOnClear="true"  field="onlineStore" display="menu"></p-columnFilter>
                                         <td appShowHide [roles]="['admin', 'super-admin']">
                                             <div class="action-buttons">
 
-                                                <p-button [text]="true" icon="fa fa-edit"
+                                                <p-button [text]="true" icon="fa fa-edit" pTooltip="Edit"
+                                                    tooltipPosition="bottom" tooltipStyleClass="tooltip"
                                                     [routerLink]="['/settings/warehouse/edit', warehouse._id]"></p-button>
-                                                <p-button [text]=" true" icon="fa fa-trash"
+                                                <p-button [text]=" true" icon="fa fa-trash" pTooltip="Delete"
+                                                    tooltipPosition="bottom" tooltipStyleClass="tooltip"
                                                     (click)="deleteLocation(warehouse._id)"></p-button>
                                             </div>
                                         </td>

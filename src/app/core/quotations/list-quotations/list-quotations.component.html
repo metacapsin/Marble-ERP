@@ -68,8 +68,10 @@
                   </div>
                   <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                     [roles]="['admin', 'super-admin']">
-                    <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt="" /></a>
-                    <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="" /></a>
+                    <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""   pTooltip="Download data in PDF file" tooltipPosition="bottom"
+                                        tooltipStyleClass="tooltip"/></a>
+                    <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""  pTooltip="Download data in CSV file " tooltipPosition="bottom"
+                                        tooltipStyleClass="tooltip"/></a>
                   </div>
                 </div>
   
@@ -156,12 +158,12 @@ hideOnClear="true"  type="text" field="quotationTotalAmount" display="menu"  ></
                       <td>₹ {{quotation.quotationDiscount | indianCurrency}}</td>
                       <td>₹ {{quotation.quotationTotalAmount | indianCurrency}}</td>
                       <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
-                        <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(quotation._id)"></p-button>
-                        <p-button [text]="true" icon="fa-solid fa-edit" (click)="editQuotation(quotation._id)"
+                        <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(quotation._id)" pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                        <p-button [text]="true" icon="fa-solid fa-edit" (click)="editQuotation(quotation._id)" pTooltip="Edit" tooltipPosition="bottom" tooltipStyleClass="tooltip"
                         ></p-button>
                       <!-- <div *ngIf="quotation.paymentStatus != 'Unpaid' && quotation.paymentStatus != 'Partial Paid'"
                         class="placeholder"></div>  -->
-                        <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteQuotations(quotation._id)"></p-button>
+                        <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteQuotations(quotation._id)"  pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
   
                       </td>
                     </tr>

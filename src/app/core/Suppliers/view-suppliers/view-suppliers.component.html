@@ -211,14 +211,17 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                                     <div class="action-buttons">
 
                                         <p-button [text]="true" icon="fa-solid fa-eye"
-                                            (click)="showInvoiceDialoge(purchase._id)"></p-button>
+                                            (click)="showInvoiceDialoge(purchase._id)" pTooltip="View"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                                         <p-button *ngIf="
                       purchase.paymentStatus == 'Unpaid' ||
                       purchase.paymentStatus == 'Partial Paid ' ||purchase.paymentStatus == 'Partial Paid'
-                    " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id)"></p-button>
+                    " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id)" pTooltip="Payment"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                                         <div *ngIf="purchase.paymentStatus =='Paid'" class="placeholder"></div>
                                         <p-button [text]="true" icon="fa-solid fa-trash"
-                                            (click)="deletePurchase(purchase._id)"></p-button>
+                                            (click)="deletePurchase(purchase._id)" pTooltip="Delete"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                                     </div>
                                 </td>
                             </tr>
@@ -294,7 +297,8 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                                 <td>₹ {{ payment.amount | indianCurrency}}</td>
                                 <td>
                                     <p-button [text]=" true" icon="fa fa-trash"
-                                        (click)="  deletePurchasePayment(payment._id)"></p-button>
+                                        (click)="  deletePurchasePayment(payment._id)"  pTooltip="Delete"
+                  tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                                 </td>
                             </tr>
                         </ng-template>
@@ -407,16 +411,19 @@ hideOnClear="true"  type="text" field="purchaseReturnOrderStatus" display="menu"
                                     <div class="action-buttons">
 
                                         <p-button [text]="true" icon="fa-solid fa-eye"
-                                            (click)="showReturnInvoiceDialoge(purchaseReturn._id)"></p-button>
+                                            (click)="showReturnInvoiceDialoge(purchaseReturn._id)"  pTooltip="View"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                                         <p-button *ngIf="
                                         purchaseReturn.paymentStatus == 'Unpaid' ||
                                         purchaseReturn.paymentStatus == 'Partial Paid ' ||  purchaseReturn.paymentStatus == 'Partial Paid'
                                       " [text]="true" icon="fa-solid fa-wallet"
-                                            (click)="openPaymentReturnDialog(purchaseReturn._id)"></p-button>
+                                            (click)="openPaymentReturnDialog(purchaseReturn._id)" pTooltip="Payment"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                                         <div *ngIf="purchaseReturn.paymentStatus != 'Unpaid' && purchaseReturn.paymentStatus != 'Partial Paid ' && purchaseReturn.paymentStatus != 'Partial Paid'"
                                             class="placeholder"></div>
                                         <p-button [text]="true" icon="fa-solid fa-trash"
-                                            (click)="deletePurchaseReturn(purchaseReturn._id)"></p-button>
+                                            (click)="deletePurchaseReturn(purchaseReturn._id)" pTooltip="Delete"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                                     </div>
                                 </td>
                             </tr>
@@ -492,7 +499,8 @@ hideOnClear="true"  type="text" field="purchaseReturnOrderStatus" display="menu"
                                 <td>₹ {{ payment.amount | indianCurrency}}</td>
                                 <td>
                                     <p-button [text]=" true" icon="fa fa-trash"
-                                        (click)="  deletePurchaseReturnPayment(payment._id)"></p-button>
+                                        (click)="  deletePurchaseReturnPayment(payment._id)" pTooltip="Delete"
+                    tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                                 </td>
                             </tr>
                         </ng-template>
