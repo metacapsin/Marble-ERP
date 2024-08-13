@@ -245,17 +245,19 @@
                     <td>{{ stock.previousQty + " Sq. Feet. " }}</td>
                     <td>{{ stock.quantity + " Sq. Feet. " }}</td>
                     <td>{{ stock.currentQty + " Sq. Feet. " }}</td>
-                    <td class="OverHide" (click)="op.toggle($event)" pTooltip="See More"
+                    <td *ngIf="!stock.note"></td>
+                    <td *ngIf="stock.note" class="OverHide" (click)="op.toggle($event)" pTooltip="See More"
                     tooltipPosition="right" tooltipStyleClass="tooltip">
                       {{ stock.note }}
                       <p-overlayPanel #op>
-                        <div class="flex flex-column gap-3 w-25rem" style="width: 25rem; display: flex; flex-direction: column; gap: 3;">
+                        <div style="width: 25rem; display: flex;  flex-direction: column; gap: 3;">
                           <div>
                             <h4>Notes</h4>
-                            <p>{{ stock.note }}</p>
+                            <p style="word-wrap: break-word; white-space: pre-wrap;">{{ stock.note }}</p>
                           </div>
                         </div>
                       </p-overlayPanel>
+                      
                     </td>
                     <td
                       appShowHide

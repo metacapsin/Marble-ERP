@@ -763,7 +763,7 @@
                             </div>
 
                             <div class="row p-2">
-                              <p-accordion [activeIndex]="0">
+                              <p-accordion [activeIndex]="0" [multiple]="true">
                                 <p-accordionTab *ngFor="let data of ItemDetails.blockDetails; let i = index">
                                   <ng-template pTemplate="header">
                                     <span class="d-flex justify-content-between w-full">
