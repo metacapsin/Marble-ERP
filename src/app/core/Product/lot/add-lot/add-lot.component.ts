@@ -333,11 +333,11 @@ export class AddLotComponent {
       date: "",
       notes: "",
     };
-    this.dataEmitter.emit(JSON.stringify(payload));
+    // this.dataEmitter.emit(JSON.stringify(payload));
 
     console.log("payload", payload);
+    this.NewPurchaseService.setFormData('stepTwoData', payload)
     if(this.lotAddForm.valid){
-      this.NewPurchaseService.setFormData('stepTwoData', payload)
           const message = "Lot Values has been saved";
           this.messageService.add({ severity: "success", detail: message });
     } else {

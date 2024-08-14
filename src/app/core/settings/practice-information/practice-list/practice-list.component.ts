@@ -26,7 +26,8 @@ export class PracticeListComponent {
   userData: any;
   warehouseName: any;
   changePasswordVisible: boolean = false;
-  passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+  passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
 
   constructor(
     public dialog: MatDialog,
@@ -38,9 +39,33 @@ export class PracticeListComponent {
   ) {
     this.changePasswordForm = this.fb.group({
       currentPassword: ["", [Validators.required]],
-      newPassword: ["", [Validators.required, Validators.pattern(this.passwordRegex)]],
-      confirmNewPassword: ["", [Validators.required, Validators.pattern(this.passwordRegex)]],
-    })
+      newPassword: [
+        "",
+        [Validators.required, Validators.pattern(this.passwordRegex)],
+      ],
+      confirmNewPassword: [
+        "",
+        [Validators.required, Validators.pattern(this.passwordRegex)],
+      ],
+    });
+    this.changePasswordForm
+      .get("confirmNewPassword")
+      ?.valueChanges.subscribe(() => {
+        this.checkPasswords();
+      });
+  }
+  checkPasswords() {
+    const newPassword = this.changePasswordForm.get("newPassword")?.value;
+    const confirmNewPassword =
+      this.changePasswordForm.get("confirmNewPassword")?.value;
+
+    if (newPassword !== confirmNewPassword) {
+      this.changePasswordForm
+        .get("confirmNewPassword")
+          ?.setErrors({ passwordMismatch: true });
+    } else {
+      this.changePasswordForm.get("confirmNewPassword")?.setErrors(null);
+    }
   }
   isNameArray(data: any): boolean {
     return Array.isArray(data.name);
@@ -64,20 +89,20 @@ export class PracticeListComponent {
   changePasswordFormSubmit() {
     if (this.changePasswordForm.valid) {
       const payload = {
-        "currentPassword": this.changePasswordForm.value.currentPassword,
-        "newPassword": this.changePasswordForm.value.newPassword,
-        "confirmNewPassword": this.changePasswordForm.value.confirmNewPassword
-      }
+        currentPassword: this.changePasswordForm.value.currentPassword,
+        newPassword: this.changePasswordForm.value.newPassword,
+        confirmNewPassword: this.changePasswordForm.value.confirmNewPassword,
+      };
       this.auth.changePassword(payload).subscribe((resp: any) => {
-        console.log("resp", resp); 
-          if (resp.status === "success") {
-            const message = resp.message;
-            this.messageService.add({ severity: "success", detail: message });
-            this.changePasswordVisible = false
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
-          }
+        console.log("resp", resp);
+        if (resp.status === "success") {
+          const message = resp.message;
+          this.messageService.add({ severity: "success", detail: message });
+          this.changePasswordVisible = false;
+        } else {
+          const message = resp.message;
+          this.messageService.add({ severity: "error", detail: message });
+        }
       });
     } else {
       console.log("invalid form");

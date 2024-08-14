@@ -126,6 +126,7 @@
                             <label for="confirmNewPassword">Confirm New Password<span
                                     class="login-danger">*</span></label>
                             <input class="form-control" formControlName="confirmNewPassword" type="text" placeholder="Confirm New Password" />
+                            <span style="color: #97704f; font-size: 12px">The New Password and Confirm New Password will Same</span>
                             <div *ngIf="
                           changePasswordForm.get('confirmNewPassword')?.hasError('required') &&
                           changePasswordForm.get('confirmNewPassword')?.touched
