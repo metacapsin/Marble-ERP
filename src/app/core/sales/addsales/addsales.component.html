@@ -49,7 +49,7 @@
               <div class="seller">
                 <div class="d-flex gap-3 align-items-center">
                   <h3 style="color: #970">Seller Address</h3>
-                  <p-button [text]="true" icon="fa-solid fa-edit" (click)="editAddress()"></p-button>
+                  <p-button [text]="true" icon="fa-solid fa-edit" (click)="editAddress()" tooltipPosition="bottom" tooltipStyleClass="tooltip" pTooltip="Edit Seller Address"></p-button>
                 </div>
                 <div *ngIf="!setAddressData && address">
                   <div *ngFor="let addressData of address">
@@ -464,9 +464,9 @@
                         <p *ngIf="addSalesForm.get('salesDiscount').value">
                           Discount
                           <span *ngIf="addSalesForm.get('salesDiscount')?.value > 0">
-                            ₹
+                         - ₹
                             {{
-                            addSalesForm.get("salesDiscount").value
+                             addSalesForm.get("salesDiscount").value
                             | number : "1.2-2"
                             }}
                           </span>

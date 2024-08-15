@@ -48,8 +48,8 @@ export class TotalValueDirective {
             const fixedTotalSQFT = parseFloat(element.totalSQFT.toFixed(2));
             this.totalValue += fixedTotalSQFT;
         }
-        // const setValue = this.indianCurrencyPipe.transform(this.totalValue);
-        this.elementRef.nativeElement.textContent = `${this.totalValue}`;
+        const setValue = this.indianCurrencyPipe.transform(this.totalValue);
+        this.elementRef.nativeElement.textContent = `${setValue}`;
       });
     }
     if (this._name == "expensesDataName") {

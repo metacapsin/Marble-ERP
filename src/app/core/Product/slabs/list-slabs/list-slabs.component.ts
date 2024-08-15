@@ -33,7 +33,7 @@ export class ListSlabsComponent {
   allSlabsDaTa: any;
   slabsDaTa = "slabsDaTa";
   slabProfit: number = 0;
-  slabHistoryData: any=[];
+  slabHistoryData: any = [];
   visibleSlabHistory: boolean = false;
   warehouseData: any;
   warehouseDropDown: any;
@@ -67,7 +67,6 @@ export class ListSlabsComponent {
     this.service.getSlabHistoryById(_id).subscribe((resp: any) => {
       this.visibleSlabHistory = true;
       this.slabHistoryData = resp.data;
-      this.originalData = resp.data;
       console.log("Slab History API", this.slabHistoryData);
     });
   }
@@ -104,21 +103,19 @@ export class ListSlabsComponent {
   }
 
   onSearchByChange(value: any): void {
-    // if(this.searchDataValue  == ''){
-    //   return this.allSlabsDaTa = this.originalData;
-    // }
-    console.log("value asyock adjustment", value);
+    // If the search value is empty or null, return all original data
     if (value == null) {
-      return (this.allSlabsDaTa = this.originalData);
+      this.allSlabsDaTa = this.originalData;
     } else {
-      this.allSlabsDaTa = this.originalData.map((i) => {
-        console.log(i);
-        if (i.warehouseDetails._id === value._id) {
-          return i;
-        }
+      this.allSlabsDaTa = this.originalData.filter((i) => {
+        return i.warehouseDetails && i.warehouseDetails._id == value._id;
       });
-      this.allInDropDown = this.allSlabsDaTa
+      this.allInDropDown = this.allSlabsDaTa;
     }
+
+    // Update dropdown data with the filtered data
+
+    console.log(this.allSlabsDaTa);
   }
 
   callBackModal() {
@@ -139,10 +136,10 @@ export class ListSlabsComponent {
 
   searchData() {
     if (this.searchDataValue == "") {
-      this.onSearchByChange(null)
+      this.onSearchByChange(null);
       console.log(this.warehouseDropDown);
-      if(this.warehouseDropDown.name == '' ){
-        this.allSlabsDaTa = this.originalData
+      if (this.warehouseDropDown.name == "") {
+        this.allSlabsDaTa = this.originalData;
       }
       return (this.allSlabsDaTa = this.allInDropDown);
     }

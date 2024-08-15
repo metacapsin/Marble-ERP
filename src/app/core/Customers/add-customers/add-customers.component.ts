@@ -66,6 +66,9 @@ export class AddCustomersComponent implements OnInit {
   ngOnInit(): void {
     this.returnUrl = this.localStorageService.getItem("returnUrl");
   }
+  onCancel(){
+    this.router.navigateByUrl(this.returnUrl);
+  }
   
   addcustomerForm() {
     console.log(this.addcustomerGroup.value);
@@ -102,4 +105,5 @@ export class AddCustomersComponent implements OnInit {
     }
   }
   // [routerLink]="['/customers/view-customers/', product._id]"
+  
 }

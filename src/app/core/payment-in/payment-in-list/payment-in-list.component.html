@@ -99,7 +99,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-payment>
                                     <tr>
-                                        <td class="bold">{{payment?.salesInvoiceNumber }}</td>
+                                        <td class="bold">{{payment?.salesInvoice }}</td>
                                         <td class="bold">{{payment?.transactionNo }}</td>
                                         <td class="bold">{{payment?.paymentDate | date: 'dd-MMM-yyyy'}}</td>
                                         <td class="bold">{{payment?.customer.name}}</td>
@@ -123,7 +123,7 @@
 
                                 <ng-template pTemplate="footer">
                                     <tr *ngIf="totalAmount > 0 ">
-                                        <td colspan="3"></td>
+                                        <td colspan="4"></td>
                                         <td>Total </td>
                                         <td>₹ {{ totalAmount }}</td>
                                         <td></td>

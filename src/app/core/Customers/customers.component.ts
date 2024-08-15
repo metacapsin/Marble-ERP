@@ -120,6 +120,7 @@ this.customerId = Id;
 
   navigateToCreateCustomer() {
     const returnUrl = this.router.url;
+    console.log(returnUrl);
     this.localStorageService.setItem("returnUrl", returnUrl)
     this.router.navigateByUrl("/customers/add-customers");
   }

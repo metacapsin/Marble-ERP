@@ -46,7 +46,7 @@
                       [disabled]="!addcustomerGroup.valid">
                       Submit
                     </button>
-                    <button class="btn btn-secondary" [routerLink]="['/customers']">
+                    <button class="btn btn-secondary" (click)="onCancel()">
                       <a class="text-white"></a>Cancel
                     </button>
                     </div>
