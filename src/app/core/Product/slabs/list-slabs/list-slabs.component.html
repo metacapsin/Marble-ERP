@@ -494,7 +494,6 @@
                             <td>{{ sales.salesInvoiceNumber }}</td>
                             <td>{{ sales.salesDate | date: "dd-MMM-yyyy" }}</td>
                             <td>{{ sales.salesOrderStatus }}</td>
-                            <td>{{ sales.paymentStatus }}</td>
                             <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
                                     value="Partial Paid"></p-tag></td>
                             <td *ngIf="sales.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag>

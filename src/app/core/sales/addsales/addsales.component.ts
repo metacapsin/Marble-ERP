@@ -417,7 +417,11 @@ export class AddsalesComponent implements OnInit {
             const message = "Sales has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
-              this.router.navigateByUrl(this.returnUrl);
+              if(this.returnUrl == '/sales/add-sales'){
+                this.router.navigate(['/sales']);
+              } else {
+                this.router.navigateByUrl(this.returnUrl);
+              }
             }, 400);
           } else {
             const message = resp.message;
