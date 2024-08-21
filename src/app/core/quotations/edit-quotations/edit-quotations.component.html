@@ -15,7 +15,7 @@
             <li class="breadcrumb-item">
               <i class="feather icon-chevron-right"></i>
             </li>
-            <li class="breadcrumb-item active">Quotation Add</li>
+            <li class="breadcrumb-item active">Edit Quotation</li>
           </ul>
         </div>
       </div>
@@ -27,7 +27,7 @@
           <ul class="breadcrumb invoices-breadcrumb">
             <li class="breadcrumb-item invoices-breadcrumb-item">
               <a [routerLink]="routes.quotations">
-                <i class="fa fa-chevron-left"></i> Back to Quotation List
+                <i class="fa fa-chevron-left"></i> Back to Quotations List
               </a>
             </li>
           </ul>
@@ -40,64 +40,90 @@
       <div class="col-md-12">
         <div class="card invoices-add-card">
           <div class="card-body">
-            <form
-              [formGroup]="editQuotationForm"
-              (ngSubmit)="editQuotationFormSubmit()"
-            >
-              <div class="invoices-main-form">
-                <div class="row">
-                  <!-- <div class="col-xl-4 col-md-6 col-sm-12 col-12">
-                                        <div class="form-group local-forms">
-                                            <label for="quotationInvoiceNumber">Quotation Number </label>
-                                            <input type="text" class="form-control" placeholder="Enter Invoice Number"
-                                                formControlName="quotationInvoiceNumber">
-                                            <span style="color: #97704f; font-size: 12px;
-                                            ">Leave it blank to generate automatically</span>
-                                        </div>
-                                    </div> -->
-                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
-                    <div class="form-group local-forms">
-                      <label for="customer">Customer Name </label>
-                      <p-dropdown
-                        [style]="{ width: '100%' }"
-                        placeholder="Select Customer"
-                        [options]="customerList"
-                        formControlName="customer"
-                        optionLabel="name"
-                        optionValue="_id"
-                        display="chip"
-                        [filter]="true"
-                        filterBy="name"
-                      >
-                      </p-dropdown>
-                      <!-- <div
-                                                *ngIf="editQuotationForm.get('customer')?.hasError('required')  && editQuotationForm.get('customer')?.touched">
-                                                <span class="login-danger">Field is required. </span>
-                                            </div> -->
+            <div class="col-12 col-12 d-flex justify-content-between mb-3">
+              <div class="seller">
+                <div class="d-flex gap-3 align-items-center">
+                  <h3 style="color: #970">Seller Address</h3>
+                  <p-button [text]="true" icon="fa-solid fa-edit" (click)="editAddress()"></p-button>
+                </div>
+                <div *ngIf="!setAddressData && address">
+                  <div *ngFor="let addressData of address">
+                    <div *ngIf="addressData.setAsDefault" style="line-height: 100%">
+                      <h5>
+                        {{ addressData.companyName + " ," }}
+                      </h5>
+                      <h5 title="address Line 1">
+                        {{ addressData.addressLine1 + " ," }}
+                      </h5>
+                      <h5 title="address Line 2">
+                        {{ addressData.addressLine2 + " ," }}
+                      </h5>
+                      <h5>
+                        <span title="City">{{ addressData.city }}</span>, <span title="State">{{ addressData.state
+                          }}</span>,
+                        <span title="Postal Code">{{
+                          addressData.postalCode + " ,"
+                          }}</span>
+                      </h5>
+                      <h5 title="Country">{{ addressData.country.name }}</h5>
                     </div>
                   </div>
-                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                </div>
+                <div *ngIf="setAddressData" style="line-height: 100%">
+                  <h5>
+                    {{ setAddressData.companyName + " ," }}
+                  </h5>
+                  <h5 title="address Line 1">
+                    {{ setAddressData.addressLine1 + " ," }}
+                  </h5>
+                  <h5 title="address Line 2">
+                    {{ setAddressData.addressLine2 + " ," }}
+                  </h5>
+                  <h5>
+                    <span title="City">{{ setAddressData.city }}</span>, <span title="State">{{ setAddressData.state
+                      }}</span>,
+                    <span title="Postal Code">{{
+                      setAddressData.postalCode + " ,"
+                      }}</span>
+                  </h5>
+                  <h5 title="Country">{{ setAddressData.country.name }}</h5>
+                </div>
+              </div>
+
+              <div class="buyer">
+                <h3 style="color: #970">Buyer Address</h3>
+                <div>
+                  <h4 title="address">
+                    {{ customerAddress }}
+                  </h4>
+                </div>
+              </div>
+
+            </div>
+            <form [formGroup]="editQuotationForm" (ngSubmit)="editQuotationFormSubmit()">
+              <div class="invoices-main-form">
+                <div class="row">
+                  <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="quotationDate"
-                        >Quotation Date
-                        <span class="login-danger">*</span></label
-                      >
-                      <p-calendar
-                        [maxDate]="maxDate"
-                        appendTo="body"
-                        dataType="string"
-                        formControlName="quotationDate"
-                        placeholder="mm/dd/yyyy"
-                        [styleClass]="'col-12'"
-                      ></p-calendar>
-                      <div
-                        *ngIf="
+                      <label for="customer">Customer Name </label>
+                      <p-dropdown [style]="{ width: '100%' }" placeholder="Select Customer" [options]="customerList"
+                        formControlName="customer" optionLabel="name" optionValue="_id" display="chip" [filter]="true"
+                        filterBy="name" (onChange)="setCustomer()">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                    <div class="form-group local-forms">
+                      <label for="quotationDate">Quotation Date
+                        <span class="login-danger">*</span></label>
+                      <p-calendar [maxDate]="maxDate" appendTo="body" dataType="string" formControlName="quotationDate"
+                        placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
+                      <div *ngIf="
                           editQuotationForm
                             .get('quotationDate')
                             ?.hasError('required') &&
                           editQuotationForm.get('quotationDate')?.touched
-                        "
-                      >
+                        ">
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
@@ -105,22 +131,17 @@
                 </div>
               </div>
 
+
               <!-- --------------#######------- -->
 
               <div class="invoice-add-table">
                 <h4 class="d-flex align-items-center">
                   Item Details<p-button [text]="true">
-                    <p-button
-                      [text]="true"
-                      icon="fa fa-plus"
-                      (click)="addquotationItemDetailsItem()"
-                    ></p-button>
+                    <p-button [text]="true" icon="fa fa-plus" (click)="addquotationItemDetailsItem()"></p-button>
                   </p-button>
                 </h4>
                 <div class="table-responsive">
-                  <table
-                    class="table table-striped table-nowrap mb-0 no-footer add-table-items"
-                  >
+                  <table class="table table-striped table-nowrap mb-0 no-footer add-table-items">
                     <thead>
                       <tr>
                         <th>Warehouse</th>
@@ -133,30 +154,17 @@
                       </tr>
                     </thead>
                     <tbody formArrayName="quotationItemDetails">
-                      <tr
-                        class="add-row"
-                        *ngFor="
+                      <tr class="add-row" *ngFor="
                           let quotationItemDetailsForm of quotationItemDetails.controls;
                           let i = index
-                        "
-                        [formGroupName]="i"
-                      >
+                        " [formGroupName]="i">
                         <td class="col-md-2">
                           <!-- <span class="form-control">{{ editQuotationForm.get('quotationItemDetails').get(i + '.quotationWarehouseDetails').value.name }}</span> -->
-                          <p-dropdown
-                            [options]="wareHousedataListsEditArray"
-                            appendTo="body"
-                            [style]="{ width: '100%' }"
-                            optionLabel="name"
-                            [filter]="true"
-                            filterBy="slabName"
-                            optionValue="_id"
-                            formControlName="quotationWarehouseDetails"
-                            placeholder="Select Warehouse"
-                            (onChange)="onWareHouseSelect($event.value, i)"
-                          ></p-dropdown>
-                          <div
-                            *ngIf="
+                          <p-dropdown [options]="wareHousedataListsEditArray" appendTo="body"
+                            [style]="{ width: '100%' }" optionLabel="name" [filter]="true" filterBy="slabName"
+                            optionValue="_id" formControlName="quotationWarehouseDetails" placeholder="Select Warehouse"
+                            (onChange)="onWareHouseSelect($event.value, i)"></p-dropdown>
+                          <div *ngIf="
                               editQuotationForm
                                 .get('quotationItemDetails')
                                 .get(i + '.quotationWarehouseDetails')
@@ -164,27 +172,17 @@
                               editQuotationForm
                                 .get('quotationItemDetails')
                                 .get(i + '.quotationWarehouseDetails').touched
-                            "
-                          >
+                            ">
                             <span class="login-danger">Field is required.</span>
                           </div>
                         </td>
                         <td class="col-md-2">
                           <!-- <span class="form-control">{{ editQuotationForm.get('quotationItemDetails').get(i + '.quotationItemProduct').value.slabName }}</span> -->
-                          <p-dropdown
-                            [options]="slabDataList[i]"
-                            appendTo="body"
-                            [style]="{ width: '100%' }"
-                            optionLabel="name"
-                            [filter]="true"
-                            filterBy="slabName"
-                            optionValue="_id"
-                            formControlName="quotationItemProduct"
-                            placeholder="Select Product"
-                            (onChange)="onSlabSelect($event.value, i)"
-                          ></p-dropdown>
-                          <div
-                            *ngIf="
+                          <p-dropdown [options]="slabDataList[i]" appendTo="body" [style]="{ width: '100%' }"
+                            optionLabel="name" [filter]="true" filterBy="slabName" optionValue="_id"
+                            formControlName="quotationItemProduct" placeholder="Select Product"
+                            (onChange)="onSlabSelect($event.value, i)"></p-dropdown>
+                          <div *ngIf="
                               editQuotationForm
                                 .get('quotationItemDetails')
                                 .get(i + '.quotationItemProduct')
@@ -192,21 +190,15 @@
                               editQuotationForm
                                 .get('quotationItemDetails')
                                 .get(i + '.quotationItemProduct').touched
-                            "
-                          >
+                            ">
                             <span class="login-danger">Field is required.</span>
                           </div>
                         </td>
                         <td class="col-md-2">
-                          <input
-                            type="number"
-                            formControlName="quotationItemQuantity"
-                            (change)="calculateTotalAmount()"
-                            class="form-control"
-                          />
+                          <input type="number" formControlName="quotationItemQuantity" (change)="calculateTotalAmount()"
+                            class="form-control" />
                           <!-- <span style="color: #97704f; font-size: 12px;">Max Quantity: {{editQuotationForm.get('quotationItemDetails').get(i + '.maxQuantity').value }}</span> -->
-                          <div
-                            *ngIf="
+                          <div *ngIf="
                               editQuotationForm
                                 .get('quotationItemDetails')
                                 .get(i + '.quotationItemQuantity')
@@ -214,12 +206,10 @@
                               editQuotationForm
                                 .get('quotationItemDetails')
                                 .get(i + '.quotationItemQuantity').touched
-                            "
-                          >
+                            ">
                             <span class="login-danger">Field is required.</span>
                           </div>
-                          <div
-                            *ngIf="
+                          <div *ngIf="
                               editQuotationForm
                                 .get('quotationItemDetails')
                                 .get(i + '.quotationItemQuantity')
@@ -227,54 +217,31 @@
                               editQuotationForm
                                 .get('quotationItemDetails')
                                 .get(i + '.quotationItemQuantity').touched
-                            "
-                          >
-                            <span class="login-danger"
-                              >Input must be at least 0.</span
-                            >
+                            ">
+                            <span class="login-danger">Input must be at least 0.</span>
                           </div>
                         </td>
                         <td class="col-md-2">
-                          <input
-                            type="number"
-                            formControlName="quotationItemUnitPrice"
-                            (change)="calculateTotalAmount()"
-                            class="form-control"
-                          />
+                          <input type="number" formControlName="quotationItemUnitPrice"
+                            (change)="calculateTotalAmount()" class="form-control" />
                         </td>
                         <td class="col-md-2">
-                          <p-multiSelect
-                            [style]="{ width: '100%' }"
-                            placeholder="Select Tax"
-                            [options]="orderTaxList"
-                            appendTo="body"
-                            formControlName="quotationItemTax"
-                            optionLabel="orderTaxName"
-                            optionValue="orderNamevalue"
-                            display="chip"
-                            (onChange)="calculateTotalAmount()"
-                            [maxSelectedLabels]="2"
-                          ></p-multiSelect>
+                          <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax" [options]="orderTaxList"
+                            appendTo="body" formControlName="quotationItemTax" optionLabel="orderTaxName"
+                            optionValue="orderNamevalue" display="chip" (onChange)="calculateTotalAmount()"
+                            [maxSelectedLabels]="2"></p-multiSelect>
                         </td>
                         <td class="col-md-2">
                           <span class="form-control">{{
                             editQuotationForm
-                              .get("quotationItemDetails")
-                              .get(i + ".quotationItemSubTotal").value
-                          }}</span>
+                            .get("quotationItemDetails")
+                            .get(i + ".quotationItemSubTotal").value
+                            }}</span>
                         </td>
                         <td class="add-remove text-end">
-                          <p-button
-                            [text]="true"
-                            icon="fa fa-plus"
-                            (click)="addquotationItemDetailsItem()"
-                          ></p-button>
-                          <p-button
-                            [text]="true"
-                            icon="fa fa-trash"
-                            (click)="deletequotationItemDetails(i)"
-                            (keyup.enter)="deletequotationItemDetails(i)"
-                          ></p-button>
+                          <p-button [text]="true" icon="fa fa-plus" (click)="addquotationItemDetailsItem()"></p-button>
+                          <p-button [text]="true" icon="fa fa-trash" (click)="deletequotationItemDetails(i)"
+                            (keyup.enter)="deletequotationItemDetails(i)"></p-button>
                         </td>
                       </tr>
                     </tbody>
@@ -288,55 +255,32 @@
                     <h4 class="field-title">More Fields</h4>
                   </div>
                   <div class="invoice-faq">
-                    <div
-                      class="panel-group"
-                      id="accordion"
-                      role="tablist"
-                      aria-multiselectable="true"
-                    >
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                       <div class="faq-tab">
                         <div class="panel panel-default">
                           <div class="panel-heading" role="tab" id="headingTwo">
                             <p class="panel-title">
-                              <a
-                                class="collapsed"
-                                data-bs-toggle="collapse"
-                                data-bs-parent="#accordion"
-                                href="#collapseTwo"
-                                aria-expanded="false"
-                                aria-controls="collapseTwo"
-                              >
+                              <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion"
+                                href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 <i class="fas fa-plus-circle me-1"></i> Add
                                 Terms & Conditions
                               </a>
                             </p>
                           </div>
-                          <div
-                            id="collapseTwo"
-                            class="panel-collapse collapse"
-                            role="tabpanel"
-                            aria-labelledby="headingTwo"
-                            data-bs-parent="#accordion"
-                          >
+                          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                            aria-labelledby="headingTwo" data-bs-parent="#accordion">
                             <div class="panel-body">
-                              <textarea
-                                class="form-control"
-                                formControlName="quotationTermsAndCondition"
-                              ></textarea>
-                              <div
-                                *ngIf="
+                              <textarea class="form-control" formControlName="quotationTermsAndCondition"></textarea>
+                              <div *ngIf="
                                   editQuotationForm
                                     .get('quotationTermsAndCondition')
                                     ?.hasError('pattern') &&
                                   editQuotationForm.get(
                                     'quotationTermsAndCondition'
                                   )?.touched
-                                "
-                              >
-                                <span class="login-danger"
-                                  >Input must be between 2 to 200
-                                  characters.</span
-                                >
+                                ">
+                                <span class="login-danger">Input must be between 2 to 200
+                                  characters.</span>
                               </div>
                             </div>
                           </div>
@@ -344,50 +288,28 @@
                       </div>
                       <div class="faq-tab">
                         <div class="panel panel-default">
-                          <div
-                            class="panel-heading"
-                            role="tab"
-                            id="headingThree"
-                          >
+                          <div class="panel-heading" role="tab" id="headingThree">
                             <p class="panel-title">
-                              <a
-                                class="collapsed"
-                                data-bs-toggle="collapse"
-                                data-bs-parent="#accordion"
-                                href="#collapseThree"
-                                aria-expanded="false"
-                                aria-controls="collapseThree"
-                              >
+                              <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion"
+                                href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 <i class="fas fa-plus-circle me-1"></i> Add
                                 Notes
                               </a>
                             </p>
                           </div>
-                          <div
-                            id="collapseThree"
-                            class="panel-collapse collapse"
-                            role="tabpanel"
-                            aria-labelledby="headingThree"
-                            data-bs-parent="#accordion"
-                          >
+                          <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                            aria-labelledby="headingThree" data-bs-parent="#accordion">
                             <div class="panel-body">
-                              <textarea
-                                class="form-control"
-                                formControlName="quotationNotes"
-                              ></textarea>
-                              <div
-                                *ngIf="
+                              <textarea class="form-control" formControlName="quotationNotes"></textarea>
+                              <div *ngIf="
                                   editQuotationForm
                                     .get('quotationNotes')
                                     ?.hasError('pattern') &&
                                   editQuotationForm.get('quotationNotes')
                                     ?.touched
-                                "
-                              >
-                                <span class="login-danger"
-                                  >Input must be between 2 to 100
-                                  characters.</span
-                                >
+                                ">
+                                <span class="login-danger">Input must be between 2 to 100
+                                  characters.</span>
                               </div>
                             </div>
                           </div>
@@ -425,16 +347,10 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
                               </div>
-                              <input
-                                class="form-control"
-                                (change)="calculateTotalAmount()"
-                                formControlName="quotationDiscount"
-                                type="number"
-                                placeholder=""
-                              />
+                              <input class="form-control" (change)="calculateTotalAmount()"
+                                formControlName="quotationDiscount" type="number" placeholder="" />
                             </div>
-                            <div
-                              *ngIf="
+                            <div *ngIf="
                                 editQuotationForm
                                   .get('quotationDiscount')
                                   ?.hasError('min') &&
@@ -445,11 +361,8 @@
                                   ?.hasError('max') &&
                                 editQuotationForm.get('quotationDiscount')
                                   ?.touched
-                              "
-                            >
-                              <span class="login-danger"
-                                >Input must be between 1 to 10000.</span
-                              >
+                              ">
+                              <span class="login-danger">Input must be between 1 to 10000.</span>
                             </div>
                           </div>
                         </div>
@@ -460,16 +373,10 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
                               </div>
-                              <input
-                                class="form-control"
-                                (change)="calculateTotalAmount()"
-                                formControlName="quotationShipping"
-                                type="number"
-                                placeholder=""
-                              />
+                              <input class="form-control" (change)="calculateTotalAmount()"
+                                formControlName="quotationShipping" type="number" placeholder="" />
                             </div>
-                            <div
-                              *ngIf="
+                            <div *ngIf="
                                 editQuotationForm
                                   .get('quotationShipping')
                                   ?.hasError('min') &&
@@ -480,11 +387,8 @@
                                   ?.hasError('max') &&
                                 editQuotationForm.get('quotationShipping')
                                   ?.touched
-                              "
-                            >
-                              <span class="login-danger"
-                                >Input must be between 1 to 100000.</span
-                              >
+                              ">
+                              <span class="login-danger">Input must be between 1 to 100000.</span>
                             </div>
                           </div>
                         </div>
@@ -495,16 +399,10 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
                               </div>
-                              <input
-                                class="form-control"
-                                (change)="calculateTotalAmount()"
-                                formControlName="otherCharges"
-                                type="number"
-                                placeholder=""
-                              />
+                              <input class="form-control" (change)="calculateTotalAmount()"
+                                formControlName="otherCharges" type="number" placeholder="" />
                             </div>
-                            <div
-                              *ngIf="
+                            <div *ngIf="
                                 editQuotationForm
                                   .get('otherCharges')
                                   ?.hasError('min') &&
@@ -514,104 +412,83 @@
                                   .get('otherCharges')
                                   ?.hasError('max') &&
                                 editQuotationForm.get('otherCharges')?.touched
-                              "
-                            >
-                              <span class="login-danger"
-                                >Input must be between 1 to 100000.</span
-                              >
+                              ">
+                              <span class="login-danger">Input must be between 1 to 100000.</span>
                             </div>
                           </div>
                         </div>
                       </div>
 
                       <div class="invoice-total-inner">
-                        <p
-                          *ngIf="
+                        <p *ngIf="
                             editQuotationForm.get('quotationGrossTotal')
                               ?.value > 0
-                          "
-                        >
+                          ">
                           Gross Total
-                          <span
-                            *ngIf="
+                          <span *ngIf="
                               editQuotationForm.get('quotationGrossTotal')
                                 ?.value > 0
-                            "
-                          >
+                            ">
                             ₹
                             {{
-                              editQuotationForm.get("quotationGrossTotal").value
-                                | number : "1.2-2"
+                            editQuotationForm.get("quotationGrossTotal").value
+                            | number : "1.2-2"
                             }}
                           </span>
                         </p>
-                        <p
-                          *ngIf="
+                        <p *ngIf="
                             editQuotationForm.get('quotationTax').value > 0
-                          "
-                        >
+                          ">
                           Applied Tax Amount
-                          <span
-                            *ngIf="
+                          <span *ngIf="
                               editQuotationForm.get('quotationTax')?.value > 0
-                            "
-                          >
+                            ">
                             ₹
                             {{
-                              editQuotationForm.get("quotationTax").value
-                                | number : "1.2-2"
+                            editQuotationForm.get("quotationTax").value
+                            | number : "1.2-2"
                             }}
                           </span>
                         </p>
-                        <p
-                          *ngIf="
+                        <p *ngIf="
                             editQuotationForm.get('quotationDiscount').value
-                          "
-                        >
+                          ">
                           Discount
-                          <span
-                            *ngIf="
+                          <span *ngIf="
                               editQuotationForm.get('quotationDiscount')
                                 ?.value > 0
-                            "
-                          >
+                            ">
                             ₹
                             {{
-                              editQuotationForm.get("quotationDiscount").value
-                                | number : "1.2-2"
+                            editQuotationForm.get("quotationDiscount").value
+                            | number : "1.2-2"
                             }}
                           </span>
                         </p>
-                        <p
-                          *ngIf="
+                        <p *ngIf="
                             editQuotationForm.get('quotationShipping').value
-                          "
-                        >
+                          ">
                           Shipping
-                          <span
-                            *ngIf="
+                          <span *ngIf="
                               editQuotationForm.get('quotationShipping')
                                 ?.value > 0
-                            "
-                          >
+                            ">
                             ₹
                             {{
-                              editQuotationForm.get("quotationShipping").value
-                                | number : "1.2-2"
+                            editQuotationForm.get("quotationShipping").value
+                            | number : "1.2-2"
                             }}
                           </span>
                         </p>
                         <p *ngIf="editQuotationForm.get('otherCharges').value">
                           Other Charges
-                          <span
-                            *ngIf="
+                          <span *ngIf="
                               editQuotationForm.get('otherCharges')?.value > 0
-                            "
-                          >
+                            ">
                             ₹
                             {{
-                              editQuotationForm.get("otherCharges").value
-                                | number : "1.2-2"
+                            editQuotationForm.get("otherCharges").value
+                            | number : "1.2-2"
                             }}
                           </span>
                         </p>
@@ -620,16 +497,14 @@
                       <div class="invoice-total-footer">
                         <h4>
                           Total Amount
-                          <span
-                            *ngIf="
+                          <span *ngIf="
                               editQuotationForm.get('quotationTotalAmount')
                                 ?.value != 0
-                            "
-                          >
+                            ">
                             ₹
                             {{
-                              editQuotationForm.get("quotationTotalAmount")
-                                .value | number : "1.2-2"
+                            editQuotationForm.get("quotationTotalAmount")
+                            .value | number : "1.2-2"
                             }}
                           </span>
                         </h4>
@@ -638,17 +513,35 @@
                   </div>
                   <div class="upload-sign">
                     <div class="form-group float-end mb-0">
-                      <button
-                        class="btn btn-primary"
-                        type="submit"
-                        [disabled]="!editQuotationForm.valid"
-                      >
+                      <button class="btn btn-primary" type="submit" [disabled]="!editQuotationForm.valid">
                         Save Quotation
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
+              <p-dialog header="Edit Profile" [modal]="true" [(visible)]="addressVisible" [style]="{ width: '35rem' }">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group local-forms mt-2">
+                      <label for="customer">Select billing address<span class="login-danger">*</span></label>
+                      <p-dropdown [style]="{ width: '100%' }" placeholder="Select billing address"
+                        [options]="dropAddress" formControlName="billingAddress" optionLabel="name" optionValue="_id"
+                        display="chip" [filter]="true" appendTo="body" filterBy="name"
+                        (onChange)="editAddressWithDrop()">
+                      </p-dropdown>
+                      <div *ngIf="
+                          editQuotationForm
+                            .get('editedAddress')
+                            ?.hasError('required') &&
+                          editQuotationForm.get('editedAddress')?.touched
+                        ">
+                        <span class="login-danger">Field is required. </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-dialog>
             </form>
           </div>
         </div>

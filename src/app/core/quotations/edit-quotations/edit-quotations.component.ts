@@ -10,6 +10,7 @@ import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
 import { QuotationsService } from "../quotations.service";
 import { SharedModule } from "src/app/shared/shared.module";
+import { BillingAddressService } from "../../settings/billing-Address/billingAddress.service";
 
 @Component({
   selector: "app-edit-quotations",
@@ -44,6 +45,15 @@ export class EditQuotationsComponent {
   slabDatas: any;
   slabDataList: any = [];
   quotationId: any;
+  setAddressData: any;
+  addressVisible: boolean;
+  address: any;
+  customerAddress: any;
+  orgAddress: any;
+  dropAddress: any[];
+  addQuotationForm: any;
+
+
 
   constructor(
     private router: Router,
@@ -57,10 +67,14 @@ export class EditQuotationsComponent {
     private SlabsService: SlabsService,
     private localStorageService: LocalStorageService,
     private services: WarehouseService,
-    private quotationsService: QuotationsService
+    private quotationsService: QuotationsService,
+    private BillingAddressService: BillingAddressService,
+
   ) {
     this.editQuotationForm = this.fb.group({
       customer: ["", [Validators.required]],
+      billingAddress: [""],
+
       quotationDate: ["", [Validators.required]],
       quotationDiscount: ["", [Validators.min(1), Validators.max(100000)]],
       quotationInvoiceNumber: [""],
@@ -186,6 +200,23 @@ export class EditQuotationsComponent {
       });
     }
 
+    this.BillingAddressService.getBillingAddressList().subscribe((resp:any)=>{
+      this.address = resp.data;
+      this.orgAddress = resp.data;
+      this.dropAddress = []
+      this.orgAddress.forEach((ele)=>{
+        this.dropAddress.push({
+          name:`${ele.companyName} / ${ele.city},`,
+          _id:ele
+        })
+      })
+      console.log(this.address);
+      const filterData =  this.address.find((e) => e.setAsDefault)
+      this.editQuotationForm.get('billingAddress').patchValue(filterData)
+      console.log(this.editQuotationForm.get('billingAddress')?.value);
+      console.log(filterData);
+    })
+
     this.services.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedataListsEditArray = [];
       resp.data.forEach((element: any) => {
@@ -231,17 +262,37 @@ export class EditQuotationsComponent {
 
   }
 
+  editAddressWithDrop(){
+    this.setAddressData = this.editQuotationForm.get('billingAddress')?.value;
+    console.log(this.setAddressData);
+  }
+  editAddress(){
+    this.addressVisible = true
+  }
+
+
+  setCustomer(){
+    const data = this.editQuotationForm.get('customer').value;
+    console.log(data);
+    this.customerAddress = data.billingAddress
+  }
   getCustomer() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
+      console.log("this is customer respone",resp)
+      // this.customerAddress=resp.billingAddress
+      console.log(this.customerAddress)
       this.customerList = this.originalCustomerData.map((element) => ({
         name: element.name,
         _id: {
           _id: element._id,
           name: element.name,
           billingAddress: element.billingAddress,
+          
         },
+        
       }));
+      
     });
   }
   onSlabSelect(value, i) {
@@ -308,7 +359,7 @@ export class EditQuotationsComponent {
       //     .get("quotationItemQuantity")
       //     .patchValue(item.get("maxQuantity").value);
       // }
-      debugger
+      // debugger
       const quantity = +item.get("quotationItemQuantity").value || 0;
       const unitPrice = +item.get("quotationItemUnitPrice").value || 0;
       const tax = item.get("quotationItemTax").value || [];
@@ -356,6 +407,7 @@ export class EditQuotationsComponent {
 
   patchForm(data) {
     this.editQuotationForm.patchValue({
+      billingAddress:data.billingAddress,
       customer: data.customer,
       quotationDate: data.quotationDate,
       quotationDiscount: data.quotationDiscount,
