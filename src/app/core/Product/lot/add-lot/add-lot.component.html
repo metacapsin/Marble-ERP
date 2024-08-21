@@ -27,19 +27,22 @@
             <div class="page-table-header mb-2">
               <form [formGroup]="lotAddForm" (ngSubmit)="LotAddFormSubmit()">
                 <div class="row">
-                  <div class="d-flex m-b-10" style="justify-content: space-between">
-                                        <h3>Add New Lot</h3>
-                                        <div class="settings-btns text-end m-b-10">
-                                            <!-- <button type="submit"
+                  <div
+                    class="d-flex m-b-10"
+                    style="justify-content: space-between"
+                  >
+                    <h3>Add New Lot</h3>
+                    <div class="settings-btns text-end m-b-10">
+                      <!-- <button type="submit"
                                                 class="border-0 btn btn-primary btn-gradient-primary m-r-10"
                                                 [disabled]="!blocksDetails.length || !lotAddForm.valid">
                                                 Save
                                             </button> -->
-                                            <!-- <button class="btn btn-secondary" [routerLink]="['/lot/']">
+                      <!-- <button class="btn btn-secondary" [routerLink]="['/lot/']">
                                                 Cancel
                                             </button> -->
-                                        </div>
-                                    </div>
+                    </div>
+                  </div>
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
@@ -119,35 +122,39 @@
                         "
                       >
                         <span class="login-danger"
-                          >Invalid vehicle number format. Please correct it.</span
+                          >Invalid vehicle number format. Please correct
+                          it.</span
                         >
                       </div>
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
-                      <label for="warehouse">Warehouse<span class="login-danger">*</span></label>
-                      <p-dropdown 
-                      [options]="wareHousedata" 
-                      appendTo="body" 
-                      optionLabel="name" 
-                      optionValue="_id" 
-                      placeholder="Select Warehouse" 
-                      formControlName="warehouse" 
-                      [style]="{ width: '100%' }" 
-                      [filter]="true"
-                      filterBy="name" 
-                      [showClear]="true">
-                  </p-dropdown>
-                        <!-- {{ lotAddForm.get('warehouse')?.value}} -->
-                            <div *ngIf="
-                                  lotAddForm
-                                    .get('warehouse')
-                                    ?.hasError('required') &&
-                                  lotAddForm.get('warehouse')?.touched
-                                ">
-                              <span class="login-danger">Field is required.</span>
-                            </div>
+                      <label for="warehouse"
+                        >Warehouse<span class="login-danger">*</span></label
+                      >
+                      <p-dropdown
+                        [options]="wareHousedata"
+                        appendTo="body"
+                        optionLabel="name"
+                        optionValue="_id"
+                        placeholder="Select Warehouse"
+                        formControlName="warehouse"
+                        [style]="{ width: '100%' }"
+                        [filter]="true"
+                        filterBy="name"
+                        [showClear]="true"
+                      >
+                      </p-dropdown>
+                      <!-- {{ lotAddForm.get('warehouse')?.value}} -->
+                      <div
+                        *ngIf="
+                          lotAddForm.get('warehouse')?.hasError('required') &&
+                          lotAddForm.get('warehouse')?.touched
+                        "
+                      >
+                        <span class="login-danger">Field is required.</span>
+                      </div>
                     </div>
                   </div>
 
@@ -196,9 +203,13 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">₹</span>
                         </div>
-                        <span class="form-control">{{ lotAddForm.get('pricePerTon').value}}</span>
+                        <span class="form-control">{{
+                          lotAddForm.get("pricePerTon").value
+                        }}</span>
                       </div>
-                      <span style="color: #97704f; font-size: 12px">This will be auto calculated with Purchase Cost</span>
+                      <span style="color: #97704f; font-size: 12px"
+                        >This will be auto calculated with Purchase Cost</span
+                      >
                       <div
                         *ngIf="
                           lotAddForm.get('pricePerTon')?.hasError('required') &&
@@ -595,19 +606,21 @@
                 name="blockNo"
                 class="form-control"
                 required
-                pattern="^[^-\s][a-zA-Z0-9_\s-]{0,9}$"
+                pattern="^[a-zA-Z\d\/\-_\ ]{1,50}$"
                 [(ngModel)]="blockNo"
                 (change)="getblockDetails()"
                 #block="ngModel"
+                maxlength="10"
               />
               <div *ngIf="block.invalid && block.touched">
                 <div *ngIf="block.errors?.['required']">
                   <span class="login-danger">Field is required.</span>
                 </div>
                 <div *ngIf="block.errors?.['pattern']">
-                  <span class="login-danger"
-                    >Input must be between 1 to 10 characters.</span
-                  >
+                  <span class="login-danger">
+                    Input must be between 1 to 50 characters and not start with
+                    whitespace.
+                  </span>
                 </div>
               </div>
             </div>

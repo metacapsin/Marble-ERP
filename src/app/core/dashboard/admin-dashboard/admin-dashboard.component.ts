@@ -433,6 +433,7 @@ export class AdminDashboardComponent {
       // console.error("Invalid data format:", data);
       return;
     }
+    console.log(data);
     const labels = data.map((item) => item.monthName);
     const totalSalesData = data.map((item) => item.totalSales);
     const totalSalesReturnData = data.map((item) => item.totalSalesReturn);
@@ -461,6 +462,7 @@ export class AdminDashboardComponent {
       totalPurchaseData,
     );
 
+    console.log(labels,totalSalesData,totalSalesReturnData);
     this.dataForFirstChat = {
       labels: labels,
       datasets: [

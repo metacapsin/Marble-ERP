@@ -193,6 +193,7 @@ export class AddLotComponent {
     myForm.resetForm();
   }
   addBlock(myForm: NgForm) {
+    this.addvisible = false;
     if (
       !this.blockNo ||
       this.height === null ||
@@ -204,7 +205,6 @@ export class AddLotComponent {
       return;
     }
 
-    this.addvisible = false;
     const newBlock = {
       blockNo: this.blockNo,
       height: this.height,
