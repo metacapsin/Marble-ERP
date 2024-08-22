@@ -77,6 +77,7 @@ export class AddSalesReturnComponent {
       // otherCharges: ["", ],
       // salesShipping: ["", ],
       // salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
+      billingAddress:[''],
       salesTotalAmount: [""],
       returnOtherCharges: ["", [Validators.min(0)]],
     });
@@ -180,6 +181,7 @@ export class AddSalesReturnComponent {
 
     this.addReturnSalesForm.patchValue({
       salesGrossTotal: value.salesGrossTotal,
+      billingAddress: value.billingAddress,
       // salesDiscount: value.salesDiscount,
       // salesShipping: value.salesShipping,
       // otherCharges: value.otherCharges,
@@ -242,6 +244,7 @@ export class AddSalesReturnComponent {
 
   addReturnSalesFormSubmit() {
     const formData = this.addReturnSalesForm.value;
+    console.log(formData)
     const payload = {
       customer: formData.customer,
       salesInvoiceNumber: formData.salesInvoiceNumber.salesInvoiceNumber,

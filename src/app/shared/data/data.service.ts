@@ -332,7 +332,7 @@ export class DataService {
               base: routes.Sales,
             },
             {
-              menuValue: "payment In",
+              menuValue: "payments In",
               route: routes.paymentIn,
               base: routes.paymentIn,
             },
@@ -368,7 +368,7 @@ export class DataService {
             //   base: routes.purchase,
             // },
             {
-              menuValue: "Payment out",
+              menuValue: "Payments out",
               route: routes.paymentOut,
               base: routes.paymentOut,
             },

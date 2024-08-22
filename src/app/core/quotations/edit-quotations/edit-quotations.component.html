@@ -11,7 +11,7 @@
             <li class="breadcrumb-item">
               <i class="feather icon-chevron-right"></i>
             </li>
-            <li class="breadcrumb-item active">Quotation List</li>
+            <li class="breadcrumb-item active">Quotations List</li>
             <li class="breadcrumb-item">
               <i class="feather icon-chevron-right"></i>
             </li>
@@ -90,15 +90,17 @@
                 </div>
               </div>
 
-              <div class="buyer">
+              <div class="buyer "  style="width: 235px; text-align: right;">
                 <h3 style="color: #970">Buyer Address</h3>
                 <div>
-                  <h4 title="address">
-                    {{ customerAddress }}
-                  </h4>
+                  <h5 title="address">
+                    <span *ngIf="customerAddress" [innerHTML]="
+                    customerAddress | wordWrap : 2
+                            "></span>
+                    <!-- {{ customerAddress }} -->
+                  </h5>
                 </div>
               </div>
-
             </div>
             <form [formGroup]="editQuotationForm" (ngSubmit)="editQuotationFormSubmit()">
               <div class="invoices-main-form">

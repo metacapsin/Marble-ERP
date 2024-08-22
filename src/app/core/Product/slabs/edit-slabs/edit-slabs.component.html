@@ -8,9 +8,7 @@
             <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
             <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
             <li class="breadcrumb-item">
-              <a [routerLink]="['/slabs']">
-                Slabs
-              </a>
+              <a [routerLink]="['/slabs']">Slabs List</a>
             </li>
             <li class="breadcrumb-item">
               <i class="feather icon-chevron-right"></i>
@@ -524,9 +522,10 @@
                           <p *ngIf="slabsEditForm.get('lotDetails').value">
                             Processing Costing<span>
                               {{
-                                slabsEditForm.get("processingCost")?.value ? '₹ ' + (slabsEditForm.get("processingCost").value |
-                                number: "1.2-2") : null
-                                }}
+                              slabsEditForm.get("processingCost")?.value ? '₹ ' +
+                              (slabsEditForm.get("processingCost").value |
+                              number: "1.2-2") : null
+                              }}
                             </span>
                           </p>
                           <p>
@@ -545,9 +544,10 @@
                           <p>
                             Per Square Feet Cost<span>
                               {{
-                                slabsEditForm.get("costPerSQFT")?.value == 0 ? null : '₹ ' + (slabsEditForm.get("costPerSQFT").value |
-                                number: "1.2-2") 
-                                }}
+                              slabsEditForm.get("costPerSQFT")?.value == 0 ? null : '₹ ' +
+                              (slabsEditForm.get("costPerSQFT").value |
+                              number: "1.2-2")
+                              }}
                             </span>
                           </p>
                           <!-- <p>

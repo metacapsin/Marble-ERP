@@ -48,7 +48,7 @@ export class AddsalesComponent implements OnInit {
 
   notesRegex = /^(?:.{2,100})$/;
   tandCRegex = /^(?:.{2,200})$/;
-  customer: any[] = [];
+  customer: any=[] = [];
   returnUrl: string;
   wareHousedataListsEditArray: any[];
   originalSlabData: any;
@@ -213,12 +213,14 @@ export class AddsalesComponent implements OnInit {
     console.log("this is retrun url", this.returnUrl);
     console.log(
       "this is customer data by local sotrage service",
-      this.customer
+      this.customer,
+      this.customer.billingAddress
     );
     if (this.customer) {
       this.addSalesForm.patchValue({
         customer: this.customer,
       });
+      this.customerAddress =  this.customer.billingAddress
     }
 
     this.services.getAllWarehouseList().subscribe((resp: any) => {

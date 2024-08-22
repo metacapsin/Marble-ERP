@@ -8,9 +8,9 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Stock</li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Stocks Transfer</li>
+                        <!-- <li class="breadcrumb-item active">Stock</li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li> -->
+                        <li class="breadcrumb-item active">Stocks Transfer List</li>
                     </ul>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Stocks Transfer</h3>
+                                        <h3>Stocks Transfer List</h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input type="text" class="form-control" placeholder="Search here"
@@ -44,10 +44,10 @@
                                     [roles]="['admin', 'super-admin']">
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                             alt="" pTooltip="Download data in PDF file" tooltipPosition="left"
-                                        tooltipStyleClass="tooltip"></a>
+                                            tooltipStyleClass="tooltip"></a>
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
                                             alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
-                                        tooltipStyleClass="tooltip"></a>
+                                            tooltipStyleClass="tooltip"></a>
 
                                 </div>
                             </div>
@@ -69,34 +69,42 @@
 
                         <div class="card-body p-2">
 
-                            <p-table [value]="originalData | filter:searchDataValue:['createdOn','slab.slabName', 'fromWarehouse.name', 'transferType', 'transferQty']" [tableStyle]="{'min-width': '60rem'}"
-                                [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
-                                [(selection)]="selectedlot" styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)">
+                            <p-table
+                                [value]="originalData | filter:searchDataValue:['createdOn','slab.slabName', 'fromWarehouse.name', 'transferType', 'transferQty']"
+                                [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+                                [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot"
+                                styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="createdOn">Transfer Date <p-sortIcon field="createdOn"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="createdOn" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="createdOn">Transfer Date <p-sortIcon
+                                                field="createdOn"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="createdOn" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="slab.slabName">Slab Name <p-sortIcon field="slab.slabName"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="slab.slabName" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="slab.slabName">Slab Name <p-sortIcon
+                                                field="slab.slabName"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="slab.slabName" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="fromWarehouse.name">From-Warehouse <p-sortIcon field="fromWarehouse.name"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="fromWarehouse.name" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="fromWarehouse.name">From-Warehouse <p-sortIcon
+                                                field="fromWarehouse.name"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="fromWarehouse.name" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="toWarehouse.name">To-Warehouse <p-sortIcon field="toWarehouse.name"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="toWarehouse.name" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="toWarehouse.name">To-Warehouse <p-sortIcon
+                                                field="toWarehouse.name"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="toWarehouse.name" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="transferType">Transfer-Type <p-sortIcon field="transferType"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="transferType" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="transferType">Transfer-Type <p-sortIcon
+                                                field="transferType"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="transferType" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="transferQty">Transfer Quantity <p-sortIcon field="transferQty"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="transferQty">Transfer Quantity <p-sortIcon
+                                                field="transferQty"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="transferQty" display="menu"></p-columnFilter>
                                         </th>
                                         <th>Action</th>
                                     </tr>
@@ -109,19 +117,19 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                                         <td>{{stock.toWarehouse.name}}</td>
                                         <td>{{stock.transferType}}</td>
                                         <td>{{stock.transferQty + ' Sq. Feet. '}}</td>
-                                        <td appShowHide
-                                            [roles]="['admin', 'super-admin']" class="action-buttons">
+                                        <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                                             <!-- <p-button [text]="true" icon="fa-solid fa-edit"
                                                 (click)="editstockTransferDialog(stock._id)"></p-button> -->
                                             <p-button [text]="true" icon="fa-solid fa-trash" pTooltip="Delete"
-                                            tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                                                tooltipPosition="bottom" tooltipStyleClass="tooltip"
                                                 (click)="deleteStockTransfer(stock._id)"></p-button>
                                         </td>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="emptymessage">
                                     <tr>
-                                        <td colspan="6" class="text-center">No stock transfers found. Please transfer stock to see records here.</td>
+                                        <td colspan="6" class="text-center">No stock transfers found. Please transfer
+                                            stock to see records here.</td>
                                     </tr>
                                 </ng-template>
                                 <!-- <ng-template pTemplate="footer">
@@ -163,7 +171,8 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                             <label for="fromWarehouse">From-Warehouse</label>
                             <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
                                 optionValue="_id" placeholder="Select Warehouse" formControlName="fromWarehouse"
-                                [style]="{ width: '100%' }" [filter]="true"  filterBy="name" (onChange)="onWarehouseSelect($event.value)" >
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                                (onChange)="onWarehouseSelect($event.value)">
                             </p-dropdown>
                             <div
                                 *ngIf="addStockTransferForm.get('fromWarehouse')?.hasError('required') && addStockTransferForm.get('fromWarehouse')?.touched">
@@ -177,7 +186,7 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                             <label for="toWarehouse">To-Warehouse</label>
                             <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
                                 optionValue="_id" placeholder="Select Warehouse" formControlName="toWarehouse"
-                                [style]="{ width: '100%' }" [filter]="true"  filterBy="name" >
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name">
                             </p-dropdown>
                             <div
                                 *ngIf="addStockTransferForm.get('slab')?.hasError('required') && addStockTransferForm.get('slab')?.touched">
@@ -191,7 +200,8 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                             <label for="slab">Slab<span class="login-danger">*</span></label>
                             <p-dropdown [options]="slabData" styleClass="" appendTo="body" optionLabel="name"
                                 optionValue="_id" placeholder="Select slab" formControlName="slab"
-                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" (onChange)="settotalSQFT($event.value)">
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                                (onChange)="settotalSQFT($event.value)">
                             </p-dropdown>
                             <div
                                 *ngIf="addStockTransferForm.get('slab')?.hasError('required') && addStockTransferForm.get('slab')?.touched">
@@ -205,7 +215,8 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                             <label for="transferType">Transfer Type</label>
                             <p-dropdown [options]="transferType" styleClass="" appendTo="body" optionLabel="name"
                                 optionValue="value" placeholder="Select Transfer Type" formControlName="transferType"
-                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" (onChange)="onTrasferTypeSelect($event.value)">
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                                (onChange)="onTrasferTypeSelect($event.value)">
                             </p-dropdown>
                         </div>
                     </div>
@@ -224,14 +235,16 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                         </div>
                     </div>
 
-                    <div class="col-md-6" *ngIf="addStockTransferForm.get('transferType').value !== 'All Quantity'" >
+                    <div class="col-md-6" *ngIf="addStockTransferForm.get('transferType').value !== 'All Quantity'">
                         <div class="form-group local-forms">
                             <label for="transferQty">Transfer Quantity <span class="login-danger">*</span></label>
                             <input type="number" formControlName="transferQty" class="form-control">
-                            <div *ngIf="addStockTransferForm.get('transferQty')?.hasError('required') && addStockTransferForm.get('transferQty')?.touched">
+                            <div
+                                *ngIf="addStockTransferForm.get('transferQty')?.hasError('required') && addStockTransferForm.get('transferQty')?.touched">
                                 <span class="login-danger">Field is required.</span>
                             </div>
-                            <div *ngIf="addStockTransferForm.get('transferQty')?.hasError('min') && addStockTransferForm.get('transferQty')?.touched">
+                            <div
+                                *ngIf="addStockTransferForm.get('transferQty')?.hasError('min') && addStockTransferForm.get('transferQty')?.touched">
                                 <span class="login-danger">Transfer Quantity must be more than 0.</span>
                             </div>
                         </div>
@@ -251,7 +264,7 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                         </div>
                     </div>
 
-                    
+
                     <div class=" col-12">
 
                         <div class=" settings-btns text-end m-b-10">
@@ -279,7 +292,8 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                             <label for="fromWarehouse">From-Warehouse</label>
                             <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
                                 optionValue="_id" placeholder="Select Warehouse" formControlName="fromWarehouse"
-                                [style]="{ width: '100%' }" [filter]="true"  filterBy="name" (onChange)="onWarehouseSelect($event.value)">
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                                (onChange)="onWarehouseSelect($event.value)">
                             </p-dropdown>
                         </div>
                     </div>
@@ -289,7 +303,7 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                             <label for="toWarehouse">To-Warehouse</label>
                             <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name"
                                 optionValue="_id" placeholder="Select Warehouse" formControlName="toWarehouse"
-                                [style]="{ width: '100%' }" [filter]="true"  filterBy="name" >
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name">
                             </p-dropdown>
                         </div>
                     </div>
@@ -299,7 +313,8 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                             <label for="slab">Slab<span class="login-danger">*</span></label>
                             <p-dropdown [options]="slabData" styleClass="" appendTo="body" optionLabel="name"
                                 optionValue="_id" placeholder="Select slab" formControlName="slab"
-                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" (onChange)="editSettotalSQFT($event.value)">
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                                (onChange)="editSettotalSQFT($event.value)">
                             </p-dropdown>
                             <div
                                 *ngIf="editStockTransferForm.get('slab')?.hasError('required') && editStockTransferForm.get('slab')?.touched">
@@ -313,7 +328,8 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                             <label for="transferType">Transfer Type</label>
                             <p-dropdown [options]="transferType" styleClass="" appendTo="body" optionLabel="name"
                                 optionValue="value" placeholder="Select Transfer Type" formControlName="transferType"
-                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" (onChange)="onTrasferTypeSelect($event.value)" >
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                                (onChange)="onTrasferTypeSelect($event.value)">
                             </p-dropdown>
                         </div>
                     </div>
@@ -333,14 +349,16 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                         </div>
                     </div>
 
-                    <div class="col-md-6" *ngIf="editStockTransferForm.get('transferType').value !== 'All Quantity'" >
+                    <div class="col-md-6" *ngIf="editStockTransferForm.get('transferType').value !== 'All Quantity'">
                         <div class="form-group local-forms">
                             <label for="transferQty">Transfer Quantity <span class="login-danger">*</span></label>
                             <input type="number" formControlName="transferQty" class="form-control">
-                            <div *ngIf="editStockTransferForm.get('transferQty')?.hasError('required') && editStockTransferForm.get('transferQty')?.touched">
+                            <div
+                                *ngIf="editStockTransferForm.get('transferQty')?.hasError('required') && editStockTransferForm.get('transferQty')?.touched">
                                 <span class="login-danger">Field is required.</span>
                             </div>
-                            <div *ngIf="editStockTransferForm.get('transferQty')?.hasError('min') && editStockTransferForm.get('transferQty')?.touched">
+                            <div
+                                *ngIf="editStockTransferForm.get('transferQty')?.hasError('min') && editStockTransferForm.get('transferQty')?.touched">
                                 <span class="login-danger">Transfer Quantity must be more than 0.</span>
                             </div>
                         </div>
@@ -371,7 +389,7 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
                         </div>
                     </div>
 
-                    
+
                     <div class=" col-12">
 
                         <div class=" settings-btns text-end m-b-10">
