@@ -266,7 +266,11 @@ hideOnClear="true"  type="text" field="purchaseTotalAmount" display="menu"  ></p
                     <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                       <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"
                         (click)="showInvoiceDialoge(purchase._id)"></p-button>
-                      <p-button [text]="true" icon="fa fa-trash" (click)="purchaseDelete(purchase._id)"  pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      <p-button [text]="true" icon="fa fa-trash" *ngIf="purchase.paymentStatus == 'Unpaid'" (click)="purchaseDelete(purchase._id)"  pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      <div *ngIf="purchase.paymentStatus != 'Unpaid'" class="placeholder"><span class="fa-stack">
+                        <i class="fas fa-trash fa-stack-1x"></i>
+                        <i class="fas fa-ban fa-stack-2x text-danger"></i>
+                      </span></div>
                     </td>
                   </tr>
                 </ng-template>

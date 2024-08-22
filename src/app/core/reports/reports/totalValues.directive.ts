@@ -24,6 +24,7 @@ export class TotalValueDirective {
   }
   @Input() set data(value: any) {
     this._data = value;
+    console.log(this._name,this._data);
     this.totalValue = 0;
     if (this._name == "stockAdjustmentData") {
       if (this._data == false) {
@@ -50,6 +51,21 @@ export class TotalValueDirective {
         }
         const setValue = this.indianCurrencyPipe.transform(this.totalValue);
         this.elementRef.nativeElement.textContent = `${setValue}`;
+      });
+    }
+    if (this._name == "lotDaTa") {
+      if (this._data == false) {
+        const setvalue = 0;
+        this.elementRef.nativeElement.textContent = `₹ ${setvalue}`;
+      }
+      this._data.forEach((element) => {
+          if (element && element.lotTotalCosting) {
+            // const fixedlotTotalCosting = parseFloat(element.lotTotalCosting.toFixed(2));
+            const fixedlotTotalCosting = Number(element.lotTotalCosting)
+            this.totalValue += fixedlotTotalCosting;
+        }
+        const setValue = this.indianCurrencyPipe.transform(this.totalValue);
+        this.elementRef.nativeElement.textContent = `${'₹ '+setValue}`;
       });
     }
     if (this._name == "expensesDataName") {

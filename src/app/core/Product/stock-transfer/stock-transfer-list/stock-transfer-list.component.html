@@ -212,21 +212,21 @@ hideOnClear="true"  type="text" field="transferQty" display="menu"></p-columnFil
 
                     <div class="col-md-6">
                         <div class="form-group local-forms">
-                            <label for="currentQty">current Quantity</label>
+                            <label for="currentQty">current Quantity ( Sq. Feet. )</label>
                             <span class="form-control">{{addStockTransferForm.get('currentQty').value}}</span>
                         </div>
                     </div>
 
                     <div class="col-md-6" *ngIf="addStockTransferForm.get('transferType').value == 'All Quantity'">
                         <div class="form-group local-forms">
-                            <label for="transferQty">Transfer Quantity <span class="login-danger">*</span></label>
+                            <label for="transferQty">Transfer Quantity<span class="login-danger">*</span></label>
                             <span class="form-control">{{addStockTransferForm.get('transferQty').value}}</span>
                         </div>
                     </div>
 
                     <div class="col-md-6" *ngIf="addStockTransferForm.get('transferType').value !== 'All Quantity'" >
                         <div class="form-group local-forms">
-                            <label for="transferQty">Transfer Quantity <span class="login-danger">*</span></label>
+                            <label for="transferQty">Transfer Quantity ( Sq. Feet. )<span class="login-danger">*</span></label>
                             <input type="number" formControlName="transferQty" class="form-control">
                             <div *ngIf="addStockTransferForm.get('transferQty')?.hasError('required') && addStockTransferForm.get('transferQty')?.touched">
                                 <span class="login-danger">Field is required.</span>

@@ -1,5 +1,13 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  Renderer2,
+  ViewChild,
+} from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
@@ -41,19 +49,34 @@ export class WarehouseListComponent {
       return "non-active";
     }
   }
+
   constructor(
     public dialog: MatDialog,
     public router: Router,
     private service: WarehouseService,
     private _snackBar: MatSnackBar,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private renderer: Renderer2,
+    private elRef: ElementRef
   ) {
+    // this.clickListener = this.renderer.listen('document', 'click', this.onClickOutside.bind(this));
     this.routerChangeSubscription = this.router.events.subscribe((event) => {
       this.currentRoute = this.router.url;
       // console.log(this.currentRoute)
     });
   }
-
+  @HostListener("document:click", ["$event"])
+  onDocumentClick(event: MouseEvent) {
+    const overlay = document.querySelector(".p-column-filter-overlay");
+    if (overlay != null) {
+      console.log(overlay.classList);
+      overlay.classList.add('none'); 
+      return;
+    }
+    if (overlay && !this.elRef.nativeElement.contains(event.target as Node)) {
+      console.log(overlay.className, overlay.classList);
+    }
+  }
   getAllWarehouseList(): void {
     this.service.getAllWarehouseList().subscribe((resp: any) => {
       this.data = resp.data;

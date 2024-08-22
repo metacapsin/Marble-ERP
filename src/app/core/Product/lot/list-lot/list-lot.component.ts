@@ -13,6 +13,7 @@ import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 
 import { SlabsService } from '../../slabs/slabs.service';
+import { WarehouseService } from 'src/app/core/settings/warehouse/warehouse.service';
 // import { CsvDownloadService } from 'src/app/common-component/shared/csv-download/shared/csv-download.service';
 
 
@@ -52,11 +53,16 @@ export class ListLotComponent implements OnInit {
 
   cols: Column[] = [];
   exportColumns: ExportColumn[] = [];
+  allInDropDown: any;
+  warehouseDropDown: any;
+  warehouseData: any;
+  lotDaTa='lotDaTa'
 
   constructor(public router: Router,
     private service: LotService,
     private SlabsService: SlabsService,
     private messageService: MessageService,
+    private WarehouseService: WarehouseService
     // private csvDownloadService: CsvDownloadService
   ) { }
 
@@ -74,6 +80,7 @@ export class ListLotComponent implements OnInit {
   isAnyBlockProcessed(blockDetails: any[]): boolean {
     return blockDetails.some(block => block.isProcessed);
 }
+
 
   // generateColumns(data: any[]) {
   //   this.cols = [
@@ -112,7 +119,47 @@ export class ListLotComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLotList();
+    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
+      this.warehouseData = resp.data.map((element) => ({
+        name: element.name,
+        _id: {
+          _id: element._id,
+          name: element.name,
+        },
+      }));
+      console.log(this.warehouseData);
+    });
+  }
+  onFilter(value: any) {
+    this.lotData = value.filteredValue; 
+    console.log(value.filteredValue);
+  }
 
+  onSearchByChange(value: any): void {
+    // If the search value is empty or null, return all original data
+    if (value == null) {
+      this.lotData = this.originalData;
+    } else {
+      this.lotData = this.originalData.filter((i) => {
+        return i.warehouseDetails && i.warehouseDetails._id == value._id;
+      });
+      this.allInDropDown = this.lotData;
+    }
+  
+    // Update dropdown data with the filtered data
+  
+    console.log(this.lotData);
+  }
+  
+  searchData() {
+    if (this.searchDataValue == "") {
+      this.onSearchByChange(null);
+      console.log(this.warehouseDropDown);
+      if (this.warehouseDropDown.name == "") {
+        this.lotData = this.originalData;
+      }
+      return (this.lotData = this.allInDropDown);
+    }
   }
 
   editPage(_id: any) {
@@ -160,11 +207,6 @@ export class ListLotComponent implements OnInit {
     this.showDialog = false;
   }
 
-  public searchData(value: any): void {
-    this.lotData = this.originalData.filter(i =>
-      i.lotName.toLowerCase().includes(value.trim().toLowerCase())
-    );
-  }
   onPageChange(event) {
     const startIndex = event.first;
     const endIndex = startIndex + event.rows;
