@@ -80,9 +80,9 @@
                   <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                             alt="" pTooltip="Download data in PDF file" tooltipPosition="bottom"
                                         tooltipStyleClass="tooltip"></a> -->
-                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                                            alt=""  pTooltip="Download data in CSV file " tooltipPosition="bottom"
-                                        tooltipStyleClass="tooltip"></a>  -->
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" (click)="dt.exportCSV()"
+                                            alt=""  pTooltip="Download data in CSV file " tooltipPosition="left"
+                                        tooltipStyleClass="tooltip"></a> 
                 </div>
               </div>
 
@@ -117,7 +117,8 @@
                         ]
                 " [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true" [rows]="10"
                 [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot" styleClass="p-datatable-striped"
-                selectionMode="multiple" (onFilter)="onFilter($event)">
+                selectionMode="multiple" (onFilter)="onFilter($event)" #dt [columns]="cols" 
+                [exportHeader]="'customExportHeader'" exportFilename="Stocks Adjustment">
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="createdOn">
@@ -158,9 +159,9 @@
                         display="menu"></p-columnFilter>
                     </th>
 
-                    <th pSortableColumn="currentQty">
-                      Notes<p-sortIcon field="currentQty"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="currentQty"
+                    <th pSortableColumn="note">
+                      Notes<p-sortIcon field="note"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="note"
                         display="menu"></p-columnFilter>
                     </th>
                     <th width="13%">Action</th>

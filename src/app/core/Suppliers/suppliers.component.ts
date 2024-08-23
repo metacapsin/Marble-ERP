@@ -23,6 +23,8 @@ export class SuppliersComponent {
   showDialoge = false;
   modalData: any = {};
   originalData:any = [];
+  cols = [];
+  exportColumns = [];
 
   constructor(private router: Router, private Service: SuppliersdataService, private messageService: MessageService) {
     this.routerChangeSubscription = this.router.events.subscribe((event) => {
@@ -36,7 +38,22 @@ export class SuppliersComponent {
   getSupplier() {
     this.Service.GetSupplierData().subscribe((data) => {
       this.getSupplierShow = data;
-      this.originalData = data
+      this.originalData = data;
+      this.cols = [
+        { field: "name", header: "Name" },
+        { field: "email", header: "Email" },
+        { field: "status", header: "Status" },
+        { field: "createdOn", header: "Created On" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.getSupplierShow.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log(this.getSupplierShow);
     });
   }

@@ -34,6 +34,8 @@ export class BlockProcessorListComponent {
   blockProcessorId: any;
   visible: boolean = false;
   currentUrl: any;
+  cols = [];
+  exportColumns = [];
   constructor(private router: Router,
   private Service: blockProcessorService, 
   private messageService: MessageService,private localStorageService:LocalStorageService
@@ -49,7 +51,24 @@ export class BlockProcessorListComponent {
   getCustomers() {
     this.Service.getAllBlockProcessorData().subscribe((data) => {
       this.blockProcessorData = data
-      this.originalData = data
+      this.originalData = data;
+
+      this.cols = [
+        { field: "name", header: "Name" },
+        { field: "email", header: "Email" },
+        { field: "status", header: "Status" },
+        { field: "createdOn", header: "Created On" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.blockProcessorData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
+
       console.log(
         data
       );

@@ -432,3 +432,10 @@ ul.p-dropdown-items{
 .tooltip{
   font-size: 11px;
 }
+.p-column-filter-menu-button:hover{
+  background: #F9F4EF;
+  // background: #1111;
+}
+.p-multiselect.p-multiselect-chip .p-multiselect-token {
+  padding: 0.205rem 0.55rem;
+}

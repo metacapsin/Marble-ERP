@@ -149,10 +149,10 @@ hideOnClear="true"  type="text" field="salesTotalAmount" display="menu"  ></p-co
                 </div>
                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                   [roles]="['admin', 'super-admin']">
-                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""
-                      pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip" /></a>
+                  <!-- <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""
+                      pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip" /></a> -->
                   <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""
-                      pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip" /></a>
+                      pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip" (click)="dt.exportCSV()"/></a>
                 </div>
               </div>
 
@@ -184,7 +184,8 @@ hideOnClear="true"  type="text" field="salesTotalAmount" display="menu"  ></p-co
               <p-table
                 [value]="salesReturnListData | filter:searchDataValue:['salesInvoiceNumber', 'returnDate','customer.name','returnOrderStatus','paymentStatus','paidAmount','dueAmount','salesTotalAmount']"
                 styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
-                [rowsPerPageOptions]="[5, 10, 20]" [rows]="10" selectionMode="multiple">
+                [rowsPerPageOptions]="[5, 10, 20]" [rows]="10" selectionMode="multiple" #dt [columns]="cols" 
+                [exportHeader]="'customExportHeader'" exportFilename="Sales Return">
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon
@@ -254,6 +255,7 @@ hideOnClear="true"  type="text" field="salesTotalAmount" display="menu"  ></p-co
                       see it listed here.</td>
                   </tr>
                 </ng-template>
+                
                 <ng-template pTemplate="footer">
                   <tr
                     *ngIf="totalAmountValues.totalPaidAmount > 0 || totalAmountValues.totalDueAmount > 0 || totalAmountValues.totalAmount > 0 ">

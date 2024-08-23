@@ -28,6 +28,8 @@ export class ListUsersComponent implements OnInit {
   searchDataValue = "";
   selectedProducts = [];
   originalData: any = [];
+  cols = [];
+  exportColumns = [];
 
   constructor(
     private userDataService: UsersdataService,
@@ -44,6 +46,22 @@ export class ListUsersComponent implements OnInit {
       this.usersApiData = data;
       this.dataSource = this.usersApiData.data;
       this.originalData = this.usersApiData.data;
+      this.cols = [
+        { field: "name", header: "Name" },
+        { field: "email", header: "Email" },
+        { field: "phoneNumber", header: "Phone Number" },
+        { field: "address", header: "Address" },
+        { field: "createdOn", header: "Created On" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.dataSource.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log("usersApiData ", this.usersApiData);
     });
   }

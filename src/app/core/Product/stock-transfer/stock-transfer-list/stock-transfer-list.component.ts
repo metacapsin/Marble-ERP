@@ -51,6 +51,8 @@ export class StockTransferListComponent implements OnInit {
     { name: "All Quantity", value: "All Quantity" },
     { name: "Custom Quantity", value: "Custom Quantity" },
   ];
+  cols = [];
+  exportColumns = [];
 
   constructor(
     public router: Router,
@@ -90,6 +92,23 @@ export class StockTransferListComponent implements OnInit {
     this.service.getStockTransferList().subscribe((resp: any) => {
       this.stockTransferDataList = resp.data;
       this.originalData = resp.data;
+      this.cols = [
+        { field: "createdOn", header: "Created On" },
+        { field: "slab.slabName", header: "Slab Name" },
+        { field: "fromWarehouse.name", header: "From Warehouse Name" },
+        { field: "toWarehouse.name", header: "To Warehouse Name" },
+        { field: "transferType", header: "Transfer Type" },
+        { field: "transferQty", header: "Transfer Qty" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.stockTransferDataList.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
 

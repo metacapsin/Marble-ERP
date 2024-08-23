@@ -42,13 +42,13 @@
                 </div>
                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                   [roles]="['admin', 'super-admin', 'help-desk']">
-                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                       pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip"
-                      alt=""></a>
+                      alt=""></a> -->
                   <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
                   <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
                       pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip"
-                      alt=""></a>
+                      alt="" (click)="dt.exportCSV()"></a>
                   <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
                 </div>
@@ -67,7 +67,8 @@
                 [value]="subCategoriesListData | filter:searchDataValue:['name', 'categoryId.name','description']"
                 styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
                 selectionMode="multiple" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory"
-                (onPage)="onPageChange($event)">
+                (onPage)="onPageChange($event)" #dt [columns]="cols" 
+                [exportHeader]="'customExportHeader'" exportFilename="Sub Categories">
 
                 <ng-template pTemplate="header">
                   <tr>

@@ -33,6 +33,8 @@ export class CategoriesListComponent {
   modalData: any = {};
   categoryID: any;
   categoriesListData = [];
+  cols = [];
+  exportColumns = [];
 
   constructor(
     public dialog: MatDialog,
@@ -85,6 +87,19 @@ export class CategoriesListComponent {
     this.service.getCategories().subscribe((resp: any) => {
       this.categoriesListData = resp.data;
       this.originalData = resp.data;
+      this.cols = [
+        { field: "name", header: "Name" },
+        { field: "description", header: "Description" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.categoriesListData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
 

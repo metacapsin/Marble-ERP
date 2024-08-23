@@ -30,6 +30,8 @@ export class EmployeepPaymentListComponent {
   paymentListData:any = [];
   totalAmount: number = 0;
   SalaryPaymentList: any;
+  cols = [];
+  exportColumns = [];
 
   constructor(
     private Service: EmployeepPaymentService,
@@ -43,6 +45,24 @@ export class EmployeepPaymentListComponent {
   employeeSalaryPaymentList() {
     this.Service.getSalaryPaymentList().subscribe((resp: any) => {
       this.SalaryPaymentList = resp.data;
+
+      this.cols = [
+        { field: "employee.name", header: "Employee Name" },
+        { field: "month", header: "Month" },
+        { field: "totalLeaves", header: "Total Leaves" },
+        { field: "netSalary", header: "Net Salary" },
+        { field: "totalSalary", header: "Total Salary" },
+        { field: "paymentDate", header: "Payment Date" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.SalaryPaymentList.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log(this.SalaryPaymentList);
     });
     console.log(this.SalaryPaymentList);

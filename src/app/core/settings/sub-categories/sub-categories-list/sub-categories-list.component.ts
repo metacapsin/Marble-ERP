@@ -38,6 +38,8 @@ export class SubCategoriesListComponent {
   showDialog = false;
   modalData: any = {};
   subCategoryId: any;
+  cols = [];
+  exportColumns = [];
   // subCategoriesData = [
   //   {
   //     subCategoriesName: "Mobiles",
@@ -106,6 +108,21 @@ export class SubCategoriesListComponent {
     this.service.getSubCategories().subscribe((resp: any) => {
       this.subCategoriesListData = resp.data;
       this.originalData = resp.data;
+      
+      this.cols = [
+        { field: "name", header: "Name" },
+        { field: "categoryId.name", header: "Category Name" },
+        { field: "description", header: "Description" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.subCategoriesListData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
 

@@ -41,6 +41,8 @@ export class StaffLeavesListComponent {
   visible: boolean = false;
   addTaxTotal: any;
   LeaveData = [];
+  cols = [];
+  exportColumns = [];
 
   constructor(
     private messageService: MessageService,
@@ -78,6 +80,23 @@ export class StaffLeavesListComponent {
     this.service.getLeaveData().subscribe((resp: any) => {
       this.LeaveData = resp;
       this.originalData = resp;
+      this.cols = [
+        { field: "employee.name", header: "Employee Name" },
+        { field: "leaveType", header: "Leave Type" },
+        { field: "from", header: "From" },
+        { field: "to", header: "To" },
+        { field: "noOfDay", header: "No Of Day" },
+        { field: "leaveDuration", header: "Leave Duration" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.LeaveData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log("Leave request data", resp);
     });
   }

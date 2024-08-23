@@ -39,7 +39,15 @@ export class EditUserComponent implements OnInit {
   data: any = null;
   wareHousedata: any = [];
   wareHouseLists = [];
+  personNameRegex = /^\d{10}$/;
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
+  addressRegex = /^.{3,500}$/s;
+
+  phoneRegex = /^[0-9]{10}$/;
   ngOnInit(): void {
     this.UserEditData.GetUserDataByID(this.id).subscribe((resp: any) => {
       this.EditUserData = resp.data;
@@ -62,14 +70,6 @@ export class EditUserComponent implements OnInit {
     });
   }
 
-  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
-
-  emailRegex: string =
-    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-
-  addressRegex = /^.{3,500}$/s;
-
-  phoneRegex = /^[0-9]{10}$/;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -86,7 +86,7 @@ export class EditUserComponent implements OnInit {
       name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
       phoneNumber: [
         "",
-        [Validators.required, Validators.pattern(this.phoneRegex)],
+        [Validators.required, Validators.pattern(this.personNameRegex)],
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
       status: [""],
@@ -98,7 +98,7 @@ export class EditUserComponent implements OnInit {
       adminCheckBox: [""],
       SalesmanCheckBox: [""],
       stockManagerCheckBox: [""],
-      billingAddress:[""]
+      billingAddress:["",[Validators.pattern(this.addressRegex)]]
     });
   }
   patchForm() {
@@ -156,17 +156,17 @@ export class EditUserComponent implements OnInit {
           (resp: any) => {
             if (resp) {
               if (resp.status === "success") {
-                const message = "User has been updated";
+                const message = "User details update successfully.";
                 this.messageService.add({
                   severity: "success",
-                  detail: message,
+                  detail: resp.message,
                 });
                 setTimeout(() => {
                   this.router.navigate(["settings/users"]);
                 }, 400);
               } else {
                 const message = resp.message;
-                this.messageService.add({ severity: "error", detail: message });
+                this.messageService.add({ severity: "error", detail: resp.message });
               }
             }
           }

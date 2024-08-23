@@ -36,7 +36,8 @@ export class AllSalesReturnComponent implements OnInit {
   currentUrl: string;
   header: string;
   totalAmountValues: any = {};
-
+  cols = [];
+  exportColumns = [];
   searchByData = [
     "Today",
     "Yesterday",
@@ -124,6 +125,25 @@ export class AllSalesReturnComponent implements OnInit {
       this.totalAmountValues = resp;
       this.salesReturnListData = resp.data;
       this.originalData = resp.data;
+      this.cols = [
+        { field: "salesInvoiceNumber", header: "Sales Invoice Number" },
+        { field: "returnDate", header: "Return Date" },
+        { field: "customer.name", header: "Customer Name" },
+        { field: "returnOrderStatus", header: "Return Order Status" },
+        { field: "paymentStatus", header: "Payment Status" },
+        { field: "paidAmount", header: "Paid Amount" },
+        { field: "dueAmount", header: "Due Amount" },
+        { field: "salesTotalAmount", header: "Total Amount" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.salesReturnListData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
   editSalesRout(id) {

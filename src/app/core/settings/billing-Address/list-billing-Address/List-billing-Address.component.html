@@ -44,21 +44,21 @@
                 </div>
                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                   [roles]="['admin', 'super-admin']">
-                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                  <!-- <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                       pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip"
-                      alt="" /></a>
+                      alt="" /></a> -->
                   <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
                   <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg"
                       pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip"
-                      alt="" /></a>
+                      alt="" (click)="dt.exportCSV()" /></a>
                   <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
                 </div>
               </div>
             </div>
             <div class="card-body p-2">
               <p-table [value]="
-                  dataSource | filter : searchDataValue : ['name', 'email']
-                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
+                  dataSource | filter : searchDataValue : ['companyName', 'country.name','state','city','email','postalCode','setAsDefault']
+                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [columns]="cols" #dt [exportHeader]="'customExportHeader'" exportFilename="Billing Address"  [paginator]="true" 
                 [rows]="10" selectionMode="multiple" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
                 [(selection)]="selectedProducts">
                 <ng-template pTemplate="header">
@@ -121,6 +121,11 @@
                       <p-button [text]="true" icon="fa-solid fa-trash" (click)="delete(product)" pTooltip="Delete"
                         tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                     </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="9" class="text-center">No billing address found.</td>
                   </tr>
                 </ng-template>
               </p-table>

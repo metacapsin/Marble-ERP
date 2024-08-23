@@ -41,11 +41,11 @@
               </div>
               <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                 [roles]="['admin', 'super-admin']">
-                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""
-                    pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip"></a>
+                <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""
+                    pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip"></a> -->
                 <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
                 <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""
-                    pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip"></a>
+                    pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip" (click)="dt.exportCSV()"></a>
                 <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
               </div>
@@ -54,7 +54,8 @@
           <div class="card-body p-2">
             <p-table [value]="salaryData | filter:searchDataValue:['employee.name','type','basicSalary','netSalary',]"
               styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
-              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedsalary">
+              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedsalary" #dt [columns]="cols" 
+              [exportHeader]="'customExportHeader'" exportFilename="Staff Salary">
               <ng-template pTemplate="header">
                 <tr>
                   <th pSortableColumn="employee.name">Employee<p-sortIcon field="employee.name"></p-sortIcon>

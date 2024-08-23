@@ -29,7 +29,8 @@ export class PaymentInListComponent {
   selectedCategory = [];
   paymentListData = [];
   totalAmount: number = 0;
-
+  cols = [];
+  exportColumns = [];
   constructor(
     private Service: PaymentInService,
     private messageService: MessageService
@@ -43,6 +44,23 @@ export class PaymentInListComponent {
     this.Service.getPaymentList().subscribe((resp: any) => {
       this.totalAmount = resp.totalAmount;
       this.paymentListData = resp.data;
+      this.cols = [
+        { field: "salesInvoice", header: "Invoice Number" },
+        { field: "transactionNo", header: "Transaction No" },
+        { field: "paymentDate", header: "Payment Date" },
+        { field: "customer.name", header: "Customer Name" },
+        { field: "paymentMode", header: "Payment Mode" },
+        { field: "amount", header: "Amount" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.paymentListData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
 
@@ -68,6 +86,7 @@ export class PaymentInListComponent {
     });
   }
 
+  
   close() {
     this.showDialoge = false;
   }

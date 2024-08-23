@@ -32,6 +32,8 @@ export class StaffSalaryListComponent {
   salaryData = [];
   visible: boolean = false;
   originalData = [];
+  cols = [];
+  exportColumns = [];
 
   constructor(
     private messageService: MessageService,
@@ -75,6 +77,20 @@ export class StaffSalaryListComponent {
     this.service.getEmployeeSalaryData().subscribe((resp: any) => {
       this.salaryData = resp;
       this.originalData = resp;
+      this.cols = [
+        { field: "employee.name", header: "Employee Name" },
+        { field: "basicSalary", header: "Basic Salary" },
+        { field: "netSalary", header: "Net Salary" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.salaryData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log("salary data", resp);
     });
   }

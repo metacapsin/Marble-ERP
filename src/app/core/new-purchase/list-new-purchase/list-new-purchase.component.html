@@ -165,10 +165,10 @@ hideOnClear="true"  type="text" field="purchaseTotalAmount" display="menu"  ></p
                 </div>
                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                   [roles]="['admin', 'super-admin']">
-                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""  pTooltip="Download data in PDF file" tooltipPosition="left"
-                                        tooltipStyleClass="tooltip" /></a>
+                  <!-- <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""  pTooltip="Download data in PDF file" tooltipPosition="left"
+                                        tooltipStyleClass="tooltip" /></a> -->
                   <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
-                                        tooltipStyleClass="tooltip" /></a>
+                    (click)="dt.exportCSV()"         tooltipStyleClass="tooltip" /></a>
                 </div>
               </div>
 
@@ -199,7 +199,8 @@ hideOnClear="true"  type="text" field="purchaseTotalAmount" display="menu"  ></p
             <div class="card-body p-2">
               <p-table
                 [value]="purchaseData | filter:searchDataValue:['purchaseInvoiceNumber', 'purchaseDate','supplier.name','purchaseType','paymentStatus', 'paidAmount', 'dueAmount','purchaseCost','purchaseTotalAmount']"
-                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"  #dt [columns]="cols" 
+                [exportHeader]="'customExportHeader'" exportFilename="Purchase"
                 selectionMode="multiple" [rowsPerPageOptions]="[5, 10, 20]">
                 <ng-template pTemplate="header">
                   <tr>

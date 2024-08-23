@@ -44,12 +44,13 @@
                                 </div>
                                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                                     [roles]="['admin', 'super-admin']">
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                    <!-- <a href="javascript:;" class=" me-2"><img src=""
                                             alt="" pTooltip="Download data in PDF file" tooltipPosition="left"
-                                            tooltipStyleClass="tooltip"></a>
+                                            tooltipStyleClass="tooltip"></a> -->
                                     <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
                                             alt=""></a> -->
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                        (click)="dt.exportCSV()"
                                             alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
                                             tooltipStyleClass="tooltip"></a>
                                     <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
@@ -79,7 +80,8 @@
                                 [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
                                 (onPage)="onPageChange($event)" [(selection)]="selectedSlabs"
-                                (onFilter)="onFilter($event)">
+                                (onFilter)="onFilter($event)" #dt [columns]="cols" 
+                                [exportHeader]="'customExportHeader'" exportFilename="Slabs">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="slabNo">Slab No<p-sortIcon field="slabNo"></p-sortIcon>

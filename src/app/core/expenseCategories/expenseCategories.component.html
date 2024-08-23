@@ -41,12 +41,12 @@
                             </div>
                             <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                                 [roles]="['admin', 'super-admin', 'help-desk']">
-                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" pTooltip="Download data in PDF file" tooltipPosition="left"
+                                <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" pTooltip="Download data in PDF file" tooltipPosition="left"
                                         tooltipStyleClass="tooltip"
-                                        alt=""></a>
+                                        alt=""></a> -->
                                 <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" pTooltip="Download data in CSV file " tooltipPosition="left"
                                         tooltipStyleClass="tooltip"
-                                        alt=""></a>
+                                        alt="" (click)="dt.exportCSV()"></a>
 
                             </div>
                         </div>
@@ -55,7 +55,8 @@
                     <div class="card-body p-2">
                         <p-table [value]="dataSource | filter:searchDataValue:['categoryName', 'categoryDescription']" styleClass="p-datatable-striped"
                             [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
-                            [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)"
+                            [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)" #dt [columns]="cols" 
+                            [exportHeader]="'customExportHeader'" exportFilename="Expenses Categories"
                             [(selection)]="selectedCustomer" selectionMode="multiple">
                             <ng-template pTemplate="header">
                                 <tr>

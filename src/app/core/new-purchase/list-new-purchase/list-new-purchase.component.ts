@@ -39,6 +39,8 @@ export class ListNewPurchaseComponent {
   visible: any
   purchaseTotalValues: any = {};
   currentUrl: string;
+  cols = [];
+  exportColumns = [];
 
   searchByData = [
     "Today",
@@ -94,6 +96,27 @@ export class ListNewPurchaseComponent {
     this.Service.getPurchaseList(data).subscribe((resp: any) => {
       this.purchaseTotalValues = resp;
       this.purchaseData = resp.data;
+
+      this.cols = [
+        { field: "purchaseInvoiceNumber", header: "Purchase Invoice Number" },
+        { field: "purchaseDate", header: "Purchase Date" },
+        { field: "supplier.name", header: "Supplier Name" },
+        { field: "purchaseType", header: "Purchase Type" },
+        { field: "paymentStatus", header: "Payment Status" },
+        { field: "paidAmount", header: "Paid Amount" },
+        { field: "dueAmount", header: "Due Amount" },
+        { field: "purchaseCost", header: "Purchase Cost" },
+        { field: "purchaseTotalAmount", header: "Purchase Total Amount" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.purchaseData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
   purchaseUpdate(id: number) {

@@ -43,14 +43,14 @@
                                 </div>
                                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                                     [roles]="['admin', 'super-admin']">
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                             alt="" pTooltip="Download data in PDF file"
-                      tooltipPosition="left" tooltipStyleClass="tooltip"></a>
+                      tooltipPosition="left" tooltipStyleClass="tooltip"></a> -->
                                     <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
                                             alt=""></a> -->
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
                                             alt=""  pTooltip="Download data in CSV file "
-                      tooltipPosition="left" tooltipStyleClass="tooltip"></a>
+                      tooltipPosition="left" tooltipStyleClass="tooltip" (click)="dt.exportCSV()"></a>
                                     <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
                                 </div>
@@ -77,8 +77,9 @@
                             <p-table
                                 [value]="lotData | filter:searchDataValue:['date', 'lotName','lotNo','lotWeight','pricePerTon','blocksCount','lotTotalCosting',]"
                                 [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
-                                [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot" [columns]="cols" #dt
-                                styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)">
+                                [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot" 
+                                styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)" #dt [columns]="cols" 
+                                [exportHeader]="'customExportHeader'" exportFilename="Lot">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>

@@ -31,6 +31,8 @@ export class StaffListComponent {
   modalData: any = {};
   visible: boolean = false;
   staffData = [];
+  cols = [];
+  exportColumns = [];
 
   constructor(
     private messageService: MessageService,
@@ -68,6 +70,22 @@ export class StaffListComponent {
     this.service.getStaffData().subscribe((resp: any) => {
       this.staffData = resp;
       this.originalData = resp;
+      this.cols = [
+        { field: "firstName", header: "First Name" },
+        { field: "designation.designation", header: "Designation" },
+        { field: "mobile", header: "Mobile" },
+        { field: "city", header: "City" },
+        { field: "email", header: "Email" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.staffData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log("Staff data", resp);
     });
   }

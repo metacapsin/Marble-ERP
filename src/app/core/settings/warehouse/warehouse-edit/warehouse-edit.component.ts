@@ -29,12 +29,12 @@ export class WarehouseEditComponent {
   warehouseId: any;
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
-
+  invoiceRegex = /^(?=[^\s])(?=.*[a-zA-Z])[a-zA-Z\d\/\-_ ]{1,50}$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
   billingAddressRegex = /^.{3,500}$/s;
-
+  personNameRegex = /^\d{10}$/;
   phoneRegex = /^[0-9]{10}$/;
 
   constructor(
@@ -46,7 +46,7 @@ export class WarehouseEditComponent {
     private messageService: MessageService
   ) {
     this.warehouseForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
+      name: ["", [Validators.required, Validators.pattern(this.invoiceRegex)]],
       // slug: [
       //   "",
       //   [
@@ -64,7 +64,7 @@ export class WarehouseEditComponent {
         [Validators.required, Validators.pattern(this.billingAddressRegex)],
       ],
       // bankDetails: ["", [Validators.pattern(new RegExp(/^[A-Za-z0-9\s-]+$/))]],
-      phone: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
+      phone: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
     });
   }
 

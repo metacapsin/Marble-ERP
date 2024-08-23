@@ -39,10 +39,10 @@
                             </div>
                             <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                                 [roles]="['admin', 'super-admin', 'help-desk']">
-                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                         alt="" pTooltip="Download data in PDF file"
-                      tooltipPosition="left" tooltipStyleClass="tooltip"></a>
-                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                      tooltipPosition="left" tooltipStyleClass="tooltip"></a> -->
+                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" (click)="dt.exportCSV()"
                                         alt="" pTooltip="Download data in CSV file "
                       tooltipPosition="left" tooltipStyleClass="tooltip"></a>
 
@@ -55,7 +55,8 @@
                             [value]="blockProcessorData | filter:searchDataValue:['name', 'email', 'status', 'createdOn']"
                             styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
                             [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)"
-                            selectionMode="multiple" [(selection)]="selectedCustomer" styleClass="p-datatable-striped">
+                            selectionMode="multiple" [(selection)]="selectedCustomer" styleClass="p-datatable-striped" #dt [columns]="cols" 
+                            [exportHeader]="'customExportHeader'" exportFilename="Block Processor" >
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th pSortableColumn="name">Company Name <p-sortIcon field="name"></p-sortIcon>

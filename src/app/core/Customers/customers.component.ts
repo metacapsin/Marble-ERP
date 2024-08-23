@@ -26,6 +26,8 @@ export class CustomersComponent {
   showDialoge = false;
   modalData: any = {};
   customerId: any;
+  cols = [];
+  exportColumns = [];
   constructor(private router: Router,private Service: CustomersdataService,private messageService: MessageService,private localStorageService:LocalStorageService) {
     this.routerChangeSubscription = this.router.events.subscribe((event) => {
       this.currentRoute = this.router.url;
@@ -39,6 +41,21 @@ export class CustomersComponent {
     this.Service.GetCustomerData().subscribe((data) => {
       this.dataSource = data
       this.originalData = data
+      this.cols = [
+        { field: "name", header: "Name" },
+        { field: "email", header: "Email" },
+        { field: "status", header: "Status" },
+        { field: "createdOn", header: "Created On" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.dataSource.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     })
   }
   goToEditPage(value: any) {

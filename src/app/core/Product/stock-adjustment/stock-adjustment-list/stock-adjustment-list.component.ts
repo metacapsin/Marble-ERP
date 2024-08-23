@@ -52,6 +52,8 @@ export class StockAdjustmentListComponent implements OnInit {
   searchByWarehouseData: any = [];
   searchBy: any ;
   descriptionRegex = /^(?!\s)(?:.{1,250})$/;
+  cols = [];
+  exportColumns = [];
 
   constructor(
     public router: Router,
@@ -96,6 +98,25 @@ export class StockAdjustmentListComponent implements OnInit {
     this.service.getAdjustmentList().subscribe((resp: any) => {
       this.stockAdjustmentDataList = resp.data;
       this.originalData = resp.data;
+      this.cols = [
+        { field: "createdOn", header: "Created On" },
+        { field: "slabs.slabName", header: "Slab Name" },
+        { field: "warehouse.name", header: "Warehouse Name" },
+        { field: "adjustmentType", header: "Adjustment Type" },
+        { field: "previousQty", header: "Previous Qty" },
+        { field: "quantity", header: "Quantity" },
+        { field: "currentQty", header: "Current Qty" },
+        { field: "note", header: "Note" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.stockAdjustmentDataList.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log("original data",this.originalData);
     });
   }

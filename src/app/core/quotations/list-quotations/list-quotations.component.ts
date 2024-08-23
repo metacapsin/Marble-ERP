@@ -43,6 +43,8 @@ export class ListQuotationsComponent implements OnInit {
   searchBy: string = "This Year";
   rangeDates: Date[] | undefined;
   totalAmountValues: any = {}
+  cols = [];
+  exportColumns = [];
 
   constructor(
     private messageService: MessageService,
@@ -114,6 +116,23 @@ export class ListQuotationsComponent implements OnInit {
     this.Service.getQuotationList(data).subscribe((resp: any) => {
       this.totalAmountValues = resp;
       this.quotationListData = resp.data;
+      this.cols = [
+        { field: "quotationInvoiceNumber", header: "Payment Date" },
+        { field: "quotationDate", header: "Quotation Date" },
+        { field: "customer.name", header: "Customer Name" },
+        { field: "quotationTax", header: "Quotation Tax" },
+        { field: "quotationDiscount", header: "Quotation Discount" },
+        { field: "quotationTotalAmount", header: "Quotation Total Amount" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.quotationListData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
 

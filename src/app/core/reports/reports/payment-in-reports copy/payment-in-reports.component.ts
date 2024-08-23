@@ -13,7 +13,7 @@ export class PaymentInReportComponent {
   rangeDates: Date[] | undefined;
   paymentInData = [];
   originalData = [];
-  paymentIn = "paymentIn"
+  paymentIn = "paymentIn";
   cols = [];
   exportColumns = [];
 
@@ -45,13 +45,13 @@ export class PaymentInReportComponent {
       this.paymentInData = resp.payments;
       this.originalData = resp.payments;
 
-      console.log("this is original data",this.originalData)
+      console.log("this is original data", this.originalData);
 
       this.cols = [
         { field: "paymentDate", header: "Payment Date" },
         { field: "amount", header: "Amount" },
         { field: "paymentMode", header: "Payment Mode" },
-        { field: "customer.name", header: "Name" },
+        { field: "customer.name", header: "Customer Name" },
         { field: "transactionNo", header: "Transaction No" },
         { field: "source", header: "Payment Source" },
       ];
@@ -60,13 +60,12 @@ export class PaymentInReportComponent {
         title: col.header,
         dataKey: col.field,
       }));
+      this.exportColumns = this.paymentInData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
-    this.exportColumns = this.paymentInData.map((element) => ({
-      title: element.header,
-      dataKey: element.field,
-    }));
   }
-
 
   onDateChange(value: any): void {
     const startDate = value[0];
@@ -74,7 +73,7 @@ export class PaymentInReportComponent {
     this.getPaymentInReportData(startDate, endDate);
   }
   onFilter(value: any) {
-      this.paymentInData = value.filteredValue;
+    this.paymentInData = value.filteredValue;
   }
 
   ngOnInit(): void {

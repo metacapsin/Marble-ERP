@@ -38,6 +38,8 @@ export class ListSlabsComponent {
   warehouseData: any;
   warehouseDropDown: any;
   allInDropDown: any;
+  cols = [];
+  exportColumns = [];
 
   constructor(
     public dialog: MatDialog,
@@ -52,6 +54,26 @@ export class ListSlabsComponent {
     this.service.getSlabsList().subscribe((resp: any) => {
       this.allSlabsDaTa = resp.data;
       this.originalData = resp.data;
+      this.cols = [
+        { field: "slabNo", header: "Slab No" },
+        { field: "slabName", header: "Slab Name" },
+        { field: "slabSize", header: "Slab Size" },
+        { field: "categoryDetail.name", header: "Category Detail Name" },
+        { field: "subCategoryDetail.name", header: "Sub Category Detail Name" },
+        { field: "costPerSQFT", header: "Cost Per SQFT" },
+        { field: "sellingPricePerSQFT", header: "Selling Price Per SQFT" },
+        { field: "totalSQFT", header: "Total SQFT" },
+        { field: "warehouseDetails.name", header: "Warehouse Details Name" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.allSlabsDaTa.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log("API", this.allSlabsDaTa);
     });
   }

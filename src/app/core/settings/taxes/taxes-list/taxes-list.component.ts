@@ -34,6 +34,8 @@ export class TaxesListComponent {
   modalData: any = {};
   taxID: any;
   taxesListData = [];
+  cols = [];
+  exportColumns = [];
 
   constructor(
     public dialog: MatDialog,
@@ -83,6 +85,19 @@ export class TaxesListComponent {
     this.service.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
       this.originalData = resp.data;
+      this.cols = [
+        { field: "name", header: "Name" },
+        { field: "taxRate", header: "Tax Rate" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.taxesListData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
 

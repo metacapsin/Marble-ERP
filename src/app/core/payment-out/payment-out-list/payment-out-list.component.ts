@@ -31,6 +31,8 @@ export class PaymentOutListComponent {
   visible: boolean = false;
   selectedCategory = [];
   paymentListData = [];
+  cols = [];
+  exportColumns = [];
 
   constructor(
     private Service: PaymentOutService,
@@ -44,6 +46,22 @@ export class PaymentOutListComponent {
   getPaymentList() {
     this.Service.getPurchasePaymentList().subscribe((resp: any) => {
       this.paymentListData = resp.data;
+      this.cols = [
+        { field: "purchaseInvoiceNumber", header: "Invoice Number" },
+        { field: "paymentDate", header: "Payment Date" },
+        { field: "supplier.name", header: "Supplier Name" },
+        { field: "paymentMode", header: "Payment Mode" },
+        { field: "amount", header: "Amount" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.paymentListData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log(resp);
     });
   }

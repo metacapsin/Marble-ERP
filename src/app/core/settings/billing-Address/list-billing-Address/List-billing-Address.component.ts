@@ -32,8 +32,13 @@ export class ListBillingAddressComponent implements OnInit {
   selectedProducts = [];
   originalData: any = [];
   billingAddressID: any;
-  modalData: { title: string; messege: string; };
+  modalData: { title: string; messege: string };
   showDialog: boolean;
+  cols: (
+    | { field: string; header: string; customExportHeader: string }
+    | { field: string; header: string; customExportHeader?: undefined }
+  )[];
+  exportColumns: { title: string; dataKey: string }[];
 
   constructor(
     private userDataService: BillingAddressService,
@@ -51,22 +56,43 @@ export class ListBillingAddressComponent implements OnInit {
       this.usersApiData = data;
       this.dataSource = this.usersApiData.data;
       this.originalData = this.usersApiData.data;
+
+      this.cols = [
+        { field: "companyName", header: "Company Name" },
+        { field: "country.name", header: "Country Name" },
+        { field: "state", header: "State" },
+        { field: "city", header: "City" },
+        { field: "email", header: "Email" },
+        { field: "postalCode", header: "Postal Code" },
+        { field: "setAsDefault", header: "Set As Default" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.usersApiData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log("usersApiData ", this.usersApiData);
     });
   }
-  edit(id:any){
-    this.router.navigate(["/settings/billing-Address/edit-billing-Address/" + id]);
+  edit(id: any) {
+    this.router.navigate([
+      "/settings/billing-Address/edit-billing-Address/" + id,
+    ]);
   }
 
   delete(values: any) {
     console.log(values);
     // debugger
     if (values.setAsDefault == true) {
-      const message = "Please First Add Default Address";
+      const message = "Please add default a address first";
       this.messageService.add({ severity: "error", detail: message });
     } else {
       this.billingAddressID = values._id;
-      
+
       this.modalData = {
         title: "Delete",
         messege: "Are you sure you want to delete this Billing Address",
@@ -80,12 +106,14 @@ export class ListBillingAddressComponent implements OnInit {
   }
 
   callBackModal() {
-    this.userDataService.deleteBillingAddressById(this.billingAddressID).subscribe((resp) => {
-      const message = "Billing Address has been deleted";
-      this.messageService.add({ severity: "success", detail: message });
-      this.getuserList();
-      this.showDialog = false;
-    });
+    this.userDataService
+      .deleteBillingAddressById(this.billingAddressID)
+      .subscribe((resp) => {
+        const message = "Billing Address has been deleted";
+        this.messageService.add({ severity: "success", detail: message });
+        this.getuserList();
+        this.showDialog = false;
+      });
   }
 
   close() {

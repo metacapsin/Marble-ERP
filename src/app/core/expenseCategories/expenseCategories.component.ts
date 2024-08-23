@@ -30,6 +30,8 @@ export class ExpensesCategoriesComponent {
   id: any;
   visible: boolean = false;
   visible1: boolean = false;
+  cols = [];
+  exportColumns = [];
 
   descriptionRegex = /^.{3,500}$/s;
 
@@ -51,6 +53,19 @@ export class ExpensesCategoriesComponent {
     this.Service.GetExpensesCategriesData().subscribe((resp: any) => {
       this.dataSource = resp.data;
       this.originalData = resp.data;
+      this.cols = [
+        { field: "categoryName", header: "Category Name" },
+        { field: "categoryDescription", header: "Category Description" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.dataSource.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
 

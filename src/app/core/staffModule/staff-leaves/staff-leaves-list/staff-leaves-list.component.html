@@ -41,11 +41,11 @@
               </div>
               <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                 [roles]="['admin', 'super-admin']">
-                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"  pTooltip="Download data in PDF file" tooltipPosition="left"
-                                        tooltipStyleClass="tooltip"alt=""></a>
+                <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"  pTooltip="Download data in PDF file" tooltipPosition="left"
+                                        tooltipStyleClass="tooltip"alt=""></a> -->
                 <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
                 <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"  pTooltip="Download data in CSV file " tooltipPosition="left"
-                                        tooltipStyleClass="tooltip"alt=""></a>
+                ooltipStyleClass="tooltip"alt="" (click)="dt.exportCSV()"></a>
                 <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
               </div>
@@ -56,7 +56,8 @@
             <p-table
               [value]="LeaveData | filter:searchDataValue:['employee.name','leaveType','from','to','noOfDay','leaveDuration']"
               styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
-              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedLeave" selectionMode="multiple">
+              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedLeave" selectionMode="multiple" #dt [columns]="cols" 
+              [exportHeader]="'customExportHeader'" exportFilename="Leave Request" >
               <ng-template pTemplate="header">
                 <tr>
                   <th pSortableColumn="employee.name">Employee Name <p-sortIcon field="employee.name"></p-sortIcon>

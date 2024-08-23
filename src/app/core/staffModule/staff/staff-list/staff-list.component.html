@@ -40,11 +40,10 @@
               </div>
               <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                 [roles]="['admin', 'super-admin']">
-                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt="" pTooltip="Download data in PDF file" tooltipPosition="left"
-                                        tooltipStyleClass="tooltip"></a>
+                <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt="" pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip"></a> -->
                 <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a> -->
                 <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
-                                        tooltipStyleClass="tooltip"></a>
+                  (click)="dt.exportCSV()" tooltipStyleClass="tooltip"></a>
                 <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
               </div>
@@ -55,15 +54,16 @@
             <p-table
               [value]="staffData | filter:searchDataValue:['firstName','lastName','designation','mobile','city','email']"
               styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
-              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedstaff" selectionMode="multiple">
+              [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedstaff" selectionMode="multiple" #dt [columns]="cols" 
+              [exportHeader]="'customExportHeader'" exportFilename="Staff List">
               <ng-template pTemplate="header">
                 <tr>
                   <th pSortableColumn="firstName">Name <p-sortIcon field="firstName"></p-sortIcon>
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="firstName"
                       display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="designation">Designation <p-sortIcon field="designation"></p-sortIcon>
-                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="designation"
+                  <th pSortableColumn="designation.designation">Designation <p-sortIcon field="designation.designation"></p-sortIcon>
+                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="designation.designation"
                       display="menu"></p-columnFilter>
                   </th>
                   <th pSortableColumn="mobile">Mobile<p-sortIcon field="mobile"></p-sortIcon>

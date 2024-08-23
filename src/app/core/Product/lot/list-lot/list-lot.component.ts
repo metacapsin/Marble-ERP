@@ -74,6 +74,26 @@ export class ListLotComponent implements OnInit {
       // }
       this.lotData = resp.data;
       this.originalData = resp.data;
+      
+      this.cols = [
+        { field: "date", header: "Date" },
+        { field: "lotName", header: "Lot Name" },
+        { field: "lotNo", header: "Lot No" },
+        { field: "lotWeight", header: "Lot Weight" },
+        { field: "pricePerTon", header: "Price Per Ton" },
+        { field: "blocksCount", header: "Blocks Count" },
+        { field: "lotTotalCosting", header: "Lot Total Costing" },
+        { field: "warehouseDetails.name", header: "Warehouse Details" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.lotData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
 

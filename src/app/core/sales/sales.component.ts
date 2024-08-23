@@ -44,6 +44,8 @@ export class SalesComponent implements OnInit {
   searchBy: string = "This Year";
   rangeDates: Date[] | undefined;
   totalAmountValues: any = {}
+  cols = [];
+  exportColumns = [];
 
   constructor(
     private messageService: MessageService,
@@ -111,6 +113,26 @@ export class SalesComponent implements OnInit {
     this.Service.GetSalesData(data).subscribe((resp: any) => {
       this.totalAmountValues = resp;
       this.salesListData = resp.data;
+      this.cols = [
+        { field: "salesInvoiceNumber", header: "Sales Invoice Number" },
+        { field: "salesDate", header: "Sales Date" },
+        { field: "customer.name", header: "Customer Name" },
+        { field: "billingAddress.companyName", header: "Billing Address Company Name" },
+        { field: "salesOrderStatus", header: "Sales Order Status" },
+        { field: "paymentStatus", header: "Payment Status" },
+        { field: "paidAmount", header: "Paid Amount" },
+        { field: "dueAmount", header: "Due Amount" },
+        { field: "salesTotalAmount", header: "Sales Total Amount" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.totalAmountValues.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
 

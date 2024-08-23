@@ -25,6 +25,8 @@ export class ExpensesComponent {
   showDialoge = false;
   modalData: any = {};
   expenseId: any;
+  cols = [];
+  exportColumns = [];
   constructor(private router: Router,private Service: ExpensesdataService,private messageService: MessageService) {
     // this.routerChangeSubscription = this.router.events.subscribe((event) => {
     //   this.currentRoute = this.router.url;
@@ -37,6 +39,21 @@ export class ExpensesComponent {
     this.Service.GetExpensesData().subscribe((rsep:any) => {
       this.dataSource = rsep.data
       this.originalData = rsep.data
+      this.cols = [
+        { field: "recipient", header: "Recipient" },
+        { field: "date", header: "Date" },
+        { field: "categoryDetails.name", header: "Category Details Name" },
+        { field: "amount", header: "Amount" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.dataSource.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log(rsep.data);
     })
   }

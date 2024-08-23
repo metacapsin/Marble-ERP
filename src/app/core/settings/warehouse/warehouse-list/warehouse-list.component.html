@@ -45,25 +45,26 @@
                                 </div>
                                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                                     [roles]="['admin', 'super-admin']">
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                             pTooltip="Download data in PDF file" tooltipPosition="left"
-                                            tooltipStyleClass="tooltip" alt=""></a>
+                                            tooltipStyleClass="tooltip" alt=""></a> -->
                                     <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
                                             alt=""></a> -->
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
                                             pTooltip="Download data in CSV file " tooltipPosition="left"
-                                            tooltipStyleClass="tooltip" alt=""></a>
+                                            tooltipStyleClass="tooltip" alt="" (click)="dt.exportCSV()"></a>
                                     <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
                                 </div>
                             </div>
                         </div>
                         <div class="card-body p-2">
-                            <p-table [value]="data | filter:searchDataValue:['name', 'email','phone']"
+                            <p-table [value]="data | filter:searchDataValue:['name', 'email','phone','billingAddress']"
                                 styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
-                                [paginator]="true" selectionMode="multiple" [rows]="10"
+                                [paginator]="data.length >= 5"  selectionMode="multiple" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
-                                [(selection)]="selectedProducts">
+                                [(selection)]="selectedProducts" #dt [columns]="cols" 
+                                [exportHeader]="'customExportHeader'" exportFilename="Warehouse">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <!-- <th appShowHide [roles]="['admin', 'super-admin']">
@@ -158,8 +159,7 @@ hideOnClear="true"  field="onlineStore" display="menu"></p-columnFilter>
                                 </ng-template>
                                 <ng-template pTemplate="emptymessage">
                                     <tr>
-                                        <td colspan="4" class="text-center">No warehouses found. Please add a warehouse
-                                            to see it listed here.</td>
+                                        <td colspan="4" class="text-center">No warehouses found.</td>
                                     </tr>
                                 </ng-template>
                             </p-table>

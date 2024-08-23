@@ -86,9 +86,9 @@
                 </div>
                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                   [roles]="['admin', 'super-admin']">
-                  <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"   pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip" alt="" /></a>
+                  <!-- <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"   pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip" alt="" /></a> -->
                   <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"><img
-                      src="assets/img/icons/pdf-icon-03.svg"   pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip" alt="" /></a>
+                      src="assets/img/icons/pdf-icon-03.svg" pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip" alt="" /></a>
                 </div>
               </div>
 
@@ -131,8 +131,8 @@
                           'amount'
                         ]
                 " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
-                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols" selectionMode="multiple"
-                [exportHeader]="'customExportHeader'" exportFilename="Payment In Reports" (onFilter)="onFilter($event)">
+                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols" 
+                [exportHeader]="'customExportHeader'" exportFilename="Payment In Reports" selectionMode="multiple" (onFilter)="onFilter($event)">
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="paymentDate">

@@ -44,6 +44,8 @@ export class PurchaseReturnComponent {
   ];
   searchBy: string ="This Year";
   rangeDates: Date[] | undefined;
+  cols = [];
+  exportColumns = [];
 
 
   constructor(
@@ -84,6 +86,24 @@ export class PurchaseReturnComponent {
     this.service.getPurchaseReturnList(data).subscribe((resp: any) => {
       this.purchaseTotalValues = resp;
       this.purchaseReturnData = resp.data;
+      this.cols = [
+        { field: "purchaseInvoiceNumber.purchaseInvoiceNumber", header: "Invoice Number" },
+        { field: "returnDate", header: "Date" },
+        { field: "supplier.name", header: "Supplier Name" },
+        { field: "paymentStatus", header: "Payment Status" },
+        { field: "paidAmount", header: "Paid Amount" },
+        { field: "dueAmount", header: "Due Amount" },
+        { field: "purchaseReturnTotalAmount", header: "Total Amount" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.purchaseReturnData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
     });
   }
   purchaseReturnUpdate(id: any) {

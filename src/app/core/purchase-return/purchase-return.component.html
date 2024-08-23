@@ -174,12 +174,12 @@ hideOnClear="true"  type="text" field="purchaseReturnTotalAmount"
                                     </div>
                                     <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                                         [roles]="['admin', 'super-admin']">
-                                        <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                        <!-- <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                                 alt="" pTooltip="Download data in PDF file" tooltipPosition="left"
-                                        tooltipStyleClass="tooltip" /></a>
+                                        tooltipStyleClass="tooltip" /></a> -->
                                         <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg"
                                                 alt=""  pTooltip="Download data in CSV file " tooltipPosition="left"
-                                        tooltipStyleClass="tooltip"/></a>
+                                        tooltipStyleClass="tooltip" (click)="dt.exportCSV()"/></a>
                                     </div>
                                 </div>
 
@@ -214,7 +214,8 @@ hideOnClear="true"  type="text" field="purchaseReturnTotalAmount"
                                     [value]="purchaseReturnData | filter:searchDataValue:['purchaseInvoiceNumber.purchaseInvoiceNumber', 'returnDate','supplier.name','paymentStatus', 'paidAmount', 'dueAmount','purchaseCost','purchaseTotalAmount']"
                                     styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
                                     [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
-                                    [(selection)]="selectedPurchaseReturn" selectionMode="multiple">
+                                    [(selection)]="selectedPurchaseReturn" selectionMode="multiple" #dt [columns]="cols" 
+                                    [exportHeader]="'customExportHeader'" exportFilename="Purchase return">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th pSortableColumn="purchaseInvoiceNumber.purchaseInvoiceNumber">

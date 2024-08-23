@@ -39,6 +39,9 @@ export class WarehouseListComponent {
   selectedProducts = [];
   currentRoute!: string;
   routerChangeSubscription: Subscription;
+  cols = [];
+  exportColumns = [];
+  
 
   isRouteActive(text) {
     if (!this.currentRoute) return "";
@@ -81,7 +84,21 @@ export class WarehouseListComponent {
     this.service.getAllWarehouseList().subscribe((resp: any) => {
       this.data = resp.data;
       this.originalData = resp.data;
+      this.cols = [
+        { field: "name", header: "Name" },
+        { field: "email", header: "Email" },
+        { field: "phone", header: "Phone" },
+        { field: "billingAddress", header: "Billing Address" },
+      ];
 
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
+      this.exportColumns = this.data.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
       console.log("API", this.data);
     });
   }

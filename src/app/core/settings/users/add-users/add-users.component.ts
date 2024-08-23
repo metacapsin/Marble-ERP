@@ -38,6 +38,7 @@ export class AddUsersComponent implements OnInit {
   wareHouseLists = [];
 
   // Regex pattern
+  personNameRegex = /^\d{10}$/;
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
@@ -62,7 +63,7 @@ export class AddUsersComponent implements OnInit {
       name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
       phoneNumber: [
         "",
-        [Validators.required, Validators.pattern(this.phoneRegex)],
+        [Validators.required, Validators.pattern(this.personNameRegex)],
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
       status: [""],
@@ -79,7 +80,7 @@ export class AddUsersComponent implements OnInit {
       SalesmanCheckBox: [""],
       stockManagerCheckBox: [""],
       isUserLocked: [""],
-      billingAddress: [''],
+      billingAddress: ['',[Validators.pattern(this.addressRegex)]],
     });
   }
   ngOnInit(): void {
@@ -145,13 +146,12 @@ export class AddUsersComponent implements OnInit {
         if (resp) {
           if (resp.status === "success") {
             const message = "User has been added";
-            this.messageService.add({ severity: "success", detail: message });
+            this.messageService.add({ severity: "success", detail: resp.message });
             setTimeout(() => {
               this.router.navigate(["settings/users"]);
             }, 400);
           } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
+            this.messageService.add({ severity: "error", detail: resp.message });
           }
         }
       });
