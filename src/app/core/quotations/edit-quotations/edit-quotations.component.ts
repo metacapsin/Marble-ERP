@@ -257,6 +257,10 @@ export class EditQuotationsComponent {
         console.log(resp)
         this.patchForm(resp.data);
         // this.getCustomer();
+        this.customerAddress = resp.data.customer.billingAddress;
+        console.log(resp.data.customer.billingAddress)
+
+
 
       });
 

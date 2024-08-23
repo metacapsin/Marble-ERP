@@ -212,7 +212,7 @@ export class AddsalesComponent implements OnInit {
     this.returnUrl = this.localStorageService.getItem("returnUrl");
     console.log("this is retrun url", this.returnUrl);
     console.log(
-      "this is customer data by local sotrage service",
+      "this is customer data by local storage service",
       this.customer,
       this.customer.billingAddress
     );

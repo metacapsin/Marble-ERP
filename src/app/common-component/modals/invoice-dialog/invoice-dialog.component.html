@@ -77,7 +77,7 @@
                           <span *ngIf="sales.customer?.billingAddress" [innerHTML]="
                               sales.customer.billingAddress | wordWrap : 2
                             "></span>
-                          <span *ngIf="sales.supplier?.billingAddress" [innerHTML]="
+                          <span *ngIf="sales.purchaseDate" [innerHTML]="
                             sellerData?.address  | wordWrap : 2
                             "></span>
                           <span *ngIf="sales.purchaseReturnTotalAmount
