@@ -83,7 +83,7 @@ export class ForgotPasswordComponent {
             this.error = error.message;
             this.submitted = false;
             this.loading = false;
-            this._snackBar.open(error.message ?? "Error Occured ", '', {
+            this._snackBar.open(error.message ?? "No account found with the given email.", '', {
               duration: 2000,
               verticalPosition: 'top',
               horizontalPosition: 'right',

@@ -97,8 +97,7 @@
                           changePasswordForm.get('currentPassword')?.hasError('pattern') &&
                           changePasswordForm.get('currentPassword')?.touched
                         " class="login-danger Font_size">
-                                Contain Upto 8-16 chars, uppercase, lowercase, digit,
-                                special char.
+                        "Password must contain upto 8-16 digit and at least one number, one uppercase letter, one lowercase letter, and one special character."
                             </div>
                         </div>
                     </div>
@@ -116,8 +115,7 @@
                           changePasswordForm.get('newPassword')?.hasError('pattern') &&
                           changePasswordForm.get('newPassword')?.touched
                         " class="login-danger Font_size">
-                                Contain Upto 8-16 chars, uppercase, lowercase, digit,
-                                special char.
+                        "Password must contain upto 8-16 digit and at least one number, one uppercase letter, one lowercase letter, and one special character."
                             </div>
                         </div>
                     </div>
@@ -126,7 +124,7 @@
                             <label for="confirmNewPassword">Confirm New Password<span
                                     class="login-danger">*</span></label>
                             <input class="form-control" formControlName="confirmNewPassword" type="text" placeholder="Confirm New Password" />
-                            <span style="color: #97704f; font-size: 12px">The New Password and Confirm New Password will Same</span>
+                            <!-- <span style="color: #97704f; font-size: 12px">The New Password and Confirm New Password will Same</span> -->
                             <div *ngIf="
                           changePasswordForm.get('confirmNewPassword')?.hasError('required') &&
                           changePasswordForm.get('confirmNewPassword')?.touched
@@ -137,8 +135,7 @@
                           changePasswordForm.get('confirmNewPassword')?.hasError('pattern') &&
                           changePasswordForm.get('confirmNewPassword')?.touched
                         " class="login-danger Font_size">
-                                Contain Upto 8-16 chars, uppercase, lowercase, digit,
-                                special char.
+                        "Password must contain upto 8-16 digit and at least one number, one uppercase letter, one lowercase letter, and one special character."
                             </div>
                         </div>
                     </div>
