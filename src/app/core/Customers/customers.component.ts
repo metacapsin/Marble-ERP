@@ -52,10 +52,10 @@ export class CustomersComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.dataSource.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.dataSource.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
     })
   }
   goToEditPage(value: any) {

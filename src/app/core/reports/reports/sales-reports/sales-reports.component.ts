@@ -75,10 +75,10 @@ export class SalesReportsComponent {
         dataKey: col.field,
       }));
     });
-    this.exportColumns = this.salesReportsData.map((element) => ({
-      title: element.header,
-      dataKey: element.field,
-    }));
+    // this.exportColumns = this.salesReportsData.map((element) => ({
+    //   title: element.header,
+    //   dataKey: element.field,
+    // }));
   }
 
   onDateChange(value: any): void {

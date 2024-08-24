@@ -74,10 +74,11 @@ export class SalesCreditReportsComponent {
         dataKey: col.field,
       }));
     });
-    this.exportColumns = this.salesReportsData.map((element) => ({
-      title: element.header,
-      dataKey: element.field,
-    }));  }
+    // this.exportColumns = this.salesReportsData.map((element) => ({
+    //   title: element.header,
+    //   dataKey: element.field,
+    // }));
+    }
 
   onDateChange(value: any): void {
     const startDate = value[0];

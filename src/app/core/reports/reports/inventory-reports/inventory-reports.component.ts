@@ -59,7 +59,7 @@ export class InventoryReportsComponent  {
         dataKey: col.field
       }));
     });
-    this.exportColumns = this.stockListData.map((element) => ({ title: element.header, dataKey: element.field }));
+    // this.exportColumns = this.stockListData.map((element) => ({ title: element.header, dataKey: element.field }));
   }
 
   onCategoryChange(value: any){

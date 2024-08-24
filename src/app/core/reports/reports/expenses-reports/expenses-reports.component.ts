@@ -51,7 +51,7 @@ export class expensesReportsComponent {
         dataKey: col.field
       }));
     });
-    this.exportColumns = this.expensesData.map((element) => ({ title: element.header, dataKey: element.field }));
+    // this.exportColumns = this.expensesData.map((element) => ({ title: element.header, dataKey: element.field }));
 
   }
 

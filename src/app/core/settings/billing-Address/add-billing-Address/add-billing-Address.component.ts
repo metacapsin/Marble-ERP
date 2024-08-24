@@ -11,6 +11,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { routes } from "src/app/shared/routes/routes";
 import { MessageService } from "primeng/api";
 import { WarehouseService } from "../../warehouse/warehouse.service";
+import { validationPatterns } from "src/app/core/validation";
 
 @Component({
   selector: "app-add-billing-Address",
@@ -42,6 +43,10 @@ export class AddBillingAddressComponent implements OnInit {
   countriesList: any;
   orgCountriesList: any;
 
+  ZIPcode = /^\d{5}(-\d{4})?$/
+  cityName = /^[a-zA-Z\s\-]{2,50}$/
+
+
   constructor(
     private fb: UntypedFormBuilder,
     private Addusersdata: BillingAddressService,
@@ -51,15 +56,15 @@ export class AddBillingAddressComponent implements OnInit {
     private service: WarehouseService
   ) {
     this.addBillingAddress = this.fb.group({
-      city: ['', [Validators.required]],
+      city: ['', [Validators.required,Validators.pattern(validationPatterns.cityNameRGEX)]],
       setAsDefault: [''],
       companyName:['',[Validators.required]],
-      postalCode:['',[Validators.required]],
+      postalCode:['',[Validators.required,Validators.pattern(validationPatterns.postalZipRGEX)]],
       country: ['',[Validators.required]],
-      phoneNumber: ['',[Validators.required]],
-      email:[''],
-      addressLine1:['',[Validators.required]],
-      addressLine2:[''],
+      phoneNumber: ['',[Validators.required,Validators.pattern(validationPatterns.phoneRGEX)]],
+      email:['',[Validators.pattern(validationPatterns.emailRGEX)]],
+      addressLine1:['',[Validators.required,Validators.pattern(validationPatterns.addressRegex)]],
+      addressLine2:['',[Validators.pattern(validationPatterns.addressRegex)]],
       state:[''],
     });
   }

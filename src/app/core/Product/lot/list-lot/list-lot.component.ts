@@ -90,10 +90,10 @@ export class ListLotComponent implements OnInit {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.lotData.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.lotData.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
     });
   }
 

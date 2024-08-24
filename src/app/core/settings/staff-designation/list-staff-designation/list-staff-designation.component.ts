@@ -32,6 +32,8 @@ export class ListStaffDesignationComponent {
   visible1: boolean = false;
 
   descriptionRegex = /^.{3,500}$/s;
+  cols: { field: string; header: string; }[];
+  exportColumns: { title: string; dataKey: string; }[];
 
   constructor(
     private Service: StaffDesignationService,
@@ -51,6 +53,15 @@ export class ListStaffDesignationComponent {
     this.Service.getStaffDesignation().subscribe((resp: any) => {
       this.dataSource = resp.data;
       this.originalData = resp.data;
+      this.cols = [
+        { field: "designation", header: "Designation" },
+        { field: "description", header: "Description" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
     });
   }
 

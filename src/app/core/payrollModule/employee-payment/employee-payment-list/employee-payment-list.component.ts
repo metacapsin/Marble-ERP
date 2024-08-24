@@ -59,10 +59,10 @@ export class EmployeepPaymentListComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.SalaryPaymentList.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.SalaryPaymentList.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
       console.log(this.SalaryPaymentList);
     });
     console.log(this.SalaryPaymentList);

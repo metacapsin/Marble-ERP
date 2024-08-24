@@ -94,10 +94,10 @@ export class TaxesListComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.taxesListData.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.taxesListData.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
     });
   }
 

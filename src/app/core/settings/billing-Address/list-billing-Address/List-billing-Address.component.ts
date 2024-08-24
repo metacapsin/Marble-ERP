@@ -71,10 +71,10 @@ export class ListBillingAddressComponent implements OnInit {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.usersApiData.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.dataSource.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
       console.log("usersApiData ", this.usersApiData);
     });
   }
@@ -89,7 +89,7 @@ export class ListBillingAddressComponent implements OnInit {
     // debugger
     if (values.setAsDefault == true) {
       const message = "Please add default a address first";
-      this.messageService.add({ severity: "error", detail: message });
+      return this.messageService.add({ severity: "error", detail: message });
     } else {
       this.billingAddressID = values._id;
 

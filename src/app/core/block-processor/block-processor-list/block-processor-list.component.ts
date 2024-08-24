@@ -64,10 +64,10 @@ export class BlockProcessorListComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.blockProcessorData.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.blockProcessorData.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
 
       console.log(
         data

@@ -82,10 +82,10 @@ export class StaffListComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.staffData.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.staffData.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
       console.log("Staff data", resp);
     });
   }

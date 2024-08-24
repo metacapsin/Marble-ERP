@@ -70,10 +70,10 @@ export class ListSlabsComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.allSlabsDaTa.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.allSlabsDaTa.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
       console.log("API", this.allSlabsDaTa);
     });
   }
