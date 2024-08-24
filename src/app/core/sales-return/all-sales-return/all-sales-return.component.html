@@ -76,7 +76,7 @@
             <div class="card-body p-2">
               <p-table
                 [value]="salesReturnListData | filter:searchDataValue:['salesInvoiceNumber', 'returnDate','customer.name','returnOrderStatus','paymentStatus','paidAmount','dueAmount','salesTotalAmount']"
-                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="salesReturnListData.length >= 5"
+                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="salesReturnListData?.length >= 5"
                 [rowsPerPageOptions]="[5, 10, 20]" [rows]="10" selectionMode="multiple" #dt [columns]="cols" 
                 [exportHeader]="'customExportHeader'" exportFilename="Sales Return">
                 <ng-template pTemplate="header">

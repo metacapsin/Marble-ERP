@@ -76,7 +76,7 @@
 
                             <p-table
                                 [value]="lotData | filter:searchDataValue:['date', 'lotName','lotNo','lotWeight','pricePerTon','blocksCount','lotTotalCosting',]"
-                                [tableStyle]="{'min-width': '60rem'}" [paginator]="lotData.length >= 5" [rows]="10"
+                                [tableStyle]="{'min-width': '60rem'}" [paginator]="lotData?.length >= 5" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot" 
                                 styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)" #dt [columns]="cols" 
                                 [exportHeader]="'customExportHeader'" exportFilename="Lot">

@@ -77,7 +77,7 @@
                         <div class="card-body p-2">
                             <p-table
                                 [value]="allSlabsDaTa | filter:searchDataValue:['slabNo', 'slabName','slabSize','categoryDetail.name','subCategoryDetail.name','totalSQFT','costPerSQFT','sellingPricePerSQFT','warehouseDetails.name']"
-                                [tableStyle]="{'min-width': '60rem'}" [paginator]="allSlabsDaTa.length >= 5" [rows]="10"
+                                [tableStyle]="{'min-width': '60rem'}" [paginator]="allSlabsDaTa?.length >= 5" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
                                 (onPage)="onPageChange($event)" [(selection)]="selectedSlabs"
                                 (onFilter)="onFilter($event)" #dt [columns]="cols" 
@@ -427,7 +427,7 @@
         <p-tabView>
             <p-tabPanel header="Sales">
                 <p-table selectionMode="multiple" [value]="slabHistoryData.sales" styleClass="p-datatable-striped"
-                    [tableStyle]="{ 'min-width': '60rem' }" [paginator]="data.length >= 5" [rows]="10"
+                    [tableStyle]="{ 'min-width': '60rem' }" [paginator]="data?.length >= 5" [rows]="10"
                     [rowsPerPageOptions]="[5, 10, 20]">
                     <ng-template pTemplate="header">
                         <tr class="text-center">
@@ -519,7 +519,7 @@
             <p-tabPanel header="Stock Adjustment">
 
                 <p-table selectionMode="multiple" [value]="slabHistoryData.adjustments" styleClass="p-datatable-striped"
-                    [tableStyle]="{ 'min-width': '60rem' }" [paginator]="data.length >= 5" [rows]="10"
+                    [tableStyle]="{ 'min-width': '60rem' }" [paginator]="data?.length >= 5" [rows]="10"
                     [rowsPerPageOptions]="[5, 10, 20]">
                     <ng-template pTemplate="header">
                         <tr>
@@ -580,7 +580,7 @@
             <!-- Transfer GRID -->
             <p-tabPanel header="Stock Transfer">
                 <p-table selectionMode="multiple" [value]="slabHistoryData.transfers" styleClass="p-datatable-striped"
-                    [tableStyle]="{ 'min-width': '60rem' }" [paginator]="data.length >= 5" [rows]="10"
+                    [tableStyle]="{ 'min-width': '60rem' }" [paginator]="data?.length >= 5" [rows]="10"
                     [rowsPerPageOptions]="[5, 10, 20]">
                     <ng-template pTemplate="header">
                         <tr>

@@ -55,7 +55,7 @@
                     <div class="card-body p-2">
                         <p-table
                             [value]="dataSource | filter:searchDataValue:['recipient', 'date', 'categoryDetails.name', 'amount']"
-                            styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="dataSource.length >= 5"
+                            styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="dataSource?.length >= 5"
                             selectionMode="multiple" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
                             (change)="onPageChange($event)" [(selection)]="selectedExpenses" #dt [columns]="cols" 
                             [exportHeader]="'customExportHeader'" exportFilename="Expenses">

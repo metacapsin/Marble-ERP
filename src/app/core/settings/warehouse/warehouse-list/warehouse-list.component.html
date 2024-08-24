@@ -61,7 +61,7 @@
                         <div class="card-body p-2">
                             <p-table [value]="data | filter:searchDataValue:['name', 'email','phone','billingAddress']"
                                 styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
-                                [paginator]="data.length >= 5"  selectionMode="multiple" [rows]="10"
+                                [paginator]="data?.length >= 5"  selectionMode="multiple" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
                                 [(selection)]="selectedProducts" #dt [columns]="cols" 
                                 [exportHeader]="'customExportHeader'" exportFilename="Warehouse">

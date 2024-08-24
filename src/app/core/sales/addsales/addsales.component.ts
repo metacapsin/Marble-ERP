@@ -218,7 +218,6 @@ export class AddsalesComponent implements OnInit {
     console.log(
       "this is customer data by local storage service",
       this.customer,
-      // this.customer.billingAddress
     );
     if (this.customer) {
       this.addSalesForm.patchValue({

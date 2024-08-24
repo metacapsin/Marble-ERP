@@ -142,7 +142,7 @@
                         <button pButton type="button" label="Create Purchase" icon="pi pi-plus" (click)="navigateToCreatePurchase()"></button>
                     </div> -->
                     <p-table selectionMode="multiple" [value]="purchaseDataShowById" styleClass="p-datatable-striped"
-                        [tableStyle]="{ 'min-width': '60rem' }" [paginator]="purchaseDataShowById.length >= 5" [rows]="10"
+                        [tableStyle]="{ 'min-width': '60rem' }" [paginator]="purchaseDataShowById?.length >= 5" [rows]="10"
                         [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">
                             <tr>
@@ -253,7 +253,7 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
 
                 <p-tabPanel header="Payments Out">
                     <p-table selectionMode="multiple" [value]="paymentListDataBySupplierId"
-                        styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="paymentListDataBySupplierId.length >= 5"
+                        styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="paymentListDataBySupplierId?.length >= 5"
                         [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">
                             <tr>
@@ -340,7 +340,7 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                         <button pButton type="button" label="Create Purchase Return" icon="pi pi-plus" (click)="navigateToCreatePurchaseReturn()"></button>
                     </div> -->
                     <p-table selectionMode="multiple" [value]="purchaseReturnDataShowById"
-                        styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="purchaseReturnDataShowById.length >= 5"
+                        styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="purchaseReturnDataShowById?.length >= 5"
                         [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">
                             <tr>
@@ -452,7 +452,7 @@ hideOnClear="true"  type="text" field="purchaseReturnOrderStatus" display="menu"
 
                 <p-tabPanel header="Payments In">
                     <p-table selectionMode="multiple" [value]="paymentReturnDataListById"
-                        styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="paymentReturnDataListById.length >= 5"
+                        styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="paymentReturnDataListById?.length >= 5"
                         [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
                         <ng-template pTemplate="header">
                             <tr>
