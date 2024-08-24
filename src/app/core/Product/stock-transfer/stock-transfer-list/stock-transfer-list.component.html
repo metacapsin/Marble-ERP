@@ -71,7 +71,7 @@
 
                             <p-table
                                 [value]="originalData | filter:searchDataValue:['createdOn','slab.slabName', 'fromWarehouse.name', 'transferType', 'transferQty']"
-                                [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+                                [tableStyle]="{'min-width': '60rem'}" [paginator]="originalData.length >= 5" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot"
                                 styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)" #dt [columns]="cols" 
                                 [exportHeader]="'customExportHeader'" exportFilename="Stock Transfer">
@@ -129,8 +129,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="emptymessage">
                                     <tr>
-                                        <td colspan="6" class="text-center">No stock transfers found. Please transfer
-                                            stock to see records here.</td>
+                                        <td colspan="6" class="text-center">No stock transfers found.</td>
                                     </tr>
                                 </ng-template>
                                 <!-- <ng-template pTemplate="footer">

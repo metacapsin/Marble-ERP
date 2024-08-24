@@ -127,7 +127,7 @@
                           'customer.name',
                           'dueAmount'
                         ]
-                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
+                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="originalData.length >= 5"
                 [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols" selectionMode="multiple"
                 [exportHeader]="'customExportHeader'" exportFilename="Sales Reports" (onFilter)="onFilter($event)">
                 <ng-template pTemplate="header">

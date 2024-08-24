@@ -156,7 +156,7 @@
                 "
                 styleClass="p-datatable-striped"
                 [tableStyle]="{ 'min-width': '60rem' }"
-                [paginator]="true"
+                [paginator]="originalData.length >= 5"
                 [rows]="10"
                 [rowsPerPageOptions]="[5, 10, 20]"
                 #dt
@@ -286,8 +286,7 @@
                 <ng-template pTemplate="emptymessage">
                   <tr>
                     <td colspan="8" class="text-center">
-                      No sales credit reports found. Please generate a sales
-                      credit report to see it listed here.
+                      No sales credit reports found.
                     </td>
                   </tr>
                 </ng-template>

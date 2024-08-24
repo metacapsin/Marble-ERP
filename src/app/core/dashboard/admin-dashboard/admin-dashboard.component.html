@@ -392,7 +392,7 @@
           >
             <p-table
               [value]="orgCategorySlabs"
-              [paginator]="true"
+              [paginator]="orgCategorySlabs.length >= 5"
               [rows]="5"
               styleClass="p-datatable-striped"
               selectionMode="multiple"
@@ -499,7 +499,7 @@
           >
             <p-table
               [value]="subCategoryslabsData"
-              [paginator]="true"
+              [paginator]="subCategoryslabsData.length >= 5"
               [rows]="5"
               appendTo="body"
               styleClass="p-datatable-striped"
@@ -572,7 +572,7 @@
             [value]="stockAlertData"
             styleClass="p-datatable-striped"
             selectionMode="multiple"
-            [paginator]="true"
+            [paginator]="stockAlertData.length >= 5"
             [rows]="5"
           >
             <ng-template pTemplate="header">
@@ -677,7 +677,7 @@
             [scrollable]="true"
             scrollHeight="500px"
             selectionMode="multiple"
-            [paginator]="true"
+            [paginator]="allSlabsDaTa.length >= 5"
             [rows]="5"
           >
             <ng-template pTemplate="header">
@@ -858,7 +858,7 @@
             scrollHeight="500px"
             styleClass="p-datatable-striped"
             selectionMode="multiple"
-            [paginator]="true"
+            [paginator]="products.length >= 5"
             [rows]="5"
           >
             <ng-template pTemplate="header">

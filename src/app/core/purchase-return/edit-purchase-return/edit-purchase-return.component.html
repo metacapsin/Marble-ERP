@@ -109,7 +109,7 @@
               </div>
               <div class="invoice-add-table">
                 <p-table *ngIf="GridDataForSlab?.length > 0" [value]="GridDataForSlab" styleClass="p-datatable-striped"
-                  [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10">
+                  [tableStyle]="{'min-width': '60rem'}" [paginator]="GridDataForSlab.length >= 5" [rows]="10">
                   <ng-template pTemplate="header">
                     <tr>
                       <th>Slab No. </th>
