@@ -236,8 +236,7 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
                       <label for="transportationCharge"
-                        >Transportation Charge
-                        <span class="login-danger">*</span></label
+                        >Transportation Charge</label
                       >
                       <div class="input-group">
                         <div class="input-group-prepend">
@@ -283,8 +282,7 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
                       <label for="royaltyCharge"
-                        >Royalty (Other Charge)
-                        <span class="login-danger">*</span></label
+                        >Royalty (Other Charge)</label
                       >
                       <div class="input-group">
                         <div class="input-group-prepend">
@@ -356,7 +354,7 @@
                     <h5
                       class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold"
                     >
-                      Average Weight
+                      Average Area / Ton
                     </h5>
                     <div class="col-lg-6 col-md-6 col-xl-6">
                       <p class="col-lg-6 col-form-label heading-bold">
@@ -397,23 +395,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
-                  <div class="form-group row mb-2">
-                    <h5
-                      class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold"
-                    >
-                      Tax Amount / Ton
-                    </h5>
-                    <div class="col-lg-6 col-md-6 col-xl-6">
-                      <p class="col-lg-6 col-form-label heading-bold">
-                        ₹
-                        {{
-                          lotAddForm.get("averageTaxAmount").value.toFixed(3)
-                        }}
-                      </p>
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </div>
 
@@ -543,19 +524,6 @@
                                   </p>
                                 </div>
                               </div>
-                              <!-- <div class="form-group row mb-2">
-                                <h5
-                                  class="col-lg-3 col-md-3 col-xl-3 col-form-label"
-                                >
-                                  Tax Amount
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                  <p class="col-form-label">
-                                    ₹
-                                    {{ data.taxAmountCosting.toFixed(3) }}
-                                  </p>
-                                </div>
-                              </div> -->
                               <div class="form-group row mb-2">
                                 <h5
                                   class="col-lg-3 col-md-3 col-xl-3 col-form-label"
@@ -606,11 +574,10 @@
                 name="blockNo"
                 class="form-control"
                 required
-                pattern="^[a-zA-Z\d\/\-_\ ]{1,50}$"
+                pattern="^.{1,50}$"
                 [(ngModel)]="blockNo"
                 (change)="getblockDetails()"
                 #block="ngModel"
-                maxlength="10"
               />
               <div *ngIf="block.invalid && block.touched">
                 <div *ngIf="block.errors?.['required']">

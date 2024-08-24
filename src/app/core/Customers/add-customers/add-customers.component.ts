@@ -29,15 +29,11 @@ export class AddCustomersComponent implements OnInit {
   returnUrl: string;
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
-  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z. ]{0,28}[A-Za-z.])?$/;
-
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
-
-  emailRegex: string =
-    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-
+  // personNameRegex = /^[A-Za-z](?!.*\s{2})[A-Za-z. ]{2,28}[A-Za-z.]$/;
+  personNameRegex = /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
+  taxNumberRegex = /^[A-Za-z0-9]{15}$/;
+  emailRegex: string = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^.{3,500}$/s;
-
   phoneRegex = /^[0-9]{10}$/;
 
   constructor(
@@ -50,12 +46,9 @@ export class AddCustomersComponent implements OnInit {
   ) {
     this.addcustomerGroup = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
-      phoneNo: [
-        "",
-        [Validators.required, Validators.pattern(this.phoneRegex)],
-      ],
+      phoneNo: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
       email: ["", [Validators.pattern(this.emailRegex)]],
-      taxNo: ["", [Validators.pattern(this.shortNameRegex)]],
+      taxNo: ["", [Validators.pattern(this.taxNumberRegex)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],

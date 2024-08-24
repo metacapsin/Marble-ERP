@@ -1,25 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import {
-  AbstractControl,
   UntypedFormBuilder,
   UntypedFormGroup,
 } from "@angular/forms";
-import { MatTabsModule } from "@angular/material/tabs";
 import { Validators } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
 import { SharedModule } from "src/app/shared/shared.module";
-import { MatRadioModule } from "@angular/material/radio";
-import { MatCheckboxModule } from "@angular/material/checkbox";
 import { BillingAddressService } from "../billingAddress.service";
-import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { routes } from "src/app/shared/routes/routes";
-import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
-import { ToastModule } from "primeng/toast";
-import { CheckboxModule } from "primeng/checkbox";
-import { MultiSelectModule } from "primeng/multiselect";
 import { WarehouseService } from "../../warehouse/warehouse.service";
 
 @Component({
@@ -61,7 +51,7 @@ export class AddBillingAddressComponent implements OnInit {
     private service: WarehouseService
   ) {
     this.addBillingAddress = this.fb.group({
-      city: [''],
+      city: ['', [Validators.required]],
       setAsDefault: [''],
       companyName:['',[Validators.required]],
       postalCode:['',[Validators.required]],

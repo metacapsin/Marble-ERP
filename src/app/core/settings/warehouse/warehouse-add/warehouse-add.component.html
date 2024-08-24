@@ -163,10 +163,10 @@
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="billingAddress">Billing Address <span class="login-danger">*</span></label>
+                                            <label for="billingAddress">Address <span class="login-danger">*</span></label>
                                             <textarea class="form-control" type="text"
                                                 placeholder="Please Enter Billing Address"
-                                                formControlName="billingAddress"></textarea>
+                                                formControlName="billingAddress" cols="1" rows="1"></textarea>
                                             <div *ngIf="
                         warehouseForm.get('billingAddress')?.hasError(
                           'required'
@@ -178,7 +178,7 @@
                         warehouseForm.get('billingAddress')?.hasError('pattern') &&
                         warehouseForm.get('billingAddress')?.touched
                       ">
-                                                <span class="login-danger">Billing Address/Name must be between 3 to 500 characters.</span>
+                                                <span class="login-danger">Address Must be between 3 to 500 characters.</span>
                                             </div>
                                         </div>
                                     </div>

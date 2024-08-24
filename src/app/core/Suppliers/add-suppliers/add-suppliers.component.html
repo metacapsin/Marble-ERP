@@ -28,20 +28,6 @@
           <div class="card-body p-3">
             <form [formGroup]="addSupplierGroup" (ngSubmit)="addSupplierForm()">
               <div class="row">
-                <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
-                  <div class="col-sm-12">
-                    <h3>Add Supplier</h3>
-                  </div>
-                  <div class="settings-btns text-end col-sm-12">
-                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                      [disabled]="!addSupplierGroup.valid">
-                      Submit
-                    </button>
-                    <button class="btn btn-secondary" [routerLink]="['/suppliers']">
-                      <a class="text-white"></a>Cancel
-                    </button>
-                  </div>
-                </div> -->
                 <div class="row mt-2 mb-2">
                   <div class="col-md-6 col-sm-12"><h3>Add Supplier</h3></div>
                   <div class="col-md-6 col-sm-12 text-end mb-2"> 
@@ -70,7 +56,7 @@
                           addSupplierGroup.get('name')?.hasError('pattern') &&
                           addSupplierGroup.get('name')?.touched
                         " class="login-danger Font_size">
-                        Input should be between 1 to 30 characters.
+                        Input Must be between 3 to 30 characters.
                       </div>
                     </div>
                   </div>
@@ -78,7 +64,7 @@
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="phoneNumber">Phone Number<span class="login-danger">*</span></label>
-                      <input class="form-control" type="number" placeholder="Please Enter Phone Number"
+                      <input class="form-control" type="text" placeholder="Please Enter Phone Number"
                         formControlName="phoneNumber" />
                       <div *ngIf="
                           addSupplierGroup
@@ -124,7 +110,7 @@
                             ?.hasError('pattern') &&
                           addSupplierGroup.get('taxNumber')?.touched
                         " class="login-danger Font_size">
-                        Input Must be between 3 to 15 characters.
+                        Please Enter 15 Characters.
                       </div>
                     </div>
                   </div>
@@ -152,7 +138,7 @@
                             ?.hasError('max') &&
                           addSupplierGroup.get('creditPeriod')?.touched
                         " class="login-danger Font_size">
-                        Credit Period should not be more than 180 days.
+                        Credit Period Must not be more than 180 days.
                       </div>
                     </div>
                   </div>
@@ -180,7 +166,7 @@
                             ?.hasError('max') &&
                           addSupplierGroup.get('creditLimit')?.touched
                         " class="login-danger Font_size">
-                        Credit amount cannot be more than 7 digit number.
+                        Credit amount cannot not be more than 7 digit number.
                       </div>
                     </div>
                   </div>
@@ -197,7 +183,7 @@
                             ?.hasError('pattern') &&
                           addSupplierGroup.get('billingAddress')?.touched
                         ">
-                        <span class="login-danger">Input Must be between 3 to 500 characters</span>
+                        <span class="login-danger">Billing Address Must be between 3 to 500 characters</span>
                       </div>
                     </div>
                   </div>
@@ -214,7 +200,7 @@
                             ?.hasError('pattern') &&
                           addSupplierGroup.get('shippingAddress')?.touched
                         ">
-                        <span class="login-danger">Input Must be between 3 to 500 characters</span>
+                        <span class="login-danger">Shipping Address Must be between 3 to 500 characters</span>
                       </div>
                     </div>
                   </div> -->

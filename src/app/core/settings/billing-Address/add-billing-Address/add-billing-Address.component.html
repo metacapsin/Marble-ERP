@@ -142,7 +142,7 @@
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="countryDetails"
+                      <label for="country"
                         >Country<span class="login-danger">*</span></label
                       >
                       <p-dropdown
@@ -161,9 +161,9 @@
                       <div
                         *ngIf="
                           addBillingAddress
-                            .get('countryDetails')
+                            .get('country')
                             ?.hasError('required') &&
-                          addBillingAddress.get('countryDetails')?.touched
+                          addBillingAddress.get('country')?.touched
                         "
                       >
                         <span class="login-danger">Field is required.</span>
@@ -188,7 +188,7 @@
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="city"
-                        >City <span class="login-danger"></span></label
+                        >City <span class="login-danger">*</span></label
                       >
                       <input
                         class="form-control bor"
@@ -196,7 +196,7 @@
                         formControlName="city"
                         placeholder
                       />
-                      <!-- <div
+                      <div
                         *ngIf="
                           addBillingAddress.get('city')?.hasError('required') &&
                           addBillingAddress.get('city')?.touched
@@ -204,7 +204,7 @@
                         class="login-danger Font_size"
                       >
                         Field is required.
-                      </div> -->
+                      </div>
                       <!-- <div
                         *ngIf="
                           addBillingAddress.get('city')?.hasError('pattern') &&

@@ -24,15 +24,11 @@ export class EditCustomersComponent {
   id: any;
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
-  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z. ]{0,28}[A-Za-z.])?$/;
-
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
-
-  emailRegex: string =
-    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-
+  // personNameRegex = /^[A-Za-z](?!.*\s{2})[A-Za-z. ]{2,28}[A-Za-z.]$/;
+  personNameRegex = /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
+  taxNumberRegex = /^[A-Za-z0-9]{15}$/;
+  emailRegex: string = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^.{3,500}$/s;
-
   phoneRegex = /^[0-9]{10}$/;
   constructor(
     private fb: UntypedFormBuilder,
@@ -53,7 +49,7 @@ export class EditCustomersComponent {
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
-      taxNumber: ["", [Validators.pattern(this.shortNameRegex)]],
+      taxNumber: ["", [Validators.pattern(this.taxNumberRegex)]],
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
@@ -64,20 +60,6 @@ export class EditCustomersComponent {
 
   ngOnInit() {
     this.getCoustomers();
-
-    // this.service.getAllWarehouseList().subscribe((resp: any) => {
-    //   this.wareHousedata = resp.data;
-    //   this.wareHousedataArray = [];
-    //   this.wareHousedata.forEach((element) => {
-    //     this.wareHousedataArray.push({
-    //       name: element.name,
-    //       _id: {
-    //         _id: element._id,
-    //         name: element.name,
-    //       },
-    //     });
-    //   });
-    // });
   }
   getCoustomers() {
     this.Service.GetCustomerDataById(this.id).subscribe((data: any) => {
@@ -88,13 +70,11 @@ export class EditCustomersComponent {
   }
   patchForm() {
     this.editCustomerGroup.patchValue({
-      // wareHouse: this.customerData.warehouse,
       name: this.customerData.name,
       phoneNumber: this.customerData.phoneNo,
       email: this.customerData.email,
       status: true,
       taxNumber: this.customerData.taxNo,
-      // openingBalance: this.customerData.openingBalance,
       creditPeriod: this.customerData.creaditPeriod,
       creditLimit: Number(this.customerData.creaditLimit),
       billingAddress: this.customerData.billingAddress,
@@ -106,7 +86,6 @@ export class EditCustomersComponent {
 
     const payload = {
       id: this.id,
-      // warehouse: this.editCustomerGroup.value.wareHouse,
       name: this.editCustomerGroup.value.name,
       phoneNo: this.editCustomerGroup.value.phoneNumber,
       email: this.editCustomerGroup.value.email,
@@ -116,17 +95,16 @@ export class EditCustomersComponent {
       creaditLimit: Number(this.editCustomerGroup.value.creditLimit),
       billingAddress: this.editCustomerGroup.value.billingAddress,
       shippingAddress: this.editCustomerGroup.value.shippingAddress,
-      // openingBalance: this.editCustomerGroup.value.openingBalance,
     };
     console.log(payload);
     if (this.editCustomerGroup.value) {
       this.Service.UpDataCustomerApi(payload).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === "success") {
-            // const message = "User has been updated";
+            const message = "Customer details updated successfully."
             this.messageService.add({
               severity: "success",
-              detail: resp.message,
+              detail: message,
             });
             setTimeout(() => {
               this.router.navigate(["/customers"]);

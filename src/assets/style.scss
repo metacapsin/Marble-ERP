@@ -10222,7 +10222,7 @@ blockquote {
       height: 20px;
       font-size: 10px;
       margin-right: 10px;
-      background: #2e37a4;
+      background: #97704f;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -13294,4 +13294,7 @@ app-calendar{
   &:hover{
     background: $menu-hover !important;
   }
+}
+p-calendar.ng-dirty.ng-invalid .p-inputtext {
+  border-color: rgba(46, 55, 164, 0.1);
 }

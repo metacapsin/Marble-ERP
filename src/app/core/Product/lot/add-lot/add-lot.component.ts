@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChanges } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -80,7 +80,7 @@ export class AddLotComponent {
     private fb: FormBuilder,
     private router: Router,
     private messageService: MessageService,
-    private service: LotService,
+    private cdRef: ChangeDetectorRef,
     private NewPurchaseService: NewPurchaseService,
     private WarehouseService: WarehouseService,
   ) {
@@ -95,10 +95,6 @@ export class AddLotComponent {
       ],
       vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
       warehouse: ["", [Validators.required]],
-      // invoiceNo: [
-      //   "",
-      //   [Validators.required, Validators.pattern(this.invoiceRegex)],
-      // ],
       lotWeight: [
         "",
         [Validators.required, Validators.min(1), Validators.max(10000)],
@@ -194,6 +190,8 @@ export class AddLotComponent {
   }
   addBlock(myForm: NgForm) {
     this.addvisible = false;
+    this.cdRef.detectChanges();
+
     if (
       !this.blockNo ||
       this.height === null ||

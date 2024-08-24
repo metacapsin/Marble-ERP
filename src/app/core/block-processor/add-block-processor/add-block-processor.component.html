@@ -28,18 +28,6 @@
           <div class="card-body p-3">
             <form [formGroup]="addBlockProcessorForm" (ngSubmit)="addBlockProcessorFormSubmit()">
               <div class="row">
-                <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
-                  <h3>Add Block Processor</h3>
-                  <div class="settings-btns text-end m-b-10">
-                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                      [disabled]="!addBlockProcessorForm.valid">
-                      Submit
-                    </button>
-                    <button class="btn btn-secondary" [routerLink]="['/block-processor']">
-                      <a class="text-white"></a>Cancel
-                    </button>
-                  </div>
-                </div> -->
                 <div class="row mt-2 mb-2">
                   <div class="col-md-6 col-sm-12"><h3>Add Block Processor</h3></div>
                   <div class="col-md-6 col-sm-12 text-end mb-2"> 
@@ -69,7 +57,7 @@
                           addBlockProcessorForm.get('companyName')?.hasError('pattern') &&
                           addBlockProcessorForm.get('companyName')?.touched
                         " class="login-danger Font_size">
-                        Input should be between 1 to 30 characters.
+                        Input Must be between 3 to 30 characters.
                       </div>
                     </div>
                   </div>
@@ -77,7 +65,7 @@
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="phoneNo">Phone Number<span class="login-danger">*</span></label>
-                      <input class="form-control" type="number" placeholder="Please Enter Phone Number"
+                      <input class="form-control" type="text" placeholder="Please Enter Phone Number"
                         formControlName="phoneNo" />
                       <div *ngIf="
                           addBlockProcessorForm
@@ -123,108 +111,10 @@
                             ?.hasError('pattern') &&
                           addBlockProcessorForm.get('address')?.touched
                         " class="login-danger Font_size">
-                        Input Must be between 3 to 500 characters
+                        Address Must be between 3 to 500 characters
                       </div>
                     </div>
                   </div>
-
-                  <!-- <div *ngIf="
-                  addSupplierGroup
-                    .get('billingAddress')
-                    ?.hasError('pattern') &&
-                  addSupplierGroup.get('billingAddress')?.touched
-                ">
-                <span class="login-danger">Input Must be between 3 to 500 characters</span>
-              </div> -->
-                  <!-- <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
-                      <div class="input-group">
-                        <input class="form-control" type="number" placeholder formControlName="creditPeriod" />
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" style="font-size: 12px">Days</span>
-                        </div>
-                      </div>
-                      <div *ngIf="
-                          addBlockProcessorForm
-                            .get('creditPeriod')
-                            ?.hasError('min') &&
-                          addBlockProcessorForm.get('creditPeriod')?.touched
-                        " class="login-danger Font_size">
-                        Credit Period cannot be less than 0 days.
-                      </div>
-                      <div *ngIf="
-                          addBlockProcessorForm
-                            .get('creditPeriod')
-                            ?.hasError('max') &&
-                          addBlockProcessorForm.get('creditPeriod')?.touched
-                        " class="login-danger Font_size">
-                        Credit Period should be less than 120 days.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">₹</span>
-                        </div>
-                        <input class="form-control" type="number" placeholder="0" formControlName="creditLimit" />
-                      </div>
-                      <div *ngIf="
-                          addBlockProcessorForm
-                            .get('creditLimit')
-                            ?.hasError('min') &&
-                          addBlockProcessorForm.get('creditLimit')?.touched
-                        " class="login-danger Font_size">
-                        Credit amount cannot be less than 0.
-                      </div>
-                      <div *ngIf="
-                          addBlockProcessorForm
-                            .get('creditLimit')
-                            ?.hasError('max') &&
-                          addBlockProcessorForm.get('creditLimit')?.touched
-                        " class="login-danger Font_size">
-                        Credit amount limit exceed.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <label for="billingAddress">Billing Address</label>
-                      <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
-                        formControlName="billingAddress"></textarea>
-
-                      <div *ngIf="
-                          addBlockProcessorForm
-                            .get('billingAddress')
-                            ?.hasError('pattern') &&
-                          addBlockProcessorForm.get('billingAddress')?.touched
-                        ">
-                        <span class="login-danger">Input Must be between 3 to 500 characters</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-12 col-md-4 col-xl-4">
-                    <div class="form-group local-forms">
-                      <label for="shippingAddress">Shipping Address</label>
-                      <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
-                        formControlName="shippingAddress"></textarea>
-
-                      <div *ngIf="
-                          addBlockProcessorForm
-                            .get('shippingAddress')
-                            ?.hasError('pattern') &&
-                          addBlockProcessorForm.get('shippingAddress')?.touched
-                        ">
-                        <span class="login-danger">Input Must be between 3 to 500 characters</span>
-                      </div>
-                    </div>
-                  </div> -->
                 </div>
               </div>
             </form>

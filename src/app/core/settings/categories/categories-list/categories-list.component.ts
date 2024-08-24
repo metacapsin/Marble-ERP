@@ -43,15 +43,12 @@ export class CategoriesListComponent {
   ) {}
 
   openAddDialog() {
-    console.log(this.categoriesListData);
-
     const dialogRef = this.dialog.open(AddCategoriesComponent);
     dialogRef.afterClosed().subscribe((dialog) => {
       if (dialog === true) return;
       this.service.CreateCategories(dialog).subscribe((resp: any) => {
         if (resp.status === "success") {
-          const message = "Category has been added";
-          this.messageService.add({ severity: "success", detail: message });
+          this.messageService.add({ severity: "success", detail: resp.message });
           this.getCategoriesData();
         } else {
           const message = resp.message;
@@ -71,8 +68,7 @@ export class CategoriesListComponent {
       dialog.id = categoryID;
       this.service.updateCategories(dialog).subscribe((resp: any) => {
         if (resp.status === "success") {
-          const message = "Category has been updated";
-          this.messageService.add({ severity: "success", detail: message });
+          this.messageService.add({ severity: "success", detail: resp.message });
           this.getCategoriesData();
         } else {
           const message = resp.message;
@@ -143,6 +139,5 @@ export class CategoriesListComponent {
   onPageChange(event) {
     const startIndex = event.first;
     const endIndex = startIndex + event.rows;
-    const currentPageData = this.categoriesListData.slice(startIndex, endIndex);
   }
 }

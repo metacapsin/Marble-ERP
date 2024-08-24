@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { CommonModule } from "@angular/common";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { BillingAddressService } from "../billingAddress.service";
 import {
@@ -7,20 +6,10 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { ReactiveFormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { MatRadioModule } from "@angular/material/radio";
-import { MatTabsModule } from "@angular/material/tabs";
 import { MessageService } from "primeng/api";
-import { ToastModule } from "primeng/toast";
 import { routes } from "src/app/shared/routes/routes";
-import { DropdownModule } from "primeng/dropdown";
-import { CheckboxModule } from "primeng/checkbox";
-import { MultiSelectModule } from "primeng/multiselect";
 import { WarehouseService } from "../../warehouse/warehouse.service";
-import { ShowHideDirective } from "src/app/common-component/show-hide-directive/show-hide.directive";
 import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
@@ -74,16 +63,13 @@ export class EditBillingAddressComponent implements OnInit {
   constructor(
     private activeRoute: ActivatedRoute,
     private UserEditData: BillingAddressService,
-    private form: UntypedFormBuilder,
-    private _snackBar: MatSnackBar,
     private router: Router,
     private fb: UntypedFormBuilder,
     private messageService: MessageService,
-    private service: WarehouseService
   ) {
     this.id = this.activeRoute.snapshot.params["id"];
     this.editBillingAddress = this.fb.group({
-      city: [''],
+      city: ['', [Validators.required]],
       setAsDefault: [''],
       companyName:['',[Validators.required]],
       postalCode:['',[Validators.required]],

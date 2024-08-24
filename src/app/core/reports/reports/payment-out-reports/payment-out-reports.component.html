@@ -178,7 +178,8 @@
                     <td *ngIf="data.supplier">{{ data?.supplier.name }}</td>
                     <td *ngIf="!data.supplier && !data.customer "></td>
                     <td>{{ data.paymentMode }}</td>
-                    <td>₹ {{ data.amount | indianCurrency }}</td>
+                    <td *ngIf="data.amount">{{'₹' + ' ' + data.amount  }}</td>
+                    <td *ngIf="!data.amount"></td>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">

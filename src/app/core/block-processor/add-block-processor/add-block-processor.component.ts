@@ -28,12 +28,12 @@ export class AddBlockProcessorComponent implements OnInit{
   addBlockProcessorForm: FormGroup;
   public routes = routes;
   returnUrl: any;
-  personNameRegex = /^(?! )[A-Za-z]+(?: [A-Za-z]+)*$/;
-  shortNameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,15})$/;
-  emailRegex: string =
-    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+  // personNameRegex = /^[A-Za-z](?!.*\s{2})[A-Za-z. ]{2,28}[A-Za-z.]$/;
+  personNameRegex = /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
+  taxNumberRegex = /^[A-Za-z0-9]{15}$/;
+  emailRegex: string = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+  billingAddressRegex = /^.{3,500}$/s;
   phoneRegex = /^[0-9]{10}$/;
-  descriptionRegex = /^.{3,500}$/s;  
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
@@ -48,7 +48,7 @@ export class AddBlockProcessorComponent implements OnInit{
         [Validators.required, Validators.pattern(this.phoneRegex)],
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
-      address: ["", [Validators.pattern(this.descriptionRegex)]],
+      address: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
   }
   ngOnInit(): void {
