@@ -129,7 +129,7 @@ export class TotalValueDirective {
         var paidAmount = 0;
         var dueAmount = 0;
         var salesTotalAmount = 0;
-        this.elementRef.nativeElement.innerHTML = `     <td colspan="3"></td>
+        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
                                                         <td>Total Amount</td>
                                                         <td>₹ ${paidAmount}</td>
                                                         <td class="text-danger-dark">₹ ${dueAmount}</td>
@@ -158,7 +158,7 @@ export class TotalValueDirective {
           this.salesTotalAmount
         );
 
-        this.elementRef.nativeElement.innerHTML = `     <td colspan="3"></td>
+        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
                                                         <td>Total Amount</td>
                                                         <td>₹ ${paidAmount}</td>
                                                         <td class="text-danger-dark">₹ ${dueAmount}</td>
@@ -257,7 +257,7 @@ export class TotalValueDirective {
           this.salesTotalAmount
         );
 
-        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
+        this.elementRef.nativeElement.innerHTML = `     <td colspan="5"></td>
                                                         <td>Total Amount</td>
                                                         <td>₹ ${paidAmount}</td>
                                                         <td class="text-danger-dark">₹ ${dueAmount}</td>
