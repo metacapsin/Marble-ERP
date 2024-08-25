@@ -150,14 +150,13 @@
             <ng-template pTemplate="body" let-processing>
               <tr>
                 <td>
-                  {{ processing.processingInvoiceNo }}
+                  {{ processing?.processingInvoiceNo }}
                 </td>
                 <td>
-                  {{ processing.processingDate }}
+                  {{ processing?.processingDate }}
                 </td>
                 <td>
-                  <!-- {{ processing.slab[0].slabName }} -->
-                  adnan
+                  {{ processing?.slab?.slabName }}
                 </td>
                 <td *ngIf="processing.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
                     value="Partial Paid"></p-tag></td>

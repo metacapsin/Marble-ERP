@@ -96,10 +96,6 @@ export class TaxesListComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      // this.exportColumns = this.taxesListData.map((element) => ({
-      //   title: element.header,
-      //   dataKey: element.field,
-      // }));
     });
   }
 
@@ -122,7 +118,7 @@ export class TaxesListComponent {
 
   callBackModal() {
     this.service.deleteTaxById(this.taxID).subscribe((resp) => {
-      const message = "Tax Details has been deleted";
+      const message = "Tax has been deleted";
       this.messageService.add({ severity: "success", detail: message });
       this.getTaxesList();
       this.showDialog = false;

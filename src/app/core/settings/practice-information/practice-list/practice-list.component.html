@@ -130,25 +130,17 @@
                                     class="login-danger">*</span></label>
                             <input class="form-control" formControlName="confirmNewPassword" type="text"
                                 placeholder="Confirm New Password" />
-                            <!-- <span style="color: #97704f; font-size: 12px">The New Password and Confirm New Password will Same</span> -->
                             <div *ngIf="
                           changePasswordForm.get('confirmNewPassword')?.hasError('required') &&
                           changePasswordForm.get('confirmNewPassword')?.touched
                         " class="login-danger Font_size">
                                 Field is required.
                             </div>
-                            <!-- <div *ngIf="
-                          changePasswordForm.get('confirmNewPassword')?.hasError('pattern') &&
-                          changePasswordForm.get('confirmNewPassword')?.touched
-                        " class="login-danger Font_size">
-                        Password must contain 8-16 characters, with at least one number, one uppercase letter,
-                        one lowercase letter, and one special character.
-                            </div> -->
                             <div *ngIf="
     changePasswordForm.get('confirmNewPassword')?.hasError('passwordMismatch') &&
     changePasswordForm.get('confirmNewPassword')?.touched
 " class="login-danger Font_size">
-                                Passwords do not match.
+                                The New Password and Confirm New Password will be same.
                             </div>
                         </div>
                     </div>
