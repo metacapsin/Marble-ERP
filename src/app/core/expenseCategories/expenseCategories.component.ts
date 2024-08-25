@@ -56,6 +56,7 @@ export class ExpensesCategoriesComponent {
       this.cols = [
         { field: "categoryName", header: "Category Name" },
         { field: "categoryDescription", header: "Category Description" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

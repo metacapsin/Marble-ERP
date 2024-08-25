@@ -51,6 +51,9 @@ export class PaymentOutListComponent {
         { field: "paymentDate", header: "Payment Date" },
         { field: "supplier.name", header: "Supplier Name" },
         { field: "paymentMode", header: "Payment Mode" },
+        { field: "transactionNo", header: "Transaction No" },
+        { field: "createdOn", header: "Created On" },
+        { field: "note", header: "Note" },
         { field: "amount", header: "Amount" },
       ];
 

@@ -126,14 +126,17 @@ export class AllSalesReturnComponent implements OnInit {
       this.salesReturnListData = resp.data;
       this.originalData = resp.data;
       this.cols = [
-        { field: "salesInvoiceNumber", header: "Sales Invoice Number" },
+        { field: "salesInvoiceNumber", header: "Sales Return Invoice Number" },
         { field: "returnDate", header: "Return Date" },
         { field: "customer.name", header: "Customer Name" },
         { field: "returnOrderStatus", header: "Return Order Status" },
         { field: "paymentStatus", header: "Payment Status" },
         { field: "paidAmount", header: "Paid Amount" },
         { field: "dueAmount", header: "Due Amount" },
+        { field: "otherCharges", header: "Other Charges" },
+        { field: "salesGrossTotal", header: "Sales Gross Total" },
         { field: "salesTotalAmount", header: "Total Amount" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

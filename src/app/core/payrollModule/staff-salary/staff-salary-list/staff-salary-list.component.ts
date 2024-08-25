@@ -81,6 +81,10 @@ export class StaffSalaryListComponent {
         { field: "employee.name", header: "Employee Name" },
         { field: "basicSalary", header: "Basic Salary" },
         { field: "netSalary", header: "Net Salary" },
+        { field: "lta", header: "LTA" },
+        { field: "hra", header: "HRA" },
+        { field: "deductions", header: "Deductions" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

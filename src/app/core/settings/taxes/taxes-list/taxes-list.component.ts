@@ -88,6 +88,8 @@ export class TaxesListComponent {
       this.cols = [
         { field: "name", header: "Name" },
         { field: "taxRate", header: "Tax Rate" },
+        { field: "taxType", header: "Tax Type" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

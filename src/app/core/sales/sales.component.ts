@@ -122,6 +122,11 @@ export class SalesComponent implements OnInit {
         { field: "paymentStatus", header: "Payment Status" },
         { field: "paidAmount", header: "Paid Amount" },
         { field: "dueAmount", header: "Due Amount" },
+        { field: "salesGrossTotal", header: "Sales Gross Total" },
+        { field: "salesOrderStatus", header: "Sales Order Status" },
+        { field: "salesOrderTax", header: "Sales Order Tax" },
+        { field: "salesShipping", header: "Sales Shipping" },
+        { field: "createdOn", header: "Created On" },
         { field: "salesTotalAmount", header: "Sales Total Amount" },
       ];
 

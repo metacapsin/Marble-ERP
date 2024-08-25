@@ -99,6 +99,10 @@ export class StockTransferListComponent implements OnInit {
         { field: "toWarehouse.name", header: "To Warehouse Name" },
         { field: "transferType", header: "Transfer Type" },
         { field: "transferQty", header: "Transfer Qty" },
+        { field: "currentQty", header: "Current Qty" },
+        { field: "transportCharges", header: "Transport Charges" },
+        { field: "otherCharges", header: "Other Charges" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

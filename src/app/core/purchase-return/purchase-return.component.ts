@@ -93,6 +93,10 @@ export class PurchaseReturnComponent {
         { field: "paymentStatus", header: "Payment Status" },
         { field: "paidAmount", header: "Paid Amount" },
         { field: "dueAmount", header: "Due Amount" },
+        { field: "purchaseReturnNotes", header: "Purchase Return Notes" },
+        { field: "purchaseGrossTotal", header: "Purchase Gross Total" },
+        { field: "purchaseReturnNotes", header: "Purchase Return Notes" },
+        { field: "createdOn", header: "Created On" },
         { field: "purchaseReturnTotalAmount", header: "Total Amount" },
       ];
 

@@ -60,11 +60,15 @@ export class ListBillingAddressComponent implements OnInit {
       this.cols = [
         { field: "companyName", header: "Company Name" },
         { field: "country.name", header: "Country Name" },
+        { field: "addressLine1", header: "Address Line 1" },
+        { field: "addressLine2", header: "Address Line 2" },
         { field: "state", header: "State" },
         { field: "city", header: "City" },
+        { field: "phoneNumber", header: "Phone Number" },
         { field: "email", header: "Email" },
         { field: "postalCode", header: "Postal Code" },
         { field: "setAsDefault", header: "Set As Default" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

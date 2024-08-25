@@ -45,6 +45,12 @@ export class CustomersComponent {
         { field: "name", header: "Name" },
         { field: "email", header: "Email" },
         { field: "status", header: "Status" },
+        { field: "shippingAddress", header: "Shipping Address" },
+        { field: "billingAddress", header: "Billing Address" },
+        { field: "creaditPeriod", header: "Creadit Period" },
+        { field: "creaditLimit", header: "Creadit Limit" },
+        { field: "taxNo", header: "Tax No" },
+        { field: "phoneNo", header: "Phone No" },
         { field: "createdOn", header: "Created On" },
       ];
 
@@ -52,7 +58,7 @@ export class CustomersComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      // this.exportColumns = this.dataSource.map((element) => ({
+      // this.exportColumns = this.dataSource?.map((element) => ({
       //   title: element.header,
       //   dataKey: element.field,
       // }));

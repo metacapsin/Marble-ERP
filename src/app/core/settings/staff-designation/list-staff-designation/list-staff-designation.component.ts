@@ -56,6 +56,7 @@ export class ListStaffDesignationComponent {
       this.cols = [
         { field: "designation", header: "Designation" },
         { field: "description", header: "Description" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

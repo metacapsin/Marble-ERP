@@ -106,7 +106,9 @@ export class ListNewPurchaseComponent {
         { field: "paidAmount", header: "Paid Amount" },
         { field: "dueAmount", header: "Due Amount" },
         { field: "purchaseCost", header: "Purchase Cost" },
+        { field: "purchaseNotes", header: "Purchase Notes" },
         { field: "purchaseTotalAmount", header: "Purchase Total Amount" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

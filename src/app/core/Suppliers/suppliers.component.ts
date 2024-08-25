@@ -43,6 +43,12 @@ export class SuppliersComponent {
         { field: "name", header: "Name" },
         { field: "email", header: "Email" },
         { field: "status", header: "Status" },
+        { field: "shippingAddress", header: "Shipping Address" },
+        { field: "billingAddress", header: "Billing Address" },
+        { field: "creditLimit", header: "Credit Limit" },
+        { field: "creditPeriod", header: "Credit Period" },
+        { field: "taxNo", header: "Tax No" },
+        { field: "phoneNo", header: "Phone No" },
         { field: "createdOn", header: "Created On" },
       ];
 

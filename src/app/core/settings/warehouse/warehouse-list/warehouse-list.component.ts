@@ -89,6 +89,8 @@ export class WarehouseListComponent {
         { field: "email", header: "Email" },
         { field: "phone", header: "Phone" },
         { field: "billingAddress", header: "Billing Address" },
+        { field: "termsCondition", header: "Terms Condition" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

@@ -84,6 +84,15 @@ export class ListLotComponent implements OnInit {
         { field: "blocksCount", header: "Blocks Count" },
         { field: "lotTotalCosting", header: "Lot Total Costing" },
         { field: "warehouseDetails.name", header: "Warehouse Details" },
+        { field: "vehicleNo", header: "Vehicle No" },
+        { field: "transportationCharge", header: "Transportation Charge" },
+        { field: "royaltyCharge", header: "Royalty Charge" },
+        { field: "blocksCount", header: "Blocks Count" },
+        { field: "averageTransport", header: "Average Transport" },
+        { field: "averageWeight", header: "Average Weight" },
+        { field: "averageRoyalty", header: "Average Royalty" },
+        { field: "purchaseCost", header: "Purchase Cost" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

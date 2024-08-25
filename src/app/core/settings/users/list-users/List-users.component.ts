@@ -51,7 +51,9 @@ export class ListUsersComponent implements OnInit {
         { field: "email", header: "Email" },
         { field: "phoneNumber", header: "Phone Number" },
         { field: "address", header: "Address" },
+        { field: "isUserLocked", header: "Is User Locked" },
         { field: "createdOn", header: "Created On" },
+        { field: "billingAddress", header: "Billing Address" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

@@ -55,6 +55,7 @@ export class ListSlabsComponent {
       this.allSlabsDaTa = resp.data;
       this.originalData = resp.data;
       this.cols = [
+        { field: "date", header: "Date" },
         { field: "slabNo", header: "Slab No" },
         { field: "slabName", header: "Slab Name" },
         { field: "slabSize", header: "Slab Size" },
@@ -63,6 +64,16 @@ export class ListSlabsComponent {
         { field: "costPerSQFT", header: "Cost Per SQFT" },
         { field: "sellingPricePerSQFT", header: "Selling Price Per SQFT" },
         { field: "totalSQFT", header: "Total SQFT" },
+        { field: "otherCharges", header: "Other Charges" },
+        { field: "transportationCharges", header: "Transportation Charges" },
+        { field: "totalCosting", header: "Total Costing" },
+        { field: "finishes.name", header: "Finishes" },
+        { field: "width", header: "Width" },
+        { field: "length", header: "Length" },
+        { field: "thickness", header: "Thickness" },
+        { field: "createdOn", header: "Created On" },
+        { field: "isInUse", header: "Is InUse" },
+        { field: "blockProcessor.name", header: "Block Processor" },
         { field: "warehouseDetails.name", header: "Warehouse Details Name" },
       ];
 
