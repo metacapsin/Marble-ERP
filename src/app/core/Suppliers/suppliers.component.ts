@@ -50,10 +50,10 @@ export class SuppliersComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.getSupplierShow.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.getSupplierShow.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
       console.log(this.getSupplierShow);
     });
   }

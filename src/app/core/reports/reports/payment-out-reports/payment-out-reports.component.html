@@ -129,7 +129,7 @@
                           'paymentMode',
                           'amount'
                         ]
-                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="true"
+                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="originalData?.length >= 5"
                 [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols" selectionMode="multiple"
                 [exportHeader]="'customExportHeader'" exportFilename="Payment Out Reports"
                 (onFilter)="onFilter($event)">
@@ -185,8 +185,7 @@
                 <ng-template pTemplate="emptymessage">
                   <tr>
                     <td colspan="6" class="text-center">
-                      No payment out reports found. Please generate a payment
-                      out report to see it listed here.
+                      No payment out reports found.
                     </td>
                   </tr>
                 </ng-template>

@@ -87,10 +87,10 @@ export class StaffSalaryListComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.salaryData.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.salaryData.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
       console.log("salary data", resp);
     });
   }

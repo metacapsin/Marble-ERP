@@ -67,7 +67,7 @@ export class PurchaseReportsComponent {
         dataKey: col.field
       }));
     });
-    this.exportColumns = this.purchaseReportsData.map((element) => ({ title: element.header, dataKey: element.field }));
+    // this.exportColumns = this.purchaseReportsData.map((element) => ({ title: element.header, dataKey: element.field }));
   }
 
   onFilter(value: any) {

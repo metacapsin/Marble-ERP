@@ -54,7 +54,7 @@
 
                     <div class="card-body p-2">
                         <p-table [value]="dataSource | filter:searchDataValue:['categoryName', 'categoryDescription']" styleClass="p-datatable-striped"
-                            [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+                            [tableStyle]="{'min-width': '60rem'}" [paginator]="dataSource.length >= 5" [rows]="10"
                             [rowsPerPageOptions]="[5, 10, 20]" (change)="onPageChange($event)" #dt [columns]="cols" 
                             [exportHeader]="'customExportHeader'" exportFilename="Expenses Categories"
                             [(selection)]="selectedCustomer" selectionMode="multiple">
@@ -94,7 +94,7 @@ hideOnClear="true"  type="text" field="categoryDescription"
                             </ng-template>
                             <ng-template pTemplate="emptymessage">
                                 <tr>
-                                    <td colspan="3" class="text-center">No expense categories found. Please add an expense category to see it listed here.</td>
+                                    <td colspan="3" class="text-center">No expense categories found.</td>
                                 </tr>
                             </ng-template>
                         </p-table>

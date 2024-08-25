@@ -55,7 +55,7 @@
                     <div class="card-body p-2">
                         <p-table
                             [value]="dataSource | filter:searchDataValue:['recipient', 'date', 'categoryDetails.name', 'amount']"
-                            styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                            styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="dataSource?.length >= 5"
                             selectionMode="multiple" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
                             (change)="onPageChange($event)" [(selection)]="selectedExpenses" #dt [columns]="cols" 
                             [exportHeader]="'customExportHeader'" exportFilename="Expenses">
@@ -102,8 +102,7 @@
                             </ng-template>
                             <ng-template pTemplate="emptymessage">
                                 <tr>
-                                    <td colspan="5" class="text-center">No general expenses records found. Please record
-                                        a general expense to see it listed here.</td>
+                                    <td colspan="5" class="text-center">No general expenses records found.</td>
                                 </tr>
                             </ng-template>
                         </p-table>

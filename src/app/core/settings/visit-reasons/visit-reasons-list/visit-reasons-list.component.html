@@ -59,7 +59,7 @@
 
             <!-- /Page content start -->
             <div class="card-body p-2">
-            <p-table [value]="VisitReasonData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="10"
+            <p-table [value]="VisitReasonData" [tableStyle]="{'min-width': '60rem'}" [paginator]="VisitReasonData?.length >= 5" [rows]="10"
             [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedProducts">
               <ng-template pTemplate="header">
                 <tr>

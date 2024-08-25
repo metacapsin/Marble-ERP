@@ -42,7 +42,7 @@
                 </div>
               </div>
             </div>
-          <p-table  [value]="HolidayData" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+          <p-table  [value]="HolidayData" [tableStyle]="{'min-width': '60rem'}" [paginator]="HolidayData?.length >= 5"
                           [rows]="10">
                           <ng-template pTemplate="header">
                               <tr>

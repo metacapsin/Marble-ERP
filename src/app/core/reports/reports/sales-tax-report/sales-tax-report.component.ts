@@ -116,10 +116,10 @@ export class SalesTaxReportsComponent {
         dataKey: col.field,
       }));
     });
-    this.exportColumns = this.salesTaxReportsData.map((element) => ({
-      title: element.header,
-      dataKey: element.field,
-    }));  
+    // this.exportColumns = this.salesTaxReportsData.map((element) => ({
+    //   title: element.header,
+    //   dataKey: element.field,
+    // }));  
   
   }
   onFilter(value: any){

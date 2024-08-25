@@ -60,10 +60,10 @@ export class PaymentInReportComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.paymentInData.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.paymentInData.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
     });
   }
 

@@ -95,10 +95,10 @@ export class WarehouseListComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.data.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.data.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
       console.log("API", this.data);
     });
   }

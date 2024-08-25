@@ -113,10 +113,10 @@ export class StockAdjustmentListComponent implements OnInit {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.stockAdjustmentDataList.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.stockAdjustmentDataList.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
       console.log("original data",this.originalData);
     });
   }

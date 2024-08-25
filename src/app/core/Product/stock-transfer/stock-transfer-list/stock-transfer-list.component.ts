@@ -105,10 +105,10 @@ export class StockTransferListComponent implements OnInit {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.stockTransferDataList.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.stockTransferDataList.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
     });
   }
 

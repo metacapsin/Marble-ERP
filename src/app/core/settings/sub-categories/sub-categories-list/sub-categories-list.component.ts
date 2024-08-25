@@ -119,10 +119,10 @@ export class SubCategoriesListComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.subCategoriesListData.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.subCategoriesListData.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
     });
   }
 

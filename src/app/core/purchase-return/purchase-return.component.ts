@@ -100,10 +100,10 @@ export class PurchaseReturnComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      this.exportColumns = this.purchaseReturnData.map((element) => ({
-        title: element.header,
-        dataKey: element.field,
-      }));
+      // this.exportColumns = this.purchaseReturnData.map((element) => ({
+      //   title: element.header,
+      //   dataKey: element.field,
+      // }));
     });
   }
   purchaseReturnUpdate(id: any) {

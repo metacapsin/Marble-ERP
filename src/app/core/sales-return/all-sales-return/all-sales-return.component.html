@@ -18,113 +18,6 @@
     </div>
     <!-- /Page Header -->
 
-    <!-- <div class="card invoices-tabs-card">
-      <div class="card-body card-body pt-0 pb-0">
-        <div class="invoices-main-tabs">
-          <div class="row align-items-center">
-            <div class="col-lg-8 col-md-8">
-              <div class="invoices-tabs">
-                <ul>
-                  <li>
-                    <a [routerLink]="routes.salesReturn" class="active">All Sales Return</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-4">
-              <div class="invoices-settings-btn">
-                <button (click)="navigateToCreateSalesReturn()" class="btn">
-                  <i class="feather icon-plus-circle feather-circle me-2"></i>
-                  New Sales Return
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- <div class="row">
-      <div class="col-sm-12">
-        <div class="card card-table">
-          <div class="card-body p-2">
-            <p-table [value]="salesReturnListData" styleClass="p-datatable-striped"
-              [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rowsPerPageOptions]="[5, 10, 20]" [rows]="10">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th pSortableColumn="salesInvoiceNumber">Invoice Number <p-sortIcon
-                      field="salesInvoiceNumber"></p-sortIcon>
-                    <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="salesInvoiceNumber" display="menu"  ></p-columnFilter>
-                  </th>
-                  <th pSortableColumn="returnDate">Return Date <p-sortIcon field="returnDate"></p-sortIcon>
-                    <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="returnDate" display="menu"  ></p-columnFilter>
-                  </th>
-                  <th pSortableColumn="customer.name">Customer <p-sortIcon field="customer.name"></p-sortIcon>
-                    <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="customer.name" display="menu"  ></p-columnFilter>
-                  </th>
-                  <th pSortableColumn="returnOrderStatus">Return Status <p-sortIcon
-                      field="returnOrderStatus"></p-sortIcon></th>
-                  <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                  </th>
-                  <th pSortableColumn="paidAmount">Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
-                    <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="paidAmount" display="menu"  ></p-columnFilter>
-                  </th>
-                  <th pSortableColumn="dueAmount">Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
-                    <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="dueAmount" display="menu"  ></p-columnFilter>
-                  </th>
-                  <th pSortableColumn="salesTotalAmount">Total Amount <p-sortIcon field="salesTotalAmount"></p-sortIcon>
-                    <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="salesTotalAmount" display="menu"  ></p-columnFilter>
-                  </th>
-
-                  <th width="10%">Action</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-sales>
-                <tr>
-                  <td>{{sales.salesInvoiceNumber}}</td>
-                  <td>{{sales.returnDate | date: 'dd-MMM-yyyy'}}</td>
-                  <td>{{sales.customer.name}}</td>
-                  <td>{{sales.returnOrderStatus}}</td>
-                  <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning" value="Partial Paid"></p-tag></td>
-                  <td *ngIf="sales.paymentStatus == 'Paid' " ><p-tag severity="success" value="Paid"></p-tag></td>
-                  <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
-                  <td>₹ {{sales.paidAmount | indianCurrency}}</td>
-                  <td>₹ {{sales.dueAmount | indianCurrency}}</td>
-                  <td>₹ {{sales.salesTotalAmount | indianCurrency}}</td>
-                  <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttions">
-                    <p-button [text]="true" data-bs-toggle="modal" icon="fa-solid fa-eye"
-                      (click)="showReturnInvoiceDialoge(sales._id)"></p-button>
-                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(sales._id)"></p-button>
-                  </td>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td colspan="9" class="text-center">No sales return records found. Please create a sales return to see it listed here.</td>
-                </tr>
-            </ng-template>
-              <ng-template pTemplate="footer">
-                <tr *ngIf="totalPaidAmount > 0 || totalDueAmount > 0 || totalAmount >0 ">
-                  <td colspan="4"></td>
-                  <td>Total </td>
-                  <td>₹ {{ totalPaidAmount  | indianCurrency}}</td>
-                  <td class="text-danger-dark">₹ {{ totalDueAmount  | indianCurrency}}</td>
-                  <td>₹ {{ totalAmount  | indianCurrency}}</td>
-                  <td></td>
-                </tr>
-              </ng-template>
-            </p-table>
-
-          </div>
-        </div>
-      </div>
-    </div> -->
-
     <div class="row">
       <div class="col-sm-12">
         <div class="card card-table show-entire">
@@ -183,7 +76,7 @@ hideOnClear="true"  type="text" field="salesTotalAmount" display="menu"  ></p-co
             <div class="card-body p-2">
               <p-table
                 [value]="salesReturnListData | filter:searchDataValue:['salesInvoiceNumber', 'returnDate','customer.name','returnOrderStatus','paymentStatus','paidAmount','dueAmount','salesTotalAmount']"
-                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
+                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="salesReturnListData?.length >= 5"
                 [rowsPerPageOptions]="[5, 10, 20]" [rows]="10" selectionMode="multiple" #dt [columns]="cols" 
                 [exportHeader]="'customExportHeader'" exportFilename="Sales Return">
                 <ng-template pTemplate="header">
@@ -251,8 +144,7 @@ hideOnClear="true"  type="text" field="salesTotalAmount" display="menu"  ></p-co
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                   <tr>
-                    <td colspan="9" class="text-center">No sales return records found. Please create a sales return to
-                      see it listed here.</td>
+                    <td colspan="9" class="text-center">No sales return records found.</td>
                   </tr>
                 </ng-template>
                 

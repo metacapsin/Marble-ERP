@@ -52,15 +52,15 @@
                                         </div>
                                         <div class="col-md-6 col-sm-12 text-end mb-2">
                                             <button type="submit"
-                                            class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                            [disabled]="!warehouseForm.valid">
-                                            Submit
-                                        </button>
-                                        <button class="btn btn-secondary" [routerLink]="['/settings/warehouse/']">
-                                            Cancel
-                                        </button>
+                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                [disabled]="!warehouseForm.valid">
+                                                Submit
+                                            </button>
+                                            <button class="btn btn-secondary" [routerLink]="['/settings/warehouse/']">
+                                                Cancel
+                                            </button>
                                         </div>
-                                      </div>
+                                    </div>
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
@@ -148,8 +148,8 @@
                           'required'
                         ) && warehouseForm.get('phone')?.touched
                       ">
-                      <span class="login-danger">Field is required.</span>
-                    </div>
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
                                             <div *ngIf="
                         warehouseForm.get('phone')?.hasError(
                           'pattern'
@@ -163,7 +163,8 @@
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group local-forms">
-                                            <label for="billingAddress">Address <span class="login-danger">*</span></label>
+                                            <label for="billingAddress">Address <span
+                                                    class="login-danger">*</span></label>
                                             <textarea class="form-control" type="text"
                                                 placeholder="Please Enter Billing Address"
                                                 formControlName="billingAddress" cols="1" rows="1"></textarea>
@@ -178,7 +179,8 @@
                         warehouseForm.get('billingAddress')?.hasError('pattern') &&
                         warehouseForm.get('billingAddress')?.touched
                       ">
-                                                <span class="login-danger">Address Must be between 3 to 500 characters.</span>
+                                                <span class="login-danger">Address Must be between 3 to 500
+                                                    characters.</span>
                                             </div>
                                         </div>
                                     </div>
