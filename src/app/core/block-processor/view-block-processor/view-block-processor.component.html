@@ -38,13 +38,13 @@
           <div class="page-table-header mb-2 m-3">
             <div class="row practice-card">
               <div class="col-xl-6 col-lg-6 col-sm-12">
-                <div class="form-group row mb-2">
+                <div class="form-group row mb-2" *ngIf="blockProcessorData?.name">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Company Name</h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
                     <p class="col-lg-9 col-form-label">{{blockProcessorData.name}}</p>
                   </div>
                 </div>
-                <div class="form-group row mb-2">
+                <div class="form-group row mb-2" *ngIf="blockProcessorData?.email">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Email</h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
                     <p class="col-lg-9 col-form-label">{{blockProcessorData.email}}</p>
@@ -52,13 +52,13 @@
                 </div>
               </div>
               <div class="col-xl-6 col-lg-6 col-sm-12">
-                <div class="form-group row mb-2">
+                <div class="form-group row mb-2" *ngIf="blockProcessorData?.phoneNo">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Phone Number</h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
                     <p class="col-form-label">{{blockProcessorData.phoneNo}}</p>
                   </div>
                 </div>
-                <div class="form-group row mb-2">
+                <div class="form-group row mb-2" *ngIf="blockProcessorData?.address">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Address</h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
                     <p class="col-form-label">{{blockProcessorData?.address}}</p>
@@ -194,7 +194,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
               <tr>
-                  <td colspan="8" class="text-center">No Block processor records found.</td>
+                  <td colspan="8" class="text-center">No Slab Processing records found.</td>
               </tr>
           </ng-template>
           </p-table>
@@ -239,8 +239,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
               <tr>
-                  <td colspan="4" class="text-center">No payment records found. Please record a
-                      payment to see it listed here.</td>
+                  <td colspan="4" class="text-center">No payment records found.</td>
               </tr>
           </ng-template>
           </p-table>

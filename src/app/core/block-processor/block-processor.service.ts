@@ -54,11 +54,11 @@ export class blockProcessorService {
   createPayment(data: any) {
     return this.http.post(environment.apiUrl + '/SlabProcessingController/createPayment', data);
   }
-  getPaymentList(id: any) {
-    return this.http.get(environment.apiUrl + `/SlabProcessingController/getProcessorPaymentList/${id}`);
-  }
   getPaymentDetailById(id: any) {
     return this.http.get(environment.apiUrl + `/SlabProcessingController/getPaymentDetailById/${id}`);
+  }
+  getPaymentListByProcessorId(id: any) {
+    return this.http.get(environment.apiUrl + `/SlabProcessingController/getPaymentListByProcessorId/${id}`);
   }
 
   deletePayment(id: any){

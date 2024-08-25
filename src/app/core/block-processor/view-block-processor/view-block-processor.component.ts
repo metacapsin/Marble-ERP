@@ -121,7 +121,7 @@ export class ViewBlockProcessorComponent {
         }));
       });
     this.getslabProcessingList();
-    this.getslabProcessingPeymentList();
+    this.getPaymentListByProcessorId();
   }
   getBlockProcessor() {
     this.blockProcessorService
@@ -139,9 +139,9 @@ export class ViewBlockProcessorComponent {
         // this.paymentInvoicePurchaseDataShowById = resp.data;
       });
   }
-  getslabProcessingPeymentList() {
+  getPaymentListByProcessorId() {
     this.blockProcessorService
-      .getPaymentList(this.blockProcessor_id)
+      .getPaymentListByProcessorId(this.blockProcessor_id)
       .subscribe((resp: any) => {
         this.slabProcessingPaymentData = resp.data;
       });
@@ -185,7 +185,7 @@ export class ViewBlockProcessorComponent {
           const message = "Slab Processing Details has been deleted";
           this.messageService.add({ severity: "success", detail: message });
           this.getslabProcessingList();
-          this.getslabProcessingPeymentList();
+          this.getPaymentListByProcessorId();
           console.log("Block Processor deleted")
 
           this.showDialog = false;
@@ -197,7 +197,7 @@ export class ViewBlockProcessorComponent {
           const message = "Payment Details has been deleted";
           this.messageService.add({ severity: "success", detail: message });
           this.getslabProcessingList();
-          this.getslabProcessingPeymentList();
+          this.getPaymentListByProcessorId();
           console.log("Block Processor Payment deleted")
 
           this.showDialog = false;
@@ -210,7 +210,7 @@ export class ViewBlockProcessorComponent {
     this.ShowPaymentInvoice = false;
 
     this.getslabProcessingList();
-    this.getslabProcessingPeymentList();
+    this.getPaymentListByProcessorId();
   }
 
   addSlabProcessingFormSubmit() {

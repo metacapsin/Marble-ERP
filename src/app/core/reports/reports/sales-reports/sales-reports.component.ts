@@ -68,6 +68,8 @@ export class SalesReportsComponent {
         { field: "paidAmount", header: "Paid Amount" },
         { field: "dueAmount", header: "Due Amount" },
         { field: "salesTotalAmount", header: "Sales Total Amount" },
+        { field: "billingAddress.companyName", header: "Billing Company" },
+        { field: "billingAddress.addressLine1", header: "Billing Company Address" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({
