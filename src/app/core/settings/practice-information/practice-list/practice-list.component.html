@@ -86,7 +86,8 @@
                     <div class="col-12">
                         <div class="form-group local-forms">
                             <label for="currentPassword">Current Password<span class="login-danger">*</span></label>
-                            <input class="form-control" formControlName="currentPassword" type="text" placeholder="Current Password" />
+                            <input class="form-control" formControlName="currentPassword" type="text"
+                                placeholder="Current Password" />
                             <div *ngIf="
                           changePasswordForm.get('currentPassword')?.hasError('required') &&
                           changePasswordForm.get('currentPassword')?.touched
@@ -97,14 +98,16 @@
                           changePasswordForm.get('currentPassword')?.hasError('pattern') &&
                           changePasswordForm.get('currentPassword')?.touched
                         " class="login-danger Font_size">
-                        "Password must contain upto 8-16 digit and at least one number, one uppercase letter, one lowercase letter, and one special character."
+                                "Password must contain upto 8-16 digit and at least one number, one uppercase letter,
+                                one lowercase letter, and one special character."
                             </div>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group local-forms">
                             <label for="newPassword">New Password<span class="login-danger">*</span></label>
-                            <input class="form-control" formControlName="newPassword" type="text" placeholder="New Password" />
+                            <input class="form-control" formControlName="newPassword" type="text"
+                                placeholder="New Password" />
                             <div *ngIf="
                           changePasswordForm.get('newPassword')?.hasError('required') &&
                           changePasswordForm.get('newPassword')?.touched
@@ -115,7 +118,9 @@
                           changePasswordForm.get('newPassword')?.hasError('pattern') &&
                           changePasswordForm.get('newPassword')?.touched
                         " class="login-danger Font_size">
-                        "Password must contain upto 8-16 digit and at least one number, one uppercase letter, one lowercase letter, and one special character."
+                                Password must contain 8-16 characters, with at least one number, one uppercase letter,
+                                one lowercase letter, and one special character.
+
                             </div>
                         </div>
                     </div>
@@ -123,7 +128,8 @@
                         <div class="form-group local-forms">
                             <label for="confirmNewPassword">Confirm New Password<span
                                     class="login-danger">*</span></label>
-                            <input class="form-control" formControlName="confirmNewPassword" type="text" placeholder="Confirm New Password" />
+                            <input class="form-control" formControlName="confirmNewPassword" type="text"
+                                placeholder="Confirm New Password" />
                             <!-- <span style="color: #97704f; font-size: 12px">The New Password and Confirm New Password will Same</span> -->
                             <div *ngIf="
                           changePasswordForm.get('confirmNewPassword')?.hasError('required') &&
@@ -131,11 +137,18 @@
                         " class="login-danger Font_size">
                                 Field is required.
                             </div>
-                            <div *ngIf="
+                            <!-- <div *ngIf="
                           changePasswordForm.get('confirmNewPassword')?.hasError('pattern') &&
                           changePasswordForm.get('confirmNewPassword')?.touched
                         " class="login-danger Font_size">
-                        "Password must contain upto 8-16 digit and at least one number, one uppercase letter, one lowercase letter, and one special character."
+                        Password must contain 8-16 characters, with at least one number, one uppercase letter,
+                        one lowercase letter, and one special character.
+                            </div> -->
+                            <div *ngIf="
+    changePasswordForm.get('confirmNewPassword')?.hasError('passwordMismatch') &&
+    changePasswordForm.get('confirmNewPassword')?.touched
+" class="login-danger Font_size">
+                                Passwords do not match.
                             </div>
                         </div>
                     </div>

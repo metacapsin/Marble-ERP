@@ -56,16 +56,37 @@ export class PracticeListComponent {
   }
   checkPasswords() {
     const newPassword = this.changePasswordForm.get("newPassword")?.value;
-    const confirmNewPassword =
-      this.changePasswordForm.get("confirmNewPassword")?.value;
+    const confirmNewPasswordControl =
+      this.changePasswordForm.get("confirmNewPassword");
 
-    if (newPassword !== confirmNewPassword) {
-      this.changePasswordForm
-        .get("confirmNewPassword")
-          ?.setErrors({ passwordMismatch: true });
-    } else {
-      this.changePasswordForm.get("confirmNewPassword")?.setErrors(null);
-    }
+    // Clear custom errors first, but retain other errors
+    // Clear custom errors first, but retain other errors
+    if (confirmNewPasswordControl?.errors && !confirmNewPasswordControl.errors['passwordMismatch']) {
+      confirmNewPasswordControl.setErrors(confirmNewPasswordControl.errors);
+  }
+
+  // Check if confirmNewPassword field has a value
+  if (confirmNewPasswordControl?.value) {
+      // Add password mismatch error if passwords don't match
+      if (newPassword !== confirmNewPasswordControl.value) {
+          confirmNewPasswordControl.setErrors({
+              ...confirmNewPasswordControl.errors,
+              passwordMismatch: true,
+          });
+      } else {
+          // If passwords match, clear the passwordMismatch error
+          if (confirmNewPasswordControl.errors) {
+              const { passwordMismatch, ...otherErrors } = confirmNewPasswordControl.errors;
+              confirmNewPasswordControl.setErrors(Object.keys(otherErrors).length ? otherErrors : null);
+          }
+      }
+  } else {
+      // If no value is present in confirmNewPassword, only keep existing non-passwordMismatch errors
+      if (confirmNewPasswordControl.errors?.['passwordMismatch']) {
+          const { passwordMismatch, ...otherErrors } = confirmNewPasswordControl.errors;
+          confirmNewPasswordControl.setErrors(Object.keys(otherErrors).length ? otherErrors : null);
+      }
+  }
   }
   isNameArray(data: any): boolean {
     return Array.isArray(data.name);
