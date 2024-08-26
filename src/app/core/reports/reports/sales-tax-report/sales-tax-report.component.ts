@@ -97,33 +97,28 @@ export class SalesTaxReportsComponent {
     };
 
     this.service.getSalesTaxReport(data).subscribe((resp: any) => {
-      console.log(resp);
+      // console.log(resp);
       this.salesTaxReportsData = resp.sales;
       this.originalData = resp.sales;
       this.cols = [
         { field: "salesDate", header: "Sales Date" },
         { field: "salesInvoiceNumber", header: "Sales Invoice Number" },
-        // { field: "customer.name", header: "Customer" },
-        // { field: "salesOrderStatus", header: "Sales Status" },
-        // { field: "paymentStatus", header: "Payment Status" },
-        // { field: "paidAmount", header: "Paid Amount" },
-        // { field: "dueAmount", header: "Due Amount" },
-        // { field: "salesTotalAmount", header: "Sales Total Amount" },
+        { field: "customerName", header: "Customer" },
+        { field: "customerPhoneNo", header: "Phone Number" },
+        { field: "customerEmail", header: "Email" },
+        { field: "salesOrderStatus", header: "Sales Status" },
+        { field: "salesOrderTax", header: "Sales Tax" },
+        { field: "salesTotalAmount", header: "Sales Total Amount" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({
         title: col.header,
         dataKey: col.field,
       }));
-    });
-    // this.exportColumns = this.salesTaxReportsData.map((element) => ({
-    //   title: element.header,
-    //   dataKey: element.field,
-    // }));  
-  
+    });  
   }
   onFilter(value: any){
-    console.log("value Filter", value);
+    // console.log("value Filter", value);
     this.salesTaxReportsData  = value.filteredValue
   }
   getSalesOrderTax():number {
@@ -163,24 +158,24 @@ export class SalesTaxReportsComponent {
 
   showInvoiceDialoge(Id: any) {
     // to open the sales invoice popup
-    console.log("id pass to invoice dialoge", Id);
-    console.log("showInvoiceDialoge is triggered ");
+    // console.log("id pass to invoice dialoge", Id);
+    // console.log("showInvoiceDialoge is triggered ");
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.showInvoiceDialog = true;
       this.salesTaxReportDataShowById = [resp.data];
       this.header = "Sales Tax Reports Invoice ";
-      console.log("sales data by id On dialog", this.salesTaxReportDataShowById);
+      // console.log("sales data by id On dialog", this.salesTaxReportDataShowById);
     });
 
     this.salesService.getSalesPaymentList(Id).subscribe((resp: any) => {
       this.paymentDataListById = resp.data;
-      console.log("this is payment by sales id", this.paymentDataListById);
+      // console.log("this is payment by sales id", this.paymentDataListById);
     });
   }
 
   callBackModal() {}
   close() {
-    console.log("close dialog triggered");
+    // console.log("close dialog triggered");
     this.showInvoiceDialog = false;
 
   }

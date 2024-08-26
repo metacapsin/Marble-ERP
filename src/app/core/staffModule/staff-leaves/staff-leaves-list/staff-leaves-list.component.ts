@@ -86,7 +86,9 @@ export class StaffLeavesListComponent {
         { field: "from", header: "From" },
         { field: "to", header: "To" },
         { field: "noOfDay", header: "No Of Day" },
+        { field: "leaveReason", header: "Leave Reason" },
         { field: "leaveDuration", header: "Leave Duration" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

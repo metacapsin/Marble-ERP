@@ -107,6 +107,9 @@ export class StockAdjustmentListComponent implements OnInit {
         { field: "quantity", header: "Quantity" },
         { field: "currentQty", header: "Current Qty" },
         { field: "note", header: "Note" },
+        { field: "createdOn", header: "Created On" },
+        { field: "createdByName", header: "Created By Name" },
+        { field: "updatedByName", header: "Updated By Name" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

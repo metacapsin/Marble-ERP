@@ -47,11 +47,15 @@ export class EmployeepPaymentListComponent {
       this.SalaryPaymentList = resp.data;
 
       this.cols = [
+        { field: "transactionNo", header: "Transaction No" },
         { field: "employee.name", header: "Employee Name" },
         { field: "month", header: "Month" },
+        { field: "year", header: "Year" },
         { field: "totalLeaves", header: "Total Leaves" },
         { field: "netSalary", header: "Net Salary" },
+        { field: "deduction", header: "Deduction" },
         { field: "totalSalary", header: "Total Salary" },
+        { field: "createdOn", header: "Created On" },
         { field: "paymentDate", header: "Payment Date" },
       ];
 

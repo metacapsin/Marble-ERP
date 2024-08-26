@@ -56,6 +56,7 @@ export class BlockProcessorListComponent {
       this.cols = [
         { field: "name", header: "Name" },
         { field: "email", header: "Email" },
+        { field: "phoneNo", header: "Phone No" },
         { field: "status", header: "Status" },
         { field: "createdOn", header: "Created On" },
       ];

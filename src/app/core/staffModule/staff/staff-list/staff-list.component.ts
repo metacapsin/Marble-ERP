@@ -72,10 +72,18 @@ export class StaffListComponent {
       this.originalData = resp;
       this.cols = [
         { field: "firstName", header: "First Name" },
-        { field: "designation.designation", header: "Designation" },
         { field: "mobile", header: "Mobile" },
         { field: "city", header: "City" },
+        { field: "pinCode", header: "Pin Code" },
+        { field: "address", header: "Address" },
         { field: "email", header: "Email" },
+        { field: "upiId", header: "UpiId" },
+        { field: "ifscCode", header: "IFSC Code" },
+        { field: "idType.name", header: "Id Type" },
+        { field: "idNumber", header: "Id Number" },
+        { field: "designation.designation", header: "Designation" },
+        { field: "warehouseDetails.name", header: "Warehouse Details" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

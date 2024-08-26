@@ -51,6 +51,7 @@ export class PaymentInListComponent {
         { field: "customer.name", header: "Customer Name" },
         { field: "paymentMode", header: "Payment Mode" },
         { field: "amount", header: "Amount" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

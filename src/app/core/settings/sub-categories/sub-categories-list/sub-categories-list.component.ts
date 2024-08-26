@@ -113,6 +113,7 @@ export class SubCategoriesListComponent {
         { field: "name", header: "Name" },
         { field: "categoryId.name", header: "Category Name" },
         { field: "description", header: "Description" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

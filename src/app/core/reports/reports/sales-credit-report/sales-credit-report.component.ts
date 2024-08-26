@@ -67,6 +67,7 @@ export class SalesCreditReportsComponent {
         { field: "paidAmount", header: "Paid Amount" },
         { field: "dueAmount", header: "Due Amount" },
         { field: "salesTotalAmount", header: "Sales Total Amount" },
+        { field: "companyName", header: "Billing Company" }
       ];
 
       this.exportColumns = this.cols.map((col) => ({

@@ -86,6 +86,7 @@ export class CategoriesListComponent {
       this.cols = [
         { field: "name", header: "Name" },
         { field: "description", header: "Description" },
+        { field: "createdOn", header: "Created On" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({

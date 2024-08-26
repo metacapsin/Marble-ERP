@@ -122,6 +122,13 @@ export class ListQuotationsComponent implements OnInit {
         { field: "customer.name", header: "Customer Name" },
         { field: "quotationTax", header: "Quotation Tax" },
         { field: "quotationDiscount", header: "Quotation Discount" },
+        { field: "otherCharges", header: "Other Charges" },
+        { field: "quotationGrossTotal", header: "Quotation Gross Total" },
+        { field: "quotationTax", header: "Quotation Tax" },
+        { field: "quotationShipping", header: "Quotation Shipping" },
+        { field: "paidAmount", header: "Paid Amount" },
+        { field: "dueAmount", header: "Due Amount" },
+        { field: "createdOn", header: "createdOn" },
         { field: "quotationTotalAmount", header: "Quotation Total Amount" },
       ];
 

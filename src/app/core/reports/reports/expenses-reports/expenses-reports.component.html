@@ -65,10 +65,11 @@
                                 </div>
                                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                                     [roles]="['admin', 'super-admin']">
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip" 
-                                            alt=""></a>
-                                    <a href="javascript:;" class=" me-2" (click)="dt.exportCSV()"><img src="assets/img/icons/pdf-icon-03.svg"   pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip"
-                                            alt=""></a>
+                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip"  -->
+                                    <!-- alt=""></a> -->
+                                    <a href="javascript:;" class=" me-2" (click)="dt.exportCSV()"><img
+                                            src="assets/img/icons/pdf-icon-03.svg" pTooltip="Download data in CSV file "
+                                            tooltipPosition="left" tooltipStyleClass="tooltip" alt=""></a>
                                 </div>
                             </div>
 
@@ -77,18 +78,21 @@
                                     <div class="col-lg-4 col-md-4 h-2">
                                         <div class="form-group local-forms">
                                             <label for="warehouseDetails">Filter By </label>
-                                            <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Filter By Date" 
-                                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" [(ngModel)]="searchBy"
+                                            <p-dropdown [options]="searchByData" styleClass="" appendTo="body"
+                                                placeholder="Filter By Date" [style]="{ width: '100%' }" [filter]="true"
+                                                filterBy="name" [(ngModel)]="searchBy"
                                                 (onChange)="onSearchByChange($event)">
                                             </p-dropdown>
                                         </div>
                                     </div>
-                    
+
                                     <div class="col-lg-4 col-md-4 h-2">
                                         <div class="form-group local-forms">
                                             <label for="warehouseDetails">Date </label>
-                                            <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" dateFormat="dd/mm/yy"
-                                                [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="onDateChange($event)"/>
+                                            <p-calendar [(ngModel)]="rangeDates" selectionMode="range"
+                                                [readonlyInput]="true" dateFormat="dd/mm/yy" [style]="{ width: '100%' }"
+                                                placeholder="Start Date - End Date"
+                                                (ngModelChange)="onDateChange($event)" />
                                         </div>
                                     </div>
                                 </div>
@@ -96,31 +100,31 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table [value]="originalData | filter:searchDataValue:['categoryDetails.name','date','amount',]" styleClass="p-datatable-striped"
-                                [tableStyle]="{'min-width': '60rem'}" [paginator]="originalData?.length >= 5" [rows]="10"
-                                [rowsPerPageOptions]="[5, 10, 20]"
-                                #dt 
-                                [columns]="cols"
-                                selectionMode="multiple" 
-                                [exportHeader]="'customExportHeader'"  exportFilename="Expenses Reports" (onFilter)="onFilter($event)">
+                            <p-table
+                                [value]="originalData | filter:searchDataValue:['categoryDetails.name','date','amount',]"
+                                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
+                                [paginator]="originalData?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+                                #dt [columns]="cols" selectionMode="multiple" [exportHeader]="'customExportHeader'"
+                                exportFilename="Expenses Reports" (onFilter)="onFilter($event)">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="date">Expenses Date <p-sortIcon
-                                                field="date"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="date" display="menu"></p-columnFilter>
+                                        <th pSortableColumn="date">Expenses Date <p-sortIcon field="date"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="date" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="categoryDetails.name">Expenses Category <p-sortIcon
                                                 field="categoryDetails.name"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="categoryDetails.name"
-                                                display="menu"></p-columnFilter>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="categoryDetails.name" display="menu"></p-columnFilter>
                                         </th>
-                                        <th pSortableColumn="amount">Amount <p-sortIcon
-                                                field="amount"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="amount"
-                                                display="menu"></p-columnFilter>
+                                        <th pSortableColumn="recipient">Recipient <p-sortIcon
+                                                field="recipient"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="recipient" display="menu"></p-columnFilter>
+                                        </th>
+                                        <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
+                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                                                field="amount" display="menu"></p-columnFilter>
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -128,18 +132,19 @@ hideOnClear="true"  type="text" field="amount"
                                     <tr>
                                         <td>{{ data.date | date: 'dd-MMM-yyyy'}}</td>
                                         <td>{{ data.categoryDetails.name }}</td>
+                                        <td>{{ data.recipient }}</td>
                                         <td>₹ {{ data.amount | indianCurrency }}</td>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="emptymessage">
                                     <tr>
-                                        <td colspan="3" class="text-center">No expenses reports found.</td>
+                                        <td colspan="4" class="text-center">No expenses reports found.</td>
                                     </tr>
                                 </ng-template>
 
                                 <ng-template pTemplate="footer">
                                     <tr>
-                                        <td ></td>
+                                        <td colspan="2"></td>
                                         <td class="text-end">Total Amount</td>
                                         <td totalValueDirective [data]="expensesData" [name]="expensesDataName"></td>
                                     </tr>
