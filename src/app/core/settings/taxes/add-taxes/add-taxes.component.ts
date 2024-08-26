@@ -24,6 +24,7 @@ import { DropdownModule } from "primeng/dropdown";
 export class AddTaxesComponent {
   addTaxesForm!: FormGroup;
   taxesTypes = [{ value: "Single" }, { value: "Multiple" }];
+  personNameRegex = /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
@@ -33,8 +34,8 @@ export class AddTaxesComponent {
     private dialogRef: MatDialogRef<AddTaxesComponent>
   ) {
     this.addTaxesForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
-      taxRate: ["", [Validators.required, Validators.min(0)]],
+      name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      taxRate: ["", [Validators.required, Validators.min(0), Validators.max(99)]],
     });
   }
   addTaxesFormSubmit() {
