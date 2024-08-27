@@ -173,12 +173,12 @@
                           </div>
                         </div>
                       </div>
-                      <div *ngIf="lotTypeValue === 'Lot'" class="col-12">
-                        <app-add-lot class="col-12"></app-add-lot>
-                      </div>
                     </div>
 
-                    <div class="card p-3" *ngIf="lotTypeValue === 'Slab'">
+                    <div  *ngIf="lotTypeValue === 'Lot'">
+                      <app-add-lot class="col-12"></app-add-lot>
+                    </div>
+                    <div class="card " *ngIf="lotTypeValue === 'Slab'">
                       <div class="row card-body">
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
