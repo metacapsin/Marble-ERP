@@ -1,21 +1,10 @@
-import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { ActivatedRoute, RouterModule } from "@angular/router";
-import { TableModule } from "primeng/table";
-import { TabViewModule } from "primeng/tabview";
+import { ActivatedRoute } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { blockProcessorService } from "../block-processor.service";
-import { PaymentOutService } from "../../payment-out/payment-out.service";
-import { PurchaseService } from "../../purchase/purchase.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SharedModule } from "src/app/shared/shared.module";
-import { DialogModule } from "primeng/dialog";
-import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
-import { ButtonModule } from "primeng/button";
-import { CalendarModule } from "primeng/calendar";
-import { ToastModule } from "primeng/toast";
-import { ConfirmDialogComponent } from "src/app/common-component/modals/confirm-dialog/confirm-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
 
@@ -24,7 +13,6 @@ import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/
   standalone: true,
   imports: [
     SharedModule,
-    ConfirmDialogComponent,
     PaymentsInvoiceDialogComponent,
   ],
   templateUrl: "./view-block-processor.component.html",
@@ -123,6 +111,10 @@ export class ViewBlockProcessorComponent {
     this.getslabProcessingList();
     this.getPaymentListByProcessorId();
   }
+  /**
+   * Retrieves the block processor data by its ID.
+   * @returns An Observable that emits the block processor data.
+   */
   getBlockProcessor() {
     this.blockProcessorService
       .getBlockProcessorDataById(this.blockProcessor_id)
@@ -131,6 +123,7 @@ export class ViewBlockProcessorComponent {
         console.log(this.blockProcessorData);
       });
   }
+
   getslabProcessingList() {
     this.blockProcessorService
       .getAllSlabProcessing(this.blockProcessor_id)
@@ -246,7 +239,7 @@ export class ViewBlockProcessorComponent {
       console.log("Form is Invalid");
     }
   }
- 
+
   editSlabProcessingFormSubmit() {
     const payload = {
       processor: this.editSlabProcessingForm.value.processor,
@@ -280,7 +273,7 @@ export class ViewBlockProcessorComponent {
     }
   }
 
-  searchData(value: any) {}
+  searchData(value: any) { }
 
   openPaymentDialog(_id: any) {
     this.blockProcessorService
@@ -309,4 +302,5 @@ export class ViewBlockProcessorComponent {
         // console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
       });
   }
+
 }
