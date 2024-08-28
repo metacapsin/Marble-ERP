@@ -62,8 +62,15 @@
                               <label for="invoiceNumber">Invoice Number<span class="login-danger"></span></label>
                               <input type="text" class="form-control" placeholder="Enter Invoice Number"
                                 formControlName="invoiceNumber" />
-                              <span style="color: #97704f; font-size: 12px">Leave it blank to generate
+                              <span *ngIf="addNewPurchaseForm.get('invoiceNumber')?.value.length === 0" style="color: #97704f; font-size: 12px">Leave it blank to generate
                                 automatically</span>
+                                <div *ngIf="
+                                addNewPurchaseForm.get('invoiceNumber')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('invoiceNumber')?.touched
+                              ">
+                              <span class="login-danger">Please Enter Valid Invoice Number. </span>
+                            </div>
+      
                             </div>
                           </div>
                           <div class="col-xl-6 col-md-6 col-sm-12 col-12">
@@ -725,7 +732,7 @@
                                 <div class="col-xl-6 col-lg-6 col-sm-6">
                                   <div class="form-group row mb-2">
                                     <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                      Average Area / Ton
+                                      Average Size / Ton
                                     </h5>
                                     <div class="col-lg-6 col-md-6 col-xl-6">
                                       <p class="col-lg-6 col-form-label heading-bold">
@@ -898,6 +905,18 @@
                           <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Slab Name
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ addNewPurchaseForm.get("slabName").value }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
                                 Slab Number
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
@@ -939,6 +958,18 @@
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
                                   {{ addNewPurchaseForm.get("subCategoryDetail")?.value.name }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Square Feet
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ addNewPurchaseForm.get("totalSQFT").value }}
                                 </p>
                               </div>
                             </div>

@@ -53,7 +53,7 @@ export class AddNewPurchaseComponent implements OnInit {
   ];
   getSupplierShow: any;
   ItemDetails: any = {};
-  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,50})$/;
+  invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,30})$/;
 
   shortNameRegex = /^[^\s.-][a-zA-Z0-9_.\s-]{2,50}$/;
   descriptionRegex = /^(?!\s)(?:.{1,500})$/;
@@ -75,7 +75,7 @@ export class AddNewPurchaseComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) {
     this.addNewPurchaseForm = this.fb.group({
-      invoiceNumber: [""],
+      invoiceNumber: ["",[Validators.pattern(this.invoiceRegex)]],
       purchaseDate: ["", Validators.required],
       supplier: ["", [Validators.required]],
       paidToSupplierPurchaseCost: [

@@ -69,7 +69,7 @@ export class ListQuotationsComponent implements OnInit {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Quotations Details",
+      messege: "Are you sure you want to delete this Quotation",
     };
     this.showDialoge = true;
   }

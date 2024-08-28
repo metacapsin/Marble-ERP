@@ -125,7 +125,8 @@
                           'salesInvoiceNumber',
                           'salesDate',
                           'customer.name',
-                          'dueAmount'
+                          'dueAmount',
+                          'billingAddress.companyName'
                         ]
                 " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="originalData?.length >= 5"
                 [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols" selectionMode="multiple"
@@ -211,13 +212,12 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                   <tr>
-                    <td colspan="8" class="text-center">
-                      No sales reports found. Please generate a sales report to
-                      see it listed here.
+                    <td colspan="9" class="text-center">
+                      No sales reports found.
                     </td>
                   </tr>
                 </ng-template>
-                <ng-template pTemplate="footer">
+                <ng-template  pTemplate="footer">
                   <tr totalValueDirective [data]="salesReportsData" [name]="salesReports">
                     <!-- <td colspan="4"></td>
                     <td>Total Amount</td> -->

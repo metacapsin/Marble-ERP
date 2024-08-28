@@ -115,7 +115,17 @@
                       <label for="salesInvoiceNumber">Invoice Number </label>
                       <input type="text" class="form-control" placeholder="Enter Invoice Number"
                         formControlName="salesInvoiceNumber" />
-                      <span style="color: #97704f; font-size: 12px">Leave it blank to generate automatically</span>
+                      <span *ngIf="
+                      addSalesForm.get('salesInvoiceNumber')?.value.length === 0
+                    "style="color: #97704f; font-size: 12px">Leave it blank to generate automatically</span>
+
+                      <div *ngIf="
+                          addSalesForm.get('salesInvoiceNumber')?.hasError('pattern') &&
+                          addSalesForm.get('salesInvoiceNumber')?.touched
+                        ">
+                        <span class="login-danger">Please Enter Valid Invoice Number. </span>
+                      </div>
+
                     </div>
                   </div>
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -249,7 +259,7 @@
                             appendTo="body" formControlName="salesItemTax" optionLabel="orderTaxName"
                             optionValue="orderNamevalue" display="chip" (onChange)="calculateTotalAmount()"
                             [maxSelectedLabels]="1"></p-multiSelect>
-                          <div style="color: #97704f; font-size: 12px">Applied Tax:
+                          <div style="color: #97704f; font-size: 12px">Applied Tax: ₹
                             {{
                             addSalesForm
                             .get("salesItemDetails")
@@ -391,7 +401,7 @@
                         </div>
                         <div class="col-12 ml-3">
                           <div class="form-group local-forms">
-                            <label for="salesShipping">Shipping</label>
+                            <label for="salesShipping">Shipping Charges</label>
                             <div class="input-group">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
@@ -475,7 +485,7 @@
                           </span>
                         </p>
                         <p *ngIf="addSalesForm.get('salesShipping').value">
-                          Shipping
+                          Shipping Charges
                           <span *ngIf="addSalesForm.get('salesShipping')?.value > 0">
                             ₹
                             {{
@@ -522,7 +532,7 @@
                 </div>
               </div>
 
-              <p-dialog header="Edit Profile" [modal]="true" [(visible)]="addressVisible" [style]="{ width: '35rem' }">
+              <p-dialog header="Edit Seller Address" [modal]="true" [(visible)]="addressVisible" [style]="{ width: '35rem' }">
 
                 <div class="row">
                   <div class="col-12">

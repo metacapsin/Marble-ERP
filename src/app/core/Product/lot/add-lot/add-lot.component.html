@@ -305,7 +305,7 @@
                             </div>
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Total Area (Inch)
+                                Block Size (Inch<sup>3</sup>)
                               </h5>
                               <div class="col-lg-9 col-md-9 col-xl-9">
                                 <p class="col-form-label">
@@ -473,13 +473,13 @@
             </div>
           </div>
 
-          <!-- Total Area Field -->
+          <!-- Block Size Field -->
           <div class="col-12 col-md-6">
             <div class="form-group local-forms">
-              <label for="totalArea">Total Area</label>
+              <label for="totalArea">Block Size</label>
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text">Inch</span>
+                  <span class="input-group-text">Inch<sup>3</sup></span>
                 </div>
                 <input class="form-control" type="number" name="totalArea" placeholder="0" [disabled]="true"
                   [(ngModel)]="totalArea" />

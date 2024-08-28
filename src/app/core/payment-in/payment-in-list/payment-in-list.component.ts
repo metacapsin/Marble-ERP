@@ -70,7 +70,7 @@ export class PaymentInListComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Payment Details",
+      messege: "Are you sure you want to delete this Payment In Details",
     };
     this.showDialoge = true;
   }

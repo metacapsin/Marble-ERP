@@ -129,7 +129,8 @@
                           'customerPhoneNo',
                           'customerEmail',
                           'salesOrderTax',
-                          'salesTotalAmount'
+                          'salesTotalAmount',
+                          'companyName'
                         ]
                 " styleClass="p-datatable-striped" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }"
                 [paginator]="originalData?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols"
@@ -257,14 +258,14 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
               <tr>
-                <td colspan="4" class="text-center">
+                <td colspan="6" class="text-center">
                   No sales tax reports found.
                 </td>
               </tr>
             </ng-template>
             <ng-template pTemplate="footer">
               <tr>
-                <td colspan="3"></td>
+                <td colspan="4 "></td>
                 <td>Total Amount</td>
                 <!-- <td>₹ {{ getSalesOrderTax() | indianCurrency }}</td> -->
                 <td totalValueDirective [data]="salesTaxReportsData" [name]="salesTaxReports"></td>

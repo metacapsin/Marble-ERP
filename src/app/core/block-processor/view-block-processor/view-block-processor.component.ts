@@ -30,7 +30,7 @@ export class ViewBlockProcessorComponent {
   slabProcessingPaymentData: any[] = [];
   slabProcessingDataList: any[] = [];
   slabListData: any[] = [];
-  paymentInvoicePurchaseDataShowById = [];
+  paymentInvoicePurchaseDataShowById: any=[];
   addSlabVisible: boolean = false;
   editSlabVisible: boolean = false;
   showDialog: boolean = false;

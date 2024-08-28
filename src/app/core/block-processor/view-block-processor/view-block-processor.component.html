@@ -77,20 +77,19 @@
         <p-tabPanel header="Processed List">
           <div class="page-table-header mb-2">
             <div class="row align-items-center">
-                <div class="col">
-                    <div class="doctor-table-blk">
-                        <h3>Processed List</h3>
-                        <div class="doctor-search-blk">
-                            <div class="add-group textbtn">
-                                <a class="btn btn-primary add-pluss ms-2 "
-                                    (click)="addSlabProcessing()"><img
-                                        src="assets/img/icons/plus.svg" alt=""> Add New</a>
-                            </div>
-                        </div>
+              <div class="col">
+                <div class="doctor-table-blk">
+                  <h3>Processed List</h3>
+                  <div class="doctor-search-blk">
+                    <div class="add-group textbtn">
+                      <a class="btn btn-primary add-pluss ms-2 " (click)="addSlabProcessing()"><img
+                          src="assets/img/icons/plus.svg" alt=""> Add New</a>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
+          </div>
           <!-- <div class="page-table-header mb-2">
             <div class="row align-items-center">
               <div class="col">
@@ -104,7 +103,8 @@
             </div>
           </div> -->
           <p-table [value]="slabProcessingDataList" styleClass="p-datatable-striped"
-            [tableStyle]="{ 'min-width': '60rem' }" [paginator]="slabProcessingDataList?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
+            [tableStyle]="{ 'min-width': '60rem' }" [paginator]="slabProcessingDataList?.length >= 5" [rows]="10"
+            [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="processingInvoiceNo">
@@ -175,27 +175,26 @@
                   <div class="action-buttons">
 
                     <p-button *ngIf="processing.paymentStatus == 'Unpaid' " [text]="true" icon="fa fa-edit"
-                      (click)="editSlabProcessing(processing._id)" pTooltip="Edit"
-                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      (click)="editSlabProcessing(processing._id)" pTooltip="Edit" tooltipPosition="bottom"
+                      tooltipStyleClass="tooltip"></p-button>
                     <div *ngIf="processing.paymentStatus != 'Unpaid'" class="placeholder"></div>
                     <p-button
                       *ngIf="processing.paymentStatus == 'Unpaid' || processing.paymentStatus ==  'Partial Paid'"
-                      [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(processing._id)" pTooltip="Payment"
-                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(processing._id)"
+                      pTooltip="Payment" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                     <div *ngIf="processing.paymentStatus != 'Unpaid' && processing.paymentStatus != 'Partial Paid'"
                       class="placeholder"></div>
-                    <p-button [text]="true" icon="fa fa-trash"
-                      (click)="deleteSlabProcessing(processing._id)"  pTooltip="Delete"
-                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    <p-button [text]="true" icon="fa fa-trash" (click)="deleteSlabProcessing(processing._id)"
+                      pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                   </div>
                 </td>
               </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
               <tr>
-                  <td colspan="8" class="text-center">No Slab Processing records found.</td>
+                <td colspan="8" class="text-center">No Slab Processing records found.</td>
               </tr>
-          </ng-template>
+            </ng-template>
           </p-table>
         </p-tabPanel>
 
@@ -231,16 +230,16 @@
                 <td>₹ {{payment.amount | indianCurrency}}</td>
                 <td class="action-buttons">
                   <p-button [text]=" true" icon="fa fa-trash" (click)=" deletePayment(payment._id)" pTooltip="Delete"
-                  tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
 
                 </td>
               </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
               <tr>
-                  <td colspan="4" class="text-center">No payment records found.</td>
+                <td colspan="4" class="text-center">No payment records found.</td>
               </tr>
-          </ng-template>
+            </ng-template>
           </p-table>
         </p-tabPanel>
       </p-tabView>
@@ -251,13 +250,6 @@
 
 
 
-<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
-  [data]="modalData"></app-confirm-dialog>
-
-
-<app-payments-invoice-dialog [ShowPaymentInvoice]="ShowPaymentInvoice" [dataById]="paymentObject" [header]="header"
-  [dataItemsGrid]="paymentInvoicePurchaseDataShowById" (callbackModal)="callBackModal()"
-  (close)="close()"></app-payments-invoice-dialog>
 
 
 <!-- <app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataItemsGrid]="paymentInvoicePurchaseDataShowById" [dataById]="paymentObject"
@@ -473,3 +465,11 @@
     </div>
   </div>
 </p-dialog>
+
+<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog>
+
+
+<app-payments-invoice-dialog [ShowPaymentInvoice]="ShowPaymentInvoice" [dataById]="paymentObject" [header]="header"
+  [dataItemsGrid]="paymentInvoicePurchaseDataShowById" (callbackModal)="callBackModal()"
+  (close)="close()"></app-payments-invoice-dialog>

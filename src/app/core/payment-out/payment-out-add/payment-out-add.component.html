@@ -53,7 +53,7 @@
                     </div>
                   </div> -->
                   <div class="row mt-2 mb-2">
-                    <div class="col-md-6 col-sm-12"><h3>Add Payment</h3></div>
+                    <div class="col-md-6 col-sm-12"><h3>Add Payment Out</h3></div>
                     <div class="col-md-6 col-sm-12 text-end mb-2">
                       <button
                       type="submit"
@@ -227,7 +227,7 @@
                               />
                             </div>
                             <span style="color: #97704f; font-size: 12px"
-                              >Due Amount : {{ purchase.dueAmount }}</span
+                              >Due Amount : ₹ {{ purchase.dueAmount }}</span
                             >
                             <div
                               *ngIf="
@@ -256,7 +256,7 @@
                               "
                             >
                               <span class="login-danger"
-                                >Input must be more than 0.</span
+                                >Amount must be more than ₹ 0.</span
                               >
                             </div>
                             <div
@@ -271,8 +271,7 @@
                               "
                             >
                               <span class="login-danger"
-                                >Input should not more than
-                                {{ purchase.dueAmount }}.</span
+                                >Amount should not be more than ₹ {{ purchase.dueAmount }}.</span
                               >
                             </div>
                           </td>
