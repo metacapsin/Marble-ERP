@@ -115,6 +115,12 @@ export class AddNewPurchaseComponent implements OnInit {
   }
   ngOnInit(): void {
     this.NewPurchaseService.clearFormData();
+
+    
+    this.addNewPurchaseForm.statusChanges.subscribe(status => {
+      console.log('Form Status:', status); // 'VALID' or 'INVALID'
+    });
+
     this.supplier = this.localStorageService.getItem("supplier");
     this.returnUrl = this.localStorageService.getItem("returnUrl");
     if (this.supplier) {
@@ -193,6 +199,17 @@ export class AddNewPurchaseComponent implements OnInit {
     }));
   }
 
+
+// Method to check if the required fields in the first stepper are valid
+isFirstStepValid(): boolean {
+  const controls = this.addNewPurchaseForm.controls;
+  return controls['invoiceNumber'].valid &&
+         controls['purchaseDate'].valid &&
+         controls['supplier'].valid &&
+         controls['paidToSupplierPurchaseCost'].valid;
+}
+
+
   backStap(prevCallback: any, page: any) {
     prevCallback.emit();
     if (page == "second") {
@@ -209,6 +226,12 @@ export class AddNewPurchaseComponent implements OnInit {
       "stepperOneData",
       paidToSupplierPurchaseCost
     );
+
+    if (this.isFirstStepValid()) {
+      // Proceed to next step
+      nextCallback.emit();
+    }
+
     if (page == "second") {
       if (this.lotTypeValue == "Lot") {
         this.child.LotAddFormSubmit();

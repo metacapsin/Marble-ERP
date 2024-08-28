@@ -223,7 +223,7 @@ export class AddsalesComponent implements OnInit {
       this.addSalesForm.patchValue({
         customer: this.customer,
       });
-      // this.customerAddress =  this.customer.billingAddress
+      this.customerAddress =  this.customer.billingAddress
     }
 
     this.services.getAllWarehouseList().subscribe((resp: any) => {

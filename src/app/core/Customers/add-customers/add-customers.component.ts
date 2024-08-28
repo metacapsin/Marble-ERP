@@ -30,7 +30,7 @@ export class AddCustomersComponent implements OnInit {
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
   // personNameRegex = /^[A-Za-z](?!.*\s{2})[A-Za-z. ]{2,28}[A-Za-z.]$/;
-  personNameRegex = /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
+  personNameRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9]*$/;
   taxNumberRegex = /^[A-Za-z0-9]{15}$/;
   emailRegex: string = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^.{3,500}$/s;

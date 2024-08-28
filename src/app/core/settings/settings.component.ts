@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ElementRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { MenuItem } from "primeng/api";
 import { Subscription } from "rxjs";
@@ -16,7 +16,7 @@ export class SettingsComponent {
   currentRoute!: string;
   text: string = "";
   routerChangeSubscription: Subscription;
-  constructor(private router: Router) {
+  constructor(private router: Router, private elementRef: ElementRef) {
     this.routerChangeSubscription = this.router.events.subscribe((event) => {
       this.currentRoute = this.router.url;
       // console.log(this.currentRoute)
@@ -151,17 +151,20 @@ export class SettingsComponent {
   }
 
   updateBreadcrumb() {
-    const path = this.router.url.split("/").pop(); // Get the last part of the URL
-
-    switch (path) {
-      case "practice-information":
-        this.text = "Profile Information";
+    const path = this.router.url.split("/"); // Get the last part of the URL
+    console.log(path);
+    // Assuming `path` is an array of URL segments, e.g., ['home', 'dashboard', 'users', 'edit']
+    // Example path: ['home', 'dashboard', 'users', 'edit']
+    switch (path[2]) {
+      case "users":
+        if (path[3]) {
+          this.text = `Users`;
+        } else {
+          this.text = "Users";
+        }
         break;
       case "warehouse":
         this.text = "Warehouse";
-        break;
-      case "users":
-        this.text = "Users Settings";
         break;
       case "categories":
         this.text = "Categories";
@@ -170,7 +173,11 @@ export class SettingsComponent {
         this.text = "Sub Categories";
         break;
       case "billing-Address":
-        this.text = "Billing Address";
+        if (path[3]) {
+          this.text = "Billing Address";
+        } else {
+          this.text = "Billing Address";
+        }
         break;
       case "taxes":
         this.text = "Taxes";
@@ -179,6 +186,11 @@ export class SettingsComponent {
         this.text = "Profile Information"; // Default case
         break;
     }
+
+    // Debugging output
+    console.log("Path Array:", path);
+    console.log("Path Index 3:", path[3]);
+    console.log("Path Index 4:", path[4]);
   }
 
   changeCalendarSettingCategory(type: string) {}
@@ -199,6 +211,7 @@ export class SettingsComponent {
     }
   }
   findPageName(text) {
+    console.log(text);
     this.text = text;
   }
 }

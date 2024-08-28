@@ -107,7 +107,7 @@ export class TaxesListComponent {
     this.taxID = Id;
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Tax Details",
+      messege: " Are you sure you want to delete this Tax",
     };
     this.showDialog = true;
   }

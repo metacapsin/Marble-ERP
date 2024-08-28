@@ -171,7 +171,7 @@ export class ListSlabsComponent {
     if (this.searchDataValue == "") {
       this.onSearchByChange(null);
       console.log(this.warehouseDropDown);
-      if (this.warehouseDropDown.name == "") {
+      if (this.warehouseDropDown?.name == "") {
         this.allSlabsDaTa = this.originalData;
       }
       return (this.allSlabsDaTa = this.allInDropDown);

@@ -11,6 +11,8 @@ import { MessageService } from "primeng/api";
 import { routes } from "src/app/shared/routes/routes";
 import { WarehouseService } from "../../warehouse/warehouse.service";
 import { SharedModule } from "src/app/shared/shared.module";
+import { validationRegex } from "src/app/core/validation";
+
 
 @Component({
   selector: "app-edit-billing-Address",
@@ -69,16 +71,16 @@ export class EditBillingAddressComponent implements OnInit {
   ) {
     this.id = this.activeRoute.snapshot.params["id"];
     this.editBillingAddress = this.fb.group({
-      city: ['', [Validators.required]],
+      city: ['', [Validators.required,Validators.pattern(validationRegex.cityNameRGEX)]],
       setAsDefault: [''],
-      companyName:['',[Validators.required]],
-      postalCode:['',[Validators.required]],
+      companyName:['',[Validators.required, Validators.pattern(validationRegex.companyNameRGEX)]],
+      postalCode:['',[Validators.required,Validators.pattern(validationRegex.postalZipRGEX)]],
       country: ['',[Validators.required]],
-      phoneNumber: ['',[Validators.required]],
-      email:[''],
-      addressLine1:['',[Validators.required]],
-      addressLine2:[''],
-      state:[''],
+      phoneNumber: ['',[Validators.required,Validators.pattern(validationRegex.phoneRGEX)]],
+      email:['',[Validators.pattern(validationRegex.emailRGEX)]],
+      addressLine1:['',[Validators.required,Validators.pattern(validationRegex.addressRegex)]],
+      addressLine2:['',[Validators.pattern(validationRegex.addressRegex)]],
+      state:['',[Validators.required,Validators.pattern(validationRegex.stateRegex)]],
     });
   }
   patchForm(data) {

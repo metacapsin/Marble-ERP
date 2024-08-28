@@ -11,7 +11,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { routes } from "src/app/shared/routes/routes";
 import { MessageService } from "primeng/api";
 import { WarehouseService } from "../../warehouse/warehouse.service";
-import { validationPatterns } from "src/app/core/validation";
+import { validationRegex } from "src/app/core/validation";
 
 @Component({
   selector: "app-add-billing-Address",
@@ -56,16 +56,16 @@ export class AddBillingAddressComponent implements OnInit {
     private service: WarehouseService
   ) {
     this.addBillingAddress = this.fb.group({
-      city: ['', [Validators.required,Validators.pattern(validationPatterns.cityNameRGEX)]],
+      city: ['', [Validators.required,Validators.pattern(validationRegex.cityNameRGEX)]],
       setAsDefault: [''],
-      companyName:['',[Validators.required]],
-      postalCode:['',[Validators.required,Validators.pattern(validationPatterns.postalZipRGEX)]],
+      companyName:['',[Validators.required, Validators.pattern(validationRegex.companyNameRGEX)]],
+      postalCode:['',[Validators.required,Validators.pattern(validationRegex.postalZipRGEX)]],
       country: ['',[Validators.required]],
-      phoneNumber: ['',[Validators.required,Validators.pattern(validationPatterns.phoneRGEX)]],
-      email:['',[Validators.pattern(validationPatterns.emailRGEX)]],
-      addressLine1:['',[Validators.required,Validators.pattern(validationPatterns.addressRegex)]],
-      addressLine2:['',[Validators.pattern(validationPatterns.addressRegex)]],
-      state:[''],
+      phoneNumber: ['',[Validators.required,Validators.pattern(validationRegex.phoneRGEX)]],
+      email:['',[Validators.pattern(validationRegex.emailRGEX)]],
+      addressLine1:['',[Validators.required,Validators.pattern(validationRegex.addressRegex)]],
+      addressLine2:['',[Validators.pattern(validationRegex.addressRegex)]],
+      state:['',[Validators.required,Validators.pattern(validationRegex.stateRegex)]],
     });
   }
   ngOnInit(): void {

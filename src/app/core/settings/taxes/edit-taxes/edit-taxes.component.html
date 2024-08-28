@@ -1,7 +1,7 @@
 <mat-dialog-content class="mat-typography mat-lg" style="width: 100%;">
 
     <div class="m-b-20">
-      <h3>Edit Taxes</h3>
+      <h3>Edit Taxe</h3>
     </div>
   
     <div class="modal-body">
@@ -17,7 +17,7 @@
                 <span class="login-danger">Field is required.</span>
               </div>
               <div *ngIf="editTaxesForm.get('name')?.hasError('pattern') && editTaxesForm.get('name')?.touched">
-                <span class="login-danger">Input must be between 3 to 50 characters.</span>
+                <span class="login-danger">Input must be between 3 to 30 characters.</span>
               </div>
             </div>
           </div>
@@ -31,7 +31,7 @@
                 <span class="login-danger">Field is required.</span>
               </div>
               <div *ngIf="editTaxesForm.get('taxRate')?.hasError('min') && editTaxesForm.get('taxRate')?.touched">
-                <span class="login-danger">Input must be at least 0.</span>
+                <span class="login-danger">Input must be min 0 and max 2 digit number.</span>
               </div>
             </div>
           </div>

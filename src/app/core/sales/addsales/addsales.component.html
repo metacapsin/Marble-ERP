@@ -54,44 +54,44 @@
                 <div *ngIf="!setAddressData && address">
                   <div *ngFor="let addressData of address">
                     <div *ngIf="addressData.setAsDefault" style="line-height: 100%">
-                      <h5>
+                      <h5 *ngIf="addressData.companyName" >
                         {{ addressData.companyName + ' ,' }}
-                      </h5>
-                      <h5 title="address Line 1">
+                      </h5  >
+                      <h5 *ngIf="addressData.addressLine1" title="address Line 1">
                         {{ addressData.addressLine1 + ' ,' }}
-                      </h5>
-                      <h5 title="address Line 2">
+                      </h5 >
+                      <h5  *ngIf="addressData.addressLine2" title="address Line 2">
                         {{ addressData.addressLine2 + ' ,' }}
                       </h5>
                       <h5>
-                        <span title="City">{{ addressData.city }}</span>, <span title="State">{{ addressData.state
+                        <span *ngIf="addressData.city"  title="City">{{ addressData.city }}</span>, <span *ngIf="addressData.state"  title="State">{{ addressData.state
                           }}</span>,
-                        <span title="Postal Code">{{
+                        <span *ngIf="addressData.postalCode"  title="Postal Code">{{
                           addressData.postalCode + ' ,'
                           }}</span>
                       </h5>
-                      <h5 title="Country">{{ addressData.country.name }}</h5>
+                      <h5 *ngIf="addressData.country.name"  title="Country">{{ addressData.country.name }}</h5>
                     </div>
                   </div>
                 </div>
                 <div *ngIf="setAddressData" style="line-height: 100%">
-                  <h5>
+                  <h5 *ngIf="setAddressData.companyName">
                     {{ setAddressData.companyName + ' ,' }}
                   </h5>
-                  <h5 title="address Line 1">
+                  <h5 title="address Line 1" *ngIf="setAddressData.addressLine1">
                     {{ setAddressData.addressLine1 + ' ,' }}
                   </h5>
-                  <h5 title="address Line 2">
+                  <h5 title="address Line 2" *ngIf="setAddressData.addressLine2">
                     {{ setAddressData.addressLine2 + ' ,' }}
                   </h5>
                   <h5>
-                    <span title="City">{{ setAddressData.city }}</span>, <span title="State">{{ setAddressData.state
+                    <span *ngIf="setAddressData.city" title="City">{{ setAddressData.city }}</span>, <span *ngIf="setAddressData.state" title="State">{{ setAddressData.state
                       }}</span>,
-                    <span title="Postal Code">{{
+                    <span *ngIf="setAddressData.postalCode" title="Postal Code">{{
                       setAddressData.postalCode + ' ,'
                       }}</span>
                   </h5>
-                  <h5 title="Country">{{ setAddressData.country.name }}</h5>
+                  <h5 *ngIf="setAddressData.country.name" title="Country">{{ setAddressData.country.name }}</h5>
                 </div>
               </div>
 

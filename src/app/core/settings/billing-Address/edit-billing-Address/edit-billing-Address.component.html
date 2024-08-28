@@ -13,8 +13,6 @@
 <p-toast></p-toast>
 <div class="">
   <div class="content">
-
-
     <!-- <div class="page-header">
       <div class="row">
         <div class="col-sm-12">
@@ -45,18 +43,29 @@
         <div class="card">
           <div class="card-body card-table">
             <div class="page-table-header mb-2">
-
-              <form [formGroup]="editBillingAddress" (ngSubmit)="editBillingAddressForm()">
+              <form
+                [formGroup]="editBillingAddress"
+                (ngSubmit)="editBillingAddressForm()"
+              >
                 <div class="row">
-
                   <div class="row mt-2 mb-2">
                     <div class="col-md-6 col-sm-12">
                       <h3>Edit Billing Address</h3>
                     </div>
                     <div class="col-md-6 col-sm-12 text-end mb-2">
-                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                      [disabled]="!editBillingAddress.valid">Submit</button>
-                    <button class="btn btn-secondary" [routerLink]="['/settings/billing-Address']">Cancel</button>
+                      <button
+                        type="submit"
+                        class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                        [disabled]="!editBillingAddress.valid"
+                      >
+                        Submit
+                      </button>
+                      <button
+                        class="btn btn-secondary"
+                        [routerLink]="['/settings/billing-Address']"
+                      >
+                        Cancel
+                      </button>
                     </div>
                   </div>
 
@@ -108,7 +117,7 @@
                       >
                         Field is required.
                       </div>
-                      <!-- <div
+                      <div
                         *ngIf="
                           editBillingAddress
                             .get('companyName')
@@ -117,16 +126,17 @@
                         "
                         class="login-danger Font_size"
                       >
-                        Input must be between 3 to 50 characters.
-                      </div> -->
+                        Company name should be between 3 to 50 characters.
+                      </div>
                     </div>
                   </div>
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="addressLine1"
-                        >Address Line 1 <span class="login-danger">*</span
-                      ></label>
+                        >Address Line 1
+                        <span class="login-danger">*</span></label
+                      >
                       <input
                         class="form-control"
                         type="addressLine1"
@@ -144,9 +154,20 @@
                       >
                         Field is required.
                       </div>
+                      <div
+                        *ngIf="
+                          editBillingAddress
+                            .get('addressLine1')
+                            ?.hasError('pattern') &&
+                          editBillingAddress.get('addressLine1')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Address should be between 3 to 50 characters.
+                      </div>
                     </div>
                   </div>
-                  
+
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="addressLine2"
@@ -158,6 +179,17 @@
                         placeholder
                         formControlName="addressLine2"
                       />
+                      <div
+                        *ngIf="
+                          editBillingAddress
+                            .get('addressLine2')
+                            ?.hasError('pattern') &&
+                          editBillingAddress.get('addressLine2')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Address should be between 3 to 50 characters.
+                      </div>
                     </div>
                   </div>
 
@@ -203,6 +235,26 @@
                         formControlName="state"
                         placeholder
                       />
+                      <div
+                        *ngIf="
+                          editBillingAddress
+                            .get('state')
+                            ?.hasError('required') &&
+                          editBillingAddress.get('state')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          editBillingAddress.get('state')?.hasError('pattern') &&
+                          editBillingAddress.get('state')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        State name should be between 3 to 50 characters.
+                      </div>
                     </div>
                   </div>
 
@@ -219,25 +271,26 @@
                       />
                       <div
                         *ngIf="
-                          editBillingAddress.get('city')?.hasError('required') &&
+                          editBillingAddress
+                            .get('city')
+                            ?.hasError('required') &&
                           editBillingAddress.get('city')?.touched
                         "
                         class="login-danger Font_size"
                       >
                         Field is required.
                       </div>
-                      <!-- <div
+                      <div
                         *ngIf="
                           editBillingAddress.get('city')?.hasError('pattern') &&
                           editBillingAddress.get('city')?.touched
                         "
                         class="login-danger Font_size"
                       >
-                        Input must be between 3 to 50 characters.
-                      </div> -->
+                        City name should be between 3 to 50 characters.
+                      </div>
                     </div>
                   </div>
-
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
@@ -263,7 +316,7 @@
                       >
                         Field is required.
                       </div>
-                      <!-- <div
+                      <div
                         *ngIf="
                           editBillingAddress
                             .get('postalCode')
@@ -272,8 +325,8 @@
                         "
                         class="login-danger Font_size"
                       >
-                        Input must be between 3 to 50 characters.
-                      </div> -->
+                      Postal Code ( ZIP ) code should be of 6 digits.
+                      </div>
                     </div>
                   </div>
 
@@ -299,7 +352,7 @@
                       >
                         Field is required.
                       </div>
-                      <!-- <div
+                      <div
                         class="login-danger Font_size"
                         *ngIf="
                           editBillingAddress
@@ -308,16 +361,16 @@
                           editBillingAddress.get('phoneNumber')?.touched
                         "
                       >
-                        Please Enter 10-Digit number.
-                      </div> -->
+                      Phone number should be of 10 digits.
+                      </div>
                     </div>
                   </div>
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="email"
-                        >Email <span class="login-danger"></span></label
-                      >
+                        >Email <span class="login-danger"></span
+                      ></label>
                       <input
                         class="form-control"
                         formControlName="email"
@@ -335,16 +388,15 @@
                       >
                         Field is required.
                       </div> -->
-                      <!-- <div
+                      <div
                         *ngIf="
                           editBillingAddress.get('email')?.hasError('pattern') &&
                           editBillingAddress.get('email')?.touched
                         "
                         class="login-danger Font_size"
                       >
-                        Contain Upto 8-16 chars, uppercase, lowercase, digit,
-                        special char.
-                      </div> -->
+                      Please enter a valid email.
+                      </div>
                     </div>
                   </div>
 
@@ -362,16 +414,12 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
               </form>
-
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
   </div>
 </div>

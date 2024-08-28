@@ -16,6 +16,8 @@ export class EditTaxesComponent {
 
   editTaxesForm!:FormGroup;
   taxDataById = []
+  personNameRegex = /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
+
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   constructor(private fb: FormBuilder,
@@ -25,8 +27,8 @@ export class EditTaxesComponent {
     @Inject(MAT_DIALOG_DATA) public _id: any,
   ){
     this.editTaxesForm = this.fb.group({      
-      name: ['',[Validators.required,Validators.pattern(this.nameRegex)]],
-      taxRate: ['', [Validators.required,Validators.min(0)]]
+      name: ['',[Validators.required,Validators.pattern(this.personNameRegex)]],
+      taxRate: ['', [Validators.required, Validators.min(0), Validators.max(99)]]
     })
   }
 
