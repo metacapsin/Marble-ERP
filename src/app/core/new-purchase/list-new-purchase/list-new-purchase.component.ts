@@ -1,4 +1,4 @@
-import { Component} from "@angular/core";
+import { Component, OnChanges, SimpleChanges } from "@angular/core";
 import { SharedModule } from "src/app/shared/shared.module";
 import { routes } from "src/app/shared/routes/routes";
 import { MessageService } from "primeng/api";
@@ -10,17 +10,14 @@ import { PaymentOutService } from "../../payment-out/payment-out.service";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-list-new-purchase',
+  selector: "app-list-new-purchase",
   standalone: true,
-  imports: [
-    SharedModule,
-    InvoiceDialogComponent,
-  ],
-  templateUrl: './list-new-purchase.component.html',
-  styleUrl: './list-new-purchase.component.scss',
+  imports: [SharedModule, InvoiceDialogComponent],
+  templateUrl: "./list-new-purchase.component.html",
+  styleUrl: "./list-new-purchase.component.scss",
   providers: [MessageService],
 })
-export class ListNewPurchaseComponent {
+export class ListNewPurchaseComponent implements OnChanges {
   public routes = routes;
   searchDataValue: any;
   originalData: any;
@@ -36,12 +33,12 @@ export class ListNewPurchaseComponent {
   header = "";
   showInvoiceDialog: boolean = false;
   paymentDataListById: any[] = [];
-  visible: any
+  visible: any;
   purchaseTotalValues: any = {};
   currentUrl: string;
   cols = [];
   exportColumns = [];
-
+  // maxDate = new Date();
   searchByData = [
     "Today",
     "Yesterday",
@@ -51,7 +48,7 @@ export class ListNewPurchaseComponent {
     "Last 6 Months",
     "This Year",
   ];
-  searchBy: string ="This Year";
+  searchBy: string = "This Year";
   rangeDates: Date[] | undefined;
 
   CustomerList = [
@@ -67,13 +64,13 @@ export class ListNewPurchaseComponent {
     private messageService: MessageService,
     private SlabsService: SlabsService,
     private localStorageService: LocalStorageService
-  ) { }
+  ) {}
   ngOnInit() {
     this.currentUrl = this.router.url;
-    console.log(this.currentUrl)
-    console.log("this is current url on purchase page", this.currentUrl)
-    this.localStorageService.removeItem('supplier');
-    this.localStorageService.removeItem('returnUrl');
+    console.log(this.currentUrl);
+    console.log("this is current url on purchase page", this.currentUrl);
+    this.localStorageService.removeItem("supplier");
+    this.localStorageService.removeItem("returnUrl");
 
     // const today = new Date();
     // const endDate = new Date();
@@ -82,7 +79,7 @@ export class ListNewPurchaseComponent {
     // this.rangeDates = [startDate, endDate];
 
     // this.getPurchase(startDate, endDate);
-    this.onSearchByChange(this.searchBy)
+    this.onSearchByChange(this.searchBy);
   }
   getPurchase(startDate: Date, endDate: Date) {
     const formattedStartDate = this.formatDate(startDate);
@@ -96,30 +93,55 @@ export class ListNewPurchaseComponent {
     this.Service.getPurchaseList(data).subscribe((resp: any) => {
       this.purchaseTotalValues = resp;
       this.purchaseData = resp.data;
-
-      this.cols = [
-        { field: "purchaseInvoiceNumber", header: "Purchase Invoice Number" },
-        { field: "purchaseDate", header: "Purchase Date" },
-        { field: "supplier.name", header: "Supplier Name" },
-        { field: "purchaseType", header: "Purchase Type" },
-        { field: "paymentStatus", header: "Payment Status" },
-        { field: "paidAmount", header: "Paid Amount" },
-        { field: "dueAmount", header: "Due Amount" },
-        { field: "purchaseCost", header: "Purchase Cost" },
-        { field: "purchaseNotes", header: "Purchase Notes" },
-        { field: "purchaseTotalAmount", header: "Purchase Total Amount" },
-        { field: "createdOn", header: "Created On" },
-      ];
-
-      this.exportColumns = this.cols.map((col) => ({
-        title: col.header,
-        dataKey: col.field,
-      }));
-      // this.exportColumns = this.purchaseData.map((element) => ({
-      //   title: element.header,
-      //   dataKey: element.field,
+      this.exportCSV();
+      // this.exportColumns = this.cols.map((col) => ({
+      //   title: col.header,
+      //   dataKey: col.field,
       // }));
+      // console.log(this.cols);
+      // console.log(this.purchaseData);
+      // this.exportColumns = this.purchaseData?.map((element) => {
+      //   console.log(element);
+      //   if (this.purchaseData == [])
+      //     return { title: "No purchase records found." };
+      //   return {
+      //     title: element.header,
+      //     dataKey: element.field,
+      //   };
+      // });
+
+      console.log(this.exportColumns);
     });
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.exportCSV();
+  }
+  exportCSV() {
+    console.log(this.purchaseData);
+    this.cols = [
+      { field: "purchaseInvoiceNumber", header: "Purchase Invoice Number" },
+      { field: "purchaseDate", header: "Purchase Date" },
+      { field: "supplier.name", header: "Supplier Name" },
+      { field: "purchaseType", header: "Purchase Type" },
+      { field: "paymentStatus", header: "Payment Status" },
+      { field: "paidAmount", header: "Paid Amount" },
+      { field: "dueAmount", header: "Due Amount" },
+      { field: "purchaseCost", header: "Purchase Cost" },
+      { field: "purchaseNotes", header: "Purchase Notes" },
+      { field: "purchaseTotalAmount", header: "Purchase Total Amount" },
+      { field: "createdOn", header: "Created On" },
+    ];
+    if (!this.purchaseData || this.purchaseData.length === 0) {
+      console.log("object 1");
+      this.exportColumns = [{ title: "No purchase records found." }];
+    } else {
+      console.log(this.purchaseData);
+      console.log("object 2");
+      this.exportColumns = this.purchaseData.map((element) => ({
+        title: element.header,
+        dataKey: element.field,
+      }));
+    }
   }
   purchaseUpdate(id: number) {
     this.router.navigate(["/purchase/edit-purchase/" + id]);
@@ -127,8 +149,8 @@ export class ListNewPurchaseComponent {
 
   navigateToCreatePurchase() {
     const returnUrl = this.router.url;
-    this.router.navigate(['/new-purchase/add-new-purchase']);
-    this.localStorageService.setItem('returnUrl', returnUrl);
+    this.router.navigate(["/new-purchase/add-new-purchase"]);
+    this.localStorageService.setItem("returnUrl", returnUrl);
 
     // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
@@ -145,22 +167,21 @@ export class ListNewPurchaseComponent {
       console.log(this.PurchaseListData);
       console.log(resp);
 
-
       if (resp.data.lotDetail) {
-        this.SlabsService
-          .getBlockDetailByLotId(resp.data.lotDetails._id)
-          .subscribe((resp: any) => {
-            this.blockDetailsTable = resp.data.blockDetails;
-          });
+        this.SlabsService.getBlockDetailByLotId(
+          resp.data.lotDetails._id
+        ).subscribe((resp: any) => {
+          this.blockDetailsTable = resp.data.blockDetails;
+        });
       }
     });
-    this.paymentOutService.getPurchasePaymentListByPurchaseId(id).subscribe(
-      (resp: any) => {
+    this.paymentOutService
+      .getPurchasePaymentListByPurchaseId(id)
+      .subscribe((resp: any) => {
         this.paymentDataListById = resp.data;
         console.log("this is payment by Purchase id", this.paymentDataListById);
         console.log("this is payment data on inovice by id", resp.data);
-      }
-    );
+      });
   }
 
   purchaseDelete(id: number) {
@@ -186,9 +207,7 @@ export class ListNewPurchaseComponent {
     // this.visible = false;
     this.showInvoiceDialog = false;
     this.showDialoge = false;
-
   }
-
 
   // getPurchase(startDate: Date, endDate: Date) {
   //   const formattedStartDate = this.formatDate(startDate);

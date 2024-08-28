@@ -344,11 +344,11 @@
 
     <div class="row">
       <div class="col-md-6">
-        <div class="card p-2 W-50 hidden_over">
+        <div class="card p-2 W-50 hidden_over" style="height: 480px;">
           <div
             class="pLeftpRight pt-2 d-flex justify-content-between align-items-center"
           >
-            <h3>Stock Category</h3>
+            <h3 class="SUBFRONTS">Stock Category</h3>
             <div class="">
               <p-selectButton
                 [options]="stateCategory"
@@ -436,11 +436,12 @@
       </div>
 
       <div class="col-md-6">
-        <div class="card p-2 W-50 hidden_over">
-          <div class="pLeftpRight pt-2 d-flex justify-content-between align-items-center"
-          >
-            <h3>Stock Sub Category</h3>
-            <div class="col-4">
+        <div class="card p-2 W-50 hidden_over" style="height: 480px;">
+          <div class="pLeftpRight pt-2 row">
+            <div class="col-md-4 col-lg-5 col-sm-4">
+              <h3 class="SUBFRONTS">Stock Sub Category</h3>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-4">
               <p-dropdown
                 [options]="orgCategorySlabs"
                 styleClass=""
@@ -452,11 +453,10 @@
                 filterBy="name"
                 [showClear]="true"
                 (onChange)="categoryForDrpdownChange($event.value)"
-                >
-                
+              >
               </p-dropdown>
             </div>
-            <div class="">
+            <div class="col-md-4 col-lg-3 col-sm-4">
               <p-selectButton
                 [options]="stateSubCategory"
                 [(ngModel)]="valueSubCategory"
@@ -537,7 +537,7 @@
                   <td>
                     {{ Product.name }}
                   </td>
-                  <td>{{ Product.totalSQFT | number : "1.2-2"  }} Sq. Feet</td>
+                  <td>{{ Product.totalSQFT | number : "1.2-2" }} Sq. Feet</td>
                 </tr>
               </ng-template>
             </p-table>
@@ -636,7 +636,7 @@
                 <!-- <td>
                   {{ Product.slabDetails.slabNo }}
                 </td> -->
-                <td>{{ Product.totalSQFT}} Sq. Feet</td>
+                <td>{{ Product.totalSQFT }} Sq. Feet</td>
                 <td>{{ Product.percentageSold }} %</td>
                 <td>
                   {{ Product.warehouseDetails.name }}

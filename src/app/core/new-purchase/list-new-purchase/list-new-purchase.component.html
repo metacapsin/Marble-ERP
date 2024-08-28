@@ -149,7 +149,7 @@ hideOnClear="true"  type="text" field="purchaseTotalAmount" display="menu"  ></p
               <div class="row align-items-center">
                 <div class="col">
                   <div class="doctor-table-blk">
-                    <h3>Purchases List</h3>
+                    <h3>Purchase List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
                         <input type="text" class="form-control" placeholder="Search here"
@@ -183,11 +183,13 @@ hideOnClear="true"  type="text" field="purchaseTotalAmount" display="menu"  ></p
                       </p-dropdown>
                     </div>
                   </div>
-
+                  
+                  <!-- [maxDate]="maxDate"  -->
                   <div class="col-lg-4 col-md-4 h-2">
                     <div class="form-group local-forms">
                       <label for="warehouseDetails">Date </label>
-                      <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                      <p-calendar [(ngModel)]="rangeDates" 
+                      selectionMode="range" [readonlyInput]="true"
                         dateFormat="dd/mm/yy" [style]="{ width: '100%' }" placeholder="Start Date - End Date"
                         (ngModelChange)="onDateChange($event)" />
                     </div>
