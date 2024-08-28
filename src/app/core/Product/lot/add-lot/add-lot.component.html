@@ -213,7 +213,7 @@
               <div class="col-xl-6 col-lg-6 col-sm-6">
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                    Average Area / Ton
+                    Average Size / Ton
                   </h5>
                   <div class="col-lg-6 col-md-6 col-xl-6">
                     <p class="col-lg-6 col-form-label heading-bold">
@@ -423,7 +423,7 @@
                   <span class="login-danger">Field is required.</span>
                 </div>
                 <div *ngIf="HEIGHT.errors?.['min'] || HEIGHT.errors?.['max']">
-                  <span class="login-danger">Input must be between 1 to 500 characters.</span>
+                  <span class="login-danger">Height must be a number between 1 and 500.</span>
                 </div>
               </div>
             </div>
@@ -445,7 +445,7 @@
                   <span class="login-danger">Field is required.</span>
                 </div>
                 <div *ngIf="WIDTH.errors?.['min'] || WIDTH.errors?.['max']">
-                  <span class="login-danger">Input must be between 1 to 500 characters.</span>
+                  <span class="login-danger">Width must be a number between 1 and 500.</span>
                 </div>
               </div>
             </div>
@@ -467,7 +467,7 @@
                   <span class="login-danger">Field is required.</span>
                 </div>
                 <div *ngIf="LENGTH.errors?.['min'] || LENGTH.errors?.['max']">
-                  <span class="login-danger">Input must be between 1 to 500 characters.</span>
+                  <span class="login-danger">Input must be a number between 1 and 500.</span>
                 </div>
               </div>
             </div>

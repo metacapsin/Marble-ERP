@@ -1,7 +1,7 @@
 <mat-dialog-content class="mat-typography mat-lg" style="width: 100%;">
 
   <div class="m-b-20">
-    <h3>Add Taxes</h3>
+    <h3>Add Taxe</h3>
   </div>
 
   <div class="modal-body">
@@ -22,19 +22,6 @@
           </div>
         </div>
 
-        <!-- <div class="col-md-6">
-          <div class="form-group local-forms">
-            <label for="name">Tax Type <span class="login-danger">*</span></label>
-            <p-dropdown [options]="taxesTypes" styleClass="" appendTo="body" optionLabel="value" optionValue="value"
-              placeholder="Select  Type" formControlName="taxType" [style]="{'width':'100%'}" [showClear]="true">
-            </p-dropdown>
-
-            <div *ngIf="addTaxesForm.get('taxType')?.hasError('required') && addTaxesForm.get('taxType')?.touched">
-              <span class="login-danger">Tax Type is reqiured</span>
-            </div>
-          </div>
-        </div> -->
-
         <div class="col-md-6">
           <div class="form-group local-forms">
             <label for="taxRate">Tax Rate <span class="login-danger">*</span></label>
@@ -44,21 +31,21 @@
               <span class="login-danger">Field is required.</span>
             </div>
             <div *ngIf="addTaxesForm.get('taxRate')?.hasError('min') && addTaxesForm.get('taxRate')?.touched">
-              <span class="login-danger">Input must be min 0 and max 2 digit number.</span>
+              <span class="login-danger">Input must be more than 0.</span>
+            </div>
+            <div *ngIf="addTaxesForm.get('taxRate')?.hasError('max') && addTaxesForm.get('taxRate')?.touched">
+              <span class="login-danger">Input must be less than 100.</span>
             </div>
           </div>
         </div>
 
 
-
-        <div class=" col-12">
-
+        <div class="col-12">
           <div class=" settings-btns text-end m-b-10">
             <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
               [disabled]="!addTaxesForm.valid">Submit</button>
             <button class="btn btn-secondary" [mat-dialog-close]="true">Cancel</button>
           </div>
-
         </div>
 
       </div>

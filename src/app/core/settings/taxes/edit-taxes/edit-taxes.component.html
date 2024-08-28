@@ -31,7 +31,10 @@
                 <span class="login-danger">Field is required.</span>
               </div>
               <div *ngIf="editTaxesForm.get('taxRate')?.hasError('min') && editTaxesForm.get('taxRate')?.touched">
-                <span class="login-danger">Input must be min 0 and max 2 digit number.</span>
+                <span class="login-danger">Input must be more than 0.</span>
+              </div>
+              <div *ngIf="editTaxesForm.get('taxRate')?.hasError('max') && editTaxesForm.get('taxRate')?.touched">
+                <span class="login-danger">Input must be less than 100.</span>
               </div>
             </div>
           </div>

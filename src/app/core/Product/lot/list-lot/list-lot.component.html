@@ -49,8 +49,8 @@
                                     <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
                                             alt=""></a> -->
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                                            alt=""  pTooltip="Download data in CSV file "
-                      tooltipPosition="left" tooltipStyleClass="tooltip" (click)="dt.exportCSV()"></a>
+                                            alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
+                                            tooltipStyleClass="tooltip" (click)="dt.exportCSV()"></a>
                                     <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
                                 </div>
@@ -77,9 +77,9 @@
                             <p-table
                                 [value]="lotData | filter:searchDataValue:['date', 'lotName','lotNo','lotWeight','pricePerTon','blocksCount','lotTotalCosting',]"
                                 [tableStyle]="{'min-width': '60rem'}" [paginator]="lotData?.length >= 5" [rows]="10"
-                                [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot" 
-                                styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)" #dt [columns]="cols" 
-                                [exportHeader]="'customExportHeader'" exportFilename="Lot">
+                                [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot"
+                                styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)"
+                                #dt [columns]="cols" [exportHeader]="'customExportHeader'" exportFilename="Lot">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>
@@ -134,12 +134,8 @@
                                         <td>{{lot.warehouseDetails.name}}</td>
                                         <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                                             <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View"
-                                            tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                                                tooltipPosition="bottom" tooltipStyleClass="tooltip"
                                                 (click)="showLotDetails(lot._id)"></p-button>
-                                            <!-- <p-button [text]="true" icon="fa-solid fa-edit" *ngIf="!isAnyBlockProcessed(lot.blockDetails)"
-                                                (click)="editPage(lot._id)"></p-button>
-                                            <p-button [text]="true" icon="fa-solid fa-trash" *ngIf="!isAnyBlockProcessed(lot.blockDetails)"
-                                                (click)="deleteLot(lot._id)"></p-button> -->
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -174,7 +170,7 @@
 
 <!-- --------------- lot Details PopUp --------------- -->
 
-<p-dialog header="Blocks Details" [(visible)]="lotVisible" [modal]="true" [style]="{width: '80vw'}">
+<p-dialog header="Block Details" [(visible)]="lotVisible" [modal]="true" [style]="{width: '80vw'}">
     <div class="modal-content">
         <div class="modal-body">
             <div class="card-body p-2">
@@ -182,28 +178,17 @@
                     [tableStyle]="{'min-width': '80rem'}" selectionMode="multiple">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="blockNo">Block Number
-                            </th>
-                            <th pSortableColumn="height">Height (Inch)
-                            </th>
-                            <th pSortableColumn="width">Width (Inch)
-                            </th>
-                            <th pSortableColumn="length">Length (Inch)
-                            </th>
-                            <th pSortableColumn="totalArea">Total Area (Inch)
-                            </th>
-                            <th pSortableColumn="weightPerBlock">Weight/Block
-                            </th>
-                            <th pSortableColumn="rawCosting">Raw Cost
-                            </th>
-                            <th pSortableColumn="transportationCosting">Transportation Cost
-                            </th>
-                            <th pSortableColumn="royaltyCosting">Royalty Cost
-                            </th>
-                            <th pSortableColumn="totalCosting">Total Cost
-                            </th>
-                            <th pSortableColumn="isProcessed">Processed
-                            </th>
+                            <th>Block Number </th>
+                            <th>Height (Inch) </th>
+                            <th>Width (Inch) </th>
+                            <th>Length (Inch) </th>
+                            <th>Total Area (Inch) </th>
+                            <th>Weight/Block </th>
+                            <th>Raw Cost </th>
+                            <th>Transportation Cost </th>
+                            <th>Royalty Cost </th>
+                            <th>Total Cost </th>
+                            <th>Processed </th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-data>
