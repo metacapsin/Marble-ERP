@@ -32,6 +32,7 @@ export class ExpensesCategoriesComponent {
   visible1: boolean = false;
   cols = [];
   exportColumns = [];
+  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
 
   descriptionRegex = /^.{3,500}$/s;
 
@@ -41,11 +42,11 @@ export class ExpensesCategoriesComponent {
     private fb: FormBuilder
   ) {
     this.addExpensesCategoryForm = this.fb.group({
-      categoryName: ["", [Validators.required]],
+      categoryName: ["", [Validators.required,Validators.pattern(this.nameRegex)]],
       categoryDescription: ["", [Validators.pattern(this.descriptionRegex)]],
     });
     this.editExpensesCategoryForm = this.fb.group({
-      categoryName: ["", [Validators.required]],
+      categoryName: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
       categoryDescription: ["", [Validators.pattern(this.descriptionRegex)]],
     });
   }
@@ -172,7 +173,7 @@ export class ExpensesCategoriesComponent {
         (resp: any) => {
           if (resp.status === "success") {
             this.closeDialogEdit();
-            const message = "Expenses Category has been updated";
+            const message = "Expense Category has been updated";
             this.messageService.add({ severity: "success", detail: message });
             this.getExpenses();
           } else {

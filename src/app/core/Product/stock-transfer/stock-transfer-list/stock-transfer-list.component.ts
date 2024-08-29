@@ -237,7 +237,7 @@ export class StockTransferListComponent implements OnInit {
       this.addStockTransferForm.value.currentQty
     ) {
       const message =
-        "Transfer Quantity Can not be more then Current Quantity.";
+        "Transfer Quantity Can not be more than Current Quantity.";
       this.messageService.add({ severity: "error", detail: message });
     } else {
       const payload = {

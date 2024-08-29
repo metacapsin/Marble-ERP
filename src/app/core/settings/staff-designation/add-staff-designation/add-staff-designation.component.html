@@ -16,7 +16,7 @@
                 <span class="login-danger">Field is required</span>
               </div>
               <div *ngIf="addDesignationForm.get('designation')?.hasError('pattern') && addDesignationForm.get('designation')?.touched">
-                <span class="login-danger">Input must be between 3 to 50 characters.</span>
+                <span class="login-danger">Designation name should be between 3 to 30 characters.</span>
               </div>
             </div>
           </div>
@@ -27,7 +27,7 @@
               <textarea class="form-control" type="text" formControlName="description" placeholder=""></textarea>
               <div
                 *ngIf="addDesignationForm.get('description')?.hasError('pattern') && addDesignationForm.get('description')?.touched">
-                <span class="login-danger">Input must be between 3 to 500 characters.</span>
+                <span class="login-danger">Description should be between 3 to 500 characters.</span>
               </div>
             </div>
           </div>

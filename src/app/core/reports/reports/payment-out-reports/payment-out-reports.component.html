@@ -88,7 +88,8 @@
                   [roles]="['admin', 'super-admin']">
                   <!-- <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"  pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip"  alt="" /></a> -->
                   <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"><img
-                      src="assets/img/icons/pdf-icon-03.svg"   pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip" alt="" /></a>
+                      src="assets/img/icons/pdf-icon-03.svg" pTooltip="Download data in CSV file "
+                      tooltipPosition="left" tooltipStyleClass="tooltip" alt="" /></a>
                 </div>
               </div>
 
@@ -108,7 +109,8 @@
                     <div class="form-group local-forms">
                       <label for="warehouseDetails">Date </label>
                       <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
-                        dateFormat="dd/mm/yy" [style]="{ width: '100%' }" placeholder="Start Date - End Date"  (ngModelChange)="onDateChange($event)"/>
+                        dateFormat="dd/mm/yy" [style]="{ width: '100%' }" placeholder="Start Date - End Date"
+                        (ngModelChange)="onDateChange($event)" />
                     </div>
                   </div>
                 </div>
@@ -129,10 +131,10 @@
                           'paymentMode',
                           'amount'
                         ]
-                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="originalData?.length >= 5"
-                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols" selectionMode="multiple"
-                [exportHeader]="'customExportHeader'" exportFilename="Payment Out Reports"
-                (onFilter)="onFilter($event)">
+                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
+                [paginator]="originalData?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt
+                [columns]="cols" selectionMode="multiple" [exportHeader]="'customExportHeader'"
+                exportFilename="Payment Out Reports" (onFilter)="onFilter($event)">
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="paymentDate">
@@ -178,7 +180,7 @@
                     <td *ngIf="data.supplier">{{ data?.supplier.name }}</td>
                     <td *ngIf="!data.supplier && !data.customer "></td>
                     <td>{{ data.paymentMode }}</td>
-                    <td *ngIf="data.amount">{{'₹' + ' ' + data.amount  }}</td>
+                    <td *ngIf="data.amount">{{'₹' + ' ' + data.amount }}</td>
                     <td *ngIf="!data.amount"></td>
                   </tr>
                 </ng-template>

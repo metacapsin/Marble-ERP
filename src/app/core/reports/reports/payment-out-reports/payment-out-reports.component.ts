@@ -86,9 +86,7 @@ export class PaymentOutReportComponent {
   onDateChange(value: any): void {
     const startDate = value[0];
     const endDate = value[1];
-    // if (startDate && endDate) {
     this.getPaymentOutReportData(startDate, endDate);
-    // }
   }
 
   ngOnInit(): void {
@@ -150,7 +148,9 @@ export class PaymentOutReportComponent {
         endDate = null;
         break;
     }
-    this.rangeDates = [startDate, endDate];
+        // Clear the date range selection when a filter is applied
+
+    this.rangeDates = [];
     this.getPaymentOutReportData(startDate, endDate);
   }
 

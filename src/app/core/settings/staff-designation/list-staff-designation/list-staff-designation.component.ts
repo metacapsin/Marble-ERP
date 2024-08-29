@@ -98,7 +98,7 @@ export class ListStaffDesignationComponent {
     this.expenseId = Id;
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Staff Designation",
+      messege: "Are you sure you want to delete this Designation",
     };
     this.showNewDialog();
   }

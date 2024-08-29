@@ -56,7 +56,7 @@ export class EditExpensesComponent {
       categoryDetails: ["", [Validators.required]],
       date: ["", [Validators.required]],
       recipient: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
-      amount: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
+      amount: ["", [Validators.required, Validators.min(1), Validators.max(100000)]],
       notes: ["", [Validators.pattern(this.descriptionRegex)]],
     });
     this.id = this.activeRoute.snapshot.params["id"];

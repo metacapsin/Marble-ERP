@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableModule } from "@angular/material/table";
@@ -63,7 +63,9 @@ export class SubCategoriesListComponent {
   ) {}
 
   openAddDialog() {
-    const dialogRef = this.dialog.open(AddSubCategoriesComponent);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true; // Prevent closing with escape key
+    const dialogRef = this.dialog.open(AddSubCategoriesComponent,dialogConfig);
     dialogRef.afterClosed().subscribe((dialog) => {
       if (dialog === true) return;
       this.service.CreateSubCategories(dialog).subscribe((resp: any) => {
@@ -80,9 +82,10 @@ export class SubCategoriesListComponent {
   }
   openEditDialog(Id: string) {
     if (!Id) return;
-    const dialogRef = this.dialog.open(EditSubCategoriesComponent, {
-      data: Id,
-    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true; // Prevent closing with escape key
+    dialogConfig.data = Id; // Pass ID to the dialog
+    const dialogRef = this.dialog.open(EditSubCategoriesComponent,dialogConfig)
 
     dialogRef.afterClosed().subscribe((dialog) => {
       if (dialog === true) return;

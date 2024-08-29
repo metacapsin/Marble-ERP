@@ -22,9 +22,7 @@ import { SlabsService } from "../../slabs/slabs.service";
   templateUrl: "./stock-adjustment-list.component.html",
   styleUrl: "./stock-adjustment-list.component.scss",
   standalone: true,
-  imports: [
-    SharedModule,
-  ],
+  imports: [SharedModule],
   providers: [MessageService],
 })
 export class StockAdjustmentListComponent implements OnInit {
@@ -39,7 +37,7 @@ export class StockAdjustmentListComponent implements OnInit {
   modalData: any = {};
   stockAdjustmentId: any;
   searchDataValue = "";
-  stockAdjustmentData = 'stockAdjustmentData'
+  stockAdjustmentData = "stockAdjustmentData";
   selectedlot = "";
   showData: any;
   warehouseData: any = [];
@@ -50,7 +48,7 @@ export class StockAdjustmentListComponent implements OnInit {
     { name: "Subtract", value: "subtract" },
   ];
   searchByWarehouseData: any = [];
-  searchBy: any ;
+  searchBy: any;
   descriptionRegex = /^(?!\s)(?:.{1,250})$/;
   cols = [];
   exportColumns = [];
@@ -69,7 +67,10 @@ export class StockAdjustmentListComponent implements OnInit {
       currentQty: [""],
       quantity: ["", [Validators.required, Validators.min(1)]],
       adjustmentType: ["", [Validators.required]],
-      note: ["", [Validators.required,Validators.pattern(this.descriptionRegex)]],
+      note: [
+        "",
+        [Validators.required, Validators.pattern(this.descriptionRegex)],
+      ],
     });
     this.editStockAdjustmentForm = this.fb.group({
       warehouse: ["", [Validators.required]],
@@ -77,23 +78,26 @@ export class StockAdjustmentListComponent implements OnInit {
       currentQty: [""],
       quantity: ["", [Validators.required, Validators.min(1)]],
       adjustmentType: ["", [Validators.required]],
-      note: ["", [Validators.required,Validators.pattern(this.descriptionRegex)]],
+      note: [
+        "",
+        [Validators.required, Validators.pattern(this.descriptionRegex)],
+      ],
     });
   }
 
-  onSearchByChange(value: any): void{
-    console.log("value asyock adjustment", value);
-    if(value === null){
-      return this.stockAdjustmentDataList = this.originalData;
+  onSearchByChange(value: any): void {
+    console.log("value stock adjustment", value);
+    if (value === null) {
+      return (this.stockAdjustmentDataList = this.originalData);
     } else {
-    this.stockAdjustmentDataList = this.originalData.map(i => { 
-      if(i.warehouse._id === value._id){
-        return i
-      }
-     });
+      this.stockAdjustmentDataList = this.originalData.map((i) => {
+        if (i.warehouse._id === value._id) {
+          return i;
+        }
+      });
     }
   }
-  
+
   getAdjustmentList(): void {
     this.service.getAdjustmentList().subscribe((resp: any) => {
       this.stockAdjustmentDataList = resp.data;
@@ -120,13 +124,13 @@ export class StockAdjustmentListComponent implements OnInit {
       //   title: element.header,
       //   dataKey: element.field,
       // }));
-      console.log("original data",this.originalData);
+      console.log("original data", this.originalData);
     });
   }
 
   onFilter(value: any) {
     this.stockAdjustmentDataList = value.filteredValue;
-}
+  }
 
   ngOnInit(): void {
     this.getAdjustmentList();
@@ -277,8 +281,8 @@ export class StockAdjustmentListComponent implements OnInit {
     );
   }
   searchData() {
-    if(this.searchDataValue  == ''){
-      return this.stockAdjustmentDataList = this.originalData;
+    if (this.searchDataValue == "") {
+      return (this.stockAdjustmentDataList = this.originalData);
     }
   }
 }

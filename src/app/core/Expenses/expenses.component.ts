@@ -88,7 +88,7 @@ this.expenseId = Id;
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Expenses"
+      messege: "Are you sure you want to delete this Expense"
     }
     this.showDialoge = true;
   }

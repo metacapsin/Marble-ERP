@@ -6,7 +6,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
 import { staffService } from "../staff-service.service";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from "@angular/forms";
 import { routes } from "src/app/shared/routes/routes";
 import { Router } from "@angular/router";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
@@ -62,11 +62,30 @@ export class StaffAddComponent {
     private warehouseService: WarehouseService,
     private StaffDesignationService:StaffDesignationService
   ) {
+    // Define the age validator function
+    const ageValidator: ValidatorFn = (control: AbstractControl): { [key: string]: any } | null => {
+      if (!control.value) {
+        return null; // Don't validate empty values
+      }
+      
+      const dob = new Date(control.value);
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const month = today.getMonth() - dob.getMonth();
+      
+      if (month < 0 || (month === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+
+      return age >= 18 ? null : { 'ageInvalid': { value: control.value } };
+    };
+
+
     this.addStaffForm = this.fb.group({
       upiId: ["", [Validators.pattern(this.REGX_For_UID)]],
-      dateOfBirth: [""],
+      dateOfBirth: ["", [Validators.required,ageValidator]], // Apply the custom validator
       idNumber: [""],
-      idType: [""],
+      idType: ["", Validators.required],
       status: [],
       warehouseDetails: ["", Validators.required],
       firstName: [

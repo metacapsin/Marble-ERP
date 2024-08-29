@@ -1168,7 +1168,7 @@
 
                             <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Lot'">
                               <h4>
-                                Total Purchase Cost.
+                                Total Purchase Cost 
                                 <span>
                                   {{ ItemDetails?.lotTotalCost
                                   ? '₹ ' + (ItemDetails.lotTotalCost | indianCurrency)
@@ -1180,7 +1180,7 @@
                             </div>
                             <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Slab'">
                               <h4>
-                                Total Purchase Cost.
+                                Total Purchase Cost
                                 <span>
                                   {{ addNewPurchaseForm.get("totalCosting")?.value
                                   ? ('₹ ' + (addNewPurchaseForm.get("totalCosting")?.value | indianCurrency))

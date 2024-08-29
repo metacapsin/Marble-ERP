@@ -8,7 +8,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Expenses Categories</li>
+                        <li class="breadcrumb-item active">Expense Categories</li>
                         <li class="breadcrumb-item">
                             <!-- <i class="feather icon-chevron-right"></i> -->
                         </li>
@@ -24,7 +24,7 @@
                         <div class="row align-items-center">
                             <div class="col">
                                 <div class="doctor-table-blk">
-                                    <h3>Expenses Categories List</h3>
+                                    <h3>Expense Categories List</h3>
                                     <div class="doctor-search-blk col-md-6">
                                         <div class="top-nav-search table-search-blk me-3">
                                             <input type="text" class="form-control" placeholder="Search here"
@@ -109,7 +109,7 @@ hideOnClear="true"  type="text" field="categoryDescription"
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
     [data]="modalData"></app-confirm-dialog>
 
-<p-dialog header="Add Expenses Categories" [(visible)]="visible" [modal]="true" [style]="{ 'min-width': '2rem' }">
+<p-dialog header="Add Expense Category" [(visible)]="visible" [modal]="true" [style]="{ 'min-width': '2rem' }">
     <div class="modal-content">
         <div class="modal-body">
             <form [formGroup]="addExpensesCategoryForm" (ngSubmit)="addExpensesCategoryFormsubmit()">
@@ -128,7 +128,11 @@ hideOnClear="true"  type="text" field="categoryDescription"
                 " class="login-danger Font_size">
                                 Field is required.
                             </div>
+                            <div *ngIf="addExpensesCategoryForm.get('categoryName')?.hasError('pattern') && addExpensesCategoryForm.get('categoryName')?.touched">
+                                <span class="login-danger">Expense Category name should be between 3 to 50 characters</span>
+                              </div>
                         </div>
+
                     </div>
 
                     <div class="col-12 col-md-12 col-xl-12">
@@ -140,8 +144,7 @@ hideOnClear="true"  type="text" field="categoryDescription"
                                 addExpensesCategoryForm.get('categoryDescription')?.hasError('pattern') &&
                                 addExpensesCategoryForm.get('categoryDescription')?.touched
                               ">
-                                                        <span class="login-danger">Input Must be between 3 to 500
-                                                            characters.</span>
+                                                        <span class="login-danger">Description must be between 3 to 500 characters.</span>
                                                     </div>
                         </div>
                     </div>
@@ -190,6 +193,9 @@ hideOnClear="true"  type="text" field="categoryDescription"
             " class="login-danger Font_size">
                                 Field is required.
                             </div>
+                            <div *ngIf="editExpensesCategoryForm.get('categoryName')?.hasError('pattern') && editExpensesCategoryForm.get('categoryName')?.touched">
+                                <span class="login-danger">Expense Category name should be between 3 to 50 characters</span>
+                              </div>
                         </div>
                     </div>
 
@@ -202,8 +208,7 @@ hideOnClear="true"  type="text" field="categoryDescription"
                                 editExpensesCategoryForm.get('categoryDescription')?.hasError('pattern') &&
                                 editExpensesCategoryForm.get('categoryDescription')?.touched
                               ">
-                                                        <span class="login-danger">Input Must be between 3 to 500
-                                                            characters.</span>
+                                                        <span class="login-danger">Description must be between 3 to 500 characters.</span>
                                                     </div>
 
                         </div>

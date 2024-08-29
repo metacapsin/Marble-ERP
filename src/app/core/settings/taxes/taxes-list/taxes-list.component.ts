@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { RouterModule } from "@angular/router";
 import { TableModule } from "primeng/table";
 import { routes } from "src/app/shared/routes/routes";
@@ -44,7 +44,9 @@ export class TaxesListComponent {
   ) {}
 
   openAddDialog() {
-    const dialogRef = this.dialog.open(AddTaxesComponent);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true; // Prevent closing with escape key
+    const dialogRef = this.dialog.open(AddTaxesComponent,dialogConfig);
     dialogRef.afterClosed().subscribe((dialog) => {
       if (dialog === true) return;
       this.service.CreateTax(dialog).subscribe((resp: any) => {
@@ -61,9 +63,11 @@ export class TaxesListComponent {
   }
   openEditDialog(Id: string) {
     if (!Id) return;
-    const dialogRef = this.dialog.open(EditTaxesComponent, {
-      data: Id,
-    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true; // Prevent closing with escape key
+    dialogConfig.data = Id; // Pass ID to the dialog
+
+    const dialogRef = this.dialog.open(EditTaxesComponent,dialogConfig) 
 
     dialogRef.afterClosed().subscribe((dialog) => {
       if (dialog === true) return;

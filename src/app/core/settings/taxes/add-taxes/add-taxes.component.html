@@ -1,7 +1,7 @@
 <mat-dialog-content class="mat-typography mat-lg" style="width: 100%;">
 
   <div class="m-b-20">
-    <h3>Add Taxe</h3>
+    <h3>Add Tax</h3>
   </div>
 
   <div class="modal-body">
@@ -17,7 +17,7 @@
               <span class="login-danger">Field is required.</span>
             </div>
             <div *ngIf="addTaxesForm.get('name')?.hasError('pattern') && addTaxesForm.get('name')?.touched">
-              <span class="login-danger">Input must be between 3 to 30 characters.</span>
+              <span class="login-danger">Tax name must be between 3 to 30 characters.</span>
             </div>
           </div>
         </div>

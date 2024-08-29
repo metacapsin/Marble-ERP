@@ -127,6 +127,12 @@
                       [styleClass]="'col-12'"
                       formControlName="dateOfBirth"
                     ></p-calendar>
+                    <div *ngIf="addStaffForm.get('dateOfBirth')?.hasError('required') && addStaffForm.get('dateOfBirth')?.touched">
+                      <span class="login-danger">Field is required.</span>
+                    </div>
+                    <div *ngIf="addStaffForm.get('dateOfBirth')?.hasError('ageInvalid') && addStaffForm.get('dateOfBirth')?.touched">
+                      <span class="login-danger">You must be at least 18 years old.</span>
+                    </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
@@ -138,7 +144,7 @@
                       class="form-control"
                       formControlName="mobile"
                       placeholder="Enter Mobile"
-                      type="number"
+                      type="tel"
                     />
                     <div
                       *ngIf="
@@ -156,7 +162,7 @@
                       "
                       class="login-danger Font_size"
                     >
-                      Input must be 10 Digit.
+                    Mobile Number must be of 10 digits
                     </div>
                   </div>
                 </div>
@@ -192,7 +198,7 @@
                 <div class="col-12 col-md-6 col-xl-4">
                   <div class="form-group local-forms">
                     <label for="warehouseDetails"
-                      >WareHouse <span class="login-danger">*</span></label
+                      >Warehouse <span class="login-danger">*</span></label
                     >
                     <p-dropdown
                       [style]="{ width: '100%' }"
@@ -265,6 +271,12 @@
                       [showClear]="true"
                     >
                     </p-dropdown>
+                    <div *ngIf="
+                    addStaffForm.get('idType')?.hasError('required') &&
+                    addStaffForm.get('idType')?.touched
+                  " class="login-danger Font_size">
+                  Field is required.
+                </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
@@ -278,6 +290,9 @@
                       type="text"
                       placeholder="Enter Id Number"
                     />
+                    <div *ngIf="addStaffForm.get('idNumber')?.hasError('pattern') && addStaffForm.get('idNumber')?.touched">
+                      <span class="login-danger">Please enter a valid ID number for the selected ID type.</span>
+                    </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">

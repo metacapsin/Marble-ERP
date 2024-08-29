@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { RouterModule } from "@angular/router";
 import { MessageService } from "primeng/api";
 import { TableModule } from "primeng/table";
@@ -43,12 +43,17 @@ export class CategoriesListComponent {
   ) {}
 
   openAddDialog() {
-    const dialogRef = this.dialog.open(AddCategoriesComponent);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true; // Prevent closing with escape key
+    const dialogRef = this.dialog.open(AddCategoriesComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((dialog) => {
       if (dialog === true) return;
       this.service.CreateCategories(dialog).subscribe((resp: any) => {
         if (resp.status === "success") {
-          this.messageService.add({ severity: "success", detail: resp.message });
+          this.messageService.add({
+            severity: "success",
+            detail: resp.message,
+          });
           this.getCategoriesData();
         } else {
           const message = resp.message;
@@ -59,16 +64,21 @@ export class CategoriesListComponent {
   }
   openEditDialog(categoryID: string) {
     if (!categoryID) return;
-    const dialogRef = this.dialog.open(EditCategoriesComponent, {
-      data: categoryID,
-    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true; // Prevent closing with escape key
+    dialogConfig.data = categoryID; // Pass categoryID to the dialog
+
+    const dialogRef = this.dialog.open(EditCategoriesComponent,dialogConfig)
 
     dialogRef.afterClosed().subscribe((dialog) => {
       if (dialog === true) return;
       dialog.id = categoryID;
       this.service.updateCategories(dialog).subscribe((resp: any) => {
         if (resp.status === "success") {
-          this.messageService.add({ severity: "success", detail: resp.message });
+          this.messageService.add({
+            severity: "success",
+            detail: resp.message,
+          });
           this.getCategoriesData();
         } else {
           const message = resp.message;

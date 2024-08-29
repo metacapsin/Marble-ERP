@@ -4,7 +4,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { CalendarModule } from "primeng/calendar";
 import { DropdownModule } from "primeng/dropdown";
 import { ToastModule } from "primeng/toast";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { staffService } from "../staff-service.service";
@@ -76,9 +76,28 @@ export class StaffEditComponent {
     private warehouseService: WarehouseService,
     private StaffDesignationService:StaffDesignationService
   ) {
+     // Define the age validator function
+     const ageValidator: ValidatorFn = (control: AbstractControl): { [key: string]: any } | null => {
+      if (!control.value) {
+        return null; // Don't validate empty values
+      }
+      
+      const dob = new Date(control.value);
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const month = today.getMonth() - dob.getMonth();
+      
+      if (month < 0 || (month === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+
+      return age >= 18 ? null : { 'ageInvalid': { value: control.value } };
+    };
+
+
     this.editStaffForm = this.fb.group({
       upiId: ["", [Validators.pattern(this.REGX_For_UID)]],
-      dateOfBirth: ["", Validators.required],
+      dateOfBirth: ["", [Validators.required,ageValidator]], // Apply the custom validator
       idNumber: ["", Validators.required],
       status: ["",],
       idType: ["", Validators.required],
