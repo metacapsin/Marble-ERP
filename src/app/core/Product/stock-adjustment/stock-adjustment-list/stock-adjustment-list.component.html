@@ -302,7 +302,7 @@
                   addStockAdjustmentForm.get('quantity')?.hasError('min') &&
                   addStockAdjustmentForm.get('quantity')?.touched
                 ">
-                <span class="login-danger">Input must be 1.</span>
+                <span class="login-danger">Adjustment Quantity should be greater than 0.</span>
               </div>
             </div>
           </div>
@@ -316,6 +316,12 @@
                   addStockAdjustmentForm.get('note')?.touched
                 ">
                 <span class="login-danger">Input must be between 1 to 250 characters.</span>
+              </div>
+              <div *ngIf="
+              addStockAdjustmentForm.get('note')?.hasError('required') &&
+              addStockAdjustmentForm.get('note')?.touched
+                ">
+                <span class="login-danger">Field is required.</span>
               </div>
             </div>
           </div>
@@ -410,7 +416,7 @@
                   editStockAdjustmentForm.get('quantity')?.hasError('min') &&
                   editStockAdjustmentForm.get('quantity')?.touched
                 ">
-                <span class="login-danger">Input must be 1.</span>
+                <span class="login-danger">Adjustment Quantity should be greater than 0.</span>
               </div>
             </div>
           </div>
@@ -423,6 +429,12 @@
                   editStockAdjustmentForm.get('note')?.touched
                 ">
                 <span class="login-danger">Input must be between 1 to 250 characters.</span>
+              </div>
+              <div *ngIf="
+                  editStockAdjustmentForm.get('note')?.hasError('required') &&
+                  editStockAdjustmentForm.get('note')?.touched
+                ">
+                <span class="login-danger">Field is required.</span>
               </div>
             </div>
           </div>

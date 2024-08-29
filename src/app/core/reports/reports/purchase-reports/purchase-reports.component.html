@@ -67,9 +67,9 @@
                   <!-- <a href="javascript:;" class="me-2"
                     ><img src="assets/img/icons/pdf-icon-01.svg" pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip"  alt=""
                   /></a> -->
-                  <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"><img
-                      src="assets/img/icons/pdf-icon-03.svg" pTooltip="Download data in CSV file "
-                      tooltipPosition="left" tooltipStyleClass="tooltip" alt="" /></a>
+                  <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"
+                    ><img src="assets/img/icons/pdf-icon-03.svg"   pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip" alt=""
+                  /></a>
                 </div>
               </div>
 
@@ -96,7 +96,8 @@
                 </div>
 
                 <div class="card-body p-2">
-                  <p-table [value]="
+                  <p-table
+                    [value]="
                     originalData
                         | filter
                           : searchDataValue
@@ -107,7 +108,8 @@
                               'paidAmount',
                               'dueAmount',
                               'purchaseCost',
-                              'purchaseTotalAmount'
+                              'purchaseTotalAmount',
+                              'paymentStatus'
                             ]
                     " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
                     [paginator]="originalData?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt
@@ -129,8 +131,13 @@
                         </th>
                         <th pSortableColumn="supplier.name">
                           Supplier <p-sortIcon field="supplier.name"></p-sortIcon>
-                          <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="supplier.name"
-                            display="menu"></p-columnFilter>
+                          <p-columnFilter
+                            matchMode="contains"
+                            hideOnClear="true"
+                            type="text"
+                            field="supplier.name"
+                            display="menu"
+                          ></p-columnFilter>
                         </th>
                         <th pSortableColumn="purchaseType">
                           Purchase Type
@@ -205,7 +212,11 @@
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="footer">
-                      <tr totalValueDirective [data]="purchaseReportsData" [name]="purchaseReports">
+                      <tr
+                      totalValueDirective
+                      [data]="purchaseReportsData"
+                      [name]="purchaseReports"
+                      >
                         <!-- <td colspan="4"></td>
                         <td>Total Amount</td>
                         <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>

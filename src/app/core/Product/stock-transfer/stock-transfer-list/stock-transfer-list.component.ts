@@ -253,7 +253,7 @@ export class StockTransferListComponent implements OnInit {
         this.service.addStockTransfer(payload).subscribe((resp: any) => {
           if (resp.status === "success") {
             this.addstockTransfer = false;
-            const message = "Stock Transfer has been added";
+            const message = "Stock has been transferred successfully.";
             this.messageService.add({ severity: "success", detail: message });
             this.getStockTransferList();
           } else {
@@ -283,7 +283,7 @@ export class StockTransferListComponent implements OnInit {
       this.service.updateStockTransfer(payload).subscribe((resp: any) => {
         if (resp.status === "success") {
           this.editStockTransfer = false;
-          const message = "Stock Transfer has been updated";
+          const message = "Stock has been updated successfully.";
           this.messageService.add({ severity: "success", detail: message });
           this.getStockTransferList();
         } else {

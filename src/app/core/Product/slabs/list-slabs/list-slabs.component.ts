@@ -27,6 +27,7 @@ export class ListSlabsComponent {
   public slabVisible: boolean = false;
   slabDetail: any = {};
   modalData: any = {};
+  activeTabIndex: number = 0;
   slabsID: any;
   searchDataValue = "";
   selectedSlabs = [];
@@ -97,6 +98,7 @@ export class ListSlabsComponent {
   }
 
   showSlabHistoryDetails(_id) {
+    this.activeTabIndex = 0; 
     this.service.getSlabHistoryById(_id).subscribe((resp: any) => {
       this.visibleSlabHistory = true;
       this.slabHistoryData = resp.data;

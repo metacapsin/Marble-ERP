@@ -49,8 +49,9 @@ export class StockAdjustmentListComponent implements OnInit {
   ];
   searchByWarehouseData: any = [];
   searchBy: any;
-  descriptionRegex = /^(?!\s)(?:.{1,250})$/;
+  // descriptionRegex = /^(?!\s)(?:.{1,250})$/;
   cols = [];
+  descriptionRegex = /^.{1,250}$/s;
   exportColumns = [];
 
   constructor(

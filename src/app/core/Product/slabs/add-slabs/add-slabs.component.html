@@ -167,24 +167,6 @@
                     </div>
                   </div>
 
-                  <!-- <div class="col-12 col-md-4 col-xl-4 col-sm-12">
-                    <div class="form-group local-forms">
-                      <label for="category">Category <span class="login-danger">*</span></label>
-                      <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body" optionLabel="name"
-                        optionValue="_id" placeholder="Select Category" formControlName="categoryDetail"
-                        [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false"(onChange)="findSubCategory($event.value)">
-                      </p-dropdown>
-                      <div *ngIf="
-                          slabsAddForm
-                            .get('categoryDetail')
-                            ?.hasError('required') &&
-                          slabsAddForm.get('categoryDetail')?.touched
-                        ">
-                        <span class="login-danger">Field is required.</span>
-                      </div>
-                    </div>
-                  </div> -->
-
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="category">Category <span class="login-danger">*</span></label>
@@ -426,7 +408,7 @@
                                     slabsAddForm.get('totalSQFT')?.touched)
                                 ">
                                 <span class="login-danger">
-                                  input must be between 1 and 100,0000.
+                                  input must be between 1 and 100,000.
                                 </span>
                               </div>
                             </div>
