@@ -327,7 +327,7 @@ export class DataService {
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
           subMenus: [
             {
-              menuValue: "Sales",
+              menuValue: "Sales List",
               route: routes.Sales,
               base: routes.Sales,
             },
@@ -358,7 +358,7 @@ export class DataService {
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
           subMenus: [
             {
-              menuValue: "Purchase",
+              menuValue: "Purchase List",
               route: routes.listNewPurchase,
               base: routes.listNewPurchase,
             },

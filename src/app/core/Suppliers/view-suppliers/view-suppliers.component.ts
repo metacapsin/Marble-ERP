@@ -180,7 +180,7 @@ export class ViewSuppliersComponent {
     console.log("first")
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Purchase Details",
+      messege: " Are you sure you want to delete this Purchase",
     };
   }
   deletePurchaseReturn(Id: any) {
@@ -189,7 +189,7 @@ export class ViewSuppliersComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Purchase Return Details",
+      messege: "Are you sure you want to delete this Purchase Return",
     };
     this.showDialoge = true;
   }
@@ -199,7 +199,7 @@ export class ViewSuppliersComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Payment Details"
+      messege: "Are you sure you want to delete this Payment"
     }
     this.showDialoge = true;
   }

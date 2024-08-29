@@ -374,6 +374,11 @@ ul.p-dropdown-items{
   width: 100%;
   table-layout: auto;
 }
+@media (max-width:375px) {
+  .chart-container{
+    height: 500px !important;
+  }
+}
 @media (max-width:1375px) {
   .card-text-heading{
     font-size: 13px;
@@ -386,6 +391,22 @@ ul.p-dropdown-items{
   }
 }
 /* Responsive table adjustments */
+@media (max-width: 543px) {
+  .RESBUTTON{
+    margin-top: 10px;
+    margin-left: 50px;
+  }
+}
+// @media (max-width: 986px) {
+//   .RES986{
+//     margin-top: 20px;
+//   }
+// }
+@media (max-width: 1018px) {
+  .SUBFRONTS{
+    font-size: 19px;
+  }
+}
 @media (max-width: 1044px) {
   .d-flexCu {
     display: block !important;
@@ -438,4 +459,7 @@ ul.p-dropdown-items{
 }
 .p-multiselect.p-multiselect-chip .p-multiselect-token {
   padding: 0.205rem 0.55rem;
+}
+.chart-container{
+  height: 450px !important;
 }

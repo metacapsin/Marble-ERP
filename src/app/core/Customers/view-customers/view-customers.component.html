@@ -255,7 +255,7 @@
                     display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="transactionNo">
-                  Transaction No.
+                  Transaction Number
                   <p-sortIcon field="transactionNo"></p-sortIcon>
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="transactionNo"
                     display="menu"></p-columnFilter>
@@ -475,7 +475,7 @@
                 <td>₹ {{ payment.amount | indianCurrency}}</td>
                 <td class="action-buttons">
                   <p-button [text]=" true" icon="fa fa-trash"
-                    (click)=" deleteSalesReturnPayment(payment._id)" pTooltip="Delete"
+                    (click)="deleteSalesReturnPayment(payment._id)" pTooltip="Delete"
                     tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                 </td>
               </tr>

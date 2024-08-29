@@ -1,52 +1,65 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <!-- <li class="breadcrumb-item active">Stock</li> -->
-                        <!-- <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li> -->
-                        <li class="breadcrumb-item active">Lots List</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <!-- <li class="breadcrumb-item active">Stock</li> -->
+            <!-- <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li> -->
+            <li class="breadcrumb-item active">Lots List</li>
+          </ul>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card card-table show-entire">
-                    <div class="card-body">
-                        <div class="page-table-header mb-2">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="doctor-table-blk">
-                                        <h3>Lots List</h3>
-                                        <div class="doctor-search-blk">
-                                            <div class="top-nav-search table-search-blk">
-                                                <input type="text" class="form-control" placeholder="Search here"
-                                                    [(ngModel)]="searchDataValue">
-                                                <!-- (ngModelChange)="searchData(searchDataValue)" -->
-                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                            </div>
-                                            <!-- <div class="add-group textbtn">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="doctor-table-blk">
+                    <h3>Lots List</h3>
+                    <div class="doctor-search-blk">
+                      <div class="top-nav-search table-search-blk">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Search here"
+                          [(ngModel)]="searchDataValue"
+                          (ngModelChange)="searchData()"
+                        />
+                        <a class="btn"
+                          ><img src="assets/img/icons/search-normal.svg" alt=""
+                        /></a>
+                      </div>
+                      <!-- <div class="add-group textbtn">
                                                 <a appShowHide [roles]="['admin', 'super-admin']"
                                                     [routerLink]="['/lot/add']"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""> Add New</a>
 
                                             </div> -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
-                                    [roles]="['admin', 'super-admin']">
-                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-auto text-end float-end ms-auto download-grp"
+                  appShowHide
+                  [roles]="['admin', 'super-admin']"
+                >
+                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                             alt="" pTooltip="Download data in PDF file"
                       tooltipPosition="left" tooltipStyleClass="tooltip"></a> -->
-                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
+                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
                                             alt=""></a> -->
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
                                             alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
@@ -157,16 +170,19 @@
                     </div>
                 </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
-    [data]="modalData"></app-confirm-dialog>
-
-
-
-
+<app-confirm-dialog
+  [showDialog]="showDialog"
+  (callbackModal)="callBackModal()"
+  (close)="close()"
+  [data]="modalData"
+></app-confirm-dialog>
 
 <!-- --------------- lot Details PopUp --------------- -->
 
@@ -211,4 +227,5 @@
             </div>
         </div>
     </div>
+  </div>
 </p-dialog>
