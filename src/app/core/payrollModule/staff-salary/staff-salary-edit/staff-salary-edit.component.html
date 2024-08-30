@@ -207,7 +207,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text">₹</span>
                       </div>
-                      <input class="form-control" formControlName="specialPay" placeholder="Enter specialPay Pay" type="number" value="$500" (change)="findNetSalary()"/>
+                      <input class="form-control" formControlName="specialPay" placeholder="Enter Special Pay" type="number" value="$500" (change)="findNetSalary()"/>
                     </div>
                     <div *ngIf="editSalaryForm.get('specialPay')?.errors?.['required'] && editSalaryForm.get('specialPay').touched"
                       class="login-danger Font_size">

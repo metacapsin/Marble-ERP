@@ -37,7 +37,7 @@ export class WarehouseEditComponent {
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
-  billingAddressRegex = /^.{3,500}$/s;
+  billingAddressRegex = /^(?!\s)(?!.*\s{3})(.{3,500})$/s;
   // personNameRegex = /^\d{10}$/;
   phoneRegex = /^[0-9]{10}$/;
 

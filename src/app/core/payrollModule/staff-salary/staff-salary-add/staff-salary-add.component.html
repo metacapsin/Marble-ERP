@@ -171,12 +171,12 @@
                 </div>
                 <div class="col-12 col-md-6 col-xl-6" (change)="findNetSalary()">
                   <div class="form-group local-forms">
-                    <label for="specialPay">specialPay<span class="login-danger"></span></label>
+                    <label for="specialPay">Special Pay<span class="login-danger"></span></label>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">₹</span>
                       </div>
-                      <input class="form-control" formControlName="specialPay" placeholder="Enter specialPay" type="number" value="$500" />
+                      <input class="form-control" formControlName="specialPay" placeholder="Enter Special Pay" type="number" value="$500" />
                     </div>
                     <div *ngIf="addSalaryForm.get('specialPay')?.errors?.['required'] && addSalaryForm.get('specialPay').touched"
                       class="login-danger Font_size">
