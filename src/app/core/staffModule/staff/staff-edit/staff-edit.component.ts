@@ -11,6 +11,7 @@ import { staffService } from "../staff-service.service";
 import { MessageService } from "primeng/api";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 import { StaffDesignationService } from "src/app/core/settings/staff-designation/staff-designation.service";
+import { validationRegex } from "src/app/core/validation";
 
 @Component({
   selector: "app-staff-edit",
@@ -41,26 +42,8 @@ export class StaffEditComponent {
     { value: "Labor" },
     { value: "Gaurd" },
   ];
-  // personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
-  // AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
-  // AccountNumberRegex = /^[0-9]{14}$/;
-  // phoneRegex = /^[0-9]{10}$/;
-  // IfscCodeRegex = /^[0-9]{11}$/;
-  // pinRegex = /^\d{6}$/;
+
   maxDate = new Date();
-  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
-  phoneRegex = /^[0-9]{10}$/;
-  emailRegex = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-  REGX_For_UID = /^[\w.-]+@[\w.-]+$/;
-  pinRegex = /^\d{6}$/;
-  upiIdRegex = /^[a-zA-Z0-9.-]{2,256}@[a-zA-Z]{2,64}$/;
-  BankName = /^[A-Za-z\s]+$/;
-  password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@])[A-Za-z\d@]{8,16}$/;
-  AddressRegex = /^(?! )[A-Za-z]{3,100}(?: [A-Za-z]{3,100})?$/;
-  accountHolderRegex = /^[A-Za-z\s]{3,20}$/;
-  AccountNumberRegex = /^\d{9,18}$/;
-  IfscCodeRegex = /^[^\s]{4}\d{7}$/;
-  addressRegex = /^(?!\s)(?:.{3,500})$/;
   orgIdTypeList: any;
   IdTypeList: any[];
   warehouseData: any;
@@ -74,19 +57,19 @@ export class StaffEditComponent {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private warehouseService: WarehouseService,
-    private StaffDesignationService:StaffDesignationService
+    private StaffDesignationService: StaffDesignationService
   ) {
-     // Define the age validator function
-     const ageValidator: ValidatorFn = (control: AbstractControl): { [key: string]: any } | null => {
+    // Define the age validator function
+    const ageValidator: ValidatorFn = (control: AbstractControl): { [key: string]: any } | null => {
       if (!control.value) {
         return null; // Don't validate empty values
       }
-      
+
       const dob = new Date(control.value);
       const today = new Date();
       let age = today.getFullYear() - dob.getFullYear();
       const month = today.getMonth() - dob.getMonth();
-      
+
       if (month < 0 || (month === 0 && today.getDate() < dob.getDate())) {
         age--;
       }
@@ -96,39 +79,75 @@ export class StaffEditComponent {
 
 
     this.editStaffForm = this.fb.group({
-      upiId: ["", [Validators.pattern(this.REGX_For_UID)]],
-      dateOfBirth: ["", [Validators.required,ageValidator]], // Apply the custom validator
-      idNumber: ["", Validators.required],
-      status: ["",],
-      idType: ["", Validators.required],
-      warehouseDetails: ["", Validators.required],
       firstName: [
         "",
-        [Validators.required, Validators.pattern(this.personNameRegex)],
+        [Validators.required, Validators.pattern(validationRegex.threeTothirtyCharRegex)],
       ],
       lastName: [
         "",
-        [Validators.required, Validators.pattern(this.personNameRegex)],
+        [Validators.required, Validators.pattern(validationRegex.threeTothirtyCharRegex)],
       ],
-      mobile: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
-      email: ["", [Validators.pattern(this.emailRegex)]],
-      pinCode: ["", [Validators.required, Validators.pattern(this.pinRegex)]],
+      dateOfBirth: ["", [Validators.required, ageValidator]], // Apply the custom validator
+      mobile: ["", [Validators.required, Validators.pattern(validationRegex.phoneRGEX)]],
       designation: ["", [Validators.required]],
-      city: [
-        "",
-        [Validators.required, Validators.pattern(this.personNameRegex)],
-      ],
-      address: ["", [Validators.pattern(this.addressRegex)]],
-      bankName: ["", [Validators.pattern(this.BankName)]],
-      accountName: ["", [Validators.pattern(this.accountHolderRegex)]],
-      accountNumber: ["", [Validators.pattern(this.AccountNumberRegex)]],
-      ifscCode: ["", [Validators.pattern(this.IfscCodeRegex)]],
-      isActive:[''],
+      warehouseDetails: ["", Validators.required],
+      email: ["", [Validators.pattern(validationRegex.emailRegex)]],
+      idType: ["",],
+      idNumber: [""],
+      pinCode: ["", [Validators.pattern(validationRegex.pinCodeRegex)]],
+      city: ["", [Validators.pattern(validationRegex.threeTothirtyCharRegex)]],
+      upiId: ["", [Validators.pattern(validationRegex.upiIdRegex)]],
+      bankName: ["", [Validators.pattern(validationRegex.threeToFiftyCharRegex)]],
+      accountNumber: ["", [Validators.pattern(validationRegex.bankAccountNumberRegex)]],
+      accountName: ["", [Validators.pattern(validationRegex.threeToFiftyCharRegex)]],
+      ifscCode: ["", [Validators.pattern(validationRegex.ifscCodeRegexL)]],
+      status: [],
+      address: ["", [Validators.pattern(validationRegex.address3To500Regex)]],
+      isActive: [""],
     });
     this.staffId = this.activeRoute.snapshot.params["id"];
   }
 
-  // }
+  idNumberValidator(event: any) {
+    const idType = event?.value?.code;
+    const idNumberControl = this.editStaffForm.get('idNumber');
+    idNumberControl.reset();
+    idNumberControl.clearValidators();
+
+    if (idType) {
+      switch (idType) {
+        case 'Aadhaar':
+          idNumberControl.setValidators([Validators.required, Validators.pattern(validationRegex.aadharRegex)]);
+          break;
+        case 'Passport':
+          idNumberControl.setValidators([Validators.required, Validators.pattern(validationRegex.passportRegex)]);
+          break;
+        case 'PAN':
+          idNumberControl.setValidators([Validators.required, Validators.pattern(validationRegex.panCardRegex)]);
+          break;
+        case 'VID':
+          idNumberControl.setValidators([Validators.required, Validators.pattern(validationRegex.voterIdRegex)]);
+          break;
+        case 'SSN':
+          idNumberControl.setValidators([Validators.required, Validators.pattern(validationRegex.ssnRegex)]);
+          break;
+        case 'DL':
+          idNumberControl.setValidators([Validators.required, Validators.pattern(validationRegex.drivingLicenceRegex)]);
+          break;
+        case 'NID':
+          idNumberControl.setValidators([Validators.required, Validators.pattern(validationRegex.nationalIdRegex)]);
+          break;
+        case 'RP':
+          idNumberControl.setValidators([Validators.required, Validators.pattern(validationRegex.residentPermitRegex)]);
+          break;
+        default:
+          break;
+      }
+    } else {
+      idNumberControl.clearValidators();
+    }
+    idNumberControl.updateValueAndValidity();
+  }
 
   ngOnInit(): void {
     this.Service.getStaffDataById(this.staffId).subscribe((resp: any) => {
@@ -151,8 +170,8 @@ export class StaffEditComponent {
       this.IdTypeList = [];
       this.orgIdTypeList.forEach(element => {
         this.IdTypeList.push({
-          name:element.name,
-          code:element.code,
+          name: element.name,
+          code: element.code,
         })
       });
       console.log(this.IdTypeList);
@@ -160,10 +179,10 @@ export class StaffEditComponent {
     this.StaffDesignationService.getStaffDesignation().subscribe((resp: any) => {
       this.orgStaffDesignation = resp.data;
       this.StaffDesignation = [];
-      this.orgStaffDesignation.forEach((element)=>{
+      this.orgStaffDesignation.forEach((element) => {
         this.StaffDesignation.push({
-          designation:element.designation,
-          description:element.description
+          designation: element.designation,
+          description: element.description
         })
       })
       console.log(this.orgStaffDesignation);
@@ -225,7 +244,7 @@ export class StaffEditComponent {
       console.log(resp);
       if (resp) {
         if (resp.status === "success") {
-          const message = "Sales has been updated";
+          const message = "Staff details updated successfully";
           this.messageService.add({ severity: "success", detail: message });
           setTimeout(() => {
             this.router.navigate(["/staff"]);

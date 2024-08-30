@@ -1,13 +1,8 @@
-import { CommonModule } from "@angular/common";
 import { Component, OnInit, ViewChild, viewChild } from "@angular/core";
-import { Router, RouterModule } from "@angular/router";
+import { Router } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
-import { StepperModule } from "primeng/stepper";
-import { ButtonModule } from "primeng/button";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { CalendarModule } from "primeng/calendar";
-import { DropdownModule } from "primeng/dropdown";
 import { AddLotComponent } from "../../Product/lot/add-lot/add-lot.component";
 import { AddSlabsComponent } from "../../Product/slabs/add-slabs/add-slabs.component";
 import { WarehouseService } from "../../settings/warehouse/warehouse.service";
@@ -15,10 +10,8 @@ import { SubCategoriesService } from "../../settings/sub-categories/sub-categori
 import { CategoriesService } from "../../settings/categories/categories.service";
 import { SuppliersdataService } from "../../Suppliers/suppliers.service";
 import { NewPurchaseService } from "../new-purchase.service";
-import { AccordionModule } from "primeng/accordion";
 import { Validators } from "@angular/forms";
 import { MessageService } from "primeng/api";
-import { ToastModule } from "primeng/toast";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
@@ -54,9 +47,8 @@ export class AddNewPurchaseComponent implements OnInit {
   getSupplierShow: any;
   ItemDetails: any = {};
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,30})$/;
-
   shortNameRegex = /^[^\s.-][a-zA-Z0-9_.\s-]{2,50}$/;
-  descriptionRegex = /^(?!\s)(?:.{1,500})$/;
+  descriptionRegex = /^.{3,500}$/s;
 
   previousSlabValues: any = {};
   returnUrl: any;

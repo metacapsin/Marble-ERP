@@ -31,19 +31,6 @@
                 (ngSubmit)="addPaymentInFormSubmit()"
               >
                 <div class="row">
-                  <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
-                                        <h3>Add Payment</h3>
-                                        <div class="settings-btns text-end m-b-10">
-                                            <button type="submit"
-                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                                [disabled]="!addPaymentInForm.valid">
-                                                Submit
-                                            </button>
-                                            <button class="btn btn-secondary" [routerLink]="routes.paymentIn">
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </div> -->
                   <div class="row mt-2 mb-2">
                     <div class="col-md-6 col-sm-12"><h3>Add Payment In</h3></div>
                     <div class="col-md-6 col-sm-12 text-end mb-2">
@@ -70,7 +57,7 @@
                       >
                       <p-dropdown
                         [style]="{ width: '100%' }"
-                        placeholder="--Customer--"
+                        placeholder="Customer"
                         [options]="customerList"
                         optionLabel="name"
                         optionValue="_id"
@@ -127,7 +114,7 @@
                       >
                       <p-dropdown
                         [style]="{ width: '100%' }"
-                        placeholder="--Payment Mode--"
+                        placeholder="Payment Mode"
                         [options]="paymentModeList"
                         formControlName="paymentMode"
                         optionLabel="paymentMode"
@@ -200,7 +187,7 @@
                             <span class="bold">{{ sale.salesDate }}</span>
                           </td>
                           <td>
-                            <label>{{ sale.salesTotalAmount }}</label>
+                            <label>{{ '₹' + ' ' + sale.salesTotalAmount }}</label>
                           </td>
                           <td>
                             <div class="input-group">
@@ -214,7 +201,7 @@
                               />
                             </div>
                             <span style="color: #97704f; font-size: 12px"
-                              >Due Amount : {{ sale.dueAmount }}</span
+                              >Due Amount : {{ '₹' + ' ' + sale.dueAmount }}</span
                             >
                             <div
                               *ngIf="

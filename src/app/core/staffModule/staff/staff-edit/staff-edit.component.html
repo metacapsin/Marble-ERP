@@ -30,25 +30,14 @@
           <div class="card-body">
             <form [formGroup]="editStaffForm" (ngSubmit)="editStaffFormSubmit()">
               <div class="row">
-                <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
-                                    <h3>Edit Staff</h3>
-                                    <div class="settings-btns text-end m-b-10">
-                                        <button type="submit"
-                                            class="border-0 btn btn-primary btn-gradient-primary m-r-10">
-                                            Submit
-                                        </button>
-                                        <button class="btn btn-secondary" [routerLink]="routes.staffList">
-                                            Cancel
-                                        </button>
-                                    </div>
-                                </div> -->
 
                 <div class="row mt-2 mb-2">
                   <div class="col-md-6 col-sm-12">
                     <h3>Edit Staff</h3>
                   </div>
                   <div class="col-md-6 col-sm-12 text-end mb-2">
-                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10" [disabled]="!editStaffForm.valid">
+                    <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                      [disabled]="!editStaffForm.valid">
                       Submit
                     </button>
                     <button class="btn btn-secondary" [routerLink]="routes.staffList">
@@ -75,7 +64,7 @@
                         editStaffForm.get('firstName')?.hasError('pattern') &&
                         editStaffForm.get('firstName')?.touched
                       " class="login-danger Font_size">
-                      Input must be between 1 to 30 Characters.
+                      First Name Must be between 3 to 30 Characters.
                     </div>
                   </div>
                 </div>
@@ -93,28 +82,29 @@
                         editStaffForm.get('lastName')?.hasError('pattern') &&
                         editStaffForm.get('lastName')?.touched
                       " class="login-danger Font_size">
-                      Input must be between 1 to 30 characters.
+                      Last Name Must be between 3 to 30 characters.
                     </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
                   <div class="form-group local-forms">
-                    <label for="dateOfBirth">Date of birth <span class="login-danger"></span></label>
+                    <label for="dateOfBirth">Date of birth <span class="login-danger">*</span></label>
                     <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                       placeholder="mm/dd/yyyy" [styleClass]="'col-12'" formControlName="dateOfBirth"></p-calendar>
-                      <div *ngIf="editStaffForm.get('dateOfBirth')?.hasError('required') && editStaffForm.get('dateOfBirth')?.touched">
-                        <span class="login-danger">Field is required.</span>
-                      </div>
-                      <div *ngIf="editStaffForm.get('dateOfBirth')?.hasError('ageInvalid') && editStaffForm.get('dateOfBirth')?.touched">
-                        <span class="login-danger">You must be at least 18 years old.</span>
-                      </div>
-
+                    <div
+                      *ngIf="editStaffForm.get('dateOfBirth')?.hasError('required') && editStaffForm.get('dateOfBirth')?.touched">
+                      <span class="login-danger">Field is required.</span>
+                    </div>
+                    <div
+                      *ngIf="editStaffForm.get('dateOfBirth')?.hasError('ageInvalid') && editStaffForm.get('dateOfBirth')?.touched">
+                      <span class="login-danger">You must be at least 18 years old.</span>
+                    </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
                   <div class="form-group local-forms">
-                    <label for="mobile">Mobile <span class="login-danger">*</span></label>
-                    <input class="form-control" formControlName="mobile" placeholder="Enter Mobile" type="tel" />
+                    <label for="mobile">Phone Number<span class="login-danger">*</span></label>
+                    <input class="form-control" formControlName="mobile" placeholder="Enter Phone Number" type="tel" />
                     <div *ngIf="
                         editStaffForm.get('mobile')?.hasError('required') &&
                         editStaffForm.get('mobile')?.touched
@@ -125,7 +115,7 @@
                         editStaffForm.get('mobile')?.hasError('pattern') &&
                         editStaffForm.get('mobile')?.touched
                       " class="login-danger Font_size">
-                      Mobile Number must be of 10 digits
+                      Phone Number must be of 10 digits
                     </div>
                   </div>
                 </div>
@@ -134,12 +124,10 @@
                     <label for="designation">Designation <span class="login-danger">*</span></label>
                     <p-dropdown [style]="{ width: '100%' }" placeholder="Select Designation"
                       [options]="StaffDesignation" formControlName="designation" optionLabel="designation"
-                      display="chip" [filter]="true" filterBy="name" [showClear]="true">
+                      display="chip" [filter]="true" dateFormat="dd-mm-yy" filterBy="name" [showClear]="true">
                     </p-dropdown>
                     <div *ngIf="
-                        editStaffForm
-                          .get('designation')
-                          ?.hasError('required') &&
+                        editStaffForm.get('designation')?.hasError('required') &&
                         editStaffForm.get('designation')?.touched
                       " class="login-danger Font_size">
                       Field is required.
@@ -186,38 +174,47 @@
                     <label for="idType">Id Type <span class="login-danger"></span></label>
                     <p-dropdown [style]="{ width: '100%' }" placeholder="Select Type" [options]="IdTypeList"
                       formControlName="idType" optionLabel="name" display="chip" [filter]="true" filterBy="name"
-                      [showClear]="true">
+                      [showClear]="true" (onChange)="idNumberValidator($event)">
                     </p-dropdown>
                     <div *ngIf="
                     editStaffForm.get('idType')?.hasError('required') &&
                     editStaffForm.get('idType')?.touched
                   " class="login-danger Font_size">
-                  Field is required.
-                </div>
+                      Field is required.
+                    </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
                   <div class="form-group local-forms">
                     <label for="idNumber">Id Number<span class="login-danger"></span></label>
                     <input class="form-control" formControlName="idNumber" type="text" placeholder="Enter Id Number" />
+                    <div
+                      *ngIf="editStaffForm.get('idNumber')?.hasError('required') && editStaffForm.get('idNumber')?.touched">
+                      <span class="login-danger">Field is required.</span>
+                    </div>
+                    <div
+                      *ngIf="editStaffForm.get('idNumber')?.hasError('pattern') && editStaffForm.get('idNumber')?.touched">
+                      <span class="login-danger">Please enter a valid ID number.</span>
+                    </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
                   <div class="form-group local-forms">
                     <label for="pinCode">Pin Code <span class="login-danger"></span></label>
                     <input class="form-control" formControlName="pinCode" placeholder="Enter PIN Code" type="text" />
+                    <div class="login-danger" *ngIf="editStaffForm.get('pinCode')?.hasError('pattern') && editStaffForm.get('pinCode')?.touched">Please enter a valid PIN code.</div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
                   <div class="form-group local-forms">
                     <label for="city">City <span class="login-danger"></span></label>
                     <input class="form-control" formControlName="city" placeholder="Enter City" type="text" />
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-4">
-                  <div class="d-flex align-items-center gap-3">
-                    <label for="">Active</label>
-                    <p-inputSwitch formControlName="isActive" />
+                    <div *ngIf="
+                        editStaffForm.get('city')?.hasError('pattern') &&
+                        editStaffForm.get('city')?.touched
+                      " class="login-danger Font_size">
+                     City Must be between 3 to 30 characters.
+                    </div>
                   </div>
                 </div>
 
@@ -232,19 +229,19 @@
                         editStaffForm.get('upiId')?.hasError('pattern') &&
                         editStaffForm.get('upiId')?.touched
                       " class="login-danger Font_size">
-                      Invalid UPI ID format.
+                      Please enter a valid UPI ID.
                     </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
                   <div class="form-group local-forms">
                     <label for="bankName">Bank Name </label>
-                    <input class="form-control" formControlName="bankName" placeholder="Bank Number" type="text" />
+                    <input class="form-control" formControlName="bankName" placeholder="Bank Name" type="text" />
                     <div *ngIf="
                         editStaffForm.get('bankName')?.hasError('pattern') &&
                         editStaffForm.get('bankName')?.touched
                       " class="login-danger Font_size">
-                      Input must be between 3 to 100 characters.
+                      Bank Name Must be between 3 to 50 characters.
                     </div>
                   </div>
                 </div>
@@ -257,7 +254,7 @@
                         editStaffForm.get('accountName')?.hasError('pattern') &&
                         editStaffForm.get('accountName')?.touched
                       " class="login-danger Font_size">
-                      Input must be between 3 to 20 characters.
+                      Account Holder Name Must be between 3 to 50 characters.
                     </div>
                   </div>
                 </div>
@@ -272,7 +269,7 @@
                           ?.hasError('pattern') &&
                         editStaffForm.get('accountNumber')?.touched
                       " class="login-danger Font_size">
-                      Input must be between 9 to 18 digits.
+                      Please enter a valid bank account number.
                     </div>
                   </div>
                 </div>
@@ -284,21 +281,20 @@
                         editStaffForm.get('ifscCode')?.hasError('pattern') &&
                         editStaffForm.get('ifscCode')?.touched
                       " class="login-danger Font_size">
-                      Input must be 11 characters (4 letters followed by 7
-                      digits).
+                      Please enter a valid IFSC Code.
                     </div>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4">
                   <div class="form-group local-forms">
                     <label for="city">Address</label>
-                    <textarea class="form-control" formControlName="address" placeholder="Ente Address" rows="1"
+                    <textarea class="form-control" formControlName="address" placeholder="Enter Address" rows="1"
                       cols="30"></textarea>
                     <div *ngIf="
                         editStaffForm.get('address')?.hasError('pattern') &&
                         editStaffForm.get('address')?.touched
                       " class="login-danger Font_size">
-                      Input must be between 3 to 100 characters.
+                      Address Must be between 3 to 500 characters.
                     </div>
                   </div>
                 </div>

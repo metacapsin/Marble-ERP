@@ -77,9 +77,9 @@ export class EditBillingAddressComponent implements OnInit {
       postalCode:['',[Validators.required,Validators.pattern(validationRegex.postalZipRGEX)]],
       country: ['',[Validators.required]],
       phoneNumber: ['',[Validators.required,Validators.pattern(validationRegex.phoneRGEX)]],
-      email:['',[Validators.pattern(validationRegex.emailRGEX)]],
-      addressLine1:['',[Validators.required,Validators.pattern(validationRegex.addressRegex)]],
-      addressLine2:['',[Validators.pattern(validationRegex.addressRegex)]],
+      email:['',[Validators.pattern(validationRegex.emailRegex)]],
+      addressLine1:['',[Validators.required,Validators.pattern(validationRegex.threeToFiftyCharRegex)]],
+      addressLine2:['',[Validators.pattern(validationRegex.threeToFiftyCharRegex)]],
       state:['',[Validators.required,Validators.pattern(validationRegex.stateRegex)]],
     });
   }

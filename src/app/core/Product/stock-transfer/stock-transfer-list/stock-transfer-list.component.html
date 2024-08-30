@@ -8,9 +8,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <!-- <li class="breadcrumb-item active">Stock</li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li> -->
-                        <li class="breadcrumb-item active">Stocks Transfer List</li>
+                        <li class="breadcrumb-item active">Stock Transfer List</li>
                     </ul>
                 </div>
             </div>
@@ -23,7 +21,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Stocks Transfer List</h3>
+                                        <h3>Stock Transfer List</h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input type="text" class="form-control" placeholder="Search here"
@@ -45,9 +43,9 @@
                                     <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                             alt="" pTooltip="Download data in PDF file" tooltipPosition="left"
                                             tooltipStyleClass="tooltip"></a> -->
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" (click)="dt.exportCSV()"
-                                            alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
-                                            tooltipStyleClass="tooltip"></a>
+                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
+                                            (click)="dt.exportCSV()" alt="" pTooltip="Download data in CSV file "
+                                            tooltipPosition="left" tooltipStyleClass="tooltip"></a>
 
                                 </div>
                             </div>
@@ -68,13 +66,13 @@
                         </div>
 
                         <div class="card-body p-2">
-
                             <p-table
                                 [value]="originalData | filter:searchDataValue:['createdOn','slab.slabName', 'fromWarehouse.name', 'transferType', 'transferQty']"
-                                [tableStyle]="{'min-width': '60rem'}" [paginator]="originalData?.length >= 5" [rows]="10"
-                                [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot"
-                                styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)" #dt [columns]="cols" 
-                                [exportHeader]="'customExportHeader'" exportFilename="Stock Transfer">
+                                [tableStyle]="{'min-width': '60rem'}" [paginator]="originalData?.length >= 5"
+                                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot"
+                                styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)"
+                                #dt [columns]="cols" [exportHeader]="'customExportHeader'"
+                                exportFilename="Stock Transfer">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="createdOn">Transfer Date <p-sortIcon
@@ -119,8 +117,6 @@
                                         <td>{{stock.transferType}}</td>
                                         <td>{{stock.transferQty + ' Sq. Feet. '}}</td>
                                         <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
-                                            <!-- <p-button [text]="true" icon="fa-solid fa-edit"
-                                                (click)="editstockTransferDialog(stock._id)"></p-button> -->
                                             <p-button [text]="true" icon="fa-solid fa-trash" pTooltip="Delete"
                                                 tooltipPosition="bottom" tooltipStyleClass="tooltip"
                                                 (click)="deleteStockTransfer(stock._id)"></p-button>
@@ -129,7 +125,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="emptymessage">
                                     <tr>
-                                        <td colspan="6" class="text-center">No stock transfers found.</td>
+                                        <td colspan="6" class="text-center">No stock transfer found.</td>
                                     </tr>
                                 </ng-template>
                                 <!-- <ng-template pTemplate="footer">
@@ -141,9 +137,6 @@
                                     </tr>
                                 </ng-template> -->
                             </p-table>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -237,7 +230,8 @@
 
                     <div class="col-md-6" *ngIf="addStockTransferForm.get('transferType').value !== 'All Quantity'">
                         <div class="form-group local-forms">
-                            <label for="transferQty">Transfer Quantity ( Sq. Feet. )<span class="login-danger">*</span></label>
+                            <label for="transferQty">Transfer Quantity ( Sq. Feet. )<span
+                                    class="login-danger">*</span></label>
                             <input type="number" formControlName="transferQty" class="form-control">
                             <div
                                 *ngIf="addStockTransferForm.get('transferQty')?.hasError('required') && addStockTransferForm.get('transferQty')?.touched">
