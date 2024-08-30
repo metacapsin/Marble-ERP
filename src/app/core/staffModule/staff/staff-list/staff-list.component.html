@@ -52,7 +52,7 @@
 
           <div class="card-body p-2">
             <p-table
-              [value]="staffData | filter:searchDataValue:['firstName','lastName','designation','mobile','city','email']"
+              [value]="staffData | filter:searchDataValue:['firstName','lastName','designation.designation','mobile','city','email']"
               styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="staffData?.length >= 5" [rows]="10"
               [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedstaff" selectionMode="multiple" #dt [columns]="cols" 
               [exportHeader]="'customExportHeader'" exportFilename="Staff List">
@@ -78,6 +78,10 @@
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="email"
                       display="menu"></p-columnFilter>
                   </th>
+                  <th pSortableColumn="email">Status<p-sortIcon field="email"></p-sortIcon>
+                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="email"
+                      display="menu"></p-columnFilter>
+                  </th>
                   <th width="13%">Action</th>
                 </tr>
               </ng-template>
@@ -88,6 +92,11 @@
                   <td>{{staff.mobile}}</td>
                   <td>{{staff.city}}</td>
                   <td>{{staff.email}}</td>
+                  <!-- <td>{{staff.statusText}}</td> -->
+                  <td *ngIf="staff.statusText == 'Active' "><p-tag severity="success" value="Active"></p-tag>
+                  </td>
+                  <td *ngIf="staff.statusText == 'Inactive' "><p-tag severity="danger" value="Inactive"></p-tag>
+                  </td>
                   <td class="action-buttons" appShowHide [roles]="['admin', 'super-admin']">
                     <p-button [text]="true" icon="fa-solid fa-edit" (click)="editStaff(staff._id)" pTooltip="Edit"
                                                     tooltipPosition="bottom" tooltipStyleClass="tooltip" ></p-button>

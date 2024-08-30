@@ -1,118 +1,235 @@
 <router-outlet></router-outlet>
 <p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Expenses List</li>
-                        <li class="breadcrumb-item">
-                            <!-- <i class="feather icon-chevron-right"></i> -->
-                        </li>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Expenses List</li>
+            <li class="breadcrumb-item">
+              <!-- <i class="feather icon-chevron-right"></i> -->
+            </li>
+          </ul>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-
-                <div class="card card-table show-entire">
-                    <div class="page-table-header mb-2">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <div class="doctor-table-blk">
-                                    <h3>Expenses List</h3>
-                                    <div class="doctor-search-blk gap-3">
-                                        <div class="top-nav-search table-search-blk">
-                                            <input type="text" class="form-control" placeholder="Search here"
-                                                [(ngModel)]="searchDataValue">
-                                            <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                        </div>
-                                        <div class="add-group textbtn gap-3">
-                                            <a [routerLink]="routes.addExpenses" class="btn btn-primary"><img
-                                                    src="assets/img/icons/plus.svg" alt=""> Add Expense</a>
-                                            <!-- <a class="btn btn-primary" (click)="showDialog()">Import Customers</a> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
-                                [roles]="['admin', 'super-admin', 'help-desk']">
-                                <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" pTooltip="Download data in PDF file" tooltipPosition="left"
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="page-table-header mb-2">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="doctor-table-blk">
+                  <h3>Expenses List</h3>
+                  <div class="doctor-search-blk gap-3">
+                    <div class="top-nav-search table-search-blk">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search here"
+                        [(ngModel)]="searchDataValue"
+                      />
+                      <a class="btn"
+                        ><img src="assets/img/icons/search-normal.svg" alt=""
+                      /></a>
+                    </div>
+                    <div class="add-group textbtn gap-3">
+                      <a
+                        [routerLink]="routes.addExpenses"
+                        class="btn btn-primary"
+                        ><img src="assets/img/icons/plus.svg" alt="" /> Add
+                        Expense</a
+                      >
+                      <!-- <a class="btn btn-primary" (click)="showDialog()">Import Customers</a> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-auto text-end float-end ms-auto download-grp"
+                appShowHide
+                [roles]="['admin', 'super-admin', 'help-desk']"
+              >
+                <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" pTooltip="Download data in PDF file" tooltipPosition="left"
                                         tooltipStyleClass="tooltip"
                                         alt=""></a> -->
-                                <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" pTooltip="Download data in CSV file " tooltipPosition="left"
-                                        tooltipStyleClass="tooltip"
-                                        alt="" (click)="dt.exportCSV()"></a>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-body p-2">
-                        <p-table
-                            [value]="dataSource | filter:searchDataValue:['recipient', 'date', 'categoryDetails.name', 'amount']"
-                            styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="dataSource?.length >= 5"
-                            selectionMode="multiple" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
-                            (change)="onPageChange($event)" [(selection)]="selectedExpenses" #dt [columns]="cols" 
-                            [exportHeader]="'customExportHeader'" exportFilename="Expenses">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th pSortableColumn="recipient">Recipient <p-sortIcon
-                                            field="recipient"></p-sortIcon>
-                                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                            field="recipient" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>
-                                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="date"
-                                            display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="categoryDetails.name">Expense Category <p-sortIcon
-                                            field="categoryDetails.name"></p-sortIcon>
-                                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                            field="categoryDetails.name" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
-                                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                            field="amount" display="menu"></p-columnFilter>
-                                    </th>
-                                    <th width="13%">Action</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-product>
-                                <tr>
-                                    <td class="bold">{{product.recipient}}</td>
-                                    <td>{{product.date | date: 'dd-MMM-yyyy'}}</td>
-                                    <td class="bold">{{product.categoryDetails.name}}</td>
-                                    <td class="bold">₹ {{product.amount}}</td>
-                                    <td appShowHide [roles]="['admin', 'super-admin']">
-                                        <div class="action-buttons">
-                                            <p-button [text]="true" icon="fa fa-edit" pTooltip="Edit"
-                                                    tooltipPosition="bottom" tooltipStyleClass="tooltip" 
-                                                (click)="editExpense(product._id)"></p-button>
-                                            <p-button [text]=" true" icon="fa fa-trash" pTooltip="Delete"
-                                                tooltipPosition="bottom" tooltipStyleClass="tooltip"
-                                                (click)="deleteExpense(product._id)"></p-button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="emptymessage">
-                                <tr>
-                                    <td colspan="5" class="text-center">No general expenses records found.</td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </div>
-                </div>
+                <a href="javascript:;" class="me-2"
+                  ><img
+                    src="assets/img/icons/pdf-icon-03.svg"
+                    pTooltip="Download data in CSV file "
+                    tooltipPosition="left"
+                    tooltipStyleClass="tooltip"
+                    alt=""
+                    (click)="dt.exportCSV()"
+                /></a>
+              </div>
             </div>
+          </div>
+
+          <div class="card-body p-2">
+            <p-table
+              [value]="
+                dataSource
+                  | filter
+                    : searchDataValue
+                    : ['recipient', 'date', 'categoryDetails.name', 'amount', 'notes']
+              "
+              styleClass="p-datatable-striped"
+              [tableStyle]="{ 'min-width': '60rem' }"
+              [paginator]="dataSource?.length >= 5"
+              selectionMode="multiple"
+              [rows]="10"
+              [rowsPerPageOptions]="[5, 10, 20]"
+              (change)="onPageChange($event)"
+              [(selection)]="selectedExpenses"
+              #dt
+              [columns]="cols"
+              [exportHeader]="'customExportHeader'"
+              exportFilename="Expenses"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="recipient">
+                    Recipient <p-sortIcon field="recipient"></p-sortIcon>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="recipient"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="date">
+                    Date <p-sortIcon field="date"></p-sortIcon>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="date"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="categoryDetails.name">
+                    Expense Category
+                    <p-sortIcon field="categoryDetails.name"></p-sortIcon>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="categoryDetails.name"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="amount">
+                    Amount <p-sortIcon field="amount"></p-sortIcon>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="amount"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="notes">
+                    Notes <p-sortIcon field="notes"></p-sortIcon>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="notes"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
+                  <th width="13%">Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product>
+                <tr>
+                  <td class="bold">{{ product.recipient }}</td>
+                  <td>{{ product.date | date : "dd-MMM-yyyy" }}</td>
+                  <td class="bold">{{ product.categoryDetails.name }}</td>
+                  <td class="bold">₹ {{ product.amount }}</td>
+                  <!-- <td class="bold">₹ {{ product.notes }}</td> -->
+                  <td *ngIf="!product.notes"></td>
+                  <td
+                    *ngIf="product.notes"
+                    class="OverHide"
+                    (click)="op.toggle($event)"
+                    pTooltip="Click to See More"
+                    tooltipPosition="bottom"
+                    tooltipStyleClass="tooltip"
+                  >
+                    {{ product.notes }}
+                    <p-overlayPanel #op>
+                      <div
+                        style="
+                          width: 25rem;
+                          display: flex;
+                          flex-direction: column;
+                          gap: 3;
+                        "
+                      >
+                        <div>
+                          <h4>Notes</h4>
+                          <p
+                            style="
+                              word-wrap: break-word;
+                              white-space: pre-wrap;
+                            "
+                          >
+                            {{ product.notes }}
+                          </p>
+                        </div>
+                      </div>
+                    </p-overlayPanel>
+                  </td>
+                  <td appShowHide [roles]="['admin', 'super-admin']">
+                    <div class="action-buttons">
+                      <p-button
+                        [text]="true"
+                        icon="fa fa-edit"
+                        pTooltip="Edit"
+                        tooltipPosition="bottom"
+                        tooltipStyleClass="tooltip"
+                        (click)="editExpense(product._id)"
+                      ></p-button>
+                      <p-button
+                        [text]="true"
+                        icon="fa fa-trash"
+                        pTooltip="Delete"
+                        tooltipPosition="bottom"
+                        tooltipStyleClass="tooltip"
+                        (click)="deleteExpense(product._id)"
+                      ></p-button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="5" class="text-center">
+                    No general expenses records found.
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-
-<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-    [data]="modalData"></app-confirm-dialog>
+<app-confirm-dialog
+  [showDialog]="showDialoge"
+  (callbackModal)="callBackModal()"
+  (close)="close()"
+  [data]="modalData"
+></app-confirm-dialog>
