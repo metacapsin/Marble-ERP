@@ -1,5 +1,12 @@
 import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from "@angular/forms";
 import { routes } from "src/app/shared/routes/routes";
 import { staffLeavesService } from "../staff-leaves.service";
 import { Router } from "@angular/router";
@@ -48,20 +55,24 @@ export class StaffLeavesAddComponent {
     private messageService: MessageService,
     private router: Router
   ) {
-    this.addLeaveForm = this.fb.group({
-      employee: ["", [Validators.required]],
-      leaveDuration: ["", [Validators.required]],
-      noOfDay: [
-        "",
-        [Validators.required, Validators.min(0.5), Validators.max(30)],
-      ],
-      leaveType: ["", Validators.required],
-      from: ["", Validators.required],
-      to: ["", Validators.required],
-      // halfDay: ["no"],
-      leaveReason: [""],
-    });
-
+    this.addLeaveForm = this.fb.group(
+      {
+        employee: ["", [Validators.required]],
+        leaveDuration: ["", [Validators.required]],
+        noOfDay: [
+          "",
+          [Validators.required, Validators.min(0.5), Validators.max(30)],
+        ],
+        leaveType: ["", Validators.required],
+        from: ["", Validators.required],
+        to: ["", Validators.required],
+        // halfDay: ["no"],
+        leaveReason: [""],
+      },
+      {
+        validator: this.dateRangeValidator(), // Add the custom validator here
+      }
+    );
     // Subscribe to changes in the Leave Type field
     this.addLeaveForm.get("leaveType").valueChanges.subscribe(() => {
       this.leaveTypeChange();
@@ -81,6 +92,23 @@ export class StaffLeavesAddComponent {
     // });
   }
 
+  // Custom Validator Function
+  dateRangeValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const fromDate = control.get("from")?.value;
+      const toDate = control.get("to")?.value;
+
+      if (
+        fromDate &&
+        toDate &&
+        moment(fromDate, "MM/DD/YYYY").isAfter(moment(toDate, "MM/DD/YYYY"))
+      ) {
+        return { dateRangeInvalid: true }; // Return error if fromDate is after toDate
+      }
+      return null;
+    };
+  }
+
   ngOnInit(): void {
     this.staffService.getStaffData().subscribe((resp: any) => {
       this.employeeList = resp.map((e) => ({
@@ -94,13 +122,17 @@ export class StaffLeavesAddComponent {
   }
 
   calculateNumberOfDays(): void {
+    // if (this.addLeaveForm.hasError("dateRangeInvalid")) {
+    //   this.addLeaveForm.get("noOfDay").setValue(0);
+    //   return;
+    // }
     const fromDate = this.addLeaveForm.get("from").value;
     const toDate = this.addLeaveForm.get("to").value;
     const leaveDuration = this.addLeaveForm.get("leaveDuration").value;
 
     if (fromDate && toDate) {
       const from = moment(fromDate, "MM/DD/YYYY");
-      const to = moment(toDate, "MM/DD/YYYY");
+      const to = moment(toDate, "MM/DD/YYYY");  
       // Calculate the total number of days between fromDate and toDate, including both
       let days = to.diff(from, "days") + 1; // Including the start date
 
@@ -148,7 +180,6 @@ export class StaffLeavesAddComponent {
       this.addLeaveForm.get("noOfDay").setValue("");
     }
   }
-
 
   addLeaveFormSubmit() {
     const formData = this.addLeaveForm.value;

@@ -416,7 +416,7 @@ export class DataService {
               base: routes.staffList,
             },
             {
-              menuValue: "Leaves",
+              menuValue: "Leave Request",
               route: routes.staffLeave,
               base: routes.staffLeave,
             },

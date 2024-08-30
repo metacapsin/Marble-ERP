@@ -173,7 +173,7 @@
           console.log(resp);
           if (resp) {
             if (resp.status === "success") {
-              const message = "Payment has been added";
+              const message = "Employee Salary has been added.";
               this.messageService.add({ severity: "success", detail: message });
               setTimeout(() => {
                 this.router.navigate(["/employee-payment"]);

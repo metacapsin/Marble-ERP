@@ -88,7 +88,8 @@ export class EmployeepPaymentListComponent {
 
   callBackModal() {
     this.Service.deleteSalaryPayment(this.paymentId).subscribe((resp: any) => {
-      this.messageService.add({ severity: "success", detail: resp.message });
+      const message="Employee Salary payment has been deleted ."
+      this.messageService.add({ severity: "success", detail: message });
       this.employeeSalaryPaymentList();
       this.showDialoge = false;
     });
