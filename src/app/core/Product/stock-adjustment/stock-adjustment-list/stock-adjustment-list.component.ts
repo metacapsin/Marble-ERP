@@ -96,9 +96,11 @@ export class StockAdjustmentListComponent implements OnInit {
           return i;
         }
       });
+      console.log(this.stockAdjustmentDataList);
     }
   }
-
+  
+  
   getAdjustmentList(): void {
     this.service.getAdjustmentList().subscribe((resp: any) => {
       this.stockAdjustmentDataList = resp.data;
@@ -285,5 +287,6 @@ export class StockAdjustmentListComponent implements OnInit {
     if (this.searchDataValue == "") {
       return (this.stockAdjustmentDataList = this.originalData);
     }
+    console.log(this.stockAdjustmentDataList);
   }
 }

@@ -63,26 +63,47 @@
                     <h3>Stocks Adjustment List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
-                          (ngModelChange)="searchData()" />
-                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Search here"
+                          [(ngModel)]="searchDataValue"
+                          (ngModelChange)="searchData()"
+                        />
+                        <a class="btn"
+                          ><img src="assets/img/icons/search-normal.svg" alt=""
+                        /></a>
                       </div>
                       <div class="add-group textbtn">
-                        <a appShowHide [roles]="['admin', 'super-admin']" (click)="addstockAdjustmentDialog()"
-                          class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt="" /> Add
-                          New</a>
+                        <a
+                          appShowHide
+                          [roles]="['admin', 'super-admin']"
+                          (click)="addstockAdjustmentDialog()"
+                          class="btn btn-primary add-pluss ms-2"
+                          ><img src="assets/img/icons/plus.svg" alt="" /> Add
+                          New</a
+                        >
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
-                  [roles]="['admin', 'super-admin']">
+                <div
+                  class="col-auto text-end float-end ms-auto download-grp"
+                  appShowHide
+                  [roles]="['admin', 'super-admin']"
+                >
                   <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
                                             alt="" pTooltip="Download data in PDF file" tooltipPosition="bottom"
                                         tooltipStyleClass="tooltip"></a> -->
-                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                      (click)="dt.exportCSV()" alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
-                      tooltipStyleClass="tooltip"></a>
+                  <a href="javascript:;" class="me-2"
+                    ><img
+                      src="assets/img/icons/pdf-icon-03.svg"
+                      (click)="dt.exportCSV()"
+                      alt=""
+                      pTooltip="Download data in CSV file "
+                      tooltipPosition="left"
+                      tooltipStyleClass="tooltip"
+                  /></a>
                 </div>
               </div>
 
@@ -91,9 +112,18 @@
                   <div class="col-lg-4 col-md-4 h-2">
                     <div class="form-group local-forms">
                       <label for="warehouseDetails">Filter By</label>
-                      <p-dropdown [options]="warehouseData" styleClass="" appendTo="body"
-                        placeholder="Filter By Warehouse" [style]="{ width: '100%' }" [filter]="true" optionLabel="name"
-                        optionValue="_id" [showClear]="true" (onChange)="onSearchByChange($event.value)" >
+                      <p-dropdown
+                        [options]="warehouseData"
+                        styleClass=""
+                        appendTo="body"
+                        placeholder="Filter By Warehouse"
+                        [style]="{ width: '100%' }"
+                        [filter]="true"
+                        optionLabel="name"
+                        optionValue="_id"
+                        [showClear]="true"
+                        (onChange)="onSearchByChange($event.value)"
+                      >
                       </p-dropdown>
                     </div>
                   </div>
@@ -102,7 +132,8 @@
             </div>
 
             <div class="card-body p-2">
-              <p-table [value]="
+              <p-table
+                [value]="
                   stockAdjustmentDataList
                     | filter
                       : searchDataValue
@@ -116,54 +147,104 @@
                           'currentQty',
                           'note'
                         ]
-                " [tableStyle]="{ 'min-width': '60rem' }" [paginator]="stockAdjustmentDataList?.length >= 5"
-                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot"
-                styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)" #dt
-                [columns]="cols" [exportHeader]="'customExportHeader'" exportFilename="Stocks Adjustment">
+                "
+                [tableStyle]="{ 'min-width': '60rem' }"
+                [paginator]="stockAdjustmentDataList?.length >= 5"
+                [rows]="10"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                [(selection)]="selectedlot"
+                styleClass="p-datatable-striped"
+                selectionMode="multiple"
+                (onFilter)="onFilter($event)"
+                #dt
+                [columns]="cols"
+                [exportHeader]="'customExportHeader'"
+                exportFilename="Stocks Adjustment"
+              >
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="createdOn">
                       Adjustment Date
                       <p-sortIcon field="createdOn"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="createdOn"
-                        display="menu"></p-columnFilter>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="createdOn"
+                        display="menu"
+                      ></p-columnFilter>
                     </th>
                     <th pSortableColumn="slabs.slabName">
                       Slab Name <p-sortIcon field="slabs.slabName"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="slabs.slabName"
-                        display="menu"></p-columnFilter>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="slabs.slabName"
+                        display="menu"
+                      ></p-columnFilter>
                     </th>
                     <th pSortableColumn="warehouse.name">
                       Warehouse <p-sortIcon field="warehouse.name"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="warehouse.name"
-                        display="menu"></p-columnFilter>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="warehouse.name"
+                        display="menu"
+                      ></p-columnFilter>
                     </th>
                     <th pSortableColumn="adjustmentType">
                       Adjustment Type
                       <p-sortIcon field="adjustmentType"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="adjustmentType"
-                        display="menu"></p-columnFilter>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="adjustmentType"
+                        display="menu"
+                      ></p-columnFilter>
                     </th>
                     <th pSortableColumn="previousQty">
                       Previous Qty<p-sortIcon field="previousQty"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="previousQty"
-                        display="menu"></p-columnFilter>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="previousQty"
+                        display="menu"
+                      ></p-columnFilter>
                     </th>
                     <th pSortableColumn="quantity">
                       Adjustment Qty<p-sortIcon field="quantity"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="quantity"
-                        display="menu"></p-columnFilter>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="quantity"
+                        display="menu"
+                      ></p-columnFilter>
                     </th>
                     <th pSortableColumn="currentQty">
                       Adjusted Qty<p-sortIcon field="currentQty"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="currentQty"
-                        display="menu"></p-columnFilter>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="currentQty"
+                        display="menu"
+                      ></p-columnFilter>
                     </th>
 
                     <th pSortableColumn="note">
                       Notes<p-sortIcon field="note"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="note"
-                        display="menu"></p-columnFilter>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="note"
+                        display="menu"
+                      ></p-columnFilter>
                     </th>
                     <th width="13%">Action</th>
                   </tr>
@@ -178,35 +259,83 @@
                     <td>{{ stock.quantity + " Sq. Feet. " }}</td>
                     <td>{{ stock.currentQty + " Sq. Feet. " }}</td>
                     <td *ngIf="!stock.note"></td>
-                    <td *ngIf="stock.note" class="OverHide" (click)="op.toggle($event)" pTooltip="Click to See More"
-                      tooltipPosition="bottom" tooltipStyleClass="tooltip">
+                    <td
+                      *ngIf="stock.note"
+                      class="OverHide"
+                      (click)="op.toggle($event)"
+                      pTooltip="Click to See More"
+                      tooltipPosition="bottom"
+                      tooltipStyleClass="tooltip"
+                    >
                       {{ stock.note }}
                       <p-overlayPanel #op>
-                        <div style="width: 25rem; display: flex;  flex-direction: column; gap: 3;">
+                        <div
+                          style="
+                            width: 25rem;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 3;
+                          "
+                        >
                           <div>
                             <h4>Notes</h4>
-                            <p style="word-wrap: break-word; white-space: pre-wrap;">{{ stock.note }}</p>
+                            <p
+                              style="
+                                word-wrap: break-word;
+                                white-space: pre-wrap;
+                              "
+                            >
+                              {{ stock.note }}
+                            </p>
                           </div>
                         </div>
                       </p-overlayPanel>
-
                     </td>
-                    <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
-                      <p-button [text]="true" icon="fa-solid fa-edit" pTooltip="Edit" tooltipPosition="bottom"
-                        tooltipStyleClass="tooltip" (click)="editstockAdjustmentDialog(stock._id)"></p-button>
-                      <p-button [text]="true" icon="fa-solid fa-trash" pTooltip="Delete" tooltipPosition="bottom"
-                        tooltipStyleClass="tooltip" (click)="deleteStockAdjustment(stock._id)"></p-button>
+                    <td
+                      appShowHide
+                      [roles]="['admin', 'super-admin']"
+                      class="action-buttons"
+                    >
+                      <p-button
+                        [text]="true"
+                        icon="fa-solid fa-edit"
+                        pTooltip="Edit"
+                        tooltipPosition="bottom"
+                        tooltipStyleClass="tooltip"
+                        (click)="editstockAdjustmentDialog(stock._id)"
+                      ></p-button>
+                      <p-button
+                        [text]="true"
+                        icon="fa-solid fa-trash"
+                        pTooltip="Delete"
+                        tooltipPosition="bottom"
+                        tooltipStyleClass="tooltip"
+                        (click)="deleteStockAdjustment(stock._id)"
+                      ></p-button>
                     </td>
                   </tr>
                 </ng-template>
-                <ng-template pTemplate="emptymessage">
+                <!-- <ng-template pTemplate="emptymessage">
                   <tr>
                     <td colspan="9" class="text-center">
                       No stock adjustment found.
                     </td>
                   </tr>
-                </ng-template>
+                </ng-template> -->
+                <!-- Check if stockAdjustmentDataList is undefined or empty -->
               </p-table>
+              <div
+                *ngIf="
+                  !stockAdjustmentDataList ||
+                  stockAdjustmentDataList.length === 0
+                "
+              >
+                <tr>
+                  <td colspan="9" class="text-center">
+                    No stock adjustment found.
+                  </td>
+                </tr>
+              </div>
             </div>
           </div>
         </div>
@@ -215,29 +344,52 @@
   </div>
 </div>
 
-<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
-  [data]="modalData"></app-confirm-dialog>
+<app-confirm-dialog
+  [showDialog]="showDialog"
+  (callbackModal)="callBackModal()"
+  (close)="close()"
+  [data]="modalData"
+></app-confirm-dialog>
 
 <!-- --------------- add stock Adjustment PopUp --------------- -->
 
-<p-dialog header="Add Stock Adjustment" [(visible)]="addstockAdjustment" [modal]="true" [style]="{ width: '50%' }">
+<p-dialog
+  header="Add Stock Adjustment"
+  [(visible)]="addstockAdjustment"
+  [modal]="true"
+  [style]="{ width: '50%' }"
+>
   <div class="modal-content">
     <div class="modal-body">
-      <form [formGroup]="addStockAdjustmentForm" (ngSubmit)="addStockAdjustmentFormSubmit()">
+      <form
+        [formGroup]="addStockAdjustmentForm"
+        (ngSubmit)="addStockAdjustmentFormSubmit()"
+      >
         <div class="row mt-2">
           <div class="col-md-6 col-sm-12">
             <div class="form-group local-forms">
-              <label for="adjustmentType">Adjustment Type<span class="login-danger">*</span></label>
-              <p-dropdown [options]="adjustmentTypeData" styleClass="" appendTo="body" optionLabel="name"
-                optionValue="value" placeholder="Select Adjustment Type" formControlName="adjustmentType"
-                [style]="{ width: '100%' }">
+              <label for="adjustmentType"
+                >Adjustment Type<span class="login-danger">*</span></label
+              >
+              <p-dropdown
+                [options]="adjustmentTypeData"
+                styleClass=""
+                appendTo="body"
+                optionLabel="name"
+                optionValue="value"
+                placeholder="Select Adjustment Type"
+                formControlName="adjustmentType"
+                [style]="{ width: '100%' }"
+              >
               </p-dropdown>
-              <div *ngIf="
+              <div
+                *ngIf="
                   addStockAdjustmentForm
                     .get('adjustmentType')
                     ?.hasError('required') &&
                   addStockAdjustmentForm.get('adjustmentType')?.touched
-                ">
+                "
+              >
                 <span class="login-danger">Field is required.</span>
               </div>
             </div>
@@ -245,17 +397,31 @@
 
           <div class="col-md-6 col-sm-12">
             <div class="form-group local-forms">
-              <label for="warehouse">Warehouse <span class="login-danger">*</span></label>
-              <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name" optionValue="_id"
-                placeholder="Select Warehouse" formControlName="warehouse" [style]="{ width: '100%' }" [filter]="true"
-                filterBy="name" (onChange)="onWarehouseSelect($event.value)">
+              <label for="warehouse"
+                >Warehouse <span class="login-danger">*</span></label
+              >
+              <p-dropdown
+                [options]="warehouseData"
+                styleClass=""
+                appendTo="body"
+                optionLabel="name"
+                optionValue="_id"
+                placeholder="Select Warehouse"
+                formControlName="warehouse"
+                [style]="{ width: '100%' }"
+                [filter]="true"
+                filterBy="name"
+                (onChange)="onWarehouseSelect($event.value)"
+              >
               </p-dropdown>
-              <div *ngIf="
+              <div
+                *ngIf="
                   addStockAdjustmentForm
                     .get('warehouse')
                     ?.hasError('required') &&
                   addStockAdjustmentForm.get('warehouse')?.touched
-                ">
+                "
+              >
                 <span class="login-danger">Field is required.</span>
               </div>
             </div>
@@ -264,14 +430,26 @@
           <div class="col-md-6 col-sm-12">
             <div class="form-group local-forms">
               <label for="slabs">Slab<span class="login-danger">*</span></label>
-              <p-dropdown [options]="slabData" styleClass="" appendTo="body" optionLabel="name" optionValue="_id"
-                placeholder="Select slab" formControlName="slabs" [style]="{ width: '100%' }" [filter]="true"
-                filterBy="name" (onChange)="settotalSQFT($event.value)">
+              <p-dropdown
+                [options]="slabData"
+                styleClass=""
+                appendTo="body"
+                optionLabel="name"
+                optionValue="_id"
+                placeholder="Select slab"
+                formControlName="slabs"
+                [style]="{ width: '100%' }"
+                [filter]="true"
+                filterBy="name"
+                (onChange)="settotalSQFT($event.value)"
+              >
               </p-dropdown>
-              <div *ngIf="
+              <div
+                *ngIf="
                   addStockAdjustmentForm.get('slab')?.hasError('required') &&
                   addStockAdjustmentForm.get('slab')?.touched
-                ">
+                "
+              >
                 <span class="login-danger">Field is required.</span>
               </div>
             </div>
@@ -282,27 +460,41 @@
               <label for="currentQty">Current Quantity ( Sq. Feet. )</label>
               <span class="form-control">{{
                 addStockAdjustmentForm.get("currentQty").value
-                }}</span>
+              }}</span>
             </div>
           </div>
 
           <div class="col-md-6 col-sm-12">
             <div class="form-group local-forms">
-              <label for="quantity">Adjustment Quantity ( Sq. Feet. )<span class="login-danger">*</span></label>
-              <input type="number" formControlName="quantity" class="form-control" />
-              <div *ngIf="
+              <label for="quantity"
+                >Adjustment Quantity ( Sq. Feet. )<span class="login-danger"
+                  >*</span
+                ></label
+              >
+              <input
+                type="number"
+                formControlName="quantity"
+                class="form-control"
+              />
+              <div
+                *ngIf="
                   addStockAdjustmentForm
                     .get('quantity')
                     ?.hasError('required') &&
                   addStockAdjustmentForm.get('quantity')?.touched
-                ">
+                "
+              >
                 <span class="login-danger">Field is required.</span>
               </div>
-              <div *ngIf="
+              <div
+                *ngIf="
                   addStockAdjustmentForm.get('quantity')?.hasError('min') &&
                   addStockAdjustmentForm.get('quantity')?.touched
-                ">
-                <span class="login-danger">Adjustment Quantity should be greater than 0.</span>
+                "
+              >
+                <span class="login-danger"
+                  >Adjustment Quantity should be greater than 0.</span
+                >
               </div>
             </div>
           </div>
@@ -310,17 +502,29 @@
           <div class="col-md-6 col-sm-12">
             <div class="form-group local-forms">
               <label for="note">Notes<span class="login-danger">*</span></label>
-              <textarea class="form-control" type="text" formControlName="note" placeholder="" rows="1"></textarea>
-              <div *ngIf="
+              <textarea
+                class="form-control"
+                type="text"
+                formControlName="note"
+                placeholder=""
+                rows="1"
+              ></textarea>
+              <div
+                *ngIf="
                   addStockAdjustmentForm.get('note')?.hasError('pattern') &&
                   addStockAdjustmentForm.get('note')?.touched
-                ">
-                <span class="login-danger">Input must be between 1 to 250 characters.</span>
+                "
+              >
+                <span class="login-danger"
+                  >Input must be between 1 to 250 characters.</span
+                >
               </div>
-              <div *ngIf="
-              addStockAdjustmentForm.get('note')?.hasError('required') &&
-              addStockAdjustmentForm.get('note')?.touched
-                ">
+              <div
+                *ngIf="
+                  addStockAdjustmentForm.get('note')?.hasError('required') &&
+                  addStockAdjustmentForm.get('note')?.touched
+                "
+              >
                 <span class="login-danger">Field is required.</span>
               </div>
             </div>
@@ -328,11 +532,17 @@
 
           <div class="col-12 col-sm-12">
             <div class="settings-btns text-end m-b-10">
-              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                [disabled]="!addStockAdjustmentForm.valid">
+              <button
+                type="submit"
+                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                [disabled]="!addStockAdjustmentForm.valid"
+              >
                 Submit
               </button>
-              <button class="btn btn-secondary" (click)="addstockAdjustment = false">
+              <button
+                class="btn btn-secondary"
+                (click)="addstockAdjustment = false"
+              >
                 Cancel
               </button>
             </div>
@@ -343,17 +553,27 @@
   </div>
 </p-dialog>
 
-<p-dialog header="Edit Stock Adjustment" [(visible)]="editstockAdjustment" [modal]="true" [style]="{ width: '50%' }">
+<p-dialog
+  header="Edit Stock Adjustment"
+  [(visible)]="editstockAdjustment"
+  [modal]="true"
+  [style]="{ width: '50%' }"
+>
   <div class="modal-content">
     <div class="modal-body">
-      <form [formGroup]="editStockAdjustmentForm" (ngSubmit)="editStockAdjustmentFormSubmit()">
+      <form
+        [formGroup]="editStockAdjustmentForm"
+        (ngSubmit)="editStockAdjustmentFormSubmit()"
+      >
         <div class="row mt-2">
           <div class="col-md-6 col-sm-12">
             <div class="form-group local-forms">
-              <label for="adjustmentType">Adjustment Type<span class="login-danger">*</span></label>
+              <label for="adjustmentType"
+                >Adjustment Type<span class="login-danger">*</span></label
+              >
               <span class="form-control">{{
                 editStockAdjustmentForm.get("adjustmentType").value
-                }}</span>
+              }}</span>
               <!-- <p-dropdown [options]="adjustmentTypeData" styleClass="" appendTo="body" optionLabel="name"
                                 optionValue="value" placeholder="Select Adjustment Type" formControlName="adjustmentType"
                                 [style]="{ width: '100%' }">
@@ -368,9 +588,19 @@
           <div class="col-md-6 col-sm-12">
             <div class="form-group local-forms">
               <label for="warehouse">Warehouse</label>
-              <p-dropdown [options]="warehouseData" styleClass="" appendTo="body" optionLabel="name" optionValue="_id"
-                placeholder="Select Warehouse" formControlName="warehouse" [style]="{ width: '100%' }" [filter]="true"
-                filterBy="name" (onChange)="onWarehouseSelect($event.value)">
+              <p-dropdown
+                [options]="warehouseData"
+                styleClass=""
+                appendTo="body"
+                optionLabel="name"
+                optionValue="_id"
+                placeholder="Select Warehouse"
+                formControlName="warehouse"
+                [style]="{ width: '100%' }"
+                [filter]="true"
+                filterBy="name"
+                (onChange)="onWarehouseSelect($event.value)"
+              >
               </p-dropdown>
             </div>
           </div>
@@ -378,14 +608,26 @@
           <div class="col-md-6 col-sm-12">
             <div class="form-group local-forms">
               <label for="slabs">Slab<span class="login-danger">*</span></label>
-              <p-dropdown [options]="slabData" styleClass="" appendTo="body" optionLabel="name" optionValue="_id"
-                placeholder="Select slab" formControlName="slabs" [style]="{ width: '100%' }" [filter]="true"
-                filterBy="name" (onChange)="settotalSQFTEdit($event.value)">
+              <p-dropdown
+                [options]="slabData"
+                styleClass=""
+                appendTo="body"
+                optionLabel="name"
+                optionValue="_id"
+                placeholder="Select slab"
+                formControlName="slabs"
+                [style]="{ width: '100%' }"
+                [filter]="true"
+                filterBy="name"
+                (onChange)="settotalSQFTEdit($event.value)"
+              >
               </p-dropdown>
-              <div *ngIf="
+              <div
+                *ngIf="
                   editStockAdjustmentForm.get('slab')?.hasError('required') &&
                   editStockAdjustmentForm.get('slab')?.touched
-                ">
+                "
+              >
                 <span class="login-danger">Field is required.</span>
               </div>
             </div>
@@ -396,44 +638,70 @@
               <label for="currentQty">Current Quantity ( Sq. Feet. )</label>
               <span class="form-control">{{
                 editStockAdjustmentForm.get("currentQty").value
-                }}</span>
+              }}</span>
             </div>
           </div>
 
           <div class="col-md-6 col-sm-12">
             <div class="form-group local-forms">
-              <label for="quantity">Adjustment Quantity ( Sq. Feet. )<span class="login-danger">*</span></label>
-              <input type="number" formControlName="quantity" class="form-control" />
-              <div *ngIf="
+              <label for="quantity"
+                >Adjustment Quantity ( Sq. Feet. )<span class="login-danger"
+                  >*</span
+                ></label
+              >
+              <input
+                type="number"
+                formControlName="quantity"
+                class="form-control"
+              />
+              <div
+                *ngIf="
                   editStockAdjustmentForm
                     .get('quantity')
                     ?.hasError('required') &&
                   editStockAdjustmentForm.get('quantity')?.touched
-                ">
+                "
+              >
                 <span class="login-danger">Field is required.</span>
               </div>
-              <div *ngIf="
+              <div
+                *ngIf="
                   editStockAdjustmentForm.get('quantity')?.hasError('min') &&
                   editStockAdjustmentForm.get('quantity')?.touched
-                ">
-                <span class="login-danger">Adjustment Quantity should be greater than 0.</span>
+                "
+              >
+                <span class="login-danger"
+                  >Adjustment Quantity should be greater than 0.</span
+                >
               </div>
             </div>
           </div>
           <div class="col-md-6 col-sm-12">
             <div class="form-group local-forms">
               <label for="note">Notes<span class="login-danger">*</span></label>
-              <textarea class="form-control" type="text" formControlName="note" placeholder="" rows="1"></textarea>
-              <div *ngIf="
+              <textarea
+                class="form-control"
+                type="text"
+                formControlName="note"
+                placeholder=""
+                rows="1"
+              ></textarea>
+              <div
+                *ngIf="
                   editStockAdjustmentForm.get('note')?.hasError('pattern') &&
                   editStockAdjustmentForm.get('note')?.touched
-                ">
-                <span class="login-danger">Input must be between 1 to 250 characters.</span>
+                "
+              >
+                <span class="login-danger"
+                  >Input must be between 1 to 250 characters.</span
+                >
               </div>
-              <div *ngIf="
+              <div
+                *ngIf="
                   editStockAdjustmentForm.get('note')?.hasError('required') &&
                   editStockAdjustmentForm.get('note')?.touched
-                ">
+                "
+              >
                 <span class="login-danger">Field is required.</span>
               </div>
             </div>
@@ -441,11 +709,17 @@
 
           <div class="col-12">
             <div class="settings-btns text-end m-b-10">
-              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                [disabled]="!editStockAdjustmentForm.valid">
+              <button
+                type="submit"
+                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                [disabled]="!editStockAdjustmentForm.valid"
+              >
                 Submit
               </button>
-              <button class="btn btn-secondary" (click)="editstockAdjustment = false">
+              <button
+                class="btn btn-secondary"
+                (click)="editstockAdjustment = false"
+              >
                 Cancel
               </button>
             </div>
