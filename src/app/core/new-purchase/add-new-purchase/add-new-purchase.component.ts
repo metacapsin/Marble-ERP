@@ -107,12 +107,6 @@ export class AddNewPurchaseComponent implements OnInit {
   }
   ngOnInit(): void {
     this.NewPurchaseService.clearFormData();
-
-    
-    this.addNewPurchaseForm.statusChanges.subscribe(status => {
-      console.log('Form Status:', status); // 'VALID' or 'INVALID'
-    });
-
     this.supplier = this.localStorageService.getItem("supplier");
     this.returnUrl = this.localStorageService.getItem("returnUrl");
     if (this.supplier) {

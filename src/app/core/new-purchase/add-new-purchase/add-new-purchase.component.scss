@@ -1,13 +1,18 @@
 // .p-stepper ul {
 //     padding-left: 0px;
 
-    .p-stepper .p-stepper-panels {
-        background: #ffffff;
-        padding: 0%; 
-        color: #4b5563;
+.p-stepper .p-stepper-panels {
+    background: #ffffff;
+    padding: 0%;
+    color: #4b5563;
+}
+
+ul {
+    padding-left: 0 !important;
+}
+
+@media only screen and (max-width: 913px) {
+    .m10 {
+        margin-top: 10px;
     }
-    @media only screen and (max-width: 913px) {
-        .m10 {
-            margin-top: 10px;
-        }
-    }
+}

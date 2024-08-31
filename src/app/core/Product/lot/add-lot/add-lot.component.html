@@ -390,7 +390,7 @@
           <!-- Block Number Field -->
           <div class="col-12 col-md-6 col-xl-6 mt-2">
             <div class="form-group local-forms">
-              <label for="blockNo">Blocks Number<span class="login-danger">*</span></label>
+              <label for="blockNo">Block Number<span class="login-danger">*</span></label>
               <input type="text" id="blockNo" name="blockNo" class="form-control" required pattern="^.{1,50}$"
                 [(ngModel)]="blockNo" (change)="getblockDetails()" #block="ngModel" />
               <div *ngIf="block.invalid && block.touched">

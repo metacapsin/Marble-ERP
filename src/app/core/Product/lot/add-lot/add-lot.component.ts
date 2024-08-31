@@ -109,7 +109,7 @@ export class AddLotComponent {
       ],
       royaltyCharge: [
         "",
-        [Validators.min(0), Validators.max(100000)],
+        [Validators.min(1), Validators.max(100000)],
       ],
       // notes: ["", [Validators.pattern(this.descriptionRegex)]],
       blocksCount: [""],
@@ -121,11 +121,11 @@ export class AddLotComponent {
   ngOnInit(): void {
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data.map((element: any) => ({
+        name: element.name,
+        _id: {
           name: element.name,
-          _id: {
-            name: element.name,
-            _id: element._id,
-          },
+          _id: element._id,
+        },
       }));
 
       this.lotAddForm.get('vehicleNo')?.valueChanges.subscribe(value => {
@@ -134,7 +134,7 @@ export class AddLotComponent {
           this.lotAddForm.get('vehicleNo')?.setValue(upperCaseValue, { emitEvent: false });
         }
       });
-  });
+    });
     this.lotPurchaseCost = this.NewPurchaseService.getFormData("stepperOneData");
     console.log("stepperOneData", this.lotPurchaseCost);
 
@@ -248,30 +248,22 @@ export class AddLotComponent {
   }
 
   calculateTotalAmount() {
-    console.log(this.lotAddForm
-      .get('warehouse')
-      ?.value);
-    
     let pricePerTon: number;
-    let lotWeight: number = this.lotAddForm.get("lotWeight").value || 0;
+    let lotWeight: number = this.lotAddForm.get("lotWeight").value;
     if (lotWeight) {
       pricePerTon = this.lotPurchaseCost / lotWeight;
       this.lotAddForm.get("pricePerTon").patchValue(pricePerTon.toFixed(3));
-      // this.lotAddForm.get("pricePerTon").disable();
     } else {
       this.lotAddForm.get("pricePerTon").enable();
     }
 
-    // let pricePerTon = this.lotAddForm.get("pricePerTon").value || 0;
-    let royaltyCharge: number = this.lotAddForm.get("royaltyCharge").value || 0;
-    let transportationCharge: number = this.lotAddForm.get("transportationCharge").value || 0;
-    // let taxAmount: number = this.lotAddForm.get("taxAmount").value || 0;
+    let royaltyCharge: number = this.lotAddForm.get("royaltyCharge").value;
+    let transportationCharge: number = this.lotAddForm.get("transportationCharge").value;
 
     let averageTransportation = transportationCharge / lotWeight;
     console.log(averageTransportation, "averageTransportation");
 
     let averageRoyalty = royaltyCharge / lotWeight;
-    // let averageTaxAmount = taxAmount / lotWeight;
     let averageBlocksWeight = this.totalBlocksArea / lotWeight;
     console.log(averageTransportation, averageRoyalty);
 
@@ -282,18 +274,11 @@ export class AddLotComponent {
         parseFloat(element.weightPerBlock) * averageTransportation;
       element.royaltyCosting =
         parseFloat(element.weightPerBlock) * averageRoyalty;
-      // element.taxAmountCosting =
-      //   parseFloat(element.weightPerBlock) * averageTaxAmount;
-
       let rawCosting = parseFloat(element.rawCosting);
       let transportationCosting = parseFloat(element.transportationCosting);
       let royaltyCosting = parseFloat(element.royaltyCosting);
-      // let taxAmountCosting = parseFloat(element.taxAmountCosting);
       element.totalCosting =
         rawCosting + transportationCosting + royaltyCosting;
-      // this.lotTotalCost += element.totalCosting;
-      // this.totalRawCosting += rawCosting; // Accumulate rawCosting
-      // console.log(this.totalRawCosting);
     });
 
     this.lotAddForm.patchValue({
@@ -307,42 +292,40 @@ export class AddLotComponent {
 
   LotAddFormSubmit() {
     const data = this.lotAddForm.value;
-    if(!this.lotTotalCost){
-    this.blocksDetails.forEach((e: any) => {
-      this.lotTotalCost += e.totalCosting;
-    });
-    console.log(this.lotTotalCost);
-    const payload = {
-      lotNo: data.lotNo,
-      lotName: data.lotName,
-      warehouseDetails: data.warehouse,
-      vehicleNo: data.vehicleNo,
-      lotWeight: data.lotWeight,
-      pricePerTon: Number(data.pricePerTon),
-      transportationCharge: Number(data.transportationCharge),
-      royaltyCharge: Number(data.royaltyCharge),
-      blocksCount: this.blocksDetails.length,
-      averageWeight: data.averageWeight,
-      averageTransport: Number(data.averageTransport),
-      averageRoyaltyNumber:( data.averageRoyalty),
-      blockDetails: this.blocksDetails,
-      lotTotalCost: Number(this.lotTotalCost),
-      purchaseCost: "",
-      date: "",
-      notes: "",
-    };
-    // this.dataEmitter.emit(JSON.stringify(payload));
+    if (!this.lotTotalCost) {
+      this.blocksDetails.forEach((e: any) => {
+        this.lotTotalCost += e.totalCosting;
+      });
+      const payload = {
+        lotNo: data.lotNo,
+        lotName: data.lotName,
+        warehouseDetails: data.warehouse,
+        vehicleNo: data.vehicleNo,
+        lotWeight: data.lotWeight,
+        pricePerTon: Number(data.pricePerTon),
+        transportationCharge: Number(data.transportationCharge),
+        royaltyCharge: Number(data.royaltyCharge),
+        blocksCount: this.blocksDetails.length,
+        averageWeight: data.averageWeight,
+        averageTransport: Number(data.averageTransport),
+        averageRoyaltyNumber: (data.averageRoyalty),
+        blockDetails: this.blocksDetails,
+        lotTotalCost: Number(this.lotTotalCost),
+        purchaseCost: "",
+        date: "",
+        notes: "",
+      };
+      // this.dataEmitter.emit(JSON.stringify(payload));
 
-    console.log("payload", payload);
-    this.NewPurchaseService.setFormData('stepTwoData', payload)
-    if(this.lotAddForm.valid){
-          const message = "Lot Values has been saved";
-          this.messageService.add({ severity: "success", detail: message });
-    } else {
-          const message = "Lot Values are not valid";
-          this.messageService.add({ severity: "error", detail: message });
+      this.NewPurchaseService.setFormData('stepTwoData', payload)
+      // if(this.lotAddForm.valid){
+      //       const message = "Lot Values has been saved";
+      //       this.messageService.add({ severity: "success", detail: message });
+      // } else {
+      //       const message = "Lot Values are not valid";
+      //       this.messageService.add({ severity: "error", detail: message });
+      // }
     }
-  }
     // this.NewPurchaseService.setFormData(payload)
     // this.subject.next(payload);
     // if (this.lotAddForm.valid) {
