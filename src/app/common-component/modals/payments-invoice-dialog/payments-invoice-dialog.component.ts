@@ -1,15 +1,13 @@
 import { CommonModule } from "@angular/common";
-import { HttpClient } from "@angular/common/http";
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChange } from "@angular/core";
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { Router, RouterModule } from "@angular/router";
+import { RouterModule } from "@angular/router";
 import { MessageService } from "primeng/api";
 import { CalendarModule } from "primeng/calendar";
 import { DialogModule } from "primeng/dialog";
@@ -17,13 +15,11 @@ import { DropdownModule } from "primeng/dropdown";
 import { TableModule } from "primeng/table";
 import { TabViewModule } from "primeng/tabview";
 import { ToastModule } from "primeng/toast";
-import { min } from "rxjs";
 import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
 import { PaymentInService } from "src/app/core/payment-in/payment-in.service";
 import { PaymentOutService } from "src/app/core/payment-out/payment-out.service";
 import { PurchaseReturnService } from "src/app/core/purchase-return/purchase-return.service";
 import { SalesReturnService } from "src/app/core/sales-return/sales-return.service";
-import { SalesService } from "src/app/core/sales/sales.service";
 import { SharedModule } from "src/app/shared/shared.module";
 
 @Component({
@@ -41,7 +37,7 @@ import { SharedModule } from "src/app/shared/shared.module";
     DropdownModule,
     ReactiveFormsModule,
     SharedModule,
-  
+
   ],
   templateUrl: "./payments-invoice-dialog.component.html",
   styleUrl: "./payments-invoice-dialog.component.scss",
@@ -49,8 +45,8 @@ import { SharedModule } from "src/app/shared/shared.module";
 export class PaymentsInvoiceDialogComponent implements OnInit {
   @Input() ShowPaymentInvoice: boolean;
   @Input() dataById: any = [];
-  @Input() dataItemsGrid: any ;
-  @Input() header:any;
+  @Input() dataItemsGrid: any;
+  @Input() header: any;
   @Output() callbackModalForPayment = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();
   paymentInvoiceForm: FormGroup;
@@ -93,13 +89,44 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  ngOnChanges(changes: SimpleChange) {
+    console.log("this.ShowPaymentInvoice", this.ShowPaymentInvoice);
+
+    if (this.ShowPaymentInvoice) {
+      let totalAmount = this.paymentInvoiceForm.get('totalAmount')
+      
+      if (this.dataById.isPurchase) {
+        totalAmount.clearValidators();
+        console.log("this.dataById.isPurchase",this.dataById.isPurchase);
+        
+        totalAmount.setValidators(
+          [
+            Validators.required,
+            Validators.min(0),
+            Validators.max(this.dataById.purchaseDueAmount),
+          ],);
+          totalAmount.updateValueAndValidity();
+      } else if (this.dataById.isSales) {
+        totalAmount.clearValidators();
+        totalAmount.setValidators(
+          [
+            Validators.required,
+            Validators.min(0),
+            Validators.max(this.dataById.salesDueAmount),
+          ],);
+          totalAmount.updateValueAndValidity();
+      }
+
+    }
+  }
 
   closeTheWindow() {
     this.close.emit();
     this.paymentInvoiceForm.reset();
     // this.dataById=[]
-    console.log("this is data from open payment return dialog",this.dataItemsGrid)
+    console.log("this is data from open payment return dialog", this.dataItemsGrid)
   }
 
   onConfirm() {
@@ -107,7 +134,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   }
 
   paymentInvoiceFormSubmit() {
-    console.log("dataById",this.dataById);
+    console.log("dataById", this.dataById);
     const formData = this.paymentInvoiceForm.value;
 
     console.log("this is form data", formData);
@@ -259,10 +286,10 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         paymentDate: formData.paymentDate,
         paymentMode: formData.paymentMode,
         slabProcessing: {
-            _id: this.dataById.slabProcessing_id,
-            amount: Number(formData.totalAmount),
-          },
-          slabInvoiceNumber: this.dataById.processingInvoiceNo,
+          _id: this.dataById.slabProcessing_id,
+          amount: Number(formData.totalAmount),
+        },
+        slabInvoiceNumber: this.dataById.processingInvoiceNo,
         note: formData.note,
       };
       if (this.paymentInvoiceForm.valid) {
