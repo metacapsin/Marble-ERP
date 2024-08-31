@@ -149,6 +149,7 @@
                     </div>
                   </div>
 
+                  
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
                       <label for="blockProcessor">Processor<span class="login-danger">*</span></label>
@@ -212,6 +213,28 @@
                           <span class="input-group-text" style="font-size: 12px">Inch</span>
                         </div>
                         <input class="form-control" type="number" placeholder="Enter Width" formControlName="width" />
+                      </div>
+
+                      <div *ngIf="
+                          (slabsAddForm.get('width')?.hasError('min') &&
+                            slabsAddForm.get('width')?.touched) ||
+                          (slabsAddForm.get('width')?.hasError('max') &&
+                            slabsAddForm.get('width')?.touched)
+                        ">
+                        <span class="login-danger">
+                          input must be between 1 and 100,000.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4 col-xl-4 col-sm-12">
+                    <div class="form-group local-forms">
+                      <label for="pieces">pieces<span class="login-danger"></span></label>
+                      <div class="input-group">
+                        <!-- <div class="input-group-prepend">
+                          <span class="input-group-text" style="font-size: 12px">Inch</span>
+                        </div> -->
+                        <input class="form-control" type="number" placeholder="Enter pieces" formControlName="width" />
                       </div>
 
                       <div *ngIf="

@@ -191,22 +191,22 @@ export class AddSlabsComponent {
       });
       console.log(this.wareHousedataListsEditArray);
     });
-    
   }
 
-  findSubCategory(value: any){
+  findSubCategory(value: any) {
     let SubCategoryData: any = [];
-    this.slabsAddForm.get('subCategoryDetail').reset();
-    SubCategoryData = this.subCategoryList.filter(e => e.categoryId._id == value._id);
-      this.SubCategoryFilterArray = SubCategoryData.map((e) => ({
+    this.slabsAddForm.get("subCategoryDetail").reset();
+    SubCategoryData = this.subCategoryList.filter(
+      (e) => e.categoryId._id == value._id
+    );
+    this.SubCategoryFilterArray = SubCategoryData.map((e) => ({
+      name: e.name,
+      _id: {
+        _id: e._id,
         name: e.name,
-        _id: {
-          _id: e._id,
-          name: e.name,
-        },
-      }));
+      },
+    }));
   }
-
 
   // Function call for on warehouse Select
   onWarehouseSelect(value: any) {
@@ -245,6 +245,16 @@ export class AddSlabsComponent {
         purchaseCost: block.totalCosting.toFixed(4) || null,
       });
       this.calculateTotalAmount();
+    }
+    if (block.blockProcessor) {
+      console.log(block.blockProcessor);
+      this.slabsAddForm.patchValue({
+        blockProcessor: block.blockProcessor,
+      });
+
+      this.calculateTotalAmount();
+    } else {
+      this.slabsAddForm.get("blockProcessor")?.reset();
     }
   }
   calculateTotalAmount() {
@@ -320,10 +330,14 @@ export class AddSlabsComponent {
         purchaseCost: Number(this.slabsAddForm.value.purchaseCost),
         processingCost: Number(this.slabsAddForm.value.processingCost),
         otherCharges: Number(this.slabsAddForm.value.otherCharges),
-        transportationCharges:Number( this.slabsAddForm.value.transportationCharges),
-        totalCosting:Number( this.slabsAddForm.value.totalCosting),
-        costPerSQFT:Number( this.slabsAddForm.value.costPerSQFT),
-        sellingPricePerSQFT: Number(this.slabsAddForm.value.sellingPricePerSQFT),
+        transportationCharges: Number(
+          this.slabsAddForm.value.transportationCharges
+        ),
+        totalCosting: Number(this.slabsAddForm.value.totalCosting),
+        costPerSQFT: Number(this.slabsAddForm.value.costPerSQFT),
+        sellingPricePerSQFT: Number(
+          this.slabsAddForm.value.sellingPricePerSQFT
+        ),
         notes: this.slabsAddForm.value.notes,
         blockProcessor: this.slabsAddForm.value.blockProcessor,
         warehouseDetails: this.slabsAddForm.value.warehouseDetails,
