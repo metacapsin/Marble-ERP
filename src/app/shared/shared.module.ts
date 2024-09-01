@@ -55,6 +55,8 @@ import { CarouselModule } from 'primeng/carousel';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 
 
@@ -86,6 +88,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     SelectButtonModule,
     NgxEditorModule,
     FullCalendarModule,
+    InputGroupAddonModule,
     HttpClientModule,
     MatSortModule,
     InputSwitchModule,
@@ -108,6 +111,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     DialogModule,
     TabViewModule,
     DropdownModule,
+    InputGroupModule,
     MultiSelectModule,
     RouterModule,
     PanelMenuModule,
@@ -176,6 +180,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     ChartModule,
     RatingModule,
     TreeTableModule,
+    InputGroupAddonModule,
     MatButtonModule,
     CheckboxModule,
     RadioButtonModule,
@@ -185,6 +190,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     MatPaginatorModule,
     MatIconModule,
     MatTabsModule,
+    InputGroupModule,
     MatCheckboxModule,
 MatRadioModule,
 TotalValueDirective,

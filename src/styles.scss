@@ -477,7 +477,11 @@ ul.p-dropdown-items {
   padding-top: 0;
   color: #97704f !important;
 }
-ol,
-ul {
-  padding-left: 0 !important;
+.p-multiselect .p-multiselect-label {
+  padding: 0.6rem 0.65rem !important;
+}
+.p-multiselect-items-wrapper {
+  ul {
+    padding-left: 0px;
+  }
 }
