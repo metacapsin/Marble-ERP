@@ -19,6 +19,9 @@ export class SalesService {
   GetSalesDataById(id: any) {
     return this.http.get(environment.apiUrl + `/Sales/getSalesById/${id}`);
   }
+  getVendorBillingList() {
+    return this.http.get(environment.apiUrl + `/TaxVendorController/getVendorBillingList`);
+  }
 
   UpdateSalesData(data: any) {
     return this.http.put(environment.apiUrl + '/Sales/updateSales', data);

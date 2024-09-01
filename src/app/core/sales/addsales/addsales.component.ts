@@ -174,7 +174,7 @@ export class AddsalesComponent implements OnInit {
             control.get("salesItemQuantity").reset();
             control.get("salesItemUnitPrice").reset();
             control.get("salesItemTax").reset();
-            control.get("salesItemSubTotal").reset();
+            // control.get("salesItemSubTotal").reset();
             this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];
@@ -195,29 +195,33 @@ export class AddsalesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.BillingAddressService.getBillingAddressList().subscribe(
-      (resp: any) => {
-        this.address = resp.data;
-        this.orgAddress = resp.data;
-        this.dropAddress = [];
-        this.orgAddress.forEach((ele) => {
-          this.dropAddress.push({
-            name: `${ele.companyName} / ${ele.city},`,
-            _id: ele,
-          });
+    // this.salesService.getVendorBillingList().subscribe(
+    //   (resp: any) => {
+    //     // this.vendorList = resp.data;
+    //     console.log(resp);
+    //   }
+    // )
+    this.salesService.getVendorBillingList().subscribe((resp: any) => {
+      console.log(resp);
+      this.address = resp.data;
+      this.orgAddress = resp.data;
+      this.dropAddress = [];
+      this.orgAddress.forEach((ele) => {
+        this.dropAddress.push({
+          name: `${ele.companyName} / ${ele.city},`,
+          _id: ele,
         });
-        console.log(this.address);
-        const filterData = this.address.find((e) => e.setAsDefault);
-        if (!filterData) {
-          const message =
-            "First you want to set one billing Address as Default";
-          this.messageService.add({ severity: "success", detail: message });
-        }
-        this.addSalesForm.get("billingAddress").patchValue(filterData);
-        console.log(this.addSalesForm.get("billingAddress")?.value);
-        console.log(filterData);
+      });
+      console.log(this.address);
+      const filterData = this.address.find((e) => e.setAsDefault);
+      if (!filterData) {
+        const message = "First you want to set one billing Address as Default";
+        this.messageService.add({ severity: "success", detail: message });
       }
-    );
+      this.addSalesForm.get("billingAddress").patchValue(filterData);
+      console.log(this.addSalesForm.get("billingAddress")?.value);
+      console.log(filterData);
+    });
 
     this.customerList = this.getCustomer();
     console.log(this.customerList);
@@ -273,6 +277,7 @@ export class AddsalesComponent implements OnInit {
     // this.editAddressWithDrop()
     this.addressVisible = true;
   }
+
   setCustomer() {
     const data = this.addSalesForm.get("customer").value;
     console.log(data);
@@ -343,40 +348,45 @@ export class AddsalesComponent implements OnInit {
     let salesGrossTotal = 0;
     let salesOrderTax: number = 0;
     let piecesSQFEET = 10; // You can adjust this value as needed
+    var subtotal = 0;
+    var nonTaxableAmount = 0;
+    var taxableAmount = 0;
     const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
       const prevQuantity = item.get("salesItemQuantity").value;
       const quantity = +item.get("salesItemQuantity").value || null;
       const unitPrice = +item.get("salesItemUnitPrice").value || null;
-      const itemPieces = +item.get("salesItemPieces").value || null;
+      // const itemPieces = +item.get("salesItemPieces").value || null;
       const tax = item.get("salesItemTax").value || [];
 
       console.log(quantity);
       let pieces = null;
-      let effectiveQuantity = quantity; // This will be used for total amount calculation
-      if (itemPieces) {
-        console.log(effectiveQuantity);
-        pieces = itemPieces * piecesSQFEET;
-        console.log(pieces);
-        effectiveQuantity = pieces;
-        item.get("salesItemQuantity").setValue(Number(pieces || null));
-      } else {
+      // let effectiveQuantity = quantity;  This will be used for total amount calculation
+      // if (itemPieces) {
+      //   console.log(effectiveQuantity);
+      //   pieces = itemPieces * piecesSQFEET;
+      //   console.log(pieces);
+      //   effectiveQuantity = pieces;
+      //   item.get("salesItemQuantity").setValue(Number(pieces || null));
+      // } else {
+      if (quantity) {
         pieces = quantity / piecesSQFEET;
         item.get("salesItemPieces").setValue(Number(pieces || null));
       }
+      // }
 
       // Reset the form control value so that changes can be detected
       // item.get("salesItemQuantity").setValue(null);
       // item.get("salesItemQuantity").setValue(quantity || null);
 
       // Now calculate total amount based on the updated effectiveQuantity
-      const totalAmount = effectiveQuantity * unitPrice;
+      const totalAmount = quantity * unitPrice;
       item.get("salesItemTotal").setValue(Number(totalAmount || null));
       // Calculate pieces only if salesItemPieces is filled
 
       // Tax calculation
-      const taxableAmount = item.get("salesItemTaxableAmount").value;
+      taxableAmount = item.get("salesItemTaxableAmount").value;
       let totalTaxAmount = 0;
       if (Array.isArray(tax)) {
         tax.forEach((selectedTax: any) => {
@@ -387,7 +397,7 @@ export class AddsalesComponent implements OnInit {
       }
       this.appliyTaxAmount = taxableAmount + totalTaxAmount;
       console.log(this.appliyTaxAmount);
-      const nonTaxableAmount = totalAmount - taxableAmount;
+      nonTaxableAmount = totalAmount - taxableAmount;
       if (nonTaxableAmount) {
         const salesItemNonTaxableAmountControl = item.get(
           "salesItemNonTaxableAmount"
@@ -396,10 +406,10 @@ export class AddsalesComponent implements OnInit {
           salesItemNonTaxableAmountControl.setValue(nonTaxableAmount);
         }
 
-        const subtotal = nonTaxableAmount + totalTaxAmount;
+        subtotal = nonTaxableAmount + totalTaxAmount;
         console.log(subtotal, nonTaxableAmount);
         salesOrderTax += totalTaxAmount;
-        salesGrossTotal += subtotal;
+        // salesGrossTotal += subtotal;
 
         const salesItemTaxAmountControl = item.get("salesItemTaxAmount");
         if (salesItemTaxAmountControl) {
@@ -411,11 +421,15 @@ export class AddsalesComponent implements OnInit {
 
         const salesItemSubTotalControl = item.get("salesItemSubTotal");
         if (salesItemSubTotalControl) {
+          console.log(salesItemSubTotalControl.value);
           const subtotalValue = taxableAmount ? taxableAmount + subtotal : null;
-          const subtotalFixed =
-            subtotalValue !== null ? subtotalValue.toFixed(2) : null;
-          console.log(subtotalFixed);
-          salesItemSubTotalControl.setValue(Number(subtotalFixed));
+          salesItemSubTotalControl.setValue(Number(subtotalValue));
+          // const subtotalFixed =
+          //   subtotalValue !== null ? subtotalValue.toFixed(2) : null;
+          // console.log(subtotalFixed);
+          // salesItemSubTotalControl.setValue(Number(subtotalFixed));
+          // salesGrossTotal += subtotalFixed;
+          console.log(subtotalValue);
         }
       }
     });
