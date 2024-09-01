@@ -1,0 +1,254 @@
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active"><a [routerLink]="routes.taxVendors">Tax Vendor List</a>
+                        </li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Edit Tax Vendor</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body card-table">
+                        <div class="page-table-header mb-2">
+                            <form [formGroup]="editTaxVendorForm" (ngSubmit)="editTaxVendorFormSubmit()">
+                                <div class="row">
+                                    <div class="d-flex m-b-10" style="justify-content: space-between">
+                                        <h3>Edit Tax Vendor</h3>
+                                        <div class="settings-btns text-end m-b-10">
+                                            <button type="submit"
+                                                class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                                [disabled]="!editTaxVendorForm.valid">
+                                                Submit
+                                            </button>
+                                            <button class="btn btn-secondary" [routerLink]="['/tax-vendors']">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <!-- second row -->
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="companyName">Company Name <span
+                                                    class="login-danger">*</span></label>
+                                            <input class="form-control bor" type="text" formControlName="companyName"
+                                                placeholder />
+                                            <div *ngIf="
+                                editTaxVendorForm
+                                  .get('companyName')
+                                  ?.hasError('required') &&
+                                editTaxVendorForm.get('companyName')?.touched
+                              " class="login-danger Font_size">
+                                                Field is required.
+                                            </div>
+                                            <div *ngIf="
+                                editTaxVendorForm
+                                  .get('companyName')
+                                  ?.hasError('pattern') &&
+                                editTaxVendorForm.get('companyName')?.touched
+                              " class="login-danger Font_size">
+                                                Company name should be between 3 to 50 characters.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="addressLine1">Address Line 1
+                                                <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="addressLine1" placeholder
+                                                formControlName="addressLine1" />
+                                            <div *ngIf="
+                                editTaxVendorForm
+                                  .get('addressLine1')
+                                  ?.hasError('required') &&
+                                editTaxVendorForm.get('addressLine1')?.touched
+                              " class="login-danger Font_size">
+                                                Field is required.
+                                            </div>
+                                            <div *ngIf="
+                                editTaxVendorForm
+                                  .get('addressLine1')
+                                  ?.hasError('pattern') &&
+                                editTaxVendorForm.get('addressLine1')?.touched
+                              " class="login-danger Font_size">
+                                                Address should be between 3 to 50 characters.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="addressLine2">Address Line 2<span
+                                                    class="login-danger"></span></label>
+                                            <input class="form-control" type="addressLine2" placeholder
+                                                formControlName="addressLine2" />
+                                            <div *ngIf="
+                                editTaxVendorForm
+                                  .get('addressLine2')
+                                  ?.hasError('pattern') &&
+                                editTaxVendorForm.get('addressLine2')?.touched
+                              " class="login-danger Font_size">
+                                                Address should be between 3 to 50 characters.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="country">Country<span class="login-danger">*</span></label>
+                                            <p-dropdown [options]="countriesList" styleClass="" appendTo="body"
+                                                optionLabel="name" placeholder="Select Country"
+                                                formControlName="country" [style]="{ width: '100%' }" [filter]="true"
+                                                filterBy="name" [showClear]="true">
+                                            </p-dropdown>
+                                            <div *ngIf="
+                                editTaxVendorForm
+                                  .get('country')
+                                  ?.hasError('required') &&
+                                editTaxVendorForm.get('country')?.touched
+                              ">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="state">State<span class="login-danger">*</span></label>
+                                            <input class="form-control bor" type="text" formControlName="state"
+                                                placeholder />
+                                            <div *ngIf="
+                                editTaxVendorForm.get('state')?.hasError('required') &&
+                                editTaxVendorForm.get('state')?.touched
+                              " class="login-danger Font_size">
+                                                Field is required.
+                                            </div>
+                                            <div *ngIf="
+                                editTaxVendorForm.get('state')?.hasError('pattern') &&
+                                editTaxVendorForm.get('state')?.touched
+                              " class="login-danger Font_size">
+                                                State name should be between 3 to 50 characters.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="city">City <span class="login-danger">*</span></label>
+                                            <input class="form-control bor" type="text" formControlName="city"
+                                                placeholder />
+                                            <div *ngIf="
+                                editTaxVendorForm.get('city')?.hasError('required') &&
+                                editTaxVendorForm.get('city')?.touched
+                              " class="login-danger Font_size">
+                                                Field is required.
+                                            </div>
+                                            <div *ngIf="
+                                editTaxVendorForm.get('city')?.hasError('pattern') &&
+                                editTaxVendorForm.get('city')?.touched
+                              " class="login-danger Font_size">
+                                                City name should be between 3 to 50 characters.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="postalCode">Postal Code (ZIP)<span
+                                                    class="login-danger">*</span></label>
+                                            <input class="form-control bor" type="text" formControlName="postalCode"
+                                                placeholder />
+                                            <div *ngIf="
+                                editTaxVendorForm
+                                  .get('postalCode')
+                                  ?.hasError('required') &&
+                                editTaxVendorForm.get('postalCode')?.touched
+                              " class="login-danger Font_size">
+                                                Field is required.
+                                            </div>
+                                            <div *ngIf="
+                                editTaxVendorForm
+                                  .get('postalCode')
+                                  ?.hasError('pattern') &&
+                                editTaxVendorForm.get('postalCode')?.touched
+                              " class="login-danger Font_size">
+                                                Postal Code ( ZIP ) code should be of 6 digits.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="PhoneNumber">Phone Number <span
+                                                    class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" formControlName="phoneNumber"
+                                                placeholder="xxx-xxx-xxxx" />
+                                            <div *ngIf="
+                                editTaxVendorForm
+                                  .get('phoneNumber')
+                                  ?.hasError('required') &&
+                                editTaxVendorForm.get('phoneNumber')?.touched
+                              " class="login-danger Font_size">
+                                                Field is required.
+                                            </div>
+                                            <div class="login-danger Font_size" *ngIf="
+                                editTaxVendorForm
+                                  .get('phoneNumber')
+                                  ?.hasError('pattern') &&
+                                editTaxVendorForm.get('phoneNumber')?.touched
+                              ">
+                                                Phone number should be of 10 digits.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="email">Email <span class="login-danger"></span></label>
+                                            <input class="form-control" formControlName="email" type="text"
+                                                placeholder />
+                                            <!-- <div
+                              *ngIf="
+                                editTaxVendorForm
+                                  .get('email')
+                                  ?.hasError('required') &&
+                                editTaxVendorForm.get('email')?.touched
+                              "
+                              class="login-danger Font_size"
+                            >
+                              Field is required.
+                            </div> -->
+                                            <div *ngIf="
+                                editTaxVendorForm.get('email')?.hasError('pattern') &&
+                                editTaxVendorForm.get('email')?.touched
+                              " class="login-danger Font_size">
+                                                Please enter a valid email.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog> -->

@@ -21,6 +21,7 @@ export const validationRegex = {
   ifscCodeRegexL: /^[A-Z]{4}0[A-Z0-9]{6}$/,   // 11 characters
 
   // common regex
+  oneToFiftyCharRegex: /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,50})$/,                        // one to fifty alpahnueric characters
   threeTothirtyCharRegex: /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/,   // three to thirty alphanumeric characters
   threeToFiftyCharRegex: /^[A-Za-z\s]{3,50}$/,                        // three to fifty alpahnueric characters
   passwordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@])[A-Za-z\d@]{8,16}$/,  // 8 to 16 characters, one uppercase, one lowercase, one digit, one special character

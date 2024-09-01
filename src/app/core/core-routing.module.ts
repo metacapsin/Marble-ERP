@@ -100,6 +100,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./block-processor/block-processor.module').then((m) => m.BlockProcessorModule),
       },
+      {
+        path: 'tax-vendors',
+        loadChildren: () =>
+          import('./tax-vendors/tax-vendors.module').then((m) => m.TaxVendorsModule),
+      },
       { 
         path: 'tables',
         loadChildren: () =>

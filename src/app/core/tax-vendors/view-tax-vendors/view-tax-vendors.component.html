@@ -1,0 +1,121 @@
+<p-toast></p-toast>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active"><a [routerLink]="routes.taxVendors">Tax Vendor List</a>
+                        </li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">View Tax Vendor</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header invoices-page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <ul class="breadcrumb invoices-breadcrumb d-flex justify-content-between">
+                        <li class="breadcrumb-item invoices-breadcrumb-item">
+                            <a [routerLink]="routes.taxVendors">
+                                <i class="fa fa-chevron-left"></i> Back to Tax Vendor List
+                            </a>
+                        </li>
+                        <li>
+                            <!-- Created On: {{viewTaxVendorData?.createdOn | date: "dd-MMM-yyyy"}} -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                    <div class="page-table-header mb-2 m-3">
+                        <div class="row practice-card">
+                            <div class="col-xl-6 col-lg-6 col-sm-12">
+                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.companyName">
+                                    <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Company Name</h5>
+                                    <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-9 col-form-label">{{viewTaxVendorData?.companyName}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.email">
+                                    <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Email</h5>
+                                    <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-9 col-form-label">{{viewTaxVendorData?.email}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.phoneNumber">
+                                    <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Phone Number</h5>
+                                    <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-form-label">{{viewTaxVendorData?.phoneNumber}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.postalCode">
+                                    <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Postal Code</h5>
+                                    <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-form-label">{{viewTaxVendorData?.postalCode}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-sm-12">
+                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.country">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Country</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{viewTaxVendorData?.country}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.state">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">State</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{viewTaxVendorData?.state}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.city">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">City</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{viewTaxVendorData?.city}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.addressLine1">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Address</h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{viewTaxVendorData?.addressLine1}}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <p-tabView>
+                <p-tabPanel header="Processed List">
+
+                </p-tabPanel>
+
+                <p-tabPanel header="Payments">
+
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</div>
+
+<!-- 
+<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
+    [data]="modalData"></app-confirm-dialog>
+
+
+<app-payments-invoice-dialog [ShowPaymentInvoice]="ShowPaymentInvoice" [dataById]="paymentObject" [header]="header"
+    [dataItemsGrid]="paymentInvoicePurchaseDataShowById" (callbackModal)="callBackModal()"
+    (close)="close()"></app-payments-invoice-dialog> -->

@@ -504,6 +504,18 @@ export class routes {
   public static get ViewCustomers(): string {
     return this.baseUrl + '/customers/view-customers';
   }
+  public static get taxVendors(): string {
+    return this.baseUrl + '/tax-vendors';
+  }
+  public static get addTaxVendors(): string {
+    return this.baseUrl + '/tax-vendors/add-tax-vendor';
+  }
+  public static get editTaxVendors(): string {
+    return this.baseUrl + '/tax-vendors/edit-tax-vendor';
+  }
+  public static get viewTaxVendor(): string {
+    return this.baseUrl + '/tax-vendors/view-tax-vendor';
+  }
   public static get suppliers(): string {
     return this.baseUrl + '/suppliers';
   }

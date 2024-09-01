@@ -281,6 +281,11 @@ export class DataService {
               route: routes.blockProcessor,
               base: routes.blockProcessor,
             },
+            {
+              menuValue: "Tax Vendors",
+              route: routes.taxVendors,
+              base: routes.taxVendors,
+            },
           ],
         },
         {
