@@ -67,12 +67,12 @@ export class AddNewPurchaseComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) {
     this.addNewPurchaseForm = this.fb.group({
-      invoiceNumber: ["",[Validators.pattern(this.invoiceRegex)]],
+      invoiceNumber: ["", [Validators.pattern(this.invoiceRegex)]],
       purchaseDate: ["", Validators.required],
       supplier: ["", [Validators.required]],
       paidToSupplierPurchaseCost: [
         "",
-        [Validators.required, Validators.min(0), Validators.max(9999999)],
+        [Validators.min(0), Validators.max(9999999)],
       ],
       purchaseType: ["", [Validators.required]],
       purchaseNotes: ["", [Validators.pattern(this.descriptionRegex)]],
@@ -103,6 +103,9 @@ export class AddNewPurchaseComponent implements OnInit {
       otherCharges: ["", [Validators.min(1), Validators.max(100000)]],
       totalCosting: [""],
       costPerSQFT: [""],
+      sqftPerPiece: [""],
+      noOfPieces: ["", [Validators.min(1), Validators.max(100000)]],
+      purchaseDiscount: ["", [Validators.min(0), Validators.max(100000)]],
     });
   }
   ngOnInit(): void {
@@ -186,14 +189,14 @@ export class AddNewPurchaseComponent implements OnInit {
   }
 
 
-// Method to check if the required fields in the first stepper are valid
-isFirstStepValid(): boolean {
-  const controls = this.addNewPurchaseForm.controls;
-  return controls['invoiceNumber'].valid &&
-         controls['purchaseDate'].valid &&
-         controls['supplier'].valid &&
-         controls['paidToSupplierPurchaseCost'].valid;
-}
+  // Method to check if the required fields in the first stepper are valid
+  isFirstStepValid(): boolean {
+    const controls = this.addNewPurchaseForm.controls;
+    return controls['invoiceNumber'].valid &&
+      controls['purchaseDate'].valid &&
+      controls['supplier'].valid &&
+      controls['paidToSupplierPurchaseCost'].valid;
+  }
 
 
   backStap(prevCallback: any, page: any) {
@@ -206,15 +209,7 @@ isFirstStepValid(): boolean {
     }
   }
   nextStep(nextCallback: any, page: string) {
-    const paidToSupplierPurchaseCost =
-      this.addNewPurchaseForm.value.paidToSupplierPurchaseCost;
-    this.NewPurchaseService.setFormData(
-      "stepperOneData",
-      paidToSupplierPurchaseCost
-    );
-
     if (this.isFirstStepValid()) {
-      // Proceed to next step
       nextCallback.emit();
     }
 
@@ -229,7 +224,10 @@ isFirstStepValid(): boolean {
     if (page == "first") {
       this.calculateTotalAmount();
     }
-    this.ItemDetails = this.NewPurchaseService.getFormData("stepTwoData");
+    if (this.lotTypeValue == "Lot") {
+      this.ItemDetails = this.NewPurchaseService.getFormData("stepTwoData");
+      this.addNewPurchaseForm.get("paidToSupplierPurchaseCost").patchValue(this.ItemDetails.paidToSupplierLotCost);
+    }
   }
 
   lotType(value: any) {
@@ -245,14 +243,14 @@ isFirstStepValid(): boolean {
         finishes: this.addNewPurchaseForm.value.finishes,
         totalSQFT: this.addNewPurchaseForm.value.totalSQFT,
         sellingPricePerSQFT: this.addNewPurchaseForm.value.sellingPricePerSQFT,
-        transportationCharges:
-          this.addNewPurchaseForm.value.transportationCharges,
+        transportationCharges: this.addNewPurchaseForm.value.transportationCharges,
         otherCharges: this.addNewPurchaseForm.value.otherCharges,
         totalCosting: this.addNewPurchaseForm.value.totalCosting,
         thickness: this.addNewPurchaseForm.value.thickness,
         length: this.addNewPurchaseForm.value.length,
         width: this.addNewPurchaseForm.value.width,
         costPerSQFT: this.addNewPurchaseForm.value.costPerSQFT,
+        paidToSupplierPurchaseCost: this.addNewPurchaseForm.value.paidToSupplierPurchaseCost,
       };
 
       this.addNewPurchaseForm.patchValue({
@@ -276,6 +274,7 @@ isFirstStepValid(): boolean {
         sellingPricePerSQFT: 2,
         totalSQFT: 2,
         costPerSQFT: 2,
+        paidToSupplierPurchaseCost: 2,
       });
     } else {
       this.addNewPurchaseForm.patchValue({
@@ -294,22 +293,22 @@ isFirstStepValid(): boolean {
         length: this.previousSlabValues.length,
         width: this.previousSlabValues.width,
         costPerSQFT: this.previousSlabValues.costPerSQFT,
+        paidToSupplierPurchaseCost: this.previousSlabValues.paidToSupplierPurchaseCost,
       });
     }
   }
   calculateTotalAmount() {
     if (this.lotTypeValue === "Slab") {
-      const paidToSupplierPurchaseCost =
-        this.addNewPurchaseForm.get("paidToSupplierPurchaseCost").value || 0;
-      const transportationCharges =
-        this.addNewPurchaseForm.get("transportationCharges").value || 0;
-      const otherCharges =
-        this.addNewPurchaseForm.get("otherCharges").value || 0;
+      const paidToSupplierPurchaseCost = this.addNewPurchaseForm.get("paidToSupplierPurchaseCost").value || 0;
+      const transportationCharges = this.addNewPurchaseForm.get("transportationCharges").value || 0;
+      const otherCharges = this.addNewPurchaseForm.get("otherCharges").value || 0;
       const totalSQFT = this.addNewPurchaseForm.get("totalSQFT").value || 0;
       let costPerSQFT = this.addNewPurchaseForm.get("costPerSQFT").value || 0;
+      let purchaseDiscount = this.addNewPurchaseForm.get("purchaseDiscount").value || 0;
+      let noOfPieces = this.addNewPurchaseForm.get("noOfPieces").value || 0;
 
-      const total: number =
-        transportationCharges + otherCharges + paidToSupplierPurchaseCost;
+      let sqftPerPiece = totalSQFT / noOfPieces;
+      const total: number = transportationCharges + otherCharges + paidToSupplierPurchaseCost + purchaseDiscount;
       if (totalSQFT !== 0) {
         costPerSQFT = total / totalSQFT;
       }
@@ -318,8 +317,8 @@ isFirstStepValid(): boolean {
           sellingPricePerSQFT: costPerSQFT.toFixed(2),
           costPerSQFT: costPerSQFT.toFixed(2),
           totalCosting: total,
+          sqftPerPiece: sqftPerPiece,
         });
-        console.log(costPerSQFT);
       }
     }
   }
@@ -379,6 +378,9 @@ isFirstStepValid(): boolean {
           costPerSQFT: Number(formData.costPerSQFT),
           slabSize: _Size,
           purchaseCost: Number(formData.paidToSupplierPurchaseCost),
+          purchaseDiscount: Number(formData.purchaseDiscount),
+          sqftPerPiece: Number(formData.sqftPerPiece),
+          noOfPieces: Number(formData.noOfPieces),
           date: formData.purchaseDate,
           notes: formData.purchaseNotes,
         },

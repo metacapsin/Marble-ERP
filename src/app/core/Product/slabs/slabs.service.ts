@@ -33,14 +33,18 @@ deleteSlabsById(id: string) {
   return this.http.delete(environment.apiUrl + "/SlabController/deleteSlab/" + id,);
 }
 
-getBlockDetailByLotId(id: string) {
-  return this.http.get(environment.apiUrl + "/SlabController/getBlockDetailByLotId/" + id,);
-}
 getNotProcessedBlocksByLotId(id: string) {
   return this.http.get(environment.apiUrl + "/SlabController/getNotProcessedBlocksByLotId/" + id,);
 }
 getSlabListByWarehouseId(id: string) {
   return this.http.get(environment.apiUrl + "/SlabController/getSlabListByWarehouseId/" + id,);
+}
+getBlockDetailByLotId(id: string) {
+  return this.http.get(environment.apiUrl + "/SlabController/getBlockDetailByLotId/" + id,);
+}
+
+updateBlockProcessorByLotId(data: {}) {
+  return this.http.put(environment.apiUrl + "/LotController/updateBlockProcessorByLotId" , data);
 }
 
 }

@@ -14,6 +14,7 @@ import { DialogModule } from 'primeng/dialog';
 
 import { SlabsService } from '../../slabs/slabs.service';
 import { WarehouseService } from 'src/app/core/settings/warehouse/warehouse.service';
+import { blockProcessorService } from 'src/app/core/block-processor/block-processor.service';
 // import { CsvDownloadService } from 'src/app/common-component/shared/csv-download/shared/csv-download.service';
 
 
@@ -31,7 +32,7 @@ interface ExportColumn {
 @Component({
   selector: 'app-list-lot',
   standalone: true,
-  imports: [ SharedModule],
+  imports: [SharedModule],
   providers: [MessageService],
   templateUrl: './list-lot.component.html',
   styleUrl: './list-lot.component.scss'
@@ -56,13 +57,15 @@ export class ListLotComponent implements OnInit {
   allInDropDown: any;
   warehouseDropDown: any;
   warehouseData: any;
-  lotDaTa='lotDaTa'
+  lotDaTa = 'lotDaTa';
+  blockProcessorList: any = [];
 
   constructor(public router: Router,
     private service: LotService,
     private SlabsService: SlabsService,
     private messageService: MessageService,
-    private WarehouseService: WarehouseService
+    private WarehouseService: WarehouseService,
+    private blockProcessorService: blockProcessorService
     // private csvDownloadService: CsvDownloadService
   ) { }
 
@@ -74,7 +77,7 @@ export class ListLotComponent implements OnInit {
       // }
       this.lotData = resp.data;
       this.originalData = resp.data;
-      
+
       this.cols = [
         { field: "date", header: "Date" },
         { field: "lotName", header: "Lot Name" },
@@ -108,46 +111,24 @@ export class ListLotComponent implements OnInit {
 
   isAnyBlockProcessed(blockDetails: any[]): boolean {
     return blockDetails.some(block => block.isProcessed);
-}
-
-
-  // generateColumns(data: any[]) {
-  //   this.cols = [
-  //     { field: 'lotNo', header: 'Lot No' },
-  //     { field: 'lotName', header: 'Lot Name' },
-  //     { field: 'date', header: 'Date' },
-  //   ];
-
-  //   const maxBlocks = Math.max(...data.map(item => item.blockDetails.length));
-
-  //   for (let i = 0; i < maxBlocks; i++) {
-  //     this.cols.push(
-  //       { field: `blockDetails[${i}].blockNo`, header: `Block No ${i + 1}` },
-  //       { field: `blockDetails[${i}].height`, header: `Height ${i + 1}` },
-  //       { field: `blockDetails[${i}].width`, header: `Width ${i + 1}` },
-  //       { field: `blockDetails[${i}].length`, header: `Length ${i + 1}` },
-  //       { field: `blockDetails[${i}].totalArea`, header: `Total Area ${i + 1}` },
-  //       { field: `blockDetails[${i}].weightPerBlock`, header: `Weight Per Block ${i + 1}` },
-  //       { field: `blockDetails[${i}].rawCosting`, header: `Raw Costing ${i + 1}` },
-  //       { field: `blockDetails[${i}].royaltyCosting`, header: `Royalty Costing ${i + 1}` },
-  //       { field: `blockDetails[${i}].transportationCosting`, header: `Transportation Costing ${i + 1}` },
-  //       { field: `blockDetails[${i}].totalCosting`, header: `Total Costing ${i + 1}` }
-  //     );
-  //   }
-
-  //   this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
-  // }
-
-  // exportCSV(dt: any) {
-  //     dt.exportCSV();
-  // }
-
-  // downloadCSV() {
-  //   this.csvDownloadService.downloadCSV(this.lotData, 'lot-details');
-  // }
-
+  }
   ngOnInit(): void {
     this.getLotList();
+    this.blockProcessorService.getAllBlockProcessorData().subscribe(
+      (data: any) => {
+        this.blockProcessorList = [];
+        data.forEach((element: any) => {
+          this.blockProcessorList.push({
+            name: element.name,
+            _id: {
+              _id: element._id,
+              name: element.name,
+            },
+          });
+        });
+        console.log(this.blockProcessorList);
+      }
+    );
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.warehouseData = resp.data.map((element) => ({
         name: element.name,
@@ -160,7 +141,7 @@ export class ListLotComponent implements OnInit {
     });
   }
   onFilter(value: any) {
-    this.lotData = value.filteredValue; 
+    this.lotData = value.filteredValue;
     console.log(value.filteredValue);
   }
 
@@ -174,12 +155,12 @@ export class ListLotComponent implements OnInit {
       });
       this.allInDropDown = this.lotData;
     }
-  
+
     // Update dropdown data with the filtered data
-  
+
     console.log(this.lotData);
   }
-  
+
   searchData() {
     if (this.searchDataValue == "") {
       this.onSearchByChange(null);
@@ -196,16 +177,30 @@ export class ListLotComponent implements OnInit {
     this.router.navigate(['/lot/edit/' + _id]);
   }
   showLotDetails(_id: any) {
+    this.lotID = ""
     this.SlabsService.getBlockDetailByLotId(_id).subscribe((resp: any) => {
       this.lotVisible = true;
-      this.blockDatabyLotId = [resp.data]
-      console.log(resp.data);
+      this.blockDatabyLotId = resp.data.blockDetails
+      this.lotID = _id;
     });
+  }
 
-    this.service.getLotById(_id).subscribe((resp: any) => {
-      console.log("resp id lot", resp.data);
-
-    })
+  onBlockProcessorChange(event: any, blockNo: any) {
+    console.log("block processor", event);
+    const payload = {
+      lotId: this.lotID,
+      blockNo: blockNo,
+      blockProcessor: event.value,
+    }
+    this.SlabsService.updateBlockProcessorByLotId(payload).subscribe((resp: any) => {
+      if (resp) {
+        if (resp.status == "success") {
+          this.messageService.add({ severity: 'success', detail: resp.message });
+        } else {
+          this.messageService.add({ severity: 'error', detail: resp.message });
+        }
+      }
+    });
   }
 
   deleteLot(_id: any) {

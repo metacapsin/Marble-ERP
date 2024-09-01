@@ -5,10 +5,15 @@
     <div class="col-sm-12">
       <form [formGroup]="lotAddForm" (ngSubmit)="LotAddFormSubmit()">
         <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <h3>Add Lot Details</h3>
+          </div>
+        </div>
+        <div class="row  mt-3">
           <div class="col-12 col-md-6 col-xl-6">
             <div class="form-group local-forms">
               <label for="lotNo">Lot Number <span class="login-danger">*</span></label>
-              <input class="form-control" type="text" placeholder="Enter Lot No." formControlName="lotNo" />
+              <input class="form-control" type="text" placeholder="Enter Lot Number" formControlName="lotNo" />
               <div *ngIf="
                           lotAddForm.get('lotNo')?.hasError('required') &&
                           lotAddForm.get('lotNo')?.touched
@@ -44,7 +49,7 @@
           <div class="col-12 col-md-6 col-xl-6">
             <div class="form-group local-forms">
               <label for="vehicleNo">Vehicle Number</label>
-              <input class="form-control" type="text" placeholder="Enter Vehicle No." formControlName="vehicleNo" />
+              <input class="form-control" type="text" placeholder="Enter Vehicle Number" formControlName="vehicleNo" />
               <div *ngIf="
                           lotAddForm.get('vehicleNo')?.hasError('pattern') &&
                           lotAddForm.get('vehicleNo')?.touched
@@ -75,7 +80,7 @@
             <div class="form-group local-forms">
               <label for="lotWeight">Lot Weight (Ton)
                 <span class="login-danger">*</span></label>
-              <input class="form-control" type="number" placeholder="Enter Total Weight In Ton"
+              <input class="form-control" type="number" placeholder="Enter Lot Weight In Ton"
                 (change)="calculateTotalAmount()" formControlName="lotWeight" />
               <div *ngIf="
                           lotAddForm.get('lotWeight')?.hasError('required') &&
@@ -102,11 +107,13 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">₹</span>
                 </div>
-                <span class="form-control">{{
+                <!-- <span class="form-control">{{
                   lotAddForm.get("pricePerTon").value
-                  }}</span>
+                  }}</span> -->
+                <input class="form-control" type="number" placeholder="Enter Price / Ton"
+                  (change)="calculateTotalAmount()" formControlName="pricePerTon" />
               </div>
-              <span style="color: #97704f; font-size: 12px">This will be auto calculated with Purchase Cost</span>
+              <!-- <span style="color: #97704f; font-size: 12px">This will be auto calculated with Purchase Cost</span> -->
               <div *ngIf="
                           lotAddForm.get('pricePerTon')?.hasError('required') &&
                           lotAddForm.get('pricePerTon')?.touched
@@ -120,6 +127,47 @@
                             lotAddForm.get('pricePerTon')?.touched)
                         ">
                 <span class="login-danger">Input Must be between 1 to 1000000.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+            <div class="form-group local-forms">
+              <label for="paidToSupplierPurchaseCost">Purchase Cost ( Paid to Supplier ) <span
+                  class="login-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">₹</span>
+                </div>
+                <span class="form-control">{{
+                  lotAddForm.get("paidToSupplierLotCost").value
+                  }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="purchaseDiscount">Discount </label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">₹</span>
+                </div>
+                <input class="form-control" type="number" placeholder="Enter Discount"
+                  (change)="calculateTotalAmount()" formControlName="purchaseDiscount" />
+              </div>
+              <div *ngIf="
+                          (lotAddForm
+                            .get('purchaseDiscount')
+                            ?.hasError('min') &&
+                            lotAddForm.get('purchaseDiscount')?.touched) ||
+                          (lotAddForm
+                            .get('purchaseDiscount')
+                            ?.hasError('max') &&
+                            lotAddForm.get('purchaseDiscount')?.touched)
+                        ">
+                <span class="login-danger">Input Must be between 1 to 100000.
                 </span>
               </div>
             </div>
@@ -166,7 +214,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">₹</span>
                 </div>
-                <input class="form-control" type="number" placeholder="Enter Royalty Charge"
+                <input class="form-control" type="number" placeholder="Enter Royalty (Other Charge) Charge"
                   formControlName="royaltyCharge" (change)="calculateTotalAmount()" />
               </div>
               <div *ngIf="
@@ -189,12 +237,14 @@
             </div>
           </div>
 
-          <div class="col-md-6">
+
+          <div class="col-xl-6 col-md-6 col-sm-12 col-12">
             <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10 mb-3"
               (click)="addBlockDialog()" [disabled]="!lotAddForm.valid">
               Add Block
             </button>
           </div>
+
         </div>
       </form>
     </div>
@@ -218,6 +268,21 @@
                   <div class="col-lg-6 col-md-6 col-xl-6">
                     <p class="col-lg-6 col-form-label heading-bold">
                       {{ lotAddForm.get("averageWeight").value.toFixed(3) }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-6">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                   Purchase Row Cost
+                  </h5>
+                  <div class="col-lg-6 col-md-6 col-xl-6">
+                    <p class="col-lg-6 col-form-label heading-bold">
+                      ₹
+                      {{
+                      lotAddForm.get("lotRowCost").value
+                      }}
                     </p>
                   </div>
                 </div>
@@ -277,11 +342,11 @@
                           <div class="col-xl-6 col-lg-6 col-sm-12">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Height (Inch)
+                                Length (Inch)
                               </h5>
                               <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-lg-9 col-form-label">
-                                  {{ data.height }}
+                                <p class="col-form-label">
+                                  {{ data.length }}
                                 </p>
                               </div>
                             </div>
@@ -295,11 +360,11 @@
                             </div>
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                Length (Inch)
+                                Height (Inch)
                               </h5>
                               <div class="col-lg-9 col-md-9 col-xl-9">
-                                <p class="col-form-label">
-                                  {{ data.length }}
+                                <p class="col-lg-9 col-form-label">
+                                  {{ data.height }}
                                 </p>
                               </div>
                             </div>
@@ -325,6 +390,16 @@
                             </div>
                           </div>
                           <div class="col-xl-6 col-lg-6 col-sm-12">
+                            <div *ngIf="data?.blockProcessor" class="form-group row mb-2">
+                              <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                Block Processor
+                              </h5>
+                              <div class="col-lg-9 col-md-9 col-xl-9">
+                                <p class="col-form-label">
+                                   {{ data.blockProcessor.name }}
+                                </p>
+                              </div>
+                            </div>
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                 Raw Costing
@@ -407,23 +482,23 @@
             </div>
           </div>
 
-          <!-- Height Field -->
+          <!-- Length Field -->
           <div class="col-12 col-md-6 col-xl-6 mt-2">
             <div class="form-group local-forms">
-              <label for="height">Height <span class="login-danger">*</span></label>
+              <label for="length">Length <span class="login-danger">*</span></label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">Inch</span>
                 </div>
-                <input class="form-control" type="number" id="height" name="height" (change)="getblockDetails()"
-                  required min="1" max="500" placeholder="Enter Height" [(ngModel)]="height" #HEIGHT="ngModel" />
+                <input class="form-control" type="number" id="length" name="length" (change)="getblockDetails()"
+                  required min="1" max="500" placeholder="Enter Length" [(ngModel)]="length" #LENGTH="ngModel" />
               </div>
-              <div *ngIf="HEIGHT.invalid && (HEIGHT.dirty || HEIGHT.touched)">
-                <div *ngIf="HEIGHT.errors?.['required']">
+              <div *ngIf="LENGTH.invalid && (LENGTH.dirty || LENGTH.touched)">
+                <div *ngIf="LENGTH.errors?.['required']">
                   <span class="login-danger">Field is required.</span>
                 </div>
-                <div *ngIf="HEIGHT.errors?.['min'] || HEIGHT.errors?.['max']">
-                  <span class="login-danger">Height must be a number between 1 and 500.</span>
+                <div *ngIf="LENGTH.errors?.['min'] || LENGTH.errors?.['max']">
+                  <span class="login-danger">Input must be a number between 1 and 500.</span>
                 </div>
               </div>
             </div>
@@ -451,23 +526,24 @@
             </div>
           </div>
 
-          <!-- Length Field -->
-          <div class="col-12 col-md-6">
+
+          <!-- Height Field -->
+          <div class="col-12 col-md-6 col-xl-6">
             <div class="form-group local-forms">
-              <label for="length">Length <span class="login-danger">*</span></label>
+              <label for="height">Height <span class="login-danger">*</span></label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">Inch</span>
                 </div>
-                <input class="form-control" type="number" id="length" name="length" (change)="getblockDetails()"
-                  required min="1" max="500" placeholder="Enter Length" [(ngModel)]="length" #LENGTH="ngModel" />
+                <input class="form-control" type="number" id="height" name="height" (change)="getblockDetails()"
+                  required min="1" max="500" placeholder="Enter Height" [(ngModel)]="height" #HEIGHT="ngModel" />
               </div>
-              <div *ngIf="LENGTH.invalid && (LENGTH.dirty || LENGTH.touched)">
-                <div *ngIf="LENGTH.errors?.['required']">
+              <div *ngIf="HEIGHT.invalid && (HEIGHT.dirty || HEIGHT.touched)">
+                <div *ngIf="HEIGHT.errors?.['required']">
                   <span class="login-danger">Field is required.</span>
                 </div>
-                <div *ngIf="LENGTH.errors?.['min'] || LENGTH.errors?.['max']">
-                  <span class="login-danger">Input must be a number between 1 and 500.</span>
+                <div *ngIf="HEIGHT.errors?.['min'] || HEIGHT.errors?.['max']">
+                  <span class="login-danger">Height must be a number between 1 and 500.</span>
                 </div>
               </div>
             </div>
@@ -486,9 +562,18 @@
               </div>
             </div>
           </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="blockProcessor">Block Processor</label>
+              <p-dropdown [options]="blockProcessorList" styleClass="" appendTo="body" optionLabel="name"
+                placeholder="Select Processor"  [style]="{ width: '100%' }" [filter]="true" optionValue="_id" name="blockProcessor"
+                filterBy="name" [showClear]="true"  [(ngModel)]="blockProcessor" #BLOCKPROCESSOR="ngModel">
+              </p-dropdown>
+            </div>
+          </div>
 
           <!-- Buttons -->
-          <div class="col-md-6">
+          <div class="col-12">
             <div class="settings-btns text-end m-b-10">
               <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
                 (click)="addBlock(myForm)" [disabled]="myForm.invalid">
