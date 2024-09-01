@@ -149,32 +149,39 @@
                     </div>
                   </div>
 
-                  
+
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
                       <label for="blockProcessor">Processor<span class="login-danger">*</span></label>
-                      <p-dropdown [options]="blockProcessorArray" styleClass="" appendTo="body" optionLabel="name"
-                        optionValue="_id" placeholder="Select Processor" formControlName="blockProcessor"
-                        [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true">
+                      <input
+                      *ngIf="slabsAddForm.get('blockProcessor')?.value"
+                      type="text"
+                      class="form-control"
+                      [value]="slabsAddForm.get('blockProcessor')?.value.name"
+                      readonly
+                    />
+                      <!-- This dropdown will only show if no blockProcessor exists -->
+                      <p-dropdown *ngIf="!slabsAddForm.get('blockProcessor')?.value" [options]="blockProcessorArray"
+                        appendTo="body" optionLabel="name" optionValue="_id" placeholder="Select Processor"
+                        formControlName="blockProcessor" [style]="{ width: '100%' }" [filter]="true" filterBy="name"
+                        [showClear]="false">
                       </p-dropdown>
-                      <div *ngIf="
-                          slabsAddForm
-                            .get('blockProcessor')
-                            ?.hasError('required') &&
-                          slabsAddForm.get('blockProcessor')?.touched
-                        ">
+
+                      <div
+                        *ngIf="slabsAddForm.get('blockProcessor')?.hasError('required') && slabsAddForm.get('blockProcessor')?.touched">
                         <span class="login-danger">Field is required.</span>
                       </div>
                     </div>
                   </div>
 
+
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="category">Category <span class="login-danger">*</span></label>
-                      <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body"
-                        optionLabel="name" optionValue="_id" placeholder="Select Category"
-                        formControlName="categoryDetail" [style]="{ width: '100%' }" [filter]="true"
-                        filterBy="name" [showClear]="false" (onChange)="findSubCategory($event.value)">
+                      <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body" optionLabel="name"
+                        optionValue="_id" placeholder="Select Category" formControlName="categoryDetail"
+                        [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false"
+                        (onChange)="findSubCategory($event.value)">
                       </p-dropdown>
                       <div *ngIf="
                           slabsAddForm
@@ -189,10 +196,9 @@
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="subCategory">Sub Category <span class="login-danger">*</span></label>
-                      <p-dropdown [options]="SubCategoryFilterArray" styleClass="" appendTo="body"
-                        optionValue="_id" placeholder="Select Sub Category" optionLabel="name"
-                        formControlName="subCategoryDetail" [style]="{ width: '100%' }" [filter]="true"
-                        filterBy="name" [showClear]="false">
+                      <p-dropdown [options]="SubCategoryFilterArray" styleClass="" appendTo="body" optionValue="_id"
+                        placeholder="Select Sub Category" optionLabel="name" formControlName="subCategoryDetail"
+                        [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false">
                       </p-dropdown>
                       <div *ngIf="
                           slabsAddForm
@@ -212,7 +218,13 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" style="font-size: 12px">Inch</span>
                         </div>
-                        <input class="form-control" type="number" placeholder="Enter Width" formControlName="width" />
+                       
+                        <input
+                        type="text"
+                        class="form-control"
+                        [value]="slabsAddForm.get('width')?.value.name"
+                        
+                      />
                       </div>
 
                       <div *ngIf="
@@ -229,19 +241,19 @@
                   </div>
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
-                      <label for="pieces">pieces<span class="login-danger"></span></label>
+                      <label for="pieces">Pieces<span class="login-danger"></span></label>
                       <div class="input-group">
                         <!-- <div class="input-group-prepend">
                           <span class="input-group-text" style="font-size: 12px">Inch</span>
                         </div> -->
-                        <input class="form-control" type="number" placeholder="Enter pieces" formControlName="width" />
+                        <input class="form-control" type="number" placeholder="Enter Pieces" formControlName="pieces" />
                       </div>
 
                       <div *ngIf="
-                          (slabsAddForm.get('width')?.hasError('min') &&
-                            slabsAddForm.get('width')?.touched) ||
-                          (slabsAddForm.get('width')?.hasError('max') &&
-                            slabsAddForm.get('width')?.touched)
+                          (slabsAddForm.get('pieces')?.hasError('min') &&
+                            slabsAddForm.get('pieces')?.touched) ||
+                          (slabsAddForm.get('pieces')?.hasError('max') &&
+                            slabsAddForm.get('pieces')?.touched)
                         ">
                         <span class="login-danger">
                           input must be between 1 and 100,000.
@@ -498,7 +510,8 @@
 
                           <div class="col-12 mt-1">
                             <div class="form-group local-forms">
-                              <label for="totalSqrFt">Selling Price / Sq. Feet<span class="login-danger">*</span></label>
+                              <label for="totalSqrFt">Selling Price / Sq. Feet<span
+                                  class="login-danger">*</span></label>
 
                               <div class="input-group">
                                 <div class="input-group-prepend">
@@ -507,7 +520,8 @@
                                 <input class="form-control" type="number" placeholder="Enter Selling Price"
                                   formControlName="sellingPricePerSQFT" />
                               </div>
-                              <span style="color: #97704f; font-size: 12px"> Input must be greater than Cost / Sq. Feet</span>
+                              <span style="color: #97704f; font-size: 12px"> Input must be greater than Cost / Sq.
+                                Feet</span>
                               <div *ngIf="
                                   slabsAddForm
                                     .get('sellingPricePerSQFT')

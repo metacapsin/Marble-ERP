@@ -123,6 +123,7 @@ export class AddSlabsComponent {
       width: ["", [Validators.min(1), Validators.max(100000)]],
       length: ["", [Validators.min(1), Validators.max(100000)]],
       finishes: ["", [Validators.required]],
+      pieces: [""],
     });
   }
   get f() {
@@ -212,7 +213,7 @@ export class AddSlabsComponent {
   onWarehouseSelect(value: any) {
     this.Lotservice.lotByWarehouse(value._id).subscribe((resp: any) => {
       this.fromWareHouseLotValue = resp.data.map((e) => ({
-        lotName: `${e.lotName} (${e.lotNo})`,
+        lotName: `${e.lotName}  [${e.lotNo}]`,
         _id: {
           lotName: e.lotName,
           lotNo: e.lotNo,
@@ -250,6 +251,7 @@ export class AddSlabsComponent {
       console.log(block.blockProcessor);
       this.slabsAddForm.patchValue({
         blockProcessor: block.blockProcessor,
+        width:block.width
       });
 
       this.calculateTotalAmount();

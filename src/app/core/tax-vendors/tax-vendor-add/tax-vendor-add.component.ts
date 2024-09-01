@@ -69,7 +69,8 @@ export class TaxVendorAddComponent implements OnInit {
         email: formData.email,
         addressLine1: formData.addressLine1,
         addressLine2: formData.addressLine2,
-        state: formData.state
+        state: formData.state,
+        isTaxVendor:true
       }
       this.TaxVendorsService.createTaxVendor(payload).subscribe((resp: any) => {
         if (resp) {
