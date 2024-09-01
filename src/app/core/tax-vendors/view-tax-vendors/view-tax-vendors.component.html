@@ -26,7 +26,7 @@
                             </a>
                         </li>
                         <li>
-                            <!-- Created On: {{viewTaxVendorData?.createdOn | date: "dd-MMM-yyyy"}} -->
+                            Created On: {{taxVendorsData?.createdOn | date: "dd-MMM-yyyy"}}
                         </li>
                     </ul>
                 </div>
@@ -39,54 +39,54 @@
                     <div class="page-table-header mb-2 m-3">
                         <div class="row practice-card">
                             <div class="col-xl-6 col-lg-6 col-sm-12">
-                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.companyName">
+                                <div class="form-group row mb-2" *ngIf="taxVendorsData?.companyName">
                                     <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Company Name</h5>
                                     <div class="col-lg-8 col-md-8 col-xl-8">
-                                        <p class="col-lg-9 col-form-label">{{viewTaxVendorData?.companyName}}</p>
+                                        <p class="col-lg-9 col-form-label">{{taxVendorsData?.companyName}}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.email">
+                                <div class="form-group row mb-2" *ngIf="taxVendorsData?.email">
                                     <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Email</h5>
                                     <div class="col-lg-8 col-md-8 col-xl-8">
-                                        <p class="col-lg-9 col-form-label">{{viewTaxVendorData?.email}}</p>
+                                        <p class="col-lg-9 col-form-label">{{taxVendorsData?.email}}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.phoneNumber">
+                                <div class="form-group row mb-2" *ngIf="taxVendorsData?.phoneNumber">
                                     <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Phone Number</h5>
                                     <div class="col-lg-8 col-md-8 col-xl-8">
-                                        <p class="col-form-label">{{viewTaxVendorData?.phoneNumber}}</p>
+                                        <p class="col-form-label">{{taxVendorsData?.phoneNumber}}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.postalCode">
+                                <div class="form-group row mb-2" *ngIf="taxVendorsData?.postalCode">
                                     <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Postal Code</h5>
                                     <div class="col-lg-8 col-md-8 col-xl-8">
-                                        <p class="col-form-label">{{viewTaxVendorData?.postalCode}}</p>
+                                        <p class="col-form-label">{{taxVendorsData?.postalCode}}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-sm-12">
-                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.country">
+                                <div class="form-group row mb-2" *ngIf="taxVendorsData?.country">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Country</h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{viewTaxVendorData?.country}}</p>
+                                        <p class="col-form-label">{{taxVendorsData?.country.name}}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.state">
+                                <div class="form-group row mb-2" *ngIf="taxVendorsData?.state">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">State</h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{viewTaxVendorData?.state}}</p>
+                                        <p class="col-form-label">{{taxVendorsData?.state}}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.city">
+                                <div class="form-group row mb-2" *ngIf="taxVendorsData?.city">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">City</h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{viewTaxVendorData?.city}}</p>
+                                        <p class="col-form-label">{{taxVendorsData?.city}}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-2" *ngIf="viewTaxVendorData?.addressLine1">
+                                <div class="form-group row mb-2" *ngIf="taxVendorsData?.addressLine1">
                                     <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Address</h5>
                                     <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{viewTaxVendorData?.addressLine1}}</p>
+                                        <p class="col-form-label">{{taxVendorsData?.addressLine1}}</p>
                                     </div>
                                 </div>
 
@@ -99,12 +99,208 @@
         </div>
         <div class="card">
             <p-tabView>
-                <p-tabPanel header="Processed List">
+                <p-tabPanel header="Sales">
+                    <div class="page-table-header mb-2">
+                        <div class="row align-items-center">
+                          <div class="col">
+                            <div class="doctor-table-blk">
+                              <h3>Sales List</h3>
+                              <div class="doctor-search-blk">
+                                <div class="add-group textbtn">
+                                  <a class="btn btn-primary add-pluss ms-2 ">
+                                    <!-- (click)="navigateToCreateSales() -->
+                                    <img
+                                      src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <p-table selectionMode="multiple" [value]="salesDataShowById" styleClass="p-datatable-striped"
+                      [tableStyle]="{ 'min-width': '60rem' }" [paginator]="salesDataShowById?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
+                      <ng-template pTemplate="header">
+                        <tr class="text-center">
+                          <th pSortableColumn="salesInvoiceNumber">
+                            Invoice Number
+                            <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesInvoiceNumber"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="salesDate">
+                            Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesDate"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="salesOrderStatus">
+                            Sales Status
+                            <p-sortIcon field="salesOrderStatus"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesOrderStatus"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="paymentStatus">
+                            Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentStatus"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="paidAmount">
+                            Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paidAmount"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="dueAmount">
+                            Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="dueAmount"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="salesTotalAmount">
+                            Total Amount
+                            <p-sortIcon field="salesTotalAmount"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesTotalAmount"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <!-- <th pSortableColumn="paymentStatus">
+                            Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                          </th> -->
+                          <th>Action</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-sales>
+                        <tr>
+                          <td>{{ sales.salesInvoiceNumber }}</td>
+                          <td>{{ sales.salesDate | date: "dd-MMM-yyyy" }}</td>
+                          <td>{{ sales.salesOrderStatus }}</td>
+                          <!-- <td>{{ sales.paymentStatus }}</td> -->
+                          <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                              value="Partial Paid"></p-tag></td>
+                          <td *ngIf="sales.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
+                          <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
+                          <td>₹ {{ sales.paidAmount | indianCurrency }}</td>
+                          <td>₹ {{ sales.dueAmount | indianCurrency }}</td>
+                          <td>₹ {{ sales.salesTotalAmount | indianCurrency }}</td>
+                          <td appShowHide [roles]="['admin', 'super-admin']">
+                            <div class="action-buttons">
+                              <!-- <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"  pTooltip="View"
+                                tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                              <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'"
+                                [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)"  pTooltip="Payment"
+                                tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                              <div *ngIf="sales.paymentStatus != 'Unpaid' && sales.paymentStatus != 'Partial Paid'"
+                                class="placeholder"></div>
+                              <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"  pTooltip="Delete"
+                                tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <!-- <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="8" class="text-center">No sales records found.</td>
+                        </tr>
+                      </ng-template> -->
+        
+                      <!-- <ng-template pTemplate="footer">
+                        <tr
+                          *ngIf="salesTotalValues.totalPaidAmount > 0 || salesTotalValues.totalDueAmount > 0 || salesTotalValues.totalAmount > 0">
+                          <td colspan="3"></td>
+                          <td>Total</td>
+                          <td>₹ {{ salesTotalValues.totalPaidAmount | indianCurrency }}</td>
+                          <td class="text-danger-dark">₹ {{ salesTotalValues.totalDueAmount | indianCurrency }}</td>
+                          <td>₹ {{ salesTotalValues.totalAmount | indianCurrency }}</td>
+                          <td></td>
+                        </tr>
+                      </ng-template> -->
+                    </p-table>
 
                 </p-tabPanel>
 
                 <p-tabPanel header="Payments">
 
+                    <div class="page-table-header mb-2">
+                        <div class="row align-items-center">
+                          <div class="col">
+                            <div class="doctor-table-blk">
+                              <h3>Payments List</h3>
+                              <div class="doctor-search-blk">
+                                <div class="add-group textbtn">
+                                  <a class="btn btn-primary add-pluss ms-2 ">
+                                    <!-- (click)="navigateToCreateSales() -->
+                                    <img
+                                      src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                 
+
+                      <p-table selectionMode="multiple" [value]="paymentListDataByCustomerId" styleClass="p-datatable-striped"
+                      [tableStyle]="{ 'min-width': '60rem' }" [paginator]="paymentListDataByCustomerId?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th pSortableColumn="salesInvoiceNumber">
+                            Invoice Number
+                            <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesInvoiceNumber"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="transactionNo">
+                            Transaction Number
+                            <p-sortIcon field="transactionNo"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="transactionNo"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="paymentDate">
+                            Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentDate"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="paymentMode">
+                            Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentMode"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <th pSortableColumn="amount">
+                            Amount <p-sortIcon field="amount"></p-sortIcon>
+                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="amount"
+                              display="menu"></p-columnFilter>
+                          </th>
+                          <th width="10%">Action</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-payment>
+                        <tr>
+                          <td class="bold">{{ payment.salesInvoiceNumber }}</td>
+                          <td class="bold">{{ payment.transactionNo }}</td>
+                          <td class="bold">
+                            {{ payment.paymentDate | date: "dd-MMM-yyyy"}}
+                          </td>
+                          <td>{{ payment.paymentMode }}</td>
+                          <td>₹ {{ payment.amount | indianCurrency }}</td>
+                          <td class="action-buttons">
+                            <!-- <p-button [text]=" true" icon="fa fa-trash" (click)=" deleteSalesPayment(payment._id)" pTooltip="Delete"
+                            tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+           -->
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <!-- <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="6" class="text-center">No payment records found.</td>
+                        </tr>
+                      </ng-template> -->
+                      <!-- <ng-template pTemplate="footer">
+                        <tr *ngIf="paymentInTotalValues.totalPaymentAmount">
+                          <td colspan="3"></td>
+                          <td>Total</td>
+                          <td>₹ {{ paymentInTotalValues.totalPaymentAmount | indianCurrency}}</td>
+                          <td></td>
+                        </tr>
+                      </ng-template> -->
+                    </p-table>
                 </p-tabPanel>
             </p-tabView>
         </div>

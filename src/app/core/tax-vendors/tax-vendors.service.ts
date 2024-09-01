@@ -15,11 +15,11 @@ export class TaxVendorsService {
     return this.http.get(environment.apiUrl + '/TaxVendorController/getTaxVendorList');
   }
   getTaxVendorById(id: any) {
-    return this.http.get(environment.apiUrl + ` /TaxVendorController/getTaxVendorById/${id}`);
+    return this.http.get(environment.apiUrl + `/TaxVendorController/getTaxVendorById/${id}`);
   }
 
   updateTaxVendor(data: any) {
-    return this.http.put(environment.apiUrl + ' /TaxVendorController/updateTaxVendor', data);
+    return this.http.put(environment.apiUrl + '/TaxVendorController/updateTaxVendor', data);
   }
   deleteTaxVendor(id: any) {
     return this.http.delete(environment.apiUrl + `/TaxVendorController/deleteTaxVendor/${id}`);
