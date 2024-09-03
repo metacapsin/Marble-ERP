@@ -299,7 +299,6 @@ export class ViewBlockProcessorComponent {
           dueAmount: resp.data.dueAmount,
           paidAmount: resp.data.paidAmount,
         });
-        // console.log("this is user data on popup dialog of payment invoice",this.salesDataShowById);
       });
   }
 

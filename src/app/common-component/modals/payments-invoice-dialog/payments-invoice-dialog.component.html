@@ -349,6 +349,15 @@
                                   the
                                   ₹ {{dataById.salesDueAmount | indianCurrency}}.</span>
                               </div>
+                              <span style="color: #97704f; font-size: 12px; 
+                              " *ngIf="dataById.isSlabProcessing">Max Value : ₹ {{dataById.dueAmount |
+                                indianCurrency}}</span>
+                              <div
+                                *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
+                                <span class="login-danger" *ngIf="dataById.isSlabProcessing">Amount cannot be greater than
+                                  the
+                                  ₹ {{dataById.dueAmount | indianCurrency}}.</span>
+                              </div>
 
                               <span style="color: #97704f; font-size: 12px; 
                               " *ngIf="dataById.isPurchase">Max Value : ₹ {{dataById.purchaseDueAmount |

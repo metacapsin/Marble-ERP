@@ -104,17 +104,52 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         totalAmount.setValidators(
           [
             Validators.required,
-            Validators.min(0),
+            Validators.min(1),
             Validators.max(this.dataById.purchaseDueAmount),
           ],);
           totalAmount.updateValueAndValidity();
       } else if (this.dataById.isSales) {
         totalAmount.clearValidators();
+        console.log("this.dataById.isSales",this.dataById.isSales);
+
         totalAmount.setValidators(
           [
             Validators.required,
-            Validators.min(0),
+            Validators.min(1),
             Validators.max(this.dataById.salesDueAmount),
+          ],);
+          totalAmount.updateValueAndValidity();
+      }else if (this.dataById.isSalesReturn) {
+        totalAmount.clearValidators();
+        console.log("this.dataById.isSalesReturn",this.dataById.isSalesReturn);
+
+        totalAmount.setValidators(
+          [
+            Validators.required,
+            Validators.min(1),
+            Validators.max(this.dataById.salesDueAmount),
+          ],);
+          totalAmount.updateValueAndValidity();
+      }else if (this.dataById.isPurchaseReturn) {
+        totalAmount.clearValidators();
+        console.log("this.dataById.isPurchaseReturn",this.dataById.isPurchaseReturn);
+
+        totalAmount.setValidators(
+          [
+            Validators.required,
+            Validators.min(1),
+            Validators.max(this.dataById.purchaseDueAmount),
+          ],);
+          totalAmount.updateValueAndValidity();
+      }else if (this.dataById.isSlabProcessing) {
+        totalAmount.clearValidators();
+        console.log("this.dataById.isSlabProcessing",this.dataById.isSlabProcessing);
+
+        totalAmount.setValidators(
+          [
+            Validators.required,
+            Validators.min(1),
+            Validators.max(this.dataById.dueAmount),
           ],);
           totalAmount.updateValueAndValidity();
       }

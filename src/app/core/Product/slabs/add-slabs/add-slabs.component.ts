@@ -137,14 +137,6 @@ export class AddSlabsComponent {
     console.log("this is current url on slab page", this.currentUrl);
 
 
-    // this.slabsAddForm.get('totalSQFT')?.valueChanges.subscribe(() => {
-    //   this.calculateSqftPerPiece();
-    // });
-
-    // this.slabsAddForm.get('noOfPieces')?.valueChanges.subscribe(() => {
-    //   this.calculateSqftPerPiece();
-    // });
-    // API for get all block Processor
     this.ServiceblockProcessor.getAllBlockProcessorData().subscribe(
       (data: any) => {
         this.blockProcessorArray = [];
@@ -273,18 +265,6 @@ export class AddSlabsComponent {
       this.slabsAddForm.get("blockProcessor")?.reset();
     }
   }
-
-  // calculateSqftPerPiece(): void {
-  //   const totalSQFT = this.slabsAddForm.get('totalSQFT')?.value;
-  //   const noOfPieces = this.slabsAddForm.get('noOfPieces')?.value;
-
-  //   if (totalSQFT && noOfPieces && noOfPieces > 0) {
-  //     const sqftPerPiece = totalSQFT / noOfPieces;
-  //     this.slabsAddForm.get('sqftPerPiece')?.setValue(sqftPerPiece);
-  //   } else {
-  //     this.slabsAddForm.get('sqftPerPiece')?.setValue(null);
-  //   }
-  // }
 
   calculateTotalAmount() {
     // Gatting data with input
