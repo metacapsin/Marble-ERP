@@ -197,7 +197,7 @@ export class StaffAddComponent {
       ifscCode: formData.ifscCode,
       address: formData.address,
       idType: formData.idType,
-      isActive: formData.isActive,
+      isActive: true,
     };
     console.log("Form is valid", this.addStaffForm.value);
     if (this.addStaffForm.valid) {

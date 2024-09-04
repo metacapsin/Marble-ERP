@@ -45,7 +45,7 @@ export class StaffListComponent {
     this.staffId = Id;
     this.modalData = {
       title: "Delete",
-      messege: "Staff details deleted successfully.",
+      messege: "Are you sure you want to delete this Staff Details.",
     };
     this.showDialoge = true;
   }
@@ -54,7 +54,8 @@ export class StaffListComponent {
   }
   callBackModal() {
     this.service.deleteStaffData(this.staffId).subscribe((resp: any) => {
-      this.messageService.add({ severity: "success", detail: resp.message });
+      const message = 'Staff details deleted successfully.';
+      this.messageService.add({ severity: "success", detail: message });
       this.showDialoge = false;
       this.getStaffData();
     });
@@ -74,7 +75,7 @@ export class StaffListComponent {
         console.log(element);
         return {
           ...element,
-          statusText: element.status ? "Active" : "Inactive",
+          statusText: element.isActive ? "Active" : "Inactive",
         };
       });
 

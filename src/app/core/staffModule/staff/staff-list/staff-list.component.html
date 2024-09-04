@@ -78,8 +78,8 @@
                     <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="email"
                       display="menu"></p-columnFilter>
                   </th>
-                  <th pSortableColumn="email">Status<p-sortIcon field="email"></p-sortIcon>
-                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="email"
+                  <th pSortableColumn="isActive">Status<p-sortIcon field="isActive"></p-sortIcon>
+                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="isActive"
                       display="menu"></p-columnFilter>
                   </th>
                   <th width="13%">Action</th>
@@ -92,7 +92,6 @@
                   <td>{{staff.mobile}}</td>
                   <td>{{staff.city}}</td>
                   <td>{{staff.email}}</td>
-                  <!-- <td>{{staff.statusText}}</td> -->
                   <td *ngIf="staff.statusText == 'Active' "><p-tag severity="success" value="Active"></p-tag>
                   </td>
                   <td *ngIf="staff.statusText == 'Inactive' "><p-tag severity="danger" value="Inactive"></p-tag>
