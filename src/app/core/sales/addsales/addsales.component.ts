@@ -60,7 +60,7 @@ export class AddsalesComponent implements OnInit {
   billingAddress: any = null;
   setAddressData: any;
   customerAddress: any;
-  appliyTaxAmount: number;
+  appliedTaxAmount: number;
   salesGrossTotal: number;
   salesOrderTax: number;
 
@@ -81,7 +81,7 @@ export class AddsalesComponent implements OnInit {
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
       billingAddress: [""],
-      salesDiscount: ["", [Validators.min(1), Validators.max(100000)]],
+      salesDiscount: ["", [Validators.min(0), Validators.max(100000)]],
       salesInvoiceNumber: ["", [Validators.pattern(this.invoiceRegex)]],
       salesItemDetails: this.fb.array([
         this.fb.group({
@@ -103,6 +103,7 @@ export class AddsalesComponent implements OnInit {
           salesWarehouseDetails: ["", [Validators.required]],
           salesItemNonTaxableAmount: [""],
           salesItemTaxableAmount: [""],
+          salesItemAppliedTaxAmount: [""],
           salesItemPieces: ["", [Validators.required]],
         }),
       ]),
@@ -111,12 +112,12 @@ export class AddsalesComponent implements OnInit {
       salesOrderStatus: ["", [Validators.required]],
       salesOrderTax: [""],
       vendorTaxApplied: [""],
-      veodorTaxAmount: [""],
+      vendorTaxAmount: [""],
       appliedTax: [""],
-      salesShipping: ["", [Validators.min(1), Validators.max(100000)]],
+      salesShipping: ["", [Validators.min(0), Validators.max(100000)]],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       salesTotalAmount: [""],
-      otherCharges: ["", [Validators.min(1), Validators.max(100000)]],
+      otherCharges: ["", [Validators.min(0), Validators.max(100000)]],
     });
   }
 
@@ -150,6 +151,7 @@ export class AddsalesComponent implements OnInit {
       salesItemPieces: ["", [Validators.required]],
       salesItemTotal: ["", [Validators.required, Validators.min(0)]],
       salesItemTaxAmount: [""],
+      salesItemAppliedTaxAmount: [""],
       maxQuantity: [""],
       salesWarehouseDetails: ["", [Validators.required]],
     });
@@ -179,7 +181,6 @@ export class AddsalesComponent implements OnInit {
             control.get("salesItemQuantity").reset();
             control.get("salesItemUnitPrice").reset();
             control.get("salesItemTax").reset();
-            // control.get("salesItemSubTotal").reset();
             this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];
@@ -340,395 +341,74 @@ export class AddsalesComponent implements OnInit {
         this.calculateTotalAmount();
       }
       if (maxQuantityControl) {
-        maxQuantityControl.setValue(
-          remainingQuantity > 0 ? remainingQuantity : 0
-        );
+        maxQuantityControl.setValue(remainingQuantity > 0 ? remainingQuantity : 0);
       }
     } else {
       console.error("Slab not found!");
     }
   }
   calculateTotalAmount() {
-    var salesGrossTotal = 0;
+    let salesGrossTotal = 0;
     let salesOrderTax: number = 0;
-    let piecesSQFEET = 10; // You can adjust this value as needed
-    var subtotal = 0;
-    var nonTaxableAmount = 0;
-    var taxableAmount = 0;
-    var subtotalValue = 0;
+    let sqftPerPiece: number = 55;
     const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
 
-    salesItems.controls.forEach((item: FormGroup) => {
-      const prevQuantity = item.get("salesItemQuantity").value;
-      const quantity = +item.get("salesItemQuantity").value || null;
-      const unitPrice = +item.get("salesItemUnitPrice").value || null;
-      // const nonTaxableAmountInput = +item.get("salesItemNonTaxableAmount").value || null;
+    salesItems.controls.forEach(item => {
+      const quantity = +item.get("salesItemQuantity").value || 0;
+      const unitPrice = +item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];
-
-      console.log(quantity);
-      let pieces = null;
-
-      if (quantity) {
-        pieces = quantity / piecesSQFEET;
-        item.get("salesItemPieces").setValue(Number(pieces || null));
-      }
-
-      // Tax calculation
-      taxableAmount = item.get("salesItemTaxableAmount").value;
+      const pieces = quantity / sqftPerPiece;
       let totalTaxAmount = 0;
+      const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value;
       if (Array.isArray(tax)) {
         tax.forEach((selectedTax: any) => {
-          totalTaxAmount += (taxableAmount * selectedTax.taxRate) / 100;
+          totalTaxAmount += (salesItemTaxableAmount * selectedTax.taxRate) / 100;
         });
       } else {
-        totalTaxAmount = (taxableAmount * tax) / 100;
+        totalTaxAmount = (salesItemTaxableAmount * tax) / 100;
       }
-      // Now calculate total amount based on the updated effectiveQuantity
-      var totalAmount = quantity * unitPrice;
-      item.get("salesItemTotal").setValue(Number(totalAmount || null));
-      console.log(totalAmount, "totalAmount");
+      const totalAmount = quantity * unitPrice;
+      const salesItemNonTaxableAmount = totalAmount - salesItemTaxableAmount;
+      const salesItemAppliedTaxAmount = salesItemTaxableAmount + totalTaxAmount;
+      const subtotal = quantity * unitPrice + totalTaxAmount;
+      salesOrderTax += totalTaxAmount;
+      salesGrossTotal += subtotal;
 
-      const salesItemSubTotalControl = item.get("salesItemSubTotal");
-      if (salesItemSubTotalControl) {
-        salesItemSubTotalControl.setValue(Number(totalAmount || null));
-        salesGrossTotal += totalAmount;
-      } else {
-        console.error(
-          "salesItemSubTotal control is missing in the form group."
-        );
-      }
-
-      if (taxableAmount) {
-        salesGrossTotal = 0
-        nonTaxableAmount = totalAmount - taxableAmount;
-        subtotal += nonTaxableAmount + totalTaxAmount;
-        salesOrderTax += totalTaxAmount;
-        console.log(subtotal, nonTaxableAmount);
-        item.get("salesItemNonTaxableAmount").setValue(Number(nonTaxableAmount));
-        this.appliyTaxAmount = taxableAmount + totalTaxAmount;
-        const salesItemTaxAmountControl = item.get("salesItemTaxAmount");
-        if (salesItemTaxAmountControl) {
-          const totalTaxAmountFixed = totalTaxAmount
-            ? totalTaxAmount.toFixed(2)
-            : null;
-          salesItemTaxAmountControl.setValue(Number(totalTaxAmountFixed));
-          console.log(totalTaxAmountFixed,"totalTaxAmountFixed");
-        } else {
-          console.error(
-            "salesItemTaxAmount control is missing in the form group."
-          );
-        }
-        console.log(subtotal);
-        subtotalValue += taxableAmount ? taxableAmount + subtotal || 0 : null;
-        salesGrossTotal += subtotalValue;
-
-        const salesItemSubTotalControl = item.get("salesItemSubTotal");
-        if (salesItemSubTotalControl) {
-          salesItemSubTotalControl.setValue(Number(subtotalValue || null));
-        } else {
-          console.error(
-            "salesItemSubTotal control is missing in the form group."
-          );
-        }
-      }
-      
-
-      // if (nonTaxableAmount) {
-      //   const salesItemNonTaxableAmountControl = item.get(
-      //     "salesItemNonTaxableAmount"
-      //   );
-      //   if (salesItemNonTaxableAmountControl) {
-      //     salesItemNonTaxableAmountControl.setValue(nonTaxableAmount);
-      //   }
-
-      // subtotal += nonTaxableAmount + totalTaxAmount;
-      // console.log(subtotal, nonTaxableAmount);
-      // salesOrderTax += totalTaxAmount;
-      //   // salesGrossTotal += subtotal;
-
-      // const salesItemTaxAmountControl = item.get("salesItemTaxAmount");
-      // if (salesItemTaxAmountControl) {
-      //   const totalTaxAmountFixed = totalTaxAmount
-      //     ? totalTaxAmount.toFixed(2)
-      //     : null;
-      //   salesItemTaxAmountControl.setValue(Number(totalTaxAmountFixed));
-      // }
-
-      //   const salesItemSubTotalControl = item.get("salesItemSubTotal");
-      //   if (salesItemSubTotalControl) {
-      //     console.log(salesItemSubTotalControl.value);
-      //     const prevSubTotalValue = salesItemSubTotalControl.value;
-      //     console.log(taxableAmount, subtotal);
-      //     console.log(taxableAmount + subtotal);
-      // subtotalValue += taxableAmount ? taxableAmount + subtotal || 0 : null;
-      // salesItemSubTotalControl.setValue(Number(subtotalValue));
-      //     // if (prevSubTotalValue !== subtotalValue) {
-      //     // }
-      //   }
-      // }
+      item.get("salesItemPieces").setValue(Number(pieces.toFixed(2)));
+      item.get("salesItemTotal").setValue(Number(totalAmount));
+      item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount));
+      item.get("salesItemAppliedTaxAmount").setValue(Number(salesItemAppliedTaxAmount));
+      item.get("salesItemNonTaxableAmount").setValue(Number(salesItemNonTaxableAmount));
+      item.get("salesItemSubTotal").setValue(Number(subtotal));
     });
-    console.log(salesOrderTax);
-    const vendorTaxApplied =  this.addSalesForm.get('vendorTaxApplied')?.value;
-    if(vendorTaxApplied){
-      let vendorTax =  (vendorTaxApplied * salesOrderTax) / 100
-      console.log(vendorTax);
-      this.addSalesForm.get('veodorTaxAmount')?.setValue(vendorTax);
-    }
-    console.log(this.addSalesForm.get('veodorTaxAmount')?.value);
-    this.addSalesForm
-      .get("salesOrderTax")
-      .setValue(Number(salesOrderTax.toFixed(2)));
-    this.addSalesForm
-      .get("salesGrossTotal")
-      .setValue(Number(salesGrossTotal.toFixed(2)));
+
+    this.addSalesForm.get("salesOrderTax").setValue(Number(salesOrderTax));
+    this.addSalesForm.get("salesGrossTotal").setValue(Number(salesGrossTotal));
 
     let totalAmount = salesGrossTotal;
-    const discount = +this.addSalesForm.get("salesDiscount").value || 0;
-    const shipping = +this.addSalesForm.get("salesShipping").value || 0;
-    const otherCharges = +this.addSalesForm.get("otherCharges").value || 0;
+    const discount = +this.addSalesForm.get("salesDiscount").value;
+    const shipping = +this.addSalesForm.get("salesShipping").value;
+    const otherCharges = +this.addSalesForm.get("otherCharges").value;
 
     totalAmount -= discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
 
     this.addSalesForm.get("salesTotalAmount").setValue(Number(totalAmount));
+    if (this.setAddressData?.isTaxVendor) {
+      this.taxVendorAmount();
+    }
   }
-  // calculateTotalAmount() {
-  //   let salesGrossTotal = 0;
-  //   let salesOrderTax: number = 0;
-  //   let piecesSQFEET = 10; // You can adjust this value as needed
-  //   let subtotal = 0;
-  //   let subtotalValue = 0;
+  taxVendorAmount(){
+    const salesOrderTax = this.addSalesForm.get("salesOrderTax").value;
+    const vendorTaxApplied = this.addSalesForm.get("vendorTaxApplied").value;
 
-  //   const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
+    if(vendorTaxApplied){
+      const vendorTaxAmount = (salesOrderTax * vendorTaxApplied) / 100;
+      this.addSalesForm.get("vendorTaxAmount").setValue(Number(vendorTaxAmount));
+    }
 
-  //   salesItems.controls.forEach((item: FormGroup) => {
-  //     const quantity = +item.get("salesItemQuantity").value || null;
-  //     const unitPrice = +item.get("salesItemUnitPrice").value || null;
-  //     const tax = item.get("salesItemTax").value || [];
-
-  //     let pieces = null;
-  //     if (quantity) {
-  //       pieces = quantity / piecesSQFEET;
-  //       item.get("salesItemPieces").setValue(Number(pieces || null));
-  //     }
-
-  //     // Calculate total amount based on quantity
-  //     const totalAmount = quantity * unitPrice;
-  //     item.get("salesItemTotal").setValue(Number(totalAmount || null));
-
-  //     // Reset taxableAmount and nonTaxableAmount for this item
-  //     let taxableAmount = item.get("salesItemTaxableAmount").value || 0;
-  //     let nonTaxableAmount = 0;
-
-  //     // Tax calculation
-  //     let totalTaxAmount = 0;
-  //     if (Array.isArray(tax)) {
-  //       tax.forEach((selectedTax: any) => {
-  //         totalTaxAmount += (taxableAmount * selectedTax.taxRate) / 100;
-  //       });
-  //     } else {
-  //       totalTaxAmount = (taxableAmount * tax) / 100;
-  //     }
-
-  //     nonTaxableAmount = totalAmount - taxableAmount;
-  //     console.log(nonTaxableAmount, totalTaxAmount);
-  //     subtotal = nonTaxableAmount + totalTaxAmount;
-  //     salesOrderTax += totalTaxAmount;
-  //     console.log(subtotal);
-  //     console.log(item);
-  //     item.get("salesItemSubTotal")?.setValue(Number(subtotal || null));
-  //     // ?.setValue(Number(false ? 0 : subtotal.toFixed(2)));
-
-  //     // const salesItemNonTaxableAmountControl = item.get("salesItemNonTaxableAmount");
-  //     // if (salesItemNonTaxableAmountControl) {
-  //     //   salesItemNonTaxableAmountControl.setValue(Number(nonTaxableAmount || null));
-  //     // }
-
-  //     // const salesItemTaxAmountControl = item.get("salesItemTaxAmount");
-  //     // if (salesItemTaxAmountControl) {
-  //     //   salesItemTaxAmountControl.setValue(Number(totalTaxAmount.toFixed(2) || null));
-  //     // }
-
-  //     // const salesItemSubTotalControl = item.get("salesItemSubTotal");
-  //     // if (salesItemSubTotalControl) {
-  //     //   subtotalValue = taxableAmount + nonTaxableAmount + totalTaxAmount;
-  //     //   salesItemSubTotalControl.setValue(Number(subtotalValue || null));
-  //     // }
-  //   });
-
-  //   // Update overall totals
-  //   this.salesGrossTotal = subtotal;
-  //   this.salesOrderTax = salesOrderTax;
-
-  //   console.log("Gross Total: ", this.salesGrossTotal);
-  //   console.log("Order Tax: ", this.salesOrderTax);
-  // }
-
-  // calculateTotalAmount() {
-  //   let salesGrossTotal = 0;
-  //   let salesOrderTax: number = 0;
-  //   let piecesSQFEET = 10; // You can adjust this value as needed
-  //   const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
-
-  //   salesItems.controls.forEach((item: FormGroup) => {
-  //     // if (item.get("salesItemQuantity").value > item.get("maxQuantity").value) {
-  //     //   item.get("salesItemQuantity").patchValue(item.get("maxQuantity").value);
-  //     // }
-  //     const quantity = +item.get("salesItemQuantity").value || 0;
-  //     const unitPrice = +item.get("salesItemUnitPrice").value || 0;
-  //     const tax = item.get("salesItemTax").value || [];
-
-  //     let totalTaxAmount = 0;
-  //     let pieces = null;
-  //     if (quantity) {
-  //       pieces = quantity / piecesSQFEET;
-  //       item.get("salesItemPieces").setValue(Number(pieces || null));
-  //     }
-  //     if (Array.isArray(tax)) {
-  //       tax.forEach((selectedTax: any) => {
-  //         totalTaxAmount += (quantity * unitPrice * selectedTax.taxRate) / 100;
-  //       });
-  //     } else {
-  //       totalTaxAmount = (quantity * unitPrice * tax) / 100;
-  //     }
-
-  //     const subtotal = quantity * unitPrice + totalTaxAmount;
-  //     salesOrderTax += totalTaxAmount;
-
-  //     salesGrossTotal += subtotal;
-  //     item
-  //       .get("salesItemTaxAmount")
-  //       .setValue(Number(totalTaxAmount.toFixed(2)));
-  //     item.get("salesItemSubTotal")?.setValue(Number(subtotal.toFixed(2)));
-  //   });
-
-  //   this.addSalesForm
-  //     .get("salesOrderTax")
-  //     .setValue(Number(salesOrderTax.toFixed(2)));
-  //   this.addSalesForm
-  //     .get("salesGrossTotal")
-  //     .setValue(Number(salesGrossTotal.toFixed(2)));
-
-  //   let totalAmount = salesGrossTotal;
-  //   const discount = +this.addSalesForm.get("salesDiscount").value;
-  //   const shipping = +this.addSalesForm.get("salesShipping").value;
-  //   const otherCharges = +this.addSalesForm.get("otherCharges").value;
-
-  //   totalAmount -= discount;
-  //   totalAmount += shipping;
-  //   totalAmount += otherCharges;
-
-  //   this.addSalesForm.get("salesTotalAmount").setValue(Number(totalAmount));
-  // }
-
-  // calculateTotalAmount() {
-  //   let salesGrossTotal = 0;
-  //   let salesOrderTax: number = 0;
-  //   let piecesSQFEET = 10; // You can adjust this value as needed
-  //   var subtotal = 0;
-  //   var nonTaxableAmount = 0;
-  //   var taxableAmount = 0;
-  //   const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
-
-  //   salesItems.controls.forEach((item: FormGroup) => {
-  //     const prevQuantity = item.get("salesItemQuantity").value;
-  //     const quantity = +item.get("salesItemQuantity").value || null;
-  //     const unitPrice = +item.get("salesItemUnitPrice").value || null;
-  //     // const itemPieces = +item.get("salesItemPieces").value || null;
-  //     const tax = item.get("salesItemTax").value || [];
-
-  //     console.log(quantity);
-  //     let pieces = null;
-  //     // let effectiveQuantity = quantity;  This will be used for total amount calculation
-  //     // if (itemPieces) {
-  //     //   console.log(effectiveQuantity);
-  //     //   pieces = itemPieces * piecesSQFEET;
-  //     //   console.log(pieces);
-  //     //   effectiveQuantity = pieces;
-  //     //   item.get("salesItemQuantity").setValue(Number(pieces || null));
-  //     // } else {
-  //     if (quantity) {
-  //       pieces = quantity / piecesSQFEET;
-  //       item.get("salesItemPieces").setValue(Number(pieces || null));
-  //     }
-  //     // }
-
-  //     // Reset the form control value so that changes can be detected
-  //     // item.get("salesItemQuantity").setValue(null);
-  //     // item.get("salesItemQuantity").setValue(quantity || null);
-
-  //     // Now calculate total amount based on the updated effectiveQuantity
-  //     const totalAmount = quantity * unitPrice;
-  //     item.get("salesItemTotal").setValue(Number(totalAmount || null));
-  //     // Calculate pieces only if salesItemPieces is filled
-
-  //     // Tax calculation
-  //     taxableAmount = item.get("salesItemTaxableAmount").value;
-  //     let totalTaxAmount = 0;
-  //     if (Array.isArray(tax)) {
-  //       tax.forEach((selectedTax: any) => {
-  //         totalTaxAmount += (taxableAmount * selectedTax.taxRate) / 100;
-  //       });
-  //     } else {
-  //       totalTaxAmount = (taxableAmount * tax) / 100;
-  //     }
-  //     this.appliyTaxAmount = taxableAmount + totalTaxAmount;
-  //     console.log(this.appliyTaxAmount);
-  //     nonTaxableAmount = totalAmount - taxableAmount;
-  //     if (nonTaxableAmount) {
-  //       const salesItemNonTaxableAmountControl = item.get(
-  //         "salesItemNonTaxableAmount"
-  //       );
-  //       if (salesItemNonTaxableAmountControl) {
-  //         salesItemNonTaxableAmountControl.setValue(nonTaxableAmount);
-  //       }
-
-  //       subtotal = nonTaxableAmount + totalTaxAmount;
-  //       console.log(subtotal, nonTaxableAmount);
-  //       salesOrderTax += totalTaxAmount;
-  //       salesGrossTotal += subtotal;
-
-  //       const salesItemTaxAmountControl = item.get("salesItemTaxAmount");
-  //       if (salesItemTaxAmountControl) {
-  //         const totalTaxAmountFixed = totalTaxAmount
-  //           ? totalTaxAmount.toFixed(2)
-  //           : null;
-  //         salesItemTaxAmountControl.setValue(Number(totalTaxAmountFixed));
-  //       }
-
-  //       const salesItemSubTotalControl = item.get("salesItemSubTotal");
-  //       if (salesItemSubTotalControl) {
-  //         const subtotalValue = taxableAmount ? taxableAmount + subtotal : null;
-  //         salesItemSubTotalControl.setValue(Number(subtotalValue));
-  //         // const subtotalFixed =
-  //         //   subtotalValue !== null ? subtotalValue.toFixed(2) : null;
-  //         // console.log(subtotalFixed);
-  //         // salesItemSubTotalControl.setValue(Number(subtotalFixed));
-  //         // salesGrossTotal += subtotalFixed;
-  //         console.log(subtotalValue);
-  //       }
-  //     }
-  //   });
-
-  //   this.addSalesForm
-  //     .get("salesOrderTax")
-  //     .setValue(Number(salesOrderTax.toFixed(2)));
-  //   this.addSalesForm
-  //     .get("salesGrossTotal")
-  //     .setValue(Number(salesGrossTotal.toFixed(2)));
-
-  //   let totalAmount = salesGrossTotal;
-  //   const discount = +this.addSalesForm.get("salesDiscount").value || 0;
-  //   const shipping = +this.addSalesForm.get("salesShipping").value || 0;
-  //   const otherCharges = +this.addSalesForm.get("otherCharges").value || 0;
-
-  //   totalAmount -= discount;
-  //   totalAmount += shipping;
-  //   totalAmount += otherCharges;
-
-  //   this.addSalesForm.get("salesTotalAmount").setValue(Number(totalAmount));
-  // }
+  }
 
   navigateToCreateCustomer() {
     const returnUrl = this.router.url;
@@ -759,9 +439,12 @@ export class AddsalesComponent implements OnInit {
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: Number(formData.salesTotalAmount),
       otherCharges: Number(formData.otherCharges),
-      vendorTax: this.setAddressData?.isTaxVendor ? {
-        
-      } : null,
+      taxVendor: this.setAddressData?.isTaxVendor ? {
+        _id: this.setAddressData._id,
+        companyName: this.setAddressData.companyName,
+        taxVendorAmount: Number(formData.vendorTaxAmount),
+        vendorTaxApplied: Number(formData.vendorTaxApplied),
+      } : {},
       salesOrderTax: Number(formData.salesOrderTax),
     };
 
