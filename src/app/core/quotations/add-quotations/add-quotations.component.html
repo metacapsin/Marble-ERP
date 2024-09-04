@@ -348,16 +348,16 @@
                                 formControlName="quotationDiscount" type="number" placeholder="" />
                             </div>
                             <div *ngIf="
-                                addQuotationForm
+                                (addQuotationForm
                                   .get('quotationDiscount')
                                   ?.hasError('min') &&
                                 addQuotationForm.get('quotationDiscount')
-                                  ?.touched &&
-                                addQuotationForm
+                                  ?.touched) ||
+                                (addQuotationForm
                                   .get('quotationDiscount')
                                   ?.hasError('max') &&
                                 addQuotationForm.get('quotationDiscount')
-                                  ?.touched
+                                  ?.touched)
                               ">
                               <span class="login-danger">Input must be between 1 to 10000.</span>
                             </div>
@@ -374,16 +374,16 @@
                                 formControlName="quotationShipping" type="number" placeholder="" />
                             </div>
                             <div *ngIf="
-                                addQuotationForm
+                                (addQuotationForm
                                   .get('quotationShipping')
                                   ?.hasError('min') &&
                                 addQuotationForm.get('quotationShipping')
-                                  ?.touched &&
-                                addQuotationForm
+                                  ?.touched) ||
+                                (addQuotationForm
                                   .get('quotationShipping')
                                   ?.hasError('max') &&
                                 addQuotationForm.get('quotationShipping')
-                                  ?.touched
+                                  ?.touched)
                               ">
                               <span class="login-danger">Input must be between 1 to 100000.</span>
                             </div>
@@ -400,14 +400,14 @@
                                 formControlName="otherCharges" type="number" placeholder="" />
                             </div>
                             <div *ngIf="
-                                addQuotationForm
+                                (addQuotationForm
                                   .get('otherCharges')
                                   ?.hasError('min') &&
-                                addQuotationForm.get('otherCharges')?.touched &&
-                                addQuotationForm
+                                addQuotationForm.get('otherCharges')?.touched) ||
+                                (addQuotationForm
                                   .get('otherCharges')
                                   ?.hasError('max') &&
-                                addQuotationForm.get('otherCharges')?.touched
+                                addQuotationForm.get('otherCharges')?.touched)
                               ">
                               <span class="login-danger">Input must be between 1 to 100000.</span>
                             </div>

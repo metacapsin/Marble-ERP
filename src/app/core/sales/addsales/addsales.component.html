@@ -500,19 +500,19 @@
                                 <span class="input-group-text">₹</span>
                               </div>
                               <input class="form-control" (change)="calculateTotalAmount()"
-                                formControlName="salesDiscount" type="number" placeholder="" />
+                                formControlName="salesDiscount" type="number" placeholder="Enter Discount" />
                             </div>
                             <div *ngIf="
-                                addSalesForm
+                                (addSalesForm
                                   .get('salesDiscount')
                                   ?.hasError('min') &&
-                                addSalesForm.get('salesDiscount')?.touched &&
-                                addSalesForm
+                                addSalesForm.get('salesDiscount')?.touched) ||
+                                (addSalesForm
                                   .get('salesDiscount')
                                   ?.hasError('max') &&
-                                addSalesForm.get('salesDiscount')?.touched
+                                addSalesForm.get('salesDiscount')?.touched)
                               ">
-                              <span class="login-danger">Input must be between 1 to 10000.</span>
+                              <span class="login-danger">Input must be between 1 to 100000.</span>
                             </div>
                           </div>
                         </div>
@@ -524,17 +524,17 @@
                                 <span class="input-group-text">₹</span>
                               </div>
                               <input class="form-control" (change)="calculateTotalAmount()"
-                                formControlName="salesShipping" type="number" placeholder="" />
+                                formControlName="salesShipping" type="number" placeholder="Enter Shipping Charges" />
                             </div>
                             <div *ngIf="
-                                addSalesForm
+                                (addSalesForm
                                   .get('salesShipping')
                                   ?.hasError('min') &&
-                                addSalesForm.get('salesShipping')?.touched &&
-                                addSalesForm
+                                addSalesForm.get('salesShipping')?.touched) ||
+                                (addSalesForm
                                   .get('salesShipping')
                                   ?.hasError('max') &&
-                                addSalesForm.get('salesShipping')?.touched
+                                addSalesForm.get('salesShipping')?.touched)
                               ">
                               <span class="login-danger">Input must be between 1 to 100000.</span>
                             </div>
@@ -548,17 +548,17 @@
                                 <span class="input-group-text">₹</span>
                               </div>
                               <input class="form-control" (change)="calculateTotalAmount()"
-                                formControlName="otherCharges" type="number" placeholder="" />
+                                formControlName="otherCharges" type="number" placeholder="Enter Other Charges" />
                             </div>
                             <div *ngIf="
-                                addSalesForm
+                                (addSalesForm
                                   .get('otherCharges')
                                   ?.hasError('min') &&
-                                addSalesForm.get('otherCharges')?.touched &&
-                                addSalesForm
+                                addSalesForm.get('otherCharges')?.touched) ||
+                                (addSalesForm
                                   .get('otherCharges')
                                   ?.hasError('max') &&
-                                addSalesForm.get('otherCharges')?.touched
+                                addSalesForm.get('otherCharges')?.touched)
                               ">
                               <span class="login-danger">Input must be between 1 to 100000.</span>
                             </div>
