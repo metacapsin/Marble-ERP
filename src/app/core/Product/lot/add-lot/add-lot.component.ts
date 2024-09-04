@@ -25,7 +25,7 @@ export class AddLotComponent {
   lotAddForm: FormGroup;
   maxDate = new Date();
   public routes = routes;
-
+  activeIndex: number[] = [0]; // or any other indices you want active by default
   totalBlocksArea: number = 0;
   blocksDetails = [];
   blockNo: string;
@@ -125,8 +125,8 @@ export class AddLotComponent {
         lotWeight: lotData.lotWeight,
         pricePerTon: lotData.pricePerTon,
         paidToSupplierLotCost: lotData.paidToSupplierLotCost,
-        transportationCharge: lotData.transportationCharge,
-        royaltyCharge: lotData.royaltyCharge,
+        transportationCharge: lotData.transportationCharge == 0 ? null : lotData.transportationCharge,
+        royaltyCharge: lotData.royaltyCharge == 0 ? null :lotData.royaltyCharge,
         notes: lotData.notes,
         blocksCount: lotData.blocksCount,
         averageWeight: lotData.averageWeight,

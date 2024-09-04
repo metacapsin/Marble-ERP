@@ -473,6 +473,7 @@
                                   .get("salesItemDetails")
                                   .get(i + ".salesItemTaxAmount").value
                               }}
+                             
                             </span>
                           </div>
                         </div>
@@ -657,7 +658,7 @@
                               Vendor Name
                             </h5>
                             <div class="col-lg-7 col-md-7 col-xl-7">
-                              <p class="col-form-label">kavya</p>
+                              <p class="col-form-label">{{setAddressData?.companyName}}</p>
                             </div>
                           </div>
                         </div>
@@ -670,7 +671,11 @@
                               Total Tax Amount
                             </h5>
                             <div class="col-lg-7 col-md-7 col-xl-7">
-                              <p class="col-form-label"></p>
+                              <!-- '₹' + -->
+                              <p class="col-form-label"> {{
+                                 addSalesForm
+                                  .get("veodorTaxAmount")?.value
+                              }}</p>
                             </div>
                           </div>
                         </div>
@@ -682,7 +687,7 @@
                             >
                             <input
                               type="number"
-                              formControlName="salesItemUnitPrice"
+                              formControlName="vendorTaxApplied"
                               (change)="calculateTotalAmount()"
                               class="form-control"
                             />
@@ -905,7 +910,7 @@
                               addSalesForm.get('salesTotalAmount')?.value != 0
                             "
                           >
-                            ₹
+                          ₹
                             {{
                               addSalesForm.get("salesTotalAmount").value
                                 | number : "1.2-2"
