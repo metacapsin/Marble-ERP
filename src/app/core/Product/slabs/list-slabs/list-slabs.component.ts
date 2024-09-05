@@ -173,10 +173,15 @@ export class ListSlabsComponent {
     if (this.searchDataValue == "") {
       this.onSearchByChange(null);
       console.log(this.warehouseDropDown);
-      if (this.warehouseDropDown?.name == "") {
-        this.allSlabsDaTa = this.originalData;
+      if (this.warehouseDropDown?.name == "" || this.warehouseDropDown == null) {
+        console.log("object");
+        console.log(this.originalData);
+        console.log(this.allSlabsDaTa);
+        return this.allSlabsDaTa = this.originalData;
       }
+      else{
       return (this.allSlabsDaTa = this.allInDropDown);
+      }
     }
   }
   onPageChange(event) {
