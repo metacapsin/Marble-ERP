@@ -105,7 +105,7 @@ export class AddsalesComponent implements OnInit {
           salesItemTaxableAmount: [""],
           salesItemAppliedTaxAmount: [""],
           salesItemPieces: ["", [Validators.required]],
-          sqftPerPiece:['']
+          sqftPerPiece: ['']
         }),
       ]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
@@ -155,7 +155,7 @@ export class AddsalesComponent implements OnInit {
       salesItemAppliedTaxAmount: [""],
       maxQuantity: [""],
       salesWarehouseDetails: ["", [Validators.required]],
-      sqftPerPiece:['']
+      sqftPerPiece: ['']
 
     });
     this.salesItemDetails.push(item);
@@ -307,7 +307,7 @@ export class AddsalesComponent implements OnInit {
     });
   }
   onSlabSelect(value, i) {
-    // console.log(data);
+    console.log(value);
     // this.customerAddress = data._id.billingAddress
     const salesItemDetailsArray = this.addSalesForm.get(
       "salesItemDetails"
@@ -332,29 +332,21 @@ export class AddsalesComponent implements OnInit {
         }
       }
 
-      const salesItemUnitPriceControl = salesItemDetailsArray
-        .at(i)
-        ?.get("salesItemUnitPrice");
-      const maxQuantityControl = salesItemDetailsArray
-        .at(i)
-        ?.get("maxQuantity");
-      const sqftPerPieceControl = salesItemDetailsArray
-        .at(i)
-        ?.get("sqftPerPiece");
+      const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
+      const maxQuantityControl = salesItemDetailsArray.at(i)?.get("maxQuantity");
+      const sqftPerPieceControl = salesItemDetailsArray.at(i)?.get("sqftPerPiece");
 
       if (salesItemUnitPriceControl) {
         salesItemUnitPriceControl.patchValue(selectedSlab.sellingPricePerSQFT);
         this.calculateTotalAmount();
       }
       if (maxQuantityControl) {
-        maxQuantityControl.setValue(
-          remainingQuantity > 0 ? remainingQuantity : 0
-        );
+        maxQuantityControl.setValue(remainingQuantity > 0 ? remainingQuantity : 0);
       }
       if (sqftPerPieceControl) {
-        salesItemUnitPriceControl.patchValue(selectedSlab.sqftPerPiece);
-        console.log("sqftPerPieceControl",sqftPerPieceControl)
-            }
+        sqftPerPieceControl.patchValue(selectedSlab.sqftPerPiece);
+        this.calculateTotalAmount();
+      }
     } else {
       console.error("Slab not found!");
     }
@@ -363,12 +355,14 @@ export class AddsalesComponent implements OnInit {
     let salesGrossTotal = 0;
     let salesOrderTax: number = 0;
     const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
-    
+
     salesItems.controls.forEach((item) => {
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];
-      const sqftPerPiece= item.get("sqftPerPiece").value || 0;
+      const sqftPerPiece = +item.get("sqftPerPiece").value || 0;
+      console.log('sqftPerPiece',sqftPerPiece);
+      
       const pieces = quantity / sqftPerPiece;
       let totalTaxAmount = 0;
       const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value;
@@ -402,16 +396,16 @@ export class AddsalesComponent implements OnInit {
     this.addSalesForm.get("salesOrderTax").setValue(Number(salesOrderTax));
     this.addSalesForm.get("salesGrossTotal").setValue(Number(salesGrossTotal));
 
-    let totalAmount = salesGrossTotal;
+    let itemTotalAmount = salesGrossTotal;
     const discount = +this.addSalesForm.get("salesDiscount").value;
     const shipping = +this.addSalesForm.get("salesShipping").value;
     const otherCharges = +this.addSalesForm.get("otherCharges").value;
 
-    totalAmount -= discount;
-    totalAmount += shipping;
-    totalAmount += otherCharges;
+    itemTotalAmount -= discount;
+    itemTotalAmount += shipping;
+    itemTotalAmount += otherCharges;
 
-    this.addSalesForm.get("salesTotalAmount").setValue(Number(totalAmount));
+    this.addSalesForm.get("salesTotalAmount").setValue(Number(itemTotalAmount));
     if (this.setAddressData?.isTaxVendor) {
       this.taxVendorAmount();
     }
@@ -452,18 +446,18 @@ export class AddsalesComponent implements OnInit {
       salesItemDetails: formData.salesItemDetails,
       salesNotes: formData.salesNotes,
       salesGrossTotal: Number(formData.salesGrossTotal),
-      salesOrderStatus: formData.salesOrderStatus || "Confirmed",
+      // salesOrderStatus: formData.salesOrderStatus || "Confirmed",
       salesShipping: Number(formData.salesShipping),
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: Number(formData.salesTotalAmount),
       otherCharges: Number(formData.otherCharges),
       taxVendor: this.setAddressData?.isTaxVendor
         ? {
-            _id: this.setAddressData._id,
-            companyName: this.setAddressData.companyName,
-            taxVendorAmount: Number(formData.vendorTaxAmount),
-            vendorTaxApplied: Number(formData.vendorTaxApplied),
-          }
+          _id: this.setAddressData._id,
+          companyName: this.setAddressData.companyName,
+          taxVendorAmount: Number(formData.vendorTaxAmount),
+          vendorTaxApplied: Number(formData.vendorTaxApplied),
+        }
         : {},
       salesOrderTax: Number(formData.salesOrderTax),
     };

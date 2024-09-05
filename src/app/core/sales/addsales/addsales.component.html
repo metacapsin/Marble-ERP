@@ -236,7 +236,8 @@
                               <span class="login-danger">*</span></label>
                             <input type="number" formControlName="salesItemQuantity" (change)="calculateTotalAmount()"
                               class="form-control" />
-                            <span style="color: #97704f; font-size: 12px">Max Quantity:
+                            <span *ngIf="addSalesForm.get('salesItemDetails').get(i + '.maxQuantity').value"
+                              style="color: #97704f; font-size: 12px">Max Quantity:
                               {{
                               addSalesForm
                               .get("salesItemDetails")
@@ -310,7 +311,9 @@
                                 optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
                                 (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
                             </p-inputGroup>
-                            <span style="color: #97704f; font-size: 12px">
+                            <span
+                              *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value && addSalesForm.get('salesItemDetails').get(i + '.salesItemTaxAmount').value"
+                              style="color: #97704f; font-size: 12px">
                               Tax Applied Amount:
                               {{
                               addSalesForm
@@ -427,7 +430,7 @@
                       </div>
                     </div>
                     <div class="invoice-fields mt-4" *ngIf="setAddressData?.isTaxVendor">
-                      <h4 class="field-title">Vendor Tax Details</h4>
+                      <h4 class="field-title">Tax Vendor Details</h4>
                     </div>
                     <div class="page-table-header" *ngIf="setAddressData?.isTaxVendor">
                       <div class="row practice-card">
@@ -447,9 +450,9 @@
                             <h5 class="col-lg-5 col-md-5 col-xl-5 col-form-label">
                               Total Tax Amount
                             </h5>
-                            <div class="col-lg-7 col-md-7 col-xl-7">
-                              <!-- '₹' + -->
-                              <p class="col-form-label"> {{ '₹' +
+                            <div class="col-lg-7 col-md-7 col-xl-7" *ngIf="addSalesForm
+                            .get('vendorTaxAmount')?.value">
+                              <p class="col-form-label"> {{ '₹' + ' ' +
                                 addSalesForm
                                 .get("vendorTaxAmount")?.value
                                 }}</p>
