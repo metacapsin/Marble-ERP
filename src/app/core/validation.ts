@@ -28,6 +28,7 @@ export const validationRegex = {
   address3To500Regex: /^(?!\s)(?:.{3,500})$/,     // 3 to 500 characters
   pinCodeRegex: /^[1-9][0-9]{2}\s?[0-9]{3}$/,
   emailRegex: /^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,   // email regex
+  oneToOneLakhRegex:  /^(0|[1-9][0-9]{0,5})$/,
 
 
 
