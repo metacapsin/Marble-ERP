@@ -20,7 +20,8 @@ export class ViewTaxVendorsComponent implements OnInit {
   taxVendorsData: any = {};
   vendorsSalesData: any = {};
   vendorsPaymentData: any = {};
-
+  showDialog=false
+  modalData:any
   salesDataShowById: any[] = [];
   paymentListDataByTaxVendorsId: any[] = [];
   selectedSales: any[] = []; // Holds the selected sales items
@@ -38,6 +39,7 @@ export class ViewTaxVendorsComponent implements OnInit {
   totalSelectedSalesTotalAmount: number = 0; // Declare this variable
   totalSelectedSalesDueAmount: number = 0; // Declare this variable
   totalSelectedSalesPayableAmount: number = 0; // Declare this variable
+  paymentId: any;
 
   constructor(
     private fb: FormBuilder,
@@ -52,11 +54,14 @@ export class ViewTaxVendorsComponent implements OnInit {
       paymentDate: ["", [Validators.required]],
       paymentMode: ["", [Validators.required]],
       note: [""],
-      payableAmount:["",[ Validators.required,
-        // Validators.min(this.totalSelectedSalesDueAmount),
-        // Validators.max(this.totalSelectedSalesDueAmount)
-      ]
-      ]
+      payableAmount: [
+        "",
+        [
+          Validators.required,
+          // Validators.min(this.totalSelectedSalesDueAmount),
+          // Validators.max(this.totalSelectedSalesDueAmount)
+        ],
+      ],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -74,7 +79,7 @@ export class ViewTaxVendorsComponent implements OnInit {
           salesInvoiceNumber: [sale.taxVendor.salesInvoice],
           // salesTotalAmount: [sale.taxVendor.taxVendorAmount],
           amount: [
-            sale.taxVendor.dueAmount  ,
+            sale.taxVendor.dueAmount,
             [
               Validators.required,
               Validators.min(sale.taxVendor.dueAmount),
@@ -85,8 +90,6 @@ export class ViewTaxVendorsComponent implements OnInit {
       );
     });
   }
-
-  
 
   totalSalesSelectedTotalAmount() {
     // Sum the total amount of the selected sales
@@ -102,13 +105,12 @@ export class ViewTaxVendorsComponent implements OnInit {
       (total, sale) => total + (sale.taxVendor.dueAmount || 0),
       0
     );
-  
+
     // Set the total amount in the form control
     this.addTaxVendorsPaymentForm.patchValue({
       payableAmount: this.totalSelectedSalesDueAmount,
     });
   }
-  
 
   ngOnInit() {
     this.getTaxVendorsById();
@@ -134,24 +136,59 @@ export class ViewTaxVendorsComponent implements OnInit {
   getPaymentListByVendorId() {
     this.TaxVendorsService.getPaymentListByVendorId(this.id).subscribe(
       (data: any) => {
-        console.log(this.id)
+        console.log(this.id);
         console.log("Tax Vendors Payment Data By Id", data.data);
-        this.paymentListDataByTaxVendorsId = data.data ;
+        this.paymentListDataByTaxVendorsId = data.data;
       }
     );
   }
 
-  close(){
-    this.displayPaymentDialog=false
-    this.sales.clear(); 
-    this.addTaxVendorsPaymentForm.reset(); 
+  close() {
+    this.displayPaymentDialog = false;
+    this.showDialog=false
+    this.sales.clear();
+    this.addTaxVendorsPaymentForm.reset();
+  }
+  callBackModal(){
+
+    this.TaxVendorsService.deletePayment(this.paymentId).subscribe((resp:any) => {
+      let message = "Tax Vendor Payment has been Deleted"
+      this.messageService.add({ severity: 'success', detail:message });
+      this.getPaymentListByVendorId();
+      this.getVendorSalesList();
+      this.showDialog = false;
+    })
 
 
   }
+  deleteTaxVendorPayment(id){
+    console.log("delete dialog open")
+    this.paymentId = id;
 
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Payment",
+    };
+    this.showDialog = true;
+
+  }
+  
   openPaymentDialog() {
-    console.log("payments to be made for these sales", this.selectedSales);
-    if (this.selectedSales.length > 0) {
+    
+    // Check if any selected sales have a dueAmount of 0 (fully paid)
+    const hasPaidSales = this.selectedSales.some(
+      (sale) => sale.taxVendor.dueAmount === 0
+    );
+
+    if (hasPaidSales) {
+      this.messageService.add({
+        severity: "warn",
+        summary: "Paid Sales Selected",
+        detail:
+        "You cannot make payments for fully paid sales. Please unselect them.",
+      });
+    } else if (this.selectedSales.length > 0) {
+      console.log("payments to be made for these sales", this.selectedSales);
       console.log(this.selectedSales[0].customer);
       this.addSalesControls(); // Populate form with selected sales data
       this.totalSalesSelectedTotalAmount(); // Calculate and store the total sales amount
@@ -168,8 +205,9 @@ export class ViewTaxVendorsComponent implements OnInit {
   addTaxVendorsPaymentFormSubmit() {
     const formData = this.addTaxVendorsPaymentForm.value;
     const payload = {
-      taxVendor: {name:this.selectedSales[0].taxVendor.companyName,
-        _id:this.selectedSales[0].taxVendor._id
+      taxVendor: {
+        name: this.selectedSales[0].taxVendor.companyName,
+        _id: this.selectedSales[0].taxVendor._id,
       },
       sales: formData.sales,
       paymentDate: formData.paymentDate,
@@ -189,10 +227,10 @@ export class ViewTaxVendorsComponent implements OnInit {
               this.messageService.add({ severity: "success", detail: message });
               setTimeout(() => {
                 this.displayPaymentDialog = false;
-                this.getPaymentListByVendorId(); 
+                this.getPaymentListByVendorId();
                 this.getVendorSalesList();
-                this.addTaxVendorsPaymentForm.reset(); 
-                this.sales.clear(); 
+                this.addTaxVendorsPaymentForm.reset();
+                this.sales.clear();
               }, 400);
             } else {
               const message = resp.message;

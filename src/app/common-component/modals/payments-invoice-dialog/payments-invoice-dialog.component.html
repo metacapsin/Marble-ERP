@@ -308,7 +308,113 @@
                             </div>
                           </div>
 
-                          <div class="col-12 col-md-4">
+                          
+                        <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails">
+                          <div class="form-group local-forms">
+                            <label for="customer">Taxable Amount</label>
+                            <p-inputGroup>
+                              <input type="number" formControlName="salesItemTaxableAmount"
+                               class="form-control" style="width: 50%" />
+                              <!-- <div *ngIf="
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemTaxableAmount')
+                                  .hasError('min') &&
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemTaxableAmount').touched
+                              ">
+                                <span class="login-danger">Input must be at least 0.</span>
+                              </div> -->
+                              <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
+                                [options]="orderTaxList" appendTo="body" 
+                                optionLabel="paymentMode" optionValue="paymentMode" ></p-dropdown>
+                            </p-inputGroup>
+                            <!-- <span
+                              *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value && addSalesForm.get('salesItemDetails').get(i + '.salesItemTaxAmount').value"
+                              style="color: #97704f; font-size: 12px">
+                              Tax Applied Amount:
+                              {{
+                              addSalesForm
+                              .get("salesItemDetails")
+                              .get(i + ".salesItemAppliedTaxAmount").value
+                              }} , Tax Applied:
+                              {{
+                              addSalesForm
+                              .get("salesItemDetails")
+                              .get(i + ".salesItemTaxAmount").value
+                              }}
+                            </span>
+
+                            <div *ngIf="
+                            addSalesForm
+                              .get('salesItemDetails')
+                              .get(i + '.salesItemTaxableAmount')
+                              .hasError('max') &&
+                            addSalesForm
+                              .get('salesItemDetails')
+                              .get(i + '.salesItemTaxableAmount').touched
+                          ">
+                              <span class="login-danger">Input cannot be more than {{
+                                addSalesForm.get("salesItemDetails").get(i + ".salesItemTotal").value }}.</span>
+                            </div> -->
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails">
+                          <div class="form-group local-forms">
+                            <label for="customer">Non Taxable Amount</label>
+                            <p-inputGroup>
+                              <input type="number" formControlName="salesItemTaxableAmount"
+                               class="form-control" style="width: 50%" />
+                              <!-- <div *ngIf="
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemTaxableAmount')
+                                  .hasError('min') &&
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemTaxableAmount').touched
+                              ">
+                                <span class="login-danger">Input must be at least 0.</span>
+                              </div> -->
+                              <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
+                                [options]="orderTaxList" appendTo="body" 
+                                optionLabel="paymentMode" optionValue="paymentMode" 
+                               ></p-dropdown>
+                            </p-inputGroup>
+                            <!-- <span
+                              *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value && addSalesForm.get('salesItemDetails').get(i + '.salesItemTaxAmount').value"
+                              style="color: #97704f; font-size: 12px">
+                              Tax Applied Amount:
+                              {{
+                              addSalesForm
+                              .get("salesItemDetails")
+                              .get(i + ".salesItemAppliedTaxAmount").value
+                              }} , Tax Applied:
+                              {{
+                              addSalesForm
+                              .get("salesItemDetails")
+                              .get(i + ".salesItemTaxAmount").value
+                              }}
+                            </span>
+
+                            <div *ngIf="
+                            addSalesForm
+                              .get('salesItemDetails')
+                              .get(i + '.salesItemTaxableAmount')
+                              .hasError('max') &&
+                            addSalesForm
+                              .get('salesItemDetails')
+                              .get(i + '.salesItemTaxableAmount').touched
+                          ">
+                              <span class="login-danger">Input cannot be more than {{
+                                addSalesForm.get("salesItemDetails").get(i + ".salesItemTotal").value }}.</span>
+                            </div> -->
+                          </div>
+                        </div>
+
+                          <div class="col-12 col-md-4"*ngIf="sales.purchaseReturnItemDetails ||
+                          sales.lotDetails || sales.slabDetails" >
                             <div class="form-group local-forms">
                               <label for="paymentMode">Payment Mode <span class="login-danger">*</span></label>
                               <p-dropdown [style]="{'width':'100%'}" placeholder="--Payment Mode--"
@@ -322,7 +428,8 @@
                             </div>
                           </div>
 
-                          <div class="col-12 col-md-4">
+                          <div class="col-12 col-md-4" *ngIf="sales.purchaseReturnItemDetails ||
+                          sales.lotDetails || sales.slabDetails">
                             <div class="form-group local-forms">
                               <label for="totalAmount">Payable Amount <span class="login-danger">*</span></label>
                               <div class="input-group">

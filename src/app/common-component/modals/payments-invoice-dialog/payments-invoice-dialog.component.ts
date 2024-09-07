@@ -62,6 +62,17 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     },
   ];
   // dueAmount = this.dataById.salesDueAmount;
+  orderTaxList:any=[
+    {
+      paymentMode: "Cash",
+    },
+    {
+      paymentMode: "Bank",
+    },
+    {
+      paymentMode: "Cheque",
+    },
+  ];
 
   notesRegex = /^(?:.{2,100})$/;
 

@@ -54,7 +54,7 @@ export class TaxVendorListComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Tax Vendors",
+      messege: "Are you sure you want to delete this Tax Vendor",
     };
     this.showDialoge = true;
   }
