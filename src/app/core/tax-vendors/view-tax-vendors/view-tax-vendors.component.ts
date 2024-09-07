@@ -35,7 +35,9 @@ export class ViewTaxVendorsComponent implements OnInit {
     },
   ];
   maxDate = new Date();
-  totalSelectedSalesAmount: number = 0; // Declare this variable
+  totalSelectedSalesTotalAmount: number = 0; // Declare this variable
+  totalSelectedSalesDueAmount: number = 0; // Declare this variable
+  totalSelectedSalesPayableAmount: number = 0; // Declare this variable
 
   constructor(
     private fb: FormBuilder,
@@ -51,8 +53,10 @@ export class ViewTaxVendorsComponent implements OnInit {
       paymentMode: ["", [Validators.required]],
       note: [""],
       payableAmount:["",[ Validators.required,
-        Validators.min(this.totalSelectedSalesAmount),
-        Validators.max(this.totalSelectedSalesAmount)]]
+        // Validators.min(this.totalSelectedSalesDueAmount),
+        // Validators.max(this.totalSelectedSalesDueAmount)
+      ]
+      ]
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -66,15 +70,15 @@ export class ViewTaxVendorsComponent implements OnInit {
     this.selectedSales.forEach((sale) => {
       this.sales.push(
         this.fb.group({
-          _id: [sale._id],
-          salesInvoiceNumber: [sale.salesInvoiceNumber],
+          _id: [sale.taxVendor._id],
+          salesInvoiceNumber: [sale.taxVendor.salesInvoice],
           // salesTotalAmount: [sale.taxVendor.taxVendorAmount],
           amount: [
-            sale.taxVendor.taxVendorAmount,
+            sale.taxVendor.dueAmount  ,
             [
               Validators.required,
-              Validators.min(sale.taxVendor.taxVendorAmount),
-              Validators.max(sale.taxVendor.taxVendorAmount),
+              Validators.min(sale.taxVendor.dueAmount),
+              Validators.max(sale.taxVendor.dueAmount),
             ],
           ],
         })
@@ -82,16 +86,26 @@ export class ViewTaxVendorsComponent implements OnInit {
     });
   }
 
+  
+
   totalSalesSelectedTotalAmount() {
     // Sum the total amount of the selected sales
-    this.totalSelectedSalesAmount = this.selectedSales.reduce(
+    this.totalSelectedSalesTotalAmount = this.selectedSales.reduce(
       (total, sale) => total + (sale.taxVendor.taxVendorAmount || 0),
+      0
+    );
+    this.totalSelectedSalesDueAmount = this.selectedSales.reduce(
+      (total, sale) => total + (sale.taxVendor.dueAmount || 0),
+      0
+    );
+    this.totalSelectedSalesPayableAmount = this.selectedSales.reduce(
+      (total, sale) => total + (sale.taxVendor.dueAmount || 0),
       0
     );
   
     // Set the total amount in the form control
     this.addTaxVendorsPaymentForm.patchValue({
-      payableAmount: this.totalSelectedSalesAmount,
+      payableAmount: this.totalSelectedSalesDueAmount,
     });
   }
   
@@ -120,13 +134,20 @@ export class ViewTaxVendorsComponent implements OnInit {
   getPaymentListByVendorId() {
     this.TaxVendorsService.getPaymentListByVendorId(this.id).subscribe(
       (data: any) => {
+        console.log(this.id)
         console.log("Tax Vendors Payment Data By Id", data.data);
-        this.paymentListDataByTaxVendorsId = data.data;
+        this.paymentListDataByTaxVendorsId = data.data ;
       }
     );
   }
 
-  showInvoiceDialoge() {}
+  close(){
+    this.displayPaymentDialog=false
+    this.sales.clear(); 
+    this.addTaxVendorsPaymentForm.reset(); 
+
+
+  }
 
   openPaymentDialog() {
     console.log("payments to be made for these sales", this.selectedSales);
@@ -144,15 +165,11 @@ export class ViewTaxVendorsComponent implements OnInit {
     }
   }
 
-  deleteVendorsPayment(Id: any) {}
-
-  deleteVendorsSales(id: any) {}
-
   addTaxVendorsPaymentFormSubmit() {
     const formData = this.addTaxVendorsPaymentForm.value;
     const payload = {
-      taxVendors: {name:this.selectedSales[0].taxVendor.companyName,
-        _id:this.selectedSales[0]._id
+      taxVendor: {name:this.selectedSales[0].taxVendor.companyName,
+        _id:this.selectedSales[0].taxVendor._id
       },
       sales: formData.sales,
       paymentDate: formData.paymentDate,
@@ -172,9 +189,10 @@ export class ViewTaxVendorsComponent implements OnInit {
               this.messageService.add({ severity: "success", detail: message });
               setTimeout(() => {
                 this.displayPaymentDialog = false;
-                this.getPaymentListByVendorId(); // Refresh the payment list
-                this.addTaxVendorsPaymentForm.reset(); // Reset the form
-                this.sales.clear(); // Clear sales controls if needed
+                this.getPaymentListByVendorId(); 
+                this.getVendorSalesList();
+                this.addTaxVendorsPaymentForm.reset(); 
+                this.sales.clear(); 
               }, 400);
             } else {
               const message = resp.message;

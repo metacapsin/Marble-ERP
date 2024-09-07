@@ -89,10 +89,8 @@
                     <p class="col-form-label">{{taxVendorsData?.addressLine1}}</p>
                   </div>
                 </div>
-
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -123,48 +121,38 @@
             <ng-template pTemplate="header">
               <tr class="text-center">
                 <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
-                <th pSortableColumn="salesInvoiceNumber">
+                <th pSortableColumn="taxVendor.salesInvoice">
                   Invoice Number
-                  <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesInvoiceNumber"
+                  <p-sortIcon field="taxVendor.salesInvoice"></p-sortIcon>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.salesInvoice"
                     display="menu"></p-columnFilter>
                 </th>
-                <th pSortableColumn="salesDate">
-                  Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesDate"
+                <th pSortableColumn="taxVendor.salesDate">
+                  Sales Date <p-sortIcon field="taxVendor.salesDate"></p-sortIcon>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.salesDate"
                     display="menu"></p-columnFilter>
                 </th>
-                <!-- <th pSortableColumn="salesOrderStatus">
-                  Sales Status
-                  <p-sortIcon field="salesOrderStatus"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesOrderStatus"
-                    display="menu"></p-columnFilter>
-                </th> -->
-                <th pSortableColumn="paymentStatus">
-                  Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentStatus"
+                <th pSortableColumn="taxVendor.vendorTaxApplied">
+                  Applied Tax (%) <p-sortIcon field="taxVendor.vendorTaxApplied"></p-sortIcon>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.vendorTaxApplied"
                     display="menu"></p-columnFilter>
                 </th>
-                <th pSortableColumn="paidAmount">
-                  Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paidAmount"
+                <th pSortableColumn="taxVendor.paidAmount">
+                  Paid Amount <p-sortIcon field="taxVendor.paidAmount"></p-sortIcon>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.paidAmount"
                     display="menu"></p-columnFilter>
                 </th>
-                <th pSortableColumn="dueAmount">
-                  Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="dueAmount"
+                <th pSortableColumn="taxVendor.dueAmount">
+                  Due Amount <p-sortIcon field="taxVendor.dueAmount"></p-sortIcon>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.dueAmount"
                     display="menu"></p-columnFilter>
                 </th>
-                <th pSortableColumn="salesTotalAmount">
+                <th pSortableColumn="taxVendor.salesTotalAmount">
                   Total Amount
-                  <p-sortIcon field="salesTotalAmount"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesTotalAmount"
+                  <p-sortIcon field="taxVendor.salesTotalAmount"></p-sortIcon>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.salesTotalAmount"
                     display="menu"></p-columnFilter>
                 </th>
-                <!-- <th pSortableColumn="paymentStatus">
-                            Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                          </th> -->
-                <th>Action</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-sales>
@@ -172,23 +160,12 @@
                 <td>
                   <p-tableCheckbox [value]="sales" />
                 </td>
-                <td>{{ sales.salesInvoiceNumber }}</td>
-                <td>{{ sales.salesDate | date: "dd-MMM-yyyy" }}</td>
-                <!-- <td>{{ sales.salesOrderStatus }}</td> -->
-                <!-- <td>{{ sales.paymentStatus }}</td> -->
-                <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
-                    value="Partial Paid"></p-tag></td>
-                <td *ngIf="sales.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
-                <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
-                <td>₹ {{ sales.paidAmount | indianCurrency }}</td>
-                <td>₹ {{ sales.dueAmount | indianCurrency }}</td>
-                <td>₹ {{ sales.salesTotalAmount | indianCurrency }}</td>
-                <td appShowHide [roles]="['admin', 'super-admin']">
-                  <div class="action-buttons">
-                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteVendorsSales(sales._id)"
-                      pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
-                  </div>
-                </td>
+                <td>{{ sales.taxVendor.salesInvoice }}</td>
+                <td>{{ sales.taxVendor.salesDate | date: "dd-MMM-yyyy" }}</td>
+                <td>{{ sales.taxVendor.vendorTaxApplied }}</td>
+                <td>₹ {{ sales.taxVendor.paidAmount | indianCurrency }}</td>
+                <td>₹ {{ sales.taxVendor.dueAmount | indianCurrency }}</td>
+                <td>₹ {{ sales.taxVendor.taxVendorAmount | indianCurrency }}</td>
               </tr>
             </ng-template>
           </p-table>
@@ -241,7 +218,6 @@
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="amount"
                     display="menu"></p-columnFilter>
                 </th>
-                <th width="10%">Action</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-payment>
@@ -253,11 +229,7 @@
                 </td>
                 <td>{{ payment.paymentMode }}</td>
                 <td>₹ {{ payment.amount | indianCurrency }}</td>
-                <td class="action-buttons">
-                  <p-button [text]=" true" icon="fa fa-trash" (click)=" deleteVendorsPayment(payment._id)"
-                    pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
 
-                </td>
               </tr>
             </ng-template>
           </p-table>
@@ -272,7 +244,7 @@
     [data]="modalData"></app-confirm-dialog> -->
 
 <p-dialog header="Add Payment" [(visible)]="displayPaymentDialog" modal="true" [closable]="true"
-  [style]="{width: '100vw'}">
+  [style]="{width: '80vw'}">
   <form [formGroup]="addTaxVendorsPaymentForm" (ngSubmit)="addTaxVendorsPaymentFormSubmit()">
 
     <div class="row">
@@ -282,19 +254,38 @@
             <div class="row practice-card">
               <div class="col-xl-6 col-lg-6 col-sm-12">
                 <div class="form-group row mb-2">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Amount :</h5>
+                  <div class="col-lg-8 col-md-8 col-xl-8">
+                    <p class="col-lg-9 col-form-label">₹ {{ totalSelectedSalesTotalAmount }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-12">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Due Amount :</h5>
+                  <div class="col-lg-8 col-md-8 col-xl-8">
+                    <p class="col-lg-9 col-form-label">₹ {{ totalSelectedSalesDueAmount }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-12">
+                <div class="form-group row mb-2">
                   <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Sales Amount :</h5>
                   <div class="col-lg-8 col-md-8 col-xl-8">
-                    <p class="col-lg-9 col-form-label">₹ {{ totalSelectedSalesAmount }}</p>
+                    <p class="col-lg-9 col-form-label">₹ {{ totalSelectedSalesPayableAmount }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-12" *ngIf="taxVendorsData?.companyName">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Company Name:</h5>
+                  <div class="col-lg-8 col-md-8 col-xl-8">
+                    <p class="col-lg-9 col-form-label"> {{ taxVendorsData?.companyName }}</p>
                   </div>
                 </div>
               </div>
 
-              <div class="form-group row mb-2" *ngIf="taxVendorsData?.companyName">
-                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Company Name</h5>
-                <div class="col-lg-8 col-md-8 col-xl-8">
-                  <p class="col-lg-9 col-form-label">{{taxVendorsData?.companyName}}</p>
-                </div>
-              </div>
+
 
 
             </div>
@@ -353,7 +344,7 @@ addTaxVendorsPaymentForm
 ?.hasError('min') &&
 addTaxVendorsPaymentForm.get('payableAmount')?.touched
 " class="login-danger Font_size">
-           Amount should not be less than total sales amount
+            Amount should not be less than total sales amount
           </div>
           <div *ngIf="
 addTaxVendorsPaymentForm
@@ -361,7 +352,7 @@ addTaxVendorsPaymentForm
 ?.hasError('max') &&
 addTaxVendorsPaymentForm.get('payableAmount')?.touched
 " class="login-danger Font_size">
-           Amount should not be more than total sales amount
+            Amount should not be more than total sales amount
           </div>
         </div>
       </div>
@@ -379,59 +370,63 @@ addTaxVendorsPaymentForm.get('payableAmount')?.touched
         </div>
       </div>
     </div>
-
-
     <!-- <div class="invoice-add-table">
-        <div class="table-responsive">
-          <table class="table table-striped table-nowrap mb-0 no-footer add-table-items">
-            <thead>
-              <tr>
-                <th>Invoice Number</th>
-                <th>Date</th>
-                <th>Invoice Amount</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody formArrayName="sales">
-              <tr *ngFor="let sale of sales.controls; let i = index" [formGroupName]="i">
-                <td>
-                  <span class="bold">{{ sale.get('salesInvoiceNumber').value }}</span>
-                </td>
-                <td>
-                  <span class="bold">{{ sale.value.salesDate }}</span>
-                </td>
-                <td>
-                  <label>{{ '₹' + ' ' + sale.get('amount').value }}</label>
-                </td>
-                <td>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">₹</span>
-                    </div>
-                    <input type="number" formControlName="amount" class="form-control" />
+      <div class="table-responsive">
+        <table class="table table-striped table-nowrap mb-0 no-footer add-table-items">
+          <thead>
+            <tr>
+              <th>Invoice Number</th>
+              <th>Date</th>
+              <th>Invoice Amount</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="sales">
+            <tr *ngFor="let sale of sales.controls; let i = index" [formGroupName]="i">
+              <td>
+                <span class="bold">{{ sale.get('salesInvoiceNumber').value }}</span>
+              </td>
+              <td>
+                <span class="bold">{{ salesDataShowById[i]?.taxVendor.salesDate | date: 'dd-MMM-yyyy' }}</span>
+              </td>
+              <td>
+                <label>{{ '₹' + ' ' + sale.get('amount').value }}</label>
+              </td>
+              <td>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">₹</span>
                   </div>
-                  <span style="color: #97704f; font-size: 12px">Due Amount : {{ '₹' + ' ' + sale.get('salesTotalAmount').value }}</span>
-                  <div *ngIf="addTaxVendorsPaymentForm.get('sales').get(i + '.amount').hasError('required') &&
+                  <input type="number" formControlName="amount" class="form-control" />
+                </div>
+                <span style="color: #97704f; font-size: 12px">Due Amount : {{ '₹' + ' ' + selectedSales[i]?.taxVendor.dueAmount }}</span>
+                <div *ngIf="addTaxVendorsPaymentForm.get('sales').get(i + '.amount').hasError('required') &&
                               addTaxVendorsPaymentForm.get('sales').get(i + '.amount').touched">
-                    <span class="login-danger">Field is required.</span>
-                  </div>
-                  <div *ngIf="addTaxVendorsPaymentForm.get('sales').get(i + '.amount').hasError('min') &&
+                  <span class="login-danger">Field is required.</span>
+                </div>
+                <div *ngIf="addTaxVendorsPaymentForm.get('sales').get(i + '.amount').hasError('min') &&
                               addTaxVendorsPaymentForm.get('sales').get(i + '.amount').touched">
-                    <span class="login-danger">Input must be equal to Due Amount.</span>
-                  </div>
-                  <div *ngIf="addTaxVendorsPaymentForm.get('sales').get(i + '.amount').hasError('max') &&
+                  <span class="login-danger">Input must be equal to Due Amount.</span>
+                </div>
+                <div *ngIf="addTaxVendorsPaymentForm.get('sales').get(i + '.amount').hasError('max') &&
                               addTaxVendorsPaymentForm.get('sales').get(i + '.amount').touched">
-                    <span class="login-danger">Input should not be more than {{ sale.get('salesTotalAmount').value }}.</span>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div> -->
+                  <span class="login-danger">Input should not be more than {{ selectedSales[i]?.taxVendor.dueAmount }}.</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> -->
 
-    <p-footer>
-      <button type="submit" pButton label="Submit" [disabled]="addTaxVendorsPaymentForm.invalid"></button>
-    </p-footer>
+    <div class="col-md-6 col-sm-12 text-end mb-2">
+      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+        [disabled]="!addTaxVendorsPaymentForm.valid">
+        Submit
+      </button>
+      <button class="btn btn-secondary" (click)="close()">
+        Cancel
+      </button>
+    </div>
   </form>
 </p-dialog>

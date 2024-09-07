@@ -9,13 +9,13 @@ export class TaxVendorsService {
   constructor(private http: HttpClient) {}
   createTaxVendor(data: any) {
     return this.http.post(
-      environment.apiUrl + "/TaxVendorController/createTaxVendor",
+      environment.apiUrl + `/TaxVendorController/createTaxVendor`,
       data
     );
   }
   getTaxVendorList() {
     return this.http.get(
-      environment.apiUrl + "/TaxVendorController/getTaxVendorList"
+      environment.apiUrl + `/TaxVendorController/getTaxVendorList`
     );
   }
   getVendorSalesList(id: any) {
@@ -31,7 +31,7 @@ export class TaxVendorsService {
 
   updateTaxVendor(data: any) {
     return this.http.put(
-      environment.apiUrl + "/TaxVendorController/updateTaxVendor",
+      environment.apiUrl + `/TaxVendorController/updateTaxVendor`,
       data
     );
   }
@@ -42,13 +42,13 @@ export class TaxVendorsService {
   }
   createTaxVendorPayment(data: any) {
     return this.http.post(
-      environment.apiUrl + "/TaxVendorController/createTaxVendorPayment",
+      environment.apiUrl + `/TaxVendorController/createTaxVendorPayment`,
       data
     );
   }
   getPaymentListByVendorId(id: any) {
     return this.http.get(
-      environment.apiUrl + "/TaxVendorController/getPaymentListByVendorId/${id}"
+      environment.apiUrl + `/TaxVendorController/getPaymentListByVendorId/${id}`
     );
   }
   getPaymentDetailById(id: any) {
@@ -58,7 +58,7 @@ export class TaxVendorsService {
   }
   getPaymentList() {
     return this.http.get(
-      environment.apiUrl + "/TaxVendorController/getPaymentList"
+      environment.apiUrl + `/TaxVendorController/getPaymentList`
     );
   }
 
