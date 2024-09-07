@@ -70,7 +70,7 @@ export class ViewTaxVendorsComponent implements OnInit {
     this.selectedSales.forEach((sale) => {
       this.sales.push(
         this.fb.group({
-          _id: [sale.taxVendor._id],
+          _id: [sale.taxVendor.salesId],
           salesInvoiceNumber: [sale.taxVendor.salesInvoice],
           // salesTotalAmount: [sale.taxVendor.taxVendorAmount],
           amount: [
