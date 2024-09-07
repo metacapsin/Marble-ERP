@@ -13,6 +13,7 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
 import { BillingAddressService } from "../../settings/billing-Address/billingAddress.service";
+import { validationRegex } from "../../validation";
 
 @Component({
   selector: "app-addsales",
@@ -63,7 +64,6 @@ export class AddsalesComponent implements OnInit {
   appliedTaxAmount: number;
   salesGrossTotal: number;
   salesOrderTax: number;
-
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -81,7 +81,7 @@ export class AddsalesComponent implements OnInit {
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
       billingAddress: [""],
-      salesDiscount: ["", [Validators.min(0), Validators.max(100000)]],
+      salesDiscount: ["", [Validators.pattern(validationRegex.oneToOneLakhRegex)]],
       salesInvoiceNumber: ["", [Validators.pattern(this.invoiceRegex)]],
       salesItemDetails: this.fb.array([
         this.fb.group({
@@ -91,34 +91,33 @@ export class AddsalesComponent implements OnInit {
             [
               Validators.required,
               Validators.min(0),
-              Validators.max(this.maxQuantity),
             ],
           ],
-          salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+          salesItemUnitPrice: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
           salesItemTax: [""],
           salesItemTotal: [""],
           salesItemTaxAmount: [""],
           salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
           maxQuantity: [" "],
           salesWarehouseDetails: ["", [Validators.required]],
-          salesItemNonTaxableAmount: [""],
-          salesItemTaxableAmount: [""],
-          salesItemAppliedTaxAmount: [""],
-          salesItemPieces: ["", [Validators.required]],
+          salesItemNonTaxableAmount: ["", Validators.min(0)],
+          salesItemTaxableAmount: ["", Validators.min(0)],
+          salesItemAppliedTaxAmount: ["", Validators.min(0)],
+          salesItemPieces: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
           sqftPerPiece: ['']
         }),
       ]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
       salesGrossTotal: [""],
-      salesOrderStatus: ["Confirmed", [Validators.required]],
+      salesOrderStatus: ["Confirmed"],
       salesOrderTax: [""],
       vendorTaxApplied: [""],
       vendorTaxAmount: [""],
       appliedTax: [""],
-      salesShipping: ["", [Validators.min(0), Validators.max(100000)]],
+      salesShipping: ["", [Validators.pattern(validationRegex.oneToOneLakhRegex)]],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
-      salesTotalAmount: [""],
-      otherCharges: ["", [Validators.min(0), Validators.max(100000)]],
+      salesTotalAmount: ["", [Validators.min(0)]],
+      otherCharges: ["", [Validators.pattern(validationRegex.oneToOneLakhRegex)]],
     });
   }
 
@@ -143,18 +142,24 @@ export class AddsalesComponent implements OnInit {
   addsalesItemDetailsItem() {
     const item = this.fb.group({
       salesItemProduct: ["", [Validators.required]],
-      salesItemQuantity: ["", [Validators.required, Validators.min(0)]],
-      salesItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
+      salesItemQuantity: [
+        "",
+        [
+          Validators.required,
+          Validators.min(0),
+        ],
+      ],
+      salesItemUnitPrice: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
       salesItemTax: [""],
-      salesItemNonTaxableAmount: [""],
-      salesItemTaxableAmount: [""],
-      salesItemSubTotal: [""],
-      salesItemPieces: ["", [Validators.required]],
-      salesItemTotal: ["", [Validators.required, Validators.min(0)]],
+      salesItemTotal: [""],
       salesItemTaxAmount: [""],
-      salesItemAppliedTaxAmount: [""],
-      maxQuantity: [""],
+      salesItemSubTotal: ["", [Validators.required, Validators.min(0)]],
+      maxQuantity: [" "],
       salesWarehouseDetails: ["", [Validators.required]],
+      salesItemNonTaxableAmount: ["", Validators.min(0)],
+      salesItemTaxableAmount: ["", Validators.min(0)],
+      salesItemAppliedTaxAmount: ["", Validators.min(0)],
+      salesItemPieces: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
       sqftPerPiece: ['']
 
     });
@@ -361,8 +366,8 @@ export class AddsalesComponent implements OnInit {
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];
       const sqftPerPiece = +item.get("sqftPerPiece").value || 0;
-      console.log('sqftPerPiece',sqftPerPiece);
-      
+      console.log('sqftPerPiece', sqftPerPiece);
+
       const pieces = quantity / sqftPerPiece;
       let totalTaxAmount = 0;
       const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value;
@@ -381,15 +386,21 @@ export class AddsalesComponent implements OnInit {
       salesOrderTax += totalTaxAmount;
       salesGrossTotal += subtotal;
 
+      if(totalAmount > 0) {
+        // const salesItemTaxableAmount = item.get("salesItemTaxableAmount") as FormControl
+        item.get("salesItemTaxableAmount").clearValidators();
+        item.get("salesItemTaxableAmount").setValidators([Validators.max(totalAmount)]);
+        item.get("salesItemTaxableAmount").updateValueAndValidity();
+
+        item.get("salesItemNonTaxableAmount").clearValidators();
+        item.get("salesItemNonTaxableAmount").setValidators([Validators.max(totalAmount)]);
+        item.get("salesItemNonTaxableAmount").updateValueAndValidity();
+      }
       item.get("salesItemPieces").setValue(Number(pieces.toFixed(2)));
       item.get("salesItemTotal").setValue(Number(totalAmount));
       item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount));
-      item
-        .get("salesItemAppliedTaxAmount")
-        .setValue(Number(salesItemAppliedTaxAmount));
-      item
-        .get("salesItemNonTaxableAmount")
-        .setValue(Number(salesItemNonTaxableAmount));
+      item.get("salesItemAppliedTaxAmount").setValue(Number(salesItemAppliedTaxAmount));
+      item.get("salesItemNonTaxableAmount").setValue(Number(salesItemNonTaxableAmount));
       item.get("salesItemSubTotal").setValue(Number(subtotal));
     });
 

@@ -271,8 +271,40 @@
                         <div class="col-xl-2 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
                             <label for="customer">Pieces <span class="login-danger">*</span></label>
-                            <input type="number" formControlName="salesItemPieces" (change)="calculateTotalAmount()"
-                              class="form-control" />
+                            <input type="number" formControlName="salesItemPieces" class="form-control" />
+                            <div *ngIf="
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemPieces')
+                                  .hasError('required') &&
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemPieces').touched
+                              ">
+                              <span class="login-danger">Field is required.</span>
+                            </div>
+                            <div *ngIf="
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemPieces')
+                                  .hasError('min') &&
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemPieces').touched
+                              ">
+                              <span class="login-danger">Input must be at least 0.</span>
+                            </div>
+                            <div *ngIf="
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemPieces')
+                                  .hasError('max') &&
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemPieces').touched
+                              ">
+                              <span class="login-danger">Input cannot be more than 100000.</span>
+                            </div>
                           </div>
                         </div>
 
@@ -282,6 +314,39 @@
                               <span class="login-danger">*</span></label>
                             <input type="number" formControlName="salesItemUnitPrice" (change)="calculateTotalAmount()"
                               class="form-control" />
+                            <div *ngIf="
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemUnitPrice')
+                                  .hasError('required') &&
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemUnitPrice').touched
+                              ">
+                              <span class="login-danger">Field is required.</span>
+                            </div>
+                            <div *ngIf="
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemUnitPrice')
+                                  .hasError('min') &&
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemUnitPrice').touched
+                              ">
+                              <span class="login-danger">Input must be at least 0.</span>
+                            </div>
+                            <div *ngIf="
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemUnitPrice')
+                                  .hasError('max') &&
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemUnitPrice').touched
+                              ">
+                              <span class="login-danger">Input cannot be more than 100000.</span>
+                            </div>
                           </div>
                         </div>
 
@@ -301,11 +366,21 @@
 
                         <div class="col-xl-3 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
-                            <label for="customer">Taxable Amount
-                              <span class="login-danger">*</span></label>
+                            <label for="customer">Taxable Amount</label>
                             <p-inputGroup>
                               <input type="number" formControlName="salesItemTaxableAmount"
                                 (change)="calculateTotalAmount()" class="form-control" style="width: 50%" />
+                              <div *ngIf="
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemTaxableAmount')
+                                  .hasError('min') &&
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemTaxableAmount').touched
+                              ">
+                                <span class="login-danger">Input must be at least 0.</span>
+                              </div>
                               <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax"
                                 [options]="orderTaxList" appendTo="body" formControlName="salesItemTax"
                                 optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
@@ -325,15 +400,26 @@
                               .get("salesItemDetails")
                               .get(i + ".salesItemTaxAmount").value
                               }}
-
                             </span>
+
+                            <div *ngIf="
+                            addSalesForm
+                              .get('salesItemDetails')
+                              .get(i + '.salesItemTaxableAmount')
+                              .hasError('max') &&
+                            addSalesForm
+                              .get('salesItemDetails')
+                              .get(i + '.salesItemTaxableAmount').touched
+                          ">
+                              <span class="login-danger">Input cannot be more than {{
+                                addSalesForm.get("salesItemDetails").get(i + ".salesItemTotal").value }}.</span>
+                            </div>
                           </div>
                         </div>
 
                         <div class="col-xl-3 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
-                            <label for="customer">Non-Taxable Amount
-                              <span class="login-danger">*</span></label>
+                            <label for="customer">Non-Taxable Amount</label>
                             <input type="number" formControlName="salesItemNonTaxableAmount"
                               (change)="calculateTotalAmount()" class="form-control" />
                           </div>
@@ -503,19 +589,15 @@
                                 <span class="input-group-text">₹</span>
                               </div>
                               <input class="form-control" (change)="calculateTotalAmount()"
-                                formControlName="salesDiscount" type="number" placeholder="Enter Discount" />
+                                formControlName="salesDiscount" type="text" placeholder="Enter Discount" />
                             </div>
                             <div *ngIf="
                                 (addSalesForm
                                   .get('salesDiscount')
-                                  ?.hasError('min') &&
-                                addSalesForm.get('salesDiscount')?.touched) ||
-                                (addSalesForm
-                                  .get('salesDiscount')
-                                  ?.hasError('max') &&
+                                  ?.hasError('pattern') &&
                                 addSalesForm.get('salesDiscount')?.touched)
                               ">
-                              <span class="login-danger">Input must be between 1 to 100000.</span>
+                              <span class="login-danger">Input must be between 0 to 100000.</span>
                             </div>
                           </div>
                         </div>
@@ -527,19 +609,15 @@
                                 <span class="input-group-text">₹</span>
                               </div>
                               <input class="form-control" (change)="calculateTotalAmount()"
-                                formControlName="salesShipping" type="number" placeholder="Enter Shipping Charges" />
+                                formControlName="salesShipping" type="text" placeholder="Enter Shipping Charges" />
                             </div>
                             <div *ngIf="
                                 (addSalesForm
                                   .get('salesShipping')
-                                  ?.hasError('min') &&
-                                addSalesForm.get('salesShipping')?.touched) ||
-                                (addSalesForm
-                                  .get('salesShipping')
-                                  ?.hasError('max') &&
+                                  ?.hasError('pattern') &&
                                 addSalesForm.get('salesShipping')?.touched)
                               ">
-                              <span class="login-danger">Input must be between 1 to 100000.</span>
+                              <span class="login-danger">Input must be between 0 to 100000.</span>
                             </div>
                           </div>
                         </div>
@@ -551,19 +629,15 @@
                                 <span class="input-group-text">₹</span>
                               </div>
                               <input class="form-control" (change)="calculateTotalAmount()"
-                                formControlName="otherCharges" type="number" placeholder="Enter Other Charges" />
+                                formControlName="otherCharges" type="text" placeholder="Enter Other Charges" />
                             </div>
                             <div *ngIf="
                                 (addSalesForm
                                   .get('otherCharges')
-                                  ?.hasError('min') &&
-                                addSalesForm.get('otherCharges')?.touched) ||
-                                (addSalesForm
-                                  .get('otherCharges')
-                                  ?.hasError('max') &&
+                                  ?.hasError('pattern') &&
                                 addSalesForm.get('otherCharges')?.touched)
                               ">
-                              <span class="login-danger">Input must be between 1 to 100000.</span>
+                              <span class="login-danger">Input must be between 0 to 100000.</span>
                             </div>
                           </div>
                         </div>
@@ -582,18 +656,6 @@
                             }}
                           </span>
                         </p>
-                        <!-- <p *ngIf="addSalesForm.get('salesOrderTax').value > 0">
-                          Applied Tax Amount
-                          <span
-                            *ngIf="addSalesForm.get('salesOrderTax')?.value > 0"
-                          >
-                            ₹
-                            {{
-                              addSalesForm.get("salesOrderTax").value
-                                | number : "1.2-2"
-                            }}
-                          </span>
-                        </p> -->
                         <p *ngIf="addSalesForm.get('salesDiscount').value">
                           Discount
                           <span *ngIf="addSalesForm.get('salesDiscount')?.value > 0">
