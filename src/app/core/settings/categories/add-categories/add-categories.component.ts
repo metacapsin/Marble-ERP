@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "src/app/shared/shared.module";
+import { validationRegex } from "src/app/core/validation";
 
 @Component({
   selector: "app-add-categories",
@@ -23,7 +24,7 @@ export class AddCategoriesComponent {
     private dialogRef: MatDialogRef<AddCategoriesComponent>
   ) {
     this.addCategoryForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
+      name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
       description: ["", [Validators.pattern(this.descriptionRegex)]],
     });
   }

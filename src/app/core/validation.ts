@@ -19,7 +19,7 @@ export const validationRegex = {
   upiIdRegex: /^[a-zA-Z0-9.-]{2, 256}@[a-zA-Z][a-zA-Z]{2, 64}$/,  // 3 to 50 characters
   bankAccountNumberRegex: /^[0-9]{9,18}$/, // 9 to 18 digits
   ifscCodeRegexL: /^[A-Z]{4}0[A-Z0-9]{6}$/,   // 11 characters
-
+  nameREGEX : /^(?!\d+$)[a-zA-Z0-9]+$/,
   // common regex
   oneToFiftyCharRegex: /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,50})$/,                        // one to fifty alpahnueric characters
   threeTothirtyCharRegex: /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/,   // three to thirty alphanumeric characters

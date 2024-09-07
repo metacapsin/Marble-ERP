@@ -10,6 +10,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { DropdownModule } from "primeng/dropdown";
 import { SubCategoriesService } from "../sub-categories.service";
 import { CategoriesService } from "../../categories/categories.service";
+import { validationRegex } from "src/app/core/validation";
 
 @Component({
   selector: "app-edit-sub-categories",
@@ -35,7 +36,7 @@ export class EditSubCategoriesComponent {
     private categoryService: CategoriesService
   ) {
     this.editSubCategoryForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
+      name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
       categoryId: ["", [Validators.required]],
       description: ["", [Validators.pattern(this.descriptionRegex)]],
     });

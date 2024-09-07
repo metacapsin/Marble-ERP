@@ -6,6 +6,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { DropdownModule } from "primeng/dropdown";
 import { CategoriesService } from "../../categories/categories.service";
 import { map } from "rxjs";
+import { validationRegex } from "src/app/core/validation";
 
 @Component({
   selector: "app-add-sub-categories",
@@ -29,7 +30,7 @@ export class AddSubCategoriesComponent {
     private categoryService: CategoriesService
   ) {
     this.addSubCategoryForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
+      name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
       categoryId: ["", [Validators.required]],
       description: ["", [Validators.pattern(this.descriptionRegex)]],
     });

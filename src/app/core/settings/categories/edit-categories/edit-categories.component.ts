@@ -13,6 +13,7 @@ import {
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "src/app/shared/shared.module";
 import { CategoriesService } from "../categories.service";
+import { validationRegex } from "src/app/core/validation";
 @Component({
   selector: "app-edit-categories",
   templateUrl: "./edit-categories.component.html",
@@ -36,7 +37,7 @@ export class EditCategoriesComponent {
     @Inject(MAT_DIALOG_DATA) public _id: any
   ) {
     this.editCategoryForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
+      name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
       description: ["", [Validators.pattern(this.descriptionRegex)]],
     });
   }

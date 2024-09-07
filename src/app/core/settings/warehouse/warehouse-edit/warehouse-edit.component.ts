@@ -13,6 +13,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { ToastModule } from "primeng/toast";
 import { MessageService } from "primeng/api";
 import { WarehouseService } from "../warehouse.service";
+import { validationRegex } from "src/app/core/validation";
 
 @Component({
   selector: "app-warehouse-edit",
@@ -50,7 +51,7 @@ export class WarehouseEditComponent {
     private messageService: MessageService
   ) {
     this.warehouseForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
       // slug: [
       //   "",
       //   [

@@ -81,11 +81,11 @@ export class StaffEditComponent {
     this.editStaffForm = this.fb.group({
       firstName: [
         "",
-        [Validators.required, Validators.pattern(validationRegex.threeTothirtyCharRegex)],
+        [Validators.required, Validators.pattern(validationRegex.nameREGEX)],
       ],
       lastName: [
         "",
-        [Validators.required, Validators.pattern(validationRegex.threeTothirtyCharRegex)],
+        [Validators.required, Validators.pattern(validationRegex.nameREGEX)],
       ],
       dateOfBirth: ["", [Validators.required, ageValidator]], // Apply the custom validator
       mobile: ["", [Validators.required, Validators.pattern(validationRegex.phoneRGEX)]],

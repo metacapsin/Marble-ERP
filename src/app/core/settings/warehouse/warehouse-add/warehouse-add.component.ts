@@ -12,6 +12,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { ToastModule } from "primeng/toast";
 import { MessageService } from "primeng/api";
 import { WarehouseService } from "../warehouse.service";
+import { validationRegex } from "src/app/core/validation";
 
 @Component({
   selector: "app-warehouse-add",
@@ -44,7 +45,7 @@ export class WarehouseAddComponent {
     private messageService: MessageService
   ) {
     this.warehouseForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
       // slug: [
       //   "",
       //   [
