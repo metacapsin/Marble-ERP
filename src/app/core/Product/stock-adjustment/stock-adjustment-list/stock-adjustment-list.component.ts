@@ -16,6 +16,7 @@ import { Validators } from "@angular/forms";
 import { StockAdjustmentService } from "../stock-adjustment.service";
 import { FilterPipe } from "src/app/core/filter.pipe";
 import { SlabsService } from "../../slabs/slabs.service";
+import { validationRegex } from "src/app/core/validation";
 
 @Component({
   selector: "app-stock-adjustment-list",
@@ -49,9 +50,7 @@ export class StockAdjustmentListComponent implements OnInit {
   ];
   searchByWarehouseData: any = [];
   searchBy: any;
-  // descriptionRegex = /^(?!\s)(?:.{1,250})$/;
   cols = [];
-  descriptionRegex = /^.{1,250}$/s;
   exportColumns = [];
 
   constructor(
@@ -70,7 +69,7 @@ export class StockAdjustmentListComponent implements OnInit {
       adjustmentType: ["", [Validators.required]],
       note: [
         "",
-        [Validators.required, Validators.pattern(this.descriptionRegex)],
+        [Validators.required, Validators.pattern(validationRegex.address3To500Regex)],
       ],
     });
     this.editStockAdjustmentForm = this.fb.group({
@@ -81,7 +80,7 @@ export class StockAdjustmentListComponent implements OnInit {
       adjustmentType: ["", [Validators.required]],
       note: [
         "",
-        [Validators.required, Validators.pattern(this.descriptionRegex)],
+        [Validators.required, Validators.pattern(validationRegex.address3To500Regex)],
       ],
     });
   }

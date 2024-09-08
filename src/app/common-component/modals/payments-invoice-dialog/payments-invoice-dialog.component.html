@@ -24,93 +24,33 @@
                         <div class="row">
                           <div class="col-sm-12">
                             <div class="card  ">
-
                               <div class="page-table-header mb-2 m-3">
-                                <div class="row practice-card">
+
+                                <div class="row practice-card" *ngIf="dataById?.isSales">
                                   <div class="col-xl-6 col-lg-6 col-sm-12">
 
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSalesReturn">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Invoice Number:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          {{ dataById.salesInvoiceNumber}}
+                                    <div class="form-group row mb-2">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Invoice Number:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          {{ dataById?.salesInvoiceNumber}}
                                         </p>
                                       </div>
                                     </div>
 
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSales">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          {{ dataById.salesInvoiceNumber}}
+                                    <div class="form-group row mb-2">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Taxable Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label" *ngIf="dataById?.taxable">
+                                          ₹ {{ dataById?.taxable | indianCurrency}}
                                         </p>
                                       </div>
                                     </div>
-                                    <div class="form-group row mb-2" *ngIf="dataById.isPurchase">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          {{ dataById.purchaseInvoiceNumber}}
-                                        </p>
-                                      </div>
-                                    </div>
-
-                                    <div class="form-group row mb-2" *ngIf="dataById.isPurchaseReturn">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          {{ dataById.purchaseInvoiceNumber.purchaseInvoiceNumber }}
-                                        </p>
-                                      </div>
-                                    </div>
-
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSlabProcessing">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Invoice Number:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          {{ dataById.processingInvoiceNo }}
-                                        </p>
-                                      </div>
-                                    </div>
-
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSales">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.salesDueAmount | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSalesReturn">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.salesDueAmount | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div>
-
-                                    <div class="form-group row mb-2" *ngIf="dataById.isPurchase">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.purchaseDueAmount | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-2" *ngIf="dataById.isPurchaseReturn">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.purchaseDueAmount | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSlabProcessing">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Due Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.dueAmount | indianCurrency}}
+                                    <div class="form-group row mb-2">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Non Taxable Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label" *ngIf="dataById?.nonTaxable">
+                                          ₹ {{ dataById?.nonTaxable | indianCurrency}}
                                         </p>
                                       </div>
                                     </div>
@@ -118,62 +58,199 @@
                                   </div>
 
                                   <div class="col-xl-6 col-lg-6 col-sm-12">
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSales">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.salesTotalAmount | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSalesReturn">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.salesTotalAmount | indianCurrency}}
+                                    <div class="form-group row mb-2">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Paid Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label" *ngIf="dataById?.salesPaidAmount">
+                                          ₹ {{ dataById?.salesPaidAmount | indianCurrency}}
                                         </p>
                                       </div>
                                     </div>
 
-                                    <div class="form-group row mb-2" *ngIf="dataById.isPurchase">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Purchase Cost:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.purchaseCost | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-2" *ngIf="dataById.purchaseReturnTotalAmount">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Return Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.purchaseReturnTotalAmount | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-2" *ngIf="dataById.isPurchaseReturn">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.purchasePaidAmount | indianCurrency}}
+                                    <div class="form-group row mb-2">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Due Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label" *ngIf="dataById?.salesDueAmount">
+                                          ₹ {{ dataById?.salesDueAmount | indianCurrency}}
                                         </p>
                                       </div>
                                     </div>
 
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSlabProcessing">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Total Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.processingCost | indianCurrency}}
+                                    <div class="form-group row mb-2">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label" *ngIf="dataById?.salesTotalAmount">
+                                          ₹ {{ dataById?.salesTotalAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                                <div class="row practice-card" *ngIf="dataById?.isSalesReturn">
+                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isSalesReturn">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Return Invoice Number:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          {{ dataById?.salesInvoiceNumber}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isSalesReturn"></div>
+                                    <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Due Amount:</h5>
+                                    <div class="col-lg-8 col-md-8 col-xl-8">
+                                      <p class="col-lg-8 col-form-label">
+                                        ₹ {{ dataById?.salesDueAmount | indianCurrency}}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isSalesReturn">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          ₹ {{ dataById?.salesTotalAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row practice-card" *ngIf="dataById?.isPurchase">
+                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+                                    <div class="form-group row mb-2" >
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Invoice Number:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          {{ dataById?.purchaseInvoiceNumber}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isPurchase">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Due Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          ₹ {{ dataById?.purchaseDueAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+                                    <div class="form-group row mb-2" >
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Paid Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          {{ dataById?.purchaseInvoiceNumber}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isPurchase">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Purchase Cost:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          ₹ {{ dataById?.purchaseCost | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+
+                                <div class="row practice-card">
+                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isPurchaseReturn">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Invoice Number:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          {{ dataById?.purchaseInvoiceNumber.purchaseInvoiceNumber }}
                                         </p>
                                       </div>
                                     </div>
 
-                                    <div class="form-group row mb-2" *ngIf="dataById.isSlabProcessing">
-                                      <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">Paid Amount:</h5>
-                                      <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">
-                                          ₹ {{ dataById.paidAmount | indianCurrency}}
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isSlabProcessing">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Invoice Number:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          {{ dataById?.processingInvoiceNo }}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isPurchaseReturn">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Due Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          ₹ {{ dataById?.purchaseDueAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isSlabProcessing">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Due Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          ₹ {{ dataById?.dueAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isSalesReturn">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          ₹ {{ dataById?.salesTotalAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isPurchase">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Purchase Cost:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          ₹ {{ dataById?.purchaseCost | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById?.purchaseReturnTotalAmount">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Return Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          ₹ {{ dataById?.purchaseReturnTotalAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isPurchaseReturn">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Paid Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          ₹ {{ dataById?.purchasePaidAmount | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isSlabProcessing">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          ₹ {{ dataById?.processingCost | indianCurrency}}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isSlabProcessing">
+                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Paid Amount:</h5>
+                                      <div class="col-lg-8 col-md-8 col-xl-8">
+                                        <p class="col-lg-8 col-form-label">
+                                          ₹ {{ dataById?.paidAmount | indianCurrency}}
                                         </p>
                                       </div>
                                     </div>
@@ -190,44 +267,29 @@
                                 [tableStyle]="{'min-width': '60rem'}">
                                 <ng-template pTemplate="header">
                                   <tr *ngIf="sales.salesItemDetails">
-                                    <th pSortableColumn="salesWarehouseDetails">Warehouse</th>
-                                    <th pSortableColumn="salesItemCategory">Product
-                                    </th>
-                                    <th pSortableColumn="salesItemQuantity">Quantity
-                                    </th>
-                                    <th pSortableColumn="salesItemUnitPrice">Unit Price
-                                    </th>
-                                    <th pSortableColumn="salesItemTaxAmount">Taxable Amount
-                                    </th>
-                                    <th pSortableColumn="salesItemSubTotal">Sub Total
-                                    </th>
-
+                                    <th>Warehouse</th>
+                                    <th>Product </th>
+                                    <th>Quantity </th>
+                                    <th>Unit Price </th>
+                                    <th>Tax Applied Amount </th>
+                                    <th>Non-Taxable Amount </th>
+                                    <th>Sub Total </th>
                                   </tr>
                                   <tr *ngIf="sales.lotDetails">
-                                    <th pSortableColumn="lotName
-                                    ">Lot Name
-                                    </th>
-                                    <th pSortableColumn="lotNo">Lot Number
-                                    </th>
-                                    <th pSortableColumn="pricePerTon">Price / Ton</th>
-                                    <th pSortableColumn="blocksCount">Total Blocks</th>
-                                    <th pSortableColumn="lotTotalCosting">Lot Total Costing
-                                    </th>
+                                    <th>Lot Name </th>
+                                    <th>Lot Number </th>
+                                    <th>Price / Ton</th>
+                                    <th>Total Blocks</th>
+                                    <th>Lot Total Costing </th>
                                   </tr>
-                                  <tr *ngIf="sales.slabDetails">
-                                    <th pSortableColumn="slabName
-                                    ">Slab Name
-                                    </th>
-                                    <th pSortableColumn="slabNo">Slab No
-                                    </th>
-                                    <th pSortableColumn="sellingPricePerSQFT">Price Per Square Feet
-                                    </th>
-                                    <th pSortableColumn="slabTotalCosting">Slab Total Costing
-                                    </th>
-                                    <th pSortableColumn="totalSQFT">Total Square Feet
-                                    </th>
+                                  <tr *ngIf=" sales.slabDetails">
+                                    <th>Slab Name </th>
+                                    <th>Slab No </th>
+                                    <th>Price Per Square Feet </th>
+                                    <th>Slab Total Costing </th>
+                                    <th>Total Square Feet </th>
                                   </tr>
-                                  <tr *ngIf="sales.purchaseReturnItemDetails">
+                                  <tr *ngIf=" sales.purchaseReturnItemDetails">
                                     <th>Slab No</th>
                                     <th>Slab Name</th>
                                     <th>Category</th>
@@ -237,8 +299,6 @@
                                     <th>Total Square Feet</th>
                                     <th>Purchase Cost</th>
                                   </tr>
-
-
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data *ngIf="sales.salesItemDetails">
                                   <tr *ngFor="let sales of data.salesItemDetails">
@@ -246,7 +306,8 @@
                                     <td>{{sales.salesItemProduct.slabName}}</td>
                                     <td>{{sales.salesItemQuantity}}</td>
                                     <td>₹ {{sales.salesItemUnitPrice}}</td>
-                                    <td>₹ {{sales.salesItemTaxAmount | indianCurrency}}</td>
+                                    <td>₹ {{ sales.salesItemAppliedTaxAmount | indianCurrency }} </td>
+                                    <td>₹ {{ sales.salesItemNonTaxableAmount | indianCurrency }} </td>
                                     <td>₹ {{sales.salesItemSubTotal | indianCurrency}}</td>
                                   </tr>
                                 </ng-template>
@@ -308,14 +369,13 @@
                             </div>
                           </div>
 
-                          
-                        <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails">
-                          <div class="form-group local-forms">
-                            <label for="customer">Taxable Amount</label>
-                            <p-inputGroup>
-                              <input type="number" formControlName="salesItemTaxableAmount"
-                               class="form-control" style="width: 50%" />
-                              <!-- <div *ngIf="
+
+                          <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails">
+                            <div class="form-group local-forms">
+                              <label for="customer">Taxable Amount</label>
+                              <p-inputGroup>
+                                <input type="number" class="form-control" style="width: 50%" />
+                                <!-- <div *ngIf="
                                 addSalesForm
                                   .get('salesItemDetails')
                                   .get(i + '.salesItemTaxableAmount')
@@ -326,11 +386,11 @@
                               ">
                                 <span class="login-danger">Input must be at least 0.</span>
                               </div> -->
-                              <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
-                                [options]="orderTaxList" appendTo="body" 
-                                optionLabel="paymentMode" optionValue="paymentMode" ></p-dropdown>
-                            </p-inputGroup>
-                            <!-- <span
+                                <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
+                                  [options]="orderTaxList" appendTo="body" optionLabel="paymentMode"
+                                  optionValue="paymentMode"></p-dropdown>
+                              </p-inputGroup>
+                              <!-- <span
                               *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value && addSalesForm.get('salesItemDetails').get(i + '.salesItemTaxAmount').value"
                               style="color: #97704f; font-size: 12px">
                               Tax Applied Amount:
@@ -358,15 +418,14 @@
                               <span class="login-danger">Input cannot be more than {{
                                 addSalesForm.get("salesItemDetails").get(i + ".salesItemTotal").value }}.</span>
                             </div> -->
+                            </div>
                           </div>
-                        </div>
-                        <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails">
-                          <div class="form-group local-forms">
-                            <label for="customer">Non Taxable Amount</label>
-                            <p-inputGroup>
-                              <input type="number" formControlName="salesItemTaxableAmount"
-                               class="form-control" style="width: 50%" />
-                              <!-- <div *ngIf="
+                          <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails">
+                            <div class="form-group local-forms">
+                              <label for="customer">Non Taxable Amount</label>
+                              <p-inputGroup>
+                                <input type="number" class="form-control" style="width: 50%" />
+                                <!-- <div *ngIf="
                                 addSalesForm
                                   .get('salesItemDetails')
                                   .get(i + '.salesItemTaxableAmount')
@@ -377,12 +436,11 @@
                               ">
                                 <span class="login-danger">Input must be at least 0.</span>
                               </div> -->
-                              <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
-                                [options]="orderTaxList" appendTo="body" 
-                                optionLabel="paymentMode" optionValue="paymentMode" 
-                               ></p-dropdown>
-                            </p-inputGroup>
-                            <!-- <span
+                                <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
+                                  [options]="orderTaxList" appendTo="body" optionLabel="paymentMode"
+                                  optionValue="paymentMode"></p-dropdown>
+                              </p-inputGroup>
+                              <!-- <span
                               *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value && addSalesForm.get('salesItemDetails').get(i + '.salesItemTaxAmount').value"
                               style="color: #97704f; font-size: 12px">
                               Tax Applied Amount:
@@ -410,11 +468,11 @@
                               <span class="login-danger">Input cannot be more than {{
                                 addSalesForm.get("salesItemDetails").get(i + ".salesItemTotal").value }}.</span>
                             </div> -->
+                            </div>
                           </div>
-                        </div>
 
-                          <div class="col-12 col-md-4"*ngIf="sales.purchaseReturnItemDetails ||
-                          sales.lotDetails || sales.slabDetails" >
+                          <div class="col-12 col-md-4" *ngIf="sales.purchaseReturnItemDetails ||
+                          sales.lotDetails || sales.slabDetails">
                             <div class="form-group local-forms">
                               <label for="paymentMode">Payment Mode <span class="login-danger">*</span></label>
                               <p-dropdown [style]="{'width':'100%'}" placeholder="--Payment Mode--"
@@ -461,7 +519,8 @@
                                 indianCurrency}}</span>
                               <div
                                 *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
-                                <span class="login-danger" *ngIf="dataById.isSlabProcessing">Amount cannot be greater than
+                                <span class="login-danger" *ngIf="dataById.isSlabProcessing">Amount cannot be greater
+                                  than
                                   the
                                   ₹ {{dataById.dueAmount | indianCurrency}}.</span>
                               </div>

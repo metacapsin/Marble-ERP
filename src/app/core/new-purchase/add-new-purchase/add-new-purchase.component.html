@@ -1136,7 +1136,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("purchaseDiscount").value }}
+                                  {{ '₹' + ' ' + addNewPurchaseForm.get("purchaseDiscount").value }}
                                 </p>
                               </div>
                             </div>
@@ -1146,13 +1146,10 @@
                       </div>
                     </div>
 
-
                     <div class="row">
                       <div class="col-lg-7 col-md-6">
-
                         <div class="invoice-fields">
                           <h4 class="field-title">More Fields</h4>
-
                         </div>
                         <div class="invoice-faq">
                           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -1172,7 +1169,7 @@
                                     <textarea class="form-control" formControlName="purchaseNotes"></textarea>
                                     <div
                                       *ngIf="addNewPurchaseForm.get('purchaseNotes')?.hasError('pattern')  && addNewPurchaseForm.get('purchaseNotes')?.touched">
-                                      <span class="login-danger">Input must be between 1 to
+                                      <span class="login-danger">Input must be between 3 to
                                         500 characters.</span>
                                     </div>
                                   </div>
@@ -1211,8 +1208,6 @@
                               </p>
                               <p *ngIf="ItemDetails?.transportationCharge">
                                 Transport Charges<span>
-
-
                                   ₹ {{ ItemDetails?.transportationCharge |indianCurrency }}
 
                                 </span>
@@ -1237,6 +1232,10 @@
                                   addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |indianCurrency
                                   }}
                                 </span>
+                              </p>
+                              <p>
+                                Purchase Discount ( added )
+                                <span>₹ {{ ItemDetails?.purchaseDiscount |indianCurrency}} </span>
                               </p>
                             </div>
                             <!-- ---------------slab--------------------------- -->
@@ -1268,13 +1267,18 @@
                                   ₹ {{ addNewPurchaseForm.get('otherCharges').value | indianCurrency}}
                                 </span>
                               </p>
-
                               <p>
-                                Paid To Supplier Amount
+                                Purchase Cost ( Paid To Supplier)
                                 <span>₹
                                   {{
                                   addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value| indianCurrency
                                   }}
+                                </span>
+                              </p>
+                              <p>
+                                Purchase Discount ( added )
+                                <span>₹
+                                  {{ addNewPurchaseForm.get("purchaseDiscount").value }}
                                 </span>
                               </p>
                             </div>

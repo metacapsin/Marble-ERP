@@ -62,7 +62,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     },
   ];
   // dueAmount = this.dataById.salesDueAmount;
-  orderTaxList:any=[
+  orderTaxList: any = [
     {
       paymentMode: "Cash",
     },
@@ -107,21 +107,21 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
 
     if (this.ShowPaymentInvoice) {
       let totalAmount = this.paymentInvoiceForm.get('totalAmount')
-      
+
       if (this.dataById.isPurchase) {
         totalAmount.clearValidators();
-        console.log("this.dataById.isPurchase",this.dataById.isPurchase);
-        
+        console.log("this.dataById.isPurchase", this.dataById.isPurchase);
+
         totalAmount.setValidators(
           [
             Validators.required,
             Validators.min(1),
             Validators.max(this.dataById.purchaseDueAmount),
           ],);
-          totalAmount.updateValueAndValidity();
+        totalAmount.updateValueAndValidity();
       } else if (this.dataById.isSales) {
         totalAmount.clearValidators();
-        console.log("this.dataById.isSales",this.dataById.isSales);
+        console.log("this.dataById.isSales", this.dataById.isSales);
 
         totalAmount.setValidators(
           [
@@ -129,10 +129,10 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
             Validators.min(1),
             Validators.max(this.dataById.salesDueAmount),
           ],);
-          totalAmount.updateValueAndValidity();
-      }else if (this.dataById.isSalesReturn) {
+        totalAmount.updateValueAndValidity();
+      } else if (this.dataById.isSalesReturn) {
         totalAmount.clearValidators();
-        console.log("this.dataById.isSalesReturn",this.dataById.isSalesReturn);
+        console.log("this.dataById.isSalesReturn", this.dataById.isSalesReturn);
 
         totalAmount.setValidators(
           [
@@ -140,10 +140,10 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
             Validators.min(1),
             Validators.max(this.dataById.salesDueAmount),
           ],);
-          totalAmount.updateValueAndValidity();
-      }else if (this.dataById.isPurchaseReturn) {
+        totalAmount.updateValueAndValidity();
+      } else if (this.dataById.isPurchaseReturn) {
         totalAmount.clearValidators();
-        console.log("this.dataById.isPurchaseReturn",this.dataById.isPurchaseReturn);
+        console.log("this.dataById.isPurchaseReturn", this.dataById.isPurchaseReturn);
 
         totalAmount.setValidators(
           [
@@ -151,10 +151,10 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
             Validators.min(1),
             Validators.max(this.dataById.purchaseDueAmount),
           ],);
-          totalAmount.updateValueAndValidity();
-      }else if (this.dataById.isSlabProcessing) {
+        totalAmount.updateValueAndValidity();
+      } else if (this.dataById.isSlabProcessing) {
         totalAmount.clearValidators();
-        console.log("this.dataById.isSlabProcessing",this.dataById.isSlabProcessing);
+        console.log("this.dataById.isSlabProcessing", this.dataById.isSlabProcessing);
 
         totalAmount.setValidators(
           [
@@ -162,7 +162,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
             Validators.min(1),
             Validators.max(this.dataById.dueAmount),
           ],);
-          totalAmount.updateValueAndValidity();
+        totalAmount.updateValueAndValidity();
       }
 
     }
@@ -183,7 +183,6 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     console.log("dataById", this.dataById);
     const formData = this.paymentInvoiceForm.value;
 
-    console.log("this is form data", formData);
     if (this.dataById.isSalesReturn) {
       const payload = {
         customer: this.dataById.customer,

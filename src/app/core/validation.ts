@@ -25,7 +25,7 @@ export const validationRegex = {
   threeTothirtyCharRegex: /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/,   // three to thirty alphanumeric characters
   threeToFiftyCharRegex: /^[A-Za-z\s]{3,50}$/,                        // three to fifty alpahnueric characters
   passwordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@])[A-Za-z\d@]{8,16}$/,  // 8 to 16 characters, one uppercase, one lowercase, one digit, one special character
-  address3To500Regex: /^(?!\s)(?:.{3,500})$/,     // 3 to 500 characters
+  address3To500Regex: /^(?!\s)(?!.*\s{3})(.{3,500})$/s,     // 3 to 500 characters
   pinCodeRegex: /^[1-9][0-9]{2}\s?[0-9]{3}$/,
   emailRegex: /^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,   // email regex
   oneToOneLakhRegex:  /^(0|[1-9][0-9]{0,5})$/,

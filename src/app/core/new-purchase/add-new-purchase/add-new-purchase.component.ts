@@ -13,6 +13,7 @@ import { NewPurchaseService } from "../new-purchase.service";
 import { Validators } from "@angular/forms";
 import { MessageService } from "primeng/api";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
+import { validationRegex } from "../../validation";
 
 @Component({
   selector: "app-add-new-purchase",
@@ -75,7 +76,7 @@ export class AddNewPurchaseComponent implements OnInit {
         [Validators.min(0), Validators.max(9999999)],
       ],
       purchaseType: ["", [Validators.required]],
-      purchaseNotes: ["", [Validators.pattern(this.descriptionRegex)]],
+      purchaseNotes: ["", [Validators.pattern(validationRegex.address3To500Regex)]],
       slabNo: [
         "",
         [Validators.required, Validators.pattern(this.invoiceRegex)],

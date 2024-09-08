@@ -26,9 +26,7 @@
     <div class="page-header invoices-page-header">
       <div class="row align-items-center">
         <div class="col">
-          <ul
-            class="breadcrumb invoices-breadcrumb d-flex justify-content-between"
-          >
+          <ul class="breadcrumb invoices-breadcrumb d-flex justify-content-between">
             <li class="breadcrumb-item invoices-breadcrumb-item">
               <a [routerLink]="routes.suppliers">
                 <i class="fa fa-chevron-left"></i> Back to Suppliers List
@@ -47,70 +45,70 @@
             <div class="row practice-card">
               <div class="col-xl-6 col-lg-6 col-sm-12">
                 <div class="form-group row mb-2" *ngIf="data.name">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Name
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-lg-9 col-form-label">{{ data.name }}</p>
+                  <div class="col-lg-8 col-md-8 col-xl-8">
+                    <p class="col-form-label">{{ data.name }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.email">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Email
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-lg-9 col-form-label">{{ data.email }}</p>
+                  <div class="col-lg-8 col-md-8 col-xl-8">
+                    <p class="col-form-label">{{ data.email }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.creditPeriod">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Credit Period
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.creditPeriod }} Days</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.billingAddress">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Billing Address
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.billingAddress }}</p>
                   </div>
                 </div>
               </div>
               <div class="col-xl-6 col-lg-6 col-sm-12" *ngIf="data.phoneNo">
                 <div class="form-group row mb-2">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Phone Number
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.phoneNo }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.taxNo">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Tax Number
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.taxNo }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.creditLimit">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Credit Limit
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">
                       ₹ {{ data.creditLimit | indianCurrency }}
                     </p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.shippingAddress">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Shipping Address
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.shippingAddress }}</p>
                   </div>
                 </div>
@@ -132,12 +130,9 @@
                   <h3>Purchase List</h3>
                   <div class="doctor-search-blk">
                     <div class="add-group textbtn">
-                      <a
-                        class="btn btn-primary add-pluss ms-2"
-                        (click)="navigateToCreatePurchase()"
-                        ><img src="assets/img/icons/plus.svg" alt="" /> Add
-                        New</a
-                      >
+                      <a class="btn btn-primary add-pluss ms-2" (click)="navigateToCreatePurchase()"><img
+                          src="assets/img/icons/plus.svg" alt="" /> Add
+                        New</a>
                     </div>
                   </div>
                 </div>
@@ -148,37 +143,21 @@
                         <span class="header-text">Purchase</span>
                         <button pButton type="button" label="Create Purchase" icon="pi pi-plus" (click)="navigateToCreatePurchase()"></button>
                     </div> -->
-          <p-table
-            selectionMode="multiple"
-            [value]="purchaseDataShowById"
-            styleClass="p-datatable-striped"
-            [tableStyle]="{ 'min-width': '60rem' }"
-            [paginator]="purchaseDataShowById?.length >= 5"
-            [rows]="10"
-            [rowsPerPageOptions]="[5, 10, 20]"
-          >
+          <p-table selectionMode="multiple" [value]="purchaseDataShowById" styleClass="p-datatable-striped"
+            [tableStyle]="{ 'min-width': '60rem' }" [paginator]="purchaseDataShowById?.length >= 5" [rows]="10"
+            [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="purchaseInvoiceNumber">
                   Invoice Number
                   <p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="purchaseInvoiceNumber"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="purchaseInvoiceNumber"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="purchaseDate">
                   Purchase Date <p-sortIcon field="purchaseDate"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="purchaseDate"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="purchaseDate"
+                    display="menu"></p-columnFilter>
                 </th>
                 <!-- <th pSortableColumn="purchaseOrderStatus">
                                     Purchase Status
@@ -189,44 +168,24 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                                 </th> -->
                 <th pSortableColumn="paymentStatus">
                   Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="paymentStatus"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentStatus"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paidAmount">
                   Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="paidAmount"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paidAmount"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="dueAmount">
                   Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="dueAmount"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="dueAmount"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="purchaseCost">
                   Purchase Amount
                   <p-sortIcon field="purchaseCost"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="purchaseCost"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="purchaseCost"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th>Action</th>
               </tr>
@@ -236,12 +195,10 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                 <td>{{ purchase.purchaseInvoiceNumber }}</td>
                 <td>{{ purchase.purchaseDate | date : "dd-MMM-yyyy" }}</td>
                 <!-- <td>{{ purchase.purchaseOrderStatus }}</td> -->
-                <td
-                  *ngIf="
+                <td *ngIf="
                     purchase.paymentStatus == 'Partial Paid ' ||
                     purchase.paymentStatus == 'Partial Paid'
-                  "
-                >
+                  ">
                   <p-tag severity="warning" value="Partial Paid "></p-tag>
                 </td>
                 <td *ngIf="purchase.paymentStatus == 'Paid'">
@@ -256,39 +213,17 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                 <td>
                   <!-- <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex; gap: 2px"> -->
                   <div class="action-buttons">
-                    <p-button
-                      [text]="true"
-                      icon="fa-solid fa-eye"
-                      (click)="showInvoiceDialoge(purchase._id)"
-                      pTooltip="View"
-                      tooltipPosition="bottom"
-                      tooltipStyleClass="tooltip"
-                    ></p-button>
-                    <p-button
-                      *ngIf="
+                    <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(purchase._id)"
+                      pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    <p-button *ngIf="
                         purchase.paymentStatus == 'Unpaid' ||
                         purchase.paymentStatus == 'Partial Paid ' ||
                         purchase.paymentStatus == 'Partial Paid'
-                      "
-                      [text]="true"
-                      icon="fa-solid fa-wallet"
-                      (click)="openPaymentDialog(purchase._id)"
-                      pTooltip="Payment"
-                      tooltipPosition="bottom"
-                      tooltipStyleClass="tooltip"
-                    ></p-button>
-                    <div
-                      *ngIf="purchase.paymentStatus == 'Paid'"
-                      class="placeholder"
-                    ></div>
-                    <p-button
-                      [text]="true"
-                      icon="fa-solid fa-trash"
-                      (click)="deletePurchase(purchase._id)"
-                      pTooltip="Delete"
-                      tooltipPosition="bottom"
-                      tooltipStyleClass="tooltip"
-                    ></p-button>
+                      " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id)"
+                      pTooltip="Payment" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    <div *ngIf="purchase.paymentStatus == 'Paid'" class="placeholder"></div>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deletePurchase(purchase._id)"
+                      pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                   </div>
                 </td>
               </tr>
@@ -302,13 +237,11 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
             </ng-template>
 
             <ng-template pTemplate="footer">
-              <tr
-                *ngIf="
+              <tr *ngIf="
                   purchaseTotalValues.totalPaidAmount > 0 ||
                   purchaseTotalValues.totalDueAmount > 0 ||
                   purchaseTotalValues.totalAmount > 0
-                "
-              >
+                ">
                 <td colspan="2"></td>
                 <td>Total</td>
                 <td>
@@ -329,68 +262,35 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
         <!-- Payment Out Frid -->
 
         <p-tabPanel header="Payments Out">
-          <p-table
-            selectionMode="multiple"
-            [value]="paymentListDataBySupplierId"
-            styleClass="p-datatable-striped"
-            [tableStyle]="{ 'min-width': '60rem' }"
-            [paginator]="paymentListDataBySupplierId?.length >= 5"
-            [rows]="10"
-            [rowsPerPageOptions]="[5, 10, 20]"
-          >
+          <p-table selectionMode="multiple" [value]="paymentListDataBySupplierId" styleClass="p-datatable-striped"
+            [tableStyle]="{ 'min-width': '60rem' }" [paginator]="paymentListDataBySupplierId?.length >= 5" [rows]="10"
+            [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="purchaseInvoiceNumber">
-                  Invoice Number<p-sortIcon
-                    field="purchaseInvoiceNumber"
-                  ></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="purchaseInvoiceNumber"
-                    display="menu"
-                  ></p-columnFilter>
+                  Invoice Number<p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="purchaseInvoiceNumber"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="transactionNo">
                   Transaction No.<p-sortIcon field="transactionNo"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="transactionNo"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="transactionNo"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paymentDate">
                   Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="paymentDate"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentDate"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paymentMode">
                   Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="paymentMode"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentMode"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="amount">
                   Amount <p-sortIcon field="amount"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="amount"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="amount"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th>Action</th>
               </tr>
@@ -405,14 +305,8 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                 <td>{{ payment.paymentMode }}</td>
                 <td>₹ {{ payment.amount | indianCurrency }}</td>
                 <td>
-                  <p-button
-                    [text]="true"
-                    icon="fa fa-trash"
-                    (click)="deletePurchasePayment(payment._id)"
-                    pTooltip="Delete"
-                    tooltipPosition="bottom"
-                    tooltipStyleClass="tooltip"
-                  ></p-button>
+                  <p-button [text]="true" icon="fa fa-trash" (click)="deletePurchasePayment(payment._id)"
+                    pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                 </td>
               </tr>
             </ng-template>
@@ -444,12 +338,9 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                   <h3>Purchase Return List</h3>
                   <div class="doctor-search-blk">
                     <div class="add-group textbtn">
-                      <a
-                        class="btn btn-primary add-pluss ms-2"
-                        (click)="navigateToCreatePurchaseReturn()"
-                        ><img src="assets/img/icons/plus.svg" alt="" /> Add
-                        New</a
-                      >
+                      <a class="btn btn-primary add-pluss ms-2" (click)="navigateToCreatePurchaseReturn()"><img
+                          src="assets/img/icons/plus.svg" alt="" /> Add
+                        New</a>
                     </div>
                   </div>
                 </div>
@@ -461,82 +352,42 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                         <span class="header-text">Purchase Return</span>
                         <button pButton type="button" label="Create Purchase Return" icon="pi pi-plus" (click)="navigateToCreatePurchaseReturn()"></button>
                     </div> -->
-          <p-table
-            selectionMode="multiple"
-            [value]="purchaseReturnDataShowById"
-            styleClass="p-datatable-striped"
-            [tableStyle]="{ 'min-width': '60rem' }"
-            [paginator]="purchaseReturnDataShowById?.length >= 5"
-            [rows]="10"
-            [rowsPerPageOptions]="[5, 10, 20]"
-          >
+          <p-table selectionMode="multiple" [value]="purchaseReturnDataShowById" styleClass="p-datatable-striped"
+            [tableStyle]="{ 'min-width': '60rem' }" [paginator]="purchaseReturnDataShowById?.length >= 5" [rows]="10"
+            [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr>
-                <th
-                  pSortableColumn="purchaseInvoiceNumber.purchaseInvoiceNumber"
-                >
+                <th pSortableColumn="purchaseInvoiceNumber.purchaseInvoiceNumber">
                   Invoice Number
-                  <p-sortIcon
-                    field="purchaseInvoiceNumber.purchaseInvoiceNumber"
-                  ></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="purchaseInvoiceNumber.purchaseInvoiceNumber"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-sortIcon field="purchaseInvoiceNumber.purchaseInvoiceNumber"></p-sortIcon>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                    field="purchaseInvoiceNumber.purchaseInvoiceNumber" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="returnDate">
                   Return Date <p-sortIcon field="returnDate"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="returnDate"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="returnDate"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paymentStatus">
                   Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="paymentStatus"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentStatus"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paidAmount">
                   Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="paidAmount"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paidAmount"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="dueAmount">
                   Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="dueAmount"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="dueAmount"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="purchaseReturnTotalAmount">
                   Total Amount
                   <p-sortIcon field="purchaseReturnTotalAmount"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="purchaseReturnTotalAmount"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="purchaseReturnTotalAmount"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th>Action</th>
               </tr>
@@ -545,18 +396,16 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
               <tr>
                 <td>
                   {{
-                    purchaseReturn.purchaseInvoiceNumber.purchaseInvoiceNumber
+                  purchaseReturn.purchaseInvoiceNumber.purchaseInvoiceNumber
                   }}
                 </td>
                 <td>{{ purchaseReturn.returnDate | date : "dd-MMM-yyyy" }}</td>
                 <!-- <td>{{ purchaseReturn.purchaseReturnOrderStatus }}</td> -->
                 <!-- <td>{{ purchase.paymentStatus }}</td> -->
-                <td
-                  *ngIf="
+                <td *ngIf="
                     purchaseReturn.paymentStatus == 'Partial Paid ' ||
                     purchaseReturn.paymentStatus == 'Partial Paid'
-                  "
-                >
+                  ">
                   <p-tag severity="warning" value="Partial Paid "></p-tag>
                 </td>
                 <td *ngIf="purchaseReturn.paymentStatus == 'Paid'">
@@ -570,49 +419,28 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                 <td>
                   ₹
                   {{
-                    purchaseReturn.purchaseReturnTotalAmount | indianCurrency
+                  purchaseReturn.purchaseReturnTotalAmount | indianCurrency
                   }}
                 </td>
 
                 <td appShowHide [roles]="['admin', 'super-admin']">
                   <div class="action-buttons">
-                    <p-button
-                      [text]="true"
-                      icon="fa-solid fa-eye"
-                      (click)="showReturnInvoiceDialoge(purchaseReturn._id)"
-                      pTooltip="View"
-                      tooltipPosition="bottom"
-                      tooltipStyleClass="tooltip"
-                    ></p-button>
-                    <p-button
-                      *ngIf="
+                    <p-button [text]="true" icon="fa-solid fa-eye"
+                      (click)="showReturnInvoiceDialoge(purchaseReturn._id)" pTooltip="View" tooltipPosition="bottom"
+                      tooltipStyleClass="tooltip"></p-button>
+                    <p-button *ngIf="
                         purchaseReturn.paymentStatus == 'Unpaid' ||
                         purchaseReturn.paymentStatus == 'Partial Paid ' ||
                         purchaseReturn.paymentStatus == 'Partial Paid'
-                      "
-                      [text]="true"
-                      icon="fa-solid fa-wallet"
-                      (click)="openPaymentReturnDialog(purchaseReturn._id)"
-                      pTooltip="Payment"
-                      tooltipPosition="bottom"
-                      tooltipStyleClass="tooltip"
-                    ></p-button>
-                    <div
-                      *ngIf="
+                      " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentReturnDialog(purchaseReturn._id)"
+                      pTooltip="Payment" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    <div *ngIf="
                         purchaseReturn.paymentStatus != 'Unpaid' &&
                         purchaseReturn.paymentStatus != 'Partial Paid ' &&
                         purchaseReturn.paymentStatus != 'Partial Paid'
-                      "
-                      class="placeholder"
-                    ></div>
-                    <p-button
-                      [text]="true"
-                      icon="fa-solid fa-trash"
-                      (click)="deletePurchaseReturn(purchaseReturn._id)"
-                      pTooltip="Delete"
-                      tooltipPosition="bottom"
-                      tooltipStyleClass="tooltip"
-                    ></p-button>
+                      " class="placeholder"></div>
+                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deletePurchaseReturn(purchaseReturn._id)"
+                      pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                   </div>
                 </td>
               </tr>
@@ -626,25 +454,23 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
             </ng-template>
 
             <ng-template pTemplate="footer">
-              <tr
-                *ngIf="
+              <tr *ngIf="
                   purchaseReturnTotalValues.totalPaidAmount > 0 ||
                   purchaseReturnTotalValues.totalDueAmount > 0 ||
                   purchaseReturnTotalValues.totalAmount > 0
-                "
-              >
+                ">
                 <td colspan="2"></td>
                 <td>Total</td>
                 <td>
                   ₹
                   {{
-                    purchaseReturnTotalValues.totalPaidAmount | indianCurrency
+                  purchaseReturnTotalValues.totalPaidAmount | indianCurrency
                   }}
                 </td>
                 <td class="text-danger-dark">
                   ₹
                   {{
-                    purchaseReturnTotalValues.totalDueAmount | indianCurrency
+                  purchaseReturnTotalValues.totalDueAmount | indianCurrency
                   }}
                 </td>
                 <td>
@@ -659,70 +485,35 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
         <!-- Payment In Grid -->
 
         <p-tabPanel header="Payments In">
-          <p-table
-            selectionMode="multiple"
-            [value]="paymentReturnDataListById"
-            styleClass="p-datatable-striped"
-            [tableStyle]="{ 'min-width': '60rem' }"
-            [paginator]="paymentReturnDataListById?.length >= 5"
-            [rows]="10"
-            [rowsPerPageOptions]="[5, 10, 20]"
-          >
+          <p-table selectionMode="multiple" [value]="paymentReturnDataListById" styleClass="p-datatable-striped"
+            [tableStyle]="{ 'min-width': '60rem' }" [paginator]="paymentReturnDataListById?.length >= 5" [rows]="10"
+            [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr>
-                <th
-                  pSortableColumn="purchaseInvoiceNumber.purchaseInvoiceNumber"
-                >
-                  Invoice Number<p-sortIcon
-                    field="purchaseInvoiceNumber.purchaseInvoiceNumber"
-                  ></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="purchaseInvoiceNumber.purchaseInvoiceNumber"
-                    display="menu"
-                  ></p-columnFilter>
+                <th pSortableColumn="purchaseInvoiceNumber.purchaseInvoiceNumber">
+                  Invoice Number<p-sortIcon field="purchaseInvoiceNumber.purchaseInvoiceNumber"></p-sortIcon>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                    field="purchaseInvoiceNumber.purchaseInvoiceNumber" display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="transactionNo">
                   Transaction No.<p-sortIcon field="transactionNo"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="transactionNo"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="transactionNo"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paymentDate">
                   Payment Date <p-sortIcon field="paymentDate"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="paymentDate"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentDate"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="paymentMode">
                   Payment Mode <p-sortIcon field="paymentMode"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="paymentMode"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentMode"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="amount">
                   Amount <p-sortIcon field="amount"></p-sortIcon>
-                  <p-columnFilter
-                    matchMode="contains"
-                    hideOnClear="true"
-                    type="text"
-                    field="amount"
-                    display="menu"
-                  ></p-columnFilter>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="amount"
+                    display="menu"></p-columnFilter>
                 </th>
                 <th>Action</th>
               </tr>
@@ -739,14 +530,8 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                 <td>{{ payment.paymentMode }}</td>
                 <td>₹ {{ payment.amount | indianCurrency }}</td>
                 <td>
-                  <p-button
-                    [text]="true"
-                    icon="fa fa-trash"
-                    (click)="deletePurchaseReturnPayment(payment._id)"
-                    pTooltip="Delete"
-                    tooltipPosition="bottom"
-                    tooltipStyleClass="tooltip"
-                  ></p-button>
+                  <p-button [text]="true" icon="fa fa-trash" (click)="deletePurchaseReturnPayment(payment._id)"
+                    pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                 </td>
               </tr>
             </ng-template>
@@ -777,27 +562,13 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
         </app-purchase-invoice-dialog> -->
   </div>
 </div>
-<app-invoice-dialog
-  [showInvoiceDialog]="showInvoiceDialog"
-  [salesDataById]="purchaseDataShowById"
-  [paymentDataListById]="paymentDataListById"
-  (callbackModal)="callBackModal()"
-  (close)="close()"
-  [header]="header"
-></app-invoice-dialog>
+<app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="purchaseDataShowById"
+  [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()"
+  [header]="header"></app-invoice-dialog>
 
-<app-payments-invoice-dialog
-  [ShowPaymentInvoice]="showPaymentDialog"
-  [dataItemsGrid]="paymentInvoicePurchaseDataShowById"
-  [dataById]="paymentObject"
-  (callbackModal)="callBackModal()"
-  (close)="close()"
-  [header]="header"
-></app-payments-invoice-dialog>
+<app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog"
+  [dataItemsGrid]="paymentInvoicePurchaseDataShowById" [dataById]="paymentObject" (callbackModal)="callBackModal()"
+  (close)="close()" [header]="header"></app-payments-invoice-dialog>
 
-<app-confirm-dialog
-  [showDialog]="showDialoge"
-  (callbackModal)="callBackModal()"
-  (close)="close()"
-  [data]="modalData"
-></app-confirm-dialog>
+<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
+  [data]="modalData"></app-confirm-dialog>

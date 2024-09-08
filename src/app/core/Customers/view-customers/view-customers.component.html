@@ -49,69 +49,69 @@
             <div class="row practice-card">
               <div class="col-xl-6 col-lg-6 col-sm-12">
                 <div class="form-group row mb-2" *ngIf="data.name">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Name
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-lg-9 col-form-label">{{ data.name }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.email">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Email
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-lg-9 col-form-label">{{ data.email }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.creaditPeriod">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Credit Period
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.creaditPeriod }} Days</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.billingAddress">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Billing Address
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.billingAddress }}</p>
                   </div>
                 </div>
               </div>
               <div class="col-xl-6 col-lg-6 col-sm-12" *ngIf="data.phoneNo">
                 <div class="form-group row mb-2">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Phone Number
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.phoneNo }}</p>
                   </div>
                 </div>
 
                 <div class="form-group row mb-2" *ngIf="data.creaditLimit">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Credit Limit
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">₹ {{ data.creaditLimit |indianCurrency }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.taxNo">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Tax Number
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.taxNo }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.shippingAddress">
-                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Shipping Address
                   </h5>
-                  <div class="col-lg-9 col-md-9 col-xl-9">
+                  <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.shippingAddress }}</p>
                   </div>
                 </div>
@@ -160,12 +160,6 @@
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesDate"
                     display="menu"></p-columnFilter>
                 </th>
-                <th pSortableColumn="salesOrderStatus">
-                  Sales Status
-                  <p-sortIcon field="salesOrderStatus"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesOrderStatus"
-                    display="menu"></p-columnFilter>
-                </th>
                 <th pSortableColumn="paymentStatus">
                   Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentStatus"
@@ -197,8 +191,6 @@
               <tr>
                 <td>{{ sales.salesInvoiceNumber }}</td>
                 <td>{{ sales.salesDate | date: "dd-MMM-yyyy" }}</td>
-                <td>{{ sales.salesOrderStatus }}</td>
-                <!-- <td>{{ sales.paymentStatus }}</td> -->
                 <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
                     value="Partial Paid"></p-tag></td>
                 <td *ngIf="sales.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
@@ -223,14 +215,14 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
               <tr>
-                <td colspan="8" class="text-center">No sales records found.</td>
+                <td colspan="7" class="text-center">No sales records found.</td>
               </tr>
             </ng-template>
 
             <ng-template pTemplate="footer">
               <tr
                 *ngIf="salesTotalValues.totalPaidAmount > 0 || salesTotalValues.totalDueAmount > 0 || salesTotalValues.totalAmount > 0">
-                <td colspan="3"></td>
+                <td colspan="2"></td>
                 <td>Total</td>
                 <td>₹ {{ salesTotalValues.totalPaidAmount | indianCurrency }}</td>
                 <td class="text-danger-dark">₹ {{ salesTotalValues.totalDueAmount | indianCurrency }}</td>
@@ -380,9 +372,7 @@
                 <td>{{ salesReturn.salesInvoiceNumber }}</td>
                 <td>{{ salesReturn.returnDate | date: "dd-MMM-yyyy"}}</td>
                 <td>{{ salesReturn.returnOrderStatus }}</td>
-                <!-- <td>{{ sales.paymentStatus }}</td> -->
-                <td *ngIf="salesReturn.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
-                    value="Partial Paid"></p-tag></td>
+                <td *ngIf="salesReturn.paymentStatus == 'Partial Paid'"><p-tag severity="warning" value="Partial Paid"></p-tag></td>
                 <td *ngIf="salesReturn.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
                 <td *ngIf="salesReturn.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
                 <td>₹ {{ salesReturn.paidAmount | indianCurrency}}</td>

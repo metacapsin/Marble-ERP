@@ -118,6 +118,8 @@ export class AddsalesComponent implements OnInit {
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       salesTotalAmount: ["", [Validators.min(0)]],
       otherCharges: ["", [Validators.pattern(validationRegex.oneToOneLakhRegex)]],
+      taxable: [""],
+      nonTaxable: [""],
     });
   }
 
@@ -359,6 +361,8 @@ export class AddsalesComponent implements OnInit {
   calculateTotalAmount() {
     let salesGrossTotal = 0;
     let salesOrderTax: number = 0;
+    let taxable: number = 0;
+    let nonTaxable: number = 0;
     const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
 
     salesItems.controls.forEach((item) => {
@@ -382,6 +386,7 @@ export class AddsalesComponent implements OnInit {
       const totalAmount = quantity * unitPrice;
       const salesItemNonTaxableAmount = totalAmount - salesItemTaxableAmount;
       const salesItemAppliedTaxAmount = salesItemTaxableAmount + totalTaxAmount;
+      taxable += salesItemAppliedTaxAmount;
       const subtotal = quantity * unitPrice + totalTaxAmount;
       salesOrderTax += totalTaxAmount;
       salesGrossTotal += subtotal;
@@ -415,8 +420,10 @@ export class AddsalesComponent implements OnInit {
     itemTotalAmount -= discount;
     itemTotalAmount += shipping;
     itemTotalAmount += otherCharges;
-
+    nonTaxable = itemTotalAmount - taxable;
     this.addSalesForm.get("salesTotalAmount").setValue(Number(itemTotalAmount));
+    this.addSalesForm.get("taxable").setValue(Number(taxable));
+    this.addSalesForm.get("nonTaxable").setValue(Number(nonTaxable));
     if (this.setAddressData?.isTaxVendor) {
       this.taxVendorAmount();
     }
@@ -457,7 +464,6 @@ export class AddsalesComponent implements OnInit {
       salesItemDetails: formData.salesItemDetails,
       salesNotes: formData.salesNotes,
       salesGrossTotal: Number(formData.salesGrossTotal),
-      // salesOrderStatus: formData.salesOrderStatus || "Confirmed",
       salesShipping: Number(formData.salesShipping),
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: Number(formData.salesTotalAmount),
@@ -471,6 +477,8 @@ export class AddsalesComponent implements OnInit {
         }
         : {},
       salesOrderTax: Number(formData.salesOrderTax),
+      taxable: Number(formData.taxable),
+      nonTaxable: Number(formData.nonTaxable),
     };
 
     if (this.addSalesForm.valid) {

@@ -100,7 +100,7 @@
 
             <div class="card-body p-2">
               <p-table
-                [value]="salesListData | filter:searchDataValue:['salesInvoiceNumber', 'salesDate','customer.name','salesOrderStatus','paymentStatus','paidAmount', 'billingAddress.companyName','dueAmount','salesTotalAmount']"
+                [value]="salesListData | filter:searchDataValue:['salesInvoiceNumber', 'salesDate','customer.name','paymentStatus','paidAmount', 'billingAddress.companyName','dueAmount','salesTotalAmount']"
                 styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="salesListData?.length >= 5" [rows]="10"
                 [rowsPerPageOptions]="[5, 10, 20]" selectionMode="multiple" #dt [columns]="cols" 
                 [exportHeader]="'customExportHeader'" exportFilename="Sales">
@@ -123,11 +123,6 @@
                         field="billingAddress.companyName"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
                         field="billingAddress.companyName" display="menu"></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="salesOrderStatus">Sales Status <p-sortIcon
-                        field="salesOrderStatus"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesOrderStatus"
-                        display="menu"></p-columnFilter>
                     </th>
                     <th pSortableColumn="paymentStatus">Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentStatus"
@@ -155,7 +150,6 @@
                     <td>{{sales.salesDate | date: 'dd-MMM-yyyy'}}</td>
                     <td>{{sales.customer.name}}</td>
                     <td>{{sales.billingAddress.companyName}}</td>
-                    <td>{{sales.salesOrderStatus}}</td>
                     <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
                         value="Partial Paid"></p-tag></td>
                     <td *ngIf="sales.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
@@ -166,10 +160,6 @@
                     <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                       <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"
                         pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
-                      <!-- <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"
-                      *ngIf="sales.paymentStatus === 'Unpaid' || sales.paymentStatus === 'Partial Paid'"></p-button>
-                    <div *ngIf="sales.paymentStatus != 'Unpaid' && sales.paymentStatus != 'Partial Paid'"
-                      class="placeholder"></div>  -->
                       <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"
                         pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
 
@@ -185,7 +175,7 @@
                 <ng-template pTemplate="footer">
                   <tr
                     *ngIf="totalAmountValues.totalPaidAmount > 0 || totalAmountValues.totalDueAmount > 0 || totalAmountValues.totalAmount >0 ">
-                    <td colspan="5"></td>
+                    <td colspan="4"></td>
                     <td>Total </td>
                     <td>₹ {{ totalAmountValues.totalPaidAmount | indianCurrency}}</td>
                     <td class="text-danger-dark">₹ {{ totalAmountValues.totalDueAmount | indianCurrency}}</td>

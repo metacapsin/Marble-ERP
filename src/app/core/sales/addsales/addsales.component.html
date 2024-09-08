@@ -213,7 +213,7 @@
                             <label for="customer">Product
                               <span class="login-danger">*</span></label>
                             <p-dropdown [options]="slabDataList[i]" appendTo="body" [style]="{ width: '100%' }"
-                              optionLabel="name" [filter]="true" filterBy="slabName" optionValue="_id"
+                              optionLabel="name" [filter]="true" filterBy="name" optionValue="_id"
                               formControlName="salesItemProduct" placeholder="Select Product"
                               (onChange)="onSlabSelect($event.value, i)"></p-dropdown>
                             <div *ngIf="
@@ -701,6 +701,30 @@
                             }}
                           </span>
                         </h4>
+                        <h4 class="mt-2" *ngIf="addSalesForm.get('taxable').value">
+                          Taxable Amount
+                          <span *ngIf="
+                              addSalesForm.get('taxable')?.value != 0
+                            ">
+                            ₹
+                            {{
+                            addSalesForm.get("taxable").value
+                            | number : "1.2-2"
+                            }}
+                          </span>
+                        </h4>
+                        <h4 class="mt-2" *ngIf="addSalesForm.get('nonTaxable')?.value">
+                          Non-Taxable Amount
+                          <span *ngIf="
+                              addSalesForm.get('nonTaxable')?.value != 0
+                            ">
+                            ₹
+                            {{
+                            addSalesForm.get("nonTaxable").value
+                            | number : "1.2-2"
+                            }}
+                          </span>
+                        </h4>
                       </div>
                     </div>
                   </div>
@@ -714,29 +738,6 @@
                 </div>
               </div>
 
-              <p-dialog header="Edit Seller Address" [modal]="true" [(visible)]="addressVisible"
-                [style]="{ width: '35rem' }">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group local-forms mt-2">
-                      <label for="customer">Select billing address<span class="login-danger">*</span></label>
-                      <p-dropdown [style]="{ width: '100%' }" placeholder="Select billing address"
-                        [options]="dropAddress" formControlName="billingAddress" optionLabel="name" optionValue="_id"
-                        display="chip" [filter]="true" appendTo="body" filterBy="name"
-                        (onChange)="editAddressWithDrop()">
-                      </p-dropdown>
-                      <div *ngIf="
-                          addSalesForm
-                            .get('editedAddress')
-                            ?.hasError('required') &&
-                          addSalesForm.get('editedAddress')?.touched
-                        ">
-                        <span class="login-danger">Field is required. </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </p-dialog>
             </form>
           </div>
         </div>
@@ -745,3 +746,27 @@
   </div>
 </div>
 <p-toast></p-toast>
+
+<p-dialog header="Edit Seller Address" [modal]="true" [(visible)]="addressVisible"
+      [style]="{ width: '35rem' }">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group local-forms mt-2">
+            <label for="customer">Select billing address<span class="login-danger">*</span></label>
+            <p-dropdown [style]="{ width: '100%' }" placeholder="Select billing address"
+              [options]="dropAddress" formControlName="billingAddress" optionLabel="name" optionValue="_id"
+              display="chip" [filter]="true" appendTo="body" filterBy="name"
+              (onChange)="editAddressWithDrop()">
+            </p-dropdown>
+            <div *ngIf="
+                addSalesForm
+                  .get('editedAddress')
+                  ?.hasError('required') &&
+                addSalesForm.get('editedAddress')?.touched
+              ">
+              <span class="login-danger">Field is required. </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-dialog>

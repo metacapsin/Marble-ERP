@@ -126,8 +126,10 @@ export class SalesComponent implements OnInit {
         { field: "salesOrderStatus", header: "Sales Order Status" },
         { field: "salesOrderTax", header: "Sales Order Tax" },
         { field: "salesShipping", header: "Sales Shipping" },
+        { field: "salesTotalAmount", header: "Sales Total Amount"},
+        { field: "taxable", header: "Sales Taxable Amount"},
+        { field: "nonTaxable", header: "Sales Non Taxable Amount"},
         { field: "createdOn", header: "Created On" },
-        { field: "salesTotalAmount", header: "Sales Total Amount" },
       ];
 
       this.exportColumns = this.cols.map((col) => ({
