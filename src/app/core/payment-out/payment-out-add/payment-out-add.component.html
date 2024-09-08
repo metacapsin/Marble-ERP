@@ -58,8 +58,8 @@
                       <button
                       type="submit"
                       class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                      [disabled]="!addPaymentOutForm.valid"
-                    >
+                      [disabled]="!addPaymentOutForm.valid || noPaymentsAvailable"
+                      >
                       Submit
                     </button>
                     <button

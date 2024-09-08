@@ -92,7 +92,7 @@ export class ListBillingAddressComponent implements OnInit {
     console.log(values);
     // debugger
     if (values.setAsDefault == true) {
-      const message = "Please add default a address first";
+      const message = "Please add a default address first";
       return this.messageService.add({ severity: "error", detail: message });
     } else {
       this.billingAddressID = values._id;

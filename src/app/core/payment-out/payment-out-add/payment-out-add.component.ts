@@ -43,6 +43,7 @@ export class PaymentOutAddComponent {
 
   notesRegex = /^(?:.{2,100})$/;
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  noPaymentsAvailable: boolean=false;
 
   constructor(
     private SuppliersService: SuppliersdataService,
@@ -109,9 +110,32 @@ export class PaymentOutAddComponent {
   onSuppliersSelect(customerId: any) {
     console.log("hrlk adnns", customerId);
     this.PurchaseService.getPendingPurchaseBySupplierId(customerId).subscribe((resp: any) => {
-      this.purchaseDataById = resp.data;
-      this.addpurchaseControls();
-      console.log(this.purchaseDataById);
+      if (resp && Array.isArray(resp.data)) {
+        this.purchaseDataById = resp.data;
+        
+        if (this.purchaseDataById.length === 0) {
+          this.noPaymentsAvailable = true; // Set flag to true if no payments are found
+          console.log("No payments available for this supplier");
+          // const message = "No payments available for this supplier";
+          //   this.messageService.add({ severity: "warn", detail: message });
+        } else {
+          this.noPaymentsAvailable = false;
+          this.addpurchaseControls();
+          console.log("Payments found", this.purchaseDataById);
+        }
+      } else {
+        this.purchaseDataById = [];
+        this.noPaymentsAvailable = true; // No data returned, treat as no payments available
+        console.log("No payments available or response is invalid");
+        const message = "No payments available for this supplier";
+        this.messageService.add({ severity: "warn", detail: message });
+      }
+    }, error => {
+      console.error("Error fetching payment data", error);
+      this.purchaseDataById = [];
+      this.noPaymentsAvailable = true; // Handle error scenario
+      const message = "Error fetching payment data";
+      this.messageService.add({ severity: "warn", detail: message });
     });
   }
 

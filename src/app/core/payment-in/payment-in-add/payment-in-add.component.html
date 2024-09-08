@@ -37,7 +37,7 @@
                       <button
                         type="submit"
                         class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                        [disabled]="!addPaymentInForm.valid"
+                        [disabled]="!addPaymentInForm.valid|| noPaymentsAvailable"
                       >
                         Submit
                       </button>

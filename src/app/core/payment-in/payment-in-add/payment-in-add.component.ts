@@ -15,9 +15,7 @@ import { min } from "rxjs";
 @Component({
   selector: "app-payment-in-add",
   standalone: true,
-  imports: [
-    SharedModule,
-  ],
+  imports: [SharedModule],
   templateUrl: "./payment-in-add.component.html",
   styleUrl: "./payment-in-add.component.scss",
   providers: [MessageService],
@@ -39,6 +37,7 @@ export class PaymentInAddComponent {
   maxDate = new Date();
   notesRegex = /^(?:.{2,100})$/;
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
+  noPaymentsAvailable: boolean;
 
   constructor(
     private customerService: CustomersdataService,
@@ -95,11 +94,38 @@ export class PaymentInAddComponent {
     });
   }
   onCustomerSelect(customerId: any) {
-    this.Service.getSalesByCustomerId(customerId).subscribe((resp: any) => {
-      this.salesDataById = resp.data;
-      // console.log("sales Data by id ",this.salesDataById);
-      this.addSalesControls();
-    });
+    console.log("Customer Id", customerId);
+
+    this.Service.getSalesByCustomerId(customerId).subscribe(
+      (resp: any) => {
+        if (resp && Array.isArray(resp.data)) {
+          this.salesDataById = resp.data;
+          if (this.salesDataById.length === 0) {
+            this.noPaymentsAvailable = true; // Set flag to true if no payments are found
+            console.log("No payments available for this Customer");
+            // const message = "No payments available for this Customer";
+            //   this.messageService.add({ severity: "warn", detail: message });
+          } else {
+            this.noPaymentsAvailable = false;
+            this.addSalesControls();
+            console.log("Payments found", this.salesDataById);
+          }
+        } else {
+          this.salesDataById = [];
+          this.noPaymentsAvailable = true; // No data returned, treat as no payments available
+          console.log("No payments available or response is invalid");
+          const message = "No payments available for this Customer";
+          this.messageService.add({ severity: "warn", detail: message });
+        }
+      },
+      (error) => {
+        console.error("Error fetching payment data", error);
+        this.salesDataById = [];
+        this.noPaymentsAvailable = true; // Handle error scenario
+        const message = "Error fetching payment data";
+        this.messageService.add({ severity: "warn", detail: message });
+      }
+    );
   }
 
   addPaymentInFormSubmit() {
