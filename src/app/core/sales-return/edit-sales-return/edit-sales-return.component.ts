@@ -85,7 +85,7 @@ export class EditSalesReturnComponent {
       appliedTax: [""],
       salesShipping: ["", [Validators.min(0)]],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
-      salesTotalAmount: [""],
+      salesTotalAmount: ["",[Validators.min(1)]],
       otherCharges: ["", [Validators.min(0)]],
     });
 

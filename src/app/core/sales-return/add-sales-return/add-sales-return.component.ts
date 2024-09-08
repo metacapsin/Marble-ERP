@@ -22,9 +22,7 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 @Component({
   selector: "app-add-sales-return",
   standalone: true,
-  imports: [
-    SharedModule,
-  ],
+  imports: [SharedModule],
   templateUrl: "./add-sales-return.component.html",
   styleUrl: "./add-sales-return.component.scss",
   providers: [MessageService],
@@ -77,8 +75,8 @@ export class AddSalesReturnComponent {
       // otherCharges: ["", ],
       // salesShipping: ["", ],
       // salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
-      billingAddress:[''],
-      salesTotalAmount: [""],
+      billingAddress: [""],
+      salesTotalAmount: ["", Validators.min(1)],
       returnOtherCharges: ["", [Validators.min(0)]],
     });
   }
@@ -212,7 +210,9 @@ export class AddSalesReturnComponent {
       const subtotal = quantity * unitPrice + totalTaxAmount;
 
       salesGrossTotal += subtotal;
-      item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount.toFixed(2)));
+      item
+        .get("salesItemTaxAmount")
+        .setValue(Number(totalTaxAmount.toFixed(2)));
       item.get("salesItemSubTotal").patchValue(Number(subtotal.toFixed(2)));
     });
 
@@ -236,7 +236,7 @@ export class AddSalesReturnComponent {
     this.addReturnSalesForm.patchValue({
       salesTotalAmount: Number(totalAmount.toFixed(2)),
       // salesDiscount: Number(discount.toFixed(2)),
-      // salesShipping: Number(shipping.toFixed(2)), 
+      // salesShipping: Number(shipping.toFixed(2)),
       // otherCharges: Number(otherCharges.toFixed(2)),
       returnOtherCharges: returnOtherCharges,
     });
@@ -244,7 +244,7 @@ export class AddSalesReturnComponent {
 
   addReturnSalesFormSubmit() {
     const formData = this.addReturnSalesForm.value;
-    console.log(formData)
+    console.log(formData);
     const payload = {
       customer: formData.customer,
       salesInvoiceNumber: formData.salesInvoiceNumber.salesInvoiceNumber,
