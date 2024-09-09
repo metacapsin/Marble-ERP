@@ -1,0 +1,8 @@
+@media (max-width: 768px) {
+  th,
+  td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

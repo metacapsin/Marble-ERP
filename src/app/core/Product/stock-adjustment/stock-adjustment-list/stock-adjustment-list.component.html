@@ -444,8 +444,8 @@
               </p-dropdown>
               <div
                 *ngIf="
-                  addStockAdjustmentForm.get('slab')?.hasError('required') &&
-                  addStockAdjustmentForm.get('slab')?.touched
+                  addStockAdjustmentForm.get('slabs')?.hasError('required') &&
+                  addStockAdjustmentForm.get('slabs')?.touched
                 "
               >
                 <span class="login-danger">Field is required.</span>
@@ -622,8 +622,8 @@
               </p-dropdown>
               <div
                 *ngIf="
-                  editStockAdjustmentForm.get('slab')?.hasError('required') &&
-                  editStockAdjustmentForm.get('slab')?.touched
+                  editStockAdjustmentForm.get('slabs')?.hasError('required') &&
+                  editStockAdjustmentForm.get('slabs')?.touched
                 "
               >
                 <span class="login-danger">Field is required.</span>

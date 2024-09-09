@@ -301,8 +301,8 @@
               </p-dropdown>
               <div
                 *ngIf="
-                  addStockTransferForm.get('slab')?.hasError('required') &&
-                  addStockTransferForm.get('slab')?.touched
+                  addStockTransferForm.get('toWarehouse')?.hasError('required') &&
+                  addStockTransferForm.get('toWarehouse')?.touched
                 "
               >
                 <span class="login-danger">Field is required.</span>
