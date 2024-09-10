@@ -52,6 +52,9 @@ export class StockAdjustmentListComponent implements OnInit {
   searchBy: any;
   cols = [];
   exportColumns = [];
+  warehouseDropDown: any;
+  allInDropDown: any;
+
 
   constructor(
     public router: Router,
@@ -86,16 +89,14 @@ export class StockAdjustmentListComponent implements OnInit {
   }
 
   onSearchByChange(value: any): void {
-    console.log("value stock adjustment", value);
-    if (value === null) {
-      return (this.stockAdjustmentDataList = this.originalData);
+    // If the search value is empty or null, return all original data
+    if (value == null) {
+      this.stockAdjustmentDataList = this.originalData;
     } else {
-      this.stockAdjustmentDataList = this.originalData.map((i) => {
-        if (i.warehouse._id === value._id) {
-          return i;
-        }
+      this.stockAdjustmentDataList = this.originalData.filter((i) => {
+        return i.warehouse && i.warehouse._id === value._id;
       });
-      console.log(this.stockAdjustmentDataList);
+      this.allInDropDown = this.stockAdjustmentDataList;
     }
   }
   
@@ -284,8 +285,12 @@ export class StockAdjustmentListComponent implements OnInit {
   }
   searchData() {
     if (this.searchDataValue == "") {
-      return (this.stockAdjustmentDataList = this.originalData);
+      this.onSearchByChange(null);
+      if (this.warehouseDropDown?.name == "" || this.warehouseDropDown == null) {
+        return this.stockAdjustmentDataList = this.originalData;
+      } else {
+        return (this.stockAdjustmentDataList = this.allInDropDown);
+      }
     }
-    console.log(this.stockAdjustmentDataList);
   }
 }
