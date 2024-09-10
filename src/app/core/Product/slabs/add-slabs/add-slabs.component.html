@@ -37,7 +37,7 @@
                   </div>
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
-                      <label for="slabNo">Slab No. <span class="login-danger">*</span></label>
+                      <label for="slabNo">Slab Number <span class="login-danger">*</span></label>
                       <input class="form-control" type="text" placeholder="Enter Slab Number"
                         formControlName="slabNo" />
                       <div *ngIf="
@@ -131,7 +131,7 @@
 
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
-                      <label for="blockDetails">Block No.<span class="login-danger">*</span></label>
+                      <label for="blockDetails">Block Number<span class="login-danger">*</span></label>
                       <p-dropdown [options]="blockDropDownData" styleClass="" appendTo="body" optionLabel="blockNo"
                         (onChange)="onBlockSelect($event.value)" placeholder="Select Block"
                         formControlName="blockDetails" [style]="{ width: '100%' }" [filter]="true" filterBy="name"
@@ -352,12 +352,16 @@
                                   formControlName="purchaseCost" (change)="calculateTotalAmount()" />
                               </div>
                               <div *ngIf="
-                                  slabsAddForm
+                                  (slabsAddForm
                                     .get('purchaseCost')
                                     ?.hasError('min') &&
+                                  slabsAddForm.get('purchaseCost')?.touched) ||
+                                  slabsAddForm
+                                    .get('purchaseCost')
+                                    ?.hasError('max') &&
                                   slabsAddForm.get('purchaseCost')?.touched
                                 ">
-                                <span class="login-danger">Input must be at least 0.
+                                <span class="login-danger">Input must be between 1 to 10,000,000.
                                 </span>
                               </div>
                               <div *ngIf="
@@ -371,11 +375,6 @@
                               </div>
                             </div>
                           </div>
-
-
-                          
-
-
                           <div class="col-12">
                             <div class="form-group local-forms">
                               <label for="totalSQFT">Square Feet<span class="login-danger">*</span></label>
@@ -411,7 +410,6 @@
                               </div>
                             </div>
                           </div>
-
                           <div class="col-12">
                             <div class="form-group local-forms">
                               <label for="noOfPieces">Pieces<span class="login-danger"></span></label>

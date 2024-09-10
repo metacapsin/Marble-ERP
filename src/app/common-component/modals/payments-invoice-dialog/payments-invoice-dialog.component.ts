@@ -60,19 +60,14 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     {
       paymentMode: "Bank",
     },
-  ];
-  // dueAmount = this.dataById.salesDueAmount;
-  orderTaxList: any = [
-    {
-      paymentMode: "Cash",
-    },
-    {
-      paymentMode: "Bank",
-    },
     {
       paymentMode: "Cheque",
     },
+    {
+      paymentMode: "Cash / Bank",
+    },
   ];
+  
 
   notesRegex = /^(?:.{2,100})$/;
 
@@ -95,15 +90,18 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           Validators.required,
           Validators.min(0),
           Validators.max(this.dataById.salesDueAmount),
-        ],
-      ],
+        ],],
+      taxablePaymentAmount: ["",],
+      nonTaxablePaymentAmount: ["",],
+      taxablePaymentMode: ["",],
+      nonTaxablePaymentMode: ["",],
     });
   }
 
   ngOnInit() { }
 
   ngOnChanges(changes: SimpleChange) {
-    console.log("this.ShowPaymentInvoice", this.ShowPaymentInvoice);
+    console.log("this.dataById", this.dataById);
 
     if (this.ShowPaymentInvoice) {
       let totalAmount = this.paymentInvoiceForm.get('totalAmount')
@@ -120,16 +118,17 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           ],);
         totalAmount.updateValueAndValidity();
       } else if (this.dataById.isSales) {
+        let taxablePaymentAmount = this.paymentInvoiceForm.get('taxablePaymentAmount')
+        let nonTaxablePaymentAmount = this.paymentInvoiceForm.get('nonTaxablePaymentAmount')
         totalAmount.clearValidators();
-        console.log("this.dataById.isSales", this.dataById.isSales);
-
-        totalAmount.setValidators(
-          [
-            Validators.required,
-            Validators.min(1),
-            Validators.max(this.dataById.salesDueAmount),
-          ],);
+        taxablePaymentAmount.clearValidators();
+        nonTaxablePaymentAmount.clearValidators();
+        totalAmount.setValidators([Validators.required, Validators.min(1), Validators.max(this.dataById.salesDueAmount)]);
+        taxablePaymentAmount.setValidators([Validators.required, Validators.min(1), Validators.max(this.dataById.taxable)]);
+        nonTaxablePaymentAmount.setValidators([Validators.required, Validators.min(1), Validators.max(this.dataById.nonTaxable)]);
+        taxablePaymentAmount.updateValueAndValidity();
         totalAmount.updateValueAndValidity();
+        nonTaxablePaymentAmount.updateValueAndValidity();
       } else if (this.dataById.isSalesReturn) {
         totalAmount.clearValidators();
         console.log("this.dataById.isSalesReturn", this.dataById.isSalesReturn);
@@ -168,6 +167,14 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     }
   }
 
+  onSalesPaymentAmountChanges() {
+    let totalAmount = this.paymentInvoiceForm.get('totalAmount')
+    let taxablePaymentAmount = this.paymentInvoiceForm.get('taxablePaymentAmount')
+    let nonTaxablePaymentAmount = this.paymentInvoiceForm.get('nonTaxablePaymentAmount')
+
+    let total = Number(taxablePaymentAmount.value) + Number(nonTaxablePaymentAmount.value);
+    totalAmount.patchValue(total);
+  }
   closeTheWindow() {
     this.close.emit();
     this.paymentInvoiceForm.reset();
@@ -230,6 +237,8 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
             amount: Number(formData.totalAmount),
           },
         ],
+        taxablePaymentAmount: { amount: formData.taxablePaymentAmount, paymentMode: formData.taxablePaymentMode },
+        nonTaxablePaymentAmount: { amount: formData.nonTaxablePaymentAmount, paymentMode: formData.nonTaxablePaymentMode },
         note: formData.note,
       };
 

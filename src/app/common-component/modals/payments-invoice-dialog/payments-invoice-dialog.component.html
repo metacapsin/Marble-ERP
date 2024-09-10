@@ -356,7 +356,54 @@
                           </p-tabView>
                         </div>
                         <div class="row">
-                          <div class="col-12 col-md-4">
+                          <!-- <div class="col-12 col-md-4">
+                            <div class="form-group local-forms">
+                              <label for="paymentDate">Payment Date <span class="login-danger">*</span></label>
+                              <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                formControlName="paymentDate" placeholder="mm/dd/yyyy" [maxDate]="maxDate"
+                                [styleClass]="'col-12'"></p-calendar>
+                              <div
+                                *ngIf="paymentInvoiceForm.get('paymentDate')?.hasError('required')  && paymentInvoiceForm.get('paymentDate')?.touched">
+                                <span class="login-danger">Field is required. </span>
+                              </div>
+                            </div>
+                          </div> -->
+
+
+                          <div class="col-12 col-md-6" *ngIf="sales.salesItemDetails">
+                            <div class="form-group local-forms">
+                              <label for="customer">Taxable Amount</label>
+                              <p-inputGroup>
+                                <input type="number" class="form-control" style="width: 50%" (change)="onSalesPaymentAmountChanges()" formControlName="taxablePaymentAmount" />
+                                <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
+                                  [options]="paymentModeList" appendTo="body" optionLabel="paymentMode" formControlName="taxablePaymentMode"
+                                  optionValue="paymentMode"></p-dropdown>
+                              </p-inputGroup>
+                              <div
+                                *ngIf="(paymentInvoiceForm.get('taxablePaymentAmount')?.hasError('min')  && paymentInvoiceForm.get('taxablePaymentAmount')?.touched) ||
+                                paymentInvoiceForm.get('taxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('taxablePaymentAmount')?.touched">
+                                <span class="login-danger">Taxable Amount must be between 1 to {{ dataById?.taxable }}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-6" *ngIf="sales.salesItemDetails">
+                            <div class="form-group local-forms">
+                              <label for="customer">Non Taxable Amount</label>
+                              <p-inputGroup>
+                                <input type="number" class="form-control" style="width: 50%" (change)="onSalesPaymentAmountChanges()" formControlName="nonTaxablePaymentAmount"  />
+                                <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
+                                  [options]="paymentModeList" appendTo="body" optionLabel="paymentMode" formControlName="nonTaxablePaymentMode"
+                                  optionValue="paymentMode"></p-dropdown>
+                              </p-inputGroup>
+                              <div
+                                *ngIf="(paymentInvoiceForm.get('nonTaxablePaymentAmount')?.hasError('min')  && paymentInvoiceForm.get('nonTaxablePaymentAmount')?.touched) ||
+                                paymentInvoiceForm.get('nonTaxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('nonTaxablePaymentAmount')?.touched">
+                                <span class="login-danger">Taxable Amount must be between 1 to {{ dataById?.nonTaxable }}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-md-6" *ngIf="sales.salesItemDetails">
                             <div class="form-group local-forms">
                               <label for="paymentDate">Payment Date <span class="login-danger">*</span></label>
                               <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
@@ -369,105 +416,19 @@
                             </div>
                           </div>
 
-
-                          <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails">
+                          <div class="col-12 col-md-6" *ngIf="sales.salesItemDetails">
                             <div class="form-group local-forms">
-                              <label for="customer">Taxable Amount</label>
+                              <label for="customer">Total Payable Amount <span class="login-danger" >*</span></label>
                               <p-inputGroup>
-                                <input type="number" class="form-control" style="width: 50%" />
-                                <!-- <div *ngIf="
-                                addSalesForm
-                                  .get('salesItemDetails')
-                                  .get(i + '.salesItemTaxableAmount')
-                                  .hasError('min') &&
-                                addSalesForm
-                                  .get('salesItemDetails')
-                                  .get(i + '.salesItemTaxableAmount').touched
-                              ">
-                                <span class="login-danger">Input must be at least 0.</span>
-                              </div> -->
+                                <input type="number" class="form-control" style="width: 50%" (change)="onSalesPaymentAmountChanges()" formControlName="totalAmount"  />
                                 <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
-                                  [options]="orderTaxList" appendTo="body" optionLabel="paymentMode"
+                                  [options]="paymentModeList" appendTo="body" optionLabel="paymentMode" formControlName="paymentMode"
                                   optionValue="paymentMode"></p-dropdown>
                               </p-inputGroup>
-                              <!-- <span
-                              *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value && addSalesForm.get('salesItemDetails').get(i + '.salesItemTaxAmount').value"
-                              style="color: #97704f; font-size: 12px">
-                              Tax Applied Amount:
-                              {{
-                              addSalesForm
-                              .get("salesItemDetails")
-                              .get(i + ".salesItemAppliedTaxAmount").value
-                              }} , Tax Applied:
-                              {{
-                              addSalesForm
-                              .get("salesItemDetails")
-                              .get(i + ".salesItemTaxAmount").value
-                              }}
-                            </span>
-
-                            <div *ngIf="
-                            addSalesForm
-                              .get('salesItemDetails')
-                              .get(i + '.salesItemTaxableAmount')
-                              .hasError('max') &&
-                            addSalesForm
-                              .get('salesItemDetails')
-                              .get(i + '.salesItemTaxableAmount').touched
-                          ">
-                              <span class="login-danger">Input cannot be more than {{
-                                addSalesForm.get("salesItemDetails").get(i + ".salesItemTotal").value }}.</span>
-                            </div> -->
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails">
-                            <div class="form-group local-forms">
-                              <label for="customer">Non Taxable Amount</label>
-                              <p-inputGroup>
-                                <input type="number" class="form-control" style="width: 50%" />
-                                <!-- <div *ngIf="
-                                addSalesForm
-                                  .get('salesItemDetails')
-                                  .get(i + '.salesItemTaxableAmount')
-                                  .hasError('min') &&
-                                addSalesForm
-                                  .get('salesItemDetails')
-                                  .get(i + '.salesItemTaxableAmount').touched
-                              ">
-                                <span class="login-danger">Input must be at least 0.</span>
-                              </div> -->
-                                <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
-                                  [options]="orderTaxList" appendTo="body" optionLabel="paymentMode"
-                                  optionValue="paymentMode"></p-dropdown>
-                              </p-inputGroup>
-                              <!-- <span
-                              *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value && addSalesForm.get('salesItemDetails').get(i + '.salesItemTaxAmount').value"
-                              style="color: #97704f; font-size: 12px">
-                              Tax Applied Amount:
-                              {{
-                              addSalesForm
-                              .get("salesItemDetails")
-                              .get(i + ".salesItemAppliedTaxAmount").value
-                              }} , Tax Applied:
-                              {{
-                              addSalesForm
-                              .get("salesItemDetails")
-                              .get(i + ".salesItemTaxAmount").value
-                              }}
-                            </span>
-
-                            <div *ngIf="
-                            addSalesForm
-                              .get('salesItemDetails')
-                              .get(i + '.salesItemTaxableAmount')
-                              .hasError('max') &&
-                            addSalesForm
-                              .get('salesItemDetails')
-                              .get(i + '.salesItemTaxableAmount').touched
-                          ">
-                              <span class="login-danger">Input cannot be more than {{
-                                addSalesForm.get("salesItemDetails").get(i + ".salesItemTotal").value }}.</span>
-                            </div> -->
+                              <div
+                                *ngIf="(paymentInvoiceForm.get('totalAmount')?.hasError('required')  && paymentInvoiceForm.get('totalAmount')?.touched)" >
+                                <span class="login-danger">Field is required.</span>
+                              </div>
                             </div>
                           </div>
 
@@ -562,7 +523,7 @@
                             </div>
                           </div>
 
-                          <div class="col-12 col-md-3">
+                          <div class="col-12 col-md-3"> {{ paymentInvoiceForm.get('totalAmount').value }}
                             <div class="form-group d-flex flex-wrap gap-2">
                               <button type="submit" class="btn btn-primary btn-gradient-primary w-100 w-md-auto"
                                 [disabled]="!paymentInvoiceForm.valid">

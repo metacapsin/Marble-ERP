@@ -118,12 +118,12 @@ export class AddSlabsComponent {
       totalCosting: [""],
       costPerSQFT: [""],
       date: ["", [Validators.required]],
-      purchaseCost: ["", [Validators.required]],
+      purchaseCost: ["", [Validators.required,Validators.min(0), Validators.max(10000000)]],
       thickness: ["", [Validators.min(1), Validators.max(100000)]],
       width: ["", [Validators.min(1), Validators.max(100000)]],
       length: ["", [Validators.min(1), Validators.max(100000)]],
       finishes: ["", [Validators.required]],
-      noOfPieces: [""],
+      noOfPieces: ["", [Validators.min(1), Validators.max(100000)]],
       height: ["", [Validators.min(1), Validators.max(500)]],
       sqftPerPiece:['']
     });
