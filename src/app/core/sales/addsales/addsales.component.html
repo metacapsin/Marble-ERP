@@ -689,6 +689,30 @@
                       </div>
 
                       <div class="invoice-total-footer">
+                        <p class="mt-2" *ngIf="addSalesForm.get('taxable').value">
+                          Taxable Amount
+                          <span *ngIf="
+                              addSalesForm.get('taxable')?.value != 0
+                            ">
+                            ₹
+                            {{
+                            addSalesForm.get("taxable").value
+                            | number : "1.2-2"
+                            }}
+                          </span>
+                        </p>
+                        <p class="mt-2" *ngIf="addSalesForm.get('nonTaxable')?.value">
+                          Non-Taxable Amount
+                          <span *ngIf="
+                              addSalesForm.get('nonTaxable')?.value != 0
+                            ">
+                            ₹
+                            {{
+                            addSalesForm.get("nonTaxable").value
+                            | number : "1.2-2"
+                            }}
+                          </span>
+                        </p>
                         <h4>
                           Total Amount
                           <span *ngIf="
@@ -701,30 +725,7 @@
                             }}
                           </span>
                         </h4>
-                        <h4 class="mt-2" *ngIf="addSalesForm.get('taxable').value">
-                          Taxable Amount
-                          <span *ngIf="
-                              addSalesForm.get('taxable')?.value != 0
-                            ">
-                            ₹
-                            {{
-                            addSalesForm.get("taxable").value
-                            | number : "1.2-2"
-                            }}
-                          </span>
-                        </h4>
-                        <h4 class="mt-2" *ngIf="addSalesForm.get('nonTaxable')?.value">
-                          Non-Taxable Amount
-                          <span *ngIf="
-                              addSalesForm.get('nonTaxable')?.value != 0
-                            ">
-                            ₹
-                            {{
-                            addSalesForm.get("nonTaxable").value
-                            | number : "1.2-2"
-                            }}
-                          </span>
-                        </h4>
+                     
                       </div>
                     </div>
                   </div>

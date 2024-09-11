@@ -289,6 +289,37 @@ export class DataService {
           ],
         },
         {
+          menuValue: "purchase",
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: "Purchase",
+          icon: "fa-cart-shopping",
+          faIcon: true,
+          role: [Role.Admin, Role.Provider, Role.HelpDesk],
+          subMenus: [
+            {
+              menuValue: "Purchase List",
+              route: routes.listNewPurchase,
+              base: routes.listNewPurchase,
+            },
+            // {
+            //   menuValue: "Purchase",
+            //   route: routes.purchase,
+            //   base: routes.purchase,
+            // },
+            {
+              menuValue: "Payments out",
+              route: routes.paymentOut,
+              base: routes.paymentOut,
+            },
+            {
+              menuValue: "Purchase Return",
+              route: routes.purchaseReturn,
+              base: routes.purchaseReturn,
+            },
+          ],
+        },
+        {
           menuValue: "Stock",
           // route: routes.product,
           hasSubRoute: true,
@@ -353,38 +384,7 @@ export class DataService {
             },
           ],
         },
-        {
-          menuValue: "purchase",
-          hasSubRoute: true,
-          showSubRoute: false,
-          base: "Purchase",
-          icon: "fa-cart-shopping",
-          faIcon: true,
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-          subMenus: [
-            {
-              menuValue: "Purchase List",
-              route: routes.listNewPurchase,
-              base: routes.listNewPurchase,
-            },
-            // {
-            //   menuValue: "Purchase",
-            //   route: routes.purchase,
-            //   base: routes.purchase,
-            // },
-            {
-              menuValue: "Payments out",
-              route: routes.paymentOut,
-              base: routes.paymentOut,
-            },
-            {
-              menuValue: "Purchase Return",
-              route: routes.purchaseReturn,
-              base: routes.purchaseReturn,
-            },
-          ],
-        },
-        
+    
         {
           menuValue: "Expenses",
           hasSubRoute: true,
@@ -416,6 +416,11 @@ export class DataService {
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
           subMenus: [
             {
+              menuValue: "Designation",
+              route: routes.staffDesignation,
+              base: routes.staffDesignation,
+            },
+            {
               menuValue: "Staff List",
               route: routes.staffList,
               base: routes.staffList,
@@ -425,11 +430,7 @@ export class DataService {
               route: routes.staffLeave,
               base: routes.staffLeave,
             },
-            {
-              menuValue: "Designation",
-              route: routes.staffDesignation,
-              base: routes.staffDesignation,
-            },
+        
           ],
         },
 
