@@ -475,7 +475,7 @@ export class AddsalesComponent implements OnInit {
           taxVendorAmount: Number(formData.vendorTaxAmount),
           vendorTaxApplied: Number(formData.vendorTaxApplied),
         }
-        : {},
+        :null,
       salesOrderTax: Number(formData.salesOrderTax),
       taxable: Number(formData.taxable),
       nonTaxable: Number(formData.nonTaxable),
