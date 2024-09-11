@@ -62,6 +62,13 @@ const routes: Routes = [
         ),
     },
     {
+      path: 'tax-vendors-reports',
+      loadChildren: () =>
+        import('./tax-vendors-reports/tax-vendors-reports.module').then(
+          (m) => m.TaxVendorsReportsModule
+        ),
+    },
+    {
       path: 'profit-loss-reports',
       loadChildren: () =>
         import('./profit-loss-reports/profit-loss-reports.module').then(

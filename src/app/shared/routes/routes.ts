@@ -591,6 +591,9 @@ export class routes {
   public static get profitLossReports(): string {
     return this.baseUrl + '/reports/profit-loss-reports';
   }  
+  public static get taxVendorsReports(): string {
+    return this.baseUrl + '/reports/tax-vendors-reports';
+  }  
   public static get purchase(): string {
     return this.baseUrl + '/purchase';
   }

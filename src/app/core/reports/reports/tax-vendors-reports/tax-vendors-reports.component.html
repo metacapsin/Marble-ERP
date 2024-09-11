@@ -1,0 +1,215 @@
+<style>
+    .doctor-search-blk {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  
+    .table-search-blk {
+      display: flex;
+      align-items: center;
+      margin-left: 20px;
+    }
+  
+    .table-search-blk input.form-control {
+      flex: 1;
+      margin-right: 5px;
+    }
+  
+    .local-forms {
+      margin-bottom: 0;
+    }
+  
+    .form-group {
+      margin-bottom: 1rem;
+    }
+  </style>
+  
+  <div class="page-wrapper">
+    <div class="content">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="row">
+          <div class="col-sm-12">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a [routerLink]="routes.adminDashboard">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item">
+                <i class="feather icon-chevron-right"></i>
+              </li>
+              <li class="breadcrumb-item active">Tax Vendors Reports</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+  
+      <!-- <div class="card">
+              <div class="row card-body d-flex justify-content-between p0">
+                  <div class="col-lg-4 col-md-4 h-2">
+                      <div class="form-group local-forms">
+                          <label for="warehouseDetails">searchBy </label>
+                          <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Select Date" 
+                              [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true"
+                              (onChange)="onSearchByChange($event)">
+                          </p-dropdown>
+                      </div>
+                  </div>
+  
+                  <div class="col-lg-4 col-md-4 h-2">
+                      <div class="form-group local-forms">
+                          <label for="warehouseDetails">Date </label>
+                          <p-calendar [maxDate]="maxDate"[(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                              [style]="{ width: '100%' }" placeholder="Start Date - End Date" (ngModelChange)="onDateChange($event)"/>
+                      </div>
+                  </div>
+              </div>
+          </div> -->
+  
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card card-table show-entire">
+            <div class="card-body">
+              <div class="page-table-header mb-2">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <div class="doctor-table-blk">
+                      <h3>Tax Vendors Reports</h3>
+                      <div class="doctor-search-blk">
+                        <div class="top-nav-search table-search-blk">
+                          <input type="text" class="form-control" placeholder="Search here"
+                            [(ngModel)]="searchDataValue" />
+                          <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                    [roles]="['admin', 'super-admin']">
+                    <!-- <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"   pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip" alt="" /></a> -->
+                    <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"><img
+                        src="assets/img/icons/pdf-icon-03.svg" pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip" alt="" /></a>
+                  </div>
+                </div>
+  
+                <div class="mt-3">
+                  <div class="row card-body d-flex justify-content-between p0">
+                    <div class="col-lg-4 col-md-4 h-2">
+                      <div class="form-group local-forms">
+                        <label for="warehouseDetails">Filter By</label>
+                        <p-dropdown [options]="searchByData" styleClass="" appendTo="body" placeholder="Filter By Date"
+                          [style]="{ width: '100%' }" [filter]="true" [(ngModel)]="searchBy"
+                          (onChange)="onSearchByChange($event)">
+                        </p-dropdown>
+                      </div>
+                    </div>
+  
+                    <div class="col-lg-4 col-md-4 h-2">
+                      <div class="form-group local-forms">
+                        <label for="warehouseDetails">Date</label>
+                        <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                          dateFormat="dd/mm/yy" [style]="{ width: '100%' }" placeholder="Start Date - End Date"
+                          (ngModelChange)="onDateChange($event)" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="card-body p-2">
+                <p-table [value]="
+                  originalData
+                      | filter
+                        : searchDataValue
+                        : [
+                            'salesDate',
+                            'taxVendor.companyName',
+                            'taxVendor.vendorTaxApplied',
+                            'taxVendor.paymentStatus',
+                            'taxVendor.paidAmount',
+                            'taxVendor.dueAmount',
+                            'taxVendor.taxVendorAmount'
+
+
+
+                            
+                          ]
+                  " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="originalData?.length >= 5"
+                  [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols" 
+                  [exportHeader]="'customExportHeader'" exportFilename="Tax Vendors Expenses Reports" selectionMode="multiple" (onFilter)="onFilter($event)">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="salesDate">
+                        Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesDate"
+                          display="menu"></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="taxVendor.companyName">
+                        Company Name
+                        <p-sortIcon field="taxVendor.companyName"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.companyName"
+                          display="menu"></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="taxVendor.vendorTaxApplied">
+                        Tax Applied (%) <p-sortIcon field="taxVendor.vendorTaxApplied"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.vendorTaxApplied"
+                          display="menu"></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="taxVendor.paymentStatus">
+                        Paymnet Status
+                        <p-sortIcon field="taxVendor.paymentStatus"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.paymentStatus"
+                          display="menu"></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="taxVendor.paidAmount">
+                        Paid Amount<p-sortIcon field="taxVendor.paidAmount"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.paidAmount"
+                          display="menu"></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="taxVendor.dueAmount">
+                        Due Amount <p-sortIcon field="taxVendor.dueAmount"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.dueAmount"
+                          display="menu"></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="taxVendor.taxVendorAmount">
+                        Total Amount <p-sortIcon field="taxVendor.taxVendorAmount"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.taxVendorAmount"
+                          display="menu"></p-columnFilter>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-data>
+                    <tr>
+                      <td>{{ data.salesDate | date : "dd-MMM-yyyy" }}</td>
+                      <td>{{ data?.taxVendor?.companyName }}</td>
+                      <td>{{ data?.taxVendor?.vendorTaxApplied }}</td>
+                      <td >{{ data?.taxVendor?.paymentStatus }}</td>
+                      <td>{{ data?.taxVendor?.paidAmount | indianCurrency  }}</td>
+                      <td>{{ data.taxVendor?.dueAmount | indianCurrency  }}</td>
+                      <td>₹ {{ data.taxVendor?.taxVendorAmount | indianCurrency }}</td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="7" class="text-center">
+                        No payment in reports found.
+                      </td>
+                    </tr>
+                  </ng-template>
+  
+                  <!-- <ng-template pTemplate="footer">
+                    <tr
+                      totalValueDirective
+                      [data]="taxVendorsReportsData"
+                      [name]="taxVendorsReports"
+                      >
+                    </tr>
+                  </ng-template> -->
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

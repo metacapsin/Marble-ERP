@@ -14,6 +14,7 @@ export class TotalValueDirective {
   paidAmount: number = 0;
   purchaseCost: number = 0;
   purchaseTotalAmount: number = 0;
+  taxVendorAmount: number = 0;
   constructor(
     private elementRef: ElementRef,
     private indianCurrencyPipe: IndianCurrencyPipe
@@ -262,6 +263,50 @@ export class TotalValueDirective {
                                                         <td>₹ ${paidAmount}</td>
                                                         <td class="text-danger-dark">₹ ${dueAmount}</td>
                                                         <td >₹ ${salesTotalAmount}</td>
+                                                        `;
+      }
+    }
+    if (this._name == "taxVendorsReports") {
+      console.log(this._data);
+      if (this._data == false) {
+        var paidAmount = 0;
+        var dueAmount = 0;
+        var taxVendorAmount = 0;
+        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
+                                                        <td>Total Amount</td>
+                                                        <td>₹ ${paidAmount}</td>
+                                                        <td class="text-danger-dark">₹ ${dueAmount}</td>
+                                                        <td >₹ ${taxVendorAmount}</td>
+                                                        `;
+      } else {
+        this.paidAmount = 0;
+        this.dueAmount = 0;
+        this.taxVendorAmount = 0;
+
+        this._data.forEach((element) => {
+          console.log(element)
+          if (element.taxVendor.paidAmount) {
+            this.paidAmount += element.taxVendor.paidAmount;
+          }
+          if (element.taxVendor.dueAmount) {
+            this.dueAmount += element.taxVendor.dueAmount;
+          }
+          if (element.taxVendor.taxVendorAmount) {
+            this.taxVendorAmount += element.taxVendor.taxVendorAmount;
+          }
+        });
+
+        const paidAmount = this.indianCurrencyPipe.transform(this.paidAmount);
+        const dueAmount = this.indianCurrencyPipe.transform(this.dueAmount);
+        const taxVendorAmount = this.indianCurrencyPipe.transform(
+          this.taxVendorAmount
+        );
+
+        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
+                                                        <td>Total Amount</td>
+                                                        <td>₹ ${paidAmount}</td>
+                                                        <td class="text-danger-dark">₹ ${dueAmount}</td>
+                                                        <td >₹ ${taxVendorAmount}</td>
                                                         `;
       }
     }

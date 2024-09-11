@@ -48,5 +48,8 @@ export class ReportsService {
   getSalesTaxReport(data: {} | null) { // getSalesTaxReport > Sales Tax  Report Api 
     return this.http.post(environment.apiUrl + "/SalesReportController/getSalesTaxReport", data);
   }
+  getTaxVendorReports(data: {} | null) { // getSalesTaxReport > Sales Tax  Report Api 
+    return this.http.post(environment.apiUrl + "/TaxVendorReportController/getTaxVendorReports", data);
+  }
 
 }
