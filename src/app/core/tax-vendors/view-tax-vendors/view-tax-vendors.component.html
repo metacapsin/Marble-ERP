@@ -169,8 +169,10 @@
                 <td>{{ sales.taxVendor.salesInvoice }}</td>
                 <td>{{ sales.taxVendor.salesDate | date: "dd-MMM-yyyy" }}</td>
                 <td>{{ sales.taxVendor.vendorTaxApplied }}</td>
-              <td *ngIf="sales.taxVendor.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
-              <td *ngIf="sales.taxVendor.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
+                <td *ngIf="sales.taxVendor.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag>
+                </td>
+                <td *ngIf="sales.taxVendor.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag>
+                </td>
                 <td>₹ {{ sales.taxVendor.paidAmount | indianCurrency }}</td>
                 <td>₹ {{ sales.taxVendor.dueAmount | indianCurrency }}</td>
                 <td>₹ {{ sales.taxVendor.taxVendorAmount | indianCurrency }}</td>
@@ -322,7 +324,7 @@
       <div class="col-12 col-md-6">
         <div class="form-group local-forms">
           <label for="payableAmount">Payable Amount <span class="login-danger">*</span></label>
-          <input class="form-control bor" type="number" formControlName="payableAmount" placeholder />
+          <input class="form-control bor" type="number" formControlName="payableAmount" readonly />
           <div *ngIf="
 addTaxVendorsPaymentForm
 .get('payableAmount')

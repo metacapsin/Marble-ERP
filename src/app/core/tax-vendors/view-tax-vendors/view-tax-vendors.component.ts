@@ -20,8 +20,8 @@ export class ViewTaxVendorsComponent implements OnInit {
   taxVendorsData: any = {};
   vendorsSalesData: any = {};
   vendorsPaymentData: any = {};
-  showDialog=false
-  modalData:any
+  showDialog = false;
+  modalData: any;
   salesDataShowById: any[] = [];
   paymentListDataByTaxVendorsId: any[] = [];
   selectedSales: any[] = []; // Holds the selected sales items
@@ -70,14 +70,13 @@ export class ViewTaxVendorsComponent implements OnInit {
     return this.addTaxVendorsPaymentForm.get("sales") as FormArray;
   }
 
-  addSalesControls() {
+  addSalesControls(unpaidSales: any[]) {
     this.sales.clear();
-    this.selectedSales.forEach((sale) => {
+    unpaidSales.forEach((sale) => {
       this.sales.push(
         this.fb.group({
           _id: [sale.taxVendor.salesId],
           salesInvoiceNumber: [sale.taxVendor.salesInvoice],
-          // salesTotalAmount: [sale.taxVendor.taxVendorAmount],
           amount: [
             sale.taxVendor.dueAmount,
             [
@@ -145,24 +144,23 @@ export class ViewTaxVendorsComponent implements OnInit {
 
   close() {
     this.displayPaymentDialog = false;
-    this.showDialog=false
+    this.showDialog = false;
     this.sales.clear();
     this.addTaxVendorsPaymentForm.reset();
   }
-  callBackModal(){
-
-    this.TaxVendorsService.deletePayment(this.paymentId).subscribe((resp:any) => {
-      let message = "Tax Vendor Payment has been Deleted"
-      this.messageService.add({ severity: 'success', detail:message });
-      this.getPaymentListByVendorId();
-      this.getVendorSalesList();
-      this.showDialog = false;
-    })
-
-
+  callBackModal() {
+    this.TaxVendorsService.deletePayment(this.paymentId).subscribe(
+      (resp: any) => {
+        let message = "Tax Vendor Payment has been Deleted";
+        this.messageService.add({ severity: "success", detail: message });
+        this.getPaymentListByVendorId();
+        this.getVendorSalesList();
+        this.showDialog = false;
+      }
+    );
   }
-  deleteTaxVendorPayment(id){
-    console.log("delete dialog open")
+  deleteTaxVendorPayment(id) {
+    console.log("delete dialog open");
     this.paymentId = id;
 
     this.modalData = {
@@ -170,32 +168,29 @@ export class ViewTaxVendorsComponent implements OnInit {
       messege: "Are you sure you want to delete this Payment",
     };
     this.showDialog = true;
-
   }
-  
+
+  // selectAllChange(event){
+  //   console.log('event',event);
+
+  // }
+
   openPaymentDialog() {
-    
-    // Check if any selected sales have a dueAmount of 0 (fully paid)
-    const hasPaidSales = this.selectedSales.some(
-      (sale) => sale.taxVendor.dueAmount === 0
+    const unpaidSales = this.selectedSales.filter(
+      (sale) =>
+        sale.taxVendor.dueAmount > 0 &&
+        sale.taxVendor.paymentStatus === "Unpaid"
     );
 
-    if (hasPaidSales) {
-      this.messageService.add({
-        severity: "warn",
-        summary: "Paid Sales Selected",
-        detail:
-        "You cannot make payments for fully paid sales. Please unselect them.",
-      });
-    } else if (this.selectedSales.length > 0) {
-      console.log("payments to be made for these sales", this.selectedSales);
-      console.log(this.selectedSales[0].customer);
-      this.addSalesControls(); // Populate form with selected sales data
+    console.log("these are unpaid sales", unpaidSales);
+    if (unpaidSales.length > 0) {
+      console.log("Payments to be made for these sales", unpaidSales);
+      this.addSalesControls(unpaidSales); // Pass only unpaid sales to addSalesControls
       this.totalSalesSelectedTotalAmount(); // Calculate and store the total sales amount
       this.displayPaymentDialog = true;
     } else {
       this.messageService.add({
-        severity: "warn",
+        severity: "error",
         summary: "No Sales Selected",
         detail: "Please select sales to process the payment.",
       });
@@ -231,7 +226,8 @@ export class ViewTaxVendorsComponent implements OnInit {
                 this.getVendorSalesList();
                 this.addTaxVendorsPaymentForm.reset();
                 this.sales.clear();
-              }, 400);
+                this.selectedSales=null;
+              }, 400);  
             } else {
               const message = resp.message;
               this.messageService.add({ severity: "error", detail: message });

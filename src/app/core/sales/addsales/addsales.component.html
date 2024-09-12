@@ -370,22 +370,36 @@
                             <p-inputGroup>
                               <input type="number" formControlName="salesItemTaxableAmount"
                                 (change)="calculateTotalAmount()" class="form-control" style="width: 50%" />
-                              <div *ngIf="
-                                addSalesForm
-                                  .get('salesItemDetails')
-                                  .get(i + '.salesItemTaxableAmount')
-                                  .hasError('min') &&
-                                addSalesForm
-                                  .get('salesItemDetails')
-                                  .get(i + '.salesItemTaxableAmount').touched
-                              ">
-                                <span class="login-danger">Input must be at least 0.</span>
-                              </div>
+
+
                               <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax"
                                 [options]="orderTaxList" appendTo="body" formControlName="salesItemTax"
                                 optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
                                 (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
                             </p-inputGroup>
+                            <div *ngIf="
+                            addSalesForm
+                            .get('salesItemDetails')
+                            .get(i + '.salesItemTaxableAmount')
+                            .hasError('min') &&
+                          addSalesForm
+                            .get('salesItemDetails')
+                            .get(i + '.salesItemTaxableAmount').touched
+                          ">
+                            <span class="login-danger">Input must be at least 0.</span>
+                          </div>
+                          <div *ngIf="
+                          addSalesForm
+                            .get('salesItemDetails')
+                            .get(i + '.salesItemTaxableAmount')
+                            .hasError('max') &&
+                          addSalesForm
+                            .get('salesItemDetails')
+                            .get(i + '.salesItemTaxableAmount').touched
+                        ">
+                            <span class="login-danger">Input cannot be more than {{
+                              addSalesForm.get("salesItemDetails").get(i + ".salesItemTotal").value }}.</span>
+                          </div>
                             <span
                               *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value && addSalesForm.get('salesItemDetails').get(i + '.salesItemTaxAmount').value"
                               style="color: #97704f; font-size: 12px">
@@ -402,29 +416,30 @@
                               }}
                             </span>
 
-                            <div *ngIf="
-                            addSalesForm
-                              .get('salesItemDetails')
-                              .get(i + '.salesItemTaxableAmount')
-                              .hasError('max') &&
-                            addSalesForm
-                              .get('salesItemDetails')
-                              .get(i + '.salesItemTaxableAmount').touched
-                          ">
-                              <span class="login-danger">Input cannot be more than {{
-                                addSalesForm.get("salesItemDetails").get(i + ".salesItemTotal").value }}.</span>
-                            </div>
+                          
+
                           </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-sm-12 col-12">
+                        <!-- <div class="col-xl-3 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
                             <label for="customer">Non-Taxable Amount</label>
                             <input type="number" formControlName="salesItemNonTaxableAmount"
                               (change)="calculateTotalAmount()" class="form-control" />
                           </div>
-                        </div>
+                        </div> -->
 
+                        <div class="col-xl-3 col-md-4 col-sm-12 col-12">
+                          <div class="form-group local-forms">
+                            <label for="customer">Non-Taxable Amount
+                              <span class="login-danger">*</span></label>
+                            <span class="form-control">{{
+                              addSalesForm
+                              .get("salesItemDetails")
+                              .get(i + ".salesItemNonTaxableAmount")?.value
+                              }}</span>
+                          </div>
+                        </div>
                         <div class="col-xl-3 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
                             <label for="customer">Sub Total
@@ -725,7 +740,7 @@
                             }}
                           </span>
                         </h4>
-                     
+
                       </div>
                     </div>
                   </div>
@@ -739,28 +754,28 @@
                 </div>
               </div>
               <p-dialog header="Edit Seller Address" [modal]="true" [(visible)]="addressVisible"
-              [style]="{ width: '35rem' }">
-              <div class="row">
-                <div class="col-12">
-                  <div class="form-group local-forms mt-2">
-                    <label for="customer">Select billing address<span class="login-danger">*</span></label>
-                    <p-dropdown [style]="{ width: '100%' }" placeholder="Select billing address"
-                      [options]="dropAddress" formControlName="billingAddress" optionLabel="name" optionValue="_id"
-                      display="chip" [filter]="true" appendTo="body" filterBy="name"
-                      (onChange)="editAddressWithDrop()">
-                    </p-dropdown>
-                    <div *ngIf="
+                [style]="{ width: '35rem' }">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group local-forms mt-2">
+                      <label for="customer">Select billing address<span class="login-danger">*</span></label>
+                      <p-dropdown [style]="{ width: '100%' }" placeholder="Select billing address"
+                        [options]="dropAddress" formControlName="billingAddress" optionLabel="name" optionValue="_id"
+                        display="chip" [filter]="true" appendTo="body" filterBy="name"
+                        (onChange)="editAddressWithDrop()">
+                      </p-dropdown>
+                      <div *ngIf="
                         addSalesForm
                           .get('editedAddress')
                           ?.hasError('required') &&
                         addSalesForm.get('editedAddress')?.touched
                       ">
-                      <span class="login-danger">Field is required. </span>
+                        <span class="login-danger">Field is required. </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </p-dialog>
+              </p-dialog>
             </form>
           </div>
         </div>
@@ -769,4 +784,3 @@
   </div>
 </div>
 <p-toast></p-toast>
-

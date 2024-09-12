@@ -124,8 +124,8 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         taxablePaymentAmount.clearValidators();
         nonTaxablePaymentAmount.clearValidators();
         totalAmount.setValidators([Validators.required, Validators.min(1), Validators.max(this.dataById.salesDueAmount)]);
-        taxablePaymentAmount.setValidators([Validators.required, Validators.min(1), Validators.max(this.dataById.taxable)]);
-        nonTaxablePaymentAmount.setValidators([Validators.required, Validators.min(1), Validators.max(this.dataById.nonTaxable)]);
+        taxablePaymentAmount.setValidators([ Validators.min(1), Validators.max(this.dataById.taxable)]);
+        nonTaxablePaymentAmount.setValidators([ Validators.min(1), Validators.max(this.dataById.nonTaxable)]);
         taxablePaymentAmount.updateValueAndValidity();
         totalAmount.updateValueAndValidity();
         nonTaxablePaymentAmount.updateValueAndValidity();
@@ -236,9 +236,13 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
             amount: Number(formData.totalAmount),
           },
         ],
-        taxablePaymentAmount: { amount: formData.taxablePaymentAmount, paymentMode: formData.taxablePaymentMode },
-        nonTaxablePaymentAmount: { amount: formData.nonTaxablePaymentAmount, paymentMode: formData.nonTaxablePaymentMode },
+        // taxablePaymentAmount: { amount: formData.taxablePaymentAmount, paymentMode: formData.taxablePaymentMode },
+        // nonTaxablePaymentAmount: { amount: formData.nonTaxablePaymentAmount, paymentMode: formData.nonTaxablePaymentMode },
         note: formData.note,
+        paymentDetails: [
+          { amountType: 'Taxable', amount: formData.taxablePaymentAmount, paymentMode: formData.taxablePaymentMode },
+          { amountType: 'Non Taxable', amount: formData.nonTaxablePaymentAmount, paymentMode: formData.nonTaxablePaymentMode },
+        ]
       };
 
       if (this.paymentInvoiceForm.valid) {
