@@ -137,6 +137,11 @@
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.vendorTaxApplied"
                     display="menu"></p-columnFilter>
                 </th>
+                <th pSortableColumn="paymentStatus">
+                  Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paymentStatus"
+                    display="menu"></p-columnFilter>
+                </th>
                 <th pSortableColumn="taxVendor.paidAmount">
                   Paid Amount <p-sortIcon field="taxVendor.paidAmount"></p-sortIcon>
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.paidAmount"
@@ -157,12 +162,15 @@
             </ng-template>
             <ng-template pTemplate="body" let-sales>
               <tr>
-                <td>
+                <td *ngIf="sales.taxVendor.paymentStatus == 'Unpaid' ">
                   <p-tableCheckbox [value]="sales" />
                 </td>
+                <td *ngIf="sales.taxVendor.paymentStatus == 'Paid' "></td>
                 <td>{{ sales.taxVendor.salesInvoice }}</td>
                 <td>{{ sales.taxVendor.salesDate | date: "dd-MMM-yyyy" }}</td>
                 <td>{{ sales.taxVendor.vendorTaxApplied }}</td>
+              <td *ngIf="sales.taxVendor.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
+              <td *ngIf="sales.taxVendor.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
                 <td>₹ {{ sales.taxVendor.paidAmount | indianCurrency }}</td>
                 <td>₹ {{ sales.taxVendor.dueAmount | indianCurrency }}</td>
                 <td>₹ {{ sales.taxVendor.taxVendorAmount | indianCurrency }}</td>
@@ -232,8 +240,8 @@
                 <td>{{ payment.paymentMode }}</td>
                 <td>₹ {{ payment.amount | indianCurrency }}</td>
                 <td class="action-buttions">
-                  <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteTaxVendorPayment(payment._id)" pTooltip="Delete"
-                    tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                  <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteTaxVendorPayment(payment._id)"
+                    pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                 </td>
               </tr>
             </ng-template>

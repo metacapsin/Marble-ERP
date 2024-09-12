@@ -82,7 +82,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   ) {
     this.paymentInvoiceForm = this.fb.group({
       paymentDate: ["", [Validators.required]],
-      paymentMode: ["", [Validators.required]],
+      paymentMode: ["Cash", [Validators.required]],
       note: [""],
       totalAmount: [
         "",
@@ -171,9 +171,8 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     let totalAmount = this.paymentInvoiceForm.get('totalAmount')
     let taxablePaymentAmount = this.paymentInvoiceForm.get('taxablePaymentAmount')
     let nonTaxablePaymentAmount = this.paymentInvoiceForm.get('nonTaxablePaymentAmount')
-
     let total = Number(taxablePaymentAmount.value) + Number(nonTaxablePaymentAmount.value);
-    totalAmount.patchValue(total);
+    totalAmount.setValue(total);
   }
   closeTheWindow() {
     this.close.emit();

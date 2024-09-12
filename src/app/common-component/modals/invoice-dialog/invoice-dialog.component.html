@@ -219,7 +219,7 @@
                             </h5>
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-lg-8 col-form-label">
-                                {{ '₹' + ' ' + sales.taxable | number : "1.2-2" }}
+                                {{ sales.taxable ? ('₹' + ' ' + sales.taxable | number : "1.2-2") : '0' }}
                               </p>
                             </div>
                           </div>
@@ -301,14 +301,13 @@
                               </p>
                             </div>
                           </div>
-                          <div class="form-group row mb-2"
-                            *ngIf="sales.paidAmount || !sales.quotationInvoiceNumber zeroPayment">
+                          <div class="form-group row mb-2" *ngIf="sales.salesDate">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Non Taxable Amount:
                             </h5>
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-lg-8 col-form-label">
-                                {{ '₹' + ' ' + sales.nonTaxable | number : "1.2-2" }}
+                                {{sales.nonTaxable ? ('₹' + ' ' + sales.nonTaxable | number : "1.2-2") : '0'}}
                               </p>
                             </div>
                           </div>
@@ -493,7 +492,7 @@
               <div class="row align-items-center justify-content-center invoice-sign-box">
                 <div class="col-lg-6 col-md-6">
                   <div class="col-lg-8 col-md-8">
-                    <div class="invoice-terms">
+                    <div class="invoice-terms" *ngIf="sales.salesNotes || sales.purchaseNotes">
                       <h6>Notes:</h6>
                       <p *ngIf="sales.salesNotes" class="mb-0">
                         {{ sales.salesNotes }}
@@ -606,7 +605,7 @@
                             ">
                             ₹
                             {{
-                              sales?.taxable
+                            sales?.taxable
                             | number : "1.2-2"
                             }}
                           </span>
@@ -618,7 +617,7 @@
                             ">
                             ₹
                             {{
-                              sales?.nonTaxable
+                            sales?.nonTaxable
                             | number : "1.2-2"
                             }}
                           </span>
@@ -647,7 +646,7 @@
                             sales?.purchaseReturnTotalAmount | number : "1.2-2"
                             }}</span>
                         </h4>
-                    
+
                       </div>
                     </div>
                   </div>
