@@ -1,5 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChange } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChange,
+} from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -37,7 +44,6 @@ import { SharedModule } from "src/app/shared/shared.module";
     DropdownModule,
     ReactiveFormsModule,
     SharedModule,
-
   ],
   templateUrl: "./payments-invoice-dialog.component.html",
   styleUrl: "./payments-invoice-dialog.component.scss",
@@ -67,7 +73,6 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       paymentMode: "Cash / Bank",
     },
   ];
-  
 
   notesRegex = /^(?:.{2,100})$/;
 
@@ -90,42 +95,56 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           Validators.required,
           Validators.min(0),
           Validators.max(this.dataById.salesDueAmount),
-        ],],
-      taxablePaymentAmount: ["",],
-      nonTaxablePaymentAmount: ["",],
-      taxablePaymentMode: ["",],
-      nonTaxablePaymentMode: ["",],
+        ],
+      ],
+      taxablePaymentAmount: [""],
+      nonTaxablePaymentAmount: [""],
+      taxablePaymentMode: [""],
+      nonTaxablePaymentMode: [""],
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChange) {
     console.log("this.dataById", this.dataById);
 
     if (this.ShowPaymentInvoice) {
-      let totalAmount = this.paymentInvoiceForm.get('totalAmount')
+      let totalAmount = this.paymentInvoiceForm.get("totalAmount");
 
       if (this.dataById.isPurchase) {
         totalAmount.clearValidators();
         console.log("this.dataById.isPurchase", this.dataById.isPurchase);
 
-        totalAmount.setValidators(
-          [
-            Validators.required,
-            Validators.min(1),
-            Validators.max(this.dataById.purchaseDueAmount),
-          ],);
+        totalAmount.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(this.dataById.purchaseDueAmount),
+        ]);
         totalAmount.updateValueAndValidity();
       } else if (this.dataById.isSales) {
-        let taxablePaymentAmount = this.paymentInvoiceForm.get('taxablePaymentAmount')
-        let nonTaxablePaymentAmount = this.paymentInvoiceForm.get('nonTaxablePaymentAmount')
+        let taxablePaymentAmount = this.paymentInvoiceForm.get(
+          "taxablePaymentAmount"
+        );
+        let nonTaxablePaymentAmount = this.paymentInvoiceForm.get(
+          "nonTaxablePaymentAmount"
+        );
         totalAmount.clearValidators();
         taxablePaymentAmount.clearValidators();
         nonTaxablePaymentAmount.clearValidators();
-        totalAmount.setValidators([Validators.required, Validators.min(1), Validators.max(this.dataById.salesDueAmount)]);
-        taxablePaymentAmount.setValidators([ Validators.min(1), Validators.max(this.dataById.taxable)]);
-        nonTaxablePaymentAmount.setValidators([ Validators.min(1), Validators.max(this.dataById.nonTaxable)]);
+        totalAmount.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(this.dataById.salesDueAmount),
+        ]);
+        taxablePaymentAmount.setValidators([
+          Validators.min(0),
+          Validators.max(this.dataById.taxable),
+        ]);
+        nonTaxablePaymentAmount.setValidators([
+          Validators.min(0),
+          Validators.max(this.dataById.nonTaxable),
+        ]);
         taxablePaymentAmount.updateValueAndValidity();
         totalAmount.updateValueAndValidity();
         nonTaxablePaymentAmount.updateValueAndValidity();
@@ -133,52 +152,63 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         totalAmount.clearValidators();
         console.log("this.dataById.isSalesReturn", this.dataById.isSalesReturn);
 
-        totalAmount.setValidators(
-          [
-            Validators.required,
-            Validators.min(1),
-            Validators.max(this.dataById.salesDueAmount),
-          ],);
+        totalAmount.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(this.dataById.salesDueAmount),
+        ]);
         totalAmount.updateValueAndValidity();
       } else if (this.dataById.isPurchaseReturn) {
         totalAmount.clearValidators();
-        console.log("this.dataById.isPurchaseReturn", this.dataById.isPurchaseReturn);
+        console.log(
+          "this.dataById.isPurchaseReturn",
+          this.dataById.isPurchaseReturn
+        );
 
-        totalAmount.setValidators(
-          [
-            Validators.required,
-            Validators.min(1),
-            Validators.max(this.dataById.purchaseDueAmount),
-          ],);
+        totalAmount.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(this.dataById.purchaseDueAmount),
+        ]);
         totalAmount.updateValueAndValidity();
       } else if (this.dataById.isSlabProcessing) {
         totalAmount.clearValidators();
-        console.log("this.dataById.isSlabProcessing", this.dataById.isSlabProcessing);
+        console.log(
+          "this.dataById.isSlabProcessing",
+          this.dataById.isSlabProcessing
+        );
 
-        totalAmount.setValidators(
-          [
-            Validators.required,
-            Validators.min(1),
-            Validators.max(this.dataById.dueAmount),
-          ],);
+        totalAmount.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(this.dataById.dueAmount),
+        ]);
         totalAmount.updateValueAndValidity();
       }
-
     }
   }
 
   onSalesPaymentAmountChanges() {
-    let totalAmount = this.paymentInvoiceForm.get('totalAmount')
-    let taxablePaymentAmount = this.paymentInvoiceForm.get('taxablePaymentAmount')
-    let nonTaxablePaymentAmount = this.paymentInvoiceForm.get('nonTaxablePaymentAmount')
-    let total = Number(taxablePaymentAmount.value) + Number(nonTaxablePaymentAmount.value);
+    let totalAmount = this.paymentInvoiceForm.get("totalAmount");
+    let taxablePaymentAmount = this.paymentInvoiceForm.get(
+      "taxablePaymentAmount"
+    );
+    let nonTaxablePaymentAmount = this.paymentInvoiceForm.get(
+      "nonTaxablePaymentAmount"
+    );
+    let total =
+      Number(taxablePaymentAmount.value) +
+      Number(nonTaxablePaymentAmount.value);
     totalAmount.setValue(total);
   }
   closeTheWindow() {
     this.close.emit();
     this.paymentInvoiceForm.reset();
     // this.dataById=[]
-    console.log("this is data from open payment return dialog", this.dataItemsGrid)
+    console.log(
+      "this is data from open payment return dialog",
+      this.dataItemsGrid
+    );
   }
 
   onConfirm() {
@@ -236,13 +266,23 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
             amount: Number(formData.totalAmount),
           },
         ],
-        // taxablePaymentAmount: { amount: formData.taxablePaymentAmount, paymentMode: formData.taxablePaymentMode },
-        // nonTaxablePaymentAmount: { amount: formData.nonTaxablePaymentAmount, paymentMode: formData.nonTaxablePaymentMode },
+        taxablePaymentAmount: formData.taxablePaymentAmount
+          ? {
+              amount: formData.taxablePaymentAmount,
+              paymentMode: formData.taxablePaymentMode,
+            }
+          : null,
+        nonTaxablePaymentAmount: formData.nonTaxablePaymentAmount
+          ? {
+              amount: formData.nonTaxablePaymentAmount,
+              paymentMode: formData.nonTaxablePaymentMode,
+            }
+          : null,
         note: formData.note,
-        paymentDetails: [
-          { amountType: 'Taxable', amount: formData.taxablePaymentAmount, paymentMode: formData.taxablePaymentMode },
-          { amountType: 'Non Taxable', amount: formData.nonTaxablePaymentAmount, paymentMode: formData.nonTaxablePaymentMode },
-        ]
+        // paymentDetails: [
+        //   { amountType: 'Taxable', amount: formData.taxablePaymentAmount, paymentMode: formData.taxablePaymentMode },
+        //   { amountType: 'Non Taxable', amount: formData.nonTaxablePaymentAmount, paymentMode: formData.nonTaxablePaymentMode },
+        // ]
       };
 
       if (this.paymentInvoiceForm.valid) {
@@ -315,22 +355,27 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         note: formData.note,
       };
       if (this.paymentInvoiceForm.valid) {
-        this.purchaseReturnPaymentService.createPurchaseReturnPayment(payload).subscribe((resp: any) => {
-          console.log(resp);
-          if (resp) {
-            if (resp.status === "success") {
-              const message = "Payment In has been added";
-              this.messageService.add({ severity: "success", detail: message });
-              setTimeout(() => {
-                this.close.emit();
-                this.paymentInvoiceForm.reset();
-              }, 400);
-            } else {
-              const message = resp.message;
-              this.messageService.add({ severity: "error", detail: message });
+        this.purchaseReturnPaymentService
+          .createPurchaseReturnPayment(payload)
+          .subscribe((resp: any) => {
+            console.log(resp);
+            if (resp) {
+              if (resp.status === "success") {
+                const message = "Payment In has been added";
+                this.messageService.add({
+                  severity: "success",
+                  detail: message,
+                });
+                setTimeout(() => {
+                  this.close.emit();
+                  this.paymentInvoiceForm.reset();
+                }, 400);
+              } else {
+                const message = resp.message;
+                this.messageService.add({ severity: "error", detail: message });
+              }
             }
-          }
-        });
+          });
       } else {
         console.log("invalid form");
       }
@@ -350,22 +395,27 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         note: formData.note,
       };
       if (this.paymentInvoiceForm.valid) {
-        this.blockProcessorService.createPayment(payload).subscribe((resp: any) => {
-          console.log(resp);
-          if (resp) {
-            if (resp.status === "success") {
-              const message = "Slab Processing Payment has been added";
-              this.messageService.add({ severity: "success", detail: message });
-              setTimeout(() => {
-                this.close.emit();
-                this.paymentInvoiceForm.reset();
-              }, 400);
-            } else {
-              const message = resp.message;
-              this.messageService.add({ severity: "error", detail: message });
+        this.blockProcessorService
+          .createPayment(payload)
+          .subscribe((resp: any) => {
+            console.log(resp);
+            if (resp) {
+              if (resp.status === "success") {
+                const message = "Slab Processing Payment has been added";
+                this.messageService.add({
+                  severity: "success",
+                  detail: message,
+                });
+                setTimeout(() => {
+                  this.close.emit();
+                  this.paymentInvoiceForm.reset();
+                }, 400);
+              } else {
+                const message = resp.message;
+                this.messageService.add({ severity: "error", detail: message });
+              }
             }
-          }
-        });
+          });
       } else {
         console.log("invalid form");
       }

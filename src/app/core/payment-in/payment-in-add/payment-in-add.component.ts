@@ -122,7 +122,7 @@ export class PaymentInAddComponent {
         console.error("Error fetching payment data", error);
         this.salesDataById = [];
         this.noPaymentsAvailable = true; // Handle error scenario
-        const message = "Error fetching payment data";
+        const message = error.message;
         this.messageService.add({ severity: "warn", detail: message });
       }
     );

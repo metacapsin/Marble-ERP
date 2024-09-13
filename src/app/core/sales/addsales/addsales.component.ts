@@ -91,6 +91,7 @@ export class AddsalesComponent implements OnInit {
             [
               Validators.required,
               Validators.min(0),
+              Validators.max(this.maxQuantity),
             ],
           ],
           salesItemUnitPrice: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
@@ -149,6 +150,7 @@ export class AddsalesComponent implements OnInit {
         [
           Validators.required,
           Validators.min(0),
+          Validators.max(this.maxQuantity),
         ],
       ],
       salesItemUnitPrice: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],

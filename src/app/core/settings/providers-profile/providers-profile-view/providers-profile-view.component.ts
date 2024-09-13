@@ -9,6 +9,7 @@ import { DataService } from 'src/app/shared/data/data.service';
 import { SettingsService } from 'src/app/shared/data/settings.service';
 import { socialLinks } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-providers-profile-view',
@@ -18,7 +19,8 @@ import { routes } from 'src/app/shared/routes/routes';
   imports:[CommonModule,
     SharedModule,
     ReactiveFormsModule,
-    ButtonModule]
+    ButtonModule],
+    providers:[MessageService]
 })
 export class ProvidersProfileViewComponent implements OnInit {
   public routes = routes;
@@ -30,6 +32,7 @@ export class ProvidersProfileViewComponent implements OnInit {
   constructor(
     private activeRoute: ActivatedRoute,
     private service: SettingsService,
+    private messageService: MessageService,
     private router: Router,
     public _data: DataService
   ) {
@@ -42,6 +45,8 @@ export class ProvidersProfileViewComponent implements OnInit {
         this.providerData = resp.data;
       },
       (error) => {
+        const message= error.message
+        this.messageService.add({ severity: "warn", detail: message });
         console.error('Error:', error);
       }
     );

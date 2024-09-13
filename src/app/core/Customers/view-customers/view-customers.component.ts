@@ -11,6 +11,30 @@ import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/
 import { SalesReturnService } from "../../sales-return/sales-return.service";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
+interface Product {
+  _id: string;
+  salesId: string;
+  salesInvoice: string | null;
+  paymentDate: string;
+  paymentMode: string;
+  amount: number;
+  transactionNo: string;
+  note: string;
+  customer: {
+    _id: string;
+    name: string;
+    billingAddress: string;
+  };
+    salesInvoiceNumber: string;
+  paymentDetails: Array<{
+    amountType: string;
+    amount: number;
+    paymentMode: string;
+  }>;
+  expanded?: boolean;
+
+}
+
 @Component({
   selector: "app-view-customers",
   standalone: true,
@@ -22,6 +46,9 @@ export class ViewCustomersComponent implements OnInit {
   routes = routes;
   id: any; // to hold customer id
   customerDataById: any[] = [];
+  products: Product[] = [];
+  expanded?: boolean;
+
   salesDataShowById: any; // to hold sales data by customer id
   salesReturnDataShowById: any[] = []; // to hold sales Return data by customer id
   paymentListDataByCustomerId: any[] = []; // to hold payment data by customer id
@@ -192,6 +219,9 @@ export class ViewCustomersComponent implements OnInit {
     }
   }
 
+  toggleRow(product:Product) {
+    product.expanded = !product.expanded;
+  }
 
   close() {
     this.showDialoge = false;

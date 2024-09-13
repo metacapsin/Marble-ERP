@@ -110,6 +110,8 @@ export class EditBlocksComponent {
           }
         },
         (error) => {
+          const message= error.message
+          this.messageService.add({ severity: "warn", detail: message });
           console.error("Error occured while updating Blocks:", error);
         }
       );

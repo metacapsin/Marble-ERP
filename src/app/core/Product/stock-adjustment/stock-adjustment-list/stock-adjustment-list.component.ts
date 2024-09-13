@@ -243,7 +243,11 @@ export class StockAdjustmentListComponent implements OnInit {
           const message = resp.message;
           this.messageService.add({ severity: "error", detail: message });
         }
-      });
+      },
+      (error) => {
+        const message = error.message;
+          this.messageService.add({ severity: "error", detail: message });
+      })
     } else {
       console.log("Form is invalid!");
     }

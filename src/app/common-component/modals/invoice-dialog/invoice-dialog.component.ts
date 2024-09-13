@@ -16,6 +16,7 @@ import { HttpClient } from "@angular/common/http";
 import { PurchaseService } from "src/app/core/purchase/purchase.service";
 import { RouterModule } from "@angular/router";
 import { QuotationsService } from "src/app/core/quotations/quotations.service";
+import { MessageService } from "primeng/api";
 
 @Component({
   selector: "app-invoice-dialog",
@@ -32,6 +33,7 @@ import { QuotationsService } from "src/app/core/quotations/quotations.service";
   ],
   templateUrl: "./invoice-dialog.component.html",
   styleUrl: "./invoice-dialog.component.scss",
+  providers:[MessageService]
 })
 export class InvoiceDialogComponent implements OnInit {
   @Input() showInvoiceDialog: boolean;
@@ -47,7 +49,9 @@ export class InvoiceDialogComponent implements OnInit {
     private salesService: SalesService,
     private purchaseService: PurchaseService,
     private quotationService: QuotationsService,
-    private http: HttpClient
+    private http: HttpClient,
+    private messageService: MessageService,
+
   ) {}
   ngOnInit() {
     this.userData.getUserProfile().subscribe((user: any) => {
@@ -84,7 +88,8 @@ export class InvoiceDialogComponent implements OnInit {
         window.URL.revokeObjectURL(url);
       },
       (error) => {
-        console.error("Download failed", error);
+        const message= error.message
+        this.messageService.add({ severity: "warn", detail: message });
       }
     );
   }
@@ -106,7 +111,8 @@ export class InvoiceDialogComponent implements OnInit {
         window.URL.revokeObjectURL(url);
       },
       (error) => {
-        console.error("Download failed", error);
+        const message= error.message
+        this.messageService.add({ severity: "warn", detail: message });
       }
     );
   }

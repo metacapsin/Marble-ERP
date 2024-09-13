@@ -178,6 +178,11 @@
                 <td>₹ {{ sales.taxVendor.taxVendorAmount | indianCurrency }}</td>
               </tr>
             </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="8" class="text-center">No sales records found.</td>
+              </tr>
+            </ng-template>
           </p-table>
 
         </p-tabPanel>
@@ -247,6 +252,11 @@
                 </td>
               </tr>
             </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="6" class="text-center">No Payments are made yet.</td>
+              </tr>
+            </ng-template>
           </p-table>
         </p-tabPanel>
       </p-tabView>
@@ -279,7 +289,7 @@
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Due Amount :</h5>
                   <div class="col-lg-8 col-md-8 col-xl-8">
-                    <p class="col-form-label">₹ {{ totalSelectedSalesDueAmount }}</p>
+                    <p class="col-form-label">₹ {{ totalSelectedSalesDueAmount | indianCurrency }}</p>
                   </div>
                 </div>
               </div>

@@ -170,6 +170,8 @@ export class ProductsEditComponent {
           }
         },
         (error) => {
+          const message= error.message
+          this.messageService.add({ severity: "warn", detail: message });
           console.error("Error occured while updating Product:", error);
         }
       );

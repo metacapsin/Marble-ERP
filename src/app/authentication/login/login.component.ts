@@ -88,7 +88,8 @@ export class LoginComponent implements OnInit {
             //   horizontalPosition: 'right',
             //   panelClass: "blue",
             // });
-            this.messageService.add({ severity: "error", detail: error });
+            const message= error.message
+            this.messageService.add({ severity: "warn", detail: message });
           },
         });
       }

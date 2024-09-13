@@ -25,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           localStorage.clear();
           this.router.navigate(['/login']);
         }
-        const error = err?.error?.message || err?.statusText;
+        const error = err?.error || err?.statusText;
         this.loading.setLoading(false, request.url);
         return throwError(error);
       })

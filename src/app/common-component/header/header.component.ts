@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
+import { MessageService } from "primeng/api";
 import { PurchaseService } from "src/app/core/purchase/purchase.service";
 import { SalesService } from "src/app/core/sales/sales.service";
 import { AESEncryptDecryptService } from "src/app/shared/auth/AESEncryptDecryptService ";
@@ -163,6 +164,7 @@ export interface Payment {
   selector: "app-header",
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.scss"],
+  providers:[MessageService]
 })
 export class HeaderComponent {
   public routes = routes;
@@ -187,6 +189,7 @@ export class HeaderComponent {
     private data: DataService,
     private crypto: AESEncryptDecryptService,
     public auth: AuthService,
+    public messageService: MessageService,
     // private salesService: SalesService,
     // private purchaseService: PurchaseService,
     private combinedPaymentService: CombinedPaymentService
@@ -333,6 +336,8 @@ export class HeaderComponent {
         // );
       },
       (error) => {
+        const message= error.message
+        this.messageService.add({ severity: "warn", detail: message });
         console.error("Error fetching payments:", error);
       }
     );

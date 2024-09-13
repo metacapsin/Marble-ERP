@@ -107,7 +107,7 @@ export class ViewTaxVendorsComponent implements OnInit {
 
     // Set the total amount in the form control
     this.addTaxVendorsPaymentForm.patchValue({
-      payableAmount: this.totalSelectedSalesDueAmount,
+      payableAmount: this.totalSelectedSalesDueAmount.toFixed(2) ,
     });
   }
 

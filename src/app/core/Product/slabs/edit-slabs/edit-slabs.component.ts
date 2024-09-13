@@ -455,6 +455,8 @@ export class EditSlabsComponent {
             }
           },
           (error) => {
+            const message= error.message
+            this.messageService.add({ severity: "warn", detail: message });
             console.error("Error occured while updating Slabs:", error);
           }
         );
