@@ -13,13 +13,11 @@ import { SlabsService } from "../../Product/slabs/slabs.service";
 import { BillingAddressService } from "../../settings/billing-Address/billingAddress.service";
 
 @Component({
-  selector: 'app-add-quotations',
+  selector: "app-add-quotations",
   standalone: true,
-  imports: [
-    SharedModule,
-  ],
-  templateUrl: './add-quotations.component.html',
-  styleUrl: './add-quotations.component.scss'
+  imports: [SharedModule],
+  templateUrl: "./add-quotations.component.html",
+  styleUrl: "./add-quotations.component.scss",
 })
 export class AddQuotationsComponent implements OnInit {
   addQuotationForm!: FormGroup;
@@ -44,14 +42,13 @@ export class AddQuotationsComponent implements OnInit {
   wareHousedataListsEditArray: any[];
   originalSlabData: any;
   slabDatas: any;
-  slabDataList: any = []
+  slabDataList: any = [];
   setAddressData: any;
   address: any;
   orgAddress: any;
   dropAddress: any;
   addressVisible: boolean;
   customerAddress: any;
-
 
   constructor(
     private router: Router,
@@ -64,7 +61,7 @@ export class AddQuotationsComponent implements OnInit {
     private SlabsService: SlabsService,
     private localStorageService: LocalStorageService,
     private services: WarehouseService,
-    private BillingAddressService: BillingAddressService,
+    private BillingAddressService: BillingAddressService
   ) {
     this.addQuotationForm = this.fb.group({
       customer: [""],
@@ -74,20 +71,23 @@ export class AddQuotationsComponent implements OnInit {
       quotationInvoiceNumber: [""],
       quotationItemDetails: this.fb.array([
         this.fb.group({
-          quotationItemProduct: ['', [Validators.required]],
-          quotationItemQuantity: ["", [Validators.required, Validators.min(0),]],
-          quotationItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-          quotationItemTax: [''],
-          quotationItemTaxAmount: [''],
+          quotationItemProduct: ["", [Validators.required]],
+          quotationItemQuantity: ["", [Validators.required, Validators.min(0)]],
+          quotationItemUnitPrice: [
+            "",
+            [Validators.required, Validators.min(0)],
+          ],
+          quotationItemTax: [""],
+          quotationItemTaxAmount: [""],
           quotationItemSubTotal: ["", [Validators.required, Validators.min(0)]],
           maxQuantity: [" "],
-          quotationWarehouseDetails: ['', [Validators.required]]
+          quotationWarehouseDetails: ["", [Validators.required]],
         }),
       ]),
       quotationNotes: ["", [Validators.pattern(this.notesRegex)]],
       quotationGrossTotal: [""],
       // quotationStatus: ["", [Validators.required]],
-      quotationTax: ["",],
+      quotationTax: [""],
       appliedTax: [""],
       quotationShipping: ["", [Validators.min(1), Validators.max(100000)]],
       quotationTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
@@ -103,30 +103,33 @@ export class AddQuotationsComponent implements OnInit {
   deletequotationItemDetails(quotationItemDetailsIndex: number) {
     this.quotationItemDetails.removeAt(quotationItemDetailsIndex);
 
-    if (quotationItemDetailsIndex > -1 && quotationItemDetailsIndex < this.slabDataList.length) {
+    if (
+      quotationItemDetailsIndex > -1 &&
+      quotationItemDetailsIndex < this.slabDataList.length
+    ) {
       this.slabDataList.splice(quotationItemDetailsIndex, 1);
     } else {
       console.log("quotationItemDetailsIndex out of range");
     }
     this.calculateTotalAmount();
   }
-  editAddressWithDrop(){
-    this.setAddressData = this.addQuotationForm.get('billingAddress')?.value;
+  editAddressWithDrop() {
+    this.setAddressData = this.addQuotationForm.get("billingAddress")?.value;
     console.log(this.setAddressData);
   }
-  editAddress(){
-    this.addressVisible = true
+  editAddress() {
+    this.addressVisible = true;
   }
   addquotationItemDetailsItem() {
     const item = this.fb.group({
-      quotationItemProduct: ['', [Validators.required]],
+      quotationItemProduct: ["", [Validators.required]],
       quotationItemQuantity: ["", [Validators.required, Validators.min(0)]],
       quotationItemUnitPrice: ["", [Validators.required, Validators.min(0)]],
-      quotationItemTax: [''],
+      quotationItemTax: [""],
       quotationItemSubTotal: ["", [Validators.required, Validators.min(0)]],
-      quotationItemTaxAmount: [''],
-      maxQuantity: [''],
-      quotationWarehouseDetails: ['', [Validators.required]]
+      quotationItemTaxAmount: [""],
+      maxQuantity: [""],
+      quotationWarehouseDetails: ["", [Validators.required]],
     });
     this.quotationItemDetails.push(item);
   }
@@ -148,57 +151,59 @@ export class AddQuotationsComponent implements OnInit {
           if (i === index) {
             this.slabDataList[index] = this.slabDatas;
             console.log("if", this.slabDataList[index]);
-           
-            
+
             const control = this.quotationItemDetails.at(i);
-            control.get('quotationItemProduct').reset();
-            control.get('quotationItemQuantity').reset();
-            control.get('quotationItemUnitPrice').reset();
-            control.get('quotationItemTax').reset();
-            control.get('quotationItemSubTotal').reset();
-            this.calculateTotalAmount()
+            control.get("quotationItemProduct").reset();
+            control.get("quotationItemQuantity").reset();
+            control.get("quotationItemUnitPrice").reset();
+            control.get("quotationItemTax").reset();
+            control.get("quotationItemSubTotal").reset();
+            this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];
             console.log("else", this.slabDataList);
-
           }
         });
         //this.slabDataList.push(this.slabDatas)
         console.log("this.slabDataList", this.slabDataList);
       }
     );
-    console.log("----------------------------####################----------------");
+    console.log(
+      "----------------------------####################----------------"
+    );
   }
   ngOnInit() {
-
-    this.BillingAddressService.getBillingAddressList().subscribe((resp:any)=>{
-      this.address = resp.data;
-      this.orgAddress = resp.data;
-      this.dropAddress = []
-      this.orgAddress.forEach((ele)=>{
-        this.dropAddress.push({
-          name:`${ele.companyName} / ${ele.city},`,
-          _id:ele
-        })
-      })
-      console.log(this.address);
-      const filterData =  this.address.find((e) => e.setAsDefault)
-      this.addQuotationForm.get('billingAddress').patchValue(filterData)
-      console.log(this.addQuotationForm.get('billingAddress')?.value);
-      console.log(filterData);
-    })
-
+    this.BillingAddressService.getBillingAddressList().subscribe(
+      (resp: any) => {
+        this.address = resp.data;
+        this.orgAddress = resp.data;
+        this.dropAddress = [];
+        this.orgAddress.forEach((ele) => {
+          this.dropAddress.push({
+            name: `${ele.companyName} / ${ele.city},`,
+            _id: ele,
+          });
+        });
+        console.log(this.address);
+        const filterData = this.address.find((e) => e.setAsDefault);
+        this.addQuotationForm.get("billingAddress").patchValue(filterData);
+        console.log(this.addQuotationForm.get("billingAddress")?.value);
+        console.log(filterData);
+      }
+    );
 
     this.customerList = this.getCustomer();
-    this.customer = this.localStorageService.getItem('customer');
-    this.returnUrl = this.localStorageService.getItem('returnUrl')
-    console.log("this is retrun url", this.returnUrl)
-    console.log("this is customer data by local sotrage service", this.customer)
+    this.customer = this.localStorageService.getItem("customer");
+    this.returnUrl = this.localStorageService.getItem("returnUrl");
+    console.log("this is retrun url", this.returnUrl);
+    console.log(
+      "this is customer data by local sotrage service",
+      this.customer
+    );
     if (this.customer) {
       this.addQuotationForm.patchValue({
-        customer: this.customer
-      }
-      );
+        customer: this.customer,
+      });
     }
 
     this.services.getAllWarehouseList().subscribe((resp: any) => {
@@ -217,7 +222,7 @@ export class AddQuotationsComponent implements OnInit {
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
-      this.orderTaxList = this.taxesListData.map(element => ({
+      this.orderTaxList = this.taxesListData.map((element) => ({
         orderTaxName: `${element.name} (${element.taxRate}%)`,
         orderNamevalue: element,
       }));
@@ -225,25 +230,25 @@ export class AddQuotationsComponent implements OnInit {
 
     this.slabService.getSlabsList().subscribe((resp: any) => {
       this.slabData = resp.data;
-      this.slabList = this.slabData.map(e => ({
+      this.slabList = this.slabData.map((e) => ({
         slabName: e.slabName,
         _id: {
           _id: e._id,
           slabName: e.slabName,
           slabNo: e.slabNo,
-        }
+        },
       }));
     });
   }
-  setCustomer(){
-    const data = this.addQuotationForm.get('customer').value;
+  setCustomer() {
+    const data = this.addQuotationForm.get("customer").value;
     console.log(data);
-    this.customerAddress = data.billingAddress
+    this.customerAddress = data.billingAddress;
   }
   getCustomer() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
-      this.customerList = this.originalCustomerData.map(element => ({
+      this.customerList = this.originalCustomerData.map((element) => ({
         name: element.name,
         _id: {
           _id: element._id,
@@ -254,45 +259,59 @@ export class AddQuotationsComponent implements OnInit {
     });
   }
   onSlabSelect(value, i) {
-    const quotationItemDetailsArray = this.addQuotationForm.get("quotationItemDetails") as FormArray;
+    const quotationItemDetailsArray = this.addQuotationForm.get(
+      "quotationItemDetails"
+    ) as FormArray;
 
-    const selectedSlab = this.slabData.find(slab => slab._id === value._id);
+    const selectedSlab = this.slabData.find((slab) => slab._id === value._id);
 
     if (selectedSlab) {
-      console.log('Slab Found', selectedSlab);
+      console.log("Slab Found", selectedSlab);
 
       // Calculate remaining quantity for the selected slab
       let remainingQuantity = selectedSlab.totalSQFT;
       for (let j = 0; j < quotationItemDetailsArray.length; j++) {
         if (j !== i) {
-          const currentRowSlab = quotationItemDetailsArray.at(j)?.get("quotationItemProduct").value;
+          const currentRowSlab = quotationItemDetailsArray
+            .at(j)
+            ?.get("quotationItemProduct").value;
           if (currentRowSlab && currentRowSlab._id === value._id) {
-            remainingQuantity -= quotationItemDetailsArray.at(j)?.get("quotationItemQuantity").value || 0;
+            remainingQuantity -=
+              quotationItemDetailsArray.at(j)?.get("quotationItemQuantity")
+                .value || 0;
           }
         }
       }
 
-      const quotationItemUnitPriceControl = quotationItemDetailsArray.at(i)?.get("quotationItemUnitPrice");
-      const maxQuantityControl = quotationItemDetailsArray.at(i)?.get("maxQuantity");
+      const quotationItemUnitPriceControl = quotationItemDetailsArray
+        .at(i)
+        ?.get("quotationItemUnitPrice");
+      const maxQuantityControl = quotationItemDetailsArray
+        .at(i)
+        ?.get("maxQuantity");
 
       if (quotationItemUnitPriceControl) {
-        quotationItemUnitPriceControl.patchValue(selectedSlab.sellingPricePerSQFT);
+        quotationItemUnitPriceControl.patchValue(
+          selectedSlab.sellingPricePerSQFT
+        );
         this.calculateTotalAmount();
       }
       if (maxQuantityControl) {
-        maxQuantityControl.setValue(remainingQuantity > 0 ? remainingQuantity : 0);
+        maxQuantityControl.setValue(
+          remainingQuantity > 0 ? remainingQuantity : 0
+        );
       }
     } else {
-      console.error('Slab not found!');
+      console.error("Slab not found!");
     }
   }
-
-
 
   calculateTotalAmount() {
     let quotationGrossTotal = 0;
     let quotationTax: number = 0;
-    const salesItems = this.addQuotationForm.get("quotationItemDetails") as FormArray;
+    const salesItems = this.addQuotationForm.get(
+      "quotationItemDetails"
+    ) as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
       // if (item.get("quotationItemQuantity").value > item.get("maxQuantity").value) {
@@ -311,16 +330,22 @@ export class AddQuotationsComponent implements OnInit {
         totalTaxAmount = (quantity * unitPrice * tax) / 100;
       }
 
-      const subtotal = (quantity * unitPrice) + totalTaxAmount;
+      const subtotal = quantity * unitPrice + totalTaxAmount;
       quotationTax += totalTaxAmount;
 
       quotationGrossTotal += subtotal;
-      item.get("quotationItemTaxAmount").setValue(Number(totalTaxAmount.toFixed(2)));
+      item
+        .get("quotationItemTaxAmount")
+        .setValue(Number(totalTaxAmount.toFixed(2)));
       item.get("quotationItemSubTotal").setValue(Number(subtotal.toFixed(2)));
     });
 
-    this.addQuotationForm.get('quotationTax').setValue(Number(quotationTax.toFixed(2)));
-    this.addQuotationForm.get('quotationGrossTotal').setValue(Number(quotationGrossTotal.toFixed(2)));
+    this.addQuotationForm
+      .get("quotationTax")
+      .setValue(Number(quotationTax.toFixed(2)));
+    this.addQuotationForm
+      .get("quotationGrossTotal")
+      .setValue(Number(quotationGrossTotal.toFixed(2)));
 
     let totalAmount = quotationGrossTotal;
     const discount = +this.addQuotationForm.get("quotationDiscount").value;
@@ -331,7 +356,9 @@ export class AddQuotationsComponent implements OnInit {
     totalAmount += shipping;
     totalAmount += otherCharges;
 
-    this.addQuotationForm.get("quotationTotalAmount").setValue(Number(totalAmount))
+    this.addQuotationForm
+      .get("quotationTotalAmount")
+      .setValue(Number(totalAmount));
   }
 
   addQuotationFormSubmit() {
@@ -356,7 +383,7 @@ export class AddQuotationsComponent implements OnInit {
       quotationTotalAmount: formData.quotationTotalAmount,
       otherCharges: formData.otherCharges,
       billingAddress: formData.billingAddress,
-      quotationTax: Number(formData.quotationTax)
+      quotationTax: Number(formData.quotationTax),
     };
 
     if (this.addQuotationForm.valid) {
@@ -382,4 +409,3 @@ export class AddQuotationsComponent implements OnInit {
     }
   }
 }
-

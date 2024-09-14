@@ -53,8 +53,6 @@ export class EditQuotationsComponent {
   dropAddress: any[];
   addQuotationForm: any;
 
-
-
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
@@ -68,8 +66,7 @@ export class EditQuotationsComponent {
     private localStorageService: LocalStorageService,
     private services: WarehouseService,
     private quotationsService: QuotationsService,
-    private BillingAddressService: BillingAddressService,
-
+    private BillingAddressService: BillingAddressService
   ) {
     this.editQuotationForm = this.fb.group({
       customer: ["", [Validators.required]],
@@ -145,8 +142,8 @@ export class EditQuotationsComponent {
     this.quotationItemDetails.push(item);
   }
   onWareHouseSelect(value: any, i: number) {
-    console.log("value",value, "i",i);
-    
+    console.log("value", value, "i", i);
+
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
       (resp: any) => {
         this.originalSlabData = resp.data;
@@ -177,7 +174,7 @@ export class EditQuotationsComponent {
             console.log("else", this.slabDataList);
           }
         });
-        this.slabDataList.push(this.slabDatas)
+        this.slabDataList.push(this.slabDatas);
         console.log("this.slabDataList", this.slabDataList);
       }
     );
@@ -200,22 +197,24 @@ export class EditQuotationsComponent {
       });
     }
 
-    this.BillingAddressService.getBillingAddressList().subscribe((resp:any)=>{
-      this.address = resp.data;
-      this.orgAddress = resp.data;
-      this.dropAddress = []
-      this.orgAddress.forEach((ele)=>{
-        this.dropAddress.push({
-          name:`${ele.companyName} / ${ele.city},`,
-          _id:ele
-        })
-      })
-      console.log(this.address);
-      const filterData =  this.address.find((e) => e.setAsDefault)
-      this.editQuotationForm.get('billingAddress').patchValue(filterData)
-      console.log(this.editQuotationForm.get('billingAddress')?.value);
-      console.log(filterData);
-    })
+    this.BillingAddressService.getBillingAddressList().subscribe(
+      (resp: any) => {
+        this.address = resp.data;
+        this.orgAddress = resp.data;
+        this.dropAddress = [];
+        this.orgAddress.forEach((ele) => {
+          this.dropAddress.push({
+            name: `${ele.companyName} / ${ele.city},`,
+            _id: ele,
+          });
+        });
+        console.log(this.address);
+        const filterData = this.address.find((e) => e.setAsDefault);
+        this.editQuotationForm.get("billingAddress").patchValue(filterData);
+        console.log(this.editQuotationForm.get("billingAddress")?.value);
+        console.log(filterData);
+      }
+    );
 
     this.services.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedataListsEditArray = [];
@@ -254,49 +253,41 @@ export class EditQuotationsComponent {
     this.quotationsService
       .getQuotationById(this.quotationId)
       .subscribe((resp: any) => {
-        console.log(resp)
+        console.log(resp);
         this.patchForm(resp.data);
         // this.getCustomer();
         this.customerAddress = resp.data.customer.billingAddress;
-        console.log(resp.data.customer.billingAddress)
-
-
-
+        console.log(resp.data.customer.billingAddress);
       });
-
   }
 
-  editAddressWithDrop(){
-    this.setAddressData = this.editQuotationForm.get('billingAddress')?.value;
+  editAddressWithDrop() {
+    this.setAddressData = this.editQuotationForm.get("billingAddress")?.value;
     console.log(this.setAddressData);
   }
-  editAddress(){
-    this.addressVisible = true
+  editAddress() {
+    this.addressVisible = true;
   }
 
-
-  setCustomer(){
-    const data = this.editQuotationForm.get('customer').value;
+  setCustomer() {
+    const data = this.editQuotationForm.get("customer").value;
     console.log(data);
-    this.customerAddress = data.billingAddress
+    this.customerAddress = data.billingAddress;
   }
   getCustomer() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
-      console.log("this is customer respone",resp)
+      console.log("this is customer respone", resp);
       // this.customerAddress=resp.billingAddress
-      console.log(this.customerAddress)
+      console.log(this.customerAddress);
       this.customerList = this.originalCustomerData.map((element) => ({
         name: element.name,
         _id: {
           _id: element._id,
           name: element.name,
           billingAddress: element.billingAddress,
-          
         },
-        
       }));
-      
     });
   }
   onSlabSelect(value, i) {
@@ -408,10 +399,10 @@ export class EditQuotationsComponent {
       .setValue(Number(totalAmount));
   }
 
-
   patchForm(data) {
+
     this.editQuotationForm.patchValue({
-      billingAddress:data.billingAddress,
+      billingAddress: data.billingAddress,
       customer: data.customer,
       quotationDate: data.quotationDate,
       quotationDiscount: data.quotationDiscount,
@@ -429,8 +420,9 @@ export class EditQuotationsComponent {
     // Patch sales item details and disable product field
     data.quotationItemDetails.forEach((item: any, index: number) => {
       const quotationItem = this.fb.group({
-        quotationItemProduct: [item.quotationItemProduct,
-        [Validators.required],
+        quotationItemProduct: [
+          item.quotationItemProduct,
+          [Validators.required],
         ],
         quotationItemQuantity: [
           item.quotationItemQuantity,
@@ -447,9 +439,12 @@ export class EditQuotationsComponent {
           [Validators.required, Validators.min(0)],
         ],
         maxQuantity: [item.maxQuantity],
-        quotationWarehouseDetails: [item.quotationWarehouseDetails, [Validators.required]]
+        quotationWarehouseDetails: [
+          item.quotationWarehouseDetails,
+          [Validators.required],
+        ],
       });
-      this.onWareHouseSelect(item.quotationWarehouseDetails, index)
+      this.onWareHouseSelect(item.quotationWarehouseDetails, index);
       this.quotationItemDetails.push(quotationItem);
     });
   }
@@ -471,6 +466,7 @@ export class EditQuotationsComponent {
       otherCharges: formData.otherCharges,
       quotationTax: Number(formData.quotationTax),
       id: this.quotationId,
+      billingAddress: formData.billingAddress,
 
     };
 
@@ -496,5 +492,4 @@ export class EditQuotationsComponent {
       console.log("Invalid form");
     }
   }
-
 }

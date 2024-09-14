@@ -8,6 +8,30 @@ import { PaymentInService } from "../payment-in.service";
 import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
 
+interface Product {
+  _id: string;
+  salesId: string;
+  salesInvoice: string | null;
+  paymentDate: string;
+  paymentMode: string;
+  amount: number;
+  transactionNo: string;
+  note: string;
+  customer: {
+    _id: string;
+    name: string;
+    billingAddress: string;
+  };
+    salesInvoiceNumber: string;
+  paymentDetails: Array<{
+    amountType: string;
+    amount: number;
+    paymentMode: string;
+  }>;
+  expanded?: boolean;
+
+}
+
 @Component({
   selector: "app-payment-in-list",
   standalone: true,
@@ -20,6 +44,8 @@ export class PaymentInListComponent {
   public routes = routes;
   public searchDataValue = "";
   customerList = [];
+  products: Product[] = [];
+  expanded?: boolean;
   saleId: any;
   showDialoge = false;
   modalData: any = {};
@@ -87,6 +113,9 @@ export class PaymentInListComponent {
     });
   }
 
+  toggleRow(product:Product) {
+    product.expanded = !product.expanded;
+  }
   
   close() {
     this.showDialoge = false;
