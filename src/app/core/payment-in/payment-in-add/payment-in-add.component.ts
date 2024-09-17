@@ -50,7 +50,10 @@ export class PaymentInAddComponent {
       sales: this.fb.array([]),
       customer: ["", [Validators.required]],
       paymentDate: ["", [Validators.required]],
-      paymentMode: ["", [Validators.required]],
+      taxablePaymentAmount:[''],
+      nonTaxablePaymentAmount: [''],
+      taxablePaymentMode: [""],
+      nonTaxablePaymentMode: [""],
       note: ["", [Validators.pattern(this.notesRegex)]],
     });
   }
@@ -65,19 +68,33 @@ export class PaymentInAddComponent {
         this.fb.group({
           _id: [sale._id],
           salesInvoiceNumber: [sale.salesInvoiceNumber],
-          amount: [
-            "",
+          taxablePaymentAmount: [
+            sale.taxablePaymentAmount || '', 
             [
               Validators.required,
-              Validators.min(1),
-              Validators.max(sale.dueAmount),
-            ],
+              Validators.min(0),
+              Validators.max(sale.taxableDue) // Set max value to taxableDue
+            ]
           ],
+          taxablePaymentMode: [sale.taxablePaymentMode , Validators.required],  
+          nonTaxablePaymentAmount: [
+            sale.nonTaxablePaymentAmount || '', 
+            [
+              Validators.required,
+              Validators.min(0),
+              Validators.max(sale.nonTaxableDue) // Set max value to nonTaxableDue
+            ]
+          ],
+          nonTaxablePaymentMode: [sale.nonTaxablePaymentMode , Validators.required], 
         })
       );
     });
   }
 
+
+  getSalesControl(index: number): FormGroup {
+    return (this.addPaymentInForm.get('sales') as FormArray).controls[index] as FormGroup;
+  }
   ngOnInit(): void {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
       this.originalCustomerData = resp;
@@ -100,6 +117,7 @@ export class PaymentInAddComponent {
       (resp: any) => {
         if (resp && Array.isArray(resp.data)) {
           this.salesDataById = resp.data;
+          console.log("this is data",this.salesDataById)
           if (this.salesDataById.length === 0) {
             this.noPaymentsAvailable = true; // Set flag to true if no payments are found
             console.log("No payments available for this Customer");
@@ -136,7 +154,7 @@ export class PaymentInAddComponent {
       customer: formData.customer,
       sales: formData.sales,
       paymentDate: formData.paymentDate,
-      paymentMode: formData.paymentMode,
+      // paymentMode: formData.paymentMode,
       note: formData.note,
     };
 
