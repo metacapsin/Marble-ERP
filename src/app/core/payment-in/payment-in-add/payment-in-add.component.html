@@ -106,7 +106,7 @@
                     </div>
                   </div> -->
 
-                  <div class="col-12 col-md-6">
+                  <!-- <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
                       <label for="amount">Notes </label>
                       <textarea class="form-control" type="text" placeholder="" formControlName="note"></textarea>
@@ -117,16 +117,16 @@
                         <span class="login-danger">Input must be between 2 to 100 characters.</span>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
 
-                <div class="row" formArrayName="sales" >
+                <div class="row" formArrayName="sales">
 
                   <div class="col-sm-12" *ngFor="let sale of salesDataById; let i = index" [formGroupName]="i">
-                    <div class="card  " >
+                    <div class="card  ">
                       <div class="page-table-header mb-2 m-3">
 
-                        <div class="row practice-card" >
+                        <div class="row practice-card">
                           <div class="col-xl-6 col-lg-6 col-sm-12">
 
                             <div class="form-group row mb-2">
@@ -162,7 +162,7 @@
                                 </p>
                               </div>
                             </div> -->
-                            
+
 
                           </div>
                           <div class="col-xl-6 col-lg-6 col-sm-12">
@@ -192,7 +192,7 @@
                               </div>
                             </div> -->
 
-                            
+
                             <!-- <div class="form-group row mb-2">
                               <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label"> Non Taxable Due Amount:</h5>
                               <div class="col-lg-8 col-md-8 col-xl-8">
@@ -202,16 +202,16 @@
                               </div>
                             </div> -->
 
-                            
+
                           </div>
                         </div>
                       </div>
                       <div class="row practice-card">
-                        
 
-                        <div class="col-xl-6 col-lg-6 col-sm-12" >
+
+                        <div class="col-xl-4 col-lg-4 col-sm-12">
                           <div class="form-group local-forms">
-                            <label for="customer">Taxable Amount</label>
+                            <label for="taxablePaymentAmount">Taxable Amount</label>
                             <p-inputGroup>
                               <input type="number" class="form-control" style="width: 50%"
                                 formControlName="taxablePaymentAmount" />
@@ -220,19 +220,22 @@
                                 formControlName="taxablePaymentMode" optionValue="paymentMode"></p-dropdown>
                             </p-inputGroup>
                             <span style="color: #97704f; font-size: 12px; 
-                              " >Max Value : ₹ {{sale?.taxableDue |
-                                indianCurrency}}</span>
-                                <div *ngIf="getSalesControl(i).get('taxablePaymentAmount')?.hasError('max') && getSalesControl(i).get('taxablePaymentAmount')?.touched">
-                                  <span class="login-danger">Amount cannot be greater than ₹ {{sale?.taxableDue | indianCurrency}}.</span>
-                                </div>
-                                <div *ngIf="getSalesControl(i).get('taxablePaymentMode')?.hasError('required') && getSalesControl(i).get('taxablePaymentMode')?.touched">
-                                  <span class="login-danger">Please Select The Payment Mode.</span>
-                                </div>
+                              ">Max Taxable : ₹ {{sale?.taxableDue |
+                              indianCurrency}}</span>
+                            <div
+                              *ngIf="getSalesControl(i).get('taxablePaymentAmount')?.hasError('max') && getSalesControl(i).get('taxablePaymentAmount')?.touched">
+                              <span class="login-danger">Amount cannot be greater than ₹ {{sale?.taxableDue |
+                                indianCurrency}}.</span>
+                            </div>
+                            <div
+                              *ngIf="getSalesControl(i).get('taxablePaymentMode')?.hasError('required') && getSalesControl(i).get('taxablePaymentMode')?.touched">
+                              <span class="login-danger">Please Select The Payment Mode.</span>
+                            </div>
                           </div>
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                        <div class="col-xl-4 col-lg-4 col-sm-12">
                           <div class="form-group local-forms">
-                            <label for="customer">Non Taxable Amount</label>
+                            <label for="nonTaxablePaymentAmount">Non Taxable Amount</label>
                             <p-inputGroup>
                               <input type="number" class="form-control" style="width: 50%"
                                 formControlName="nonTaxablePaymentAmount" />
@@ -241,20 +244,33 @@
                                 formControlName="nonTaxablePaymentMode" optionValue="paymentMode"></p-dropdown>
                             </p-inputGroup>
                             <span style="color: #97704f; font-size: 12px; 
-                            " >Max Value : ₹ {{sale?.nonTaxableDue |
+                            ">Max Non Taxable : ₹ {{sale?.nonTaxableDue |
                               indianCurrency}}</span>
-                              <div *ngIf="getSalesControl(i).get('nonTaxablePaymentAmount')?.hasError('max') && getSalesControl(i).get('nonTaxablePaymentAmount')?.touched">
-                                <span class="login-danger">Amount cannot be greater than ₹ {{sale?.nonTaxableDue | indianCurrency}}.</span>
-                              </div>
-                              <div *ngIf="getSalesControl(i).get('nonTaxablePaymentMode')?.hasError('required') && getSalesControl(i).get('nonTaxablePaymentMode')?.touched">
-                                <span class="login-danger">Please Select The Payment Mode.</span>
-                              </div>
+                            <div
+                              *ngIf="getSalesControl(i).get('nonTaxablePaymentAmount')?.hasError('max') && getSalesControl(i).get('nonTaxablePaymentAmount')?.touched">
+                              <span class="login-danger">Amount cannot be greater than ₹ {{sale?.nonTaxableDue |
+                                indianCurrency}}.</span>
+                            </div>
+                            <div
+                              *ngIf="getSalesControl(i).get('nonTaxablePaymentMode')?.hasError('required') && getSalesControl(i).get('nonTaxablePaymentMode')?.touched">
+                              <span class="login-danger">Please Select The Payment Mode.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-sm-12">
+                          <div class="form-group local-forms">
+                            <label for="note">Notes </label>
+                            <textarea class="form-control" type="text" placeholder="" formControlName="note"></textarea>
+                            <div *ngIf="getSalesControl(i).get('note')?.hasError('pattern') && getSalesControl(i).get('note')?.touched"
+                        >
+                              <span class="login-danger">Input must be between 2 to 100 characters.</span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
+
                 </div>
                 <!-- <div class="invoice-add-table">
                   <div class="table-responsive">

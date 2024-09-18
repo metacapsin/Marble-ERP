@@ -31,8 +31,12 @@ export class PaymentInAddComponent {
       paymentMode: "Cash",
     },
     {
-      paymentMode: "Online",
+      paymentMode: "Bank",
     },
+    {
+      paymentMode: "Cheque",
+    },
+    
   ];
   maxDate = new Date();
   notesRegex = /^(?:.{2,100})$/;
@@ -86,6 +90,7 @@ export class PaymentInAddComponent {
             ]
           ],
           nonTaxablePaymentMode: [sale.nonTaxablePaymentMode , Validators.required], 
+          note:[sale.note , Validators.pattern(this.notesRegex)], 
         })
       );
     });
@@ -149,15 +154,46 @@ export class PaymentInAddComponent {
   addPaymentInFormSubmit() {
     const formData = this.addPaymentInForm.value;
     console.log("Submitted data:", formData);
+    const customerData = formData.customer;
 
-    const payload = {
-      customer: formData.customer,
-      sales: formData.sales,
-      paymentDate: formData.paymentDate,
-      // paymentMode: formData.paymentMode,
-      note: formData.note,
-    };
-
+    const payload = formData.sales.map((sale) => {
+      let paymentMode = '';
+    
+      if (sale.taxablePaymentMode && sale.nonTaxablePaymentMode) {
+        paymentMode = sale.taxablePaymentMode === sale.nonTaxablePaymentMode 
+          ? sale.taxablePaymentMode 
+          : `${sale.taxablePaymentMode}/${sale.nonTaxablePaymentMode}`;
+      } else {
+        paymentMode = sale.taxablePaymentMode || sale.nonTaxablePaymentMode;
+      }
+      return {
+        customer: {_id:customerData._id,
+          name:customerData.name,
+          billingAddress:customerData.billingAddress || ""
+         } ,
+        paymentDate: formData.paymentDate,
+        paymentMode: paymentMode, 
+        sales: [
+          {
+            _id: sale._id,
+            amount: sale.taxablePaymentAmount + sale.nonTaxablePaymentAmount, 
+          },
+        ],
+        taxablePaymentAmount: sale.taxablePaymentAmount
+          ? {
+              amount: sale.taxablePaymentAmount,
+              paymentMode: sale.taxablePaymentMode,
+            }
+          : null,
+        nonTaxablePaymentAmount: sale.nonTaxablePaymentAmount
+          ? {
+              amount: sale.nonTaxablePaymentAmount,
+              paymentMode: sale.nonTaxablePaymentMode,
+            }
+          : null,
+        note: sale.note,
+      };
+    });
     if (this.addPaymentInForm.valid) {
       console.log("valid form");
 
