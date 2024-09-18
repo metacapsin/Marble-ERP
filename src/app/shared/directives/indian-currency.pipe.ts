@@ -24,8 +24,8 @@ export class IndianCurrencyPipe implements PipeTransform {
     const [integerPart, fractionalPart] = formattedValue.split('.');
 
     // Apply Indian number formatting to the integer part
-    let lastThree = integerPart.slice(-2);
-    let otherNumbers = integerPart.slice(0, -2);
+    let lastThree = integerPart.slice(-3);
+    let otherNumbers = integerPart.slice(0, -3);
 
     if (otherNumbers !== '') {
       lastThree = ',' + lastThree;

@@ -90,7 +90,7 @@ export class PaymentInAddComponent {
             ]
           ],
           nonTaxablePaymentMode: [sale.nonTaxablePaymentMode , Validators.required], 
-          note:[sale.note , Validators.pattern(this.notesRegex)], 
+          // note:[sale.note , Validators.pattern(this.notesRegex)], 
         })
       );
     });
@@ -191,7 +191,7 @@ export class PaymentInAddComponent {
               paymentMode: sale.nonTaxablePaymentMode,
             }
           : null,
-        note: sale.note,
+        note: formData.note,
       };
     });
     if (this.addPaymentInForm.valid) {

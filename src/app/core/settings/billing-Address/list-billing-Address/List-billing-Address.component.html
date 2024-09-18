@@ -110,10 +110,10 @@
                     <td>{{ product.email }}</td>
                     <td>{{ product.postalCode }}</td>
                     <td *ngIf="!product.setAsDefault">
-                      <p-tag severity="danger" value="Locked"></p-tag>
+                      <p-tag severity="danger" value="No"></p-tag>
                     </td>
                     <td *ngIf="product.setAsDefault">
-                      <p-tag severity="success" value="Active"></p-tag>
+                      <p-tag severity="success" value="Yes"></p-tag>
                     </td>
                     <td class="action-buttions" appShowHide [roles]="['admin', 'super-admin']">
                       <p-button [text]="true" icon="fa-solid fa-edit" (click)="edit(product._id)" pTooltip="Edit"
