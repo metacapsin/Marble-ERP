@@ -73,6 +73,8 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       paymentMode: "Cash / Bank",
     },
   ];
+  taxableDue=0
+  nonTaxableDue=0
 
   notesRegex = /^(?:.{2,100})$/;
 
@@ -149,11 +151,15 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         totalAmount.updateValueAndValidity();
         nonTaxablePaymentAmount.updateValueAndValidity();
         this.paymentInvoiceForm.patchValue({
-          taxablePaymentAmount: this.dataById.taxable,
+          taxablePaymentAmount: Number(this.dataById.taxable),
           taxablePaymentMode:"Bank",
           nonTaxablePaymentMode:"Cash",
-          nonTaxablePaymentAmount: this.dataById.nonTaxable ,
+          nonTaxablePaymentAmount: Number(this.dataById.nonTaxable) ,
         });
+        // this.taxableDue=this.dataById.taxableDue
+        // this.nonTaxableDue=this.dataById.nonTaxableDue
+        console.log(this.dataById,"this is customer data")
+        this.onSalesPaymentAmountChanges()
       } else if (this.dataById.isSalesReturn) {
         totalAmount.clearValidators();
         console.log("this.dataById.isSalesReturn", this.dataById.isSalesReturn);
@@ -206,6 +212,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       Number(taxablePaymentAmount.value) +
       Number(nonTaxablePaymentAmount.value);
     totalAmount.setValue(total);
+    
   }
   closeTheWindow() {
     this.close.emit();
@@ -262,38 +269,38 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     }
 
     if (this.dataById.isSales) {
-      const payload1 = {
-        customer: {
-          _id: this.dataById.customer._id,
-          name: this.dataById.customer.name,
-          billingAddress: this.dataById.customer.billingAddress || "",
-        },
-        paymentDate: formData.paymentDate,
-        paymentMode: formData.paymentMode,
-        sales: [
-          {
-            _id: this.dataById.salesId,
-            amount:
-              formData.taxablePaymentAmount +
-              formData.nonTaxablePaymentAmount,
-          },
-        ],
-        taxablePaymentAmount: formData.taxablePaymentAmount
-          ? {
-              amount: formData.taxablePaymentAmount,
-              paymentMode: formData.taxablePaymentMode,
-            }
-          : null,
-        nonTaxablePaymentAmount: formData.nonTaxablePaymentAmount
-          ? {
-              amount: formData.nonTaxablePaymentAmount,
-              paymentMode: formData.nonTaxablePaymentMode,
-            }
-          : null,
-        note: formData.note,
-      };
+      // const payload1 = {
+      //   customer: {
+      //     _id: this.dataById.customer._id,
+      //     name: this.dataById.customer.name,
+      //     billingAddress: this.dataById.customer.billingAddress || "",
+      //   },
+      //   paymentDate: formData.paymentDate,
+      //   paymentMode: formData.paymentMode,
+      //   sales: [
+      //     {
+      //       _id: this.dataById.salesId,
+      //       amount:
+      //         formData.taxablePaymentAmount +
+      //         formData.nonTaxablePaymentAmount,
+      //     },
+      //   ],
+      //   taxablePaymentAmount: formData.taxablePaymentAmount
+      //     ? {
+      //         amount: formData.taxablePaymentAmount,
+      //         paymentMode: formData.taxablePaymentMode,
+      //       }
+      //     : null,
+      //   nonTaxablePaymentAmount: formData.nonTaxablePaymentAmount
+      //     ? {
+      //         amount: formData.nonTaxablePaymentAmount,
+      //         paymentMode: formData.nonTaxablePaymentMode,
+      //       }
+      //     : null,
+      //   note: formData.note,
+      // };
 
-      const payload = {
+      const payload = [{
         customer: this.dataById.customer,
         paymentDate: formData.paymentDate,
         paymentMode: formData.paymentMode,
@@ -320,10 +327,10 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         //   { amountType: 'Taxable', amount: formData.taxablePaymentAmount, paymentMode: formData.taxablePaymentMode },
         //   { amountType: 'Non Taxable', amount: formData.nonTaxablePaymentAmount, paymentMode: formData.nonTaxablePaymentMode },
         // ]
-      };
+      }]
 
       if (this.paymentInvoiceForm.valid) {
-        this.paymentInService.createPayment(payload1).subscribe((resp: any) => {
+        this.paymentInService.createPayment(payload).subscribe((resp: any) => {
           console.log(resp);
           if (resp) {
             if (resp.status === "success") {

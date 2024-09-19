@@ -295,8 +295,11 @@ export class ViewCustomersComponent implements OnInit {
         salesDueAmount: resp?.data?.dueAmount,
         salesPaidAmount: resp?.data?.paidAmount,
         taxable: resp?.data?.taxable,
+        taxableDue: resp?.data?.taxableDue,
         nonTaxable: resp?.data?.nonTaxable,
+        nonTaxableDue: resp?.data?.nonTaxableDue,
       };
+      console.log("this is api response on payment dialog open ",resp)
     })
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;

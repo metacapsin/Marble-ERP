@@ -417,12 +417,12 @@
                                   formControlName="taxablePaymentMode" optionValue="paymentMode"></p-dropdown>
                               </p-inputGroup>
                               <span style="color: #97704f; font-size: 12px; 
-                              ">Max Taxable : ₹ {{dataById?.taxableDue |
-                              indianCurrency}}</span>
+                              ">Max Taxable : ₹ {{ dataById?.taxableDue | indianCurrency
+                                  }}</span>
                               <div
                                 *ngIf="(paymentInvoiceForm.get('taxablePaymentAmount')?.hasError('min')  && paymentInvoiceForm.get('taxablePaymentAmount')?.touched) ||
                                 paymentInvoiceForm.get('taxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('taxablePaymentAmount')?.touched">
-                                <span class="login-danger">Taxable Amount must be between 1 to {{ dataById?.taxable
+                                <span class="login-danger">Taxable Amount must be between 1 to {{ dataById?.taxableDue | indianCurrency
                                   }}</span>
                               </div>
                             </div>
@@ -438,12 +438,12 @@
                                   formControlName="nonTaxablePaymentMode" optionValue="paymentMode"></p-dropdown>
                               </p-inputGroup>
                               <span style="color: #97704f; font-size: 12px; 
-                            ">Max Non Taxable : ₹ {{dataById?.nonTaxableDue |
-                              indianCurrency}}</span>
+                            ">Max Non Taxable : ₹ {{ dataById?.nonTaxableDue | indianCurrency
+                                  }}</span>
                               <div
                                 *ngIf="(paymentInvoiceForm.get('nonTaxablePaymentAmount')?.hasError('min')  && paymentInvoiceForm.get('nonTaxablePaymentAmount')?.touched) ||
                                 paymentInvoiceForm.get('nonTaxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('nonTaxablePaymentAmount')?.touched">
-                                <span class="login-danger">Taxable Amount must be between 1 to {{ dataById?.nonTaxable
+                                <span class="login-danger">Taxable Amount must be between 1 to {{ dataById?.nonTaxableDue | indianCurrency
                                   }}</span>
                               </div>
                             </div>
