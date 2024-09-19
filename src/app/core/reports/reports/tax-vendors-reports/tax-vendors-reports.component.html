@@ -184,8 +184,8 @@
                       <td>{{ data?.taxVendor?.companyName }}</td>
                       <td>{{ data?.taxVendor?.vendorTaxApplied }}</td>
                       <td >{{ data?.taxVendor?.paymentStatus }}</td>
-                      <td>{{ data?.taxVendor?.paidAmount | indianCurrency  }}</td>
-                      <td>{{ data.taxVendor?.dueAmount | indianCurrency  }}</td>
+                      <td>₹ {{ data?.taxVendor?.paidAmount | indianCurrency  }}</td>
+                      <td>₹ {{ data.taxVendor?.dueAmount | indianCurrency  }}</td>
                       <td>₹ {{ data.taxVendor?.taxVendorAmount | indianCurrency }}</td>
                     </tr>
                   </ng-template>

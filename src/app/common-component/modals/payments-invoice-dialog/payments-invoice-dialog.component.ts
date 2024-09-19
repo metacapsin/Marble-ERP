@@ -141,20 +141,20 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         ]);
         taxablePaymentAmount.setValidators([
           Validators.min(0),
-          Validators.max(this.dataById.taxable),
+          Validators.max(this.dataById.taxableDue),
         ]);
         nonTaxablePaymentAmount.setValidators([
           Validators.min(0),
-          Validators.max(this.dataById.nonTaxable),
+          Validators.max(this.dataById.nonTaxableDue),
         ]);
         taxablePaymentAmount.updateValueAndValidity();
         totalAmount.updateValueAndValidity();
         nonTaxablePaymentAmount.updateValueAndValidity();
         this.paymentInvoiceForm.patchValue({
-          taxablePaymentAmount: Number(this.dataById.taxable),
+          taxablePaymentAmount: Number(this.dataById.taxableDue),
           taxablePaymentMode:"Bank",
           nonTaxablePaymentMode:"Cash",
-          nonTaxablePaymentAmount: Number(this.dataById.nonTaxable) ,
+          nonTaxablePaymentAmount: Number(this.dataById.nonTaxableDue) ,
         });
         // this.taxableDue=this.dataById.taxableDue
         // this.nonTaxableDue=this.dataById.nonTaxableDue
@@ -269,36 +269,8 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     }
 
     if (this.dataById.isSales) {
-      // const payload1 = {
-      //   customer: {
-      //     _id: this.dataById.customer._id,
-      //     name: this.dataById.customer.name,
-      //     billingAddress: this.dataById.customer.billingAddress || "",
-      //   },
-      //   paymentDate: formData.paymentDate,
-      //   paymentMode: formData.paymentMode,
-      //   sales: [
-      //     {
-      //       _id: this.dataById.salesId,
-      //       amount:
-      //         formData.taxablePaymentAmount +
-      //         formData.nonTaxablePaymentAmount,
-      //     },
-      //   ],
-      //   taxablePaymentAmount: formData.taxablePaymentAmount
-      //     ? {
-      //         amount: formData.taxablePaymentAmount,
-      //         paymentMode: formData.taxablePaymentMode,
-      //       }
-      //     : null,
-      //   nonTaxablePaymentAmount: formData.nonTaxablePaymentAmount
-      //     ? {
-      //         amount: formData.nonTaxablePaymentAmount,
-      //         paymentMode: formData.nonTaxablePaymentMode,
-      //       }
-      //     : null,
-      //   note: formData.note,
-      // };
+      console.log("this is sales payment forms",this.paymentInvoiceForm.value)
+      console.log("form status",this.paymentInvoiceForm.status); // Check if the form is invalid or valid
 
       const payload = [{
         customer: this.dataById.customer,
@@ -323,10 +295,6 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
             }
           : null,
         note: formData.note,
-        // paymentDetails: [
-        //   { amountType: 'Taxable', amount: formData.taxablePaymentAmount, paymentMode: formData.taxablePaymentMode },
-        //   { amountType: 'Non Taxable', amount: formData.nonTaxablePaymentAmount, paymentMode: formData.nonTaxablePaymentMode },
-        // ]
       }]
 
       if (this.paymentInvoiceForm.valid) {
