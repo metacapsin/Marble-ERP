@@ -1,12 +1,8 @@
-import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { ButtonModule } from "primeng/button";
-import { TableModule } from "primeng/table";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
 import { PaymentInService } from "../payment-in.service";
 import { MessageService } from "primeng/api";
-import { ToastModule } from "primeng/toast";
 
 interface Product {
   _id: string;

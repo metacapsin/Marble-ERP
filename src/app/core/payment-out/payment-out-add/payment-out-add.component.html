@@ -128,7 +128,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-6">
+                  <!-- <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
                       <label for="paymentMode"
                         >Payment Mode <span class="login-danger">*</span></label
@@ -156,7 +156,7 @@
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="col-12 col-md-6">
                     <div class="form-group local-forms">
@@ -181,7 +181,7 @@
                   </div>
                 </div>
 
-                <div class="invoice-add-table">
+                <!-- <div class="invoice-add-table">
                   <div class="table-responsive">
                     <table
                       class="table table-striped table-nowrap mb-0 no-footer add-table-items"
@@ -279,7 +279,164 @@
                       </tbody>
                     </table>
                   </div>
+                </div> -->
+
+                <div class="row" formArrayName="purchase">
+
+                  <div class="col-sm-12" *ngFor="let purchase of purchaseDataById let i = index" [formGroupName]="i">
+                    <div class="card  ">
+                      <div class="page-table-header mb-2 m-3">
+
+                        <div class="row practice-card">
+                          <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Invoice Number:</h5>
+                              <div class="col-lg-8 col-md-8 col-xl-8">
+                                <p class="col-lg-8 col-form-label">
+                                  {{ purchase?.purchaseInvoiceNumber}}
+                                </p>
+                              </div>
+                            </div>
+
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Taxable Amount:</h5>
+                              <div class="col-lg-8 col-md-8 col-xl-8">
+                                <p class="col-lg-8 col-form-label">
+                                  ₹ {{ purchase?.taxable ? (purchase?.taxable | indianCurrency) : '0' }}
+                                </p>
+                              </div>
+                            </div>
+                            <!-- <div class="form-group row mb-2">
+                              <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label"> Taxable Paid Amount:</h5>
+                              <div class="col-lg-8 col-md-8 col-xl-8">
+                                <p class="col-lg-8 col-form-label">
+                                  ₹ {{ purchase?.purchasePaidAmount ? (purchase?.purchasePaidAmount | indianCurrency) : '0' }}
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label"> Taxable Due Amount:</h5>
+                              <div class="col-lg-8 col-md-8 col-xl-8">
+                                <p class="col-lg-8 col-form-label">
+                                  ₹ {{ purchase?.purchaseDueAmount ? (purchase?.purchaseDueAmount | indianCurrency) : '0' }}
+                                </p>
+                              </div>
+                            </div> -->
+
+
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-12">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Amount:</h5>
+                              <div class="col-lg-8 col-md-8 col-xl-8">
+                                <p class="col-lg-8 col-form-label">
+                                  ₹ {{ purchase?.purchaseTotalAmount ? (purchase?.purchaseTotalAmount | indianCurrency) : '0'
+                                  }}
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Non Taxable Amount:</h5>
+                              <div class="col-lg-8 col-md-8 col-xl-8">
+                                <p class="col-lg-8 col-form-label">
+                                  ₹ {{ purchase?.nonTaxable ? (purchase?.nonTaxable | indianCurrency) : '0' }}
+                                </p>
+                              </div>
+                            </div>
+                            <!-- <div class="form-group row mb-2">
+                              <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label"> Non Taxable Paid Amount:</h5>
+                              <div class="col-lg-8 col-md-8 col-xl-8">
+                                <p class="col-lg-8 col-form-label">
+                                  ₹ {{ purchase?.purchasePaidAmount ? (purchase?.purchasePaidAmount | indianCurrency) : '0' }}
+                                </p>
+                              </div>
+                            </div> -->
+
+
+                            <!-- <div class="form-group row mb-2">
+                              <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label"> Non Taxable Due Amount:</h5>
+                              <div class="col-lg-8 col-md-8 col-xl-8">
+                                <p class="col-lg-8 col-form-label">
+                                  ₹ {{ purchase?.purchaseDueAmount ? (purchase?.purchaseDueAmount | indianCurrency) : '0' }}
+                                </p>
+                              </div>
+                            </div> -->
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row practice-card">
+
+
+                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                          <div class="form-group local-forms">
+                            <label for="taxablePaymentAmount">Taxable Amount</label>
+                            <p-inputGroup>
+                              <input type="number" class="form-control" style="width: 50%"
+                                formControlName="taxablePaymentAmount" />
+                              <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
+                                [options]="paymentModeList" appendTo="body" optionLabel="paymentMode"
+                                formControlName="taxablePaymentMode" optionValue="paymentMode"></p-dropdown>
+                            </p-inputGroup>
+                            <span style="color: #97704f; font-size: 12px; 
+                              ">Max Taxable : ₹ {{purchase?.taxableDue |
+                              indianCurrency}}</span>
+                            <div
+                              *ngIf="getPurchaseControl(i).get('taxablePaymentAmount')?.hasError('max') && getPurchaseControl(i).get('taxablePaymentAmount')?.touched">
+                              <span class="login-danger">Amount cannot be greater than ₹ {{purchase?.taxableDue |
+                                indianCurrency}}.</span>
+                            </div>
+                            <div
+                              *ngIf="getPurchaseControl(i).get('taxablePaymentMode')?.hasError('required') && getPurchaseControl(i).get('taxablePaymentMode')?.touched">
+                              <span class="login-danger">Please Select The Payment Mode.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                          <div class="form-group local-forms">
+                            <label for="nonTaxablePaymentAmount">Non Taxable Amount</label>
+                            <p-inputGroup>
+                              <input type="number" class="form-control" style="width: 50%"
+                                formControlName="nonTaxablePaymentAmount" />
+                              <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
+                                [options]="paymentModeList" appendTo="body" optionLabel="paymentMode"
+                                formControlName="nonTaxablePaymentMode" optionValue="paymentMode"></p-dropdown>
+                            </p-inputGroup>
+                            <span style="color: #97704f; font-size: 12px; 
+                            ">Max Non Taxable : ₹ {{purchase?.nonTaxableDue |
+                              indianCurrency}}</span>
+                            <div
+                              *ngIf="getPurchaseControl(i).get('nonTaxablePaymentAmount')?.hasError('max') && getPurchaseControl(i).get('nonTaxablePaymentAmount')?.touched">
+                              <span class="login-danger">Amount cannot be greater than ₹ {{purchase?.nonTaxableDue |
+                                indianCurrency}}.</span>
+                            </div>
+                            <div
+                              *ngIf="getPurchaseControl(i).get('nonTaxablePaymentMode')?.hasError('required') && getPurchaseControl(i).get('nonTaxablePaymentMode')?.touched">
+                              <span class="login-danger">Please Select The Payment Mode.</span>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div class="col-xl-4 col-lg-4 col-sm-12">
+                          <div class="form-group local-forms">
+                            <label for="note">Notes </label>
+                            <textarea class="form-control" type="text" placeholder="" formControlName="note"></textarea>
+                            <div *ngIf="getPurchaseControl(i).get('note')?.hasError('pattern') && getPurchaseControl(i).get('note')?.touched"
+                        >
+                              <span class="login-danger">Input must be between 2 to 100 characters.</span>
+                            </div>
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
+
+
+
+
               </form>
             </div>
           </div>

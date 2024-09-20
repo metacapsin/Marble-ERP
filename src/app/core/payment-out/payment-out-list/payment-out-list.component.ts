@@ -1,13 +1,32 @@
-import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { ButtonModule } from "primeng/button";
-import { TableModule } from "primeng/table";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
 import { PaymentOutService } from "../payment-out.service";
 import { MessageService } from "primeng/api";
-import { ToastModule } from "primeng/toast";
-import { FilterPipe } from "../../filter.pipe";
+
+interface Product {
+  _id: string;
+  purchaseId: string;
+  purchaseInvoice: string | null;
+  paymentDate: string;
+  paymentMode: string;
+  amount: number;
+  transactionNo: string;
+  note: string;
+  supplier: {
+    _id: string;
+    name: string;
+    billingAddress: string;
+  };
+    purchaseInvoiceNumber: string;
+  paymentDetails: Array<{
+    amountType: string;
+    amount: number;
+    paymentMode: string;
+  }>;
+  expanded?: boolean;
+
+}
 
 @Component({
   selector: "app-payment-in-list",
@@ -23,6 +42,8 @@ export class PaymentOutListComponent {
   public routes = routes;
   public searchDataValue = "";
   customerList = [];
+  products: Product[] = [];
+  expanded?: boolean;
   saleId: any;
   showDialoge = false;
   modalData: any = {};
@@ -67,6 +88,10 @@ export class PaymentOutListComponent {
       // }));
       console.log(resp);
     });
+  }
+
+  toggleRow(product:Product) {
+    product.expanded = !product.expanded;
   }
 
   deletePayment(Id: any) {

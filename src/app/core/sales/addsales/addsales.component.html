@@ -424,12 +424,7 @@
                               addSalesForm
                               .get("salesItemDetails")
                               .get(i + ".salesItemAppliedTaxAmount").value
-                              }} , Tax Applied:
-                              {{
-                              addSalesForm
-                              .get("salesItemDetails")
-                              .get(i + ".salesItemTaxAmount").value
-                              }}
+                              }} 
                             </span>
 
 
@@ -445,7 +440,18 @@
                           </div>
                         </div> -->
 
-                        <div class="col-xl-3 col-md-4 col-sm-12 col-12">
+                        <div class="col-xl-2 col-md-4 col-sm-12 col-12">
+                          <div class="form-group local-forms">
+                            <label for="customer">Tax Applied
+                              <span class="login-danger">*</span></label>
+                            <span class="form-control">{{
+                              addSalesForm
+                              .get("salesItemDetails")
+                              .get(i + ".salesItemTaxAmount")?.value
+                              }}</span>
+                          </div>
+                        </div>
+                        <div class="col-xl-2 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
                             <label for="customer">Non-Taxable Amount
                               <span class="login-danger">*</span></label>
@@ -456,7 +462,7 @@
                               }}</span>
                           </div>
                         </div>
-                        <div class="col-xl-3 col-md-4 col-sm-12 col-12">
+                        <div class="col-xl-2 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
                             <label for="customer">Sub Total
                               <span class="login-danger">*</span></label>
@@ -579,8 +585,15 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="col-md-6 col-sm-6">
+                        <div class="col-md-6 col-sm-6 ">
+                          <div class="form-group local-forms">
+                            <label for="customer">Applied Tax (%)
+                              <span class="login-danger">*</span></label>
+                            <input type="number" formControlName="vendorTaxApplied" (change)="taxVendorAmount()"
+                              class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 mt-3">
                           <div class="form-group row mb-2">
                             <h5 class="col-lg-5 col-md-5 col-xl-5 col-form-label">
                               Total Tax Amount
@@ -594,14 +607,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 col-sm-6 mt-3">
-                          <div class="form-group local-forms">
-                            <label for="customer">Applied Tax (%)
-                              <span class="login-danger">*</span></label>
-                            <input type="number" formControlName="vendorTaxApplied" (change)="taxVendorAmount()"
-                              class="form-control" />
-                          </div>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
