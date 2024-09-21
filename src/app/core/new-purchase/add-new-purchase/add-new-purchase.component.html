@@ -341,6 +341,68 @@
 
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
+                            <label for="customer">Taxable Amount</label>
+                            <p-inputGroup>
+                              <input
+                                type="number"
+                                formControlName="taxableAmount"
+                                (change)="calculateTotalAmount()"
+                                class="form-control"
+                                style="width: 50%"
+                              />
+              
+                              <p-multiSelect
+                                [style]="{ width: '100%' }"
+                                placeholder="Select Tax"
+                                [options]="orderTaxList"
+                                appendTo="body"
+                                formControlName="ItemTax"
+                                optionLabel="orderTaxName"
+                                optionValue="orderNamevalue"
+                                display="chip"
+                                (onChange)="calculateTotalAmount()"
+                                [maxSelectedLabels]="1"
+                              ></p-multiSelect>
+                            </p-inputGroup>
+                            <!-- <div
+                              *ngIf="
+                                addNewPurchaseForm.get('taxableAmount').value >
+                                addNewPurchaseForm.get('nonTaxableAmount').value
+                              "
+                            >
+                              <span class="login-danger"
+                                >Taxable Amount cannot be greater than Non-Taxable
+                                Amount.</span
+                              >
+                            </div>
+                            <span
+                              *ngIf="
+                                totalAmountTax > addNewPurchaseForm.get('taxableAmount').value &&
+                                totalAmountTax != 0
+                              "
+                              style="color: #97704f; font-size: 12px"
+                            >
+                              Tax Applied Amount:
+                              {{ totalAmountTax | number : "1.2-2" }}
+                            </span> -->
+                          </div>
+                        </div>
+
+
+                        <div class="col-12 col-md-4 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="customer">Non-Taxable Amount</label>
+                            <input
+                              type="number"
+                              formControlName="nonTaxableAmount"
+                              (change)="calculateTotalAmount()"
+                              class="form-control"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-xl-4">
+                          <div class="form-group local-forms">
                             <label for="paidToSupplierPurchaseCost">Paid To Supplier Amount<span
                                 class="login-danger">*</span></label>
                             <div class="input-group">
@@ -372,6 +434,7 @@
                             </div>
                           </div>
                         </div>
+
 
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
@@ -535,6 +598,8 @@
                           </div>
                         </div>
 
+                    
+
                       </div>
 
                       <div class="row">
@@ -576,7 +641,7 @@
                     <div class="d-flex pt-4 justify-content-between">
                       <div></div>
                       <button *ngIf="lotTypeValue === 'Lot'"
-                        [disabled]="!child?.blocksDetails?.length || !child?.lotAddForm?.valid || !addNewPurchaseForm?.valid"
+                        [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid"
                         class="btn btn-primary" (click)="nextStep(nextCallback, 'second')">
                         Next <i class="fa-solid fa-arrow-right"></i>
                       </button>
