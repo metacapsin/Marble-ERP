@@ -1383,22 +1383,22 @@
                             </div>
 
                             <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Lot'">
-                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('purchaseItemTaxAmount').value">
+                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('purchaseItemTaxAmount')?.value">
                                 Tax Applied Amount
                                 <span>
                                   ₹
                                   {{
-                                  addNewPurchaseForm.get('purchaseItemTaxAmount').value
+                                  addNewPurchaseForm.get('purchaseItemTaxAmount')?.value
                                   | number : "1.2-2"
                                   }}
                                 </span>
                               </p>
-                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('nonTaxableAmount').value">
+                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">
                                 Non-Taxable Amount
                                 <span>
                                   ₹
                                   {{
-                                  addNewPurchaseForm.get('nonTaxableAmount').value
+                                  addNewPurchaseForm.get('nonTaxable')?.value
                                   | number : "1.2-2"
                                   }}
                                 </span>

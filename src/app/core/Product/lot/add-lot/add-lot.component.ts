@@ -301,11 +301,10 @@ export class AddLotComponent {
 
     if (paidToSupplierLotAmount !== 0 && purchaseItemTaxAmount !== 0) {
       form.patchValue({
-        paidToSupplierLotCost: paidToSupplierLotCost_Discount.toFixed(2),
-        lotRowCost: lotRowCost.toFixed(2),
-        purchaseItemTaxAmount: purchaseItemTaxAmount.toFixed(2),
-        taxApplied: taxApplied.toFixed(2),
-
+        paidToSupplierLotCost: Number(paidToSupplierLotCost_Discount).toFixed(2),
+        lotRowCost: Number(lotRowCost),
+        purchaseItemTaxAmount: Number(purchaseItemTaxAmount).toFixed(2),
+        taxApplied: Number(taxApplied).toFixed(2),
       });
     }
 
@@ -357,9 +356,9 @@ export class AddLotComponent {
         notes: "",
         nonTaxableAmount: Number(formData.nonTaxableAmount),
         taxableAmount: Number(formData.taxableAmount),
-        purchaseItemTaxAmount: formData.purchaseItemTaxAmount,
+        purchaseItemTaxAmount: Number(formData.purchaseItemTaxAmount),
         purchaseItemTax: formData.ItemTax,
-        taxApplied: formData.taxApplied,
+        taxApplied: Number(formData.taxApplied),
       };
       this.NewPurchaseService.setFormData("stepTwoData", payload);
     }
