@@ -15,6 +15,7 @@ import { MessageService } from "primeng/api";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 import { validationRegex } from "../../validation";
 import { TaxesService } from "../../settings/taxes/taxes.service";
+import { TaxVendorsService } from "../../tax-vendors/tax-vendors.service";
 
 @Component({
   selector: "app-add-new-purchase",
@@ -55,8 +56,10 @@ export class AddNewPurchaseComponent implements OnInit {
   previousSlabValues: any = {};
   returnUrl: any;
   supplier: any;
-  totalAmountTax: number = 0;
+  purchaseItemTaxAmount: number = 0;
+  isTaxVendor: boolean = false;
 
+  taxVendorList: any = [];
   subCategorListByCategory: any = [];
   taxesListData: any;
   orderTaxList: any;
@@ -71,7 +74,8 @@ export class AddNewPurchaseComponent implements OnInit {
     private NewPurchaseService: NewPurchaseService,
     private messageService: MessageService,
     private localStorageService: LocalStorageService,
-    private taxService: TaxesService
+    private taxService: TaxesService,
+    private taxVendorsService: TaxVendorsService
   ) {
     this.addNewPurchaseForm = this.fb.group({
       invoiceNumber: ["", [Validators.pattern(this.invoiceRegex)]],
@@ -117,10 +121,14 @@ export class AddNewPurchaseComponent implements OnInit {
       sqftPerPiece: [""],
       noOfPieces: ["", [Validators.min(1), Validators.max(100000)]],
       purchaseDiscount: ["", [Validators.min(0), Validators.max(100000)]],
-      taxableAmount: [""],
+      taxable: [""],
       ItemTax: [""],
-      nonTaxableAmount: [""],
-      totalAmountTax: [""],
+      nonTaxable: [""],
+      purchaseItemTaxAmount: [""],
+      taxVendor: [""],
+      taxVendorAmount: [""],
+      vendorTaxApplied: [""],
+      taxApplied: [""],
     });
   }
 
@@ -134,6 +142,14 @@ export class AddNewPurchaseComponent implements OnInit {
       });
     }
 
+    this.taxVendorsService.getTaxVendorList().subscribe((resp: any) => {
+      if (resp.data) {
+        this.taxVendorList = resp.data.map((element) => ({
+          name: `${element.companyName} / ${element.city},`,
+          _id: element,
+        }));
+      }
+    });
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data;
       this.wareHousedataListsEditArray = [];
@@ -258,9 +274,14 @@ export class AddNewPurchaseComponent implements OnInit {
       delete payload.purchaseItemTax;
       delete payload.purchaseItemTaxAmount;
       this.LotPayload = payload;
-      this.addNewPurchaseForm
-        .get("paidToSupplierPurchaseCost")
-        .patchValue(this.ItemDetails.paidToSupplierLotCost);
+      this.addNewPurchaseForm.patchValue({
+        paidToSupplierPurchaseCost: this.ItemDetails.paidToSupplierLotCost,
+        taxable: this.ItemDetails.taxableAmount,
+        nonTaxable: this.ItemDetails.nonTaxableAmount,
+        purchaseItemTaxAmount: this.ItemDetails.purchaseItemTaxAmount,
+        ItemTax: this.ItemDetails.purchaseItemTax,
+        taxApplied: this.ItemDetails.taxApplied,
+      });
     }
   }
 
@@ -347,12 +368,11 @@ export class AddNewPurchaseComponent implements OnInit {
       let purchaseDiscount =
         this.addNewPurchaseForm.get("purchaseDiscount").value || 0;
       let noOfPieces = this.addNewPurchaseForm.get("noOfPieces").value || 0;
-      let taxableAmount =
-        this.addNewPurchaseForm.get("taxableAmount").value || 0;
-      let nonTaxableAmount =
-        this.addNewPurchaseForm.get("nonTaxableAmount").value || 0;
-      let totalAmountTax =
-        this.addNewPurchaseForm.get("totalAmountTax").value || 0;
+      let taxable =
+        this.addNewPurchaseForm.get("taxable").value || 0;
+      let nonTaxable =
+        this.addNewPurchaseForm.get("nonTaxable").value || 0;
+      let purchaseItemTaxAmount = this.addNewPurchaseForm.get("purchaseItemTaxAmount").value || 0;
       let tax = this.addNewPurchaseForm.get("ItemTax").value;
 
       let sqftPerPiece = totalSQFT / noOfPieces;
@@ -366,16 +386,12 @@ export class AddNewPurchaseComponent implements OnInit {
       }
       if (Array.isArray(tax)) {
         tax.forEach((selectedTax: any) => {
-          totalTaxAmount += (taxableAmount * selectedTax.taxRate) / 100;
+          totalTaxAmount += (taxable * selectedTax.taxRate) / 100;
         });
       } else if (tax) {
-        totalTaxAmount = (taxableAmount * tax) / 100;
+        totalTaxAmount = (taxable * tax) / 100;
       }
-      let totalNonTaxableAmount = nonTaxableAmount + taxableAmount + totalTaxAmount;
-      console.log('nonTaxableAmount:', nonTaxableAmount);
-      console.log('totalAmountTax:', totalAmountTax);
-      console.log('totalTaxAmount:', totalTaxAmount);
-      console.log('totalNonTaxableAmount:', totalNonTaxableAmount);
+      let totalNonTaxableAmount = nonTaxable + taxable + totalTaxAmount;
       this.addNewPurchaseForm.get("paidToSupplierPurchaseCost").patchValue(totalNonTaxableAmount);
       if (total) {
         this.addNewPurchaseForm.patchValue({
@@ -388,10 +404,20 @@ export class AddNewPurchaseComponent implements OnInit {
     }
   }
 
+  calculateTaxVendorAmount() {
+    let totalTaxAmount: number = this.ItemDetails.taxApplied;
+    let vendorTaxApplied = this.addNewPurchaseForm.get("vendorTaxApplied").value;
+    let taxVendorAmount = (totalTaxAmount * vendorTaxApplied) / 100;
+    this.addNewPurchaseForm.patchValue({
+      taxVendorAmount: taxVendorAmount,
+    });
+  }
+
   addNewPurchaseFormSubmit() {
     const formData = this.addNewPurchaseForm.value;
     let payload = {};
     this.LotPayload = this.LotPayload || {};
+    console.log('formData', formData);
 
     if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
       this.LotPayload.purchaseCost = Number(
@@ -401,6 +427,13 @@ export class AddNewPurchaseComponent implements OnInit {
       this.LotPayload.notes = formData.purchaseNotes;
     } else {
       console.error("formData.paidToSupplierPurchaseCost is not defined");
+    }
+
+    let taxVenoderObj = {
+      _id: formData.taxVendor._id,
+      companyName: formData.taxVendor.companyName,
+      taxVendorAmount: Number(formData.taxVendorAmount),
+      vendorTaxApplied: Number(formData.vendorTaxApplied),
     }
 
     if (this.addNewPurchaseForm.value.purchaseType == "Lot") {
@@ -413,13 +446,13 @@ export class AddNewPurchaseComponent implements OnInit {
         purchaseCost: Number(formData.paidToSupplierPurchaseCost),
         purchaseTotalAmount: Number(this.LotPayload.lotTotalCost),
         lotDetail: this.LotPayload,
-        nonTaxable: Number(this.ItemDetails.nonTaxable),
-        taxable: Number(this.ItemDetails.taxable),
-
-        purchaseItemTaxAmount: this.ItemDetails.purchaseItemTaxAmount,
-        purchaseItemTax: this.ItemDetails.purchaseItemTax,
+        nonTaxable: Number(formData.nonTaxableAmount),
+        taxable: Number(formData.taxableAmount),
+        purchaseItemTaxAmount: formData.purchaseItemTaxAmount,
+        purchaseItemTax: Number(formData.purchaseItemTax),
+        taxVendor: this.isTaxVendor ? taxVenoderObj : null,
+        taxApplied:formData.taxApplied,
       };
-      console.log("For Lot payload", payload);
     } else {
       if (formData.width || formData.length || formData.thickness) {
         var _Size = `${formData.width}x${formData.length}x${formData.thickness}`;
@@ -478,10 +511,5 @@ export class AddNewPurchaseComponent implements OnInit {
     } else {
       console.log("form is not valid");
     }
-    // for (const key of Object.keys(this.addNewPurchaseForm.controls)) {
-    //   if (this.addNewPurchaseForm.controls[key].invalid) {
-    //     console.log(`Invalid control: ${key}, Errors:`, this.addNewPurchaseForm.controls[key].errors);
-    //   }
-    // }
   }
 }

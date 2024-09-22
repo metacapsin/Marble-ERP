@@ -47,7 +47,6 @@ export class AddLotComponent {
   blockProcessor: any = {};
   orderTaxList: any[];
   taxesListData: any;
-  totalAmountTax: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -93,6 +92,8 @@ export class AddLotComponent {
       nonTaxableAmount: [""],
       taxableAmount: [""],
       ItemTax: [""],
+      purchaseItemTaxAmount: [""],
+      taxApplied: [""],
       averageTransport: [""],
       averageRoyalty: [""],
     });
@@ -171,6 +172,11 @@ export class AddLotComponent {
         averageTaxAmount: lotData.averageTaxAmount,
         lotRowCost: lotData.lotRowCost,
         purchaseDiscount: lotData.purchaseDiscount,
+        taxableAmount: lotData.taxableAmount,
+        nonTaxableAmount: lotData.nonTaxableAmount,
+        purchaseItemTaxAmount: lotData.purchaseItemTaxAmount,
+        ItemTax: lotData.purchaseItemTax,
+        taxApplied: lotData.taxApplied,
       });
       this.calculateTotalAmount();
     }
@@ -255,81 +261,68 @@ export class AddLotComponent {
     }
     this.totalArea = this.height * this.width * this.length;
   }
-
   calculateTotalAmount() {
-    this.totalAmountTax = 0;
-    let paidToSupplierLotCost: number;
-    let lotRowCost: number;
-    let lotWeight: number = this.lotAddForm.get("lotWeight").value;
-    let pricePerTon = this.lotAddForm.get("pricePerTon").value;
-    let royaltyCharge: number = this.lotAddForm.get("royaltyCharge").value;
-    let transportationCharge: number = this.lotAddForm.get(
-      "transportationCharge"
-    ).value;
-    let purchaseDiscount: number =
-      this.lotAddForm.get("purchaseDiscount").value;
-    let tax = this.lotAddForm.get("ItemTax").value;
-    let taxableAmount = this.lotAddForm.get("taxableAmount").value;
+    const form = this.lotAddForm;
+    const lotWeight = form.get("lotWeight").value;
+    const pricePerTon = form.get("pricePerTon").value;
+    const royaltyCharge = form.get("royaltyCharge").value;
+    const transportationCharge = form.get("transportationCharge").value;
+    const purchaseDiscount = form.get("purchaseDiscount").value;
+    const tax = form.get("ItemTax").value;
+    const taxableAmount = form.get("taxableAmount").value;
+    let purchaseItemTaxAmount = 0;
 
     if (lotWeight && pricePerTon) {
-      paidToSupplierLotCost = lotWeight * pricePerTon;
-      lotRowCost = lotWeight * pricePerTon;
-      // paidToSupplierLotCost = paidToSupplierLotCost - purchaseDiscount;
-      if (Number(taxableAmount) && Number(taxableAmount) <= paidToSupplierLotCost) {
-        this.lotAddForm
-          .get("nonTaxableAmount")
-          .patchValue(Number(paidToSupplierLotCost - taxableAmount));
-      } else {
-        this.lotAddForm
-          .get("nonTaxableAmount")
-          .patchValue(paidToSupplierLotCost);
-        this.lotAddForm
-          .get("paidToSupplierLotCost")
-          .patchValue(paidToSupplierLotCost);
-      }
+      const lotWeightmultiPricePerton = lotWeight * pricePerTon;
+      const nonTaxableAmount = Number(taxableAmount) && Number(taxableAmount) <= lotWeightmultiPricePerton
+        ? lotWeightmultiPricePerton - taxableAmount
+        : lotWeightmultiPricePerton;
 
-      this.lotAddForm.get("lotRowCost").patchValue(lotRowCost.toFixed(3));
+      form.patchValue({
+        nonTaxableAmount,
+        paidToSupplierLotCost: lotWeightmultiPricePerton,
+      });
     }
-    let totalTaxAmount: number = 0;
+
+    let taxApplied = 0;
     if (Array.isArray(tax)) {
       tax.forEach((selectedTax: any) => {
-        totalTaxAmount += (taxableAmount * selectedTax.taxRate) / 100;
+        taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
       });
     } else if (tax) {
-      totalTaxAmount = (taxableAmount * tax) / 100;
+      taxApplied = (taxableAmount * tax) / 100;
     }
-    let nonTaxableAmount: number =
-      this.lotAddForm.get("nonTaxableAmount").value;
-    this.totalAmountTax = totalTaxAmount + taxableAmount;
-    const paidToSupplierLotAmount = this.totalAmountTax + nonTaxableAmount;
+
+    const nonTaxableAmount = form.get("nonTaxableAmount").value;
+    purchaseItemTaxAmount = taxApplied + taxableAmount;
+    const paidToSupplierLotAmount = purchaseItemTaxAmount + nonTaxableAmount;
     const paidToSupplierLotCost_Discount = paidToSupplierLotAmount - purchaseDiscount;
-    if (paidToSupplierLotAmount !== 0 && this.totalAmountTax !== 0) {
-      this.lotAddForm.patchValue({
-        paidToSupplierLotCost: paidToSupplierLotCost_Discount ? paidToSupplierLotCost_Discount.toFixed(2) : paidToSupplierLotAmount.toFixed(2)
+    const lotRowCost = purchaseItemTaxAmount + nonTaxableAmount;
+
+    if (paidToSupplierLotAmount !== 0 && purchaseItemTaxAmount !== 0) {
+      form.patchValue({
+        paidToSupplierLotCost: paidToSupplierLotCost_Discount.toFixed(2),
+        lotRowCost: lotRowCost.toFixed(2),
+        purchaseItemTaxAmount: purchaseItemTaxAmount.toFixed(2),
+        taxApplied: taxApplied.toFixed(2),
+
       });
     }
 
-    let averageTransportation = transportationCharge / lotWeight;
+    const averageTransportation = transportationCharge / lotWeight;
+    const averageRoyalty = royaltyCharge / lotWeight;
+    const averageBlocksWeight = this.totalBlocksArea / lotWeight;
 
-    let averageRoyalty = royaltyCharge / lotWeight;
-
-    let averageBlocksWeight = this.totalBlocksArea / lotWeight;
-
+    const blockPricePerTon = lotRowCost / lotWeight;
     this.blocksDetails.forEach((element: any) => {
       element.weightPerBlock = element.totalArea / averageBlocksWeight;
-      element.rawCosting = parseFloat(element.weightPerBlock) * pricePerTon;
-      element.transportationCosting =
-        parseFloat(element.weightPerBlock) * averageTransportation;
-      element.royaltyCosting =
-        parseFloat(element.weightPerBlock) * averageRoyalty;
-      let rawCosting = parseFloat(element.rawCosting);
-      let transportationCosting = parseFloat(element.transportationCosting);
-      let royaltyCosting = parseFloat(element.royaltyCosting);
-      element.totalCosting =
-        rawCosting + transportationCosting + royaltyCosting;
+      element.rawCosting = element.weightPerBlock * blockPricePerTon;
+      element.transportationCosting = element.weightPerBlock * averageTransportation;
+      element.royaltyCosting = element.weightPerBlock * averageRoyalty;
+      element.totalCosting = element.rawCosting + element.transportationCosting + element.royaltyCosting;
     });
 
-    this.lotAddForm.patchValue({
+    form.patchValue({
       averageTransport: averageTransportation,
       averageRoyalty: averageRoyalty,
       averageWeight: averageBlocksWeight,
@@ -362,10 +355,11 @@ export class AddLotComponent {
         lotRowCost: Number(formData.lotRowCost),
         date: "",
         notes: "",
-        nonTaxable: Number(formData.nonTaxableAmount),
-        taxable: Number(formData.taxableAmount),
-        purchaseItemTaxAmount: this.totalAmountTax,
+        nonTaxableAmount: Number(formData.nonTaxableAmount),
+        taxableAmount: Number(formData.taxableAmount),
+        purchaseItemTaxAmount: formData.purchaseItemTaxAmount,
         purchaseItemTax: formData.ItemTax,
+        taxApplied: formData.taxApplied,
       };
       this.NewPurchaseService.setFormData("stepTwoData", payload);
     }

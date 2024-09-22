@@ -238,13 +238,12 @@
               </div>
               <span
                 *ngIf="
-                  totalAmountTax > lotAddForm.get('taxableAmount').value &&
-                  totalAmountTax != 0
+                  lotAddForm.get('purchaseItemTaxAmount').value
                 "
                 style="color: #97704f; font-size: 12px"
               >
                 Tax Applied Amount:
-                {{ totalAmountTax | number : "1.2-2" }}
+                {{ lotAddForm.get('purchaseItemTaxAmount').value | number : "1.2-2" }}
               </span>
             </div>
           </div>
@@ -277,13 +276,13 @@
               </div>
               <span
                 *ngIf="
-                  totalAmountTax > lotAddForm.get('taxableAmount').value &&
-                  totalAmountTax != 0
+                  lotAddForm.get('purchaseItemTaxAmount').value  > lotAddForm.get('taxableAmount').value &&
+                  lotAddForm.get('purchaseItemTaxAmount').value  != 0
                 "
                 style="color: #97704f; font-size: 12px"
               >
                 Tax Applied Amount:
-                {{ totalAmountTax | number : "1.2-2" }}
+                {{ lotAddForm.get('purchaseItemTaxAmount').value  | number : "1.2-2" }}
                 + Non Taxable Amount :
                 {{
                   lotAddForm.get("nonTaxableAmount").value | number : "1.2-2"
