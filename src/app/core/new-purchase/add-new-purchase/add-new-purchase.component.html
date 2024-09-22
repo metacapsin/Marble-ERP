@@ -341,37 +341,56 @@
 
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
-                            <label for="paidToSupplierPurchaseCost">Paid To Supplier Amount<span
-                                class="login-danger">*</span></label>
-                            <div class="input-group">
-                              <input class="form-control" type="number" placeholder="Enter Paid To Supplier Amount"
-                                formControlName="paidToSupplierPurchaseCost" (change)="calculateTotalAmount()" />
-                            </div>
-                            <div *ngIf="
-                                    (addNewPurchaseForm
-                                    .get('paidToSupplierPurchaseCost')
-                                    ?.hasError('min') &&
-                                    addNewPurchaseForm.get('paidToSupplierPurchaseCost')
-                                        ?.touched) ||
-                                    (addNewPurchaseForm
-                                    .get('paidToSupplierPurchaseCost')
-                                    ?.hasError('max') &&
-                                    addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.touched)
-                                ">
-                              <span class="login-danger">
-                                input must be between 1 to 100,000.
-                              </span>
-                            </div>
-                            <div *ngIf="
-                                addNewPurchaseForm
-                                  .get('paidToSupplierPurchaseCost')
-                                  ?.hasError('required') &&
-                                addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.touched
-                              ">
-                              <span class="login-danger">Field is required.</span>
-                            </div>
+                            <label for="customer">Taxable Amount</label>
+                            <p-inputGroup>
+                              <input type="number" formControlName="taxable" (change)="calculateTotalAmount()"
+                                class="form-control" style="width: 50%" />
+
+                              <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax"
+                                [options]="orderTaxList" appendTo="body" formControlName="purchaseItemTax"
+                                optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
+                                (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
+                            </p-inputGroup>
+                            <span *ngIf="addNewPurchaseForm.get('purchaseItemTaxAmount')?.value
+                " style="color: #97704f; font-size: 12px">
+                              Tax Applied Amount:
+                              {{ addNewPurchaseForm.get("purchaseItemTaxAmount")?.value | number : "1.2-2" }}22
+                            </span>
                           </div>
                         </div>
+
+
+                        <div class="col-12 col-md-4 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="customer">Non-Taxable Amount</label>
+                            <input type="number" formControlName="nonTaxable" (change)="calculateTotalAmount()"
+                              class="form-control" />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-xl-4">
+                          <div class="form-group local-forms">
+                            <label for="paidToSupplierPurchaseCost">Purchase Cost ( Paid to Supplier )
+                              <span class="login-danger">*</span></label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                              </div>
+                              <span class="form-control">{{
+                                addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value
+                                }}</span>
+                            </div>
+                            <span *ngIf="addNewPurchaseForm.get('purchaseItemTaxAmount')?.value && addNewPurchaseForm.get('nonTaxable')?.value" style="color: #97704f; font-size: 12px">
+                              Tax Applied Amount:
+                              {{ addNewPurchaseForm.get('purchaseItemTaxAmount')?.value | number : "1.2-2" }}
+                              + Non Taxable Amount :
+                              {{
+                              addNewPurchaseForm.get("nonTaxable")?.value | number : "1.2-2"
+                              }}
+                            </span>
+                          </div>
+                        </div>
+
 
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
@@ -535,6 +554,8 @@
                           </div>
                         </div>
 
+
+
                       </div>
 
                       <div class="row">
@@ -576,8 +597,8 @@
                     <div class="d-flex pt-4 justify-content-between">
                       <div></div>
                       <button *ngIf="lotTypeValue === 'Lot'"
-                        [disabled]="!child?.blocksDetails?.length || !child?.lotAddForm?.valid || !addNewPurchaseForm?.valid"
-                        class="btn btn-primary" (click)="nextStep(nextCallback, 'second')">
+                        [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid" class="btn btn-primary"
+                        (click)="nextStep(nextCallback, 'second')">
                         Next <i class="fa-solid fa-arrow-right"></i>
                       </button>
                       <button *ngIf="lotTypeValue === 'Slab'" [disabled]="!addNewPurchaseForm?.valid"
@@ -1149,20 +1170,21 @@
                         <div class="invoice-fields">
                           <h4 class="field-title">More Fields</h4>
                         </div>
+                        <!-- First Collapsible Panel -->
                         <div class="invoice-faq">
-                          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                          <div class="panel-group" id="headingTwo" role="tablist" aria-multiselectable="true">
                             <div class="faq-tab">
                               <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="headingThree">
+                                <div class="panel-heading" role="tab" id="headingTwo">
                                   <p class="panel-title">
-                                    <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion"
-                                      href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#headingTwo"
+                                      href="#collapseNotes" aria-expanded="false" aria-controls="collapseNotes">
                                       <i class="fas fa-plus-circle me-1"></i> Add Notes
                                     </a>
                                   </p>
                                 </div>
-                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
-                                  aria-labelledby="headingThree" data-bs-parent="#accordion">
+                                <div id="collapseNotes" class="panel-collapse collapse" role="tabpanel"
+                                  aria-labelledby="headingTwo" data-bs-parent="#headingTwo">
                                   <div class="panel-body">
                                     <textarea class="form-control" formControlName="purchaseNotes"></textarea>
                                     <div
@@ -1176,6 +1198,60 @@
                             </div>
                           </div>
                         </div>
+
+                        <div class="row mt-4">
+                          <div class="col-md-6 col-xl-6 checkbox">
+                            <p-checkbox [binary]="true" class="m-r-10" (click)="isTaxVendor = !isTaxVendor ">
+                            </p-checkbox>
+                            <label for="isTaxVendor">Tax Vendor</label>
+                          </div>
+                          <div class="col-12 col-md-6 col-xl-6" *ngIf="isTaxVendor">
+                            <div class="form-group local-forms">
+                              <label for="taxVendor">Tax Vendor<span class="login-danger">*</span></label>
+                              <p-dropdown [options]="taxVendorList" styleClass="" appendTo="body" optionLabel="name"
+                                optionValue="_id" placeholder="Select TaxVendor" formControlName="taxVendor"
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true">
+                              </p-dropdown>
+                              <span *ngIf="
+                              addNewPurchaseForm.get('taxApplied').value
+                              " style="color: #97704f; font-size: 12px">
+                                Tax Applied : ₹
+                                {{ addNewPurchaseForm.get('taxApplied').value | number : "1.2-2" }}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="col-12 mt-4" *ngIf="isTaxVendor && addNewPurchaseForm.get('taxVendor').value">
+                            <div class="row practice-card">
+                              <div class="col-md-6 col-sm-6 ">
+                                <div class="form-group local-forms">
+                                  <label for="customer">Applied Tax (%)
+                                    <span class="login-danger">*</span></label>
+                                  <input type="number" class="form-control" formControlName="vendorTaxApplied"
+                                    (input)="calculateTaxVendorAmount()" />
+                                </div>
+                              </div>
+                              <div class="col-md-6 col-sm-6">
+                                <div class="form-group row">
+                                  <h5 class="col-lg-5 col-md-5 col-xl-5 col-form-label">
+                                    Total Tax Amount
+                                  </h5>
+                                  <div class="col-lg-7 col-md-7 col-xl-7">
+                                    <p class="col-form-label" *ngIf="addNewPurchaseForm
+                                    .get('taxVendorAmount')?.value">
+                                      {{ '₹' + ' ' +
+                                      addNewPurchaseForm
+                                      .get("taxVendorAmount")?.value
+                                      }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+
                       </div>
                       <div class="col-lg-5 col-md-6">
                         <div class="invoice-total-card">
@@ -1210,7 +1286,6 @@
 
                                 </span>
                               </p>
-
                               <p *ngIf="ItemDetails?.royaltyCharge">
                                 Royalty Charges ( Other Charges )<span>
                                   ₹
@@ -1223,7 +1298,7 @@
 
                                 </span>
                               </p>
-                              <p>
+                              <p *ngIf="addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.value">
                                 Purchase Cost ( Paid To Supplier)
                                 <span>₹
                                   {{
@@ -1231,7 +1306,7 @@
                                   }}
                                 </span>
                               </p>
-                              <p>
+                              <p *ngIf="ItemDetails?.purchaseDiscount > 0">
                                 Purchase Discount ( added )
                                 <span>₹ {{ ItemDetails?.purchaseDiscount |indianCurrency}} </span>
                               </p>
@@ -1281,8 +1356,28 @@
                               </p>
                             </div>
 
-                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Lot'">
-                              <h4>
+                            <div class="invoice-total-footer">
+                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('purchaseItemTaxAmount')?.value">
+                                Tax Applied Amount
+                                <span>
+                                  ₹
+                                  {{
+                                  addNewPurchaseForm.get('purchaseItemTaxAmount')?.value
+                                  | number : "1.2-2"
+                                  }}
+                                </span>
+                              </p>
+                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">
+                                Non-Taxable Amount
+                                <span>
+                                  ₹
+                                  {{
+                                  addNewPurchaseForm.get('nonTaxable')?.value
+                                  | number : "1.2-2"
+                                  }}
+                                </span>
+                              </p>
+                              <h4 *ngIf="lotTypeValue === 'Lot'">
                                 Total Purchase Cost
                                 <span>
                                   {{ ItemDetails?.lotTotalCost
@@ -1292,9 +1387,7 @@
                                   }}
                                 </span>
                               </h4>
-                            </div>
-                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Slab'">
-                              <h4>
+                              <h4 *ngIf="lotTypeValue === 'Slab'">
                                 Total Purchase Cost
                                 <span>
                                   {{ addNewPurchaseForm.get("totalCosting")?.value
@@ -1307,20 +1400,6 @@
                             </div>
                           </div>
                         </div>
-                        <!-- <div class="upload-sign">
-                          <div class="settings-btns text-end m-b-10 row">
-                            <div class="col-md-12 col-sm-12 col-lg-6 col-xl-6">
-                              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary">
-                                Submit
-                              </button>
-                            </div>
-                            <div class="col-md-12 col-sm-12 col-xl-6 col-lg-6">
-                              <button class="btn btn-secondary m10" >
-                                Cancel
-                              </button>
-                            </div>
-                          </div>
-                        </div> -->
                       </div>
                     </div>
                     <div class="d-flex pt-4 justify-content-between">
