@@ -347,31 +347,15 @@
                                 class="form-control" style="width: 50%" />
 
                               <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax"
-                                [options]="orderTaxList" appendTo="body" formControlName="ItemTax"
+                                [options]="orderTaxList" appendTo="body" formControlName="purchaseItemTax"
                                 optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
                                 (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
                             </p-inputGroup>
-                            <!-- <div
-                              *ngIf="
-                                addNewPurchaseForm.get('taxable').value >
-                                addNewPurchaseForm.get('nonTaxable').value
-                              "
-                            >
-                              <span class="login-danger"
-                                >Taxable Amount cannot be greater than Non-Taxable
-                                Amount.</span
-                              >
-                            </div>
-                            <span
-                              *ngIf="
-                                purchaseItemTaxAmount > addNewPurchaseForm.get('taxable').value &&
-                                purchaseItemTaxAmount != 0
-                              "
-                              style="color: #97704f; font-size: 12px"
-                            >
+                            <span *ngIf="addNewPurchaseForm.get('purchaseItemTaxAmount')?.value
+                " style="color: #97704f; font-size: 12px">
                               Tax Applied Amount:
-                              {{ purchaseItemTaxAmount | number : "1.2-2" }}
-                            </span> -->
+                              {{ addNewPurchaseForm.get("purchaseItemTaxAmount")?.value | number : "1.2-2" }}22
+                            </span>
                           </div>
                         </div>
 
@@ -386,35 +370,24 @@
 
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
-                            <label for="paidToSupplierPurchaseCost">Paid To Supplier Amount<span
-                                class="login-danger">*</span></label>
+                            <label for="paidToSupplierPurchaseCost">Purchase Cost ( Paid to Supplier )
+                              <span class="login-danger">*</span></label>
                             <div class="input-group">
-                              <input class="form-control" type="number" placeholder="Enter Paid To Supplier Amount"
-                                formControlName="paidToSupplierPurchaseCost" (change)="calculateTotalAmount()" />
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                              </div>
+                              <span class="form-control">{{
+                                addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value
+                                }}</span>
                             </div>
-                            <div *ngIf="
-                                    (addNewPurchaseForm
-                                    .get('paidToSupplierPurchaseCost')
-                                    ?.hasError('min') &&
-                                    addNewPurchaseForm.get('paidToSupplierPurchaseCost')
-                                        ?.touched) ||
-                                    (addNewPurchaseForm
-                                    .get('paidToSupplierPurchaseCost')
-                                    ?.hasError('max') &&
-                                    addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.touched)
-                                ">
-                              <span class="login-danger">
-                                input must be between 1 to 100,000.
-                              </span>
-                            </div>
-                            <div *ngIf="
-                                addNewPurchaseForm
-                                  .get('paidToSupplierPurchaseCost')
-                                  ?.hasError('required') &&
-                                addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.touched
-                              ">
-                              <span class="login-danger">Field is required.</span>
-                            </div>
+                            <span *ngIf="addNewPurchaseForm.get('purchaseItemTaxAmount')?.value && addNewPurchaseForm.get('nonTaxable')?.value" style="color: #97704f; font-size: 12px">
+                              Tax Applied Amount:
+                              {{ addNewPurchaseForm.get('purchaseItemTaxAmount')?.value | number : "1.2-2" }}
+                              + Non Taxable Amount :
+                              {{
+                              addNewPurchaseForm.get("nonTaxable")?.value | number : "1.2-2"
+                              }}
+                            </span>
                           </div>
                         </div>
 
@@ -1253,7 +1226,8 @@
                                 <div class="form-group local-forms">
                                   <label for="customer">Applied Tax (%)
                                     <span class="login-danger">*</span></label>
-                                  <input type="number" class="form-control" formControlName="vendorTaxApplied" (input)="calculateTaxVendorAmount()" />
+                                  <input type="number" class="form-control" formControlName="vendorTaxApplied"
+                                    (input)="calculateTaxVendorAmount()" />
                                 </div>
                               </div>
                               <div class="col-md-6 col-sm-6">
@@ -1382,7 +1356,7 @@
                               </p>
                             </div>
 
-                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Lot'">
+                            <div class="invoice-total-footer">
                               <p class="mt-2" *ngIf="addNewPurchaseForm.get('purchaseItemTaxAmount')?.value">
                                 Tax Applied Amount
                                 <span>
@@ -1403,7 +1377,7 @@
                                   }}
                                 </span>
                               </p>
-                              <h4>
+                              <h4 *ngIf="lotTypeValue === 'Lot'">
                                 Total Purchase Cost
                                 <span>
                                   {{ ItemDetails?.lotTotalCost
@@ -1413,9 +1387,7 @@
                                   }}
                                 </span>
                               </h4>
-                            </div>
-                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Slab'">
-                              <h4>
+                              <h4 *ngIf="lotTypeValue === 'Slab'">
                                 Total Purchase Cost
                                 <span>
                                   {{ addNewPurchaseForm.get("totalCosting")?.value
@@ -1428,20 +1400,6 @@
                             </div>
                           </div>
                         </div>
-                        <!-- <div class="upload-sign">
-                          <div class="settings-btns text-end m-b-10 row">
-                            <div class="col-md-12 col-sm-12 col-lg-6 col-xl-6">
-                              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary">
-                                Submit
-                              </button>
-                            </div>
-                            <div class="col-md-12 col-sm-12 col-xl-6 col-lg-6">
-                              <button class="btn btn-secondary m10" >
-                                Cancel
-                              </button>
-                            </div>
-                          </div>
-                        </div> -->
                       </div>
                     </div>
                     <div class="d-flex pt-4 justify-content-between">
