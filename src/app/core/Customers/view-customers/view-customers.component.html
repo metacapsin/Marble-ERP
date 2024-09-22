@@ -343,6 +343,7 @@
                   <p-columnFilter type="text" field="amount" hideOnClear="true" matchMode="contains"
                     display="menu"></p-columnFilter>
                 </th>
+                <th>Action</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-product>
@@ -363,6 +364,10 @@
                 <td>{{ product.paymentDate | date: "dd-MMM-yyyy" }}</td>
                 <td>{{ product.paymentMode }}</td>
                 <td>₹ {{ product.amount | indianCurrency }}</td>
+                <td>
+                  <p-button [text]="true" icon="fa fa-trash" (click)="deleteSalesPayment(product._id)"
+                    pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                </td>
               </tr>
               <tr *ngIf="product.expanded">
                 <td colspan="7">
@@ -436,7 +441,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="6" class="text-center">
+        <td colspan="7" class="text-center">
           No Payment found.
         </td>
       </tr>

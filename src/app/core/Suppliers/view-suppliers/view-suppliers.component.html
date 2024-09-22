@@ -261,7 +261,7 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
 
         <!-- Payment Out Frid -->
 
-        <p-tabPanel header="Payments Out">
+        <!-- <p-tabPanel header="Payments Out">
           <p-table selectionMode="multiple" [value]="paymentListDataBySupplierId" styleClass="p-datatable-striped"
             [tableStyle]="{ 'min-width': '60rem' }" [paginator]="paymentListDataBySupplierId?.length >= 5" [rows]="10"
             [rowsPerPageOptions]="[5, 10, 20]">
@@ -328,7 +328,161 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
               </tr>
             </ng-template>
           </p-table>
-        </p-tabPanel>
+        </p-tabPanel> -->
+        <p-tabPanel header="Payments Out">
+
+          <p-table [value]="
+          paymentListDataBySupplierId
+              " styleClass="p-datatable-striped" dataKey="id" [tableStyle]="{ 'min-width': '60rem' }"
+            [paginator]="paymentListDataBySupplierId?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt
+            selectionMode="multiple">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 5rem"></th>
+                <th pSortableColumn="purchaseInvoiceNumber">
+                  Invoice Number
+                  <p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
+                  <p-columnFilter type="text" field="purchaseInvoiceNumber" hideOnClear="true" matchMode="contains"
+                    display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="transactionNo">
+                  Transaction Number <p-sortIcon field="transactionNo"></p-sortIcon>
+                  <p-columnFilter type="text" field="transactionNo" hideOnClear="true" matchMode="contains"
+                    display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="paymentDate">
+                  Payment Date<p-sortIcon field="paymentDate"></p-sortIcon>
+                  <p-columnFilter type="text" field="paymentDate" hideOnClear="true" matchMode="contains"
+                    display="menu"></p-columnFilter>
+                </th>
+                <th pSortableColumn="paymentMode">
+                  Payment Mode<p-sortIcon field="paymentMode"></p-sortIcon>
+                  <p-columnFilter type="text" field="paymentMode" hideOnClear="true" matchMode="contains"
+                    display="menu"></p-columnFilter>
+                </th>
+
+                <th pSortableColumn="amount">
+                  Amount <p-sortIcon field="amount"></p-sortIcon>
+                  <p-columnFilter type="text" field="amount" hideOnClear="true" matchMode="contains"
+                    display="menu"></p-columnFilter>
+                </th>
+                <th>Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+              <tr>
+                <td>
+                  <p-button type="button" pRipple (onClick)="toggleRow(product)" [text]="true" [rounded]="true"
+                    [plain]="true" [icon]="
+                      product.expanded
+                        ? 'fa-solid fa-chevron-down'
+                        : 'fa-solid fa-angle-right'
+                    " />
+                </td>
+                <td>
+                  {{ product.purchaseInvoiceNumber }}
+
+                </td>
+                <td>{{ product.transactionNo }}</td>
+                <td>{{ product.paymentDate | date: "dd-MMM-yyyy" }}</td>
+                <td>{{ product.paymentMode }}</td>
+                <td>₹ {{ product.amount | indianCurrency }}</td>
+                <td>
+                  <p-button [text]="true" icon="fa fa-trash" (click)="deletePurchasePayment(product._id)"
+                    pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                </td>
+              </tr>
+              <tr *ngIf="product.expanded">
+                <td colspan="7">
+                  <div class="p-3">
+                    <p-table [value]="product.paymentDetails">
+                      <ng-template pTemplate="header">
+              <tr>
+                <th width="16.5%" pSortableColumn="amountType">
+                  Amount Type
+                  <p-sortIcon field="amountType" />
+                  <p-columnFilter type="text" field="amountType" hideOnClear="true" matchMode="contains"
+                    display="menu"></p-columnFilter>
+                </th>
+
+                <th width="16.5%" pSortableColumn="paymentMode">
+                  Payment Mode
+                  <p-sortIcon field="paymentMode" />
+                  <p-columnFilter type="text" field="paymentMode" hideOnClear="true" matchMode="contains"
+                    display="menu"></p-columnFilter>
+                </th>
+
+                <th width="16.5%" pSortableColumn="amount">
+                  Amount
+                  <p-sortIcon field="amount" />
+                  <p-columnFilter type="text" field="amount" hideOnClear="true" matchMode="contains"
+                    display="menu"></p-columnFilter>
+                </th>
+                <!-- <th width="16.5%" pSortableColumn="salesItemSubTotal">
+                    Sub Total
+                    <p-sortIcon field="salesItemSubTotal" />
+                    <p-columnFilter type="text" field="salesItemSubTotal" hideOnClear="true" matchMode="contains"
+                      display="menu"></p-columnFilter>
+                  </th>
+                  <th width="16.5%" pSortableColumn="salesItemTaxAmount">
+                    Taxable Amount
+                    <p-sortIcon field="salesItemTaxAmount" />
+                    <p-columnFilter type="text" field="salesItemTaxAmount" hideOnClear="true" matchMode="contains"
+                      display="menu"></p-columnFilter>
+                  </th>
+                  <th width="16.5%">Tax Rate</th> -->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-alert>
+              <tr>
+                <td>{{ alert.amountType }}</td>
+                <td>
+
+                  {{ alert.paymentMode }}
+                </td>
+                <td>
+                  ₹ {{ alert.amount }}
+                </td>
+                <!-- <td>
+                    ₹ {{ alert.salesItemSubTotal | indianCurrency }}
+                  </td>
+                  <td>
+                    ₹
+                    {{ alert.salesItemTaxAmount | indianCurrency }}
+                  </td>
+                  <td class="" id="tdSet">
+                    <div class="col3 me-2" *ngFor="let tax of alert.salesItemTax">
+                      {{ tax.name + ": " + tax.taxRate + "%," }}
+                    </div>
+                  </td> -->
+              </tr>
+            </ng-template>
+          </p-table>
+    </div>
+    </td>
+    </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7" class="text-center">
+          No Payment found.
+        </td>
+      </tr>
+    </ng-template>
+    <!-- <ng-template pTemplate="footer">
+          <tr>
+            <td colspan="4 "></td>
+            <td>Total Amount</td>
+            <td totalValueDirective [data]="salesTaxReportsData" [name]="salesTaxReports"></td>
+          </tr>
+        </ng-template> -->
+    </p-table>
+    </p-tabPanel>
+
+
+
+
+
         <!-- ---- Purchase Return ------ -->
         <p-tabPanel header="Purchase Return">
           <div class="page-table-header mb-2">

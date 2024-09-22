@@ -115,7 +115,15 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       let totalAmount = this.paymentInvoiceForm.get("totalAmount");
 
       if (this.dataById.isPurchase) {
+        let taxablePaymentAmount = this.paymentInvoiceForm.get(
+          "taxablePaymentAmount"
+        );
+        let nonTaxablePaymentAmount = this.paymentInvoiceForm.get(
+          "nonTaxablePaymentAmount"
+        );
         totalAmount.clearValidators();
+        taxablePaymentAmount.clearValidators();
+        nonTaxablePaymentAmount.clearValidators();
         console.log("this.dataById.isPurchase", this.dataById.isPurchase);
 
         totalAmount.setValidators([
@@ -123,7 +131,27 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           Validators.min(1),
           Validators.max(this.dataById.purchaseDueAmount),
         ]);
+        taxablePaymentAmount.setValidators([
+          Validators.min(0),
+          Validators.max(this.dataById.taxableDue),
+        ]);
+        nonTaxablePaymentAmount.setValidators([
+          Validators.min(0),
+          Validators.max(this.dataById.nonTaxableDue),
+        ]);
+        taxablePaymentAmount.updateValueAndValidity();
         totalAmount.updateValueAndValidity();
+        nonTaxablePaymentAmount.updateValueAndValidity();
+        this.paymentInvoiceForm.patchValue({
+          taxablePaymentAmount: Number(this.dataById.taxableDue),
+          taxablePaymentMode:"Bank",
+          nonTaxablePaymentMode:"Cash",
+          nonTaxablePaymentAmount: Number(this.dataById.nonTaxableDue) ,
+        });
+        // this.taxableDue=this.dataById.taxableDue
+        // this.nonTaxableDue=this.dataById.nonTaxableDue
+        console.log(this.dataById,"this is customer data")
+        this.onSalesPaymentAmountChanges()
       } else if (this.dataById.isSales) {
         let taxablePaymentAmount = this.paymentInvoiceForm.get(
           "taxablePaymentAmount"
@@ -280,6 +308,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           {
             _id: this.dataById.salesId,
             amount: Number(formData.totalAmount),
+            salesInvoiceNumber: this.dataById.salesInvoiceNumber,
           },
         ],
         taxablePaymentAmount: formData.taxablePaymentAmount
@@ -321,7 +350,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
 
     // for create purchase payment
     if (this.dataById.isPurchase) {
-      const payload = {
+      const payload = [{
         supplier: this.dataById.supplier,
         paymentDate: formData.paymentDate,
         paymentMode: formData.paymentMode,
@@ -329,10 +358,24 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           {
             _id: this.dataById.purchaseId,
             amount: Number(formData.totalAmount),
+            purchaseInvoiceNumber: this.dataById.purchaseInvoiceNumber,
           },
         ],
+        taxablePaymentAmount: formData.taxablePaymentAmount
+          ? {
+              amount: formData.taxablePaymentAmount,
+              paymentMode: formData.taxablePaymentMode,
+            }
+          : null,
+        nonTaxablePaymentAmount: formData.nonTaxablePaymentAmount
+          ? {
+              amount: formData.nonTaxablePaymentAmount,
+              paymentMode: formData.nonTaxablePaymentMode,
+            }
+          : null,
         note: formData.note,
-      };
+      }]
+
 
       if (this.paymentInvoiceForm.valid) {
         this.paymentOutService.createPayment(payload).subscribe((resp: any) => {

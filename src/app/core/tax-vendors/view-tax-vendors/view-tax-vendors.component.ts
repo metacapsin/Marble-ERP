@@ -23,8 +23,12 @@ export class ViewTaxVendorsComponent implements OnInit {
   showDialog = false;
   modalData: any;
   salesDataShowById: any[] = [];
+  purchaseDataShowById: any[] = []
+;
   paymentListDataByTaxVendorsId: any[] = [];
+  purchasePaymentListDataByTaxVendorsId: any[] = [];
   selectedSales: any[] = []; // Holds the selected sales items
+  selectedPurchase: any[] = []; // Holds the selected Purchase items
   addTaxVendorsPaymentForm!: FormGroup;
   displayPaymentDialog: boolean = false;
   paymentModeList = [
@@ -39,6 +43,9 @@ export class ViewTaxVendorsComponent implements OnInit {
   totalSelectedSalesTotalAmount: number = 0; // Declare this variable
   totalSelectedSalesDueAmount: number = 0; // Declare this variable
   totalSelectedSalesPayableAmount: number = 0; // Declare this variable
+  totalSelectedPurchaseTotalAmount: number = 0; // Declare this variable
+  totalSelectedPurchaseDueAmount: number = 0; // Declare this variable
+  totalSelectedPurchasePayableAmount: number = 0; // Declare this variable
   paymentId: any;
 
   constructor(
@@ -53,6 +60,7 @@ export class ViewTaxVendorsComponent implements OnInit {
       sales: this.fb.array([]),
       paymentDate: ["", [Validators.required]],
       paymentMode: ["", [Validators.required]],
+      purchase:this.fb.array([]),
       note: [""],
       payableAmount: [
         "",
@@ -69,6 +77,9 @@ export class ViewTaxVendorsComponent implements OnInit {
   get sales(): FormArray {
     return this.addTaxVendorsPaymentForm.get("sales") as FormArray;
   }
+  get purchase(): FormArray {
+    return this.addTaxVendorsPaymentForm.get("purchase") as FormArray;
+  }
 
   addSalesControls(unpaidSales: any[]) {
     this.sales.clear();
@@ -83,6 +94,25 @@ export class ViewTaxVendorsComponent implements OnInit {
               Validators.required,
               Validators.min(sale.taxVendor.dueAmount),
               Validators.max(sale.taxVendor.dueAmount),
+            ],
+          ],
+        })
+      );
+    });
+  }
+  addPurchaseControls(unpaidPurchases: any[]) {
+    this.purchase.clear();
+    unpaidPurchases.forEach((purchase) => {
+      this.purchase.push(
+        this.fb.group({
+          _id: [purchase.taxVendor.purchaseId],
+          purchaseInvoiceNumber: [purchase.taxVendor.purchaseInvoice],
+          amount: [
+            purchase.taxVendor.dueAmount,
+            [
+              Validators.required,
+              Validators.min(purchase.taxVendor.dueAmount),
+              Validators.max(purchase.taxVendor.dueAmount),
             ],
           ],
         })
@@ -110,11 +140,34 @@ export class ViewTaxVendorsComponent implements OnInit {
       payableAmount: this.totalSelectedSalesDueAmount.toFixed(2) ,
     });
   }
+  totalPurchaseSelectedTotalAmount() {
+    // Sum the total amount of the selected sales
+    this.totalSelectedPurchaseTotalAmount = this.selectedPurchase.reduce(
+      (total, purchase) => total + (purchase.taxVendor.taxVendorAmount || 0),
+      0
+    );
+    this.totalSelectedPurchaseDueAmount = this.selectedPurchase.reduce(
+      (total, purchase) => total + (purchase.taxVendor.dueAmount || 0),
+      0
+    );
+    this.totalSelectedPurchasePayableAmount = this.selectedPurchase.reduce(
+      (total, purchase) => total + (purchase.taxVendor.dueAmount || 0),
+      0
+    );
+
+    // Set the total amount in the form control
+    this.addTaxVendorsPaymentForm.patchValue({
+      payableAmount: this.totalSelectedPurchaseDueAmount.toFixed(2) ,
+    });
+  }
 
   ngOnInit() {
     this.getTaxVendorsById();
     this.getPaymentListByVendorId();
     this.getVendorSalesList();
+    this.getPurchasePaymentListByVendorId();
+    this.getVendorPurchasesList();
+
   }
 
   getTaxVendorsById() {
@@ -127,8 +180,16 @@ export class ViewTaxVendorsComponent implements OnInit {
   getVendorSalesList() {
     this.TaxVendorsService.getVendorSalesList(this.id).subscribe(
       (data: any) => {
-        console.log("Tax Vendors Sales Data By Id", data.data);
+        console.log("Tax Vendors Sales List Data By Id", data.data);
         this.salesDataShowById = data.data;
+      }
+    );
+  }
+  getVendorPurchasesList() {
+    this.TaxVendorsService.getVendorPurchasesList(this.id).subscribe(
+      (data: any) => {
+        console.log("Tax Vendors Purchase List Data By Id", data.data);
+        this.purchaseDataShowById = data.data;
       }
     );
   }
@@ -136,26 +197,41 @@ export class ViewTaxVendorsComponent implements OnInit {
     this.TaxVendorsService.getPaymentListByVendorId(this.id).subscribe(
       (data: any) => {
         console.log(this.id);
-        console.log("Tax Vendors Payment Data By Id", data.data);
+        console.log("Tax Vendors Sales Payment List Data By Id", data.data);
         this.paymentListDataByTaxVendorsId = data.data;
       }
     );
   }
+  getPurchasePaymentListByVendorId() {
+    this.TaxVendorsService.getPurchasePaymentListByVendorId(this.id).subscribe(
+      (data: any) => {
+        console.log(this.id);
+        console.log("Tax Vendors Purchase Payment List Data By Id", data.data);
+        this.purchasePaymentListDataByTaxVendorsId = data.data;
+      }
+    );
+  }
 
+  callAPi(){
+    this.getPurchasePaymentListByVendorId();
+    this.getPaymentListByVendorId();
+    this.getVendorPurchasesList();
+    this.getVendorSalesList();
+    console.log("all Api called")
+  }
   close() {
     this.displayPaymentDialog = false;
     this.showDialog = false;
     this.sales.clear();
     this.addTaxVendorsPaymentForm.reset();
+    this.callAPi()
   }
   callBackModal() {
     this.TaxVendorsService.deletePayment(this.paymentId).subscribe(
       (resp: any) => {
         let message = "Tax Vendor Payment has been Deleted";
         this.messageService.add({ severity: "success", detail: message });
-        this.getPaymentListByVendorId();
-        this.getVendorSalesList();
-        this.showDialog = false;
+       this.callAPi();
       }
     );
   }
@@ -175,7 +251,7 @@ export class ViewTaxVendorsComponent implements OnInit {
 
   // }
 
-  openPaymentDialog() {
+  openSalesPaymentDialog() {
     const unpaidSales = this.selectedSales.filter(
       (sale) =>
         sale.taxVendor.dueAmount > 0 &&
@@ -196,47 +272,119 @@ export class ViewTaxVendorsComponent implements OnInit {
       });
     }
   }
+  openPurchasePaymentDialog() {
+    const unpaidPurchases = this.selectedPurchase.filter(
+      (purchase) =>
+        purchase.taxVendor.dueAmount > 0 &&
+        purchase.taxVendor.paymentStatus === "Unpaid"
+    );
+
+    console.log("these are unpaid purchase", unpaidPurchases);
+    if (unpaidPurchases.length > 0) {
+      console.log("Payments to be made for these purchase", unpaidPurchases);
+      this.addPurchaseControls(unpaidPurchases); // Pass only unpaid Purchase to addPurchaseControls
+      this.totalPurchaseSelectedTotalAmount(); // Calculate and store the total Purchase amount
+      this.displayPaymentDialog = true;
+    } else {
+      this.messageService.add({
+        severity: "error",
+        summary: "No Purchase Selected",
+        detail: "Please select purchase to process the payment.",
+      });
+    }
+  }
 
   addTaxVendorsPaymentFormSubmit() {
     const formData = this.addTaxVendorsPaymentForm.value;
-    const payload = {
-      taxVendor: {
-        name: this.selectedSales[0].taxVendor.companyName,
-        _id: this.selectedSales[0].taxVendor._id,
-      },
-      sales: formData.sales,
-      paymentDate: formData.paymentDate,
-      paymentMode: formData.paymentMode,
-      note: formData.note,
-    };
-    console.log("valid form", this.addTaxVendorsPaymentForm.value);
-    if (this.addTaxVendorsPaymentForm.valid) {
-      console.log(payload);
 
-      this.TaxVendorsService.createTaxVendorPayment(payload).subscribe(
-        (resp: any) => {
-          console.log(resp);
-          if (resp) {
-            if (resp.status === "success") {
-              const message = "Payment has been added";
-              this.messageService.add({ severity: "success", detail: message });
-              setTimeout(() => {
-                this.displayPaymentDialog = false;
-                this.getPaymentListByVendorId();
-                this.getVendorSalesList();
-                this.addTaxVendorsPaymentForm.reset();
-                this.sales.clear();
-                this.selectedSales=null;
-              }, 400);  
-            } else {
-              const message = resp.message;
-              this.messageService.add({ severity: "error", detail: message });
+    if(this.selectedSales && this.selectedSales.length > 0){
+      const payload = {
+        taxVendor: {
+          name: this.selectedSales[0].taxVendor.companyName,
+          _id: this.selectedSales[0].taxVendor._id,
+        },
+        sales: formData.sales,
+        paymentDate: formData.paymentDate,
+        paymentMode: formData.paymentMode,
+        note: formData.note,
+      };
+      console.log("valid form", this.addTaxVendorsPaymentForm.value);
+      if (this.addTaxVendorsPaymentForm.valid) {
+        console.log(payload);
+  
+        this.TaxVendorsService.createTaxVendorPayment(payload).subscribe(
+          (resp: any) => {
+            console.log(resp);
+            if (resp) {
+              if (resp.status === "success") {
+                const message = " Sales Payment has been added";
+                this.messageService.add({ severity: "success", detail: message });
+                setTimeout(() => {
+                  this.displayPaymentDialog = false;
+                  this.callAPi()
+                  // this.getPaymentListByVendorId();
+                  // this.getVendorSalesList();
+                  this.addTaxVendorsPaymentForm.reset();
+                  this.sales.clear();
+                  this.selectedSales=null;
+                }, 400);  
+              } else {
+                const message = resp.message;
+                this.messageService.add({ severity: "error", detail: message });
+              }
             }
           }
-        }
-      );
-    } else {
-      console.log("invalid form");
+        );
+      } else {
+        console.log("invalid form");
+      }
+
     }
+    if(this.selectedPurchase && this.selectedPurchase.length > 0){
+
+      const payload ={
+        taxVendor: {
+          name: this.selectedPurchase[0].taxVendor.companyName,
+          _id: this.selectedPurchase[0].taxVendor._id,
+        },
+        purchase: formData.purchase,
+        paymentDate: formData.paymentDate,
+        paymentMode: formData.paymentMode,
+        note: formData.note,
+      };
+      console.log("valid form", this.addTaxVendorsPaymentForm.value);
+      if (this.addTaxVendorsPaymentForm.valid) {
+        console.log(payload);
+  
+        this.TaxVendorsService.createPurchaseTaxVendorPayment(payload).subscribe(
+          (resp: any) => {
+            console.log(resp);
+            if (resp) {
+              if (resp.status === "success") {
+                const message = "Purchase Payment has been added";
+                this.messageService.add({ severity: "success", detail: message });
+                setTimeout(() => {
+                  this.displayPaymentDialog = false;
+                  // this.getPaymentListByVendorId();
+                  // this.getVendorSalesList();
+                  this.callAPi()
+
+                  this.addTaxVendorsPaymentForm.reset();
+                  this.purchase.clear();
+                  this.selectedPurchase=null;
+                }, 400);  
+              } else {
+                const message = resp.message;
+                this.messageService.add({ severity: "error", detail: message });
+              }
+            }
+          }
+        );
+      } else {
+        console.log("invalid form");
+      }
+    }
+
+   
   }
 }

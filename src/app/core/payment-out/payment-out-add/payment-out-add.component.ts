@@ -182,7 +182,8 @@ export class PaymentOutAddComponent {
         purchase: [
           {
             _id: purchase._id,
-            amount: purchase.taxablePaymentAmount + purchase.nonTaxablePaymentAmount, 
+            amount: purchase.taxablePaymentAmount + purchase.nonTaxablePaymentAmount,
+            purchaseInvoiceNumber:purchase.purchaseInvoiceNumber 
           },
         ],
         taxablePaymentAmount: purchase.taxablePaymentAmount

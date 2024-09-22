@@ -12,6 +12,30 @@ import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/
 import { SharedModule } from "src/app/shared/shared.module";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
+interface Product {
+  _id: string;
+  purchaseId: string;
+  purchaseInvoice: string | null;
+  paymentDate: string;
+  paymentMode: string;
+  amount: number;
+  transactionNo: string;
+  note: string;
+  customer: {
+    _id: string;
+    name: string;
+    billingAddress: string;
+  };
+    purchaseInvoiceNumber: string;
+  paymentDetails: Array<{
+    amountType: string;
+    amount: number;
+    paymentMode: string;
+  }>;
+  expanded?: boolean;
+
+}
+
 @Component({
   selector: "app-view-suppliers",
   standalone: true,
@@ -27,6 +51,8 @@ export class ViewSuppliersComponent {
   routes = routes;
   id: any; // to hold supplier id
   supplierDataById: any[] = [];
+  products: Product[] = [];
+  expanded?: boolean;
   purchaseDataShowById: any; // to hold purchase data by supplier id
   purchaseReturnDataShowById: any[] = []; // to hold purchase Return data by supplier id
   paymentListDataBySupplierId: any[] = []; // to hold payment data by Supplier id
@@ -160,6 +186,9 @@ export class ViewSuppliersComponent {
     this.getPurchaseReturnPaymentListBySupplierId();
   }
 
+  toggleRow(product:Product) {
+    product.expanded = !product.expanded;
+  }
   getPurchaseReturnPaymentListBySupplierId() {
     this.purchaseReturnService
       .getPurchaseReturnPaymentListBySupplierId(this.id)
@@ -357,6 +386,10 @@ export class ViewSuppliersComponent {
           purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
           purchaseCost: resp.data.purchaseCost,
           purchaseDueAmount: resp.data.dueAmount,
+          taxableDue: resp.data.taxableDue,
+          nonTaxableDue: resp.data.nonTaxableDue,
+          taxable: resp.data.taxable,
+          nonTaxable: resp.data.nonTaxable,
         };
         this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
           this.showPaymentDialog = true;

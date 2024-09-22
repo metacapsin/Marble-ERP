@@ -406,7 +406,7 @@
                           </div>
 
 
-                          <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails && !sales.returnDate">
+                          <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails && !sales.returnDate || sales.lotDetails || sales.slabDetails ">
                             <div class="form-group local-forms">
                               <label for="customer">Taxable Amount</label>
                               <p-inputGroup>
@@ -427,7 +427,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails && !sales.returnDate">
+                          <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails && !sales.returnDate || sales.lotDetails || sales.slabDetails ">
                             <div class="form-group local-forms">
                               <label for="customer">Non Taxable Amount</label>
                               <p-inputGroup>
@@ -480,7 +480,7 @@
 
                           <div class="col-12 col-md-4"
                             *ngIf="sales.purchaseReturnItemDetails ||
-                          sales.lotDetails || sales.slabDetails || sales.isSlabProcessing || sales.salesReturnTermsAndCondition || sales.returnDate">
+                           sales.isSlabProcessing || sales.salesReturnTermsAndCondition || sales.returnDate">
                             <div class="form-group local-forms">
                               <label for="paymentMode">Payment Mode <span class="login-danger">*</span></label>
                               <p-dropdown [style]="{'width':'100%'}" placeholder="--Payment Mode--"
@@ -496,7 +496,7 @@
 
                           <div class="col-12 col-md-4"
                             *ngIf="sales.purchaseReturnItemDetails ||
-                          sales.lotDetails || sales.slabDetails || sales.isSlabProcessing || sales.salesReturnTermsAndCondition || sales.returnDate">
+                           sales.isSlabProcessing || sales.salesReturnTermsAndCondition || sales.returnDate">
                             <div class="form-group local-forms">
                               <label for="totalAmount">Payable Amount <span class="login-danger">*</span></label>
                               <div class="input-group">
