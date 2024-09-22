@@ -217,17 +217,6 @@
                         display="menu"
                       ></p-columnFilter>
                     </th>
-                    <th pSortableColumn="salesOrderStatus">
-                      Sales Status
-                      <p-sortIcon field="salesOrderStatus"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="salesOrderStatus"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
                     <th pSortableColumn="paymentStatus">
                       Payment Status
                       <p-sortIcon field="paymentStatus"></p-sortIcon>
@@ -282,11 +271,9 @@
                       </span>
                     </td>
                     <td>{{ sales.salesDate | date : "dd-MMM-yyyy" }}</td>
-                    <!-- <td><span class="spanLink" (click)="navigateToViewCustomer(sales.customer._id)">{{ sales.customer.name }}
-                    </span></td> -->
+                    
                     <td>{{ sales.customer.name }}</td>
                     <td>{{ sales.billingAddress.companyName }}</td>
-                    <td>{{ sales.salesOrderStatus }}</td>
                     <td *ngIf="sales.paymentStatus == 'Partial Paid'">
                       <p-tag severity="warning" value="Partial Paid"></p-tag>
                     </td>

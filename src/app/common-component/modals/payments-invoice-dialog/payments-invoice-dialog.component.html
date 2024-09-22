@@ -216,24 +216,6 @@
                                   </div>
 
                                   <div class="col-xl-6 col-lg-6 col-sm-12">
-
-                                    <!-- <div class="form-group row mb-2" *ngIf="dataById?.isSalesReturn">
-                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Amount:</h5>
-                                      <div class="col-lg-8 col-md-8 col-xl-8">
-                                        <p class="col-lg-8 col-form-label">
-                                          ₹ {{ dataById?.salesTotalAmount | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div> -->
-
-                                    <!-- <div class="form-group row mb-2" *ngIf="dataById?.isPurchase">
-                                      <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Purchase Cost:</h5>
-                                      <div class="col-lg-8 col-md-8 col-xl-8">
-                                        <p class="col-lg-8 col-form-label">
-                                          ₹ {{ dataById?.purchaseCost | indianCurrency}}
-                                        </p>
-                                      </div>
-                                    </div> -->
                                     <div class="form-group row mb-2" *ngIf="dataById?.purchaseReturnTotalAmount">
                                       <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Return Amount:</h5>
                                       <div class="col-lg-8 col-md-8 col-xl-8">
@@ -414,7 +396,7 @@
                                   (change)="onSalesPaymentAmountChanges()" formControlName="taxablePaymentAmount" />
                                 <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
                                   [options]="paymentModeList" appendTo="body" optionLabel="paymentMode"
-                                  formControlName="taxablePaymentMode" optionValue="paymentMode"></p-dropdown>
+                                  formControlName="taxablePaymentMode" optionValue="paymentMode" (onChange)="onPaymentModeChange()"></p-dropdown>
                               </p-inputGroup>
                               <span style="color: #97704f; font-size: 12px; 
                               ">Max Taxable : ₹ {{ dataById?.taxableDue | indianCurrency
@@ -435,7 +417,7 @@
                                   (change)="onSalesPaymentAmountChanges()" formControlName="nonTaxablePaymentAmount" />
                                 <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
                                   [options]="paymentModeList" appendTo="body" optionLabel="paymentMode"
-                                  formControlName="nonTaxablePaymentMode" optionValue="paymentMode"></p-dropdown>
+                                  formControlName="nonTaxablePaymentMode" optionValue="paymentMode" (onChange)="onPaymentModeChange()"></p-dropdown>
                               </p-inputGroup>
                               <span style="color: #97704f; font-size: 12px; 
                             ">Max Non Taxable : ₹ {{ dataById?.nonTaxableDue | indianCurrency
@@ -448,35 +430,6 @@
                               </div>
                             </div>
                           </div>
-
-                          <!-- <div class="col-12 col-md-6" *ngIf="sales.salesItemDetails">
-                            <div class="form-group local-forms">
-                              <label for="paymentDate">Payment Date <span class="login-danger">*</span></label>
-                              <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                formControlName="paymentDate" placeholder="mm/dd/yyyy" [maxDate]="maxDate"
-                                [styleClass]="'col-12'"></p-calendar>
-                              <div
-                                *ngIf="paymentInvoiceForm.get('paymentDate')?.hasError('required')  && paymentInvoiceForm.get('paymentDate')?.touched">
-                                <span class="login-danger">Field is required. </span>
-                              </div>
-                            </div>
-                          </div> -->
-
-                          <!-- <div class="col-12 col-md-4" *ngIf="sales.salesItemDetails">
-                            <div class="form-group local-forms">
-                              <label for="customer">Total Payable Amount <span class="login-danger" >*</span></label>
-                              <p-inputGroup>
-                                <input type="number" class="form-control" style="width: 50%" (change)="onSalesPaymentAmountChanges()" formControlName="totalAmount"  />
-                                <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
-                                  [options]="paymentModeList" appendTo="body" optionLabel="paymentMode" formControlName="paymentMode"
-                                  optionValue="paymentMode"></p-dropdown>
-                              </p-inputGroup>
-                              <div
-                                *ngIf="(paymentInvoiceForm.get('totalAmount')?.hasError('required')  && paymentInvoiceForm.get('totalAmount')?.touched)" >
-                                <span class="login-danger">Field is required.</span>
-                              </div>
-                            </div>
-                          </div> -->
 
                           <div class="col-12 col-md-4"
                             *ngIf="sales.purchaseReturnItemDetails ||
@@ -585,43 +538,19 @@
                                       }}
                                     </span>
                                   </p>
-                                  <!-- <div class="upload-sign"> -->
                                   <div class="form-group d-flex flex-wrap gap-2">
                                     <button type="submit" class="btn btn-primary btn-gradient-primary w-100 w-md-auto"
-                                      [disabled]="!paymentInvoiceForm.valid">
+                                    [disabled]="!paymentInvoiceForm.valid">
+                                      <!-- [disabled]="!paymentInvoiceForm.valid" -->
                                       Submit
                                     </button>
                                     <button class="btn btn-secondary w-100 w-md-auto" (click)="closeTheWindow()">
                                       Cancel
                                     </button>
                                   </div>
-                                  <!-- </div> -->
                                 </div>
                               </div>
                             </div>
-                            <!-- <div class="form-group d-flex flex-wrap gap-2" *ngIf="dataById?.isSales">
-                              <span>Total Amount</span>{{paymentInvoiceForm.get('totalAmount').value}}
-                            </div> -->
-                            <!-- <div class="form-group d-flex flex-wrap gap-2">
-                              <button type="submit" class="btn btn-primary btn-gradient-primary w-100 w-md-auto"
-                                [disabled]="!paymentInvoiceForm.valid">
-                                Submit
-                              </button>
-                              <button class="btn btn-secondary w-100 w-md-auto" (click)="closeTheWindow()">
-                                Cancel
-                              </button>
-                            </div> -->
-                            <!-- <div class="upload-sign">
-                              <div class="form-group d-flex flex-wrap gap-2">
-                                <button type="submit" class="btn btn-primary btn-gradient-primary w-100 w-md-auto"
-                                  [disabled]="!paymentInvoiceForm.valid">
-                                  Submit
-                                </button>
-                                <button class="btn btn-secondary w-100 w-md-auto" (click)="closeTheWindow()">
-                                  Cancel
-                                </button>
-                              </div>
-                            </div> -->
                           </div>
 
                         </div>

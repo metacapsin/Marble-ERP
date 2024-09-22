@@ -225,25 +225,17 @@
                   [maxSelectedLabels]="1"
                 ></p-multiSelect>
               </p-inputGroup>
-              <div
-                *ngIf="
-                  lotAddForm.get('taxableAmount').value >
-                  lotAddForm.get('nonTaxableAmount').value
-                "
-              >
-                <span class="login-danger"
-                  >Taxable Amount cannot be greater than Non-Taxable
-                  Amount.</span
-                >
+              <div *ngIf=" lotAddForm.get('taxableAmount').value > rowCosting " >
+                <span class="login-danger" >Taxable Amount cannot be greater than Lot Weight * Price/ton ({{rowCosting}}).</span>
               </div>
               <span
                 *ngIf="
-                  lotAddForm.get('purchaseItemTaxAmount').value
+                  lotAddForm.get('taxable').value
                 "
                 style="color: #97704f; font-size: 12px"
               >
                 Tax Applied Amount:
-                {{ lotAddForm.get('purchaseItemTaxAmount').value | number : "1.2-2" }}
+                {{ lotAddForm.get('taxable').value | number : "1.2-2" }}
               </span>
             </div>
           </div>
@@ -257,6 +249,9 @@
                 (change)="calculateTotalAmount()"
                 class="form-control"
               />
+            </div>
+            <div *ngIf="lotAddForm.get('nonTaxableAmount').value > rowCosting">
+              <span class="login-danger">Non-Taxable Amount cannot be greater than Lot Weight * Price/ton ({{rowCosting}}).</span>
             </div>
           </div>
 
@@ -276,13 +271,13 @@
               </div>
               <span
                 *ngIf="
-                  lotAddForm.get('purchaseItemTaxAmount').value  > lotAddForm.get('taxableAmount').value &&
-                  lotAddForm.get('purchaseItemTaxAmount').value  != 0
+                  lotAddForm.get('taxable').value  > lotAddForm.get('taxableAmount').value &&
+                  lotAddForm.get('taxable').value  != 0
                 "
                 style="color: #97704f; font-size: 12px"
               >
                 Tax Applied Amount:
-                {{ lotAddForm.get('purchaseItemTaxAmount').value  | number : "1.2-2" }}
+                {{ lotAddForm.get('taxable').value  | number : "1.2-2" }}
                 + Non Taxable Amount :
                 {{
                   lotAddForm.get("nonTaxableAmount").value | number : "1.2-2"

@@ -47,6 +47,7 @@ export class AddLotComponent {
   blockProcessor: any = {};
   orderTaxList: any[];
   taxesListData: any;
+  rowCosting: number;
 
   constructor(
     private fb: FormBuilder,
@@ -92,7 +93,7 @@ export class AddLotComponent {
       nonTaxableAmount: [""],
       taxableAmount: [""],
       ItemTax: [""],
-      purchaseItemTaxAmount: [""],
+      taxable: [""],
       taxApplied: [""],
       averageTransport: [""],
       averageRoyalty: [""],
@@ -141,7 +142,7 @@ export class AddLotComponent {
         });
       }
     );
-    let lotData = this.NewPurchaseService.getFormData("stepTwoData");
+    let lotData = this.NewPurchaseService.getFormData("stepFirstLotData");
 
     if (lotData) {
       this.blocksDetails = lotData.blockDetails;
@@ -174,7 +175,7 @@ export class AddLotComponent {
         purchaseDiscount: lotData.purchaseDiscount,
         taxableAmount: lotData.taxableAmount,
         nonTaxableAmount: lotData.nonTaxableAmount,
-        purchaseItemTaxAmount: lotData.purchaseItemTaxAmount,
+        taxable: lotData.taxable,
         ItemTax: lotData.purchaseItemTax,
         taxApplied: lotData.taxApplied,
       });
@@ -270,10 +271,11 @@ export class AddLotComponent {
     const purchaseDiscount = form.get("purchaseDiscount").value;
     const tax = form.get("ItemTax").value;
     const taxableAmount = form.get("taxableAmount").value;
-    let purchaseItemTaxAmount = 0;
+    let taxable = 0;
 
     if (lotWeight && pricePerTon) {
       const lotWeightmultiPricePerton = lotWeight * pricePerTon;
+      this.rowCosting = lotWeight * pricePerTon;
       const nonTaxableAmount = Number(taxableAmount) && Number(taxableAmount) <= lotWeightmultiPricePerton
         ? lotWeightmultiPricePerton - taxableAmount
         : lotWeightmultiPricePerton;
@@ -292,19 +294,21 @@ export class AddLotComponent {
     } else if (tax) {
       taxApplied = (taxableAmount * tax) / 100;
     }
-
-    const nonTaxableAmount = form.get("nonTaxableAmount").value;
-    purchaseItemTaxAmount = taxApplied + taxableAmount;
-    const paidToSupplierLotAmount = purchaseItemTaxAmount + nonTaxableAmount;
-    const paidToSupplierLotCost_Discount = paidToSupplierLotAmount - purchaseDiscount;
-    const lotRowCost = purchaseItemTaxAmount + nonTaxableAmount;
-
-    if (paidToSupplierLotAmount !== 0 && purchaseItemTaxAmount !== 0) {
+    let nonTaxableAmount = form.get("nonTaxableAmount").value;
+    taxable = taxApplied + taxableAmount;
+    let lotRowCost = taxable + nonTaxableAmount;
+    
+    if(purchaseDiscount){
+      nonTaxableAmount = nonTaxableAmount - purchaseDiscount;
+    }
+    let paidToSupplierLotAmount = taxable + nonTaxableAmount;
+    if (paidToSupplierLotAmount !== 0 && taxable !== 0) {
       form.patchValue({
-        paidToSupplierLotCost: Number(paidToSupplierLotCost_Discount).toFixed(2),
+        paidToSupplierLotCost: Number(paidToSupplierLotAmount).toFixed(2),
         lotRowCost: Number(lotRowCost),
-        purchaseItemTaxAmount: Number(purchaseItemTaxAmount).toFixed(2),
+        taxable: Number(taxable).toFixed(2),
         taxApplied: Number(taxApplied).toFixed(2),
+        nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
       });
     }
 
@@ -356,11 +360,11 @@ export class AddLotComponent {
         notes: "",
         nonTaxableAmount: Number(formData.nonTaxableAmount),
         taxableAmount: Number(formData.taxableAmount),
-        purchaseItemTaxAmount: Number(formData.purchaseItemTaxAmount),
+        taxable: Number(formData.taxable),
         purchaseItemTax: formData.ItemTax,
         taxApplied: Number(formData.taxApplied),
       };
-      this.NewPurchaseService.setFormData("stepTwoData", payload);
+      this.NewPurchaseService.setFormData("stepFirstLotData", payload);
     }
   }
 }
