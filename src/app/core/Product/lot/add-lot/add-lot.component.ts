@@ -6,7 +6,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { MessageService } from "primeng/api";
 import { NewPurchaseService } from "src/app/core/new-purchase/new-purchase.service";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
-import { validationRegex } from "src/app/core/validation";
+import { atLeastOneRequiredValidator, validationRegex } from "src/app/core/validation";
 import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
 import { TaxesService } from "src/app/core/settings/taxes/taxes.service";
 @Component({
@@ -97,7 +97,7 @@ export class AddLotComponent {
       taxApplied: [""],
       averageTransport: [""],
       averageRoyalty: [""],
-    });
+    },);
   }
   ngOnInit(): void {
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {

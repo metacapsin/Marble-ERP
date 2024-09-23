@@ -210,6 +210,7 @@
                   (change)="calculateTotalAmount()"
                   class="form-control"
                   style="width: 50%"
+                  placeholder="Enter Taxable Amount"
                 />
 
                 <p-multiSelect
@@ -248,11 +249,16 @@
                 formControlName="nonTaxableAmount"
                 (change)="calculateTotalAmount()"
                 class="form-control"
+                placeholder="Enter Non-Taxable Amount"
               />
             </div>
             <div *ngIf="lotAddForm.get('nonTaxableAmount').value > rowCosting">
               <span class="login-danger">Non-Taxable Amount cannot be greater than Lot Weight * Price/ton ({{rowCosting}}).</span>
             </div>
+          </div>
+
+          <div *ngIf="(lotAddForm.get('taxableAmount').touched || lotAddForm.get('nonTaxableAmount').touched) && lotAddForm.hasError('atLeastOneRequired')">
+            <span class="login-danger">At least one of "Taxable Amount" or "Non-Taxable Amount" must be filled.</span>
           </div>
 
           <div class="col-xl-6 col-md-6 col-sm-12 col-12">

@@ -341,10 +341,10 @@
 
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
-                            <label for="customer">taxableAmount Amount</label>
+                            <label for="customer">Taxable Amount</label>
                             <p-inputGroup>
                               <input type="number" formControlName="taxableAmount" (change)="calculateTotalAmount()"
-                                class="form-control" style="width: 50%" />
+                                class="form-control" style="width: 50%" placeholder="Enter Taxable Amount" />
 
                               <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax"
                                 [options]="orderTaxList" appendTo="body" formControlName="purchaseItemTax"
@@ -359,12 +359,16 @@
                           </div>
                         </div>
 
-
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
-                            <label for="customer">Non-taxableAmount Amount</label>
-                            <input type="number" formControlName="nonTaxable" (change)="calculateTotalAmount()"
-                              class="form-control" />
+                            <label for="nonTaxable">Non-Taxable Amount</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                              </div>
+                              <input type="number" formControlName="nonTaxable" (change)="calculateTotalAmount()"
+                              class="form-control" placeholder="Enter Non Taxable Amount"/>
+                            </div>
                           </div>
                         </div>
 
@@ -383,7 +387,7 @@
                             <span *ngIf="addNewPurchaseForm.get('taxable')?.value && addNewPurchaseForm.get('nonTaxable')?.value" style="color: #97704f; font-size: 12px">
                               Tax Applied Amount:
                               {{ addNewPurchaseForm.get('taxable')?.value | number : "1.2-2" }}
-                              + Non taxableAmount Amount :
+                              + Non-Taxable Amount :
                               {{
                               addNewPurchaseForm.get("nonTaxable")?.value | number : "1.2-2"
                               }}
@@ -479,7 +483,7 @@
                                     addNewPurchaseForm.get('purchaseDiscount')?.touched)
                                 ">
                               <span class="login-danger">
-                                input must be between 1 to 100,000.
+                                Input must be between 1 to 100,000.
                               </span>
                             </div>
                           </div>
@@ -553,9 +557,6 @@
                             </div>
                           </div>
                         </div>
-
-
-
                       </div>
 
                       <div class="row">
@@ -1368,7 +1369,7 @@
                                 </span>
                               </p>
                               <p class="mt-2" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">
-                                Non-taxableAmount Amount
+                                Non-Taxable Amount
                                 <span>
                                   ₹
                                   {{

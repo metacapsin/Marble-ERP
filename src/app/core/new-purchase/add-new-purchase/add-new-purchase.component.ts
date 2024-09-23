@@ -115,7 +115,7 @@ export class AddNewPurchaseComponent implements OnInit {
       totalCosting: [""],
       costPerSQFT: [""],
       sqftPerPiece: [""],
-      noOfPieces: ["", [Validators.min(1), Validators.max(100000)]],
+      noOfPieces: ["", [Validators.required, Validators.min(1), Validators.max(100000)]],
       purchaseDiscount: ["", [Validators.min(0), Validators.max(100000)]],
       taxableAmount: [""],
       purchaseItemTax: [""],
@@ -349,6 +349,10 @@ export class AddNewPurchaseComponent implements OnInit {
         totalTaxAmount = (taxableAmount * purchaseItemTax) / 100;
       }
 
+      if(purchaseDiscount){
+        nonTaxable = nonTaxable - purchaseDiscount;
+        this.addNewPurchaseForm.get('nonTaxable').patchValue(Number(nonTaxable).toFixed(2))
+      }
       taxable = taxableAmount + totalTaxAmount;
       paidToSupplierPurchaseCost = taxable + nonTaxable;
       const total: number = transportationCharges + otherCharges + paidToSupplierPurchaseCost + purchaseDiscount;
@@ -363,7 +367,7 @@ export class AddNewPurchaseComponent implements OnInit {
           sqftPerPiece: sqftPerPiece,
           paidToSupplierPurchaseCost: paidToSupplierPurchaseCost,
           taxable: taxable,
-          taxApplied: totalTaxAmount
+          taxApplied: totalTaxAmount,
         });
       }
     }

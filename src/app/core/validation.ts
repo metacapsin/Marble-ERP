@@ -1,3 +1,5 @@
+import { FormGroup, ValidatorFn } from '@angular/forms';
+
 export const validationRegex = {
   phoneRGEX: /^[0-9]{10}$/,
   postalZipRGEX: /^\d{6}$/, // Adjusted for exactly 6 digits
@@ -31,5 +33,17 @@ export const validationRegex = {
   oneToOneLakhRegex:  /^(0|[1-9][0-9]{0,5})$/,
 
 
-
 };
+
+export function atLeastOneRequiredValidator(): ValidatorFn {
+  return (formGroup: FormGroup) => {
+    const taxableAmount = formGroup.get('taxableAmount')?.value;
+    const nonTaxableAmount = formGroup.get('nonTaxableAmount')?.value;
+
+    if (!taxableAmount && !nonTaxableAmount) {
+      return { atLeastOneRequired: true }; // return error if both are empty
+    }
+
+    return null; // return null if one or both are filled
+  };
+}
