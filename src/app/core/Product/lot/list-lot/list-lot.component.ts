@@ -1,22 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { TreeNode } from 'primeng/api';
-import { TreeTableModule } from 'primeng/treetable';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
-import { routes } from 'src/app/shared/routes/routes';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { LotService } from '../lot.service';
-import { TableModule } from 'primeng/table';
-import { DialogModule } from 'primeng/dialog';
-
-import { SlabsService } from '../../slabs/slabs.service';
-import { WarehouseService } from 'src/app/core/settings/warehouse/warehouse.service';
-import { blockProcessorService } from 'src/app/core/block-processor/block-processor.service';
-// import { CsvDownloadService } from 'src/app/common-component/shared/csv-download/shared/csv-download.service';
-
+import { Component, OnInit } from "@angular/core";
+import { TreeNode } from "primeng/api";
+import { Router } from "@angular/router";
+import { MessageService } from "primeng/api";
+import { routes } from "src/app/shared/routes/routes";
+import { SharedModule } from "src/app/shared/shared.module";
+import { LotService } from "../lot.service";
+import { SlabsService } from "../../slabs/slabs.service";
+import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
+import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
 
 interface Column {
   field: string;
@@ -30,44 +21,45 @@ interface ExportColumn {
 }
 
 @Component({
-  selector: 'app-list-lot',
+  selector: "app-list-lot",
   standalone: true,
   imports: [SharedModule],
   providers: [MessageService],
-  templateUrl: './list-lot.component.html',
-  styleUrl: './list-lot.component.scss'
+  templateUrl: "./list-lot.component.html",
+  styleUrl: "./list-lot.component.scss",
 })
 export class ListLotComponent implements OnInit {
   files2!: TreeNode[];
   public routes = routes;
   lotData: any = [];
   blockDatabyLotId: any = [];
-  originalData: any = []
+  originalData: any = [];
   public showDialog: boolean = false;
   public lotVisible: boolean = false;
-  modalData: any = {}
+  modalData: any = {};
   lotID: any;
   searchDataValue = "";
   selectedlot = "";
   showData: any;
-  childrenData: any = []
+  childrenData: any = [];
 
   cols: Column[] = [];
   exportColumns: ExportColumn[] = [];
   allInDropDown: any;
   warehouseDropDown: any;
   warehouseData: any;
-  lotDaTa = 'lotDaTa';
+  lotDaTa = "lotDaTa";
   blockProcessorList: any = [];
 
-  constructor(public router: Router,
+  constructor(
+    public router: Router,
     private service: LotService,
     private SlabsService: SlabsService,
     private messageService: MessageService,
     private WarehouseService: WarehouseService,
     private blockProcessorService: blockProcessorService
-    // private csvDownloadService: CsvDownloadService
-  ) { }
+  ) // private csvDownloadService: CsvDownloadService
+  {}
 
   getLotList(): void {
     this.service.getLotList().subscribe((resp: any) => {
@@ -110,12 +102,13 @@ export class ListLotComponent implements OnInit {
   }
 
   isAnyBlockProcessed(blockDetails: any[]): boolean {
-    return blockDetails.some(block => block.isProcessed);
+    return blockDetails.some((block) => block.isProcessed);
   }
   ngOnInit(): void {
     this.getLotList();
-    this.blockProcessorService.getAllBlockProcessorData().subscribe(
-      (data: any) => {
+    this.blockProcessorService
+      .getAllBlockProcessorData()
+      .subscribe((data: any) => {
         this.blockProcessorList = [];
         data.forEach((element: any) => {
           this.blockProcessorList.push({
@@ -127,8 +120,7 @@ export class ListLotComponent implements OnInit {
           });
         });
         console.log(this.blockProcessorList);
-      }
-    );
+      });
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.warehouseData = resp.data.map((element) => ({
         name: element.name,
@@ -173,14 +165,13 @@ export class ListLotComponent implements OnInit {
   }
 
   editPage(_id: any) {
-
-    this.router.navigate(['/lot/edit/' + _id]);
+    this.router.navigate(["/lot/edit/" + _id]);
   }
   showLotDetails(_id: any) {
-    this.lotID = ""
+    this.lotID = "";
     this.SlabsService.getBlockDetailByLotId(_id).subscribe((resp: any) => {
       this.lotVisible = true;
-      this.blockDatabyLotId = resp.data.blockDetails
+      this.blockDatabyLotId = resp.data.blockDetails;
       this.lotID = _id;
     });
   }
@@ -191,16 +182,24 @@ export class ListLotComponent implements OnInit {
       lotId: this.lotID,
       blockNo: blockNo,
       blockProcessor: event.value,
-    }
-    this.SlabsService.updateBlockProcessorByLotId(payload).subscribe((resp: any) => {
-      if (resp) {
-        if (resp.status == "success") {
-          this.messageService.add({ severity: 'success', detail: resp.message });
-        } else {
-          this.messageService.add({ severity: 'error', detail: resp.message });
+    };
+    this.SlabsService.updateBlockProcessorByLotId(payload).subscribe(
+      (resp: any) => {
+        if (resp) {
+          if (resp.status == "success") {
+            this.messageService.add({
+              severity: "success",
+              detail: resp.message,
+            });
+          } else {
+            this.messageService.add({
+              severity: "error",
+              detail: resp.message,
+            });
+          }
         }
       }
-    });
+    );
   }
 
   deleteLot(_id: any) {
@@ -209,7 +208,7 @@ export class ListLotComponent implements OnInit {
     this.modalData = {
       title: "Delete",
       messege: "Are you sure want to delete this Lot",
-    }
+    };
     this.showDialog = true;
   }
 
@@ -218,13 +217,12 @@ export class ListLotComponent implements OnInit {
   }
 
   callBackModal() {
-    this.service.deleteLotById(this.lotID).subscribe(resp => {
-      const message = "Lot has been deleted"
-      this.messageService.add({ severity: 'success', detail: message });
+    this.service.deleteLotById(this.lotID).subscribe((resp) => {
+      const message = "Lot has been deleted";
+      this.messageService.add({ severity: "success", detail: message });
       this.getLotList();
       this.showDialog = false;
-
-    })
+    });
   }
 
   close() {
@@ -237,4 +235,3 @@ export class ListLotComponent implements OnInit {
     const currentPageData = this.lotData.slice(startIndex, endIndex);
   }
 }
-

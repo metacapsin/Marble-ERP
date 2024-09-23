@@ -15,6 +15,9 @@ CreateLot(data: {} | null) {
 getLotList() {
   return this.http.get(environment.apiUrl + "/LotController/getLotList");
 }
+getUnProcessedList() {
+  return this.http.get(environment.apiUrl + "/LotController/getUnProcessedList");
+}
 
 getLotById(locationId: string) {
   return this.http.get(environment.apiUrl + "/LotController/getLotById/" + locationId);

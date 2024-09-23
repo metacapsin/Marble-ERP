@@ -1,141 +1,180 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Product</li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Block List</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <!-- <li class="breadcrumb-item active">Stock</li> -->
+            <!-- <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li> -->
+            <li class="breadcrumb-item active">Blocks List</li>
+          </ul>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card card-table show-entire">
-                    <div class="card-body">
-                        <div class="page-table-header mb-2">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="doctor-table-blk">
-                                        <h3>Block List</h3>
-                                        <div class="doctor-search-blk">
-                                            <div class="top-nav-search table-search-blk">
-                                                <input type="text" class="form-control" placeholder="Search here"
-                                                    [(ngModel)]="searchDataValue"
-                                                    (ngModelChange)="searchData(searchDataValue)">
-                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                            </div>
-                                            <div class="add-group textbtn">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="doctor-table-blk">
+                    <h3>Blocks List</h3>
+                    <div class="doctor-search-blk">
+                      <div class="top-nav-search table-search-blk">
+                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
+                          (ngModelChange)="searchData()" />
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
+                      </div>
+                      <!-- <div class="add-group textbtn">
                                                 <a appShowHide [roles]="['admin', 'super-admin']"
-                                                    [routerLink]="['/blocks/add']"
+                                                    [routerLink]="['/lot/add']"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""> Add New</a>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
-                                    [roles]="['admin', 'super-admin']">
-                                    <a href="javascript:;" class=" me-2"><img src=""
-                                            alt=""></a>
-                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
-                                            alt=""></a> -->
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                                            alt=""></a>
-                                    <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-body p-2">
-                            <p-table [value]="originalData" [tableStyle]="{'min-width': '60rem'}" [paginator]="originalData?.length >= 5"
-                                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedLot">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th pSortableColumn="lotNo">Lot No. <p-sortIcon field="lotNo"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="lotNo" display="menu"></p-columnFilter>
-    
-                                        </th>
-                                        <th pSortableColumn="blockNo">Blocks  No. <p-sortIcon field="blockNo"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="blockNo" display="menu"></p-columnFilter>
-    
-                                        </th>
-                                        <th pSortableColumn="processingCharge">Processing Charge<p-sortIcon field="processingCharge"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="processingCharge" field="processingCharge" display="menu"></p-columnFilter>
-    
-                                        </th>
-                                        <th pSortableColumn="height">Height  <p-sortIcon field="height"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="height" display="menu"></p-columnFilter>
-    
-                                        </th>
-                                        <th pSortableColumn="width">Widht <p-sortIcon field="width"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="width" display="menu"></p-columnFilter>
-                                            
-                                        </th>
-                                        <th pSortableColumn="length">Length <p-sortIcon field="length"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="length" display="menu"></p-columnFilter>
-    
-                                        </th>
-                                        <th appShowHide [roles]="['admin', 'super-admin']" >Action
-                                        </th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-blocks>
-    
-                                    <tr>
-                                        <td>
-                                            {{blocks.lotNo}}
-                                        </td>
-                                        <td>
-                                            {{blocks.blocksNo}}
-                                        </td>
-                                        <td>
-                                            {{blocks.processingCharge}}
-                                        </td>
-                                        <td>
-                                            {{blocks.height}}
-                                        </td>
-                                        <td>
-                                            {{blocks.width}}
-                                        </td>
-                                        <td>
-                                            {{blocks.length}}
-                                        </td>
-                                        <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
-                  <div class="action-buttons">
-
-                                            <p-button [text]="true" icon="fa fa-edit"
-                                                [routerLink]="['/blocks/edit', blocks._id]"></p-button>
-                                            <p-button [text]=" true" icon="fa fa-trash"
-                                                (click)="deleteBlocks(blocks._id)"></p-button>
-                  </div>
-                                        </td>
-    
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-
-                        </div>
+                                            </div> -->
                     </div>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                  [roles]="['admin', 'super-admin']">
+                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                            alt="" pTooltip="Download data in PDF file"
+                      tooltipPosition="left" tooltipStyleClass="tooltip"></a> -->
+                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
+                                            alt=""></a> -->
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""
+                      pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip"
+                      (click)="dt.exportCSV()"></a>
+                  <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
 
-<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
-    [data]="modalData"></app-confirm-dialog>
+                </div>
+              </div>
+              <div class="mt-3">
+                <div class="row card-body d-flex justify-content-between p0">
+                  <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                      <label for="warehouseDetails">Filter By</label>
+                      <p-dropdown [options]="warehouseData" styleClass="" appendTo="body"
+                        placeholder="Filter By Warehouse" [style]="{ width: '100%' }" [filter]="true" optionLabel="name"
+                        optionValue="_id" [showClear]="true" (onChange)="onSearchByChange($event.value)"
+                        [(ngModel)]="warehouseDropDown">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body p-2">
+
+              <p-table
+                [value]="data| filter:searchDataValue:['date', 'lotName','lotNo','lotWeight','pricePerTon','blocksCount','lotTotalCosting',]"
+                [tableStyle]="{'min-width': '60rem'}" [paginator]="data?.length >= 5" [rows]="10"
+                [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedBlocks" styleClass="p-datatable-striped"
+                selectionMode="multiple" (onFilter)="onFilter($event)" #dt [columns]="cols" 
+                [exportHeader]="'customExportHeader'" exportFilename="Lot" class="table-responsive">
+                <ng-template pTemplate="header" >
+                  <tr>
+                    <th class="text-nowrap" pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="date"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="lotName">Lot Name <p-sortIcon field="lotName"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotName"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="lotNo">Lot Number <p-sortIcon field="lotNo"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotNo"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="lotWeight">Lot Weight (Ton)<p-sortIcon field="lotWeight"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotWeight"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="vehicleNo">Vehicle Number <p-sortIcon field="vehicleNo"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="vehicleNo"
+                        display="menu"></p-columnFilter>
+                    </th>
+                      
+                    <th class="text-nowrap" pSortableColumn="blockDetails.blockNo">Block Number <p-sortIcon field="blockDetails.blockNo"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockDetails.blockNo"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="blockDetails.height">Height <p-sortIcon field="blockDetails.height"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockDetails.height"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="blockDetails.width">Width <p-sortIcon field="blockDetails.width"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockDetails.width"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="blockDetails.length">Length <p-sortIcon field="blockDetails.length"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockDetails.length"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="totalArea">Total Area <p-sortIcon field="totalArea"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalArea"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="lotTotalCosting">Total Cost <p-sortIcon field="lotTotalCosting"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotTotalCosting"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="warehouseDetails.name">Warehouse<p-sortIcon
+                        field="warehouseDetails.name"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="warehouseDetails.name"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <!-- <th>Action</th> -->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-lot>
+                  <tr >
+                    <td >{{lot.date | date: 'dd-MMM-yyyy'}}</td>
+                    <td >{{lot.lotName}}</td>
+                    <td >{{lot.lotNo}}</td>
+                    <td >{{lot.lotWeight}}</td>
+                    <td >{{lot.vehicleNo}}</td>
+                    <td >{{lot.blockDetails.blockNo}}</td>
+                    <td >{{lot.blockDetails.height}}</td>
+                    <td >{{lot.blockDetails.width}}</td>
+                    <td >{{lot.blockDetails.length}}</td>
+                    <td >{{lot.blockDetails.totalArea}}</td>
+                    <td >₹ {{lot.lotTotalCosting |indianCurrency}}</td>
+                    <td >{{lot.warehouseDetails.name}}</td>
+                    <!-- <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
+                      <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View" tooltipPosition="bottom"
+                        tooltipStyleClass="tooltip" (click)="showLotDetails(lot._id)"></p-button>
+                    </td> -->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="12" class="text-center">No Blocks found.</td>
+                  </tr>
+                </ng-template>
+                <!-- <ng-template pTemplate="footer">
+                  <tr>
+                    <td colspan="5"></td>
+                    <td class="" *ngIf="data">Total Cost</td>
+                    <td totalValueDirective [data]="data" [name]="data"></td>
+                    <td colspan="2"></td>
+                  </tr>
+                </ng-template> -->
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
