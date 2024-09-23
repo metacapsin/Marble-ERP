@@ -430,7 +430,7 @@
 <app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>
 
-<p-dialog header="Add Payment" [(visible)]="displayPaymentDialog" modal="true" [closable]="true"
+<p-dialog [focusOnShow]="false" header="Add Payment" [(visible)]="displayPaymentDialog" modal="true" [closable]="true"
   [style]="{width: '80vw'}">
   <form [formGroup]="addTaxVendorsPaymentForm" (ngSubmit)="addTaxVendorsPaymentFormSubmit()">
 

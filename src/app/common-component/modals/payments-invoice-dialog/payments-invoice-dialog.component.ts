@@ -103,7 +103,34 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.onFormChanges();
+
+   }
+
+
+
+   // Function to track changes in the payment fields
+   onFormChanges(): void {
+    this.paymentInvoiceForm.valueChanges.subscribe(() => {
+      const taxablePayment = this.paymentInvoiceForm.get(
+        'taxablePaymentAmount'
+      )?.value;
+      const nonTaxablePayment = this.paymentInvoiceForm.get(
+        'nonTaxablePaymentAmount'
+      )?.value;
+
+      // If either one of the amounts is filled, mark the form as valid
+      if (taxablePayment || nonTaxablePayment) {
+        this.paymentInvoiceForm.get('totalAmount')?.setValidators(null); // Remove validators from totalAmount
+        this.paymentInvoiceForm.get('totalAmount')?.updateValueAndValidity();
+      } else {
+        // If neither is filled, keep the form invalid
+        this.paymentInvoiceForm.get('totalAmount')?.setValidators([Validators.required, Validators.min(1)]);
+        this.paymentInvoiceForm.get('totalAmount')?.updateValueAndValidity();
+      }
+    });
+  }
 
   ngOnChanges(changes: SimpleChange) {
     console.log("this.dataById", this.dataById);
@@ -178,6 +205,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           taxablePaymentMode: "Bank",
           nonTaxablePaymentMode: "Cash",
           nonTaxablePaymentAmount: Number(this.dataById.nonTaxableDue),
+          paymentMode: "Bank / Cash"
         });
         this.onSalesPaymentAmountChanges()
       } else if (this.dataById.isSalesReturn) {
