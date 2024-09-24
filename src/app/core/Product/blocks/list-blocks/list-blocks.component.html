@@ -88,37 +88,12 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="date"
                         display="menu"></p-columnFilter>
                     </th>
-                    <th class="text-nowrap" pSortableColumn="lotName">Lot Name <p-sortIcon field="lotName"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotName"
-                        display="menu"></p-columnFilter>
-                    </th>
-                    <th class="text-nowrap" pSortableColumn="lotNo">Lot Number <p-sortIcon field="lotNo"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotNo"
-                        display="menu"></p-columnFilter>
-                    </th>
-                    <th class="text-nowrap" pSortableColumn="lotWeight">Lot Weight (Ton)<p-sortIcon field="lotWeight"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotWeight"
-                        display="menu"></p-columnFilter>
-                    </th>
-                    <th class="text-nowrap" pSortableColumn="vehicleNo">Vehicle Number <p-sortIcon field="vehicleNo"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="vehicleNo"
-                        display="menu"></p-columnFilter>
-                    </th>
-                      
                     <th class="text-nowrap" pSortableColumn="blockDetails.blockNo">Block Number <p-sortIcon field="blockDetails.blockNo"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockDetails.blockNo"
                         display="menu"></p-columnFilter>
                     </th>
-                    <th class="text-nowrap" pSortableColumn="blockDetails.height">Height <p-sortIcon field="blockDetails.height"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockDetails.height"
-                        display="menu"></p-columnFilter>
-                    </th>
-                    <th class="text-nowrap" pSortableColumn="blockDetails.width">Width <p-sortIcon field="blockDetails.width"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockDetails.width"
-                        display="menu"></p-columnFilter>
-                    </th>
-                    <th class="text-nowrap" pSortableColumn="blockDetails.length">Length <p-sortIcon field="blockDetails.length"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockDetails.length"
+                    <th class="text-nowrap" pSortableColumn="blockDetails.height || blockDetails.width || blockDetails.length">H*W*L <p-sortIcon field="blockDetails.height || blockDetails.width || blockDetails.length"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockDetails.height || blockDetails.width || blockDetails.length"
                         display="menu"></p-columnFilter>
                     </th>
                     <th class="text-nowrap" pSortableColumn="totalArea">Total Area <p-sortIcon field="totalArea"></p-sortIcon>
@@ -134,23 +109,44 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="warehouseDetails.name"
                         display="menu"></p-columnFilter>
                     </th>
+                    <th class="text-nowrap" pSortableColumn="lotNo">Lot Number <p-sortIcon field="lotNo"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotNo"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="lotName">Lot Name <p-sortIcon field="lotName"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotName"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    
+                    <th class="text-nowrap" pSortableColumn="category">Category<p-sortIcon field="category"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="category"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="subCategory">SubCategory<p-sortIcon field="subCategory"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="subCategory"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <!-- <th class="text-nowrap" pSortableColumn="processor">Processor<p-sortIcon field="processor"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="processor"
+                        display="menu"></p-columnFilter>
+                    </th> -->
+                  
                     <!-- <th>Action</th> -->
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-lot>
                   <tr >
                     <td >{{lot.date | date: 'dd-MMM-yyyy'}}</td>
-                    <td >{{lot.lotName}}</td>
-                    <td >{{lot.lotNo}}</td>
-                    <td >{{lot.lotWeight}}</td>
-                    <td >{{lot.vehicleNo}}</td>
                     <td >{{lot.blockDetails.blockNo}}</td>
-                    <td >{{lot.blockDetails.height}}</td>
-                    <td >{{lot.blockDetails.width}}</td>
-                    <td >{{lot.blockDetails.length}}</td>
+                    <td>{{ lot.blockDetails?.height }} x {{ lot.blockDetails?.width }} x {{ lot.blockDetails?.length }}</td>
                     <td >{{lot.blockDetails.totalArea}}</td>
                     <td >₹ {{lot.lotTotalCosting |indianCurrency}}</td>
                     <td >{{lot.warehouseDetails.name}}</td>
+                    <td >{{lot.lotNo}}</td>
+                    <td >{{lot.lotName}}</td>
+                    <td >{{lot.category}}</td>
+                    <td >{{lot.subCategory}}</td>
+                    <!-- <td >{{lot.processor}}</td> -->
                     <!-- <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                       <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View" tooltipPosition="bottom"
                         tooltipStyleClass="tooltip" (click)="showLotDetails(lot._id)"></p-button>

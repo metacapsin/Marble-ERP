@@ -34,6 +34,9 @@ export class PaymentInAddComponent {
       paymentMode: "Bank",
     },
     {
+      paymentMode: "Online",
+    },
+    {
       paymentMode: "Cheque",
     },
     
@@ -73,23 +76,23 @@ export class PaymentInAddComponent {
           _id: [sale._id],
           salesInvoiceNumber: [sale.salesInvoiceNumber],
           taxablePaymentAmount: [
-            sale.taxablePaymentAmount || '', 
+            sale.taxableDue || '', 
             [
-              Validators.required,
+              
               Validators.min(0),
               Validators.max(sale.taxableDue) // Set max value to taxableDue
             ]
           ],
-          taxablePaymentMode: [sale.taxablePaymentMode , Validators.required],  
+          taxablePaymentMode: ["Bank" , Validators.required],  
           nonTaxablePaymentAmount: [
-            sale.nonTaxablePaymentAmount || '', 
+            sale.nonTaxableDue || '', 
             [
-              Validators.required,
+              
               Validators.min(0),
               Validators.max(sale.nonTaxableDue) // Set max value to nonTaxableDue
             ]
           ],
-          nonTaxablePaymentMode: [sale.nonTaxablePaymentMode , Validators.required], 
+          nonTaxablePaymentMode: ["Cash" , Validators.required], 
           // note:[sale.note , Validators.pattern(this.notesRegex)], 
         })
       );
@@ -129,6 +132,13 @@ export class PaymentInAddComponent {
             // const message = "No payments available for this Customer";
             //   this.messageService.add({ severity: "warn", detail: message });
           } else {
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
+        
+            this.addPaymentInForm.patchValue({
+              paymentDate: formattedDate,
+            });
+        
             this.noPaymentsAvailable = false;
             this.addSalesControls();
             console.log("Payments found", this.salesDataById);

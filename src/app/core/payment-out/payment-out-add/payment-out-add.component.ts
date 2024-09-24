@@ -35,6 +35,9 @@ export class PaymentOutAddComponent {
       paymentMode: "Cash",
     },
     {
+      paymentMode: "Bank",
+    },
+    {
       paymentMode: "Online",
     },
     {
@@ -78,23 +81,23 @@ export class PaymentOutAddComponent {
           
           purchaseInvoiceNumber: [purchase.purchaseInvoiceNumber],
           taxablePaymentAmount: [
-            purchase.taxablePaymentAmount || '', 
+            purchase.taxableDue || '', 
             [
-              Validators.required,
+             
               Validators.min(0),
               Validators.max(purchase.taxableDue) // Set max value to taxableDue
             ]
           ],
-          taxablePaymentMode: [purchase.taxablePaymentMode , Validators.required],  
+          taxablePaymentMode: ["Bank" , Validators.required],  
           nonTaxablePaymentAmount: [
-            purchase.nonTaxablePaymentAmount || '', 
+            purchase.nonTaxableDue || '', 
             [
-              Validators.required,
+             
               Validators.min(0),
               Validators.max(purchase.nonTaxableDue) // Set max value to nonTaxableDue
             ]
           ],
-          nonTaxablePaymentMode: [purchase.nonTaxablePaymentMode , Validators.required], 
+          nonTaxablePaymentMode: ["Cash" , Validators.required], 
           // note:[sale.note , Validators.pattern(this.notesRegex)], 
         })
       );
@@ -135,6 +138,12 @@ export class PaymentOutAddComponent {
             // const message = "No payments available for this supplier";
             //   this.messageService.add({ severity: "warn", detail: message });
           } else {
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
+        
+            this.addPaymentOutForm.patchValue({
+              paymentDate: formattedDate,
+            });
             this.noPaymentsAvailable = false;
             this.addpurchaseControls();
             console.log("Payments found", this.purchaseDataById);

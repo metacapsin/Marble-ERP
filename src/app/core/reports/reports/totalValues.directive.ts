@@ -258,7 +258,7 @@ export class TotalValueDirective {
           this.salesTotalAmount
         );
 
-        this.elementRef.nativeElement.innerHTML = `     <td colspan="5"></td>
+        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
                                                         <td>Total Amount</td>
                                                         <td>₹ ${paidAmount}</td>
                                                         <td class="text-danger-dark">₹ ${dueAmount}</td>

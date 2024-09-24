@@ -129,7 +129,7 @@ export class AddNewPurchaseComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.NewPurchaseService.clearFormData();
     this.supplier = this.localStorageService.getItem("supplier");
     this.returnUrl = this.localStorageService.getItem("returnUrl");
@@ -138,6 +138,12 @@ export class AddNewPurchaseComponent implements OnInit {
         supplier: this.supplier,
       });
     }
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
+
+    this.addNewPurchaseForm.patchValue({
+      purchaseDate: formattedDate,
+    });
 
     this.taxVendorsService.getTaxVendorList().subscribe((resp: any) => {
       if (resp.data) {
@@ -227,7 +233,6 @@ export class AddNewPurchaseComponent implements OnInit {
     }));
   }
 
-
   backStep(prevCallback: any) {
     prevCallback.emit();
   }
@@ -235,7 +240,8 @@ export class AddNewPurchaseComponent implements OnInit {
     if (page == "first") {
       if (this.lotTypeValue == "Lot") {
         this.child.LotAddFormSubmit();
-        this.ItemDetails = this.NewPurchaseService.getFormData("stepFirstLotData");
+        this.ItemDetails =
+          this.NewPurchaseService.getFormData("stepFirstLotData");
         const payload = { ...this.ItemDetails };
         delete payload.nonTaxable;
         delete payload.taxableAmount;
@@ -252,7 +258,7 @@ export class AddNewPurchaseComponent implements OnInit {
           taxApplied: this.ItemDetails?.taxApplied,
         });
       }
-    }    
+    }
     nextCallback.emit();
   }
 
@@ -320,24 +326,31 @@ export class AddNewPurchaseComponent implements OnInit {
         length: this.previousSlabValues.length,
         width: this.previousSlabValues.width,
         costPerSQFT: this.previousSlabValues.costPerSQFT,
-        paidToSupplierPurchaseCost: this.previousSlabValues.paidToSupplierPurchaseCost,
+        paidToSupplierPurchaseCost:
+          this.previousSlabValues.paidToSupplierPurchaseCost,
       });
     }
   }
   calculateTotalAmount() {
     let totalTaxAmount: number = 0;
     if (this.lotTypeValue === "Slab") {
-      let paidToSupplierPurchaseCost = this.addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value || 0;
-      let transportationCharges = this.addNewPurchaseForm.get("transportationCharges")?.value || 0;
-      let otherCharges = this.addNewPurchaseForm.get("otherCharges")?.value || 0;
+      let paidToSupplierPurchaseCost =
+        this.addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value || 0;
+      let transportationCharges =
+        this.addNewPurchaseForm.get("transportationCharges")?.value || 0;
+      let otherCharges =
+        this.addNewPurchaseForm.get("otherCharges")?.value || 0;
       let totalSQFT = this.addNewPurchaseForm.get("totalSQFT")?.value || 0;
       let costPerSQFT = this.addNewPurchaseForm.get("costPerSQFT")?.value || 0;
-      let purchaseDiscount = this.addNewPurchaseForm.get("purchaseDiscount")?.value || 0;
+      let purchaseDiscount =
+        this.addNewPurchaseForm.get("purchaseDiscount")?.value || 0;
       let noOfPieces = this.addNewPurchaseForm.get("noOfPieces")?.value || 1; // Default to 1 to avoid division by zero
-      let taxableAmount = this.addNewPurchaseForm.get("taxableAmount")?.value || 0;
+      let taxableAmount =
+        this.addNewPurchaseForm.get("taxableAmount")?.value || 0;
       let nonTaxable = this.addNewPurchaseForm.get("nonTaxable")?.value || 0;
       let taxable = this.addNewPurchaseForm.get("taxable")?.value || 0;
-      let purchaseItemTax = this.addNewPurchaseForm.get("purchaseItemTax")?.value;
+      let purchaseItemTax =
+        this.addNewPurchaseForm.get("purchaseItemTax")?.value;
 
       let sqftPerPiece = totalSQFT / noOfPieces;
 
@@ -349,13 +362,19 @@ export class AddNewPurchaseComponent implements OnInit {
         totalTaxAmount = (taxableAmount * purchaseItemTax) / 100;
       }
 
-      if(purchaseDiscount){
+      if (purchaseDiscount) {
         nonTaxable = nonTaxable - purchaseDiscount;
-        this.addNewPurchaseForm.get('nonTaxable').patchValue(Number(nonTaxable).toFixed(2))
+        this.addNewPurchaseForm
+          .get("nonTaxable")
+          .patchValue(Number(nonTaxable).toFixed(2));
       }
       taxable = taxableAmount + totalTaxAmount;
       paidToSupplierPurchaseCost = taxable + nonTaxable;
-      const total: number = transportationCharges + otherCharges + paidToSupplierPurchaseCost + purchaseDiscount;
+      const total: number =
+        transportationCharges +
+        otherCharges +
+        paidToSupplierPurchaseCost +
+        purchaseDiscount;
       if (totalSQFT !== 0) {
         costPerSQFT = total / totalSQFT;
       }
@@ -374,10 +393,12 @@ export class AddNewPurchaseComponent implements OnInit {
   }
 
   calculateTaxVendorAmount() {
-    let totalTaxAmount: number = this.addNewPurchaseForm.get("taxApplied").value;
-    let vendorTaxApplied = this.addNewPurchaseForm.get("vendorTaxApplied").value;
+    let totalTaxAmount: number =
+      this.addNewPurchaseForm.get("taxApplied").value;
+    let vendorTaxApplied =
+      this.addNewPurchaseForm.get("vendorTaxApplied").value;
     let taxVendorAmount = (totalTaxAmount * vendorTaxApplied) / 100;
-    console.log('taxVendorAmount', taxVendorAmount);
+    console.log("taxVendorAmount", taxVendorAmount);
 
     this.addNewPurchaseForm.patchValue({
       taxVendorAmount: taxVendorAmount,
@@ -388,7 +409,7 @@ export class AddNewPurchaseComponent implements OnInit {
     const formData = this.addNewPurchaseForm.value;
     let payload = {};
     this.LotPayload = this.LotPayload || {};
-    console.log('formData', formData);
+    console.log("formData", formData);
 
     if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
       this.LotPayload.purchaseCost = Number(
@@ -405,7 +426,7 @@ export class AddNewPurchaseComponent implements OnInit {
       companyName: formData.taxVendor.companyName,
       taxVendorAmount: Number(formData.taxVendorAmount),
       vendorTaxApplied: Number(formData.vendorTaxApplied),
-    }
+    };
     if (this.addNewPurchaseForm.value.purchaseType == "Lot") {
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
@@ -420,7 +441,9 @@ export class AddNewPurchaseComponent implements OnInit {
         taxableAmount: Number(formData.taxableAmount),
         taxable: formData.taxable,
         purchaseItemTax: formData.purchaseItemTax,
-        taxVendor: this.addNewPurchaseForm.get('isTaxVendor').value ? taxVenoderObj : null,
+        taxVendor: this.addNewPurchaseForm.get("isTaxVendor").value
+          ? taxVenoderObj
+          : null,
         taxApplied: formData.taxApplied,
       };
     } else {
@@ -463,7 +486,9 @@ export class AddNewPurchaseComponent implements OnInit {
         taxableAmount: Number(formData.taxableAmount),
         taxable: formData.taxable,
         purchaseItemTax: formData.purchaseItemTax,
-        taxVendor: this.addNewPurchaseForm.get('isTaxVendor').value ? taxVenoderObj : null,
+        taxVendor: this.addNewPurchaseForm.get("isTaxVendor").value
+          ? taxVenoderObj
+          : null,
         taxApplied: formData.taxApplied,
       };
     }
