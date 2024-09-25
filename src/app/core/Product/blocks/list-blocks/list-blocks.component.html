@@ -126,6 +126,8 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="subCategory"
                         display="menu"></p-columnFilter>
                     </th>
+              <th>Processor </th>
+
                     <!-- <th class="text-nowrap" pSortableColumn="processor">Processor<p-sortIcon field="processor"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="processor"
                         display="menu"></p-columnFilter>
@@ -146,6 +148,12 @@
                     <td >{{lot.lotName}}</td>
                     <td >{{lot.category}}</td>
                     <td >{{lot.subCategory}}</td>
+                    <td >
+                      <p-dropdown [options]="blockProcessorList" appendTo="body" optionLabel="name" optionValue="_id"
+                       placeholder="Select Processor" [style]="{ width: '100%' }"  [(ngModel)]="lot.blockDetails.blockProcessor"
+                       [filter]="true" filterBy="name" [showClear]="false" (onChange)="onBlockProcessorChange($event, lot.blockDetails.blockNo, lot.lotId)">
+                            </p-dropdown>
+                    </td> 
                     <!-- <td >{{lot.processor}}</td> -->
                     <!-- <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                       <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View" tooltipPosition="bottom"

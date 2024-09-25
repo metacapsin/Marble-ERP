@@ -195,14 +195,13 @@
               <td>{{lot.weightPerBlock.toFixed(3)}}</td>
               <td>₹ {{lot.rawCosting.toFixed(3)}}</td>
               <td>₹ {{lot.transportationCosting.toFixed(3)}}</td>
-              <td>₹ {{lot.royaltyCosting.toFixed(3)}}</td>
+              <td>₹ {{lot.royaltyCosting.toFixed(3)}} </td>
               <td>₹ {{lot.totalCosting.toFixed(3)}}</td>
               <td *ngIf="lot.isProcessed"><p-tag severity="success" value="Yes"></p-tag></td>
               <td *ngIf="!lot.isProcessed"><p-tag severity="warning" value="No"></p-tag></td>
               <td >
                 <p-dropdown [options]="blockProcessorList" appendTo="body" optionLabel="name" optionValue="_id"
-                 placeholder="Select Processor" [style]="{ width: '100%' }"  [(ngModel)]="lot.blockProcessor"
-                 [filter]="true" filterBy="name" [showClear]="false" (onChange)="onBlockProcessorChange($event, lot.blockNo)">
+                 placeholder="Select Processor" [style]="{ width: '100%' }"  [(ngModel)]="lot.blockProcessor"                 [filter]="true" filterBy="name" [showClear]="false" (onChange)="onBlockProcessorChange($event, lot.blockNo)">
                       </p-dropdown>
               </td>
             </tr>

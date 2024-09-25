@@ -122,6 +122,44 @@
             </div>
           </div>
 
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="category">Category <span class="login-danger">*</span></label>
+              <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body"
+                optionLabel="name" optionValue="_id" placeholder="Select Category"
+                formControlName="categoryDetail" [style]="{ width: '100%' }" [filter]="true"
+                filterBy="name" [showClear]="false" (onChange)="findSubCategory($event.value)">
+              </p-dropdown>
+              <div *ngIf="
+                  lotAddForm
+                    .get('categoryDetail')
+                    ?.hasError('required') &&
+                  lotAddForm.get('categoryDetail')?.touched
+                ">
+                <span class="login-danger">Field is required.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="subCategory">Sub Category <span class="login-danger">*</span></label>
+              <p-dropdown [options]="subCategorListByCategory" styleClass="" appendTo="body"
+                optionValue="_id" placeholder="Select Sub Category" optionLabel="name"
+                formControlName="subCategoryDetail" [style]="{ width: '100%' }" [filter]="true"
+                filterBy="name" [showClear]="false">
+              </p-dropdown>
+              <div *ngIf="
+                  lotAddForm
+                    .get('subCategoryDetail')
+                    ?.hasError('required') &&
+                  lotAddForm.get('subCategoryDetail')?.touched
+                ">
+                <span class="login-danger">Field is required.</span>
+              </div>
+            </div>
+          </div>
+
           <div class="col-12 col-md-6 col-xl-6">
             <div class="form-group local-forms">
               <label for="lotWeight"

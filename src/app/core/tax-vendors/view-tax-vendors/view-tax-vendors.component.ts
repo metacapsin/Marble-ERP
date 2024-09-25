@@ -23,8 +23,9 @@ export class ViewTaxVendorsComponent implements OnInit {
   showDialog = false;
   modalData: any;
   salesDataShowById: any[] = [];
-  purchaseDataShowById: any[] = []
-;
+  purchaseDataShowById: any[] = [];
+  purchaseDataShowBy:string = 'purchaseDataShowBy'
+  salesDataShowBy:string = 'salesDataShowBy'
   paymentListDataByTaxVendorsId: any[] = [];
   purchasePaymentListDataByTaxVendorsId: any[] = [];
   selectedSales: any[] = []; // Holds the selected sales items

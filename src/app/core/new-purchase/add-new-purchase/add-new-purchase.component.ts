@@ -248,6 +248,7 @@ export class AddNewPurchaseComponent implements OnInit {
         delete payload.purchaseItemTax;
         delete payload.taxable;
         this.LotPayload = payload;
+        console.log(this.ItemDetails)
 
         this.addNewPurchaseForm.patchValue({
           paidToSupplierPurchaseCost: this.ItemDetails?.paidToSupplierLotCost,

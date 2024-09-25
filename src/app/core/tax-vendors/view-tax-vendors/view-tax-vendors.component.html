@@ -183,6 +183,22 @@
                 <td colspan="8" class="text-center">No sales records found.</td>
               </tr>
             </ng-template>
+            <ng-template pTemplate="footer">
+              <tr
+                totalValueDirective
+                [data]="salesDataShowById"
+                [name]="salesDataShowBy"
+              >
+                <!-- <td colspan="4"></td>
+                <td>Total Amount</td> -->
+                <!-- <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>
+                <td class="text-danger-dark">
+                  ₹ {{ getTotalDueAmount() | indianCurrency }}
+                </td> -->
+                <!-- <td>₹ {{ getTotalSalesAmount() | indianCurrency }}</td> -->
+                <!-- <td totalValueDirective [data]="salesReportsData"></td> -->
+              </tr>
+            </ng-template>
           </p-table>
 
         </p-tabPanel>
@@ -345,6 +361,22 @@
                 <td colspan="8" class="text-center">No Purchase records found.</td>
               </tr>
             </ng-template>
+            <ng-template pTemplate="footer">
+              <tr
+                totalValueDirective
+                [data]="purchaseDataShowById"
+                [name]="purchaseDataShowBy"
+              >
+                <!-- <td colspan="4"></td>
+                <td>Total Amount</td> -->
+                <!-- <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>
+                <td class="text-danger-dark">
+                  ₹ {{ getTotalDueAmount() | indianCurrency }}
+                </td> -->
+                <!-- <td>₹ {{ getTotalSalesAmount() | indianCurrency }}</td> -->
+                <!-- <td totalValueDirective [data]="salesReportsData"></td> -->
+              </tr>
+            </ng-template>
           </p-table>
 
         </p-tabPanel>
@@ -363,8 +395,9 @@
 
 
 
-          <p-table selectionMode="multiple" [value]="purchasePaymentListDataByTaxVendorsId" styleClass="p-datatable-striped"
-            [tableStyle]="{ 'min-width': '60rem' }" [paginator]="purchasePaymentListDataByTaxVendorsId?.length >= 5" [rows]="10"
+          <p-table selectionMode="multiple" [value]="purchasePaymentListDataByTaxVendorsId"
+            styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
+            [paginator]="purchasePaymentListDataByTaxVendorsId?.length >= 5" [rows]="10"
             [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr>
@@ -480,8 +513,7 @@
       <div class="col-12 col-md-6">
         <div class="form-group local-forms">
           <label for="name">Payment Date <span class="login-danger">*</span></label>
-          <p-calendar [maxDate]="maxDate" 
-          dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+          <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
             formControlName="paymentDate" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
           <div *ngIf="
           addTaxVendorsPaymentForm

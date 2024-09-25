@@ -204,14 +204,22 @@
                     </tr>
                   </ng-template>
   
-                  <!-- <ng-template pTemplate="footer">
+                  <ng-template pTemplate="footer">
                     <tr
                       totalValueDirective
-                      [data]="taxVendorsReportsData"
-                      [name]="taxVendorsReports"
-                      >
+                      [data]="originalData"
+                      [name]="originalDataReports"
+                    >
+                      <!-- <td colspan="4"></td>
+                      <td>Total Amount</td> -->
+                      <!-- <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>
+                      <td class="text-danger-dark">
+                        ₹ {{ getTotalDueAmount() | indianCurrency }}
+                      </td> -->
+                      <!-- <td>₹ {{ getTotalSalesAmount() | indianCurrency }}</td> -->
+                      <!-- <td totalValueDirective [data]="salesReportsData"></td> -->
                     </tr>
-                  </ng-template> -->
+                  </ng-template>
                 </p-table>
               </div>
             </div>
