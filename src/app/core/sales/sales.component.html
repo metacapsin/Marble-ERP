@@ -168,6 +168,11 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                   <tr>
+                    <td *ngIf="!salesListData" colspan="10" class="text-center">
+                        <p-progressSpinner ariaLabel="loading" />
+                    </td>
+                </tr>
+                  <tr>
                     <td colspan="9" class="text-center">No sales records found.</td>
                   </tr>
                 </ng-template>

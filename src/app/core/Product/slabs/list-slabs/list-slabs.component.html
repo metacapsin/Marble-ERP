@@ -191,6 +191,11 @@
                                 </ng-template>
                                 <ng-template pTemplate="emptymessage">
                                     <tr>
+                                        <td *ngIf="!allSlabsDaTa" colspan="10" class="text-center">
+                                            <p-progressSpinner ariaLabel="loading" />
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td colspan="10" class="text-center">No slabs found.</td>
                                     </tr>
                                 </ng-template>
@@ -202,10 +207,16 @@
                                         <td colspan="2"></td>
                                     </tr>
                                 </ng-template>
+                                    <!-- <ng-template>
+                                        <td *ngIf="!allSlabsDaTa" colspan="10" class="text-center">
+                                            <p-progressSpinner ariaLabel="loading" />
+                                        </td>
+                                    </ng-template> -->
                             </p-table>
                         </div>
                     </div>
                 </div>
+               <!-- <div class=""><p-progressSpinner ariaLabel="loading" /></div> -->
             </div>
         </div>
     </div>
