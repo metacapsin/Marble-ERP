@@ -219,6 +219,12 @@ export class AddsalesComponent implements OnInit {
     //     console.log(resp);
     //   }
     // )
+    const today = new Date();
+            const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
+        
+            this.addSalesForm.patchValue({
+              salesDate: formattedDate,
+            });
     this.salesService.getVendorBillingList().subscribe((resp: any) => {
       console.log(resp);
       this.address = resp.data;

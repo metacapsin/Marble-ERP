@@ -343,28 +343,32 @@
                           <div class="form-group local-forms">
                             <label for="customer">Taxable Amount</label>
                             <p-inputGroup>
-                              <input type="number" formControlName="taxable" (change)="calculateTotalAmount()"
-                                class="form-control" style="width: 50%" />
+                              <input type="number" formControlName="taxableAmount" (change)="calculateTotalAmount()"
+                                class="form-control" style="width: 50%" placeholder="Enter Taxable Amount" />
 
                               <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax"
                                 [options]="orderTaxList" appendTo="body" formControlName="purchaseItemTax"
                                 optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
                                 (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
                             </p-inputGroup>
-                            <span *ngIf="addNewPurchaseForm.get('purchaseItemTaxAmount')?.value
+                            <span *ngIf="addNewPurchaseForm.get('taxable')?.value
                 " style="color: #97704f; font-size: 12px">
                               Tax Applied Amount:
-                              {{ addNewPurchaseForm.get("purchaseItemTaxAmount")?.value | number : "1.2-2" }}22
+                              {{ addNewPurchaseForm.get("taxable")?.value | number : "1.2-2" }}22
                             </span>
                           </div>
                         </div>
 
-
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
-                            <label for="customer">Non-Taxable Amount</label>
-                            <input type="number" formControlName="nonTaxable" (change)="calculateTotalAmount()"
-                              class="form-control" />
+                            <label for="nonTaxable">Non-Taxable Amount</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                              </div>
+                              <input type="number" formControlName="nonTaxable" (change)="calculateTotalAmount()"
+                              class="form-control" placeholder="Enter Non Taxable Amount"/>
+                            </div>
                           </div>
                         </div>
 
@@ -380,10 +384,10 @@
                                 addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value
                                 }}</span>
                             </div>
-                            <span *ngIf="addNewPurchaseForm.get('purchaseItemTaxAmount')?.value && addNewPurchaseForm.get('nonTaxable')?.value" style="color: #97704f; font-size: 12px">
+                            <span *ngIf="addNewPurchaseForm.get('taxable')?.value && addNewPurchaseForm.get('nonTaxable')?.value" style="color: #97704f; font-size: 12px">
                               Tax Applied Amount:
-                              {{ addNewPurchaseForm.get('purchaseItemTaxAmount')?.value | number : "1.2-2" }}
-                              + Non Taxable Amount :
+                              {{ addNewPurchaseForm.get('taxable')?.value | number : "1.2-2" }}
+                              + Non-Taxable Amount :
                               {{
                               addNewPurchaseForm.get("nonTaxable")?.value | number : "1.2-2"
                               }}
@@ -479,7 +483,7 @@
                                     addNewPurchaseForm.get('purchaseDiscount')?.touched)
                                 ">
                               <span class="login-danger">
-                                input must be between 1 to 100,000.
+                                Input must be between 1 to 100,000.
                               </span>
                             </div>
                           </div>
@@ -553,9 +557,6 @@
                             </div>
                           </div>
                         </div>
-
-
-
                       </div>
 
                       <div class="row">
@@ -598,11 +599,11 @@
                       <div></div>
                       <button *ngIf="lotTypeValue === 'Lot'"
                         [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid" class="btn btn-primary"
-                        (click)="nextStep(nextCallback, 'second')">
+                        (click)="nextStep(nextCallback, 'first')">
                         Next <i class="fa-solid fa-arrow-right"></i>
                       </button>
                       <button *ngIf="lotTypeValue === 'Slab'" [disabled]="!addNewPurchaseForm?.valid"
-                        class="btn btn-primary" (click)="nextStep(nextCallback, 'second')">
+                        class="btn btn-primary" (click)="nextStep(nextCallback, 'first')">
                         Next <i class="fa-solid fa-arrow-right"></i>
                       </button>
                     </div>
@@ -1201,11 +1202,11 @@
 
                         <div class="row mt-4">
                           <div class="col-md-6 col-xl-6 checkbox">
-                            <p-checkbox [binary]="true" class="m-r-10" (click)="isTaxVendor = !isTaxVendor ">
+                            <p-checkbox [binary]="true" class="m-r-10" formControlName="isTaxVendor">
                             </p-checkbox>
                             <label for="isTaxVendor">Tax Vendor</label>
                           </div>
-                          <div class="col-12 col-md-6 col-xl-6" *ngIf="isTaxVendor">
+                          <div class="col-12 col-md-6 col-xl-6" *ngIf="addNewPurchaseForm.get('isTaxVendor').value">
                             <div class="form-group local-forms">
                               <label for="taxVendor">Tax Vendor<span class="login-danger">*</span></label>
                               <p-dropdown [options]="taxVendorList" styleClass="" appendTo="body" optionLabel="name"
@@ -1220,7 +1221,7 @@
                               </span>
                             </div>
                           </div>
-                          <div class="col-12 mt-4" *ngIf="isTaxVendor && addNewPurchaseForm.get('taxVendor').value">
+                          <div class="col-12 mt-4" *ngIf="addNewPurchaseForm.get('isTaxVendor').value && addNewPurchaseForm.get('taxVendor').value">
                             <div class="row practice-card">
                               <div class="col-md-6 col-sm-6 ">
                                 <div class="form-group local-forms">
@@ -1357,12 +1358,12 @@
                             </div>
 
                             <div class="invoice-total-footer">
-                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('purchaseItemTaxAmount')?.value">
+                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('taxable')?.value">
                                 Tax Applied Amount
                                 <span>
                                   ₹
                                   {{
-                                  addNewPurchaseForm.get('purchaseItemTaxAmount')?.value
+                                  addNewPurchaseForm.get('taxable')?.value
                                   | number : "1.2-2"
                                   }}
                                 </span>
@@ -1403,7 +1404,7 @@
                       </div>
                     </div>
                     <div class="d-flex pt-4 justify-content-between">
-                      <button class="btn btn-primary" (click)="prevCallback.emit()">
+                      <button class="btn btn-primary" (click)="backStep(prevCallback)">
                         <i class="fa-solid fa-arrow-left"></i> Back
                       </button>
                       <button type="submit" class="border-0 btn btn-primary btn-gradient-primary"

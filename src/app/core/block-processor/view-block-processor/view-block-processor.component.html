@@ -260,7 +260,7 @@
 
 <!-- --------- add slab processing --------------- -->
 
-<p-dialog header="Add Slab Processing" [(visible)]="addSlabVisible" [modal]="true" [style]="{ width: '50%' }">
+<p-dialog [focusOnShow]="false" header="Add Slab Processing" [(visible)]="addSlabVisible" [modal]="true" [style]="{ width: '50%' }">
   <div class="modal-content">
     <div class="modal-body">
       <form [formGroup]="addSlabProcessingForm" (ngSubmit)="addSlabProcessingFormSubmit()">
@@ -375,7 +375,7 @@
 
 
 <!-- ------------- edit Slab Processing -------------- -->
-<p-dialog header="Edit Slab Processing" [(visible)]="editSlabVisible" [modal]="true" [style]="{ width: '50%' }">
+<p-dialog [focusOnShow]="false" header="Edit Slab Processing" [(visible)]="editSlabVisible" [modal]="true" [style]="{ width: '50%' }">
   <div class="modal-content">
     <div class="modal-body">
       <form [formGroup]="editSlabProcessingForm" (ngSubmit)="editSlabProcessingFormSubmit()">
@@ -399,7 +399,8 @@
           <div class="col-12 col-md-6">
             <div class="form-group local-forms">
               <label for="processingDate">Processing Date <span class="login-danger">*</span></label>
-              <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+              <p-calendar 
+              [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                 formControlName="processingDate" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
             </div>
           </div>

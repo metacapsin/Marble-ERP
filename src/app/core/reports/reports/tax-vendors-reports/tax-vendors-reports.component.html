@@ -140,7 +140,7 @@
                   <ng-template pTemplate="header">
                     <tr>
                       <th pSortableColumn="salesDate">
-                        Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
+                        Date <p-sortIcon field="salesDate"></p-sortIcon>
                         <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesDate"
                           display="menu"></p-columnFilter>
                       </th>
@@ -148,6 +148,11 @@
                         Company Name
                         <p-sortIcon field="taxVendor.companyName"></p-sortIcon>
                         <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.companyName"
+                          display="menu"></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="source">
+                        Source <p-sortIcon field="source"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="source"
                           display="menu"></p-columnFilter>
                       </th>
                       <th pSortableColumn="taxVendor.vendorTaxApplied">
@@ -180,8 +185,10 @@
                   </ng-template>
                   <ng-template pTemplate="body" let-data>
                     <tr>
-                      <td>{{ data.salesDate | date : "dd-MMM-yyyy" }}</td>
+                      <td *ngIf="data.salesDate">{{ data.salesDate | date : "dd-MMM-yyyy" }}</td>
+                      <td *ngIf="data.purchaseDate">{{ data.purchaseDate | date : "dd-MMM-yyyy" }}</td>
                       <td>{{ data?.taxVendor?.companyName }}</td>
+                      <td>{{ data?.source }}</td>
                       <td>{{ data?.taxVendor?.vendorTaxApplied }}</td>
                       <td >{{ data?.taxVendor?.paymentStatus }}</td>
                       <td>₹ {{ data?.taxVendor?.paidAmount | indianCurrency  }}</td>
@@ -197,14 +204,22 @@
                     </tr>
                   </ng-template>
   
-                  <!-- <ng-template pTemplate="footer">
+                  <ng-template pTemplate="footer">
                     <tr
                       totalValueDirective
-                      [data]="taxVendorsReportsData"
-                      [name]="taxVendorsReports"
-                      >
+                      [data]="originalData"
+                      [name]="originalDataReports"
+                    >
+                      <!-- <td colspan="4"></td>
+                      <td>Total Amount</td> -->
+                      <!-- <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>
+                      <td class="text-danger-dark">
+                        ₹ {{ getTotalDueAmount() | indianCurrency }}
+                      </td> -->
+                      <!-- <td>₹ {{ getTotalSalesAmount() | indianCurrency }}</td> -->
+                      <!-- <td totalValueDirective [data]="salesReportsData"></td> -->
                     </tr>
-                  </ng-template> -->
+                  </ng-template>
                 </p-table>
               </div>
             </div>

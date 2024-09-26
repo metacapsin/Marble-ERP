@@ -150,18 +150,18 @@
                               <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label"> Taxable Paid Amount:</h5>
                               <div class="col-lg-8 col-md-8 col-xl-8">
                                 <p class="col-lg-8 col-form-label">
-                                  ₹ {{ sale?.salesPaidAmount ? (sale?.salesPaidAmount | indianCurrency) : '0' }}
+                                  ₹ {{ sale?.taxablePaid ? (sale?.taxablePaid | indianCurrency) : '0' }}
                                 </p>
                               </div>
-                            </div>
+                            </div> -->
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label"> Taxable Due Amount:</h5>
                               <div class="col-lg-8 col-md-8 col-xl-8">
                                 <p class="col-lg-8 col-form-label">
-                                  ₹ {{ sale?.salesDueAmount ? (sale?.salesDueAmount | indianCurrency) : '0' }}
+                                  ₹ {{ sale?.taxableDue ? (sale?.taxableDue | indianCurrency) : '0' }}
                                 </p>
                               </div>
-                            </div> -->
+                            </div>
 
 
                           </div>
@@ -187,20 +187,20 @@
                               <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label"> Non Taxable Paid Amount:</h5>
                               <div class="col-lg-8 col-md-8 col-xl-8">
                                 <p class="col-lg-8 col-form-label">
-                                  ₹ {{ sale?.salesPaidAmount ? (sale?.salesPaidAmount | indianCurrency) : '0' }}
+                                  ₹ {{ sale?.nonTaxablePaid ? (sale?.nonTaxablePaid | indianCurrency) : '0' }}
                                 </p>
                               </div>
                             </div> -->
 
 
-                            <!-- <div class="form-group row mb-2">
+                            <div class="form-group row mb-2">
                               <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label"> Non Taxable Due Amount:</h5>
                               <div class="col-lg-8 col-md-8 col-xl-8">
                                 <p class="col-lg-8 col-form-label">
-                                  ₹ {{ sale?.salesDueAmount ? (sale?.salesDueAmount | indianCurrency) : '0' }}
+                                  ₹ {{ sale?.nonTaxableDue ? (sale?.nonTaxableDue | indianCurrency) : '0' }}
                                 </p>
                               </div>
-                            </div> -->
+                            </div>
 
 
                           </div>
@@ -226,6 +226,10 @@
                                 indianCurrency}}.</span>
                             </div>
                             <div
+                              *ngIf="getSalesControl(i).get('taxablePaymentAmount')?.hasError('min') && getSalesControl(i).get('taxablePaymentAmount')?.touched">
+                              <span class="login-danger">Amount cannot be less than ₹ 0</span>
+                            </div>
+                            <div
                               *ngIf="getSalesControl(i).get('taxablePaymentMode')?.hasError('required') && getSalesControl(i).get('taxablePaymentMode')?.touched">
                               <span class="login-danger">Please Select The Payment Mode.</span>
                             </div>
@@ -248,6 +252,10 @@
                               *ngIf="getSalesControl(i).get('nonTaxablePaymentAmount')?.hasError('max') && getSalesControl(i).get('nonTaxablePaymentAmount')?.touched">
                               <span class="login-danger">Amount cannot be greater than ₹ {{sale?.nonTaxableDue |
                                 indianCurrency}}.</span>
+                            </div>
+                            <div
+                              *ngIf="getSalesControl(i).get('nonTaxablePaymentAmount')?.hasError('min') && getSalesControl(i).get('nonTaxablePaymentAmount')?.touched">
+                              <span class="login-danger">Amount cannot be less than ₹ 0</span>
                             </div>
                             <div
                               *ngIf="getSalesControl(i).get('nonTaxablePaymentMode')?.hasError('required') && getSalesControl(i).get('nonTaxablePaymentMode')?.touched">

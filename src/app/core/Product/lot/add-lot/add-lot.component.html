@@ -122,6 +122,44 @@
             </div>
           </div>
 
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="category">Category <span class="login-danger">*</span></label>
+              <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body"
+                optionLabel="name" optionValue="_id" placeholder="Select Category"
+                formControlName="categoryDetail" [style]="{ width: '100%' }" [filter]="true"
+                filterBy="name" [showClear]="false" (onChange)="findSubCategory($event.value)">
+              </p-dropdown>
+              <div *ngIf="
+                  lotAddForm
+                    .get('categoryDetail')
+                    ?.hasError('required') &&
+                  lotAddForm.get('categoryDetail')?.touched
+                ">
+                <span class="login-danger">Field is required.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="subCategory">Sub Category <span class="login-danger">*</span></label>
+              <p-dropdown [options]="subCategorListByCategory" styleClass="" appendTo="body"
+                optionValue="_id" placeholder="Select Sub Category" optionLabel="name"
+                formControlName="subCategoryDetail" [style]="{ width: '100%' }" [filter]="true"
+                filterBy="name" [showClear]="false">
+              </p-dropdown>
+              <div *ngIf="
+                  lotAddForm
+                    .get('subCategoryDetail')
+                    ?.hasError('required') &&
+                  lotAddForm.get('subCategoryDetail')?.touched
+                ">
+                <span class="login-danger">Field is required.</span>
+              </div>
+            </div>
+          </div>
+
           <div class="col-12 col-md-6 col-xl-6">
             <div class="form-group local-forms">
               <label for="lotWeight"
@@ -210,6 +248,7 @@
                   (change)="calculateTotalAmount()"
                   class="form-control"
                   style="width: 50%"
+                  placeholder="Enter Taxable Amount"
                 />
 
                 <p-multiSelect
@@ -225,25 +264,17 @@
                   [maxSelectedLabels]="1"
                 ></p-multiSelect>
               </p-inputGroup>
-              <div
-                *ngIf="
-                  lotAddForm.get('taxableAmount').value >
-                  lotAddForm.get('nonTaxableAmount').value
-                "
-              >
-                <span class="login-danger"
-                  >Taxable Amount cannot be greater than Non-Taxable
-                  Amount.</span
-                >
+              <div *ngIf=" lotAddForm.get('taxableAmount').value > rowCosting " >
+                <span class="login-danger" >Taxable Amount cannot be greater than Lot Weight * Price/ton ({{rowCosting}}).</span>
               </div>
               <span
                 *ngIf="
-                  lotAddForm.get('purchaseItemTaxAmount').value
+                  lotAddForm.get('taxable').value
                 "
                 style="color: #97704f; font-size: 12px"
               >
                 Tax Applied Amount:
-                {{ lotAddForm.get('purchaseItemTaxAmount').value | number : "1.2-2" }}
+                {{ lotAddForm.get('taxable').value | number : "1.2-2" }}
               </span>
             </div>
           </div>
@@ -256,8 +287,16 @@
                 formControlName="nonTaxableAmount"
                 (change)="calculateTotalAmount()"
                 class="form-control"
+                placeholder="Enter Non-Taxable Amount"
               />
             </div>
+            <div *ngIf="lotAddForm.get('nonTaxableAmount').value > rowCosting">
+              <span class="login-danger">Non-Taxable Amount cannot be greater than Lot Weight * Price/ton ({{rowCosting}}).</span>
+            </div>
+          </div>
+
+          <div *ngIf="(lotAddForm.get('taxableAmount').touched || lotAddForm.get('nonTaxableAmount').touched) && lotAddForm.hasError('atLeastOneRequired')">
+            <span class="login-danger">At least one of "Taxable Amount" or "Non-Taxable Amount" must be filled.</span>
           </div>
 
           <div class="col-xl-6 col-md-6 col-sm-12 col-12">
@@ -276,13 +315,13 @@
               </div>
               <span
                 *ngIf="
-                  lotAddForm.get('purchaseItemTaxAmount').value  > lotAddForm.get('taxableAmount').value &&
-                  lotAddForm.get('purchaseItemTaxAmount').value  != 0
+                  lotAddForm.get('taxable').value  > lotAddForm.get('taxableAmount').value &&
+                  lotAddForm.get('taxable').value  != 0
                 "
                 style="color: #97704f; font-size: 12px"
               >
                 Tax Applied Amount:
-                {{ lotAddForm.get('purchaseItemTaxAmount').value  | number : "1.2-2" }}
+                {{ lotAddForm.get('taxable').value  | number : "1.2-2" }}
                 + Non Taxable Amount :
                 {{
                   lotAddForm.get("nonTaxableAmount").value | number : "1.2-2"

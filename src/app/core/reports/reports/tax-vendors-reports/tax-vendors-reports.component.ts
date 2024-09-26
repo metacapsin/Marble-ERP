@@ -15,7 +15,8 @@ export class TaxVendorsReportsComponent {
   rangeDates: Date[] | undefined;
   taxVendorsReportsData = [];
   originalData = [];
-  taxVendorsReports = "taxVendorsReports";
+  originalDataReports:string = 'originalDataReports'
+
   cols = [];
   exportColumns = [];
 

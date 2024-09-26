@@ -59,17 +59,17 @@
 
                         <div class="card-body p-2">
                             <p-table
-                                [value]="paymentListData | filter:searchDataValue:['purchaseInvoiceNumber','paymentDate', 'salesId', 'paymentMode', 'amount']"
+                                [value]="paymentListData | filter:searchDataValue:['purchaseInvoice','paymentDate', 'salesId', 'paymentMode', 'amount']"
                                 styleClass="p-datatable-striped" dataKey="id" [tableStyle]="{ 'min-width': '60rem' }"
                                 [paginator]="paymentListData?.length >= 5" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]" #dt selectionMode="multiple">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th style="width: 5rem"></th>
-                                        <th pSortableColumn="purchaseInvoiceNumber">
+                                        <th pSortableColumn="purchaseInvoice">
                                             Invoice Number
-                                            <p-sortIcon field="purchaseInvoiceNumber"></p-sortIcon>
-                                            <p-columnFilter type="text" field="purchaseInvoiceNumber" hideOnClear="true"
+                                            <p-sortIcon field="purchaseInvoice"></p-sortIcon>
+                                            <p-columnFilter type="text" field="purchaseInvoice" hideOnClear="true"
                                                 matchMode="contains" display="menu"></p-columnFilter>
                                         </th>
                                         <th pSortableColumn="transactionNo">
@@ -113,7 +113,7 @@
                                   " />
                                         </td>
                                         <td>
-                                            {{ product.purchaseInvoiceNumber }}
+                                            {{ product.purchaseInvoice }}
 
                                         </td>
                                         <td>{{ product.transactionNo }}</td>

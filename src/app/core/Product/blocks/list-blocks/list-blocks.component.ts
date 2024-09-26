@@ -1,91 +1,182 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
-import { routes } from 'src/app/shared/routes/routes';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { LotService } from '../../lot/lot.service';
-import { BlocksService } from '../blocks.service';
+import { CommonModule } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { MessageService } from "primeng/api";
+import { ButtonModule } from "primeng/button";
+import { ToastModule } from "primeng/toast";
+import { routes } from "src/app/shared/routes/routes";
+import { SharedModule } from "src/app/shared/shared.module";
+import { LotService } from "../../lot/lot.service";
+import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
+import { SlabsService } from "../../slabs/slabs.service";
+import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
 
 @Component({
-  selector: 'app-list-blocks',
+  selector: "app-list-blocks",
   standalone: true,
-  imports: [CommonModule,SharedModule,ButtonModule, ToastModule],
+  imports: [CommonModule, SharedModule, ButtonModule, ToastModule],
   providers: [MessageService],
-  templateUrl: './list-blocks.component.html',
-  styleUrl: './list-blocks.component.scss'
+  templateUrl: "./list-blocks.component.html",
+  styleUrl: "./list-blocks.component.scss",
 })
-export class ListBlocksComponent {
-
+export class ListBlocksComponent implements OnInit {
   public routes = routes;
-  data: any = null;
-  originalData:any = []
-  public showDialog: boolean = false;
-  modalData: any = {}
-  blocksID: any;
+  data: any[] = [];
+  originalData: any[] = [];
+  public showDialog = false;
+  modalData: any = {};
+  blocksID: string;
   searchDataValue = "";
-  selectedLot = [];
+  selectedBlocks: any[] = [];
+  allInDropDown: any[];
+  warehouseDropDown: any;
+  warehouseData: any[];
+  cols: Column[] = [];
+  blockProcessorList: any[] = [];
+  lotID: string;
 
-  constructor(public dialog: MatDialog, public router: Router, private service: BlocksService, private _snackBar: MatSnackBar, private messageService: MessageService) { }
-  getBlocksList(): void {
-    this.service.getBlocksList().subscribe((resp: any) => {
-      this.data = resp.data;
-      // map(lot=>{
-      //   lot.currentStock=lot.openingStock-lot.
-      // })
-      this.originalData = resp.data;
+  constructor(
+    public dialog: MatDialog,
+    public router: Router,
+    private lotService: LotService,
+    private slabsService: SlabsService,
+    private blockProcessorService: blockProcessorService,
+    private messageService: MessageService,
+    private warehouseService: WarehouseService
+  ) {}
 
-      console.log("API", this.data);
-
-    })
-  }
   ngOnInit(): void {
-    this.getBlocksList();
+    this.getUnProcessedList();
+    this.getWarehouseList();
+    this.getBlockProcessorList();
   }
 
-  deleteBlocks(_id: any) {
-    this.blocksID = _id;
+  onFilter(value: any): void {
+    this.data = value.filteredValue;
+    console.log(value.filteredValue);
+  }
 
+  getUnProcessedList(): void {
+    this.lotService.getUnProcessedList().subscribe((resp: any) => {
+      this.data = resp.data;
+      this.originalData = resp.data;
+      this.lotID = resp.data.lotId;
+      if (this.data.some(block => block.blockProcessor)) {
+        const blockWithProcessor = this.data.find(block => block.blockProcessor);
+        if (blockWithProcessor) {
+          this.lotID = blockWithProcessor.lotId;
+          blockWithProcessor.blockProcessor = blockWithProcessor.blockProcessor;
+        }
+      }
+      console.log("API", this.data);
+    });
+  }
+
+  getWarehouseList(): void {
+    this.warehouseService.getAllWarehouseList().subscribe((resp: any) => {
+      this.warehouseData = resp.data.map((element) => ({
+        name: element.name,
+        _id: {
+          _id: element._id,
+          name: element.name,
+        },
+      }));
+      console.log(this.warehouseData);
+    });
+  }
+
+  getBlockProcessorList(): void {
+    this.blockProcessorService.getAllBlockProcessorData().subscribe((data: any) => {
+      this.blockProcessorList = data.map((element: any) => ({
+        name: element.name,
+        _id: {
+          _id: element._id,
+          name: element.name,
+        },
+      }));
+      console.log(this.blockProcessorList);
+    });
+  }
+
+  deleteBlocks(_id: string): void {
+    this.blocksID = _id;
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure want to delete this Block",
-    }
+      messege: "Are you sure you want to delete this Block?",
+    };
     this.showDialog = true;
   }
 
-  showNewDialog() {
+  showNewDialog(): void {
     this.showDialog = true;
   }
 
-  callBackModal() {
-    this.service.deleteBlocksById(this.blocksID).subscribe(resp => {
-      const message = "Blocks has been deleted"
-      this.messageService.add({ severity: 'success', detail: message });
-      this.getBlocksList();
-      this.showDialog = false;
-
-    })
+  callBackModal(): void {
+    // Implement delete functionality if needed
   }
 
-  close() {
+  onBlockProcessorChange(event: any, blockNo: string, lotId: string): void {
+    console.log("block processor", event.value);
+    const payload = {
+      lotId: lotId,
+      blockNo: blockNo,
+      blockProcessor: event.value,
+    };
+    console.log(payload);
+    this.slabsService.updateBlockProcessorByLotId(payload).subscribe(
+      (resp: any) => {
+        if (resp) {
+          this.messageService.add({
+            severity: resp.status === "success" ? "success" : "error",
+            detail: resp.message,
+            
+          });
+          this.getUnProcessedList();
+        }
+      }
+    );
+  }
+
+  close(): void {
     this.showDialog = false;
   }
 
-  public searchData(value: any): void {
-    this.data = this.originalData.filter(i =>
-    i.name.toLowerCase().includes(value.trim().toLowerCase())
-  );
-  }
-
-  onPageChange(event) {
+  onPageChange(event: any): void {
     const startIndex = event.first;
-    const endIndex = startIndex + event.rows; 
+    const endIndex = startIndex + event.rows;
     const currentPageData = this.data.slice(startIndex, endIndex);
   }
 
-}
+  onSearchByChange(value: any): void {
+    if (value == null) {
+      this.data = this.originalData;
+    } else {
+      this.data = this.originalData.filter((i) => i.warehouseDetails && i.warehouseDetails._id === value._id);
+      this.allInDropDown = this.data;
+    }
+    console.log(this.data);
+  }
 
+  searchData(): void {
+    if (this.searchDataValue === "") {
+      this.onSearchByChange(null);
+      console.log(this.warehouseDropDown);
+      if (this.warehouseDropDown.name === "") {
+        this.data = this.originalData;
+      }
+      this.data = this.allInDropDown;
+    }
+  }
+}
