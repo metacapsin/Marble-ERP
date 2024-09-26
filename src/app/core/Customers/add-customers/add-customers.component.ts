@@ -49,7 +49,6 @@ export class AddCustomersComponent implements OnInit {
       phoneNo: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
       email: ["", [Validators.pattern(this.emailRegex)]],
       taxNo: ["", [Validators.pattern(this.taxNumberRegex)]],
-      creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
       shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],

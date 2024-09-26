@@ -24,8 +24,8 @@ export class ViewTaxVendorsComponent implements OnInit {
   modalData: any;
   salesDataShowById: any[] = [];
   purchaseDataShowById: any[] = [];
-  purchaseDataShowBy:string = 'purchaseDataShowBy'
-  salesDataShowBy:string = 'salesDataShowBy'
+  purchaseDataShowBy: string = "purchaseDataShowBy";
+  salesDataShowBy: string = "salesDataShowBy";
   paymentListDataByTaxVendorsId: any[] = [];
   purchasePaymentListDataByTaxVendorsId: any[] = [];
   selectedSales: any[] = []; // Holds the selected sales items
@@ -35,6 +35,9 @@ export class ViewTaxVendorsComponent implements OnInit {
   paymentModeList = [
     {
       paymentMode: "Cash",
+    },
+    {
+      paymentMode: "Bank",
     },
     {
       paymentMode: "Online",
@@ -47,7 +50,8 @@ export class ViewTaxVendorsComponent implements OnInit {
   totalSelectedPurchaseTotalAmount: number = 0; // Declare this variable
   totalSelectedPurchaseDueAmount: number = 0; // Declare this variable
   totalSelectedPurchasePayableAmount: number = 0; // Declare this variable
-  paymentId: any;
+  salesPaymentId: any;
+  purchasePaymentId: any;
 
   constructor(
     private fb: FormBuilder,
@@ -61,7 +65,7 @@ export class ViewTaxVendorsComponent implements OnInit {
       sales: this.fb.array([]),
       paymentDate: ["", [Validators.required]],
       paymentMode: ["", [Validators.required]],
-      purchase:this.fb.array([]),
+      purchase: this.fb.array([]),
       note: [""],
       payableAmount: [
         "",
@@ -138,7 +142,7 @@ export class ViewTaxVendorsComponent implements OnInit {
 
     // Set the total amount in the form control
     this.addTaxVendorsPaymentForm.patchValue({
-      payableAmount: this.totalSelectedSalesDueAmount.toFixed(2) ,
+      payableAmount: this.totalSelectedSalesDueAmount.toFixed(2),
     });
   }
   totalPurchaseSelectedTotalAmount() {
@@ -158,7 +162,7 @@ export class ViewTaxVendorsComponent implements OnInit {
 
     // Set the total amount in the form control
     this.addTaxVendorsPaymentForm.patchValue({
-      payableAmount: this.totalSelectedPurchaseDueAmount.toFixed(2) ,
+      payableAmount: this.totalSelectedPurchaseDueAmount.toFixed(2),
     });
   }
 
@@ -168,7 +172,6 @@ export class ViewTaxVendorsComponent implements OnInit {
     this.getVendorSalesList();
     this.getPurchasePaymentListByVendorId();
     this.getVendorPurchasesList();
-
   }
 
   getTaxVendorsById() {
@@ -213,36 +216,67 @@ export class ViewTaxVendorsComponent implements OnInit {
     );
   }
 
-  callAPi(){
+  callAPi() {
     this.getPurchasePaymentListByVendorId();
     this.getPaymentListByVendorId();
     this.getVendorPurchasesList();
     this.getVendorSalesList();
-    console.log("all Api called")
+    console.log("all Api called");
   }
   close() {
     this.displayPaymentDialog = false;
     this.showDialog = false;
     this.sales.clear();
+    this.purchase.clear();
+    this.selectedSales = null;
+    this.selectedPurchase = null;
+    this.totalSelectedSalesTotalAmount = 0;
+    this.totalSelectedSalesDueAmount = 0;
+    this.totalSelectedPurchaseTotalAmount = 0;
+    this.totalSelectedPurchaseDueAmount = 0;
     this.addTaxVendorsPaymentForm.reset();
-    this.callAPi()
+    this.callAPi();
   }
   callBackModal() {
-    this.TaxVendorsService.deletePayment(this.paymentId).subscribe(
-      (resp: any) => {
-        let message = "Tax Vendor Payment has been Deleted";
+    if (this.salesPaymentId) {
+      this.TaxVendorsService.deletePayment(this.salesPaymentId).subscribe(
+        (resp: any) => {
+          let message = "Tax Vendor Sales Payment has been Deleted";
+          this.messageService.add({ severity: "success", detail: message });
+          this.callAPi();
+          this.showDialog = false;
+          this.salesPaymentId = null;
+        }
+      );
+    } else if (this.purchasePaymentId) {
+      this.TaxVendorsService.deletePurchaseTaxVendorPayment(
+        this.purchasePaymentId
+      ).subscribe((resp: any) => {
+        let message = "Tax Vendor Purchase Payment has been Deleted";
         this.messageService.add({ severity: "success", detail: message });
-       this.callAPi();
-      }
-    );
+        this.callAPi();
+        this.showDialog = false;
+        this.purchasePaymentId = null;
+      });
+    }
   }
-  deleteTaxVendorPayment(id) {
-    console.log("delete dialog open");
-    this.paymentId = id;
+  deleteTaxVendorSalesPayment(id) {
+    console.log("sales delete dialog open");
+    this.salesPaymentId = id;
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Payment",
+      messege: "Are you sure you want to delete this Sales Payment",
+    };
+    this.showDialog = true;
+  }
+  deleteTaxVendorPurchasePayment(id) {
+    console.log("Purchase delete dialog open");
+    this.purchasePaymentId = id;
+
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Purchase Payment",
     };
     this.showDialog = true;
   }
@@ -258,6 +292,13 @@ export class ViewTaxVendorsComponent implements OnInit {
         sale.taxVendor.dueAmount > 0 &&
         sale.taxVendor.paymentStatus === "Unpaid"
     );
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
+
+    this.addTaxVendorsPaymentForm.patchValue({
+      paymentDate: formattedDate,
+      paymentMode: "Bank",
+    });
 
     console.log("these are unpaid sales", unpaidSales);
     if (unpaidSales.length > 0) {
@@ -279,6 +320,13 @@ export class ViewTaxVendorsComponent implements OnInit {
         purchase.taxVendor.dueAmount > 0 &&
         purchase.taxVendor.paymentStatus === "Unpaid"
     );
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
+
+    this.addTaxVendorsPaymentForm.patchValue({
+      paymentDate: formattedDate,
+      paymentMode: "Bank",
+    });
 
     console.log("these are unpaid purchase", unpaidPurchases);
     if (unpaidPurchases.length > 0) {
@@ -298,7 +346,7 @@ export class ViewTaxVendorsComponent implements OnInit {
   addTaxVendorsPaymentFormSubmit() {
     const formData = this.addTaxVendorsPaymentForm.value;
 
-    if(this.selectedSales && this.selectedSales.length > 0){
+    if (this.selectedSales && this.selectedSales.length > 0) {
       const payload = {
         taxVendor: {
           name: this.selectedSales[0].taxVendor.companyName,
@@ -312,23 +360,26 @@ export class ViewTaxVendorsComponent implements OnInit {
       console.log("valid form", this.addTaxVendorsPaymentForm.value);
       if (this.addTaxVendorsPaymentForm.valid) {
         console.log(payload);
-  
+
         this.TaxVendorsService.createTaxVendorPayment(payload).subscribe(
           (resp: any) => {
             console.log(resp);
             if (resp) {
               if (resp.status === "success") {
                 const message = " Sales Payment has been added";
-                this.messageService.add({ severity: "success", detail: message });
+                this.messageService.add({
+                  severity: "success",
+                  detail: message,
+                });
                 setTimeout(() => {
                   this.displayPaymentDialog = false;
-                  this.callAPi()
+                  this.callAPi();
                   // this.getPaymentListByVendorId();
                   // this.getVendorSalesList();
                   this.addTaxVendorsPaymentForm.reset();
                   this.sales.clear();
-                  this.selectedSales=null;
-                }, 400);  
+                  this.selectedSales = null;
+                }, 400);
               } else {
                 const message = resp.message;
                 this.messageService.add({ severity: "error", detail: message });
@@ -339,11 +390,9 @@ export class ViewTaxVendorsComponent implements OnInit {
       } else {
         console.log("invalid form");
       }
-
     }
-    if(this.selectedPurchase && this.selectedPurchase.length > 0){
-
-      const payload ={
+    if (this.selectedPurchase && this.selectedPurchase.length > 0) {
+      const payload = {
         taxVendor: {
           name: this.selectedPurchase[0].taxVendor.companyName,
           _id: this.selectedPurchase[0].taxVendor._id,
@@ -356,36 +405,34 @@ export class ViewTaxVendorsComponent implements OnInit {
       console.log("valid form", this.addTaxVendorsPaymentForm.value);
       if (this.addTaxVendorsPaymentForm.valid) {
         console.log(payload);
-  
-        this.TaxVendorsService.createPurchaseTaxVendorPayment(payload).subscribe(
-          (resp: any) => {
-            console.log(resp);
-            if (resp) {
-              if (resp.status === "success") {
-                const message = "Purchase Payment has been added";
-                this.messageService.add({ severity: "success", detail: message });
-                setTimeout(() => {
-                  this.displayPaymentDialog = false;
-                  // this.getPaymentListByVendorId();
-                  // this.getVendorSalesList();
-                  this.callAPi()
 
-                  this.addTaxVendorsPaymentForm.reset();
-                  this.purchase.clear();
-                  this.selectedPurchase=null;
-                }, 400);  
-              } else {
-                const message = resp.message;
-                this.messageService.add({ severity: "error", detail: message });
-              }
+        this.TaxVendorsService.createPurchaseTaxVendorPayment(
+          payload
+        ).subscribe((resp: any) => {
+          console.log(resp);
+          if (resp) {
+            if (resp.status === "success") {
+              const message = "Purchase Payment has been added";
+              this.messageService.add({ severity: "success", detail: message });
+              setTimeout(() => {
+                this.displayPaymentDialog = false;
+                // this.getPaymentListByVendorId();
+                // this.getVendorSalesList();
+                this.callAPi();
+
+                this.addTaxVendorsPaymentForm.reset();
+                this.purchase.clear();
+                this.selectedPurchase = null;
+              }, 400);
+            } else {
+              const message = resp.message;
+              this.messageService.add({ severity: "error", detail: message });
             }
           }
-        );
+        });
       } else {
         console.log("invalid form");
       }
     }
-
-   
   }
 }

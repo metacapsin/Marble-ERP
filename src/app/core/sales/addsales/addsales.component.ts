@@ -121,6 +121,7 @@ export class AddsalesComponent implements OnInit {
       otherCharges: ["", [Validators.pattern(validationRegex.oneToOneLakhRegex)]],
       taxable: [""],
       nonTaxable: [""],
+      creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
     });
   }
 
@@ -487,6 +488,7 @@ export class AddsalesComponent implements OnInit {
       salesOrderTax: Number(formData.salesOrderTax),
       taxable: Number(formData.taxable),
       nonTaxable: Number(formData.nonTaxable),
+      creditPeriod: Number(formData.creditPeriod),
     };
 
     if (this.addSalesForm.valid) {

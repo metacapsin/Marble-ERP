@@ -119,7 +119,7 @@
             <form [formGroup]="addSalesForm" (ngSubmit)="addSalesFormSubmit()">
               <div class="invoices-main-form">
                 <div class="row">
-                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                  <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="salesInvoiceNumber">Invoice Number </label>
                       <input type="text" class="form-control" placeholder="Enter Invoice Number"
@@ -140,7 +140,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                  <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="customer">Customer Name
                         <span class="login-danger">*</span></label>
@@ -156,7 +156,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                  <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="salesDate">Sales Date <span class="login-danger">*</span></label>
                       <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
@@ -166,6 +166,29 @@
                           addSalesForm.get('salesDate')?.touched
                         ">
                         <span class="login-danger">Field is required. </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                    <div class="form-group local-forms">
+                      <label for="creditPeriod">Credit Period <span class="login-danger">*</span></label>
+                      <div class="input-group">
+                        <input class="form-control" type="number" placeholder formControlName="creditPeriod" />
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" style="font-size: 12px">Days</span>
+                        </div>
+                      </div>
+                      <div *ngIf="
+                          addSalesForm.get('creditPeriod')?.hasError('min') &&
+                          addSalesForm.get('creditPeriod')?.touched
+                        ">
+                        <span class="login-danger">Credit Period cannot be less than 0 days.</span>
+                      </div>
+                      <div *ngIf="
+                          addSalesForm.get('creditPeriod')?.hasError('max') &&
+                          addSalesForm.get('creditPeriod')?.touched
+                        ">
+                        <span class="login-danger">Credit Period Must not be more than 180 days.</span>
                       </div>
                     </div>
                   </div>

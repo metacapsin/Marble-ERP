@@ -184,11 +184,7 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="footer">
-              <tr
-                totalValueDirective
-                [data]="salesDataShowById"
-                [name]="salesDataShowBy"
-              >
+              <tr totalValueDirective [data]="salesDataShowById" [name]="salesDataShowBy">
                 <!-- <td colspan="4"></td>
                 <td>Total Amount</td> -->
                 <!-- <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>
@@ -263,7 +259,7 @@
                 <td>{{ payment.paymentMode }}</td>
                 <td>₹ {{ payment.amount | indianCurrency }}</td>
                 <td class="action-buttions">
-                  <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteTaxVendorPayment(payment._id)"
+                  <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteTaxVendorSalesPayment(payment._id)"
                     pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                 </td>
               </tr>
@@ -362,11 +358,7 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="footer">
-              <tr
-                totalValueDirective
-                [data]="purchaseDataShowById"
-                [name]="purchaseDataShowBy"
-              >
+              <tr totalValueDirective [data]="purchaseDataShowById" [name]="purchaseDataShowBy">
                 <!-- <td colspan="4"></td>
                 <td>Total Amount</td> -->
                 <!-- <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>
@@ -442,7 +434,7 @@
                 <td>{{ payment.paymentMode }}</td>
                 <td>₹ {{ payment.amount | indianCurrency }}</td>
                 <td class="action-buttions">
-                  <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteTaxVendorPayment(payment._id)"
+                  <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteTaxVendorPurchasePayment(payment._id)"
                     pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                 </td>
               </tr>

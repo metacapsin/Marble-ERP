@@ -190,6 +190,7 @@ export class ViewCustomersComponent implements OnInit {
         this.getsalesReturn();
         this.getSalesReturnPaymentListByCustomerId();
         this.showDialoge = false;
+        this.salesId=null;
       });
     } else if (this.salesReturnID) {
       this.salesReturnService.deleteSalesReturn(this.salesReturnID).subscribe((resp: any) => {
@@ -199,6 +200,7 @@ export class ViewCustomersComponent implements OnInit {
         this.getsalesReturn();
         this.getSalesReturnPaymentListByCustomerId();
         this.showDialoge = false;
+        this.salesReturnID=null;
       });
     }
     else if (this.salesPaymentId) {
@@ -207,6 +209,7 @@ export class ViewCustomersComponent implements OnInit {
         this.getsales();
         this.getPaymentListByCustomerId();
         this.showDialoge = false;
+        this.salesPaymentId=null;
       });
     }
     else if (this.salesReturnPaymentId) {
@@ -215,6 +218,7 @@ export class ViewCustomersComponent implements OnInit {
         this.getsalesReturn();
         this.getSalesReturnPaymentListByCustomerId();
         this.showDialoge = false;
+        this.salesReturnPaymentId=null;
       });
     }
   }
