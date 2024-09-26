@@ -41,6 +41,7 @@ export class ListSlabsComponent {
   allInDropDown: any;
   cols = [];
   exportColumns = [];
+  
 
   constructor(
     public dialog: MatDialog,

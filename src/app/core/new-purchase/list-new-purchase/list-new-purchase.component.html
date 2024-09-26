@@ -279,6 +279,11 @@ hideOnClear="true"  type="text" field="purchaseTotalAmount" display="menu"  ></p
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                   <tr>
+                    <td *ngIf="!purchaseData" colspan="10" class="text-center">
+                        <p-progressSpinner ariaLabel="loading" />
+                    </td>
+                  </tr>
+                  <tr>
                     <td colspan="10" class="text-center">No purchase records found.</td>
                   </tr>
                 </ng-template>
