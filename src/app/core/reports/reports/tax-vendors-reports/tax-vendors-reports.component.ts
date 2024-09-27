@@ -53,12 +53,20 @@ export class TaxVendorsReportsComponent {
       console.log("this is original data", this.originalData);
 
       this.cols = [
-        { field: "salesDate", header: "Sales Date" },
+        { 
+          field: (item: any) => item.salesDate || item.purchaseDate,
+          header: "Date",
+          export: (item: any) => {
+            const date = item.salesDate || item.purchaseDate;
+            return date ? new Date(date).toLocaleDateString() : '';
+          }
+        },
         { field: "taxVendor.companyName", header: "Company Name" },
-        { field: "vendorTaxApplied", header: "Tax Apllied (%)" },
-        { field: "paymentStatus", header: "Payment Status" },
-        { field: "paidAmount", header: "Paid Amount" },
-        { field: "dueAmount", header: "Due Amount" },
+        { field: "source", header: "Source" },
+        { field: "taxVendor.vendorTaxApplied", header: "Tax Apllied (%)" },
+        { field: "taxVendor.paymentStatus", header: "Payment Status" },
+        { field: "taxVendor.paidAmount", header: "Paid Amount" },
+        { field: "taxVendor.dueAmount", header: "Due Amount" },
         { field: "taxVendor.taxVendorAmount", header: "Total Amount" },
       ];
 

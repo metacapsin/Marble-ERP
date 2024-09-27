@@ -169,12 +169,16 @@ export class PaymentInAddComponent {
     const payload = formData.sales.map((sale) => {
       let paymentMode = '';
     
-      if (sale.taxablePaymentMode && sale.nonTaxablePaymentMode) {
-        paymentMode = sale.taxablePaymentMode === sale.nonTaxablePaymentMode 
-          ? sale.taxablePaymentMode 
-          : `${sale.taxablePaymentMode}/${sale.nonTaxablePaymentMode}`;
-      } else {
-        paymentMode = sale.taxablePaymentMode || sale.nonTaxablePaymentMode;
+      if (sale.taxablePaymentAmount && sale.taxablePaymentMode) {
+        paymentMode = sale.taxablePaymentMode;
+      }
+      if (sale.nonTaxablePaymentAmount && sale.nonTaxablePaymentMode) {
+        paymentMode = paymentMode 
+          ? `${paymentMode}/${sale.nonTaxablePaymentMode}`
+          : sale.nonTaxablePaymentMode;
+      }
+      if (!paymentMode) {
+        paymentMode = ''; // Set to empty string if no valid payment mode
       }
       return {
         customer: {_id:customerData._id,
@@ -187,6 +191,7 @@ export class PaymentInAddComponent {
           {
             _id: sale._id,
             amount: sale.taxablePaymentAmount + sale.nonTaxablePaymentAmount, 
+            salesInvoiceNumber: sale.salesInvoiceNumber,
           },
         ],
         taxablePaymentAmount: sale.taxablePaymentAmount

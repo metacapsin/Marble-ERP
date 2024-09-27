@@ -111,6 +111,16 @@
                         formControlName="customer" optionLabel="name" optionValue="_id" display="chip" [filter]="true"
                         filterBy="name" (onChange)="setCustomer()">
                       </p-dropdown>
+                      <div *ngIf="
+                              addQuotationForm
+                                .get('customer')
+                                .hasError('required') &&
+                              addQuotationForm
+                                .get('customer')
+                                .touched
+                            ">
+                            <span class="login-danger">Field is required.</span>
+                          </div>
                     </div>
                   </div>
                   <div class="col-xl-6 col-md-6 col-sm-12 col-12">

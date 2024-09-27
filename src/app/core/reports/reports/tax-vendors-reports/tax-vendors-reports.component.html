@@ -122,13 +122,14 @@
                       | filter
                         : searchDataValue
                         : [
-                            'salesDate',
+                            'salesDate || purchaseDate',
                             'taxVendor.companyName',
                             'taxVendor.vendorTaxApplied',
                             'taxVendor.paymentStatus',
                             'taxVendor.paidAmount',
                             'taxVendor.dueAmount',
-                            'taxVendor.taxVendorAmount'
+                            'taxVendor.taxVendorAmount',
+                            'source'
 
 
 
@@ -139,9 +140,9 @@
                   [exportHeader]="'customExportHeader'" exportFilename="Tax Vendors Expenses Reports" selectionMode="multiple" (onFilter)="onFilter($event)">
                   <ng-template pTemplate="header">
                     <tr>
-                      <th pSortableColumn="salesDate">
-                        Date <p-sortIcon field="salesDate"></p-sortIcon>
-                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesDate"
+                      <th pSortableColumn="salesDate || purchaseDate">
+                        Date <p-sortIcon field="salesDate || purchaseDate"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesDate || purchaseDate"
                           display="menu"></p-columnFilter>
                       </th>
                       <th pSortableColumn="taxVendor.companyName">
@@ -185,8 +186,8 @@
                   </ng-template>
                   <ng-template pTemplate="body" let-data>
                     <tr>
-                      <td *ngIf="data.salesDate">{{ data.salesDate | date : "dd-MMM-yyyy" }}</td>
-                      <td *ngIf="data.purchaseDate">{{ data.purchaseDate | date : "dd-MMM-yyyy" }}</td>
+                      <td *ngIf="data.salesDate || data.purchaseDate">{{ data.salesDate || data.purchaseDate | date : "dd-MMM-yyyy" }}</td>
+                      <!-- <td *ngIf="data.purchaseDate">{{ data.purchaseDate | date : "dd-MMM-yyyy" }}</td> -->
                       <td>{{ data?.taxVendor?.companyName }}</td>
                       <td>{{ data?.source }}</td>
                       <td>{{ data?.taxVendor?.vendorTaxApplied }}</td>

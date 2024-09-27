@@ -120,7 +120,7 @@
             [paginator]="salesDataShowById?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr class="text-center">
-                <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+                <th style="width: 4rem" *ngIf="salesDataShowById?.length > 0"><p-tableHeaderCheckbox /></th>
                 <th pSortableColumn="taxVendor.salesInvoice">
                   Invoice Number
                   <p-sortIcon field="taxVendor.salesInvoice"></p-sortIcon>
@@ -294,7 +294,7 @@
             [paginator]="purchaseDataShowById?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]">
             <ng-template pTemplate="header">
               <tr class="text-center">
-                <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+                <th style="width: 4rem" *ngIf="purchaseDataShowById?.length > 0"><p-tableHeaderCheckbox /></th>
                 <th pSortableColumn="taxVendor.purchaseInvoice">
                   Invoice Number
                   <p-sortIcon field="taxVendor.purchaseInvoice"></p-sortIcon>

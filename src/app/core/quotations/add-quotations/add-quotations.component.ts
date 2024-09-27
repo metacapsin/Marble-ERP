@@ -64,7 +64,7 @@ export class AddQuotationsComponent implements OnInit {
     private BillingAddressService: BillingAddressService
   ) {
     this.addQuotationForm = this.fb.group({
-      customer: [""],
+      customer: ["",[Validators.required]],
       billingAddress: [""],
       quotationDate: ["", [Validators.required]],
       quotationDiscount: ["", [Validators.min(1), Validators.max(100000)]],

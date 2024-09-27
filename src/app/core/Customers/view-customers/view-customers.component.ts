@@ -289,6 +289,7 @@ export class ViewCustomersComponent implements OnInit {
   openPaymentDialog(Id: any) {
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
+      this.paymentInvoicesalesDataShowById = [resp.data];
       this.header = "Sales Payment ";
       this.paymentObject = {
         customer: resp?.data?.customer,
@@ -305,14 +306,16 @@ export class ViewCustomersComponent implements OnInit {
       };
       console.log("this is api response on payment dialog open ",resp)
     })
-    this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
-      this.showPaymentDialog = true;
-      this.paymentInvoicesalesDataShowById = [resp.data];
-    });
+    // this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
+    //   this.showPaymentDialog = true;
+    //   this.paymentInvoicesalesDataShowById = [resp.data];
+    // });
   }
   openPaymentReturnDialog(Id: any) {
     this.salesReturnService.getSalesReturnById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
+      this.paymentInvoicesalesDataShowById = [resp.data];
+
       this.header = "Sales Return Payment ";
       this.paymentObject = {
         customer: resp.data.customer,
@@ -328,11 +331,11 @@ export class ViewCustomersComponent implements OnInit {
         this.paymentObject.salesReturnId
       );
     });
-    this.salesReturnService.getSalesReturnById(Id).subscribe((resp: any) => {
-      this.showPaymentDialog = true;
-      this.paymentInvoicesalesDataShowById = [resp.data];
-      this.header = "Sales Return Invoice ";
-      console.log("sales data by id On Payment Return dialog", this.paymentInvoicesalesDataShowById);
-    });
+    // this.salesReturnService.getSalesReturnById(Id).subscribe((resp: any) => {
+    //   this.showPaymentDialog = true;
+    //   this.paymentInvoicesalesDataShowById = [resp.data];
+    //   this.header = "Sales Return Invoice ";
+    //   console.log("sales data by id On Payment Return dialog", this.paymentInvoicesalesDataShowById);
+    // });
   }
 }
