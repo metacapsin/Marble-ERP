@@ -46,6 +46,8 @@ export class ListBlocksComponent implements OnInit {
   cols: Column[] = [];
   blockProcessorList: any[] = [];
   lotID: string;
+  exportColumns: ExportColumn[] = [];
+
 
   constructor(
     public dialog: MatDialog,
@@ -81,6 +83,27 @@ export class ListBlocksComponent implements OnInit {
         }
       }
       console.log("API", this.data);
+      this.cols = [
+        
+        { field: "date", header: "Date" },
+        { field: "blockDetails.blockNo", header: "Block Number" },
+        { field: "category", header: "Category" },
+        { field: "subCategory", header: "Sub Category" },
+        { field: "blockDetails.height", header: "Height" },
+        { field: "blockDetails.width", header: "Width" },
+        { field: "blockDetails.length", header: "Length" },
+        { field: "blockDetails.totalArea", header: "Total Area" },
+        { field: "lotTotalCosting", header: "Total Cost" },
+        { field: "warehouseDetails.name", header: "Warehouse" },
+        { field: "lotNo", header: "Lot Number" },
+        { field: "lotName", header: "Lot Name" },
+        { field: "blockProcessorList", header: "Processor" }
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
     });
   }
 

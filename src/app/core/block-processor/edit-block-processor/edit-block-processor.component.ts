@@ -13,6 +13,8 @@ import { ToastModule } from "primeng/toast";
 import { SharedModule } from "src/app/shared/shared.module";
 import { blockCustomersDataService } from "../../processing/block-customer/block-customer.service";
 import { blockProcessorService } from "../block-processor.service";
+import { validationRegex } from "../../validation";
+import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
 @Component({
   selector: 'app-edit-block-processor',
@@ -35,15 +37,17 @@ export class EditBlockProcessorComponent {
   emailRegex: string = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^(?!\s)(?!.*\s{3})(.{3,500})$/s;
   phoneRegex = /^[0-9]{10}$/;
+  returnUrl: any;
   constructor(
     private fb: FormBuilder,
     private Service: blockProcessorService,
     private messageService: MessageService,
     private router: Router,
     private activeRoute: ActivatedRoute,
+    private localStorageService: LocalStorageService
   ) {
     this.editBlockProcessorForm = this.fb.group({
-      companyName: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      companyName: ["", [Validators.required, Validators.pattern(validationRegex.companyNameRGEX)]],
       phoneNo: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],
@@ -56,6 +60,8 @@ export class EditBlockProcessorComponent {
 
   ngOnInit() {
     this.getblockProcessor();
+    this.returnUrl = this.localStorageService.getItem("returnUrl");
+    console.log(this.returnUrl);
   }
   getblockProcessor() {
     this.Service.getBlockProcessorDataById(this.id).subscribe((data: any) => {
@@ -92,7 +98,7 @@ export class EditBlockProcessorComponent {
               detail: resp.message,
             });
             setTimeout(() => {
-              this.router.navigate(["/block-processor"]);
+              this.router.navigateByUrl(this.returnUrl);
             }, 400);
           } else {
             const message = resp.message;

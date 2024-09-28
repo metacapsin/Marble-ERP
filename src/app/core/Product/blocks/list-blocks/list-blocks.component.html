@@ -77,11 +77,11 @@
             <div class="card-body p-2">
 
               <p-table
-                [value]="data| filter:searchDataValue:['date','blockDetails.blockNo','category','subCategory','blockDetails.height || blockDetails.width || blockDetails.length','totalArea','lotTotalCosting','warehouseDetails.name','lotNo','lotName','blockProcessorList', ]"
+                [value]="data| filter:searchDataValue:['date','blockDetails.blockNo','category','subCategory','blockDetails.height','blockDetails.width','blockDetails.length','totalArea','lotTotalCosting','warehouseDetails.name','lotNo','lotName','blockProcessorList', ]"
                 [tableStyle]="{'min-width': '60rem'}" [paginator]="data?.length >= 5" [rows]="10"
                 [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedBlocks" styleClass="p-datatable-striped"
                 selectionMode="multiple" (onFilter)="onFilter($event)" #dt [columns]="cols" 
-                [exportHeader]="'customExportHeader'" exportFilename="Lot" class="table-responsive">
+                [exportHeader]="'customExportHeader'" exportFilename="Blocks List" class="table-responsive">
                 <ng-template pTemplate="header" >
                   <tr>
                     <th class="text-nowrap" pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>

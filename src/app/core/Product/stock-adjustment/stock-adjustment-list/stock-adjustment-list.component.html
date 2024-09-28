@@ -325,6 +325,18 @@
                 ">
                 <span class="login-danger">Adjustment Quantity should be greater than 0.</span>
               </div>
+              <div *ngIf="
+                  addStockAdjustmentForm.get('quantity')?.hasError('max') &&
+                  addStockAdjustmentForm.get('quantity')?.touched
+                ">
+                <span class="login-danger">Adjustment Quantity should be less than 100000.</span>
+              </div>
+              <div *ngIf="
+              addStockAdjustmentForm.get('quantity')?.hasError('exceedsCurrentQuantity') &&
+              addStockAdjustmentForm.get('quantity')?.touched
+            ">
+            <span class="login-danger">Quantity cannot exceed current quantity when subtracting.</span>
+          </div>
             </div>
           </div>
 
@@ -439,6 +451,18 @@
                 ">
                 <span class="login-danger">Adjustment Quantity should be greater than 0.</span>
               </div>
+              <div *ngIf="
+                  editStockAdjustmentForm.get('quantity')?.hasError('max') &&
+                  editStockAdjustmentForm.get('quantity')?.touched
+                ">
+                <span class="login-danger">Adjustment Quantity should be less than 100000.</span>
+              </div>
+              <div *ngIf="
+          editStockAdjustmentForm.get('quantity')?.hasError('exceedsCurrentQuantity') &&
+          editStockAdjustmentForm.get('quantity')?.touched
+        ">
+        <span class="login-danger">Quantity cannot exceed current quantity when subtracting.</span>
+      </div>
             </div>
           </div>
           <div class="col-md-6 col-sm-12">
