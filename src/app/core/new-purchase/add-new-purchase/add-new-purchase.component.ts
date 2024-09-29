@@ -365,9 +365,9 @@ export class AddNewPurchaseComponent implements OnInit {
 
       if (purchaseDiscount > 0) {
         if (!nonTaxable) {
-          taxableAmount -= purchaseDiscount; 
+          taxableAmount -= purchaseDiscount;
         } else {
-          nonTaxable -= purchaseDiscount; 
+          nonTaxable -= purchaseDiscount;
           this.addNewPurchaseForm.get("nonTaxable").patchValue(nonTaxable);
         }
       }
@@ -394,7 +394,11 @@ export class AddNewPurchaseComponent implements OnInit {
           nonTaxable: nonTaxable,
         });
       }
+      if(this.addNewPurchaseForm.get("isTaxVendor").value) {
+        this.calculateTaxVendorAmount();
+      }
     }
+
   }
 
   calculateTaxVendorAmount() {
@@ -403,7 +407,6 @@ export class AddNewPurchaseComponent implements OnInit {
     let vendorTaxApplied =
       this.addNewPurchaseForm.get("vendorTaxApplied").value;
     let taxVendorAmount = (totalTaxAmount * vendorTaxApplied) / 100;
-
     this.addNewPurchaseForm.patchValue({
       taxVendorAmount: taxVendorAmount.toFixed(2),
     });

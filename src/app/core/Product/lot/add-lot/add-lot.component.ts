@@ -110,7 +110,7 @@ export class AddLotComponent {
       categoryDetail: ["", [Validators.required]],
       subCategoryDetail: ["", [Validators.required]],
 
-    },);
+    },{ validators: atLeastOneRequiredValidator() });
   }
   ngOnInit(): void {
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
