@@ -55,7 +55,7 @@ export class AddLotComponent {
   SubCategoryListsEditArray: any[];
   CategoryListsEditArray: any[];
   subCategorListByCategory: any = [];
-
+  maxPurchaseAmount = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -148,7 +148,7 @@ export class AddLotComponent {
           });
         });
       });
-      
+
       this.lotAddForm.get("vehicleNo")?.valueChanges.subscribe((value) => {
         if (value) {
           const upperCaseValue = value.toUpperCase();
@@ -322,21 +322,24 @@ export class AddLotComponent {
   }
   calculateTotalAmount() {
     const form = this.lotAddForm;
-    const lotWeight = form.get("lotWeight").value;
-    const pricePerTon = form.get("pricePerTon").value;
-    const royaltyCharge = form.get("royaltyCharge").value;
-    const transportationCharge = form.get("transportationCharge").value;
-    const purchaseDiscount = form.get("purchaseDiscount").value;
-    const tax = form.get("ItemTax").value;
-    const taxableAmount = form.get("taxableAmount").value;
+    const lotWeight = Number(form.get("lotWeight")?.value) || 0;
+    const pricePerTon = Number(form.get("pricePerTon")?.value) || 0;
+    const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
+    const transportationCharge = Number(form.get("transportationCharge")?.value) || 0;
+    const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
+    const tax = form.get("ItemTax")?.value || [];
+    let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
+    let nonTaxableAmount = Number(form.get("nonTaxableAmount")?.value) || 0;
     let taxable = 0;
 
     if (lotWeight && pricePerTon) {
       const lotWeightmultiPricePerton = lotWeight * pricePerTon;
-      this.rowCosting = lotWeight * pricePerTon;
-      const nonTaxableAmount = Number(taxableAmount) && Number(taxableAmount) <= lotWeightmultiPricePerton
+      this.rowCosting = lotWeightmultiPricePerton;
+      nonTaxableAmount = taxableAmount && taxableAmount <= lotWeightmultiPricePerton
         ? lotWeightmultiPricePerton - taxableAmount
         : lotWeightmultiPricePerton;
+
+    this.maxPurchaseAmount = lotWeightmultiPricePerton / 2;
 
       form.patchValue({
         nonTaxableAmount,
@@ -352,29 +355,35 @@ export class AddLotComponent {
     } else if (tax) {
       taxApplied = (taxableAmount * tax) / 100;
     }
-    let nonTaxableAmount = form.get("nonTaxableAmount").value;
+
+    if (purchaseDiscount) {
+      if (!nonTaxableAmount) {
+        taxableAmount -= purchaseDiscount;
+      } else {
+        nonTaxableAmount -= purchaseDiscount;
+        form.patchValue({
+          nonTaxableAmount,
+        });
+      }
+    }
+
     taxable = taxApplied + taxableAmount;
-    let lotRowCost = taxable + nonTaxableAmount;
-    
-    if(purchaseDiscount){
-      nonTaxableAmount = nonTaxableAmount - purchaseDiscount;
-    }
-    let paidToSupplierLotAmount = taxable + nonTaxableAmount;
-    if (paidToSupplierLotAmount !== 0 && taxable !== 0) {
-      form.patchValue({
-        paidToSupplierLotCost: Number(paidToSupplierLotAmount).toFixed(2),
-        lotRowCost: Number(lotRowCost),
-        taxable: Number(taxable).toFixed(2),
-        taxApplied: Number(taxApplied).toFixed(2),
-        nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
-      });
-    }
+    const lotRowCost = taxable + nonTaxableAmount;
+    const paidToSupplierLotAmount = taxable + nonTaxableAmount;
+
+    form.patchValue({
+      paidToSupplierLotCost: paidToSupplierLotAmount ? Number(paidToSupplierLotAmount).toFixed(2) : 0,
+      lotRowCost: Number(lotRowCost),
+      taxable: Number(taxable).toFixed(2),
+      taxApplied: Number(taxApplied).toFixed(2),
+      taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+    });
 
     const averageTransportation = transportationCharge / lotWeight;
     const averageRoyalty = royaltyCharge / lotWeight;
     const averageBlocksWeight = this.totalBlocksArea / lotWeight;
-
     const blockPricePerTon = lotRowCost / lotWeight;
+
     this.blocksDetails.forEach((element: any) => {
       element.weightPerBlock = element.totalArea / averageBlocksWeight;
       element.rawCosting = element.weightPerBlock * blockPricePerTon;
@@ -388,6 +397,11 @@ export class AddLotComponent {
       averageRoyalty: averageRoyalty,
       averageWeight: averageBlocksWeight,
     });
+  }
+
+  setValidations(){
+    this.lotAddForm.get("purchaseDiscount")?.setValidators([Validators.min(0), Validators.max(this.maxPurchaseAmount)]);
+    this.lotAddForm.get("purchaseDiscount")?.updateValueAndValidity;
   }
 
   LotAddFormSubmit() {

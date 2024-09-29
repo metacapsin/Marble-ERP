@@ -33,20 +33,11 @@ export class AddsalesComponent implements OnInit {
   slabList = [];
   slabData = [];
   addressVisible: any = false;
-  orderStatusList = [
-    { orderStatus: "Ordered" },
-    { orderStatus: "Confirmed" },
-    { orderStatus: "Processing" },
-    { orderStatus: "Shipping" },
-    { orderStatus: "Delivered" },
-  ];
   orderTaxList = [];
   taxesListData = [];
   public itemDetails: number[] = [0];
   maxQuantity: number;
-
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,30})$/;
-
   notesRegex = /^(?:.{2,100})$/;
   tandCRegex = /^(?:.{2,200})$/;
   customer: any = ([] = []);
@@ -64,6 +55,7 @@ export class AddsalesComponent implements OnInit {
   appliedTaxAmount: number;
   salesGrossTotal: number;
   salesOrderTax: number;
+  totalTaxableAmount: number = 0;
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -183,12 +175,8 @@ export class AddsalesComponent implements OnInit {
           },
         }));
         this.salesItemDetails.controls.forEach((element, index) => {
-          console.log("before if", "index", index, "element", element);
-
           if (i === index) {
             this.slabDataList[index] = this.slabDatas;
-            console.log("if", this.slabDataList[index]);
-
             const control = this.salesItemDetails.at(i);
             control.get("salesItemProduct").reset();
             control.get("salesItemQuantity").reset();
@@ -197,37 +185,23 @@ export class AddsalesComponent implements OnInit {
             this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];
-            console.log("else", this.slabDataList);
           }
         });
-        //this.slabDataList.push(this.slabDatas)
-        console.log("this.slabDataList", this.slabDataList);
       }
-    );
-    console.log(
-      "----------------------------####################----------------"
     );
   }
   editAddressWithDrop() {
     this.setAddressData = this.addSalesForm.get("billingAddress")?.value;
-    console.log(this.setAddressData);
   }
 
   ngOnInit() {
-    // this.salesService.getVendorBillingList().subscribe(
-    //   (resp: any) => {
-    //     // this.vendorList = resp.data;
-    //     console.log(resp);
-    //   }
-    // )
     const today = new Date();
-            const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
-        
-            this.addSalesForm.patchValue({
-              salesDate: formattedDate,
-            });
+    const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
+
+    this.addSalesForm.patchValue({
+      salesDate: formattedDate,
+    });
     this.salesService.getVendorBillingList().subscribe((resp: any) => {
-      console.log(resp);
       this.address = resp.data;
       this.orgAddress = resp.data;
       this.dropAddress = [];
@@ -237,26 +211,17 @@ export class AddsalesComponent implements OnInit {
           _id: ele,
         });
       });
-      console.log(this.address);
       const filterData = this.address.find((e) => e.setAsDefault);
       if (!filterData) {
         const message = "First you want to set one billing Address as Default";
         this.messageService.add({ severity: "success", detail: message });
       }
       this.addSalesForm.get("billingAddress").patchValue(filterData);
-      console.log(this.addSalesForm.get("billingAddress")?.value);
-      console.log(filterData);
     });
 
     this.customerList = this.getCustomer();
-    console.log(this.customerList);
     this.customer = this.localStorageService.getItem("customer");
     this.returnUrl = this.localStorageService.getItem("returnUrl");
-    console.log("this is retrun url", this.returnUrl);
-    console.log(
-      "this is customer data by local storage service",
-      this.customer
-    );
     if (this.customer) {
       this.addSalesForm.patchValue({
         customer: this.customer,
@@ -275,7 +240,6 @@ export class AddsalesComponent implements OnInit {
           },
         });
       });
-      console.log(this.wareHousedataListsEditArray);
     });
 
     this.taxService.getAllTaxList().subscribe((resp: any) => {
@@ -299,13 +263,11 @@ export class AddsalesComponent implements OnInit {
     });
   }
   editAddress() {
-    // this.editAddressWithDrop()
     this.addressVisible = true;
   }
 
   setCustomer() {
     const data = this.addSalesForm.get("customer").value;
-    console.log(data);
     this.customerAddress = data.billingAddress;
   }
   getCustomer() {
@@ -323,8 +285,6 @@ export class AddsalesComponent implements OnInit {
     });
   }
   onSlabSelect(value, i) {
-    console.log(value);
-    // this.customerAddress = data._id.billingAddress
     const salesItemDetailsArray = this.addSalesForm.get(
       "salesItemDetails"
     ) as FormArray;
@@ -332,9 +292,6 @@ export class AddsalesComponent implements OnInit {
     const selectedSlab = this.slabData.find((slab) => slab._id === value._id);
 
     if (selectedSlab) {
-      console.log("Slab Found", selectedSlab);
-
-      // Calculate remaining quantity for the selected slab
       let remainingQuantity = selectedSlab.totalSQFT;
       for (let j = 0; j < salesItemDetailsArray.length; j++) {
         if (j !== i) {
@@ -374,16 +331,17 @@ export class AddsalesComponent implements OnInit {
     let nonTaxable: number = 0;
     const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
 
+    this.totalTaxableAmount = 0;
     salesItems.controls.forEach((item) => {
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];
       const sqftPerPiece = +item.get("sqftPerPiece").value || 0;
-      console.log('sqftPerPiece', sqftPerPiece);
 
       const pieces = quantity / sqftPerPiece;
       let totalTaxAmount = 0;
       const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value;
+      this.totalTaxableAmount += Number(salesItemTaxableAmount);
       if (Array.isArray(tax)) {
         tax.forEach((selectedTax: any) => {
           totalTaxAmount +=
@@ -400,7 +358,7 @@ export class AddsalesComponent implements OnInit {
       salesOrderTax += totalTaxAmount;
       salesGrossTotal += subtotal;
 
-      if(totalAmount > 0) {
+      if (totalAmount > 0) {
         // const salesItemTaxableAmount = item.get("salesItemTaxableAmount") as FormControl
         item.get("salesItemTaxableAmount").clearValidators();
         item.get("salesItemTaxableAmount").setValidators([Validators.max(totalAmount)]);
@@ -438,11 +396,10 @@ export class AddsalesComponent implements OnInit {
     }
   }
   taxVendorAmount() {
-    const salesOrderTax = this.addSalesForm.get("salesOrderTax").value;
     const vendorTaxApplied = this.addSalesForm.get("vendorTaxApplied").value;
 
     if (vendorTaxApplied) {
-      const vendorTaxAmount = (salesOrderTax * vendorTaxApplied) / 100;
+      const vendorTaxAmount = (this.totalTaxableAmount * vendorTaxApplied) / 100;
       this.addSalesForm
         .get("vendorTaxAmount")
         .setValue(Number(vendorTaxAmount));
@@ -457,13 +414,6 @@ export class AddsalesComponent implements OnInit {
 
   addSalesFormSubmit() {
     const formData = this.addSalesForm.value;
-    // let salesOrderTax: number = 0;
-    // formData.salesItemDetails.forEach(element => {
-    //   salesOrderTax += element.salesItemTaxAmount
-    // });
-    // console.log("salesOrderTax",salesOrderTax);
-    console.log(formData);
-    console.log(this.setAddressData);
     const payload = {
       customer: formData.customer,
       salesDate: formData.salesDate,
@@ -484,7 +434,7 @@ export class AddsalesComponent implements OnInit {
           taxVendorAmount: Number(formData.vendorTaxAmount),
           vendorTaxApplied: Number(formData.vendorTaxApplied),
         }
-        :null,
+        : null,
       salesOrderTax: Number(formData.salesOrderTax),
       taxable: Number(formData.taxable),
       nonTaxable: Number(formData.nonTaxable),
@@ -492,10 +442,7 @@ export class AddsalesComponent implements OnInit {
     };
 
     if (this.addSalesForm.valid) {
-      console.log("Valid form sales payload", payload);
-
       this.salesService.AddSalesData(payload).subscribe((resp: any) => {
-        console.log(resp);
         if (resp) {
           if (resp.status === "success") {
             const message = "Sales has been added";

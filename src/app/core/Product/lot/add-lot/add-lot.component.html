@@ -360,7 +360,7 @@
                 "
               >
                 <span class="login-danger"
-                  >Input Must be between 1 to 100000.
+                  >Input Must be between 1 to {{maxPurchaseAmount}}.
                 </span>
               </div>
             </div>
@@ -618,7 +618,7 @@
                           </div>
                           <div class="col-xl-6 col-lg-6 col-sm-12">
                             <div
-                              *ngIf="data?.blockProcessor"
+                              *ngIf="data?.blockProcessor?.name"
                               class="form-group row mb-2"
                             >
                               <h5

@@ -356,6 +356,19 @@
                               Tax Applied Amount:
                               {{ addNewPurchaseForm.get("taxable")?.value | number : "1.2-2" }}22
                             </span>
+                            <div *ngIf="(addNewPurchaseForm
+                            .get('taxableAmount')
+                            ?.hasError('min') &&
+                            addNewPurchaseForm.get('taxableAmount')
+                                ?.touched) ||
+                            (addNewPurchaseForm
+                            .get('taxableAmount')
+                            ?.hasError('max') &&
+                            addNewPurchaseForm.get('taxableAmount')?.touched)">
+                              <span class="login-danger">
+                                Input must be between 1 to 7 digits.
+                              </span>
+                            </div>
                           </div>
                         </div>
 
@@ -368,6 +381,19 @@
                               </div>
                               <input type="number" formControlName="nonTaxable" (change)="calculateTotalAmount()"
                               class="form-control" placeholder="Enter Non Taxable Amount"/>
+                              <div *ngIf="(addNewPurchaseForm
+                            .get('nonTaxable')
+                            ?.hasError('min') &&
+                            addNewPurchaseForm.get('nonTaxable')
+                                ?.touched) ||
+                            (addNewPurchaseForm
+                            .get('nonTaxable')
+                            ?.hasError('max') &&
+                            addNewPurchaseForm.get('nonTaxable')?.touched)">
+                              <span class="login-danger">
+                                Input must be between 1 to 7 digits.
+                              </span>
+                            </div>
                             </div>
                           </div>
                         </div>
@@ -692,7 +718,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ ItemDetails?.lotNo }}
+                                  {{ ItemDetails?.lotNo ? ItemDetails?.lotNo : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -704,7 +730,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ ItemDetails?.lotName }}
+                                  {{ ItemDetails?.lotName ? ItemDetails?.lotName : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -716,7 +742,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ ItemDetails?.vehicleNo }}
+                                  {{ ItemDetails?.vehicleNo ? ItemDetails?.vehicleNo : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -728,7 +754,31 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ ItemDetails?.warehouseDetails.name }}
+                                  {{ ItemDetails?.warehouseDetails.name ? ItemDetails?.warehouseDetails.name : ' - ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Category
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ ItemDetails?.categoryDetail.name ? ItemDetails?.categoryDetail.name : ' - ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Sub Category
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ ItemDetails?.subCategoryDetail.name ? ItemDetails?.subCategoryDetail.name : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -740,7 +790,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ ItemDetails?.lotWeight }}
+                                  {{ ItemDetails?.lotWeight ? ItemDetails?.lotWeight : ' - '}}  
                                 </p>
                               </div>
                             </div>
@@ -946,13 +996,13 @@
                                               </div>
                                             </div>
                                             <div class="col-xl-6 col-lg-6 col-sm-12">
-                                              <div *ngIf="data?.blockProcessor" class="form-group row mb-2">
+                                              <div *ngIf="data?.blockProcessor?.name" class="form-group row mb-2">
                                                 <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                                   Block Processor
                                                 </h5>
                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                   <p class="col-form-label">
-                                                    {{ data.blockProcessor.name }}
+                                                    {{ data.blockProcessor.name ? data.blockProcessor.name : ' - ' }}
                                                   </p>
                                                 </div>
                                               </div>
@@ -1024,7 +1074,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("slabName").value }}
+                                  {{ addNewPurchaseForm.get("slabName").value ? addNewPurchaseForm.get("slabName").value : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1036,7 +1086,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("slabNo").value }}
+                                  {{ addNewPurchaseForm.get("slabNo").value ? addNewPurchaseForm.get("slabNo").value : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1048,7 +1098,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("warehouseDetails")?.value.name }}
+                                  {{ addNewPurchaseForm.get("warehouseDetails")?.value.name ? addNewPurchaseForm.get("warehouseDetails")?.value.name : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1060,7 +1110,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("categoryDetail")?.value.name }}
+                                  {{ addNewPurchaseForm.get("categoryDetail")?.value.name ? addNewPurchaseForm.get("categoryDetail")?.value.name : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1072,7 +1122,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("subCategoryDetail")?.value.name }}
+                                  {{ addNewPurchaseForm.get("subCategoryDetail")?.value.name ? addNewPurchaseForm.get("subCategoryDetail")?.value.name : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1084,7 +1134,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("width")?.value }}
+                                  {{ addNewPurchaseForm.get("width")?.value ? addNewPurchaseForm.get("width")?.value : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1096,7 +1146,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("length")?.value }}
+                                  {{ addNewPurchaseForm.get("length")?.value ? addNewPurchaseForm.get("length")?.value : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1108,7 +1158,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("thickness")?.value }}
+                                  {{ addNewPurchaseForm.get("thickness")?.value ? addNewPurchaseForm.get("thickness")?.value : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1120,7 +1170,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("finishes")?.value.name }}
+                                  {{ addNewPurchaseForm.get("finishes")?.value.name ? addNewPurchaseForm.get("finishes")?.value.name : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1132,7 +1182,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("totalSQFT").value }}
+                                  {{ addNewPurchaseForm.get("totalSQFT").value ? addNewPurchaseForm.get("totalSQFT").value : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1144,7 +1194,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("noOfPieces").value }}
+                                  {{ addNewPurchaseForm.get("noOfPieces").value ? addNewPurchaseForm.get("noOfPieces").value : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1200,9 +1250,9 @@
                           </div>
                         </div>
 
-                        <div class="row mt-4">
+                        <div class="row mt-4" *ngIf="addNewPurchaseForm.get('taxable')?.value">
                           <div class="col-md-6 col-xl-6 checkbox">
-                            <p-checkbox [binary]="true" class="m-r-10" formControlName="isTaxVendor">
+                            <p-checkbox [binary]="true" class="m-r-10" formControlName="isTaxVendor" (onChange)="changeVaidationForTaxVendor()">
                             </p-checkbox>
                             <label for="isTaxVendor">Tax Vendor</label>
                           </div>
@@ -1214,11 +1264,14 @@
                                 [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true">
                               </p-dropdown>
                               <span *ngIf="
-                              addNewPurchaseForm.get('taxApplied').value
+                              addNewPurchaseForm.get('taxableAmount').value
                               " style="color: #97704f; font-size: 12px">
-                                Tax Applied : ₹
-                                {{ addNewPurchaseForm.get('taxApplied').value | number : "1.2-2" }}
+                                Taxable Amount : ₹
+                                {{ addNewPurchaseForm.get('taxableAmount').value | number : "1.2-2" }}
                               </span>
+                              <div *ngIf="addNewPurchaseForm.get('taxVendor')?.hasError('required')  && addNewPurchaseForm.get('taxVendor')?.touched">
+                                <span class="login-danger">Field is required.</span>
+                              </div>
                             </div>
                           </div>
                           <div class="col-12 mt-4" *ngIf="addNewPurchaseForm.get('isTaxVendor').value && addNewPurchaseForm.get('taxVendor').value">
@@ -1229,6 +1282,15 @@
                                     <span class="login-danger">*</span></label>
                                   <input type="number" class="form-control" formControlName="vendorTaxApplied"
                                     (input)="calculateTaxVendorAmount()" />
+                                    <div *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('required')  && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
+                                      <span class="login-danger">Field is required.</span>
+                                    </div>
+                                    <div *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('max') && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
+                                      <span class="login-danger">Applied Tax (%) must be less than 100.</span>
+                                    </div>
+                                    <div *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('min') && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
+                                      <span class="login-danger">Applied Tax (%) must be greater than 0.</span>
+                                    </div>
                                 </div>
                               </div>
                               <div class="col-md-6 col-sm-6">
@@ -1241,7 +1303,7 @@
                                     .get('taxVendorAmount')?.value">
                                       {{ '₹' + ' ' +
                                       addNewPurchaseForm
-                                      .get("taxVendorAmount")?.value
+                                      .get("taxVendorAmount")?.value | indianCurrency
                                       }}
                                     </p>
                                   </div>
