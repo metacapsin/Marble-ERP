@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
             //   panelClass: "blue",
             // });
             const message= error.message
-            this.messageService.add({ severity: "warn", detail: message });
+            this.messageService.add({ severity: "error", detail: message });
           },
         });
       }

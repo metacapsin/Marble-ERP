@@ -106,7 +106,15 @@
                             ?.hasError('pattern') &&
                           addEmployeepPaymentForm.get('deduction')?.touched
                         ">
-                        <span class="login-danger">Input must be between 2 to 100 characters.</span>
+                        <span class="login-danger">Deduction cannot be greater than net salary.</span>
+                      </div>
+                      <div *ngIf="
+                          addEmployeepPaymentForm
+                            .get('deduction')
+                            ?.hasError('min') &&
+                          addEmployeepPaymentForm.get('deduction')?.touched
+                        ">
+                        <span class="login-danger">Deduction cannot be less than 0.</span>
                       </div>
                     </div>
                   </div>

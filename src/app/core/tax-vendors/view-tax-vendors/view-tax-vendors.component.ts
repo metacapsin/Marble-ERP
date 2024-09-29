@@ -241,10 +241,10 @@ export class ViewTaxVendorsComponent implements OnInit {
     if (this.salesPaymentId) {
       this.TaxVendorsService.deletePayment(this.salesPaymentId).subscribe(
         (resp: any) => {
+          this.showDialog = false;
           let message = "Tax Vendor Sales Payment has been Deleted";
           this.messageService.add({ severity: "success", detail: message });
           this.callAPi();
-          this.showDialog = false;
           this.salesPaymentId = null;
         }
       );

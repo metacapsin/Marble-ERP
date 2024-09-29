@@ -66,7 +66,7 @@
         paymentDate:["",[Validators.required]],
         paymentMode:["",[Validators.required]],
         TotalSalary: ["", []],
-        deduction: ["", [Validators.pattern(this.notesRegex)]],
+        deduction: ["", [Validators.pattern(this.notesRegex), Validators.min(0)]],
 
       });
     }
@@ -143,10 +143,20 @@
     calculateSalary(){
       const deduction = this.addEmployeepPaymentForm.get("deduction").value | 0;
       const netSalary = this.addEmployeepPaymentForm.get("netSalary").value | 0;
-      this.TotalSalary = netSalary - deduction;
-      this.addEmployeepPaymentForm.patchValue({
-        TotalSalary:this.TotalSalary,
-      })
+      console.log(deduction,"deduction")
+      console.log(netSalary,"netSalary")
+      if(deduction > netSalary){
+        this.addEmployeepPaymentForm.get("deduction").setErrors({ 'pattern': true });
+        this.TotalSalary = netSalary;
+        this.addEmployeepPaymentForm.patchValue({
+          TotalSalary:this.TotalSalary,
+        })
+      }else{
+        this.TotalSalary = netSalary - deduction;
+        this.addEmployeepPaymentForm.patchValue({
+          TotalSalary:this.TotalSalary,
+        })
+      }
     }
     addEmployeepPaymentFormSubmit() {
       const formData = this.addEmployeepPaymentForm.value;

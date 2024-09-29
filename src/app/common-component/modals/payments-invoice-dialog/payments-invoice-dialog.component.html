@@ -154,11 +154,11 @@
                                   </div>
 
                                   <div class="col-xl-6 col-lg-6 col-sm-12">
-                                    <div class="form-group row mb-2">
+                                    <div class="form-group row mb-2" *ngIf="dataById?.isPurchase">
                                       <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Paid Amount:</h5>
                                       <div class="col-lg-8 col-md-8 col-xl-8">
                                         <p class="col-lg-8 col-form-label">
-                                          {{ dataById?.purchaseInvoiceNumber}}
+                                          ₹ {{ dataById?.paidAmount | indianCurrency}}
                                         </p>
                                       </div>
                                     </div>

@@ -351,11 +351,12 @@ export class AddQuotationsComponent implements OnInit {
     const discount = +this.addQuotationForm.get("quotationDiscount").value;
     const shipping = +this.addQuotationForm.get("quotationShipping").value;
     const otherCharges = +this.addQuotationForm.get("otherCharges").value;
-
     totalAmount -= discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
-
+    if(discount > quotationGrossTotal){
+        this.addQuotationForm.get("quotationDiscount").setErrors({ 'invalid': true });
+    }
     this.addQuotationForm
       .get("quotationTotalAmount")
       .setValue(Number(totalAmount));

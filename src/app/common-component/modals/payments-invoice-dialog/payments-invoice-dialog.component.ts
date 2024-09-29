@@ -358,7 +358,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         console.log("invalid form");
       }
     }
-
+    console.log(this.dataById.isPurchase)
     // for create purchase payment
     if (this.dataById.isPurchase) {
       // for (const key of Object.keys(this.paymentInvoiceForm.controls)) {

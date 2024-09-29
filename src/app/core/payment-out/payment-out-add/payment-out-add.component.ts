@@ -83,7 +83,7 @@ export class PaymentOutAddComponent {
           taxablePaymentAmount: [
             purchase.taxableDue || '', 
             [
-             
+              
               Validators.min(0),
               Validators.max(purchase.taxableDue) // Set max value to taxableDue
             ]

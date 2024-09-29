@@ -112,7 +112,7 @@ export class AddsalesComponent implements OnInit {
       salesGrossTotal: [""],
       salesOrderStatus: ["Confirmed"],
       salesOrderTax: [""],
-      vendorTaxApplied: [""],
+      vendorTaxApplied: ["", [Validators.max(100),Validators.min(0)]],
       vendorTaxAmount: [""],
       appliedTax: [""],
       salesShipping: ["", [Validators.pattern(validationRegex.oneToOneLakhRegex)]],

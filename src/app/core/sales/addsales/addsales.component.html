@@ -501,13 +501,13 @@
                               {{
                               addSalesForm
                               .get("salesItemDetails")
-                              .get(i + ".salesItemAppliedTaxAmount").value
+                              .get(i + ".salesItemAppliedTaxAmount").value | indianCurrency
                               }}
                               + Non Taxable Amount :
                               {{
                               addSalesForm
                               .get("salesItemDetails")
-                              .get(i + ".salesItemNonTaxableAmount").value
+                              .get(i + ".salesItemNonTaxableAmount").value | indianCurrency
                               }}
                             </span>
                           </div>
@@ -614,6 +614,24 @@
                               <span class="login-danger">*</span></label>
                             <input type="number" formControlName="vendorTaxApplied" (change)="taxVendorAmount()"
                               class="form-control" />
+                              <div *ngIf="
+                                addSalesForm
+                                  .get('vendorTaxApplied')
+                                  ?.hasError('max') &&
+                                addSalesForm.get('vendorTaxApplied')
+                                  ?.touched
+                            ">
+                              <span class="login-danger">Input cannot be more than 100.</span>
+                            </div>
+                            <div *ngIf="
+                                addSalesForm
+                                  .get('vendorTaxApplied')
+                                  ?.hasError('min') &&
+                                addSalesForm.get('vendorTaxApplied')
+                                  ?.touched
+                            ">
+                              <span class="login-danger">Input cannot be less than 0.</span>
+                            </div>
                           </div>
                         </div>
                         <div class="col-md-6 col-sm-6 mt-3">

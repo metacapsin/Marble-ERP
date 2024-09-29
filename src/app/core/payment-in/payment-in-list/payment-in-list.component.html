@@ -63,7 +63,7 @@
                                 [paginator]="paymentListData?.length >= 5" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedCategory"
                                 selectionMode="multiple" #dt [columns]="cols" [exportHeader]="'customExportHeader'"
-                                exportFilename="Payment In">
+                                    exportFilename="Payment In">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="salesInvoice">Invoice Number <p-sortIcon
@@ -133,7 +133,9 @@
                                 [value]="paymentListData | filter:searchDataValue:['paymentDate','salesInvoice','transactionNo' ,'customer.name','paymentMode','amount']"
                                 styleClass="p-datatable-striped" dataKey="id" [tableStyle]="{ 'min-width': '60rem' }"
                                 [paginator]="paymentListData?.length >= 5" [rows]="10"
-                                [rowsPerPageOptions]="[5, 10, 20]" #dt selectionMode="multiple">
+                                [rowsPerPageOptions]="[5, 10, 20]" #dt selectionMode="multiple"
+                                [exportHeader]="'customExportHeader'"
+                                exportFilename="Payment In" [columns]="cols">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th style="width: 5rem"></th>
