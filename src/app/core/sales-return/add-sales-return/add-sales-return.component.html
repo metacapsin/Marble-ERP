@@ -77,9 +77,9 @@
                                         <div class="form-group local-forms">
                                             <label for="returnDate">Return Date <span
                                                     class="login-danger">*</span></label>
-                                            <p-calendar [maxDate]="maxDate"dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                                formControlName="returnDate" placeholder="mm/dd/yyyy"
-                                                [styleClass]="'col-12'"></p-calendar>
+                                            <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body"
+                                                dateFormat="mm/dd/yy" formControlName="returnDate"
+                                                placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
                                             <div
                                                 *ngIf="addReturnSalesForm.get('returnDate')?.hasError('required')  && addReturnSalesForm.get('returnDate')?.touched">
                                                 <span class="login-danger">Field is required. </span>
@@ -125,7 +125,7 @@
 
                                                 <td class="col-md-2">
                                                     <input type="number" formControlName="salesItemQuantity"
-                                                        (change)="calculateTotalAmount()" class="form-control">
+                                                        (input)="calculateTotalAmount()" class="form-control">
                                                     <div
                                                         *ngIf="addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').hasError('required') && addReturnSalesForm.get('salesItemDetails').get(i + '.salesItemQuantity').touched">
                                                         <span class="login-danger">Field is required.</span>
@@ -145,10 +145,7 @@
 
                                                 <td class="col-md-2">
                                                     <input type="number" formControlName="salesItemTaxAmount"
-                                                    class="form-control">
-                                                    <!-- <span class="form-control">{{
-                                                        addReturnSalesForm.get('salesItemDetails').get(i +
-                                                        '.salesItemTaxAmount').value }}</span> -->
+                                                        class="form-control" (input)="calculateTotalAmount()">
                                                 </td>
 
                                                 <td class="col-md-2">
@@ -175,33 +172,6 @@
                                     <div class="invoice-faq">
                                         <div class="panel-group" id="accordion" role="tablist"
                                             aria-multiselectable="true">
-                                            <!-- <div class="faq-tab">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading" role="tab" id="headingTwo">
-                                                        <p class="panel-title">
-                                                            <a class="collapsed" data-bs-toggle="collapse"
-                                                                data-bs-parent="#accordion" href="#collapseTwo"
-                                                                aria-expanded="false" aria-controls="collapseTwo">
-                                                                <i class="fas fa-plus-circle me-1"></i> Add Terms &
-                                                                Conditions
-                                                            </a>
-                                                        </p>
-                                                    </div>
-                                                    <div id="collapseTwo" class="panel-collapse collapse"
-                                                        role="tabpanel" aria-labelledby="headingTwo"
-                                                        data-bs-parent="#accordion">
-                                                        <div class="panel-body">
-                                                            <textarea class="form-control"
-                                                                formControlName="salesTermsAndCondition"></textarea>
-                                                            <div
-                                                                *ngIf="addReturnSalesForm.get('salesTermsAndCondition')?.hasError('pattern')  && addReturnSalesForm.get('salesTermsAndCondition')?.touched">
-                                                                <span class="login-danger">Input must be between 2 to
-                                                                    200 characters.</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
                                             <div class="faq-tab">
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading" role="tab" id="headingThree">
@@ -262,36 +232,40 @@
                                                             </div>
                                                             <input class="form-control"
                                                                 (change)="calculateTotalAmount()"
-                                                                formControlName="returnOtherCharges" type="number"
-                                                                placeholder="">
+                                                                formControlName="returnOtherCharges" type="text"
+                                                                placeholder="Enter Other Charges ">
                                                         </div>
-                                                        <div
-                                                            *ngIf="addReturnSalesForm.get('returnOtherCharges')?.hasError('min')  && addReturnSalesForm.get('returnOtherCharges')?.touched">
-                                                            <span class="login-danger">Input must be at least 0.</span>
+                                                        <div *ngIf="
+                                (addReturnSalesForm
+                                  .get('returnOtherCharges')
+                                  ?.hasError('pattern') &&
+                                addReturnSalesForm.get('returnOtherCharges')?.touched)
+                              ">
+                                                            <span class="login-danger">Input must be between 0 to
+                                                                100000.</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="invoice-total-inner">
-                                                <p>Gross Total<span>{{addReturnSalesForm.get('salesTotalAmount').value
-                                                        ? "₹ " +(addReturnSalesForm.get('salesGrossTotal')?.value | number : "1.2-2")
+                                                <p *ngIf="addReturnSalesForm.get('salesGrossTotal')?.value">Gross Total<span>{{addReturnSalesForm.get('salesTotalAmount').value
+                                                        ? "₹ " +(addReturnSalesForm.get('salesGrossTotal')?.value |
+                                                        number : "1.2-2")
                                                         : null}}</span></p>
-                                                <!-- <p>Discount<span>₹ {{ addReturnSalesForm.get('salesDiscount').value }}</span></p> -->
-                                                <!-- <p>Shipping<span>₹ {{ addReturnSalesForm.get('salesShipping').value }}</span></p> -->
-                                                <p>Return Other Charges<span> 
-                                                    <!-- {{'- ₹' + addReturnSalesForm.get('returnOtherCharges').value }} -->
+                                                <p *ngIf="addReturnSalesForm.get('returnOtherCharges').value">Return Other Charges<span>
                                                         {{addReturnSalesForm.get('returnOtherCharges').value
-                                                        ? "- ₹ " + (addReturnSalesForm.get('returnOtherCharges').value | number : "1.2-2")
+                                                        ? "- ₹ " + (addReturnSalesForm.get('returnOtherCharges').value |
+                                                        number : "1.2-2")
                                                         : null}}</span></p>
                                             </div>
 
                                             <div class="invoice-total-footer">
                                                 <h4>Total Amount <span>
-                                                    <!-- ₹ {{ addReturnSalesForm.get('salesTotalAmount').value}} -->
-                                                    {{addReturnSalesForm.get('salesTotalAmount')?.value
-                                                    ? "₹ " +(addReturnSalesForm.get('salesTotalAmount')?.value | number : "1.2-2")
-                                                    : null}}
-                                                </span></h4>
+                                                        {{addReturnSalesForm.get('salesTotalAmount')?.value
+                                                        ? "₹ " +(addReturnSalesForm.get('salesTotalAmount')?.value |
+                                                        number : "1.2-2")
+                                                        : null}}
+                                                    </span></h4>
                                             </div>
                                         </div>
                                     </div>

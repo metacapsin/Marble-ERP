@@ -19,6 +19,7 @@ import { SalesReturnService } from "../sales-return.service";
 import { ToastModule } from "primeng/toast";
 import { SalesService } from "../../sales/sales.service";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
+import { validationRegex } from "../../validation";
 @Component({
   selector: "app-add-sales-return",
   standalone: true,
@@ -71,13 +72,9 @@ export class AddSalesReturnComponent {
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
       salesGrossTotal: [""],
       returnOrderStatus: ["", [Validators.required]],
-      // salesDiscount: ["", ],
-      // otherCharges: ["", ],
-      // salesShipping: ["", ],
-      // salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       billingAddress: [""],
       salesTotalAmount: ["", Validators.min(1)],
-      returnOtherCharges: ["", [Validators.min(0)]],
+      returnOtherCharges: ["", [Validators.pattern(validationRegex.oneToOneLakhRegex)]],
     });
   }
 
@@ -198,21 +195,19 @@ export class AddSalesReturnComponent {
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];
-
-      let totalTaxAmount = 0;
-      if (Array.isArray(tax)) {
-        tax.forEach((selectedTax: any) => {
-          totalTaxAmount += (quantity * unitPrice * selectedTax.taxRate) / 100;
-        });
-      } else {
-        totalTaxAmount = (quantity * unitPrice * tax) / 100;
-      }
-      const subtotal = quantity * unitPrice + totalTaxAmount;
+      const salesItemTaxAmount = item.get("salesItemTaxAmount").value || 0;
+      // let totalTaxAmount = 0;
+      // if (Array.isArray(tax)) {
+      //   tax.forEach((selectedTax: any) => {
+      //     totalTaxAmount += (quantity * unitPrice * selectedTax.taxRate) / 100;
+      //   });
+      // } else {
+      //   totalTaxAmount = (quantity * unitPrice * tax) / 100;
+      // }
+      const subtotal = quantity * unitPrice + salesItemTaxAmount;
 
       salesGrossTotal += subtotal;
-      item
-        .get("salesItemTaxAmount")
-        .setValue(Number(totalTaxAmount.toFixed(2)));
+      // item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount.toFixed(2)));
       item.get("salesItemSubTotal").patchValue(Number(subtotal.toFixed(2)));
     });
 
@@ -222,22 +217,11 @@ export class AddSalesReturnComponent {
       .setValue(Number(salesGrossTotal.toFixed(2)));
 
     let totalAmount = salesGrossTotal;
-    // const discount = +this.addReturnSalesForm.get("salesDiscount").value || 0;
-    // const shipping = +this.addReturnSalesForm.get("salesShipping").value || 0;
-    // const otherCharges = +this.addReturnSalesForm.get("otherCharges").value || 0;
-    const returnOtherCharges =
-      +this.addReturnSalesForm.get("returnOtherCharges").value || 0;
-
-    // totalAmount -= discount;
-    // totalAmount += shipping;
-    // totalAmount += otherCharges;
+    const returnOtherCharges = +this.addReturnSalesForm.get("returnOtherCharges").value || 0;
     totalAmount -= returnOtherCharges;
 
     this.addReturnSalesForm.patchValue({
       salesTotalAmount: Number(totalAmount.toFixed(2)),
-      // salesDiscount: Number(discount.toFixed(2)),
-      // salesShipping: Number(shipping.toFixed(2)),
-      // otherCharges: Number(otherCharges.toFixed(2)),
       returnOtherCharges: returnOtherCharges,
     });
   }
@@ -252,18 +236,12 @@ export class AddSalesReturnComponent {
       salesItemDetails: formData.salesItemDetails,
       salesGrossTotal: Number(formData.salesGrossTotal),
       returnOrderStatus: formData.returnOrderStatus,
-      // salesDiscount: Number(formData.salesDiscount),
-      // salesShipping: formData.salesShipping,
-      // otherCharges: formData.otherCharges,
-      // salesTermsAndCondition: formData.salesTermsAndCondition,
       salesNotes: formData.salesNotes,
       salesTotalAmount: Number(formData.salesTotalAmount),
       returnOtherCharges: Number(formData.returnOtherCharges),
     };
     if (this.addReturnSalesForm.valid) {
-      console.log("valid form");
       this.Service.createSalesReturn(payload).subscribe((resp: any) => {
-        console.log(resp);
         if (resp) {
           if (resp.status === "success") {
             const message = "Sales Return has been added";

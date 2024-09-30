@@ -50,7 +50,6 @@
     employeeLeavesData: any =[ ];
 
     constructor(
-      // private customerService: CustomersdataService,
       private Service: EmployeepPaymentService,
       public service: StaffSalaryService,
       private messageService: MessageService,
@@ -66,8 +65,7 @@
         paymentDate:["",[Validators.required]],
         paymentMode:["",[Validators.required]],
         TotalSalary: ["", []],
-        deduction: ["", [Validators.pattern(this.notesRegex), Validators.min(0)]],
-
+        deduction: ["", [Validators.min(0)]],
       });
     }
     get payment(): FormArray {
@@ -85,7 +83,6 @@
               [
                 Validators.required,
                 Validators.min(1),
-                // Validators.max(pay.dueAmount),
               ],
             ],
           })
@@ -94,19 +91,6 @@
     }
 
     ngOnInit(): void {
-      // this.customerService.GetCustomerData().subscribe((resp: any) => {
-      //   this.originalCustomerData = resp;
-      //   this.customerList = [];
-      //   this.originalCustomerData.forEach((element) => {
-      //     this.customerList.push({
-      //       name: element.name,
-      //       _id: {
-      //         _id: element._id,
-      //         name: element.name,
-      //       },
-      //     });
-      //   });
-      // });
       this.service.getEmployeeSalaryData().subscribe((resp: any) => {
         this.employeeList = [];
         this.originalData = resp;
@@ -120,7 +104,6 @@
     }
     onSelect() {
       const employee = this.addEmployeepPaymentForm.get("employee").value;
-      console.log(employee);
       const date = this.addEmployeepPaymentForm.get("date").value;
       const [month, year] = date.split('/');
       if(month || year || employee){
@@ -131,32 +114,32 @@
         } 
         this.Service.getEmployeeLeaves(data).subscribe((resp: any) => {
           this.employeeLeavesData = resp.data;
-          console.log(this.employeeLeavesData.employee.netSalary);
-          console.log(this.employeeLeavesData.leaves);
           this.addEmployeepPaymentForm.patchValue({
             netSalary:this.employeeLeavesData.employee.netSalary | 0,
             totalLeaves:this.employeeLeavesData.leaves | 0
           })
+
+          this.addEmployeepPaymentForm.get("deduction").clearValidators();
+          this.addEmployeepPaymentForm.get('deduction').setValidators([Validators.min(0),Validators.max(resp.data?.employee?.netSalary)]);
+          this.addEmployeepPaymentForm.get("deduction").updateValueAndValidity();
         });
       }
     }
     calculateSalary(){
       const deduction = this.addEmployeepPaymentForm.get("deduction").value | 0;
       const netSalary = this.addEmployeepPaymentForm.get("netSalary").value | 0;
-      console.log(deduction,"deduction")
-      console.log(netSalary,"netSalary")
-      if(deduction > netSalary){
-        this.addEmployeepPaymentForm.get("deduction").setErrors({ 'pattern': true });
-        this.TotalSalary = netSalary;
-        this.addEmployeepPaymentForm.patchValue({
-          TotalSalary:this.TotalSalary,
-        })
-      }else{
-        this.TotalSalary = netSalary - deduction;
-        this.addEmployeepPaymentForm.patchValue({
-          TotalSalary:this.TotalSalary,
-        })
-      }
+      // if(deduction > netSalary){
+      //   this.addEmployeepPaymentForm.get("deduction").setErrors({ 'pattern': true });
+      //   this.TotalSalary = netSalary;
+      //   this.addEmployeepPaymentForm.patchValue({
+      //     TotalSalary:this.TotalSalary,
+      //   })
+      // }else{
+      // }
+      this.TotalSalary = netSalary - deduction;
+      this.addEmployeepPaymentForm.patchValue({
+        TotalSalary:this.TotalSalary,
+      })
     }
     addEmployeepPaymentFormSubmit() {
       const formData = this.addEmployeepPaymentForm.value;
