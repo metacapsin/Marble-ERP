@@ -77,7 +77,7 @@
             <div class="card-body p-2">
 
               <p-table
-                [value]="data| filter:searchDataValue:['date','blockDetails.blockNo','category','subCategory','blockDetails.height','blockDetails.width','blockDetails.length','totalArea','lotTotalCosting','warehouseDetails.name','lotNo','lotName','blockProcessorList', ]"
+                [value]="data| filter:searchDataValue:['date','blockDetails.blockNo','categoryDetail.name','subCategoryDetail.name','blockDetails.height','blockDetails.width','blockDetails.length','totalArea','lotTotalCosting','warehouseDetails.name','lotNo','lotName','blockProcessorList', ]"
                 [tableStyle]="{'min-width': '60rem'}" [paginator]="data?.length >= 5" [rows]="10"
                 [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedBlocks" styleClass="p-datatable-striped"
                 selectionMode="multiple" (onFilter)="onFilter($event)" #dt [columns]="cols" 
@@ -92,12 +92,12 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockDetails.blockNo"
                         display="menu"></p-columnFilter>
                     </th>
-                    <th class="text-nowrap" pSortableColumn="category">category <p-sortIcon field="category"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="category"
+                    <th class="text-nowrap" pSortableColumn="categoryDetail.name">Category <p-sortIcon field="categoryDetail.name"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="categoryDetail.name"
                         display="menu"></p-columnFilter>
                     </th>
-                    <th class="text-nowrap" pSortableColumn="subCategory">Sub Category <p-sortIcon field="subCategory"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="subCategory"
+                    <th class="text-nowrap" pSortableColumn="subCategoryDetail.name">Sub Category <p-sortIcon field="subCategoryDetail.name"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="subCategoryDetail.name"
                         display="menu"></p-columnFilter>
                     </th>
                     <th class="text-nowrap" pSortableColumn="blockDetails.height || blockDetails.width || blockDetails.length">Size (H*W*L) <p-sortIcon field="blockDetails.height || blockDetails.width || blockDetails.length"></p-sortIcon>
@@ -148,8 +148,8 @@
                   <tr >
                     <td >{{lot.date | date: 'dd-MMM-yyyy'}}</td>
                     <td >{{lot.blockDetails.blockNo}}</td>
-                    <td >{{lot.category}}</td>
-                    <td >{{lot.subCategory}}</td>
+                    <td >{{lot?.categoryDetail?.name}}</td>
+                    <td >{{lot?.subCategoryDetail?.name}}</td>
                     <td>{{ lot.blockDetails?.height }} x {{ lot.blockDetails?.width }} x {{ lot.blockDetails?.length }}</td>
                     <td >{{lot.blockDetails.totalArea}}</td>
                     <td >₹ {{lot.lotTotalCosting |indianCurrency}}</td>

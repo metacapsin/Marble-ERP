@@ -250,7 +250,7 @@ export class AddSalesReturnComponent {
               this.router.navigateByUrl(this.returnUrl);
             }, 400);
           } else {
-            const message = resp.message;
+            const message = "The slab can not be returned, it's purchase has been deleted.";
             this.messageService.add({ severity: "error", detail: message });
           }
         }

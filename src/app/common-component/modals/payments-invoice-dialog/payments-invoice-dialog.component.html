@@ -272,7 +272,7 @@
                                     <th>Non-Taxable Amount </th>
                                     <th>Sub Total </th>
                                   </tr>
-                                  <tr *ngIf="sales.salesReturnTermsAndCondition || sales.returnDate">
+                                  <tr *ngIf="sales.salesReturnTermsAndCondition || dataById.isSalesReturn">
                                     <th>Warehouse</th>
                                     <th>Product </th>
                                     <th>Quantity </th>
@@ -323,7 +323,7 @@
                                   </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data
-                                  *ngIf="sales.salesReturnTermsAndCondition || sales.returnDate">
+                                  *ngIf="sales.salesReturnTermsAndCondition || dataById.isSalesReturn">
                                   <tr *ngFor="let sales of data.salesItemDetails">
                                     <td>{{sales.salesWarehouseDetails?.name}}</td>
                                     <td>{{sales.salesItemProduct.slabName}}</td>
@@ -471,14 +471,14 @@
                                 </div>
                                 <input type="number" formControlName="totalAmount" class="form-control">
                               </div>
-                              <span style="color: #97704f; font-size: 12px; 
+                              <!-- <span style="color: #97704f; font-size: 12px; 
                               " *ngIf="dataById.isSales">Max Value : ₹ {{dataById.salesDueAmount |
                                 indianCurrency}}</span>
                               <div
                                 *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
                                 <span class="login-danger" *ngIf="dataById.isSales">Amount cannot be greater than the
                                   ₹ {{dataById.salesDueAmount | indianCurrency}}.</span>
-                              </div>
+                              </div> -->
 
                               <span style="color: #97704f; font-size: 12px; 
                               " *ngIf="dataById.isSalesReturn">Max Value : ₹ {{dataById.salesDueAmount |
@@ -488,6 +488,12 @@
                                 <span class="login-danger" *ngIf="dataById.isSalesReturn">Amount cannot be greater than
                                   the
                                   ₹ {{dataById.salesDueAmount | indianCurrency}}.</span>
+                              </div>
+                              <div
+                                *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('min') && paymentInvoiceForm.get('totalAmount')?.touched">
+                                <span class="login-danger" *ngIf="dataById.isSalesReturn">Amount cannot be Less than
+                                  the
+                                  ₹ 0</span>
                               </div>
                               <span style="color: #97704f; font-size: 12px; 
                               " *ngIf="dataById.isSlabProcessing">Max Value : ₹ {{dataById.dueAmount |
@@ -500,14 +506,14 @@
                                   ₹ {{dataById.dueAmount | indianCurrency}}.</span>
                               </div>
 
-                              <span style="color: #97704f; font-size: 12px; 
+                              <!-- <span style="color: #97704f; font-size: 12px; 
                               " *ngIf="dataById.isPurchase">Max Value : ₹ {{dataById.purchaseDueAmount |
                                 indianCurrency}}</span>
                               <div
                                 *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
                                 <span class="login-danger" *ngIf="dataById.isPurchase">Amount cannot be greater than the
                                   ₹ {{dataById.purchaseDueAmount | indianCurrency}}.</span>
-                              </div>
+                              </div> -->
 
                               <span style="color: #97704f; font-size: 12px; 
                               " *ngIf="dataById.isPurchaseReturn">Max Value : ₹ {{dataById.purchaseDueAmount |

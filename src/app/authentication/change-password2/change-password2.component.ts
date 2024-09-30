@@ -107,6 +107,7 @@ export class ChangePassword2Component {
             } else {
               this.error = 'Invalid Token';
               const message= res.message
+              console.log(message)
             this.messageService.add({ severity: "warn", detail: message });
             }
           },
