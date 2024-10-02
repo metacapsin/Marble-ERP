@@ -81,7 +81,7 @@ export class PaymentOutAddComponent {
           
           purchaseInvoiceNumber: [purchase.purchaseInvoiceNumber],
           taxablePaymentAmount: [
-            purchase.taxableDue || '', 
+            '', 
             [
               
               Validators.min(0),
@@ -90,7 +90,7 @@ export class PaymentOutAddComponent {
           ],
           taxablePaymentMode: ["Bank" , Validators.required],  
           nonTaxablePaymentAmount: [
-            purchase.nonTaxableDue || '', 
+            '', 
             [
              
               Validators.min(0),
@@ -181,29 +181,35 @@ export class PaymentOutAddComponent {
       } else {
         paymentMode = purchase.taxablePaymentMode || purchase.nonTaxablePaymentMode;
       }
+
+      const taxableAmount = parseFloat(purchase.taxablePaymentAmount) || 0;
+      const nonTaxableAmount = parseFloat(purchase.nonTaxablePaymentAmount) || 0;
+      const totalAmount = taxableAmount + nonTaxableAmount;
+
       return {
-        supplier: {_id:supplierData._id,
-          name:supplierData.name,
-          billingAddress:supplierData.billingAddress || ""
-         } ,
+        supplier: {
+          _id: supplierData._id,
+          name: supplierData.name,
+          billingAddress: supplierData.billingAddress || ""
+        },
         paymentDate: formData.paymentDate,
         paymentMode: paymentMode, 
         purchase: [
           {
             _id: purchase._id,
-            amount: purchase.taxablePaymentAmount + purchase.nonTaxablePaymentAmount,
-            purchaseInvoiceNumber:purchase.purchaseInvoiceNumber 
+            amount: totalAmount,
+            purchaseInvoiceNumber: purchase.purchaseInvoiceNumber 
           },
         ],
-        taxablePaymentAmount: purchase.taxablePaymentAmount
+        taxablePaymentAmount: taxableAmount > 0
           ? {
-              amount: purchase.taxablePaymentAmount,
+              amount: taxableAmount,
               paymentMode: purchase.taxablePaymentMode,
             }
           : null,
-        nonTaxablePaymentAmount: purchase.nonTaxablePaymentAmount
+        nonTaxablePaymentAmount: nonTaxableAmount > 0
           ? {
-              amount: purchase.nonTaxablePaymentAmount,
+              amount: nonTaxableAmount,
               paymentMode: purchase.nonTaxablePaymentMode,
             }
           : null,
@@ -211,10 +217,13 @@ export class PaymentOutAddComponent {
       };
     });
 
-    if (this.addPaymentOutForm.valid) {
-      console.log("valid form");
+    // Filter out any purchases with zero total amount
+    const filteredPayload = payload.filter(item => item.purchase[0].amount > 0);
 
-      this.Service.createPayment(payload).subscribe((resp: any) => {
+    if (this.addPaymentOutForm.valid && filteredPayload.length > 0) {
+      console.log("Valid form");
+
+      this.Service.createPayment(filteredPayload).subscribe((resp: any) => {
         console.log(resp);
         if (resp) {
           if (resp.status === "success") {
@@ -230,7 +239,8 @@ export class PaymentOutAddComponent {
         }
       });
     } else {
-      console.log("invalid form");
+      console.log("Invalid form or no valid payments");
+      this.messageService.add({ severity: "error", detail: "Please enter valid payment amounts" });
     }
   }
 }

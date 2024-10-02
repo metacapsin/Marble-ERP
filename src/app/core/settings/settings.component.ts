@@ -151,46 +151,27 @@ export class SettingsComponent {
   }
 
   updateBreadcrumb() {
-    const path = this.router.url.split("/"); // Get the last part of the URL
-    console.log(path);
-    // Assuming `path` is an array of URL segments, e.g., ['home', 'dashboard', 'users', 'edit']
-    // Example path: ['home', 'dashboard', 'users', 'edit']
-    switch (path[2]) {
-      case "users":
-        if (path[3]) {
-          this.text = `Users`;
-        } else {
-          this.text = "Users";
-        }
-        break;
-      case "warehouse":
-        this.text = "Warehouse";
-        break;
-      case "categories":
-        this.text = "Categories";
-        break;
-      case "subCategories":
-        this.text = "Sub Categories";
-        break;
-      case "billing-Address":
-        if (path[3]) {
-          this.text = "Billing Address";
-        } else {
-          this.text = "Billing Address";
-        }
-        break;
-      case "taxes":
-        this.text = "Taxes";
-        break;
-      default:
-        this.text = "Profile Information"; // Default case
-        break;
+    const path = this.router.url.split("/");
+    console.log("Current path:", path);
+
+    const routeMap = {
+      "users": "Users",
+      "warehouse": "Warehouse", 
+      "categories": "Categories",
+      "subCategories": "Sub Categories",
+      "billing-Address": "Billing Address",
+      "taxes": "Taxes"
+    };
+
+    this.text = routeMap[path[2]] || "Profile Information";
+
+    // For routes that might have sub-pages (like users and billing-address)
+    if ((path[2] === "users" || path[2] === "billing-Address") && path[3]) {
+      // You can add more specific text here if needed
+      console.log(`Subpage detected for ${path[2]}`);
     }
 
-    // Debugging output
-    console.log("Path Array:", path);
-    console.log("Path Index 3:", path[3]);
-    console.log("Path Index 4:", path[4]);
+    console.log("Updated breadcrumb text:", this.text);
   }
 
   changeCalendarSettingCategory(type: string) {}

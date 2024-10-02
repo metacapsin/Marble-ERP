@@ -76,7 +76,7 @@ export class PaymentInAddComponent {
           _id: [sale._id],
           salesInvoiceNumber: [sale.salesInvoiceNumber],
           taxablePaymentAmount: [
-            sale.taxableDue || '', 
+            '', 
             [
               
               Validators.min(0),
@@ -85,7 +85,7 @@ export class PaymentInAddComponent {
           ],
           taxablePaymentMode: ["Bank" , Validators.required],  
           nonTaxablePaymentAmount: [
-            sale.nonTaxableDue || '', 
+            '', 
             [
               
               Validators.min(0),
@@ -169,50 +169,56 @@ export class PaymentInAddComponent {
     const payload = formData.sales.map((sale) => {
       let paymentMode = '';
     
-      if (sale.taxablePaymentAmount && sale.taxablePaymentMode) {
-        paymentMode = sale.taxablePaymentMode;
+      if (sale.taxablePaymentMode && sale.nonTaxablePaymentMode) {
+        paymentMode = sale.taxablePaymentMode === sale.nonTaxablePaymentMode 
+          ? sale.taxablePaymentMode 
+          : `${sale.taxablePaymentMode}/${sale.nonTaxablePaymentMode}`;
+      } else {
+        paymentMode = sale.taxablePaymentMode || sale.nonTaxablePaymentMode;
       }
-      if (sale.nonTaxablePaymentAmount && sale.nonTaxablePaymentMode) {
-        paymentMode = paymentMode 
-          ? `${paymentMode}/${sale.nonTaxablePaymentMode}`
-          : sale.nonTaxablePaymentMode;
-      }
-      if (!paymentMode) {
-        paymentMode = ''; // Set to empty string if no valid payment mode
-      }
+
+      const taxableAmount = parseFloat(sale.taxablePaymentAmount) || 0;
+      const nonTaxableAmount = parseFloat(sale.nonTaxablePaymentAmount) || 0;
+      const totalAmount = taxableAmount + nonTaxableAmount;
+
       return {
-        customer: {_id:customerData._id,
-          name:customerData.name,
-          billingAddress:customerData.billingAddress || ""
-         } ,
+        customer: {
+          _id: customerData._id,
+          name: customerData.name,
+          billingAddress: customerData.billingAddress || ""
+        },
         paymentDate: formData.paymentDate,
         paymentMode: paymentMode, 
         sales: [
           {
             _id: sale._id,
-            amount: sale.taxablePaymentAmount + sale.nonTaxablePaymentAmount, 
+            amount: totalAmount,
             salesInvoiceNumber: sale.salesInvoiceNumber,
           },
         ],
-        taxablePaymentAmount: sale.taxablePaymentAmount
+        taxablePaymentAmount: taxableAmount > 0
           ? {
-              amount: sale.taxablePaymentAmount,
+              amount: taxableAmount,
               paymentMode: sale.taxablePaymentMode,
             }
           : null,
-        nonTaxablePaymentAmount: sale.nonTaxablePaymentAmount
+        nonTaxablePaymentAmount: nonTaxableAmount > 0
           ? {
-              amount: sale.nonTaxablePaymentAmount,
+              amount: nonTaxableAmount,
               paymentMode: sale.nonTaxablePaymentMode,
             }
           : null,
         note: formData.note,
       };
     });
-    if (this.addPaymentInForm.valid) {
-      console.log("valid form");
 
-      this.Service.createPayment(payload).subscribe((resp: any) => {
+    // Filter out any sales with zero total amount
+    const filteredPayload = payload.filter(item => item.sales[0].amount > 0);
+
+    if (this.addPaymentInForm.valid && filteredPayload.length > 0) {
+      console.log("Valid form");
+
+      this.Service.createPayment(filteredPayload).subscribe((resp: any) => {
         console.log(resp);
         if (resp) {
           if (resp.status === "success") {
@@ -228,7 +234,8 @@ export class PaymentInAddComponent {
         }
       });
     } else {
-      console.log("invalid form");
+      console.log("Invalid form or no valid payments");
+      this.messageService.add({ severity: "error", detail: "Please enter valid payment amounts" });
     }
   }
 }

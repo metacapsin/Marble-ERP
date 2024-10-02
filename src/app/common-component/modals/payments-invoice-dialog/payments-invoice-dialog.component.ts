@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   SimpleChange,
+  SimpleChanges,
 } from "@angular/core";
 import {
   FormBuilder,
@@ -132,28 +133,23 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     });
   }
 
-  ngOnChanges(changes: SimpleChange) {
+  ngOnChanges(changes: SimpleChanges) {
     console.log("this.dataById", this.dataById);
 
     if (this.ShowPaymentInvoice) {
       let totalAmount = this.paymentInvoiceForm.get("totalAmount");
+      let taxablePaymentAmount = this.paymentInvoiceForm.get("taxablePaymentAmount");
+      let nonTaxablePaymentAmount = this.paymentInvoiceForm.get("nonTaxablePaymentAmount");
 
-      if (this.dataById.isPurchase) {
-        let taxablePaymentAmount = this.paymentInvoiceForm.get(
-          "taxablePaymentAmount"
-        );
-        let nonTaxablePaymentAmount = this.paymentInvoiceForm.get(
-          "nonTaxablePaymentAmount"
-        );
-        totalAmount.clearValidators();
-        taxablePaymentAmount.clearValidators();
-        nonTaxablePaymentAmount.clearValidators();
-        console.log("this.dataById.isPurchase", this.dataById.isPurchase);
+      totalAmount.clearValidators();
+      taxablePaymentAmount.clearValidators();
+      nonTaxablePaymentAmount.clearValidators();
 
+      if (this.dataById.isPurchase || this.dataById.isSales) {
         totalAmount.setValidators([
           Validators.required,
           Validators.min(1),
-          Validators.max(this.dataById.purchaseDueAmount),
+          Validators.max(this.dataById.isPurchase ? this.dataById.purchaseDueAmount : this.dataById.salesDueAmount),
         ]);
         taxablePaymentAmount.setValidators([
           Validators.min(0),
@@ -163,78 +159,26 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           Validators.min(0),
           Validators.max(this.dataById.nonTaxableDue),
         ]);
-        taxablePaymentAmount.updateValueAndValidity();
-        totalAmount.updateValueAndValidity();
-        nonTaxablePaymentAmount.updateValueAndValidity();
-        this.paymentInvoiceForm.patchValue({
-          taxablePaymentAmount: Number(this.dataById.taxableDue),
-          taxablePaymentMode: "Bank",
-          nonTaxablePaymentMode: "Cash",
-          nonTaxablePaymentAmount: Number(this.dataById.nonTaxableDue),
-          paymentMode: "Bank / Cash"
-        });
-        this.onSalesPaymentAmountChanges()
-      } else if (this.dataById.isSales) {
-        let taxablePaymentAmount = this.paymentInvoiceForm.get(
-          "taxablePaymentAmount"
-        );
-        let nonTaxablePaymentAmount = this.paymentInvoiceForm.get(
-          "nonTaxablePaymentAmount"
-        );
-        totalAmount.clearValidators();
-        taxablePaymentAmount.clearValidators();
-        nonTaxablePaymentAmount.clearValidators();
-        totalAmount.setValidators([
-          Validators.required,
-          Validators.min(1),
-          Validators.max(this.dataById.salesDueAmount),
-        ]);
-        taxablePaymentAmount.setValidators([
-          Validators.min(0),
-          Validators.max(this.dataById.taxableDue),
-        ]);
-        nonTaxablePaymentAmount.setValidators([
-          Validators.min(0),
-          Validators.max(this.dataById.nonTaxableDue),
-        ]);
-        taxablePaymentAmount.updateValueAndValidity();
-        totalAmount.updateValueAndValidity();
-        nonTaxablePaymentAmount.updateValueAndValidity();
-        this.paymentInvoiceForm.patchValue({
-          taxablePaymentAmount: Number(this.dataById.taxableDue),
-          taxablePaymentMode: "Bank",
-          nonTaxablePaymentMode: "Cash",
-          nonTaxablePaymentAmount: Number(this.dataById.nonTaxableDue),
-          paymentMode: "Bank / Cash"
-        });
-        this.onSalesPaymentAmountChanges()
-      } else if (this.dataById.isSalesReturn) {
-        totalAmount.clearValidators();
-        console.log("this.dataById.isSalesReturn", this.dataById.isSalesReturn);
 
+        this.paymentInvoiceForm.patchValue({
+          taxablePaymentAmount: Number(this.dataById.taxableDue),
+          taxablePaymentMode: "Bank",
+          nonTaxablePaymentMode: "Cash",
+          nonTaxablePaymentAmount: Number(this.dataById.nonTaxableDue),
+          paymentMode: "Bank / Cash"
+        });
+        this.onSalesPaymentAmountChanges();
+      } else if (this.dataById.isSalesReturn || this.dataById.isPurchaseReturn || this.dataById.isSlabProcessing) {
         totalAmount.setValidators([
           Validators.required,
           Validators.min(1),
-          Validators.max(this.dataById.salesDueAmount),
+          Validators.max(this.dataById.salesDueAmount || this.dataById.dueAmount),
         ]);
-        totalAmount.updateValueAndValidity();
-      } else if (this.dataById.isPurchaseReturn) {
-        totalAmount.clearValidators();
-        totalAmount.setValidators([
-          Validators.required,
-          Validators.min(1),
-          Validators.max(this.dataById.purchaseDueAmount),
-        ]);
-        totalAmount.updateValueAndValidity();
-      } else if (this.dataById.isSlabProcessing) {
-        totalAmount.clearValidators();
-        totalAmount.setValidators([
-          Validators.required,
-          Validators.min(1),
-          Validators.max(this.dataById.dueAmount),
-        ]);
-        totalAmount.updateValueAndValidity();
       }
+
+      totalAmount.updateValueAndValidity();
+      taxablePaymentAmount.updateValueAndValidity();
+      nonTaxablePaymentAmount.updateValueAndValidity();
     }
   }
 

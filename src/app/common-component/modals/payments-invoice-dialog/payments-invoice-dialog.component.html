@@ -1,4 +1,4 @@
-<p-dialog [focusOnShow]="true" [(visible)]="ShowPaymentInvoice" [closable]="false" [closeOnEscape]="false"
+<p-dialog [focusOnShow]="false" [(visible)]="ShowPaymentInvoice" [closable]="false" [closeOnEscape]="false"
   [modal]="true" *ngFor="let sales of dataItemsGrid" [style]="{width: '80vw'}">
   <ng-template pTemplate="header">
     <div class="d-flex justify-content-between align-items-center w-100">
@@ -79,7 +79,7 @@
                                     </div>
 
                                     <div class="form-group row mb-2"
-                                      *ngIf="sales.salesItemDetails && !sales.returnDate">
+                                      *ngIf="sales?.salesItemDetails && !sales?.returnDate">
                                       <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Amount:</h5>
                                       <div class="col-lg-8 col-md-8 col-xl-8">
                                         <p class="col-lg-8 col-form-label">
@@ -257,13 +257,13 @@
                             </div>
                           </div>
                         </div>
-                        <div class="card" *ngIf="!sales.slabProcessing_id">
+                        <div class="card" *ngIf="!sales?.slabProcessing_id">
                           <p-tabView>
                             <p-tabPanel header="Items">
                               <p-table [value]="dataItemsGrid" styleClass="p-datatable-striped"
                                 [tableStyle]="{'min-width': '60rem'}">
                                 <ng-template pTemplate="header">
-                                  <tr *ngIf="sales.salesItemDetails && !sales.returnDate">
+                                  <tr *ngIf="sales?.salesItemDetails && !sales?.returnDate">
                                     <th>Warehouse</th>
                                     <th>Product </th>
                                     <th>Quantity </th>
@@ -272,7 +272,7 @@
                                     <th>Non-Taxable Amount </th>
                                     <th>Sub Total </th>
                                   </tr>
-                                  <tr *ngIf="sales.salesReturnTermsAndCondition || dataById.isSalesReturn">
+                                  <tr *ngIf="sales?.salesReturnTermsAndCondition || dataById.isSalesReturn">
                                     <th>Warehouse</th>
                                     <th>Product </th>
                                     <th>Quantity </th>
@@ -281,7 +281,7 @@
                                     <th>Non-Taxable Amount </th> -->
                                     <th>Sub Total </th>
                                   </tr>
-                                  <tr *ngIf="sales.lotDetails">
+                                  <tr *ngIf="sales?.lotDetails">
                                     <th>Lot Name </th>
                                     <th>Lot Number </th>
                                     <th>Price / Ton</th>
@@ -290,7 +290,7 @@
                                     <th>Taxable Amount </th>
                                     <th>Non-Taxable Amount </th>
                                   </tr>
-                                  <tr *ngIf=" sales.slabDetails">
+                                  <tr *ngIf=" sales?.slabDetails">
                                     <th>Slab Name </th>
                                     <th>Slab No </th>
                                     <th>Price Per Square Feet </th>
@@ -299,7 +299,7 @@
                                     <th>Taxable Amount </th>
                                     <th>Non-Taxable Amount </th>
                                   </tr>
-                                  <tr *ngIf=" sales.purchaseReturnItemDetails">
+                                  <tr *ngIf=" sales?.purchaseReturnItemDetails">
                                     <th>Slab No</th>
                                     <th>Slab Name</th>
                                     <th>Category</th>
@@ -311,68 +311,68 @@
                                   </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data
-                                  *ngIf="sales.salesItemDetails && !sales.returnDate">
+                                  *ngIf="sales?.salesItemDetails && !sales?.returnDate">
                                   <tr *ngFor="let sales of data.salesItemDetails">
-                                    <td>{{sales.salesWarehouseDetails?.name}}</td>
-                                    <td>{{sales.salesItemProduct.slabName}}</td>
-                                    <td>{{sales.salesItemQuantity}}</td>
-                                    <td>₹ {{sales.salesItemUnitPrice}}</td>
+                                    <td>{{sales?.salesWarehouseDetails?.name}}</td>
+                                    <td>{{sales?.salesItemProduct.slabName}}</td>
+                                    <td>{{sales?.salesItemQuantity}}</td>
+                                    <td>₹ {{sales?.salesItemUnitPrice}}</td>
                                     <td>₹ {{ dataById?.taxable | indianCurrency }} </td>
                                     <td>₹ {{ dataById?.nonTaxable | indianCurrency }} </td>
-                                    <td>₹ {{sales.salesItemSubTotal | indianCurrency}}</td>
+                                    <td>₹ {{sales?.salesItemSubTotal | indianCurrency}}</td>
                                   </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data
-                                  *ngIf="sales.salesReturnTermsAndCondition || dataById.isSalesReturn">
+                                  *ngIf="sales?.salesReturnTermsAndCondition || dataById.isSalesReturn">
                                   <tr *ngFor="let sales of data.salesItemDetails">
-                                    <td>{{sales.salesWarehouseDetails?.name}}</td>
-                                    <td>{{sales.salesItemProduct.slabName}}</td>
-                                    <td>{{sales.salesItemQuantity}}</td>
-                                    <td>₹ {{sales.salesItemUnitPrice}}</td>
-                                    <!-- <td>₹ {{ sales.salesItemAppliedTaxAmount | indianCurrency }} </td>
-                                    <td>₹ {{ sales.salesItemNonTaxableAmount | indianCurrency }} </td> -->
-                                    <td>₹ {{sales.salesItemSubTotal | indianCurrency}}</td>
+                                    <td>{{sales?.salesWarehouseDetails?.name}}</td>
+                                    <td>{{sales?.salesItemProduct.slabName}}</td>
+                                    <td>{{sales?.salesItemQuantity}}</td>
+                                    <td>₹ {{sales?.salesItemUnitPrice}}</td>
+                                    <!-- <td>₹ {{ sales?.salesItemAppliedTaxAmount | indianCurrency }} </td>
+                                    <td>₹ {{ sales?.salesItemNonTaxableAmount | indianCurrency }} </td> -->
+                                    <td>₹ {{sales?.salesItemSubTotal | indianCurrency}}</td>
                                   </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-data *ngIf="sales.lotDetails">
+                                <ng-template pTemplate="body" let-data *ngIf="sales?.lotDetails">
                                   <tr>
-                                    <td>{{sales.lotDetails.lotName}}</td>
-                                    <td>{{sales.lotDetails.lotNo}}</td>
-                                    <td>₹ {{ sales.lotDetails.pricePerTon | indianCurrency }}</td>
-                                    <td>{{ sales.lotDetails.blocksCount }}</td>
-                                    <td>₹ {{sales.lotDetails.lotTotalCosting | indianCurrency}}</td>
-                                    <td>₹ {{ sales.taxable | indianCurrency }} </td>
-                                    <td>₹ {{ sales.nonTaxable | indianCurrency }} </td>
+                                    <td>{{sales?.lotDetails.lotName}}</td>
+                                    <td>{{sales?.lotDetails.lotNo}}</td>
+                                    <td>₹ {{ sales?.lotDetails.pricePerTon | indianCurrency }}</td>
+                                    <td>{{ sales?.lotDetails.blocksCount }}</td>
+                                    <td>₹ {{sales?.lotDetails.lotTotalCosting | indianCurrency}}</td>
+                                    <td>₹ {{ sales?.taxable | indianCurrency }} </td>
+                                    <td>₹ {{ sales?.nonTaxable | indianCurrency }} </td>
                                   </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-data *ngIf="sales.slabDetails">
+                                <ng-template pTemplate="body" let-data *ngIf="sales?.slabDetails">
                                   <tr>
-                                    <td>{{sales.slabDetails.slabName}}</td>
-                                    <td>{{sales.slabDetails.slabNo}}</td>
-                                    <td>₹ {{sales.slabDetails.sellingPricePerSQFT | indianCurrency}}</td>
-                                    <td>₹ {{sales.slabDetails.totalCosting | indianCurrency}}</td>
-                                    <td> {{sales.slabDetails.totalSQFT}}</td>
-                                    <td>₹ {{ sales.taxable | indianCurrency }} </td>
-                                    <td>₹ {{ sales.nonTaxable | indianCurrency }} </td>
+                                    <td>{{sales?.slabDetails.slabName}}</td>
+                                    <td>{{sales?.slabDetails.slabNo}}</td>
+                                    <td>₹ {{sales?.slabDetails.sellingPricePerSQFT | indianCurrency}}</td>
+                                    <td>₹ {{sales?.slabDetails.totalCosting | indianCurrency}}</td>
+                                    <td> {{sales?.slabDetails.totalSQFT}}</td>
+                                    <td>₹ {{ sales?.taxable | indianCurrency }} </td>
+                                    <td>₹ {{ sales?.nonTaxable | indianCurrency }} </td>
                                   </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-data *ngIf="sales.purchaseReturnItemDetails">
+                                <ng-template pTemplate="body" let-data *ngIf="sales?.purchaseReturnItemDetails">
                                   <tr>
-                                    <td>{{ sales.purchaseReturnItemDetails[0].slabName }}</td>
-                                    <td>{{ sales.purchaseReturnItemDetails[0].slabNo }}</td>
-                                    <td>{{ sales.purchaseReturnItemDetails[0].categoryDetail.name }}</td>
-                                    <td>{{ sales.purchaseReturnItemDetails[0].subCategoryDetail.name }}</td>
-                                    <td>{{ sales.purchaseReturnItemDetails[0].warehouseDetails.name }}</td>
+                                    <td>{{ sales?.purchaseReturnItemDetails[0].slabName }}</td>
+                                    <td>{{ sales?.purchaseReturnItemDetails[0].slabNo }}</td>
+                                    <td>{{ sales?.purchaseReturnItemDetails[0].categoryDetail.name }}</td>
+                                    <td>{{ sales?.purchaseReturnItemDetails[0].subCategoryDetail.name }}</td>
+                                    <td>{{ sales?.purchaseReturnItemDetails[0].warehouseDetails.name }}</td>
                                     <td>₹ {{
-                                      sales.purchaseReturnItemDetails[0].costPerSQFT
+                                      sales?.purchaseReturnItemDetails[0].costPerSQFT
                                       | indianCurrency
                                       }}
                                     </td>
-                                    <td>{{ sales.purchaseReturnItemDetails[0].totalSQFT }}</td>
+                                    <td>{{ sales?.purchaseReturnItemDetails[0].totalSQFT }}</td>
                                     <td>
                                       ₹
                                       {{
-                                      sales.purchaseReturnItemDetails[0].purchaseCost | indianCurrency
+                                      sales?.purchaseReturnItemDetails[0].purchaseCost | indianCurrency
                                       }}
                                     </td>
                                   </tr>
@@ -398,7 +398,7 @@
 
 
                           <div class="col-12 col-md-4"
-                            *ngIf="sales.salesItemDetails && !sales.returnDate || sales.lotDetails || sales.slabDetails ">
+                            *ngIf="sales?.salesItemDetails && !sales?.returnDate || sales?.lotDetails || sales?.slabDetails ">
                             <div class="form-group local-forms">
                               <label for="customer">Taxable Amount</label>
                               <p-inputGroup>
@@ -410,9 +410,13 @@
                                   (onChange)="onPaymentModeChange()"></p-dropdown>
                               </p-inputGroup>
                               <div
-                                *ngIf="(paymentInvoiceForm.get('taxablePaymentAmount')?.hasError('min')  && paymentInvoiceForm.get('taxablePaymentAmount')?.touched) ||
+                                *ngIf="(paymentInvoiceForm.get('taxablePaymentAmount')?.hasError('min')  && paymentInvoiceForm.get('taxablePaymentAmount')?.touched) ">
+                                <span class="login-danger">Taxable Amount must be at least ₹ 0 </span>
+                              </div>
+                              <div
+                                *ngIf="
                                 paymentInvoiceForm.get('taxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('taxablePaymentAmount')?.touched">
-                                <span class="login-danger">Taxable Amount must be between 1 to {{ dataById?.taxableDue |
+                                <span class="login-danger">Taxable Amount can't be grater than ₹ {{ dataById?.taxableDue |
                                   indianCurrency
                                   }}</span>
                               </div>
@@ -422,7 +426,7 @@
                             </div>
                           </div>
                           <div class="col-12 col-md-4"
-                            *ngIf="sales.salesItemDetails && !sales.returnDate || sales.lotDetails || sales.slabDetails ">
+                            *ngIf="sales?.salesItemDetails && !sales?.returnDate || sales?.lotDetails || sales?.slabDetails ">
                             <div class="form-group local-forms">
                               <label for="customer">Non Taxable Amount</label>
                               <p-inputGroup>
@@ -434,10 +438,13 @@
                                   (onChange)="onPaymentModeChange()"></p-dropdown>
                               </p-inputGroup>
                               <div
-                                *ngIf="(paymentInvoiceForm.get('nonTaxablePaymentAmount')?.hasError('min')  && paymentInvoiceForm.get('nonTaxablePaymentAmount')?.touched) ||
-                                paymentInvoiceForm.get('nonTaxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('nonTaxablePaymentAmount')?.touched">
-                                <span class="login-danger">Non-Taxable Amount must be between 1 to {{
-                                  dataById?.nonTaxableDue | indianCurrency
+                                *ngIf="(paymentInvoiceForm.get('nonTaxablePaymentAmount')?.hasError('min')  && paymentInvoiceForm.get('nonTaxablePaymentAmount')?.touched)">
+                                <span class="login-danger">Non-Taxable Amount must be at least ₹ 0 </span>
+                              </div>
+                              <div
+                                *ngIf="(paymentInvoiceForm.get('nonTaxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('nonTaxablePaymentAmount')?.touched)">
+                                <span class="login-danger">Non-Taxable Amount can't be grater than ₹ {{ dataById?.nonTaxableDue |
+                                  indianCurrency
                                   }}</span>
                               </div>
                               <span style="color: #97704f; font-size: 12px; 
@@ -446,8 +453,8 @@
                             </div>
                           </div>
 
-                          <div class="col-12 col-md-4" *ngIf="sales.purchaseReturnItemDetails ||
-                           sales.isSlabProcessing || sales.salesReturnTermsAndCondition || sales.returnDate">
+                          <div class="col-12 col-md-4" *ngIf="sales?.purchaseReturnItemDetails ||
+                           sales?.isSlabProcessing || sales?.salesReturnTermsAndCondition || sales?.returnDate">
                             <div class="form-group local-forms">
                               <label for="paymentMode">Payment Mode <span class="login-danger">*</span></label>
                               <p-dropdown [style]="{'width':'100%'}" placeholder="--Payment Mode--"
@@ -461,15 +468,15 @@
                             </div>
                           </div>
 
-                          <div class="col-12 col-md-4" *ngIf="sales.purchaseReturnItemDetails ||
-                           sales.isSlabProcessing || sales.salesReturnTermsAndCondition || sales.returnDate">
+                          <div class="col-12 col-md-4" *ngIf="sales?.purchaseReturnItemDetails ||
+                           sales?.isSlabProcessing || sales?.salesReturnTermsAndCondition || sales?.returnDate">
                             <div class="form-group local-forms">
                               <label for="totalAmount">Payable Amount <span class="login-danger">*</span></label>
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">₹</span>
                                 </div>
-                                <input type="number" formControlName="totalAmount" class="form-control">
+                                <input type="number" formControlName="totalAmount" class="form-control" >
                               </div>
                               <!-- <span style="color: #97704f; font-size: 12px; 
                               " *ngIf="dataById.isSales">Max Value : ₹ {{dataById.salesDueAmount |

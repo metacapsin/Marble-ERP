@@ -241,25 +241,28 @@ export class ViewCustomersComponent implements OnInit {
   showInvoiceDialoge(Id: any) {
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.showInvoiceDialog = true;
-      this.salesDataShowById = [resp.data];
+      this.salesDataShowById = [resp?.data];
+      console.log("this is sales data by id",this.salesDataShowById)
       this.header = "Sales Invoice";
+      console.log("this is sales data by id",this.salesDataShowById[0].creditPeriod)
     });
 
     this.salesService.getSalesPaymentList(Id).subscribe((resp: any) => {
-      this.paymentDataListById = resp.data;
+      this.paymentDataListById = resp?.data;
     });
   }
   showReturnInvoiceDialoge(Id: any) {
     this.salesReturnService.getSalesReturnById(Id).subscribe((resp: any) => {
       this.showInvoiceDialog = true;
-      this.salesDataShowById = [resp.data];
+      this.salesDataShowById = [resp?.data];
       this.header = "Sales Return Invoice";
+      console.log("this is sales data by id",this.salesDataShowById[0].creditPeriod)
     });
 
     this.salesReturnService
       .getSalesReturnPaymentListBySalesReturnId(Id)
       .subscribe((resp: any) => {
-        this.paymentDataListById = resp.data;
+        this.paymentDataListById = resp?.data;
       });
   }
 
@@ -276,9 +279,9 @@ export class ViewCustomersComponent implements OnInit {
   }
   navigateToCreateSalesReturn() {
     const customer1 = {
-      name: this.customerDataById[0].name,
-      billingAddress: this.customerDataById[0].billingAddress,
-      _id: this.customerDataById[0]._id,
+      name: this.customerDataById[0]?.name,
+      billingAddress: this.customerDataById[0]?.billingAddress,
+      _id: this.customerDataById[0]?._id,
     };
 
     this.localStorageService.setItem("customer1", customer1);
@@ -289,7 +292,7 @@ export class ViewCustomersComponent implements OnInit {
   openPaymentDialog(Id: any) {
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
-      this.paymentInvoicesalesDataShowById = [resp.data];
+      this.paymentInvoicesalesDataShowById = [resp?.data];
       this.header = "Sales Payment ";
       this.paymentObject = {
         customer: resp?.data?.customer,
@@ -304,27 +307,27 @@ export class ViewCustomersComponent implements OnInit {
         nonTaxable: resp?.data?.nonTaxable,
         nonTaxableDue: resp?.data?.nonTaxableDue,
       };
-      console.log("this is api response on payment dialog open ",resp)
+      console.log("this is api response on payment dialog open ",resp?.data)
     })
     // this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
     //   this.showPaymentDialog = true;
-    //   this.paymentInvoicesalesDataShowById = [resp.data];
+    //   this.paymentInvoicesalesDataShowById = [resp?.data];
     // });
   }
   openPaymentReturnDialog(Id: any) {
     this.salesReturnService.getSalesReturnById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
-      this.paymentInvoicesalesDataShowById = [resp.data];
+      this.paymentInvoicesalesDataShowById = [resp?.data];
 
       this.header = "Sales Return Payment ";
       this.paymentObject = {
-        customer: resp.data.customer,
+        customer: resp?.data?.customer,
         salesReturnId: Id,
         isSalesReturn: true,
-        // salesReturnDataShowById: resp.data
-        salesInvoiceNumber: resp.data.salesInvoiceNumber,
-        salesTotalAmount: resp.data.salesTotalAmount,
-        salesDueAmount: resp.data.dueAmount,
+        // salesReturnDataShowById: resp?.data
+        salesInvoiceNumber: resp?.data?.salesInvoiceNumber,
+        salesTotalAmount: resp?.data?.salesTotalAmount,
+        salesDueAmount: resp?.data?.dueAmount,
       };
       console.log(
         "this is open Payment Return Dialog",
