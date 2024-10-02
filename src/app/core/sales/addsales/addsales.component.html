@@ -403,13 +403,12 @@
                           </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-sm-12 col-12">
+                        <div class="col-xl-4 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
                             <label for="customer">Taxable Amount</label>
                             <p-inputGroup>
                               <input type="number" formControlName="salesItemTaxableAmount"
                                 (change)="calculateTotalAmount()" class="form-control" style="width: 50%" />
-
 
                               <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax"
                                 [options]="orderTaxList" appendTo="body" formControlName="salesItemTax"
@@ -449,19 +448,8 @@
                               .get(i + ".salesItemAppliedTaxAmount").value
                               }} 
                             </span>
-
-
-
                           </div>
                         </div>
-
-                        <!-- <div class="col-xl-3 col-md-4 col-sm-12 col-12">
-                          <div class="form-group local-forms">
-                            <label for="customer">Non-Taxable Amount</label>
-                            <input type="number" formControlName="salesItemNonTaxableAmount"
-                              (change)="calculateTotalAmount()" class="form-control" />
-                          </div>
-                        </div> -->
 
                         <div class="col-xl-2 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
@@ -511,11 +499,9 @@
                               }}
                             </span>
                           </div>
-
-
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-sm-12 col-12">
+                        <div class="col-xl-2 col-md-4 col-sm-12 col-12">
                           <div class="settings-btns text-end mt-2">
                             <p-button [text]="true" icon="fa fa-plus" (click)="addsalesItemDetailsItem()"></p-button>
                             <p-button [hidden]="salesItemDetails.length == 1" [text]="true" icon="fa fa-trash"
