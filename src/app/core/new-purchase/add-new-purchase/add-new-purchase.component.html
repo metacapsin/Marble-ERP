@@ -351,11 +351,6 @@
                                 optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
                                 (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
                             </p-inputGroup>
-                            <span *ngIf="addNewPurchaseForm.get('taxable')?.value
-                " style="color: #97704f; font-size: 12px">
-                              Tax Applied Amount:
-                              {{ addNewPurchaseForm.get("taxable")?.value | number : "1.2-2" }}22
-                            </span>
                             <div *ngIf="(addNewPurchaseForm
                             .get('taxableAmount')
                             ?.hasError('min') &&
@@ -369,6 +364,11 @@
                                 Input must be between 1 to 7 digits.
                               </span>
                             </div>
+                            <span *ngIf="addNewPurchaseForm.get('taxable')?.value
+                " style="color: #97704f; font-size: 12px">
+                              Tax Applied Amount:
+                              {{ addNewPurchaseForm.get("taxable")?.value | number : "1.2-2" }}
+                            </span>
                           </div>
                         </div>
 
@@ -381,20 +381,20 @@
                               </div>
                               <input type="number" formControlName="nonTaxable" (change)="calculateTotalAmount()"
                               class="form-control" placeholder="Enter Non Taxable Amount"/>
-                              <div *ngIf="(addNewPurchaseForm
-                            .get('nonTaxable')
-                            ?.hasError('min') &&
-                            addNewPurchaseForm.get('nonTaxable')
-                                ?.touched) ||
-                            (addNewPurchaseForm
-                            .get('nonTaxable')
-                            ?.hasError('max') &&
-                            addNewPurchaseForm.get('nonTaxable')?.touched)">
-                              <span class="login-danger">
-                                Input must be between 1 to 7 digits.
-                              </span>
                             </div>
-                            </div>
+                            <div *ngIf="(addNewPurchaseForm
+                          .get('nonTaxable')
+                          ?.hasError('min') &&
+                          addNewPurchaseForm.get('nonTaxable')
+                              ?.touched) ||
+                          (addNewPurchaseForm
+                          .get('nonTaxable')
+                          ?.hasError('max') &&
+                          addNewPurchaseForm.get('nonTaxable')?.touched)">
+                            <span class="login-danger">
+                              Input must be between 1 to 7 digits.
+                            </span>
+                          </div>
                           </div>
                         </div>
 
@@ -876,7 +876,7 @@
                                     </h5>
                                     <div class="col-lg-6 col-md-6 col-xl-6">
                                       <p class="col-lg-6 col-form-label heading-bold">
-                                        {{ ItemDetails.averageWeight.toFixed(3) }}
+                                        {{ ItemDetails.averageWeight?.toFixed(3) }}
                                       </p>
                                     </div>
                                   </div>
@@ -934,7 +934,7 @@
                                     <span class="d-flex justify-content-between w-full">
                                       <span class="font-bold white-space-nowrap">
                                         Block Number: {{ data.blockNo }} ({{
-                                        data.weightPerBlock.toFixed(3)
+                                        data.weightPerBlock?.toFixed(3)
                                         }}
                                         Ton)
                                       </span>
@@ -990,7 +990,7 @@
                                                 </h5>
                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                   <p class="col-form-label">
-                                                    {{ data.weightPerBlock.toFixed(3) }}
+                                                    {{ data.weightPerBlock?.toFixed(3) }}
                                                   </p>
                                                 </div>
                                               </div>
@@ -1466,7 +1466,7 @@
                       </div>
                     </div>
                     <div class="d-flex pt-4 justify-content-between">
-                      <button class="btn btn-primary" (click)="backStep(prevCallback)">
+                      <button type="button" class="btn btn-primary" (click)="backStep(prevCallback)">
                         <i class="fa-solid fa-arrow-left"></i> Back
                       </button>
                       <button type="submit" class="border-0 btn btn-primary btn-gradient-primary"

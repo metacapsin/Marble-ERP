@@ -115,7 +115,7 @@ export class AddNewPurchaseComponent implements OnInit {
       totalCosting: [""],
       costPerSQFT: [""],
       sqftPerPiece: [""],
-      noOfPieces: ["", [Validators.min(1), Validators.max(100000)]],
+      noOfPieces: ["", [Validators.required,Validators.min(1), Validators.max(100000)]],
       purchaseDiscount: ["", [Validators.min(0), Validators.max(100000)]],
       taxableAmount: ["", [Validators.min(0), Validators.max(9999999)]],
       purchaseItemTax: [""],
@@ -280,6 +280,7 @@ export class AddNewPurchaseComponent implements OnInit {
         subCategoryDetail: this.addNewPurchaseForm.value.subCategoryDetail,
         finishes: this.addNewPurchaseForm.value.finishes,
         totalSQFT: this.addNewPurchaseForm.value.totalSQFT,
+        noOfPieces: this.addNewPurchaseForm.value.noOfPieces,
         sellingPricePerSQFT: this.addNewPurchaseForm.value.sellingPricePerSQFT,
         transportationCharges:
           this.addNewPurchaseForm.value.transportationCharges,
@@ -289,8 +290,7 @@ export class AddNewPurchaseComponent implements OnInit {
         length: this.addNewPurchaseForm.value.length,
         width: this.addNewPurchaseForm.value.width,
         costPerSQFT: this.addNewPurchaseForm.value.costPerSQFT,
-        paidToSupplierPurchaseCost:
-          this.addNewPurchaseForm.value.paidToSupplierPurchaseCost,
+        paidToSupplierPurchaseCost: this.addNewPurchaseForm.value.paidToSupplierPurchaseCost,
       };
 
       this.addNewPurchaseForm.patchValue({
@@ -313,6 +313,7 @@ export class AddNewPurchaseComponent implements OnInit {
         },
         sellingPricePerSQFT: 2,
         totalSQFT: 2,
+        noOfPieces: 2,
         costPerSQFT: 2,
         paidToSupplierPurchaseCost: 2,
       });
@@ -325,6 +326,7 @@ export class AddNewPurchaseComponent implements OnInit {
         subCategoryDetail: this.previousSlabValues.subCategoryDetail,
         finishes: this.previousSlabValues.finishes,
         totalSQFT: this.previousSlabValues.totalSQFT,
+        noOfPieces: this.previousSlabValues.noOfPieces,
         sellingPricePerSQFT: this.previousSlabValues.sellingPricePerSQFT,
         transportationCharges: this.previousSlabValues.transportationCharges,
         otherCharges: this.previousSlabValues.otherCharges,
@@ -333,8 +335,7 @@ export class AddNewPurchaseComponent implements OnInit {
         length: this.previousSlabValues.length,
         width: this.previousSlabValues.width,
         costPerSQFT: this.previousSlabValues.costPerSQFT,
-        paidToSupplierPurchaseCost:
-          this.previousSlabValues.paidToSupplierPurchaseCost,
+        paidToSupplierPurchaseCost: this.previousSlabValues.paidToSupplierPurchaseCost,
       });
     }
     this.calculateTotalAmount();
@@ -398,7 +399,25 @@ export class AddNewPurchaseComponent implements OnInit {
         this.calculateTaxVendorAmount();
       }
     }
+  }
 
+  calculateDiscount(){
+    if(this.lotTypeValue === "Slab") {
+      let purchaseDiscount = this.addNewPurchaseForm.get("purchaseDiscount")?.value || 0;
+      let taxableAmount = this.addNewPurchaseForm.get("taxableAmount")?.value || 0;
+      let nonTaxable = this.addNewPurchaseForm.get("nonTaxable")?.value || 0;
+      let totalTaxAmount = 0;
+
+      if (purchaseDiscount > 0) {
+        if (!nonTaxable) {
+          taxableAmount -= purchaseDiscount;
+          this.addNewPurchaseForm.get("taxableAmount").patchValue(nonTaxable)
+        } else {
+          nonTaxable -= purchaseDiscount;
+          this.addNewPurchaseForm.get("nonTaxable").patchValue(nonTaxable);
+        }
+      }
+    }
   }
 
   calculateTaxVendorAmount() {
@@ -469,7 +488,7 @@ export class AddNewPurchaseComponent implements OnInit {
       };
     } else {
       if (formData.width || formData.length || formData.thickness) {
-        var _Size = `${formData.width}x${formData.length}x${formData.thickness}`;
+        var _Size = `${formData.width ? formData.width: ' '} x ${formData.length ? formData.length : ' '} x ${formData.thickness ? formData.thickness : ' '}`;
       }
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,

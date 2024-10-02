@@ -214,7 +214,7 @@ export class AddsalesComponent implements OnInit {
       const filterData = this.address.find((e) => e.setAsDefault);
       if (!filterData) {
         const message = "First you want to set one billing Address as Default";
-        this.messageService.add({ severity: "success", detail: message });
+        this.messageService.add({ severity: "error", detail: message });
       }
       this.addSalesForm.get("billingAddress").patchValue(filterData);
     });

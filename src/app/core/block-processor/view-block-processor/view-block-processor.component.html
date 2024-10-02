@@ -260,7 +260,8 @@
 
 <!-- --------- add slab processing --------------- -->
 
-<p-dialog [focusOnShow]="false" header="Add Slab Processing" [(visible)]="addSlabVisible" [modal]="true" [style]="{ width: '50%' }">
+<p-dialog [focusOnShow]="false" header="Add Slab Processing" [(visible)]="addSlabVisible" [modal]="true"
+  [style]="{ width: '50%' }">
   <div class="modal-content">
     <div class="modal-body">
       <form [formGroup]="addSlabProcessingForm" (ngSubmit)="addSlabProcessingFormSubmit()">
@@ -268,16 +269,9 @@
 
           <div class="col-12 col-md-6">
             <div class="form-group local-forms">
-              <label for="processingInvoiceNo">Invoice Number<span class="login-danger">*</span>
+              <label for="processingInvoiceNo">Invoice Number
               </label>
-              <input class="form-control" type="text" placeholder="" formControlName="processingInvoiceNo">
-              <div *ngIf="
-                                            addSlabProcessingForm.get('processingInvoiceNo')?.hasError(
-                                              'required'
-                                            ) && addSlabProcessingForm.get('processingInvoiceNo')?.touched
-                                          ">
-                <span class="login-danger">Field is required.</span>
-              </div>
+              <input class="form-control" type="text" placeholder="Enter Invoice Number" formControlName="processingInvoiceNo">
               <div *ngIf="
                                             addSlabProcessingForm.get('processingInvoiceNo')?.hasError(
                                               'pattern'
@@ -328,7 +322,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">₹</span>
                 </div>
-                <input class="form-control" type="number" placeholder="" formControlName="processingCost">
+                <input class="form-control" type="number" placeholder="Enter Processing Cost" formControlName="processingCost">
               </div>
               <div *ngIf="
               addSlabProcessingForm.get('processingCost')?.hasError(
@@ -351,20 +345,19 @@
           <div class="col-12 col-md-6">
             <div class="form-group local-forms">
               <label for="note">Notes </label>
-              <textarea class="form-control" type="text" placeholder="" formControlName="note"></textarea>
+              <textarea class="form-control" type="text" placeholder="Enter Notes" formControlName="note" cols="1"
+              rows="1"></textarea>
             </div>
           </div>
 
 
 
           <div class=" col-12">
-
             <div class=" settings-btns text-end m-b-10">
               <button type="submit" [disabled]="!addSlabProcessingForm.valid"
                 class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
               <button class="btn btn-secondary" (click)="addSlabVisible = false">Cancel</button>
             </div>
-
           </div>
 
         </div>
@@ -375,7 +368,8 @@
 
 
 <!-- ------------- edit Slab Processing -------------- -->
-<p-dialog [focusOnShow]="false" header="Edit Slab Processing" [(visible)]="editSlabVisible" [modal]="true" [style]="{ width: '50%' }">
+<p-dialog [focusOnShow]="false" header="Edit Slab Processing" [(visible)]="editSlabVisible" [modal]="true"
+  [style]="{ width: '50%' }">
   <div class="modal-content">
     <div class="modal-body">
       <form [formGroup]="editSlabProcessingForm" (ngSubmit)="editSlabProcessingFormSubmit()">
@@ -384,7 +378,7 @@
           <div class="col-12 col-md-6">
             <div class="form-group local-forms">
               <label for="processingInvoiceNo">Invoice Number </label>
-              <input class="form-control" type="text" placeholder="" formControlName="processingInvoiceNo">
+              <input class="form-control" type="text" placeholder="Enter Invoice Number" formControlName="processingInvoiceNo">
               <div *ngIf="
                                             editSlabProcessingForm.get('processingInvoiceNo')?.hasError(
                                               'pattern'
@@ -399,8 +393,7 @@
           <div class="col-12 col-md-6">
             <div class="form-group local-forms">
               <label for="processingDate">Processing Date <span class="login-danger">*</span></label>
-              <p-calendar 
-              [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+              <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
                 formControlName="processingDate" placeholder="mm/dd/yyyy" [styleClass]="'col-12'"></p-calendar>
             </div>
           </div>
@@ -415,7 +408,7 @@
           <div class="col-12 col-md-6">
             <div class="form-group local-forms">
               <label for="slab">Slab </label>
-              <p-dropdown [options]="slabListData" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+              <p-dropdown [options]="slabListData" [style]="{ width: '100%' }" appendTo="body"
                 (onChange)="onSlabSelect($event.value)" optionLabel="slabName" optionValue="_id"
                 placeholder="Select Slab" [filter]="true" filterBy="slabName" formControlName="slab">
               </p-dropdown>
@@ -429,7 +422,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">₹</span>
                 </div>
-                <input class="form-control" type="number" placeholder="" formControlName="processingCost">
+                <input class="form-control" type="number" placeholder="Enter Processing Cost" formControlName="processingCost">
               </div>
               <div *ngIf="
               editSlabProcessingForm.get('processingCost')?.hasError(
@@ -438,27 +431,22 @@
             ">
                 <span class="login-danger">Input Must be more than 0.</span>
               </div>
-
             </div>
           </div>
 
           <div class="col-12 col-md-6">
             <div class="form-group local-forms">
               <label for="note">Notes </label>
-              <textarea class="form-control" type="text" placeholder="" formControlName="note"></textarea>
+              <textarea class="form-control" type="text" placeholder="Enter Notes" formControlName="note"></textarea>
             </div>
           </div>
 
-
-
           <div class=" col-12">
-
             <div class=" settings-btns text-end m-b-10">
               <button type="submit" [disabled]="!editSlabProcessingForm.valid"
                 class="border-0 btn btn-primary btn-gradient-primary m-r-10">Submit</button>
               <button class="btn btn-secondary" (click)="editSlabVisible = false">Cancel</button>
             </div>
-
           </div>
 
         </div>

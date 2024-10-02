@@ -176,7 +176,10 @@
                   appendTo="body" formControlName="ItemTax" optionLabel="orderTaxName" optionValue="orderNamevalue"
                   display="chip" (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
               </p-inputGroup>
-              <div *ngIf=" lotAddForm.get('taxableAmount').value > rowCosting ">
+              <div *ngIf=" (lotAddForm.get('taxableAmount')?.hasError('min') &&
+              lotAddForm.get('taxableAmount')?.touched) ||
+            (lotAddForm.get('taxableAmount')?.hasError('max') &&
+              lotAddForm.get('taxableAmount')?.touched)">
                 <span class="login-danger">Taxable Amount cannot be greater than Lot Weight * Price/ton
                   ({{rowCosting}}).</span>
               </div>
@@ -199,7 +202,10 @@
                 <input type="number" formControlName="nonTaxableAmount" (change)="calculateTotalAmount()"
                   class="form-control" placeholder="Enter Non-Taxable Amount" />
               </div>
-              <div *ngIf="lotAddForm.get('nonTaxableAmount').value > rowCosting">
+              <div *ngIf="(lotAddForm.get('nonTaxableAmount')?.hasError('min') &&
+              lotAddForm.get('nonTaxableAmount')?.touched) ||
+            (lotAddForm.get('nonTaxableAmount')?.hasError('max') &&
+              lotAddForm.get('nonTaxableAmount')?.touched)">
                 <span class="login-danger">Non-Taxable Amount cannot be greater than Lot Weight * Price/ton
                   ({{rowCosting}}).</span>
               </div>
@@ -352,7 +358,7 @@
                   </h5>
                   <div class="col-lg-6 col-md-6 col-xl-6">
                     <p class="col-lg-6 col-form-label heading-bold">
-                      {{ lotAddForm.get("averageWeight").value.toFixed(3) }}
+                      {{ lotAddForm.get("averageWeight").value?.toFixed(3) }}
                     </p>
                   </div>
                 </div>
@@ -378,7 +384,7 @@
                   <div class="col-lg-6 col-md-6 col-xl-6">
                     <p class="col-lg-6 col-form-label heading-bold">
                       ₹
-                      {{ lotAddForm.get("averageTransport").value.toFixed(3) }}
+                      {{ lotAddForm.get("averageTransport").value?.toFixed(3) }}
                     </p>
                   </div>
                 </div>
@@ -391,7 +397,7 @@
                   <div class="col-lg-6 col-md-6 col-xl-6">
                     <p class="col-lg-6 col-form-label heading-bold">
                       ₹
-                      {{ lotAddForm.get("averageRoyalty").value.toFixed(3) }}
+                      {{ lotAddForm.get("averageRoyalty").value?.toFixed(3) }}
                     </p>
                   </div>
                 </div>
@@ -406,7 +412,7 @@
                   <span class="d-flex justify-content-between w-full">
                     <span class="font-bold white-space-nowrap">
                       Block Number: {{ data.blockNo }} ({{
-                      data.weightPerBlock.toFixed(3)
+                      data.weightPerBlock?.toFixed(3)
                       }}
                       Ton)
                     </span>
@@ -465,7 +471,7 @@
                               </h5>
                               <div class="col-lg-9 col-md-9 col-xl-9">
                                 <p class="col-form-label">
-                                  {{ data.weightPerBlock.toFixed(3) }}
+                                  {{ data.weightPerBlock?.toFixed(3) }}
                                 </p>
                               </div>
                             </div>
@@ -487,7 +493,7 @@
                               </h5>
                               <div class="col-lg-9 col-md-9 col-xl-9">
                                 <p class="col-form-label">
-                                  ₹ {{ data.rawCosting.toFixed(3) }}
+                                  ₹ {{ data.rawCosting?.toFixed(3) }}
                                 </p>
                               </div>
                             </div>
@@ -498,7 +504,7 @@
                               <div class="col-lg-9 col-md-9 col-xl-9">
                                 <p class="col-form-label">
                                   ₹
-                                  {{ data.transportationCosting.toFixed(3) }}
+                                  {{ data.transportationCosting?.toFixed(3) }}
                                 </p>
                               </div>
                             </div>
@@ -509,7 +515,7 @@
                               <div class="col-lg-9 col-md-9 col-xl-9">
                                 <p class="col-form-label">
                                   ₹
-                                  {{ data.royaltyCosting.toFixed(3) }}
+                                  {{ data.royaltyCosting?.toFixed(3) }}
                                 </p>
                               </div>
                             </div>
@@ -519,7 +525,7 @@
                               </h5>
                               <div class="col-lg-9 col-md-9 col-xl-9">
                                 <p class="col-form-label">
-                                  ₹ {{ data.totalCosting.toFixed(3) }}
+                                  ₹ {{ data.totalCosting?.toFixed(3) }}
                                 </p>
                               </div>
                             </div>

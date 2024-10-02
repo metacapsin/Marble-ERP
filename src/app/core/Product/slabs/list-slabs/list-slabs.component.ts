@@ -41,7 +41,7 @@ export class ListSlabsComponent {
   allInDropDown: any;
   cols = [];
   exportColumns = [];
-  
+  showDataLoader: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -52,8 +52,24 @@ export class ListSlabsComponent {
     private WarehouseService: WarehouseService
   ) {}
 
+  ngOnInit(): void {
+    this.showDataLoader = true;
+    this.getSlabsList();
+    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
+      this.warehouseData = resp.data.map((element) => ({
+        name: element.name,
+        _id: {
+          _id: element._id,
+          name: element.name,
+        },
+      }));
+    });
+  }
   getSlabsList(): void {
     this.service.getSlabsList().subscribe((resp: any) => {
+      if(resp){
+        
+      
       this.allSlabsDaTa = resp.data;
       this.originalData = resp.data;
       this.cols = [
@@ -83,11 +99,9 @@ export class ListSlabsComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      // this.exportColumns = this.allSlabsDaTa.map((element) => ({
-      //   title: element.header,
-      //   dataKey: element.field,
-      // }));
-      console.log("API", this.allSlabsDaTa);
+
+      this.showDataLoader = false;
+    }
     });
   }
   showSlabDetails(_id: any) {
@@ -104,19 +118,6 @@ export class ListSlabsComponent {
       this.visibleSlabHistory = true;
       this.slabHistoryData = resp.data;
       console.log("Slab History API", this.slabHistoryData);
-    });
-  }
-  ngOnInit(): void {
-    this.getSlabsList();
-    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
-      this.warehouseData = resp.data.map((element) => ({
-        name: element.name,
-        _id: {
-          _id: element._id,
-          name: element.name,
-        },
-      }));
-      console.log(this.warehouseData);
     });
   }
 

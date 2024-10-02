@@ -38,7 +38,7 @@ export class ListNewPurchaseComponent implements OnChanges {
   currentUrl: string;
   cols = [];
   exportColumns = [];
-  // maxDate = new Date();
+  showDataLoader: boolean = false;
   searchByData = [
     "Today",
     "Yesterday",
@@ -64,7 +64,7 @@ export class ListNewPurchaseComponent implements OnChanges {
     private messageService: MessageService,
     private SlabsService: SlabsService,
     private localStorageService: LocalStorageService
-  ) {}
+  ) { }
   ngOnInit() {
     this.currentUrl = this.router.url;
     console.log(this.currentUrl);
@@ -72,13 +72,7 @@ export class ListNewPurchaseComponent implements OnChanges {
     this.localStorageService.removeItem("supplier");
     this.localStorageService.removeItem("returnUrl");
 
-    // const today = new Date();
-    // const endDate = new Date();
-    // const startDate = new Date(today.getFullYear(), 3, 1);
-    // this.searchBy = "This Year";
-    // this.rangeDates = [startDate, endDate];
-
-    // this.getPurchase(startDate, endDate);
+    this.showDataLoader = true;
     this.onSearchByChange(this.searchBy);
   }
   getPurchase(startDate: Date, endDate: Date) {
@@ -91,33 +85,20 @@ export class ListNewPurchaseComponent implements OnChanges {
     };
 
     this.Service.getPurchaseList(data).subscribe((resp: any) => {
-      this.purchaseTotalValues = resp;
-      this.purchaseData = resp.data;
-      this.exportCSV();
-      // this.exportColumns = this.cols.map((col) => ({
-      //   title: col.header,
-      //   dataKey: col.field,
-      // }));
-      // console.log(this.cols);
-      // console.log(this.purchaseData);
-      // this.exportColumns = this.purchaseData?.map((element) => {
-      //   console.log(element);
-      //   if (this.purchaseData == [])
-      //     return { title: "No purchase records found." };
-      //   return {
-      //     title: element.header,
-      //     dataKey: element.field,
-      //   };
-      // });
-
-      console.log(this.exportColumns);
+      if (resp) {
+        this.purchaseTotalValues = resp;
+        this.purchaseData = resp.data;
+        this.exportCSV();
+        this.showDataLoader = false;
+      }
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.exportCSV();
   }
   exportCSV() {
-    console.log(this.purchaseData);
+    console.log('purchaseData', this.purchaseData);
+    
     this.cols = [
       { field: "purchaseInvoiceNumber", header: "Purchase Invoice Number" },
       { field: "purchaseDate", header: "Purchase Date" },
@@ -132,11 +113,8 @@ export class ListNewPurchaseComponent implements OnChanges {
       { field: "createdOn", header: "Created On" },
     ];
     if (!this.purchaseData || this.purchaseData.length === 0) {
-      console.log("object 1");
       this.exportColumns = [{ title: "No purchase records found." }];
     } else {
-      console.log(this.purchaseData);
-      console.log("object 2");
       this.exportColumns = this.purchaseData.map((element) => ({
         title: element.header,
         dataKey: element.field,
@@ -151,21 +129,15 @@ export class ListNewPurchaseComponent implements OnChanges {
     const returnUrl = this.router.url;
     this.router.navigate(["/new-purchase/add-new-purchase"]);
     this.localStorageService.setItem("returnUrl", returnUrl);
-
-    // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
 
   showInvoiceDialoge(id: any) {
-    let totalTax = 0;
     console.log("id pass to invoice dialoge", id);
     console.log("showInvoiceDialoge is triggered ");
     this.Service.getPurchaseById(id).subscribe((resp: any) => {
       this.showInvoiceDialog = true;
       this.PurchaseListData = [resp.data];
       this.header = "Purchase Invoice";
-      console.log(this.PurchaseListData[0].lotDetails);
-      console.log(this.PurchaseListData);
-      console.log(resp);
 
       if (resp.data.lotDetail) {
         this.SlabsService.getBlockDetailByLotId(
@@ -186,7 +158,6 @@ export class ListNewPurchaseComponent implements OnChanges {
 
   purchaseDelete(id: number) {
     this.purchase = id;
-
     this.modalData = {
       title: "Delete",
       messege: "Are you sure you want to delete this Purchase",
@@ -204,20 +175,9 @@ export class ListNewPurchaseComponent implements OnChanges {
     });
   }
   close() {
-    // this.visible = false;
     this.showInvoiceDialog = false;
     this.showDialoge = false;
   }
-
-  // getPurchase(startDate: Date, endDate: Date) {
-  //   const formattedStartDate = this.formatDate(startDate);
-  //   const formattedEndDate = this.formatDate(endDate);
-
-  //   const data = {
-  //     startDate: formattedStartDate,
-  //     endDate: formattedEndDate,
-  //   };
-  // }
 
   onDateChange(value: any): void {
     const startDate = value[0];

@@ -46,7 +46,7 @@ export class SalesComponent implements OnInit {
   totalAmountValues: any = {}
   cols = [];
   exportColumns = [];
-
+  showDataLoader: boolean = false;
   constructor(
     private messageService: MessageService,
     private router: Router,
@@ -61,14 +61,9 @@ export class SalesComponent implements OnInit {
     console.log("this is current url on sales page", this.currentUrl);
     this.localStorageService.removeItem("customer");
     this.localStorageService.removeItem("returnUrl");
-    // this.searchBy = "This Year";
-    // const today = new Date();
-    // const endDate = new Date();
-    // const startDate = new Date(today.getFullYear(), 3, 1);
-    // this.rangeDates = [startDate, endDate];
-    // this.GetSalesData(startDate, endDate);
-    this.onSearchByChange(this.searchBy)
 
+    this.showDataLoader = true;
+    this.onSearchByChange(this.searchBy)
   }
 
   deleteSales(Id: any) {
@@ -111,6 +106,8 @@ export class SalesComponent implements OnInit {
       endDate: formattedEndDate,
     };
     this.Service.GetSalesData(data).subscribe((resp: any) => {
+      if(resp){
+
       this.totalAmountValues = resp;
       this.salesListData = resp.data;
       this.cols = [
@@ -131,15 +128,12 @@ export class SalesComponent implements OnInit {
         { field: "nonTaxable", header: "Sales Non Taxable Amount"},
         { field: "createdOn", header: "Created On" },
       ];
-
       this.exportColumns = this.cols.map((col) => ({
         title: col.header,
         dataKey: col.field,
       }));
-      // this.exportColumns = this.totalAmountValues.map((element) => ({
-      //   title: element.header,
-      //   dataKey: element.field,
-      // }));
+      this.showDataLoader = false;
+    }
     });
   }
 

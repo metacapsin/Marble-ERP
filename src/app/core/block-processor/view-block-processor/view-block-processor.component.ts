@@ -30,7 +30,7 @@ export class ViewBlockProcessorComponent {
   slabProcessingPaymentData: any[] = [];
   slabProcessingDataList: any[] = [];
   slabListData: any[] = [];
-  paymentInvoicePurchaseDataShowById: any=[];
+  paymentInvoicePurchaseDataShowById: any = [];
   addSlabVisible: boolean = false;
   editSlabVisible: boolean = false;
   showDialog: boolean = false;
@@ -53,10 +53,7 @@ export class ViewBlockProcessorComponent {
     public dialog: MatDialog
   ) {
     this.addSlabProcessingForm = this.fb.group({
-      processingInvoiceNo: [
-        "",
-        [Validators.required, Validators.pattern(this.invoiceRegex)],
-      ],
+      processingInvoiceNo: ["",[Validators.pattern(this.invoiceRegex)]],
       processor: [""],
       slab: [""],
       processingCost: ["", [Validators.required, Validators.min(1)]],
@@ -155,10 +152,6 @@ export class ViewBlockProcessorComponent {
   }
   deletePayment(Id: any) {
     this.payment_id = Id;
-    console.log(
-      "Block Processor Payment Delete Dialog triggred and this is its id",
-      Id
-    );
 
     this.modalData = {
       title: "Delete",
@@ -166,10 +159,6 @@ export class ViewBlockProcessorComponent {
     };
     this.showDialog = true;
   }
-  // showNewDialog() {
-  //   this.showDialog = true;
-  // }
-
   callBackModal() {
     if (this.slabProcessing_id) {
       this.blockProcessorService
@@ -179,11 +168,12 @@ export class ViewBlockProcessorComponent {
           this.messageService.add({ severity: "success", detail: message });
           this.getslabProcessingList();
           this.getPaymentListByProcessorId();
-          console.log("Block Processor deleted")
+         this.slabProcessing_id = null;
 
           this.showDialog = false;
         });
-    } else if (this.payment_id) {
+    }
+    if (this.payment_id) {
       this.blockProcessorService
         .deletePayment(this.payment_id)
         .subscribe((resp) => {
@@ -191,7 +181,7 @@ export class ViewBlockProcessorComponent {
           this.messageService.add({ severity: "success", detail: message });
           this.getslabProcessingList();
           this.getPaymentListByProcessorId();
-          console.log("Block Processor Payment deleted")
+          this.payment_id = null;
 
           this.showDialog = false;
         });

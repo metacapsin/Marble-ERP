@@ -173,7 +173,7 @@
                     </td>
                 </tr>
                   <tr>
-                    <td colspan="9" class="text-center">No sales records found.</td>
+                    <td colspan="9" class="text-center" *ngIf="!showDataLoader">No sales records found.</td>
                   </tr>
                 </ng-template>
 
