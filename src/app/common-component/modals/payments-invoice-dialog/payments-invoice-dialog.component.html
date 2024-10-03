@@ -416,7 +416,8 @@
                               <div
                                 *ngIf="
                                 paymentInvoiceForm.get('taxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('taxablePaymentAmount')?.touched">
-                                <span class="login-danger">Taxable Amount can't be grater than ₹ {{ dataById?.taxableDue |
+                                <span class="login-danger">Taxable Amount can't be grater than ₹ {{ dataById?.taxableDue
+                                  |
                                   indianCurrency
                                   }}</span>
                               </div>
@@ -443,7 +444,8 @@
                               </div>
                               <div
                                 *ngIf="(paymentInvoiceForm.get('nonTaxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('nonTaxablePaymentAmount')?.touched)">
-                                <span class="login-danger">Non-Taxable Amount can't be grater than ₹ {{ dataById?.nonTaxableDue |
+                                <span class="login-danger">Non-Taxable Amount can't be grater than ₹ {{
+                                  dataById?.nonTaxableDue |
                                   indianCurrency
                                   }}</span>
                               </div>
@@ -476,16 +478,8 @@
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">₹</span>
                                 </div>
-                                <input type="number" formControlName="totalAmount" class="form-control" >
+                                <input type="number" formControlName="totalAmount" class="form-control">
                               </div>
-                              <!-- <span style="color: #97704f; font-size: 12px; 
-                              " *ngIf="dataById.isSales">Max Value : ₹ {{dataById.salesDueAmount |
-                                indianCurrency}}</span>
-                              <div
-                                *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
-                                <span class="login-danger" *ngIf="dataById.isSales">Amount cannot be greater than the
-                                  ₹ {{dataById.salesDueAmount | indianCurrency}}.</span>
-                              </div> -->
 
                               <span style="color: #97704f; font-size: 12px; 
                               " *ngIf="dataById.isSalesReturn">Max Value : ₹ {{dataById.salesDueAmount |
@@ -512,16 +506,6 @@
                                   the
                                   ₹ {{dataById.dueAmount | indianCurrency}}.</span>
                               </div>
-
-                              <!-- <span style="color: #97704f; font-size: 12px; 
-                              " *ngIf="dataById.isPurchase">Max Value : ₹ {{dataById.purchaseDueAmount |
-                                indianCurrency}}</span>
-                              <div
-                                *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
-                                <span class="login-danger" *ngIf="dataById.isPurchase">Amount cannot be greater than the
-                                  ₹ {{dataById.purchaseDueAmount | indianCurrency}}.</span>
-                              </div> -->
-
                               <span style="color: #97704f; font-size: 12px; 
                               " *ngIf="dataById.isPurchaseReturn">Max Value : ₹ {{dataById.purchaseDueAmount |
                                 indianCurrency}}</span>

@@ -70,6 +70,9 @@ export class EditBlockProcessorComponent {
       this.patchForm();
     });
   }
+  onCancel(){
+    this.router.navigateByUrl(this.returnUrl);
+  }
   patchForm() {
     this.editBlockProcessorForm.patchValue({
       companyName: this.blockProcessorData.name,

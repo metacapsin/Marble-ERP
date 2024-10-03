@@ -137,9 +137,9 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     console.log("this.dataById", this.dataById);
 
     if (this.ShowPaymentInvoice) {
-      let totalAmount = this.paymentInvoiceForm.get("totalAmount");
-      let taxablePaymentAmount = this.paymentInvoiceForm.get("taxablePaymentAmount");
-      let nonTaxablePaymentAmount = this.paymentInvoiceForm.get("nonTaxablePaymentAmount");
+      const totalAmount = this.paymentInvoiceForm.get("totalAmount");
+      const taxablePaymentAmount = this.paymentInvoiceForm.get("taxablePaymentAmount");
+      const nonTaxablePaymentAmount = this.paymentInvoiceForm.get("nonTaxablePaymentAmount");
 
       totalAmount.clearValidators();
       taxablePaymentAmount.clearValidators();
@@ -168,12 +168,44 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           paymentMode: "Bank / Cash"
         });
         this.onSalesPaymentAmountChanges();
-      } else if (this.dataById.isSalesReturn || this.dataById.isPurchaseReturn || this.dataById.isSlabProcessing) {
+      } else if (this.dataById.isSalesReturn ) {
         totalAmount.setValidators([
           Validators.required,
           Validators.min(1),
-          Validators.max(this.dataById.salesDueAmount || this.dataById.dueAmount),
+          Validators.max(this.dataById.salesDueAmount ),
         ]);
+        this.paymentInvoiceForm.patchValue({
+          totalAmount: this.dataById.salesDueAmount,
+          paymentMode: "Cash"
+        });
+        console.log(this.paymentInvoiceForm.get('totalAmount')?.errors);
+        console.log(this.paymentInvoiceForm.get('totalAmount')?.valid);
+      }
+      else if(this.dataById.isPurchaseReturn){
+        totalAmount.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(this.dataById.purchaseDueAmount),
+        ]);
+        this.paymentInvoiceForm.patchValue({
+          totalAmount: this.dataById.purchaseDueAmount,
+          paymentMode: "Cash"
+        });
+        console.log(this.paymentInvoiceForm.get('totalAmount')?.errors);
+        console.log(this.paymentInvoiceForm.get('totalAmount')?.valid);
+      }
+      else if(this.dataById.isSlabProcessing){
+        totalAmount.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(this.dataById.dueAmount),
+        ]);
+        this.paymentInvoiceForm.patchValue({
+          totalAmount: this.dataById.dueAmount,
+          paymentMode: "Cash"
+        });
+        console.log(this.paymentInvoiceForm.get('totalAmount')?.errors);
+console.log(this.paymentInvoiceForm.get('totalAmount')?.valid);
       }
 
       totalAmount.updateValueAndValidity();
@@ -213,6 +245,8 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   }
 
   paymentInvoiceFormSubmit() {
+    console.log(this.paymentInvoiceForm.get('totalAmount')?.errors);
+console.log(this.paymentInvoiceForm.get('totalAmount')?.valid);
     const formData = this.paymentInvoiceForm.value;
 
     if (this.dataById.isSalesReturn) {
