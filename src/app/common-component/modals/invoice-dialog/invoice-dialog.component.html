@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-between align-items-center w-100">
       <h4>{{ header }}</h4>
       <div class="d-flex">
-        <button *ngIf="sales?.salesOrderStatus" type="button" class="btn icon-button" aria-label="Download"
+        <button *ngIf="sales?.salesDate" type="button" class="btn icon-button" aria-label="Download"
           (click)="downloadSalesFile(sales._id)">
           <i class="fa-solid fa-download"></i>
         </button>
