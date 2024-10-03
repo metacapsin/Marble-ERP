@@ -440,10 +440,17 @@ ul.p-dropdown-items {
 .p-datatable .p-datatable-thead tr th {
   text-align: left;
   padding-left: 1%;
+  text-wrap: nowrap;
+  padding: 0px 15px;
+  border: 1px solid #e5e7eb;
+  color: #97704f;
+  font-size: 14px;
+  background: #f9f4ef;
 }
 
 .p-datatable td {
 }
+
 .p-toast-message-icon {
   display: none;
 }
@@ -451,11 +458,28 @@ ul.p-dropdown-items {
   margin: 0px;
 }
 .tooltip {
-  font-size: 11px;
+  opacity: 0;
+}
+.p-tooltip .p-tooltip-text{
+  background-color: #000000 !important;
+  padding:5px 10px !important;
+  font-size:11px;
+}
+
+.p-tooltip.p-tooltip-left .p-tooltip-arrow{
+  border-left-color: #000000 !important;
+}
+.p-tooltip.p-tooltip-top .p-tooltip-arrow{
+  border-top-color: #000000 !important;
+}
+.p-tooltip.p-tooltip-right .p-tooltip-arrow{
+  border-right-color: #000000 !important;
+}
+.p-tooltip.p-tooltip-bottom .p-tooltip-arrow{
+  border-bottom-color: #000000 !important;
 }
 .p-column-filter-menu-button:hover {
   background: #f9f4ef;
-  // background: #1111;
 }
 .p-multiselect.p-multiselect-chip .p-multiselect-token {
   padding: 0.205rem 0.55rem;
@@ -509,5 +533,53 @@ ul.p-dropdown-items {
   .paddingFORResponsive{
     padding-left: 20px !important;
     padding-right: 20px !important;
+  }
+}
+
+
+.expand-icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+
+  .btn-icon {
+    background: rgba(46, 55, 164, 0.05);
+    border-radius: 20px;
+    color: #97704f;
+    border-color: #97704f;
+    font-weight: 600;
+    width: 35px;
+    height: 35px;
+    transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    justify-content: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+
+    &:hover {
+      border: 0;
+      background: #97704f;
+      color: #fff;
+      transition: all 0.5s ease;
+      -moz-transition: all 0.5s ease;
+      -o-transition: all 0.5s ease;
+      -ms-transition: all 0.5s ease;
+      -webkit-transition: all 0.5s ease;
+    }
+    i{
+      font-size: 15px;
+    }
   }
 }

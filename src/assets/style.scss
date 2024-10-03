@@ -12980,9 +12980,10 @@ app-header{
 .p-datatable{
   td{
     max-width: 10rem;
-    // text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    padding: 10px 15px;
+    font-size: 14px;
     .p-button.p-button-icon-only {
       width: 3rem;
       padding: 0px;
