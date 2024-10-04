@@ -123,7 +123,7 @@ export class AddNewPurchaseComponent implements OnInit {
       taxable: [""],
       taxVendor: [""],
       taxVendorAmount: [""],
-      vendorTaxApplied: ["", [Validators.min(0), Validators.max(100)]],
+      vendorTaxApplied: ["", [Validators.min(1), Validators.max(100)]],
       taxApplied: [""],
       isTaxVendor: [false],
     });
@@ -438,7 +438,7 @@ export class AddNewPurchaseComponent implements OnInit {
     if (isTaxVendor) {
       this.addNewPurchaseForm.get("taxVendor").setValidators([Validators.required]);
       this.addNewPurchaseForm.get("taxVendorAmount").setValidators([Validators.required]);
-      this.addNewPurchaseForm.get("vendorTaxApplied").setValidators([Validators.required]);
+      this.addNewPurchaseForm.get("vendorTaxApplied").setValidators([Validators.required,Validators.min(1), Validators.max(100)]);
     }
     this.addNewPurchaseForm.get("taxVendor").updateValueAndValidity();
     this.addNewPurchaseForm.get("taxVendorAmount").updateValueAndValidity();
