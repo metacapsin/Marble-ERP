@@ -442,7 +442,7 @@
                               *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value && addSalesForm.get('salesItemDetails').get(i + '.salesItemTaxAmount').value"
                               style="color: #97704f; font-size: 12px">
                               Tax Applied Amount:
-                              {{
+                              {{ '₹' + ' ' +
                               addSalesForm
                               .get("salesItemDetails")
                               .get(i + ".salesItemAppliedTaxAmount").value
@@ -477,7 +477,7 @@
                           <div class="form-group local-forms">
                             <label for="customer">Sub Total
                               <span class="login-danger">*</span></label>
-                            <span class="form-control">{{
+                            <span class="form-control">{{ 
                               addSalesForm
                               .get("salesItemDetails")
                               .get(i + ".salesItemSubTotal")?.value
@@ -486,16 +486,16 @@
                               *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value  && addSalesForm.get('salesItemDetails').get(i + '.salesItemNonTaxableAmount').value"
                               style="color: #97704f; font-size: 12px">
                                 Tax Applied Amount:
-                              {{
+                              {{ '₹' + ' ' +
                               addSalesForm
                               .get("salesItemDetails")
-                              .get(i + ".salesItemAppliedTaxAmount").value | indianCurrency
+                              .get(i + ".salesItemAppliedTaxAmount").value
                               }}
                               + Non Taxable Amount :
-                              {{
+                              {{ '₹' + ' ' +
                               addSalesForm
                               .get("salesItemDetails")
-                              .get(i + ".salesItemNonTaxableAmount").value | indianCurrency
+                              .get(i + ".salesItemNonTaxableAmount").value
                               }}
                             </span>
                           </div>
