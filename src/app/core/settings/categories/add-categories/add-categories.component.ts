@@ -14,10 +14,6 @@ import { validationRegex } from "src/app/core/validation";
 })
 export class AddCategoriesComponent {
   addCategoryForm!: FormGroup;
-
-  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
-
-  descriptionRegex = /^.{3,500}$/s;
   constructor(
     private fb: FormBuilder,
     public dialog: MatDialog,
@@ -25,7 +21,7 @@ export class AddCategoriesComponent {
   ) {
     this.addCategoryForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
-      description: ["", [Validators.pattern(this.descriptionRegex)]],
+      description: ["", [Validators.pattern(validationRegex.descriptionRegex)]],
     });
   }
   addCategoryFormSubmit() {

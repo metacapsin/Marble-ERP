@@ -671,15 +671,27 @@
                                 <span class="input-group-text">₹</span>
                               </div>
                               <input class="form-control" (change)="calculateTotalAmount()"
-                                formControlName="salesDiscount" type="text" placeholder="Enter Discount" />
+                                formControlName="salesDiscount" type="number" placeholder="Enter Discount" />
                             </div>
                             <div *ngIf="
                                 (addSalesForm
                                   .get('salesDiscount')
-                                  ?.hasError('pattern') &&
+                                  ?.hasError('min') &&
                                 addSalesForm.get('salesDiscount')?.touched)
                               ">
-                              <span class="login-danger">Input must be between 0 to 100000.</span>
+                              <span class="login-danger">Discount cannot be less than 0.</span>
+                            </div>
+                            <div *ngIf="
+                                (addSalesForm
+                                  .get('salesDiscount')
+                                  ?.hasError('max') &&
+                                addSalesForm.get('salesDiscount')?.touched)
+                              ">
+                              <span class="login-danger">Discount cannot be more than ₹
+                                {{
+                                addSalesForm.get("salesGrossTotal").value
+                                | number : "1.2-2"
+                                }} .</span>
                             </div>
                           </div>
                         </div>

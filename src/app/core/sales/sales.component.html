@@ -168,7 +168,7 @@
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                   <tr>
-                    <td *ngIf="!salesListData" colspan="10" class="text-center">
+                    <td *ngIf="!salesListData && showDataLoader" colspan="9" class="text-center">
                         <p-progressSpinner ariaLabel="loading" />
                     </td>
                 </tr>

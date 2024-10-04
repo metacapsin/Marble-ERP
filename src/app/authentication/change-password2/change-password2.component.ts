@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { validationRegex } from 'src/app/core/validation';
 import { AuthService } from 'src/app/shared/auth/auth.service';
 import { routes } from 'src/app/shared/routes/routes';
 
@@ -19,14 +19,15 @@ export class ChangePassword2Component {
   error: string = "";
   token:string = "";
   authForm = new FormGroup({
-    password: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(8), Validators.pattern( /[!$%^()_+*<>#@]/)]),
+    password: new FormControl('', [Validators.required, Validators.pattern(validationRegex.passwordRegex)]),
   });
 
   constructor(public router: Router, private authService: AuthService, private messageService: MessageService, public route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.token = params['token'];
-  });
+    });
   }
+
   direction() {
     this.router.navigate([routes.login]);
   }
@@ -35,88 +36,55 @@ export class ChangePassword2Component {
     return this.authForm.controls;
   }
 
-  // onSubmit() {
-  //   this.submitted = true;
-  //   if (this.authForm.invalid) {
-  //     return;
-  //   }
-  //   this.loading = true;
-  //   if (this.authForm.invalid) {
-  //     this.error = 'Email is not valid !';
-  //     this._snackBar.open(this.error, '', {
-  //       duration: 2000,
-  //       verticalPosition: 'top',
-  //       horizontalPosition: 'right',
-  //       panelClass: "blue",
-  //     });
-  //     return;
-  //   } else {
-  //     this.authService
-  //       .resetPassword(this.f['password'].value, this.token)
-  //       .subscribe({
-  //         next: (res: any) => {
-  //           if (res.status !== 'error') {
-  //             this.router.navigate(['/login']);
-  //             this._snackBar.open("Password has been sent to your email", '', {
-  //               duration: 2000,
-  //               verticalPosition: 'top',
-  //               horizontalPosition: 'right',
-  //               panelClass: "blue",
-  //             });
-  //           } else {
-  //             this.error = 'Invalid Token';
-  //             this._snackBar.open(res.message, '', {
-  //               duration: 2000,
-  //               verticalPosition: 'top',
-  //               horizontalPosition: 'right',
-  //               panelClass: "blue",
-  //             });
-  //           }
-  //         },
-  //         error: (error) => {
-  //           this.error = error.error.message;
-  //           this.submitted = false;
-  //           this.loading = false;
-  //           this._snackBar.open(error.error.message ?? "Error Occured ", '', {
-  //             duration: 2000,
-  //             verticalPosition: 'top',
-  //             horizontalPosition: 'right',
-  //             panelClass: "blue",
-  //           });
-  //         },
-  //       });
-  //   }
-  // }
-
-  onSubmit(){
+  onSubmit() {
+    this.submitted = true;
     
-    if (this.authForm.value.password === "") {
-      this.error = 'Password is required!';
-      const message= this.error
-        this.messageService.add({ severity: "warn", detail: message });
+    if (this.authForm.invalid) {
+      // Display validation errors
+      Object.keys(this.authForm.controls).forEach(key => {
+        const control = this.authForm.get(key);
+        if (control && control.invalid) {
+          const errors = control.errors;
+          if (errors) {
+            Object.keys(errors).forEach(errorKey => {
+              let errorMessage = '';
+              switch (errorKey) {
+                case 'required':
+                  errorMessage = 'Password is required.';
+                  break;
+                case 'pattern':
+                  errorMessage = 'Password must contain 8-16 characters and at least one number, one uppercase letter, ' +
+                                 'one lowercase letter, and one special character.';
+                  break;
+                default:
+                  errorMessage = 'Invalid password.';
+              }
+              this.messageService.add({ severity: "error", detail: errorMessage });
+            });
+          }
+        }
+      });
       return;
-    } else {
-      this.authService
-        .resetPassword(this.authForm.value.password, this.token)
-        .subscribe({
-          next: (res: any) => {
-            if (res.status !== 'error') {
-              this.router.navigate(['/login']);
-              const message= res.message
-            this.messageService.add({ severity: "warn", detail: message });
-            } else {
-              this.error = 'Invalid Token';
-              const message= res.message
-              console.log(message)
-            this.messageService.add({ severity: "warn", detail: message });
-            }
-          },
-          error: (error) => {
-            const message= error.message
-            this.messageService.add({ severity: "warn", detail: message });
-          },
-        });
     }
     
+    this.loading = true;
+    this.authService
+      .resetPassword(this.authForm.value.password!, this.token)
+      .subscribe({
+        next: (res: any) => {
+          if (res.status !== 'error') {
+            this.router.navigate(['/login']);
+            this.messageService.add({ severity: "success", detail: res.message });
+          } else {
+            this.error = 'Invalid Token';
+            this.messageService.add({ severity: "error", detail: res.message });
+          }
+        },
+        error: (error) => {
+          this.error = error.error.message || "An error occurred";
+          this.messageService.add({ severity: "error", detail: this.error });
+          this.loading = false;
+        },
+      });
   }
 }

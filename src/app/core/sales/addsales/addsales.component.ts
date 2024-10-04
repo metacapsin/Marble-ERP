@@ -73,7 +73,7 @@ export class AddsalesComponent implements OnInit {
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
       billingAddress: [""],
-      salesDiscount: ["", [Validators.pattern(validationRegex.oneToOneLakhRegex)]],
+      salesDiscount: ["", [ Validators.min(0)]],
       salesInvoiceNumber: ["", [Validators.pattern(this.invoiceRegex)]],
       salesItemDetails: this.fb.array([
         this.fb.group({
@@ -114,6 +114,16 @@ export class AddsalesComponent implements OnInit {
       taxable: [""],
       nonTaxable: [""],
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
+    });
+
+    // Set up a value change subscription to update the max validator for salesDiscount
+    this.addSalesForm.get('salesGrossTotal').valueChanges.subscribe(value => {
+      const salesDiscountControl = this.addSalesForm.get('salesDiscount');
+      salesDiscountControl.setValidators([
+        Validators.min(0),
+        Validators.max(value || 0)
+      ]);
+      salesDiscountControl.updateValueAndValidity();
     });
   }
 

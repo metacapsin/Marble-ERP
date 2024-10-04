@@ -416,7 +416,7 @@
                               <div
                                 *ngIf="
                                 paymentInvoiceForm.get('taxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('taxablePaymentAmount')?.touched">
-                                <span class="login-danger">Taxable Amount can't be grater than ₹ {{ dataById?.taxableDue
+                                <span class="login-danger">Taxable Amount can't be greater than ₹ {{ dataById?.taxableDue
                                   |
                                   indianCurrency
                                   }}</span>
@@ -444,7 +444,7 @@
                               </div>
                               <div
                                 *ngIf="(paymentInvoiceForm.get('nonTaxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('nonTaxablePaymentAmount')?.touched)">
-                                <span class="login-danger">Non-Taxable Amount can't be grater than ₹ {{
+                                <span class="login-danger">Non-Taxable Amount can't be greater than ₹ {{
                                   dataById?.nonTaxableDue |
                                   indianCurrency
                                   }}</span>

@@ -24,11 +24,6 @@ import { validationRegex } from "src/app/core/validation";
 export class EditCategoriesComponent {
   editCategoryForm!: FormGroup;
   categoryDataById = [];
-
-  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
-
-  descriptionRegex = /^.{3,500}$/s;
-
   constructor(
     private fb: FormBuilder,
     public service: CategoriesService,
@@ -38,7 +33,7 @@ export class EditCategoriesComponent {
   ) {
     this.editCategoryForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
-      description: ["", [Validators.pattern(this.descriptionRegex)]],
+      description: ["", [Validators.pattern(validationRegex.descriptionRegex)]],
     });
   }
 

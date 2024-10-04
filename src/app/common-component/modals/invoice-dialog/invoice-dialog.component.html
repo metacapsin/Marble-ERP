@@ -334,7 +334,7 @@
                           <th>Non-Taxable Amount </th>
                           <th>Sub Total</th>
                         </tr>
-                        <tr *ngIf="sales?.salesReturnTermsAndCondition && sales?.returnOrderStatus ">
+                        <tr *ngIf="sales?.salesReturnTermsAndCondition && sales?.returnDate && sales?.salesDiscount">
                           <th>Warehouse</th>
                           <th>Product</th>
                           <th>Quantity</th>

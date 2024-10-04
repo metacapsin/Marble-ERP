@@ -20,9 +20,6 @@ export class AddSubCategoriesComponent {
 
   categoriesListData = [];
   categoriesList = [];
-  nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
-
-  descriptionRegex = /^.{3,500}$/s;
   constructor(
     private fb: FormBuilder,
     public dialog: MatDialog,
@@ -32,7 +29,7 @@ export class AddSubCategoriesComponent {
     this.addSubCategoryForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
       categoryId: ["", [Validators.required]],
-      description: ["", [Validators.pattern(this.descriptionRegex)]],
+      description: ["", [Validators.pattern(validationRegex.descriptionRegex)]],
     });
   }
 

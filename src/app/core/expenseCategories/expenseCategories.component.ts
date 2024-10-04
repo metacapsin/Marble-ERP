@@ -6,6 +6,7 @@ import { routes } from "src/app/shared/routes/routes";
 import { DialogModule } from "primeng/dialog";
 import { ExpensesCategoriesdataService } from "./expenseCategories.service";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
+import { validationRegex } from "../validation";
 
 @Component({
   selector: "app-expenseCategories",
@@ -42,12 +43,12 @@ export class ExpensesCategoriesComponent {
     private fb: FormBuilder
   ) {
     this.addExpensesCategoryForm = this.fb.group({
-      categoryName: ["", [Validators.required,Validators.pattern(this.nameRegex)]],
-      categoryDescription: ["", [Validators.pattern(this.descriptionRegex)]],
+      categoryName: ["", [Validators.required,Validators.pattern(validationRegex.nameREGEX)]],
+      categoryDescription: ["", [Validators.pattern(validationRegex.descriptionRegex)]],
     });
     this.editExpensesCategoryForm = this.fb.group({
-      categoryName: ["", [Validators.required, Validators.pattern(this.nameRegex)]],
-      categoryDescription: ["", [Validators.pattern(this.descriptionRegex)]],
+      categoryName: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
+      categoryDescription: ["", [Validators.pattern(validationRegex.descriptionRegex)]],
     });
   }
   getExpenses() {

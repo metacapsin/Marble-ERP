@@ -471,7 +471,7 @@
                               addQuotationForm.get('quotationDiscount')?.value >
                               0
                             ">
-                            ₹
+                            - ₹
                             {{
                             addQuotationForm.get("quotationDiscount").value
                             | number : "1.2-2"
@@ -510,14 +510,13 @@
                       <div class="invoice-total-footer">
                         <h4>
                           Total Amount
-                          <span *ngIf="
-                              addQuotationForm.get('quotationTotalAmount')
-                                ?.value != 0
-                            ">
-                            ₹
+                          <span>
                             {{
                             addQuotationForm.get("quotationTotalAmount").value
-                            | number : "1.2-2"
+                            ? "₹" +
+                            (addQuotationForm.get("quotationTotalAmount").value
+                            | number : "1.2-2")
+                            : 0
                             }}
                           </span>
                         </h4>
