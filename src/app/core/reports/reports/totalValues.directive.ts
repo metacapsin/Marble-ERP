@@ -33,8 +33,8 @@ export class TotalValueDirective {
         this.elementRef.nativeElement.textContent = `${setvalue}`;
       }
       this._data.forEach((element) => {
-        if (element.currentQty) {
-          this.totalValue += element.currentQty;
+        if (element?.currentQty) {
+          this.totalValue += element?.currentQty;
         }
         // const setValue = this.indianCurrencyPipe.transform(this.totalValue);
         this.elementRef.nativeElement.textContent = `${this.totalValue} Sq. Feet.`;
@@ -46,8 +46,8 @@ export class TotalValueDirective {
         this.elementRef.nativeElement.textContent = `₹ ${setvalue}`;
       }
       this._data.forEach((element) => {
-          if (element && element.totalSQFT) {
-            const fixedTotalSQFT = parseFloat(element.totalSQFT.toFixed(2));
+          if (element && element?.totalSQFT) {
+            const fixedTotalSQFT = parseFloat(element?.totalSQFT.toFixed(2));
             this.totalValue += fixedTotalSQFT;
         }
         const setValue = this.indianCurrencyPipe.transform(this.totalValue);
@@ -60,9 +60,9 @@ export class TotalValueDirective {
         this.elementRef.nativeElement.textContent = `₹ ${setvalue}`;
       }
       this._data.forEach((element) => {
-          if (element && element.lotTotalCosting) {
+          if (element && element?.lotTotalCosting) {
             // const fixedlotTotalCosting = parseFloat(element.lotTotalCosting.toFixed(2));
-            const fixedlotTotalCosting = Number(element.lotTotalCosting)
+            const fixedlotTotalCosting = Number(element?.lotTotalCosting)
             this.totalValue += fixedlotTotalCosting;
         }
         const setValue = this.indianCurrencyPipe.transform(this.totalValue);
@@ -76,8 +76,8 @@ export class TotalValueDirective {
       }
       console.log(this.data);
       this._data.forEach((element) => {
-        if (element.amount) {
-          this.totalValue += element.amount;
+        if (element?.amount) {
+          this.totalValue += element?.amount;
         }
         const setValue = this.indianCurrencyPipe.transform(this.totalValue);
         this.elementRef.nativeElement.textContent = `₹ ${setValue}`;
@@ -90,8 +90,8 @@ export class TotalValueDirective {
       }
       this.totalValue = 0;
       this._data.forEach((element) => {
-        if (element.amount) {
-          this.totalValue += element.amount;
+        if (element?.amount) {
+          this.totalValue += element?.amount;
         }
         const setValue = this.indianCurrencyPipe.transform(this.totalValue);
         this.elementRef.nativeElement.textContent = `₹ ${setValue}`;
@@ -104,8 +104,8 @@ export class TotalValueDirective {
       }
       this.totalValue = 0;
       this._data.forEach((element) => {
-        if (element.amount) {
-          this.totalValue += element.amount;
+        if (element?.amount) {
+          this.totalValue += element?.amount;
         }
         const setValue = this.indianCurrencyPipe.transform(this.totalValue);
         this.elementRef.nativeElement.textContent = `₹ ${setValue}`;
@@ -117,8 +117,8 @@ export class TotalValueDirective {
         this.elementRef.nativeElement.textContent = `₹ ${setvalue}`;
       }
       this._data.forEach((element) => {
-        if (element.salesOrderTax) {
-          this.totalValue += element.salesOrderTax;
+        if (element?.salesOrderTax) {
+          this.totalValue += element?.salesOrderTax;
         }
         const setValue = this.indianCurrencyPipe.transform(this.totalValue);
         this.elementRef.nativeElement.textContent = `₹ ${setValue}`;
@@ -142,14 +142,14 @@ export class TotalValueDirective {
         this.salesTotalAmount = 0;
 
         this._data.forEach((element) => {
-          if (element.paidAmount) {
-            this.paidAmount += element.paidAmount;
+          if (element?.paidAmount) {
+            this.paidAmount += element?.paidAmount;
           }
-          if (element.dueAmount) {
-            this.dueAmount += element.dueAmount;
+          if (element?.dueAmount) {
+            this.dueAmount += element?.dueAmount;
           }
-          if (element.salesTotalAmount) {
-            this.salesTotalAmount += element.salesTotalAmount;
+          if (element?.salesTotalAmount) {
+            this.salesTotalAmount += element?.salesTotalAmount;
           }
         });
 
@@ -188,18 +188,18 @@ export class TotalValueDirective {
         this.purchaseTotalAmount = 0
 
         this._data.forEach((element) => {
-          if (element.paidAmount) {
-            this.paidAmount += element.paidAmount;
+          if (element?.paidAmount) {
+              this.paidAmount += element?.paidAmount;
           }
-          if (element.dueAmount) {
-            this.dueAmount += element.dueAmount;
+          if (element?.dueAmount) {
+            this.dueAmount += element?.dueAmount;
           }
-          if (element.purchaseCost) {
+          if (element?.purchaseCost) {
             console.log(element.purchaseCost);
-            this.purchaseCost += element.purchaseCost;
+            this.purchaseCost += element?.purchaseCost;
           }
-          if (element.purchaseTotalAmount) {
-            this.purchaseTotalAmount += element.purchaseTotalAmount;
+          if (element?.purchaseTotalAmount) {
+            this.purchaseTotalAmount += element?.purchaseTotalAmount;
           }
         });
 
@@ -241,14 +241,14 @@ export class TotalValueDirective {
         this.salesTotalAmount = 0;
 
         this._data.forEach((element) => {
-          if (element.paidAmount) {
-            this.paidAmount += element.paidAmount;
+          if (element?.paidAmount) {
+            this.paidAmount += element?.paidAmount;
           }
-          if (element.dueAmount) {
-            this.dueAmount += element.dueAmount;
+          if (element?.dueAmount) {
+            this.dueAmount += element?.dueAmount;
           }
-          if (element.salesTotalAmount) {
-            this.salesTotalAmount += element.salesTotalAmount;
+          if (element?.salesTotalAmount) {
+            this.salesTotalAmount += element?.salesTotalAmount;
           }
         });
 
@@ -285,14 +285,14 @@ export class TotalValueDirective {
 
         this._data.forEach((element) => {
           console.log(element)
-          if (element.taxVendor.paidAmount) {
-            this.paidAmount += element.taxVendor.paidAmount;
+          if (element?.taxVendor?.paidAmount) {
+            this.paidAmount += element?.taxVendor?.paidAmount;
           }
-          if (element.taxVendor.dueAmount) {
-            this.dueAmount += element.taxVendor.dueAmount;
+          if (element?.taxVendor?.dueAmount) {
+            this.dueAmount += element?.taxVendor?.dueAmount;
           }
-          if (element.taxVendor.taxVendorAmount) {
-            this.taxVendorAmount += element.taxVendor.taxVendorAmount;
+          if (element?.taxVendor?.taxVendorAmount) {
+            this.taxVendorAmount += element?.taxVendor?.taxVendorAmount;
           }
         });
 
@@ -330,14 +330,14 @@ export class TotalValueDirective {
 
         this._data.forEach((element) => {
           console.log(element)
-          if (element.taxVendor.paidAmount) {
-            this.paidAmount += element.taxVendor.paidAmount;
+          if (element?.taxVendor?.paidAmount) {
+            this.paidAmount += element?.taxVendor?.paidAmount;
           }
-          if (element.taxVendor.dueAmount) {
-            this.dueAmount += element.taxVendor.dueAmount;
+          if (element?.taxVendor?.dueAmount) {
+            this.dueAmount += element?.taxVendor?.dueAmount;
           }
-          if (element.taxVendor.taxVendorAmount) {
-            this.taxVendorAmount += element.taxVendor.taxVendorAmount;
+          if (element?.taxVendor?.taxVendorAmount) {
+            this.taxVendorAmount += element?.taxVendor?.taxVendorAmount;
           }
         });
 
@@ -374,14 +374,14 @@ export class TotalValueDirective {
 
         this._data.forEach((element) => {
           console.log(element)
-          if (element.taxVendor.paidAmount) {
-            this.paidAmount += element.taxVendor.paidAmount;
+          if (element?.taxVendor?.paidAmount) {
+            this.paidAmount += element?.taxVendor?.paidAmount;
           }
-          if (element.taxVendor.dueAmount) {
-            this.dueAmount += element.taxVendor.dueAmount;
+          if (element?.taxVendor?.dueAmount) {
+            this.dueAmount += element?.taxVendor?.dueAmount;
           }
-          if (element.taxVendor.taxVendorAmount) {
-            this.taxVendorAmount += element.taxVendor.taxVendorAmount;
+          if (element?.taxVendor?.taxVendorAmount) {
+            this.taxVendorAmount += element?.taxVendor?.taxVendorAmount;
           }
         });
 
@@ -421,11 +421,11 @@ export class TotalValueDirective {
           if (element.taxVendor.paidAmount) {
             this.paidAmount += element.taxVendor.paidAmount;
           }
-          if (element.taxVendor.dueAmount) {
-            this.dueAmount += element.taxVendor.dueAmount;
+          if (element?.taxVendor?.dueAmount) {
+            this.dueAmount += element?.taxVendor?.dueAmount;
           }
-          if (element.taxVendor.taxVendorAmount) {
-            this.taxVendorAmount += element.taxVendor.taxVendorAmount;
+          if (element?.taxVendor?.taxVendorAmount) {
+            this.taxVendorAmount += element?.taxVendor?.taxVendorAmount;
           }
         });
 

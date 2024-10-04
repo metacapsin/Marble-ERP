@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, viewChild } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
@@ -282,8 +282,7 @@ export class AddNewPurchaseComponent implements OnInit {
         totalSQFT: this.addNewPurchaseForm.value.totalSQFT,
         noOfPieces: this.addNewPurchaseForm.value.noOfPieces,
         sellingPricePerSQFT: this.addNewPurchaseForm.value.sellingPricePerSQFT,
-        transportationCharges:
-          this.addNewPurchaseForm.value.transportationCharges,
+        transportationCharges: this.addNewPurchaseForm.value.transportationCharges,
         otherCharges: this.addNewPurchaseForm.value.otherCharges,
         totalCosting: this.addNewPurchaseForm.value.totalCosting,
         thickness: this.addNewPurchaseForm.value.thickness,

@@ -19,159 +19,53 @@ export class SettingsComponent {
   constructor(private router: Router, private elementRef: ElementRef) {
     this.routerChangeSubscription = this.router.events.subscribe((event) => {
       this.currentRoute = this.router.url;
-      // console.log(this.currentRoute)
+      console.log(this.currentRoute)
     });
   }
   ngOnInit() {
     this.routerChangeSubscription = this.router.events.subscribe(() => {
       this.currentRoute = this.router.url;
+      console.log(this.currentRoute)
       this.updateBreadcrumb();
     });
 
     // this.findPageName('Profile Information')
-    this.items = [
-      {
-        label: "File",
-        icon: "pi pi-fw pi-file",
-        items: [
-          {
-            label: "New",
-            icon: "pi pi-fw pi-plus",
-            items: [
-              {
-                label: "Bookmark",
-                icon: "pi pi-fw pi-bookmark",
-              },
-              {
-                label: "Video",
-                icon: "pi pi-fw pi-video",
-              },
-            ],
-          },
-          {
-            label: "Delete",
-            icon: "pi pi-fw pi-trash",
-          },
-          {
-            separator: true,
-          },
-          {
-            label: "Export",
-            icon: "pi pi-fw pi-external-link",
-          },
-        ],
-      },
-      {
-        label: "Edit",
-        icon: "pi pi-fw pi-pencil",
-        items: [
-          {
-            label: "Left",
-            icon: "pi pi-fw pi-align-left",
-          },
-          {
-            label: "Right",
-            icon: "pi pi-fw pi-align-right",
-          },
-          {
-            label: "Center",
-            icon: "pi pi-fw pi-align-center",
-          },
-          {
-            label: "Justify",
-            icon: "pi pi-fw pi-align-justify",
-          },
-        ],
-      },
-      {
-        label: "Users",
-        icon: "pi pi-fw pi-user",
-        items: [
-          {
-            label: "New",
-            icon: "pi pi-fw pi-user-plus",
-          },
-          {
-            label: "Delete",
-            icon: "pi pi-fw pi-user-minus",
-          },
-          {
-            label: "Search",
-            icon: "pi pi-fw pi-users",
-            items: [
-              {
-                label: "Filter",
-                icon: "pi pi-fw pi-filter",
-                items: [
-                  {
-                    label: "Print",
-                    icon: "pi pi-fw pi-print",
-                  },
-                ],
-              },
-              {
-                icon: "pi pi-fw pi-bars",
-                label: "List",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        label: "Events",
-        icon: "pi pi-fw pi-calendar",
-        items: [
-          {
-            label: "Edit",
-            icon: "pi pi-fw pi-pencil",
-            items: [
-              {
-                label: "Save",
-                icon: "pi pi-fw pi-calendar-plus",
-              },
-              {
-                label: "Delete",
-                icon: "pi pi-fw pi-calendar-minus",
-              },
-            ],
-          },
-          {
-            label: "Archieve",
-            icon: "pi pi-fw pi-calendar-times",
-            items: [
-              {
-                label: "Remove",
-                icon: "pi pi-fw pi-calendar-minus",
-              },
-            ],
-          },
-        ],
-      },
-    ];
+    this.isRouteActive('practice-information');
   }
 
   updateBreadcrumb() {
-    const path = this.router.url.split("/");
-    console.log("Current path:", path);
-
-    const routeMap = {
-      "users": "Users",
-      "warehouse": "Warehouse", 
-      "categories": "Categories",
-      "subCategories": "Sub Categories",
-      "billing-Address": "Billing Address",
-      "taxes": "Taxes"
-    };
-
-    this.text = routeMap[path[2]] || "Profile Information";
-
-    // For routes that might have sub-pages (like users and billing-address)
-    if ((path[2] === "users" || path[2] === "billing-Address") && path[3]) {
-      // You can add more specific text here if needed
-      console.log(`Subpage detected for ${path[2]}`);
+    const path = this.router.url.split("/"); // Get the last part of the URL
+    switch (path[2]) {
+      case "users":
+        if (path[3]) {
+          this.text = `Users`;
+        } else {
+          this.text = "Users";
+        }
+        break;
+      case "warehouse":
+        this.text = "Warehouse";
+        break;
+      case "categories":
+        this.text = "Categories";
+        break;
+      case "subCategories":
+        this.text = "Sub Categories";
+        break;
+      case "billing-Address":
+        if (path[3]) {
+          this.text = "Billing Address";
+        } else {
+          this.text = "Billing Address";
+        }
+        break;
+      case "taxes":
+        this.text = "Taxes";
+        break;
+      default:
+        this.text = "Profile Information"; // Default case
+        break;
     }
-
-    console.log("Updated breadcrumb text:", this.text);
   }
 
   changeCalendarSettingCategory(type: string) {}
@@ -183,8 +77,10 @@ export class SettingsComponent {
   }
 
   isRouteActive(text) {
+    console.log(this.currentRoute);
     if (!this.currentRoute) return "";
     let str = this.currentRoute?.includes(text);
+    console.log(str);
     if (str) {
       return "active";
     } else {

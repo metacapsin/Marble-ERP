@@ -49,14 +49,20 @@ export class PaymentOutReportComponent {
 
     this.service.getPaymentOutReports(data).subscribe((resp: any) => {
       this.paymentOutData = resp.payments;
-      this.originalData = resp.payments;
-      console.log("this is payment out data", resp.payments);
-
+      if (resp.payments && Array.isArray(resp.payments)) {
+        this.originalData = resp.payments.map((payment: any) => {
+          if (payment) {
+            payment.receiver = payment?.customer?.name || payment?.supplier?.name;
+          }
+          return payment;
+        });
+        console.log(this.originalData);
+      }
       this.cols = [
         { field: "paymentDate", header: "Payment Date" },
         { field: "amount", header: "Amount" },
         { field: "paymentMode", header: "Payment Mode" },
-        { field: "customer.name", header: "Receiver" },
+        { field: "receiver", header: "Receiver" },
         { field: "transactionNo", header: "Transaction No" },
         { field: "source", header: "Payment Source" },
       ];
@@ -66,19 +72,7 @@ export class PaymentOutReportComponent {
         dataKey: col.field,
       }));
     });
-    // this.exportColumns = this.paymentOutData.map((element) => ({ title: element.header, dataKey: element.field }));
   }
-
-  // getTotalAmount(): number {
-  //   return this.paymentOutData.reduce(
-  //     (total, payment) =>
-  //       total +
-  //       payment.amount +
-  //       payment.otherCharges +
-  //       payment.transportationCharges,
-  //     0
-  //   );
-  // }
   onFilter(value: any) {
     this.paymentOutData = value.filteredValue;
   }
@@ -148,7 +142,7 @@ export class PaymentOutReportComponent {
         endDate = null;
         break;
     }
-        // Clear the date range selection when a filter is applied
+    // Clear the date range selection when a filter is applied
 
     this.rangeDates = [];
     this.getPaymentOutReportData(startDate, endDate);
