@@ -256,7 +256,7 @@ export class ViewCustomersComponent implements OnInit {
       this.showInvoiceDialog = true;
       this.salesDataShowById = [resp?.data];
       this.header = "Sales Return Invoice";
-      console.log("this is sales data by id",this.salesDataShowById[0].creditPeriod)
+      console.log("this is sales data by id",this.salesDataShowById)
     });
 
     this.salesReturnService

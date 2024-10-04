@@ -67,7 +67,7 @@ export class AddQuotationsComponent implements OnInit {
       customer: ["",[Validators.required]],
       billingAddress: [""],
       quotationDate: ["", [Validators.required]],
-      quotationDiscount: ["", [Validators.min(1), Validators.max(100000)]],
+      quotationDiscount: ["", [Validators.min(0), Validators.max(100000)]],
       quotationInvoiceNumber: [""],
       quotationItemDetails: this.fb.array([
         this.fb.group({

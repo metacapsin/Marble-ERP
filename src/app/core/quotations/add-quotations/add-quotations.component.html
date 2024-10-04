@@ -369,7 +369,7 @@
                                 addQuotationForm.get('quotationDiscount')
                                   ?.touched)
                               ">
-                              <span class="login-danger">Input must be between 1 to 10000.</span>
+                              <span class="login-danger">Input must be between 0 to 10000.</span>
                             </div>
                             <div *ngIf="
                                 addQuotationForm
@@ -378,7 +378,11 @@
                                 addQuotationForm.get('quotationDiscount')
                                   ?.touched
                             ">
-                              <span class="login-danger">Discount cannot be greater than gross total.</span>
+                              <span class="login-danger">Discount cannot be more than ₹
+                                {{
+                                addQuotationForm.get("quotationGrossTotal").value
+                                | number : "1.2-2"
+                                }}</span>
                             </div>
                           </div>
                         </div>
