@@ -372,18 +372,24 @@
                               <span class="login-danger">Input must be between 0 to 10000.</span>
                             </div>
                             <div *ngIf="
-                                addQuotationForm
-                                  .get('quotationDiscount')
-                                  ?.hasError('invalid') &&
-                                addQuotationForm.get('quotationDiscount')
-                                  ?.touched
-                            ">
-                              <span class="login-danger">Discount cannot be more than ₹
-                                {{
-                                addQuotationForm.get("quotationGrossTotal").value
-                                | number : "1.2-2"
-                                }}</span>
-                            </div>
+                            addQuotationForm.get('quotationDiscount')?.hasError('invalid') &&
+                            addQuotationForm.get('quotationDiscount')?.touched
+                          ">
+                          <span class="login-danger">Discount cannot be more than ₹
+                            {{
+                            addQuotationForm.get("quotationGrossTotal").value
+                            | number : "1.2-2"
+                            }}</span>
+                        </div>
+                        <div *ngIf="
+                            addQuotationForm.get('quotationDiscount')?.hasError('equalToGrossTotal') &&
+                            addQuotationForm.get('quotationDiscount')?.touched
+                          ">
+                          <span class="login-danger">Discount cannot be equal to ₹ {{
+                            addQuotationForm.get("quotationGrossTotal").value
+                            | number : "1.2-2"
+                            }}</span>
+                        </div>
                           </div>
                         </div>
                         <div class="col-12 ml-3">

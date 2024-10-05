@@ -89,10 +89,10 @@ export class AddQuotationsComponent implements OnInit {
       // quotationStatus: ["", [Validators.required]],
       quotationTax: [""],
       appliedTax: [""],
-      quotationShipping: ["", [Validators.min(1), Validators.max(100000)]],
+      quotationShipping: ["", [Validators.min(0), Validators.max(100000)]],
       quotationTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       quotationTotalAmount: [""],
-      otherCharges: ["", [Validators.min(1), Validators.max(100000)]],
+      otherCharges: ["", [Validators.min(0), Validators.max(100000)]],
     });
   }
 
@@ -354,8 +354,13 @@ export class AddQuotationsComponent implements OnInit {
     totalAmount -= discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
-    if(discount > quotationGrossTotal){
-        this.addQuotationForm.get("quotationDiscount").setErrors({ 'invalid': true });
+    if (discount >= quotationGrossTotal) {
+      this.addQuotationForm.get("quotationDiscount").setErrors({ 'invalid': true });
+      if (discount === quotationGrossTotal) {
+        this.addQuotationForm.get("quotationDiscount").setErrors({ 'equalToGrossTotal': true });
+      }
+    } else {
+      this.addQuotationForm.get("quotationDiscount").setErrors(null);
     }
     this.addQuotationForm
       .get("quotationTotalAmount")
