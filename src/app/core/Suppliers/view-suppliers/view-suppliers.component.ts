@@ -376,9 +376,12 @@ export class ViewSuppliersComponent {
 
   openPaymentDialog(Id: any) {
     if (Id) {
-      this.showPaymentDialog = true;
       this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
         this.header = "Purchase Payment ";
+      this.showPaymentDialog = true;
+
+        this.paymentInvoicePurchaseDataShowById = [resp.data];
+        console.log("purchase data show success message" , this.paymentInvoicePurchaseDataShowById)
         this.paymentObject = {
           supplier: resp.data.supplier,
           purchaseId: Id,
@@ -391,15 +394,6 @@ export class ViewSuppliersComponent {
           taxable: resp.data.taxable,
           nonTaxable: resp.data.nonTaxable,
         };
-        this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
-          this.showPaymentDialog = true;
-          this.paymentInvoicePurchaseDataShowById = [resp.data];
-          console.log(resp.data);
-          console.log(
-            "Purchase data by id On Paymnent dialog",
-            this.purchaseDataShowById
-          );
-        });
       });
       
     }
@@ -409,33 +403,18 @@ export class ViewSuppliersComponent {
       this.purchaseReturnService
         .getPurchaseReturnById(Id)
         .subscribe((resp: any) => {
+          this.showPaymentDialog = true; 
+          this.paymentInvoicePurchaseDataShowById = [resp.data];
           this.header = "Purchase Return Payment ";
-          // this.showPaymentDialog = true;
-
           this.paymentObject = {
             supplier: resp.data.supplier,
             purchaseReturnId: Id,
             isPurchaseReturn: true,
-            // purchaseReturnDataShowById: resp.data
             purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
             purchaseReturnTotalAmount: resp.data.purchaseReturnTotalAmount,
             purchaseDueAmount: resp.data.dueAmount,
             purchasePaidAmount: resp.data.paidAmount,
           };
-          this.purchaseReturnService
-        .getPurchaseReturnById(Id)
-        .subscribe((resp: any) => {
-          this.showPaymentDialog = true;
-
-          // this.showInvoiceDialog = true;
-          this.paymentInvoicePurchaseDataShowById = [resp.data];
-          // this.header = "Purchase Return Invoice ";
-          console.log(resp.data);
-          console.log(
-            "Purchase Return data by id On dialog",
-            this.paymentInvoicePurchaseDataShowById
-          );
-        });
           console.log(
             "this is open Payment Return Dialog",
             this.paymentObject.purchaseReturnId

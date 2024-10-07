@@ -145,7 +145,7 @@
                       ></p-columnFilter>
                     </th>
                     <th pSortableColumn="netSalary">
-                      Net Salary <p-sortIcon field="netSalary"></p-sortIcon>
+                      Gross Pay <p-sortIcon field="netSalary"></p-sortIcon>
                       <p-columnFilter
                         matchMode="contains"
                         hideOnClear="true"
@@ -183,7 +183,7 @@
                     <td class="bold">
                       {{ payment.month + "/" + payment.year }}
                     </td>
-                    <td class="bold">{{ payment.totalLeaves }}</td>
+                    <td class="bold">{{ payment.totalLeaves }} Days</td>
                     <td>₹ {{ payment.netSalary }}</td>
                     <td>₹ {{ payment.totalSalary }}</td>
                     <td>{{ payment.paymentDate | date : "dd/MMM/yyyy" }}</td>
