@@ -696,10 +696,11 @@
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
                                   ₹
-                                  {{
-                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value| indianCurrency
-                                  }}
+                                  {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | indianCurrency }}
                                 </p>
+                                 <span style="font-size: 12px;" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">Non-Taxable Amount {{ '₹ ' + addNewPurchaseForm.get('nonTaxable')?.value }}</span>
+                                 <br />
+                                 <span style="font-size: 12px;" *ngIf="addNewPurchaseForm.get('taxable')?.value">Taxable Amount {{ '₹ ' + addNewPurchaseForm.get('taxable')?.value }}</span>
                               </div>
                             </div>
                           </div>
@@ -869,7 +870,7 @@
                               </div>
 
                               <div class="row practice-card">
-                                <div class="col-xl-6 col-lg-6 col-sm-6">
+                                <div class="col-xl-6 col-lg-6 col-sm-6 d-none">
                                   <div class="form-group row mb-2">
                                     <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
                                       Average Size / Ton

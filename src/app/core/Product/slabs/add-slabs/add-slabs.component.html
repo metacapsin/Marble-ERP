@@ -590,8 +590,8 @@
                             </span>
                           </p>
                           <p *ngIf="BlockWeight">
-                            Block Weight ( Ton )<span>
-                              {{ BlockWeight | number: '1.2-2' }}</span>
+                            Block Weight ( Ton )
+                            <span>{{ BlockWeight }}</span>
                           </p>
                           <p *ngIf="slabsAddForm.get('processingCost')?.value">
                             Processing Cost<span>

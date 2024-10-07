@@ -27,7 +27,7 @@ export class ListSlabsComponent {
   public slabVisible: boolean = false;
   slabDetail: any = {};
   modalData: any = {};
-  activeTabIndex: number = 0;
+  activeTabIndex: number = 0; 
   slabsID: any;
   searchDataValue = "";
   selectedSlabs = [];
@@ -133,10 +133,12 @@ export class ListSlabsComponent {
       messege: "Are you sure want to delete this Slabs",
     };
     this.showDialog = true;
+    this.activeTabIndex = 0; // Reset the active tab to the first tab
   }
 
   showNewDialog() {
     this.showDialog = true;
+    this.activeTabIndex = 0; // Reset the active tab to the first tab
   }
 
   onSearchByChange(value: any): void {
