@@ -67,6 +67,7 @@ export class AddSlabsComponent {
   BlockWeight: number = 0;
   currentUrl: string;
   subCategoryList: any;
+  originalPurchaseCost: any;
 
   constructor(
     private fb: FormBuilder,
@@ -118,14 +119,17 @@ export class AddSlabsComponent {
       totalCosting: [""],
       costPerSQFT: [""],
       date: ["", [Validators.required]],
-      purchaseCost: ["", [Validators.required,Validators.min(0), Validators.max(10000000)]],
+      purchaseCost: [
+        "",
+        [Validators.required, Validators.min(0), Validators.max(10000000)],
+      ],
       thickness: ["", [Validators.min(1), Validators.max(100000)]],
       width: ["", [Validators.min(1), Validators.max(100000)]],
       length: ["", [Validators.min(1), Validators.max(100000)]],
       finishes: ["", [Validators.required]],
       noOfPieces: ["", [Validators.min(1), Validators.max(100000)]],
       height: ["", [Validators.min(1), Validators.max(500)]],
-      sqftPerPiece:['']
+      sqftPerPiece: [""],
     });
   }
   get f() {
@@ -135,7 +139,6 @@ export class AddSlabsComponent {
     this.currentUrl = this.router.url;
     console.log(this.currentUrl);
     console.log("this is current url on slab page", this.currentUrl);
-
 
     this.ServiceblockProcessor.getAllBlockProcessorData().subscribe(
       (data: any) => {
@@ -245,6 +248,8 @@ export class AddSlabsComponent {
     this.blockDropDowntotleCost = block.totalCosting;
     this.blockDropDownPerBlockWeight = block.weightPerBlock;
     if (block.totalCosting) {
+         // Store the original value for calculations
+    this.originalPurchaseCost = block.totalCosting;
       this.slabsAddForm.patchValue({
         purchaseCost: block.totalCosting.toFixed(2) || null,
       });
@@ -254,10 +259,9 @@ export class AddSlabsComponent {
       console.log(block.blockProcessor);
       this.slabsAddForm.patchValue({
         blockProcessor: block.blockProcessor,
-        width:block.width,
-        height:block.height,
-        length:block.length,
-
+        width: block.width,
+        height: block.height,
+        length: block.length,
       });
 
       this.calculateTotalAmount();
@@ -267,6 +271,11 @@ export class AddSlabsComponent {
   }
 
   calculateTotalAmount() {
+     // Get the displayed (rounded) purchase cost from the form control
+  let purchaseCostDisplayed = parseFloat(this.slabsAddForm.get("purchaseCost").value);
+
+  // Use the original, unrounded purchase cost for calculations
+  let purchaseCostOrg = this.originalPurchaseCost || purchaseCostDisplayed;
     // Gatting data with input
     let processingFee = +this.slabsAddForm.get("processingFee").value;
     let otherCharges: number = +this.slabsAddForm.get("otherCharges").value;
@@ -274,25 +283,23 @@ export class AddSlabsComponent {
     let transportationCharges: number = +this.slabsAddForm.get(
       "transportationCharges"
     ).value;
-    var purchaseCostOrg = parseFloat(
-      this.slabsAddForm.get("purchaseCost").value
-    );
+    
     console.log(purchaseCostOrg);
     console.log(totalSQFT);
     console.log(this.blockDropDownPerBlockWeight, this.blockDropDowntotleCost);
     this.BlockWeight = this.blockDropDownPerBlockWeight;
     console.log(this.BlockWeight);
     // calculate for creating slabs
-    var processingCost = processingFee * this.BlockWeight;
-    var totalCosting =
+    let processingCost = processingFee * this.BlockWeight;
+    let totalCosting =
       +purchaseCostOrg + processingCost + otherCharges + transportationCharges;
-    var totalAmount: number = totalSQFT == 0 ? 0 : totalCosting / totalSQFT;
+    let totalAmount: number = totalSQFT == 0 ? 0 : totalCosting / totalSQFT;
     let noOfPieces = this.slabsAddForm.get("noOfPieces").value || 0;
 
     let sqftPerPiece = totalSQFT / noOfPieces;
 
     console.log("processingCost", processingCost);
-    console.log("totalCosting", totalCosting);
+    console.log("totalCosting", purchaseCostOrg);
     console.log("totalAmount", totalAmount);
     this.slabsAddForm.patchValue({
       processingCost: processingCost,
@@ -342,7 +349,7 @@ export class AddSlabsComponent {
         slabName: this.slabsAddForm.value.slabName,
         processingFee: Number(this.slabsAddForm.value.processingFee),
         totalSQFT: this.slabsAddForm.value.totalSQFT,
-        purchaseCost: Number(this.slabsAddForm.value.purchaseCost),
+        purchaseCost: Number(this.originalPurchaseCost),
         processingCost: Number(this.slabsAddForm.value.processingCost),
         otherCharges: Number(this.slabsAddForm.value.otherCharges),
         transportationCharges: Number(
@@ -353,7 +360,7 @@ export class AddSlabsComponent {
         sellingPricePerSQFT: Number(
           this.slabsAddForm.value.sellingPricePerSQFT
         ),
-        
+
         notes: this.slabsAddForm.value.notes,
         blockProcessor: this.slabsAddForm.value.blockProcessor,
         warehouseDetails: this.slabsAddForm.value.warehouseDetails,
@@ -363,7 +370,7 @@ export class AddSlabsComponent {
         thickness: this.slabsAddForm.value.thickness,
         finishes: this.slabsAddForm.value.finishes,
         slabSize: _Size,
-        sqftPerPiece:this.slabsAddForm.value.sqftPerPiece
+        sqftPerPiece: this.slabsAddForm.value.sqftPerPiece,
       };
       if (this.slabsAddForm.valid) {
         // Api call for creating slab
