@@ -1342,23 +1342,11 @@
                                 </span>
                               </p>
                               <p *ngIf="ItemDetails?.transportationCharge === undefined">
-                                Transport Charges<span> </span>
+                                Transport Charges / Ton<span> </span>
                               </p>
                               <p *ngIf="ItemDetails?.transportationCharge">
-                                Transport Charges<span>
+                                Transport Charges / Ton<span>
                                   ₹ {{ ItemDetails?.transportationCharge |indianCurrency }}
-
-                                </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.royaltyCharge">
-                                Royalty Charges ( Other Charges )<span>
-                                  ₹
-                                  {{
-                                  ItemDetails?.royaltyCharge |indianCurrency}}
-                                </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.royaltyCharge === undefined">
-                                Royalty Charges ( Other Charges )<span>
 
                                 </span>
                               </p>
@@ -1369,10 +1357,6 @@
                                   addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |indianCurrency
                                   }}
                                 </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.purchaseDiscount > 0">
-                                Purchase Discount ( added )
-                                <span>₹ {{ ItemDetails?.purchaseDiscount |indianCurrency}} </span>
                               </p>
                             </div>
                             <!-- ---------------slab--------------------------- -->
@@ -1420,7 +1404,29 @@
                               </p>
                             </div>
 
-                            <div class="invoice-total-footer">
+                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Lot'">
+                              <p *ngIf="ItemDetails?.transportationCharge === undefined">
+                                Transport Charges / Ton<span> </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.totalTransportationCharges">
+                                Transport Charges<span>
+                                  ₹ {{ ItemDetails?.totalTransportationCharges |indianCurrency }}
+                                </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.royaltyCharge">
+                                Royalty Charges ( Other Charges )<span>
+                                  ₹
+                                  {{
+                                  ItemDetails?.royaltyCharge |indianCurrency}}
+                                </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.royaltyCharge === undefined">
+                                Royalty Charges ( Other Charges )<span> </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.purchaseDiscount > 0">
+                                Purchase Discount ( added )
+                                <span>₹ {{ ItemDetails?.purchaseDiscount |indianCurrency}} </span>
+                              </p>
                               <p class="mt-2" *ngIf="addNewPurchaseForm.get('taxable')?.value">
                                 Tax Applied Amount
                                 <span>
@@ -1451,6 +1457,28 @@
                                   }}
                                 </span>
                               </h4>
+                            </div>
+                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Slab'">
+                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('taxable')?.value">
+                                Tax Applied Amount
+                                <span>
+                                  ₹
+                                  {{
+                                  addNewPurchaseForm.get('taxable')?.value
+                                  | number : "1.2-2"
+                                  }}
+                                </span>
+                              </p>
+                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">
+                                Non-Taxable Amount
+                                <span>
+                                  ₹
+                                  {{
+                                  addNewPurchaseForm.get('nonTaxable')?.value
+                                  | number : "1.2-2"
+                                  }}
+                                </span>
+                              </p>
                               <h4 *ngIf="lotTypeValue === 'Slab'">
                                 Total Purchase Cost
                                 <span>

@@ -100,7 +100,7 @@ export class AddLotComponent {
       averageRoyalty: [""],
       categoryDetail: ["", [Validators.required]],
       subCategoryDetail: ["", [Validators.required]],
-
+      totalTransportationCharges: [""],
     }, { validators: atLeastOneRequiredValidator() });
   }
   ngOnInit(): void {
@@ -388,8 +388,8 @@ export class AddLotComponent {
       taxApplied: Number(taxApplied).toFixed(2),
       taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
     });
-
-    const averageTransportation = transportationCharge / lotWeight;
+    const totalTransportationCharge = transportationCharge * lotWeight;
+    const averageTransportation = totalTransportationCharge / lotWeight;
     const averageRoyalty = royaltyCharge / lotWeight;
     const averageBlocksWeight = this.totalBlocksArea / lotWeight;
     const blockPricePerTon = lotRowCost / lotWeight;
@@ -406,6 +406,7 @@ export class AddLotComponent {
       averageTransport: averageTransportation,
       averageRoyalty: averageRoyalty,
       averageWeight: averageBlocksWeight,
+      totalTransportationCharges: totalTransportationCharge,
     });
 
     this.setValidations();
@@ -453,6 +454,7 @@ export class AddLotComponent {
         taxApplied: Number(formData.taxApplied),
         categoryDetail: formData.categoryDetail,
         subCategoryDetail: formData.subCategoryDetail,
+        totalTransportationCharges: Number(formData.totalTransportationCharges),
       };
       this.NewPurchaseService.setFormData("stepFirstLotData", payload);
     }

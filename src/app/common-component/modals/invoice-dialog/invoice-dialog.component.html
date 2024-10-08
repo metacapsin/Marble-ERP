@@ -605,8 +605,12 @@
                           <span>{{ sales?.lotDetails?.lotWeight | indianCurrency }}</span>
                         </p>
                         <p *ngIf="sales?.lotDetails?.transportationCharge">
+                          Transport Charge / Ton
+                          <span> ₹ {{ sales?.lotDetails?.transportationCharge | indianCurrency }}</span>
+                        </p>
+                        <p *ngIf="sales?.lotDetails?.totalTransportationCharges">
                           Transport Charges
-                          <span> + ₹ {{ sales?.lotDetails?.transportationCharge | indianCurrency }}</span>
+                          <span> + ₹ {{ sales?.lotDetails?.totalTransportationCharges | indianCurrency }}</span>
                         </p>
                         <p *ngIf="sales?.lotDetails?.royaltyCharge">
                           Royalty (Other Charges)
