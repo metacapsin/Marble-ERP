@@ -5,11 +5,11 @@
       <h4>{{ header }}</h4>
       <div class="d-flex">
         <button *ngIf="sales?.salesDate" type="button" class="btn icon-button" aria-label="Download"
-          (click)="downloadSalesFile(sales._id)">
+          (click)="downloadSalesFile(sales._id, sales.salesInvoiceNumber)">
           <i class="fa-solid fa-download"></i>
         </button>
         <button *ngIf="sales.quotationInvoiceNumber" type="button" class="btn icon-button" aria-label="Download"
-          (click)="downloadQuotationFile(sales._id)">
+          (click)="downloadQuotationFile(sales._id, sales.quotationInvoiceNumber)">
           <i class="fa-solid fa-download"></i>
         </button>
         <button type="button" class="btn icon-button" aria-label="Close" (click)="closeTheWindow()">
@@ -37,23 +37,23 @@
                             ">Seller Address </span><br />
                           <span>
                             <div *ngIf="sales?.billingAddress" style="line-height: 100%">
-                              <h5>
+                              <h5 *ngIf="sales?.billingAddress.companyName">
                                 {{ sales?.billingAddress.companyName + ' ,' }}
                               </h5>
-                              <h5 title="address Line 1">
+                              <h5 title="address Line 1" *ngIf="sales?.billingAddress.addressLine1">
                                 {{ sales?.billingAddress.addressLine1 + ' ,' }}
                               </h5>
-                              <h5 title="address Line 2">
+                              <h5 title="address Line 2" *ngIf="sales?.billingAddress.addressLine1">
                                 {{ sales?.billingAddress.addressLine2 + ' ,' }}
                               </h5>
                               <h5>
-                                <span title="City">{{ sales?.billingAddress.city }}</span>, <span title="State">{{
+                                <span title="City" *ngIf="sales?.billingAddress.city">{{ sales?.billingAddress.city }}</span>, <span title="State" *ngIf="sales?.billingAddress.state">{{
                                   sales?.billingAddress.state }}</span>,
-                                <span title="Postal Code">{{
+                                <span title="Postal Code"  *ngIf="sales?.billingAddress.postalCode">{{
                                   sales?.billingAddress.postalCode + ' ,'
                                   }}</span>
                               </h5>
-                              <h5 title="Country">{{ sales?.billingAddress.country.name }}</h5>
+                              <h5 title="Country" *ngIf="sales?.billingAddress.country.name">{{ sales?.billingAddress.country.name }}</h5>
                             </div>
                           </span>
                           <span *ngIf="sales.supplier?.billingAddress"
@@ -97,17 +97,17 @@
                     <div class="page-table-header mb-2 m-3">
                       <div class="row practice-card">
                         <div class="col-xl-6 col-lg-6 col-sm-12">
-                          <div *ngIf="sales.salesInvoiceNumber" class="form-group row mb-2">
+                          <div *ngIf="sales.salesInvoiceNumber || header == 'Purchase Invoice' || header == 'Quotation Invoice' || header == 'Quotation Invoice' " class="form-group row mb-2">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Invoice Number :
                             </h5>
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-lg-8 col-form-label">
-                                {{ sales.salesInvoiceNumber }}
+                                {{ sales.salesInvoiceNumber || sales.purchaseInvoiceNumber|| sales.quotationInvoiceNumber }}
                               </p>
                             </div>
                           </div>
-                          <div *ngIf="header == 'Purchase Invoice'" class="form-group row mb-2">
+                          <!-- <div *ngIf="header == 'Purchase Invoice'" class="form-group row mb-2">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Invoice Number :
                             </h5>
@@ -126,7 +126,7 @@
                                 {{ sales.quotationInvoiceNumber }}
                               </p>
                             </div>
-                          </div>
+                          </div> -->
                           <div *ngIf="header == 'Purchase Return Invoice'" class="form-group row mb-2">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Invoice Number :
@@ -147,7 +147,7 @@
                             </h5>
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-lg-8 col-form-label">
-                                {{ sales.customer.name }}
+                                {{ sales?.customer?.name }}
                               </p>
                             </div>
                           </div>
@@ -161,27 +161,26 @@
                               </p>
                             </div>
                           </div>
-                          <div class="form-group row mb-2" *ngIf="sales.salesDate">
+                          <div class="form-group row mb-2" *ngIf="sales?.salesDate">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Sales Date:
                             </h5>
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-lg-8 col-form-label">
-                                {{ sales.salesDate | date : "dd-MMM-yyyy" }}
+                                {{ sales?.salesDate | date : "dd-MMM-yyyy"  }}
                               </p>
                             </div>
                           </div>
                           <div class="form-group row mb-2" *ngIf="sales.purchaseDate">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                              Purchase Date:
+                              Purchase Date / Type:
                             </h5>
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-lg-8 col-form-label">
-                                {{ sales.purchaseDate | date : "dd-MMM-yyyy" }}
+                                {{ sales.purchaseDate | date : "dd-MMM-yyyy" }} / {{ sales.purchaseType.toUpperCase() }}
                               </p>
                             </div>
                           </div>
-                          <!-- Conditionally display returnDate if it exists -->
                           <div *ngIf="sales.returnDate" class="form-group row mb-2">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Return Date:
@@ -189,81 +188,6 @@
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-form-label">
                                 {{ sales.returnDate | date : "dd-MMM-yyyy" }}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div class="form-group row mb-2" *ngIf="sales.purchaseType ">
-                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                              Purchase Type:
-                            </h5>
-                            <div class="col-lg-8 col-md-8 col-xl-8">
-                              <p class="col-lg-8 col-form-label">
-                                {{ sales.purchaseType.toUpperCase() }}
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-group row mb-2" *ngIf="sales.creditPeriod ">
-                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                              Credit Period:
-                            </h5>
-                            <div class="col-lg-8 col-md-8 col-xl-8">
-                              <p class="col-lg-8 col-form-label">
-                                {{ sales.creditPeriod }} Days
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-group row mb-2" *ngIf="sales.taxable">
-                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                              Taxable Amount:
-                            </h5>
-                            <div class="col-lg-8 col-md-8 col-xl-8">
-                              <p class="col-lg-8 col-form-label">
-                                {{ sales.taxable ? ('₹' + ' ' + (sales.taxable | indianCurrency) ) : '0' }}
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-group row mb-2"
-                            *ngIf="sales.salesReturnTermsAndCondition || sales.returnDate ">
-                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                              Return Type:
-                            </h5>
-                            <div class="col-lg-8 col-md-8 col-xl-8">
-                              <p class="col-lg-8 col-form-label">
-                                SLAB
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
-                          <div class="form-group row mb-2" *ngIf="sales.createdByName">
-                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                              Order Taken By:
-                            </h5>
-                            <div class="col-lg-8 col-md-8 col-xl-8">
-                              <p class="col-form-label">
-                                {{ sales.createdByName.toUpperCase() }}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div class="form-group row mb-2" *ngIf="sales.paymentStatus">
-                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                              Payment Status:
-                            </h5>
-                            <div class="col-lg-8 col-md-8 col-xl-8">
-                              <p class="col-form-label">
-                                {{ sales.paymentStatus }}
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-group row mb-2" *ngIf="sales.dueAmount && !sales.quotationInvoiceNumber ">
-                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                              Due Amount:
-                            </h5>
-                            <div class="col-lg-8 col-md-8 col-xl-8">
-                              <p class="col-lg-8 col-form-label">
-                                ₹ {{ sales.dueAmount | indianCurrency}}
                               </p>
                             </div>
                           </div>
@@ -277,6 +201,82 @@
                               </p>
                             </div>
                           </div>
+
+                          <!-- <div class="form-group row mb-2" *ngIf="sales.purchaseType ">
+                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                              Purchase Type:
+                            </h5>
+                            <div class="col-lg-8 col-md-8 col-xl-8">
+                              <p class="col-lg-8 col-form-label">
+                                {{ sales.purchaseType.toUpperCase() }}
+                              </p>
+                            </div>
+                          </div> -->
+                          <!-- <div class="form-group row mb-2" *ngIf="sales.creditPeriod ">
+                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                              Credit Period:
+                            </h5>
+                            <div class="col-lg-8 col-md-8 col-xl-8">
+                              <p class="col-lg-8 col-form-label">
+                                {{ sales.creditPeriod }} Days
+                              </p>
+                            </div>
+                          </div> -->
+                          <div class="form-group row mb-2" *ngIf="sales.salesDate">
+                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                              Taxable Amount:
+                            </h5>
+                            <div class="col-lg-8 col-md-8 col-xl-8">
+                              <p class="col-lg-8 col-form-label">
+                                ₹ {{ sales.taxable ? ( sales.taxable | indianCurrency)  : '0' }}
+                              </p>
+                            </div>
+                          </div>
+                          <!-- <div class="form-group row mb-2"
+                            *ngIf="sales.salesReturnTermsAndCondition || sales.returnDate ">
+                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                              Return Type:
+                            </h5>
+                            <div class="col-lg-8 col-md-8 col-xl-8">
+                              <p class="col-lg-8 col-form-label">
+                                SLAB
+                              </p>
+                            </div>
+                          </div> -->
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                          <div class="form-group row mb-2" *ngIf="sales.createdByName">
+                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                              Order Taken By:
+                            </h5>
+                            <div class="col-lg-8 col-md-8 col-xl-8">
+                              <p class="col-form-label">
+                                {{ sales.createdByName.toUpperCase() }}
+                              </p>
+                            </div>
+                          </div>
+
+                          <!-- <div class="form-group row mb-2" *ngIf="sales.paymentStatus">
+                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                              Payment Status:
+                            </h5>
+                            <div class="col-lg-8 col-md-8 col-xl-8">
+                              <p class="col-form-label">
+                                {{ sales.paymentStatus }}
+                              </p>
+                            </div>
+                          </div> -->
+                          <div class="form-group row mb-2" >
+                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                              Due Amount:
+                            </h5>
+                            <div class="col-lg-8 col-md-8 col-xl-8">
+                              <p class="col-lg-8 col-form-label">
+                                ₹ {{ sales?.dueAmount ? (sales?.dueAmount | indianCurrency) : '0'}}
+                              </p>
+                            </div>
+                          </div>
+                          
                           <ng-template #zeroPayment>
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
@@ -291,7 +291,7 @@
                           </ng-template>
 
                           <div class="form-group row mb-2"
-                            *ngIf="sales.paidAmount || !sales.quotationInvoiceNumber zeroPayment">
+                            *ngIf="sales.paidAmount || sales.quotationInvoiceNumber zeroPayment">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Paid Amount:
                             </h5>
@@ -301,7 +301,7 @@
                               </p>
                             </div>
                           </div>
-                          <div class="form-group row mb-2" >
+                          <div class="form-group row mb-2" *ngIf="sales.salesDate">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Non Taxable Amount:
                             </h5>

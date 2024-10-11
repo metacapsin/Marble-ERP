@@ -116,7 +116,7 @@ export class AddNewPurchaseComponent implements OnInit {
       costPerSQFT: [""],
       sqftPerPiece: [""],
       noOfPieces: ["", [Validators.required,Validators.min(1), Validators.max(100000)]],
-      purchaseDiscount: ["", [Validators.min(0), Validators.max(100000)]],
+      purchaseDiscount: ["", [Validators.min(0)]],
       taxableAmount: ["", [Validators.min(0), Validators.max(9999999)]],
       purchaseItemTax: [""],
       nonTaxable: ["", [Validators.min(0), Validators.max(9999999)]],

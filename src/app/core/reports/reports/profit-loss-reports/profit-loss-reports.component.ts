@@ -39,8 +39,9 @@ export class ProfitLossReportsComponent{
 
   downloadProfitLoss(){
     console.log(this.rangeDates);
-    const formattedStartDate = this.formatDate(this.rangeDates[0]);
-    const formattedEndDate = this.formatDate(this.rangeDates[1]);
+     // Format the start and end dates as DD-MM-YYYY
+  const formattedStartDate = this.formatDateToDDMMYYYY(this.rangeDates[0]);
+  const formattedEndDate = this.formatDateToDDMMYYYY(this.rangeDates[1]);
 
     const data = {
       startDate: formattedStartDate,
@@ -52,12 +53,23 @@ export class ProfitLossReportsComponent{
       const downloadUrl = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.setAttribute('download', 'profit_loss.xlsx'); // Replace with your desired file name
+
+     // Set a dynamic filename based on the date range
+    const filename = `Profit Loss Reports ${formattedStartDate}_${formattedEndDate}.xlsx`;
+    link.setAttribute('download', filename);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     });
   }
+
+  // Helper function to format date as DD-MM-YYYY
+formatDateToDDMMYYYY(date: Date): string {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
 
   onDateChange(value: any): void {
     const startDate = value[0];

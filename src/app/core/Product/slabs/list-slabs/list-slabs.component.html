@@ -233,140 +233,143 @@
 
         <div class="modal-content">
             <div class="modal-body">
-                <div class="card-body p-2">
-                    <div class="row practice-card p-2">
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Slab Name
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-lg-9 col-form-label">{{ slabDetail?.slabName}}</p>
+                <div class="card-body ">
+                    <div class="card card-table show-entire">
+                        <div class="row practice-card p-2 m-2" >
+                            <div class="col-xl-6 col-lg-6 col-sm-12">
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Slab Name
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">{{ slabDetail?.slabName}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Creation Date
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-lg-9 col-form-label">{{ slabDetail?.date | date: 'dd-MMM-yyyy'}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Category
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{ slabDetail?.categoryDetail?.name}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Size
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{ slabDetail?.slabSize}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Cost / Sq. Feet
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">₹ {{ slabDetail?.costPerSQFT | indianCurrency}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Sq. Feet Left
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{ slabDetail?.totalSQFT}}</p>
+                                    </div>
+                                </div>
+    
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Total Cost
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">₹ {{ + slabDetail?.totalCosting | indianCurrency}}</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Creation Date
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-lg-9 col-form-label">{{ slabDetail?.date | date: 'dd-MMM-yyyy'}}</p>
+                            <div class="col-xl-6 col-lg-6 col-sm-12">
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Slab Number
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{ slabDetail?.slabNo}}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Category
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">{{ slabDetail?.categoryDetail?.name}}</p>
+    
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Warehouse
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{ slabDetail?.warehouseDetails?.name}}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Size
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">{{ slabDetail?.slabSize}}</p>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Sub Category
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{ slabDetail?.subCategoryDetail?.name}}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Cost / Sq. Feet
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">₹ {{ slabDetail?.costPerSQFT | indianCurrency}}</p>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Thickness
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{ slabDetail?.thickness}}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Sq. Feet Left
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">{{ slabDetail?.totalSQFT}}</p>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Selling Price / Sq. Feet.
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">₹ {{ slabDetail?.sellingPricePerSQFT | indianCurrency}}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Total Cost
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">₹ {{ + slabDetail?.totalCosting | indianCurrency}}</p>
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Total Sq. Feet
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">{{ slabDetail?.totalSlabSQFT}}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Slab Number
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">{{ slabDetail?.slabNo}}</p>
+    
+                                <div class="form-group row mb-2">
+                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                        Slab Sales
+                                    </h5>
+                                    <div class="col-lg-9 col-md-9 col-xl-9">
+                                        <p class="col-form-label">
+                                            <span class="amount-bold">₹ {{slabProfit | indianCurrency}}
+                                            </span>
+                                            <span>( Sales : ₹
+                                                {{
+                                                + slabDetail?.totalSales | indianCurrency
+                                                }} - Sales Return : ₹
+                                                {{
+                                                slabDetail?.totalSalesReturn | indianCurrency
+                                                }})</span>
+                                        </p>
+                                    </div>
                                 </div>
+    
                             </div>
-
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Warehouse
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">{{ slabDetail?.warehouseDetails?.name}}</p>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Sub Category
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">{{ slabDetail?.subCategoryDetail?.name}}</p>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Thickness
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">{{ slabDetail?.thickness}}</p>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Selling Price / Sq. Feet.
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">₹ {{ slabDetail?.sellingPricePerSQFT | indianCurrency}}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Total Sq. Feet
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">{{ slabDetail?.totalSlabSQFT}}</p>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                    Slab Sales
-                                </h5>
-                                <div class="col-lg-9 col-md-9 col-xl-9">
-                                    <p class="col-form-label">
-                                        <span class="amount-bold">₹ {{slabProfit | indianCurrency}}
-                                        </span>
-                                        <span>( Sales : ₹
-                                            {{
-                                            + slabDetail?.totalSales | indianCurrency
-                                            }} - Sales Return : ₹
-                                            {{
-                                            slabDetail?.totalSalesReturn | indianCurrency
-                                            }})</span>
-                                    </p>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
+                  
 
                     <div class="card-body p-2">
 

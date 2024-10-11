@@ -106,7 +106,7 @@
                                 styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}"
                                 [paginator]="originalData?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
                                 #dt [columns]="cols" selectionMode="multiple" [exportHeader]="'customExportHeader'"
-                                exportFilename="Expenses Reports" (onFilter)="onFilter($event)">
+                                [exportFilename]="getExportFilename()" (onFilter)="onFilter($event)">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="date">Expenses Date <p-sortIcon field="date"></p-sortIcon>

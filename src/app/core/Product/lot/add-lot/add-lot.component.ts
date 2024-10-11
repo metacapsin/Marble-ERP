@@ -85,7 +85,7 @@ export class AddLotComponent {
         [Validators.required, Validators.min(1), Validators.max(1000000)],
       ],
       paidToSupplierLotCost: ["", [Validators.required]],
-      purchaseDiscount: ["", [Validators.min(0), Validators.max(100000)]],
+      purchaseDiscount: ["", [Validators.min(0),]],
       transportationCharge: ["", [Validators.min(0), Validators.max(100000)]],
       royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
       lotRowCost: [""],
