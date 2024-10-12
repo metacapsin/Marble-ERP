@@ -353,8 +353,12 @@
                           <th>Lot Name</th>
                           <th>Lot Number</th>
                           <th>Price / Ton</th>
+                          <th>Lot Weight (Ton)</th>
+                          <th>Transport Charge / Ton</th>
                           <th>Total Blocks</th>
-                          <th>Total Cost</th>
+                          <th>Lot Total Costing </th>
+                          <th>Taxable Amount </th>
+                          <th>Non-Taxable Amount </th>
                         </tr>
                         <tr *ngIf="sales.slabDetails">
                           <th>Slab Number</th>
@@ -419,8 +423,12 @@
                           <td>{{ sales.lotDetails.lotName }}</td>
                           <td>{{ sales.lotDetails.lotNo }}</td>
                           <td>₹ {{ sales.lotDetails.pricePerTon | indianCurrency }}</td>
-                          <td>{{ sales.lotDetails.blocksCount }}</td>
-                          <td>{{ sales.lotDetails.lotTotalCosting | indianCurrency}}</td>
+                          <td>{{ sales?.lotDetails?.lotWeight | indianCurrency }}</td>
+                          <td>₹ {{ sales?.lotDetails?.transportationCharge | indianCurrency }}</td>
+                          <td>{{ sales?.lotDetails.blocksCount }}</td>
+                          <td>₹ {{sales?.lotDetails.lotTotalCosting | indianCurrency}}</td>
+                          <td>₹ {{ sales?.taxable | indianCurrency }} </td>
+                          <td>₹ {{ sales?.nonTaxable | indianCurrency }} </td>
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-data *ngIf="sales.slabDetails">
@@ -555,6 +563,7 @@
                             }}
                           </span>
                         </p>
+                        <hr>
                         <p *ngIf="sales.salesGrossTotal">
                           Gross Total
                           <span>₹
@@ -636,10 +645,10 @@
                           Return Other Charges
                           <span> - ₹ {{ sales?.purchaseReturnOtherCharges | indianCurrency }}</span>
                         </p>
-                        <p *ngIf="sales?.purchaseDiscount">
+                        <p *ngIf="sales?.lotDetails?.purchaseDiscount">
                           Discount
                           <span> - ₹
-                            {{ sales?.purchaseDiscount | indianCurrency }}</span>
+                            {{ sales?.lotDetails?.purchaseDiscount | indianCurrency }}</span>
                         </p>
                         <p *ngIf="sales?.quotationDiscount">
                           Discount
