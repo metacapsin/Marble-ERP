@@ -10,24 +10,38 @@ export class BlocksService {
   constructor(private http: HttpClient) { }
   // setting Blocks
 
-CreateBlocks(data: {} | null) {
-  return this.http.post(environment.apiUrl + "/Blocks", data);
-}
-getBlocksList() {
-  return this.http.get(environment.apiUrl + "/getAllBlocksList");
-}
+  splitBlock(paylod: {} | null) {
+    return this.http.post(environment.apiUrl + "/LotController/splitBlock", paylod);
+  }
+  getSplittedBlockByLotId(paylod: {} | null) {
+    return this.http.post(environment.apiUrl + "/LotController/getSplittedBlockByLotId", paylod);
+  }
+  updateSplitedBlock(paylod: {} | null) {
+    return this.http.put(environment.apiUrl + "/LotController/updateSplitedBlock", paylod);
+  }
+  deleteSplitedBlock(paylod: {} | null) {
+    return this.http.post(environment.apiUrl + "/LotController/deleteSplitedBlock", paylod);
+  }
 
-getBlocksById(locationId: string) {
-  return this.http.get(environment.apiUrl + "/getBlocksById/" + locationId);
-}
+  
+  CreateBlocks(data: {} | null) {
+    return this.http.post(environment.apiUrl + "/Blocks", data);
+  }
+  getBlocksList() {
+    return this.http.get(environment.apiUrl + "/getAllBlocksList");
+  }
 
-updateBlocksById(data: {}) {
-  return this.http.put(environment.apiUrl + "/updateBlocks" , data);
-}
+  getBlocksById(locationId: string) {
+    return this.http.get(environment.apiUrl + "/getBlocksById/" + locationId);
+  }
+
+  updateBlocksById(data: {}) {
+    return this.http.put(environment.apiUrl + "/updateBlocks", data);
+  }
 
 
-deleteBlocksById(id: string) {
-  return this.http.delete(environment.apiUrl + "/deleteBlocks/" + id, {});
-}
+  deleteBlocksById(id: string) {
+    return this.http.delete(environment.apiUrl + "/deleteBlocks/" + id, {});
+  }
 
 }
