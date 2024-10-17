@@ -215,118 +215,155 @@
                 <img src="../../../assets/img/icon-1.png" width="50" height="35" alt=""> <span>Marble Ledgers</span>
             </a>
         </div>
-        <a (click)="toggleSideBar()" id="toggle_btn" href="javascript:void(0);"><img src="assets/img/icons/bar-icon.svg"
-                alt=""></a>
+        <!-- <a (click)="toggleSideBar()" id="toggle_btn" href="javascript:void(0);"><img src="assets/img/icons/bar-icon.svg"
+                alt=""></a> -->
+        <!-- Full Screen Toggle Button -->
+
     </div>
     <div>
-        <a (click)="toggleMobileSideBar()" (keyup.enter)="toggleMobileSideBar()" id="mobile_btn"
-            class="mobile_btn float-start" tabindex="0"><img src="assets/img/icons/bar-icon.svg" alt=""></a>
-        <div class="top-nav-search mob-view">
-            <!-- <form>
-                <input type="text" class="form-control" placeholder="Search here">
-                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-            </form> -->
-        </div>
-        <ul class="nav user-menu float-end">
-            <li class="nav-item dropdown d-sm-block" pTooltip="See Recent Payment" tooltipPosition="bottom"
-            tooltipStyleClass="tooltip">
-                <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"
-                    (click)="loadLatestPayments()">
-                    <img src="assets/img/icons/note-icon-02.svg" alt=""><span *ngIf="latestPayments" class="pulse"></span>
-                </a>
-                <div class="dropdown-menu notifications">
-                    <div class="topnav-dropdown-header">
-                        <span>Notifications</span>
-                    </div>
-                    <div class="drop-scroll">
-                        <ul class="notification-list">
-                            <ng-container *ngIf="latestPayments.length; else noPayments">
-                                <li *ngFor="let payment of latestPayments" class="notification-message">
-                                    <a>
+        <a (click)="toggleMobileSideBar()" (keyup.enter)="toggleMobileSideBar()" id="mobile_btn" class="mobile_btn"
+            tabindex="0"><img src="assets/img/icons/bar-icon.svg" alt=""></a>
 
-                                        <div class="media">
-                                            <span class="avatar">
-                                                <img [alt]="payment.user?.name || payment.supplier?.name"
-                                                    [src]="payment.user?.avatarUrl || 'assets/img/user.jpg'"
-                                                    class="img-fluid">
-                                            </span>
-                                            <div class="media-body">
-                                                <p class="noti-details">
-                                                    <span class="noti-title">{{payment.customer?.name ||
-                                                        payment.supplier?.name}}</span>
-                                                    <span *ngIf="payment.customer; else credited">
-                                                        debited a payment of
-                                                    </span>
-                                                    <ng-template #credited>
-                                                        credited a payment of
-                                                    </ng-template>
-                                                    <span class="noti-title">{{payment.amount | indianCurrency}}</span>
-                                                </p>
-                                                <p class="noti-time">
-                                                    <span class="notification-time">{{payment.date |
-                                                        date:'shortTime'}}</span>
-                                                </p>
+        <span class="side-list">
+            <ul class="nav user-menu">
+                <li class="nav-item fullscreen-icon">
+                    <a href="javascript:void(0);" (click)="toggleFullScreen()" pTooltip="Full Screen"
+                        tooltipPosition="bottom">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown d-sm-block ">
+
+                    <button class="btn  dropdown-toggle plus-button notifi " type="button" id="dropdownMenuLink"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-plus plus-icon"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">  
+
+                        <a class="dropdown-item" [routerLink]="['/sales/add-sales']">Add Sales</a>
+                        <a class="dropdown-item" [routerLink]="['/new-purchase/add-new-purchase']">Add Purchase</a>
+                        <a class="dropdown-item" [routerLink]="['/payment-out/add-payment-out']">Payment Out</a>
+                        <a class="dropdown-item" [routerLink]="['/payment-in/add-payment-in']">Payment In</a>
+                        <a class="dropdown-item" [routerLink]="['/quotations/add-quotations']">Create Quotation</a>
+                        <a class="dropdown-item" [routerLink]="['/stock-adjustment']">Stock Adjustment</a>
+                        <a class="dropdown-item" [routerLink]="['/stock-transfer']">Stock Transfer</a>
+                        <a class="dropdown-item" [routerLink]="['/slabs/slab-add']">Add Slabs</a>
+                        <a class="dropdown-item" [routerLink]="['/sales-return/add-sales-return']">Sales Return</a>
+                        <a class="dropdown-item" [routerLink]="['/expenseCategories']">Expenses Categories</a>
+                        <a class="dropdown-item" [routerLink]="['/expenses/add-expenses']">General Expenses</a>
+                        <a class="dropdown-item" [routerLink]="['/staffDesignation']">Add Staff Designation</a>
+                        <a class="dropdown-item" [routerLink]="['/staff-leaves/add-staff-leaves']">Leave Request</a>
+                        <a class="dropdown-item" [routerLink]="['/staff-salary/add-staff-salary']">Basic Salary</a>
+                        <a class="dropdown-item" [routerLink]="['/employee-payment/add-employee-payment']">Generate
+                            Salary</a>
+                        <a class="dropdown-item" [routerLink]="['/tax-vendors/add-tax-vendor']">Tax Vendor</a>
+                        <a class="dropdown-item" [routerLink]="['/block-processor/add-block-processor']">Block Slab
+                            Processor Add</a>
+                        <a class="dropdown-item" [routerLink]="['/settings/warehouse/add']">Warehouse</a>
+                        <a class="dropdown-item" [routerLink]="['/settings/categories']">Categories</a>
+                        <a class="dropdown-item" [routerLink]="['/settings/subCategories']">Sub Categories</a>
+                        <a class="dropdown-item"
+                            [routerLink]="['/settings/billing-Address/add-billing-Address']">Billing
+                            Address</a>
+                        <a class="dropdown-item" [routerLink]="['/settings/taxes']">Taxes</a>
+                    </div>
+                    <!-- </div> -->
+                </li>
+                <li class="nav-item dropdown d-sm-block" pTooltip="See Recent Payment" tooltipPosition="bottom"
+                    tooltipStyleClass="tooltip">
+                    <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"
+                        (click)="loadLatestPayments()">
+                        <img src="assets/img/icons/note-icon-02.svg" alt=""><span *ngIf="latestPayments"
+                            class="pulse"></span>
+                    </a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                                <ng-container *ngIf="latestPayments.length; else noPayments">
+                                    <li *ngFor="let payment of latestPayments" class="notification-message">
+                                        <a>
+
+                                            <div class="media">
+                                                <span class="avatar">
+                                                    <img [alt]="payment.user?.name || payment.supplier?.name"
+                                                        [src]="payment.user?.avatarUrl || 'assets/img/user.jpg'"
+                                                        class="img-fluid">
+                                                </span>
+                                                <div class="media-body">
+                                                    <p class="noti-details">
+                                                        <span class="noti-title">{{payment.customer?.name ||
+                                                            payment.supplier?.name}}</span>
+                                                        <span *ngIf="payment.customer; else credited">
+                                                            debited a payment of
+                                                        </span>
+                                                        <ng-template #credited>
+                                                            credited a payment of
+                                                        </ng-template>
+                                                        <span class="noti-title">{{payment.amount |
+                                                            indianCurrency}}</span>
+                                                    </p>
+                                                    <p class="noti-time">
+                                                        <span class="notification-time">{{payment.date |
+                                                            date:'shortTime'}}</span>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ng-container>
-                        </ul>
-                        <ng-template #noPayments>
-                            <div class="no-notifications " style="text-align: center;">
-                                No payments made yet.
+                                        </a>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                            <ng-template #noPayments>
+                                <div class="no-notifications " style="text-align: center;">
+                                    No payments made yet.
+                                </div>
+                            </ng-template>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="topnav-dropdown-footer" style="text-align: left;">
+                                <a [routerLink]="['/payment-in']">View all Payments In</a>
                             </div>
-                        </ng-template>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="topnav-dropdown-footer" style="text-align: left;">
-                            <a [routerLink]="['/payment-in']">View all Payments In</a>
-                        </div>
-                        <div class="topnav-dropdown-footer" style="text-align: right;">
-                            <a [routerLink]="['/payment-out']">View all Payments Out</a>
+                            <div class="topnav-dropdown-footer" style="text-align: right;">
+                                <a [routerLink]="['/payment-out']">View all Payments Out</a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            </li>
-            <!-- <li class="nav-item dropdown d-sm-block">
-                <a (click)="openBoxFunc()" style="cursor: pointer;" (keyup.enter)="openBoxFunc()" id="open_msg_box"
-                    class="hasnotifications nav-link" tabindex="0"><img src="assets/img/icons/note-icon-01.svg"
-                        alt=""><span class="pulse"></span> </a>
-            </li> -->
-            <li class="nav-item dropdown has-arrow user-profile-list" [routerLink]="routes.practiceInformation"
-                pTooltip="Go to Profile" tooltipPosition="bottom" tooltipStyleClass="tooltip">
-                <a href="javascript:void(0);" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
-                    <div class="user-names">
-                        <h5>{{userData?.name}}</h5>
-                        <span class="text-uppercase">{{userData?.role[0]}} </span>
-                    </div>
-                    <span class="user-img">
-                        <img src="../../../assets/img/user-vector2.jpg" alt="Admin">
-                    </span>
-                </a>
-                <!-- <div class="dropdown-menu">
+                </li>
+
+                <li class="nav-item dropdown has-arrow user-profile-list" [routerLink]="routes.practiceInformation"
+                    pTooltip="Go to Profile" tooltipPosition="bottom" tooltipStyleClass="tooltip">
+                    <a href="javascript:void(0);" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
+                        <div class="user-names">
+                            <h5>{{userData?.name}}</h5>
+                            <span class="text-uppercase">{{userData?.role[0]}} </span>
+                        </div>
+                        <span class="user-img">
+                            <img src="../../../assets/img/user-vector2.jpg" alt="Admin">
+                        </span>
+                    </a>
+                    <!-- <div class="dropdown-menu">
                     <a class="dropdown-item" [routerLink]="routes.practiceInformation">My Profile</a>
                     <a class="dropdown-item" [routerLink]="routes.editProfile">Edit Profile</a>
                     <a class="dropdown-item" [routerLink]="routes.practiceInformation">Settings</a>
                     <a class="dropdown-item" [routerLink]="routes.login">Logout</a>
                 </div> -->
-            </li>
-            <!-- <li class="nav-item ">
-                <a [routerLink]="routes.settings" class="hasnotifications nav-link"><img
-                        src="assets/img/icons/setting-icon-01.svg" alt=""> </a>
-            </li> -->
-        </ul>
-        <div class="dropdown mobile-user-menu float-end">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
-                    class="fa-solid fa-ellipsis-vertical"></i></a>
-            <div class="dropdown-menu dropdown-menu-end">
-                <a class="dropdown-item" [routerLink]="routes.profile">My Profile</a>
-                <a class="dropdown-item" [routerLink]="routes.editProfile">Edit Profile</a>
-                <a class="dropdown-item" [routerLink]="routes.settings">Settings</a>
-                <a class="dropdown-item" [routerLink]="routes.login">Logout</a>
+                </li>
+            </ul>
+            <div class="dropdown nav-item dropdown mobile-user-menu float-end">
+                <a href="javascript:void(0);" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
+                        class="fa-solid fa-ellipsis-vertical"></i></a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" [routerLink]="routes.practiceInformation">My Profile</a>
+                    <!-- <a class="dropdown-item" [routerLink]="routes.editProfile">Edit Profile</a> -->
+                    <a class="dropdown-item" [routerLink]="routes.practiceInformation">Settings</a>
+                    <a class="dropdown-item" [routerLink]="routes.login">Logout</a>
+                </div>
             </div>
-        </div>
+        </span>
     </div>
 </div>
 <!-- <div class="leftheader" style="background-color: white;">
@@ -363,7 +400,7 @@
     </div>
 
 </div> -->
-<div class="notification-box">
+<!-- <div class="notification-box">
     <div class="msg-sidebar notifications msg-noti">
         <div class="topnav-dropdown-header">
             <span>Messages</span>
@@ -571,7 +608,7 @@
             <a [routerLink]="routes.chat">See all messages</a>
         </div>
     </div>
-</div>
+</div> -->
 <!-- <app-invoice-dialog [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="notificationDataShowById"
     [paymentDataListById]="paymentDataListById" (callbackModal)="callBackModal()" (close)="close()"
     [header]="header"></app-invoice-dialog> -->

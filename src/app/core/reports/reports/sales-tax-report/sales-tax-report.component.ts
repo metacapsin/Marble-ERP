@@ -122,7 +122,7 @@ export class SalesTaxReportsComponent {
         { field: "customerName", header: "Customer" },
         { field: "customerPhoneNo", header: "Phone Number" },
         { field: "customerEmail", header: "Email" },
-        { field: "salesOrderStatus", header: "Sales Status" },
+        // { field: "salesOrderStatus", header: "Sales Status" },
         { field: "salesOrderTax", header: "Sales Tax" },
         { field: "salesTotalAmount", header: "Sales Total Amount" },
       ];

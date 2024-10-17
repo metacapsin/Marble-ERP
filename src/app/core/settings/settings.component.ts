@@ -19,13 +19,13 @@ export class SettingsComponent {
   constructor(private router: Router, private elementRef: ElementRef) {
     this.routerChangeSubscription = this.router.events.subscribe((event) => {
       this.currentRoute = this.router.url;
-      console.log(this.currentRoute)
+      // console.log(this.currentRoute)
     });
   }
   ngOnInit() {
     this.routerChangeSubscription = this.router.events.subscribe(() => {
       this.currentRoute = this.router.url;
-      console.log(this.currentRoute)
+      // console.log(this.currentRoute)
       this.updateBreadcrumb();
     });
 
@@ -77,10 +77,10 @@ export class SettingsComponent {
   }
 
   isRouteActive(text) {
-    console.log(this.currentRoute);
+    // console.log(this.currentRoute);
     if (!this.currentRoute) return "";
     let str = this.currentRoute?.includes(text);
-    console.log(str);
+    // console.log(str);
     if (str) {
       return "active";
     } else {
