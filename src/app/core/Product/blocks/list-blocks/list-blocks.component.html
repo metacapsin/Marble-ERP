@@ -151,7 +151,7 @@
                     <td>{{ lot.blockDetails?.length }} x {{ lot.blockDetails?.width }} x {{ lot.blockDetails?.height }}
                     </td>
                     <td>{{lot.blockDetails.totalArea}}</td>
-                    <td>₹ {{lot.lotTotalCosting |indianCurrency}}</td>
+                    <td>₹ {{lot.blockDetails.totalCosting |indianCurrency}}</td>
                     <td>{{lot.warehouseDetails.name}}</td>
                     <td>{{lot.lotNo}}</td>
                     <td>{{lot.lotName}}</td>
@@ -164,9 +164,9 @@
                       </p-dropdown>
                     </td>
                     <td class="action-buttons">
-                      <p-button *ngIf="!lot?.blockDetails?.isSplited" [text]="true" icon="fa-solid fa-add" pTooltip="Block Split" tooltipPosition="left"
+                      <p-button *ngIf="!lot?.blockDetails?.splitedFrom" [text]="true" icon="fa-solid fa-add" pTooltip="Block Split" tooltipPosition="left"
                         tooltipStyleClass="tooltip" (click)="visibleBlockSplitPopUp(lot)"></p-button>
-                      <p-button *ngIf="lot?.blockDetails?.isSplited" [text]="true" icon="fa-solid fa-edit" pTooltip="Block Split" tooltipPosition="left"
+                      <p-button *ngIf="lot?.blockDetails?.splitedFrom" [text]="true" icon="fa-solid fa-edit" pTooltip="Block Split" tooltipPosition="left"
                         tooltipStyleClass="tooltip" (click)="visibleEditBlockSplitPopUp(lot)"></p-button>
                     </td>
                   </tr>
