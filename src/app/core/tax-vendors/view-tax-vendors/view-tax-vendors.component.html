@@ -302,7 +302,7 @@
                     display="menu"></p-columnFilter>
                 </th>
                 <th pSortableColumn="taxVendor.purchaseDate">
-                  Sales Date <p-sortIcon field="taxVendor.purchaseDate"></p-sortIcon>
+                  Purchase Date <p-sortIcon field="taxVendor.purchaseDate"></p-sortIcon>
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.purchaseDate"
                     display="menu"></p-columnFilter>
                 </th>
@@ -326,30 +326,32 @@
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.dueAmount"
                     display="menu"></p-columnFilter>
                 </th>
-                <th pSortableColumn="taxVendor.salesTotalAmount">
+                <th pSortableColumn="taxVendor.taxVendorAmount">
                   Total Amount
-                  <p-sortIcon field="taxVendor.salesTotalAmount"></p-sortIcon>
-                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.salesTotalAmount"
+                  <p-sortIcon field="taxVendor.taxVendorAmount"></p-sortIcon>
+                  <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.taxVendorAmount"
                     display="menu"></p-columnFilter>
                 </th>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-sales>
+            <ng-template pTemplate="body" let-purchase>
               <tr>
-                <td *ngIf="sales.taxVendor.paymentStatus == 'Unpaid' ">
-                  <p-tableCheckbox [value]="sales" />
+                <td *ngIf="purchase.taxVendor.paymentStatus == 'Unpaid' || purchase.taxVendor.paymentStatus == 'Partial Paid'">
+                  <p-tableCheckbox [value]="purchase" />
                 </td>
-                <td *ngIf="sales.taxVendor.paymentStatus == 'Paid' "></td>
-                <td>{{ sales.taxVendor.purchaseInvoice }}</td>
-                <td>{{ sales.taxVendor.purchaseDate | date: "dd-MMM-yyyy" }}</td>
-                <td>{{ sales.taxVendor.vendorTaxApplied }}</td>
-                <td *ngIf="sales.taxVendor.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag>
+                <td *ngIf="purchase.taxVendor.paymentStatus == 'Paid' "></td>
+                <td>{{ purchase.taxVendor.purchaseInvoice }}</td>
+                <td>{{ purchase.taxVendor.purchaseDate | date: "dd-MMM-yyyy" }}</td>
+                <td>{{ purchase.taxVendor.vendorTaxApplied }}</td>
+                <td *ngIf="purchase.taxVendor.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag>
                 </td>
-                <td *ngIf="sales.taxVendor.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag>
+                <td *ngIf="purchase.taxVendor.paymentStatus == 'Partial Paid'"><p-tag severity="warning"value="Partial Paid"></p-tag>
                 </td>
-                <td>₹ {{ sales.taxVendor.paidAmount | indianCurrency }}</td>
-                <td>₹ {{ sales.taxVendor.dueAmount | indianCurrency }}</td>
-                <td>₹ {{ sales.taxVendor.taxVendorAmount | indianCurrency }}</td>
+                <td *ngIf="purchase.taxVendor.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag>
+                </td>
+                <td>₹ {{ purchase.taxVendor.paidAmount | indianCurrency }}</td>
+                <td>₹ {{ purchase.taxVendor.dueAmount | indianCurrency }}</td>
+                <td>₹ {{ purchase.taxVendor.taxVendorAmount | indianCurrency }}</td>
               </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
