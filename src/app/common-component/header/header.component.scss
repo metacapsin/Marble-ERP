@@ -1,5 +1,5 @@
 .user-menu.nav > li > a {
-  color: black !important;
+  color: white !important;
 }
 
 .nav-item.dropdown {
@@ -140,7 +140,7 @@
 // }
 /* Larger icon for the plus sign */
 .plus-icon {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 .list-container {
   max-height: 150px; /* Adjust based on the screen size */
@@ -177,7 +177,7 @@
 
 
 .user-menu.nav > li > a > i{
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 .user-menu {
   display: flex;
@@ -193,28 +193,8 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  // background-color: #f0f0f0; /* Light background */
   color: white;
   font-size: 18px;
-  // transition: background-color 0.3s ease;
-}
-
-.fullscreen-icon a:hover {
-  background-color: #ddd;
-  color: white !important;
-  // cursor: pointer;
-  transform: scale(1.1);
-  transition: transform 0.3s ease;
-  /* Optional: Add animation */
-  /* transition: transform 0.3s ease; */
-  /* transform: scale(1.1); */
-  /* animation: pulse 1s infinite; */
-  /* @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-  } */
-
 }
 
 @media (max-width: 767px) {
