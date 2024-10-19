@@ -445,13 +445,9 @@ export class AddNewPurchaseComponent implements OnInit {
     this.addNewPurchaseForm.get("vendorTaxApplied").updateValueAndValidity();
 
     if(isTaxVendor){
-      console.log(isTaxVendor, this.addNewPurchaseForm.value);
-      console.log(isTaxVendor, this.ItemDetails);
       this.addNewPurchaseForm.get('paidToSupplierPurchaseCost').patchValue(this.addNewPurchaseForm.get('nonTaxable').value);
     } else {
-      console.log(isTaxVendor);
-      this.addNewPurchaseForm.get('paidToSupplierPurchaseCost').patchValue(this.ItemDetails.paidToSupplierLotCost);
-
+        this.lotTypeValue === 'Lot' ? this.addNewPurchaseForm.get('paidToSupplierPurchaseCost').patchValue(this.ItemDetails.paidToSupplierLotCost) : this.addNewPurchaseForm.get('paidToSupplierPurchaseCost').patchValue(this.addNewPurchaseForm.get('nonTaxable').value);
     }
   }
 

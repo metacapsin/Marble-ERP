@@ -317,8 +317,7 @@ export class ViewTaxVendorsComponent implements OnInit {
   openPurchasePaymentDialog() {
     const unpaidPurchases = this.selectedPurchase.filter(
       (purchase) =>
-        purchase.taxVendor.dueAmount > 0 &&
-        purchase.taxVendor.paymentStatus === "Unpaid"
+        purchase.taxVendor.dueAmount > 0 && (purchase.taxVendor.paymentStatus === "Unpaid" || purchase.taxVendor.paymentStatus === "Partial Paid")
     );
     const today = new Date();
     const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
