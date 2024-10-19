@@ -245,8 +245,6 @@ console.log(this.paymentInvoiceForm.get('totalAmount')?.valid);
   }
 
   paymentInvoiceFormSubmit() {
-    console.log(this.paymentInvoiceForm.get('totalAmount')?.errors);
-console.log(this.paymentInvoiceForm.get('totalAmount')?.valid);
     const formData = this.paymentInvoiceForm.value;
 
     if (this.dataById.isSalesReturn) {
@@ -286,9 +284,7 @@ console.log(this.paymentInvoiceForm.get('totalAmount')?.valid);
     }
 
     if (this.dataById.isSales) {
-      console.log("this is sales payment forms", this.paymentInvoiceForm.value)
-      console.log("form status", this.paymentInvoiceForm.status); // Check if the form is invalid or valid
-
+ 
       const payload = [{
         customer: this.dataById.customer,
         paymentDate: formData.paymentDate,
@@ -339,11 +335,9 @@ console.log(this.paymentInvoiceForm.get('totalAmount')?.valid);
     console.log(this.dataById.isPurchase)
     // for create purchase payment
     if (this.dataById.isPurchase) {
-      // for (const key of Object.keys(this.paymentInvoiceForm.controls)) {
-      //   if (this.paymentInvoiceForm.controls[key].invalid) {
-      //     console.log(`Invalid control: ${key}, Errors:`, this.paymentInvoiceForm.controls[key].errors);
-      //   }
-      // }
+      console.log('this.dataById',this.dataById);
+      console.log('dataItemsGrid',this.dataItemsGrid);
+      
       const payload = [{
         supplier: this.dataById.supplier,
         paymentDate: formData.paymentDate,
@@ -351,13 +345,13 @@ console.log(this.paymentInvoiceForm.get('totalAmount')?.valid);
         purchase: [
           {
             _id: this.dataById.purchaseId,
-            amount: Number(formData.totalAmount),
+            amount: !this.dataItemsGrid[0]?.taxVendor ? Number(formData.totalAmount) : formData.nonTaxablePaymentAmount,
             purchaseInvoiceNumber: this.dataById.purchaseInvoiceNumber,
           },
         ],
         taxablePaymentAmount: formData.taxablePaymentAmount
           ? {
-            amount: formData.taxablePaymentAmount,
+            amount: !this.dataItemsGrid[0]?.taxVendor ?  formData.taxablePaymentAmount : 0,
             paymentMode: formData.taxablePaymentMode,
           }
           : null,
