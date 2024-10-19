@@ -251,7 +251,7 @@ export class ListBlocksComponent implements OnInit {
 
     const payload = {
       lotId: value?.lotId,
-      blockNo: value?.blockDetails?.blockNo,
+      blockNo: value?.blockDetails?.splitedFrom,
     }
     this.blocksService.getSplittedBlockByLotId(payload).subscribe((resp: any) => {
       if (resp) {
