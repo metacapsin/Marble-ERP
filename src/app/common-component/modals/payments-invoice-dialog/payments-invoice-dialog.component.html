@@ -500,6 +500,33 @@
                             </div>
                           </div>
 
+                          <div class="col-12 col-md-4">
+                            <div class="form-group local-forms">
+                              <label for="name">Suppliers <span class="login-danger">*</span></label>
+                              <p-dropdown [style]="{ width: '100%' }" placeholder="Select Supplier"
+                                [options]="supplierList" optionLabel="name" optionValue="_id" display="chip"
+                                [filter]="true" filterBy="name" formControlName="supplier" [showClear]="true"
+                                (onChange)="onSuppliersSelect($event.value)"></p-dropdown>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-md-4" *ngIf="paymentInvoiceForm.get('supplier').value">
+                            <div class="form-group local-forms">
+                              <label for="customer">Invoice Number</label>
+                              <p-dropdown [style]="{ width: '100%' }" 
+                                          placeholder="Select Invoice"
+                                          [options]="invoiceNumberList" 
+                                          optionLabel="label" 
+                                          formControlName="invoiceNumber" 
+                                          (onChange)="onInvoiceNumberSelect($event.value)">
+                              </p-dropdown>
+                              <span   *ngIf="paymentInvoiceForm.get('invoiceNumber').value" style="color: #97704f; font-size: 12px; 
+                            ">Purchase Due :(Taxable Due: {{invoiceDataByInvoiceId.taxableDue}}, Non-Taxable Due:{{invoiceDataByInvoiceId.nonTaxableDue}})</span>
+                            </div>
+                           
+
+                          </div>
+
 
                           <div class="col-12 col-md-4"
                             *ngIf="(sales?.salesItemDetails && !sales?.returnDate) || ((sales?.lotDetails || sales?.slabDetails) && !sales?.taxVendor) ">
