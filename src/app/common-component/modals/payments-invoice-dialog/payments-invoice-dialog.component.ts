@@ -170,37 +170,37 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       (invoice) => invoice.value === invoiceId.value
     );
     console.log("selected invoice", selectedInvoice);
-    const taxablePaymentAmountControl = this.paymentInvoiceForm.get('taxablePaymentAmount');
-    const nonTaxablePaymentAmountControl = this.paymentInvoiceForm.get('nonTaxablePaymentAmount');
+    // const taxablePaymentAmountControl = this.paymentInvoiceForm.get('taxablePaymentAmount');
+    // const nonTaxablePaymentAmountControl = this.paymentInvoiceForm.get('nonTaxablePaymentAmount');
     
-    const customerTaxableDue = this.dataById.taxableDue; // Customer taxable due
-    const customerNonTaxableDue = this.dataById.nonTaxableDue; // Customer non-taxable due
+    // const customerTaxableDue = this.dataById.taxableDue; // Customer taxable due
+    // const customerNonTaxableDue = this.dataById.nonTaxableDue; // Customer non-taxable due
   
-    if (selectedInvoice) {
-      // Log the fetched invoice dues and customer dues
-      console.log("Selected Invoice Taxable Due:", selectedInvoice.taxableDue);
-      console.log("Selected Invoice Non-Taxable Due:", selectedInvoice.nonTaxableDue);
-      console.log("Customer Taxable Due:", customerTaxableDue);
-      console.log("Customer Non-Taxable Due:", customerNonTaxableDue);
+    // if (selectedInvoice) {
+    //   // Log the fetched invoice dues and customer dues
+    //   console.log("Selected Invoice Taxable Due:", selectedInvoice.taxableDue);
+    //   console.log("Selected Invoice Non-Taxable Due:", selectedInvoice.nonTaxableDue);
+    //   console.log("Customer Taxable Due:", customerTaxableDue);
+    //   console.log("Customer Non-Taxable Due:", customerNonTaxableDue);
   
-      // Compare taxable dues and patch if necessary
-      if (selectedInvoice.taxableDue < customerTaxableDue) {
-        console.log("Patching taxable amount with invoice due:", selectedInvoice.taxableDue);
-        taxablePaymentAmountControl.patchValue(Number(selectedInvoice.taxableDue));
-      } else {
-        console.log("No need to patch taxable amount, customer due is less or equal.");
-      }
+    //   // Compare taxable dues and patch if necessary
+    //   if (selectedInvoice.taxableDue < customerTaxableDue) {
+    //     console.log("Patching taxable amount with invoice due:", selectedInvoice.taxableDue);
+    //     taxablePaymentAmountControl.patchValue(Number(selectedInvoice.taxableDue));
+    //   } else {
+    //     console.log("No need to patch taxable amount, customer due is less or equal.");
+    //   }
   
-      // Compare non-taxable dues and patch if necessary
-      if (selectedInvoice.nonTaxableDue < customerNonTaxableDue) {
-        console.log("Patching non-taxable amount with invoice due:", selectedInvoice.nonTaxableDue);
-        nonTaxablePaymentAmountControl.patchValue(Number(selectedInvoice.nonTaxableDue));
-      } else {
-        console.log("No need to patch non-taxable amount, customer due is less or equal.");
-      }
-    } else {
-      console.log("No selected invoice found.");
-    }
+    //   // Compare non-taxable dues and patch if necessary
+    //   if (selectedInvoice.nonTaxableDue < customerNonTaxableDue) {
+    //     console.log("Patching non-taxable amount with invoice due:", selectedInvoice.nonTaxableDue);
+    //     nonTaxablePaymentAmountControl.patchValue(Number(selectedInvoice.nonTaxableDue));
+    //   } else {
+    //     console.log("No need to patch non-taxable amount, customer due is less or equal.");
+    //   }
+    // } else {
+    //   console.log("No selected invoice found.");
+    // }
   }
   // Function to track changes in the payment fields
   onFormChanges(): void {

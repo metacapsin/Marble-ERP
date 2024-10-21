@@ -486,7 +486,7 @@
 
                         </div>
                         <div class="row">
-                          <div class="col-12 col-md-4"
+                          <div class="col-12 col-md-6 col-md-4"
                             [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) && !sales?.taxVendor)}">
                             <div class="form-group local-forms">
                               <label for="paymentDate">Payment Date <span class="login-danger">*</span></label>
@@ -500,7 +500,7 @@
                             </div>
                           </div>
 
-                          <div class="col-12 col-md-4">
+                          <div *ngIf="!dataById?.isPurchase" class="col-12 col-md-6 col-md-4">
                             <div class="form-group local-forms">
                               <label for="name">Suppliers <span class="login-danger">*</span></label>
                               <p-dropdown [style]="{ width: '100%' }" placeholder="Select Supplier"
@@ -529,6 +529,7 @@
 
 
                           <div class="col-12 col-md-4"
+                          [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) || paymentInvoiceForm.get('supplier').value && !sales?.taxVendor  )}"
                             *ngIf="(sales?.salesItemDetails && !sales?.returnDate) || ((sales?.lotDetails || sales?.slabDetails) && !sales?.taxVendor) ">
                             <div class="form-group local-forms">
                               <label for="customer">Taxable Amount</label>
@@ -557,8 +558,10 @@
                                 }}</span>
                             </div>
                           </div>
-                          <div class="col-12 col-md-4"
-                            [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) && !sales?.taxVendor)}"
+                          <div class="col-12 col-md-6 col-md-4"
+                            [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) || 
+                            (paymentInvoiceForm.get('supplier').value && !sales?.taxVendor)) || 
+                            (sales?.taxVendor && !paymentInvoiceForm.get('supplier').value)}"
                             *ngIf="sales?.salesItemDetails && !sales?.returnDate || sales?.lotDetails || sales?.slabDetails ">
                             <div class="form-group local-forms">
                               <label for="customer">Non Taxable Amount</label>
