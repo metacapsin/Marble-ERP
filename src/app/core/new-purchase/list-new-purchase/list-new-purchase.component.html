@@ -112,7 +112,7 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="dueAmount"
                         display="menu"></p-columnFilter>
                     </th>
-                    <th pSortableColumn="purchaseCost">Supplier Amount <p-sortIcon field="purchaseCost"></p-sortIcon>
+                    <th pSortableColumn="purchaseCost">Payable Amount <p-sortIcon field="purchaseCost"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="purchaseCost"
                         display="menu"></p-columnFilter>
                     </th>
@@ -139,9 +139,9 @@
                     </td>
                     <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag>
                     </td>
-                    <td>₹ {{ purchase.paidAmount | indianCurrency }}</td>
-                    <td>₹ {{purchase.dueAmount | indianCurrency }}</td>
-                    <td>₹ {{purchase.purchaseCost | indianCurrency }}</td>
+                    <td>₹ {{ purchase.taxVendor ?  (purchase.taxVendor?.paidAmount + purchase.paidAmount) :  purchase.paidAmount }}</td>
+                    <td>₹ {{ purchase.taxVendor ?  (purchase.taxVendor?.dueAmount + purchase.dueAmount) :  purchase.dueAmount }}</td>
+                    <td>₹ {{ purchase.taxVendor ?  (purchase.taxVendor?.taxVendorAmount +  purchase.purchaseCost)  : purchase.purchaseCost  }}</td>
                     <td>₹ {{purchase.purchaseTotalAmount | indianCurrency }}</td>
                     <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                       <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"

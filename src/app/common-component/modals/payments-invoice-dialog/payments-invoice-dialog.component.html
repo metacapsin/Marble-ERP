@@ -486,8 +486,7 @@
 
                         </div>
                         <div class="row">
-                          <div class="col-12 col-md-6 col-md-4"
-                            [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) && !sales?.taxVendor)}">
+                          <div *ngIf="!((sales?.lotDetails || sales?.slabDetails))" class="col-6" [ngClass]="{'col-md-4': paymentInvoiceForm.get('supplier').value}">
                             <div class="form-group local-forms">
                               <label for="paymentDate">Payment Date <span class="login-danger">*</span></label>
                               <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
@@ -499,10 +498,22 @@
                               </div>
                             </div>
                           </div>
-
-                          <div *ngIf="!dataById?.isPurchase" class="col-12 col-md-6 col-md-4">
+                          <div *ngIf="sales?.lotDetails || sales?.slabDetails" class="col-4" [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) || paymentInvoiceForm.get('supplier').value && !sales?.taxVendor  )}">
                             <div class="form-group local-forms">
-                              <label for="name">Suppliers <span class="login-danger">*</span></label>
+                              <label for="paymentDate">Payment Date <span class="login-danger">*</span></label>
+                              <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
+                                formControlName="paymentDate" placeholder="mm/dd/yyyy" [maxDate]="maxDate"
+                                [styleClass]="'col-12'"></p-calendar>
+                              <div
+                                *ngIf="paymentInvoiceForm.get('paymentDate')?.hasError('required')  && paymentInvoiceForm.get('paymentDate')?.touched">
+                                <span class="login-danger">Field is required. </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="!dataById?.isPurchase" class="col-6"
+                            [ngClass]="{'col-md-4': paymentInvoiceForm.get('supplier').value}">
+                            <div class="form-group local-forms">
+                              <label for="name">Paid To </label>
                               <p-dropdown [style]="{ width: '100%' }" placeholder="Select Supplier"
                                 [options]="supplierList" optionLabel="name" optionValue="_id" display="chip"
                                 [filter]="true" filterBy="name" formControlName="supplier" [showClear]="true"
@@ -513,23 +524,21 @@
                           <div class="col-12 col-md-4" *ngIf="paymentInvoiceForm.get('supplier').value">
                             <div class="form-group local-forms">
                               <label for="customer">Invoice Number</label>
-                              <p-dropdown [style]="{ width: '100%' }" 
-                                          placeholder="Select Invoice"
-                                          [options]="invoiceNumberList" 
-                                          optionLabel="label" 
-                                          formControlName="invoiceNumber" 
-                                          (onChange)="onInvoiceNumberSelect($event.value)">
+                              <p-dropdown [style]="{ width: '100%' }" placeholder="Select Invoice"
+                                [options]="invoiceNumberList" optionLabel="label" formControlName="invoiceNumber"
+                                (onChange)="onInvoiceNumberSelect($event.value)">
                               </p-dropdown>
-                              <span   *ngIf="paymentInvoiceForm.get('invoiceNumber').value" style="color: #97704f; font-size: 12px; 
-                            ">Purchase Due :(Taxable Due: {{invoiceDataByInvoiceId.taxableDue}}, Non-Taxable Due:{{invoiceDataByInvoiceId.nonTaxableDue}})</span>
+                              <span *ngIf="paymentInvoiceForm.get('invoiceNumber').value" style="color: #97704f; font-size: 12px; 
+                            ">Purchase Due :(Taxable Due: {{invoiceDataByInvoiceId.taxableDue}}, Non-Taxable
+                                Due:{{invoiceDataByInvoiceId.nonTaxableDue}})</span>
                             </div>
-                           
+
 
                           </div>
 
 
                           <div class="col-12 col-md-4"
-                          [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) || paymentInvoiceForm.get('supplier').value && !sales?.taxVendor  )}"
+                            [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) || paymentInvoiceForm.get('supplier').value && !sales?.taxVendor  )}"
                             *ngIf="(sales?.salesItemDetails && !sales?.returnDate) || ((sales?.lotDetails || sales?.slabDetails) && !sales?.taxVendor) ">
                             <div class="form-group local-forms">
                               <label for="customer">Taxable Amount</label>
@@ -558,8 +567,7 @@
                                 }}</span>
                             </div>
                           </div>
-                          <div class="col-12 col-md-6 col-md-4"
-                            [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) || 
+                          <div class="col-12 col-md-6 col-md-4" [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) || 
                             (paymentInvoiceForm.get('supplier').value && !sales?.taxVendor)) || 
                             (sales?.taxVendor && !paymentInvoiceForm.get('supplier').value)}"
                             *ngIf="sales?.salesItemDetails && !sales?.returnDate || sales?.lotDetails || sales?.slabDetails ">
