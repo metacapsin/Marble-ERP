@@ -148,9 +148,9 @@
                     <td>{{lot.blockDetails.blockNo}}</td>
                     <td>{{lot?.categoryDetail?.name}}</td>
                     <td>{{lot?.subCategoryDetail?.name}}</td>
-                    <td>{{ lot.blockDetails?.length }} x {{ lot.blockDetails?.width }} x {{ lot.blockDetails?.height }}
+                    <td>{{ lot.blockDetails?.length | indianCurrency }} x {{ lot.blockDetails?.width | indianCurrency}} x {{ lot.blockDetails?.height | indianCurrency}}
                     </td>
-                    <td>{{lot.blockDetails.totalArea}}</td>
+                    <td>{{lot.blockDetails.totalArea |indianCurrency}}</td>
                     <td>₹ {{lot.blockDetails.totalCosting |indianCurrency}}</td>
                     <td>{{lot.warehouseDetails.name}}</td>
                     <td>{{lot.lotNo}}</td>
