@@ -150,8 +150,10 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
             nonTaxable: invoice.nonTaxable,
             nonTaxableDue: invoice.nonTaxableDue,
             dueAmount: invoice.dueAmount,
+            taxVendor: invoice.taxVendor,
+            purchaseTotalAmount: invoice.purchaseTotalAmount,
           }));
-           // After invoice is fetched, compare the dues and patch form values
+          // After invoice is fetched, compare the dues and patch form values
           //  this.autoPatchInvoiceAmounts();
           console.log(this.invoiceNumberList, "this is invoice number list");
         } else {
@@ -170,37 +172,99 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       (invoice) => invoice.value === invoiceId.value
     );
     console.log("selected invoice", selectedInvoice);
-    // const taxablePaymentAmountControl = this.paymentInvoiceForm.get('taxablePaymentAmount');
-    // const nonTaxablePaymentAmountControl = this.paymentInvoiceForm.get('nonTaxablePaymentAmount');
-    
-    // const customerTaxableDue = this.dataById.taxableDue; // Customer taxable due
-    // const customerNonTaxableDue = this.dataById.nonTaxableDue; // Customer non-taxable due
-  
-    // if (selectedInvoice) {
-    //   // Log the fetched invoice dues and customer dues
-    //   console.log("Selected Invoice Taxable Due:", selectedInvoice.taxableDue);
-    //   console.log("Selected Invoice Non-Taxable Due:", selectedInvoice.nonTaxableDue);
-    //   console.log("Customer Taxable Due:", customerTaxableDue);
-    //   console.log("Customer Non-Taxable Due:", customerNonTaxableDue);
-  
-    //   // Compare taxable dues and patch if necessary
-    //   if (selectedInvoice.taxableDue < customerTaxableDue) {
-    //     console.log("Patching taxable amount with invoice due:", selectedInvoice.taxableDue);
-    //     taxablePaymentAmountControl.patchValue(Number(selectedInvoice.taxableDue));
-    //   } else {
-    //     console.log("No need to patch taxable amount, customer due is less or equal.");
-    //   }
-  
-    //   // Compare non-taxable dues and patch if necessary
-    //   if (selectedInvoice.nonTaxableDue < customerNonTaxableDue) {
-    //     console.log("Patching non-taxable amount with invoice due:", selectedInvoice.nonTaxableDue);
-    //     nonTaxablePaymentAmountControl.patchValue(Number(selectedInvoice.nonTaxableDue));
-    //   } else {
-    //     console.log("No need to patch non-taxable amount, customer due is less or equal.");
-    //   }
-    // } else {
-    //   console.log("No selected invoice found.");
-    // }
+    const taxablePaymentAmountControl = this.paymentInvoiceForm.get(
+      "taxablePaymentAmount"
+    );
+    const nonTaxablePaymentAmountControl = this.paymentInvoiceForm.get(
+      "nonTaxablePaymentAmount"
+    );
+
+    const customerTaxableDue = this.dataById.taxableDue; // Customer taxable due
+    const customerNonTaxableDue = this.dataById.nonTaxableDue; // Customer non-taxable due
+
+    if (selectedInvoice) {
+      console.log("Selected Invoice Taxable Due:", selectedInvoice.taxableDue);
+      console.log(
+        "Selected Invoice Non-Taxable Due:",
+        selectedInvoice.nonTaxableDue
+      );
+      console.log("Customer Taxable Due:", customerTaxableDue);
+      console.log("Customer Non-Taxable Due:", customerNonTaxableDue);
+      console.log("Supplier total due amount:", selectedInvoice.dueAmount);
+
+      if (selectedInvoice.taxVendor) {
+        // If taxVendor exists, only patch non-taxable amount
+        console.log("TaxVendor exists");
+
+        // Check if dueAmount is non-taxable
+        // const isNonTaxableDue =
+        //   selectedInvoice.dueAmount === selectedInvoice.nonTaxableDue;
+
+        if (
+          // isNonTaxableDue &&
+          // selectedInvoice.dueAmount > 0 &&
+          selectedInvoice.nonTaxableDue > 0 &&
+          selectedInvoice.nonTaxableDue < customerNonTaxableDue
+        ) {
+          console.log(
+            "Patching non-taxable amount with invoice due:",
+            selectedInvoice.nonTaxableDue
+          );
+          nonTaxablePaymentAmountControl.patchValue(
+            Number(selectedInvoice.nonTaxableDue)
+          );
+        }
+        // else if (!isNonTaxableDue) {
+        //   console.log(
+        //     "Due amount is taxable; no need to patch non-taxable amount."
+        //   );
+        // }
+        else {
+          console.log(
+            "No need to patch non-taxable amount, customer due is less or equal."
+          );
+        }
+        // taxablePaymentAmountControl.patchValue(null); // Clear taxable amount only for supplier
+      } else {
+        // If no tax vendor, patch both amounts based on dues
+        if (
+          selectedInvoice.taxableDue > 0 &&
+          selectedInvoice.taxableDue < customerTaxableDue
+        ) {
+          console.log(
+            "Patching taxable amount with invoice due:",
+            selectedInvoice.taxableDue
+          );
+          taxablePaymentAmountControl.patchValue(
+            Number(selectedInvoice.taxableDue)
+          );
+        } else {
+          console.log(
+            "No need to patch taxable amount, customer due is less or equal."
+          );
+        }
+
+        if (
+          selectedInvoice.nonTaxableDue > 0 &&
+          selectedInvoice.nonTaxableDue < customerNonTaxableDue
+        ) {
+          console.log(
+            "Patching non-taxable amount with invoice due:",
+            selectedInvoice.nonTaxableDue
+          );
+          nonTaxablePaymentAmountControl.patchValue(
+            Number(selectedInvoice.nonTaxableDue)
+          );
+        } else {
+          console.log(
+            "No need to patch non-taxable amount, customer due is less or equal."
+          );
+        }
+      }
+    } else {
+      console.log("No selected invoice found.");
+    }
+    this.onSalesPaymentAmountChanges();
   }
   // Function to track changes in the payment fields
   onFormChanges(): void {
@@ -412,30 +476,78 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           note: formData.note,
         },
       ];
+
+      console.log("payload for customer", payloadForCustomer);
+
+      const customerTotalPayment =
+        formData.taxablePaymentAmount + formData.nonTaxablePaymentAmount;
+
+      // Calculate non-taxable and remaining payments for supplier
+      let supplierNonTaxablePayment = Math.min(
+        customerTotalPayment,
+        this.invoiceDataByInvoiceId?.nonTaxableDue || 0
+      );
+      let remainingPaymentForTaxable =
+        customerTotalPayment - supplierNonTaxablePayment;
+
+      // Conditionally set the taxable payment
+      let supplierTaxablePayment = this.invoiceDataByInvoiceId?.taxVendor
+        ? null
+        : Math.min(
+            remainingPaymentForTaxable,
+            this.invoiceDataByInvoiceId?.taxableDue || 0
+          );
+
+      // Determine the purchase amount based on conditions
+      let purchaseAmount;
+      if (this.invoiceDataByInvoiceId?.taxVendor) {
+        // Condition 1: If taxVendor exists, only use non-taxable amount
+        if (this.invoiceDataByInvoiceId?.nonTaxableDue) {
+          purchaseAmount = supplierNonTaxablePayment;
+        } else {
+          purchaseAmount = null; // Clear purchase amount if no valid non-taxable due
+        }
+      } else if (supplierNonTaxablePayment > 0 || supplierTaxablePayment > 0) {
+        // Condition 2: No taxVendor, both non-taxable and taxable payments apply
+        purchaseAmount =
+          (supplierNonTaxablePayment || 0) + (supplierTaxablePayment || 0);
+      } else {
+        // Condition 3: No due amounts, purchase amount should remain undefined or null
+        purchaseAmount = null;
+      }
+      const isNonTaxableDueValid =
+        this.invoiceDataByInvoiceId?.nonTaxableDue > 0;
+
+      // Construct the payload
       const payloadforSupplier = [
         {
           supplier: this?.selectedSupplier,
           paymentDate: formData?.paymentDate,
           paymentMode: formData?.paymentMode,
-          purchase: [
-            {
-              _id: this.invoiceDataByInvoiceId?.value,
-              amount: Number(formData?.totalAmount),
-              purchaseInvoiceNumber: this.invoiceDataByInvoiceId?.label,
-            },
-          ],
-          taxablePaymentAmount: formData?.taxablePaymentAmount
+          purchase: purchaseAmount
+            ? [
+                {
+                  _id: this.invoiceDataByInvoiceId?.value,
+                  amount: purchaseAmount, // Conditionally set based on above logic
+                  purchaseInvoiceNumber: this.invoiceDataByInvoiceId?.label,
+                },
+              ]
+            : [], // Skip purchase field if purchaseAmount is null
+          taxablePaymentAmount: this.invoiceDataByInvoiceId?.taxVendor
+            ? null
+            : supplierTaxablePayment
             ? {
-                amount: formData?.taxablePaymentAmount,
+                amount: supplierTaxablePayment,
                 paymentMode: formData?.taxablePaymentMode,
               }
             : null,
-          nonTaxablePaymentAmount: formData?.nonTaxablePaymentAmount
-            ? {
-                amount: formData?.nonTaxablePaymentAmount,
-                paymentMode: formData?.nonTaxablePaymentMode,
-              }
-            : null,
+          nonTaxablePaymentAmount:
+            isNonTaxableDueValid && supplierNonTaxablePayment > 0
+              ? {
+                  amount: supplierNonTaxablePayment,
+                  paymentMode: formData?.nonTaxablePaymentMode,
+                }
+              : null,
           note: formData?.note,
         },
       ];
@@ -468,29 +580,32 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
             "selected supplier condition is true",
             this.selectedSupplier
           );
-          this.paymentOutService
-            .createPayment(payloadforSupplier)
-            .subscribe((resp: any) => {
-              console.log(resp);
-              if (resp) {
-                if (resp.status === "success") {
-                  const message = "Payment has been added";
-                  console.log(message);
-                  // this.messageService.add({ severity: "success", detail: message });
-                  setTimeout(() => {
-                    this.close.emit();
-                    this.paymentInvoiceForm.reset();
-                  }, 400);
-                } else {
-                  const message = resp.message;
-                  // this.messageService.add({
-                  //   severity: "error",
-                  //   detail: message,
-                  // });
-                  console.log(message);
+          if (purchaseAmount > 0) {
+            this.paymentOutService
+              .createPayment(payloadforSupplier)
+              .subscribe((resp: any) => {
+                console.log(resp);
+                if (resp) {
+                  if (resp.status === "success") {
+                    const message = "Payment has been added";
+                    console.log(message);
+                    // this.messageService.add({ severity: "success", detail: message });
+                    setTimeout(() => {
+                      this.close.emit();
+                      this.paymentInvoiceForm.reset();
+                    }, 400);
+                  } else {
+                    const message = resp.message;
+                    // this.messageService.add({
+                    //   severity: "error",
+                    //   detail: message,
+                    // });
+                    console.log(message);
+                  }
                 }
-              }
-            });
+              });
+          }
+          
         } else {
           console.log("Supplier Is Not Select in the form");
         }

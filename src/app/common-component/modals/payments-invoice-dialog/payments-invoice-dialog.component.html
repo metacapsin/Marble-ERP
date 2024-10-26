@@ -510,7 +510,7 @@
                               </div>
                             </div>
                           </div>
-                          <div *ngIf="!dataById?.isPurchase" class="col-6"
+                          <div *ngIf="dataById?.isSales" class="col-6"
                             [ngClass]="{'col-md-4': paymentInvoiceForm.get('supplier').value}">
                             <div class="form-group local-forms">
                               <label for="name">Paid To </label>
@@ -528,9 +528,11 @@
                                 [options]="invoiceNumberList" optionLabel="label" formControlName="invoiceNumber"
                                 (onChange)="onInvoiceNumberSelect($event.value)">
                               </p-dropdown>
-                              <span *ngIf="paymentInvoiceForm.get('invoiceNumber').value" style="color: #97704f; font-size: 12px; 
-                            ">Purchase Due :(Taxable Due: {{invoiceDataByInvoiceId.taxableDue}}, Non-Taxable
-                                Due:{{invoiceDataByInvoiceId.nonTaxableDue}})</span>
+                              <span *ngIf="paymentInvoiceForm.get('invoiceNumber').value && !invoiceDataByInvoiceId.taxVendor" style="color: #97704f; font-size: 12px; 
+                            ">Purchase Due :(Taxable Due: ₹{{invoiceDataByInvoiceId.taxableDue}}, Non-Taxable
+                                Due: ₹{{invoiceDataByInvoiceId.nonTaxableDue}})</span>
+                              <span *ngIf="paymentInvoiceForm.get('invoiceNumber').value && invoiceDataByInvoiceId.taxVendor" style="color: #97704f; font-size: 12px; 
+                            ">Purchase Due : ₹{{invoiceDataByInvoiceId.nonTaxableDue}}</span>
                             </div>
 
 
@@ -694,7 +696,8 @@
                                   </p>
                                   <div class="form-group d-flex flex-wrap gap-2">
                                     <button type="submit" class="btn btn-primary btn-gradient-primary w-100 w-md-auto"
-                                      [disabled]="!paymentInvoiceForm.valid">
+                                      >
+                                      <!-- [disabled]="!paymentInvoiceForm.valid" -->
                                       Submit
                                     </button>
                                     <button class="btn btn-secondary w-100 w-md-auto" (click)="closeTheWindow()">
