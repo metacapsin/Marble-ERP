@@ -30,8 +30,8 @@
                     <h3>Lots List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
-                          (ngModelChange)="searchData()" />
+                       <input type="text" class="form-control" placeholder="Search here"   #searchTable (input)="
+                        dt.filterGlobal(searchTable.value, 'contains')">
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                       <!-- <div class="add-group textbtn">
@@ -77,12 +77,14 @@
             <div class="card-body p-2">
 
               <p-table
-                [value]="lotData | filter:searchDataValue:['date', 'lotName','lotNo','lotWeight','pricePerTon','blocksCount','lotTotalCosting',]"
+                [value]="lotData"
                 [tableStyle]="{'min-width': '60rem'}" [paginator]="lotData?.length >= 5" [rows]="10"
                 [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot" styleClass="p-datatable-striped"
-                selectionMode="multiple" (onFilter)="onFilter($event)" #dt [columns]="cols" 
-                [exportHeader]="'customExportHeader'" exportFilename="Lot" class="table-responsive">
-                <ng-template pTemplate="header" >
+                selectionMode="multiple"  #dt [columns]="cols"
+                [exportHeader]="'customExportHeader'" exportFilename="Lot" class="table-responsive"
+                [globalFilterFields]="['date', 'lotName','lotNo','lotWeight','pricePerTon','blocksCount','lotTotalCosting','warehouseDetails.name']"
+                >
+                <ng-template pTemplate="header">
                   <tr>
                     <th class="text-nowrap" pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="date"
@@ -96,19 +98,23 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotNo"
                         display="menu"></p-columnFilter>
                     </th>
-                    <th class="text-nowrap" pSortableColumn="lotWeight">Lot Weight (Ton)<p-sortIcon field="lotWeight"></p-sortIcon>
+                    <th class="text-nowrap" pSortableColumn="lotWeight">Lot Weight (Ton)<p-sortIcon
+                        field="lotWeight"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotWeight"
                         display="menu"></p-columnFilter>
                     </th>
-                    <th class="text-nowrap" pSortableColumn="pricePerTon">Price / Ton <p-sortIcon field="pricePerTon"></p-sortIcon>
+                    <th class="text-nowrap" pSortableColumn="pricePerTon">Price / Ton <p-sortIcon
+                        field="pricePerTon"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="pricePerTon"
                         display="menu"></p-columnFilter>
                     </th>
-                    <th class="text-nowrap" pSortableColumn="blocksCount">Total Blocks <p-sortIcon field="blocksCount"></p-sortIcon>
+                    <th class="text-nowrap" pSortableColumn="blocksCount">Total Blocks <p-sortIcon
+                        field="blocksCount"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blocksCount"
                         display="menu"></p-columnFilter>
                     </th>
-                    <th class="text-nowrap" pSortableColumn="lotTotalCosting">Total Cost <p-sortIcon field="lotTotalCosting"></p-sortIcon>
+                    <th class="text-nowrap" pSortableColumn="lotTotalCosting">Total Cost <p-sortIcon
+                        field="lotTotalCosting"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotTotalCosting"
                         display="menu"></p-columnFilter>
                     </th>
@@ -121,15 +127,15 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-lot>
-                  <tr >
-                    <td >{{lot.date | date: 'dd-MMM-yyyy'}}</td>
-                    <td >{{lot.lotName}}</td>
-                    <td >{{lot.lotNo}}</td>
-                    <td >{{lot.lotWeight}}</td>
-                    <td >₹ {{lot.pricePerTon |indianCurrency}}</td>
-                    <td >{{lot.blocksCount}}</td>
-                    <td >₹ {{lot.lotTotalCosting |indianCurrency}}</td>
-                    <td >{{lot.warehouseDetails.name}}</td>
+                  <tr>
+                    <td>{{lot.date | date: 'dd-MMM-yyyy'}}</td>
+                    <td>{{lot.lotName}}</td>
+                    <td>{{lot.lotNo}}</td>
+                    <td>{{lot.lotWeight}}</td>
+                    <td>₹ {{lot.pricePerTon |indianCurrency}}</td>
+                    <td>{{lot.blocksCount}}</td>
+                    <td>₹ {{lot.lotTotalCosting |indianCurrency}}</td>
+                    <td>{{lot.warehouseDetails.name}}</td>
                     <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                       <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View" tooltipPosition="bottom"
                         tooltipStyleClass="tooltip" (click)="showLotDetails(lot._id)"></p-button>
@@ -199,10 +205,12 @@
               <td>₹ {{lot.totalCosting.toFixed(3)}}</td>
               <td *ngIf="lot.isProcessed"><p-tag severity="success" value="Yes"></p-tag></td>
               <td *ngIf="!lot.isProcessed"><p-tag severity="warning" value="No"></p-tag></td>
-              <td >
+              <td>
                 <p-dropdown [options]="blockProcessorList" appendTo="body" optionLabel="name" optionValue="_id"
-                 placeholder="Select Processor" [style]="{ width: '100%' }"  [(ngModel)]="lot.blockProcessor"                 [filter]="true" filterBy="name" [showClear]="false" (onChange)="onBlockProcessorChange($event, lot.blockNo)">
-                      </p-dropdown>
+                  placeholder="Select Processor" [style]="{ width: '100%' }" [(ngModel)]="lot.blockProcessor"
+                  [filter]="true" filterBy="name" [showClear]="false"
+                  (onChange)="onBlockProcessorChange($event, lot.blockNo)">
+                </p-dropdown>
               </td>
             </tr>
           </ng-template>

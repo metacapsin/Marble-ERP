@@ -30,8 +30,8 @@
                     <h3>Blocks List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
-                          (ngModelChange)="searchData()" />
+                       <input type="text" class="form-control" placeholder="Search here"   #searchTable (input)="
+                        dt.filterGlobal(searchTable.value, 'contains')">
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                       <!-- <div class="add-group textbtn">
@@ -77,11 +77,12 @@
             <div class="card-body p-2">
 
               <p-table
-                [value]="data| filter:searchDataValue:['date','blockDetails.blockNo','categoryDetail.name','subCategoryDetail.name','blockDetails.height','blockDetails.width','blockDetails.length','totalArea','lotTotalCosting','warehouseDetails.name','lotNo','lotName','blockProcessorList', ]"
+                [value]="data"
                 [tableStyle]="{'min-width': '60rem'}" [paginator]="data?.length >= 5" [rows]="10"
                 [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedBlocks" styleClass="p-datatable-striped"
-                selectionMode="multiple" (onFilter)="onFilter($event)" #dt [columns]="cols"
-                [exportHeader]="'customExportHeader'" exportFilename="Blocks List" class="table-responsive">
+                selectionMode="multiple" #dt [columns]="cols"
+                [exportHeader]="'customExportHeader'" exportFilename="Blocks List" class="table-responsive"
+                [globalFilterFields]="['date','blockDetails.blockNo','categoryDetail.name','subCategoryDetail.name','blockDetails.height','blockDetails.width','blockDetails.length','totalArea','lotTotalCosting','warehouseDetails.name','lotNo','lotName','blockProcessorList', ]">
                 <ng-template pTemplate="header">
                   <tr>
                     <th class="text-nowrap" pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>

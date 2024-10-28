@@ -57,9 +57,8 @@ export class ListLotComponent implements OnInit {
     private SlabsService: SlabsService,
     private messageService: MessageService,
     private WarehouseService: WarehouseService,
-    private blockProcessorService: blockProcessorService
-  ) // private csvDownloadService: CsvDownloadService
-  {}
+    private blockProcessorService: blockProcessorService // private csvDownloadService: CsvDownloadService
+  ) {}
 
   getLotList(): void {
     this.service.getLotList().subscribe((resp: any) => {
@@ -132,10 +131,7 @@ export class ListLotComponent implements OnInit {
       console.log(this.warehouseData);
     });
   }
-  onFilter(value: any) {
-    this.lotData = value.filteredValue;
-    console.log(value.filteredValue);
-  }
+ 
 
   onSearchByChange(value: any): void {
     // If the search value is empty or null, return all original data
