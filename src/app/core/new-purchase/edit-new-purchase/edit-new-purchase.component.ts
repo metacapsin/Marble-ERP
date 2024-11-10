@@ -28,8 +28,8 @@ export class EditNewPurchaseComponent implements OnInit {
   public routes = routes;
   maxDate = new Date();
   lotsNoArray = [
-    { name: "Lot", _id: "Lot" },
-    { name: "Slab", _id: "Slab" },
+    { name: "Lot", _id: "lot" },
+    { name: "Slab", _id: "slab" },
   ];
   finishes = [
     { name: "Polished" },
@@ -173,8 +173,8 @@ export class EditNewPurchaseComponent implements OnInit {
         if (resp.data.purchaseType === "lot") {
           this.changeDetector.detectChanges(); //
           this.editNewPurchaseForm.patchValue({
-            purchaseType: "Lot",
-            lotTypeValue: "Lot",
+            purchaseType: "lot",
+            lotTypeValue: "lot",
           });
           this.lotTypeValue = resp.data.purchaseType;
           this.purchaseData = resp.data.lotDetails;
@@ -198,8 +198,8 @@ export class EditNewPurchaseComponent implements OnInit {
             console.log("the lot type value after purchase type is slab");
 
             this.editNewPurchaseForm.patchValue({
-              purchaseType: "Slab",
-              lotTypeValue: "Slab",
+              purchaseType: "slab",
+              lotTypeValue: "slab",
             });
           }
         }
@@ -283,9 +283,9 @@ export class EditNewPurchaseComponent implements OnInit {
 
   populateForm(data: any, type: string = data?.purchaseType) {
     if (type === "slab") {
-      this.lotTypeValue = "Slab";
+      this.lotTypeValue = "slab";
       this.editNewPurchaseForm.patchValue({
-        purchaseType: "Slab",
+        purchaseType: "slab",
         paidToSupplierPurchaseCost: data?.purchaseCost.toFixed(2),
         purchaseNotes: data?.purchaseNotes,
         slabNo: data?.slabDetails.slabNo,
@@ -361,10 +361,13 @@ export class EditNewPurchaseComponent implements OnInit {
   }
   nextStep(nextCallback: any, page: string) {
     if (page == "first") {
-      if (this.lotTypeValue == "Lot") {
+      if (this.lotTypeValue == "lot") {
         this.child.LotEditFormSubmit();
         this.ItemDetails =
           this.NewPurchaseService.getFormData("stepFirstLotData");
+
+          // Save the ItemDetails in local storage
+    localStorage.setItem("lotFormData", JSON.stringify(this.ItemDetails));
         const payload = { ...this.ItemDetails };
         delete payload.nonTaxable;
         delete payload.taxableAmount;
@@ -390,9 +393,9 @@ export class EditNewPurchaseComponent implements OnInit {
   lotType(value: any) {
 
     if (value== 'lot') {
-      this.lotTypeValue = "Lot";
+      this.lotTypeValue = "lot";
     console.log("value on select of purchase type", value);
-    if (this.lotTypeValue == "Lot") {
+    if (this.lotTypeValue == "lot") {
       this.previousSlabValues = {
         slabNo: this.editNewPurchaseForm.value.slabNo,
         slabName: this.editNewPurchaseForm.value.slabName,
@@ -466,7 +469,7 @@ export class EditNewPurchaseComponent implements OnInit {
     this.calculateTotalAmount();
   }
   calculateTotalAmount() {
-    if (this.lotTypeValue === "Slab") {
+    if (this.lotTypeValue === "slab") {
       let totalTaxAmount: number = 0;
       let paidToSupplierPurchaseCost =
         this.editNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value || 0;
@@ -533,7 +536,7 @@ export class EditNewPurchaseComponent implements OnInit {
   }
 
   calculateDiscount() {
-    if (this.lotTypeValue === "Slab") {
+    if (this.lotTypeValue === "slab") {
       let purchaseDiscount =
         this.editNewPurchaseForm.get("purchaseDiscount")?.value || 0;
       let taxableAmount =
@@ -593,7 +596,7 @@ export class EditNewPurchaseComponent implements OnInit {
         .get("paidToSupplierPurchaseCost")
         .patchValue(this.editNewPurchaseForm.get("nonTaxable").value);
     } else {
-      this.lotTypeValue === "Lot"
+      this.lotTypeValue === "lot"
         ? this.editNewPurchaseForm
             .get("paidToSupplierPurchaseCost")
             .patchValue(this.ItemDetails.paidToSupplierLotCost)
@@ -603,6 +606,10 @@ export class EditNewPurchaseComponent implements OnInit {
     }
   }
 
+  // Optional: clear local storage if needed when the form is completed
+clearLocalStorage() {
+  localStorage.removeItem("lotFormData");
+}
   editNewPurchaseFormSubmit() {
     const formData = this.editNewPurchaseForm.value;
     let payload = {};
@@ -624,7 +631,7 @@ export class EditNewPurchaseComponent implements OnInit {
       taxVendorAmount: Number(formData.taxVendorAmount),
       vendorTaxApplied: Number(formData.vendorTaxApplied),
     };
-    if (this.editNewPurchaseForm.value.purchaseType == "Lot") {
+    if (this.editNewPurchaseForm.value.purchaseType == "lot") {
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,
@@ -698,6 +705,7 @@ export class EditNewPurchaseComponent implements OnInit {
       this.NewPurchaseService.UpdatePurchaseData(payload).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === "success") {
+            this.clearLocalStorage();
             this.NewPurchaseService.clearFormData();
             const message = "Purchase has been added";
             this.messageService.add({ severity: "success", detail: message });
