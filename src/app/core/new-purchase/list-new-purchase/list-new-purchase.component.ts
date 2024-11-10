@@ -121,8 +121,11 @@ export class ListNewPurchaseComponent implements OnChanges {
       }));
     }
   }
-  purchaseUpdate(id: number) {
-    this.router.navigate(["/purchase/edit-purchase/" + id]);
+  navigateToEditPurchase(id: number) {
+    this.router.navigate(["/new-purchase/edit-new-purchase/" + id]);
+    const returnUrl = this.router.url;
+    this.localStorageService.setItem("returnUrl", returnUrl);
+
   }
 
   navigateToCreatePurchase() {
