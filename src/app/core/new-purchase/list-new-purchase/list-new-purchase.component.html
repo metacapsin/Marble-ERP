@@ -146,7 +146,7 @@
                     <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                       <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"
                         (click)="showInvoiceDialoge(purchase._id)"></p-button>
-                      <p-button [text]="true" icon="fa-solid fa-edit" pTooltip="Edit" tooltipPosition="bottom" tooltipStyleClass="tooltip"
+                      <p-button [text]="true" icon="fa-solid fa-edit" pTooltip="Edit" tooltipPosition="bottom" tooltipStyleClass="tooltip" *ngIf="purchase.paymentStatus == 'Unpaid'"
                         (click)="navigateToEditPurchase(purchase._id)"></p-button>
                       <p-button [text]="true" icon="fa fa-trash" *ngIf="purchase.paymentStatus == 'Unpaid'" (click)="purchaseDelete(purchase._id)"  pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                       <div *ngIf="purchase.paymentStatus != 'Unpaid'" class="placeholder"><span class="fa-stack">

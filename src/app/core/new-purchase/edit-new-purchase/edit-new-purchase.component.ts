@@ -175,6 +175,7 @@ export class EditNewPurchaseComponent implements OnInit {
           this.editNewPurchaseForm.patchValue({
             purchaseType: "lot",
             lotTypeValue: "lot",
+            productId:resp.data.productId
           });
           this.lotTypeValue = resp.data.purchaseType;
           this.purchaseData = resp.data.lotDetails;
@@ -200,6 +201,8 @@ export class EditNewPurchaseComponent implements OnInit {
             this.editNewPurchaseForm.patchValue({
               purchaseType: "slab",
               lotTypeValue: "slab",
+            productId:resp.data.productId
+
             });
           }
         }
@@ -318,8 +321,6 @@ export class EditNewPurchaseComponent implements OnInit {
         taxApplied: data?.taxApplied,
         isTaxVendor: data?.isTaxVendor,
         _id: data?._id,
-        productId: data?.productId,
-        slab_id: data?.slabDetails._id,
       });
 
       this.changeDetector.detectChanges(); // Trigger change detection to update the view
@@ -613,6 +614,8 @@ clearLocalStorage() {
   editNewPurchaseFormSubmit() {
     const formData = this.editNewPurchaseForm.value;
     let payload = {};
+    this.NewPurchaseService.clearFormData();
+
     this.LotPayload = this.LotPayload || {};
 
     if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
@@ -649,6 +652,7 @@ clearLocalStorage() {
           ? taxVenoderObj
           : null,
         taxApplied: formData.taxApplied,
+        productId:formData.productId,
         _id:formData._id
       };
     } else {
@@ -698,6 +702,8 @@ clearLocalStorage() {
           : null,
         taxApplied: formData.taxApplied,
         _id:formData._id,
+        productId:formData.productId,
+
       };
     }
     if (this.editNewPurchaseForm.valid) {
