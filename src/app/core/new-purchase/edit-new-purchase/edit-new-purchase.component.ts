@@ -142,9 +142,9 @@ export class EditNewPurchaseComponent implements OnInit {
 
   ngOnInit() {
 
-    this.currentUrl = this.router.url;
-    console.log(this.currentUrl);
-    console.log("this is current url on purchase page", this.currentUrl);
+    this.returnUrl = this.localStorageService.getItem("returnUrl");   
+     console.log(this.returnUrl);
+    console.log("this is current url on purchase page", this.returnUrl);
     // const today = new Date();
     // const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
@@ -161,6 +161,19 @@ export class EditNewPurchaseComponent implements OnInit {
         });
       });
     });
+    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
+      this.wareHousedata = resp.data;
+      this.wareHousedataListsEditArray = [];
+      this.wareHousedata.forEach((element: any) => {
+        this.wareHousedataListsEditArray.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name,
+          },
+        });
+      });
+    });
     this.NewPurchaseService.getPurchaseById(this.purchaseId).subscribe(
       (resp: any) => {
         console.log("Edit response", resp);
@@ -168,6 +181,7 @@ export class EditNewPurchaseComponent implements OnInit {
           invoiceNumber: resp.data.purchaseInvoiceNumber,
           purchaseDate: resp.data.purchaseDate,
           supplier: resp.data.supplier,
+          _id:resp.data._id
         });
 
         if (resp.data.purchaseType === "lot") {
@@ -175,7 +189,7 @@ export class EditNewPurchaseComponent implements OnInit {
           this.editNewPurchaseForm.patchValue({
             purchaseType: "lot",
             lotTypeValue: "lot",
-            productId:resp.data.productId
+            productId:resp.data.productId,
           });
           this.lotTypeValue = resp.data.purchaseType;
           this.purchaseData = resp.data.lotDetails;
@@ -201,7 +215,9 @@ export class EditNewPurchaseComponent implements OnInit {
             this.editNewPurchaseForm.patchValue({
               purchaseType: "slab",
               lotTypeValue: "slab",
-            productId:resp.data.productId
+            productId:resp.data.productId,
+            slab_id:resp.data.slabDetails._id
+
 
             });
           }
@@ -219,19 +235,7 @@ export class EditNewPurchaseComponent implements OnInit {
         }));
       }
     });
-    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
-      this.wareHousedata = resp.data;
-      this.wareHousedataListsEditArray = [];
-      this.wareHousedata.forEach((element: any) => {
-        this.wareHousedataListsEditArray.push({
-          name: element.name,
-          _id: {
-            _id: element._id,
-            name: element.name,
-          },
-        });
-      });
-    });
+    
     this.SuppliersdataService.GetSupplierData().subscribe((data: any) => {
       this.getSupplierShow = data;
       this.SupplierLists = [];
@@ -320,7 +324,7 @@ export class EditNewPurchaseComponent implements OnInit {
         vendorTaxApplied: data?.vendorTaxApplied,
         taxApplied: data?.taxApplied,
         isTaxVendor: data?.isTaxVendor,
-        _id: data?._id,
+        slab_id: data?.slabDetails._id,
       });
 
       this.changeDetector.detectChanges(); // Trigger change detection to update the view
@@ -615,6 +619,8 @@ clearLocalStorage() {
     const formData = this.editNewPurchaseForm.value;
     let payload = {};
     this.NewPurchaseService.clearFormData();
+    // this.clearLocalStorage();
+
 
     this.LotPayload = this.LotPayload || {};
 
@@ -691,6 +697,7 @@ clearLocalStorage() {
           noOfPieces: Number(formData.noOfPieces.toFixed(2)),
           date: formData.purchaseDate,
           notes: formData.purchaseNotes,
+          _id:formData.slab_id
         },
         purchaseTotalAmount: Number(formData.totalCosting),
         nonTaxable: Number(formData.nonTaxable),
@@ -713,7 +720,7 @@ clearLocalStorage() {
           if (resp.status === "success") {
             this.clearLocalStorage();
             this.NewPurchaseService.clearFormData();
-            const message = "Purchase has been added";
+            const message = "Purchase has been Updated added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {
               this.router.navigateByUrl(this.returnUrl);

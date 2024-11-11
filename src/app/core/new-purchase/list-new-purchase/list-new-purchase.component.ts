@@ -173,7 +173,6 @@ export class ListNewPurchaseComponent implements OnChanges {
       this.showInvoiceDialog = false;
       this.showDialoge = false;
       let message = "Purchase has been Deleted";
-      debugger
       this.messageService.add({ severity: "success", detail: message });
       this.onSearchByChange(this.searchBy);
     });

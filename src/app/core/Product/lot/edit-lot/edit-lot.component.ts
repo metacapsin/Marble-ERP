@@ -127,6 +127,7 @@ export class EditLotComponent {
         categoryDetail: ["", [Validators.required]],
         subCategoryDetail: ["", [Validators.required]],
         totalTransportationCharges: [""],
+        _id:['']
       },
       { validators: atLeastOneRequiredValidator() }
     );
@@ -302,6 +303,7 @@ export class EditLotComponent {
         taxApplied: data.taxApplied || "",
         categoryDetail: data.categoryDetail || "",
         subCategoryDetail: data.subCategoryDetail || "",
+        _id:data._id
       });
 
       this.calculateTotalAmount();
@@ -557,6 +559,7 @@ export class EditLotComponent {
         categoryDetail: formData.categoryDetail,
         subCategoryDetail: formData.subCategoryDetail,
         totalTransportationCharges: Number(formData.totalTransportationCharges),
+        _id:formData._id
       };
       this.NewPurchaseService.setFormData("stepFirstLotData", payload);
     }
