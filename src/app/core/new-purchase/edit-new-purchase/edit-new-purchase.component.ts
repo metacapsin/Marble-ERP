@@ -142,8 +142,8 @@ export class EditNewPurchaseComponent implements OnInit {
 
   ngOnInit() {
 
-    this.returnUrl = this.localStorageService.getItem("returnUrl");   
-     console.log(this.returnUrl);
+    this.returnUrl = this.localStorageService.getItem("returnUrl");
+    console.log(this.returnUrl);
     console.log("this is current url on purchase page", this.returnUrl);
     // const today = new Date();
     // const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
@@ -181,7 +181,7 @@ export class EditNewPurchaseComponent implements OnInit {
           invoiceNumber: resp.data.purchaseInvoiceNumber,
           purchaseDate: resp.data.purchaseDate,
           supplier: resp.data.supplier,
-          _id:resp.data._id
+          _id: resp.data._id
         });
 
         if (resp.data.purchaseType === "lot") {
@@ -189,7 +189,7 @@ export class EditNewPurchaseComponent implements OnInit {
           this.editNewPurchaseForm.patchValue({
             purchaseType: "lot",
             lotTypeValue: "lot",
-            productId:resp.data.productId,
+            productId: resp.data.productId,
           });
           this.lotTypeValue = resp.data.purchaseType;
           this.purchaseData = resp.data.lotDetails;
@@ -200,7 +200,7 @@ export class EditNewPurchaseComponent implements OnInit {
             this.lotTypeValue,
             resp.data
           );
-        
+
         }
 
         if (resp.data.purchaseType === "slab") {
@@ -215,8 +215,8 @@ export class EditNewPurchaseComponent implements OnInit {
             this.editNewPurchaseForm.patchValue({
               purchaseType: "slab",
               lotTypeValue: "slab",
-            productId:resp.data.productId,
-            slab_id:resp.data.slabDetails._id
+              productId: resp.data.productId,
+              slab_id: resp.data.slabDetails._id
 
 
             });
@@ -235,7 +235,7 @@ export class EditNewPurchaseComponent implements OnInit {
         }));
       }
     });
-    
+
     this.SuppliersdataService.GetSupplierData().subscribe((data: any) => {
       this.getSupplierShow = data;
       this.SupplierLists = [];
@@ -371,8 +371,8 @@ export class EditNewPurchaseComponent implements OnInit {
         this.ItemDetails =
           this.NewPurchaseService.getFormData("stepFirstLotData");
 
-          // Save the ItemDetails in local storage
-    localStorage.setItem("lotFormData", JSON.stringify(this.ItemDetails));
+        // Save the ItemDetails in local storage
+        localStorage.setItem("lotFormData", JSON.stringify(this.ItemDetails));
         const payload = { ...this.ItemDetails };
         delete payload.nonTaxable;
         delete payload.taxableAmount;
@@ -387,7 +387,7 @@ export class EditNewPurchaseComponent implements OnInit {
           taxable: this.ItemDetails?.taxable,
           purchaseItemTax: this.ItemDetails?.purchaseItemTax,
           taxApplied: this.ItemDetails?.taxApplied,
-          _id:this.purchaseId
+          _id: this.purchaseId
         });
       }
     }
@@ -397,8 +397,7 @@ export class EditNewPurchaseComponent implements OnInit {
 
   lotType(value: any) {
     console.log('ddd');
-    
-      this.lotTypeValue = value;
+    this.lotTypeValue = value.toLowerCase();
     if (this.lotTypeValue == "lot") {
       this.previousSlabValues = {
         slabNo: this.editNewPurchaseForm.value.slabNo,
@@ -468,10 +467,13 @@ export class EditNewPurchaseComponent implements OnInit {
           this.previousSlabValues.paidToSupplierPurchaseCost,
       });
     }
-    this.calculateTotalAmount();
+
+    console.log('previousSlabValues', this.previousSlabValues);
+
+    // this.calculateTotalAmount();
   }
   calculateTotalAmount() {
-    if (this.lotTypeValue === "slab") {
+    if (this.lotTypeValue == "slab") {
       let totalTaxAmount: number = 0;
       let paidToSupplierPurchaseCost =
         this.editNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value || 0;
@@ -600,18 +602,18 @@ export class EditNewPurchaseComponent implements OnInit {
     } else {
       this.lotTypeValue === "lot"
         ? this.editNewPurchaseForm
-            .get("paidToSupplierPurchaseCost")
-            .patchValue(this.ItemDetails.paidToSupplierLotCost)
+          .get("paidToSupplierPurchaseCost")
+          .patchValue(this.ItemDetails.paidToSupplierLotCost)
         : this.editNewPurchaseForm
-            .get("paidToSupplierPurchaseCost")
-            .patchValue(this.editNewPurchaseForm.get("nonTaxable").value);
+          .get("paidToSupplierPurchaseCost")
+          .patchValue(this.editNewPurchaseForm.get("nonTaxable").value);
     }
   }
 
   // Optional: clear local storage if needed when the form is completed
-clearLocalStorage() {
-  localStorage.removeItem("lotFormData");
-}
+  clearLocalStorage() {
+    localStorage.removeItem("lotFormData");
+  }
   editNewPurchaseFormSubmit() {
     const formData = this.editNewPurchaseForm.value;
     let payload = {};
@@ -627,6 +629,7 @@ clearLocalStorage() {
       );
       this.LotPayload.date = formData.purchaseDate;
       this.LotPayload.notes = formData.purchaseNotes;
+      this.LotPayload._id = formData.productId;
     } else {
       console.error("formData.paidToSupplierPurchaseCost is not defined");
     }
@@ -655,14 +658,13 @@ clearLocalStorage() {
           ? taxVenoderObj
           : null,
         taxApplied: formData.taxApplied,
-        productId:formData.productId,
-        _id:formData._id
+        productId: formData.productId,
+        _id: formData._id
       };
     } else {
       if (formData.width || formData.length || formData.thickness) {
-        var _Size = `${formData.width ? formData.width : " "} x ${
-          formData.length ? formData.length : " "
-        } x ${formData.thickness ? formData.thickness : " "}`;
+        var _Size = `${formData.width ? formData.width : " "} x ${formData.length ? formData.length : " "
+          } x ${formData.thickness ? formData.thickness : " "}`;
       }
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
@@ -694,7 +696,7 @@ clearLocalStorage() {
           noOfPieces: Number(formData.noOfPieces.toFixed(2)),
           date: formData.purchaseDate,
           notes: formData.purchaseNotes,
-          _id:formData.slab_id
+          _id: formData.slab_id
         },
         purchaseTotalAmount: Number(formData.totalCosting),
         nonTaxable: Number(formData.nonTaxable),
@@ -705,8 +707,8 @@ clearLocalStorage() {
           ? taxVenoderObj
           : null,
         taxApplied: formData.taxApplied,
-        _id:formData._id,
-        productId:formData.productId,
+        _id: formData._id,
+        productId: formData.productId,
 
       };
     }
