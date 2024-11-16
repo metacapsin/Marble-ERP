@@ -160,9 +160,10 @@
                     <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                       <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"
                         pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      <p-button [text]="true" icon="fa-solid fa-edit" (click)="navigateToEditSale(sales._id)"
+                        pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                       <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"
                         pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
-
                     </td>
                   </tr>
                 </ng-template>

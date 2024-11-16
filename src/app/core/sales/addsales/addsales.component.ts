@@ -300,7 +300,8 @@ export class AddsalesComponent implements OnInit {
     ) as FormArray;
 
     const selectedSlab = this.slabData.find((slab) => slab._id === value._id);
-
+    console.log('selectedSlab',selectedSlab);
+    
     if (selectedSlab) {
       let remainingQuantity = selectedSlab.totalSQFT;
       for (let j = 0; j < salesItemDetailsArray.length; j++) {
@@ -327,7 +328,7 @@ export class AddsalesComponent implements OnInit {
         maxQuantityControl.setValue(remainingQuantity > 0 ? remainingQuantity : 0);
       }
       if (sqftPerPieceControl) {
-        sqftPerPieceControl.patchValue(selectedSlab.sqftPerPiece);
+        sqftPerPieceControl.setValue(selectedSlab.sqftPerPiece);
         this.calculateTotalAmount();
       }
     } else {

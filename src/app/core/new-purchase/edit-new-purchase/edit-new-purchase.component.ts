@@ -396,10 +396,9 @@ export class EditNewPurchaseComponent implements OnInit {
   }
 
   lotType(value: any) {
-
-    if (value== 'lot') {
-      this.lotTypeValue = "lot";
-    console.log("value on select of purchase type", value);
+    console.log('ddd');
+    
+      this.lotTypeValue = value;
     if (this.lotTypeValue == "lot") {
       this.previousSlabValues = {
         slabNo: this.editNewPurchaseForm.value.slabNo,
@@ -468,8 +467,6 @@ export class EditNewPurchaseComponent implements OnInit {
         paidToSupplierPurchaseCost:
           this.previousSlabValues.paidToSupplierPurchaseCost,
       });
-    }
-      
     }
     this.calculateTotalAmount();
   }
