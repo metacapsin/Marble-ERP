@@ -30,9 +30,9 @@ import { SubCategoriesService } from "src/app/core/settings/sub-categories/sub-c
   styleUrl: "./edit-lot.component.scss",
 })
 export class EditLotComponent {
-  public routes = routes;
   lotEditForm: FormGroup;
   maxDate = new Date();
+  public routes = routes;
   activeIndex: number[] = [0]; // or any other indices you want active by default
   totalBlocksArea: number = 0;
   blocksDetails = [];
@@ -65,15 +65,7 @@ export class EditLotComponent {
   subCategorListByCategory: any = [];
   maxPurchaseAmount = 0;
   previouslotData: any;
-  lotId: any;
-  dataResponseData: any;
-  x;
-
-  @Input() data: any;
-
   constructor(
-    public router: Router,
-    private activeRoute: ActivatedRoute,
     private fb: FormBuilder,
     private messageService: MessageService,
     private cdRef: ChangeDetectorRef,
@@ -84,92 +76,75 @@ export class EditLotComponent {
     private ServiceblockProcessor: blockProcessorService,
     private taxService: TaxesService
   ) {
-    this.lotEditForm = this.fb.group(
-      {
-        lotNo: [
-          "",
-          [
-            Validators.required,
-            Validators.pattern(validationRegex.oneToFiftyCharRegex),
-          ],
+    this.lotEditForm = this.fb.group({
+      lotNo: ["", [Validators.required, Validators.pattern(validationRegex.oneToFiftyCharRegex)]],
+      lotName: ["",
+        [
+          Validators.required,
+          Validators.pattern(validationRegex.oneToFiftyCharRegex),
         ],
-        lotName: [
-          "",
-          [
-            Validators.required,
-            Validators.pattern(validationRegex.oneToFiftyCharRegex),
-          ],
-        ],
-        vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
-        warehouse: ["", [Validators.required]],
-        lotWeight: [
-          "",
-          [Validators.required, Validators.min(1), Validators.max(10000)],
-        ],
-        pricePerTon: [
-          "",
-          [Validators.required, Validators.min(1), Validators.max(1000000)],
-        ],
-        paidToSupplierLotCost: ["", [Validators.required]],
-        purchaseDiscount: ["", [Validators.min(0)]],
-        transportationCharge: ["", [Validators.min(0), Validators.max(100000)]],
-        royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
-        lotRowCost: [""],
-        blocksCount: [""],
-        averageWeight: [""],
-        nonTaxableAmount: [""],
-        taxableAmount: [""],
-        ItemTax: [""],
-        taxable: [""],
-        taxApplied: [""],
-        averageTransport: [""],
-        averageRoyalty: [""],
-        categoryDetail: ["", [Validators.required]],
-        subCategoryDetail: ["", [Validators.required]],
-        totalTransportationCharges: [""],
-        _id:['']
-      },
-      { validators: atLeastOneRequiredValidator() }
-    );
-    this.lotId = this.activeRoute.snapshot.params["id"];
+      ],
+      vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
+      warehouse: ["", [Validators.required]],
+      lotWeight: [
+        "",
+        [Validators.required, Validators.min(1), Validators.max(10000)],
+      ],
+      pricePerTon: [
+        "",
+        [Validators.required, Validators.min(1), Validators.max(1000000)],
+      ],
+      paidToSupplierLotCost: ["", [Validators.required]],
+      purchaseDiscount: ["", [Validators.min(0),]],
+      transportationCharge: ["", [Validators.min(0), Validators.max(100000)]],
+      royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
+      lotRowCost: [""],
+      blocksCount: [""],
+      averageWeight: [""],
+      nonTaxableAmount: [""],
+      taxableAmount: [""],
+      ItemTax: [""],
+      taxable: [""],
+      taxApplied: [""],
+      averageTransport: [""],
+      averageRoyalty: [""],
+      categoryDetail: ["", [Validators.required]],
+      subCategoryDetail: ["", [Validators.required]],
+      totalTransportationCharges: [""],
+    }, { validators: atLeastOneRequiredValidator() });
   }
-
   ngOnInit(): void {
-    console.log("ngOnInit function called");
-    this.getAllSubCategory();
-    this.getAllWarehouseList();
-    this.getAllBlockProcessorData();
-    this.getAllCategories();
-    this.getAllTaxList();
-    // this.dataResponseData = this.data;
-    // if (this.dataResponseData === this.data) {
-    //   this.patchLotValue(this.dataResponseData);
-    // } else {
-    //   if (this.data) {
-    //     console.log("data from parent component", this.data);
-    //     // this.patchLotValue(this.data);
-    //     if (this.dataResponseData === !this.data) {
-    //       this.patchLotValue(this.dataResponseData);
-    //     } else {
-    //       this.patchLotValue(this.data);
-    //     }
-    //     this.cdRef.detectChanges(); //
-    //   }
-    // }
+    this.previouslotData = this.NewPurchaseService.getFormData("stepFirstLotData");
 
-    const savedData = localStorage.getItem("lotFormData");
-    if (savedData) {
-      // If data is in local storage, parse it and patch to the form
-      const parsedData = JSON.parse(savedData);
-      console.log(parsedData)
-      this.patchLotValue(parsedData);
-    } else if (this.data) {
-      // If no data in local storage, use default data
-      this.patchLotValue(this.data);
-    }
+    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
+      this.wareHousedata = resp.data.map((element: any) => ({
+        name: element.name,
+        _id: {
+          name: element.name,
+          _id: element._id,
+        },
+      }));
 
-    this.previouslotData =
-      this.NewPurchaseService.getFormData("stepFirstLotData");
+    });
+    this.categoriesService.getCategories().subscribe((resp: any) => {
+      this.categoryList = resp.data;
+      this.CategoryListsEditArray = [];
+      this.categoryList.forEach((element: any) => {
+        this.CategoryListsEditArray.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name,
+          },
+        });
+      });
+    });
+    this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
+      this.allSubCategoryList = resp.data;
+      if(this.allSubCategoryList && this.previouslotData){
+        this.findSubCategory(this.previouslotData?.categoryDetail)
+      }
+    });
 
     this.lotEditForm.get("vehicleNo")?.valueChanges.subscribe((value) => {
       if (value) {
@@ -179,16 +154,16 @@ export class EditLotComponent {
           ?.setValue(upperCaseValue, { emitEvent: false });
       }
     });
-
-    if (this.previouslotData) {
-      this.patchLotValue(this.previouslotData);
-    } else {
-      // this.patchLotValue()
-    }
-    // this.findSubCategory(this.previouslotData?.categoryDetail)
-  }
-
-  getAllBlockProcessorData() {
+    this.taxService.getAllTaxList().subscribe((resp: any) => {
+      this.taxesListData = resp.data;
+      this.orderTaxList = [];
+      this.taxesListData.forEach((element: any) => {
+        this.orderTaxList.push({
+          orderTaxName: element.name + " (" + element.taxRate + "%" + ")",
+          orderNamevalue: element,
+        });
+      });
+    });
     this.ServiceblockProcessor.getAllBlockProcessorData().subscribe(
       (data: any) => {
         this.blockProcessorList = [];
@@ -203,114 +178,51 @@ export class EditLotComponent {
         });
       }
     );
-  }
-  getAllTaxList() {
-    this.taxService.getAllTaxList().subscribe((resp: any) => {
-      this.taxesListData = resp.data;
-      this.orderTaxList = [];
-      this.taxesListData.forEach((element: any) => {
-        this.orderTaxList.push({
-          orderTaxName: element.name + " (" + element.taxRate + "%" + ")",
-          orderNamevalue: element,
-        });
-      });
-    });
-  }
-  getAllCategories() {
-    this.categoriesService.getCategories().subscribe((resp: any) => {
-      this.categoryList = resp.data;
-      this.CategoryListsEditArray = [];
-      this.categoryList.forEach((element: any) => {
-        this.CategoryListsEditArray.push({
-          name: element.name,
-          _id: {
-            _id: element._id,
-            name: element.name,
-          },
-        });
-      });
-    });
-  }
-  getAllWarehouseList() {
-    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
-      this.wareHousedata = resp.data.map((element: any) => ({
-        name: element.name,
-        _id: {
-          name: element.name,
-          _id: element._id,
-        },
-      }));
-    });
+
+    // this.findSubCategory(this.previouslotData?.categoryDetail)
   }
 
-  getAllSubCategory() {
-    this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
-      this.allSubCategoryList = resp.data;
-      this.subCategorListByCategory = [];
-      this.allSubCategoryList.forEach((element: any) => {
-        this.subCategorListByCategory.push({
-          name: element.name,
-          _id: {
-            _id: element._id,
-            name: element.name,
-          },
-        });
+  patchLotValue() {
+    if (this.previouslotData) {
+      this.blocksDetails = this.previouslotData.blockDetails;
+      this.blocksDetails.forEach((element) => {
+        this.totalBlocksArea += element.totalArea;
       });
-      if (this.allSubCategoryList && this.previouslotData) {
-        this.findSubCategory(this.previouslotData?.categoryDetail);
-      }
-      // if(this.data.categoryDetail){
-      //   this.findSubCategory(this.data.categoryDetail);
-      // }
-    });
-  }
-
-  patchLotValue(data: any) {
-    console.log("lot component edit data", data);
-    if (data.categoryDetail) {
-      this.findSubCategory(data.categoryDetail);
-    }
-    if (data) {
-      this.blocksDetails = data.blockDetails || [];
-      this.totalBlocksArea = this.blocksDetails.reduce(
-        (acc, element) => acc + (element.totalArea || 0),
-        0
-      );
 
       this.lotEditForm.patchValue({
-        lotNo: data.lotNo || "",
-        lotName: data.lotName || "",
-        vehicleNo: data.vehicleNo || "",
-        warehouse: data.warehouseDetails || "",
-        invoiceNo: data.invoiceNo || "",
-        lotWeight: data.lotWeight || "",
-        pricePerTon: data.pricePerTon || "",
-        paidToSupplierLotCost: data.paidToSupplierLotCost || "",
-        transportationCharge: data.transportationCharge || null,
-        royaltyCharge: data.royaltyCharge || null,
-        notes: data.notes || "",
-        blocksCount: data.blocksCount || "",
-        averageWeight: data.averageWeight || "",
-        averageTransport: data.averageTransport || "",
-        averageRoyalty: data.averageRoyalty || "",
-        averageTaxAmount: data.averageTaxAmount || "",
-        lotRowCost: data.lotRowCost || "",
-        purchaseDiscount: data.purchaseDiscount || "",
-        taxableAmount: data.taxableAmount || "",
-        nonTaxableAmount: data.nonTaxableAmount || "",
-        taxable: data.taxable || "",
-        ItemTax: data.purchaseItemTax || "",
-        taxApplied: data.taxApplied || "",
-        categoryDetail: data.categoryDetail || "",
-        subCategoryDetail: data.subCategoryDetail || "",
-        _id:data._id
+        lotNo: this.previouslotData.lotNo,
+        lotName: this.previouslotData.lotName,
+        vehicleNo: this.previouslotData.vehicleNo,
+        warehouse: this.previouslotData.warehouseDetails,
+        invoiceNo: this.previouslotData.invoiceNo,
+        lotWeight: this.previouslotData.lotWeight,
+        pricePerTon: this.previouslotData.pricePerTon,
+        paidToSupplierLotCost: this.previouslotData.paidToSupplierLotCost,
+        transportationCharge:
+          this.previouslotData.transportationCharge == 0
+            ? null
+            : this.previouslotData.transportationCharge,
+        royaltyCharge:
+          this.previouslotData.royaltyCharge == 0 ? null : this.previouslotData.royaltyCharge,
+        notes: this.previouslotData.notes,
+        blocksCount: this.previouslotData.blocksCount,
+        averageWeight: this.previouslotData.averageWeight,
+        averageTransport: this.previouslotData.averageTransport,
+        averageRoyalty: this.previouslotData.averageRoyalty,
+        averageTaxAmount: this.previouslotData.averageTaxAmount,
+        lotRowCost: this.previouslotData.lotRowCost,
+        purchaseDiscount: this.previouslotData.purchaseDiscount,
+        taxableAmount: this.previouslotData.taxableAmount,
+        nonTaxableAmount: this.previouslotData.nonTaxableAmount,
+        taxable: this.previouslotData.taxable,
+        ItemTax: this.previouslotData.purchaseItemTax,
+        taxApplied: this.previouslotData.taxApplied,
+        categoryDetail: this.previouslotData.categoryDetail,
+        subCategoryDetail: this.previouslotData.subCategoryDetail,
       });
-
-      this.calculateTotalAmount();
-      this.cdRef.detectChanges(); // Trigger change detection to update the view
     }
+    this.calculateTotalAmount();
   }
-
   addBlockDialog() {
     this.blockNo = "";
     this.height = null;
@@ -378,17 +290,11 @@ export class EditLotComponent {
   }
 
   findSubCategory(value: any) {
-    console.log(value);
-
-    let SubCategoryData = [];
+    let SubCategoryData = []
     this.lotEditForm.get("subCategoryDetail").reset();
-
     SubCategoryData = this.allSubCategoryList?.filter(
-      (e) => e.categoryId?._id == value?._id
+      (e) => e.categoryId._id == value._id
     );
-
-    console.log("SubCategoryData", SubCategoryData);
-
     this.subCategorListByCategory = SubCategoryData?.map((e) => ({
       name: e.name,
       _id: {
@@ -396,13 +302,11 @@ export class EditLotComponent {
         name: e.name,
       },
     }));
-
-    console.log("subCategorListByCategory", this.subCategorListByCategory);
-
     if (this.previouslotData) {
-      this.patchLotValue(this.previouslotData);
+      this.patchLotValue()
     }
   }
+
 
   getblockDetails() {
     if (
@@ -422,8 +326,7 @@ export class EditLotComponent {
     const lotWeight = Number(form.get("lotWeight")?.value) || 0;
     const pricePerTon = Number(form.get("pricePerTon")?.value) || 0;
     const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
-    const transportationCharge =
-      Number(form.get("transportationCharge")?.value) || 0;
+    const transportationCharge = Number(form.get("transportationCharge")?.value) || 0;
     const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
     const tax = form.get("ItemTax")?.value || [];
     let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
@@ -432,10 +335,9 @@ export class EditLotComponent {
     if (lotWeight && pricePerTon) {
       const lotWeightmultiPricePerton = lotWeight * pricePerTon;
       this.rowCosting = lotWeightmultiPricePerton;
-      nonTaxableAmount =
-        taxableAmount && taxableAmount <= lotWeightmultiPricePerton
-          ? lotWeightmultiPricePerton - taxableAmount
-          : lotWeightmultiPricePerton;
+      nonTaxableAmount = taxableAmount && taxableAmount <= lotWeightmultiPricePerton
+        ? lotWeightmultiPricePerton - taxableAmount
+        : lotWeightmultiPricePerton;
 
       this.maxPurchaseAmount = lotWeightmultiPricePerton - 10000;
 
@@ -470,9 +372,7 @@ export class EditLotComponent {
     const paidToSupplierLotAmount = taxable + nonTaxableAmount;
 
     form.patchValue({
-      paidToSupplierLotCost: paidToSupplierLotAmount
-        ? Number(paidToSupplierLotAmount).toFixed(2)
-        : 0,
+      paidToSupplierLotCost: paidToSupplierLotAmount ? Number(paidToSupplierLotAmount).toFixed(2) : 0,
       lotRowCost: Number(lotRowCost),
       taxable: Number(taxable).toFixed(2),
       taxApplied: Number(taxApplied).toFixed(2),
@@ -487,13 +387,9 @@ export class EditLotComponent {
     this.blocksDetails.forEach((element: any) => {
       element.weightPerBlock = element.totalArea / averageBlocksWeight;
       element.rawCosting = element.weightPerBlock * blockPricePerTon;
-      element.transportationCosting =
-        element.weightPerBlock * averageTransportation;
+      element.transportationCosting = element.weightPerBlock * averageTransportation;
       element.royaltyCosting = element.weightPerBlock * averageRoyalty;
-      element.totalCosting =
-        element.rawCosting +
-        element.transportationCosting +
-        element.royaltyCosting;
+      element.totalCosting = element.rawCosting + element.transportationCosting + element.royaltyCosting;
     });
 
     form.patchValue({
@@ -507,18 +403,9 @@ export class EditLotComponent {
   }
 
   setValidations() {
-    this.lotEditForm
-      .get("taxableAmount")
-      ?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
-    this.lotEditForm
-      .get("nonTaxableAmount")
-      ?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
-    this.lotEditForm
-      .get("purchaseDiscount")
-      ?.setValidators([
-        Validators.min(0),
-        Validators.max(this.maxPurchaseAmount),
-      ]);
+    this.lotEditForm.get("taxableAmount")?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
+    this.lotEditForm.get("nonTaxableAmount")?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
+    this.lotEditForm.get("purchaseDiscount")?.setValidators([Validators.min(0), Validators.max(this.maxPurchaseAmount)]);
     this.lotEditForm.get("purchaseDiscount")?.updateValueAndValidity;
     this.lotEditForm.get("nonTaxableAmount")?.updateValueAndValidity;
     this.lotEditForm.get("taxableAmount")?.updateValueAndValidity;
@@ -526,7 +413,6 @@ export class EditLotComponent {
 
   LotEditFormSubmit() {
     const formData = this.lotEditForm.value;
-    console.log("data from lot edit component", formData);
     if (!this.lotTotalCost) {
       this.blocksDetails.forEach((e: any) => {
         this.lotTotalCost += e.totalCosting;
@@ -559,7 +445,6 @@ export class EditLotComponent {
         categoryDetail: formData.categoryDetail,
         subCategoryDetail: formData.subCategoryDetail,
         totalTransportationCharges: Number(formData.totalTransportationCharges),
-        _id:formData._id
       };
       this.NewPurchaseService.setFormData("stepFirstLotData", payload);
     }

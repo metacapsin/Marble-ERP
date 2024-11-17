@@ -131,7 +131,7 @@
   
                       <!-- lot Information -->
                       <div *ngIf="lotTypeValue === 'lot'">
-                        <app-edit-lot class="col-12" [data]="purchaseData" ></app-edit-lot>
+                        <app-edit-lot class="col-12" ></app-edit-lot>
                       </div>
                       <!-- SLAB Information -->
                       <div class="card " *ngIf="lotTypeValue === 'slab'">
@@ -343,7 +343,7 @@
                             <div class="form-group local-forms">
                               <label for="customer">Taxable Amount</label>
                               <p-inputGroup>
-                                <input type="number" formControlName="taxableAmount" (onChange)="calculateTotalAmount()"
+                                <input type="number" formControlName="taxableAmount" (input)="calculateTotalAmount()"
                                   class="form-control" style="width: 50%" placeholder="Enter Taxable Amount" />
   
                                 <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax"
@@ -379,7 +379,7 @@
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">₹</span>
                                 </div>
-                                <input type="number" formControlName="nonTaxable" (onChange)="calculateTotalAmount()"
+                                <input type="number" formControlName="nonTaxable" (input)="calculateTotalAmount()"
                                 class="form-control" placeholder="Enter Non Taxable Amount"/>
                               </div>
                               <div *ngIf="(editNewPurchaseForm
@@ -427,7 +427,7 @@
                               <label for="totalSQFT">Square Feet<span class="login-danger">*</span></label>
                               <div class="input-group">
                                 <input class="form-control" type="number" placeholder="Enter Square Feet"
-                                  formControlName="totalSQFT" (onChange)="calculateTotalAmount()" />
+                                  formControlName="totalSQFT" (input)="calculateTotalAmount()" />
                               </div>
                               <div *ngIf="
                                       (editNewPurchaseForm
@@ -460,7 +460,7 @@
                               <label for="noOfPieces">Number Of pieces<span class="login-danger">*</span></label>
                               <div class="input-group">
                                 <input class="form-control" type="number" placeholder="Enter Number Of pieces"
-                                  formControlName="noOfPieces" (onChange)="calculateTotalAmount()" />
+                                  formControlName="noOfPieces" (input)="calculateTotalAmount()" />
                               </div>
                               <div *ngIf="
                                       (editNewPurchaseForm
@@ -496,7 +496,7 @@
                                   <span class="input-group-text">₹</span>
                                 </div>
                                 <input class="form-control" type="number" placeholder="Enter Discount"
-                                  formControlName="purchaseDiscount" (onChange)="calculateTotalAmount()" />
+                                  formControlName="purchaseDiscount" (input)="calculateTotalAmount()" />
                               </div>
                               <div *ngIf="
                                       (editNewPurchaseForm
@@ -520,7 +520,7 @@
                               <label for="transportationCharges">Transportation Charges</label>
                               <div class="input-group">
                                 <input class="form-control" type="number" placeholder="Enter Transportation Charges"
-                                  formControlName="transportationCharges" (onChange)="calculateTotalAmount()" />
+                                  formControlName="transportationCharges" (input)="calculateTotalAmount()" />
                               </div>
                               <div *ngIf="
                                         editNewPurchaseForm.get('transportationCharges')?.hasError('min')  &&
@@ -540,7 +540,7 @@
                               <label for="otherCharges">Other Charges</label>
                               <div class="input-group">
                                 <input class="form-control" type="number" placeholder="Enter Other Charges"
-                                  formControlName="otherCharges" (onChange)="calculateTotalAmount()" />
+                                  formControlName="otherCharges" (input)="calculateTotalAmount()" />
                               </div>
                               <div *ngIf="
                                         editNewPurchaseForm.get('otherCharges')?.hasError('min') &&

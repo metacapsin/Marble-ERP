@@ -91,7 +91,6 @@ export class EditNewPurchaseComponent implements OnInit {
         [Validators.pattern(validationRegex.address3To500Regex)],
       ],
       _id: [""],
-      slab_id: [""],
       productId: [""],
       slabNo: [
         "",
@@ -176,62 +175,70 @@ export class EditNewPurchaseComponent implements OnInit {
     });
     this.NewPurchaseService.getPurchaseById(this.purchaseId).subscribe(
       (resp: any) => {
-        console.log("Edit response", resp);
         this.editNewPurchaseForm.patchValue({
           invoiceNumber: resp.data.purchaseInvoiceNumber,
           purchaseDate: resp.data.purchaseDate,
           supplier: resp.data.supplier,
-          _id: resp.data._id
+          _id: resp.data._id,
+          purchaseType: resp.data.purchaseType,
+          productId: resp.data.productId,
+          taxableAmount: resp.data.taxable - resp.data.taxApplied,
+          taxable: resp.data.taxable,
+          nonTaxable: resp.data.nonTaxable,
+          purchaseItemTax: resp.data.purchaseItemTax,
+          isTaxVendor: resp.data.taxVendor ? true : false,
+          taxVendor: {
+              _id: resp.data?.taxVendor?._id,
+              companyName: resp.data?.taxVendor?.companyName,
+          },
+          taxVendorAmount: resp.data?.taxVendor?.taxVendorAmount,
+          vendorTaxApplied: resp.data?.taxVendor?.vendorTaxApplied,
+
         });
 
         if (resp.data.purchaseType === "lot") {
-          this.changeDetector.detectChanges(); //
-          this.editNewPurchaseForm.patchValue({
-            purchaseType: "lot",
-            lotTypeValue: "lot",
-            productId: resp.data.productId,
-          });
+          this.NewPurchaseService.setFormData("stepFirstLotData", resp.data.lotDetails)
           this.lotTypeValue = resp.data.purchaseType;
           this.purchaseData = resp.data.lotDetails;
-          this.lotType(resp.data.purchaseType);
-          console.log(
-            "this is lot type value",
-            "response data",
-            this.lotTypeValue,
-            resp.data
-          );
-
         }
 
         if (resp.data.purchaseType === "slab") {
           this.lotTypeValue = resp.data.purchaseType;
-          this.changeDetector.detectChanges(); // Trigger change detection
           this.findSubCategory(resp.data.slabDetails.categoryDetail);
+          this.previousSlabValues = {
+            slabNo: resp.data.slabDetails.slabNo,
+            slabName: resp.data.slabDetails.slabName,
+            warehouseDetails: resp.data.slabDetails.warehouseDetails,
+            categoryDetail: resp.data.slabDetails.categoryDetail,
+            subCategoryDetail: resp.data.slabDetails.subCategoryDetail,
+            finishes: resp.data.slabDetails.finishes,
+            totalSQFT: resp.data.slabDetails.totalSQFT,
+            noOfPieces: resp.data.slabDetails.noOfPieces,
+            sellingPricePerSQFT: resp.data.slabDetails.sellingPricePerSQFT,
+            transportationCharges:
+              resp.data.slabDetails.transportationCharges,
+            otherCharges: resp.data.slabDetails.otherCharges,
+            totalCosting: resp.data.slabDetails.totalCosting,
+            thickness: resp.data.slabDetails.thickness,
+            length: resp.data.slabDetails.length,
+            width: resp.data.slabDetails.width,
+            costPerSQFT: resp.data.slabDetails.costPerSQFT,
+            sqftPerPiece: resp.data.slabDetails.sqftPerPiece || 0,
+            paidToSupplierPurchaseCost: resp.data.taxable + resp.data.nonTaxable,
+          };
 
-          console.log("this is lot type value", this.lotTypeValue);
-          if (this.lotTypeValue === "slab") {
-            console.log("the lot type value after purchase type is slab");
-
-            this.editNewPurchaseForm.patchValue({
-              purchaseType: "slab",
-              lotTypeValue: "slab",
-              productId: resp.data.productId,
-              slab_id: resp.data.slabDetails._id
-
-
-            });
-          }
         }
-        this.apiResponseData = resp.data;
-
-        this.populateForm(this.apiResponseData);
+        this.lotType(resp.data.purchaseType);
       }
     );
     this.taxVendorsService.getTaxVendorList().subscribe((resp: any) => {
       if (resp.data) {
         this.taxVendorList = resp.data.map((element) => ({
           name: `${element.companyName} / ${element.city},`,
-          _id: element,
+          _id: {
+            _id: element._id,
+            companyName: element.companyName,
+          },
         }));
       }
     });
@@ -288,58 +295,6 @@ export class EditNewPurchaseComponent implements OnInit {
     });
   }
 
-  populateForm(data: any, type: string = data?.purchaseType) {
-    if (type === "slab") {
-      this.lotTypeValue = "slab";
-      this.editNewPurchaseForm.patchValue({
-        purchaseType: "slab",
-        paidToSupplierPurchaseCost: data?.purchaseCost.toFixed(2),
-        purchaseNotes: data?.purchaseNotes,
-        slabNo: data?.slabDetails.slabNo,
-        slabName: data?.slabDetails.slabName,
-        warehouseDetails: data?.slabDetails.warehouseDetails,
-        categoryDetail: data?.slabDetails.categoryDetail,
-        subCategoryDetail: data?.slabDetails.subCategoryDetail,
-        totalSQFT: data?.slabDetails.totalSQFT,
-        width: data?.slabDetails.width,
-        length: data?.slabDetails.length,
-        thickness: data?.slabDetails.thickness,
-        finishes: data?.slabDetails.finishes,
-        sellingPricePerSQFT: data?.slabDetails.sellingPricePerSQFT,
-        transportationCharges: data?.slabDetails.transportationCharges,
-        otherCharges: data?.slabDetails.otherCharges,
-        totalCosting: data?.slabDetails.totalCosting,
-        costPerSQFT: data?.slabDetails.costPerSQFT,
-        sqftPerPiece: data?.slabDetails.sqftPerPiece,
-        noOfPieces: data?.slabDetails.noOfPieces,
-        purchaseDiscount: data?.slabDetails.purchaseDiscount,
-        purchaseCost: data?.purchaseCost,
-        taxableAmount: data?.taxable.toFixed(2),
-        purchaseItemTax: data?.purchaseItemTax,
-        purchaseItemTaxAmount: data?.purchaseItemTaxAmount,
-        nonTaxable: data?.nonTaxable,
-        taxable: data?.taxable,
-        taxVendor: data?.taxVendor,
-        taxVendorAmount: data?.taxVendorAmount,
-        vendorTaxApplied: data?.vendorTaxApplied,
-        taxApplied: data?.taxApplied,
-        isTaxVendor: data?.isTaxVendor,
-        slab_id: data?.slabDetails._id,
-      });
-
-      this.changeDetector.detectChanges(); // Trigger change detection to update the view
-    }
-    if (type === "lot") {
-      // this.lotTypeValue = "Lot";
-      // this.purchaseData = data.lotDetails;
-
-      // If editedLotData exists, use it, otherwise use API data
-      // const lotData = this.editedLotData || data.lotDetails;
-      // this.editLotComponent.patchLotValue(lotData);
-      // this.changeDetector.detectChanges();
-    }
-  }
-
   findSubCategory(value: any) {
     let SubCategoryData: any = [];
     this.editNewPurchaseForm.get("subCategoryDetail").reset();
@@ -374,10 +329,6 @@ export class EditNewPurchaseComponent implements OnInit {
         // Save the ItemDetails in local storage
         localStorage.setItem("lotFormData", JSON.stringify(this.ItemDetails));
         const payload = { ...this.ItemDetails };
-        delete payload.nonTaxable;
-        delete payload.taxableAmount;
-        delete payload.purchaseItemTax;
-        delete payload.taxable;
         this.LotPayload = payload;
 
         this.editNewPurchaseForm.patchValue({
@@ -396,7 +347,6 @@ export class EditNewPurchaseComponent implements OnInit {
   }
 
   lotType(value: any) {
-    console.log('ddd');
     this.lotTypeValue = value.toLowerCase();
     if (this.lotTypeValue == "lot") {
       this.previousSlabValues = {
@@ -466,11 +416,8 @@ export class EditNewPurchaseComponent implements OnInit {
         paidToSupplierPurchaseCost:
           this.previousSlabValues.paidToSupplierPurchaseCost,
       });
+      this.calculateTotalAmount();
     }
-
-    console.log('previousSlabValues', this.previousSlabValues);
-
-    // this.calculateTotalAmount();
   }
   calculateTotalAmount() {
     if (this.lotTypeValue == "slab") {
@@ -616,23 +563,11 @@ export class EditNewPurchaseComponent implements OnInit {
   }
   editNewPurchaseFormSubmit() {
     const formData = this.editNewPurchaseForm.value;
+    console.log(formData);
+
     let payload = {};
     this.NewPurchaseService.clearFormData();
-    // this.clearLocalStorage();
 
-
-    this.LotPayload = this.LotPayload || {};
-
-    if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
-      this.LotPayload.purchaseCost = Number(
-        formData.paidToSupplierPurchaseCost
-      );
-      this.LotPayload.date = formData.purchaseDate;
-      this.LotPayload.notes = formData.purchaseNotes;
-      this.LotPayload._id = formData.productId;
-    } else {
-      console.error("formData.paidToSupplierPurchaseCost is not defined");
-    }
 
     let taxVenoderObj = {
       _id: formData.taxVendor?._id,
@@ -641,6 +576,16 @@ export class EditNewPurchaseComponent implements OnInit {
       vendorTaxApplied: Number(formData.vendorTaxApplied),
     };
     if (this.editNewPurchaseForm.value.purchaseType == "lot") {
+      if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
+        this.ItemDetails.purchaseCost = Number(
+          formData.paidToSupplierPurchaseCost
+        );
+        this.ItemDetails.date = formData.purchaseDate;
+        this.ItemDetails.notes = formData.purchaseNotes;
+        this.ItemDetails._id = formData.productId;
+      } else {
+        console.error("formData.paidToSupplierPurchaseCost is not defined");
+      }
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,
@@ -648,8 +593,8 @@ export class EditNewPurchaseComponent implements OnInit {
         purchaseType: "lot",
         purchaseNotes: formData.purchaseNotes,
         purchaseCost: Number(formData.paidToSupplierPurchaseCost),
-        purchaseTotalAmount: Number(this.LotPayload.lotTotalCost).toFixed(2),
-        lotDetail: this.LotPayload,
+        purchaseTotalAmount: Number(this.ItemDetails.lotTotalCost).toFixed(2),
+        lotDetail: this.ItemDetails,
         nonTaxable: Number(formData.nonTaxable),
         taxableAmount: Number(formData.taxableAmount),
         taxable: formData.taxable,
@@ -692,11 +637,11 @@ export class EditNewPurchaseComponent implements OnInit {
           slabSize: _Size,
           purchaseCost: Number(formData.paidToSupplierPurchaseCost),
           purchaseDiscount: Number(formData.purchaseDiscount),
-          sqftPerPiece: Number(formData.sqftPerPiece.toFixed(2)),
-          noOfPieces: Number(formData.noOfPieces.toFixed(2)),
+          sqftPerPiece: Number(formData.sqftPerPiece?.toFixed(2)),
+          noOfPieces: Number(formData.noOfPieces?.toFixed(2)),
           date: formData.purchaseDate,
           notes: formData.purchaseNotes,
-          _id: formData.slab_id
+          _id: formData.productId
         },
         purchaseTotalAmount: Number(formData.totalCosting),
         nonTaxable: Number(formData.nonTaxable),
