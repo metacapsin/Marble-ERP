@@ -182,6 +182,8 @@ export class AddsalesComponent implements OnInit {
             _id: element._id,
             slabName: element.slabName,
             slabNo: element.slabNo,
+            costPerSQFT: element.costPerSQFT,
+            salesItemTotalQuantity: element.totalSlabSQFT,
           },
         }));
         this.salesItemDetails.controls.forEach((element, index) => {
