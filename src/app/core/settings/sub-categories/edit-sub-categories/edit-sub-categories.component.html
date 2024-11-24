@@ -19,7 +19,7 @@
                         </div>
                         <div
                             *ngIf="editSubCategoryForm.get('name')?.hasError('pattern') && editSubCategoryForm.get('name')?.touched">
-                            <span class="login-danger">Input must be between 3 to 50 characters.</span>
+                            <span class="login-danger">Input must be between 3 to 50 characters and contain at least 1 letter.</span>
                         </div>
 
                     </div>
@@ -48,7 +48,7 @@
                         
                         <div
                             *ngIf="editSubCategoryForm.get('description')?.hasError('pattern') && editSubCategoryForm.get('description')?.touched">
-                            <span class="login-danger">Input must be between 3 to 500 characters.</span>
+                            <span class="login-danger">Input must be between 3 to 500 characters and contain at least 1 letter.</span>
                         </div>
                     </div>
                 </div>

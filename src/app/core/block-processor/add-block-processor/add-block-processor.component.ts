@@ -14,6 +14,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { blockCustomersDataService } from "../../processing/block-customer/block-customer.service";
 import { blockProcessorService } from "../block-processor.service";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
+import { validationRegex } from "../../validation";
 @Component({
   selector: 'app-add-block-processor',
   standalone: true,
@@ -42,7 +43,7 @@ export class AddBlockProcessorComponent implements OnInit{
     private localStorageService: LocalStorageService
   ) {
     this.addBlockProcessorForm = this.fb.group({
-      companyName: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      companyName: ["", [Validators.required, Validators.pattern(validationRegex.companyNameRGEX)]],
       phoneNo: [
         "",
         [Validators.required, Validators.pattern(this.phoneRegex)],

@@ -60,9 +60,9 @@ export class TaxVendorEditComponent implements OnInit{
       email: ["", [Validators.pattern(validationRegex.emailRegex)]],
       addressLine1: [
         "",
-        [Validators.required, Validators.pattern(validationRegex.cityNameRGEX)],
+        [Validators.required, Validators.pattern(validationRegex.billingAddressRegex)],
       ],
-      addressLine2: ["", [Validators.pattern(validationRegex.cityNameRGEX)]],
+      addressLine2: ["", [Validators.pattern(validationRegex.billingAddressRegex)]],
       state: [
         "",
         [Validators.required, Validators.pattern(validationRegex.stateRegex)],

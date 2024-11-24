@@ -12,6 +12,30 @@ import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/
 import { SharedModule } from "src/app/shared/shared.module";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 
+interface Product {
+  _id: string;
+  purchaseId: string;
+  purchaseInvoice: string | null;
+  paymentDate: string;
+  paymentMode: string;
+  amount: number;
+  transactionNo: string;
+  note: string;
+  customer: {
+    _id: string;
+    name: string;
+    billingAddress: string;
+  };
+    purchaseInvoiceNumber: string;
+  paymentDetails: Array<{
+    amountType: string;
+    amount: number;
+    paymentMode: string;
+  }>;
+  expanded?: boolean;
+
+}
+
 @Component({
   selector: "app-view-suppliers",
   standalone: true,
@@ -27,6 +51,8 @@ export class ViewSuppliersComponent {
   routes = routes;
   id: any; // to hold supplier id
   supplierDataById: any[] = [];
+  products: Product[] = [];
+  expanded?: boolean;
   purchaseDataShowById: any; // to hold purchase data by supplier id
   purchaseReturnDataShowById: any[] = []; // to hold purchase Return data by supplier id
   paymentListDataBySupplierId: any[] = []; // to hold payment data by Supplier id
@@ -160,6 +186,9 @@ export class ViewSuppliersComponent {
     this.getPurchaseReturnPaymentListBySupplierId();
   }
 
+  toggleRow(product:Product) {
+    product.expanded = !product.expanded;
+  }
   getPurchaseReturnPaymentListBySupplierId() {
     this.purchaseReturnService
       .getPurchaseReturnPaymentListBySupplierId(this.id)
@@ -347,9 +376,12 @@ export class ViewSuppliersComponent {
 
   openPaymentDialog(Id: any) {
     if (Id) {
-      this.showPaymentDialog = true;
       this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
         this.header = "Purchase Payment ";
+      this.showPaymentDialog = true;
+
+        this.paymentInvoicePurchaseDataShowById = [resp.data];
+        console.log("purchase data show success message" , this.paymentInvoicePurchaseDataShowById)
         this.paymentObject = {
           supplier: resp.data.supplier,
           purchaseId: Id,
@@ -357,16 +389,11 @@ export class ViewSuppliersComponent {
           purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
           purchaseCost: resp.data.purchaseCost,
           purchaseDueAmount: resp.data.dueAmount,
+          taxableDue: resp.data.taxableDue,
+          nonTaxableDue: resp.data.nonTaxableDue,
+          taxable: resp.data.taxable,
+          nonTaxable: resp.data.nonTaxable,
         };
-        this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
-          this.showPaymentDialog = true;
-          this.paymentInvoicePurchaseDataShowById = [resp.data];
-          console.log(resp.data);
-          console.log(
-            "Purchase data by id On Paymnent dialog",
-            this.purchaseDataShowById
-          );
-        });
       });
       
     }
@@ -376,33 +403,18 @@ export class ViewSuppliersComponent {
       this.purchaseReturnService
         .getPurchaseReturnById(Id)
         .subscribe((resp: any) => {
+          this.showPaymentDialog = true; 
+          this.paymentInvoicePurchaseDataShowById = [resp.data];
           this.header = "Purchase Return Payment ";
-          // this.showPaymentDialog = true;
-
           this.paymentObject = {
             supplier: resp.data.supplier,
             purchaseReturnId: Id,
             isPurchaseReturn: true,
-            // purchaseReturnDataShowById: resp.data
             purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
             purchaseReturnTotalAmount: resp.data.purchaseReturnTotalAmount,
             purchaseDueAmount: resp.data.dueAmount,
             purchasePaidAmount: resp.data.paidAmount,
           };
-          this.purchaseReturnService
-        .getPurchaseReturnById(Id)
-        .subscribe((resp: any) => {
-          this.showPaymentDialog = true;
-
-          // this.showInvoiceDialog = true;
-          this.paymentInvoicePurchaseDataShowById = [resp.data];
-          // this.header = "Purchase Return Invoice ";
-          console.log(resp.data);
-          console.log(
-            "Purchase Return data by id On dialog",
-            this.paymentInvoicePurchaseDataShowById
-          );
-        });
           console.log(
             "this is open Payment Return Dialog",
             this.paymentObject.purchaseReturnId

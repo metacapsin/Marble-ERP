@@ -60,7 +60,7 @@
                   >
                 </li>
                 <li
-                  class="nav-item pe-2"
+                  class="nav-item pe-2 {{ isRouteActive('categories') }}"
                   [ngClass]="{
                     active: this.currentRoute === routes.categories
                   }"
@@ -73,7 +73,7 @@
                   >
                 </li>
                 <li
-                  class="nav-item pe-2"
+                  class="nav-item pe-2 {{ isRouteActive('subCategories') }}"
                   [ngClass]="{
                     active: this.currentRoute === routes.subCategories
                   }"
@@ -86,7 +86,7 @@
                   >
                 </li>
                 <li
-                  class="nav-item pe-2"
+                  class="nav-item pe-2 {{ isRouteActive('billing-Address') }}"
                   [ngClass]="{
                     active: this.currentRoute === routes.billingAddress
                   }"
@@ -99,7 +99,7 @@
                   >
                 </li>
                 <li
-                  class="nav-item pe-2"
+                  class="nav-item pe-2 {{ isRouteActive('taxes') }}"
                   [ngClass]="{ active: this.currentRoute === routes.taxes }"
                 >
                   <a

@@ -28,8 +28,8 @@
                     <h3>Billing Address List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input type="text" class="form-control" placeholder="Search here"
-                          [(ngModel)]="searchDataValue" />
+                         <input type="text" class="form-control" placeholder="Search here" #searchTable (input)="
+                        dt.filterGlobal(searchTable.value, 'contains')">
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                       <div class="add-group textbtn">
@@ -57,7 +57,7 @@
             </div>
             <div class="card-body p-2">
               <p-table [value]="
-                  dataSource | filter : searchDataValue : ['companyName', 'country.name','state','city','email','postalCode','setAsDefault']
+                  dataSource" [globalFilterFields]=" ['companyName', 'country.name','state','city','email','postalCode','setAsDefault']
                 " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [columns]="cols" #dt [exportHeader]="'customExportHeader'" exportFilename="Billing Address"  [paginator]="dataSource?.length >= 5" 
                 [rows]="10" selectionMode="multiple" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
                 [(selection)]="selectedProducts">

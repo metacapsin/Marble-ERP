@@ -66,10 +66,10 @@ export class WarehouseEditComponent {
       singnatureUrl: [],
       billingAddress: [
         "",
-        [Validators.required, Validators.pattern(this.billingAddressRegex)],
+        [Validators.required, Validators.pattern(validationRegex.billingAddressRegex)],
       ],
       // bankDetails: ["", [Validators.pattern(new RegExp(/^[A-Za-z0-9\s-]+$/))]],
-      phone: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
+      phone: ["", [Validators.required, Validators.pattern(validationRegex.phoneRGEX)]],
     });
   }
 

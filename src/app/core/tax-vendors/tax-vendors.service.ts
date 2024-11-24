@@ -23,6 +23,11 @@ export class TaxVendorsService {
       environment.apiUrl + `/TaxVendorController/getVendorSalesList/${id}`
     );
   }
+  getVendorPurchasesList(id: any) {
+    return this.http.get(
+      environment.apiUrl + `/TaxVendorController/getVendorPurchasesList/${id}`
+    );
+  }
   getTaxVendorById(id: any) {
     return this.http.get(
       environment.apiUrl + `/TaxVendorController/getTaxVendorById/${id}`
@@ -46,9 +51,20 @@ export class TaxVendorsService {
       data
     );
   }
+  createPurchaseTaxVendorPayment(data: any) {
+    return this.http.post(
+      environment.apiUrl + `/TaxVendorController/createPurchaseTaxVendorPayment`,
+      data
+    );
+  }
   getPaymentListByVendorId(id: any) {
     return this.http.get(
       environment.apiUrl + `/TaxVendorController/getPaymentListByVendorId/${id}`
+    );
+  }
+  getPurchasePaymentListByVendorId(id: any) {
+    return this.http.get(
+      environment.apiUrl + `/TaxVendorController/getPurchasePaymentListByVendorId/${id}`
     );
   }
   getPaymentDetailById(id: any) {
@@ -65,6 +81,11 @@ export class TaxVendorsService {
   deletePayment(id: any) {
     return this.http.delete(
       environment.apiUrl + `/TaxVendorController/deletePayment/${id}`
+    );
+  }
+  deletePurchaseTaxVendorPayment(id: any) {
+    return this.http.delete(
+      environment.apiUrl + `/TaxVendorController/deletePurchaseTaxVendorPayment/${id}`
     );
   }
 }

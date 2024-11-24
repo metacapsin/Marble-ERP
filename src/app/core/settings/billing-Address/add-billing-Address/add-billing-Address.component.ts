@@ -63,8 +63,8 @@ export class AddBillingAddressComponent implements OnInit {
       country: ['',[Validators.required]],
       phoneNumber: ['',[Validators.required,Validators.pattern(validationRegex.phoneRGEX)]],
       email:['',[Validators.pattern(validationRegex.emailRegex)]],
-      addressLine1:['',[Validators.required,Validators.pattern(validationRegex.threeToFiftyCharRegex)]],
-      addressLine2:['',[Validators.pattern(validationRegex.threeToFiftyCharRegex)]],
+      addressLine1:['',[Validators.required,Validators.pattern(validationRegex.billingAddressRegex)]],
+      addressLine2:['',[Validators.pattern(validationRegex.billingAddressRegex)]],
       state:['',[Validators.required,Validators.pattern(validationRegex.stateRegex)]],
     });
   }

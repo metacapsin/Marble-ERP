@@ -64,10 +64,10 @@ export class AddQuotationsComponent implements OnInit {
     private BillingAddressService: BillingAddressService
   ) {
     this.addQuotationForm = this.fb.group({
-      customer: [""],
+      customer: ["",[Validators.required]],
       billingAddress: [""],
       quotationDate: ["", [Validators.required]],
-      quotationDiscount: ["", [Validators.min(1), Validators.max(100000)]],
+      quotationDiscount: ["", [Validators.min(0), Validators.max(100000)]],
       quotationInvoiceNumber: [""],
       quotationItemDetails: this.fb.array([
         this.fb.group({
@@ -89,10 +89,10 @@ export class AddQuotationsComponent implements OnInit {
       // quotationStatus: ["", [Validators.required]],
       quotationTax: [""],
       appliedTax: [""],
-      quotationShipping: ["", [Validators.min(1), Validators.max(100000)]],
+      quotationShipping: ["", [Validators.min(0), Validators.max(100000)]],
       quotationTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       quotationTotalAmount: [""],
-      otherCharges: ["", [Validators.min(1), Validators.max(100000)]],
+      otherCharges: ["", [Validators.min(0), Validators.max(100000)]],
     });
   }
 
@@ -351,11 +351,17 @@ export class AddQuotationsComponent implements OnInit {
     const discount = +this.addQuotationForm.get("quotationDiscount").value;
     const shipping = +this.addQuotationForm.get("quotationShipping").value;
     const otherCharges = +this.addQuotationForm.get("otherCharges").value;
-
     totalAmount -= discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
-
+    if (discount >= quotationGrossTotal) {
+      this.addQuotationForm.get("quotationDiscount").setErrors({ 'invalid': true });
+      if (discount === quotationGrossTotal) {
+        this.addQuotationForm.get("quotationDiscount").setErrors({ 'equalToGrossTotal': true });
+      }
+    } else {
+      this.addQuotationForm.get("quotationDiscount").setErrors(null);
+    }
     this.addQuotationForm
       .get("quotationTotalAmount")
       .setValue(Number(totalAmount));

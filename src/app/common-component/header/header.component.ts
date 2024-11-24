@@ -11,7 +11,6 @@ import { MenuItem, SideBarData } from "src/app/shared/models/models";
 import { Role } from "src/app/shared/models/role";
 import { routes } from "src/app/shared/routes/routes";
 import { SideBarService } from "src/app/shared/side-bar/side-bar.service";
-
 // @Component({
 //   selector: 'app-header',
 //   templateUrl: './header.component.html',
@@ -163,8 +162,9 @@ export interface Payment {
 @Component({
   selector: "app-header",
   templateUrl: "./header.component.html",
+
   styleUrls: ["./header.component.scss"],
-  providers:[MessageService]
+  providers: [MessageService],
 })
 export class HeaderComponent {
   public routes = routes;
@@ -177,6 +177,8 @@ export class HeaderComponent {
   sidebarData: any;
   userData: any = {};
   latestPayments: Payment[] = [];
+  public isFullScreen: boolean = false;
+
   // showInvoiceDialog: boolean = false; // to enable sales invoice popup
   // notificationDataShowById: any[];
   // paymentDataListById: any;
@@ -211,7 +213,6 @@ export class HeaderComponent {
       this.crypto.setData("currentUser", user.data);
     });
   }
-
   logout() {
     localStorage.removeItem("token");
     setTimeout(() => {
@@ -219,6 +220,27 @@ export class HeaderComponent {
     }, 200);
   }
 
+  // toggleFullScreen(): void {
+  //   if (!this.isFullScreen) {
+  //     if (document.documentElement.requestFullscreen) {
+  //       document.documentElement.requestFullscreen();
+  //     }
+  //     this.isFullScreen = true;
+  //   } else {
+  //     if (document.exitFullscreen) {
+  //       document.exitFullscreen();
+  //     }
+  //     this.isFullScreen = false;
+  //   }
+  // }
+
+  toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+    }
+}
   private getRoutes(route: { url: string }): void {
     const bodyTag = document.body;
 
@@ -336,7 +358,7 @@ export class HeaderComponent {
         // );
       },
       (error) => {
-        const message= error.message
+        const message = error.message;
         this.messageService.add({ severity: "warn", detail: message });
         console.error("Error fetching payments:", error);
       }

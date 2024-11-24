@@ -8182,8 +8182,8 @@ a.status-grey {
     left: 10px;
     background: #fff;
     margin-bottom: 0;
-    padding: 0px 5px;
     z-index: 99;
+    text-wrap: nowrap;
   }
   .select2-container {
     .select2-selection--single {
@@ -12980,9 +12980,10 @@ app-header{
 .p-datatable{
   td{
     max-width: 10rem;
-    // text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    padding: 10px 15px;
+    font-size: 14px;
     .p-button.p-button-icon-only {
       width: 3rem;
       padding: 0px;

@@ -77,8 +77,8 @@
                       <h3>Tax Vendors Reports</h3>
                       <div class="doctor-search-blk">
                         <div class="top-nav-search table-search-blk">
-                          <input type="text" class="form-control" placeholder="Search here"
-                            [(ngModel)]="searchDataValue" />
+                          <input type="text" class="form-control" placeholder="Search here" #searchTable (input)="
+                        dt.filterGlobal(searchTable.value, 'contains')">
                           <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                         </div>
                       </div>
@@ -118,17 +118,16 @@
   
               <div class="card-body p-2">
                 <p-table [value]="
-                  originalData
-                      | filter
-                        : searchDataValue
-                        : [
-                            'salesDate',
+                  originalData"
+                  [globalFilterFields]="[
+                            'salesDate || purchaseDate',
                             'taxVendor.companyName',
                             'taxVendor.vendorTaxApplied',
                             'taxVendor.paymentStatus',
                             'taxVendor.paidAmount',
                             'taxVendor.dueAmount',
-                            'taxVendor.taxVendorAmount'
+                            'taxVendor.taxVendorAmount',
+                            'source'
 
 
 
@@ -136,18 +135,23 @@
                           ]
                   " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [paginator]="originalData?.length >= 5"
                   [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt [columns]="cols" 
-                  [exportHeader]="'customExportHeader'" exportFilename="Tax Vendors Expenses Reports" selectionMode="multiple" (onFilter)="onFilter($event)">
+                  [exportHeader]="'customExportHeader'" [exportFilename]="getExportFilename()" selectionMode="multiple" >
                   <ng-template pTemplate="header">
                     <tr>
-                      <th pSortableColumn="salesDate">
-                        Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
-                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesDate"
+                      <th pSortableColumn="salesDate || purchaseDate">
+                        Date <p-sortIcon field="salesDate || purchaseDate"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesDate || purchaseDate"
                           display="menu"></p-columnFilter>
                       </th>
                       <th pSortableColumn="taxVendor.companyName">
                         Company Name
                         <p-sortIcon field="taxVendor.companyName"></p-sortIcon>
                         <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="taxVendor.companyName"
+                          display="menu"></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="source">
+                        Source <p-sortIcon field="source"></p-sortIcon>
+                        <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="source"
                           display="menu"></p-columnFilter>
                       </th>
                       <th pSortableColumn="taxVendor.vendorTaxApplied">
@@ -180,8 +184,10 @@
                   </ng-template>
                   <ng-template pTemplate="body" let-data>
                     <tr>
-                      <td>{{ data.salesDate | date : "dd-MMM-yyyy" }}</td>
+                      <td *ngIf="data.salesDate || data.purchaseDate">{{ data.salesDate || data.purchaseDate | date : "dd-MMM-yyyy" }}</td>
+                      <!-- <td *ngIf="data.purchaseDate">{{ data.purchaseDate | date : "dd-MMM-yyyy" }}</td> -->
                       <td>{{ data?.taxVendor?.companyName }}</td>
+                      <td>{{ data?.source }}</td>
                       <td>{{ data?.taxVendor?.vendorTaxApplied }}</td>
                       <td >{{ data?.taxVendor?.paymentStatus }}</td>
                       <td>₹ {{ data?.taxVendor?.paidAmount | indianCurrency  }}</td>
@@ -197,14 +203,22 @@
                     </tr>
                   </ng-template>
   
-                  <!-- <ng-template pTemplate="footer">
+                  <ng-template pTemplate="footer">
                     <tr
                       totalValueDirective
-                      [data]="taxVendorsReportsData"
-                      [name]="taxVendorsReports"
-                      >
+                      [data]="originalData"
+                      [name]="originalDataReports"
+                    >
+                      <!-- <td colspan="4"></td>
+                      <td>Total Amount</td> -->
+                      <!-- <td>₹ {{ getTotalPaidAmount() | indianCurrency }}</td>
+                      <td class="text-danger-dark">
+                        ₹ {{ getTotalDueAmount() | indianCurrency }}
+                      </td> -->
+                      <!-- <td>₹ {{ getTotalSalesAmount() | indianCurrency }}</td> -->
+                      <!-- <td totalValueDirective [data]="salesReportsData"></td> -->
                     </tr>
-                  </ng-template> -->
+                  </ng-template>
                 </p-table>
               </div>
             </div>

@@ -32,7 +32,7 @@ export class ListStaffDesignationComponent {
   visible1: boolean = false;
 
   descriptionRegex = /^.{3,500}$/s;
-  designationsRegex = /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/
+  designationsRegex = /^(?=.*[A-Za-z])[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
   cols: { field: string; header: string; }[];
   exportColumns: { title: string; dataKey: string; }[];
 

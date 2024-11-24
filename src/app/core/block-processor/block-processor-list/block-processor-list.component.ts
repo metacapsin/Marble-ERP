@@ -82,6 +82,8 @@ export class BlockProcessorListComponent {
   editBlockProcessor(id) {
     console.log(id);
     this.router.navigate(["/block-processor/edit-block-processor/" + id]);
+    const returnUrl = this.router.url;
+    this.localStorageService.setItem('returnUrl',returnUrl);
   }
   vewBlockProcessor(id) {
     console.log(id);

@@ -6,9 +6,11 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { MessageService } from "primeng/api";
 import { NewPurchaseService } from "src/app/core/new-purchase/new-purchase.service";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
-import { validationRegex } from "src/app/core/validation";
+import { atLeastOneRequiredValidator, validationRegex } from "src/app/core/validation";
 import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
 import { TaxesService } from "src/app/core/settings/taxes/taxes.service";
+import { CategoriesService } from "src/app/core/settings/categories/categories.service";
+import { SubCategoriesService } from "src/app/core/settings/sub-categories/sub-categories.service";
 @Component({
   selector: "app-add-lot",
   standalone: true,
@@ -36,9 +38,7 @@ export class AddLotComponent {
   royaltyCosting: number;
   totalCosting: number;
   isProcessed: boolean = false;
-  perBlockWeight: number;
   addvisible: boolean = false;
-  shortNameRegex = /^[^\s.-][a-zA-Z0-9_.\s-]{2,50}$/;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   lotTotalCost: number = 0;
   previousLotTotalCost: number = 0;
@@ -47,26 +47,28 @@ export class AddLotComponent {
   blockProcessor: any = {};
   orderTaxList: any[];
   taxesListData: any;
+  rowCosting: number;
+  categoryList: any[];
+  CategoryListsEditArray: any[];
 
+  allSubCategoryList: any = [];
+  subCategorListByCategory: any = [];
+  maxPurchaseAmount = 0;
+  previouslotData: any;
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
     private cdRef: ChangeDetectorRef,
     private NewPurchaseService: NewPurchaseService,
     private WarehouseService: WarehouseService,
+    private categoriesService: CategoriesService,
+    private subCategoriesService: SubCategoriesService,
     private ServiceblockProcessor: blockProcessorService,
     private taxService: TaxesService
   ) {
     this.lotAddForm = this.fb.group({
-      lotNo: [
-        "",
-        [
-          Validators.required,
-          Validators.pattern(validationRegex.oneToFiftyCharRegex),
-        ],
-      ],
-      lotName: [
-        "",
+      lotNo: ["", [Validators.required, Validators.pattern(validationRegex.oneToFiftyCharRegex)]],
+      lotName: ["",
         [
           Validators.required,
           Validators.pattern(validationRegex.oneToFiftyCharRegex),
@@ -83,7 +85,7 @@ export class AddLotComponent {
         [Validators.required, Validators.min(1), Validators.max(1000000)],
       ],
       paidToSupplierLotCost: ["", [Validators.required]],
-      purchaseDiscount: ["", [Validators.min(0), Validators.max(100000)]],
+      purchaseDiscount: ["", [Validators.min(0),]],
       transportationCharge: ["", [Validators.min(0), Validators.max(100000)]],
       royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
       lotRowCost: [""],
@@ -92,13 +94,18 @@ export class AddLotComponent {
       nonTaxableAmount: [""],
       taxableAmount: [""],
       ItemTax: [""],
-      purchaseItemTaxAmount: [""],
+      taxable: [""],
       taxApplied: [""],
       averageTransport: [""],
       averageRoyalty: [""],
-    });
+      categoryDetail: ["", [Validators.required]],
+      subCategoryDetail: ["", [Validators.required]],
+      totalTransportationCharges: [""],
+    }, { validators: atLeastOneRequiredValidator() });
   }
   ngOnInit(): void {
+    this.previouslotData = this.NewPurchaseService.getFormData("stepFirstLotData");
+
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data.map((element: any) => ({
         name: element.name,
@@ -108,14 +115,43 @@ export class AddLotComponent {
         },
       }));
 
-      this.lotAddForm.get("vehicleNo")?.valueChanges.subscribe((value) => {
-        if (value) {
-          const upperCaseValue = value.toUpperCase();
-          this.lotAddForm
-            .get("vehicleNo")
-            ?.setValue(upperCaseValue, { emitEvent: false });
-        }
+    });
+    this.categoriesService.getCategories().subscribe((resp: any) => {
+      this.categoryList = resp.data;
+      this.CategoryListsEditArray = [];
+      this.categoryList.forEach((element: any) => {
+        this.CategoryListsEditArray.push({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name,
+          },
+        });
       });
+    });
+    this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
+      this.allSubCategoryList = resp.data;
+      // this.allSubCategoryList.forEach((element: any) => {
+      //   this.SubCategoryListsEditArray.push({
+      //     name: element.name,
+      //     _id: {
+      //       _id: element._id,
+      //       name: element.name,
+      //     },
+      //   });
+      // });
+      if(this.allSubCategoryList && this.previouslotData){
+        this.findSubCategory(this.previouslotData?.categoryDetail)
+      }
+    });
+
+    this.lotAddForm.get("vehicleNo")?.valueChanges.subscribe((value) => {
+      if (value) {
+        const upperCaseValue = value.toUpperCase();
+        this.lotAddForm
+          .get("vehicleNo")
+          ?.setValue(upperCaseValue, { emitEvent: false });
+      }
     });
     this.taxService.getAllTaxList().subscribe((resp: any) => {
       this.taxesListData = resp.data;
@@ -141,47 +177,51 @@ export class AddLotComponent {
         });
       }
     );
-    let lotData = this.NewPurchaseService.getFormData("stepTwoData");
 
-    if (lotData) {
-      this.blocksDetails = lotData.blockDetails;
+    // this.findSubCategory(this.previouslotData?.categoryDetail)
+  }
+
+  patchLotValue() {
+    if (this.previouslotData) {
+      this.blocksDetails = this.previouslotData.blockDetails;
       this.blocksDetails.forEach((element) => {
         this.totalBlocksArea += element.totalArea;
       });
 
       this.lotAddForm.patchValue({
-        lotNo: lotData.lotNo,
-        lotName: lotData.lotName,
-        vehicleNo: lotData.vehicleNo,
-        warehouse: lotData.warehouseDetails,
-        invoiceNo: lotData.invoiceNo,
-        lotWeight: lotData.lotWeight,
-        pricePerTon: lotData.pricePerTon,
-        paidToSupplierLotCost: lotData.paidToSupplierLotCost,
+        lotNo: this.previouslotData.lotNo,
+        lotName: this.previouslotData.lotName,
+        vehicleNo: this.previouslotData.vehicleNo,
+        warehouse: this.previouslotData.warehouseDetails,
+        invoiceNo: this.previouslotData.invoiceNo,
+        lotWeight: this.previouslotData.lotWeight,
+        pricePerTon: this.previouslotData.pricePerTon,
+        paidToSupplierLotCost: this.previouslotData.paidToSupplierLotCost,
         transportationCharge:
-          lotData.transportationCharge == 0
+          this.previouslotData.transportationCharge == 0
             ? null
-            : lotData.transportationCharge,
+            : this.previouslotData.transportationCharge,
         royaltyCharge:
-          lotData.royaltyCharge == 0 ? null : lotData.royaltyCharge,
-        notes: lotData.notes,
-        blocksCount: lotData.blocksCount,
-        averageWeight: lotData.averageWeight,
-        averageTransport: lotData.averageTransport,
-        averageRoyalty: lotData.averageRoyalty,
-        averageTaxAmount: lotData.averageTaxAmount,
-        lotRowCost: lotData.lotRowCost,
-        purchaseDiscount: lotData.purchaseDiscount,
-        taxableAmount: lotData.taxableAmount,
-        nonTaxableAmount: lotData.nonTaxableAmount,
-        purchaseItemTaxAmount: lotData.purchaseItemTaxAmount,
-        ItemTax: lotData.purchaseItemTax,
-        taxApplied: lotData.taxApplied,
+          this.previouslotData.royaltyCharge == 0 ? null : this.previouslotData.royaltyCharge,
+        notes: this.previouslotData.notes,
+        blocksCount: this.previouslotData.blocksCount,
+        averageWeight: this.previouslotData.averageWeight,
+        averageTransport: this.previouslotData.averageTransport,
+        averageRoyalty: this.previouslotData.averageRoyalty,
+        averageTaxAmount: this.previouslotData.averageTaxAmount,
+        lotRowCost: this.previouslotData.lotRowCost,
+        purchaseDiscount: this.previouslotData.purchaseDiscount,
+        taxableAmount: this.previouslotData.taxableAmount,
+        nonTaxableAmount: this.previouslotData.nonTaxableAmount,
+        taxable: this.previouslotData.taxable,
+        ItemTax: this.previouslotData.purchaseItemTax,
+        taxApplied: this.previouslotData.taxApplied,
+        categoryDetail: this.previouslotData.categoryDetail,
+        subCategoryDetail: this.previouslotData.subCategoryDetail,
       });
-      this.calculateTotalAmount();
     }
+    this.calculateTotalAmount();
   }
-
   addBlockDialog() {
     this.blockNo = "";
     this.height = null;
@@ -248,6 +288,36 @@ export class AddLotComponent {
     myForm.resetForm();
   }
 
+  findSubCategory(value: any) {
+    console.log(value);
+
+    let SubCategoryData = []
+    this.lotAddForm.get("subCategoryDetail").reset();
+    console.log('allSubCategoryList', this.allSubCategoryList);
+    
+    SubCategoryData = this.allSubCategoryList?.filter(
+      (e) => e.categoryId._id == value._id
+    );
+
+    console.log('SubCategoryData', SubCategoryData);
+    
+    this.subCategorListByCategory = SubCategoryData?.map((e) => ({
+      name: e.name,
+      _id: {
+        _id: e._id,
+        name: e.name,
+      },
+    }));
+
+
+    console.log('subCategorListByCategory', this.subCategorListByCategory);
+
+    if (this.previouslotData) {
+      this.patchLotValue()
+    }
+  }
+
+
   getblockDetails() {
     if (
       isNaN(this.height) ||
@@ -263,20 +333,23 @@ export class AddLotComponent {
   }
   calculateTotalAmount() {
     const form = this.lotAddForm;
-    const lotWeight = form.get("lotWeight").value;
-    const pricePerTon = form.get("pricePerTon").value;
-    const royaltyCharge = form.get("royaltyCharge").value;
-    const transportationCharge = form.get("transportationCharge").value;
-    const purchaseDiscount = form.get("purchaseDiscount").value;
-    const tax = form.get("ItemTax").value;
-    const taxableAmount = form.get("taxableAmount").value;
-    let purchaseItemTaxAmount = 0;
-
+    const lotWeight = Number(form.get("lotWeight")?.value) || 0;
+    const pricePerTon = Number(form.get("pricePerTon")?.value) || 0;
+    const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
+    const transportationCharge = Number(form.get("transportationCharge")?.value) || 0;
+    const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
+    const tax = form.get("ItemTax")?.value || [];
+    let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
+    let nonTaxableAmount = Number(form.get("nonTaxableAmount")?.value) || 0;
+    let taxable = 0;
     if (lotWeight && pricePerTon) {
       const lotWeightmultiPricePerton = lotWeight * pricePerTon;
-      const nonTaxableAmount = Number(taxableAmount) && Number(taxableAmount) <= lotWeightmultiPricePerton
+      this.rowCosting = lotWeightmultiPricePerton;
+      nonTaxableAmount = taxableAmount && taxableAmount <= lotWeightmultiPricePerton
         ? lotWeightmultiPricePerton - taxableAmount
         : lotWeightmultiPricePerton;
+
+      this.maxPurchaseAmount = lotWeightmultiPricePerton - 10000;
 
       form.patchValue({
         nonTaxableAmount,
@@ -293,26 +366,34 @@ export class AddLotComponent {
       taxApplied = (taxableAmount * tax) / 100;
     }
 
-    const nonTaxableAmount = form.get("nonTaxableAmount").value;
-    purchaseItemTaxAmount = taxApplied + taxableAmount;
-    const paidToSupplierLotAmount = purchaseItemTaxAmount + nonTaxableAmount;
-    const paidToSupplierLotCost_Discount = paidToSupplierLotAmount - purchaseDiscount;
-    const lotRowCost = purchaseItemTaxAmount + nonTaxableAmount;
-
-    if (paidToSupplierLotAmount !== 0 && purchaseItemTaxAmount !== 0) {
-      form.patchValue({
-        paidToSupplierLotCost: Number(paidToSupplierLotCost_Discount).toFixed(2),
-        lotRowCost: Number(lotRowCost),
-        purchaseItemTaxAmount: Number(purchaseItemTaxAmount).toFixed(2),
-        taxApplied: Number(taxApplied).toFixed(2),
-      });
+    if (purchaseDiscount) {
+      if (!nonTaxableAmount) {
+        taxableAmount -= purchaseDiscount;
+      } else {
+        nonTaxableAmount -= purchaseDiscount;
+        form.patchValue({
+          nonTaxableAmount,
+        });
+      }
     }
 
-    const averageTransportation = transportationCharge / lotWeight;
+    taxable = taxApplied + taxableAmount;
+    const lotRowCost = taxable + nonTaxableAmount + purchaseDiscount;
+    const paidToSupplierLotAmount = taxable + nonTaxableAmount;
+
+    form.patchValue({
+      paidToSupplierLotCost: paidToSupplierLotAmount ? Number(paidToSupplierLotAmount).toFixed(2) : 0,
+      lotRowCost: Number(lotRowCost),
+      taxable: Number(taxable).toFixed(2),
+      taxApplied: Number(taxApplied).toFixed(2),
+      taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+    });
+    const totalTransportationCharge = transportationCharge * lotWeight;
+    const averageTransportation = totalTransportationCharge / lotWeight;
     const averageRoyalty = royaltyCharge / lotWeight;
     const averageBlocksWeight = this.totalBlocksArea / lotWeight;
-
     const blockPricePerTon = lotRowCost / lotWeight;
+
     this.blocksDetails.forEach((element: any) => {
       element.weightPerBlock = element.totalArea / averageBlocksWeight;
       element.rawCosting = element.weightPerBlock * blockPricePerTon;
@@ -325,7 +406,19 @@ export class AddLotComponent {
       averageTransport: averageTransportation,
       averageRoyalty: averageRoyalty,
       averageWeight: averageBlocksWeight,
+      totalTransportationCharges: totalTransportationCharge,
     });
+
+    this.setValidations();
+  }
+
+  setValidations() {
+    this.lotAddForm.get("taxableAmount")?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
+    this.lotAddForm.get("nonTaxableAmount")?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
+    this.lotAddForm.get("purchaseDiscount")?.setValidators([Validators.min(0), Validators.max(this.maxPurchaseAmount)]);
+    this.lotAddForm.get("purchaseDiscount")?.updateValueAndValidity;
+    this.lotAddForm.get("nonTaxableAmount")?.updateValueAndValidity;
+    this.lotAddForm.get("taxableAmount")?.updateValueAndValidity;
   }
 
   LotAddFormSubmit() {
@@ -356,11 +449,14 @@ export class AddLotComponent {
         notes: "",
         nonTaxableAmount: Number(formData.nonTaxableAmount),
         taxableAmount: Number(formData.taxableAmount),
-        purchaseItemTaxAmount: Number(formData.purchaseItemTaxAmount),
+        taxable: Number(formData.taxable),
         purchaseItemTax: formData.ItemTax,
         taxApplied: Number(formData.taxApplied),
+        categoryDetail: formData.categoryDetail,
+        subCategoryDetail: formData.subCategoryDetail,
+        totalTransportationCharges: Number(formData.totalTransportationCharges),
       };
-      this.NewPurchaseService.setFormData("stepTwoData", payload);
+      this.NewPurchaseService.setFormData("stepFirstLotData", payload);
     }
   }
 }

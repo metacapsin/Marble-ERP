@@ -129,7 +129,7 @@ hideOnClear="true"  type="text" field="categoryDescription"
                                 Field is required.
                             </div>
                             <div *ngIf="addExpensesCategoryForm.get('categoryName')?.hasError('pattern') && addExpensesCategoryForm.get('categoryName')?.touched">
-                                <span class="login-danger">Expense Category name should be between 3 to 50 characters</span>
+                                <span class="login-danger">Expense Category name should be between 3 to 50 characters and must contain 1 letter.</span>
                               </div>
                         </div>
 
@@ -144,7 +144,7 @@ hideOnClear="true"  type="text" field="categoryDescription"
                                 addExpensesCategoryForm.get('categoryDescription')?.hasError('pattern') &&
                                 addExpensesCategoryForm.get('categoryDescription')?.touched
                               ">
-                                                        <span class="login-danger">Description must be between 3 to 500 characters.</span>
+                                                        <span class="login-danger">Description must be between 3 to 500 characters and must contain 1 letter.</span>
                                                     </div>
                         </div>
                     </div>

@@ -103,7 +103,7 @@
                         <div class="card-body p-2">
                             <p-table [value]="stockListData | filter:searchDataValue:['warehouseDetails.name','slabNo','slabName','categoryDetail.name','subCategoryDetail.name','totalSQFT','costPerSQFT','sellingPricePerSQFT']" [tableStyle]="{'min-width': '60rem'}" [paginator]="stockListData.length >= 5"
                                 [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped" #dt
-                                [columns]="cols" selectionMode="multiple" [exportHeader]="'customExportHeader'" exportFilename="Stock Reports" >
+                                [columns]="cols" selectionMode="multiple" [exportHeader]="'customExportHeader'" [exportFilename]="getStockExportFilename()" >
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="bySales">Warehouse<p-sortIcon

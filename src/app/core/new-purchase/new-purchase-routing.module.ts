@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddNewPurchaseComponent } from './add-new-purchase/add-new-purchase.component';
 import { ListNewPurchaseComponent } from './list-new-purchase/list-new-purchase.component';
+import { EditNewPurchaseComponent } from './edit-new-purchase/edit-new-purchase.component';
 // import { PurchaseComponent } from './purchase.component';
 // import { AddPurchaseComponent } from './add-purchase/add-purchase.component';
 // import { EditPurchaseComponent } from './edit-purchase/edit-purchase.component';
@@ -17,13 +18,13 @@ const routes: Routes = [
     path: 'add-new-purchase',
     component: AddNewPurchaseComponent,
   },
+  {
+    path: 'edit-new-purchase/:id',
+    component: EditNewPurchaseComponent,
+  },
   // {
   //   path: 'add-purchase',
   //   component: AddPurchaseComponent,
-  // },
-  // {
-  //   path: 'edit-purchase/:id',
-  //   component: EditPurchaseComponent,
   // },
   // {
   //   path: 'paid-purchase',

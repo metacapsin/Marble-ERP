@@ -13,6 +13,8 @@ export class PaymentOutReportComponent {
   picker1: any;
   searchDataValue = "";
   rangeDates: Date[] | undefined;
+  startDate: Date;
+  endDate: Date;
   paymentOutData = [];
   originalData = [];
   paymentOut = "paymentOut";
@@ -32,7 +34,20 @@ export class PaymentOutReportComponent {
 
   constructor(private service: ReportsService) {}
 
+  private formatDateForFilename(date: Date): string {
+    return date.toLocaleDateString('en-GB').replace(/\//g, '-'); // e.g., 19-02-2024
+  }
+
+  // Function to generate the export filename
+  getExportFilename(): string {
+    const formattedStartDate = this.formatDateForFilename(this.startDate);
+    const formattedEndDate = this.formatDateForFilename(this.endDate);
+    return `Payment Out Reports ${formattedStartDate} ${formattedEndDate}`;
+  }
+
   getPaymentOutReportData(startDate: Date, endDate: Date) {
+    this.startDate = startDate;
+    this.endDate = endDate;
     const formattedStartDate = this.formatDate(startDate);
     const formattedEndDate = this.formatDate(endDate);
     console.log(
@@ -49,14 +64,20 @@ export class PaymentOutReportComponent {
 
     this.service.getPaymentOutReports(data).subscribe((resp: any) => {
       this.paymentOutData = resp.payments;
-      this.originalData = resp.payments;
-      console.log("this is payment out data", resp.payments);
-
+      if (resp.payments && Array.isArray(resp.payments)) {
+        this.originalData = resp.payments.map((payment: any) => {
+          if (payment) {
+            payment.receiver = payment?.customer?.name || payment?.supplier?.name;
+          }
+          return payment;
+        });
+        console.log(this.originalData);
+      }
       this.cols = [
         { field: "paymentDate", header: "Payment Date" },
         { field: "amount", header: "Amount" },
         { field: "paymentMode", header: "Payment Mode" },
-        { field: "customer.name", header: "Receiver" },
+        { field: "receiver", header: "Receiver" },
         { field: "transactionNo", header: "Transaction No" },
         { field: "source", header: "Payment Source" },
       ];
@@ -66,19 +87,7 @@ export class PaymentOutReportComponent {
         dataKey: col.field,
       }));
     });
-    // this.exportColumns = this.paymentOutData.map((element) => ({ title: element.header, dataKey: element.field }));
   }
-
-  // getTotalAmount(): number {
-  //   return this.paymentOutData.reduce(
-  //     (total, payment) =>
-  //       total +
-  //       payment.amount +
-  //       payment.otherCharges +
-  //       payment.transportationCharges,
-  //     0
-  //   );
-  // }
   onFilter(value: any) {
     this.paymentOutData = value.filteredValue;
   }
@@ -148,7 +157,7 @@ export class PaymentOutReportComponent {
         endDate = null;
         break;
     }
-        // Clear the date range selection when a filter is applied
+    // Clear the date range selection when a filter is applied
 
     this.rangeDates = [];
     this.getPaymentOutReportData(startDate, endDate);

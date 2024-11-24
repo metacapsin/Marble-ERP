@@ -34,6 +34,9 @@ export class PaymentInAddComponent {
       paymentMode: "Bank",
     },
     {
+      paymentMode: "Online",
+    },
+    {
       paymentMode: "Cheque",
     },
     
@@ -73,23 +76,23 @@ export class PaymentInAddComponent {
           _id: [sale._id],
           salesInvoiceNumber: [sale.salesInvoiceNumber],
           taxablePaymentAmount: [
-            sale.taxablePaymentAmount || '', 
+            '', 
             [
-              Validators.required,
+              
               Validators.min(0),
               Validators.max(sale.taxableDue) // Set max value to taxableDue
             ]
           ],
-          taxablePaymentMode: [sale.taxablePaymentMode , Validators.required],  
+          taxablePaymentMode: ["Bank" , Validators.required],  
           nonTaxablePaymentAmount: [
-            sale.nonTaxablePaymentAmount || '', 
+            '', 
             [
-              Validators.required,
+              
               Validators.min(0),
               Validators.max(sale.nonTaxableDue) // Set max value to nonTaxableDue
             ]
           ],
-          nonTaxablePaymentMode: [sale.nonTaxablePaymentMode , Validators.required], 
+          nonTaxablePaymentMode: ["Cash" , Validators.required], 
           // note:[sale.note , Validators.pattern(this.notesRegex)], 
         })
       );
@@ -129,6 +132,13 @@ export class PaymentInAddComponent {
             // const message = "No payments available for this Customer";
             //   this.messageService.add({ severity: "warn", detail: message });
           } else {
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
+        
+            this.addPaymentInForm.patchValue({
+              paymentDate: formattedDate,
+            });
+        
             this.noPaymentsAvailable = false;
             this.addSalesControls();
             console.log("Payments found", this.salesDataById);
@@ -166,38 +176,49 @@ export class PaymentInAddComponent {
       } else {
         paymentMode = sale.taxablePaymentMode || sale.nonTaxablePaymentMode;
       }
+
+      const taxableAmount = parseFloat(sale.taxablePaymentAmount) || 0;
+      const nonTaxableAmount = parseFloat(sale.nonTaxablePaymentAmount) || 0;
+      const totalAmount = taxableAmount + nonTaxableAmount;
+
       return {
-        customer: {_id:customerData._id,
-          name:customerData.name,
-          billingAddress:customerData.billingAddress || ""
-         } ,
+        customer: {
+          _id: customerData._id,
+          name: customerData.name,
+          billingAddress: customerData.billingAddress || ""
+        },
         paymentDate: formData.paymentDate,
         paymentMode: paymentMode, 
         sales: [
           {
             _id: sale._id,
-            amount: sale.taxablePaymentAmount + sale.nonTaxablePaymentAmount, 
+            amount: totalAmount,
+            salesInvoiceNumber: sale.salesInvoiceNumber,
           },
         ],
-        taxablePaymentAmount: sale.taxablePaymentAmount
+        taxablePaymentAmount: taxableAmount > 0
           ? {
-              amount: sale.taxablePaymentAmount,
+              amount: taxableAmount,
               paymentMode: sale.taxablePaymentMode,
             }
           : null,
-        nonTaxablePaymentAmount: sale.nonTaxablePaymentAmount
+        nonTaxablePaymentAmount: nonTaxableAmount > 0
           ? {
-              amount: sale.nonTaxablePaymentAmount,
+              amount: nonTaxableAmount,
               paymentMode: sale.nonTaxablePaymentMode,
             }
           : null,
         note: formData.note,
       };
     });
-    if (this.addPaymentInForm.valid) {
-      console.log("valid form");
 
-      this.Service.createPayment(payload).subscribe((resp: any) => {
+    // Filter out any sales with zero total amount
+    const filteredPayload = payload.filter(item => item.sales[0].amount > 0);
+
+    if (this.addPaymentInForm.valid && filteredPayload.length > 0) {
+      console.log("Valid form");
+
+      this.Service.createPayment(filteredPayload).subscribe((resp: any) => {
         console.log(resp);
         if (resp) {
           if (resp.status === "success") {
@@ -213,7 +234,8 @@ export class PaymentInAddComponent {
         }
       });
     } else {
-      console.log("invalid form");
+      console.log("Invalid form or no valid payments");
+      this.messageService.add({ severity: "error", detail: "Please enter valid payment amounts" });
     }
   }
 }

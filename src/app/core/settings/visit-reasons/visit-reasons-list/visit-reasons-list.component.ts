@@ -84,7 +84,6 @@ export class VisitReasonListComponent implements AfterViewInit, OnInit {
   openAddDialog() {
     const dialogRef = this.dialog.open(VisitReasonAddDialogComponent);
     dialogRef.afterClosed().subscribe(dialog => {
-      debugger
       if (dialog === true) return;
       this.service.CreateVisitReason(dialog).subscribe((resp: any) => {
         if (resp.status === 'success') {

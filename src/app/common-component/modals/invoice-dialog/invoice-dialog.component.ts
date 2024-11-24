@@ -60,7 +60,6 @@ export class InvoiceDialogComponent implements OnInit {
     });
   }
   closeTheWindow() {
-    // debugger
     // console.log("dialog close")
     this.close.emit();
   }
@@ -70,7 +69,8 @@ export class InvoiceDialogComponent implements OnInit {
 
 
 
-  downloadSalesFile(id: any) {
+  downloadSalesFile(id: any, invoiceNumber:string) {
+    console.log("Invoice number",invoiceNumber)
     if (!id) {
       console.error("No ID provided for download");
       return;
@@ -81,7 +81,7 @@ export class InvoiceDialogComponent implements OnInit {
         const url = window.URL.createObjectURL(response);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "Sales-Invoice.pdf";
+        a.download = `Sales-Invoice ${invoiceNumber}.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -93,7 +93,9 @@ export class InvoiceDialogComponent implements OnInit {
       }
     );
   }
-  downloadQuotationFile(id: any) {
+  downloadQuotationFile(id: any,invoiceNumber:string) {
+    console.log("Invoice number",invoiceNumber)
+
     if (!id) {
       console.error("No ID provided for download");
       return;
@@ -104,7 +106,7 @@ export class InvoiceDialogComponent implements OnInit {
         const url = window.URL.createObjectURL(response);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "Quotation-Invoice.pdf"; // Adjust the file name and extension as needed
+        a.download = `Quotation-Invoice ${invoiceNumber}.pdf`; // Adjust the file name and extension as needed
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

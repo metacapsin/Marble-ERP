@@ -111,6 +111,16 @@
                         formControlName="customer" optionLabel="name" optionValue="_id" display="chip" [filter]="true"
                         filterBy="name" (onChange)="setCustomer()">
                       </p-dropdown>
+                      <div *ngIf="
+                              addQuotationForm
+                                .get('customer')
+                                .hasError('required') &&
+                              addQuotationForm
+                                .get('customer')
+                                .touched
+                            ">
+                            <span class="login-danger">Field is required.</span>
+                          </div>
                     </div>
                   </div>
                   <div class="col-xl-6 col-md-6 col-sm-12 col-12">
@@ -359,8 +369,27 @@
                                 addQuotationForm.get('quotationDiscount')
                                   ?.touched)
                               ">
-                              <span class="login-danger">Input must be between 1 to 10000.</span>
+                              <span class="login-danger">Input must be between 0 to 10000.</span>
                             </div>
+                            <div *ngIf="
+                            addQuotationForm.get('quotationDiscount')?.hasError('invalid') &&
+                            addQuotationForm.get('quotationDiscount')?.touched
+                          ">
+                          <span class="login-danger">Discount cannot be more than ₹
+                            {{
+                            addQuotationForm.get("quotationGrossTotal").value
+                            | number : "1.2-2"
+                            }}</span>
+                        </div>
+                        <div *ngIf="
+                            addQuotationForm.get('quotationDiscount')?.hasError('equalToGrossTotal') &&
+                            addQuotationForm.get('quotationDiscount')?.touched
+                          ">
+                          <span class="login-danger">Discount cannot be equal to ₹ {{
+                            addQuotationForm.get("quotationGrossTotal").value
+                            | number : "1.2-2"
+                            }}</span>
+                        </div>
                           </div>
                         </div>
                         <div class="col-12 ml-3">
@@ -452,7 +481,7 @@
                               addQuotationForm.get('quotationDiscount')?.value >
                               0
                             ">
-                            ₹
+                            - ₹
                             {{
                             addQuotationForm.get("quotationDiscount").value
                             | number : "1.2-2"
@@ -491,14 +520,13 @@
                       <div class="invoice-total-footer">
                         <h4>
                           Total Amount
-                          <span *ngIf="
-                              addQuotationForm.get('quotationTotalAmount')
-                                ?.value != 0
-                            ">
-                            ₹
+                          <span>
                             {{
                             addQuotationForm.get("quotationTotalAmount").value
-                            | number : "1.2-2"
+                            ? "₹" +
+                            (addQuotationForm.get("quotationTotalAmount").value
+                            | number : "1.2-2")
+                            : 0
                             }}
                           </span>
                         </h4>

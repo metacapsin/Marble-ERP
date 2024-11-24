@@ -20,6 +20,8 @@ export class TaxVendorListComponent {
   modalData: any = {};
   showDialoge = false;
   taxVendorId: any;
+  cols: any;
+  exportColumns: any;
 
   constructor(
     private router: Router,
@@ -35,6 +37,20 @@ export class TaxVendorListComponent {
   getTaxVendorsList(){
     this.TaxVendorsService.getTaxVendorList().subscribe((resp: any) => {
       this.taxVendorList = resp.data;
+
+      this.cols = [
+        { field: "companyName", header: "Company Name" },
+        { field: "country.name", header: "Country Name" },
+        { field: "state", header: "State" },
+        { field: "city", header: "City" },
+        { field: "email", header: "Email" },
+        { field: "postalCode", header: "Postal Code" },
+      ];
+
+      this.exportColumns = this.cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+      }));
     });
   }
 

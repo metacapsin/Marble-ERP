@@ -116,7 +116,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 col-md-6 col-xl-6">
+                  <!-- <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
                       <div class="input-group">
@@ -143,7 +143,7 @@
                         Credit Period Must not be more than 180 days.
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
 
                   <div class="col-12 col-md-6 col-xl-6">
@@ -178,7 +178,7 @@
                     <div class="form-group local-forms">
                       <label for="billingAddress">Billing Address</label>
                       <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
-                        formControlName="billingAddress" rows="5"></textarea>
+                        formControlName="billingAddress" rows="1"></textarea>
 
                       <div *ngIf="
                           editCustomerGroup
@@ -186,7 +186,7 @@
                             ?.hasError('pattern') &&
                           editCustomerGroup.get('billingAddress')?.touched
                         ">
-                        <span class="login-danger">Billing Address Must be between 3 to 500 characters</span>
+                        <span class="login-danger">Billing Address Must be between 3 to 100 characters</span>
                       </div>
                     </div>
                   </div>
@@ -195,7 +195,7 @@
                     <div class="form-group local-forms">
                       <label for="shippingAddress">Shipping Address</label>
                       <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
-                        formControlName="shippingAddress" rows="5"></textarea>
+                        formControlName="shippingAddress" rows="1"></textarea>
 
                       <div *ngIf="
                           editCustomerGroup

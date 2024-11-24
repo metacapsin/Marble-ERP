@@ -28,7 +28,7 @@ export class EditTaxesComponent {
   ){
     this.editTaxesForm = this.fb.group({      
       name: ['',[Validators.required,Validators.pattern(this.personNameRegex)]],
-      taxRate: ['', [Validators.required, Validators.min(0), Validators.max(99)]]
+      taxRate: ['', [Validators.required, Validators.min(1), Validators.max(99)]]
     })
   }
 

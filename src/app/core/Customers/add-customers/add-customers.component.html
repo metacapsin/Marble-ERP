@@ -110,35 +110,7 @@
                             ?.hasError('pattern') &&
                           addcustomerGroup.get('taxNo')?.touched
                         " class="login-danger Font_size">
-                        Tax Number should be of 15 characters and alphanumeric
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-xl-6">
-                  <div class="form-group local-forms">
-                    <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
-                    <div class="input-group">
-                      <input class="form-control" type="number" placeholder formControlName="creditPeriod" />
-                      <div class="input-group-prepend">
-                        <span class="input-group-text" style="font-size: 12px">Days</span>
-                      </div>
-                    </div>
-                    <div *ngIf="
-                          addcustomerGroup
-                            .get('creditPeriod')
-                            ?.hasError('min') &&
-                          addcustomerGroup.get('creditPeriod')?.touched
-                        " class="login-danger Font_size">
-                      Credit Period cannot be less than 0 days.
-                    </div>
-                    <div *ngIf="
-                          addcustomerGroup
-                            .get('creditPeriod')
-                            ?.hasError('max') &&
-                          addcustomerGroup.get('creditPeriod')?.touched
-                        " class="login-danger Font_size">
-                      Credit Period Must not be more than 180 days.
+                      Tax Number should be of 15 characters and alphanumeric
                     </div>
                   </div>
                 </div>
@@ -175,7 +147,7 @@
                   <div class="form-group local-forms">
                     <label for="billingAddress">Billing Address</label>
                     <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
-                      formControlName="billingAddress" rows="5"></textarea>
+                      formControlName="billingAddress" rows="1"></textarea>
 
                     <div *ngIf="
                           addcustomerGroup
@@ -192,7 +164,7 @@
                   <div class="form-group local-forms">
                     <label for="shippingAddress">Shipping Address</label>
                     <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
-                      formControlName="shippingAddress" rows="5"></textarea>
+                      formControlName="shippingAddress" rows="1"></textarea>
 
                     <div *ngIf="
                           addcustomerGroup

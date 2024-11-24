@@ -73,7 +73,7 @@ export class EditQuotationsComponent {
       billingAddress: [""],
 
       quotationDate: ["", [Validators.required]],
-      quotationDiscount: ["", [Validators.min(1), Validators.max(100000)]],
+      quotationDiscount: ["", [Validators.min(0), Validators.max(100000)]],
       quotationInvoiceNumber: [""],
       quotationItemDetails: this.fb.array([
         this.fb.group({
@@ -102,10 +102,10 @@ export class EditQuotationsComponent {
       // quotationStatus: ["", [Validators.required]],
       quotationTax: [""],
       appliedTax: [""],
-      quotationShipping: ["", [Validators.min(1), Validators.max(100000)]],
+      quotationShipping: ["", [Validators.min(0), Validators.max(100000)]],
       quotationTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       quotationTotalAmount: [""],
-      otherCharges: ["", [Validators.min(1), Validators.max(100000)]],
+      otherCharges: ["", [Validators.min(0), Validators.max(100000)]],
     });
     this.quotationId = this.activeRoute.snapshot.params["id"];
   }
@@ -339,7 +339,7 @@ export class EditQuotationsComponent {
   }
 
   calculateTotalAmount() {
-    console.log("object");
+    console.log("Calculating total amount");
     let quotationGrossTotal = 0;
     let quotationTax: number = 0;
     const salesItems = this.editQuotationForm.get(
@@ -347,14 +347,6 @@ export class EditQuotationsComponent {
     ) as FormArray;
 
     salesItems.controls.forEach((item: FormGroup) => {
-      // if (
-      //   item.get("quotationItemQuantity").value > item.get("maxQuantity").value
-      // ) {
-      //   item
-      //     .get("quotationItemQuantity")
-      //     .patchValue(item.get("maxQuantity").value);
-      // }
-      // debugger
       const quantity = +item.get("quotationItemQuantity").value || 0;
       const unitPrice = +item.get("quotationItemUnitPrice").value || 0;
       const tax = item.get("quotationItemTax").value || [];
@@ -385,18 +377,25 @@ export class EditQuotationsComponent {
       .get("quotationGrossTotal")
       .setValue(Number(quotationGrossTotal.toFixed(2)));
 
-    let totalAmount = quotationGrossTotal;
-    const discount = +this.editQuotationForm.get("quotationDiscount").value;
-    const shipping = +this.editQuotationForm.get("quotationShipping").value;
-    const otherCharges = +this.editQuotationForm.get("otherCharges").value;
+    const discount = +this.editQuotationForm.get("quotationDiscount").value || 0;
+    const shipping = +this.editQuotationForm.get("quotationShipping").value || 0;
+    const otherCharges = +this.editQuotationForm.get("otherCharges").value || 0;
 
-    totalAmount -= discount;
-    totalAmount += shipping;
-    totalAmount += otherCharges;
+    let totalAmount = quotationGrossTotal - discount + shipping + otherCharges;
 
+    if (discount > quotationGrossTotal) {
+      this.editQuotationForm.get("quotationDiscount").setErrors({ 'invalid': true });
+    } else if (discount === quotationGrossTotal) {
+      this.editQuotationForm.get("quotationDiscount").setErrors({ 'equalToGrossTotal': true });
+      totalAmount = 0; // Set total amount to 0 when discount equals gross total
+    } else {
+      this.editQuotationForm.get("quotationDiscount").setErrors(null);
+    }
+
+    console.log("Total Amount:", totalAmount);
     this.editQuotationForm
       .get("quotationTotalAmount")
-      .setValue(Number(totalAmount));
+      .setValue(Number(totalAmount.toFixed(2)));
   }
 
   patchForm(data) {

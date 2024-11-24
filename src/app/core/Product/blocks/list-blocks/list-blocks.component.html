@@ -1,141 +1,584 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Product</li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Block List</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <!-- <li class="breadcrumb-item active">Stock</li> -->
+            <!-- <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li> -->
+            <li class="breadcrumb-item active">Blocks List </li>
+          </ul>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card card-table show-entire">
-                    <div class="card-body">
-                        <div class="page-table-header mb-2">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="doctor-table-blk">
-                                        <h3>Block List</h3>
-                                        <div class="doctor-search-blk">
-                                            <div class="top-nav-search table-search-blk">
-                                                <input type="text" class="form-control" placeholder="Search here"
-                                                    [(ngModel)]="searchDataValue"
-                                                    (ngModelChange)="searchData(searchDataValue)">
-                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                            </div>
-                                            <div class="add-group textbtn">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="doctor-table-blk">
+                    <h3>Blocks List</h3>
+                    <div class="doctor-search-blk">
+                      <div class="top-nav-search table-search-blk">
+                       <input type="text" class="form-control" placeholder="Search here"   #searchTable (input)="
+                        dt.filterGlobal(searchTable.value, 'contains')">
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
+                      </div>
+                      <!-- <div class="add-group textbtn">
                                                 <a appShowHide [roles]="['admin', 'super-admin']"
-                                                    [routerLink]="['/blocks/add']"
+                                                    [routerLink]="['/lot/add']"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""> Add New</a>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
-                                    [roles]="['admin', 'super-admin']">
-                                    <a href="javascript:;" class=" me-2"><img src=""
-                                            alt=""></a>
-                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
-                                            alt=""></a> -->
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                                            alt=""></a>
-                                    <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-body p-2">
-                            <p-table [value]="originalData" [tableStyle]="{'min-width': '60rem'}" [paginator]="originalData?.length >= 5"
-                                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)" [(selection)]="selectedLot">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th pSortableColumn="lotNo">Lot No. <p-sortIcon field="lotNo"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="lotNo" display="menu"></p-columnFilter>
-    
-                                        </th>
-                                        <th pSortableColumn="blockNo">Blocks  No. <p-sortIcon field="blockNo"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="blockNo" display="menu"></p-columnFilter>
-    
-                                        </th>
-                                        <th pSortableColumn="processingCharge">Processing Charge<p-sortIcon field="processingCharge"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="processingCharge" field="processingCharge" display="menu"></p-columnFilter>
-    
-                                        </th>
-                                        <th pSortableColumn="height">Height  <p-sortIcon field="height"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="height" display="menu"></p-columnFilter>
-    
-                                        </th>
-                                        <th pSortableColumn="width">Widht <p-sortIcon field="width"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="width" display="menu"></p-columnFilter>
-                                            
-                                        </th>
-                                        <th pSortableColumn="length">Length <p-sortIcon field="length"></p-sortIcon>
-                                            <p-columnFilter  matchMode="contains"  
-hideOnClear="true"  type="text" field="length" display="menu"></p-columnFilter>
-    
-                                        </th>
-                                        <th appShowHide [roles]="['admin', 'super-admin']" >Action
-                                        </th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-blocks>
-    
-                                    <tr>
-                                        <td>
-                                            {{blocks.lotNo}}
-                                        </td>
-                                        <td>
-                                            {{blocks.blocksNo}}
-                                        </td>
-                                        <td>
-                                            {{blocks.processingCharge}}
-                                        </td>
-                                        <td>
-                                            {{blocks.height}}
-                                        </td>
-                                        <td>
-                                            {{blocks.width}}
-                                        </td>
-                                        <td>
-                                            {{blocks.length}}
-                                        </td>
-                                        <td appShowHide [roles]="['admin', 'super-admin']" style="display: flex;">
-                  <div class="action-buttons">
-
-                                            <p-button [text]="true" icon="fa fa-edit"
-                                                [routerLink]="['/blocks/edit', blocks._id]"></p-button>
-                                            <p-button [text]=" true" icon="fa fa-trash"
-                                                (click)="deleteBlocks(blocks._id)"></p-button>
-                  </div>
-                                        </td>
-    
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-
-                        </div>
+                                            </div> -->
                     </div>
+                  </div>
                 </div>
+                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
+                  [roles]="['admin', 'super-admin']">
+                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
+                                            alt="" pTooltip="Download data in PDF file"
+                      tooltipPosition="left" tooltipStyleClass="tooltip"></a> -->
+                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
+                                            alt=""></a> -->
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""
+                      pTooltip="Download data in CSV file " tooltipPosition="left" tooltipStyleClass="tooltip"
+                      (click)="dt.exportCSV()"></a>
+                  <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+
+                </div>
+              </div>
+              <div class="mt-3">
+                <div class="row card-body d-flex justify-content-between p0">
+                  <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                      <label for="warehouseDetails">Filter By</label>
+                      <p-dropdown [options]="warehouseData" styleClass="" appendTo="body"
+                        placeholder="Filter By Warehouse" [style]="{ width: '100%' }" [filter]="true" optionLabel="name"
+                        optionValue="_id" [showClear]="true" (onChange)="onSearchByChange($event.value)"
+                        [(ngModel)]="warehouseDropDown">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <div class="card-body p-2">
+
+              <p-table
+                [value]="data"
+                [tableStyle]="{'min-width': '60rem'}" [paginator]="data?.length >= 5" [rows]="10"
+                [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedBlocks" styleClass="p-datatable-striped"
+                selectionMode="multiple" #dt [columns]="cols"
+                [exportHeader]="'customExportHeader'" exportFilename="Blocks List" class="table-responsive"
+                [globalFilterFields]="['date','blockDetails.blockNo','categoryDetail.name','subCategoryDetail.name','blockDetails.height','blockDetails.width','blockDetails.length','totalArea','lotTotalCosting','warehouseDetails.name','lotNo','lotName','blockProcessorList', ]">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="text-nowrap" pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="date"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="blockDetails.blockNo">Block Number <p-sortIcon
+                        field="blockDetails.blockNo"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockDetails.blockNo"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="categoryDetail.name">Category <p-sortIcon
+                        field="categoryDetail.name"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="categoryDetail.name"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="subCategoryDetail.name">Sub Category <p-sortIcon
+                        field="subCategoryDetail.name"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="subCategoryDetail.name"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap"
+                      pSortableColumn="blockDetails.height || blockDetails.width || blockDetails.length">Size (L*W*H)
+                      <p-sortIcon field="blockDetails.height || blockDetails.width || blockDetails.length"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
+                        field="blockDetails.height || blockDetails.width || blockDetails.length"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="totalArea">Total Area <p-sortIcon
+                        field="totalArea"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="totalArea"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="lotTotalCosting">Total Cost <p-sortIcon
+                        field="lotTotalCosting"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotTotalCosting"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="warehouseDetails.name">Warehouse<p-sortIcon
+                        field="warehouseDetails.name"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="warehouseDetails.name"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="lotNo">Lot Number <p-sortIcon field="lotNo"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotNo"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th class="text-nowrap" pSortableColumn="lotName">Lot Name <p-sortIcon field="lotName"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="lotName"
+                        display="menu"></p-columnFilter>
+                    </th>
+
+                    <th class="text-nowrap" pSortableColumn="blockProcessorList">Processor<p-sortIcon
+                        field="blockProcessorList"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="blockProcessorList"
+                        display="menu"></p-columnFilter>
+                    </th>
+                    <th>Action</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-lot>
+                  <tr>
+                    <td>{{lot.date | date: 'dd-MMM-yyyy'}}</td>
+                    <td>{{lot.blockDetails.blockNo}}</td>
+                    <td>{{lot?.categoryDetail?.name}}</td>
+                    <td>{{lot?.subCategoryDetail?.name}}</td>
+                    <td>{{ lot.blockDetails?.length | indianCurrency }} x {{ lot.blockDetails?.width | indianCurrency}} x {{ lot.blockDetails?.height | indianCurrency}}
+                    </td>
+                    <td>{{lot.blockDetails.totalArea |indianCurrency}}</td>
+                    <td>₹ {{lot.blockDetails.totalCosting |indianCurrency}}</td>
+                    <td>{{lot.warehouseDetails.name}}</td>
+                    <td>{{lot.lotNo}}</td>
+                    <td>{{lot.lotName}}</td>
+                    <td>
+                      <p-dropdown [options]="blockProcessorList" appendTo="body" optionLabel="name" optionValue="_id"
+                        placeholder="Select Processor" [style]="{ width: '100%' }"
+                        [(ngModel)]="lot.blockDetails.blockProcessor" [filter]="true" filterBy="name"
+                        [showClear]="false"
+                        (onChange)="onBlockProcessorChange($event, lot.blockDetails.blockNo, lot.lotId)">
+                      </p-dropdown>
+                    </td>
+                    <td class="action-buttons">
+                      <p-button *ngIf="!lot?.blockDetails?.splitedFrom" [text]="true" icon="fa-solid fa-add" pTooltip="Block Split" tooltipPosition="left"
+                        tooltipStyleClass="tooltip" (click)="visibleBlockSplitPopUp(lot)"></p-button>
+                      <p-button *ngIf="lot?.blockDetails?.splitedFrom" [text]="true" icon="fa-solid fa-edit" pTooltip="Edit Splitted Block" tooltipPosition="left"
+                        tooltipStyleClass="tooltip" (click)="visibleEditBlockSplitPopUp(lot)"></p-button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="12" class="text-center">No Blocks found.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
-    [data]="modalData"></app-confirm-dialog>
+
+<!-- //////////// create block split pop up ////////////// -->
+
+<p-dialog header="Split Block" [(visible)]="visibleBlockSplit" [modal]="true" [style]="{ width: '50%' }">
+  <div class="modal-content">
+    <div class="modal-body">
+      <form [formGroup]="createBlockSplitForm" (ngSubmit)="createBlockSplitFormSubmit()">
+        <div class="row">
+          <div class="page-table-header mb-2 card ">
+            <div class="d-flex m-b-10" style="justify-content: space-between">
+              <h3>Existing Block Information</h3>
+            </div>
+
+            <div class="row practice-card">
+              <div class="col-xl-6 col-lg-6 col-sm-6">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                    Lot Number
+                  </h5>
+                  <div class="col-lg-6 col-md-6 col-xl-6">
+                    <p class="col-lg-6 col-form-label heading-bold">
+                      {{ createBlockSplitForm.get("lotNo").value }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-6">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                    Block Number
+                  </h5>
+                  <div class="col-lg-6 col-md-6 col-xl-6">
+                    <p class="col-lg-6 col-form-label heading-bold">  
+                      {{ createBlockSplitForm.get("existblockDetails").value?.blockNo }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-6">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                    Size (L*W*H)
+                  </h5>
+                  <div class="col-lg-6 col-md-6 col-xl-6">
+                    <p class="col-lg-6 col-form-label heading-bold">
+                      {{ createBlockSplitForm.get("existblockDetails").value?.length }} x {{ createBlockSplitForm.get("existblockDetails").value?.width }} x {{ createBlockSplitForm.get("existblockDetails").value?.height }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-6">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                    Block Size (Inch<sup>3</sup>)
+                  </h5>
+                  <div class="col-lg-6 col-md-6 col-xl-6">
+                    <p class="col-lg-6 col-form-label heading-bold">
+                      {{ createBlockSplitForm.get("existblockDetails").value?.totalArea }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-6 mt-2">
+            <div class="form-group local-forms">
+              <label for="blockNo">Block Number<span class="login-danger">*</span></label>
+              <input type="text" id="blockNo" name="blockNo" class="form-control" formControlName="blockNo" placeholder="Enter Block Number" />
+              <div
+                *ngIf="createBlockSplitForm.get('blockNo')?.hasError('required') && createBlockSplitForm.get('blockNo')?.touched">
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div
+                *ngIf="createBlockSplitForm.get('blockNo')?.hasError('pattern') && createBlockSplitForm.get('blockNo')?.touched">
+                <span class="login-danger">
+                  Input must be between 1 to 50 characters and not start with
+                  whitespace.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Length Field -->
+          <div class="col-12 col-md-6 col-xl-6 mt-2">
+            <div class="form-group local-forms">
+              <label for="length">Length <span class="login-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Inch</span>
+                </div>
+                <input class="form-control" type="number" id="length" name="length" 
+                   min="1" max="500" formControlName="length" (input)="getblockDetails('createSplitBlock')" placeholder="Enter Length" />
+              </div>
+              <div
+                *ngIf="createBlockSplitForm.get('length')?.hasError('required') && createBlockSplitForm.get('length')?.touched">
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div *ngIf="(createBlockSplitForm.get('length')?.hasError('min') && createBlockSplitForm.get('length')?.touched) ||
+              (createBlockSplitForm.get('length')?.hasError('max') && createBlockSplitForm.get('length')?.touched)">
+                <span class="login-danger">Length must be between 1 and 500.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Width Field -->
+          <div class="col-12 col-md-6 col-xl-6">
+            <div class="form-group local-forms">
+              <label for="width">Width <span class="login-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Inch</span>
+                </div>
+                <input class="form-control" type="number" id="width" name="width" 
+                  min="1" max="500" formControlName="width" (input)="getblockDetails('createSplitBlock')" placeholder="Enter Width" />
+              </div>
+              <div
+                *ngIf="createBlockSplitForm.get('width')?.hasError('required') && createBlockSplitForm.get('width')?.touched">
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div *ngIf="(createBlockSplitForm.get('width')?.hasError('min') && createBlockSplitForm.get('width')?.touched) ||
+            (createBlockSplitForm.get('width')?.hasError('max') && createBlockSplitForm.get('width')?.touched)">
+                <span class="login-danger">Width must be between 1 and 500.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Height Field -->
+          <div class="col-12 col-md-6 col-xl-6">
+            <div class="form-group local-forms">
+              <label for="height">Height <span class="login-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Inch</span>
+                </div>
+                <input class="form-control" type="number" id="height" name="height"
+                  required min="1" max="500" formControlName="height" (input)="getblockDetails('createSplitBlock')" placeholder="Enter Height" />
+              </div>
+              <div
+                *ngIf="createBlockSplitForm.get('height')?.hasError('required') && createBlockSplitForm.get('height')?.touched">
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div *ngIf="(createBlockSplitForm.get('height')?.hasError('min') && createBlockSplitForm.get('height')?.touched) ||
+            (createBlockSplitForm.get('height')?.hasError('max') && createBlockSplitForm.get('height')?.touched)">
+                <span class="login-danger">Height must be between 1 and 500.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Block Size Field -->
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="totalArea">Block Size <span class="login-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Inch<sup>3</sup></span>
+                </div>
+                <span class="form-control" >{{ createBlockSplitForm.get("totalArea")?.value }}</span>
+                <div
+                *ngIf="createBlockSplitForm.get('totalArea')?.hasError('required') && createBlockSplitForm.get('totalArea')?.touched">
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div *ngIf="(createBlockSplitForm.get('totalArea')?.hasError('min') && createBlockSplitForm.get('totalArea')?.touched) ||
+            (createBlockSplitForm.get('totalArea')?.hasError('max') && createBlockSplitForm.get('totalArea')?.touched)">
+                <span class="login-danger">Block Size must be between 1 and 125000000.</span>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="blockProcessor">Block Processor</label>
+              <p-dropdown [options]="blockProcessorList" styleClass="" appendTo="body" optionLabel="name"
+                formControlName="blockProcessor" placeholder="Select Processor" [style]="{ width: '100%' }" [filter]="true" optionValue="_id"
+                name="blockProcessor" filterBy="name" [showClear]="true" >
+              </p-dropdown>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="col-12">
+            <div class="settings-btns text-end m-b-10">
+              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+               [disabled]="!createBlockSplitForm.valid">
+                Save
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="visibleBlockSplit = false" >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- //////////// edit block split pop up ////////////// -->
+
+<p-dialog header="Edit Split Block" [(visible)]="visibleEditBlockSplit" [modal]="true" [style]="{ width: '50%' }">
+  <div class="modal-content">
+    <div class="modal-body">
+      <form [formGroup]="editBlockSplitForm" (ngSubmit)="editBlockSplitFormSubmit()">
+        <div class="row">
+          <div class="page-table-header mb-2 card ">
+            <div class="d-flex m-b-10" style="justify-content: space-between">
+              <h3>Existing Block Information</h3>
+            </div>
+
+            <div class="row practice-card">
+              <div class="col-xl-6 col-lg-6 col-sm-6">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                    Lot Number
+                  </h5>
+                  <div class="col-lg-6 col-md-6 col-xl-6">
+                    <p class="col-lg-6 col-form-label heading-bold">
+                      {{ editBlockSplitForm.get("lotNo").value }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-6">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                    Block Number
+                  </h5>
+                  <div class="col-lg-6 col-md-6 col-xl-6">
+                    <p class="col-lg-6 col-form-label heading-bold">  
+                      {{ editBlockSplitForm.get("existblockDetails").value?.blockNo }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-6">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                    Size (L*W*H)
+                  </h5>
+                  <div class="col-lg-6 col-md-6 col-xl-6">
+                    <p class="col-lg-6 col-form-label heading-bold">
+                      {{ editBlockSplitForm.get("existblockDetails").value?.length }} x {{ editBlockSplitForm.get("existblockDetails").value?.width }} x {{ editBlockSplitForm.get("existblockDetails").value?.height }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-6">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                    Block Size (Inch<sup>3</sup>)
+                  </h5>
+                  <div class="col-lg-6 col-md-6 col-xl-6">
+                    <p class="col-lg-6 col-form-label heading-bold">
+                      {{ editBlockSplitForm.get("existblockDetails").value?.totalArea }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-6 mt-2">
+            <div class="form-group local-forms">
+              <label for="blockNo">Block Number<span class="login-danger">*</span></label>
+              <input type="text" id="blockNo" name="blockNo" class="form-control" formControlName="blockNo" placeholder="Enter Block Number" />
+              <div
+                *ngIf="editBlockSplitForm.get('blockNo')?.hasError('required') && editBlockSplitForm.get('blockNo')?.touched">
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div
+                *ngIf="editBlockSplitForm.get('blockNo')?.hasError('pattern') && editBlockSplitForm.get('blockNo')?.touched">
+                <span class="login-danger">
+                  Input must be between 1 to 50 characters and not start with
+                  whitespace.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Length Field -->
+          <div class="col-12 col-md-6 col-xl-6 mt-2">
+            <div class="form-group local-forms">
+              <label for="length">Length <span class="login-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Inch</span>
+                </div>
+                <input class="form-control" type="number" id="length" name="length" 
+                   min="1" max="500" formControlName="length" (input)="getblockDetails('editSplitBlock')" placeholder="Enter Length" />
+              </div>
+              <div
+                *ngIf="editBlockSplitForm.get('length')?.hasError('required') && editBlockSplitForm.get('length')?.touched">
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div *ngIf="(editBlockSplitForm.get('length')?.hasError('min') && editBlockSplitForm.get('length')?.touched) ||
+              (editBlockSplitForm.get('length')?.hasError('max') && editBlockSplitForm.get('length')?.touched)">
+                <span class="login-danger">Length must be between 1 and 500.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Width Field -->
+          <div class="col-12 col-md-6 col-xl-6">
+            <div class="form-group local-forms">
+              <label for="width">Width <span class="login-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Inch</span>
+                </div>
+                <input class="form-control" type="number" id="width" name="width" 
+                  min="1" max="500" formControlName="width" (input)="getblockDetails('editSplitBlock')" placeholder="Enter Width" />
+              </div>
+              <div
+                *ngIf="editBlockSplitForm.get('width')?.hasError('required') && editBlockSplitForm.get('width')?.touched">
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div *ngIf="(editBlockSplitForm.get('width')?.hasError('min') && editBlockSplitForm.get('width')?.touched) ||
+            (editBlockSplitForm.get('width')?.hasError('max') && editBlockSplitForm.get('width')?.touched)">
+                <span class="login-danger">Width must be between 1 and 500.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Height Field -->
+          <div class="col-12 col-md-6 col-xl-6">
+            <div class="form-group local-forms">
+              <label for="height">Height <span class="login-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Inch</span>
+                </div>
+                <input class="form-control" type="number" id="height" name="height"
+                  required min="1" max="500" formControlName="height" (input)="getblockDetails('editSplitBlock')" placeholder="Enter Height" />
+              </div>
+              <div
+                *ngIf="editBlockSplitForm.get('height')?.hasError('required') && editBlockSplitForm.get('height')?.touched">
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div *ngIf="(editBlockSplitForm.get('height')?.hasError('min') && editBlockSplitForm.get('height')?.touched) ||
+            (editBlockSplitForm.get('height')?.hasError('max') && editBlockSplitForm.get('height')?.touched)">
+                <span class="login-danger">Height must be between 1 and 500.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Block Size Field -->
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="totalArea">Block Size <span class="login-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Inch<sup>3</sup></span>
+                </div>
+                <span class="form-control" >{{ editBlockSplitForm.get("totalArea")?.value }}</span>
+                <div
+                *ngIf="editBlockSplitForm.get('totalArea')?.hasError('required') && editBlockSplitForm.get('totalArea')?.touched">
+                <span class="login-danger">Field is required.</span>
+              </div>
+              <div *ngIf="(editBlockSplitForm.get('totalArea')?.hasError('min') && editBlockSplitForm.get('totalArea')?.touched) ||
+            (editBlockSplitForm.get('totalArea')?.hasError('max') && editBlockSplitForm.get('totalArea')?.touched)">
+                <span class="login-danger">Block Size must be between 1 and 125000000.</span>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="blockProcessor">Block Processor</label>
+              <p-dropdown [options]="blockProcessorList" styleClass="" appendTo="body" optionLabel="name"
+                formControlName="blockProcessor" placeholder="Select Processor" [style]="{ width: '100%' }" [filter]="true" optionValue="_id"
+                name="blockProcessor" filterBy="name" [showClear]="true" >
+              </p-dropdown>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+           <div class="col-6"></div>
+          <div class="col-6 text-end">
+            <div class="d-flex gap-3 ">
+              <button type="button" class="btn btn-secondary" (click)="deleteBlockSplit()" >
+                Delete
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="visibleEditBlockSplit = false" >
+                Cancel
+              </button>
+              <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+               [disabled]="!editBlockSplitForm.valid">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</p-dialog>

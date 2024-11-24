@@ -13,9 +13,13 @@ export class TaxVendorsReportsComponent {
   picker1: any;
   searchDataValue = "";
   rangeDates: Date[] | undefined;
+  startDate: Date;
+  endDate: Date;
+
   taxVendorsReportsData = [];
   originalData = [];
-  taxVendorsReports = "taxVendorsReports";
+  originalDataReports:string = 'originalDataReports'
+
   cols = [];
   exportColumns = [];
 
@@ -32,8 +36,20 @@ export class TaxVendorsReportsComponent {
 
   constructor(private service: ReportsService){}
 
-  
+  private formatDateForFilename(date: Date): string {
+    return date.toLocaleDateString('en-GB').replace(/\//g, '-'); // e.g., 19-02-2024
+  }
+
+  // Function to generate the export filename
+  getExportFilename(): string {
+    const formattedStartDate = this.formatDateForFilename(this.startDate);
+    const formattedEndDate = this.formatDateForFilename(this.endDate);
+    return `Tax Vendors Reports ${formattedStartDate} ${formattedEndDate}`;
+  }
+
   getTaxVendorsReportsData(startDate: Date, endDate: Date) {
+    this.startDate = startDate;
+    this.endDate = endDate;
     console.log("StartDate", startDate, endDate);
 
     const formattedStartDate = this.formatDate(startDate);
@@ -52,12 +68,20 @@ export class TaxVendorsReportsComponent {
       console.log("this is original data", this.originalData);
 
       this.cols = [
-        { field: "salesDate", header: "Sales Date" },
+        { 
+          field: (item: any) => item.salesDate || item.purchaseDate,
+          header: "Date",
+          export: (item: any) => {
+            const date = item.salesDate || item.purchaseDate;
+            return date ? new Date(date).toLocaleDateString() : '';
+          }
+        },
         { field: "taxVendor.companyName", header: "Company Name" },
-        { field: "vendorTaxApplied", header: "Tax Apllied (%)" },
-        { field: "paymentStatus", header: "Payment Status" },
-        { field: "paidAmount", header: "Paid Amount" },
-        { field: "dueAmount", header: "Due Amount" },
+        { field: "source", header: "Source" },
+        { field: "taxVendor.vendorTaxApplied", header: "Tax Apllied (%)" },
+        { field: "taxVendor.paymentStatus", header: "Payment Status" },
+        { field: "taxVendor.paidAmount", header: "Paid Amount" },
+        { field: "taxVendor.dueAmount", header: "Due Amount" },
         { field: "taxVendor.taxVendorAmount", header: "Total Amount" },
       ];
 

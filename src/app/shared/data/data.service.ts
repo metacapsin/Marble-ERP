@@ -335,6 +335,11 @@ export class DataService {
               base: routes.lot,
             },
             {
+              menuValue: "Blocks",
+              route: routes.blocks,
+              base: routes.blocks,
+            },
+            {
               menuValue: "Slabs",
               route: routes.slabs,
               base: routes.slabs,

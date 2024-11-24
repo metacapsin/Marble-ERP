@@ -9,7 +9,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { TableModule } from "primeng/table";
 import { DialogModule } from "primeng/dialog";
 // import { SlabsService } from "../../slabs/slabs.service";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn } from "@angular/forms";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 import { DropdownModule } from "primeng/dropdown";
 import { Validators } from "@angular/forms";
@@ -68,7 +68,7 @@ export class StockAdjustmentListComponent implements OnInit {
       warehouse: ["", [Validators.required]],
       slabs: ["", [Validators.required]],
       currentQty: [""],
-      quantity: ["", [Validators.required, Validators.min(1)]],
+      quantity: ["", [Validators.required, Validators.min(1),Validators.max(100000), this.quantityValidator()]],
       adjustmentType: ["", [Validators.required]],
       note: [
         "",
@@ -79,13 +79,26 @@ export class StockAdjustmentListComponent implements OnInit {
       warehouse: ["", [Validators.required]],
       slabs: ["", [Validators.required]],
       currentQty: [""],
-      quantity: ["", [Validators.required, Validators.min(1)]],
+      quantity: ["", [Validators.required, Validators.min(1),Validators.max(100000), this.quantityValidator()]],
       adjustmentType: ["", [Validators.required]],
       note: [
         "",
         [Validators.required, Validators.pattern(validationRegex.address3To500Regex)],
       ],
     });
+  }
+
+  quantityValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const quantity = control.value;
+      const adjustmentType = control.parent?.get('adjustmentType')?.value;
+      const currentQty = control.parent?.get('currentQty')?.value;
+
+      if (adjustmentType === 'subtract' && quantity > currentQty) {
+        return { 'exceedsCurrentQuantity': true };
+      }
+      return null;
+    };
   }
 
   onSearchByChange(value: any): void {
@@ -151,10 +164,14 @@ export class StockAdjustmentListComponent implements OnInit {
   addstockAdjustmentDialog() {
     this.addStockAdjustmentForm.reset();
     this.addstockAdjustment = true;
+    this.setupFormValidation(this.addStockAdjustmentForm);
+
   }
   editstockAdjustmentDialog(_id) {
     this.stockAdjustmentId = _id;
     this.editstockAdjustment = true;
+    this.setupFormValidation(this.editStockAdjustmentForm);
+
     this.service.getAdjustmentById(_id).subscribe((resp: any) => {
       this.onWarehouseSelect(resp.data.warehouse);
       this.editStockAdjustmentForm.patchValue({
@@ -165,6 +182,14 @@ export class StockAdjustmentListComponent implements OnInit {
         quantity: resp.data.quantity,
         note: resp.data.note,
       });
+    });
+  }
+  setupFormValidation(form: FormGroup) {
+    form.get('adjustmentType')?.valueChanges.subscribe(() => {
+      form.get('quantity')?.updateValueAndValidity();
+    });
+    form.get('currentQty')?.valueChanges.subscribe(() => {
+      form.get('quantity')?.updateValueAndValidity();
     });
   }
 

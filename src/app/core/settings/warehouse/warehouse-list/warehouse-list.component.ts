@@ -124,11 +124,15 @@ export class WarehouseListComponent {
   }
 
   callBackModal() {
-    this.service.deleteWarehouseById(this.warehouseID).subscribe((resp) => {
-      const message = "Warehouse has been deleted";
-      this.messageService.add({ severity: "success", detail: message });
-      this.getAllWarehouseList();
-      this.showDialog = false;
+    this.service.deleteWarehouseById(this.warehouseID).subscribe((resp: any) => {
+      if(resp.status == 'success') {
+        this.messageService.add({ severity: "success", detail: resp.message });
+        this.getAllWarehouseList();
+        this.showDialog = false;
+      } else {
+        this.messageService.add({ severity: "error", detail: resp.message });
+        this.showDialog = false;
+      }
     });
   }
 

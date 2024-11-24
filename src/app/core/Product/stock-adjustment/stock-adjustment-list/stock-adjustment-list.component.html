@@ -63,8 +63,8 @@
                     <h3>Stock Adjustment List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchDataValue"
-                          (ngModelChange)="searchData()" />
+                        <input type="text" class="form-control" placeholder="Search here" #searchTable (input)="
+                        dt.filterGlobal(searchTable.value, 'contains')">
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                       <div class="add-group textbtn">
@@ -105,9 +105,7 @@
             <div class="card-body p-2">
               <p-table [value]="
                   stockAdjustmentDataList
-                    | filter
-                      : searchDataValue
-                      : [
+                    " [globalFilterFields]=" [
                           'createdOn',
                           'slabs.slabName',
                           'warehouse.name',
@@ -117,9 +115,9 @@
                           'currentQty',
                           'note'
                         ]
-                " [tableStyle]="{ 'min-width': '60rem' }" [paginator]="stockAdjustmentDataList?.length >= 5"  (onPage)="onPageChange($event)"
-                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [(selection)]="selectedlot"
-                styleClass="p-datatable-striped" selectionMode="multiple" (onFilter)="onFilter($event)" #dt
+                " [tableStyle]="{ 'min-width': '60rem' }" [paginator]="stockAdjustmentDataList?.length >= 5"
+                (onPage)="onPageChange($event)" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+                [(selection)]="selectedlot" styleClass="p-datatable-striped" selectionMode="multiple" #dt
                 [columns]="cols" [exportHeader]="'customExportHeader'" exportFilename="Stocks Adjustment">
                 <ng-template pTemplate="header">
                   <tr>
@@ -325,6 +323,18 @@
                 ">
                 <span class="login-danger">Adjustment Quantity should be greater than 0.</span>
               </div>
+              <div *ngIf="
+                  addStockAdjustmentForm.get('quantity')?.hasError('max') &&
+                  addStockAdjustmentForm.get('quantity')?.touched
+                ">
+                <span class="login-danger">Adjustment Quantity should be less than 100000.</span>
+              </div>
+              <div *ngIf="
+              addStockAdjustmentForm.get('quantity')?.hasError('exceedsCurrentQuantity') &&
+              addStockAdjustmentForm.get('quantity')?.touched
+            ">
+                <span class="login-danger">Quantity cannot exceed current quantity when subtracting.</span>
+              </div>
             </div>
           </div>
 
@@ -438,6 +448,18 @@
                   editStockAdjustmentForm.get('quantity')?.touched
                 ">
                 <span class="login-danger">Adjustment Quantity should be greater than 0.</span>
+              </div>
+              <div *ngIf="
+                  editStockAdjustmentForm.get('quantity')?.hasError('max') &&
+                  editStockAdjustmentForm.get('quantity')?.touched
+                ">
+                <span class="login-danger">Adjustment Quantity should be less than 100000.</span>
+              </div>
+              <div *ngIf="
+          editStockAdjustmentForm.get('quantity')?.hasError('exceedsCurrentQuantity') &&
+          editStockAdjustmentForm.get('quantity')?.touched
+        ">
+                <span class="login-danger">Quantity cannot exceed current quantity when subtracting.</span>
               </div>
             </div>
           </div>

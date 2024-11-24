@@ -27,7 +27,7 @@ export class ListSlabsComponent {
   public slabVisible: boolean = false;
   slabDetail: any = {};
   modalData: any = {};
-  activeTabIndex: number = 0;
+  activeTabIndex: number = 0; 
   slabsID: any;
   searchDataValue = "";
   selectedSlabs = [];
@@ -41,6 +41,7 @@ export class ListSlabsComponent {
   allInDropDown: any;
   cols = [];
   exportColumns = [];
+  showDataLoader: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -51,8 +52,24 @@ export class ListSlabsComponent {
     private WarehouseService: WarehouseService
   ) {}
 
+  ngOnInit(): void {
+    this.showDataLoader = true;
+    this.getSlabsList();
+    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
+      this.warehouseData = resp.data.map((element) => ({
+        name: element.name,
+        _id: {
+          _id: element._id,
+          name: element.name,
+        },
+      }));
+    });
+  }
   getSlabsList(): void {
     this.service.getSlabsList().subscribe((resp: any) => {
+      if(resp){
+        
+      
       this.allSlabsDaTa = resp.data;
       this.originalData = resp.data;
       this.cols = [
@@ -82,11 +99,9 @@ export class ListSlabsComponent {
         title: col.header,
         dataKey: col.field,
       }));
-      // this.exportColumns = this.allSlabsDaTa.map((element) => ({
-      //   title: element.header,
-      //   dataKey: element.field,
-      // }));
-      console.log("API", this.allSlabsDaTa);
+
+      this.showDataLoader = false;
+    }
     });
   }
   showSlabDetails(_id: any) {
@@ -105,19 +120,6 @@ export class ListSlabsComponent {
       console.log("Slab History API", this.slabHistoryData);
     });
   }
-  ngOnInit(): void {
-    this.getSlabsList();
-    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
-      this.warehouseData = resp.data.map((element) => ({
-        name: element.name,
-        _id: {
-          _id: element._id,
-          name: element.name,
-        },
-      }));
-      console.log(this.warehouseData);
-    });
-  }
 
   onFilter(value: any) {
     this.allSlabsDaTa = value.filteredValue;
@@ -131,10 +133,12 @@ export class ListSlabsComponent {
       messege: "Are you sure want to delete this Slabs",
     };
     this.showDialog = true;
+    this.activeTabIndex = 0; // Reset the active tab to the first tab
   }
 
   showNewDialog() {
     this.showDialog = true;
+    this.activeTabIndex = 0; // Reset the active tab to the first tab
   }
 
   onSearchByChange(value: any): void {

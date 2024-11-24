@@ -30,7 +30,12 @@ export class InventoryReportsComponent  {
     private CategoriesService: CategoriesService,
     private SubCategoriesService: SubCategoriesService,
   ) {}
-
+  // Function to generate the stock report export filename
+  getStockExportFilename(): string {
+    const categoryName = this.byCategory?.name || 'All Categories';
+    const subCategoryName = this.bySubCategory?.name || 'All Sub-Categories';
+    return `Stock Report - ${categoryName} - ${subCategoryName}`;
+  }
   getStockReportData() {
 
     const data = {

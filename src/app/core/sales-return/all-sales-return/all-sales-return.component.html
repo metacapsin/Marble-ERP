@@ -29,8 +29,8 @@
                     <h3>Sales Return List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input type="text" class="form-control" placeholder="Search here"
-                          [(ngModel)]="searchDataValue" />
+                         <input type="text" class="form-control" placeholder="Search here" #searchTable (input)="
+                        dt.filterGlobal(searchTable.value, 'contains')">
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                       <div class="add-group textbtn">
@@ -75,7 +75,7 @@
 
             <div class="card-body p-2">
               <p-table
-                [value]="salesReturnListData | filter:searchDataValue:['salesInvoiceNumber', 'returnDate','customer.name','returnOrderStatus','paymentStatus','paidAmount','dueAmount','salesTotalAmount']"
+                [value]="salesReturnListData" [globalFilterFields]="['salesInvoiceNumber', 'returnDate','customer.name','returnOrderStatus','paymentStatus','paidAmount','dueAmount','salesTotalAmount']"
                 styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="salesReturnListData?.length >= 5"
                 [rowsPerPageOptions]="[5, 10, 20]" [rows]="10" selectionMode="multiple" #dt [columns]="cols" 
                 [exportHeader]="'customExportHeader'" exportFilename="Sales Return">
