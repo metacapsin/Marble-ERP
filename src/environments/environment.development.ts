@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'https://erpapi.metacaps.in',
-  apiUrl: 'http://localhost:1338',
+  apiUrl: 'http://15.168.38.70:1338',
+  //apiUrl: 'http://localhost:1338',
 };
 
 /*
