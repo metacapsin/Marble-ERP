@@ -555,7 +555,7 @@
 
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
-                            <label for="totalSqrFt">Selling Price / Sq Ft.<span class="login-danger">*</span></label>
+                            <label for="totalSqrFt">Selling Price / Sq Ft.</label>
                             <div class="input-group">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
@@ -563,10 +563,10 @@
                               <input class="form-control" type="number" placeholder="Enter Selling Price"
                                 formControlName="sellingPricePerSQFT" />
                             </div>
-                            <div
+                            <!-- <div
                               *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.hasError('required') && addNewPurchaseForm.get('sellingPricePerSQFT')?.touched">
                               <span class="login-danger">Field is required.</span>
-                            </div>
+                            </div> -->
                             <div *ngIf="
                                     (addNewPurchaseForm
                                     .get('sellingPricePerSQFT')

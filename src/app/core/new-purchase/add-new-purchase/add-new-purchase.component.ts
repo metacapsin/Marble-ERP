@@ -106,10 +106,7 @@ export class AddNewPurchaseComponent implements OnInit {
       length: ["", [Validators.min(1), Validators.max(100000)]],
       thickness: ["", [Validators.min(1), Validators.max(1000)]],
       finishes: ["", [Validators.required]],
-      sellingPricePerSQFT: [
-        "",
-        [Validators.required, Validators.min(1), Validators.max(100000)],
-      ],
+      sellingPricePerSQFT: ["",[Validators.min(1), Validators.max(100000)]],
       transportationCharges: ["", [Validators.min(1), Validators.max(100000)]],
       otherCharges: ["", [Validators.min(1), Validators.max(100000)]],
       totalCosting: [""],

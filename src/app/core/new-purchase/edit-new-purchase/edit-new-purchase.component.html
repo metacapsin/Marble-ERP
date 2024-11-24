@@ -111,6 +111,29 @@
                         <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                           <div class="form-group local-forms">
                             <label for="lotsNo">Product Type<span class="login-danger">*</span></label>
+                            <!-- <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+                              optionLabel="name" optionValue="_id" placeholder="Select Product Type" [filter]="true"
+                              filterBy="name" [showClear]="true" (onChange)="lotType($event.value)"
+                              formControlName="purchaseType">
+                            </p-dropdown>
+                            <div *ngIf="
+                              editNewPurchaseForm
+                                .get('purchaseType')
+                                ?.hasError('required') &&
+                              editNewPurchaseForm.get('purchaseType')?.touched
+                            ">
+                              <span class="login-danger">Field is required.
+                              </span> -->
+                              <span class="form-control">{{
+                                editNewPurchaseForm
+                                .get("purchaseType")?.value.toUpperCase()
+                                }}</span>
+                          </div>
+                        </div>
+
+                        <!-- <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                          <div class="form-group local-forms">
+                            <label for="lotsNo">Product Type<span class="login-danger">*</span></label>
                             <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
                               optionLabel="name" optionValue="_id" placeholder="Select Product Type" [filter]="true"
                               filterBy="name" [showClear]="true" (onChange)="lotType($event.value)"
@@ -126,7 +149,7 @@
                               </span>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                       </div>
   
                       <!-- lot Information -->
@@ -555,7 +578,7 @@
   
                           <div class="col-12 col-md-4 col-xl-4">
                             <div class="form-group local-forms">
-                              <label for="totalSqrFt">Selling Price / Sq Ft.<span class="login-danger">*</span></label>
+                              <label for="totalSqrFt">Selling Price / Sq Ft.</label>
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">₹</span>
@@ -563,10 +586,10 @@
                                 <input class="form-control" type="number" placeholder="Enter Selling Price"
                                   formControlName="sellingPricePerSQFT" />
                               </div>
-                              <div
+                              <!-- <div
                                 *ngIf="editNewPurchaseForm.get('sellingPricePerSQFT')?.hasError('required') && editNewPurchaseForm.get('sellingPricePerSQFT')?.touched">
                                 <span class="login-danger">Field is required.</span>
-                              </div>
+                              </div> -->
                               <div *ngIf="
                                       (editNewPurchaseForm
                                       .get('sellingPricePerSQFT')

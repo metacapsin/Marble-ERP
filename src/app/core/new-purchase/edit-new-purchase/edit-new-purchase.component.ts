@@ -113,7 +113,7 @@ export class EditNewPurchaseComponent implements OnInit {
       finishes: ["", [Validators.required]],
       sellingPricePerSQFT: [
         "",
-        [Validators.required, Validators.min(1), Validators.max(100000)],
+        [Validators.min(1), Validators.max(100000)],
       ],
       transportationCharges: ["", [Validators.min(1), Validators.max(100000)]],
       otherCharges: ["", [Validators.min(1), Validators.max(100000)]],
