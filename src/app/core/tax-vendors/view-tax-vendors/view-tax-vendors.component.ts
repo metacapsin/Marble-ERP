@@ -286,7 +286,9 @@ export class ViewTaxVendorsComponent implements OnInit {
 
   // }
 
-  openSalesPaymentDialog() {
+  openSalesPaymentDialog(sales) {
+
+    this.selectedSales = [sales];
     const unpaidSales = this.selectedSales.filter(
       (sale) =>
         sale.taxVendor.dueAmount > 0 &&
@@ -314,7 +316,11 @@ export class ViewTaxVendorsComponent implements OnInit {
       });
     }
   }
-  openPurchasePaymentDialog() {
+  openPurchasePaymentDialog(purchase) {
+    console.log(purchase)
+    this.selectedPurchase = [purchase]
+    this.selectedPurchase
+    console.log("selected purchase",this.selectedPurchase)
     const unpaidPurchases = this.selectedPurchase.filter(
       (purchase) =>
         purchase.taxVendor.dueAmount > 0 && (purchase.taxVendor.paymentStatus === "Unpaid" || purchase.taxVendor.paymentStatus === "Partial Paid")
