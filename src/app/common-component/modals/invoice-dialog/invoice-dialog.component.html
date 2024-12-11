@@ -584,35 +584,78 @@
                           Purchase Cost
                           <span>₹ {{ (sales?.purchaseCost || 0) | indianCurrency }}</span>
                         </p>
-                        <p>
+                        <p *ngIf="sales?.salesDate">
                           Shipping Charges
                           <span>+ ₹ {{ (sales?.salesShipping || sales?.purchaseShipping || sales?.quotationShipping ||
                             0) | indianCurrency }}</span>
                         </p>
-                        <p>
+                        <p *ngIf="!sales?.salesDate">
                           Transport Charges
-                          <span>+ ₹ {{ (sales?.slabDetails?.transportationCharges ||
-                            sales?.lotDetails?.transportationCharge || sales?.lotDetails?.totalTransportationCharges ||
-                            0) | indianCurrency }}</span>
+                          <span>
+                            {{
+                            (sales?.slabDetails?.transportationCharges ||
+                            sales?.lotDetails?.transportationCharge ||
+                            sales?.lotDetails?.totalTransportationCharges) > 0
+                            ? ('+ ₹ ' + ((sales?.slabDetails?.transportationCharges ||
+                            sales?.lotDetails?.transportationCharge ||
+                            sales?.lotDetails?.totalTransportationCharges) | indianCurrency))
+                            : '0.00'
+                            }}
+                          </span>
                         </p>
                         <p *ngIf="sales?.lotDetails?.royaltyCharge">
                           Royalty (Other Charges)
-                          <span>+ ₹ {{ (sales?.lotDetails?.royaltyCharge || 0) | indianCurrency }}</span>
+                          <span>
+                            {{
+                            (sales?.lotDetails?.royaltyCharge || 0) > 0
+                            ? ('+ ₹ ' + ((sales?.lotDetails?.royaltyCharge || 0) | indianCurrency))
+                            : '0.00'
+                            }}
+                          </span>
                         </p>
                         <p *ngIf="!sales?.lotDetails?.royaltyCharge">
                           Other Charges
-                          <span>+ ₹ {{ (sales?.slabDetails?.otherCharges || sales?.otherCharges || 0) | indianCurrency
-                            }}</span>
+                          <span>
+                            {{
+                            (sales?.slabDetails?.otherCharges || sales?.otherCharges) > 0
+                            ? ('+ ₹ ' + ((sales?.slabDetails?.otherCharges || sales?.otherCharges || 0) |
+                            indianCurrency))
+                            : '0.00'
+                            }}
+                          </span>
                         </p>
                         <p *ngIf="sales?.salesReturnOtherCharges || sales?.purchaseReturnOtherCharges ">
                           Return Other Charges
-                          <span>- ₹ {{ (sales?.purchaseReturnOtherCharges || sales?.salesReturnOtherCharges || 0) |
-                            indianCurrency }}</span>
+                          <span>
+                            {{
+                            (sales?.purchaseReturnOtherCharges || sales?.salesReturnOtherCharges || 0) > 0
+                            ? ('- ₹ ' + ((sales?.purchaseReturnOtherCharges || sales?.salesReturnOtherCharges || 0) |
+                            indianCurrency))
+                            : '0.00'
+                            }}
+                          </span>
                         </p>
+                        <!-- <p>
+                          Discount
+                          <span
+                            *ngIf="sales?.salesDiscount > 0 || sales?.lotDetails?.purchaseDiscount || sales?.quotationDiscount > 0; else zeroDiscount">-
+                            ₹ {{ (sales?.salesDiscount || sales?.lotDetails?.purchaseDiscount ||
+                            sales?.quotationDiscount || 0) | indianCurrency }}</span>
+                          <ng-template #zeroDiscount>
+                            <span>0.00</span>
+                          </ng-template>
+                        </p> -->
                         <p>
                           Discount
-                          <span>- ₹ {{ (sales?.salesDiscount || sales?.lotDetails?.purchaseDiscount ||
-                            sales?.quotationDiscount || 0) | indianCurrency }}</span>
+                          <span>
+                            {{
+                            (sales?.salesDiscount > 0 || sales?.lotDetails?.purchaseDiscount || sales?.quotationDiscount
+                            > 0)
+                            ? ('- ₹ ' + ((sales?.salesDiscount || sales?.lotDetails?.purchaseDiscount ||
+                            sales?.quotationDiscount || 0) | indianCurrency))
+                            : '0.00'
+                            }}
+                          </span>
                         </p>
                       </div>
                       <div class="invoice-total-footer">
