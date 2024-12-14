@@ -436,26 +436,19 @@
                           <td>₹ {{ sales?.nonTaxable | indianCurrency }} </td>
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-data *ngIf="sales.slabDetails">
+                      <ng-template pTemplate="body" let-data *ngIf="sales.slabDetails && sales.slabDetails.length > 0">
                         <tr>
-                          <td>{{ sales.slabDetails.slabName }}</td>
-                          <td>{{ sales.slabDetails.slabNo }}</td>
-                          <td>{{ sales.slabDetails.categoryDetail.name }}</td>
-                          <td>{{ sales.slabDetails.subCategoryDetail.name }}</td>
-                          <td>{{ sales.slabDetails.warehouseDetails.name }}</td>
+                          <td>{{ sales.slabDetails[0].slabName }}</td>
+                          <td>{{ sales.slabDetails[0].slabNo }}</td>
+                          <td>{{ sales.slabDetails[0].categoryDetail.name }}</td>
+                          <td>{{ sales.slabDetails[0].subCategoryDetail.name }}</td>
+                          <td>{{ sales.slabDetails[0].warehouseDetails.name }}</td>
                           <td>
-                            ₹
-                            {{
-                            sales.slabDetails.sellingPricePerSQFT
-                            | indianCurrency
-                            }}
+                            ₹ {{ sales.slabDetails[0].sellingPricePerSQFT | indianCurrency }}
                           </td>
-                          <td>{{ sales.slabDetails.totalSQFT }}</td>
+                          <td>{{ sales.slabDetails[0].totalSQFT }}</td>
                           <td>
-                            ₹
-                            {{
-                            sales.slabDetails.purchaseCost
-                            }}
+                            ₹ {{ sales.slabDetails[0].purchaseCost | indianCurrency }}
                           </td>
                         </tr>
                       </ng-template>
