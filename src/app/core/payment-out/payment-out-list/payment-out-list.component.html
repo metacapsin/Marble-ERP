@@ -59,7 +59,7 @@
 
                         <div class="card-body p-2">
                             <p-table
-                                [value]="paymentListData | filter:searchDataValue:['purchaseInvoice','paymentDate', 'salesId', 'paymentMode', 'amount']"
+                                [value]="paymentListData | filter:searchDataValue:['purchaseInvoice', 'supplier.name', 'paymentDate', 'salesId', 'paymentMode', 'amount', 'transactionNo']"
                                 styleClass="p-datatable-striped" dataKey="id" [tableStyle]="{ 'min-width': '60rem' }"
                                 [paginator]="paymentListData?.length >= 5" [rows]="10"
                                 [rowsPerPageOptions]="[5, 10, 20]" #dt selectionMode="multiple">
@@ -121,7 +121,7 @@
                                         <td>{{ product.supplier.name }}</td>
                                         <td>{{ product.paymentMode }}</td>
                                         <td>₹ {{ product.amount | indianCurrency }}</td>
-                                        <td class="action-buttons">
+                                        <td class="">
 
                                             <p-button [text]=" true" icon="fa fa-trash" pTooltip="Delete"
                                                 (click)="deletePayment(product._id)" tooltipPosition="bottom"
@@ -176,7 +176,7 @@
                         </ng-template>
                         <ng-template pTemplate="emptymessage">
                             <tr>
-                                <td colspan="6" class="text-center">
+                                <td colspan="8" class="text-center">
                                     No Payment found.
                                 </td>
                             </tr>

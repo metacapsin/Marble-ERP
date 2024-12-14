@@ -13,6 +13,9 @@ export class SalesCreditReportsComponent {
   picker1: any;
   searchDataValue = "";
   rangeDates: Date[] | undefined;
+  startDate: Date;
+  endDate: Date;
+
   salesReportsData = [];
   originalData = []; 
   paymentInData = [];
@@ -40,11 +43,24 @@ export class SalesCreditReportsComponent {
     private salesService: SalesService,
 
   ) {}
+  private formatDateForFilename(date: Date): string {
+    return date.toLocaleDateString('en-GB').replace(/\//g, '-'); // e.g., 19-02-2024
+  }
+
+  // Function to generate the export filename
+  getExportFilename(): string {
+    const formattedStartDate = this.formatDateForFilename(this.startDate);
+    const formattedEndDate = this.formatDateForFilename(this.endDate);
+    return `Sales Credit Reports ${formattedStartDate} ${formattedEndDate}`;
+  }
+
   onFilter(value: any) {
     this.salesCreditReportsData = value.filteredValue;
     console.log(value.filteredValue);
 }
   getPaymentInReportData(startDate: Date, endDate: Date) {
+    this.startDate = startDate;
+    this.endDate = endDate;
     const formattedStartDate = this.formatDate(startDate);
     const formattedEndDate = this.formatDate(endDate);
 

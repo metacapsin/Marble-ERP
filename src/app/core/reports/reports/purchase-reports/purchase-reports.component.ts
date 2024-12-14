@@ -14,6 +14,8 @@ export class PurchaseReportsComponent {
   picker1: any;
   searchDataValue = ""
   rangeDates: Date[] | undefined;
+  startDate: Date;
+  endDate: Date;
   purchaseReportsData = [];
   originalData = [];
   purchaseReports = 'purchaseReports';
@@ -32,8 +34,20 @@ export class PurchaseReportsComponent {
   }
 
   
+  private formatDateForFilename(date: Date): string {
+    return date.toLocaleDateString('en-GB').replace(/\//g, '-'); // e.g., 19-02-2024
+  }
+
+  // Function to generate the export filename
+  getExportFilename(): string {
+    const formattedStartDate = this.formatDateForFilename(this.startDate);
+    const formattedEndDate = this.formatDateForFilename(this.endDate);
+    return `Purchase Reports ${formattedStartDate} ${formattedEndDate}`;
+  }
 
   getPaymentOutReportData(startDate: Date, endDate: Date) {
+    this.startDate = startDate;
+    this.endDate = endDate;
     const formattedStartDate = this.formatDate(startDate);
     const formattedEndDate = this.formatDate(endDate);
 

@@ -229,7 +229,8 @@
                                       <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Paid Amount:</h5>
                                       <div class="col-lg-8 col-md-8 col-xl-8">
                                         <p class="col-lg-8 col-form-label">
-                                          ₹ {{ dataById?.purchasePaidAmount ? (dataById?.purchasePaidAmount | indianCurrency) : '0'}}
+                                          ₹ {{ dataById?.purchasePaidAmount ? (dataById?.purchasePaidAmount |
+                                          indianCurrency) : '0'}}
                                         </p>
                                       </div>
                                     </div>
@@ -319,7 +320,7 @@
                                     <td>{{sales?.salesItemProduct.slabName}}</td>
                                     <td>{{sales?.salesItemQuantity}}</td>
                                     <td>₹ {{sales?.salesItemUnitPrice}}</td>
-                                     <td>₹ {{ sales?.salesItemAppliedTaxAmount | indianCurrency }} </td>
+                                    <td>₹ {{ sales?.salesItemAppliedTaxAmount | indianCurrency }} </td>
                                     <td>₹ {{ sales?.salesItemNonTaxableAmount | indianCurrency }} </td>
                                     <td>₹ {{sales?.salesItemSubTotal | indianCurrency}}</td>
                                   </tr>
@@ -386,166 +387,107 @@
                             </p-tabPanel>
                           </p-tabView>
                           <hr>
-              <div class="row align-items-center justify-content-center invoice-sign-box">
-                <div class="col-lg-6 col-md-6">
-                </div>
-                <div class="col-lg-6 col-md-6">
-                  <div class="invoice-total-card">
-                    <div class="invoice-total-box">
-                      <div class="invoice-total-inner">
-                        <p class="mt-2" *ngIf="sales?.taxable">
-                          Taxable Amount
-                          <span *ngIf="
+                          <div class="row align-items-center justify-content-center invoice-sign-box">
+                            <div class="col-lg-6 col-md-6">
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                              <div class="invoice-total-card">
+                                <div class="invoice-total-box">
+                                  <div class="invoice-total-inner">
+                                    <p class="mt-2" *ngIf="sales?.taxable">
+                                      Taxable Amount
+                                      <span *ngIf="
                               sales?.taxable != 0
                             ">
-                            ₹
-                            {{
-                            sales?.taxable | indianCurrency
-                            
-                            }}
-                          </span>
-                        </p>
-                        <p class="mt-2" *ngIf="sales?.nonTaxable">
-                          Non-Taxable Amount
-                          <span *ngIf="
+                                        ₹
+                                        {{
+                                        sales?.taxable | indianCurrency
+                                        }}
+                                      </span>
+                                    </p>
+                                    <p class="mt-2" *ngIf="sales?.nonTaxable">
+                                      Non-Taxable Amount
+                                      <span *ngIf="
                               sales?.nonTaxable != 0
                             ">
-                            ₹
-                            {{
-                            sales?.nonTaxable | indianCurrency
-                            
-                            }}
-                          </span>
-                        </p>
-                        <hr *ngIf="sales?.nonTaxable">
-                        <p *ngIf="sales.salesGrossTotal">
-                          Gross Total
-                          <span>₹
-                            {{ sales.salesGrossTotal  }}</span>
-                        </p>
-                        <p *ngIf="sales?.salesDiscount">
-                          Discount
-                          <span>- ₹ {{ sales?.salesDiscount| indianCurrency  }}</span>
-                        </p>
-                        <p *ngIf="sales?.salesShipping">
-                          Shipping Charges
-                          <span>+ ₹ {{ sales?.salesShipping  | indianCurrency}}</span>
-                        </p>
-                        <p *ngIf="sales?.purchaseGrossTotal">
-                          Gross Total
-                          <span>₹
-                            {{
-                            sales?.purchaseGrossTotal | indianCurrency
-                            }}</span>
-                        </p>
-                        <p *ngIf="sales?.quotationGrossTotal">
-                          Gross Total
-                          <span>₹
-                            {{
-                            sales?.quotationGrossTotal | indianCurrency
-                            }}</span>
-                        </p>
-                        <p *ngIf="sales?.purchaseShipping">
-                          Shipping Charges
-                          <span> + ₹
-                            {{ sales?.purchaseShipping | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.quotationShipping">
-                          Shipping Charges
-                          <span> + ₹
-                            {{ sales?.quotationShipping | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.slabDetails?.sellingPricePerSQFT">
-                          Selling Price / Square Feet
-                          <span>₹ {{ sales?.slabDetails?.sellingPricePerSQFT | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.slabDetails?.transportationCharges">
-                          Transport Charges
-                          <span> + ₹ {{ sales?.slabDetails?.transportationCharges  | indianCurrency}}</span>
-                        </p>
-                        <p *ngIf="sales?.lotDetails?.lotWeight">
-                          Lot Weight ( Ton )
-                          <span>{{ sales?.lotDetails?.lotWeight | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.lotDetails?.transportationCharge">
-                          Total Transport Charge
-                          <span> ₹ {{ sales?.lotDetails?.totalTransportationCharges | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.lotDetails?.transportationCharge">
-                          Transport Charge / Ton
-                          <span> ₹ {{ sales?.lotDetails?.transportationCharge | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.lotDetails?.royaltyCharge">
-                          Royalty (Other Charges)
-                          <span> + ₹ {{ sales?.lotDetails?.royaltyCharge | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.slabDetails?.otherCharges">
-                          Other Charges
-                          <span> + ₹ {{ sales?.slabDetails?.otherCharges | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.purchaseCost">
-                          Purchase Cost
-                          <span>₹ {{ sales?.purchaseCost | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.otherCharges">
-                          Other Charges
-                          <span> + ₹ {{ sales?.otherCharges | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.purchaseReturnOtherCharges">
-                          Return Other Charges
-                          <span> - ₹ {{ sales?.purchaseReturnOtherCharges | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.salesReturnOtherCharges">
-                          Return Other Charges
-                          <span> - ₹ {{ sales?.purchaseReturnOtherCharges | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.lotDetails?.purchaseDiscount">
-                          Discount
-                          <span> - ₹
-                            {{ sales?.lotDetails?.purchaseDiscount | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.quotationDiscount">
-                          Discount
-                          <span> - ₹
-                            {{ sales?.quotationDiscount | indianCurrency  }}</span>
-                        </p>
-                      </div>
-                      <div class="invoice-total-footer">
-                      
-                        <h4 *ngIf="sales?.salesTotalAmount">
-                          Total Amount
-                          <span>₹
-                            {{ sales?.salesTotalAmount | indianCurrency  }}</span>
-                        </h4>
-                        <h4 *ngIf="sales?.quotationTotalAmount">
-                          Total Amount
-                          <span>₹
-                            {{ sales?.quotationTotalAmount | indianCurrency }}</span>
-                        </h4>
-                        <h4 *ngIf="sales?.purchaseTotalAmount">
-                          Total Amount
-                          <span>₹
-                            {{
-                            sales?.purchaseTotalAmount | indianCurrency
-                            }}</span>
-                        </h4>
-                        <h4 *ngIf="sales?.purchaseReturnTotalAmount">
-                          Total Amount
-                          <span>₹
-                            {{
-                            sales?.purchaseReturnTotalAmount  | indianCurrency
-                            }}</span>
-                        </h4>
+                                        ₹
+                                        {{
+                                        sales?.nonTaxable | indianCurrency
+                                        }}
+                                      </span>
+                                    </p>
+                                    <hr *ngIf="sales?.taxable">
+                                    <p *ngIf="sales?.salesGrossTotal || sales?.quotationGrossTotal">
+                                      Gross Total
+                                      <span>₹ {{ (sales?.salesGrossTotal || sales?.quotationGrossTotal
+                                        || 0) | indianCurrency }}</span>
+                                    </p>
+                                    <p *ngIf="sales?.slabDetails?.sellingPricePerSQFT">
+                                      Selling Price / Square Feet
+                                      <span>₹ {{ (sales?.slabDetails?.sellingPricePerSQFT || 0) | indianCurrency
+                                        }}</span>
+                                    </p>
+                                    <p *ngIf="sales?.lotDetails?.lotWeight">
+                                      Lot Weight ( Ton )
+                                      <span>{{ (sales?.lotDetails?.lotWeight || 0) | indianCurrency }}</span>
+                                    </p>
+                                    <p *ngIf="sales?.purchaseCost">
+                                      Purchase Cost
+                                      <span>₹ {{ (sales?.purchaseCost || 0) | indianCurrency }}</span>
+                                    </p>
+                                    <p>
+                                      Shipping Charges
+                                      <span>+ ₹ {{ (sales?.salesShipping || sales?.purchaseShipping ||
+                                        sales?.quotationShipping ||
+                                        0) | indianCurrency }}</span>
+                                    </p>
+                                    <p>
+                                      Transport Charges
+                                      <span>+ ₹ {{ (sales?.slabDetails?.transportationCharges ||
+                                        sales?.lotDetails?.transportationCharge ||
+                                        sales?.lotDetails?.totalTransportationCharges ||
+                                        0) | indianCurrency }}</span>
+                                    </p>
+                                    <p *ngIf="sales?.lotDetails?.royaltyCharge">
+                                      Royalty (Other Charges)
+                                      <span>+ ₹ {{ (sales?.lotDetails?.royaltyCharge || 0) | indianCurrency }}</span>
+                                    </p>
+                                    <p *ngIf="!sales?.lotDetails?.royaltyCharge">
+                                      Other Charges
+                                      <span>+ ₹ {{ (sales?.slabDetails?.otherCharges || sales?.otherCharges || 0) |
+                                        indianCurrency
+                                        }}</span>
+                                    </p>
+                                    <p *ngIf="sales?.salesReturnOtherCharges || sales?.purchaseReturnOtherCharges ">
+                                      Return Other Charges
+                                      <span>- ₹ {{ (sales?.purchaseReturnOtherCharges || sales?.salesReturnOtherCharges
+                                        || 0) |
+                                        indianCurrency }}</span>
+                                    </p>
+                                    <p>
+                                      Discount
+                                      <span>- ₹ {{ (sales?.salesDiscount || sales?.lotDetails?.purchaseDiscount ||
+                                        sales?.quotationDiscount || 0) | indianCurrency }}</span>
+                                    </p>
+                                  </div>
+                                  <div class="invoice-total-footer">
+                                    <h4>
+                                      Total Amount
+                                      <span>₹ {{ (sales?.salesTotalAmount || sales?.quotationTotalAmount ||
+                                        sales?.purchaseTotalAmount || sales?.purchaseReturnTotalAmount || 0) |
+                                        indianCurrency
+                                        }}</span>
+                                    </h4>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
 
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-                          
                         </div>
                         <div class="row">
-                          <div class="col-12 col-md-4">
+                          <div class="col-12 col-md-4"
+                            [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) && !sales?.taxVendor)}">
                             <div class="form-group local-forms">
                               <label for="paymentDate">Payment Date <span class="login-danger">*</span></label>
                               <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
@@ -560,7 +502,7 @@
 
 
                           <div class="col-12 col-md-4"
-                            *ngIf="sales?.salesItemDetails && !sales?.returnDate || sales?.lotDetails || sales?.slabDetails ">
+                            *ngIf="(sales?.salesItemDetails && !sales?.returnDate) || ((sales?.lotDetails || sales?.slabDetails) && !sales?.taxVendor) ">
                             <div class="form-group local-forms">
                               <label for="customer">Taxable Amount</label>
                               <p-inputGroup>
@@ -578,7 +520,8 @@
                               <div
                                 *ngIf="
                                 paymentInvoiceForm.get('taxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('taxablePaymentAmount')?.touched">
-                                <span class="login-danger">Taxable Amount can't be greater than ₹ {{ dataById?.taxableDue |
+                                <span class="login-danger">Taxable Amount can't be greater than ₹ {{
+                                  dataById?.taxableDue |
                                   indianCurrency
                                   }}</span>
                               </div>
@@ -588,6 +531,7 @@
                             </div>
                           </div>
                           <div class="col-12 col-md-4"
+                            [ngClass]="{'col-md-6': !((sales?.lotDetails || sales?.slabDetails) && !sales?.taxVendor)}"
                             *ngIf="sales?.salesItemDetails && !sales?.returnDate || sales?.lotDetails || sales?.slabDetails ">
                             <div class="form-group local-forms">
                               <label for="customer">Non Taxable Amount</label>
@@ -605,7 +549,8 @@
                               </div>
                               <div
                                 *ngIf="(paymentInvoiceForm.get('nonTaxablePaymentAmount')?.hasError('max')  && paymentInvoiceForm.get('nonTaxablePaymentAmount')?.touched)">
-                                <span class="login-danger">Non-Taxable Amount can't be greater than ₹ {{ dataById?.nonTaxableDue |
+                                <span class="login-danger">Non-Taxable Amount can't be greater than ₹ {{
+                                  dataById?.nonTaxableDue |
                                   indianCurrency
                                   }}</span>
                               </div>
@@ -638,16 +583,8 @@
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">₹</span>
                                 </div>
-                                <input type="number" formControlName="totalAmount" class="form-control" >
+                                <input type="number" formControlName="totalAmount" class="form-control">
                               </div>
-                              <!-- <span style="color: #97704f; font-size: 12px; 
-                              " *ngIf="dataById.isSales">Max Value : ₹ {{dataById.salesDueAmount |
-                                indianCurrency}}</span>
-                              <div
-                                *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
-                                <span class="login-danger" *ngIf="dataById.isSales">Amount cannot be greater than the
-                                  ₹ {{dataById.salesDueAmount | indianCurrency}}.</span>
-                              </div> -->
 
                               <span style="color: #97704f; font-size: 12px; 
                               " *ngIf="dataById.isSalesReturn">Max Value : ₹ {{dataById.salesDueAmount |
@@ -674,15 +611,6 @@
                                   the
                                   ₹ {{dataById.dueAmount | indianCurrency}}.</span>
                               </div>
-
-                              <!-- <span style="color: #97704f; font-size: 12px; 
-                              " *ngIf="dataById.isPurchase">Max Value : ₹ {{dataById.purchaseDueAmount |
-                                indianCurrency}}</span>
-                              <div
-                                *ngIf="paymentInvoiceForm.get('totalAmount')?.hasError('max') && paymentInvoiceForm.get('totalAmount')?.touched">
-                                <span class="login-danger" *ngIf="dataById.isPurchase">Amount cannot be greater than the
-                                  ₹ {{dataById.purchaseDueAmount | indianCurrency}}.</span>
-                              </div> -->
 
                               <span style="color: #97704f; font-size: 12px; 
                               " *ngIf="dataById.isPurchaseReturn">Max Value : ₹ {{dataById.purchaseDueAmount |

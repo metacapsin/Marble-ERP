@@ -47,13 +47,15 @@
                                 {{ sales?.billingAddress.addressLine2 + ' ,' }}
                               </h5>
                               <h5>
-                                <span title="City" *ngIf="sales?.billingAddress.city">{{ sales?.billingAddress.city }}</span>, <span title="State" *ngIf="sales?.billingAddress.state">{{
+                                <span title="City" *ngIf="sales?.billingAddress.city">{{ sales?.billingAddress.city
+                                  }}</span>, <span title="State" *ngIf="sales?.billingAddress.state">{{
                                   sales?.billingAddress.state }}</span>,
-                                <span title="Postal Code"  *ngIf="sales?.billingAddress.postalCode">{{
+                                <span title="Postal Code" *ngIf="sales?.billingAddress.postalCode">{{
                                   sales?.billingAddress.postalCode + ' ,'
                                   }}</span>
                               </h5>
-                              <h5 title="Country" *ngIf="sales?.billingAddress.country.name">{{ sales?.billingAddress.country.name }}</h5>
+                              <h5 title="Country" *ngIf="sales?.billingAddress.country.name">{{
+                                sales?.billingAddress.country.name }}</h5>
                             </div>
                           </span>
                           <span *ngIf="sales.supplier?.billingAddress"
@@ -97,13 +99,16 @@
                     <div class="page-table-header mb-2 m-3">
                       <div class="row practice-card">
                         <div class="col-xl-6 col-lg-6 col-sm-12">
-                          <div *ngIf="sales.salesInvoiceNumber || header == 'Purchase Invoice' || header == 'Quotation Invoice' || header == 'Quotation Invoice' " class="form-group row mb-2">
+                          <div
+                            *ngIf="sales.salesInvoiceNumber || header == 'Purchase Invoice' || header == 'Quotation Invoice' || header == 'Quotation Invoice' "
+                            class="form-group row mb-2">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Invoice Number :
                             </h5>
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-lg-8 col-form-label">
-                                {{ sales.salesInvoiceNumber || sales.purchaseInvoiceNumber|| sales.quotationInvoiceNumber }}
+                                {{ sales.salesInvoiceNumber || sales.purchaseInvoiceNumber||
+                                sales.quotationInvoiceNumber }}
                               </p>
                             </div>
                           </div>
@@ -167,7 +172,7 @@
                             </h5>
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-lg-8 col-form-label">
-                                {{ sales?.salesDate | date : "dd-MMM-yyyy"  }}
+                                {{ sales?.salesDate | date : "dd-MMM-yyyy" }}
                               </p>
                             </div>
                           </div>
@@ -228,7 +233,7 @@
                             </h5>
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-lg-8 col-form-label">
-                                ₹ {{ sales.taxable ? ( sales.taxable | indianCurrency)  : '0' }}
+                                ₹ {{ sales.taxable ? ( sales.taxable | indianCurrency) : '0' }}
                               </p>
                             </div>
                           </div>
@@ -266,7 +271,7 @@
                               </p>
                             </div>
                           </div> -->
-                          <div class="form-group row mb-2" >
+                          <div class="form-group row mb-2">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Due Amount:
                             </h5>
@@ -276,7 +281,7 @@
                               </p>
                             </div>
                           </div>
-                          
+
                           <ng-template #zeroPayment>
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
@@ -334,7 +339,8 @@
                           <th>Non-Taxable Amount </th>
                           <th>Sub Total</th>
                         </tr>
-                        <tr *ngIf="sales?.returnDate && !sales?.purchaseReturnNotes && !sales?.purchaseReturnTotalAmount">
+                        <tr
+                          *ngIf="sales?.returnDate && !sales?.purchaseReturnNotes && !sales?.purchaseReturnTotalAmount">
                           <th>Warehouse</th>
                           <th>Product</th>
                           <th>Quantity</th>
@@ -381,27 +387,26 @@
                           <th>Purchase Cost</th>
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-data
-                        *ngIf="sales?.salesItemDetails && !sales?.returnDate">
+                      <ng-template pTemplate="body" let-data *ngIf="sales?.salesItemDetails && !sales?.returnDate">
                         <tr *ngFor="let sales of data.salesItemDetails">
                           <td>{{ sales.salesWarehouseDetails?.name }}</td>
                           <td>{{ sales.salesItemProduct.slabName }}</td>
                           <td>{{ sales.salesItemQuantity }}</td>
                           <td>{{ sales.salesItemPieces }}</td>
                           <td>₹ {{ sales.salesItemUnitPrice }}</td>
-                          <td>₹ {{ sales.salesItemAppliedTaxAmount | indianCurrency  }} </td>
+                          <td>₹ {{ sales.salesItemAppliedTaxAmount | indianCurrency }} </td>
                           <td>₹ {{ sales.salesItemNonTaxableAmount | indianCurrency }} </td>
-                          <td>₹ {{ sales.salesItemSubTotal  }} </td>
+                          <td>₹ {{ sales.salesItemSubTotal }} </td>
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-data
-                      *ngIf="sales?.salesReturnTermsAndCondition || sales?.returnDate" >
+                        *ngIf="sales?.salesReturnTermsAndCondition || sales?.returnDate">
                         <tr *ngFor="let sales of data.salesItemDetails">
                           <td>{{ sales.salesWarehouseDetails?.name }}</td>
                           <td>{{ sales.salesItemProduct.slabName }}</td>
                           <td>{{ sales.salesItemQuantity }}</td>
                           <td>₹ {{ sales.salesItemUnitPrice }}</td>
-                          <td>₹ {{ sales.salesItemSubTotal  }} </td>
+                          <td>₹ {{ sales.salesItemSubTotal }} </td>
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-data *ngIf="sales.quotationItemDetails">
@@ -411,10 +416,10 @@
                           <td>{{ sales?.quotationItemQuantity }}</td>
                           <td>₹ {{ sales?.quotationItemUnitPrice | indianCurrency }}</td>
                           <td>
-                            ₹ {{ sales?.quotationItemTaxAmount | indianCurrency  }}
+                            ₹ {{ sales?.quotationItemTaxAmount | indianCurrency }}
                           </td>
                           <td>
-                            ₹ {{ sales?.quotationItemSubTotal | indianCurrency  }}
+                            ₹ {{ sales?.quotationItemSubTotal | indianCurrency }}
                           </td>
                         </tr>
                       </ng-template>
@@ -449,7 +454,7 @@
                           <td>
                             ₹
                             {{
-                            sales.slabDetails.purchaseCost 
+                            sales.slabDetails.purchaseCost
                             }}
                           </td>
                         </tr>
@@ -547,7 +552,6 @@
                             ₹
                             {{
                             sales?.taxable | indianCurrency
-                            
                             }}
                           </span>
                         </p>
@@ -559,130 +563,65 @@
                             ₹
                             {{
                             sales?.nonTaxable | indianCurrency
-                            
                             }}
                           </span>
                         </p>
-                        <hr>
-                        <p *ngIf="sales.salesGrossTotal">
+                        <hr *ngIf="sales?.taxable">
+                        <p *ngIf="sales?.salesGrossTotal || sales?.quotationGrossTotal">
                           Gross Total
-                          <span>₹
-                            {{ sales.salesGrossTotal  }}</span>
-                        </p>
-                        <p *ngIf="sales?.salesDiscount">
-                          Discount
-                          <span>- ₹ {{ sales?.salesDiscount| indianCurrency  }}</span>
-                        </p>
-                        <p *ngIf="sales?.salesShipping">
-                          Shipping Charges
-                          <span>+ ₹ {{ sales?.salesShipping  | indianCurrency}}</span>
-                        </p>
-                        <p *ngIf="sales?.purchaseGrossTotal">
-                          Gross Total
-                          <span>₹
-                            {{
-                            sales?.purchaseGrossTotal | indianCurrency
-                            }}</span>
-                        </p>
-                        <p *ngIf="sales?.quotationGrossTotal">
-                          Gross Total
-                          <span>₹
-                            {{
-                            sales?.quotationGrossTotal | indianCurrency
-                            }}</span>
-                        </p>
-                        <p *ngIf="sales?.purchaseShipping">
-                          Shipping Charges
-                          <span> + ₹
-                            {{ sales?.purchaseShipping | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.quotationShipping">
-                          Shipping Charges
-                          <span> + ₹
-                            {{ sales?.quotationShipping | indianCurrency }}</span>
+                          <span>₹ {{ (sales?.salesGrossTotal || sales?.quotationGrossTotal
+                            || 0) | indianCurrency }}</span>
                         </p>
                         <p *ngIf="sales?.slabDetails?.sellingPricePerSQFT">
                           Selling Price / Square Feet
-                          <span>₹ {{ sales?.slabDetails?.sellingPricePerSQFT | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.slabDetails?.transportationCharges">
-                          Transport Charges
-                          <span> + ₹ {{ sales?.slabDetails?.transportationCharges  | indianCurrency}}</span>
+                          <span>₹ {{ (sales?.slabDetails?.sellingPricePerSQFT || 0) | indianCurrency }}</span>
                         </p>
                         <p *ngIf="sales?.lotDetails?.lotWeight">
                           Lot Weight ( Ton )
-                          <span>{{ sales?.lotDetails?.lotWeight | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.lotDetails?.transportationCharge">
-                          Transport Charge / Ton
-                          <span> ₹ {{ sales?.lotDetails?.transportationCharge | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.lotDetails?.totalTransportationCharges">
-                          Transport Charges
-                          <span> + ₹ {{ sales?.lotDetails?.totalTransportationCharges | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.lotDetails?.royaltyCharge">
-                          Royalty (Other Charges)
-                          <span> + ₹ {{ sales?.lotDetails?.royaltyCharge | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.slabDetails?.otherCharges">
-                          Other Charges
-                          <span> + ₹ {{ sales?.slabDetails?.otherCharges | indianCurrency }}</span>
+                          <span>{{ (sales?.lotDetails?.lotWeight || 0) | indianCurrency }}</span>
                         </p>
                         <p *ngIf="sales?.purchaseCost">
                           Purchase Cost
-                          <span>₹ {{ sales?.purchaseCost | indianCurrency }}</span>
+                          <span>₹ {{ (sales?.purchaseCost || 0) | indianCurrency }}</span>
                         </p>
-                        <p *ngIf="sales?.otherCharges">
+                        <p>
+                          Shipping Charges
+                          <span>+ ₹ {{ (sales?.salesShipping || sales?.purchaseShipping || sales?.quotationShipping ||
+                            0) | indianCurrency }}</span>
+                        </p>
+                        <p>
+                          Transport Charges
+                          <span>+ ₹ {{ (sales?.slabDetails?.transportationCharges ||
+                            sales?.lotDetails?.transportationCharge || sales?.lotDetails?.totalTransportationCharges ||
+                            0) | indianCurrency }}</span>
+                        </p>
+                        <p *ngIf="sales?.lotDetails?.royaltyCharge">
+                          Royalty (Other Charges)
+                          <span>+ ₹ {{ (sales?.lotDetails?.royaltyCharge || 0) | indianCurrency }}</span>
+                        </p>
+                        <p *ngIf="!sales?.lotDetails?.royaltyCharge">
                           Other Charges
-                          <span> + ₹ {{ sales?.otherCharges | indianCurrency }}</span>
+                          <span>+ ₹ {{ (sales?.slabDetails?.otherCharges || sales?.otherCharges || 0) | indianCurrency
+                            }}</span>
                         </p>
-                        <p *ngIf="sales?.purchaseReturnOtherCharges">
+                        <p *ngIf="sales?.salesReturnOtherCharges || sales?.purchaseReturnOtherCharges ">
                           Return Other Charges
-                          <span> - ₹ {{ sales?.purchaseReturnOtherCharges | indianCurrency }}</span>
+                          <span>- ₹ {{ (sales?.purchaseReturnOtherCharges || sales?.salesReturnOtherCharges || 0) |
+                            indianCurrency }}</span>
                         </p>
-                        <p *ngIf="sales?.salesReturnOtherCharges">
-                          Return Other Charges
-                          <span> - ₹ {{ sales?.purchaseReturnOtherCharges | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.lotDetails?.purchaseDiscount">
+                        <p>
                           Discount
-                          <span> - ₹
-                            {{ sales?.lotDetails?.purchaseDiscount | indianCurrency }}</span>
-                        </p>
-                        <p *ngIf="sales?.quotationDiscount">
-                          Discount
-                          <span> - ₹
-                            {{ sales?.quotationDiscount | indianCurrency  }}</span>
+                          <span>- ₹ {{ (sales?.salesDiscount || sales?.lotDetails?.purchaseDiscount ||
+                            sales?.quotationDiscount || 0) | indianCurrency }}</span>
                         </p>
                       </div>
                       <div class="invoice-total-footer">
-                      
-                        <h4 *ngIf="sales?.salesTotalAmount">
+                        <h4>
                           Total Amount
-                          <span>₹
-                            {{ sales?.salesTotalAmount | indianCurrency  }}</span>
-                        </h4>
-                        <h4 *ngIf="sales?.quotationTotalAmount">
-                          Total Amount
-                          <span>₹
-                            {{ sales?.quotationTotalAmount | indianCurrency }}</span>
-                        </h4>
-                        <h4 *ngIf="sales?.purchaseTotalAmount">
-                          Total Amount
-                          <span>₹
-                            {{
-                            sales?.purchaseTotalAmount | indianCurrency
+                          <span>₹ {{ (sales?.salesTotalAmount || sales?.quotationTotalAmount ||
+                            sales?.purchaseTotalAmount || sales?.purchaseReturnTotalAmount || 0) | indianCurrency
                             }}</span>
                         </h4>
-                        <h4 *ngIf="sales?.purchaseReturnTotalAmount">
-                          Total Amount
-                          <span>₹
-                            {{
-                            sales?.purchaseReturnTotalAmount  | indianCurrency
-                            }}</span>
-                        </h4>
-
                       </div>
                     </div>
                   </div>
