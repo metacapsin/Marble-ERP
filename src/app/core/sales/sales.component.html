@@ -54,8 +54,8 @@
                     <h3>Sales List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input type="text" class="form-control" placeholder="Search here"
-                          [(ngModel)]="searchDataValue" />
+                         <input type="text" class="form-control" placeholder="Search here" #searchTable (input)="
+                        dt.filterGlobal(searchTable.value, 'contains')">
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                       <div class="add-group textbtn">
@@ -100,7 +100,7 @@
 
             <div class="card-body p-2">
               <p-table
-                [value]="salesListData | filter:searchDataValue:['salesInvoiceNumber', 'salesDate','customer.name','paymentStatus','paidAmount', 'billingAddress.companyName','dueAmount','salesTotalAmount']"
+                [value]="salesListData" [globalFilterFields]="['salesInvoiceNumber', 'salesDate','customer.name','paymentStatus','paidAmount', 'billingAddress.companyName','dueAmount','salesTotalAmount']"
                 styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="salesListData?.length >= 5" [rows]="10"
                 [rowsPerPageOptions]="[5, 10, 20]" selectionMode="multiple" #dt [columns]="cols" 
                 [exportHeader]="'customExportHeader'" exportFilename="Sales">
@@ -160,9 +160,10 @@
                     <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                       <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"
                         pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      <p-button [text]="true" icon="fa-solid fa-edit" (click)="navigateToEditSale(sales._id)"
+                        pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                       <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"
                         pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
-
                     </td>
                   </tr>
                 </ng-template>

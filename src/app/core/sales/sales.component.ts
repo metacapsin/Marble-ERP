@@ -97,6 +97,15 @@ export class SalesComponent implements OnInit {
     );
     this.router.navigate(["/sales/add-sales"]);
   }
+  navigateToEditSale(_id:any) {
+    const returnUrl = this.router.url;
+    this.localStorageService.setItem("returnUrl", returnUrl);
+    console.log(
+      "this is return url on sales  page for sales create",
+      returnUrl
+    );
+    this.router.navigate([`/sales/edit-sales/${_id}`]);
+  }
 
   GetSalesData(startDate: Date, endDate: Date) {
     const formattedStartDate = this.formatDate(startDate);

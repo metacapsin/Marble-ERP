@@ -60,7 +60,6 @@ export class InvoiceDialogComponent implements OnInit {
     });
   }
   closeTheWindow() {
-    // debugger
     // console.log("dialog close")
     this.close.emit();
   }

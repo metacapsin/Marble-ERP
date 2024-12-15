@@ -138,7 +138,6 @@ export class AddSalesReturnComponent {
     });
   }
   onCustomerSelect(value: any) {
-    // debugger
     this.salesItemDetails.clear();
 
     this.salesService

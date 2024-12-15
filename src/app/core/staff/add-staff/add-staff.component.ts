@@ -75,7 +75,6 @@ export class AddStaffComponent {
   }
 
   addStaffFormSubmit() {
-    debugger;
     console.log(this.addStaffForm.value);
     const paylode = {
       firstName: "kavya",
@@ -101,7 +100,6 @@ export class AddStaffComponent {
       console.log("Form is valid", this.addStaffForm.value);
       this.service.addStaffData(paylode).subscribe((resp: any) => {
         console.log(resp);
-        debugger;
         if (resp) {
           if (resp.status === "success") {
             const message = "Staff has been added";

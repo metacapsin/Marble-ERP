@@ -29,8 +29,8 @@
                     <h3>Purchase List</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input type="text" class="form-control" placeholder="Search here"
-                          [(ngModel)]="searchDataValue" />
+                         <input type="text" class="form-control" placeholder="Search here" #searchTable (input)="
+                        dt.filterGlobal(searchTable.value, 'contains')">
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt="" /></a>
                       </div>
                       <div class="add-group textbtn">
@@ -77,7 +77,7 @@
 
             <div class="card-body p-2">
               <p-table
-                [value]="purchaseData | filter:searchDataValue:['purchaseInvoiceNumber', 'purchaseDate','supplier.name','purchaseType','paymentStatus', 'paidAmount', 'dueAmount','purchaseCost','purchaseTotalAmount']"
+                [value]="purchaseData" [globalFilterFields]="['purchaseInvoiceNumber', 'purchaseDate','supplier.name','purchaseType','paymentStatus', 'paidAmount', 'dueAmount','purchaseCost','purchaseTotalAmount']"
                 styleClass="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}" [paginator]="purchaseData?.length >= 5" [rows]="10"  #dt [columns]="cols" 
                 [exportHeader]="'customExportHeader'" exportFilename="Purchase"
                 selectionMode="multiple" [rowsPerPageOptions]="[5, 10, 20]">
@@ -146,6 +146,8 @@
                     <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                       <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"
                         (click)="showInvoiceDialoge(purchase._id)"></p-button>
+                      <p-button [text]="true" icon="fa-solid fa-edit" pTooltip="Edit" tooltipPosition="bottom" tooltipStyleClass="tooltip" *ngIf="purchase.paymentStatus == 'Unpaid'"
+                        (click)="navigateToEditPurchase(purchase._id)"></p-button>
                       <p-button [text]="true" icon="fa fa-trash" *ngIf="purchase.paymentStatus == 'Unpaid'" (click)="purchaseDelete(purchase._id)"  pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                       <div *ngIf="purchase.paymentStatus != 'Unpaid'" class="placeholder"><span class="fa-stack">
                         <i class="fas fa-trash fa-stack-1x"></i>

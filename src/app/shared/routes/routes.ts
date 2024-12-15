@@ -716,6 +716,9 @@ export class routes {
   public static get addNewPurchase(): string{
     return this.baseUrl + '/new-purchase/add-new-purchase';
   }
+  public static get editNewPurchase(): string{
+    return this.baseUrl + '/new-purchase/edit-new-purchase/:id';
+  }
   public static get listNewPurchase(): string{
     return this.baseUrl + '/new-purchase';
   }

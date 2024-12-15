@@ -77,12 +77,8 @@
                     <h3>Sales Reports</h3>
                     <div class="doctor-search-blk">
                       <div class="top-nav-search table-search-blk">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Search here"
-                          [(ngModel)]="searchDataValue"
-                        />
+                        <input type="text" class="form-control" placeholder="Search here" #searchTable (input)="
+                        dt.filterGlobal(searchTable.value, 'contains')">
                         <a class="btn"
                           ><img src="assets/img/icons/search-normal.svg" alt=""
                         /></a>
@@ -147,10 +143,7 @@
             <div class="card-body p-2">
               <p-table
                 [value]="
-                  originalData
-                    | filter
-                      : searchDataValue
-                      : [
+                  originalData" [globalFilterFields]=" [
                           'salesInvoiceNumber',
                           'salesDate',
                           'customer.name',
@@ -169,7 +162,7 @@
                 selectionMode="multiple"
                 [exportHeader]="'customExportHeader'"
                 [exportFilename]="getExportFilename()"
-                (onFilter)="onFilter($event)"
+                
               >
                 <ng-template pTemplate="header">
                   <tr>

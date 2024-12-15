@@ -7,6 +7,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { BillingAddressService } from "../../settings/billing-Address/billingAddress.service";
 import { TaxVendorsService } from "../tax-vendors.service";
 
+
 @Component({
   selector: "app-view-tax-vendors",
   standalone: true,
@@ -286,7 +287,8 @@ export class ViewTaxVendorsComponent implements OnInit {
 
   // }
 
-  openSalesPaymentDialog() {
+  openSalesPaymentDialog(sales) {
+    this.selectedSales = [sales];
     const unpaidSales = this.selectedSales.filter(
       (sale) =>
         sale.taxVendor.dueAmount > 0 &&
@@ -314,10 +316,16 @@ export class ViewTaxVendorsComponent implements OnInit {
       });
     }
   }
-  openPurchasePaymentDialog() {
+  openPurchasePaymentDialog(purchase) {
+    console.log(purchase);
+    this.selectedPurchase = [purchase];
+    this.selectedPurchase;
+    console.log("selected purchase", this.selectedPurchase);
     const unpaidPurchases = this.selectedPurchase.filter(
       (purchase) =>
-        purchase.taxVendor.dueAmount > 0 && (purchase.taxVendor.paymentStatus === "Unpaid" || purchase.taxVendor.paymentStatus === "Partial Paid")
+        purchase.taxVendor.dueAmount > 0 &&
+        (purchase.taxVendor.paymentStatus === "Unpaid" ||
+          purchase.taxVendor.paymentStatus === "Partial Paid")
     );
     const today = new Date();
     const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
@@ -351,7 +359,13 @@ export class ViewTaxVendorsComponent implements OnInit {
           name: this.selectedSales[0].taxVendor.companyName,
           _id: this.selectedSales[0].taxVendor._id,
         },
-        sales: formData.sales,
+        // sales: formData.sales,
+
+        sales: formData.sales.map((sale) => ({
+          _id: sale._id,
+          salesInvoiceNumber: sale.salesInvoiceNumber,
+          amount: formData.payableAmount, // Include payable amount
+        })),
         paymentDate: formData.paymentDate,
         paymentMode: formData.paymentMode,
         note: formData.note,
@@ -396,7 +410,11 @@ export class ViewTaxVendorsComponent implements OnInit {
           name: this.selectedPurchase[0].taxVendor.companyName,
           _id: this.selectedPurchase[0].taxVendor._id,
         },
-        purchase: formData.purchase,
+        purchase: formData.purchase.map((sale) => ({
+          _id: sale._id,
+          purchaseInvoiceNumber: sale.purchaseInvoiceNumber,
+          amount: formData.payableAmount, // Include payable amount
+        })),
         paymentDate: formData.paymentDate,
         paymentMode: formData.paymentMode,
         note: formData.note,

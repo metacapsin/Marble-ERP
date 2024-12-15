@@ -168,7 +168,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                  <!-- <div class="col-xl-12 col-lg-12 col-sm-12">
                     <div class="form-group row mb-2">
                       <h5
                         class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold"
@@ -197,8 +197,38 @@
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="form-group row mb-2">
+                      <h5
+                        class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold"
+                      >
+                      Cost of Goods Sold (-)
+                      </h5>
+                      <div class="col-lg-6 col-md-6 col-xl-6">
+                        <p class="col-form-label">
+                          <span class="amount-bold"
+                            >₹
+                            {{
+                              profitLossData?.costOfGoodsSoldSales | indianCurrency
+                            }}
+                          </span>
+                          <!-- <span *ngIf="profitLossData?.purchase_returns > 0"
+                            >(Due Amount : ₹
+                            {{
+                              profitLossData?.purchaseReturnsDueAmount
+                                | indianCurrency
+                            }}, Paid Amount : ₹
+                            {{
+                              profitLossData?.purchaseReturnsPaidAmount
+                                | indianCurrency
+                            }})</span
+                          > -->
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="col-xl-12 col-lg-12 col-sm-12">
                     <div class="form-group row mb-2">
                       <h5
                         class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold"
@@ -224,7 +254,7 @@
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-xl-12 col-lg-12 col-sm-12">
                     <div class="form-group row mb-2">
                       <h5
@@ -254,7 +284,7 @@
                     </div>
                   </div>
 
-                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                  <!-- <div class="col-xl-12 col-lg-12 col-sm-12">
                     <div class="form-group row mb-2">
                       <h5
                         class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold"
@@ -276,6 +306,53 @@
                               profitLossData?.taxVendorPaidAmount
                                 | indianCurrency
                             }})
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="form-group row mb-2">
+                      <h5
+                        class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold"
+                      >
+                        Tax Vendor Purchase Profit (+)
+                      </h5>
+                      <div class="col-lg-6 col-md-6 col-xl-6">
+                        <p class="col-form-label">
+                          <span class="amount-bold"
+                            >₹ {{ profitLossData?.taxVendorPurchaseProfit | indianCurrency }}
+                          </span>
+                          <!-- <span *ngIf="profitLossData?.purchases > 0"
+                            >(Due Amount : ₹
+                            {{
+                              profitLossData?.taxVendorDueAmount
+                                | indianCurrency
+                            }}, Paid Amount : ₹
+                            {{
+                              profitLossData?.taxVendorPaidAmount
+                                | indianCurrency
+                            }})
+                          </span> -->
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="form-group row mb-2">
+                      <h5
+                        class="col-lg-6 col-md-6 col-xl-6 col-form-label sub-heading-bold"
+                      >
+                        Tax Vendor Sales Expenses (-)
+                      </h5>
+                      <div class="col-lg-6 col-md-6 col-xl-6">
+                        <p class="col-form-label">
+                          <span class="amount-bold"
+                            >₹
+                            {{
+                              profitLossData?.taxVendorSalesProfit
+                                | indianCurrency
+                            }}
                           </span>
                         </p>
                       </div>

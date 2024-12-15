@@ -380,7 +380,7 @@
                                 <span class="input-group-text">₹</span>
                               </div>
                               <input type="number" formControlName="nonTaxable" (change)="calculateTotalAmount()"
-                              class="form-control" placeholder="Enter Non Taxable Amount"/>
+                                class="form-control" placeholder="Enter Non Taxable Amount" />
                             </div>
                             <div *ngIf="(addNewPurchaseForm
                           .get('nonTaxable')
@@ -391,10 +391,10 @@
                           .get('nonTaxable')
                           ?.hasError('max') &&
                           addNewPurchaseForm.get('nonTaxable')?.touched)">
-                            <span class="login-danger">
-                              Input must be between 1 to 7 digits.
-                            </span>
-                          </div>
+                              <span class="login-danger">
+                                Input must be between 1 to 7 digits.
+                              </span>
+                            </div>
                           </div>
                         </div>
 
@@ -410,7 +410,9 @@
                                 addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value
                                 }}</span>
                             </div>
-                            <span *ngIf="addNewPurchaseForm.get('taxable')?.value && addNewPurchaseForm.get('nonTaxable')?.value" style="color: #97704f; font-size: 12px">
+                            <span
+                              *ngIf="addNewPurchaseForm.get('taxable')?.value && addNewPurchaseForm.get('nonTaxable')?.value"
+                              style="color: #97704f; font-size: 12px">
                               Tax Applied Amount:
                               {{ addNewPurchaseForm.get('taxable')?.value | number : "1.2-2" }}
                               + Non-Taxable Amount :
@@ -555,7 +557,7 @@
 
                         <div class="col-12 col-md-4 col-xl-4">
                           <div class="form-group local-forms">
-                            <label for="totalSqrFt">Selling Price / Sq Ft.<span class="login-danger">*</span></label>
+                            <label for="totalSqrFt">Selling Price / Sq Ft.</label>
                             <div class="input-group">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
@@ -563,10 +565,10 @@
                               <input class="form-control" type="number" placeholder="Enter Selling Price"
                                 formControlName="sellingPricePerSQFT" />
                             </div>
-                            <div
+                            <!-- <div
                               *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.hasError('required') && addNewPurchaseForm.get('sellingPricePerSQFT')?.touched">
                               <span class="login-danger">Field is required.</span>
-                            </div>
+                            </div> -->
                             <div *ngIf="
                                     (addNewPurchaseForm
                                     .get('sellingPricePerSQFT')
@@ -698,9 +700,12 @@
                                   ₹
                                   {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | indianCurrency }}
                                 </p>
-                                 <span style="font-size: 12px;" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">Non-Taxable Amount {{ '₹ ' + addNewPurchaseForm.get('nonTaxable')?.value }}</span>
-                                 <br />
-                                 <span style="font-size: 12px;" *ngIf="addNewPurchaseForm.get('taxable')?.value">Taxable Amount {{ '₹ ' + addNewPurchaseForm.get('taxable')?.value }}</span>
+                                <span style="font-size: 12px;"
+                                  *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">Non-Taxable Amount {{ '₹ ' +
+                                  addNewPurchaseForm.get('nonTaxable')?.value }}</span>
+                                <br />
+                                <span style="font-size: 12px;" *ngIf="addNewPurchaseForm.get('taxable')?.value">Taxable
+                                  Amount {{ '₹ ' + addNewPurchaseForm.get('taxable')?.value }}</span>
                               </div>
                             </div>
                           </div>
@@ -779,7 +784,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ ItemDetails?.subCategoryDetail.name ? ItemDetails?.subCategoryDetail.name : ' - ' }}
+                                  {{ ItemDetails?.subCategoryDetail.name ? ItemDetails?.subCategoryDetail.name : ' - '
+                                  }}
                                 </p>
                               </div>
                             </div>
@@ -791,7 +797,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ ItemDetails?.lotWeight ? ItemDetails?.lotWeight : ' - '}}  
+                                  {{ ItemDetails?.lotWeight ? ItemDetails?.lotWeight : ' - '}}
                                 </p>
                               </div>
                             </div>
@@ -835,7 +841,7 @@
                           <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                Transportation Charge
+                                Transportation Charge / Ton
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
@@ -1075,7 +1081,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("slabName").value ? addNewPurchaseForm.get("slabName").value : ' - ' }}
+                                  {{ addNewPurchaseForm.get("slabName").value ? addNewPurchaseForm.get("slabName").value
+                                  : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1087,7 +1094,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("slabNo").value ? addNewPurchaseForm.get("slabNo").value : ' - ' }}
+                                  {{ addNewPurchaseForm.get("slabNo").value ? addNewPurchaseForm.get("slabNo").value : '
+                                  - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1099,7 +1107,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("warehouseDetails")?.value.name ? addNewPurchaseForm.get("warehouseDetails")?.value.name : ' - ' }}
+                                  {{ addNewPurchaseForm.get("warehouseDetails")?.value.name ?
+                                  addNewPurchaseForm.get("warehouseDetails")?.value.name : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1111,7 +1120,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("categoryDetail")?.value.name ? addNewPurchaseForm.get("categoryDetail")?.value.name : ' - ' }}
+                                  {{ addNewPurchaseForm.get("categoryDetail")?.value.name ?
+                                  addNewPurchaseForm.get("categoryDetail")?.value.name : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1123,7 +1133,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("subCategoryDetail")?.value.name ? addNewPurchaseForm.get("subCategoryDetail")?.value.name : ' - ' }}
+                                  {{ addNewPurchaseForm.get("subCategoryDetail")?.value.name ?
+                                  addNewPurchaseForm.get("subCategoryDetail")?.value.name : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1135,7 +1146,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("width")?.value ? addNewPurchaseForm.get("width")?.value : ' - ' }}
+                                  {{ addNewPurchaseForm.get("width")?.value ? addNewPurchaseForm.get("width")?.value : '
+                                  - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1147,7 +1159,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("length")?.value ? addNewPurchaseForm.get("length")?.value : ' - ' }}
+                                  {{ addNewPurchaseForm.get("length")?.value ? addNewPurchaseForm.get("length")?.value :
+                                  ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1159,7 +1172,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("thickness")?.value ? addNewPurchaseForm.get("thickness")?.value : ' - ' }}
+                                  {{ addNewPurchaseForm.get("thickness")?.value ?
+                                  addNewPurchaseForm.get("thickness")?.value : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1171,7 +1185,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("finishes")?.value.name ? addNewPurchaseForm.get("finishes")?.value.name : ' - ' }}
+                                  {{ addNewPurchaseForm.get("finishes")?.value.name ?
+                                  addNewPurchaseForm.get("finishes")?.value.name : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1183,7 +1198,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("totalSQFT").value ? addNewPurchaseForm.get("totalSQFT").value : ' - ' }}
+                                  {{ addNewPurchaseForm.get("totalSQFT").value ?
+                                  addNewPurchaseForm.get("totalSQFT").value : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1195,7 +1211,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("noOfPieces").value ? addNewPurchaseForm.get("noOfPieces").value : ' - ' }}
+                                  {{ addNewPurchaseForm.get("noOfPieces").value ?
+                                  addNewPurchaseForm.get("noOfPieces").value : ' - ' }}
                                 </p>
                               </div>
                             </div>
@@ -1207,7 +1224,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ '₹' + ' ' + addNewPurchaseForm.get("purchaseDiscount").value }}
+                                  ₹ {{ addNewPurchaseForm.get("purchaseDiscount").value || '0.00' }}
                                 </p>
                               </div>
                             </div>
@@ -1253,7 +1270,8 @@
 
                         <div class="row mt-4" *ngIf="addNewPurchaseForm.get('taxable')?.value">
                           <div class="col-md-6 col-xl-6 checkbox">
-                            <p-checkbox [binary]="true" class="m-r-10" formControlName="isTaxVendor" (onChange)="changeVaidationForTaxVendor()">
+                            <p-checkbox [binary]="true" class="m-r-10" formControlName="isTaxVendor"
+                              (onChange)="changeVaidationForTaxVendor()">
                             </p-checkbox>
                             <label for="isTaxVendor">Tax Vendor</label>
                           </div>
@@ -1270,12 +1288,14 @@
                                 Taxable Amount : ₹
                                 {{ addNewPurchaseForm.get('taxableAmount').value | number : "1.2-2" }}
                               </span>
-                              <div *ngIf="addNewPurchaseForm.get('taxVendor')?.hasError('required')  && addNewPurchaseForm.get('taxVendor')?.touched">
+                              <div
+                                *ngIf="addNewPurchaseForm.get('taxVendor')?.hasError('required')  && addNewPurchaseForm.get('taxVendor')?.touched">
                                 <span class="login-danger">Field is required.</span>
                               </div>
                             </div>
                           </div>
-                          <div class="col-12 mt-4" *ngIf="addNewPurchaseForm.get('isTaxVendor').value && addNewPurchaseForm.get('taxVendor').value">
+                          <div class="col-12 mt-4"
+                            *ngIf="addNewPurchaseForm.get('isTaxVendor').value && addNewPurchaseForm.get('taxVendor').value">
                             <div class="row practice-card">
                               <div class="col-md-6 col-sm-6 ">
                                 <div class="form-group local-forms">
@@ -1283,15 +1303,18 @@
                                     <span class="login-danger">*</span></label>
                                   <input type="number" class="form-control" formControlName="vendorTaxApplied"
                                     (input)="calculateTaxVendorAmount()" />
-                                    <div *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('required')  && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
-                                      <span class="login-danger">Field is required.</span>
-                                    </div>
-                                    <div *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('max') && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
-                                      <span class="login-danger">Applied Tax (%) must be less than 100.</span>
-                                    </div>
-                                    <div *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('min') && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
-                                      <span class="login-danger">Applied Tax (%) must be greater than 0.</span>
-                                    </div>
+                                  <div
+                                    *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('required')  && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
+                                    <span class="login-danger">Field is required.</span>
+                                  </div>
+                                  <div
+                                    *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('max') && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
+                                    <span class="login-danger">Applied Tax (%) must be less than 100.</span>
+                                  </div>
+                                  <div
+                                    *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('min') && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
+                                    <span class="login-danger">Applied Tax (%) must be greater than 0.</span>
+                                  </div>
                                 </div>
                               </div>
                               <div class="col-md-6 col-sm-6">
@@ -1304,7 +1327,7 @@
                                     .get('taxVendorAmount')?.value">
                                       {{ '₹' + ' ' +
                                       addNewPurchaseForm
-                                      .get("taxVendorAmount")?.value 
+                                      .get("taxVendorAmount")?.value
                                       }}
                                     </p>
                                   </div>
@@ -1397,9 +1420,10 @@
                                 </span>
                               </p>
                               <p>
-                                Purchase Discount ( added )
+                                Purchase Discount (added)
                                 <span>₹
-                                  {{ addNewPurchaseForm.get("purchaseDiscount").value }}
+                                  {{ addNewPurchaseForm.get("purchaseDiscount").value || 0.00 | number:'1.2-2' }}
+
                                 </span>
                               </p>
                             </div>

@@ -110,10 +110,6 @@ export class ListBlocksComponent implements OnInit {
     this.getBlockProcessorList();
   }
 
-  onFilter(value: any): void {
-    this.data = value.filteredValue;
-    console.log(value.filteredValue);
-  }
 
   getUnProcessedList(): void {
     this.lotService.getUnProcessedList().subscribe((resp: any) => {
