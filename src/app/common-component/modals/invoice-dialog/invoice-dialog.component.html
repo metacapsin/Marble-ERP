@@ -444,11 +444,18 @@
                           <td>{{ sales.slabDetails[0].subCategoryDetail.name }}</td>
                           <td>{{ sales.slabDetails[0].warehouseDetails.name }}</td>
                           <td>
-                            ₹ {{ sales.slabDetails[0].sellingPricePerSQFT | indianCurrency }}
+                            ₹
+                            {{
+                            sales.slabDetails[0].sellingPricePerSQFT
+                            | indianCurrency
+                            }}
                           </td>
                           <td>{{ sales.slabDetails[0].totalSQFT }}</td>
                           <td>
-                            ₹ {{ sales.slabDetails[0].purchaseCost | indianCurrency }}
+                            ₹
+                            {{
+                            sales.slabDetails[0].purchaseCost
+                            }}
                           </td>
                         </tr>
                       </ng-template>
