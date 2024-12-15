@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, NgForm } from "@angular/forms";
 import { AddLotComponent } from "../../Product/lot/add-lot/add-lot.component";
 import { AddSlabsComponent } from "../../Product/slabs/add-slabs/add-slabs.component";
 import { WarehouseService } from "../../settings/warehouse/warehouse.service";
@@ -16,11 +16,13 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 import { validationRegex } from "../../validation";
 import { TaxesService } from "../../settings/taxes/taxes.service";
 import { TaxVendorsService } from "../../tax-vendors/tax-vendors.service";
+import { blockProcessorService } from "../../block-processor/block-processor.service";
+import { AddSlabPurchaseComponent } from "../add-slab-purchase/add-slab-purchase.component";
 
 @Component({
   selector: "app-add-new-purchase",
   standalone: true,
-  imports: [SharedModule, AddLotComponent, AddSlabsComponent],
+  imports: [SharedModule, AddLotComponent, AddSlabsComponent,AddSlabPurchaseComponent],
   templateUrl: "./add-new-purchase.component.html",
   styleUrl: "./add-new-purchase.component.scss",
   providers: [MessageService],
@@ -41,6 +43,23 @@ export class AddNewPurchaseComponent implements OnInit {
   SubCategoryListsEditArray: any;
   subCategoryList: any;
   CategoryListsEditArray: any;
+  blockNo: string;
+  height: number;
+  width: number;
+  length: number;
+  totalArea: number;
+  totalBlocksArea: number = 0;
+  blocksDetails = [];
+  addvisible: boolean = false;
+  weightPerBlock: number;
+  taxAmountCosting: number;
+  rawCosting: number;
+  transportationCosting: number;
+  royaltyCosting: number;
+  totalCosting: number;
+  isProcessed: boolean = false;
+  blockProcessorList: any = [];
+
   categoryList: any;
   finishes = [
     { name: "Polished" },
@@ -60,9 +79,12 @@ export class AddNewPurchaseComponent implements OnInit {
   taxesListData: any;
   orderTaxList: any;
   LotPayload: any;
+  blockProcessor: any;
   constructor(
     private router: Router,
     private fb: FormBuilder,
+    private cdRef: ChangeDetectorRef,
+    private ServiceblockProcessor: blockProcessorService,
     private WarehouseService: WarehouseService,
     private categoriesService: CategoriesService,
     private SuppliersdataService: SuppliersdataService,
@@ -216,7 +238,99 @@ export class AddNewPurchaseComponent implements OnInit {
         });
       });
     });
+    this.ServiceblockProcessor.getAllBlockProcessorData().subscribe(
+      (data: any) => {
+        this.blockProcessorList = [];
+        data.forEach((element: any) => {
+          this.blockProcessorList.push({
+            name: element.name,
+            _id: {
+              _id: element._id,
+              name: element.name,
+            },
+          });
+        });
+      }
+    );
   }
+  getblockDetails() {
+    if (
+      isNaN(this.height) ||
+      isNaN(this.width) ||
+      isNaN(this.length) ||
+      this.height === null ||
+      this.width === null ||
+      this.length === null
+    ) {
+      return;
+    }
+    this.totalArea = this.height * this.width * this.length;
+  }
+
+  addBlockDialog() {
+    this.blockNo = "";
+    this.height = null;
+    this.width = null;
+    this.length = null;
+    this.totalArea = null;
+    this.addvisible = true;
+  }
+  clossBlock(myForm: NgForm) {
+    this.addvisible = false;
+    myForm.resetForm();
+  }
+  deleteAccordian(index: number) {
+    this.totalBlocksArea -= Number(this.blocksDetails[index].totalArea);
+    this.blocksDetails.splice(index, 1);
+    this.calculateTotalAmount();
+  }
+
+   addBlock(myForm: NgForm) {
+      this.addvisible = false;
+      this.cdRef.detectChanges();
+  
+      if (
+        !this.blockNo ||
+        this.height === null ||
+        this.width === null ||
+        this.length === null
+      ) {
+        const message = "Please fill all required fields.";
+        this.messageService.add({ severity: "error", detail: message });
+        return;
+      }
+  
+      const newBlock = {
+        blockNo: this.blockNo,
+        height: this.height,
+        width: this.width,
+        length: this.length,
+        totalArea: this.totalArea,
+        weightPerBlock: this.weightPerBlock,
+        rawCosting: this.rawCosting,
+        transportationCosting: this.transportationCosting,
+        royaltyCosting: this.royaltyCosting,
+        taxAmountCosting: this.taxAmountCosting,
+        totalCosting: this.totalCosting,
+        blockProcessor: this.blockProcessor,
+        isProcessed: this.isProcessed,
+      };
+  
+      this.blocksDetails.push(newBlock);
+      this.totalBlocksArea += Number(this.totalArea);
+  
+      this.blockNo = "";
+      this.height = null;
+      this.width = null;
+      this.length = null;
+      this.totalArea = null;
+      this.blockProcessor = null;
+  
+      this.calculateTotalAmount();
+  
+      // Reset the form to clear validation messages
+      myForm.resetForm();
+    }
 
   findSubCategory(value: any) {
     let SubCategoryData: any = [];
