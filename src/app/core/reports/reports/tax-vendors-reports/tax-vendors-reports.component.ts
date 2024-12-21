@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
-import { routes } from 'src/app/shared/routes/routes';
-import { ReportsService } from '../reports.service';
+import { Component } from "@angular/core";
+import { routes } from "src/app/shared/routes/routes";
+import { ReportsService } from "../reports.service";
 
 @Component({
-  selector: 'app-tax-vendors-reports',
-  templateUrl: './tax-vendors-reports.component.html',
-  styleUrl: './tax-vendors-reports.component.scss'
+  selector: "app-tax-vendors-reports",
+  templateUrl: "./tax-vendors-reports.component.html",
+  styleUrl: "./tax-vendors-reports.component.scss",
 })
 export class TaxVendorsReportsComponent {
-
   public routes = routes;
   picker1: any;
   searchDataValue = "";
@@ -17,8 +16,8 @@ export class TaxVendorsReportsComponent {
   endDate: Date;
 
   taxVendorsReportsData = [];
-  originalData = [];
-  originalDataReports:string = 'originalDataReports'
+  originalData: any = [];
+  originalDataReports: string = "originalDataReports";
 
   cols = [];
   exportColumns = [];
@@ -34,10 +33,10 @@ export class TaxVendorsReportsComponent {
   ];
   searchBy: string;
 
-  constructor(private service: ReportsService){}
+  constructor(private service: ReportsService) {}
 
   private formatDateForFilename(date: Date): string {
-    return date.toLocaleDateString('en-GB').replace(/\//g, '-'); // e.g., 19-02-2024
+    return date.toLocaleDateString("en-GB").replace(/\//g, "-"); // e.g., 19-02-2024
   }
 
   // Function to generate the export filename
@@ -62,19 +61,22 @@ export class TaxVendorsReportsComponent {
 
     this.service.getTaxVendorReports(data).subscribe((resp: any) => {
       this.taxVendorsReportsData = resp.sales;
-      console.log("this is tax vendors reports data",this.taxVendorsReportsData)
-      this.originalData = resp.sales;
+      console.log(
+        "this is tax vendors reports data",
+        this.taxVendorsReportsData
+      );
+      this.originalData = resp;
 
       console.log("this is original data", this.originalData);
 
       this.cols = [
-        { 
+        {
           field: (item: any) => item.salesDate || item.purchaseDate,
           header: "Date",
           export: (item: any) => {
             const date = item.salesDate || item.purchaseDate;
-            return date ? new Date(date).toLocaleDateString() : '';
-          }
+            return date ? new Date(date).toLocaleDateString() : "";
+          },
         },
         { field: "taxVendor.companyName", header: "Company Name" },
         { field: "source", header: "Source" },
