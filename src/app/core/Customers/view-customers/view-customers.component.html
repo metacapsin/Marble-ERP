@@ -229,7 +229,7 @@
             <ng-template pTemplate="footer">
               <tr
                 *ngIf="salesTotalValues.totalPaidAmount > 0 || salesTotalValues.totalDueAmount > 0 || salesTotalValues.totalAmount > 0">
-                <td colspan="2"></td>
+                <td colspan="3"></td>
                 <td>Total</td>
                 <td>₹ {{ salesTotalValues.totalPaidAmount | indianCurrency }}</td>
                 <td class="text-danger-dark">₹ {{ salesTotalValues.totalDueAmount | indianCurrency }}</td>
@@ -371,8 +371,8 @@
                 <td>{{ product.paymentMode }}</td>
                 <td>₹ {{ product.amount | indianCurrency }}</td>
                 <td>
-                  <p-button [text]="true" icon="fa fa-trash" (click)="deleteSalesPayment(product._id)"
-                    pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                  <p-button [text]="true" icon="fa fa-trash" (click)="deleteSalesPayment(product._id)" pTooltip="Delete"
+                    tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                 </td>
               </tr>
               <tr *ngIf="product.expanded">
