@@ -349,7 +349,7 @@ export class AddLotComponent {
         ? lotWeightmultiPricePerton - taxableAmount
         : lotWeightmultiPricePerton;
 
-      this.maxPurchaseAmount = lotWeightmultiPricePerton - 10000;
+      this.maxPurchaseAmount = lotWeightmultiPricePerton;
 
       form.patchValue({
         nonTaxableAmount,
