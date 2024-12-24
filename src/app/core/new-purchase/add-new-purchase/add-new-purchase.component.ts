@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  viewChild,
+  ViewChild,
+} from "@angular/core";
 import { Router } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
@@ -22,13 +29,19 @@ import { AddSlabPurchaseComponent } from "../add-slab-purchase/add-slab-purchase
 @Component({
   selector: "app-add-new-purchase",
   standalone: true,
-  imports: [SharedModule, AddLotComponent, AddSlabsComponent,AddSlabPurchaseComponent],
+  imports: [
+    SharedModule,
+    AddLotComponent,
+    AddSlabsComponent,
+    AddSlabPurchaseComponent,
+  ],
   templateUrl: "./add-new-purchase.component.html",
   styleUrl: "./add-new-purchase.component.scss",
   providers: [MessageService],
 })
-export class AddNewPurchaseComponent implements OnInit {
+export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   @ViewChild(AddLotComponent) child!: AddLotComponent;
+  @ViewChild(AddSlabPurchaseComponent) slabChild!: AddSlabPurchaseComponent;
   public routes = routes;
   maxDate = new Date();
   SupplierLists: any[];
@@ -80,6 +93,7 @@ export class AddNewPurchaseComponent implements OnInit {
   orderTaxList: any;
   LotPayload: any;
   blockProcessor: any;
+  slabDetails: any;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -96,48 +110,49 @@ export class AddNewPurchaseComponent implements OnInit {
     private taxVendorsService: TaxVendorsService
   ) {
     this.addNewPurchaseForm = this.fb.group({
+      // paidToSupplierPurchaseCost: [
+      //   "",
+      //   [Validators.min(0), Validators.max(9999999), Validators.required],
+      // ],
+
+      // slabNo: [
+      //   "",
+      //   [Validators.required, Validators.pattern(this.invoiceRegex)],
+      // ],
+      // slabName: [
+      //   "",
+      //   [Validators.required, Validators.pattern(this.invoiceRegex)],
+      // ],
+      // warehouseDetails: ["", [Validators.required]],
+      // categoryDetail: ["", [Validators.required]],
+      // subCategoryDetail: ["", [Validators.required]],
+      // totalSQFT: [
+      //   "",
+      //   [Validators.required, Validators.min(1), Validators.max(100000)],
+      // ],
+      // width: ["", [Validators.min(1), Validators.max(100000)]],
+      // length: ["", [Validators.min(1), Validators.max(100000)]],
+      // thickness: ["", [Validators.min(1), Validators.max(1000)]],
+      // finishes: ["", [Validators.required]],
+      // sellingPricePerSQFT: ["", [Validators.min(1), Validators.max(100000)]],
+      // transportationCharges: ["", [Validators.min(1), Validators.max(100000)]],
+      // otherCharges: ["", [Validators.min(1), Validators.max(100000)]],
+      // costPerSQFT: [""],
+      // noOfPieces: [
+      //   "",
+      //   [Validators.required, Validators.min(1), Validators.max(100000)],
+      // ],
+      totalCosting: [""],
       invoiceNumber: ["", [Validators.pattern(this.invoiceRegex)]],
       purchaseDate: ["", Validators.required],
       supplier: ["", [Validators.required]],
-      paidToSupplierPurchaseCost: [
-        "",
-        [Validators.min(0), Validators.max(9999999), Validators.required],
-      ],
       purchaseType: ["", [Validators.required]],
 
       purchaseNotes: [
         "",
         [Validators.pattern(validationRegex.address3To500Regex)],
       ],
-      slabNo: [
-        "",
-        [Validators.required, Validators.pattern(this.invoiceRegex)],
-      ],
-      slabName: [
-        "",
-        [Validators.required, Validators.pattern(this.invoiceRegex)],
-      ],
-      warehouseDetails: ["", [Validators.required]],
-      categoryDetail: ["", [Validators.required]],
-      subCategoryDetail: ["", [Validators.required]],
-      totalSQFT: [
-        "",
-        [Validators.required, Validators.min(1), Validators.max(100000)],
-      ],
-      width: ["", [Validators.min(1), Validators.max(100000)]],
-      length: ["", [Validators.min(1), Validators.max(100000)]],
-      thickness: ["", [Validators.min(1), Validators.max(1000)]],
-      finishes: ["", [Validators.required]],
-      sellingPricePerSQFT: ["", [Validators.min(1), Validators.max(100000)]],
-      transportationCharges: ["", [Validators.min(1), Validators.max(100000)]],
-      otherCharges: ["", [Validators.min(1), Validators.max(100000)]],
-      totalCosting: [""],
-      costPerSQFT: [""],
-      sqftPerPiece: [""],
-      noOfPieces: [
-        "",
-        [Validators.required, Validators.min(1), Validators.max(100000)],
-      ],
+      slabDetails: [""],
       purchaseDiscount: ["", [Validators.min(0)]],
       taxableAmount: ["", [Validators.min(0), Validators.max(9999999)]],
       purchaseItemTax: [""],
@@ -151,7 +166,13 @@ export class AddNewPurchaseComponent implements OnInit {
     });
   }
 
+  handleBeforeUnload = (): void => {
+    if (localStorage.getItem("slabAddForm")) {
+      localStorage.removeItem("slabAddForm");
+    }
+  };
   ngOnInit() {
+    window.addEventListener("beforeunload", this.handleBeforeUnload);
     this.NewPurchaseService.clearFormData();
     this.supplier = this.localStorageService.getItem("supplier");
     this.returnUrl = this.localStorageService.getItem("returnUrl");
@@ -238,43 +259,44 @@ export class AddNewPurchaseComponent implements OnInit {
         });
       });
     });
-    this.ServiceblockProcessor.getAllBlockProcessorData().subscribe(
-      (data: any) => {
-        this.blockProcessorList = [];
-        data.forEach((element: any) => {
-          this.blockProcessorList.push({
-            name: element.name,
-            _id: {
-              _id: element._id,
-              name: element.name,
-            },
-          });
-        });
-      }
-    );
+    // this.ServiceblockProcessor.getAllBlockProcessorData().subscribe(
+    //   (data: any) => {
+    //     this.blockProcessorList = [];
+    //     data.forEach((element: any) => {
+    //       this.blockProcessorList.push({
+    //         name: element.name,
+    //         _id: {
+    //           _id: element._id,
+    //           name: element.name,
+    //         },
+    //       });
+    //     });
+    //   }
+    // );
   }
-  getblockDetails() {
-    if (
-      isNaN(this.height) ||
-      isNaN(this.width) ||
-      isNaN(this.length) ||
-      this.height === null ||
-      this.width === null ||
-      this.length === null
-    ) {
-      return;
-    }
-    this.totalArea = this.height * this.width * this.length;
-  }
+  // getblockDetails() {
+  //   if (
+  //     isNaN(this.height) ||
+  //     isNaN(this.width) ||
+  //     isNaN(this.length) ||
+  //     this.height === null ||
+  //     this.width === null ||
+  //     this.length === null
+  //   ) {
+  //     return;
+  //   }
+  //   this.totalArea = this.height * this.width * this.length;
+  // }
 
-  addBlockDialog() {
-    this.blockNo = "";
-    this.height = null;
-    this.width = null;
-    this.length = null;
-    this.totalArea = null;
-    this.addvisible = true;
-  }
+  // addBlockDialog() {
+  //   this.blockNo = "";
+  //   this.height = null;
+  //   this.width = null;
+  //   this.length = null;
+  //   this.totalArea = null;
+  //   this.addvisible = true;
+  // }
+
   clossBlock(myForm: NgForm) {
     this.addvisible = false;
     myForm.resetForm();
@@ -284,53 +306,6 @@ export class AddNewPurchaseComponent implements OnInit {
     this.blocksDetails.splice(index, 1);
     this.calculateTotalAmount();
   }
-
-   addBlock(myForm: NgForm) {
-      this.addvisible = false;
-      this.cdRef.detectChanges();
-  
-      if (
-        !this.blockNo ||
-        this.height === null ||
-        this.width === null ||
-        this.length === null
-      ) {
-        const message = "Please fill all required fields.";
-        this.messageService.add({ severity: "error", detail: message });
-        return;
-      }
-  
-      const newBlock = {
-        blockNo: this.blockNo,
-        height: this.height,
-        width: this.width,
-        length: this.length,
-        totalArea: this.totalArea,
-        weightPerBlock: this.weightPerBlock,
-        rawCosting: this.rawCosting,
-        transportationCosting: this.transportationCosting,
-        royaltyCosting: this.royaltyCosting,
-        taxAmountCosting: this.taxAmountCosting,
-        totalCosting: this.totalCosting,
-        blockProcessor: this.blockProcessor,
-        isProcessed: this.isProcessed,
-      };
-  
-      this.blocksDetails.push(newBlock);
-      this.totalBlocksArea += Number(this.totalArea);
-  
-      this.blockNo = "";
-      this.height = null;
-      this.width = null;
-      this.length = null;
-      this.totalArea = null;
-      this.blockProcessor = null;
-  
-      this.calculateTotalAmount();
-  
-      // Reset the form to clear validation messages
-      myForm.resetForm();
-    }
 
   findSubCategory(value: any) {
     let SubCategoryData: any = [];
@@ -348,7 +323,13 @@ export class AddNewPurchaseComponent implements OnInit {
   }
   
 
-  backStep(prevCallback: any) {
+  backStep(prevCallback: any, type: string) {
+    // this.slabChild?.onBackButton();
+    // console.log('backStep called with', { prevCallback, type, slabChild: this.slabChild });
+    // console.log(this.slabChild?.onBackButton());
+    // if (this.lotTypeValue == type) {
+    // }
+    console.log(this.lotTypeValue, type);
     prevCallback.emit();
     this.addNewPurchaseForm.get("taxVendor").clearValidators();
     this.addNewPurchaseForm.get("taxVendorAmount").clearValidators();
@@ -376,9 +357,24 @@ export class AddNewPurchaseComponent implements OnInit {
           taxApplied: this.ItemDetails?.taxApplied,
         });
       }
+      if (this.lotTypeValue == "Slab") {
+        this.slabChild?.slabAddFormSubmit();
+        console.log(this.slabChild?.slabAddFormSubmit());
+        const slabDetails = JSON.parse(localStorage.getItem("slabAddForm"));
+        console.log(slabDetails);
+        this.slabDetails = slabDetails.addSlab;
+        this.addNewPurchaseForm.patchValue({
+          slabDetails: slabDetails,
+        });
+        this.patchTotalCosting(slabDetails.totalCost);
+      }
     }
     nextCallback.emit();
     this.changeVaidationForTaxVendor();
+  }
+
+  patchTotalCosting(totalCost?: number) {
+    this.addNewPurchaseForm.get("totalCosting").setValue(totalCost);
   }
 
   lotType(value: any) {
@@ -468,7 +464,7 @@ export class AddNewPurchaseComponent implements OnInit {
       let costPerSQFT = this.addNewPurchaseForm.get("costPerSQFT")?.value || 0;
       let purchaseDiscount =
         this.addNewPurchaseForm.get("purchaseDiscount")?.value || 0;
-      let noOfPieces = this.addNewPurchaseForm.get("noOfPieces")?.value || 1; // Default to 1 to avoid division by zero
+      let noOfPieces = this.addNewPurchaseForm.get("noOfPieces")?.value || 1;
       let taxableAmount =
         this.addNewPurchaseForm.get("taxableAmount")?.value || 0;
       let nonTaxable = this.addNewPurchaseForm.get("nonTaxable")?.value || 0;
@@ -632,52 +628,30 @@ export class AddNewPurchaseComponent implements OnInit {
         taxApplied: formData.taxApplied,
       };
     } else {
-      if (formData.width || formData.length || formData.thickness) {
-        var _Size = `${formData.width ? formData.width : " "} x ${
-          formData.length ? formData.length : " "
-        } x ${formData.thickness ? formData.thickness : " "}`;
-      }
-      payload = {
-        purchaseInvoiceNumber: formData.invoiceNumber,
-        supplier: formData.supplier,
-        purchaseDate: formData.purchaseDate,
-        purchaseType: "slab",
-        purchaseNotes: formData.purchaseNotes,
-        purchaseCost: Number(formData.paidToSupplierPurchaseCost),
-        slabDetail: {
-          slabNo: formData.slabNo,
-          slabName: formData.slabName,
-          warehouseDetails: formData.warehouseDetails,
-          categoryDetail: formData.categoryDetail,
-          subCategoryDetail: formData.subCategoryDetail,
-          totalSQFT: formData.totalSQFT,
-          width: formData.width,
-          length: formData.length,
-          thickness: formData.thickness,
-          finishes: formData.finishes,
-          sellingPricePerSQFT: Number(formData.sellingPricePerSQFT),
-          transportationCharges: Number(formData.transportationCharges),
-          otherCharges: Number(formData.otherCharges),
-          totalCosting: Number(formData.totalCosting),
-          costPerSQFT: Number(formData.costPerSQFT),
-          slabSize: _Size,
-          purchaseCost: Number(formData.paidToSupplierPurchaseCost),
-          purchaseDiscount: Number(formData.purchaseDiscount),
-          sqftPerPiece: Number(formData.sqftPerPiece.toFixed(2)),
-          noOfPieces: Number(formData.noOfPieces.toFixed(2)),
-          date: formData.purchaseDate,
-          notes: formData.purchaseNotes,
-        },
-        purchaseTotalAmount: Number(formData.totalCosting),
-        nonTaxable: Number(formData.nonTaxable),
-        taxableAmount: Number(formData.taxableAmount),
-        taxable: formData.taxable,
-        purchaseItemTax: formData.purchaseItemTax,
-        taxVendor: this.addNewPurchaseForm.get("isTaxVendor").value
-          ? taxVenoderObj
-          : null,
-        taxApplied: formData.taxApplied,
-      };
+      // if (formData.width || formData.length || formData.thickness) {
+      // var _Size = `${formData.width ? formData.width : " "} x ${
+      //   formData.length ? formData.length : " "
+      // } x ${formData.thickness ? formData.thickness : " "}`;
+      // }
+      // payload = {
+      // purchaseInvoiceNumber: formData.invoiceNumber,
+      // supplier: formData.supplier,
+      // purchaseDate: formData.purchaseDate,
+      // purchaseType: "slab",
+      // purchaseNotes: formData.purchaseNotes,
+      // purchaseCost: Number(formData.paidToSupplierPurchaseCost),
+      // slabDetail: formData.slabDetails,
+      // purchaseTotalAmount: Number(formData.totalCosting),
+      // nonTaxable: Number(formData.nonTaxable),
+      // taxableAmount: Number(formData.taxableAmount),
+      // taxable: formData.taxable,
+      // purchaseItemTax: formData.purchaseItemTax,
+      // taxVendor: this.addNewPurchaseForm.get("isTaxVendor").value
+      //   ? taxVenoderObj
+      //   : null,
+      // taxApplied: formData.taxApplied,
+      // };
+      payload = this.slabSelected(formData) as any;
     }
     if (this.addNewPurchaseForm.valid) {
       this.NewPurchaseService.createPurchase(payload).subscribe((resp: any) => {
@@ -698,5 +672,102 @@ export class AddNewPurchaseComponent implements OnInit {
     } else {
       console.log("form is not valid");
     }
+  }
+
+  slabSelected(formData?: any): any {
+    const {
+      paidToSupplierPurchaseCost,
+      nonTaxable,
+      taxable,
+      taxableAmount,
+      slabDetails,
+      royaltyCharge,
+      transportationCharge,
+      slabDiscount,
+      squarefeet
+    } = this.addSlabPNTTT(formData.slabDetails);
+    return {
+      purchaseInvoiceNumber: formData.invoiceNumber,
+      supplier: formData.supplier,
+      purchaseDate: formData.purchaseDate,
+      purchaseType: "slab",
+      purchaseNotes: formData.purchaseNotes,
+      purchaseTotalAmount: Number(formData.totalCosting),
+      slabDetail: slabDetails,
+      purchaseCost: Number(paidToSupplierPurchaseCost),
+      totalCosting: Number(paidToSupplierPurchaseCost),
+      nonTaxable: Number(nonTaxable),
+      taxableAmount: Number(taxableAmount),
+      taxable: Number(taxable),
+      otherCharges: Number(royaltyCharge),
+      transportationCharges: Number(transportationCharge),
+      purchaseDiscount: Number(slabDiscount),
+      purchaseItemTax: formData.purchaseItemTax,
+      taxVendor: null,
+      taxApplied: formData.taxApplied,
+      totalSQFT: squarefeet
+    };
+  }
+
+  addSlabPNTTT(formData?: any) {
+    let paidToSupplierPurchaseCost = 0;
+    let nonTaxable = 0;
+    let taxable = 0;
+    let taxableAmount = 0;
+    let slabDetails = [];
+    let transportationCharge = 0;
+    let royaltyCharge = 0;
+    let slabDiscount = 0;
+    let squarefeet = 0;
+    let warehouseDetails:any;
+    slabDiscount = formData.slabDiscount || 0;
+    transportationCharge = formData.transportationCharge || 0;
+    royaltyCharge = formData.royaltyCharge || 0;
+    warehouseDetails = formData.warehouseDetails;
+    formData.addSlab?.forEach((item) => {
+      slabDetails.push({
+        slabName: item.slabName,
+        slabNo: item.slabNumber || "",
+        categoryDetail: item.categoryDetail || "",
+        subCategoryDetail: item.subCategoryDetail || "",
+        sellingPricePerSQFT: item.sellingprice,
+        width: Number(item.width) || "",
+        length: Number(item.length) || "",
+        thikness: Number(item.thikness) || "",
+        finishes: Number(item.finishes) || "",
+        costPerSQFT: Number(item.costPerSQFT),
+        taxableAmount: Number(item.taxableAmount) || "",
+        squarefeet: Number(item.squarefeet) || "",
+        noOfPieces: Number(item.numberOfPieces) || "",
+        sqftPerPiece: Number(item.sqftPerPiece),
+        taxable: Number(item.taxable) || "",
+        nonTaxable: Number(item.nonTaxable) || "",
+        taxApplied: Number(item.taxApplied) || "",
+        paidToSupplierSlabCost: Number(item.paidToSupplierSlabCost) || "",
+        slabSize: `${item.width ? item.width : " "} x ${
+          item.length ? item.length : " "
+        } x ${item.thickness ? item.thickness : " "}`,
+      });
+      paidToSupplierPurchaseCost += Number(item.paidToSupplierSlabCost) || 0;
+      nonTaxable += Number(item.nonTaxable) || 0;
+      taxable += Number(item.taxable) || 0;
+      taxableAmount += Number(item.taxableAmount) || 0;
+      squarefeet += Number(item.squarefeet) || 0;
+    });
+    return {
+      taxable,
+      nonTaxable,
+      taxableAmount,
+      paidToSupplierPurchaseCost,
+      slabDetails,
+      royaltyCharge,
+      transportationCharge,
+      slabDiscount,
+      squarefeet
+    };
+  }
+
+  ngOnDestroy(): void {
+    this.handleBeforeUnload();
   }
 }

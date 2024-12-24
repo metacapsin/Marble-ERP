@@ -1,74 +1,46 @@
-import { ChangeDetectorRef, Component } from "@angular/core";
-import { FormBuilder, FormGroup, NgForm, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
 import { MessageService } from "primeng/api";
 import { NewPurchaseService } from "src/app/core/new-purchase/new-purchase.service";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
-import { atLeastOneRequiredValidator, validationRegex } from "src/app/core/validation";
+import { atLeastOneRequiredValidator } from "src/app/core/validation";
 import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
 import { TaxesService } from "src/app/core/settings/taxes/taxes.service";
 import { CategoriesService } from "src/app/core/settings/categories/categories.service";
 import { SubCategoriesService } from "src/app/core/settings/sub-categories/sub-categories.service";
 @Component({
-  selector: 'app-add-slab-purchase',
+  selector: "app-add-slab-purchase",
   standalone: true,
   imports: [SharedModule],
   providers: [MessageService],
-  templateUrl: './add-slab-purchase.component.html',
-  styleUrl: './add-slab-purchase.component.scss'
+  templateUrl: "./add-slab-purchase.component.html",
+  styleUrl: "./add-slab-purchase.component.scss",
 })
 export class AddSlabPurchaseComponent {
-  lotAddForm: FormGroup;
-  maxDate = new Date();
+  slabAddForm: FormGroup;
   public routes = routes;
-  activeIndex: number[] = [0]; // or any other indices you want active by default
-  totalBlocksArea: number = 0;
-  blocksDetails = [];
-  vehicleNo: string;
-  slabName:string;
-  category:string;
-  subcategory:string;
-  finishes:any;
-  width: number;
-  length: number;
-  thikness:any;
-  taxableAmount:number;
-  nonTaxableAmount:number;
-  paidToSupplierPurchaseCost:number;
-  squarefeet:number;
-  numberofprices:number;
-  sellingprice:number;
-  costsquarefeet:number;
-
-  height: number;
-  totalArea: number;
-  weightPerBlock: number;
-  taxAmountCosting: number;
-  rawCosting: number;
-  transportationCosting: number;
-  royaltyCosting: number;
-  totalCosting: number;
-  isProcessed: boolean = false;
-  addvisible: boolean = false;
+  activeIndex: number;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
-  lotTotalCost: number = 0;
-  previousLotTotalCost: number = 0;
-  wareHousedata: any = [];
-  blockProcessorList: any = [];
-  blockProcessor: any = {};
-  orderTaxList: any[];
+  wareHousedata: any[] = [];
+  orderTaxList: any[] = [];
   taxesListData: any;
-  rowCosting: number;
-  categoryList: any[];
-  CategoryListsEditArray: any[];
-
-  allSubCategoryList: any = [];
-  subCategorListByCategory: any = [];
-  maxPurchaseAmount = 0;
+  categoryList: any[] = [];
+  CategoryListsEditArray: any[] = [];
+  allSubCategoryList: any[] = [];
+  subCategorListByCategory: any[] = [];
   previouslotData: any;
-  blockNo: any;
+  addvisible: any;
+  slabDetails: any;
+  maxPurchaseAmount: any;
+  JSON = JSON;
+  finishes = [
+    { name: "Polished" },
+    { name: "Unpolished" },
+    { name: "Semi polished" },
+  ];
+  taxableAmount = false;
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
@@ -80,47 +52,73 @@ export class AddSlabPurchaseComponent {
     private ServiceblockProcessor: blockProcessorService,
     private taxService: TaxesService
   ) {
-    this.lotAddForm = this.fb.group({
-      // lotNo: ["", [Validators.required, Validators.pattern(validationRegex.oneToFiftyCharRegex)]],
-      // lotName: ["",
-      //   [
-      //     Validators.required,
-      //     Validators.pattern(validationRegex.oneToFiftyCharRegex),
-      //   ],
-      // ],
-      vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
-      warehouse: ["", [Validators.required]],
-      // lotWeight: [
-      //   "",
-      //   [Validators.required, Validators.min(1), Validators.max(10000)],
-      // ],
-      // pricePerTon: [
-      //   "",
-      //   [Validators.required, Validators.min(1), Validators.max(1000000)],
-      // ],
-      paidToSupplierLotCost: ["",],
-      purchaseDiscount: ["", [Validators.min(0),]],
-      transportationCharge: ["", [Validators.min(0), Validators.max(100000)]],
-      royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
-      lotRowCost: [""],
-      totalCosting:[""],
-      blocksCount: [""],
-      averageWeight: [""],
-      nonTaxableAmount: [""],
-      taxableAmount: [""],
-      ItemTax: [""],
-      taxable: [""],
-      taxApplied: [""],
-      averageTransport: [""],
-      averageRoyalty: [""],
-      // categoryDetail: ["", [Validators.required]],
-      // subCategoryDetail: ["", [Validators.required]],
-      totalTransportationCharges: [""],
-    }, { validators: atLeastOneRequiredValidator() });
+    this.initForm();
   }
-  ngOnInit(): void {
-    this.previouslotData = this.NewPurchaseService.getFormData("stepFirstLotData");
 
+  private initForm(): void {
+    this.slabAddForm = this.fb.group(
+      {
+        vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
+        warehouseDetails: ["", [Validators.required]],
+        paidToSupplierSlabCost: [""],
+        transportationCharge: ["", [Validators.min(0), Validators.max(100000)]],
+        royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
+        totalCost: [""],
+        taxableAmount: [""],
+        slabDiscount: [""],
+        taxable: [""],
+        taxAmount: [""],
+        costPerSQFT: [""],
+        taxApplied: [""],
+        nonTaxable: [""],
+        totalSQFeet: [""],
+        addSlab: this.fb.array([]),
+      },
+      { validators: atLeastOneRequiredValidator() }
+    );
+  }
+
+  createSlabGroup(): FormGroup {
+    return this.fb.group({
+      slabName: ["", Validators.required],
+      slabNumber: [""],
+      width: [""],
+      length: [""],
+      thickness: [""],
+      finishes: ["", Validators.required],
+      subCategoryDetail: ["", Validators.required],
+      categoryDetail: ["", Validators.required],
+      numberOfPieces: ["", Validators.required],
+      costPerSQFT: [""],
+      quantity: [""],
+      ratePerSqFeet: [""],
+      totalAmount: [""],
+    });
+  }
+
+  get addSlab(): FormArray {
+    return this.slabAddForm.get("addSlab") as FormArray;
+  }
+
+  addNewSlab(): void {
+    this.addSlab.push(this.createSlabGroup());
+  }
+
+  removeSlab(index: number): void {
+    console.log("Removing index:", index);
+    this.addSlab.removeAt(index);
+    console.log("Updated array:", this.addSlab.value);
+    this.slabAddFormSubmit();
+    this.savaSlab();
+  }
+
+  ngOnInit(): void {
+    this.loadInitialData();
+    this.setupFormSubscriptions();
+    this.onBackButton();
+  }
+
+  private loadInitialData(): void {
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data.map((element: any) => ({
         name: element.name,
@@ -129,350 +127,263 @@ export class AddSlabPurchaseComponent {
           _id: element._id,
         },
       }));
-
     });
+
+    this.loadCategories();
+    this.loadSubCategories();
+    this.loadTaxes();
+  }
+
+  private loadCategories(): void {
     this.categoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
-      this.CategoryListsEditArray = [];
-      this.categoryList.forEach((element: any) => {
-        this.CategoryListsEditArray.push({
+      this.CategoryListsEditArray = this.categoryList.map((element) => ({
+        name: element.name,
+        _id: {
+          _id: element._id,
           name: element.name,
-          _id: {
-            _id: element._id,
-            name: element.name,
-          },
-        });
-      });
+        },
+      }));
     });
+  }
+
+  private loadSubCategories(): void {
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.allSubCategoryList = resp.data;
-      // this.allSubCategoryList.forEach((element: any) => {
-      //   this.SubCategoryListsEditArray.push({
-      //     name: element.name,
-      //     _id: {
-      //       _id: element._id,
-      //       name: element.name,
-      //     },
-      //   });
-      // });
-      if(this.allSubCategoryList && this.previouslotData){
-        this.findSubCategory(this.previouslotData?.categoryDetail)
+      if (this.allSubCategoryList && this.previouslotData) {
+        this.findSubCategory(this.previouslotData?.categoryDetail);
       }
     });
+  }
 
-    this.lotAddForm.get("vehicleNo")?.valueChanges.subscribe((value) => {
+  private loadTaxes(): void {
+    this.taxService.getAllTaxList().subscribe((resp: any) => {
+      this.taxesListData = resp.data;
+      this.orderTaxList = this.taxesListData.map((element: any) => ({
+        orderTaxName: `${element.name} (${element.taxRate}%)`,
+        orderNamevalue: element,
+      }));
+    });
+  }
+
+  public setValidations(formControlName: string) {
+    return (
+      this.slabAddForm.get(formControlName)?.invalid &&
+      (this.slabAddForm.get(formControlName)?.dirty ||
+        this.slabAddForm.get(formControlName)?.touched)
+    );
+  }
+
+  private setupFormSubscriptions(): void {
+    this.slabAddForm.get("vehicleNo")?.valueChanges.subscribe((value) => {
       if (value) {
         const upperCaseValue = value.toUpperCase();
-        this.lotAddForm
+        this.slabAddForm
           .get("vehicleNo")
           ?.setValue(upperCaseValue, { emitEvent: false });
       }
     });
-    this.taxService.getAllTaxList().subscribe((resp: any) => {
-      this.taxesListData = resp.data;
-      this.orderTaxList = [];
-      this.taxesListData.forEach((element: any) => {
-        this.orderTaxList.push({
-          orderTaxName: element.name + " (" + element.taxRate + "%" + ")",
-          orderNamevalue: element,
-        });
-      });
-    });
-    this.ServiceblockProcessor.getAllBlockProcessorData().subscribe(
-      (data: any) => {
-        this.blockProcessorList = [];
-        data.forEach((element: any) => {
-          this.blockProcessorList.push({
-            name: element.name,
-            _id: {
-              _id: element._id,
-              name: element.name,
-            },
-          });
-        });
-      }
-    );
-
-    // this.findSubCategory(this.previouslotData?.categoryDetail)
   }
 
-  patchLotValue() {
-    if (this.previouslotData) {
-      this.blocksDetails = this.previouslotData.blockDetails;
-      this.blocksDetails.forEach((element) => {
-        this.totalBlocksArea += element.totalArea;
-      });
-
-      this.lotAddForm.patchValue({
-        lotNo: this.previouslotData.lotNo,
-        lotName: this.previouslotData.lotName,
-        vehicleNo: this.previouslotData.vehicleNo,
-        warehouse: this.previouslotData.warehouseDetails,
-        invoiceNo: this.previouslotData.invoiceNo,
-        lotWeight: this.previouslotData.lotWeight,
-        pricePerTon: this.previouslotData.pricePerTon,
-        paidToSupplierLotCost: this.previouslotData.paidToSupplierLotCost,
-        transportationCharge:
-          this.previouslotData.transportationCharge == 0
-            ? null
-            : this.previouslotData.transportationCharge,
-        royaltyCharge:
-          this.previouslotData.royaltyCharge == 0 ? null : this.previouslotData.royaltyCharge,
-        notes: this.previouslotData.notes,
-        blocksCount: this.previouslotData.blocksCount,
-        averageWeight: this.previouslotData.averageWeight,
-        averageTransport: this.previouslotData.averageTransport,
-        averageRoyalty: this.previouslotData.averageRoyalty,
-        averageTaxAmount: this.previouslotData.averageTaxAmount,
-        lotRowCost: this.previouslotData.lotRowCost,
-        purchaseDiscount: this.previouslotData.purchaseDiscount,
-        taxableAmount: this.previouslotData.taxableAmount,
-        nonTaxableAmount: this.previouslotData.nonTaxableAmount,
-        taxable: this.previouslotData.taxable,
-        ItemTax: this.previouslotData.purchaseItemTax,
-        taxApplied: this.previouslotData.taxApplied,
-        categoryDetail: this.previouslotData.categoryDetail,
-        subCategoryDetail: this.previouslotData.subCategoryDetail,
-      });
+  findSubCategory(category: any): void {
+    if (category && this.allSubCategoryList) {
+      this.subCategorListByCategory = this.allSubCategoryList.filter(
+        (item: any) => item.categoryId._id === category._id
+      );
     }
-    this.calculateTotalAmount();
   }
-  addBlockDialog() {
-    this.blockNo = "";
-    this.height = null;
-    this.width = null;
-    this.length = null;
-    this.totalArea = null;
+
+  public addSlabDialog() {
+    this.addNewSlab();
+    this.activeIndex =
+      (this.slabAddForm.get("addSlab") as FormArray).length - 1;
+    this.cdRef.detectChanges();
     this.addvisible = true;
   }
 
-  deleteAccordian(index: number) {
-    this.totalBlocksArea -= Number(this.blocksDetails[index].totalArea);
-    this.blocksDetails.splice(index, 1);
-    this.calculateTotalAmount();
-  }
-
-  clossBlock(myForm: NgForm) {
+  public savaSlab() {
     this.addvisible = false;
-    myForm.resetForm();
-  }
-  addBlock(myForm: NgForm) {
-    this.addvisible = false;
-    this.cdRef.detectChanges();
-
-    if (
-      !this.blockNo ||
-      this.height === null ||
-      this.width === null ||
-      this.length === null
-    ) {
-      const message = "Please fill all required fields.";
-      this.messageService.add({ severity: "error", detail: message });
-      return;
-    }
-
-    const newBlock = {
-      blockNo: this.blockNo,
-      height: this.height,
-      width: this.width,
-      length: this.length,
-      totalArea: this.totalArea,
-      weightPerBlock: this.weightPerBlock,
-      rawCosting: this.rawCosting,
-      transportationCosting: this.transportationCosting,
-      royaltyCosting: this.royaltyCosting,
-      taxAmountCosting: this.taxAmountCosting,
-      totalCosting: this.totalCosting,
-      blockProcessor: this.blockProcessor,
-      isProcessed: this.isProcessed,
-    };
-
-    this.blocksDetails.push(newBlock);
-    this.totalBlocksArea += Number(this.totalArea);
-
-    this.blockNo = "";
-    this.height = null;
-    this.width = null;
-    this.length = null;
-    this.totalArea = null;
-    this.blockProcessor = null;
-
-    this.calculateTotalAmount();
-
-    // Reset the form to clear validation messages
-    myForm.resetForm();
-  }
-
-  findSubCategory(value: any) {
-    console.log(value);
-
-    let SubCategoryData = []
-    this.lotAddForm.get("subCategoryDetail").reset();
-    console.log('allSubCategoryList', this.allSubCategoryList);
-    
-    SubCategoryData = this.allSubCategoryList?.filter(
-      (e) => e.categoryId._id == value._id
+    this.slabDetails = this.ifAnyObjectIsempty(
+      this.slabAddForm.get("addSlab").value
     );
-
-    console.log('SubCategoryData', SubCategoryData);
-    
-    this.subCategorListByCategory = SubCategoryData?.map((e) => ({
-      name: e.name,
-      _id: {
-        _id: e._id,
-        name: e.name,
-      },
-    }));
-
-
-    console.log('subCategorListByCategory', this.subCategorListByCategory);
-
-    if (this.previouslotData) {
-      this.patchLotValue()
-    }
+    console.log(this.slabDetails);
+    this.slabAddForm.patchValue(this.slabDetails);
+    console.log(this.slabDetails, "slabDetails");
+    this.slabAddFormSubmit();
   }
 
-
-  getblockDetails() {
-    if (
-      isNaN(this.height) ||
-      isNaN(this.width) ||
-      isNaN(this.length) ||
-      this.height === null ||
-      this.width === null ||
-      this.length === null
-    ) {
-      return;
-    }
-    this.totalArea = this.height * this.width * this.length;
+  onDialogHide(): void {
+    this.slabDetails = this.ifAnyObjectIsempty(
+      this.slabAddForm.get("addSlab").value
+    );
+    console.log(this.slabDetails);
+    this.slabAddForm.patchValue(this.slabDetails);
+    this.slabAddFormSubmit();
   }
-  calculateTotalAmount() {
-    const form = this.lotAddForm;
-    const lotWeight = Number(form.get("lotWeight")?.value) || 0;
-    const pricePerTon = Number(form.get("pricePerTon")?.value) || 0;
-    const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
-    const transportationCharge = Number(form.get("transportationCharge")?.value) || 0;
-    const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
-    const tax = form.get("ItemTax")?.value || [];
-    let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
-    let nonTaxableAmount = Number(form.get("nonTaxableAmount")?.value) || 0;
-    let taxable = 0;
-    if (lotWeight && pricePerTon) {
-      const lotWeightmultiPricePerton = lotWeight * pricePerTon;
-      this.rowCosting = lotWeightmultiPricePerton;
-      nonTaxableAmount = taxableAmount && taxableAmount <= lotWeightmultiPricePerton
-        ? lotWeightmultiPricePerton - taxableAmount
-        : lotWeightmultiPricePerton;
 
-      this.maxPurchaseAmount = lotWeightmultiPricePerton - 10000;
-
-      form.patchValue({
-        nonTaxableAmount,
-        paidToSupplierLotCost: lotWeightmultiPricePerton,
-      });
-    }
-
-    let taxApplied = 0;
-    if (Array.isArray(tax)) {
-      tax.forEach((selectedTax: any) => {
-        taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
-      });
-    } else if (tax) {
-      taxApplied = (taxableAmount * tax) / 100;
-    }
-
-    if (purchaseDiscount) {
-      if (!nonTaxableAmount) {
-        taxableAmount -= purchaseDiscount;
-      } else {
-        nonTaxableAmount -= purchaseDiscount;
-        form.patchValue({
-          nonTaxableAmount,
-        });
+  slabTotalAmount() {
+    this.slabAddForm.get("addSlab").value.forEach((items, index) => {
+      let quantity = items.quantity || 0;
+      let ratePerSqFeet: number = items.ratePerSqFeet || 0;
+      let totalAmount = 0;
+      totalAmount = quantity * ratePerSqFeet;
+      (this.slabAddForm.get("addSlab") as FormArray)
+        .at(index)
+        .get("totalAmount")
+        ?.setValue(totalAmount);
+      if (
+        (this.slabAddForm.get("addSlab") as FormArray)
+          .at(index)
+          .get("totalAmount").value > 0
+      ) {
+        this.allSlabtotalAmount();
       }
+    });
+  }
+
+  allSlabtotalAmount() {
+    let allSlabtotalAmount = 0;
+    let quantitySF = 0;
+    this.slabAddForm.get("addSlab").value.forEach((items, index) => {
+      let totalAmount = items.totalAmount || 0;
+      let quantity = items.quantity || 0;
+      allSlabtotalAmount += totalAmount;
+      quantitySF += quantity;
+      this.slabAddForm.get("totalCost")?.setValue(allSlabtotalAmount);
+      this.slabAddForm.get("paidToSupplierSlabCost")?.setValue(allSlabtotalAmount);
+      this.slabAddForm.get("nonTaxable")?.setValue(allSlabtotalAmount);
+      this.slabAddForm.get("totalSQFeet")?.setValue(quantitySF);
+    });
+  }
+
+  calculateTotalAmount(type?: string) {
+    let totalTaxAmount = 0;
+    let tatalPurchaseCost = 0;
+    let taxApplied = this.slabAddForm.get("taxApplied")?.value || 0;
+    let nonTaxable = this.slabAddForm.get("nonTaxable")?.value || 0;
+    let taxableAmount = this.slabAddForm.get("taxableAmount")?.value || 0;
+    let totalSQFeet = this.slabAddForm.get("totalSQFeet")?.value || 0;
+    let transportationCharge =
+      this.slabAddForm.get("transportationCharge")?.value || 0;
+    let royaltyCharge = this.slabAddForm.get("royaltyCharge")?.value || 0;
+    let slabDiscount = this.slabAddForm.get("slabDiscount")?.value || 0;
+    let paidToSupplierSlabCost =
+      this.slabAddForm.get("paidToSupplierSlabCost")?.value || 0;
+    let totalCost = this.slabAddForm.get("totalCost")?.value || 0;
+
+    if (type == 'tax' && (taxableAmount || nonTaxable)) {
+      this.fixTaxAmount();
     }
 
-    taxable = taxApplied + taxableAmount;
-    const lotRowCost = taxable + nonTaxableAmount + purchaseDiscount;
-    const paidToSupplierLotAmount = taxable + nonTaxableAmount;
+    taxableAmount = this.slabAddForm.get("taxableAmount")?.value || 0;
+    nonTaxable = this.slabAddForm.get("nonTaxable")?.value || 0;
 
-    form.patchValue({
-      paidToSupplierLotCost: paidToSupplierLotAmount ? Number(paidToSupplierLotAmount).toFixed(2) : 0,
-      lotRowCost: Number(lotRowCost),
-      taxable: Number(taxable).toFixed(2),
-      taxApplied: Number(taxApplied).toFixed(2),
-      taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
-    });
-    const totalTransportationCharge = transportationCharge * lotWeight;
-    const averageTransportation = totalTransportationCharge / lotWeight;
-    const averageRoyalty = royaltyCharge / lotWeight;
-    const averageBlocksWeight = this.totalBlocksArea / lotWeight;
-    const blockPricePerTon = lotRowCost / lotWeight;
-
-    this.blocksDetails.forEach((element: any) => {
-      element.weightPerBlock = element.totalArea / averageBlocksWeight;
-      element.rawCosting = element.weightPerBlock * blockPricePerTon;
-      element.transportationCosting = element.weightPerBlock * averageTransportation;
-      element.royaltyCosting = element.weightPerBlock * averageRoyalty;
-      element.totalCosting = element.rawCosting + element.transportationCosting + element.royaltyCosting;
-    });
-
-    form.patchValue({
-      averageTransport: averageTransportation,
-      averageRoyalty: averageRoyalty,
-      averageWeight: averageBlocksWeight,
-      totalTransportationCharges: totalTransportationCharge,
-    });
-
-    this.setValidations();
-  }
-
-  setValidations() {
-    this.lotAddForm.get("taxableAmount")?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
-    this.lotAddForm.get("nonTaxableAmount")?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
-    this.lotAddForm.get("purchaseDiscount")?.setValidators([Validators.min(0), Validators.max(this.maxPurchaseAmount)]);
-    this.lotAddForm.get("purchaseDiscount")?.updateValueAndValidity;
-    this.lotAddForm.get("nonTaxableAmount")?.updateValueAndValidity;
-    this.lotAddForm.get("taxableAmount")?.updateValueAndValidity;
-  }
-
-  LotAddFormSubmit() {
-    const formData = this.lotAddForm.value;
-    if (!this.lotTotalCost) {
-      this.blocksDetails.forEach((e: any) => {
-        this.lotTotalCost += e.totalCosting;
+    if (Array.isArray(taxApplied) && taxableAmount) {
+      taxApplied.forEach((selectedTax: any) => {
+        totalTaxAmount += (taxableAmount * selectedTax?.taxRate) / 100;
       });
-      const payload = {
-        lotNo: formData.lotNo,
-        lotName: formData.lotName,
-        warehouseDetails: formData.warehouse,
-        vehicleNo: formData.vehicleNo,
-        lotWeight: formData.lotWeight,
-        pricePerTon: Number(formData.pricePerTon),
-        transportationCharge: Number(formData.transportationCharge),
-        royaltyCharge: Number(formData.royaltyCharge),
-        blocksCount: this.blocksDetails.length,
-        averageWeight: formData.averageWeight,
-        averageTransport: Number(formData.averageTransport),
-        averageRoyaltyNumber: formData.averageRoyalty,
-        blockDetails: this.blocksDetails,
-        lotTotalCost: Number(this.lotTotalCost),
-        paidToSupplierLotCost: Number(formData.paidToSupplierLotCost),
-        purchaseDiscount: Number(formData.purchaseDiscount),
-        lotRowCost: Number(formData.lotRowCost),
-        date: "",
-        notes: "",
-        nonTaxableAmount: Number(formData.nonTaxableAmount),
-        taxableAmount: Number(formData.taxableAmount),
-        taxable: Number(formData.taxable),
-        purchaseItemTax: formData.ItemTax,
-        taxApplied: Number(formData.taxApplied),
-        categoryDetail: formData.categoryDetail,
-        subCategoryDetail: formData.subCategoryDetail,
-        totalTransportationCharges: Number(formData.totalTransportationCharges),
-      };
-      this.NewPurchaseService.setFormData("stepFirstLotData", payload);
+      this.slabAddForm.get("taxableAmount")?.setValue(this.slabAddForm.get("taxableAmount")?.value + totalTaxAmount);
+      this.slabAddForm.get("taxAmount")?.setValue(totalTaxAmount || null);
     }
+    tatalPurchaseCost =
+      +taxableAmount +
+      totalTaxAmount +
+      transportationCharge +
+      royaltyCharge +
+      nonTaxable;
+    this.slabAddForm.get("totalCost")?.setValue(tatalPurchaseCost);
+    this.discount(slabDiscount, tatalPurchaseCost);
+    this.calculateCostPerSQ(transportationCharge, royaltyCharge, totalSQFeet, totalTaxAmount, totalCost);
+  }
+
+  private fixTaxAmount() {
+    let taxableAmount = this.slabAddForm.get("taxableAmount")?.value || 0;
+    let nonTaxable = this.slabAddForm.get("nonTaxable")?.value || 0;
+    let paidToSupplierSlabCost =
+      this.slabAddForm.get("paidToSupplierSlabCost")?.value || 0;
+    if (taxableAmount) {
+      if (taxableAmount > nonTaxable) {
+        this.taxableAmount = true;
+      } else {
+        this.taxableAmount = false;
+        this.slabAddForm
+          .get("nonTaxable")
+          ?.setValue(nonTaxable - taxableAmount);
+      }
+    } else if (taxableAmount === 0 || nonTaxable === 0) {
+      this.slabAddForm.get("nonTaxable")?.setValue(paidToSupplierSlabCost);
+    }
+  }
+
+  private calculateCostPerSQ(transportationCharge: number, royaltyCharge: number, totalSQFeet: number, totalTaxAmount: number, totalCost: number) {
+    let totalChargeWithTotalSQFeet = 0;
+    let totalCharge = 0;
+    let taxAmountRup = 0;
+    let taxAmountSQFeet = 0;
+    let costPerSQFT = 0;
+    this.slabAddForm.get("addSlab").value.forEach((items, index) => {
+      totalChargeWithTotalSQFeet = transportationCharge + royaltyCharge / totalSQFeet; // (10,000 + 5000 = 15000 / 2500) = 6  
+      totalCharge = totalTaxAmount / totalCost; // (9000 / 160000) = 0.05625;
+      taxAmountRup = totalCharge * items.totalAmount; // 3,093.75, 5,906.25
+      taxAmountSQFeet = taxAmountRup * items.quantity; // 3.09375, 3.9375
+      costPerSQFT = items.ratePerSqFeet + totalChargeWithTotalSQFeet + taxAmountSQFeet; // 64.09375 , 79.9375
+    })
+    this.slabAddForm.get("costPerSQFT")?.setValue(costPerSQFT);
+  }
+
+  private discount(slabDiscount?: number, totalCosting?: number) {
+    this.slabAddForm
+      .get("paidToSupplierSlabCost")
+      ?.setValue(totalCosting - slabDiscount);
+  }
+
+  slabAddFormSubmit() {
+    const values = this.slabAddForm.value;
+    values.addSlab = this.ifAnyObjectIsempty(values.addSlab);
+    localStorage.setItem("slabAddForm", JSON.stringify(values));
+  }
+  onBackButton() {
+    if (localStorage.getItem("slabAddForm")) {
+      const slabDetails = JSON.parse(localStorage.getItem("slabAddForm"));
+      this.slabAddForm.patchValue({
+        warehouseDetails: slabDetails?.warehouseDetails,
+        vehicleNo: slabDetails.vehicleNo,
+        transportationCharge: slabDetails.transportationCharge,
+        royaltyCharge: slabDetails.royaltyCharge,
+        slabDiscount: slabDetails.slabDiscount,
+        paidToSupplierSlabCost: slabDetails.paidToSupplierSlabCost,
+        totalCost: slabDetails.totalCost,
+        nonTaxable: slabDetails.nonTaxable,
+        taxableAmount: slabDetails.taxableAmount,
+        taxApplied: slabDetails.taxApplied,
+      });
+      this.addSlab.clear();
+      slabDetails.addSlab.forEach((slab: any) => {
+        const slabGroup = this.createSlabGroup(); // Create a new FormGroup for each slab
+        slabGroup.patchValue(slab); // Patch the data into the group
+        this.addSlab.push(slabGroup); // Add the group to the FormArray
+      });
+      this.savaSlab();
+    }
+  }
+  ngOnDestroy(): void {
+    window.onbeforeunload = null;
+  }
+
+  private ifAnyObjectIsempty(addSlab: any): any {
+    console.log(addSlab);
+
+    if (Array.isArray(addSlab)) {
+      addSlab = addSlab.filter((item) => {
+        return (
+          item.subCategoryDetail !== "" &&
+          item.categoryDetail !== "" &&
+          item.finishes !== "" &&
+          item.numberOfPieces !== ""
+        );
+      });
+    }
+    console.log(addSlab);
+    return addSlab;
   }
 }
-
