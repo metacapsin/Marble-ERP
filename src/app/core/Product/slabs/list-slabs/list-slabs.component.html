@@ -448,69 +448,100 @@
                             <div class="form-group row mb-2">
                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Sales</h5>
                                 <div class="col-lg-8 col-md-8 col-xl-8">
-                                    <p class="col-lg-9 col-form-label">
-                                        {{ slabProfitOfSlabHistory[0]?.totalSales ? slabProfitOfSlabHistory[0]?.totalSales.toFixed(4) : "N/A" }}
-                                      </p>
+                                    <p class="col-lg-9 col-form-label"
+                                        *ngIf="slabProfitOfSlabHistory[0]?.totalSales != 0 && slabProfitOfSlabHistory[0]?.totalSales!=null ">
+                                        ₹
+                                        {{ slabProfitOfSlabHistory[0]?.totalSales | indianCurrency }}
+                                    </p>
+                                    <p class="col-lg-9 col-form-label"
+                                        *ngIf="((slabProfitOfSlabHistory[0]?.totalSales == 0 || slabProfitOfSlabHistory[0]?.totalSales==null)&& (slabProfitOfSlabHistory[0] != null)) ">
+                                        N/A
+
+                                    </p>
+                                    <p class="col-lg-9 col-form-label" *ngIf="slabProfitOfSlabHistory[0]== null">
+                                        N/A
+                                    </p>
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Cost of Goods Sold (-)</h5>
                                 <div class="col-lg-8 col-md-8 col-xl-8">
-                                  <p class="col-lg-9 col-form-label">
-                                    {{ slabProfitOfSlabHistory[0]?.totalCostPerSQFT ? slabProfitOfSlabHistory[0]?.totalCostPerSQFT : "N/A" }}
-                                  </p>
+                                    <p class="col-lg-9 col-form-label"
+                                        *ngIf="slabProfitOfSlabHistory[0]?.totalCostPerSQFT != 0 && slabProfitOfSlabHistory[0]?.totalCostPerSQFT!=null">
+                                        ₹ {{ slabProfitOfSlabHistory[0]?.totalCostPerSQFT | indianCurrency }}
+                                    </p>
+                                    <p class="col-lg-9 col-form-label"
+                                        *ngIf="((slabProfitOfSlabHistory[0]?.totalCostPerSQFT == 0 || slabProfitOfSlabHistory[0]?.totalCostPerSQFT==null)&& (slabProfitOfSlabHistory[0] != null)) ">
+                                        N/A
+                                    </p>
+                                    <p class="col-lg-9 col-form-label" *ngIf="slabProfitOfSlabHistory[0]== null">
+                                        N/A
+                                    </p>
                                 </div>
-                              </div>
-                              <div class="form-group row mb-2">
+                            </div>
+                            <div class="form-group row mb-2">
                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Tax Profit</h5>
                                 <div class="col-lg-8 col-md-8 col-xl-8">
-                                  <p class="col-form-label">
-                                    ₹ {{ slabProfitOfSlabHistory[0]?.taxProfit ? slabProfitOfSlabHistory[0]?.taxProfit : "N/A" }}
-                                  </p>
+                                    <p class="col-form-label"
+                                        *ngIf="slabProfitOfSlabHistory[0]?.taxProfit != 0 && slabProfitOfSlabHistory[0]?.taxProfit!=null">
+                                        ₹ {{ slabProfitOfSlabHistory[0]?.taxProfit | indianCurrency }}
+                                    </p>
+                                    <p class="col-form-label"
+                                        *ngIf="((slabProfitOfSlabHistory[0]?.taxProfit == 0 || slabProfitOfSlabHistory[0]?.taxProfit==null)&& (slabProfitOfSlabHistory[0] != null)) ">
+                                        N/A
+                                    </p>
+                                    <p class="col-form-label" *ngIf="slabProfitOfSlabHistory[0]== null">
+                                        N/A
+                                    </p>
+
                                 </div>
-                              </div>
-                              <div class="form-group row mb-2" *ngIf="slabProfitOfSlabHistory[0]?.profit">
-                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Profit</h5>
+                            </div>
+                            <div class="form-group row mb-2">
+                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Profit / Loss</h5>
                                 <div class="col-lg-8 col-md-8 col-xl-8">
-                                  <p class="col-form-label">
-                                    ₹ {{ slabProfitOfSlabHistory[0]?.profit ? slabProfitOfSlabHistory[0]?.profit.toFixed(4) : "N/A" }}
-                                  </p>
+                                    <p class="col-form-label"
+                                        *ngIf="slabProfitOfSlabHistory[0]?.profit != null && slabProfitOfSlabHistory[0]?.profit != 0">
+                                        ₹ {{ slabProfitOfSlabHistory[0]?.profit | indianCurrency }}
+                                    </p>
+                                    <p class="col-form-label"
+                                        *ngIf="((slabProfitOfSlabHistory[0]?.profit == 0 || slabProfitOfSlabHistory[0]?.profit==null)&& (slabProfitOfSlabHistory[0] != null)) ">
+                                        N/A
+                                    </p>
+                                    <p class="col-form-label" *ngIf="slabProfitOfSlabHistory[0]== null">
+                                        N/A
+                                    </p>
                                 </div>
-                              </div>
-                              <div class="form-group row mb-2" *ngIf="slabProfitOfSlabHistory[0]?.loss">
-                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Loss</h5>
-                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                  <p class="col-form-label">
-                                    ₹ {{ slabProfitOfSlabHistory[0]?.loss ? slabProfitOfSlabHistory[0]?.loss.toFixed(4) : "N/A" }}
-                                  </p>
-                                </div>
-                              </div>
+                            </div>
+
                         </div>
                         <div class="col-xl-6 col-lg-6 col-sm-12">
                             <div class="form-group row mb-2">
                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Sold Slab / Sq.Feet</h5>
                                 <div class="col-lg-8 col-md-8 col-xl-8">
-                                  <p class="col-lg-9 col-form-label">
-                                    {{ slabDetailsOfSlabHistory[0]?.soldSlabSQFT ? slabDetailsOfSlabHistory[0]?.soldSlabSQFT : "N/A" }}
-                                  </p>
+                                    <p class="col-lg-9 col-form-label">
+                                        {{ slabDetailsOfSlabHistory[0]?.soldSlabSQFT ?
+                                        slabDetailsOfSlabHistory[0]?.soldSlabSQFT : "N/A" }}
+                                    </p>
                                 </div>
-                              </div>
-                              <div class="form-group row mb-2">
+                            </div>
+                            <div class="form-group row mb-2">
                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Slab / Sq.Feet</h5>
                                 <div class="col-lg-8 col-md-8 col-xl-8">
-                                  <p class="col-lg-9 col-form-label">
-                                    {{ slabDetailsOfSlabHistory[0]?.totalSlabSQFT ? slabDetailsOfSlabHistory[0]?.totalSlabSQFT : "N/A" }}
-                                  </p>
+                                    <p class="col-lg-9 col-form-label">
+                                        {{ slabDetailsOfSlabHistory[0]?.totalSlabSQFT ?
+                                        slabDetailsOfSlabHistory[0]?.totalSlabSQFT : "N/A" }}
+                                    </p>
                                 </div>
-                              </div>
-                              <div class="form-group row mb-2">
+                            </div>
+                            <div class="form-group row mb-2">
                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Current Slab / Sq.Feet</h5>
                                 <div class="col-lg-8 col-md-8 col-xl-8">
-                                  <p class="col-lg-9 col-form-label">
-                                    {{ slabDetailsOfSlabHistory[0]?.currentSlabSQFT ? slabDetailsOfSlabHistory[0]?.currentSlabSQFT : "N/A" }}
-                                  </p>
+                                    <p class="col-lg-9 col-form-label">
+                                        {{ slabDetailsOfSlabHistory[0]?.currentSlabSQFT ?
+                                        slabDetailsOfSlabHistory[0]?.currentSlabSQFT : "N/A" }}
+                                    </p>
                                 </div>
-                              </div>                              
+                            </div>
                         </div>
                     </div>
                 </div>
