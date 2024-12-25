@@ -28,7 +28,8 @@
                                         <h3>Slabs List</h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
-                                                <input type="text" class="form-control" placeholder="Search here"   #searchTable (input)="
+                                                <input type="text" class="form-control" placeholder="Search here"
+                                                    #searchTable (input)="
                                                 dt.filterGlobal(searchTable.value, 'contains')">
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
@@ -74,14 +75,12 @@
                         </div>
 
                         <div class="card-body p-2">
-                            <p-table
-                                [value]="allSlabsDaTa"
-                                [tableStyle]="{'min-width': '60rem'}" [paginator]="allSlabsDaTa?.length >= 5"
-                                [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" styleClass="p-datatable-striped"
-                                (onPage)="onPageChange($event)" [(selection)]="selectedSlabs" #dt [columns]="cols"
-                                [exportHeader]="'customExportHeader'" exportFilename="Slabs"
-                                [globalFilterFields]="['slabNo', 'slabName','slabSize','categoryDetail.name','subCategoryDetail.name','totalSQFT','costPerSQFT','sellingPricePerSQFT','warehouseDetails.name']"
-                                >
+                            <p-table [value]="allSlabsDaTa" [tableStyle]="{'min-width': '60rem'}"
+                                [paginator]="allSlabsDaTa?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+                                styleClass="p-datatable-striped" (onPage)="onPageChange($event)"
+                                [(selection)]="selectedSlabs" #dt [columns]="cols" [exportHeader]="'customExportHeader'"
+                                exportFilename="Slabs"
+                                [globalFilterFields]="['slabNo', 'slabName','slabSize','categoryDetail.name','subCategoryDetail.name','totalSQFT','costPerSQFT','sellingPricePerSQFT','warehouseDetails.name']">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th pSortableColumn="slabNo">Slab Number<p-sortIcon field="slabNo"></p-sortIcon>
@@ -439,6 +438,85 @@
 <p-dialog [(visible)]="visibleSlabHistory" [modal]="true" [draggable]="true"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '80vw', height: ' 60vh' }"
     [resizable]="false" header="Slab History">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table show-entire">
+                <div class="page-table-header mb-2 m-3">
+                    <div class="row practice-card">
+                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                            <div class="form-group row mb-2">
+                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Sales</h5>
+                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                    <p class="col-lg-9 col-form-label">
+                                        {{ slabProfitOfSlabHistory[0]?.totalSales ? slabProfitOfSlabHistory[0]?.totalSales.toFixed(4) : "N/A" }}
+                                      </p>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-2">
+                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Cost of Goods Sold (-)</h5>
+                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                  <p class="col-lg-9 col-form-label">
+                                    {{ slabProfitOfSlabHistory[0]?.totalCostPerSQFT ? slabProfitOfSlabHistory[0]?.totalCostPerSQFT : "N/A" }}
+                                  </p>
+                                </div>
+                              </div>
+                              <div class="form-group row mb-2">
+                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Tax Profit</h5>
+                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                  <p class="col-form-label">
+                                    ₹ {{ slabProfitOfSlabHistory[0]?.taxProfit ? slabProfitOfSlabHistory[0]?.taxProfit : "N/A" }}
+                                  </p>
+                                </div>
+                              </div>
+                              <div class="form-group row mb-2" *ngIf="slabProfitOfSlabHistory[0]?.profit">
+                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Profit</h5>
+                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                  <p class="col-form-label">
+                                    ₹ {{ slabProfitOfSlabHistory[0]?.profit ? slabProfitOfSlabHistory[0]?.profit.toFixed(4) : "N/A" }}
+                                  </p>
+                                </div>
+                              </div>
+                              <div class="form-group row mb-2" *ngIf="slabProfitOfSlabHistory[0]?.loss">
+                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Loss</h5>
+                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                  <p class="col-form-label">
+                                    ₹ {{ slabProfitOfSlabHistory[0]?.loss ? slabProfitOfSlabHistory[0]?.loss.toFixed(4) : "N/A" }}
+                                  </p>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                            <div class="form-group row mb-2">
+                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Sold Slab / Sq.Feet</h5>
+                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                  <p class="col-lg-9 col-form-label">
+                                    {{ slabDetailsOfSlabHistory[0]?.soldSlabSQFT ? slabDetailsOfSlabHistory[0]?.soldSlabSQFT : "N/A" }}
+                                  </p>
+                                </div>
+                              </div>
+                              <div class="form-group row mb-2">
+                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Slab / Sq.Feet</h5>
+                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                  <p class="col-lg-9 col-form-label">
+                                    {{ slabDetailsOfSlabHistory[0]?.totalSlabSQFT ? slabDetailsOfSlabHistory[0]?.totalSlabSQFT : "N/A" }}
+                                  </p>
+                                </div>
+                              </div>
+                              <div class="form-group row mb-2">
+                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Current Slab / Sq.Feet</h5>
+                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                  <p class="col-lg-9 col-form-label">
+                                    {{ slabDetailsOfSlabHistory[0]?.currentSlabSQFT ? slabDetailsOfSlabHistory[0]?.currentSlabSQFT : "N/A" }}
+                                  </p>
+                                </div>
+                              </div>                              
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="card">
         <p-tabView [(activeIndex)]="activeTabIndex">
