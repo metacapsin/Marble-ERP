@@ -700,7 +700,7 @@
                               <div class="col-lg-6 col-md-6 col-xl-6" *ngIf="!slabDetails?.length">
                                 <p class="col-lg-6 col-form-label heading-bold">
                                   ₹
-                                  {{ addNewPurchaseForm.get("slabDetails")?.value.paidToSupplierSlabCost ? addNewPurchaseForm.get("slabDetails")?.value.paidToSupplierSlabCost :
+                                  {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value ? addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value :
                                   ' - ' }}
                                 </p>
                                 <span style="font-size: 12px;"

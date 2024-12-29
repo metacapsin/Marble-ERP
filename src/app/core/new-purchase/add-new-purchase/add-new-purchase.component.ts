@@ -342,7 +342,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           this.NewPurchaseService.getFormData("stepFirstLotData");
         const payload = { ...this.ItemDetails };
         this.LotPayload = payload;
-
+        console.log(this.ItemDetails?.paidToSupplierLotCost);
         this.addNewPurchaseForm.patchValue({
           paidToSupplierPurchaseCost: this.ItemDetails?.paidToSupplierLotCost,
           taxableAmount: this.ItemDetails?.taxableAmount,
@@ -705,11 +705,10 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       transportationCharges: Number(transportationCharge),
       purchaseDiscount: Number(slabDiscount),
       purchaseItemTax: formData.purchaseItemTax,
-      taxVendor: null,
+      taxVendor: formData.taxVendor,
       taxApplied: formData.taxApplied,
       totalSQFT: squarefeet,
       warehouseDetails: formData.warehouseDetails,
-      sqftPerPiece : 12,
     };
   }
 
@@ -728,6 +727,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     transportationCharge = formData.transportationCharge || 0;
     royaltyCharge = formData.royaltyCharge || 0;
     warehouseDetails = formData.warehouseDetails;
+    paidToSupplierPurchaseCost = formData.paidToSupplierSlabCost,
     console.log(formData);
     formData.addSlab?.forEach((item) => {
       slabDetails.push({
@@ -737,9 +737,14 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         length: Number(item.length) || "",
         thikness: Number(item.thickness) || "",
         finishes: Number(item.finishes) || "",
+        sqftPerPiece: Number(item.sqftPerPiece) || "",
         categoryDetail: item.categoryDetail || "",
-        subCategoryDetail: item.subCategoryDetail || "",
+        subCategoryDetail: {
+          name: item.subCategoryDetail.name,
+          _id: item.subCategoryDetail._id,
+        },
         costPerSQFT: Number(item.costPerSQFT),
+        quantity: Number(item.quantity),
         ratePerSqFeet: item.ratePerSqFeet,
         totalAmount: Number(item.totalAmount) || "",
         slabSize: `${item.width ? item.width : " "} x ${
@@ -747,6 +752,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           } x ${item.thickness ? item.thickness : " "}`,
         noOfPieces: Number(item.noOfPieces) || "",
       });
+      squarefeet += item.quantity
     });
     return {
       taxable,

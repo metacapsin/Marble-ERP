@@ -85,6 +85,7 @@ export class AddSlabPurchaseComponent {
       slabNumber: [""],
       width: [""],
       length: [""],
+      sqftPerPiece: [''],
       thickness: [""],
       finishes: ["", Validators.required],
       subCategoryDetail: ["", Validators.required],
@@ -346,6 +347,7 @@ export class AddSlabPurchaseComponent {
     let taxAmountSQFeet = 0;
     let costPerSQFT = 0;
     let totalCostPerSQFT = 0;
+    let sqftPerPiece = 0;
     this.slabAddForm.get("addSlab").value.forEach((items, index) => {
       totalChargeWithTotalSQFeet = (transportationCharge + royaltyCharge) / totalSQFeet; // (10,000 + 5000 = 15000 / 2500) = 6  
       totalCharge = totalTaxAmount ? totalTaxAmount / totalCost : 0; // (9000 / 160000) = 0.05625;
@@ -356,11 +358,16 @@ export class AddSlabPurchaseComponent {
       console.log(taxAmountSQFeet, taxAmountRup, items.quantity ,'last to add');
       costPerSQFT = items.ratePerSqFeet + totalChargeWithTotalSQFeet + taxAmountSQFeet; // 64.09375 , 79.9375
       totalCostPerSQFT += costPerSQFT;
+      sqftPerPiece = items.noOfPieces / items.quantity;
       console.log(costPerSQFT, 'costPerSQFT', items.ratePerSqFeet, totalChargeWithTotalSQFeet, taxAmountSQFeet, 'last cal');
       (this.slabAddForm.get("addSlab") as FormArray)
       .at(index)
       .get("costPerSQFT")
       ?.setValue(costPerSQFT);
+      (this.slabAddForm.get("addSlab") as FormArray)
+      .at(index)
+      .get("sqftPerPiece")
+      ?.setValue(sqftPerPiece);
     })
     console.log(totalChargeWithTotalSQFeet, totalCharge, taxAmountRup, taxAmountSQFeet, costPerSQFT);
     this.slabAddForm.get("totalCostPerSQFT")?.setValue(totalCostPerSQFT);
@@ -399,6 +406,8 @@ export class AddSlabPurchaseComponent {
         nonTaxable: slabDetails.nonTaxable,
         taxableAmount: slabDetails.taxableAmount,
         taxApplied: slabDetails.taxApplied,
+        fixSlabTotal: slabDetails.fixSlabTotal,
+        taxable: slabDetails.taxable,
       });
       this.addSlab.clear();
       slabDetails.addSlab.forEach((slab: any) => {
@@ -407,6 +416,8 @@ export class AddSlabPurchaseComponent {
         this.addSlab.push(slabGroup); // Add the group to the FormArray
       });
       this.savaSlab();
+      this.slabTotalAmount();
+      this.calculateTotalAmount();
     }
   }
   ngOnDestroy(): void {

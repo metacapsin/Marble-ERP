@@ -26,6 +26,7 @@
                                 placeholder="Select Warehouse" formControlName="warehouseDetails"
                                 [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true">
                             </p-dropdown>
+                            <!-- {{ slabAddForm.get('warehouseDetails')?.value}} -->
                             <div *ngIf="setValidations('warehouseDetails')">
                                 <span class="login-danger">Field is required.</span>
                             </div>
@@ -304,7 +305,8 @@
                                                 <label for="subCategory">Sub Category <span
                                                         class="login-danger">*</span></label>
                                                 <p-dropdown [options]="subCategorListByCategory" styleClass=""
-                                                    appendTo="body" optionValue="_id" placeholder="Select Sub Category"
+                                                    appendTo="body" 
+                                                    placeholder="Select Sub Category"
                                                     optionLabel="name" formControlName="subCategoryDetail"
                                                     [style]="{ width: '100%' }" [filter]="true" filterBy="name"
                                                     [showClear]="false"></p-dropdown>
