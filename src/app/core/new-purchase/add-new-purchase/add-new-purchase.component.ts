@@ -736,7 +736,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         width: Number(item.width) || "",
         length: Number(item.length) || "",
         thikness: Number(item.thickness) || "",
-        finishes: Number(item.finishes) || "",
+        finishes: item.finishes || "",
         sqftPerPiece: Number(item.sqftPerPiece) || "",
         categoryDetail: item.categoryDetail || "",
         subCategoryDetail: {
