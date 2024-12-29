@@ -81,8 +81,8 @@ export class AddSlabPurchaseComponent {
 
   createSlabGroup(): FormGroup {
     return this.fb.group({
-      slabName: ["", Validators.required],
-      slabNumber: [""],
+      slabName: [""],
+      slabNumber: ["", Validators.required],
       width: [""],
       length: [""],
       sqftPerPiece: [''],

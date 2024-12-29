@@ -110,10 +110,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     private taxVendorsService: TaxVendorsService
   ) {
     this.addNewPurchaseForm = this.fb.group({
-      // paidToSupplierPurchaseCost: [
-      //   "",
-      //   [Validators.min(0), Validators.max(9999999), Validators.required],
-      // ],
+      paidToSupplierPurchaseCost: [""],
 
       // slabNo: [
       //   "",
