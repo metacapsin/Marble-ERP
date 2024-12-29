@@ -68,10 +68,11 @@ export class AddSlabPurchaseComponent {
         slabDiscount: [""],
         taxable: [""],
         taxAmount: [""],
-        costPerSQFT: [""],
+        totalCostPerSQFT: [""],
         taxApplied: [""],
         nonTaxable: [""],
         totalSQFeet: [""],
+        fixSlabTotal: [''],
         addSlab: this.fb.array([]),
       },
       { validators: atLeastOneRequiredValidator() }
@@ -110,6 +111,7 @@ export class AddSlabPurchaseComponent {
     console.log("Updated array:", this.addSlab.value);
     this.slabAddFormSubmit();
     this.savaSlab();
+    this.slabTotalAmount();
   }
 
   ngOnInit(): void {
@@ -249,16 +251,19 @@ export class AddSlabPurchaseComponent {
       let quantity = items.quantity || 0;
       allSlabtotalAmount += totalAmount;
       quantitySF += quantity;
+      console.log(quantitySF, 'quantitySF', allSlabtotalAmount, 'allSlabtotalAmount');
       this.slabAddForm.get("totalCost")?.setValue(allSlabtotalAmount);
+      this.slabAddForm.get("fixSlabTotal")?.setValue(allSlabtotalAmount);
       this.slabAddForm.get("paidToSupplierSlabCost")?.setValue(allSlabtotalAmount);
       this.slabAddForm.get("nonTaxable")?.setValue(allSlabtotalAmount);
       this.slabAddForm.get("totalSQFeet")?.setValue(quantitySF);
     });
+    this.calculateCostPerSQ(0,0,quantitySF,0)
   }
 
   calculateTotalAmount(type?: string) {
     let totalTaxAmount = 0;
-    let tatalPurchaseCost = 0;
+    let totalPurchaseCost = 0;
     let taxApplied = this.slabAddForm.get("taxApplied")?.value || 0;
     let nonTaxable = this.slabAddForm.get("nonTaxable")?.value || 0;
     let taxableAmount = this.slabAddForm.get("taxableAmount")?.value || 0;
@@ -266,34 +271,51 @@ export class AddSlabPurchaseComponent {
     let transportationCharge =
       this.slabAddForm.get("transportationCharge")?.value || 0;
     let royaltyCharge = this.slabAddForm.get("royaltyCharge")?.value || 0;
+    let paidToSupplierSlabCost = this.slabAddForm.get("paidToSupplierSlabCost")?.value || 0;
     let slabDiscount = this.slabAddForm.get("slabDiscount")?.value || 0;
-    let paidToSupplierSlabCost =
-      this.slabAddForm.get("paidToSupplierSlabCost")?.value || 0;
     let totalCost = this.slabAddForm.get("totalCost")?.value || 0;
-
-    if (type == 'tax' && (taxableAmount || nonTaxable)) {
-      this.fixTaxAmount();
-    }
-
-    taxableAmount = this.slabAddForm.get("taxableAmount")?.value || 0;
-    nonTaxable = this.slabAddForm.get("nonTaxable")?.value || 0;
-
+    let taxable;
     if (Array.isArray(taxApplied) && taxableAmount) {
       taxApplied.forEach((selectedTax: any) => {
         totalTaxAmount += (taxableAmount * selectedTax?.taxRate) / 100;
       });
-      this.slabAddForm.get("taxableAmount")?.setValue(this.slabAddForm.get("taxableAmount")?.value + totalTaxAmount);
-      this.slabAddForm.get("taxAmount")?.setValue(totalTaxAmount || null);
+    }  else if (taxApplied) {
+      totalTaxAmount = (taxableAmount * taxApplied) / 100;
     }
-    tatalPurchaseCost =
-      +taxableAmount +
-      totalTaxAmount +
+
+    if (taxableAmount && type == 'tax') {
+      console.log(taxableAmount, 'taxableAmount');
+      if (taxableAmount > nonTaxable) {
+        console.log('taxableAmount is grater then non tax');
+        this.taxableAmount = true;
+      } else {
+        console.log('taxableAmount not is grater then non tax');
+        this.taxableAmount = false;
+        nonTaxable -= taxableAmount
+      }
+    } else if (taxableAmount === 0 || nonTaxable === 0) {
+      nonTaxable = paidToSupplierSlabCost;
+    }
+
+    if(type == 'slabDiscount') {
+      this.discount(slabDiscount);
+    }
+    taxable = taxableAmount + totalTaxAmount;
+
+    totalPurchaseCost =
+      taxable +
       transportationCharge +
       royaltyCharge +
       nonTaxable;
-    this.slabAddForm.get("totalCost")?.setValue(tatalPurchaseCost);
-    this.discount(slabDiscount, tatalPurchaseCost);
-    this.calculateCostPerSQ(transportationCharge, royaltyCharge, totalSQFeet, totalTaxAmount, totalCost);
+    this.slabAddForm.patchValue({
+      totalCost: totalPurchaseCost,
+      taxable: taxable,
+      nonTaxable: nonTaxable,
+      taxAmount: totalTaxAmount,
+      // paidToSupplierSlabCost: totalPurchaseCost
+    })
+    console.log("object 2");
+    this.calculateCostPerSQ(transportationCharge,royaltyCharge,totalSQFeet,totalTaxAmount);
   }
 
   private fixTaxAmount() {
@@ -315,27 +337,48 @@ export class AddSlabPurchaseComponent {
     }
   }
 
-  private calculateCostPerSQ(transportationCharge: number, royaltyCharge: number, totalSQFeet: number, totalTaxAmount: number, totalCost: number) {
+  private calculateCostPerSQ(transportationCharge?: number, royaltyCharge?: number, totalSQFeet?: number, totalTaxAmount?: number) {
+    console.log("object");
+    let totalCost = this.slabAddForm.get("fixSlabTotal")?.value;
     let totalChargeWithTotalSQFeet = 0;
     let totalCharge = 0;
     let taxAmountRup = 0;
     let taxAmountSQFeet = 0;
     let costPerSQFT = 0;
+    let totalCostPerSQFT = 0;
     this.slabAddForm.get("addSlab").value.forEach((items, index) => {
-      totalChargeWithTotalSQFeet = transportationCharge + royaltyCharge / totalSQFeet; // (10,000 + 5000 = 15000 / 2500) = 6  
-      totalCharge = totalTaxAmount / totalCost; // (9000 / 160000) = 0.05625;
+      totalChargeWithTotalSQFeet = (transportationCharge + royaltyCharge) / totalSQFeet; // (10,000 + 5000 = 15000 / 2500) = 6  
+      totalCharge = totalTaxAmount ? totalTaxAmount / totalCost : 0; // (9000 / 160000) = 0.05625;
+      console.log(totalTaxAmount, totalCost, totalCharge, 'totalCost');
       taxAmountRup = totalCharge * items.totalAmount; // 3,093.75, 5,906.25
-      taxAmountSQFeet = taxAmountRup * items.quantity; // 3.09375, 3.9375
+      console.log(taxAmountRup, totalCharge, items.totalAmount, '3,093.75'); // 
+      taxAmountSQFeet = taxAmountRup / items.quantity; // 3.09375, 3.93754
+      console.log(taxAmountSQFeet, taxAmountRup, items.quantity ,'last to add');
       costPerSQFT = items.ratePerSqFeet + totalChargeWithTotalSQFeet + taxAmountSQFeet; // 64.09375 , 79.9375
+      totalCostPerSQFT += costPerSQFT;
+      console.log(costPerSQFT, 'costPerSQFT', items.ratePerSqFeet, totalChargeWithTotalSQFeet, taxAmountSQFeet, 'last cal');
+      (this.slabAddForm.get("addSlab") as FormArray)
+      .at(index)
+      .get("costPerSQFT")
+      ?.setValue(costPerSQFT);
     })
-    this.slabAddForm.get("costPerSQFT")?.setValue(costPerSQFT);
+    console.log(totalChargeWithTotalSQFeet, totalCharge, taxAmountRup, taxAmountSQFeet, costPerSQFT);
+    this.slabAddForm.get("totalCostPerSQFT")?.setValue(totalCostPerSQFT);
   }
 
-  private discount(slabDiscount?: number, totalCosting?: number) {
-    this.slabAddForm
-      .get("paidToSupplierSlabCost")
-      ?.setValue(totalCosting - slabDiscount);
-  }
+  private discount(slabDiscount?: number) {
+    if (slabDiscount === 0) {
+      this.slabAddForm.get('paidToSupplierSlabCost').setValue(this.slabAddForm.get("fixSlabTotal")?.value)
+    }
+    this.slabAddForm.get("paidToSupplierSlabCost")
+      ?.setValue(this.slabAddForm.get("paidToSupplierSlabCost").value - slabDiscount);
+      // if(this.slabAddForm.get("paidToSupplierSlabCost").value){
+      //   this.slabAddForm
+      //   .get("nonTaxable")
+      //   ?.setValue(this.slabAddForm.get("paidToSupplierSlabCost").value);
+      // }
+      // console.log(this.slabAddForm.get("paidToSupplierSlabCost").value);
+    }
 
   slabAddFormSubmit() {
     const values = this.slabAddForm.value;

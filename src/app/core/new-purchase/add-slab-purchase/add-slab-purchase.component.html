@@ -560,7 +560,7 @@
                     <div class="form-group local-forms">
                         <label for="finishes">Non-Taxable Amount</label>
                         <input class="form-control" type="number" placeholder="Non-Taxable Amount"
-                            formControlName="nonTaxable" (change)="calculateTotalAmount('tax')" />
+                            formControlName="nonTaxable" (onChange)="calculateTotalAmount('tax')" />
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-6">
@@ -580,15 +580,15 @@
                    slabAddForm.get('taxable').value  != 0
                   " style="color: #97704f; font-size: 12px">
                             Tax Applied Amount:
-                            {{ slabAddForm.get('taxable').value | number : "1.2-2" }}
+                            {{ slabAddForm.get('taxable')?.value | number : "1.2-2" }}
                             + Non Taxable Amount :
                             {{
-                            slabAddForm.get("nonTaxableAmount").value | number : "1.2-2"
+                            slabAddForm.get("nonTaxableAmount")?.value | number : "1.2-2"
                             }}
-                            <span *ngIf="slabAddForm.get('slabDiscount').value > 0">
+                            <span *ngIf="slabAddForm.get('slabDiscount')?.value > 0">
                                 - Discount :
                                 {{
-                                slabAddForm.get("slabDiscount").value | number : "1.2-2"
+                                slabAddForm.get("slabDiscount")?.value | number : "1.2-2"
                                 }}
                             </span>
                         </span>
@@ -602,7 +602,7 @@
                                 <span class="input-group-text">₹</span>
                             </div>
                             <input class="form-control" type="number" placeholder="Enter Discount"
-                                (change)="calculateTotalAmount()" formControlName="slabDiscount" />
+                                (change)="calculateTotalAmount('slabDiscount')" formControlName="slabDiscount" />
                         </div>
                         <div *ngIf="setValidations('slabDiscount')">
                             <span class="login-danger">Input Must be between 1 to {{maxPurchaseAmount}}.

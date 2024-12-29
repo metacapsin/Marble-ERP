@@ -581,7 +581,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         .get("paidToSupplierPurchaseCost")
         .patchValue(this.addNewPurchaseForm.get("nonTaxable").value);
     } else {
-      this.lotTypeValue === 'Lot' ? this.addNewPurchaseForm.get('paidToSupplierPurchaseCost').patchValue(this.ItemDetails.paidToSupplierLotCost) : this.addNewPurchaseForm.get('paidToSupplierPurchaseCost').patchValue(this.addNewPurchaseForm.get('nonTaxable').value + this.addNewPurchaseForm.get('taxable').value);
+      this.lotTypeValue === 'Lot' ? this.addNewPurchaseForm.get('paidToSupplierPurchaseCost').patchValue(this.ItemDetails.paidToSupplierLotCost) : this.addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.patchValue(this.addNewPurchaseForm.get('nonTaxable').value + this.addNewPurchaseForm.get('taxable').value);
     }
   }
 
