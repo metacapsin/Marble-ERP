@@ -214,7 +214,7 @@
                             <label for="customer">Warehouse
                               <span class="login-danger">*</span></label>
                             <p-dropdown [options]="wareHousedataListsEditArray" appendTo="body"
-                              [style]="{ width: '100%' }" optionLabel="name" [filter]="true" filterBy="slabName"
+                              [style]="{ width: '100%' }" optionLabel="name" [filter]="true" filterBy="name"
                               optionValue="_id" formControlName="salesWarehouseDetails" placeholder="Select Warehouse"
                               (onChange)="onWareHouseSelect($event.value, i)"></p-dropdown>
                             <div *ngIf="
@@ -257,10 +257,9 @@
                           <div class="form-group local-forms">
                             <label for="customer">Quantity (Sq. Feet)
                               <span class="login-danger">*</span></label>
-                            <input type="number" formControlName="salesItemQuantity" (change)="calculateTotalAmount()"
+                            <input type="number" formControlName="salesItemQuantity" (input)="calculateTotalAmount()"
                               class="form-control" />
-                            <span 
-                              style="color: #97704f; font-size: 12px">Max Quantity:
+                            <span style="color: #97704f; font-size: 12px">Max Quantity:
                               {{
                               addSalesForm
                               .get("salesItemDetails")
@@ -351,7 +350,7 @@
                           <div class="form-group local-forms">
                             <label for="customer">Price / Sq. Feet
                               <span class="login-danger">*</span></label>
-                            <input type="number" formControlName="salesItemUnitPrice" (change)="calculateTotalAmount()"
+                            <input type="number" formControlName="salesItemUnitPrice" (input)="calculateTotalAmount()"
                               class="form-control" />
                             <div *ngIf="
                                 addSalesForm
@@ -408,7 +407,7 @@
                             <label for="customer">Taxable Amount</label>
                             <p-inputGroup>
                               <input type="number" formControlName="salesItemTaxableAmount"
-                                (change)="calculateTotalAmount()" class="form-control" style="width: 50%" />
+                                (input)="calculateTotalAmount()" class="form-control" style="width: 50%" />
 
                               <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax"
                                 [options]="orderTaxList" appendTo="body" formControlName="salesItemTax"
@@ -446,7 +445,7 @@
                               addSalesForm
                               .get("salesItemDetails")
                               .get(i + ".salesItemAppliedTaxAmount").value
-                              }} 
+                              }}
                             </span>
                           </div>
                         </div>
@@ -476,7 +475,7 @@
                           <div class="form-group local-forms">
                             <label for="customer">Sub Total
                               <span class="login-danger">*</span></label>
-                            <span class="form-control">{{ 
+                            <span class="form-control">{{
                               addSalesForm
                               .get("salesItemDetails")
                               .get(i + ".salesItemSubTotal")?.value
@@ -484,7 +483,7 @@
                             <span
                               *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value  && addSalesForm.get('salesItemDetails').get(i + '.salesItemNonTaxableAmount').value"
                               style="color: #97704f; font-size: 12px">
-                                Tax Applied Amount:
+                              Tax Applied Amount:
                               {{ '₹' + ' ' +
                               addSalesForm
                               .get("salesItemDetails")
@@ -514,7 +513,7 @@
               </div>
               <!-- --------------#######------- -->
               <div class="row">
-                <div class="col-lg-7 col-md-6">
+                <div class="col-lg-6 col-md-6">
                   <div class="invoice-faq">
                     <div class="invoice-fields">
                       <h4 class="field-title">More Details</h4>
@@ -599,7 +598,7 @@
                               <span class="login-danger">*</span></label>
                             <input type="number" formControlName="vendorTaxApplied" (change)="taxVendorAmount()"
                               class="form-control" />
-                              <div *ngIf="
+                            <div *ngIf="
                                 addSalesForm
                                   .get('vendorTaxApplied')
                                   ?.hasError('max') &&
@@ -633,12 +632,12 @@
                             </div>
                           </div>
                         </div>
-                        
+
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-5 col-md-6">
+                <div class="col-lg-6 col-md-6">
                   <div class="invoice-total-card">
                     <h4 class="invoice-total-title">Summary</h4>
                     <div class="invoice-total-box">
@@ -669,7 +668,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
                               </div>
-                              <input class="form-control" (change)="calculateTotalAmount()"
+                              <input class="form-control" (input)="calculateTotalAmount()"
                                 formControlName="salesDiscount" type="number" placeholder="Enter Discount" />
                             </div>
                             <div *ngIf="
@@ -694,14 +693,14 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 ml-3">
+                        <div class="col-7 ml-3">
                           <div class="form-group local-forms">
                             <label for="salesShipping">Shipping Charges</label>
                             <div class="input-group">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
                               </div>
-                              <input class="form-control" (change)="calculateTotalAmount()"
+                              <input class="form-control" (input)="calculateTotalAmount()"
                                 formControlName="salesShipping" type="text" placeholder="Enter Shipping Charges" />
                             </div>
                             <div *ngIf="
@@ -714,14 +713,26 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 ml-3">
+                        <div class="col-5 checkbox">
+                          <p-checkbox [binary]="true" class="m-r-10" formControlName="isShippingTax"
+                            (onChange)="calculateTotalAmount()">
+                          </p-checkbox>
+                          <span for="isTaxVendor" class="fs-6">Apply Tax{{ this.addSalesForm.get("isShippingTax").value
+                            ? ' (' + salesItemDetails.at(0)?.get('salesItemTax')?.value[0]?.taxRate + '%)' : '' }}
+                          </span>
+                        </div>
+                        <!-- <div class="col-6 ml-3">
+                          <div class="form-group local-forms">
+                          </div>
+                        </div> -->
+                        <div class="col-7 ml-3">
                           <div class="form-group local-forms">
                             <label for="otherCharges">Other Charges</label>
                             <div class="input-group">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
                               </div>
-                              <input class="form-control" (change)="calculateTotalAmount()"
+                              <input class="form-control" (input)="calculateTotalAmount()"
                                 formControlName="otherCharges" type="text" placeholder="Enter Other Charges" />
                             </div>
                             <div *ngIf="
@@ -733,6 +744,13 @@
                               <span class="login-danger">Input must be between 0 to 100000.</span>
                             </div>
                           </div>
+                        </div>
+                        <div class="col-5 checkbox">
+                          <p-checkbox [binary]="true" class="m-r-10" formControlName="isOtherChargesTax"
+                            (onChange)="calculateTotalAmount()">
+                          </p-checkbox>
+                          <span for="isTaxVendor" class="fs-6">Apply Tax{{ this.addSalesForm.get("isOtherChargesTax").value
+                            ? ' (' + salesItemDetails.at(0)?.get('salesItemTax')?.value[0]?.taxRate + '%)' : '' }}</span>
                         </div>
                       </div>
 
@@ -749,7 +767,7 @@
                             }}
                           </span>
                         </p>
-                        <p *ngIf="addSalesForm.get('salesDiscount').value">
+                        <!-- <p *ngIf="addSalesForm.get('salesDiscount').value">
                           Discount
                           <span *ngIf="addSalesForm.get('salesDiscount')?.value > 0">
                             - ₹
@@ -758,7 +776,7 @@
                             | number : "1.2-2"
                             }}
                           </span>
-                        </p>
+                        </p> -->
                         <p *ngIf="addSalesForm.get('salesShipping').value">
                           Shipping Charges
                           <span *ngIf="addSalesForm.get('salesShipping')?.value > 0">
@@ -802,6 +820,16 @@
                             ₹
                             {{
                             addSalesForm.get("nonTaxable").value
+                            | number : "1.2-2"
+                            }}
+                          </span>
+                        </p>
+                        <p *ngIf="addSalesForm.get('salesDiscount').value">
+                          Discount
+                          <span *ngIf="addSalesForm.get('salesDiscount')?.value > 0">
+                            - ₹
+                            {{
+                            addSalesForm.get("salesDiscount").value
                             | number : "1.2-2"
                             }}
                           </span>

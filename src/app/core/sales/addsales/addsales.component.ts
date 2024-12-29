@@ -14,6 +14,7 @@ import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
 import { BillingAddressService } from "../../settings/billing-Address/billingAddress.service";
 import { validationRegex } from "../../validation";
+import { isArray } from "ngx-bootstrap/chronos";
 
 @Component({
   selector: "app-addsales",
@@ -73,7 +74,7 @@ export class AddsalesComponent implements OnInit {
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
       billingAddress: [""],
-      salesDiscount: ["", [ Validators.min(0)]],
+      salesDiscount: ["", [Validators.min(0)]],
       salesInvoiceNumber: ["", [Validators.pattern(this.invoiceRegex)]],
       salesItemDetails: this.fb.array([
         this.fb.group({
@@ -104,7 +105,7 @@ export class AddsalesComponent implements OnInit {
       salesGrossTotal: [""],
       salesOrderStatus: ["Confirmed"],
       salesOrderTax: [""],
-      vendorTaxApplied: ["", [Validators.max(100),Validators.min(0)]],
+      vendorTaxApplied: ["", [Validators.max(100), Validators.min(0)]],
       vendorTaxAmount: [""],
       appliedTax: [""],
       salesShipping: ["", [Validators.pattern(validationRegex.oneToOneLakhRegex)]],
@@ -114,6 +115,8 @@ export class AddsalesComponent implements OnInit {
       taxable: [""],
       nonTaxable: [""],
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
+      isShippingTax: [false],
+      isOtherChargesTax: [false],
     });
 
     // Set up a value change subscription to update the max validator for salesDiscount
@@ -185,6 +188,9 @@ export class AddsalesComponent implements OnInit {
             costPerSQFT: element.costPerSQFT,
             salesItemTotalQuantity: element.totalSlabSQFT,
           },
+          sellingPricePerSQFT: element.sellingPricePerSQFT,
+          sqftPerPiece: element.sqftPerPiece,
+          totalSQFT: element.totalSQFT,
         }));
         this.salesItemDetails.controls.forEach((element, index) => {
           if (i === index) {
@@ -301,9 +307,9 @@ export class AddsalesComponent implements OnInit {
       "salesItemDetails"
     ) as FormArray;
 
-    const selectedSlab = this.slabData.find((slab) => slab._id === value._id);
-    console.log('selectedSlab',selectedSlab);
-    
+    const selectedSlab = this.slabDataList[i].find((slab) => slab._id?._id === value._id);
+    console.log('selectedSlab', selectedSlab);
+
     if (selectedSlab) {
       let remainingQuantity = selectedSlab.totalSQFT;
       for (let j = 0; j < salesItemDetailsArray.length; j++) {
@@ -356,7 +362,10 @@ export class AddsalesComponent implements OnInit {
       const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value;
       this.totalTaxableAmount += Number(salesItemTaxableAmount);
       if (Array.isArray(tax)) {
-        tax.forEach((selectedTax: any) => {
+        tax.forEach((selectedTax: any, index: any) => {
+          if (index == 0) {
+
+          }
           totalTaxAmount +=
             (salesItemTaxableAmount * selectedTax.taxRate) / 100;
         });
@@ -388,25 +397,55 @@ export class AddsalesComponent implements OnInit {
       item.get("salesItemNonTaxableAmount").setValue(Number(salesItemNonTaxableAmount));
       item.get("salesItemSubTotal").setValue(Number(subtotal));
     });
-
-    this.addSalesForm.get("salesOrderTax").setValue(Number(salesOrderTax));
-    this.addSalesForm.get("salesGrossTotal").setValue(Number(salesGrossTotal));
-
     let itemTotalAmount = salesGrossTotal;
     const discount = +this.addSalesForm.get("salesDiscount").value;
     const shipping = +this.addSalesForm.get("salesShipping").value;
     const otherCharges = +this.addSalesForm.get("otherCharges").value;
 
+
+    // Check for shipping tax and other charges tax
+    let shippingTaxAmount = 0;
+    let otherChargesTaxAmount = 0;
+    const isShippingTax = this.addSalesForm.get("isShippingTax").value;  // checkbox value for shipping tax
+    const isOtherChargesTax = this.addSalesForm.get("isOtherChargesTax").value;  // checkbox value for other charges tax
+
+
+    const item = salesItems.at(0);
+    let taxRate = 0;
+    if (isArray(item.get('salesItemTax')?.value)) taxRate = item.get('salesItemTax')?.value[0].taxRate;
+
+    if (isShippingTax) {
+      const shippingTaxRate = taxRate;  // Tax rate for shipping
+      shippingTaxAmount = (shipping * shippingTaxRate) / 100;
+      taxable += shipping + shippingTaxAmount;  // Add shipping and its tax to taxable amount
+    }
+
+    // If other charges tax is applicable
+    if (isOtherChargesTax) {
+      const otherChargesTaxRate = taxRate;  // Tax rate for other charges
+      otherChargesTaxAmount = (otherCharges * otherChargesTaxRate) / 100;
+      taxable += otherCharges + otherChargesTaxAmount;  // Add other charges and its tax to taxable amount
+    }
+
+
+    this.addSalesForm.get("salesOrderTax").setValue(Number(salesOrderTax));
+    this.addSalesForm.get("salesGrossTotal").setValue(Number(salesGrossTotal));
+
+
+    nonTaxable = salesGrossTotal + shipping + otherCharges + otherChargesTaxAmount + shippingTaxAmount - taxable;
+    itemTotalAmount = nonTaxable + taxable;
     itemTotalAmount -= discount;
-    itemTotalAmount += shipping;
-    itemTotalAmount += otherCharges;
-    nonTaxable = itemTotalAmount - taxable;
     this.addSalesForm.get("salesTotalAmount").setValue(Number(itemTotalAmount));
     this.addSalesForm.get("taxable").setValue(Number(taxable));
     this.addSalesForm.get("nonTaxable").setValue(Number(nonTaxable));
     if (this.setAddressData?.isTaxVendor) {
       this.taxVendorAmount();
     }
+  }
+
+  calculatesummaryTaxAmount(_type: any) {
+    console.log(_type);
+
   }
   taxVendorAmount() {
     const vendorTaxApplied = this.addSalesForm.get("vendorTaxApplied").value;
