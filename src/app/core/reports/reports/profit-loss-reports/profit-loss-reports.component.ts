@@ -7,23 +7,23 @@ import { ReportsService } from "../reports.service";
   templateUrl: './profit-loss-reports.component.html',
   styleUrl: './profit-loss-reports.component.scss'
 })
-export class ProfitLossReportsComponent{
+export class ProfitLossReportsComponent {
   public routes = routes;
   picker1: any;
-  searchDataValue = ""  
+  searchDataValue = ""
   rangeDates: Date[] | undefined;
-  profitLossData:any = {};
+  profitLossData: any = {};
 
   searchByData = [
-     "This Month", "Last 3 Months", "Last 6 Months", "This Year"
+    "This Month", "Last 3 Months", "Last 6 Months", "This Year"
   ];
   searchBy: string;
 
   constructor(
-    private service:ReportsService
+    private service: ReportsService
   ) { }
 
-  getPaymentInReportData(startDate: Date, endDate: Date){
+  getPaymentInReportData(startDate: Date, endDate: Date) {
     const formattedStartDate = this.formatDate(startDate);
     const formattedEndDate = this.formatDate(endDate);
 
@@ -33,81 +33,48 @@ export class ProfitLossReportsComponent{
     };
 
     this.service.getProfitLoss(data).subscribe((resp: any) => {
-          this.profitLossData = resp.data.results;      
+      this.profitLossData = resp.data.results;
     });
   }
 
-  downloadProfitLoss(){
-    console.log(this.rangeDates);
-     // Format the start and end dates as DD-MM-YYYY
-  const formattedStartDate = this.formatDateToDDMMYYYY(this.rangeDates[0]);
-  const formattedEndDate = this.formatDateToDDMMYYYY(this.rangeDates[1]);
+  downloadProfitLoss() {
+    const formattedStartDate = this.formatDateToDDMMYYYY(this.rangeDates[0]);
+    const formattedEndDate = this.formatDateToDDMMYYYY(this.rangeDates[1]);
 
     const data = {
       startDate: formattedStartDate,
       endDate: formattedEndDate
     };
-    
-    this.service.downloadProfitLoss(data).subscribe((response: ArrayBuffer) => {
-      // const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
-          // Convert the data to CSV format
-    const csvData = this.generateCSV(this.profitLossData);
-    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    this.service.downloadProfitLoss(data).subscribe((response: ArrayBuffer) => {
+      const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
       const downloadUrl = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = downloadUrl;
 
-     // Set a dynamic filename based on the date range
-    const filename = `Profit Loss Reports ${formattedStartDate}_${formattedEndDate}.csv`;
-    link.setAttribute('download', filename);
+      const filename = `Profit Loss Reports ${formattedStartDate}_${formattedEndDate}.xlsx`;
+      link.setAttribute('download', filename);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     });
   }
 
-  // Function to convert the profitLossData to CSV format
-generateCSV(data: any): string {
-  // Define CSV headers
-  const headers = [
-    'Category', 'Amount', 'Due Amount', 'Paid Amount'
-  ];
-
-  // Collect CSV rows
-  const rows = [
-    ['Sales', `₹ ${data?.sales || 0}`, `₹ ${data?.salesDueAmount || 0}`, `₹ ${data?.salesPaidAmount || 0}`],
-    ['Purchase Returns', `₹ ${data?.purchase_returns || 0}`, `₹ ${data?.purchaseReturnsDueAmount || 0}`, `₹ ${data?.purchaseReturnsPaidAmount || 0}`],
-    ['Purchases', `₹ ${data?.purchases || 0}`, `₹ ${data?.purchaseDueAmount || 0}`, `₹ ${data?.purchasePaidAmount || 0}`],
-    ['Sales Returns', `₹ ${data?.sales_returns || 0}`, `₹ ${data?.salesReturnsDueAmount || 0}`, `₹ ${data?.salesReturnsPaidAmount || 0}`],
-    ['Tax Vendor Expenses', `₹ ${data?.taxVendorExpenses || 0}`, `₹ ${data?.taxVendorDueAmount || 0}`, `₹ ${data?.taxVendorPaidAmount || 0}`],
-    ['General Expenses', `₹ ${data?.expenses || 0}`, '', ''],
-    ['Salary Expenses', `₹ ${data?.salaryPayments || 0}`, '', ''],
-    ['Profit', `₹ ${data?.profit || 0}`, '', '']
-  ];
-
-  // Combine headers and rows into CSV string
-  const csvContent = [
-    headers.join(','), // Header row
-    ...rows.map(row => row.join(',')) // Data rows
-  ].join('\n'); // Join rows with newline
-
-  return '\uFEFF' + csvContent; // Adding BOM for UTF-8 encoding
-}
   // Helper function to format date as DD-MM-YYYY
-formatDateToDDMMYYYY(date: Date): string {
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-  const year = date.getFullYear();
-  return `${day}-${month}-${year}`;
-}
+  formatDateToDDMMYYYY(date: Date): string {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
 
   onDateChange(value: any): void {
     const startDate = value[0];
     const endDate = value[1];
     this.getPaymentInReportData(startDate, endDate);
   }
-  
+
   ngOnInit(): void {
     const today = new Date();
     const endDate = new Date();
@@ -186,5 +153,5 @@ formatDateToDDMMYYYY(date: Date): string {
 // today.getMonth() return this month = 5 = june ; because jan index is 0 ;
 // so 5- 3 = 2 = march;
 // today.getDate( return) today date = 6 ;
-// startdate= new Date(2024, 2, 6) = it return new date = 03/06/2024 
+// startdate= new Date(2024, 2, 6) = it return new date = 03/06/2024
 // }
