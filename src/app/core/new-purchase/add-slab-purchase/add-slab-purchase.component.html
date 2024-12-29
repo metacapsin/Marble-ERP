@@ -277,7 +277,8 @@
 
                                         <div class="col-12 col-md-6 col-xl-6">
                                             <div class="form-group local-forms">
-                                                <label for="slabNumber">Slab Number</label>
+                                                <label for="slabNumber">Slab Number <span
+                                                    class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" placeholder="Enter Slab Number"
                                                     formControlName="slabNumber" />
                                             </div>
@@ -709,9 +710,9 @@
                             </span>
                         </p> -->
                         <h3>
-                            <p *ngIf="slabAddForm.get('totalCost')?.value" class="mt-2">
+                            <p class="mt-2">
                                 Total Purchase Cost
-                                <span>
+                                <span *ngIf="slabAddForm.get('totalCost')?.value">
                                     ₹
                                     {{
                                     slabAddForm.get('totalCost')?.value
