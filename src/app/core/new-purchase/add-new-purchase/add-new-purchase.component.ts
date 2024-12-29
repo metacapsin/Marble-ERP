@@ -123,7 +123,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       //   "",
       //   [Validators.required, Validators.pattern(this.invoiceRegex)],
       // ],
-      // warehouseDetails: ["", [Validators.required]],
+      warehouseDetails: [""],
       // categoryDetail: ["", [Validators.required]],
       // subCategoryDetail: ["", [Validators.required]],
       // totalSQFT: [
@@ -324,11 +324,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   
 
   backStep(prevCallback: any, type: string) {
-    // this.slabChild?.onBackButton();
-    // console.log('backStep called with', { prevCallback, type, slabChild: this.slabChild });
-    // console.log(this.slabChild?.onBackButton());
-    // if (this.lotTypeValue == type) {
-    // }
     console.log(this.lotTypeValue, type);
     prevCallback.emit();
     this.addNewPurchaseForm.get("taxVendor").clearValidators();
@@ -365,8 +360,15 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         this.slabDetails = slabDetails.addSlab;
         this.addNewPurchaseForm.patchValue({
           slabDetails: slabDetails,
+          paidToSupplierPurchaseCost: slabDetails?.paidToSupplierSlabCost,
+          taxableAmount: slabDetails?.taxableAmount,
+          nonTaxable: slabDetails?.nonTaxable,
+          taxable: slabDetails?.taxable,
+          taxApplied: slabDetails?.taxApplied,
+          warehouseDetails: slabDetails.warehouseDetails,
         });
         this.patchTotalCosting(slabDetails.totalCost);
+        console.log(this.addNewPurchaseForm.value);
       }
     }
     nextCallback.emit();
@@ -579,9 +581,11 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     if (isTaxVendor) {
       this.addNewPurchaseForm
         .get("paidToSupplierPurchaseCost")
-        .patchValue(this.addNewPurchaseForm.get("nonTaxable").value);
+        ?.patchValue(this.addNewPurchaseForm.get("nonTaxable").value);
     } else {
-      this.lotTypeValue === 'Lot' ? this.addNewPurchaseForm.get('paidToSupplierPurchaseCost').patchValue(this.ItemDetails.paidToSupplierLotCost) : this.addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.patchValue(this.addNewPurchaseForm.get('nonTaxable').value + this.addNewPurchaseForm.get('taxable').value);
+      this.lotTypeValue === 'Lot' ? 
+      this.addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.patchValue(this.ItemDetails.paidToSupplierLotCost) : 
+      this.addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.patchValue(this.addNewPurchaseForm.get('nonTaxable').value + this.addNewPurchaseForm.get('taxable').value);
     }
   }
 
@@ -652,6 +656,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       // taxApplied: formData.taxApplied,
       // };
       payload = this.slabSelected(formData) as any;
+      console.log(payload);
     }
     if (this.addNewPurchaseForm.valid) {
       this.NewPurchaseService.createPurchase(payload).subscribe((resp: any) => {
@@ -677,9 +682,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   slabSelected(formData?: any): any {
     const {
       paidToSupplierPurchaseCost,
-      nonTaxable,
-      taxable,
-      taxableAmount,
       slabDetails,
       royaltyCharge,
       transportationCharge,
@@ -695,17 +697,19 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       purchaseTotalAmount: Number(formData.totalCosting),
       slabDetail: slabDetails,
       purchaseCost: Number(paidToSupplierPurchaseCost),
-      totalCosting: Number(paidToSupplierPurchaseCost),
-      nonTaxable: Number(nonTaxable),
-      taxableAmount: Number(taxableAmount),
-      taxable: Number(taxable),
+      totalCosting: formData.totalCosting,
+      nonTaxable: formData.nonTaxable,
+      taxableAmount: formData.nonTaxable,
+      taxable: formData.nonTaxable,
       otherCharges: Number(royaltyCharge),
       transportationCharges: Number(transportationCharge),
       purchaseDiscount: Number(slabDiscount),
       purchaseItemTax: formData.purchaseItemTax,
       taxVendor: null,
       taxApplied: formData.taxApplied,
-      totalSQFT: squarefeet
+      totalSQFT: squarefeet,
+      warehouseDetails: formData.warehouseDetails,
+      sqftPerPiece : 12,
     };
   }
 
@@ -724,35 +728,25 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     transportationCharge = formData.transportationCharge || 0;
     royaltyCharge = formData.royaltyCharge || 0;
     warehouseDetails = formData.warehouseDetails;
+    console.log(formData);
     formData.addSlab?.forEach((item) => {
       slabDetails.push({
         slabName: item.slabName,
         slabNo: item.slabNumber || "",
-        categoryDetail: item.categoryDetail || "",
-        subCategoryDetail: item.subCategoryDetail || "",
-        sellingPricePerSQFT: item.sellingprice,
         width: Number(item.width) || "",
         length: Number(item.length) || "",
-        thikness: Number(item.thikness) || "",
+        thikness: Number(item.thickness) || "",
         finishes: Number(item.finishes) || "",
+        categoryDetail: item.categoryDetail || "",
+        subCategoryDetail: item.subCategoryDetail || "",
         costPerSQFT: Number(item.costPerSQFT),
-        taxableAmount: Number(item.taxableAmount) || "",
-        squarefeet: Number(item.squarefeet) || "",
-        noOfPieces: Number(item.numberOfPieces) || "",
-        sqftPerPiece: Number(item.sqftPerPiece),
-        taxable: Number(item.taxable) || "",
-        nonTaxable: Number(item.nonTaxable) || "",
-        taxApplied: Number(item.taxApplied) || "",
-        paidToSupplierSlabCost: Number(item.paidToSupplierSlabCost) || "",
+        ratePerSqFeet: item.ratePerSqFeet,
+        totalAmount: Number(item.totalAmount) || "",
         slabSize: `${item.width ? item.width : " "} x ${
           item.length ? item.length : " "
-        } x ${item.thickness ? item.thickness : " "}`,
+          } x ${item.thickness ? item.thickness : " "}`,
+        noOfPieces: Number(item.noOfPieces) || "",
       });
-      paidToSupplierPurchaseCost += Number(item.paidToSupplierSlabCost) || 0;
-      nonTaxable += Number(item.nonTaxable) || 0;
-      taxable += Number(item.taxable) || 0;
-      taxableAmount += Number(item.taxableAmount) || 0;
-      squarefeet += Number(item.squarefeet) || 0;
     });
     return {
       taxable,

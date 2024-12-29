@@ -89,7 +89,7 @@ export class AddSlabPurchaseComponent {
       finishes: ["", Validators.required],
       subCategoryDetail: ["", Validators.required],
       categoryDetail: ["", Validators.required],
-      numberOfPieces: ["", Validators.required],
+      noOfPieces: ["", Validators.required],
       costPerSQFT: [""],
       quantity: [""],
       ratePerSqFeet: [""],
@@ -422,7 +422,7 @@ export class AddSlabPurchaseComponent {
           item.subCategoryDetail !== "" &&
           item.categoryDetail !== "" &&
           item.finishes !== "" &&
-          item.numberOfPieces !== ""
+          item.noOfPieces !== ""
         );
       });
     }

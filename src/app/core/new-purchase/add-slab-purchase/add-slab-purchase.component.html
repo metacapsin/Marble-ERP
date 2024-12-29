@@ -26,7 +26,6 @@
                                 placeholder="Select Warehouse" formControlName="warehouseDetails"
                                 [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true">
                             </p-dropdown>
-                            <!-- {{ slabAddForm.get('warehouseDetails')?.value}} -->
                             <div *ngIf="setValidations('warehouseDetails')">
                                 <span class="login-danger">Field is required.</span>
                             </div>
@@ -318,10 +317,10 @@
 
                                         <div class="col-12 col-md-6 col-xl-6">
                                             <div class="form-group local-forms">
-                                                <label for="numberOfPieces">Number of Pieces</label>
+                                                <label for="noOfPieces">Number of Pieces</label>
                                                 <input class="form-control" type="number"
                                                     placeholder="Enter Number of Pieces"
-                                                    formControlName="numberOfPieces" />
+                                                    formControlName="noOfPieces" />
                                             </div>
                                         </div>
 
@@ -506,7 +505,7 @@
                                                                 </h5>
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                                     <p class="col-form-label">
-                                                                        {{ data.numberOfPieces }}
+                                                                        {{ data.noOfPieces }}
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -517,6 +516,16 @@
                                                                 <div class="col-lg-9 col-md-9 col-xl-9">
                                                                     <p class="col-form-label">
                                                                         {{ data.finishes.name }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                                  Cost Per SQFT
+                                                                </h5>
+                                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                                    <p class="col-form-label">
+                                                                        {{ data.costPerSQFT }}
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -657,9 +666,9 @@
                 <h4 class="invoice-total-title">Summary</h4>
                 <div class="invoice-total-box">
                     <div class="invoice-total-inner">
-                        <p class="mt-2">
+                        <p *ngIf="slabAddForm.get('transportationCharge')?.value" class="mt-2">
                             Transportation Charges
-                            <span *ngIf="slabAddForm.get('transportationCharge')?.value">
+                            <span>
                                 ₹
                                 {{
                                 slabAddForm.get('transportationCharge')?.value
@@ -667,9 +676,9 @@
                                 }}
                             </span>
                         </p>
-                        <p class="mt-2">
+                        <p *ngIf="slabAddForm.get('royaltyCharge')?.value" class="mt-2">
                             Other Charges
-                            <span *ngIf="slabAddForm.get('royaltyCharge')?.value">
+                            <span>
                                 ₹
                                 {{
                                 slabAddForm.get('royaltyCharge')?.value
@@ -677,9 +686,9 @@
                                 }}
                             </span>
                         </p>
-                        <p class="mt-2">
+                        <p *ngIf="slabAddForm.get('slabDiscount')?.value" class="mt-2">
                             Discount
-                            <span *ngIf="slabAddForm.get('slabDiscount')?.value">
+                            <span>
                                 ₹
                                 {{
                                 slabAddForm.get('slabDiscount')?.value
@@ -698,9 +707,9 @@
                             </span>
                         </p> -->
                         <h3>
-                            <p class="mt-2">
+                            <p *ngIf="slabAddForm.get('totalCost')?.value" class="mt-2">
                                 Total Purchase Cost
-                                <span *ngIf="slabAddForm.get('totalCost')?.value">
+                                <span>
                                     ₹
                                     {{
                                     slabAddForm.get('totalCost')?.value
