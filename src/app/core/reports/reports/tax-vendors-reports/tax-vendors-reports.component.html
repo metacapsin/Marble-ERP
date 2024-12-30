@@ -64,9 +64,16 @@
                 <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
                   [roles]="['admin', 'super-admin']">
                   <!-- <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg"   pTooltip="Download data in PDF file" tooltipPosition="left" tooltipStyleClass="tooltip" alt="" /></a> -->
-                  <a href="javascript:;" class="me-2" (click)="dt.exportCSV()"><img
-                      src="assets/img/icons/pdf-icon-03.svg" pTooltip="Download data in CSV file "
-                      tooltipPosition="left" tooltipStyleClass="tooltip" alt="" /></a>
+                  <a *ngIf="activeIndex === 0" href="javascript:;" class="me-2" (click)="dt.exportCSV()">
+                    <img src="assets/img/icons/pdf-icon-03.svg" pTooltip="Download data in CSV file"
+                      tooltipPosition="left" tooltipStyleClass="tooltip" alt="" />
+                  </a>
+
+                  <a *ngIf="activeIndex === 1" href="javascript:;" class="me-2" (click)="st.exportCSV()">
+                    <img src="assets/img/icons/pdf-icon-03.svg" pTooltip="Download data in CSV file"
+                      tooltipPosition="left" tooltipStyleClass="tooltip" alt="" />
+                  </a>
+
                 </div>
               </div>
 
@@ -96,7 +103,7 @@
 
             <div class="card-body p-2">
               <!-- Tab View Container -->
-              <p-tabView>
+              <p-tabView [(activeIndex)]="activeIndex" (onChange)="setActiveIndex($event)">
                 <!-- Sales Tab -->
                 <p-tabPanel header="Sales">
                   <p-table [value]="originalData?.sales" [paginator]="originalData?.sales?.length >= 5" [rows]="10"
@@ -181,7 +188,7 @@
                       'taxVendor.taxVendorAmount',
                       'source'
                     ]" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }"
-                    [paginator]="originalData?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #dt
+                    [paginator]="originalData?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" #st
                     [columns]="cols" [exportHeader]="'customExportHeader'" [exportFilename]="getExportFilename()"
                     selectionMode="multiple">
 
