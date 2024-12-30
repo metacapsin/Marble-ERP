@@ -66,7 +66,7 @@ export class ProfitLossReportsComponent {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
     const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
+    return `${month}-${day}-${year}`;
   }
 
   onDateChange(value: any): void {
