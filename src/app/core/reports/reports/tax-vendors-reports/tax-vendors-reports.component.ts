@@ -21,7 +21,7 @@ export class TaxVendorsReportsComponent {
 
   cols = [];
   exportColumns = [];
-
+  activeIndex: number = 0;
   searchByData = [
     "Today",
     "Yesterday",
@@ -38,7 +38,9 @@ export class TaxVendorsReportsComponent {
   private formatDateForFilename(date: Date): string {
     return date.toLocaleDateString("en-GB").replace(/\//g, "-"); // e.g., 19-02-2024
   }
-
+  setActiveIndex(event: any) {
+    this.activeIndex = event?.index;
+  }
   // Function to generate the export filename
   getExportFilename(): string {
     const formattedStartDate = this.formatDateForFilename(this.startDate);
