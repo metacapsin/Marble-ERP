@@ -80,6 +80,9 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="categoryId.name"
                         display="menu"></p-columnFilter>
                     </th>
+                    <th pSortableColumn="hsnCode">HSN Code<p-sortIcon field="hsnCode"></p-sortIcon>
+                    <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="hsnCode"
+                    display="menu"></p-columnFilter>
                     <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="description"
                         display="menu"></p-columnFilter>
@@ -96,6 +99,7 @@ hideOnClear="true"  type="text" field="category" display="menu"></p-columnFilter
                   <tr>
                     <td>{{subCategories.name}}</td>
                     <td>{{subCategories.categoryId.name}}</td>
+                    <td>{{subCategories.hsnCode}}</td>
                     <td>{{subCategories.description}}</td>
                     <!-- <td>{{subCategories.category}}</td> -->
                     <td class="action-buttions" appShowHide [roles]="['admin', 'super-admin', 'help-desk']">

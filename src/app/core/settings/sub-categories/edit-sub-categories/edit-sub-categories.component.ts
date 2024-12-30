@@ -23,6 +23,8 @@ export class EditSubCategoriesComponent {
   editSubCategoryForm!: FormGroup;
   categoriesListData = [];
   subCategoryDataById = [];
+  hsnCodeRegex: RegExp = /^(?:\d{6}|\d{8}|\d{10})$/;
+
   constructor(
     private fb: FormBuilder,
     public dialog: MatDialog,
@@ -34,6 +36,7 @@ export class EditSubCategoriesComponent {
     this.editSubCategoryForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
       categoryId: ["", [Validators.required]],
+      hsnCode:["",[Validators.required,Validators.pattern(this.hsnCodeRegex)]],
       description: ["", [Validators.pattern(validationRegex.descriptionRegex)]],
     });
   }
@@ -61,6 +64,7 @@ export class EditSubCategoriesComponent {
       name: data.name,
       categoryId: data.categoryId,
       description: data.description,
+      hsnCode:data.hsnCode
     });
   }
 
