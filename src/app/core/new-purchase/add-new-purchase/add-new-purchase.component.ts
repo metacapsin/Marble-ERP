@@ -215,6 +215,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           _id: {
             _id: element._id,
             name: element.name,
+            taxNo: element.taxNo,
             billingAddress: element.billingAddress,
           },
         });

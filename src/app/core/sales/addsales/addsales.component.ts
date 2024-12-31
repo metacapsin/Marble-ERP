@@ -297,6 +297,7 @@ export class AddsalesComponent implements OnInit {
         _id: {
           _id: element._id,
           name: element.name,
+          taxNo: element.taxNo,
           billingAddress: element.billingAddress,
         },
       }));

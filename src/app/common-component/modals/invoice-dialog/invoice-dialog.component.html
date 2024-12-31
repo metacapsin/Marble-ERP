@@ -267,16 +267,26 @@
                             </div>
                           </div>
 
-                          <!-- <div class="form-group row mb-2" *ngIf="sales.paymentStatus">
+                          <div class="form-group row mb-2" *ngIf="sales?.supplier?.taxNo">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                              Payment Status:
+                              GST No / Tax No:
                             </h5>
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-form-label">
-                                {{ sales.paymentStatus }}
+                                {{ sales?.supplier?.taxNo || 'N/A' }}
                               </p>
                             </div>
-                          </div> -->
+                          </div>
+                          <div class="form-group row mb-2" *ngIf="sales?.customer?.taxNo">
+                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                              GST No / Tax No:
+                            </h5>
+                            <div class="col-lg-8 col-md-8 col-xl-8">
+                              <p class="col-form-label">
+                                {{ sales?.customer?.taxNo || 'N/A' }}
+                              </p>
+                            </div>
+                          </div>
                           <div class="form-group row mb-2">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Due Amount:
