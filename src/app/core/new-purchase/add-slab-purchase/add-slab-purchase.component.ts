@@ -181,7 +181,7 @@ export class AddSlabPurchaseComponent {
   }
 
   deleteAccordian(index: number) {
-    this.slabTotalCost -= Number(this.slabDetails[index].totalAmount);
+    this.slabTotalCost -= Number(this.slabDetails[index].totalCosting);
     this.slabDetails.splice(index, 1);
     this.calculateTotalAmount();
   }
@@ -215,9 +215,9 @@ export class AddSlabPurchaseComponent {
       length: this.length,
       thickness: this.thickness,
       finishes: this.finishes,
-      quantity: this.quantity,
+      totalSQFT: this.quantity,
       ratePerSqFeet: this.ratePerSqFeet,
-      totalAmount: this.totalAmount,
+      totalCosting: this.totalAmount,
       sqftPerPiece: Number((this.quantity / this.noOfPieces)).toFixed(2),
     };
 
@@ -300,8 +300,8 @@ export class AddSlabPurchaseComponent {
     let totalSQFT = 0
     let totalSlabAmount = 0
     this.slabDetails.forEach((element: any) => {
-      totalSQFT += element?.quantity
-      totalSlabAmount += element?.totalAmount
+      totalSQFT += element?.totalSQFT
+      totalSlabAmount += element?.totalCosting
     });
     transportationAndOtherChargePerSQFT = Number((transportationCharge + royaltyCharge) / totalSQFT);
     transportationChargesPerSlab = Number(transportationCharge / totalSQFT);
@@ -330,7 +330,7 @@ export class AddSlabPurchaseComponent {
 
     let calculatedDetails = this.slabDetails.map((e: any) => ({
       ...e,
-      taxAmountPerSQFT: Number(((taxApplied / this.slabTotalCost) * Number(e.totalAmount)) / Number(e.quantity)).toFixed(4),
+      taxAmountPerSQFT: Number(((taxApplied / this.slabTotalCost) * Number(e.totalCosting)) / Number(e.totalSQFT)).toFixed(4),
     }));
 
     if (purchaseDiscount) {
@@ -349,8 +349,8 @@ export class AddSlabPurchaseComponent {
       ...e,
       costPerSQFT: Number(Number(e.ratePerSqFeet) + Number(e.taxAmountPerSQFT) + Number(transportationAndOtherChargePerSQFT)).toFixed(4),
       sellingPricePerSQFT: Number(Number(e.ratePerSqFeet) + Number(e.taxAmountPerSQFT) + Number(transportationAndOtherChargePerSQFT)).toFixed(4),
-      transportationCharges: Number(transportationChargesPerSlab * e.quantity).toFixed(4),
-      otherCharges: Number(otherChargesPerSlab * e.quantity).toFixed(4),
+      transportationCharges: Number(transportationChargesPerSlab * e.totalSQFT).toFixed(4),
+      otherCharges: Number(otherChargesPerSlab * e.totalSQFT).toFixed(4),
       slabSize: `${e.width ? e.width : " "} x ${e.length ? e.length : " "} x ${e.thickness ? e.thickness : " "}`,
       warehouseDetails: this.slabAddForm?.value?.warehouse,
     }));

@@ -1487,8 +1487,8 @@
                               </p>
                               <p>
                                 Purchase Cost ( Paid To Supplier)
-                                <span>
-                                  {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value ? ( '₹' + addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | indianCurrency ) : ' -- ' }}
+                                <span>₹
+                                  {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value ? ( addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | indianCurrency ) : ' -- ' }}
                                 </span>
                               </p>
                               <!-- <p>
