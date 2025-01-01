@@ -418,7 +418,8 @@ export class AddsalesComponent implements OnInit {
     if (isShippingTax) {
       const shippingTaxRate = taxRate;  // Tax rate for shipping
       shippingTaxAmount = (shipping * shippingTaxRate) / 100;
-      taxable += shipping + shippingTaxAmount;  // Add shipping and its tax to taxable amount
+      taxable += shipping + shippingTaxAmount;  // Add shipping and its tax to taxable amount;
+      salesOrderTax += shippingTaxAmount
     }
 
     // If other charges tax is applicable
@@ -426,6 +427,7 @@ export class AddsalesComponent implements OnInit {
       const otherChargesTaxRate = taxRate;  // Tax rate for other charges
       otherChargesTaxAmount = (otherCharges * otherChargesTaxRate) / 100;
       taxable += otherCharges + otherChargesTaxAmount;  // Add other charges and its tax to taxable amount
+      salesOrderTax += otherChargesTaxAmount;
     }
 
 
