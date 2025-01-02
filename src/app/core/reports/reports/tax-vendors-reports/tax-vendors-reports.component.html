@@ -168,7 +168,7 @@
                     </ng-template>
 
                     <ng-template pTemplate="footer">
-                      <tr totalValueDirective [data]="originalData" [name]="'salesReports'"></tr>
+                      <tr totalValueDirective [data]="originalData?.sales" [name]="'salesReports'"></tr>
                     </ng-template>
                   </p-table>
                 </p-tabPanel>
@@ -237,7 +237,7 @@
                     </ng-template>
 
                     <ng-template pTemplate="footer">
-                      <tr totalValueDirective [data]="originalData" [name]="'purchaseReports'"></tr>
+                      <tr totalValueDirective [data]="originalData?.purchase" [name]="'purchaseReports'"></tr>
                     </ng-template>
                   </p-table>
                 </p-tabPanel>
