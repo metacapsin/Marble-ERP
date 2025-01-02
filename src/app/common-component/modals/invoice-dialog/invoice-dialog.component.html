@@ -59,14 +59,19 @@
                               <h5 *ngIf="sales?.billingAddress?.taxNo" title="GST">GST No:{{
                                 sales?.billingAddress?.taxNo }}</h5>
                             </div>
-                          </span>
-                          <span *ngIf="sales?.supplier?.billingAddress"
-                            [innerHTML]="sales?.supplier?.billingAddress | wordWrap : 2"></span>
 
+                            <h5 *ngIf="sales?.supplier?.billingAddress"
+                              [innerHTML]="sales?.supplier?.billingAddress | wordWrap : 2"></h5>
+
+                            <!-- <h5 *ngIf="sales?.supplier?.taxNo">
+                              GSTIN: {{sales?.supplier?.taxNo }}
+                            </h5> -->
+
+                          </span>
                         </p>
                       </div>
-
                     </div>
+
                   </div>
                   <div class="col-md-6">
                     <div class="invoice-info">
@@ -90,8 +95,8 @@
                               "></span>
                         </p>
                         <p>
-                          <span *ngIf="sales?.customer?.billingAddress?.taxNo" style="font-size:15px">
-                            GST No:{{ sales?.customer?.billingAddress?.taxNo }}
+                          <span *ngIf="sales?.customer?.taxNo" style="font-size:15px">
+                            GSTIN:{{ sales?.customer?.taxNo }}
                           </span>
                         </p>
                       </div>
@@ -269,7 +274,7 @@
                             </div>
                           </div>
 
-                          <div class="form-group row mb-2" *ngIf="sales?.supplier?.taxNo">
+                          <!-- <div class="form-group row mb-2" *ngIf="sales?.supplier?.taxNo">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               GST No / Tax No:
                             </h5>
@@ -278,8 +283,8 @@
                                 {{ sales?.supplier?.taxNo || 'N/A' }}
                               </p>
                             </div>
-                          </div>
-                          <div class="form-group row mb-2" *ngIf="sales?.customer?.taxNo">
+                          </div> -->
+                          <!-- <div class="form-group row mb-2" *ngIf="sales?.customer?.taxNo">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               GST No / Tax No:
                             </h5>
@@ -288,7 +293,7 @@
                                 {{ sales?.customer?.taxNo || 'N/A' }}
                               </p>
                             </div>
-                          </div>
+                          </div> -->
                           <div class="form-group row mb-2">
                             <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                               Due Amount:
