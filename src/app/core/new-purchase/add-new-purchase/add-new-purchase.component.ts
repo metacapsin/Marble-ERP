@@ -277,7 +277,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     }));
   }
 
-
   backStep(prevCallback: any, type: string) {
     console.log(this.lotTypeValue, type);
     prevCallback.emit();
@@ -309,11 +308,13 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       }
       if (this.lotTypeValue == "Slab") {
         this.slabChild?.slabAddFormSubmit();
-        this.SlabItemDetails = this.NewPurchaseService.getFormData("stepFirstSlabData");
-        console.log('SlabItemDetails', this.SlabItemDetails);
+        this.SlabItemDetails =
+          this.NewPurchaseService.getFormData("stepFirstSlabData");
+        console.log("SlabItemDetails", this.SlabItemDetails);
 
         this.addNewPurchaseForm.patchValue({
-          paidToSupplierPurchaseCost: this.SlabItemDetails?.paidToSupplierSlabCost,
+          paidToSupplierPurchaseCost:
+            this.SlabItemDetails?.paidToSupplierSlabCost,
           totalCosting: this.SlabItemDetails?.totalCost,
           taxableAmount: this.SlabItemDetails?.taxableAmount,
           nonTaxable: this.SlabItemDetails?.nonTaxableAmount,
@@ -329,7 +330,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         });
 
         console.log(this.addNewPurchaseForm.value);
-
       }
     }
     nextCallback.emit();
@@ -351,7 +351,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       this.LotPayload = payload;
       console.log(this.ItemDetails?.paidToSupplierLotCost);
       if (this.ItemDetails) {
-
         this.addNewPurchaseForm.patchValue({
           paidToSupplierPurchaseCost: this.ItemDetails?.paidToSupplierLotCost,
           taxableAmount: this.ItemDetails?.taxableAmount,
@@ -363,12 +362,13 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       }
     } else {
       this.slabChild?.slabAddFormSubmit();
-      this.SlabItemDetails = this.NewPurchaseService.getFormData("stepFirstSlabData");
-      console.log('SlabItemDetails', this.SlabItemDetails);
+      this.SlabItemDetails =
+        this.NewPurchaseService.getFormData("stepFirstSlabData");
+      console.log("SlabItemDetails", this.SlabItemDetails);
       if (this.SlabItemDetails) {
-
         this.addNewPurchaseForm.patchValue({
-          paidToSupplierPurchaseCost: this.SlabItemDetails?.paidToSupplierSlabCost,
+          paidToSupplierPurchaseCost:
+            this.SlabItemDetails?.paidToSupplierSlabCost,
           totalCosting: this.SlabItemDetails?.totalCost,
           taxableAmount: this.SlabItemDetails?.taxableAmount,
           nonTaxable: this.SlabItemDetails?.nonTaxableAmount,
@@ -385,7 +385,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       }
 
       console.log(this.addNewPurchaseForm.value);
-
     }
     this.calculateTotalAmount();
   }
@@ -410,7 +409,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     //     this.addNewPurchaseForm.get("purchaseItemTax")?.value;
     //   let sqftPerPiece = totalSQFT / noOfPieces;
     //   let taxable;
-
     //   if (Array.isArray(purchaseItemTax)) {
     //     purchaseItemTax.forEach((selectedTax: any) => {
     //       totalTaxAmount += (taxableAmount * selectedTax.taxRate) / 100;
@@ -418,7 +416,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     //   } else if (purchaseItemTax) {
     //     totalTaxAmount = (taxableAmount * purchaseItemTax) / 100;
     //   }
-
     //   if (purchaseDiscount > 0) {
     //     if (!nonTaxable) {
     //       taxableAmount -= purchaseDiscount;
@@ -464,7 +461,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     //     this.addNewPurchaseForm.get("taxableAmount")?.value || 0;
     //   let nonTaxable = this.addNewPurchaseForm.get("nonTaxable")?.value || 0;
     //   let totalTaxAmount = 0;
-
     //   if (purchaseDiscount > 0) {
     //     if (!nonTaxable) {
     //       taxableAmount -= purchaseDiscount;
@@ -519,9 +515,16 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         .get("paidToSupplierPurchaseCost")
         ?.patchValue(this.addNewPurchaseForm.get("nonTaxable").value);
     } else {
-      this.lotTypeValue === 'Lot' ?
-        this.addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.patchValue(this.ItemDetails.paidToSupplierLotCost) :
-        this.addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.patchValue(this.addNewPurchaseForm.get('nonTaxable').value + this.addNewPurchaseForm.get('taxable').value);
+      this.lotTypeValue === "Lot"
+        ? this.addNewPurchaseForm
+            .get("paidToSupplierPurchaseCost")
+            ?.patchValue(this.ItemDetails.paidToSupplierLotCost)
+        : this.addNewPurchaseForm
+            .get("paidToSupplierPurchaseCost")
+            ?.patchValue(
+              this.addNewPurchaseForm.get("nonTaxable").value +
+                this.addNewPurchaseForm.get("taxable").value
+            );
     }
   }
 
@@ -555,6 +558,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         purchaseDate: formData.purchaseDate,
         purchaseType: "lot",
         purchaseNotes: formData.purchaseNotes,
+        purchaseDiscount: Number(formData.purchaseDiscount),
         purchaseCost: Number(formData.paidToSupplierPurchaseCost),
         purchaseTotalAmount: Number(this.ItemDetails.lotTotalCost).toFixed(2),
         lotDetail: this.ItemDetails,
@@ -577,6 +581,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         purchaseCost: Number(formData.paidToSupplierPurchaseCost),
         slabDetail: this.SlabItemDetails.slabDetails,
         purchaseTotalAmount: Number(formData.totalCosting),
+        purchaseDiscount: Number(formData.purchaseDiscount),
         nonTaxable: Number(formData.nonTaxable),
         taxableAmount: Number(formData.taxableAmount),
         taxable: formData.taxable,
@@ -622,7 +627,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       royaltyCharge,
       transportationCharge,
       slabDiscount,
-      squarefeet
+      squarefeet,
     } = this.addSlabPNTTT(formData.slabDetails);
     return {
       purchaseInvoiceNumber: formData.invoiceNumber,
@@ -663,7 +668,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     transportationCharge = formData.transportationCharge || 0;
     royaltyCharge = formData.royaltyCharge || 0;
     warehouseDetails = formData.warehouseDetails;
-    paidToSupplierPurchaseCost = formData.paidToSupplierSlabCost,
+    (paidToSupplierPurchaseCost = formData.paidToSupplierSlabCost),
       console.log(formData);
     formData.addSlab?.forEach((item) => {
       slabDetails.push({
@@ -683,11 +688,12 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         quantity: Number(item.quantity),
         ratePerSqFeet: item.ratePerSqFeet,
         totalAmount: Number(item.totalAmount) || "",
-        slabSize: `${item.width ? item.width : " "} x ${item.length ? item.length : " "
-          } x ${item.thickness ? item.thickness : " "}`,
+        slabSize: `${item.width ? item.width : " "} x ${
+          item.length ? item.length : " "
+        } x ${item.thickness ? item.thickness : " "}`,
         noOfPieces: Number(item.noOfPieces) || "",
       });
-      squarefeet += item.quantity
+      squarefeet += item.quantity;
     });
     return {
       taxable,
@@ -698,7 +704,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       royaltyCharge,
       transportationCharge,
       slabDiscount,
-      squarefeet
+      squarefeet,
     };
   }
 

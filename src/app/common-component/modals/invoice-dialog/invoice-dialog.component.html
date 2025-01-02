@@ -56,7 +56,8 @@
                               </h5>
                               <h5 title="Country" *ngIf="sales?.billingAddress?.country?.name">{{
                                 sales?.billingAddress?.country?.name }}</h5>
-                                <h5 *ngIf="sales?.billingAddress?.taxNo" title="GST">GST No:{{ sales?.billingAddress?.taxNo }}</h5>
+                              <h5 *ngIf="sales?.billingAddress?.taxNo" title="GST">GST No:{{
+                                sales?.billingAddress?.taxNo }}</h5>
                             </div>
                           </span>
                           <span *ngIf="sales?.supplier?.billingAddress"
@@ -79,7 +80,7 @@
                           <span *ngIf="sales?.customer?.billingAddress" [innerHTML]="
                               sales?.customer?.billingAddress | wordWrap : 2
                             "></span>
-                            
+
                           <span *ngIf="sales?.purchaseDate" [innerHTML]="
                             sellerData?.address  | wordWrap : 2
                             "></span>
@@ -89,7 +90,7 @@
                               "></span>
                         </p>
                         <p>
-                          <span *ngIf="sales?.customer?.billingAddress?.taxNo" style="font-size:15px" >
+                          <span *ngIf="sales?.customer?.billingAddress?.taxNo" style="font-size:15px">
                             GST No:{{ sales?.customer?.billingAddress?.taxNo }}
                           </span>
                         </p>
@@ -97,7 +98,7 @@
                     </div>
 
                   </div>
-                </div>  
+                </div>
               </div>
 
               <div class="row">
@@ -188,7 +189,8 @@
                             </h5>
                             <div class="col-lg-8 col-md-8 col-xl-8">
                               <p class="col-lg-8 col-form-label">
-                                {{ sales?.purchaseDate | date : "dd-MMM-yyyy" }} / {{ sales?.purchaseType.toUpperCase() }}
+                                {{ sales?.purchaseDate | date : "dd-MMM-yyyy" }} / {{ sales?.purchaseType.toUpperCase()
+                                }}
                               </p>
                             </div>
                           </div>
@@ -342,7 +344,7 @@
               <div class="card">
                 <p-tabView>
                   <p-tabPanel header="Items">
-                    <p-table [value]="salesDataById" styleClass="p-datatable-striped" 
+                    <p-table [value]="salesDataById" styleClass="p-datatable-striped"
                       [tableStyle]="{ 'min-width': '60rem' }">
                       <ng-template pTemplate="header">
                         <tr *ngIf="sales?.salesItemDetails && !sales?.returnDate">
@@ -454,7 +456,8 @@
                           <td>₹ {{ sales?.nonTaxable | indianCurrency }} </td>
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-data *ngIf="sales?.slabDetails && sales?.slabDetails.length > 0">
+                      <ng-template pTemplate="body" let-data
+                        *ngIf="sales?.slabDetails && sales?.slabDetails.length > 0">
                         <tr *ngFor="let data of sales?.slabDetails">
                           <td>{{ data?.slabName }}</td>
                           <td>{{ data?.slabNo }}</td>
@@ -472,7 +475,7 @@
                           <td>
                             ₹
                             {{
-                            data?.purchaseCost | indianCurrency
+                            data?.totalCosting | indianCurrency
                             }}
                           </td>
                         </tr>
@@ -634,7 +637,8 @@
                         </p>
                         <p *ngIf="sales?.purchaseDiscount || sales?.lotDetails?.purchaseDiscount">
                           Discount
-                          <span>+ ₹ {{ (sales?.purchaseDiscount || sales?.lotDetails?.purchaseDiscount || 0) | indianCurrency }}</span>
+                          <span>+ ₹ {{ (sales?.purchaseDiscount || sales?.lotDetails?.purchaseDiscount || 0) |
+                            indianCurrency }}</span>
                         </p>
                       </div>
                       <div class="invoice-total-footer">

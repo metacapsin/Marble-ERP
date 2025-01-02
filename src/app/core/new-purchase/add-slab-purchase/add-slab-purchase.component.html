@@ -100,7 +100,8 @@
                                                                     Width (Inch)
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                    <p class="col-form-label">{{ data?.width ?? ' -- '}}</p>
+                                                                    <p class="col-form-label">{{ data?.width ?? ' -- '}}
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row mb-2">
@@ -131,7 +132,7 @@
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">
-                                                                        ₹ {{ data?.totalAmount ?? ' -- '}}
+                                                                        ₹ {{ data?.totalCosting ?? ' -- '}}
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -204,15 +205,15 @@
               slabAddForm.get('taxableAmount')?.touched) ||
             (slabAddForm.get('taxableAmount')?.hasError('max') &&
               slabAddForm.get('taxableAmount')?.touched)">
-                <span class="login-danger">Taxable Amount cannot be greater than Paid To Supplier Amount
-                  ({{slabTotalCost}}).</span>
-              </div>
-              <span *ngIf="
+                            <span class="login-danger">Taxable Amount cannot be greater than Paid To Supplier Amount
+                                ({{slabTotalCost}}).</span>
+                        </div>
+                        <span *ngIf="
                   slabAddForm.get('taxApplied').value > 0
                 " style="color: #97704f; font-size: 12px">
-                Applied Tax Amount:
-                {{ slabAddForm.get('taxApplied').value | number : "1.2-2" }}
-              </span>
+                            Applied Tax Amount:
+                            {{ slabAddForm.get('taxApplied').value | number : "1.2-2" }}
+                        </span>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-6">
@@ -220,14 +221,14 @@
                         <label for="finishes">Non-Taxable Amount</label>
                         <!-- <input class="form-control" type="number" placeholder="Enter Non-Taxable Amount"
                             formControlName="nonTaxableAmount" (onChange)="calculateTotalAmount()" /> -->
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">₹</span>
-                                </div>
-                                <span class="form-control">{{
-                                    slabAddForm.get("nonTaxableAmount").value
-                                    }}</span>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
                             </div>
+                            <span class="form-control">{{
+                                slabAddForm.get("nonTaxableAmount").value
+                                }}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-6">
@@ -318,7 +319,7 @@
             </div>
         </div>
     </form>
-    <div class="row" style="display: flex; justify-content: end;"  *ngIf="slabAddForm.get('totalCost')?.value">
+    <div class="row" style="display: flex; justify-content: end;" *ngIf="slabAddForm.get('totalCost')?.value">
         <div class="col-md-4">
             <div class="invoice-total-card">
                 <h4 class="invoice-total-title">Summary</h4>
@@ -383,7 +384,8 @@
     </div>
 </div>
 
-<p-dialog header="Add Slab" [(visible)]="addvisible" [modal]="true" [style]="{ width: '60%'}" (onHide)="closeSlabForm(myForm)">
+<p-dialog header="Add Slab" [(visible)]="addvisible" [modal]="true" [style]="{ width: '60%'}"
+    (onHide)="closeSlabForm(myForm)">
     <div class="modal-content mt-2">
         <div class="modal-body">
             <form #myForm="ngForm">
@@ -417,17 +419,17 @@
                                 <label for="category">Category <span class="login-danger">*</span></label>
                                 <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body"
                                     optionLabel="name" optionValue="_id" placeholder="Select Category"
-                                    [style]="{ width: '100%' }"  [filter]="true" filterBy="name" [showClear]="false"
+                                    [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false"
                                     required [(ngModel)]="category" #CATEGORY="ngModel" name="category" required
                                     (onChange)="findSubCategory($event.value)"></p-dropdown>
-                                    <!-- <div *ngIf="CATEGORY.invalid && (CATEGORY.dirty || CATEGORY.touched)">
+                                <!-- <div *ngIf="CATEGORY.invalid && (CATEGORY.dirty || CATEGORY.touched)">
                                         <div *ngIf="CATEGORY.errors?.['required']">
                                             <span class="login-danger">Category is required.</span>
                                         </div>
                                     </div> -->
-                                    <div *ngIf="CATEGORY.touched">
-                                        <span class="login-danger" *ngIf="!category?.name">Category is required.</span>
-                                    </div>
+                                <div *ngIf="CATEGORY.touched">
+                                    <span class="login-danger" *ngIf="!category?.name">Category is required.</span>
+                                </div>
                             </div>
                         </div>
 
@@ -435,17 +437,19 @@
                             <div class="form-group local-forms">
                                 <label for="subCategory">Sub Category <span class="login-danger">*</span></label>
                                 <p-dropdown [options]="subCategorListByCategory" styleClass="" appendTo="body"
-                                    placeholder="Select Sub Category" optionLabel="name" optionValue="_id" [style]="{ width: '100%' }"
-                                    [filter]="true" filterBy="name" [showClear]="false" required
-                                    [(ngModel)]="subCategory" name="subCategory" #SUBCATEGORY="ngModel"></p-dropdown>
-                                    <!-- <div *ngIf="SUBCATEGORY.invalid && (SUBCATEGORY.dirty || SUBCATEGORY.touched)">
+                                    placeholder="Select Sub Category" optionLabel="name" optionValue="_id"
+                                    [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false"
+                                    required [(ngModel)]="subCategory" name="subCategory"
+                                    #SUBCATEGORY="ngModel"></p-dropdown>
+                                <!-- <div *ngIf="SUBCATEGORY.invalid && (SUBCATEGORY.dirty || SUBCATEGORY.touched)">
                                         <div *ngIf="SUBCATEGORY.errors?.['required']">
                                             <span class="login-danger">Sub Category is required.</span>
                                         </div>
                                     </div> -->
-                                    <div *ngIf="SUBCATEGORY.touched">
-                                        <span class="login-danger" *ngIf="!subCategory?.name">Sub Category is required.</span>
-                                    </div>
+                                <div *ngIf="SUBCATEGORY.touched">
+                                    <span class="login-danger" *ngIf="!subCategory?.name">Sub Category is
+                                        required.</span>
+                                </div>
                             </div>
                         </div>
 
@@ -554,8 +558,8 @@
                                     #QUANTITY="ngModel" />
                                 <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
                                     <div *ngIf="QUANTITY.errors?.['required']">
-                                                <span class="login-danger">Quantity is required.</span>
-                                            </div>
+                                        <span class="login-danger">Quantity is required.</span>
+                                    </div>
                                     <div *ngIf="QUANTITY.errors?.['min'] || QUANTITY.errors?.['max']">
                                         <span class="login-danger">Quantity must be between 1 and 1000000.</span>
                                     </div>
@@ -568,11 +572,11 @@
                                 <label for="ratePerSqFeet">Rate / Sq. Feet <span class="login-danger">*</span> </label>
                                 <input class="form-control" type="number" placeholder="Enter Rate / Sq. Feet"
                                     name="ratePerSqFeet" (change)="getSlabDetails()" min="1" max="1000000"
-                                    [(ngModel)]="ratePerSqFeet" #RATEPERSQFT="ngModel" required/>
+                                    [(ngModel)]="ratePerSqFeet" #RATEPERSQFT="ngModel" required />
                                 <div *ngIf="RATEPERSQFT.invalid && (RATEPERSQFT.dirty || RATEPERSQFT.touched)">
                                     <div *ngIf="RATEPERSQFT.errors?.['required']">
-                                            <span class="login-danger">Ṛate / Sq. Feet is required.</span>
-                                        </div>
+                                        <span class="login-danger">Ṛate / Sq. Feet is required.</span>
+                                    </div>
                                     <div *ngIf="RATEPERSQFT.errors?.['min'] || RATEPERSQFT.errors?.['max']">
                                         <span class="login-danger">Rate / Sq. Feet must be between 1 and 1000000.</span>
                                     </div>
@@ -591,15 +595,16 @@
                         <!-- check required for catgory and sub category -->
                         <div class="col-12">
                             <div class="settings-btns text-end m-b-10">
-                              <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                              (click)="addSlabDetails(myForm)" [disabled]="myForm.invalid || !subCategory?.name || !category?.name">
-                                Save
-                              </button>
-                              <button type="button" class="btn btn-secondary" (click)="closeSlabForm(myForm)">
-                                Cancel
-                              </button>
+                                <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                    (click)="addSlabDetails(myForm)"
+                                    [disabled]="myForm.invalid || !subCategory?.name || !category?.name">
+                                    Save
+                                </button>
+                                <button type="button" class="btn btn-secondary" (click)="closeSlabForm(myForm)">
+                                    Cancel
+                                </button>
                             </div>
-                          </div>
+                        </div>
                     </div>
                 </div>
             </form>
