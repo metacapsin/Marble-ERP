@@ -45,15 +45,14 @@ export class AddBillingAddressComponent implements OnInit {
 
   ZIPcode = /^\d{5}(-\d{4})?$/
   cityName = /^[a-zA-Z\s\-]{2,50}$/
+  taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{15}$/;
 
 
   constructor(
     private fb: UntypedFormBuilder,
     private Addusersdata: BillingAddressService,
     private router: Router,
-    private _snackBar: MatSnackBar,
     private messageService: MessageService,
-    private service: WarehouseService
   ) {
     this.addBillingAddress = this.fb.group({
       city: ['', [Validators.required,Validators.pattern(validationRegex.cityNameRGEX)]],
@@ -66,6 +65,7 @@ export class AddBillingAddressComponent implements OnInit {
       addressLine1:['',[Validators.required,Validators.pattern(validationRegex.billingAddressRegex)]],
       addressLine2:['',[Validators.pattern(validationRegex.billingAddressRegex)]],
       state:['',[Validators.required,Validators.pattern(validationRegex.stateRegex)]],
+      taxNo: ['', [Validators.pattern(this.taxNumberRegex)]],
     });
   }
   ngOnInit(): void {
@@ -83,26 +83,7 @@ export class AddBillingAddressComponent implements OnInit {
   }
 
   addBillingAddressFrom() {
-    const formData = this.addBillingAddress.value;
-    console.log(formData);
-   
-      const payload = {
-      city: formData.city,
-      zip: formData.zip,
-      country: formData.country,
-      phoneNumber: formData.phoneNumber,
-      email:formData.email,
-      state:formData.state,
-      setAsDefault:formData.setAsDefault,
-      postalCode:formData.postalCode,
-      companyName:formData.companyName,
-      addressLine1:formData.addressLine1,
-      addressLine2:formData.addressLine2,
-      };
-
-      console.log(payload);
-
-      this.Addusersdata.createBillingAddress(payload).subscribe((resp: any) => {
+      this.Addusersdata.createBillingAddress(this.addBillingAddress.value).subscribe((resp: any) => {
         console.log(resp);
         if (resp) {
           if (resp.status === "success") {

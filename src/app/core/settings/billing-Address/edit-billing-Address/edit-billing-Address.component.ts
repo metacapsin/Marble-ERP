@@ -34,33 +34,16 @@ export class EditBillingAddressComponent implements OnInit {
   countriesList: any[];
   billingAddressData: any;
 
-  ngOnInit(): void {
-    this.UserEditData.getBillingAddressById(this.id).subscribe((resp: any) => {
-      this.billingAddressData = resp.data;
-      this.patchForm(this.billingAddressData);
-    });
-
-    this.UserEditData.getCountries().subscribe((resp: any) => {
-      this.countriesList = [];
-      this.orgCountriesList = resp.data
-      this.orgCountriesList.forEach((element)=>{
-        this.countriesList.push({
-          name:element.name,
-          iso2:element.iso2,
-        })
-      })
-      console.log(this.countriesList);
-    })
-  }
-
+  
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
-
+  
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
-  addressRegex = /^.{3,500}$/s;
+    addressRegex = /^.{3,500}$/s;
 
   phoneRegex = /^[0-9]{10}$/;
+  taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{15}$/;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -81,59 +64,53 @@ export class EditBillingAddressComponent implements OnInit {
       addressLine1:['',[Validators.required,Validators.pattern(validationRegex.billingAddressRegex)]],
       addressLine2:['',[Validators.pattern(validationRegex.billingAddressRegex)]],
       state:['',[Validators.required,Validators.pattern(validationRegex.stateRegex)]],
+      taxNo: ['', [Validators.pattern(this.taxNumberRegex)]],
     });
   }
+
+  ngOnInit(): void {
+    this.UserEditData.getBillingAddressById(this.id).subscribe((resp: any) => {
+      this.billingAddressData = resp.data;
+      this.patchForm(this.billingAddressData);
+    });
+
+    this.UserEditData.getCountries().subscribe((resp: any) => {
+      this.countriesList = [];
+      this.orgCountriesList = resp.data
+      this.orgCountriesList.forEach((element)=>{
+        this.countriesList.push({
+          name:element.name,
+          iso2:element.iso2,
+        })
+      })
+      console.log(this.countriesList);
+    })
+  }
+
   patchForm(data) {
     console.log(data);
-    this.editBillingAddress.patchValue({
-      city: data.city,
-      state: data.state,
-      zip: data.zip,
-      country: data.country,
-      phoneNumber: data.phoneNumber,
-      email:data.email,
-      setAsDefault:data.setAsDefault,
-      postalCode:data.postalCode,
-      companyName:data.companyName,
-      addressLine1:data.addressLine1,
-      addressLine2:data.addressLine2,
-    });
+    this.editBillingAddress.patchValue(data);
   }
 
   editBillingAddressForm() {
-    const formData = this.editBillingAddress.value;
-    console.log(formData);
       const payload = {
+        ...this.editBillingAddress.value,
         id: this.id,
-        companyName:formData.companyName,
-        addressLine1:formData.addressLine1,
-        addressLine2:formData.addressLine2,
-        city: formData.city,
-        state: formData.state,
-        postalCode:formData.postalCode,
-        country: formData.country,
-        phoneNumber: formData.phoneNumber,
-        email:formData.email,
-        setAsDefault:formData.setAsDefault,
       };
-      console.log(payload);
-
       if (this.editBillingAddress.value) {
         this.UserEditData.updateBillingAddress(payload).subscribe(
           (resp: any) => {
             if (resp) {
               if (resp.status === "success") {
-                const message = "Billing Address has been updated";
                 this.messageService.add({
                   severity: "success",
-                  detail: message,
+                  detail: resp?.message,
                 });
                 setTimeout(() => {
                   this.router.navigate(["/settings/billing-Address"]);
                 }, 400);
               } else {
-                const message = resp.message;
-                this.messageService.add({ severity: "error", detail: message });
+                this.messageService.add({ severity: "error", detail: resp?.message });
               }
             }
           }

@@ -111,10 +111,14 @@ export class ListBillingAddressComponent implements OnInit {
   callBackModal() {
     this.userDataService
       .deleteBillingAddressById(this.billingAddressID)
-      .subscribe((resp) => {
-        const message = "Billing Address has been deleted";
-        this.messageService.add({ severity: "success", detail: message });
-        this.getuserList();
+      .subscribe((resp:any) => {
+        if(resp?.status == 'success'){
+          const message = "Billing Address has been deleted";
+          this.messageService.add({ severity: "success", detail: message });
+          this.getuserList();
+        } else {
+          this.messageService.add({ severity: "error", detail: resp?.message });
+        }
         this.showDialog = false;
       });
   }
