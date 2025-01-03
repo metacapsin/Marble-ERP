@@ -291,7 +291,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     console.log(this.ItemDetails);
     if (page == "first") {
       if (this.lotTypeValue == "Lot") {
-        this.child.LotAddFormSubmit();
+        this.child?.LotAddFormSubmit();
         this.ItemDetails =
           this.NewPurchaseService.getFormData("stepFirstLotData");
         const payload = { ...this.ItemDetails };
@@ -304,6 +304,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           taxable: this.ItemDetails?.taxable,
           purchaseItemTax: this.ItemDetails?.purchaseItemTax,
           taxApplied: this.ItemDetails?.taxApplied,
+          purchaseDiscount: this.ItemDetails?.purchaseDiscount,
         });
       }
       if (this.lotTypeValue == "Slab") {
@@ -321,6 +322,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           taxable: this.SlabItemDetails?.taxable, // tax amount + tax applied amount
           purchaseItemTax: this.SlabItemDetails?.purchaseItemTax,
           taxApplied: this.SlabItemDetails?.taxApplied,
+          purchaseCost: this.SlabItemDetails?.purchaseCost,
           purchaseDiscount: this.SlabItemDetails?.purchaseDiscount,
           otherCharges: this.SlabItemDetails?.royaltyCharge,
           transportationCharges: this.SlabItemDetails?.transportationCharge,
@@ -344,7 +346,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     this.lotTypeValue = value;
     console.log("value on select of purchase type", value);
     if (this.lotTypeValue == "Lot") {
-      this.child.LotAddFormSubmit();
+      this.child?.LotAddFormSubmit();
       this.ItemDetails =
         this.NewPurchaseService.getFormData("stepFirstLotData");
       const payload = { ...this.ItemDetails };
