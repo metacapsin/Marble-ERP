@@ -141,6 +141,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       // ],
       warehouseDetails: [""],
       totalCosting: [""],
+      purchaseTotalAmount: [""],
       invoiceNumber: ["", [Validators.pattern(this.invoiceRegex)]],
       purchaseDate: ["", Validators.required],
       supplier: ["", [Validators.required]],
@@ -316,7 +317,8 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         this.addNewPurchaseForm.patchValue({
           paidToSupplierPurchaseCost:
             this.SlabItemDetails?.paidToSupplierSlabCost,
-          totalCosting: this.SlabItemDetails?.totalCost,
+          totalCosting: this.SlabItemDetails?.slabTotalCost,
+          purchaseTotalAmount: this.SlabItemDetails?.totalCost,
           taxableAmount: this.SlabItemDetails?.taxableAmount,
           nonTaxable: this.SlabItemDetails?.nonTaxableAmount,
           taxable: this.SlabItemDetails?.taxable, // tax amount + tax applied amount
@@ -336,10 +338,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     }
     nextCallback.emit();
     this.changeVaidationForTaxVendor();
-  }
-
-  patchTotalCosting(totalCost?: number) {
-    this.addNewPurchaseForm.get("totalCosting").setValue(totalCost);
   }
 
   lotType(value: any) {
@@ -582,7 +580,8 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         purchaseNotes: formData.purchaseNotes,
         purchaseCost: Number(formData.paidToSupplierPurchaseCost),
         slabDetail: this.SlabItemDetails.slabDetails,
-        purchaseTotalAmount: Number(formData.totalCosting),
+        purchaseTotalAmount: Number(formData.purchaseTotalAmount),
+        totalCosting: Number(formData.totalCosting),
         purchaseDiscount: Number(formData.purchaseDiscount),
         nonTaxable: Number(formData.nonTaxable),
         taxableAmount: Number(formData.taxableAmount),

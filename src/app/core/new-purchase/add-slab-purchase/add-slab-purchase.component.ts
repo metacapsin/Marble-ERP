@@ -140,7 +140,8 @@ export class AddSlabPurchaseComponent {
 
       this.slabDetails = this.previousSlabData.slabDetails;
      this.slabTotalCost = this.previousSlabData.slabTotalCost
-
+      console.log('previousSlabData',this.previousSlabData);
+      
       this.slabAddForm.patchValue({
         vehicleNo: this.previousSlabData.vehicleNo,
         warehouse: this.previousSlabData.warehouseDetails,
@@ -162,7 +163,7 @@ export class AddSlabPurchaseComponent {
         totalSQFT: this.previousSlabData.totalSQFT,
       });
     }
-    this.calculateTotalAmount();
+    // this.calculateTotalAmount();
   }
   addSlabDialog() {
     this.marbleName = '';
