@@ -351,14 +351,14 @@
                                   </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data *ngIf="sales?.slabDetails">
-                                  <tr>
-                                    <td>{{sales?.slabDetails.slabName}}</td>
-                                    <td>{{sales?.slabDetails.slabNo}}</td>
-                                    <td>₹ {{sales?.slabDetails.sellingPricePerSQFT | indianCurrency}}</td>
-                                    <td>₹ {{sales?.slabDetails.totalCosting | indianCurrency}}</td>
-                                    <td> {{sales?.slabDetails.totalSQFT}}</td>
-                                    <td>₹ {{ sales?.taxable | indianCurrency }} </td>
-                                    <td>₹ {{ sales?.nonTaxable | indianCurrency }} </td>
+                                  <tr *ngFor="let slab of sales.slabDetails">
+                                    <td>{{ slab.slabName }}</td>
+                                    <td>{{ slab.slabNo }}</td>
+                                    <td>₹ {{ slab.sellingPricePerSQFT | indianCurrency }}</td>
+                                    <td>₹ {{ slab.totalCosting | indianCurrency }}</td>
+                                    <td>{{ slab.totalSQFT }}</td>
+                                    <td>₹ {{ sales.taxable | indianCurrency }}</td>
+                                    <td>₹ {{ sales.nonTaxable | indianCurrency }}</td>
                                   </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data *ngIf="sales?.purchaseReturnItemDetails">
