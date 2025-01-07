@@ -153,12 +153,11 @@
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
                       <label for="blockProcessor">Processor<span class="login-danger">*</span></label>
-                    
+
                       <!-- This dropdown will only show if no blockProcessor exists -->
-                      <p-dropdown [options]="blockProcessorArray"
-                        appendTo="body" optionLabel="name" optionValue="_id" placeholder="Select Processor"
-                        formControlName="blockProcessor" [style]="{ width: '100%' }" [filter]="true" filterBy="name"
-                        [showClear]="false">
+                      <p-dropdown [options]="blockProcessorArray" appendTo="body" optionLabel="name" optionValue="_id"
+                        placeholder="Select Processor" formControlName="blockProcessor" [style]="{ width: '100%' }"
+                        [filter]="true" filterBy="name" [showClear]="false">
                       </p-dropdown>
 
                       <div
@@ -212,13 +211,8 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" style="font-size: 12px">Inch</span>
                         </div>
-                       
-                        <input
-                        type="text"
-                        class="form-control"
-          placeholder="Enter Width" formControlName="width"
-                        
-                      />
+
+                        <input type="text" class="form-control" placeholder="Enter Width" formControlName="width" />
                       </div>
 
                       <div *ngIf="
@@ -233,7 +227,7 @@
                       </div>
                     </div>
                   </div>
-                 
+
 
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
@@ -331,8 +325,7 @@
                           slabsAddForm.get('notes')?.hasError('pattern') &&
                           slabsAddForm.get('notes')?.touched
                         ">
-                        <span class="login-danger">Input must be between 3 and 15 characters, without using the
-                          backspace</span>
+                        <span class="login-danger">Input must be between 3 and 500 characters.</span>
                       </div>
                     </div>
                   </div>
@@ -417,9 +410,10 @@
                                 <!-- <div class="input-group-prepend">
                                   <span class="input-group-text" style="font-size: 12px">Inch</span>
                                 </div> -->
-                                <input class="form-control" type="number" placeholder="Enter Pieces" formControlName="noOfPieces" />
+                                <input class="form-control" type="number" placeholder="Enter Pieces"
+                                  formControlName="noOfPieces" />
                               </div>
-        
+
                               <div *ngIf="
                                   (slabsAddForm.get('noOfPieces')?.hasError('min') &&
                                     slabsAddForm.get('noOfPieces')?.touched) ||
@@ -469,7 +463,7 @@
                             </div>
                           </div>
 
-                          
+
 
                           <div class="col-12">
                             <div class="form-group local-forms">

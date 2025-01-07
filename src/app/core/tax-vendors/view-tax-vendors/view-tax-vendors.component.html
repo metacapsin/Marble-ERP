@@ -56,6 +56,16 @@
                     </p>
                   </div>
                 </div>
+                <div class="form-group row mb-2" *ngIf="taxVendorsData?.taxNo">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                    GSTIN
+                  </h5>
+                  <div class="col-lg-8 col-md-8 col-xl-8">
+                    <p class="col-form-label">
+                      {{ taxVendorsData?.taxNo }}
+                    </p>
+                  </div>
+                </div>
                 <div class="form-group row mb-2" *ngIf="taxVendorsData?.email">
                   <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Email
@@ -625,8 +635,7 @@
       <div class="col-12 col-md-6">
         <div class="form-group local-forms">
           <label for="payableAmount">Payable Amount <span class="login-danger">*</span></label>
-          <input class="form-control bor" type="number" formControlName="payableAmount"
-            />
+          <input class="form-control bor" type="number" formControlName="payableAmount" />
         </div>
       </div>
 

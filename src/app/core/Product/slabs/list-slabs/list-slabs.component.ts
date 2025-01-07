@@ -27,7 +27,7 @@ export class ListSlabsComponent {
   public slabVisible: boolean = false;
   slabDetail: any = {};
   modalData: any = {};
-  activeTabIndex: number = 0; 
+  activeTabIndex: number = 0;
   slabsID: any;
   searchDataValue = "";
   selectedSlabs = [];
@@ -42,6 +42,8 @@ export class ListSlabsComponent {
   cols = [];
   exportColumns = [];
   showDataLoader: boolean = false;
+  slabProfitOfSlabHistory: any = [];
+  slabDetailsOfSlabHistory: any = [];
 
   constructor(
     public dialog: MatDialog,
@@ -50,7 +52,7 @@ export class ListSlabsComponent {
     private _snackBar: MatSnackBar,
     private messageService: MessageService,
     private WarehouseService: WarehouseService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.showDataLoader = true;
@@ -67,41 +69,41 @@ export class ListSlabsComponent {
   }
   getSlabsList(): void {
     this.service.getSlabsList().subscribe((resp: any) => {
-      if(resp){
-        
-      
-      this.allSlabsDaTa = resp.data;
-      this.originalData = resp.data;
-      this.cols = [
-        { field: "date", header: "Date" },
-        { field: "slabNo", header: "Slab No" },
-        { field: "slabName", header: "Slab Name" },
-        { field: "slabSize", header: "Slab Size" },
-        { field: "categoryDetail.name", header: "Category Detail Name" },
-        { field: "subCategoryDetail.name", header: "Sub Category Detail Name" },
-        { field: "costPerSQFT", header: "Cost Per SQFT" },
-        { field: "sellingPricePerSQFT", header: "Selling Price Per SQFT" },
-        { field: "totalSQFT", header: "Total SQFT" },
-        { field: "otherCharges", header: "Other Charges" },
-        { field: "transportationCharges", header: "Transportation Charges" },
-        { field: "totalCosting", header: "Total Costing" },
-        { field: "finishes.name", header: "Finishes" },
-        { field: "width", header: "Width" },
-        { field: "length", header: "Length" },
-        { field: "thickness", header: "Thickness" },
-        { field: "createdOn", header: "Created On" },
-        { field: "isInUse", header: "Is InUse" },
-        { field: "blockProcessor.name", header: "Block Processor" },
-        { field: "warehouseDetails.name", header: "Warehouse Details Name" },
-      ];
+      if (resp) {
 
-      this.exportColumns = this.cols.map((col) => ({
-        title: col.header,
-        dataKey: col.field,
-      }));
 
-      this.showDataLoader = false;
-    }
+        this.allSlabsDaTa = resp.data;
+        this.originalData = resp.data;
+        this.cols = [
+          { field: "date", header: "Date" },
+          { field: "slabNo", header: "Slab No" },
+          { field: "slabName", header: "Slab Name" },
+          { field: "slabSize", header: "Slab Size" },
+          { field: "categoryDetail.name", header: "Category Detail Name" },
+          { field: "subCategoryDetail.name", header: "Sub Category Detail Name" },
+          { field: "costPerSQFT", header: "Cost Per SQFT" },
+          { field: "sellingPricePerSQFT", header: "Selling Price Per SQFT" },
+          { field: "totalSQFT", header: "Total SQFT" },
+          { field: "otherCharges", header: "Other Charges" },
+          { field: "transportationCharges", header: "Transportation Charges" },
+          { field: "totalCosting", header: "Total Costing" },
+          { field: "finishes.name", header: "Finishes" },
+          { field: "width", header: "Width" },
+          { field: "length", header: "Length" },
+          { field: "thickness", header: "Thickness" },
+          { field: "createdOn", header: "Created On" },
+          { field: "isInUse", header: "Is InUse" },
+          { field: "blockProcessor.name", header: "Block Processor" },
+          { field: "warehouseDetails.name", header: "Warehouse Details Name" },
+        ];
+
+        this.exportColumns = this.cols.map((col) => ({
+          title: col.header,
+          dataKey: col.field,
+        }));
+
+        this.showDataLoader = false;
+      }
     });
   }
   showSlabDetails(_id: any) {
@@ -113,10 +115,12 @@ export class ListSlabsComponent {
   }
 
   showSlabHistoryDetails(_id) {
-    this.activeTabIndex = 0; 
+    this.activeTabIndex = 0;
     this.service.getSlabHistoryById(_id).subscribe((resp: any) => {
       this.visibleSlabHistory = true;
       this.slabHistoryData = resp.data;
+      this.slabProfitOfSlabHistory = resp.data.slabProfit
+      this.slabDetailsOfSlabHistory = resp.data.slabDetail
       console.log("Slab History API", this.slabHistoryData);
     });
   }
@@ -183,8 +187,8 @@ export class ListSlabsComponent {
         console.log(this.allSlabsDaTa);
         return this.allSlabsDaTa = this.originalData;
       }
-      else{
-      return (this.allSlabsDaTa = this.allInDropDown);
+      else {
+        return (this.allSlabsDaTa = this.allInDropDown);
       }
     }
   }

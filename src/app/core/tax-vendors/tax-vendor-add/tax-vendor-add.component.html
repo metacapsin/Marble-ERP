@@ -44,7 +44,7 @@
                                             <label for="companyName">Company Name <span
                                                     class="login-danger">*</span></label>
                                             <input class="form-control bor" type="text" formControlName="companyName"
-                                                placeholder />
+                                                placeholder="Enter Company Name" />
                                             <div *ngIf="
                                 addTaxVendorForm
                                   .get('companyName')
@@ -68,8 +68,8 @@
                                         <div class="form-group local-forms">
                                             <label for="addressLine1">Address Line 1
                                                 <span class="login-danger">*</span></label>
-                                            <input class="form-control" type="addressLine1" placeholder
-                                                formControlName="addressLine1" />
+                                            <input class="form-control" type="addressLine1"
+                                                placeholder="Enter Your Address" formControlName="addressLine1" />
                                             <div *ngIf="
                                 addTaxVendorForm
                                   .get('addressLine1')
@@ -93,7 +93,8 @@
                                         <div class="form-group local-forms">
                                             <label for="addressLine2">Address Line 2<span
                                                     class="login-danger"></span></label>
-                                            <input class="form-control" type="addressLine2" placeholder
+                                            <input class="form-control" type="addressLine2"
+                                                placeholder="Enter Your Address line 2"
                                                 formControlName="addressLine2" />
                                             <div *ngIf="
                                 addTaxVendorForm
@@ -112,7 +113,7 @@
                                             <p-dropdown [options]="countriesList" styleClass="" appendTo="body"
                                                 optionLabel="name" placeholder="Select Country"
                                                 formControlName="country" [style]="{ width: '100%' }" [filter]="true"
-                                                filterBy="name" [showClear]="true">
+                                                filterBy="name" [showClear]="false">
                                             </p-dropdown>
                                             <div *ngIf="
                                 addTaxVendorForm
@@ -129,7 +130,7 @@
                                         <div class="form-group local-forms">
                                             <label for="state">State<span class="login-danger">*</span></label>
                                             <input class="form-control bor" type="text" formControlName="state"
-                                                placeholder />
+                                                placeholder="Enter Your State" />
                                             <div *ngIf="
                                 addTaxVendorForm.get('state')?.hasError('required') &&
                                 addTaxVendorForm.get('state')?.touched
@@ -149,7 +150,7 @@
                                         <div class="form-group local-forms">
                                             <label for="city">City <span class="login-danger">*</span></label>
                                             <input class="form-control bor" type="text" formControlName="city"
-                                                placeholder />
+                                                placeholder="Enter Your City" />
                                             <div *ngIf="
                                 addTaxVendorForm.get('city')?.hasError('required') &&
                                 addTaxVendorForm.get('city')?.touched
@@ -170,7 +171,7 @@
                                             <label for="postalCode">Postal Code (ZIP)<span
                                                     class="login-danger">*</span></label>
                                             <input class="form-control bor" type="text" formControlName="postalCode"
-                                                placeholder />
+                                                placeholder="Enter Your Postal code" />
                                             <div *ngIf="
                                 addTaxVendorForm
                                   .get('postalCode')
@@ -219,7 +220,7 @@
                                         <div class="form-group local-forms">
                                             <label for="email">Email <span class="login-danger"></span></label>
                                             <input class="form-control" formControlName="email" type="text"
-                                                placeholder />
+                                                placeholder="Enter Your Email" />
                                             <!-- <div
                               *ngIf="
                                 addTaxVendorForm
@@ -239,6 +240,30 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label for="taxNo">Tax Number <span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text"
+                                                placeholder="Please Enter Tax Number" formControlName="taxNo" />
+                                            <div *ngIf="
+                                addTaxVendorForm
+                                  .get('taxNo')
+                                  ?.hasError('required') &&
+                                addTaxVendorForm.get('taxNo')?.touched
+                              " class="login-danger Font_size">
+                                                Field is required.
+                                            </div>
+                                            <div *ngIf="
+                                                addTaxVendorForm
+                                                  .get('taxNo')
+                                                  ?.hasError('pattern') &&
+                                                  addTaxVendorForm.get('taxNo')?.touched
+                                              " class="login-danger Font_size">
+                                                Tax Number should be of 15 characters and alphanumeric
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </form>
                         </div>

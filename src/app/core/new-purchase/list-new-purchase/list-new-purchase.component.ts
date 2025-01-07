@@ -96,6 +96,15 @@ export class ListNewPurchaseComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.exportCSV();
   }
+  // isDeletable(purchase: any): boolean {
+  //   return purchase.paymentStatus === 'Unpaid' && 
+  //          purchase?.lotDetails?.blockDetails?.every(block => block?.isProcessed===false);
+  // }
+
+  // isEditable(purchase: any): boolean {
+  //   return purchase.paymentStatus === 'Unpaid' && 
+  //          purchase?.lotDetails?.blockDetails?.every(block => block?.isProcessed === false);
+  // }
   exportCSV() {
     console.log('purchaseData', this.purchaseData);
     
@@ -172,9 +181,10 @@ export class ListNewPurchaseComponent implements OnChanges {
     this.Service.deletePurchase(this.purchase).subscribe((resp: any) => {
       this.showInvoiceDialog = false;
       this.showDialoge = false;
-      let message = "Purchase has been Deleted";
+      let message = resp.message;
       this.messageService.add({ severity: "success", detail: message });
       this.onSearchByChange(this.searchBy);
+
     });
   }
   close() {

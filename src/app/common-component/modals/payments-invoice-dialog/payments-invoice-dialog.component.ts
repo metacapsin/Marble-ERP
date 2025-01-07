@@ -266,29 +266,24 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     }
     this.onSalesPaymentAmountChanges();
   }
-  // Function to track changes in the payment fields
   onFormChanges(): void {
     this.paymentInvoiceForm.valueChanges.subscribe(() => {
-      const taxablePayment = this.paymentInvoiceForm.get(
-        "taxablePaymentAmount"
-      )?.value;
-      const nonTaxablePayment = this.paymentInvoiceForm.get(
-        "nonTaxablePaymentAmount"
-      )?.value;
-
+      const taxablePayment = this.paymentInvoiceForm?.get("taxablePaymentAmount")?.value;
+      const nonTaxablePayment = this.paymentInvoiceForm?.get("nonTaxablePaymentAmount")?.value;
+  
       // If either one of the amounts is filled, mark the form as valid
       if (taxablePayment || nonTaxablePayment) {
-        this.paymentInvoiceForm.get("totalAmount")?.setValidators(null); // Remove validators from totalAmount
-        this.paymentInvoiceForm.get("totalAmount")?.updateValueAndValidity();
+        this.paymentInvoiceForm?.get("totalAmount")?.setValidators(null); // Remove validators from totalAmount
+        this.paymentInvoiceForm?.get("totalAmount")?.updateValueAndValidity({ emitEvent: false });
       } else {
         // If neither is filled, keep the form invalid
-        this.paymentInvoiceForm
-          .get("totalAmount")
+        this.paymentInvoiceForm?.get("totalAmount")
           ?.setValidators([Validators.required, Validators.min(1)]);
-        this.paymentInvoiceForm.get("totalAmount")?.updateValueAndValidity();
+        this.paymentInvoiceForm?.get("totalAmount")?.updateValueAndValidity({ emitEvent: false });
       }
     });
   }
+  
 
   ngOnChanges(changes: SimpleChanges) {
     console.log("this.dataById", this.dataById);
