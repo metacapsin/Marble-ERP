@@ -38,7 +38,7 @@ export class AddSlabsComponent {
   public routes = routes;
   slabsAddForm!: FormGroup;
   // __REGEX FOR Slab Form
-  billingAddressRegex = /^(?!\s)(?:.{3,15})$/;
+  billingAddressRegex = /^(?!\s)(?:.{3,500})$/;
   LWTSQ = /^[a-zA-Z0-9]{1,100000}$/;
   emailRegex: string =
     "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -248,8 +248,8 @@ export class AddSlabsComponent {
     this.blockDropDowntotleCost = block.totalCosting;
     this.blockDropDownPerBlockWeight = block.weightPerBlock;
     if (block.totalCosting) {
-         // Store the original value for calculations
-    this.originalPurchaseCost = block.totalCosting;
+      // Store the original value for calculations
+      this.originalPurchaseCost = block.totalCosting;
       this.slabsAddForm.patchValue({
         purchaseCost: block.totalCosting.toFixed(2) || null,
       });
@@ -271,11 +271,13 @@ export class AddSlabsComponent {
   }
 
   calculateTotalAmount() {
-     // Get the displayed (rounded) purchase cost from the form control
-  let purchaseCostDisplayed = parseFloat(this.slabsAddForm.get("purchaseCost").value);
+    // Get the displayed (rounded) purchase cost from the form control
+    let purchaseCostDisplayed = parseFloat(
+      this.slabsAddForm.get("purchaseCost").value
+    );
 
-  // Use the original, unrounded purchase cost for calculations
-  let purchaseCostOrg = this.originalPurchaseCost || purchaseCostDisplayed;
+    // Use the original, unrounded purchase cost for calculations
+    let purchaseCostOrg = this.originalPurchaseCost || purchaseCostDisplayed;
     // Gatting data with input
     let processingFee = +this.slabsAddForm.get("processingFee").value;
     let otherCharges: number = +this.slabsAddForm.get("otherCharges").value;
@@ -283,7 +285,7 @@ export class AddSlabsComponent {
     let transportationCharges: number = +this.slabsAddForm.get(
       "transportationCharges"
     ).value;
-    
+
     console.log(purchaseCostOrg);
     console.log(totalSQFT);
     console.log(this.blockDropDownPerBlockWeight, this.blockDropDowntotleCost);

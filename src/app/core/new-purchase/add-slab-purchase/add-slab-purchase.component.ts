@@ -1,11 +1,21 @@
 import { ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, NgForm, NgModel, Validators } from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  NgForm,
+  NgModel,
+  Validators,
+} from "@angular/forms";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
 import { MessageService } from "primeng/api";
 import { NewPurchaseService } from "src/app/core/new-purchase/new-purchase.service";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
-import { atLeastOneRequiredValidator, validationRegex } from "src/app/core/validation";
+import {
+  atLeastOneRequiredValidator,
+  validationRegex,
+} from "src/app/core/validation";
 import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
 import { TaxesService } from "src/app/core/settings/taxes/taxes.service";
 import { CategoriesService } from "src/app/core/settings/categories/categories.service";
@@ -66,24 +76,28 @@ export class AddSlabPurchaseComponent {
     private ServiceblockProcessor: blockProcessorService,
     private taxService: TaxesService
   ) {
-    this.slabAddForm = this.fb.group({
-      vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
-      warehouse: ["", [Validators.required]],
-      paidToSupplierSlabCost: ["", [Validators.required]],
-      taxableAmount: [""],
-      nonTaxableAmount: [""],
-      ItemTax: [""],
-      taxable: [""], // taxbale Amount + apply tax amount
-      taxApplied: [""], // tax applied ammount
-      purchaseDiscount: ["", [Validators.min(0),]],
-      transportationCharge: ["", [Validators.min(0), Validators.max(100000)]],
-      royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
-      totalCost: [""],
-      totalSQFT: [""],
-    }, { validators: atLeastOneRequiredValidator() });
+    this.slabAddForm = this.fb.group(
+      {
+        vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
+        warehouse: ["", [Validators.required]],
+        paidToSupplierSlabCost: ["", [Validators.required]],
+        taxableAmount: [""],
+        nonTaxableAmount: [""],
+        ItemTax: [""],
+        taxable: [""], // taxbale Amount + apply tax amount
+        taxApplied: [""], // tax applied ammount
+        purchaseDiscount: ["", [Validators.min(0)]],
+        transportationCharge: ["", [Validators.min(0), Validators.max(100000)]],
+        royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
+        totalCost: [""],
+        totalSQFT: [""],
+      },
+      { validators: atLeastOneRequiredValidator() }
+    );
   }
   ngOnInit(): void {
-    this.previousSlabData = this.NewPurchaseService.getFormData("stepFirstSlabData");
+    this.previousSlabData =
+      this.NewPurchaseService.getFormData("stepFirstSlabData");
 
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data.map((element: any) => ({
@@ -94,7 +108,7 @@ export class AddSlabPurchaseComponent {
         },
       }));
       if (this.previousSlabData) {
-        this.patchSlabValue()
+        this.patchSlabValue();
       }
     });
     this.categoriesService.getCategories().subscribe((resp: any) => {
@@ -136,12 +150,12 @@ export class AddSlabPurchaseComponent {
 
   patchSlabValue() {
     if (this.previousSlabData) {
-      console.log('previousSlabData', this.previousSlabData);
+      console.log("previousSlabData", this.previousSlabData);
 
       this.slabDetails = this.previousSlabData.slabDetails;
-     this.slabTotalCost = this.previousSlabData.slabTotalCost
-      console.log('previousSlabData',this.previousSlabData);
-      
+      this.slabTotalCost = this.previousSlabData.slabTotalCost;
+      console.log("previousSlabData", this.previousSlabData);
+
       this.slabAddForm.patchValue({
         vehicleNo: this.previousSlabData.vehicleNo,
         warehouse: this.previousSlabData.warehouseDetails,
@@ -152,7 +166,9 @@ export class AddSlabPurchaseComponent {
             ? null
             : this.previousSlabData.transportationCharge,
         royaltyCharge:
-          this.previousSlabData.royaltyCharge == 0 ? null : this.previousSlabData.royaltyCharge,
+          this.previousSlabData.royaltyCharge == 0
+            ? null
+            : this.previousSlabData.royaltyCharge,
         purchaseDiscount: this.previousSlabData.purchaseDiscount,
         taxableAmount: this.previousSlabData.taxableAmount,
         nonTaxableAmount: this.previousSlabData.nonTaxableAmount,
@@ -166,8 +182,8 @@ export class AddSlabPurchaseComponent {
     // this.calculateTotalAmount();
   }
   addSlabDialog() {
-    this.marbleName = '';
-    this.slabNumber = '';
+    this.marbleName = "";
+    this.slabNumber = "";
     this.category = {};
     this.subCategory = {};
     this.noOfPieces = null;
@@ -196,7 +212,8 @@ export class AddSlabPurchaseComponent {
     this.addvisible = false;
     this.cdRef.detectChanges();
 
-    if (!this.slabNumber ||
+    if (
+      !this.slabNumber ||
       this.quantity === null ||
       this.totalAmount === null ||
       this.ratePerSqFeet === null
@@ -219,14 +236,15 @@ export class AddSlabPurchaseComponent {
       totalSQFT: this.quantity,
       ratePerSqFeet: this.ratePerSqFeet,
       totalCosting: this.totalAmount,
-      sqftPerPiece: Number((this.quantity / this.noOfPieces)).toFixed(2),
+      purchaseCost: this.totalAmount,
+      sqftPerPiece: Number(this.quantity / this.noOfPieces).toFixed(2),
     };
 
     this.slabDetails.push(newSlab);
     this.slabTotalCost += Number(this.totalAmount);
 
-    this.marbleName = '';
-    this.slabNumber = '';
+    this.marbleName = "";
+    this.slabNumber = "";
     this.category = {};
     this.subCategory = {};
     this.noOfPieces = null;
@@ -245,7 +263,7 @@ export class AddSlabPurchaseComponent {
   }
 
   findSubCategory(value: any) {
-    let SubCategoryData = []
+    let SubCategoryData = [];
     this.subCategory = {};
 
     SubCategoryData = this.allSubCategoryList?.filter(
@@ -261,10 +279,9 @@ export class AddSlabPurchaseComponent {
     }));
 
     if (this.previousSlabData) {
-      this.patchSlabValue()
+      this.patchSlabValue();
     }
   }
-
 
   getSlabDetails() {
     if (
@@ -288,7 +305,8 @@ export class AddSlabPurchaseComponent {
     const form = this.slabAddForm;
     const slabTotalAmount = this.slabTotalCost;
     const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
-    const transportationCharge = Number(form.get("transportationCharge")?.value) || 0;
+    const transportationCharge =
+      Number(form.get("transportationCharge")?.value) || 0;
     const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
     const tax = form.get("ItemTax")?.value || [];
     let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
@@ -298,19 +316,22 @@ export class AddSlabPurchaseComponent {
     let transportationChargesPerSlab = 0;
     let otherChargesPerSlab = 0;
 
-    let totalSQFT = 0
-    let totalSlabAmount = 0
+    let totalSQFT = 0;
+    let totalSlabAmount = 0;
     this.slabDetails.forEach((element: any) => {
-      totalSQFT += element?.totalSQFT
-      totalSlabAmount += element?.totalCosting
+      totalSQFT += element?.totalSQFT;
+      totalSlabAmount += element?.totalCosting;
     });
-    transportationAndOtherChargePerSQFT = Number((transportationCharge + royaltyCharge) / totalSQFT);
+    transportationAndOtherChargePerSQFT = Number(
+      (transportationCharge + royaltyCharge) / totalSQFT
+    );
     transportationChargesPerSlab = Number(transportationCharge / totalSQFT);
     otherChargesPerSlab = Number(royaltyCharge / totalSQFT);
     if (slabTotalAmount) {
-      nonTaxableAmount = taxableAmount && taxableAmount <= slabTotalAmount
-        ? slabTotalAmount - taxableAmount
-        : slabTotalAmount;
+      nonTaxableAmount =
+        taxableAmount && taxableAmount <= slabTotalAmount
+          ? slabTotalAmount - taxableAmount
+          : slabTotalAmount;
 
       this.maxPurchaseAmount = slabTotalAmount;
 
@@ -331,7 +352,10 @@ export class AddSlabPurchaseComponent {
 
     let calculatedDetails = this.slabDetails.map((e: any) => ({
       ...e,
-      taxAmountPerSQFT: Number(((taxApplied / this.slabTotalCost) * Number(e.totalCosting)) / Number(e.totalSQFT)).toFixed(4),
+      taxAmountPerSQFT: Number(
+        ((taxApplied / this.slabTotalCost) * Number(e.totalCosting)) /
+          Number(e.totalSQFT)
+      ).toFixed(4),
     }));
 
     if (purchaseDiscount) {
@@ -345,27 +369,45 @@ export class AddSlabPurchaseComponent {
       }
     }
 
-
-    calculatedDetails = calculatedDetails.map((e: any,index:any) => ({
+    calculatedDetails = calculatedDetails.map((e: any, index: any) => ({
       ...e,
-      costPerSQFT: Number(Number(e.ratePerSqFeet) + Number(e.taxAmountPerSQFT) + Number(transportationAndOtherChargePerSQFT)).toFixed(4),
-      sellingPricePerSQFT: Number(Number(e.ratePerSqFeet) + Number(e.taxAmountPerSQFT) + Number(transportationAndOtherChargePerSQFT)).toFixed(4),
-      transportationCharges: Number(transportationChargesPerSlab * e.totalSQFT).toFixed(4),
+      costPerSQFT: Number(
+        Number(e.ratePerSqFeet) +
+          Number(e.taxAmountPerSQFT) +
+          Number(transportationAndOtherChargePerSQFT)
+      ).toFixed(4),
+      sellingPricePerSQFT: Number(
+        Number(e.ratePerSqFeet) +
+          Number(e.taxAmountPerSQFT) +
+          Number(transportationAndOtherChargePerSQFT)
+      ).toFixed(4),
+      transportationCharges: Number(
+        transportationChargesPerSlab * e.totalSQFT
+      ).toFixed(4),
       otherCharges: Number(otherChargesPerSlab * e.totalSQFT).toFixed(4),
-      slabSize: `${e.width ? e.width : " "} x ${e.length ? e.length : " "} x ${e.thickness ? e.thickness : " "}`,
+      slabSize: `${e.width ? e.width : " "} x ${e.length ? e.length : " "} x ${
+        e.thickness ? e.thickness : " "
+      }`,
       warehouseDetails: this.slabAddForm?.value?.warehouse,
     }));
 
     taxable = taxApplied + taxableAmount;
     const paidToSupplierSlabAmount = taxable + nonTaxableAmount;
-    const totalCost = taxable + nonTaxableAmount + purchaseDiscount + transportationCharge + royaltyCharge;
+    const totalCost =
+      taxable +
+      nonTaxableAmount +
+      purchaseDiscount +
+      transportationCharge +
+      royaltyCharge;
     form.patchValue({
-      paidToSupplierSlabCost: paidToSupplierSlabAmount ? Number(paidToSupplierSlabAmount).toFixed(2) : 0,
+      paidToSupplierSlabCost: paidToSupplierSlabAmount
+        ? Number(paidToSupplierSlabAmount).toFixed(2)
+        : 0,
       taxable: Number(taxable).toFixed(2),
       taxApplied: Number(taxApplied).toFixed(2),
       taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
       totalCost: Number(totalCost),
-      totalSQFT: Number(totalSQFT)
+      totalSQFT: Number(totalSQFT),
     });
     this.slabDetails = [...calculatedDetails];
     this.setValidator();
@@ -376,9 +418,18 @@ export class AddSlabPurchaseComponent {
   }
 
   setValidator() {
-    this.slabAddForm.get("taxableAmount")?.setValidators([Validators.min(0), Validators.max(this.slabTotalCost)]);
-    this.slabAddForm.get("nonTaxableAmount")?.setValidators([Validators.min(0), Validators.max(this.slabTotalCost)]);
-    this.slabAddForm.get("purchaseDiscount")?.setValidators([Validators.min(0), Validators.max(this.maxPurchaseAmount)]);
+    this.slabAddForm
+      .get("taxableAmount")
+      ?.setValidators([Validators.min(0), Validators.max(this.slabTotalCost)]);
+    this.slabAddForm
+      .get("nonTaxableAmount")
+      ?.setValidators([Validators.min(0), Validators.max(this.slabTotalCost)]);
+    this.slabAddForm
+      .get("purchaseDiscount")
+      ?.setValidators([
+        Validators.min(0),
+        Validators.max(this.maxPurchaseAmount),
+      ]);
     this.slabAddForm.get("purchaseDiscount")?.updateValueAndValidity;
     this.slabAddForm.get("nonTaxableAmount")?.updateValueAndValidity;
     this.slabAddForm.get("taxableAmount")?.updateValueAndValidity;
@@ -402,7 +453,7 @@ export class AddSlabPurchaseComponent {
         taxable: Number(formData.taxable),
         purchaseItemTax: formData.ItemTax,
         taxApplied: Number(formData.taxApplied),
-        totalSQFT: Number(formData.totalSQFT)
+        totalSQFT: Number(formData.totalSQFT),
       };
       this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
     }
