@@ -217,7 +217,7 @@ export class EditNewPurchaseComponent implements OnInit {
               _id: resp.data?.taxVendor?._id,
               companyName: resp.data?.taxVendor?.companyName,
           },
-          taxVendorAmount: resp.data?.taxVendor?.taxVendorAmount,
+          taxVendorAmount: resp.data?.taxVendor?.taxVendorCutAmount,
           vendorTaxApplied: resp.data?.taxVendor?.vendorTaxApplied,
           purchaseTotalAmount: resp.data?.totalCosting,
         });
@@ -416,6 +416,9 @@ export class EditNewPurchaseComponent implements OnInit {
     }
     nextCallback.emit();
     this.changeVaidationForTaxVendor();
+    if (this.editNewPurchaseForm.get("isTaxVendor").value) {
+          this.calculateTaxVendorAmount();
+        }
   }
 
   lotType(value: any) {
