@@ -220,6 +220,7 @@ export class EditNewPurchaseComponent implements OnInit {
           taxVendorAmount: resp.data?.taxVendor?.taxVendorCutAmount,
           vendorTaxApplied: resp.data?.taxVendor?.vendorTaxApplied,
           purchaseTotalAmount: resp.data?.totalCosting,
+          purchaseNotes: resp.data?.purchaseNotes,
         });
 
         if (resp.data.purchaseType === "lot") {
