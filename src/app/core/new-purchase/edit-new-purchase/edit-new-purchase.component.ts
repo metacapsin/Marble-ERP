@@ -14,7 +14,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { validationRegex } from "../../validation";
 import { SharedModule } from "src/app/shared/shared.module";
 import { EditLotComponent } from "../../Product/lot/edit-lot/edit-lot.component";
-import { EditSlabPurchaseComponent } from "../edit-slab-purchase/edit-slab-purchase.component";
 import { AddSlabPurchaseComponent } from "../add-slab-purchase/add-slab-purchase.component";
 
 @Component({
