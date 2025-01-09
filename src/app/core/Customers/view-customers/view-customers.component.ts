@@ -68,14 +68,16 @@ export class ViewCustomersComponent implements OnInit {
   header = "";
   currentUrl: string;
   customer: any;
+  dueBalance:any;
+  openingBlncId:any;
   paymentInvoicesalesDataShowById: any; // to hold sales data by customer id
-
-
+  OpeningBalance:any;
+  openingBalPayList:any;
   salesTotalValues: any = {};
   paymentInTotalValues: any = {};
   salesReturnTotalValues: any = {};
   paymentOutTotalValues: any = {};
-
+  balanceId:any;
   constructor(
     private customerService: CustomersdataService,
     private activeRoute: ActivatedRoute,
@@ -91,6 +93,8 @@ export class ViewCustomersComponent implements OnInit {
 
   ngOnInit() {
     this.getCoustomers();
+    this.getOpeningBalance();
+    this.getOpeningBalancePayList()
     this.getsales();
     this.getPaymentListByCustomerId();
     this.getsalesReturn();
@@ -98,9 +102,9 @@ export class ViewCustomersComponent implements OnInit {
   }
   getCoustomers() {
     this.customerService.GetCustomerDataById(this.id).subscribe((data: any) => {
-      console.log("Customer data by id", data);
+      // console.log("Customer data by id", data);
       this.customerID = data._id;
-      console.log("customer id", this.customerID);
+      // console.log("customer id", this.customerID);
       this.customerDataById = [data];
       this.customer = {
         name: this.customerDataById[0].name,
@@ -109,6 +113,18 @@ export class ViewCustomersComponent implements OnInit {
       };
       console.log("this is customer object", this.customer);
     });
+  }
+
+  getOpeningBalance(){
+    this.customerService.GetOpeningBalanceById(this.id).subscribe((data:any)=>{
+      this.dueBalance = data.data
+    })
+  }
+
+  getOpeningBalancePayList(){
+    this.customerService.GetOpeningBalancePayListById(this.id).subscribe((data:any)=>{
+      this.openingBalPayList = data.data
+    })
   }
 
   getsales() {
@@ -155,6 +171,16 @@ export class ViewCustomersComponent implements OnInit {
     };
     this.showDialoge = true;
   }
+
+  deleteOpeningBlnc(Id: any) {
+    this.openingBlncId = Id;
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Opening Balance Details",
+    };
+    this.showDialoge = true;
+  }
+
   deleteSalesReturn(Id: any) {
     this.salesReturnID = Id;
     this.modalData = {
@@ -172,6 +198,16 @@ export class ViewCustomersComponent implements OnInit {
     }
     this.showDialoge = true;
   }
+
+  deleteOpeningBalnc(Id: any) {
+    this.balanceId = Id;
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Payment Details"
+    }
+    this.showDialoge = true;
+  }
+
   deleteSalesReturnPayment(Id: any) {
     this.salesReturnPaymentId = Id;
     this.modalData = {
@@ -219,6 +255,20 @@ export class ViewCustomersComponent implements OnInit {
         this.getSalesReturnPaymentListByCustomerId();
         this.showDialoge = false;
         this.salesReturnPaymentId=null;
+      });
+    }else if(this.openingBlncId){
+      this.salesReturnService.deleteopeningBalance(this.openingBlncId).subscribe((resp: any) => {
+        this.messageService.add({ severity: "success", detail: resp.message });
+        this.getOpeningBalance();
+        this.showDialoge = false;
+        this.openingBlncId=null;
+      });
+    }else if(this.balanceId){
+      this.salesReturnService.deleteBalancePayRec(this.balanceId).subscribe((resp: any) => {
+        this.messageService.add({ severity: "success", detail: resp.message });
+        this.getOpeningBalancePayList();
+        this.showDialoge = false;
+        this.openingBlncId=null;
       });
     }
   }
@@ -314,6 +364,34 @@ export class ViewCustomersComponent implements OnInit {
     //   this.paymentInvoicesalesDataShowById = [resp?.data];
     // });
   }
+
+  openeningBalancepopup(Id: any) {
+    this.customerService.GetOpeningBalanceById(this.id).subscribe((resp:any)=>{
+      this.showPaymentDialog = true;
+      this.paymentInvoicesalesDataShowById = [resp?.data];
+      this.header = "Opening Balance";
+      this.paymentObject = {
+        customer: resp?.data?.customer,
+        salesId: Id,
+        customerId:this.id,
+        isSales: true,
+        salesInvoiceNumber:'Opening Balance',
+        salesTotalAmount: resp?.data?.totalAmount,
+        salesDueAmount: resp?.data?.dueAmount,
+        salesPaidAmount: resp?.data?.paidAmount,
+        taxable: resp?.data?.taxable,
+        taxableDue: resp?.data?.taxableDue,
+        nonTaxable: resp?.data?.nonTaxable,
+        nonTaxableDue: resp?.data?.nonTaxableDue,
+      };
+      console.log("this is api response on payment dialog open ",resp?.data)
+    })
+    // this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
+    //   this.showPaymentDialog = true;
+    //   this.paymentInvoicesalesDataShowById = [resp?.data];
+    // });
+  }
+
   openPaymentReturnDialog(Id: any) {
     this.salesReturnService.getSalesReturnById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;

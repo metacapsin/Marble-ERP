@@ -15,14 +15,14 @@ export class CombinedPaymentService {
 
   getCombinedPayments(): Observable<any[]> {
     return forkJoin([
-      this.paymentInService.getPaymentList(),
+      this.paymentInService.getLatestPaymentList(),
       this.paymentOutService.getPurchasePaymentList()
     ]).pipe(
       map(([paymentsInResponse, paymentsOutResponse]) => {
         const paymentsIn = this.extractPayments(paymentsInResponse);
         const paymentsOut = this.extractPayments(paymentsOutResponse);
-        console.log("payment in response",paymentsInResponse)
-        console.log("payment out response",paymentsOutResponse)
+        // console.log("payment in response",paymentsInResponse)
+        // console.log("payment out response",paymentsOutResponse)
         return [...paymentsIn, ...paymentsOut].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       })
     );

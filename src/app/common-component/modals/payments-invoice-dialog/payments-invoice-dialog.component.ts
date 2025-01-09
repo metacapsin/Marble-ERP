@@ -101,7 +101,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       paymentMode: ["", [Validators.required]],
       note: [""],
       totalAmount: [
-        "",
+        this.dataById.salesDueAmount,
         [
           Validators.required,
           Validators.min(0),
@@ -404,7 +404,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   paymentInvoiceFormSubmit() {
     const formData = this.paymentInvoiceForm.value;
 
-    if (this.dataById.isSalesReturn) {
+    if (this.dataById.isSalesReturn && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
       const payload = {
         customer: this.dataById.customer,
         paymentDate: formData.paymentDate,
@@ -440,7 +440,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       }
     }
 
-    if (this.dataById.isSales) {
+    if (this.dataById.isSales && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
       console.log("this is sales payment forms", this.paymentInvoiceForm.value);
       console.log("form status", this.paymentInvoiceForm.status); // Check if the form is invalid or valid
 
@@ -610,7 +610,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     }
     // console.log(this.dataById.isPurchase);
     // for create purchase payment
-    if (this.dataById.isPurchase) {
+    if (this.dataById.isPurchase && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
       console.log("this.dataById", this.dataById);
       console.log("dataItemsGrid", this.dataItemsGrid);
 
@@ -706,7 +706,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     }
 
     //For slab Processing Payment
-    if (this.dataById.isSlabProcessing) {
+    if (this.dataById.isSlabProcessing && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
       const payload = {
         processor: this.dataById.customer,
         paymentDate: formData.paymentDate,
@@ -726,6 +726,41 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
             if (resp) {
               if (resp.status === "success") {
                 const message = "Slab Processing Payment has been added";
+                this.messageService.add({
+                  severity: "success",
+                  detail: message,
+                });
+                setTimeout(() => {
+                  this.close.emit();
+                  this.paymentInvoiceForm.reset();
+                }, 400);
+              } else {
+                const message = resp.message;
+                this.messageService.add({ severity: "error", detail: message });
+              }
+            }
+          });
+      } else {
+        console.log("invalid form");
+      }
+    }
+
+    if (this.dataById.salesInvoiceNumber === 'Opening Balance') {
+      const payload = {
+        _id:this.dataById.customerId,
+        paymentAmount:formData.totalAmount,
+        paymentDate: formData.paymentDate,
+        paymentMode: formData.paymentMode,
+        note: formData.note,
+      };
+      if (this.paymentInvoiceForm.valid) {
+        this.blockProcessorService
+          .createOpeningBal(payload)
+          .subscribe((resp: any) => {
+            console.log(resp);
+            if (resp) {
+              if (resp.status === "success") {
+                const message = "Opening Balance Payment has been added";
                 this.messageService.add({
                   severity: "success",
                   detail: message,

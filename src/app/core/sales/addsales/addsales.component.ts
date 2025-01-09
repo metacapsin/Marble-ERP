@@ -39,8 +39,8 @@ export class AddsalesComponent implements OnInit {
   public itemDetails: number[] = [0];
   maxQuantity: number;
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,30})$/;
-  notesRegex = /^(?:.{2,100})$/;
-  tandCRegex = /^(?:.{2,200})$/;
+  notesRegex = /^[\s\S]{2,100}$/;
+  tandCRegex =  /^[\s\S]{2,100}$/;
   customer: any = ([] = []);
   returnUrl: string;
   wareHousedataListsEditArray: any[];

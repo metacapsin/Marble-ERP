@@ -52,6 +52,8 @@ export class AddCustomersComponent implements OnInit {
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
       shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
+      openingbalance: [0],
+      balanceType: ["Received"],
     });
   }
 
@@ -64,6 +66,7 @@ export class AddCustomersComponent implements OnInit {
   
   addcustomerForm() {
     console.log(this.addcustomerGroup.value);
+  
     const payload = {
       name: this.addcustomerGroup.value.name, //req
       email: this.addcustomerGroup.value.email, //req
@@ -74,6 +77,7 @@ export class AddCustomersComponent implements OnInit {
       creaditLimit: Number(this.addcustomerGroup.value.creditLimit),
       billingAddress: this.addcustomerGroup.value.billingAddress,
       shippingAddress: this.addcustomerGroup.value.shippingAddress,
+      openingBalance:Number(this.addcustomerGroup.value.openingbalance),
     };
     console.log(payload);
 

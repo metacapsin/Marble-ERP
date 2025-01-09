@@ -396,7 +396,7 @@
                               {{
                               addSalesForm
                               .get("salesItemDetails")
-                              .get(i + ".salesItemTotal").value
+                              .get(i + ".salesItemTotal").value | number:'1.2-2'
                               }}
                             </span>
                           </div>
@@ -467,7 +467,7 @@
                             <span class="form-control">{{
                               addSalesForm
                               .get("salesItemDetails")
-                              .get(i + ".salesItemNonTaxableAmount")?.value
+                              .get(i + ".salesItemNonTaxableAmount")?.value | number:'1.2-2'
                               }}</span>
                           </div>
                         </div>
@@ -478,7 +478,7 @@
                             <span class="form-control">{{
                               addSalesForm
                               .get("salesItemDetails")
-                              .get(i + ".salesItemSubTotal")?.value
+                              .get(i + ".salesItemSubTotal")?.value | number:'1.2-2'
                               }}</span>
                             <span
                               *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value  && addSalesForm.get('salesItemDetails').get(i + '.salesItemNonTaxableAmount').value"

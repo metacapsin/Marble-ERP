@@ -67,7 +67,8 @@ export class PaymentOutReportComponent {
       if (resp.payments && Array.isArray(resp.payments)) {
         this.originalData = resp.payments.map((payment: any) => {
           if (payment) {
-            payment.receiver = payment?.customer?.name || payment?.supplier?.name;
+            // payment.receiver = payment?.customer?.name || payment?.supplier?.name;
+            payment.receiver = payment?.receiver
           }
           return payment;
         });
