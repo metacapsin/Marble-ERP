@@ -260,6 +260,8 @@ export class ViewCustomersComponent implements OnInit {
       this.salesReturnService.deleteopeningBalance(this.openingBlncId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
         this.getOpeningBalance();
+        this.getOpeningBalancePayList();
+        
         this.showDialoge = false;
         this.openingBlncId=null;
       });
@@ -267,8 +269,10 @@ export class ViewCustomersComponent implements OnInit {
       this.salesReturnService.deleteBalancePayRec(this.balanceId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
         this.getOpeningBalancePayList();
+        this.getOpeningBalance();
+
         this.showDialoge = false;
-        this.openingBlncId=null;
+        this.balanceId=null;
       });
     }
   }
@@ -281,7 +285,8 @@ export class ViewCustomersComponent implements OnInit {
     this.showDialoge = false;
     this.showInvoiceDialog = false;
     this.showPaymentDialog = false;
-
+    this.getOpeningBalancePayList();
+    this.getOpeningBalance();
     this.getsales();
     this.getPaymentListByCustomerId();
     this.getsalesReturn();
@@ -377,6 +382,7 @@ export class ViewCustomersComponent implements OnInit {
         isSales: true,
         salesInvoiceNumber:'Opening Balance',
         salesTotalAmount: resp?.data?.totalAmount,
+        paidAmount: resp?.data?.paidAmount,
         salesDueAmount: resp?.data?.dueAmount,
         salesPaidAmount: resp?.data?.paidAmount,
         taxable: resp?.data?.taxable,

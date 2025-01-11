@@ -177,28 +177,26 @@
                   </div>
                 </div>
                 
-                  <div class="col-12 col-md-3 col-xl-3">
-                    <div class="form-group local-forms">
+                  <div class="col-12 col-md-6 d-flex col-xl-6">
+                    <div class="form-group local-forms w-100">
                       <label for="openingbalance">Opening Balance</label>
-                      <textarea 
+                      <input 
                         class="form-control" 
                         type="Number"
                         placeholder="Please Enter Opening Balance"
                         formControlName="openingbalance" 
-                        rows="1">
-                      </textarea>
+                        rows="1" />
+                     
                     </div>
-                  </div>
-                
-                  <div class="col-12 col-md-3 col-xl-3">
-                    <div class="form-group local-forms">
+                    <div class="form-group local-forms w-100">
                       <label for="balanceType">Balance Type</label>
                       <select class="form-control" id="balanceType"  formControlName="balanceType">
                         <option selected>Received</option>
                       </select>
                     </div>
                   </div>
-               
+                
+                  
                 
               </div>
             </form>

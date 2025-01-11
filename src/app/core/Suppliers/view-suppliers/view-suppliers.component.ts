@@ -11,6 +11,8 @@ import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-
 import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
 import { SharedModule } from "src/app/shared/shared.module";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
+import { CustomersdataService } from "../../Customers/customers.service";
+import { SalesReturnService } from "../../sales-return/sales-return.service";
 
 interface Product {
   _id: string;
@@ -77,7 +79,9 @@ export class ViewSuppliersComponent {
   paymentInvoicePurchaseDataShowById: any; // to hold purchase data by supplier id for payment invoice
   PurchaseReturnPaymentId: any;
   PurchasePaymentId: any;
-
+  dueBalance:any;
+  openingBalPayList:any;
+  balanceId:any;
   constructor(
     private SupplierService: SuppliersdataService,
     private activeRoute: ActivatedRoute,
@@ -86,6 +90,8 @@ export class ViewSuppliersComponent {
     private purchaseService: PurchaseService,
     private purchaseReturnService: PurchaseReturnService,
     private router: Router,
+    private salesReturnService: SalesReturnService,
+    private customerService: CustomersdataService,
     private messageService: MessageService,
     private localStorageService: LocalStorageService
   ) {
@@ -94,12 +100,27 @@ export class ViewSuppliersComponent {
 
   ngOnInit() {
     this.getSuppliers();
+    this.getOpeningBalance();
+    this.getOpeningBalancePayList();
     this.getPurchase();
     this.getPaymentListBySupplierId();
     this.getPurchaseReturn();
     this.getPurchaseReturnPaymentListBySupplierId();
     this.currentUrl = this.router.url;
   }
+
+  getOpeningBalance(){
+    this.customerService.GetOpeningBalanceById(this.id).subscribe((data:any)=>{
+      this.dueBalance = data.data
+    })
+  }
+
+  getOpeningBalancePayList(){
+    this.customerService.GetOpeningBalancePayListById(this.id).subscribe((data:any)=>{
+      this.openingBalPayList = data.data
+    })
+  }
+
   getSuppliers() {
     this.SupplierService.GetSupplierDataById(this.id).subscribe((data: any) => {
       console.log("supplier data by id", data);
@@ -114,6 +135,15 @@ export class ViewSuppliersComponent {
       };
       console.log("this is supplier object", this.supplier);
     });
+  }
+
+  deleteOpeningBalnc(Id: any) {
+    this.balanceId = Id;
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Payment Details"
+    }
+    this.showDialoge = true;
   }
 
   // getTotalPaidAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
@@ -285,6 +315,14 @@ export class ViewSuppliersComponent {
         this.showDialoge = false;
       });
 
+    }else if(this.balanceId){
+      this.salesReturnService.deleteBalancePayRec(this.balanceId).subscribe((resp: any) => {
+        this.messageService.add({ severity: "success", detail: resp.message });
+        this.getOpeningBalancePayList();
+        this.getOpeningBalance()
+        this.showDialoge = false;
+        this.balanceId=null;
+      });
     }
   }
 
@@ -326,7 +364,8 @@ export class ViewSuppliersComponent {
     this.showDialoge = false;
     this.showInvoiceDialog = false;
     this.showPaymentDialog = false;
-
+    this.getOpeningBalancePayList();
+        this.getOpeningBalance()
     this.allApiCall();
   
   }
@@ -374,10 +413,11 @@ export class ViewSuppliersComponent {
       });
   }
 
-  openPaymentDialog(Id: any) {
+  openPaymentDialog(Id: any ,key:any) {
+   if(key === 'duebalance'){
     if (Id) {
-      this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
-        this.header = "Purchase Payment ";
+      this.customerService.GetOpeningBalanceById(Id).subscribe((resp: any) => {
+        this.header = "Opening Balance";
       this.showPaymentDialog = true;
 
         this.paymentInvoicePurchaseDataShowById = [resp.data];
@@ -386,7 +426,11 @@ export class ViewSuppliersComponent {
           supplier: resp.data.supplier,
           purchaseId: Id,
           isPurchase: true,
-          purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
+          customerId:this.id,
+          purchaseInvoiceNumber:'Opening Balance',
+          salesInvoiceNumber:'Opening Balance',
+          supplierTotalAmount: resp?.data?.totalAmount,
+          paidAmount:resp?.data?.paidAmount,
           purchaseCost: resp.data.purchaseCost,
           purchaseDueAmount: resp.data.dueAmount,
           taxableDue: resp.data.taxableDue,
@@ -396,7 +440,31 @@ export class ViewSuppliersComponent {
         };
       });
       
+    }else{
+      if (Id) {
+        this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
+          this.header = "Purchase Payment ";
+        this.showPaymentDialog = true;
+  
+          this.paymentInvoicePurchaseDataShowById = [resp.data];
+          console.log("purchase data show success message" , this.paymentInvoicePurchaseDataShowById)
+          this.paymentObject = {
+            supplier: resp.data.supplier,
+            purchaseId: Id,
+            isPurchase: true,
+            purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
+            purchaseCost: resp.data.purchaseCost,
+            purchaseDueAmount: resp.data.dueAmount,
+            taxableDue: resp.data.taxableDue,
+            nonTaxableDue: resp.data.nonTaxableDue,
+            taxable: resp.data.taxable,
+            nonTaxable: resp.data.nonTaxable,
+          };
+        });
+        
+      }
     }
+   }
   }
   openPaymentReturnDialog(Id: any) {
     if (Id) {

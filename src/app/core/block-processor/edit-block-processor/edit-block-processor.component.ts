@@ -54,6 +54,8 @@ export class EditBlockProcessorComponent {
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
       address: ["", [Validators.pattern(this.billingAddressRegex)]],
+      openingBalance: [0],
+      balanceType: ["Received"],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -80,17 +82,19 @@ export class EditBlockProcessorComponent {
       email: this.blockProcessorData.email,
       status: true,
       address: this.blockProcessorData.address,
+      openingBalance : this.blockProcessorData.openingBalance,
     });
   }
   editBlockProcessorFormSubmit() {
 
     const payload = {
-      id: this.id,
+      _id: this.id,
       name: this.editBlockProcessorForm.value.companyName,
       phoneNo: this.editBlockProcessorForm.value.phoneNo,
       email: this.editBlockProcessorForm.value.email,
       status: this.editBlockProcessorForm.value.status,
       address: this.editBlockProcessorForm.value.address,
+      openingBalance:Number(this.editBlockProcessorForm.value.openingBalance),
     };
     if (this.editBlockProcessorForm.valid) {
       this.Service.updateBlockProcessorData(payload).subscribe((resp: any) => {

@@ -56,6 +56,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   @Input() dataById: any = [];
   @Input() dataItemsGrid: any;
   @Input() header: any;
+  @Output() formSubmitted = new EventEmitter<void>();
   @Output() callbackModalForPayment = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();
   paymentInvoiceForm: FormGroup;
@@ -165,13 +166,13 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   }
   // Populate taxable and non-taxable amounts when an invoice is selected
   onInvoiceNumberSelect(invoiceId: any) {
-    console.log("invoiceId on invoice number select", invoiceId);
+    // console.log("invoiceId on invoice number select", invoiceId);
     this.invoiceDataByInvoiceId = invoiceId;
-    console.log("data on invoice select", this.invoiceDataByInvoiceId);
+    // console.log("data on invoice select", this.invoiceDataByInvoiceId);
     const selectedInvoice = this.invoiceNumberList.find(
       (invoice) => invoice.value === invoiceId.value
     );
-    console.log("selected invoice", selectedInvoice);
+    // console.log("selected invoice", selectedInvoice);
     const taxablePaymentAmountControl = this.paymentInvoiceForm.get(
       "taxablePaymentAmount"
     );
@@ -183,18 +184,18 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     const customerNonTaxableDue = this.dataById.nonTaxableDue; // Customer non-taxable due
 
     if (selectedInvoice) {
-      console.log("Selected Invoice Taxable Due:", selectedInvoice.taxableDue);
-      console.log(
-        "Selected Invoice Non-Taxable Due:",
-        selectedInvoice.nonTaxableDue
-      );
-      console.log("Customer Taxable Due:", customerTaxableDue);
-      console.log("Customer Non-Taxable Due:", customerNonTaxableDue);
-      console.log("Supplier total due amount:", selectedInvoice.dueAmount);
+      // console.log("Selected Invoice Taxable Due:", selectedInvoice.taxableDue);
+      // console.log(
+      //   "Selected Invoice Non-Taxable Due:",
+      //   selectedInvoice.nonTaxableDue
+      // );
+      // console.log("Customer Taxable Due:", customerTaxableDue);
+      // console.log("Customer Non-Taxable Due:", customerNonTaxableDue);
+      // console.log("Supplier total due amount:", selectedInvoice.dueAmount);
 
       if (selectedInvoice.taxVendor) {
         // If taxVendor exists, only patch non-taxable amount
-        console.log("TaxVendor exists");
+        // console.log("TaxVendor exists");
 
         // Check if dueAmount is non-taxable
         // const isNonTaxableDue =
@@ -231,10 +232,10 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           selectedInvoice.taxableDue > 0 &&
           selectedInvoice.taxableDue < customerTaxableDue
         ) {
-          console.log(
-            "Patching taxable amount with invoice due:",
-            selectedInvoice.taxableDue
-          );
+          // console.log(
+          //   "Patching taxable amount with invoice due:",
+          //   selectedInvoice.taxableDue
+          // );
           taxablePaymentAmountControl.patchValue(
             Number(selectedInvoice.taxableDue)
           );
@@ -248,17 +249,17 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           selectedInvoice.nonTaxableDue > 0 &&
           selectedInvoice.nonTaxableDue < customerNonTaxableDue
         ) {
-          console.log(
-            "Patching non-taxable amount with invoice due:",
-            selectedInvoice.nonTaxableDue
-          );
+          // console.log(
+          //   "Patching non-taxable amount with invoice due:",
+          //   selectedInvoice.nonTaxableDue
+          // );
           nonTaxablePaymentAmountControl.patchValue(
             Number(selectedInvoice.nonTaxableDue)
           );
         } else {
-          console.log(
-            "No need to patch non-taxable amount, customer due is less or equal."
-          );
+          // console.log(
+          //   "No need to patch non-taxable amount, customer due is less or equal."
+          // );
         }
       }
     } else {
@@ -779,5 +780,6 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         console.log("invalid form");
       }
     }
+    this.formSubmitted.emit();
   }
 }

@@ -124,7 +124,7 @@
                   </div>
                 </div>
             
-                <div class="form-group row mb-2" *ngIf="dueBalance.dueAmount">
+                <div class="form-group row mb-2" *ngIf=" dueBalance && dueBalance.dueAmount">
                   <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Due Opening Balance
                   </h5>
@@ -211,7 +211,7 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-sales>
-              <tr class="bg-light font-weight-bold">
+              <tr class="bg-light font-weight-bold" *ngIf="dueBalance">
                 <td>Opening Balance</td>
                 <td>{{ dueBalance.createdOn | date: "dd-MMM-yyyy" }}</td>
                 <td>{{ dueBalance.creditPeriod || 0 }} Days</td>
@@ -228,10 +228,10 @@
                       pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
                       <p-button [text]="true" 
                       pTooltip="View" ></p-button>
-                    <p-button *ngIf="sales.paymentStatus == 'Unpaid' || dueBalance.paymentStatus ==  'Partial Paid'"
+                    <p-button *ngIf="dueBalance.paymentStatus == 'Unpaid' || dueBalance.paymentStatus ==  'Partial Paid'"
                       [text]="true" icon="fa-solid fa-wallet" (click)="openeningBalancepopup(dueBalance._id)" pTooltip="Payment"
                       tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
-                    <div *ngIf="sales.paymentStatus != 'Unpaid' && sales.paymentStatus != 'Partial Paid'"
+                    <div *ngIf="dueBalance.paymentStatus != 'Unpaid' && dueBalance.paymentStatus != 'Partial Paid'"
                       class="placeholder"></div>
                       <p-button [text]="true" 
                       pTooltip="View" ></p-button>
@@ -267,7 +267,7 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
-              <tr class="bg-light font-weight-bold">
+              <tr class="bg-light font-weight-bold" *ngIf="dueBalance">
                 <td>Opening Balance</td>
                 <td>{{ dueBalance.createdOn | date: "dd-MMM-yyyy" }}</td>
                 <td>{{ dueBalance.creditPeriod || 0 }} Days</td>
@@ -433,7 +433,7 @@
             <ng-template pTemplate="body" let-product>
               <tr *ngFor="let item of openingBalPayList">
                 <td>
-                  <p-button
+                  <!-- <p-button
                     type="button"
                     pRipple
                     (onClick)="toggleRow(item)"
@@ -445,7 +445,7 @@
                         ? 'fa-solid fa-chevron-down'
                         : 'fa-solid fa-angle-right'
                     "
-                  ></p-button>
+                  ></p-button> -->
                 </td>
                 <td>{{ 'Opening Balance' }}</td>
                 <td>{{ item.transactionNo }}</td>
@@ -558,7 +558,7 @@
     <ng-template pTemplate="emptymessage">
 
       <tr *ngFor="let item of openingBalPayList">
-        <td>
+        <!-- <td>
           <p-button
             type="button"
             pRipple
@@ -572,7 +572,8 @@
                 : 'fa-solid fa-angle-right'
             "
           ></p-button>
-        </td>
+        </td> -->
+        <td></td>
         <td>{{ 'Opening Balance' }}</td>
         <td>{{ item.transactionNo }}</td>
         <td>{{ item.paymentDate | date: 'dd-MMM-yyyy' }}</td>
@@ -591,7 +592,7 @@
       </tr>
       
      
-      <tr *ngIf="!openingBalPayList">
+      <tr *ngIf="openingBalPayList.length <= 0">
         <td colspan="7" class="text-center">
           No Payment found.
         </td>
@@ -799,7 +800,7 @@
 
 <app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataItemsGrid]="paymentInvoicesalesDataShowById"
   [dataById]="paymentObject" [header]="header" (callbackModal)="callBackModal()"
-  (close)="close()"></app-payments-invoice-dialog>
+  (close)="close()" (formSubmitted)="close()"></app-payments-invoice-dialog>
 
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>

@@ -49,6 +49,8 @@ export class EditSuppliersComponent implements OnInit {
       creditPeriod:  ["", [Validators.min(0), Validators.max(180)]],
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
+      openingBalance: [0],
+      balanceType: ["Received"],
       // shippingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
     });
     this.id = this.activeRoute.snapshot.params["id"];
@@ -70,6 +72,7 @@ export class EditSuppliersComponent implements OnInit {
       creditPeriod: this.SupplierData.creditPeriod,
       creditLimit: this.SupplierData.creditLimit,
       billingAddress: this.SupplierData.billingAddress,
+      openingBalance : this.SupplierData.openingBalance,
       // shippingAddress: this.SupplierData.shippingAddress,
     });
   }
@@ -77,7 +80,7 @@ export class EditSuppliersComponent implements OnInit {
   editSupplierForm() {
     console.log(this.editSupplierGroup.value);
     const payload = {
-      id: this.id,
+      _id: this.id,
       name: this.editSupplierGroup.value.name,
       email: this.editSupplierGroup.value.email,
       phoneNo: this.editSupplierGroup.value.phoneNumber,
@@ -86,6 +89,7 @@ export class EditSuppliersComponent implements OnInit {
       creditPeriod: this.editSupplierGroup.value.creditPeriod,
       creditLimit: Number(this.editSupplierGroup.value.creditLimit),
       billingAddress: this.editSupplierGroup.value.billingAddress,
+      openingBalance:this.editSupplierGroup.value.openingBalance,
       // shippingAddress: this.editSupplierGroup.value.shippingAddress,
     };
     if (this.editSupplierGroup.value) {

@@ -49,6 +49,8 @@ export class AddSuppliersComponent {
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
+      openingbalance: [0],
+      balanceType: ["Received"],
       // shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
   }
@@ -64,6 +66,7 @@ export class AddSuppliersComponent {
       creditPeriod: this.addSupplierGroup.value.creditPeriod,
       creditLimit: Number(this.addSupplierGroup.value.creditLimit),
       billingAddress: this.addSupplierGroup.value.billingAddress,
+      openingBalance:Number(this.addSupplierGroup.value.openingbalance),
       // shippingAddress: this.addSupplierGroup.value.shippingAddress,
     };
     if (this.addSupplierGroup.value) {
