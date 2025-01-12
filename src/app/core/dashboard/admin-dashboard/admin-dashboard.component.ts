@@ -212,7 +212,9 @@ export class AdminDashboardComponent {
     const today = new Date();
     // const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
     const endDate = new Date();
-    const startDate = new Date(today.getFullYear(), 3, 1);
+    const startDate = new Date(today.getFullYear(),0, 1);
+
+
     this.data = "This Year";
     // Set the start date to one month ago
     // startDate.setMonth(startDate.getMonth() - 1);

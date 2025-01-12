@@ -34,6 +34,35 @@
                     <button class="btn-primary btn" (click)="navigateToCreateBlockProcessor()">
                       Add Block Processor
                     </button>
+                    
+                  </div>
+                  
+                  <div class="col-12 col-md-4 col-xl-4 col-sm-12">
+                    <div class="form-group local-forms">
+                      <label for="stockType">Stock Type<span class="login-danger">*</span></label>
+                      <p-dropdown 
+                        [options]="slabTypeOptions" 
+                        styleClass="" 
+                        appendTo="body"
+                        optionLabel="label" 
+                        optionValue="value" 
+                        placeholder="Select Slab Type"
+                        formControlName="stockType" 
+                        [style]="{ width: '100%' }" 
+                        [filter]="true" 
+                        filterBy="label"
+                        [showClear]="true" 
+                        (onChange)="onSlabTypeSelect($event.value)">
+                      </p-dropdown>
+                      <div *ngIf="
+                          slabsAddForm
+                            .get('stockType')
+                            ?.hasError('required') &&
+                          slabsAddForm.get('stockType')?.touched
+                        ">
+                        <span class="login-danger">Field is required.</span>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
@@ -110,7 +139,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4 col-sm-12">
+                  <div class="col-12 col-md-4 col-xl-4 col-sm-12" *ngIf="slabsAddForm && slabsAddForm.get('stockType')?.value !== 'OpeningStock'">
                     <div class="form-group local-forms">
                       <label for="lotDetails">Lot No. <span class="login-danger">*</span></label>
                       <p-dropdown [options]="fromWareHouseLotValue" styleClass="" appendTo="body" optionLabel="lotName"
@@ -129,7 +158,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4 col-sm-12">
+                  <div class="col-12 col-md-4 col-xl-4 col-sm-12" *ngIf="slabsAddForm && slabsAddForm.get('stockType')?.value !== 'OpeningStock'">
                     <div class="form-group local-forms">
                       <label for="blockDetails">Block Number<span class="login-danger">*</span></label>
                       <p-dropdown [options]="blockDropDownData" styleClass="" appendTo="body" optionLabel="blockNo"
@@ -150,7 +179,7 @@
                   </div>
 
 
-                  <div class="col-12 col-md-4 col-xl-4 col-sm-12">
+                  <div class="col-12 col-md-4 col-xl-4 col-sm-12" *ngIf="slabsAddForm && slabsAddForm.get('stockType')?.value !== 'OpeningStock'">
                     <div class="form-group local-forms">
                       <label for="blockProcessor">Processor<span class="login-danger">*</span></label>
 
@@ -426,7 +455,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-12">
+                          <div class="col-12" *ngIf="slabsAddForm && slabsAddForm.get('stockType')?.value !== 'OpeningStock'">
                             <div class="form-group local-forms">
                               <label for="processingFee">Processing Fee / Ton<span class="login-danger">*</span></label>
                               <div class="input-group">
