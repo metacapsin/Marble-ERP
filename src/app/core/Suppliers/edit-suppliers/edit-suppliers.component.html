@@ -136,7 +136,12 @@
                         <div class="input-group">
                           <input class="form-control" type="number" placeholder formControlName="creditPeriod" />
                           <div class="input-group-prepend">
-                            <span class="input-group-text" style="font-size: 12px">Days</span>
+                            <label for="creditPeriodType">Credit Period</label>
+                            <select class="form-control" id="creditPeriodType"  formControlName="creditPeriodType">
+                              <option selected value="Days">Days</option>
+                              <option value="Month">Month</option>
+                            </select>
+                            <!-- <span class="input-group-text" style="font-size: 12px">Days</span> -->
                           </div>
                         </div>
                         <div *ngIf="

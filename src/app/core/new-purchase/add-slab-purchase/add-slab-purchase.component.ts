@@ -203,6 +203,19 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount();
   }
 
+    // for get hsn code
+    getHsnCode(event) {
+      let rec = this.allSubCategoryList.find((item) => item._id === event._id);
+      if (rec) {
+        this.subCategory.hsnCode = rec.hsnCode;
+     
+      } else {
+        console.error('No matching item found for the selected _id:', event._id);
+      }
+
+
+    }
+
   closeSlabForm(myForm: NgForm) {
     this.addvisible = false;
     myForm.resetForm();

@@ -130,18 +130,16 @@ export class AddSlabsComponent {
       noOfPieces: ["", [Validators.min(1), Validators.max(100000)]],
       height: ["", [Validators.min(1), Validators.max(500)]],
       sqftPerPiece: [""],
-      stockType: ['BlockToSlabConvert', Validators.required], 
+      stockType: ["BlockToSlabConvert", Validators.required],
     });
   }
   get f() {
     return this.slabsAddForm.controls;
   }
 
-  
-
   slabTypeOptions = [
-    { label: 'Block To Slab Convert', value: 'BlockToSlabConvert' },
-    { label: 'Opening Stock', value: 'OpeningStock' }
+    { label: "Block To Slab Convert", value: "BlockToSlabConvert" },
+    { label: "Opening Stock", value: "OpeningStock" },
   ];
   ngOnInit(): void {
     this.currentUrl = this.router.url;
@@ -208,18 +206,13 @@ export class AddSlabsComponent {
   }
 
   onSlabTypeSelect(selectedValue: string): void {
-    if (selectedValue === 'OpeningStock') {
-      this.slabsAddForm.get('blockProcessor')?.setValue('null');
-      this.slabsAddForm.get('lotDetails')?.setValue('null');
-      this.slabsAddForm.get('blockDetails')?.setValue('null');
-      this.slabsAddForm.get('processingFee')?.setValue('null');
-   
-  
-
+    if (selectedValue === "OpeningStock") {
+      this.slabsAddForm.get("blockProcessor")?.setValue("null");
+      this.slabsAddForm.get("lotDetails")?.setValue("null");
+      this.slabsAddForm.get("blockDetails")?.setValue("null");
+      this.slabsAddForm.get("processingFee")?.setValue("null");
     }
   }
-  
-  
 
   findSubCategory(value: any) {
     let SubCategoryData: any = [];
@@ -345,8 +338,9 @@ export class AddSlabsComponent {
     // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
 
+
+
   SlabsAddFormSubmit() {
-  
     if (
       this.slabsAddForm.value.width ||
       this.slabsAddForm.value.length ||
@@ -366,27 +360,42 @@ export class AddSlabsComponent {
     } else {
       const payload = {
         slabNo: this.slabsAddForm.value.slabNo,
-        lotDetails: this.slabsAddForm.value.lotDetails === 'null' ? null : this.slabsAddForm.value.lotDetails,
-        blockDetails: this.slabsAddForm.value.blockDetails === 'null' ? null : this.slabsAddForm.value.blockDetails,
+        lotDetails:
+          this.slabsAddForm.value.lotDetails === "null"
+            ? null
+            : this.slabsAddForm.value.lotDetails,
+        blockDetails:
+          this.slabsAddForm.value.blockDetails === "null"
+            ? null
+            : this.slabsAddForm.value.blockDetails,
         categoryDetail: this.slabsAddForm.value.categoryDetail,
         subCategoryDetail: this.slabsAddForm.value.subCategoryDetail,
         slabName: this.slabsAddForm.value.slabName,
         totalSQFT: this.slabsAddForm.value.totalSQFT,
-        processingFee: this.slabsAddForm.value.processingFee === 'null' ? 0 : Number(this.slabsAddForm.value.processingFee) || 0,
-        purchaseCost: this.originalPurchaseCost || this.slabsAddForm.value.purchaseCost,
+        processingFee:
+          this.slabsAddForm.value.processingFee === "null"
+            ? 0
+            : Number(this.slabsAddForm.value.processingFee) || 0,
+        purchaseCost:
+          this.originalPurchaseCost || this.slabsAddForm.value.purchaseCost,
         processingCost: Number(this.slabsAddForm.value.processingCost) || 0,
         otherCharges: Number(this.slabsAddForm.value.otherCharges),
         transportationCharges: Number(
           this.slabsAddForm.value.transportationCharges
         ),
-        totalCosting: Number(this.slabsAddForm.value.totalCosting) || this.slabsAddForm.value.purchaseCost,
+        totalCosting:
+          Number(this.slabsAddForm.value.totalCosting) ||
+          this.slabsAddForm.value.purchaseCost,
         costPerSQFT: Number(this.slabsAddForm.value.costPerSQFT),
         sellingPricePerSQFT: Number(
           this.slabsAddForm.value.sellingPricePerSQFT
         ),
 
         notes: this.slabsAddForm.value.notes,
-        blockProcessor: this.slabsAddForm.value.blockProcessor === 'null' ? null :this.slabsAddForm.value.blockProcessor ,
+        blockProcessor:
+          this.slabsAddForm.value.blockProcessor === "null"
+            ? null
+            : this.slabsAddForm.value.blockProcessor,
         warehouseDetails: this.slabsAddForm.value.warehouseDetails,
         date: this.slabsAddForm.value.date,
         width: this.slabsAddForm.value.width,
@@ -395,14 +404,14 @@ export class AddSlabsComponent {
         finishes: this.slabsAddForm.value.finishes,
         slabSize: _Size,
         sqftPerPiece: this.slabsAddForm.value.sqftPerPiece,
-        stockType:this.slabsAddForm.value.stockType,
+        stockType: this.slabsAddForm.value.stockType,
       };
       if (this.slabsAddForm.valid) {
         // Api call for creating slab
         this.Service.CreateSlabs(payload).subscribe((resp: any) => {
-          console.log('resp',resp)
+          console.log("resp", resp);
 
-          if(resp.status === 'success'){
+          if (resp.status === "success") {
             const message = "Slabs has been added";
             this.messageService.add({ severity: "success", detail: message });
             setTimeout(() => {

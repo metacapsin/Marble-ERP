@@ -617,8 +617,8 @@
                         </p>
                         <p *ngIf="!sales?.salesDate">
                           Transport Charges
-                          <span>+ ₹ {{ (sales?.transportationCharges ||
-                            sales?.lotDetails?.transportationCharge || sales?.lotDetails?.totalTransportationCharges ||
+                          <span>+ ₹ {{ (sales?.transportationCharges * sales?.lotDetails?.lotWeight ||
+                            sales?.lotDetails?.transportationCharge * sales?.lotDetails?.lotWeight || sales?.lotDetails?.totalTransportationCharges * sales?.lotDetails?.lotWeight ||
                             0) | indianCurrency }}</span>
                         </p>
                         <p *ngIf="sales?.lotDetails?.royaltyCharge">
@@ -657,7 +657,7 @@
                         </p> -->
                         <p>
                           Discount
-                          <span>
+                          <span> + ₹ 
                             {{
                             (sales?.salesDiscount > 0 || sales?.lotDetails?.purchaseDiscount || sales?.quotationDiscount
                             > 0)
@@ -667,7 +667,7 @@
                             }}
                           </span>
                         </p>
-                        <p *ngIf="sales?.purchaseDiscount || sales?.lotDetails?.purchaseDiscount">
+                        <!-- <p *ngIf="sales?.purchaseDiscount || sales?.lotDetails?.purchaseDiscount">
                           Discount
                           <span>+ ₹ {{ (sales?.purchaseDiscount || sales?.lotDetails?.purchaseDiscount || 0) |
                             indianCurrency }}</span>
@@ -679,8 +679,8 @@
                           <ng-template #zeroDiscount>
                             <span>0.00</span>
                           </ng-template>
-                        </p> -->
-                        <p>
+                        </p> --> 
+                        <!-- <p>
                           Discount
                           <span>
                             {{
@@ -691,7 +691,7 @@
                             : '0.00'
                             }}
                           </span>
-                        </p>
+                        </p> -->
                       </div>
                       <div class="invoice-total-footer">
                         <h4>

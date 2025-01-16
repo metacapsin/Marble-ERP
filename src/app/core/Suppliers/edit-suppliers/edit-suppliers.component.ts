@@ -51,6 +51,7 @@ export class EditSuppliersComponent implements OnInit {
       billingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
       openingBalance: [0],
       balanceType: ["Received"],
+      creditPeriodType:['Days']
       // shippingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
     });
     this.id = this.activeRoute.snapshot.params["id"];
@@ -73,6 +74,7 @@ export class EditSuppliersComponent implements OnInit {
       creditLimit: this.SupplierData.creditLimit,
       billingAddress: this.SupplierData.billingAddress,
       openingBalance : this.SupplierData.openingBalance,
+      creditPeriodType:this.SupplierData.creditPeriodType
       // shippingAddress: this.SupplierData.shippingAddress,
     });
   }
@@ -90,6 +92,7 @@ export class EditSuppliersComponent implements OnInit {
       creditLimit: Number(this.editSupplierGroup.value.creditLimit),
       billingAddress: this.editSupplierGroup.value.billingAddress,
       openingBalance:this.editSupplierGroup.value.openingBalance,
+      creditPeriodType:this.editSupplierGroup.value.creditPeriodType,
       // shippingAddress: this.editSupplierGroup.value.shippingAddress,
     };
     if (this.editSupplierGroup.value) {

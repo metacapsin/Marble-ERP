@@ -528,6 +528,8 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     }
   }
 
+  
+
   addNewPurchaseFormSubmit() {
     const formData = this.addNewPurchaseForm.value;
     let payload = {};

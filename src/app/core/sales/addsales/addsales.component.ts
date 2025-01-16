@@ -304,6 +304,31 @@ export class AddsalesComponent implements OnInit {
     });
   }
   onSlabSelect(value, i) {
+  
+
+    let rec = this.originalSlabData.find((item) => item._id === value._id)?.subCategoryDetail;
+
+  console.log('this.salesItemDetails:', this.salesItemDetails);
+
+  if (rec && rec.hsnCode) {
+    const salesItemDetails = this.addSalesForm.get('salesItemDetails') as FormArray;
+  
+
+    salesItemDetails.controls.forEach((salesItemGroup: FormGroup) => {
+      salesItemGroup.patchValue({
+        salesItemProduct: {
+          ...salesItemGroup.value.salesItemProduct, 
+          hsnCode: rec.hsnCode,    
+        },
+      });
+    });
+  } else {
+    console.error('hsnCode not found in rec:', rec);
+  }
+  
+
+  console.log('Updated salesItemDetails:',  this.addSalesForm.value );
+
     const salesItemDetailsArray = this.addSalesForm.get(
       "salesItemDetails"
     ) as FormArray;
@@ -445,6 +470,7 @@ export class AddsalesComponent implements OnInit {
       this.taxVendorAmount();
     }
   }
+  
 
   calculatesummaryTaxAmount(_type: any) {
     console.log(_type);
@@ -468,6 +494,7 @@ export class AddsalesComponent implements OnInit {
   }
 
   addSalesFormSubmit() {
+
     const formData = this.addSalesForm.value;
     const payload = {
       customer: formData.customer,

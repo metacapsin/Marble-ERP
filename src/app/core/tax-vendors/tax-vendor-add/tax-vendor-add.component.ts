@@ -72,7 +72,7 @@ export class TaxVendorAddComponent implements OnInit {
       ],
       taxNo: [
         "",
-        [Validators.required, Validators.pattern(this.taxNumberRegex)],
+    
       ],
     });
   }

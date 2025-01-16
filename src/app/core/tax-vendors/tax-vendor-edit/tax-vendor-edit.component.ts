@@ -75,7 +75,7 @@ export class TaxVendorEditComponent implements OnInit {
       ],
       taxNo: [
         "",
-        [Validators.required, Validators.pattern(this.taxNumberRegex)],
+   
       ],
     });
     this.taxVendorId = this.activeRoute.snapshot.params["id"];

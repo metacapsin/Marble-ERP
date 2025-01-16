@@ -40,6 +40,7 @@ import { TagModule } from "primeng/tag";
 import { ToastModule } from "primeng/toast";
 import { ProfitLossModule } from "../../reports/reports/profit-loss-reports/profit-loss-reports.module";
 import { ReportsService } from "../../reports/reports/reports.service";
+import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 export type ChartOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   series: ApexAxisChartSeries | any;
@@ -177,25 +178,25 @@ export class AdminDashboardComponent {
   ];
   valueSubCategory: string = "graph";
   orgCategorySlabs: any;
-  orgSubCategorySlabs:any[];
-  categorySearchDataValue:any
-  subCategorySearchDataValue:any
-  stockAlertSearchDataValue:any
+  orgSubCategorySlabs: any[];
+  categorySearchDataValue: any;
+  subCategorySearchDataValue: any;
+  stockAlertSearchDataValue: any;
   StockWarehouseWiseLot: any;
   StockWarehouseWiseSlab: any;
   StockWarehouseWise: any;
-
+  wareHousedataListsEditArray: any[];
   visible: boolean = false;
-  chartType: string = '';
+  chartType: string = "";
   subCategoryslabsData: any[];
-
 
   constructor(
     // public data: DataService,
     private router: Router,
     private Service: dashboardService,
     private reportsService: ReportsService,
-    private crypto: AESEncryptDecryptService
+    private crypto: AESEncryptDecryptService,
+    private service: WarehouseService
   ) {
     this.userData = this.crypto.getData("currentUser");
     console.log(this.userData);
@@ -208,12 +209,12 @@ export class AdminDashboardComponent {
   }
 
   ngOnInit(): void {
+    this.getwareHouse();
     this.maxDate = new Date();
     const today = new Date();
     // const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
     const endDate = new Date();
-    const startDate = new Date(today.getFullYear(),0, 1);
-
+    const startDate = new Date(today.getFullYear(), 0, 1);
 
     this.data = "This Year";
     // Set the start date to one month ago
@@ -278,7 +279,6 @@ export class AdminDashboardComponent {
     product.expanded = !product.expanded;
   }
 
-
   getSeverity(alertType: string) {
     switch (alertType) {
       case "high":
@@ -290,6 +290,18 @@ export class AdminDashboardComponent {
       default:
         return "success";
     }
+  }
+
+  getwareHouse() {
+    this.service.getAllWarehouseList().subscribe((resp: any) => {
+      if (resp.status === "success") {
+        this.wareHousedataListsEditArray = resp.data;
+      }
+    });
+  }
+
+  filterdatabywarehoue(event: any) {
+    console.log("event", event);
   }
 
   getStatusSeverity(daysLeft: number) {
@@ -350,7 +362,7 @@ export class AdminDashboardComponent {
       (resp: any) => {
         console.log(resp);
         this.barChartData = resp.barChartData;
-        console.log("Monthly Bar Chart Data ",this.barChartData);
+        console.log("Monthly Bar Chart Data ", this.barChartData);
         this.setDataForChart(resp.barChartData);
       },
       (error: any) => {
@@ -420,7 +432,7 @@ export class AdminDashboardComponent {
     this.Service.getStockWarehouseWise().subscribe(
       (resp: any) => {
         console.log(resp);
-        this.StockWarehouseWise = resp
+        this.StockWarehouseWise = resp;
         // this.StockWarehouseWiseSlab = resp.slab
         console.log(this.StockWarehouseWise);
       },
@@ -446,7 +458,9 @@ export class AdminDashboardComponent {
       (item) => item.totalSalesPaymentDue
     );
     const totalPurchaseData = data.map((item) => item.totalPurchases);
-    const totalPurchaseReturnData = data.map((item) => item.totalPurchaseReturn);
+    const totalPurchaseReturnData = data.map(
+      (item) => item.totalPurchaseReturn
+    );
     const totalPurchaseReturnPaymentDueData = data.map(
       (item) => item.totalPurchaseReturnPaymentDue
     );
@@ -461,10 +475,10 @@ export class AdminDashboardComponent {
       totalPurchasePaymentDueData,
       totalPurchaseReturnPaymentDueData,
       totalPurchaseReturnData,
-      totalPurchaseData,
+      totalPurchaseData
     );
 
-    console.log(labels,totalSalesData,totalSalesReturnData);
+    console.log(labels, totalSalesData, totalSalesReturnData);
     this.dataForFirstChat = {
       labels: labels,
       datasets: [
@@ -562,21 +576,23 @@ export class AdminDashboardComponent {
   //     ],
   //   };
   // }
-  categoryForDrpdownChange(value){
-    console.log("value",value);
-   this.subCategoryslabsData = []
-    if(value == null){
+  categoryForDrpdownChange(value) {
+    console.log("value", value);
+    this.subCategoryslabsData = [];
+    if (value == null) {
       console.log("null");
       this.subCategoryslabsData = this.orgSubCategorySlabs;
-    }
-    else { this.subCategoryslabsData = this.orgSubCategorySlabs.filter(element => element.categoryName === value.name);
-    console.log(this.subCategoryslabsData);
+    } else {
+      this.subCategoryslabsData = this.orgSubCategorySlabs.filter(
+        (element) => element.categoryName === value.name
+      );
+      console.log(this.subCategoryslabsData);
     }
     this.piDataForSecondChat = {
-      labels: this.subCategoryslabsData.map(element => element.name), // Array of names
+      labels: this.subCategoryslabsData.map((element) => element.name), // Array of names
       datasets: [
         {
-          data: this.subCategoryslabsData.map(element => element.totalSQFT), // Array of totalSQFT values
+          data: this.subCategoryslabsData.map((element) => element.totalSQFT), // Array of totalSQFT values
           backgroundColor: [
             "#3b82f6", // Blue
             "#f59e0b", // Orange
@@ -728,6 +744,7 @@ export class AdminDashboardComponent {
   oneCoustomer(id: any) {
     this.router.navigate([`/customers/view-customers/${id}`]);
   }
+
   onSearchByChange(event: any) {
     console.log(event);
     const value = event.value;
@@ -735,48 +752,48 @@ export class AdminDashboardComponent {
     console.log(value);
     let startDate,
       endDate = new Date(today);
-      switch (value) {
-        case "Today":
-            startDate = new Date(today);
-            endDate = new Date(today);
-            break;
-        case "YesterDay":
-            startDate = new Date(today);
-            startDate.setDate(today.getDate() - 1);
-            endDate = new Date(startDate);
-            break;
-        case "Last 7 Days":
-            startDate = new Date(today);
-            startDate.setDate(today.getDate() - 7);
-            endDate = new Date(today);
-            break;
-        case "This Month":
-            startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-            endDate = new Date(today);
-            break;
-        case "Last 3 Months":
-            startDate = new Date(today);
-            startDate.setMonth(today.getMonth() - 3);
-            endDate = new Date(today);
-            break;
-        case "Last 6 Months":
-            startDate = new Date(today);
-            startDate.setMonth(today.getMonth() - 6);
-            endDate = new Date(today);
-            break;
-        case "This Year":
-            if (today.getMonth() >= 3) {
-                // Current month is April (3) or later
-                startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
-            } else {
-                startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
-            }
-            endDate = new Date(today);
-            break;
-        default:
-            startDate = null;
-            endDate = null;
-            break;
+    switch (value) {
+      case "Today":
+        startDate = new Date(today);
+        endDate = new Date(today);
+        break;
+      case "YesterDay":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 1);
+        endDate = new Date(startDate);
+        break;
+      case "Last 7 Days":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 7);
+        endDate = new Date(today);
+        break;
+      case "This Month":
+        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        endDate = new Date(today);
+        break;
+      case "Last 3 Months":
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 3);
+        endDate = new Date(today);
+        break;
+      case "Last 6 Months":
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 6);
+        endDate = new Date(today);
+        break;
+      case "This Year":
+        if (today.getMonth() >= 3) {
+          // Current month is April (3) or later
+          startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
+        } else {
+          startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
+        }
+        endDate = new Date(today);
+        break;
+      default:
+        startDate = null;
+        endDate = null;
+        break;
     }
 
     this.rangeDates = [startDate, endDate];
@@ -784,6 +801,4 @@ export class AdminDashboardComponent {
     const formattedDate2 = this.formatDate(endDate);
     this.apiCall(formattedDate1, formattedDate2);
   }
-
-
 }

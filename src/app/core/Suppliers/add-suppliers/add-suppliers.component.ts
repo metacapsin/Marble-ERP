@@ -51,6 +51,7 @@ export class AddSuppliersComponent {
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
       openingbalance: [0],
       balanceType: ["Received"],
+      creditPeriodType:['Days']
       // shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
   }
@@ -64,6 +65,7 @@ export class AddSuppliersComponent {
       taxNo: this.addSupplierGroup.value.taxNumber,
       status: true,
       creditPeriod: this.addSupplierGroup.value.creditPeriod,
+      creditPeriodType:this.addSupplierGroup.value.creditPeriodType,
       creditLimit: Number(this.addSupplierGroup.value.creditLimit),
       billingAddress: this.addSupplierGroup.value.billingAddress,
       openingBalance:Number(this.addSupplierGroup.value.openingbalance),
