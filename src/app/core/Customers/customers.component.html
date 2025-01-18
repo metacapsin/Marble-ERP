@@ -116,6 +116,16 @@
                       display="menu"
                     ></p-columnFilter>
                   </th>
+                  <th pSortableColumn="email">
+                    Balance <p-sortIcon field="balance"></p-sortIcon>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="balance"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
                   <th pSortableColumn="status">
                     Status <p-sortIcon field="status"></p-sortIcon>
                     <p-columnFilter
@@ -144,6 +154,7 @@
                 <tr>
                   <td class="bold">{{ product.name }}</td>
                   <td class="bold">{{ product.email }}</td>
+                  <td class="bold" tooltip="You will Receive"><span class="text-success"  style='font-size:15px;font-weight: 500;' *ngIf="product.openingBalance">&#8595;</span> {{ product.openingBalance || '0' }}</td>
                   <td *ngIf="product.statusText == 'Active' "><p-tag severity="success" value="Active"></p-tag>
                   </td>
                   <td *ngIf="product.statusText == 'Inactive' "><p-tag severity="danger" value="Inactive"></p-tag>

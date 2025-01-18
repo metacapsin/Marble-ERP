@@ -179,7 +179,7 @@ export class EditPurchaseComponent implements OnInit {
     });
   }
   patchForm(data) {
-    console.log(data);
+
     this.editPurchaseForm.patchValue({
       purchaseInvoiceNumber: data.purchaseInvoiceNumber,
       supplier: data.supplier,

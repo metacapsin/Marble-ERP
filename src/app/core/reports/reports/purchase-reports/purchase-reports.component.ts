@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { routes } from 'src/app/shared/routes/routes';
 import { ReportsService } from '../reports.service';
+import { dashboardService } from 'src/app/core/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-purchase-reports',
@@ -28,7 +29,8 @@ export class PurchaseReportsComponent {
   searchBy: string;
 
   constructor(
-    private service: ReportsService
+    private service: ReportsService,
+    private datefilter : dashboardService
   ) {
 
   }
@@ -94,17 +96,45 @@ export class PurchaseReportsComponent {
     const startDate = value[0];
     const endDate = value[1];
     this.getPaymentOutReportData(startDate, endDate);
+    let payload = {
+      endDate: endDate,
+      startDate: startDate,
+    };
+
+    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+      console.log("updt date resp", resp);
+    });
   }
 
 
   ngOnInit(): void {
-    const today = new Date();
-    const endDate = new Date();
-    const startDate = new Date(today.getFullYear(), 3, 1);
-    this.searchBy = 'This Year';
-    this.rangeDates = [startDate, endDate];
+    let startDate: Date;
+    let endDate: Date;
+    this.datefilter.getUpdatedTime().subscribe((resp: any) => {
+      let dates = resp.data;
+      console.log("Received Dates:", dates);
 
-    this.getPaymentOutReportData(startDate, endDate);
+      if (dates.startUtc && dates.endUtc) {
+        startDate = new Date(dates.startUtc);
+        endDate = new Date(dates.endUtc);
+      } else {
+        console.log(" Dates:");
+        startDate = new Date(new Date().getFullYear(), 0, 1);
+        endDate = new Date();
+        this.searchBy = "This Year";
+      }
+
+      console.log(" Dates:>>", startDate, endDate);
+      const Sdate = this.formatDate(startDate);
+      const Edate = this.formatDate(endDate);
+
+      this.rangeDates = [startDate, endDate];
+      console.log("Formatted Dates:", Sdate, Edate);
+
+      this.getPaymentOutReportData(startDate, endDate);
+    });
+
+ 
   }
 
 

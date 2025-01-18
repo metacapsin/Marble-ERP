@@ -50,7 +50,7 @@ export class AddSuppliersComponent {
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
       openingbalance: [0],
-      balanceType: ["Received"],
+      balanceType: ["Pay"],
       creditPeriodType:['Days']
       // shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });

@@ -8,6 +8,7 @@ import { MessageService } from "primeng/api";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 import { s } from "@fullcalendar/core/internal-common";
+import { dashboardService } from "../dashboard/dashboard.service";
 
 @Component({
   selector: "app-sales",
@@ -52,10 +53,36 @@ export class SalesComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private Service: SalesService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+   private  datefilter:dashboardService
   ) { }
 
   ngOnInit() {
+
+    let startDate: Date;
+    let endDate: Date;
+    this.datefilter.getUpdatedTime().subscribe((resp: any) => {
+      let dates = resp.data;
+      console.log("Received Dates:", dates);
+
+      if (dates.startUtc && dates.endUtc) {
+        startDate = new Date(dates.startUtc);
+        endDate = new Date(dates.endUtc);
+      } else {
+        console.log(" Dates:");
+        startDate = new Date(new Date().getFullYear(), 0, 1);
+        endDate = new Date();
+        // this.data = "This Year";
+      }
+
+      console.log(" Dates:>>", startDate, endDate);
+      const Sdate = this.formatDate(startDate);
+      const Edate = this.formatDate(endDate);
+
+      this.rangeDates = [startDate, endDate];
+      console.log("Formatted Dates:", Sdate, Edate);
+
+    });
     // this.GetSalesData();
     this.currentUrl = this.router.url;
     console.log("this is current url on sales page", this.currentUrl);
@@ -172,6 +199,15 @@ export class SalesComponent implements OnInit {
     const startDate = value[0];
     const endDate = value[1];
     this.GetSalesData(startDate, endDate);
+
+    let payload = {
+      endDate: endDate,
+      startDate: startDate,
+    };
+
+    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+      console.log("updt date resp", resp);
+    });
   }
 
   onSearchByChange(event: any) {

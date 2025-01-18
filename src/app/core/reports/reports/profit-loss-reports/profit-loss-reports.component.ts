@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { routes } from "src/app/shared/routes/routes";
 import { ReportsService } from "../reports.service";
+import { dashboardService } from "src/app/core/dashboard/dashboard.service";
 
 @Component({
   selector: 'app-profit-loss-reports',
@@ -11,7 +12,7 @@ export class ProfitLossReportsComponent {
   public routes = routes;
   picker1: any;
   searchDataValue = ""
-  rangeDates: Date[] | undefined;
+  rangeDates:any;
   profitLossData: any = {};
 
   searchByData = [
@@ -20,7 +21,9 @@ export class ProfitLossReportsComponent {
   searchBy: string;
 
   constructor(
-    private service: ReportsService
+    private service: ReportsService,
+    private Service:dashboardService,
+    private datefilter :dashboardService
   ) { }
 
   getPaymentInReportData(startDate: Date, endDate: Date) {
@@ -73,17 +76,46 @@ export class ProfitLossReportsComponent {
     const startDate = value[0];
     const endDate = value[1];
     this.getPaymentInReportData(startDate, endDate);
+
+    let payload = {
+      endDate:  endDate,
+      startDate: startDate,
+    };
+    this.Service.updAtedateRange(payload).subscribe((resp) => {
+      console.log("updt date resp", resp);
+    });
   }
 
   ngOnInit(): void {
-    const today = new Date();
-    const endDate = new Date();
-    const startDate = new Date(today.getFullYear(), 3, 1);
-    this.searchBy = 'This Year';
-    this.rangeDates = [startDate, endDate];
+    let startDate: Date;
+    let endDate: Date;
+    this.datefilter.getUpdatedTime().subscribe((resp: any) => {
+      let dates = resp.data;
+      console.log("Received Dates:", dates);
 
-    this.getPaymentInReportData(startDate, endDate);
+      if (dates.startUtc && dates.endUtc) {
+        startDate = new Date(dates.startUtc);
+        endDate = new Date(dates.endUtc);
+      } else {
+        console.log(" Dates:");
+        startDate = new Date(new Date().getFullYear(), 0, 1);
+        endDate = new Date();
+        // this.data = "This Year";
+      }
+
+      console.log(" Dates:>>", startDate, endDate);
+      const Sdate = this.formatDate(startDate);
+      const Edate = this.formatDate(endDate);
+
+      this.rangeDates = [startDate, endDate];
+      console.log("Formatted Dates:", Sdate, Edate);
+      this.getPaymentInReportData(startDate, endDate);
+    });
+   
+  
+    
   }
+  
 
 
   onSearchByChange(event: any) {

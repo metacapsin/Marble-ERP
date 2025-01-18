@@ -50,7 +50,7 @@ export class EditSuppliersComponent implements OnInit {
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
       openingBalance: [0],
-      balanceType: ["Received"],
+      balanceType: ["Pay"],
       creditPeriodType:['Days']
       // shippingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
     });

@@ -175,7 +175,9 @@ export class EditNewPurchaseComponent implements OnInit {
     });
     this.NewPurchaseService.getPurchaseById(this.purchaseId).subscribe(
       (resp: any) => {
+        console.log('data',resp.data);
         this.editNewPurchaseForm.patchValue({
+          
           invoiceNumber: resp.data.purchaseInvoiceNumber,
           purchaseDate: resp.data.purchaseDate,
           supplier: resp.data.supplier,
@@ -204,26 +206,26 @@ export class EditNewPurchaseComponent implements OnInit {
 
         if (resp.data.purchaseType === "slab") {
           this.lotTypeValue = resp.data.purchaseType;
-          this.findSubCategory(resp.data.slabDetails.categoryDetail);
+          this.findSubCategory(resp.data.slabDetails[0].categoryDetail);
           this.previousSlabValues = {
-            slabNo: resp.data.slabDetails.slabNo,
-            slabName: resp.data.slabDetails.slabName,
-            warehouseDetails: resp.data.slabDetails.warehouseDetails,
-            categoryDetail: resp.data.slabDetails.categoryDetail,
-            subCategoryDetail: resp.data.slabDetails.subCategoryDetail,
-            finishes: resp.data.slabDetails.finishes,
-            totalSQFT: resp.data.slabDetails.totalSQFT,
-            noOfPieces: resp.data.slabDetails.noOfPieces,
-            sellingPricePerSQFT: resp.data.slabDetails.sellingPricePerSQFT,
+            slabNo: resp.data.slabDetails[0].slabNo,
+            slabName: resp.data.slabDetails[0].slabName,
+            warehouseDetails: resp.data.slabDetails[0].warehouseDetails,
+            categoryDetail: resp.data.slabDetails[0].categoryDetail,
+            subCategoryDetail: resp.data.slabDetails[0].subCategoryDetail,
+            finishes: resp.data.slabDetails[0].finishes,
+            totalSQFT: resp.data.slabDetails[0].totalSQFT,
+            noOfPieces: resp.data.slabDetails[0].noOfPieces,
+            sellingPricePerSQFT: resp.data.slabDetails[0].sellingPricePerSQFT,
             transportationCharges:
-              resp.data.slabDetails.transportationCharges,
-            otherCharges: resp.data.slabDetails.otherCharges,
-            totalCosting: resp.data.slabDetails.totalCosting,
-            thickness: resp.data.slabDetails.thickness,
-            length: resp.data.slabDetails.length,
-            width: resp.data.slabDetails.width,
-            costPerSQFT: resp.data.slabDetails.costPerSQFT,
-            sqftPerPiece: resp.data.slabDetails.sqftPerPiece || 0,
+              resp.data.slabDetails[0].transportationCharges,
+            otherCharges: resp.data.slabDetails[0].otherCharges,
+            totalCosting: resp.data.slabDetails[0].totalCosting,
+            thickness: resp.data.slabDetails[0].thickness,
+            length: resp.data.slabDetails[0].length,
+            width: resp.data.slabDetails[0].width,
+            costPerSQFT: resp.data.slabDetails[0].costPerSQFT,
+            sqftPerPiece: resp.data.slabDetails[0].sqftPerPiece || 0,
             paidToSupplierPurchaseCost: resp.data.taxable + resp.data.nonTaxable,
           };
 

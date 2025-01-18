@@ -51,7 +51,7 @@ export class AddBlockProcessorComponent implements OnInit{
       email: ["", [Validators.pattern(this.emailRegex)]],
       address: ["", [Validators.pattern(this.billingAddressRegex)]],
       openingbalance: [0],
-      balanceType: ["Received"],
+      balanceType: ["Pay"],
     });
   }
   ngOnInit(): void {

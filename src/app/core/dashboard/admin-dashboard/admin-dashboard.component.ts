@@ -155,12 +155,16 @@ export class AdminDashboardComponent {
   searchByData = [
     "Today",
     "YesterDay",
-    "Last 7 Days",
+    "This Week",
+    "Last Week",
     "This Month",
-    "Last 3 Months",
-    "Last 6 Months",
+    "Last Month",
+    "This Quarter",
+    "Last Quarter",
     "This Year",
+    "Last Year",
   ];
+
   expandedRows: { [key: string]: boolean } = {};
   products: Product[] = [];
   totalCategorySlabs: any;
@@ -211,22 +215,32 @@ export class AdminDashboardComponent {
   ngOnInit(): void {
     this.getwareHouse();
     this.maxDate = new Date();
-    const today = new Date();
-    // const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-    const endDate = new Date();
-    const startDate = new Date(today.getFullYear(), 0, 1);
 
-    this.data = "This Year";
-    // Set the start date to one month ago
-    // startDate.setMonth(startDate.getMonth() - 1);
-    var Sdate = this.formatDate(startDate);
-    var Edate = this.formatDate(endDate);
-    // this.onSearchByChange({ value: 'This Year' });
-    this.rangeDates = [startDate, endDate];
-    console.log(this.rangeDates);
+    let startDate: Date;
+    let endDate: Date;
+    this.Service.getUpdatedTime().subscribe((resp: any) => {
+      let dates = resp.data;
+      console.log("Received Dates:", dates);
 
-    // Initial API call
-    this.apiCall(Sdate, Edate);
+      if (dates.startUtc && dates.endUtc) {
+        startDate = new Date(dates.startUtc);
+        endDate = new Date(dates.endUtc);
+      } else {
+        console.log(" Dates:");
+        startDate = new Date(new Date().getFullYear(), 0, 1);
+        endDate = new Date();
+        this.data = "This Year";
+      }
+
+      console.log(" Dates:>>", startDate, endDate);
+      const Sdate = this.formatDate(startDate);
+      const Edate = this.formatDate(endDate);
+
+      this.rangeDates = [startDate, endDate];
+      console.log("Formatted Dates:", Sdate, Edate);
+
+      this.apiCall(Sdate, Edate);
+    });
 
     this.optionsForFirstChat = {
       maintainAspectRatio: false,
@@ -319,6 +333,7 @@ export class AdminDashboardComponent {
   getDateOnChange(): void {
     console.log("object");
     console.log(this.rangeDates);
+    localStorage.setItem("lastSelectDate", this.rangeDates);
     if (!this.rangeDates[0] || !this.rangeDates[1]) {
       console.log("Please enter both start and end dates");
     } else {
@@ -332,6 +347,17 @@ export class AdminDashboardComponent {
       console.log(formattedDate2);
       // Call the API when the date range changes
       this.apiCall(formattedDate1, formattedDate2);
+
+      let payload = {
+        endDate: formattedDate2,
+        startDate: formattedDate1,
+      };
+
+      this.Service.updAtedateRange(payload).subscribe((resp) => {
+        console.log("updt date resp", resp);
+      });
+
+      
     }
   }
   apiCall(startDate, endDate): void {
@@ -749,47 +775,71 @@ export class AdminDashboardComponent {
     console.log(event);
     const value = event.value;
     const today = new Date();
-    console.log(value);
-    let startDate,
-      endDate = new Date(today);
+    let startDate: Date | null = null;
+    let endDate: Date | null = new Date(today);
+
     switch (value) {
       case "Today":
         startDate = new Date(today);
-        endDate = new Date(today);
         break;
+
       case "YesterDay":
         startDate = new Date(today);
         startDate.setDate(today.getDate() - 1);
         endDate = new Date(startDate);
         break;
-      case "Last 7 Days":
+
+      case "This Week":
         startDate = new Date(today);
-        startDate.setDate(today.getDate() - 7);
-        endDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay() + 1); // Start from Monday
         break;
+
+      case "Last Week":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay() - 6); // Last Monday
+        endDate = new Date(today);
+        endDate.setDate(startDate.getDate() + 6); // Last Sunday
+        break;
+
       case "This Month":
         startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-        endDate = new Date(today);
         break;
-      case "Last 3 Months":
-        startDate = new Date(today);
-        startDate.setMonth(today.getMonth() - 3);
-        endDate = new Date(today);
+
+      case "Last Month":
+        startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of previous month
         break;
-      case "Last 6 Months":
-        startDate = new Date(today);
-        startDate.setMonth(today.getMonth() - 6);
-        endDate = new Date(today);
+
+      case "This Quarter":
+        const currentQuarter = Math.floor(today.getMonth() / 3);
+        startDate = new Date(today.getFullYear(), currentQuarter * 3, 1);
         break;
+
+      case "Last Quarter":
+        const lastQuarter = Math.floor(today.getMonth() / 3) - 1;
+        const yearForLastQuarter =
+          lastQuarter < 0 ? today.getFullYear() - 1 : today.getFullYear();
+        startDate = new Date(
+          yearForLastQuarter,
+          (lastQuarter < 0 ? 3 : lastQuarter) * 3,
+          1
+        );
+        endDate = new Date(
+          startDate.getFullYear(),
+          startDate.getMonth() + 3,
+          0
+        );
+        break;
+
       case "This Year":
-        if (today.getMonth() >= 3) {
-          // Current month is April (3) or later
-          startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
-        } else {
-          startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
-        }
-        endDate = new Date(today);
+        startDate = new Date(today.getFullYear(), 0, 1);
         break;
+
+      case "Last Year":
+        startDate = new Date(today.getFullYear() - 1, 0, 1);
+        endDate = new Date(today.getFullYear() - 1, 11, 31);
+        break;
+
       default:
         startDate = null;
         endDate = null;
@@ -797,8 +847,12 @@ export class AdminDashboardComponent {
     }
 
     this.rangeDates = [startDate, endDate];
-    const formattedDate1 = this.formatDate(startDate);
-    const formattedDate2 = this.formatDate(endDate);
-    this.apiCall(formattedDate1, formattedDate2);
+
+    if (startDate && endDate) {
+      const formattedDate1 = this.formatDate(startDate);
+      const formattedDate2 = this.formatDate(endDate);
+      console.log("Start Date:", formattedDate1, "End Date:", formattedDate2);
+      this.apiCall(formattedDate1, formattedDate2);
+    }
   }
 }

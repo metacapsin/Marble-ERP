@@ -55,7 +55,7 @@ export class EditBlockProcessorComponent {
       email: ["", [Validators.pattern(this.emailRegex)]],
       address: ["", [Validators.pattern(this.billingAddressRegex)]],
       openingBalance: [0],
-      balanceType: ["Received"],
+      balanceType: ["Pay"],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }

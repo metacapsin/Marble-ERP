@@ -8,6 +8,7 @@ import { NewPurchaseService } from "../new-purchase.service";
 import { SlabsService } from "../../Product/slabs/slabs.service";
 import { PaymentOutService } from "../../payment-out/payment-out.service";
 import { Router } from "@angular/router";
+import { dashboardService } from "../../dashboard/dashboard.service";
 
 @Component({
   selector: "app-list-new-purchase",
@@ -59,6 +60,7 @@ export class ListNewPurchaseComponent implements OnChanges {
 
   constructor(
     private Service: NewPurchaseService,
+    private datefilter : dashboardService,
     private paymentOutService: PaymentOutService,
     private router: Router,
     private messageService: MessageService,
@@ -66,6 +68,32 @@ export class ListNewPurchaseComponent implements OnChanges {
     private localStorageService: LocalStorageService
   ) { }
   ngOnInit() {
+    let startDate: Date;
+    let endDate: Date;
+    this.datefilter.getUpdatedTime().subscribe((resp: any) => {
+      let dates = resp.data;
+      console.log("Received Dates:", dates);
+
+      if (dates.startUtc && dates.endUtc) {
+        startDate = new Date(dates.startUtc);
+        endDate = new Date(dates.endUtc);
+      } else {
+        console.log(" Dates:");
+        startDate = new Date(new Date().getFullYear(), 0, 1);
+        endDate = new Date();
+        // this.data = "This Year";
+      }
+
+      console.log(" Dates:>>", startDate, endDate);
+      const Sdate = this.formatDate(startDate);
+      const Edate = this.formatDate(endDate);
+
+      this.rangeDates = [startDate, endDate];
+      console.log("Formatted Dates:", Sdate, Edate);
+
+      // this.apiCall(Sdate, Edate);
+    });
+
     this.currentUrl = this.router.url;
     console.log(this.currentUrl);
     console.log("this is current url on purchase page", this.currentUrl);
@@ -196,6 +224,14 @@ export class ListNewPurchaseComponent implements OnChanges {
     const startDate = value[0];
     const endDate = value[1];
     this.getPurchase(startDate, endDate);
+    let payload = {
+      endDate: endDate,
+      startDate: startDate,
+    };
+
+    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+      console.log("updt date resp", resp);
+    });
   }
 
   onSearchByChange(event: any) {
@@ -247,7 +283,10 @@ export class ListNewPurchaseComponent implements OnChanges {
     }
 
     this.rangeDates = [startDate, endDate];
+   
     this.getPurchase(startDate, endDate);
+   
+
   }
 
   formatDate(date: Date): string {
