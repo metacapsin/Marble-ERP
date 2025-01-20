@@ -184,7 +184,6 @@ export class EditNewPurchaseComponent implements OnInit {
           _id: resp.data._id,
           purchaseType: resp.data.purchaseType,
           productId: resp.data.productId,
-          taxableAmount: resp.data.taxable - resp.data.taxApplied,
           taxable: resp.data.taxable,
           nonTaxable: resp.data.nonTaxable,
           purchaseItemTax: resp.data.purchaseItemTax,
@@ -195,11 +194,11 @@ export class EditNewPurchaseComponent implements OnInit {
           },
           taxVendorAmount: resp.data?.taxVendor?.taxVendorAmount,
           vendorTaxApplied: resp.data?.taxVendor?.vendorTaxApplied,
-
+          purchaseNotes:resp.data?.purchaseNotes
         });
 
         if (resp.data.purchaseType === "lot") {
-          this.NewPurchaseService.setFormData("stepFirstLotData", resp.data.lotDetails)
+          this.NewPurchaseService.setFormData("stepFirstLotData", resp.data)
           this.lotTypeValue = resp.data.purchaseType;
           this.purchaseData = resp.data.lotDetails;
         }

@@ -225,6 +225,7 @@ export class AdminDashboardComponent {
       if (dates.startUtc && dates.endUtc) {
         startDate = new Date(dates.startUtc);
         endDate = new Date(dates.endUtc);
+        this.data = dates.filterby
       } else {
         console.log(" Dates:");
         startDate = new Date(new Date().getFullYear(), 0, 1);
@@ -853,6 +854,16 @@ export class AdminDashboardComponent {
       const formattedDate2 = this.formatDate(endDate);
       console.log("Start Date:", formattedDate1, "End Date:", formattedDate2);
       this.apiCall(formattedDate1, formattedDate2);
+
+      let payload = {
+        filterby: value,
+        endDate: formattedDate2,
+        startDate: formattedDate1,
+      };
+
+      this.Service.updAtedateRange(payload).subscribe((resp) => {
+        console.log("updt date resp", resp);
+      });
     }
   }
 }

@@ -300,11 +300,11 @@ export class AddSlabsComponent {
       "transportationCharges"
     ).value;
 
-    console.log(purchaseCostOrg);
-    console.log(totalSQFT);
-    console.log(this.blockDropDownPerBlockWeight, this.blockDropDowntotleCost);
+    // console.log(purchaseCostOrg);
+    // console.log(totalSQFT);
+    // console.log(this.blockDropDownPerBlockWeight, this.blockDropDowntotleCost);
     this.BlockWeight = this.blockDropDownPerBlockWeight;
-    console.log(this.BlockWeight);
+    // console.log(this.BlockWeight);
     // calculate for creating slabs
     let processingCost = processingFee * this.BlockWeight;
     let totalCosting =
@@ -314,9 +314,9 @@ export class AddSlabsComponent {
 
     let sqftPerPiece = totalSQFT / noOfPieces;
 
-    console.log("processingCost", processingCost);
-    console.log("totalCosting", purchaseCostOrg);
-    console.log("totalAmount", totalAmount);
+    // console.log("processingCost", processingCost);
+    // console.log("totalCosting", purchaseCostOrg);
+    // console.log("totalAmount", totalAmount);
     this.slabsAddForm.patchValue({
       processingCost: processingCost,
       totalCosting: totalCosting.toFixed(4),

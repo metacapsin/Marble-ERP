@@ -528,6 +528,11 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  selectSubCate(event: any): void {
+    console.log('Selected Sub Category:', event);
+  }
+  
   
 
   addNewPurchaseFormSubmit() {
@@ -572,6 +577,9 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           ? taxVenoderObj
           : null,
         taxApplied: formData.taxApplied,
+        warehouseDetails:this.ItemDetails?.warehouseDetails,
+        transportationCharges:this.ItemDetails?.transportationCharge,
+        otherCharges:this.ItemDetails?.royaltyCharge
       };
     } else {
       payload = {
