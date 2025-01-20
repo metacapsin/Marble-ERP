@@ -192,7 +192,8 @@ export class EditNewPurchaseComponent implements OnInit {
               _id: resp.data?.taxVendor?._id,
               companyName: resp.data?.taxVendor?.companyName,
           },
-          taxVendorAmount: resp.data?.taxVendor?.taxVendorAmount,
+          // taxVendorAmount: resp.data?.taxVendor?.taxVendorAmount,
+          taxVendorAmount: resp.data?.taxVendor?.taxVendorCutAmount,
           vendorTaxApplied: resp.data?.taxVendor?.vendorTaxApplied,
           purchaseNotes:resp.data?.purchaseNotes
         });

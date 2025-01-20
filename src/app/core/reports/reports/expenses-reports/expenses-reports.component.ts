@@ -177,26 +177,26 @@ export class expensesReportsComponent {
         endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of previous month
         break;
 
-      case "This Quarter":
-        const currentQuarter = Math.floor(today.getMonth() / 3);
-        startDate = new Date(today.getFullYear(), currentQuarter * 3, 1);
-        break;
-
-      case "Last Quarter":
-        const lastQuarter = Math.floor(today.getMonth() / 3) - 1;
-        const yearForLastQuarter =
-          lastQuarter < 0 ? today.getFullYear() - 1 : today.getFullYear();
-        startDate = new Date(
-          yearForLastQuarter,
-          (lastQuarter < 0 ? 3 : lastQuarter) * 3,
-          1
-        );
-        endDate = new Date(
-          startDate.getFullYear(),
-          startDate.getMonth() + 3,
-          0
-        );
-        break;
+        case "This Quarter":
+          const currentQuarter = Math.floor(today.getMonth() / 3);
+          startDate = new Date(today.getFullYear(), currentQuarter * 3, 1);
+          break;
+  
+        case "Last Quarter":
+          const lastQuarter = Math.floor(today.getMonth() / 3) - 1;
+          const yearForLastQuarter =
+            lastQuarter < 0 ? today.getFullYear() - 1 : today.getFullYear();
+          startDate = new Date(
+            yearForLastQuarter,
+            (lastQuarter < 0 ? 3 : lastQuarter) * 3,
+            1
+          );
+          endDate = new Date(
+            startDate.getFullYear(),
+            startDate.getMonth() + 3,
+            0
+          );
+          break;
 
       case "This Year":
         startDate = new Date(today.getFullYear(), 0, 1);
@@ -213,7 +213,7 @@ export class expensesReportsComponent {
         break;
     }
 
-    this.rangeDates = [startDate, startDate];
+    this.rangeDates = [startDate, endDate];
 
     if (startDate && endDate) {
       const formattedDate1 = this.formatDate(startDate);

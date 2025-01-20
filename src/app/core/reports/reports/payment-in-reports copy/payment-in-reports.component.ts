@@ -212,7 +212,7 @@ export class PaymentInReportComponent {
         break;
     }
 
-    this.rangeDates = [startDate, startDate];
+    this.rangeDates = [startDate, endDate];
 
     if (startDate && endDate) {
       const formattedDate1 = this.formatDate(startDate);

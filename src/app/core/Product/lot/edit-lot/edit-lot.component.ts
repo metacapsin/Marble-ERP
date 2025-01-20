@@ -230,7 +230,7 @@ export class EditLotComponent {
         ItemTax: this.previouslotData.purchaseItemTax,
         taxApplied: this.previouslotData.lotDetails.taxApplied,
         categoryDetail: this.previouslotData.lotDetails.categoryDetail,
-        subCategoryDetail: this.previouslotData.lotDetails.subCategoryDetail,
+        subCategoryDetail: this.previouslotData.lotDetails.subCategoryDetail?._id,
       });
     }
     this.calculateTotalAmount();
@@ -302,10 +302,14 @@ export class EditLotComponent {
   }
 
   findSubCategory(value: any) {
+    console.log('value',value)
     let SubCategoryData = [];
     this.lotEditForm.get("subCategoryDetail").reset();
+    console.log('this.allSubCategoryList',this.allSubCategoryList)
+    let rec = this.previouslotData.lotDetails.subCategoryDetail
+    console.log('rec',rec)
     SubCategoryData = this.allSubCategoryList?.filter(
-      (e) => e.categoryId._id == value?._id
+      (e) => e.categoryId._id == rec?._id
     );
     this.subCategorListByCategory = SubCategoryData?.map((e) => ({
       name: e.name,
@@ -314,6 +318,12 @@ export class EditLotComponent {
         name: e.name,
       },
     }));
+
+    // Add by ravi for subcategory map
+    this.subCategorListByCategory = this.allSubCategoryList?.filter(
+      (e) => e._id == rec?._id
+    );
+    console.log('this.subCategorListByCategory ',this.subCategorListByCategory )
     if (this.previouslotData) {
       this.patchLotValue();
     }

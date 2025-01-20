@@ -196,6 +196,7 @@ export class AddLotComponent {
 
   patchLotValue() {
     if (this.previouslotData) {
+      console.log('this.previouslotData',this.previouslotData)
       this.blocksDetails = this.previouslotData.blockDetails;
       this.blocksDetails.forEach((element) => {
         this.totalBlocksArea += element.totalArea;
@@ -321,6 +322,7 @@ export class AddLotComponent {
       _id: {
         _id: e._id,
         name: e.name,
+        hsnCode:e.hsnCode
       },
     }));
 
@@ -486,6 +488,8 @@ export class AddLotComponent {
         subCategoryDetail: formData.subCategoryDetail,
         totalTransportationCharges: Number(formData.totalTransportationCharges),
       };
+      console.log('payload',payload)
+      
       this.NewPurchaseService.setFormData("stepFirstLotData", payload);
     }
   }

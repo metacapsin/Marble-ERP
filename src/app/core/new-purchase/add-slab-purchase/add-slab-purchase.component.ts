@@ -288,6 +288,7 @@ export class AddSlabPurchaseComponent {
       _id: {
         _id: e._id,
         name: e.name,
+        hsnCode:e.hsnCode,
       },
     }));
 
