@@ -248,7 +248,7 @@ console.log('this.previouslotData',this.previouslotData)
   //   this.calculateTotalAmount();
   // }
 
-  patchLotValue() {
+  patchLotValue(category:any) {
     if (this.previouslotData) {
       this.blocksDetails = this.previouslotData?.lotDetails ? this.previouslotData?.lotDetails?.blockDetails : this.previouslotData?.blockDetails;
       this.blocksDetails?.forEach((element) => {
@@ -280,9 +280,10 @@ console.log('this.previouslotData',this.previouslotData)
         taxable: lotDetails.taxable || this.previouslotData.taxable,
         ItemTax: this.previouslotData.purchaseItemTax,
         taxApplied: lotDetails.taxApplied || this.previouslotData.taxApplied,
-        categoryDetail: lotDetails.categoryDetail || this.previouslotData.categoryDetail,
-        subCategoryDetail: lotDetails.subCategoryDetail || this.previouslotData.subCategoryDetail,
+        categoryDetail:category || this.previouslotData.categoryDetail,
+        subCategoryDetail: lotDetails.subCategoryDetail?._id || this.previouslotData.subCategoryDetail?._id,
       });
+      // this.previouslotData ={}
     }
     this.calculateTotalAmount();
   }
@@ -353,44 +354,18 @@ console.log('this.previouslotData',this.previouslotData)
     myForm.resetForm();
   }
 
-  findSubCategory(value: any) {
-    console.log('value',value)
-    this.lotEditForm.patchValue({categoryDetail:value})
-    let SubCategoryData = [];
-    this.lotEditForm.get("subCategoryDetail").reset();
-    console.log('this.allSubCategoryList',this.allSubCategoryList)
-    let rec = this.previouslotData?.lotDetails ? this.previouslotData?.lotDetails?.subCategoryDetail : this.previouslotData?.subCategoryDetail
-    console.log('rec',rec)
-    SubCategoryData = this.allSubCategoryList?.filter(
-      (e) => e.categoryId._id == rec?._id 
-    );
-
-    console.log('SubCategoryData',SubCategoryData)
-    this.subCategorListByCategory = SubCategoryData?.map((e) => ({
-      name: e.name,
-      _id: {
-        _id: e._id,
-        name: e.name,
-      },
-    }));
-
-    // Add by ravi for subcategory map
-    this.subCategorListByCategory = this.allSubCategoryList?.filter(
-      (e) => e._id == rec?._id
-    );
-    console.log('this.subCategorListByCategory ',this.subCategorListByCategory )
-    if (this.previouslotData) {
-      this.patchLotValue();
-    }
-  }
-
   // findSubCategory(value: any) {
-  //   console.log('value>',value)
-  //   let SubCategoryData = []
+  //   console.log('value',value)
   //   this.lotEditForm.get("subCategoryDetail").reset();
+  //   let SubCategoryData = [];
+  
+  //   console.log('this.allSubCategoryList',this.allSubCategoryList)
+  //   let rec = this.previouslotData?.lotDetails ? this.previouslotData?.lotDetails?.subCategoryDetail : this.previouslotData?.subCategoryDetail
+  //   console.log('rec',rec)
   //   SubCategoryData = this.allSubCategoryList?.filter(
-  //     (e) => e.categoryId._id == value?._id
+  //     (e) => e.categoryId._id == value?._id 
   //   );
+
   //   console.log('SubCategoryData',SubCategoryData)
   //   this.subCategorListByCategory = SubCategoryData?.map((e) => ({
   //     name: e.name,
@@ -400,11 +375,34 @@ console.log('this.previouslotData',this.previouslotData)
   //     },
   //   }));
 
-  //   console.log('this.subCategorListByCategory',this.subCategorListByCategory)
+  //   // Add by ravi for subcategory map
+  //   // this.subCategorListByCategory = this.allSubCategoryList?.filter(
+  //   //   (e) => e._id == rec?._id
+  //   // );
+  //   console.log('this.subCategorListByCategory ',this.subCategorListByCategory )
   //   if (this.previouslotData) {
-  //     this.patchLotValue()
+  //     this.patchLotValue(value);
   //   }
   // }
+
+  findSubCategory(value: any) {
+    console.log('value>',value)
+    let SubCategoryData = []
+    this.lotEditForm.get("subCategoryDetail").reset();
+    SubCategoryData = this.allSubCategoryList?.filter(
+      (e) => e.categoryId._id == value?._id
+    );
+    console.log('SubCategoryData',SubCategoryData)
+    this.subCategorListByCategory = SubCategoryData?.map((e) => ({
+      name: e.name,
+      _id: e._id
+    }));
+
+    console.log('this.subCategorListByCategory',this.subCategorListByCategory)
+    if (this.previouslotData) {
+      this.patchLotValue(value)
+    }
+  }
 
   getblockDetails() {
     if (
@@ -534,6 +532,9 @@ console.log('this.previouslotData',this.previouslotData)
         this.lotTotalCost += e.totalCosting;
       });
       console.log('formdata>>>',formData)
+
+      let subcate = this.allSubCategoryList.filter((i)=> i._id === formData?.subCategoryDetail)
+      console.log('subcate',subcate)
       const payload = {
         lotNo: formData.lotNo,
         lotName: formData.lotName,
@@ -560,9 +561,10 @@ console.log('this.previouslotData',this.previouslotData)
         purchaseItemTax: formData.ItemTax,
         taxApplied: Number(formData.taxApplied),
         categoryDetail: formData.categoryDetail,
-        subCategoryDetail: formData.subCategoryDetail,
+        subCategoryDetail:subcate[0],
         totalTransportationCharges: Number(formData.totalTransportationCharges),
       };
+      console.log('payload',payload)
       this.NewPurchaseService.setFormData("stepFirstLotData", payload);
     }
   }
