@@ -156,496 +156,11 @@
                       <div *ngIf="lotTypeValue === 'lot'">
                         <app-edit-lot class="col-12" ></app-edit-lot>
                       </div>
-                      <!-- SLAB Information -->
-                      <div class="card " *ngIf="lotTypeValue === 'slab'">
-                        <div class="row card-body ">
-                          <div class="col-12 mb-3">
-                            <h3>Edit Slab Details</h3>
-                          </div>
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="slabNo">Slab Number<span class="login-danger">*</span></label>
-                              <input class="form-control" type="text" placeholder="Enter Slab Number"
-                                formControlName="slabNo" />
-                              <div *ngIf="
-                                  editNewPurchaseForm.get('slabNo')?.hasError('required') &&
-                                  editNewPurchaseForm.get('slabNo')?.touched
-                                ">
-                                <span class="login-danger">Field is required.</span>
-                              </div>
-                              <div *ngIf="
-                                  editNewPurchaseForm.get('slabNo')?.hasError('pattern') &&
-                                  editNewPurchaseForm.get('slabNo')?.touched
-                                ">
-                                <span class="login-danger">Input must be at between 3 to 50</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="slabName">Slab Name<span class="login-danger">*</span></label>
-                              <input class="form-control" type="text" placeholder="Enter Slab Name"
-                                formControlName="slabName" />
-                              <div *ngIf="
-                                  editNewPurchaseForm.get('slabName')?.hasError('required') &&
-                                  editNewPurchaseForm.get('slabName')?.touched
-                                ">
-                                <span class="login-danger">Field is required.</span>
-                              </div>
-                              <div *ngIf="
-                                  editNewPurchaseForm.get('slabName')?.hasError('pattern') &&
-                                  editNewPurchaseForm.get('slabName')?.touched
-                                ">
-                                <span class="login-danger">Input must be at between 3 to 50</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="warehouseDetails">Warehouse<span class="login-danger">*</span></label>
-                              <p-dropdown [options]="wareHousedataListsEditArray" styleClass="" appendTo="body"
-                                optionLabel="name" optionValue="_id" placeholder="Select Warehouse"
-                                formControlName="warehouseDetails" [style]="{ width: '100%' }" [filter]="true"
-                                filterBy="name" [showClear]="true">
-                              </p-dropdown>
-                              <div *ngIf="
-                                    editNewPurchaseForm
-                                      .get('warehouseDetails')
-                                      ?.hasError('required') &&
-                                    editNewPurchaseForm.get('warehouseDetails')?.touched
-                                  ">
-                                <span class="login-danger">Field is required.</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="category">Category <span class="login-danger">*</span></label>
-                              <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body"
-                                optionLabel="name" optionValue="_id" placeholder="Select Category"
-                                formControlName="categoryDetail" [style]="{ width: '100%' }" [filter]="true"
-                                filterBy="name" [showClear]="false" (onChange)="findSubCategory($event.value)">
-                              </p-dropdown>
-                              <div *ngIf="
-                                  editNewPurchaseForm
-                                    .get('categoryDetail')
-                                    ?.hasError('required') &&
-                                  editNewPurchaseForm.get('categoryDetail')?.touched
-                                ">
-                                <span class="login-danger">Field is required.</span>
-                              </div>
-                            </div>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="subCategory">Sub Category <span class="login-danger">*</span></label>
-                              <p-dropdown [options]="subCategorListByCategory" styleClass="" appendTo="body"
-                                optionValue="_id" placeholder="Select Sub Category" optionLabel="name"
-                                formControlName="subCategoryDetail" [style]="{ width: '100%' }" [filter]="true"
-                                filterBy="name" [showClear]="false">
-                              </p-dropdown>
-                              <div *ngIf="
-                                  editNewPurchaseForm
-                                    .get('subCategoryDetail')
-                                    ?.hasError('required') &&
-                                  editNewPurchaseForm.get('subCategoryDetail')?.touched
-                                ">
-                                <span class="login-danger">Field is required.</span>
-                              </div>
-                            </div>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="subCategory">Finishes<span class="login-danger">*</span></label>
-                              <p-dropdown [options]="finishes" styleClass="" appendTo="body" placeholder="Select finishes"
-                                optionLabel="name" formControlName="finishes" [style]="{ width: '100%' }" [filter]="true"
-                                filterBy="name" [showClear]="true">
-                              </p-dropdown>
-                              <div *ngIf="
-                                    editNewPurchaseForm
-                                      .get('finishes')
-                                      ?.hasError('required') &&
-                                    editNewPurchaseForm.get('finishes')?.touched
-                                  ">
-                                <span class="login-danger">Field is required.</span>
-                              </div>
-                            </div>
-                          </div>
-  
-  
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="width">Width<span class="login-danger"></span></label>
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text" style="font-size: 12px;">Inch</span>
-                                </div>
-                                <input class="form-control" type="number" placeholder="Enter Width"
-                                  formControlName="width" />
-                              </div>
-  
-                              <div *ngIf="
-                                              (editNewPurchaseForm
-                                              .get('width')
-                                              ?.hasError('min') &&
-                                              editNewPurchaseForm.get('width')
-                                                  ?.touched) ||
-                                              (editNewPurchaseForm
-                                              .get('width')
-                                              ?.hasError('max') &&
-                                              editNewPurchaseForm.get('width')?.touched)
-                                          ">
-                                <span class="login-danger">
-                                  input must be between 1 to 100,000.
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="length">Length<span class="login-danger"></span></label>
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text" style="font-size: 12px;">Inch</span>
-                                </div>
-                                <input class="form-control" type="number" placeholder="Enter Length"
-                                  formControlName="length" />
-                              </div>
-  
-                              <div *ngIf="
-                                              (editNewPurchaseForm
-                                              .get('length')
-                                              ?.hasError('min') &&
-                                              editNewPurchaseForm.get('length')
-                                                  ?.touched) ||
-                                              (editNewPurchaseForm
-                                              .get('length')
-                                              ?.hasError('max') &&
-                                              editNewPurchaseForm.get('length')?.touched)
-                                          ">
-                                <span class="login-danger">
-                                  input must be between 1 to 100,000.
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="thickness">Thickness(mm)<span class="login-danger"></span></label>
-                              <input class="form-control" type="number" placeholder="Enter Thickness"
-                                formControlName="thickness" />
-  
-                              <div *ngIf="
-                                (editNewPurchaseForm
-                                .get('thickness')
-                                ?.hasError('min') &&
-                                editNewPurchaseForm.get('thickness')
-                                    ?.touched) ||
-                                (editNewPurchaseForm
-                                .get('thickness')
-                                ?.hasError('max') &&
-                                editNewPurchaseForm.get('thickness')?.touched)
-                            ">
-                                <span class="login-danger">
-                                  input must be between 1 to 1000.
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-  
-                          <div class="col-12 mb-3 mt-3">
-                            <h3>More Details</h3>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="customer">Taxable Amount</label>
-                              <p-inputGroup>
-                                <input type="number" formControlName="taxableAmount" (input)="calculateTotalAmount()"
-                                  class="form-control" style="width: 50%" placeholder="Enter Taxable Amount" />
-  
-                                <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax"
-                                  [options]="orderTaxList" appendTo="body" formControlName="purchaseItemTax"
-                                  optionLabel="orderTaxName" optionValue="orderNamevalue" display="chip"
-                                  (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
-                              </p-inputGroup>
-                              <div *ngIf="(editNewPurchaseForm
-                              .get('taxableAmount')
-                              ?.hasError('min') &&
-                              editNewPurchaseForm.get('taxableAmount')
-                                  ?.touched) ||
-                              (editNewPurchaseForm
-                              .get('taxableAmount')
-                              ?.hasError('max') &&
-                              editNewPurchaseForm.get('taxableAmount')?.touched)">
-                                <span class="login-danger">
-                                  Input must be between 1 to 7 digits.
-                                </span>
-                              </div>
-                              <span *ngIf="editNewPurchaseForm.get('taxable')?.value
-                  " style="color: #97704f; font-size: 12px">
-                                Tax Applied Amount:
-                                {{ editNewPurchaseForm.get("taxable")?.value | number : "1.2-2" }}
-                              </span>
-                            </div>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="nonTaxable">Non-Taxable Amount</label>
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">₹</span>
-                                </div>
-                                <input type="number" formControlName="nonTaxable" (input)="calculateTotalAmount()"
-                                class="form-control" placeholder="Enter Non Taxable Amount"/>
-                              </div>
-                              <div *ngIf="(editNewPurchaseForm
-                            .get('nonTaxable')
-                            ?.hasError('min') &&
-                            editNewPurchaseForm.get('nonTaxable')
-                                ?.touched) ||
-                            (editNewPurchaseForm
-                            .get('nonTaxable')
-                            ?.hasError('max') &&
-                            editNewPurchaseForm.get('nonTaxable')?.touched)">
-                              <span class="login-danger">
-                                Input must be between 1 to 7 digits.
-                              </span>
-                            </div>
-                            </div>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="paidToSupplierPurchaseCost">Purchase Cost ( Paid to Supplier )
-                                <span class="login-danger">*</span></label>
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">₹</span>
-                                </div>
-                                <span class="form-control">{{
-                                  editNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value
-                                  }}</span>
-                              </div>
-                              <span *ngIf="editNewPurchaseForm.get('taxable')?.value && editNewPurchaseForm.get('nonTaxable')?.value" style="color: #97704f; font-size: 12px">
-                                Tax Applied Amount:
-                                {{ editNewPurchaseForm.get('taxable')?.value | number : "1.2-2" }}
-                                + Non-Taxable Amount :
-                                {{
-                                editNewPurchaseForm.get("nonTaxable")?.value | number : "1.2-2"
-                                }}
-                              </span>
-                            </div>
-                          </div>
-  
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="totalSQFT">Square Feet<span class="login-danger">*</span></label>
-                              <div class="input-group">
-                                <input class="form-control" type="number" placeholder="Enter Square Feet"
-                                  formControlName="totalSQFT" (input)="calculateTotalAmount()" />
-                              </div>
-                              <div *ngIf="
-                                      (editNewPurchaseForm
-                                      .get('totalSQFT')
-                                      ?.hasError('min') &&
-                                      editNewPurchaseForm.get('totalSQFT')
-                                          ?.touched) ||
-                                      (editNewPurchaseForm
-                                      .get('totalSQFT')
-                                      ?.hasError('max') &&
-                                      editNewPurchaseForm.get('totalSQFT')?.touched)
-                                  ">
-                                <span class="login-danger">
-                                  input must be between 1 to 100,000.
-                                </span>
-                              </div>
-                              <div *ngIf="
-                                  editNewPurchaseForm
-                                    .get('totalSQFT')
-                                    ?.hasError('required') &&
-                                  editNewPurchaseForm.get('totalSQFT')?.touched
-                                ">
-                                <span class="login-danger">Field is required.</span>
-                              </div>
-                            </div>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="noOfPieces">Number Of pieces<span class="login-danger">*</span></label>
-                              <div class="input-group">
-                                <input class="form-control" type="number" placeholder="Enter Number Of pieces"
-                                  formControlName="noOfPieces" (input)="calculateTotalAmount()" />
-                              </div>
-                              <div *ngIf="
-                                      (editNewPurchaseForm
-                                      .get('noOfPieces')
-                                      ?.hasError('min') &&
-                                      editNewPurchaseForm.get('noOfPieces')
-                                          ?.touched) ||
-                                      (editNewPurchaseForm
-                                      .get('noOfPieces')
-                                      ?.hasError('max') &&
-                                      editNewPurchaseForm.get('noOfPieces')?.touched)
-                                  ">
-                                <span class="login-danger">
-                                  input must be between 1 to 100,000.
-                                </span>
-                              </div>
-                              <div *ngIf="
-                                  editNewPurchaseForm
-                                    .get('noOfPieces')
-                                    ?.hasError('required') &&
-                                  editNewPurchaseForm.get('noOfPieces')?.touched
-                                ">
-                                <span class="login-danger">Field is required.</span>
-                              </div>
-                            </div>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="purchaseDiscount">Discount</label>
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">₹</span>
-                                </div>
-                                <input class="form-control" type="number" placeholder="Enter Discount"
-                                  formControlName="purchaseDiscount" (input)="calculateTotalAmount()" />
-                              </div>
-                              <div *ngIf="
-                                      (editNewPurchaseForm
-                                      .get('purchaseDiscount')
-                                      ?.hasError('min') &&
-                                      editNewPurchaseForm.get('purchaseDiscount')?.touched) ||
-                                      (editNewPurchaseForm
-                                      .get('purchaseDiscount')
-                                      ?.hasError('max') &&
-                                      editNewPurchaseForm.get('purchaseDiscount')?.touched)
-                                  ">
-                                <span class="login-danger">
-                                  Input must be between 1 to 100,000.
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="transportationCharges">Transportation Charges</label>
-                              <div class="input-group">
-                                <input class="form-control" type="number" placeholder="Enter Transportation Charges"
-                                  formControlName="transportationCharges" (input)="calculateTotalAmount()" />
-                              </div>
-                              <div *ngIf="
-                                        editNewPurchaseForm.get('transportationCharges')?.hasError('min')  &&
-                                        editNewPurchaseForm.get('transportationCharges')?.touched
-                                        || editNewPurchaseForm.get('transportationCharges')?.hasError('max') &&
-                                        editNewPurchaseForm.get('transportationCharges')?.touched
-                                      ">
-                                <span class="login-danger">Input must be between 1 to 100,000.
-                                </span>
-                              </div>
-  
-                            </div>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="otherCharges">Other Charges</label>
-                              <div class="input-group">
-                                <input class="form-control" type="number" placeholder="Enter Other Charges"
-                                  formControlName="otherCharges" (input)="calculateTotalAmount()" />
-                              </div>
-                              <div *ngIf="
-                                        editNewPurchaseForm.get('otherCharges')?.hasError('min') &&
-                                        editNewPurchaseForm.get('otherCharges')?.touched || editNewPurchaseForm.get('otherCharges')?.hasError('max') &&
-                                        editNewPurchaseForm.get('otherCharges')?.touched
-                                      ">
-                                <span class="login-danger">Input must be between 1 to 100,000.
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-  
-                          <div class="col-12 col-md-4 col-xl-4">
-                            <div class="form-group local-forms">
-                              <label for="totalSqrFt">Selling Price / Sq Ft.</label>
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">₹</span>
-                                </div>
-                                <input class="form-control" type="number" placeholder="Enter Selling Price"
-                                  formControlName="sellingPricePerSQFT" />
-                              </div>
-                              <!-- <div
-                                *ngIf="editNewPurchaseForm.get('sellingPricePerSQFT')?.hasError('required') && editNewPurchaseForm.get('sellingPricePerSQFT')?.touched">
-                                <span class="login-danger">Field is required.</span>
-                              </div> -->
-                              <div *ngIf="
-                                      (editNewPurchaseForm
-                                      .get('sellingPricePerSQFT')
-                                      ?.hasError('min') &&
-                                      editNewPurchaseForm.get('sellingPricePerSQFT')?.touched) ||
-                                      (editNewPurchaseForm
-                                      .get('sellingPricePerSQFT')
-                                      ?.hasError('max') &&
-                                      editNewPurchaseForm.get('sellingPricePerSQFT')?.touched)
-                                  ">
-                                <span class="login-danger">
-                                  input must be between 1 to 100,000.
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-  
-                        <div class="row">
-                          <div class="col-lg-7 col-md-6"></div>
-                          <div class="col-lg-5 col-md-6">
-                            <div class="invoice-total-card">
-                              <h4 class="invoice-total-title">Summary</h4>
-                              <div class="invoice-total-box">
-                                <div class="invoice-total-inner">
-                                  <p *ngIf="editNewPurchaseForm.get('sellingPricePerSQFT')?.value">
-                                    Cost / Square Feet <span>
-                                      ₹ {{ editNewPurchaseForm.get('costPerSQFT').value | indianCurrency}}
-                                    </span>
-                                  </p>
-                                  <p *ngIf="editNewPurchaseForm.get('sellingPricePerSQFT')?.value">
-                                    Purchase Cost. <span>
-                                      ₹ {{ editNewPurchaseForm.get('paidToSupplierPurchaseCost').value | indianCurrency}}
-                                    </span>
-                                  </p>
-                                </div>
-  
-                                <div class="invoice-total-footer">
-                                  <h4>
-                                    Total Costing
-                                    <span>
-                                      {{
-                                      editNewPurchaseForm.get("totalCosting")?.value
-                                      ? '₹ ' + (editNewPurchaseForm.get("totalCosting").value | number: "1.2-2")
-                                      : editNewPurchaseForm.get('paidToSupplierPurchaseCost').value | number: '1.2-2'
-                                      }}
-                                    </span>
-                                  </h4>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                      <div *ngIf="lotTypeValue === 'slab'">
+                        <app-add-slab-purchase class="col-12"></app-add-slab-purchase>
                       </div>
                       <div class="d-flex pt-4 justify-content-between">
-                        <div></div>
+                      <div></div>
                         <button *ngIf="lotTypeValue === 'lot'"
                           [disabled]="!child?.blocksDetails?.length || !editNewPurchaseForm?.valid" class="btn btn-primary"
                           (click)="nextStep(nextCallback, 'first')">
@@ -1094,27 +609,29 @@
                             <div class="col-xl-6 col-lg-6 col-sm-6">
                               <div class="form-group row mb-2">
                                 <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                  Slab Name
+                                  Other Charge
                                 </h5>
                                 <div class="col-lg-6 col-md-6 col-xl-6">
                                   <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("slabName").value ? editNewPurchaseForm.get("slabName").value : ' - ' }}
+                                    {{ (editNewPurchaseForm.get("otherCharges")?.value | indianCurrency) ?? ' --' }}
                                   </p>
                                 </div>
                               </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
                               <div class="form-group row mb-2">
                                 <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
                                   Slab Number
                                 </h5>
                                 <div class="col-lg-6 col-md-6 col-xl-6">
                                   <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("slabNo").value ? editNewPurchaseForm.get("slabNo").value : ' - ' }}
+                                    {{ editNewPurchaseForm.get("slabNo")?.value ? editNewPurchaseForm.get("slabNo")?.value :
+                                    '
+                                    - ' }}
                                   </p>
                                 </div>
                               </div>
-                            </div>
+                            </div> -->
                             <div class="col-xl-6 col-lg-6 col-sm-6">
                               <div class="form-group row mb-2">
                                 <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
@@ -1122,7 +639,7 @@
                                 </h5>
                                 <div class="col-lg-6 col-md-6 col-xl-6">
                                   <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("warehouseDetails")?.value.name ? editNewPurchaseForm.get("warehouseDetails")?.value.name : ' - ' }}
+                                    {{ editNewPurchaseForm.get("warehouseDetails")?.value?.name ?? ' -- ' }}
                                   </p>
                                 </div>
                               </div>
@@ -1130,113 +647,181 @@
                             <div class="col-xl-6 col-lg-6 col-sm-6">
                               <div class="form-group row mb-2">
                                 <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                  Category Name
+                                  Transportation Charge
                                 </h5>
                                 <div class="col-lg-6 col-md-6 col-xl-6">
                                   <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("categoryDetail")?.value.name ? editNewPurchaseForm.get("categoryDetail")?.value.name : ' - ' }}
+                                    {{ (editNewPurchaseForm.get("transportationCharges")?.value | indianCurrency) ?? ' - '
+                                    }}
                                   </p>
                                 </div>
                               </div>
                             </div>
+                            <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
+                              <div class="form-group row mb-2">
+                                <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                  Slab Discount
+                                </h5>
+                                <div class="col-lg-6 col-md-6 col-xl-6">
+                                  <p class="col-lg-6 col-form-label heading-bold">
+                                    {{ (editNewPurchaseForm.get("purchaseDiscount")?.value | indianCurrency) ?? ' - ' }}
+                                  </p>
+                                </div>
+                              </div>
+                            </div> -->
                             <div class="col-xl-6 col-lg-6 col-sm-6">
                               <div class="form-group row mb-2">
                                 <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                  Sub Category Name
+                                  Vehicle No
                                 </h5>
                                 <div class="col-lg-6 col-md-6 col-xl-6">
                                   <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("subCategoryDetail")?.value.name ? editNewPurchaseForm.get("subCategoryDetail")?.value.name : ' - ' }}
+                                    {{ editNewPurchaseForm.get("vehicleNo")?.value ?? ' -- ' }}
                                   </p>
                                 </div>
                               </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
                               <div class="form-group row mb-2">
                                 <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                  Width ( Inch )
+                                  Paid To Supplier Cost
                                 </h5>
                                 <div class="col-lg-6 col-md-6 col-xl-6">
                                   <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("width")?.value ? editNewPurchaseForm.get("width")?.value : ' - ' }}
+                                    {{ editNewPurchaseForm.get("slabDetails")?.value.paidToSupplierSlabCost ? editNewPurchaseForm.get("slabDetails")?.value.paidToSupplierSlabCost :
+                                    ' - ' }}
                                   </p>
                                 </div>
                               </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-6">
-                              <div class="form-group row mb-2">
-                                <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                  Length ( Inch )
-                                </h5>
-                                <div class="col-lg-6 col-md-6 col-xl-6">
-                                  <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("length")?.value ? editNewPurchaseForm.get("length")?.value : ' - ' }}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-6">
-                              <div class="form-group row mb-2">
-                                <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                  Thickness ( mm )
-                                </h5>
-                                <div class="col-lg-6 col-md-6 col-xl-6">
-                                  <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("thickness")?.value ? editNewPurchaseForm.get("thickness")?.value : ' - ' }}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-6">
-                              <div class="form-group row mb-2">
-                                <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                  Finishes
-                                </h5>
-                                <div class="col-lg-6 col-md-6 col-xl-6">
-                                  <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("finishes")?.value.name ? editNewPurchaseForm.get("finishes")?.value.name : ' - ' }}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-6">
-                              <div class="form-group row mb-2">
-                                <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                  Square Feet
-                                </h5>
-                                <div class="col-lg-6 col-md-6 col-xl-6">
-                                  <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("totalSQFT").value ? editNewPurchaseForm.get("totalSQFT").value : ' - ' }}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-6">
-                              <div class="form-group row mb-2">
-                                <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                  Number Of Pieces
-                                </h5>
-                                <div class="col-lg-6 col-md-6 col-xl-6">
-                                  <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("noOfPieces").value ? editNewPurchaseForm.get("noOfPieces").value : ' - ' }}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-6">
-                              <div class="form-group row mb-2">
-                                <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
-                                  Discount
-                                </h5>
-                                <div class="col-lg-6 col-md-6 col-xl-6">
-                                  <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ '₹' + ' ' + editNewPurchaseForm.get("purchaseDiscount").value }}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-  
+                            </div> -->
                           </div>
+                        </div>
+  
+                        <div class="row p-2">
+                          <p-accordion [activeIndex]="0" [multiple]="true">
+                            <p-accordionTab *ngFor="let data of SlabItemDetails?.slabDetails; let i = index">
+                              <ng-template pTemplate="header">
+                                <span class="d-flex justify-content-between w-full">
+                                  <span class="font-bold white-space-nowrap">
+                                    Slab Number: {{ data?.slabNo ?? ' -- '}}
+                                  </span>
+                                </span>
+                              </ng-template>
+  
+                              <div class="row">
+                                <div class="col-sm-12">
+                                  <div class="card card-table show-entire">
+                                    <div class="page-table-header mb-2 m-3">
+                                      <div class="row practice-card">
+                                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                                          <div class="form-group row mb-2">
+                                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                              Slab Name
+                                            </h5>
+                                            <div class="col-lg-8 col-md-8 col-xl-8">
+                                              <p class="col-form-label">
+                                                {{ data?.slabName ?? ' -- ' }}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div class="form-group row mb-2">
+                                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                              Length (Inch)
+                                            </h5>
+                                            <div class="col-lg-8 col-md-8 col-xl-8">
+                                              <p class="col-form-label">
+                                                {{ data.length ?? ' -- '}}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div class="form-group row mb-2">
+                                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                              Width (Inch)
+                                            </h5>
+                                            <div class="col-lg-8 col-md-8 col-xl-8">
+                                              <p class="col-form-label">{{ data?.width ?? " -- " }}</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-group row mb-2">
+                                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                              Thickness
+                                            </h5>
+                                            <div class="col-lg-8 col-md-8 col-xl-8">
+                                              <p class="col-form-label">
+                                                {{ data?.thickness ?? " -- " }}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div class="form-group row mb-2">
+                                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                              Size
+                                            </h5>
+                                            <div class="col-lg-8 col-md-8 col-xl-8">
+                                              <p class="col-form-label">
+                                                {{ data?.slabSize ?? " -- " }}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                                          <div class="form-group row mb-2">
+                                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                              Rate Per Sq. Feet
+                                            </h5>
+                                            <div class="col-lg-8 col-md-8 col-xl-8">
+                                              <p class="col-form-label">
+                                                ₹ {{ data?.ratePerSqFeet ?? " -- "}}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div class="form-group row mb-2">
+                                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                              Total Amount
+                                            </h5>
+                                            <div class="col-lg-8 col-md-8 col-xl-8">
+                                              <p class="col-form-label">
+                                                ₹ {{ data?.totalCosting ?? " -- " }}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div class="form-group row mb-2">
+                                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                              Number of Pieces
+                                            </h5>
+                                            <div class="col-lg-8 col-md-8 col-xl-8">
+                                              <p class="col-form-label">
+                                                {{ data?.noOfPieces ?? " -- " }}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div class="form-group row mb-2">
+                                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                              Finishes
+                                            </h5>
+                                            <div class="col-lg-8 col-md-8 col-xl-8">
+                                              <p class="col-form-label">
+                                                {{ data?.finishes?.name ?? " -- " }}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div class="form-group row mb-2">
+                                            <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                              Cost Per SQFT
+                                            </h5>
+                                            <div class="col-lg-8 col-md-8 col-xl-8">
+                                              <p class="col-form-label">
+                                                {{ data?.costPerSQFT ?? ' -- ' }}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </p-accordionTab>
+                          </p-accordion>
                         </div>
                       </div>
   
@@ -1386,20 +971,20 @@
                               <div class="invoice-total-inner" *ngIf="lotTypeValue === 'slab'">
                                 <p *ngIf="editNewPurchaseForm.get('totalSQFT')?.value">
                                   Total Square Feet<span>
-                                    {{ editNewPurchaseForm.get('totalSQFT').value | indianCurrency}}
+                                    {{ editNewPurchaseForm.get('totalSQFT').value | indianCurrency }}
   
                                   </span>
                                 </p>
-                                <p *ngIf="editNewPurchaseForm.get('sellingPricePerSQFT')?.value">
+                                <!-- <p *ngIf="editNewPurchaseForm.get('sellingPricePerSQFT')?.value">
                                   Cost / Square Feet <span>
                                     ₹ {{ editNewPurchaseForm.get('costPerSQFT').value | indianCurrency}}
                                   </span>
-                                </p>
-                                <p *ngIf="editNewPurchaseForm.get('sellingPricePerSQFT')?.value">
+                                </p> -->
+                                <!-- <p *ngIf="editNewPurchaseForm.get('sellingPricePerSQFT')?.value">
                                   Selling Price / Square Feet <span>
                                     ₹ {{ editNewPurchaseForm.get('sellingPricePerSQFT').value | indianCurrency}}
                                   </span>
-                                </p>
+                                </p> -->
                                 <p *ngIf="editNewPurchaseForm.get('transportationCharges')?.value">
                                   Transport Charges<span>
                                     ₹ {{ editNewPurchaseForm.get('transportationCharges').value | indianCurrency}}
@@ -1414,15 +999,16 @@
                                 <p>
                                   Purchase Cost ( Paid To Supplier)
                                   <span>₹
-                                    {{
-                                    editNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value| indianCurrency
-                                    }}
+                                    {{ editNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value ? (
+                                    editNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | indianCurrency ) : ' --
+                                    ' }}
                                   </span>
                                 </p>
                                 <p>
-                                  Purchase Discount ( added )
+                                  Purchase Discount (added)
                                   <span>₹
-                                    {{ editNewPurchaseForm.get("purchaseDiscount").value }}
+                                    {{ editNewPurchaseForm.get("purchaseDiscount").value || 0.00 | number:'1.2-2' }}
+  
                                   </span>
                                 </p>
                               </div>
@@ -1502,13 +1088,13 @@
                                     }}
                                   </span>
                                 </p>
-                                <h4 *ngIf="lotTypeValue === 'slab'">
+                                <h4>
                                   Total Purchase Cost
                                   <span>
                                     {{ editNewPurchaseForm.get("totalCosting")?.value
                                     ? ('₹ ' + (editNewPurchaseForm.get("totalCosting")?.value | indianCurrency))
                                     : ('₹ ' + (editNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |
-                                    indianCurrency)) 
+                                    indianCurrency))
                                     }}
                                   </span>
                                 </h4>

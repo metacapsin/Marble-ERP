@@ -154,7 +154,7 @@
                 <tr>
                   <td class="bold">{{ product.name }}</td>
                   <td class="bold">{{ product.email }}</td>
-                  <td class="bold" tooltip="You will Receive"><span class="text-success"  style='font-size:15px;font-weight: 500;' *ngIf="product.openingBalance">&#8595;</span> {{ product.openingBalance || '0' }}</td>
+                  <td class="bold" tooltip="You will Receive"><i class="fa-solid fa-arrow-down text-success" ></i> {{ product.totalBalance.toFixed(2) || '0' }}</td>
                   <td *ngIf="product.statusText == 'Active' "><p-tag severity="success" value="Active"></p-tag>
                   </td>
                   <td *ngIf="product.statusText == 'Inactive' "><p-tag severity="danger" value="Inactive"></p-tag>

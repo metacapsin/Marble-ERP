@@ -118,7 +118,7 @@ hideOnClear="true"  type="text" field="openingBalance"
                                 <tr>
                                     <td class="bold">{{ product.name }}</td>
                                     <td class="bold">{{ product.email }}</td>
-                                    <td class="bold" tooltip="You will Pay"><span class="text-danger"  style='font-size:15px;font-weight: 700;' *ngIf="product.openingBalance">&uarr;</span> {{ product.openingBalance || '0' }}</td>
+                                    <td class="bold" tooltip="You will Pay"><i class="fa-solid fa-arrow-up text-danger"></i> {{ product.totalBalance.toFixed(2) || '0' }}</td>
                                     <td *ngIf="!product.isUserLocked">
                                         <p-tag severity="success" value="Active"></p-tag>
                                     </td>

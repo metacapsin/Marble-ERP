@@ -772,6 +772,8 @@ export class AdminDashboardComponent {
     this.router.navigate([`/customers/view-customers/${id}`]);
   }
 
+
+
   onSearchByChange(event: any) {
     console.log(event);
     const value = event.value;

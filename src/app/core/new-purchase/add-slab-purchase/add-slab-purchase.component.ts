@@ -249,7 +249,7 @@ export class AddSlabPurchaseComponent {
       totalSQFT: this.quantity,
       ratePerSqFeet: this.ratePerSqFeet,
       totalCosting: this.totalAmount,
-      purchaseCost: this.totalAmount,
+      // purchaseCost: this.totalAmount,
       sqftPerPiece: Number(this.quantity / this.noOfPieces).toFixed(2),
     };
 
@@ -402,6 +402,11 @@ export class AddSlabPurchaseComponent {
       slabSize: `${e.width ? e.width : " "} x ${e.length ? e.length : " "} x ${
         e.thickness ? e.thickness : " "
       }`,
+      purchaseCost:
+        (Number(e.ratePerSqFeet) +
+          Number(e.taxAmountPerSQFT) +
+          Number(transportationAndOtherChargePerSQFT)) *
+        e.totalSQFT,
       warehouseDetails: this.slabAddForm?.value?.warehouse,
     }));
 

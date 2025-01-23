@@ -285,6 +285,7 @@ export class AddSlabsComponent {
   }
 
   calculateTotalAmount() {
+    console.log('call')
     // Get the displayed (rounded) purchase cost from the form control
     let purchaseCostDisplayed = parseFloat(
       this.slabsAddForm.get("purchaseCost").value
@@ -293,7 +294,7 @@ export class AddSlabsComponent {
     // Use the original, unrounded purchase cost for calculations
     let purchaseCostOrg = this.originalPurchaseCost || purchaseCostDisplayed;
     // Gatting data with input
-    let processingFee = +this.slabsAddForm.get("processingFee").value;
+    let processingFee = this.slabsAddForm.get("processingFee").value || 0;
     let otherCharges: number = +this.slabsAddForm.get("otherCharges").value;
     let totalSQFT = +this.slabsAddForm.get("totalSQFT").value;
     let transportationCharges: number = +this.slabsAddForm.get(
