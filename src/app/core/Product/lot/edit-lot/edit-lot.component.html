@@ -78,8 +78,8 @@
             <div class="form-group local-forms">
               <label for="category">Category <span class="login-danger">*</span></label>
               <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body" optionLabel="name"
-                optionValue="_id" placeholder="Select Category" formControlName="categoryDetail"
-                [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true"
+                optionValue="_id" placeholder="Select Category" formControlName="categoryDetail" name="Category"
+                [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false"
                 (onChange)="findSubCategory($event.value)">
               </p-dropdown>
               <div *ngIf="

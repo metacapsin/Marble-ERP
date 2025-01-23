@@ -15,10 +15,7 @@ import { dashboardService } from "../dashboard/dashboard.service";
   templateUrl: "./sales.component.html",
   styleUrls: ["./sales.component.scss"],
   standalone: true,
-  imports: [
-    SharedModule,
-    InvoiceDialogComponent,
-  ],
+  imports: [SharedModule, InvoiceDialogComponent],
   providers: [MessageService],
 })
 export class SalesComponent implements OnInit {
@@ -33,7 +30,7 @@ export class SalesComponent implements OnInit {
   salesListData = [];
   currentUrl: string;
   header: any;
- searchByData = [
+  searchByData = [
     "Today",
     "YesterDay",
     "This Week",
@@ -47,7 +44,7 @@ export class SalesComponent implements OnInit {
   ];
   searchBy: string = "";
   rangeDates: Date[] | undefined;
-  totalAmountValues: any = {}
+  totalAmountValues: any = {};
   cols = [];
   exportColumns = [];
   showDataLoader: boolean = false;
@@ -57,11 +54,10 @@ export class SalesComponent implements OnInit {
     public dialog: MatDialog,
     private Service: SalesService,
     private localStorageService: LocalStorageService,
-   private  datefilter:dashboardService
-  ) { }
+    private datefilter: dashboardService
+  ) {}
 
   ngOnInit() {
-
     let startDate: Date;
     let endDate: Date;
     this.datefilter.getUpdatedTime().subscribe((resp: any) => {
@@ -71,7 +67,7 @@ export class SalesComponent implements OnInit {
       if (dates.startUtc && dates.endUtc) {
         startDate = new Date(dates.startUtc);
         endDate = new Date(dates.endUtc);
-        this.searchBy = dates.filterby
+        this.searchBy = dates.filterby;
       } else {
         console.log(" Dates:");
         startDate = new Date(new Date().getFullYear(), 0, 1);
@@ -85,7 +81,6 @@ export class SalesComponent implements OnInit {
 
       this.rangeDates = [startDate, endDate];
       console.log("Formatted Dates:", Sdate, Edate);
-
     });
     // this.GetSalesData();
     this.currentUrl = this.router.url;
@@ -94,7 +89,7 @@ export class SalesComponent implements OnInit {
     this.localStorageService.removeItem("returnUrl");
 
     this.showDataLoader = true;
-    this.onSearchByChange(this.searchBy)
+    this.onSearchByChange(this.searchBy);
   }
 
   deleteSales(Id: any) {
@@ -114,7 +109,7 @@ export class SalesComponent implements OnInit {
   callBackModal() {
     this.Service.DeleteSalesData(this.saleId).subscribe((resp: any) => {
       this.messageService.add({ severity: "success", detail: resp.message });
-      this.onSearchByChange(this.searchBy)
+      this.onSearchByChange(this.searchBy);
       this.showDialoge = false;
     });
   }
@@ -128,7 +123,7 @@ export class SalesComponent implements OnInit {
     );
     this.router.navigate(["/sales/add-sales"]);
   }
-  navigateToEditSale(_id:any) {
+  navigateToEditSale(_id: any) {
     const returnUrl = this.router.url;
     this.localStorageService.setItem("returnUrl", returnUrl);
     console.log(
@@ -146,34 +141,36 @@ export class SalesComponent implements OnInit {
       endDate: formattedEndDate,
     };
     this.Service.GetSalesData(data).subscribe((resp: any) => {
-      if(resp){
-
-      this.totalAmountValues = resp;
-      this.salesListData = resp.data;
-      this.cols = [
-        { field: "salesInvoiceNumber", header: "Sales Invoice Number" },
-        { field: "salesDate", header: "Sales Date" },
-        { field: "customer.name", header: "Customer Name" },
-        { field: "billingAddress.companyName", header: "Billing Address Company Name" },
-        { field: "salesOrderStatus", header: "Sales Order Status" },
-        { field: "paymentStatus", header: "Payment Status" },
-        { field: "paidAmount", header: "Paid Amount" },
-        { field: "dueAmount", header: "Due Amount" },
-        { field: "salesGrossTotal", header: "Sales Gross Total" },
-        { field: "salesOrderStatus", header: "Sales Order Status" },
-        { field: "salesOrderTax", header: "Sales Order Tax" },
-        { field: "salesShipping", header: "Sales Shipping" },
-        { field: "salesTotalAmount", header: "Sales Total Amount"},
-        { field: "taxable", header: "Sales Taxable Amount"},
-        { field: "nonTaxable", header: "Sales Non Taxable Amount"},
-        { field: "createdOn", header: "Created On" },
-      ];
-      this.exportColumns = this.cols.map((col) => ({
-        title: col.header,
-        dataKey: col.field,
-      }));
-      this.showDataLoader = false;
-    }
+      if (resp) {
+        this.totalAmountValues = resp;
+        this.salesListData = resp.data;
+        this.cols = [
+          { field: "salesInvoiceNumber", header: "Sales Invoice Number" },
+          { field: "salesDate", header: "Sales Date" },
+          { field: "customer.name", header: "Customer Name" },
+          {
+            field: "billingAddress.companyName",
+            header: "Billing Address Company Name",
+          },
+          { field: "salesOrderStatus", header: "Sales Order Status" },
+          { field: "paymentStatus", header: "Payment Status" },
+          { field: "paidAmount", header: "Paid Amount" },
+          { field: "dueAmount", header: "Due Amount" },
+          { field: "salesGrossTotal", header: "Sales Gross Total" },
+          { field: "salesOrderStatus", header: "Sales Order Status" },
+          { field: "salesOrderTax", header: "Sales Order Tax" },
+          { field: "salesShipping", header: "Sales Shipping" },
+          { field: "salesTotalAmount", header: "Sales Total Amount" },
+          { field: "taxable", header: "Sales Taxable Amount" },
+          { field: "nonTaxable", header: "Sales Non Taxable Amount" },
+          { field: "createdOn", header: "Created On" },
+        ];
+        this.exportColumns = this.cols.map((col) => ({
+          title: col.header,
+          dataKey: col.field,
+        }));
+        this.showDataLoader = false;
+      }
     });
   }
 
@@ -216,76 +213,77 @@ export class SalesComponent implements OnInit {
 
   onSearchByChange(event: any) {
     const today = new Date();
-    let startDate,
+    let startDate:Date,
       endDate = today;
-      switch (event) {
-        case "Today":
-          startDate = new Date(today);
-          break;
-  
-        case "YesterDay":
-          startDate = new Date(today);
-          startDate.setDate(today.getDate() - 1);
-          endDate = new Date(startDate);
-          break;
-  
-        case "This Week":
-          startDate = new Date(today);
-          startDate.setDate(today.getDate() - today.getDay() + 1); // Start from Monday
-          break;
-  
-        case "Last Week":
-          startDate = new Date(today);
-          startDate.setDate(today.getDate() - today.getDay() - 6); // Last Monday
-          endDate = new Date(today);
-          endDate.setDate(startDate.getDate() + 6); // Last Sunday
-          break;
-  
-        case "This Month":
-          startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-          break;
-  
-        case "Last Month":
-          startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-          endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of previous month
-          break;
-  
-        case "This Quarter":
-          const currentQuarter = Math.floor(today.getMonth() / 3);
-          startDate = new Date(today.getFullYear(), currentQuarter * 3, 1);
-          break;
-  
-        case "Last Quarter":
-          const lastQuarter = Math.floor(today.getMonth() / 3) - 1;
-          const yearForLastQuarter =
-            lastQuarter < 0 ? today.getFullYear() - 1 : today.getFullYear();
-          startDate = new Date(
-            yearForLastQuarter,
-            (lastQuarter < 0 ? 3 : lastQuarter) * 3,
-            1
-          );
-          endDate = new Date(
-            startDate.getFullYear(),
-            startDate.getMonth() + 3,
-            0
-          );
-          break;
-  
-        case "This Year":
-          startDate = new Date(today.getFullYear(), 0, 1);
-          break;
-  
-        case "Last Year":
-          startDate = new Date(today.getFullYear() - 1, 0, 1);
-          endDate = new Date(today.getFullYear() - 1, 11, 31);
-          break;
-  
-        default:
-          startDate = null;
-          endDate = null;
-          break;
-      }
+    switch (event) {
+      case "Today":
+        startDate = new Date(today);
+        break;
+
+      case "YesterDay":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 1);
+        endDate = new Date(startDate);
+        break;
+
+      case "This Week":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay() + 1); // Start from Monday
+        break;
+
+      case "Last Week":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay() - 6); // Last Monday
+        endDate = new Date(today);
+        endDate.setDate(startDate.getDate() + 6); // Last Sunday
+        break;
+
+      case "This Month":
+        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        break;
+
+      case "Last Month":
+        startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of previous month
+        break;
+
+      case "This Quarter":
+        const currentQuarter = Math.floor(today.getMonth() / 3);
+        startDate = new Date(today.getFullYear(), currentQuarter * 3, 1);
+        break;
+
+      case "Last Quarter":
+        const lastQuarter = Math.floor(today.getMonth() / 3) - 1;
+        const yearForLastQuarter =
+          lastQuarter < 0 ? today.getFullYear() - 1 : today.getFullYear();
+        startDate = new Date(
+          yearForLastQuarter,
+          (lastQuarter < 0 ? 3 : lastQuarter) * 3,
+          1
+        );
+        endDate = new Date(
+          startDate.getFullYear(),
+          startDate.getMonth() + 3,
+          0
+        );
+        break;
+
+      case "This Year":
+        startDate = new Date(today.getFullYear(), 0, 1);
+        break;
+
+      case "Last Year":
+        startDate = new Date(today.getFullYear() - 1, 0, 1);
+        endDate = new Date(today.getFullYear() - 1, 11, 31);
+        break;
+
+      default:
+        startDate =new Date(today.getFullYear(), 0, 1);;
+        endDate = new Date();
+        break;
+    }
     this.rangeDates = [startDate, endDate];
+    console.log(startDate,endDate)
     this.GetSalesData(startDate, endDate);
 
     let payload = {
@@ -300,9 +298,9 @@ export class SalesComponent implements OnInit {
   }
 
   formatDate(date: Date): string {
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based, so add 1
-    const day = date.getDate().toString().padStart(2, "0");
-    const year = date.getFullYear();
+    const month = (date?.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based, so add 1
+    const day = date?.getDate().toString().padStart(2, "0");
+    const year = date?.getFullYear();
     return `${month}/${day}/${year}`;
   }
 }

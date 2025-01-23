@@ -46,7 +46,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   maxDate = new Date();
   SupplierLists: any[];
   lotsNoArray = [
-    { name: "Block", _id: "Lot" },
+    { name: "Lot", _id: "Lot" },
     { name: "Slab", _id: "Slab" },
   ];
   addNewPurchaseForm!: FormGroup;

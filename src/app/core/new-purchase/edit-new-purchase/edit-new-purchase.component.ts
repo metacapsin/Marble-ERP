@@ -93,7 +93,7 @@ export class EditNewPurchaseComponent implements OnInit {
       //   [Validators.pattern(validationRegex.address3To500Regex)],
       // ],
       // _id: [""],
-      // productId: [""],
+      productId: [""],
       // slabNo: [
       //   "",
       //   [Validators.required, Validators.pattern(this.invoiceRegex)],
@@ -675,13 +675,16 @@ export class EditNewPurchaseComponent implements OnInit {
         nonTaxable: Number(formData.nonTaxable),
         taxableAmount: Number(formData.taxableAmount),
         taxable: formData.taxable,
+        warehouseDetails:this.ItemDetails?.warehouseDetails,
+        transportationCharges:this.ItemDetails?.transportationCharge,
+        otherCharges:this.ItemDetails?.royaltyCharge,
         purchaseItemTax: formData.purchaseItemTax,
         taxVendor: this.editNewPurchaseForm.get("isTaxVendor").value
           ? taxVenoderObj
           : null,
         taxApplied: formData.taxApplied,
         productId: formData.productId,
-        _id: formData._id
+        _id:this.purchaseId ,
       };
     } else {
       payload = {

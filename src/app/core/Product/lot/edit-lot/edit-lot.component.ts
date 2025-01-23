@@ -281,7 +281,7 @@ console.log('this.previouslotData',this.previouslotData)
         ItemTax: this.previouslotData.purchaseItemTax,
         taxApplied: lotDetails.taxApplied || this.previouslotData.taxApplied,
         categoryDetail: lotDetails.categoryDetail || this.previouslotData.categoryDetail,
-        subCategoryDetail: lotDetails.subCategoryDetail?._id || this.previouslotData.subCategoryDetail,
+        subCategoryDetail: lotDetails.subCategoryDetail || this.previouslotData.subCategoryDetail,
       });
     }
     this.calculateTotalAmount();
@@ -355,6 +355,7 @@ console.log('this.previouslotData',this.previouslotData)
 
   findSubCategory(value: any) {
     console.log('value',value)
+    this.lotEditForm.patchValue({categoryDetail:value})
     let SubCategoryData = [];
     this.lotEditForm.get("subCategoryDetail").reset();
     console.log('this.allSubCategoryList',this.allSubCategoryList)
@@ -375,7 +376,7 @@ console.log('this.previouslotData',this.previouslotData)
 
     // Add by ravi for subcategory map
     this.subCategorListByCategory = this.allSubCategoryList?.filter(
-      (e) => e._id == rec?._id || rec
+      (e) => e._id == rec?._id
     );
     console.log('this.subCategorListByCategory ',this.subCategorListByCategory )
     if (this.previouslotData) {
@@ -419,7 +420,7 @@ console.log('this.previouslotData',this.previouslotData)
     this.totalArea = this.height * this.width * this.length;
   }
   calculateTotalAmount() {
-    console.log('this.lotEditForm',this.lotEditForm)
+    console.log('this.lotEditForm',this.lotEditForm.value)
     const form = this.lotEditForm;
     const lotWeight = Number(form.get("lotWeight")?.value) || 0;
     const pricePerTon = Number(form.get("pricePerTon")?.value) || 0;
@@ -532,6 +533,7 @@ console.log('this.previouslotData',this.previouslotData)
       this.blocksDetails.forEach((e: any) => {
         this.lotTotalCost += e.totalCosting;
       });
+      console.log('formdata>>>',formData)
       const payload = {
         lotNo: formData.lotNo,
         lotName: formData.lotName,

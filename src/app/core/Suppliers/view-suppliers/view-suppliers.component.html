@@ -267,8 +267,8 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                         purchase.paymentStatus == 'Unpaid' ||
                         purchase.paymentStatus == 'Partial Paid ' ||
                         purchase.paymentStatus == 'Partial Paid'
-                      " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id , 'purchase')"
-                      pTooltip="Payment" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id ,'purchase')"
+                      pTooltip="Payment" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> 
                     <div *ngIf="purchase.paymentStatus == 'Paid'" class="placeholder"></div>
                     <p-button [text]="true" icon="fa-solid fa-trash" (click)="deletePurchase(purchase._id)"
                       pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>

@@ -205,12 +205,24 @@ export class AddSlabsComponent {
     });
   }
 
-  onSlabTypeSelect(selectedValue: string): void {
+  onSlabTypeSelect(selectedValue: any): void {
     if (selectedValue === "OpeningStock") {
-      this.slabsAddForm.get("blockProcessor")?.setValue("null");
-      this.slabsAddForm.get("lotDetails")?.setValue("null");
-      this.slabsAddForm.get("blockDetails")?.setValue("null");
-      this.slabsAddForm.get("processingFee")?.setValue("null");
+      this.slabsAddForm.get("blockProcessor")?.setValue("");
+      this.slabsAddForm.get("blockProcessor")?.clearValidators();
+      this.slabsAddForm.get("blockProcessor")?.updateValueAndValidity();
+      
+      this.slabsAddForm.get("lotDetails")?.setValue("");
+      this.slabsAddForm.get("lotDetails")?.clearValidators();
+      this.slabsAddForm.get("lotDetails")?.updateValueAndValidity();
+      
+      this.slabsAddForm.get("blockDetails")?.setValue("");
+      this.slabsAddForm.get("blockDetails")?.clearValidators();
+      this.slabsAddForm.get("blockDetails")?.updateValueAndValidity();
+      
+      this.slabsAddForm.get("processingFee")?.setValue("");
+      this.slabsAddForm.get("processingFee")?.clearValidators();
+      this.slabsAddForm.get("processingFee")?.updateValueAndValidity();
+      
     }
   }
 
@@ -292,24 +304,35 @@ export class AddSlabsComponent {
     );
 
     // Use the original, unrounded purchase cost for calculations
-    let purchaseCostOrg = this.originalPurchaseCost || purchaseCostDisplayed;
+    let purchaseCostOrg: number = this.originalPurchaseCost || purchaseCostDisplayed;
     // Gatting data with input
-    let processingFee = this.slabsAddForm.get("processingFee").value || 0;
+    let processingFee: number = this.slabsAddForm.get("processingFee").value || 0;
     let otherCharges: number = +this.slabsAddForm.get("otherCharges").value;
-    let totalSQFT = +this.slabsAddForm.get("totalSQFT").value;
+    let totalSQFT: number = +this.slabsAddForm.get("totalSQFT").value;
     let transportationCharges: number = +this.slabsAddForm.get(
       "transportationCharges"
     ).value;
 
     // console.log(purchaseCostOrg);
     // console.log(totalSQFT);
-    // console.log(this.blockDropDownPerBlockWeight, this.blockDropDowntotleCost);
-    this.BlockWeight = this.blockDropDownPerBlockWeight;
+    console.log('blockDropDownPerBlockWeight',this.blockDropDownPerBlockWeight);
+    this.BlockWeight = Number(this.blockDropDownPerBlockWeight) || 0;
     // console.log(this.BlockWeight);
     // calculate for creating slabs
-    let processingCost = processingFee * this.BlockWeight;
-    let totalCosting =
-      +purchaseCostOrg + processingCost + otherCharges + transportationCharges;
+    let fee = processingFee || 0
+
+    console.log("processingFee:", fee);
+    console.log("this.BlockWeight:", this.BlockWeight);
+
+    let processingCost = Number(fee) * Number(this.BlockWeight);
+    console.log("purchaseCostOrg:", purchaseCostOrg);
+    console.log("processingCost:", processingCost);
+    console.log("otherCharges:", otherCharges);
+    console.log("transportationCharges:", transportationCharges);
+    
+    let totalCosting = Number(purchaseCostOrg) + Number(processingCost) + Number(otherCharges) + Number(transportationCharges);
+    console.log("totalCosting:", totalCosting);
+    
     let totalAmount: number = totalSQFT == 0 ? 0 : totalCosting / totalSQFT;
     let noOfPieces = this.slabsAddForm.get("noOfPieces").value || 0;
 
@@ -317,7 +340,8 @@ export class AddSlabsComponent {
 
     // console.log("processingCost", processingCost);
     // console.log("totalCosting", purchaseCostOrg);
-    // console.log("totalAmount", totalAmount);
+    // console.log("totalAmount", totalAmount)
+    console.log("totalCosting",totalCosting)
     this.slabsAddForm.patchValue({
       processingCost: processingCost,
       totalCosting: totalCosting.toFixed(4),
