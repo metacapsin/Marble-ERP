@@ -213,7 +213,7 @@ export class AddsalesComponent implements OnInit {
           if (i === index) {
             this.slabDataList[index] = this.slabDatas;
             const control = this.salesItemDetails.at(i);
-            control.get("salesItemProduct").reset();
+            // control.get("salesItemProduct").reset();
             control.get("salesItemQuantity").reset();
             control.get("salesItemUnitPrice").reset();
             control.get("salesItemTax").reset();
@@ -321,34 +321,42 @@ export class AddsalesComponent implements OnInit {
     });
   }
   onSlabSelect(value, i) {
-    let rec = this.originalSlabData.find(
+    console.log('this.originalSlabData',this.originalSlabData)
+    const rec = this.originalSlabData?.find(
       (item) => item._id === value._id
     )?.subCategoryDetail;
 
-    console.log("this.salesItemDetails:", this.salesItemDetails);
+    console.log("rec:", rec);
 
-    if (rec && rec.hsnCode) {
+    if (rec && rec?.hsnCode) {
       const salesItemDetails = this.addSalesForm.get(
         "salesItemDetails"
       ) as FormArray;
 
-      salesItemDetails.controls.forEach((salesItemGroup: FormGroup) => {
+      salesItemDetails?.controls?.forEach((salesItemGroup: FormGroup) => {
+        const existingProduct = salesItemGroup.get("salesItemProduct")?.value;
+      
+        // Use Object.assign to update the object without changing the reference
+        Object.assign(existingProduct, {
+          hsnCode: rec?.hsnCode || null,
+        });
+      
         salesItemGroup.patchValue({
-          salesItemProduct: {
-            ...salesItemGroup.value.salesItemProduct,
-            hsnCode: rec.hsnCode,
-          },
+          salesItemProduct: existingProduct,
         });
       });
+      
     } else {
       console.error("hsnCode not found in rec:", rec);
     }
 
-    console.log("Updated salesItemDetails:", this.addSalesForm.value);
+    console.log("salesItemDetails", this.addSalesForm);
 
     const salesItemDetailsArray = this.addSalesForm.get(
       "salesItemDetails"
     ) as FormArray;
+
+    console.log("salesItemDetailsArray", salesItemDetailsArray);
 
     const selectedSlab = this.slabDataList[i].find(
       (slab) => slab._id?._id === value._id
@@ -410,7 +418,11 @@ export class AddsalesComponent implements OnInit {
       const tax = item.get("salesItemTax").value || [];
       const sqftPerPiece = +item.get("sqftPerPiece").value || 0;
 
+      console.log("quantity", quantity);
+      console.log("sqftPerPiece", sqftPerPiece);
+
       const pieces = quantity / sqftPerPiece;
+      console.log("pieces", pieces);
       let totalTaxAmount = 0;
       const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value;
       this.totalTaxableAmount += Number(salesItemTaxableAmount);
@@ -506,6 +518,8 @@ export class AddsalesComponent implements OnInit {
     if (this.setAddressData?.isTaxVendor) {
       this.taxVendorAmount();
     }
+
+    console.log("Updated salesItemDetails:", this.addSalesForm.value);
   }
 
   calculatesummaryTaxAmount(_type: any) {
@@ -531,6 +545,11 @@ export class AddsalesComponent implements OnInit {
 
   addSalesFormSubmit() {
     const formData = this.addSalesForm.value;
+
+    console.log("formData", formData);
+    // console.log(object)
+
+    
     const payload = {
       customer: formData.customer,
       salesDate: formData.salesDate,

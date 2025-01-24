@@ -184,22 +184,24 @@ export class EditSalsComponent implements OnInit {
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
       (resp: any) => {
         this.originalSlabData = resp.data;
+        console.log('resp.data?>>>',resp.data)
         this.slabDatas = resp.data.map((element) => ({
           name: element.slabName,
           _id: {
             _id: element._id,
             slabName: element.slabName,
             slabNo: element.slabNo,
+            hsnCode:element.subCategoryDetail?.hsnCode,
           },
         }));
         this.salesItemDetails.controls.forEach((element, index) => {
           if (i === index) {
             this.slabDataList[index] = this.slabDatas;
             const control = this.salesItemDetails.at(i);
-            control.get("salesItemProduct").reset();
-            control.get("salesItemQuantity").reset();
-            control.get("salesItemUnitPrice").reset();
-            control.get("salesItemTax").reset();
+            // control.get("salesItemProduct").reset();
+            // control.get("salesItemQuantity").reset();
+            // control.get("salesItemUnitPrice").reset();
+            // control.get("salesItemTax").reset();
             this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];
@@ -336,8 +338,13 @@ export class EditSalsComponent implements OnInit {
 
     // Patch sales item details and disable product field
     data.salesItemDetails.forEach((item: any, index: number) => {
-      // this.onWareHouseSelect(item.salesWarehouseDetails,index);
+      this.onWareHouseSelect(item.salesWarehouseDetails,index);
+
+      console.log('item',item)
+
       this.totalTaxableAmount = Number(item.salesItemTaxableAmount);
+
+     
       const salesItem = this.fb.group({
         salesItemProduct: [item.salesItemProduct, [Validators.required]],
         salesItemQuantity: [
@@ -361,7 +368,8 @@ export class EditSalsComponent implements OnInit {
         salesItemPieces: [item.salesItemPieces, [Validators.required, Validators.min(0), Validators.max(100000)]],
         sqftPerPiece: [item.sqftPerPiece]
       });
-
+     
+ 
       this.salesItemDetails.push(salesItem);
       // this.calculateTotalAmount();
     });
@@ -390,6 +398,39 @@ export class EditSalsComponent implements OnInit {
     });
   }
   onSlabSelect(value, i) {
+    console.log('value',value)
+    
+console.log('this.originalSlabData',this.originalSlabData)
+    const rec = this.originalSlabData?.find(
+      (item) => item._id === value._id
+    )?.subCategoryDetail;
+
+    console.log("rec:", rec);
+
+    if (rec && rec?.hsnCode) {
+      const salesItemDetails = this.editSalesForm.get(
+        "salesItemDetails"
+      ) as FormArray;
+
+      salesItemDetails?.controls?.forEach((salesItemGroup: FormGroup) => {
+        const existingProduct = salesItemGroup.get("salesItemProduct")?.value;
+        console.log("Existing Product:", existingProduct);
+        // Use Object.assign to update the object without changing the reference
+      if(existingProduct){
+        Object.assign(existingProduct, {
+          hsnCode: rec?.hsnCode || null,
+        });
+      
+        salesItemGroup.patchValue({
+          salesItemProduct: existingProduct,
+        });
+      }
+      });
+      
+    } else {
+      console.error("hsnCode not found in rec:", rec);
+    }
+
     const salesItemDetailsArray = this.editSalesForm.get(
       "salesItemDetails"
     ) as FormArray;

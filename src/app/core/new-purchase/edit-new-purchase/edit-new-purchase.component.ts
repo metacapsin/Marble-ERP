@@ -685,6 +685,7 @@ export class EditNewPurchaseComponent implements OnInit {
         taxApplied: formData.taxApplied,
         productId: formData.productId,
         _id:this.purchaseId ,
+        totalTransportationCharges:this.ItemDetails?.totalTransportationCharges,
       };
     } else {
       payload = {

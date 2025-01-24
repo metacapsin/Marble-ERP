@@ -258,7 +258,7 @@
                             <label for="customer">Product
                               <span class="login-danger">*</span></label>
                             <p-dropdown [options]="slabDataList[i]" appendTo="body" [style]="{ width: '100%' }"
-                              optionLabel="name" [filter]="true" filterBy="name" optionValue="_id"
+                              optionLabel="name" [filter]="true" filterBy="name" optionValue="_id" name="salesItemProduct"
                               formControlName="salesItemProduct" placeholder="Select Product"
                               (onChange)="onSlabSelect($event.value, i)"></p-dropdown>
                             <div *ngIf="
