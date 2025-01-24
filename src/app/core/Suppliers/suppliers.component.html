@@ -88,6 +88,11 @@ hideOnClear="true"  type="text" field="name" display="menu"></p-columnFilter>
                                         <p-columnFilter  matchMode="contains"  
 hideOnClear="true"  type="text" field="email" display="menu"></p-columnFilter>
                                     </th>
+                                    <th pSortableColumn="balance">
+                                        Balance <p-sortIcon field="balance"></p-sortIcon>
+                                        <p-columnFilter  matchMode="contains"  
+hideOnClear="true"  type="text" field="balance" display="menu"></p-columnFilter>
+                                    </th>
                                     <th pSortableColumn="status">
                                         Status <p-sortIcon field="status"></p-sortIcon>
                                         <!-- <p-columnFilter  matchMode="contains"  
@@ -113,7 +118,7 @@ hideOnClear="true"  type="text" field="openingBalance"
                                 <tr>
                                     <td class="bold">{{ product.name }}</td>
                                     <td class="bold">{{ product.email }}</td>
-
+                                    <td class="bold" tooltip="You will Pay"><i class="fa-solid fa-arrow-up text-danger"></i> {{ product.totalBalance.toFixed(2) || '0' }}</td>
                                     <td *ngIf="!product.isUserLocked">
                                         <p-tag severity="success" value="Active"></p-tag>
                                     </td>

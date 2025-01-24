@@ -67,4 +67,16 @@ export class dashboardService {
       environment.apiUrl + "/DashboardController/getStockWarehouseWise");
   }
 
+ getUpdatedTime(){
+  return this.http.get(
+    environment.apiUrl + '/Preference/getPreference'
+  )
+ }
+
+ updAtedateRange(date:any){
+  return this.http.put(
+    environment.apiUrl + '/Preference/updatePreference',date
+  )
+ }
+
 }

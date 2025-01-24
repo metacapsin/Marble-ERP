@@ -40,6 +40,7 @@ import { TagModule } from "primeng/tag";
 import { ToastModule } from "primeng/toast";
 import { ProfitLossModule } from "../../reports/reports/profit-loss-reports/profit-loss-reports.module";
 import { ReportsService } from "../../reports/reports/reports.service";
+import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 export type ChartOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   series: ApexAxisChartSeries | any;
@@ -154,12 +155,16 @@ export class AdminDashboardComponent {
   searchByData = [
     "Today",
     "YesterDay",
-    "Last 7 Days",
+    "This Week",
+    "Last Week",
     "This Month",
-    "Last 3 Months",
-    "Last 6 Months",
+    "Last Month",
+    "This Quarter",
+    "Last Quarter",
     "This Year",
+    "Last Year",
   ];
+
   expandedRows: { [key: string]: boolean } = {};
   products: Product[] = [];
   totalCategorySlabs: any;
@@ -177,25 +182,25 @@ export class AdminDashboardComponent {
   ];
   valueSubCategory: string = "graph";
   orgCategorySlabs: any;
-  orgSubCategorySlabs:any[];
-  categorySearchDataValue:any
-  subCategorySearchDataValue:any
-  stockAlertSearchDataValue:any
+  orgSubCategorySlabs: any[];
+  categorySearchDataValue: any;
+  subCategorySearchDataValue: any;
+  stockAlertSearchDataValue: any;
   StockWarehouseWiseLot: any;
   StockWarehouseWiseSlab: any;
   StockWarehouseWise: any;
-
+  wareHousedataListsEditArray: any[];
   visible: boolean = false;
-  chartType: string = '';
+  chartType: string = "";
   subCategoryslabsData: any[];
-
 
   constructor(
     // public data: DataService,
     private router: Router,
     private Service: dashboardService,
     private reportsService: ReportsService,
-    private crypto: AESEncryptDecryptService
+    private crypto: AESEncryptDecryptService,
+    private service: WarehouseService
   ) {
     this.userData = this.crypto.getData("currentUser");
     console.log(this.userData);
@@ -208,22 +213,35 @@ export class AdminDashboardComponent {
   }
 
   ngOnInit(): void {
+    this.getwareHouse();
     this.maxDate = new Date();
-    const today = new Date();
-    // const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-    const endDate = new Date();
-    const startDate = new Date(today.getFullYear(), 3, 1);
-    this.data = "This Year";
-    // Set the start date to one month ago
-    // startDate.setMonth(startDate.getMonth() - 1);
-    var Sdate = this.formatDate(startDate);
-    var Edate = this.formatDate(endDate);
-    // this.onSearchByChange({ value: 'This Year' });
-    this.rangeDates = [startDate, endDate];
-    console.log(this.rangeDates);
 
-    // Initial API call
-    this.apiCall(Sdate, Edate);
+    let startDate: Date;
+    let endDate: Date;
+    this.Service.getUpdatedTime().subscribe((resp: any) => {
+      let dates = resp.data;
+      console.log("Received Dates:", dates);
+
+      if (dates.startUtc && dates.endUtc) {
+        startDate = new Date(dates.startUtc);
+        endDate = new Date(dates.endUtc);
+        this.data = dates.filterby
+      } else {
+        console.log(" Dates:");
+        startDate = new Date(new Date().getFullYear(), 0, 1);
+        endDate = new Date();
+        this.data = "This Year";
+      }
+
+      console.log(" Dates:>>", startDate, endDate);
+      const Sdate = this.formatDate(startDate);
+      const Edate = this.formatDate(endDate);
+
+      this.rangeDates = [startDate, endDate];
+      console.log("Formatted Dates:", Sdate, Edate);
+
+      this.apiCall(Sdate, Edate);
+    });
 
     this.optionsForFirstChat = {
       maintainAspectRatio: false,
@@ -276,7 +294,6 @@ export class AdminDashboardComponent {
     product.expanded = !product.expanded;
   }
 
-
   getSeverity(alertType: string) {
     switch (alertType) {
       case "high":
@@ -288,6 +305,18 @@ export class AdminDashboardComponent {
       default:
         return "success";
     }
+  }
+
+  getwareHouse() {
+    this.service.getAllWarehouseList().subscribe((resp: any) => {
+      if (resp.status === "success") {
+        this.wareHousedataListsEditArray = resp.data;
+      }
+    });
+  }
+
+  filterdatabywarehoue(event: any) {
+    console.log("event", event);
   }
 
   getStatusSeverity(daysLeft: number) {
@@ -305,6 +334,7 @@ export class AdminDashboardComponent {
   getDateOnChange(): void {
     console.log("object");
     console.log(this.rangeDates);
+    localStorage.setItem("lastSelectDate", this.rangeDates);
     if (!this.rangeDates[0] || !this.rangeDates[1]) {
       console.log("Please enter both start and end dates");
     } else {
@@ -318,6 +348,17 @@ export class AdminDashboardComponent {
       console.log(formattedDate2);
       // Call the API when the date range changes
       this.apiCall(formattedDate1, formattedDate2);
+
+      let payload = {
+        endDate: formattedDate2,
+        startDate: formattedDate1,
+      };
+
+      this.Service.updAtedateRange(payload).subscribe((resp) => {
+        console.log("updt date resp", resp);
+      });
+
+      
     }
   }
   apiCall(startDate, endDate): void {
@@ -348,7 +389,7 @@ export class AdminDashboardComponent {
       (resp: any) => {
         console.log(resp);
         this.barChartData = resp.barChartData;
-        console.log("Monthly Bar Chart Data ",this.barChartData);
+        console.log("Monthly Bar Chart Data ", this.barChartData);
         this.setDataForChart(resp.barChartData);
       },
       (error: any) => {
@@ -418,7 +459,7 @@ export class AdminDashboardComponent {
     this.Service.getStockWarehouseWise().subscribe(
       (resp: any) => {
         console.log(resp);
-        this.StockWarehouseWise = resp
+        this.StockWarehouseWise = resp;
         // this.StockWarehouseWiseSlab = resp.slab
         console.log(this.StockWarehouseWise);
       },
@@ -444,7 +485,9 @@ export class AdminDashboardComponent {
       (item) => item.totalSalesPaymentDue
     );
     const totalPurchaseData = data.map((item) => item.totalPurchases);
-    const totalPurchaseReturnData = data.map((item) => item.totalPurchaseReturn);
+    const totalPurchaseReturnData = data.map(
+      (item) => item.totalPurchaseReturn
+    );
     const totalPurchaseReturnPaymentDueData = data.map(
       (item) => item.totalPurchaseReturnPaymentDue
     );
@@ -459,10 +502,10 @@ export class AdminDashboardComponent {
       totalPurchasePaymentDueData,
       totalPurchaseReturnPaymentDueData,
       totalPurchaseReturnData,
-      totalPurchaseData,
+      totalPurchaseData
     );
 
-    console.log(labels,totalSalesData,totalSalesReturnData);
+    console.log(labels, totalSalesData, totalSalesReturnData);
     this.dataForFirstChat = {
       labels: labels,
       datasets: [
@@ -560,21 +603,23 @@ export class AdminDashboardComponent {
   //     ],
   //   };
   // }
-  categoryForDrpdownChange(value){
-    console.log("value",value);
-   this.subCategoryslabsData = []
-    if(value == null){
+  categoryForDrpdownChange(value) {
+    console.log("value", value);
+    this.subCategoryslabsData = [];
+    if (value == null) {
       console.log("null");
       this.subCategoryslabsData = this.orgSubCategorySlabs;
-    }
-    else { this.subCategoryslabsData = this.orgSubCategorySlabs.filter(element => element.categoryName === value.name);
-    console.log(this.subCategoryslabsData);
+    } else {
+      this.subCategoryslabsData = this.orgSubCategorySlabs.filter(
+        (element) => element.categoryName === value.name
+      );
+      console.log(this.subCategoryslabsData);
     }
     this.piDataForSecondChat = {
-      labels: this.subCategoryslabsData.map(element => element.name), // Array of names
+      labels: this.subCategoryslabsData.map((element) => element.name), // Array of names
       datasets: [
         {
-          data: this.subCategoryslabsData.map(element => element.totalSQFT), // Array of totalSQFT values
+          data: this.subCategoryslabsData.map((element) => element.totalSQFT), // Array of totalSQFT values
           backgroundColor: [
             "#3b82f6", // Blue
             "#f59e0b", // Orange
@@ -726,62 +771,101 @@ export class AdminDashboardComponent {
   oneCoustomer(id: any) {
     this.router.navigate([`/customers/view-customers/${id}`]);
   }
+
+
+
   onSearchByChange(event: any) {
     console.log(event);
     const value = event.value;
     const today = new Date();
-    console.log(value);
-    let startDate,
-      endDate = new Date(today);
-      switch (value) {
-        case "Today":
-            startDate = new Date(today);
-            endDate = new Date(today);
-            break;
-        case "YesterDay":
-            startDate = new Date(today);
-            startDate.setDate(today.getDate() - 1);
-            endDate = new Date(startDate);
-            break;
-        case "Last 7 Days":
-            startDate = new Date(today);
-            startDate.setDate(today.getDate() - 7);
-            endDate = new Date(today);
-            break;
-        case "This Month":
-            startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-            endDate = new Date(today);
-            break;
-        case "Last 3 Months":
-            startDate = new Date(today);
-            startDate.setMonth(today.getMonth() - 3);
-            endDate = new Date(today);
-            break;
-        case "Last 6 Months":
-            startDate = new Date(today);
-            startDate.setMonth(today.getMonth() - 6);
-            endDate = new Date(today);
-            break;
-        case "This Year":
-            if (today.getMonth() >= 3) {
-                // Current month is April (3) or later
-                startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
-            } else {
-                startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
-            }
-            endDate = new Date(today);
-            break;
-        default:
-            startDate = null;
-            endDate = null;
-            break;
+    let startDate: Date | null = null;
+    let endDate: Date | null = new Date(today);
+
+    switch (value) {
+      case "Today":
+        startDate = new Date(today);
+        break;
+
+      case "YesterDay":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 1);
+        endDate = new Date(startDate);
+        break;
+
+      case "This Week":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay() + 1); // Start from Monday
+        break;
+
+      case "Last Week":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay() - 6); // Last Monday
+        endDate = new Date(today);
+        endDate.setDate(startDate.getDate() + 6); // Last Sunday
+        break;
+
+      case "This Month":
+        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        break;
+
+      case "Last Month":
+        startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of previous month
+        break;
+
+      case "This Quarter":
+        const currentQuarter = Math.floor(today.getMonth() / 3);
+        startDate = new Date(today.getFullYear(), currentQuarter * 3, 1);
+        break;
+
+      case "Last Quarter":
+        const lastQuarter = Math.floor(today.getMonth() / 3) - 1;
+        const yearForLastQuarter =
+          lastQuarter < 0 ? today.getFullYear() - 1 : today.getFullYear();
+        startDate = new Date(
+          yearForLastQuarter,
+          (lastQuarter < 0 ? 3 : lastQuarter) * 3,
+          1
+        );
+        endDate = new Date(
+          startDate.getFullYear(),
+          startDate.getMonth() + 3,
+          0
+        );
+        break;
+
+      case "This Year":
+        startDate = new Date(today.getFullYear(), 0, 1);
+        break;
+
+      case "Last Year":
+        startDate = new Date(today.getFullYear() - 1, 0, 1);
+        endDate = new Date(today.getFullYear() - 1, 11, 31);
+        break;
+
+      default:
+        startDate = null;
+        endDate = null;
+        break;
     }
 
     this.rangeDates = [startDate, endDate];
-    const formattedDate1 = this.formatDate(startDate);
-    const formattedDate2 = this.formatDate(endDate);
-    this.apiCall(formattedDate1, formattedDate2);
+
+    if (startDate && endDate) {
+      const formattedDate1 = this.formatDate(startDate);
+      const formattedDate2 = this.formatDate(endDate);
+      console.log("Start Date:", formattedDate1, "End Date:", formattedDate2);
+      this.apiCall(formattedDate1, formattedDate2);
+
+      let payload = {
+        filterby: value,
+        endDate: formattedDate2,
+        startDate: formattedDate1,
+      };
+
+      this.Service.updAtedateRange(payload).subscribe((resp) => {
+        console.log("updt date resp", resp);
+      });
+    }
   }
-
-
 }

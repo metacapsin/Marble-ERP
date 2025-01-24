@@ -37,7 +37,7 @@ export class EditQuotationsComponent {
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
-  tandCRegex = /^(?:.{2,200})$/;
+  tandCRegex =  /^[\s\S]{2,100}$/;
   customer: any[] = [];
   returnUrl: string;
   wareHousedataListsEditArray: any[];

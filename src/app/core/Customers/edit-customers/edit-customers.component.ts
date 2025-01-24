@@ -55,6 +55,8 @@ export class EditCustomersComponent {
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
       shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
+      openingBalance: [0],
+      balanceType: ["Received"],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -80,13 +82,14 @@ export class EditCustomersComponent {
       creditLimit: Number(this.customerData.creaditLimit),
       billingAddress: this.customerData.billingAddress,
       shippingAddress: this.customerData.shippingAddress,
+      openingBalance : this.customerData.openingBalance,
     });
   }
   editCustomerForm() {
     console.log(this.editCustomerGroup.value);
 
     const payload = {
-      id: this.id,
+      _id: this.id,
       name: this.editCustomerGroup.value.name,
       phoneNo: this.editCustomerGroup.value.phoneNumber,
       email: this.editCustomerGroup.value.email,
@@ -96,6 +99,7 @@ export class EditCustomersComponent {
       creaditLimit: Number(this.editCustomerGroup.value.creditLimit),
       billingAddress: this.editCustomerGroup.value.billingAddress,
       shippingAddress: this.editCustomerGroup.value.shippingAddress,
+      openingBalance:Number(this.editCustomerGroup.value.openingBalance),
     };
     console.log(payload);
     if (this.editCustomerGroup.value) {

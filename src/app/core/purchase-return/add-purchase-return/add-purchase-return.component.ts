@@ -31,7 +31,7 @@ export class AddPurchaseReturnComponent implements OnInit {
   public routes = routes;
   maxDate = new Date();
   PurchaseReturnDataById: any = {};
-
+  selectedSlabs: any[] = [];
   SupplierLists: any = [];
   purchaseDataByInvoiceNumber = [];
   GridDataForSlab: any;
@@ -70,6 +70,7 @@ export class AddPurchaseReturnComponent implements OnInit {
         if (resp.status == "error") {
           this.messageService.add({ severity: "error", detail: resp.message });
         }
+       
         this.purchaseDataByInvoiceNumber = resp.data.map((e) => ({
           _id: e._id,
           purchaseInvoiceNumber: e.purchaseInvoiceNumber,
@@ -86,6 +87,7 @@ export class AddPurchaseReturnComponent implements OnInit {
   calculateTotalPurchaseAmount() {
     let purchaseGrossTotal =
       this.addPurchaseReturnForm.get("purchaseGrossTotal").value || 0;
+      console.log('purchaseGrossTotal',purchaseGrossTotal)
     let ReturnOtherCharges =
       this.addPurchaseReturnForm.get("otherCharges").value || 0;
     let purchaseReturnTotalAmount = purchaseGrossTotal - ReturnOtherCharges;
@@ -105,14 +107,15 @@ export class AddPurchaseReturnComponent implements OnInit {
     this.PurchaseReturnService.GetPurchaseDataById(purchaseId).subscribe(
       (resp: any) => {
         this.PurchaseReturnDataById = resp.data;
-        this.GridDataForSlab = [resp.data.slabDetails];
+        this.GridDataForSlab = resp.data.slabDetails;
+        console.log('this.GridDataForSlab',this.GridDataForSlab)
         if (this.PurchaseReturnDataById.purchaseType == "slab") {
-          const totalCosting = parseFloat(
-            this.PurchaseReturnDataById.slabDetails.purchaseCost
+          const totalCosting = this.PurchaseReturnDataById.slabDetails.reduce(
+            (sum, slab) => sum + parseFloat(slab.purchaseCost || 0), 
+            0
           );
-          this.returnMaxValue = parseFloat(
-            this.PurchaseReturnDataById.slabDetails.purchaseCost
-          );
+          this.returnMaxValue = totalCosting;
+          
           if (!isNaN(totalCosting)) {
             this.addPurchaseReturnForm.patchValue({
               purchaseGrossTotal: totalCosting,
@@ -157,6 +160,16 @@ export class AddPurchaseReturnComponent implements OnInit {
     });
   }
   addPurchaseReturnFormSubmit() {
+
+    // console.log('selectedSlabs',this.selectedSlabs)
+
+    if(this.selectedSlabs.length <= 0){
+      const message = "Oops! Please select Slab";
+      this.messageService.add({ severity: "error", detail: message });
+
+      return
+    }
+
     const payload = {
       purchaseReturnInvoiceNumber:
         this.addPurchaseReturnForm.value.purchaseReturnInvoiceNumber,
@@ -168,8 +181,9 @@ export class AddPurchaseReturnComponent implements OnInit {
       purchaseReturnTotalAmount:
         Number(this.addPurchaseReturnForm.value.purchaseReturnTotalAmount),
       purchaseGrossTotal: Number(this.addPurchaseReturnForm.value.purchaseGrossTotal),
-      purchaseReturnItemDetails: this.GridDataForSlab,
+      purchaseReturnItemDetails: this.selectedSlabs,
       // purchaseReturnOrderStatus: "Static",
+      
     };
     console.log(payload);
     if (this.addPurchaseReturnForm.valid) {

@@ -435,12 +435,25 @@
 
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
-                                <label for="subCategory">Sub Category <span class="login-danger">*</span></label>
-                                <p-dropdown [options]="subCategorListByCategory" styleClass="" appendTo="body"
-                                    placeholder="Select Sub Category" optionLabel="name" optionValue="_id"
-                                    [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false"
-                                    required [(ngModel)]="subCategory" name="subCategory"
-                                    #SUBCATEGORY="ngModel"></p-dropdown>
+                                <label for="subCategory">Sub Category<span class="login-danger">*</span></label>
+                                <p-dropdown 
+                                [options]="subCategorListByCategory" 
+                                styleClass="" 
+                                appendTo="body"
+                                placeholder="Select Sub Category" 
+                                optionLabel="name" 
+                                optionValue="_id" 
+                                (onChange)="getHsnCode($event.value)" 
+                                [style]="{ width: '100%' }" 
+                                [filter]="true" 
+                                filterBy="name" 
+                                [showClear]="false" 
+                                required 
+                                [(ngModel)]="subCategory" 
+                                name="subCategory" 
+                                #SUBCATEGORY="ngModel">
+                              </p-dropdown>
+                              
                                 <!-- <div *ngIf="SUBCATEGORY.invalid && (SUBCATEGORY.dirty || SUBCATEGORY.touched)">
                                         <div *ngIf="SUBCATEGORY.errors?.['required']">
                                             <span class="login-danger">Sub Category is required.</span>

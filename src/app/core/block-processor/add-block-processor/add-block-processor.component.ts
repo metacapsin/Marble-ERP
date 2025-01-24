@@ -50,6 +50,8 @@ export class AddBlockProcessorComponent implements OnInit{
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
       address: ["", [Validators.pattern(this.billingAddressRegex)]],
+      openingbalance: [0],
+      balanceType: ["Pay"],
     });
   }
   ngOnInit(): void {
@@ -66,6 +68,7 @@ export class AddBlockProcessorComponent implements OnInit{
       status: true, 
       phoneNo: this.addBlockProcessorForm.value.phoneNo,
       address: this.addBlockProcessorForm.value.address,
+      openingBalance:Number(this.addBlockProcessorForm.value.openingbalance),
     };
     
     if (this.addBlockProcessorForm.valid) {

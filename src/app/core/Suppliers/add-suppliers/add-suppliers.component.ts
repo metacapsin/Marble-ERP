@@ -49,6 +49,9 @@ export class AddSuppliersComponent {
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
+      openingbalance: [0],
+      balanceType: ["Pay"],
+      creditPeriodType:['Days']
       // shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
   }
@@ -62,8 +65,10 @@ export class AddSuppliersComponent {
       taxNo: this.addSupplierGroup.value.taxNumber,
       status: true,
       creditPeriod: this.addSupplierGroup.value.creditPeriod,
+      creditPeriodType:this.addSupplierGroup.value.creditPeriodType,
       creditLimit: Number(this.addSupplierGroup.value.creditLimit),
       billingAddress: this.addSupplierGroup.value.billingAddress,
+      openingBalance:Number(this.addSupplierGroup.value.openingbalance),
       // shippingAddress: this.addSupplierGroup.value.shippingAddress,
     };
     if (this.addSupplierGroup.value) {

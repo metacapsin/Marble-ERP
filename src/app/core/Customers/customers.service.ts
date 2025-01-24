@@ -19,6 +19,14 @@ export class CustomersdataService {
     return this.http.get(environment.apiUrl + `/Customer/getCustomerById/${id}`);
   }
 
+  GetOpeningBalanceById(id: any) {
+    return this.http.get(environment.apiUrl + `/Customer/getOpeningBalanceByPartyId/${id}`);
+  }
+
+  GetOpeningBalancePayListById(id: any) {
+    return this.http.get(environment.apiUrl + `/Customer/getOpeningBalancePaymentList/${id}`);
+  }
+
   UpDataCustomerApi(data: any) {
     return this.http.put(environment.apiUrl + `/Customer/updateCustomer`, data);
   }

@@ -108,7 +108,7 @@
                     <div class="form-group local-forms">
                       <label for="warehouseDetails">Date </label>
                       <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
-                        dateFormat="dd/mm/yy" [style]="{ width: '100%' }" placeholder="Start Date - End Date"
+                        dateFormat="dd/M/yy" [style]="{ width: '100%' }" placeholder="Start Date - End Date"
                         (ngModelChange)="onDateChange($event)" />
                     </div>
                   </div>
@@ -172,9 +172,10 @@
                     <td>{{ data.paymentDate | date : "dd-MMM-yyyy" }}</td>
                     <td>{{ data.transactionNo }}</td>
                     <td>{{ data.source }}</td>
-                    <td *ngIf="data.customer">{{ data?.customer.name }}</td>
+                    <td *ngIf="data.customer">{{ data?.receiver }}</td>
                     <td *ngIf="data.supplier">{{ data?.supplier.name }}</td>
-                    <td *ngIf="!data.supplier && !data.customer "></td>
+                  
+                    <td *ngIf="!data.supplier && !data.customer ">{{ data?.receiver || '-' }}</td>
                     <td>{{ data.paymentMode }}</td>
                     <td *ngIf="data.amount">{{'₹' + ' ' + data.amount }}</td>
                     <td *ngIf="!data.amount"></td>

@@ -116,7 +116,7 @@ export class AddSlabsComponent {
       blockProcessor: ["", [Validators.required]],
       warehouseDetails: ["", [Validators.required]],
       processingCost: [""],
-      totalCosting: [""],
+      totalCosting: ["0"],
       costPerSQFT: [""],
       date: ["", [Validators.required]],
       purchaseCost: [
@@ -130,15 +130,20 @@ export class AddSlabsComponent {
       noOfPieces: ["", [Validators.min(1), Validators.max(100000)]],
       height: ["", [Validators.min(1), Validators.max(500)]],
       sqftPerPiece: [""],
+      stockType: ["BlockToSlabConvert", Validators.required],
     });
   }
   get f() {
     return this.slabsAddForm.controls;
   }
+
+  slabTypeOptions = [
+    { label: "Block To Slab Convert", value: "BlockToSlabConvert" },
+    { label: "Opening Stock", value: "OpeningStock" },
+  ];
   ngOnInit(): void {
     this.currentUrl = this.router.url;
     console.log(this.currentUrl);
-    console.log("this is current url on slab page", this.currentUrl);
 
     this.ServiceblockProcessor.getAllBlockProcessorData().subscribe(
       (data: any) => {
@@ -198,6 +203,27 @@ export class AddSlabsComponent {
       });
       console.log(this.wareHousedataListsEditArray);
     });
+  }
+
+  onSlabTypeSelect(selectedValue: any): void {
+    if (selectedValue === "OpeningStock") {
+      this.slabsAddForm.get("blockProcessor")?.setValue("");
+      this.slabsAddForm.get("blockProcessor")?.clearValidators();
+      this.slabsAddForm.get("blockProcessor")?.updateValueAndValidity();
+      
+      this.slabsAddForm.get("lotDetails")?.setValue("");
+      this.slabsAddForm.get("lotDetails")?.clearValidators();
+      this.slabsAddForm.get("lotDetails")?.updateValueAndValidity();
+      
+      this.slabsAddForm.get("blockDetails")?.setValue("");
+      this.slabsAddForm.get("blockDetails")?.clearValidators();
+      this.slabsAddForm.get("blockDetails")?.updateValueAndValidity();
+      
+      this.slabsAddForm.get("processingFee")?.setValue("");
+      this.slabsAddForm.get("processingFee")?.clearValidators();
+      this.slabsAddForm.get("processingFee")?.updateValueAndValidity();
+      
+    }
   }
 
   findSubCategory(value: any) {
@@ -271,38 +297,51 @@ export class AddSlabsComponent {
   }
 
   calculateTotalAmount() {
+    console.log('call')
     // Get the displayed (rounded) purchase cost from the form control
     let purchaseCostDisplayed = parseFloat(
       this.slabsAddForm.get("purchaseCost").value
     );
 
     // Use the original, unrounded purchase cost for calculations
-    let purchaseCostOrg = this.originalPurchaseCost || purchaseCostDisplayed;
+    let purchaseCostOrg: number = this.originalPurchaseCost || purchaseCostDisplayed;
     // Gatting data with input
-    let processingFee = +this.slabsAddForm.get("processingFee").value;
+    let processingFee: number = this.slabsAddForm.get("processingFee").value || 0;
     let otherCharges: number = +this.slabsAddForm.get("otherCharges").value;
-    let totalSQFT = +this.slabsAddForm.get("totalSQFT").value;
+    let totalSQFT: number = +this.slabsAddForm.get("totalSQFT").value;
     let transportationCharges: number = +this.slabsAddForm.get(
       "transportationCharges"
     ).value;
 
-    console.log(purchaseCostOrg);
-    console.log(totalSQFT);
-    console.log(this.blockDropDownPerBlockWeight, this.blockDropDowntotleCost);
-    this.BlockWeight = this.blockDropDownPerBlockWeight;
-    console.log(this.BlockWeight);
+    // console.log(purchaseCostOrg);
+    // console.log(totalSQFT);
+    console.log('blockDropDownPerBlockWeight',this.blockDropDownPerBlockWeight);
+    this.BlockWeight = Number(this.blockDropDownPerBlockWeight) || 0;
+    // console.log(this.BlockWeight);
     // calculate for creating slabs
-    let processingCost = processingFee * this.BlockWeight;
-    let totalCosting =
-      +purchaseCostOrg + processingCost + otherCharges + transportationCharges;
+    let fee = processingFee || 0
+
+    console.log("processingFee:", fee);
+    console.log("this.BlockWeight:", this.BlockWeight);
+
+    let processingCost = Number(fee) * Number(this.BlockWeight);
+    console.log("purchaseCostOrg:", purchaseCostOrg);
+    console.log("processingCost:", processingCost);
+    console.log("otherCharges:", otherCharges);
+    console.log("transportationCharges:", transportationCharges);
+    
+    let totalCosting = Number(purchaseCostOrg) + Number(processingCost) + Number(otherCharges) + Number(transportationCharges);
+    console.log("totalCosting:", totalCosting);
+    
     let totalAmount: number = totalSQFT == 0 ? 0 : totalCosting / totalSQFT;
     let noOfPieces = this.slabsAddForm.get("noOfPieces").value || 0;
 
     let sqftPerPiece = totalSQFT / noOfPieces;
 
-    console.log("processingCost", processingCost);
-    console.log("totalCosting", purchaseCostOrg);
-    console.log("totalAmount", totalAmount);
+    // console.log("processingCost", processingCost);
+    // console.log("totalCosting", purchaseCostOrg);
+    // console.log("totalAmount", totalAmount)
+    console.log("totalCosting",totalCosting)
     this.slabsAddForm.patchValue({
       processingCost: processingCost,
       totalCosting: totalCosting.toFixed(4),
@@ -324,6 +363,8 @@ export class AddSlabsComponent {
     // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
 
+
+
   SlabsAddFormSubmit() {
     if (
       this.slabsAddForm.value.width ||
@@ -344,27 +385,42 @@ export class AddSlabsComponent {
     } else {
       const payload = {
         slabNo: this.slabsAddForm.value.slabNo,
-        lotDetails: this.slabsAddForm.value.lotDetails,
-        blockDetails: this.slabsAddForm.value.blockDetails,
+        lotDetails:
+          this.slabsAddForm.value.lotDetails === "null"
+            ? null
+            : this.slabsAddForm.value.lotDetails,
+        blockDetails:
+          this.slabsAddForm.value.blockDetails === "null"
+            ? null
+            : this.slabsAddForm.value.blockDetails,
         categoryDetail: this.slabsAddForm.value.categoryDetail,
         subCategoryDetail: this.slabsAddForm.value.subCategoryDetail,
         slabName: this.slabsAddForm.value.slabName,
-        processingFee: Number(this.slabsAddForm.value.processingFee),
         totalSQFT: this.slabsAddForm.value.totalSQFT,
-        purchaseCost: Number(this.originalPurchaseCost),
-        processingCost: Number(this.slabsAddForm.value.processingCost),
+        processingFee:
+          this.slabsAddForm.value.processingFee === "null"
+            ? 0
+            : Number(this.slabsAddForm.value.processingFee) || 0,
+        purchaseCost:
+          this.originalPurchaseCost || this.slabsAddForm.value.purchaseCost,
+        processingCost: Number(this.slabsAddForm.value.processingCost) || 0,
         otherCharges: Number(this.slabsAddForm.value.otherCharges),
         transportationCharges: Number(
           this.slabsAddForm.value.transportationCharges
         ),
-        totalCosting: Number(this.slabsAddForm.value.totalCosting),
+        totalCosting:
+          Number(this.slabsAddForm.value.totalCosting) ||
+          this.slabsAddForm.value.purchaseCost,
         costPerSQFT: Number(this.slabsAddForm.value.costPerSQFT),
         sellingPricePerSQFT: Number(
           this.slabsAddForm.value.sellingPricePerSQFT
         ),
 
         notes: this.slabsAddForm.value.notes,
-        blockProcessor: this.slabsAddForm.value.blockProcessor,
+        blockProcessor:
+          this.slabsAddForm.value.blockProcessor === "null"
+            ? null
+            : this.slabsAddForm.value.blockProcessor,
         warehouseDetails: this.slabsAddForm.value.warehouseDetails,
         date: this.slabsAddForm.value.date,
         width: this.slabsAddForm.value.width,
@@ -373,10 +429,21 @@ export class AddSlabsComponent {
         finishes: this.slabsAddForm.value.finishes,
         slabSize: _Size,
         sqftPerPiece: this.slabsAddForm.value.sqftPerPiece,
+        stockType: this.slabsAddForm.value.stockType,
       };
       if (this.slabsAddForm.valid) {
         // Api call for creating slab
         this.Service.CreateSlabs(payload).subscribe((resp: any) => {
+          console.log("resp", resp);
+
+          if (resp.status === "success") {
+            const message = "Slabs has been added";
+            this.messageService.add({ severity: "success", detail: message });
+            setTimeout(() => {
+              this.router.navigate(["/slabs"]);
+            }, 400);
+          }
+
           if (resp.lotResponse.status === "success") {
             const message = "Slabs has been added";
             this.messageService.add({ severity: "success", detail: message });

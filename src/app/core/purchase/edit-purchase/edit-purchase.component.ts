@@ -81,7 +81,7 @@ export class EditPurchaseComponent implements OnInit {
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
   addTaxTotal: any;
-  tandCRegex = /^(?:.{2,200})$/;
+  tandCRegex =  /^[\s\S]{2,100}$/;
   purchaseId: any;
   PurchaseListData: any;
   maxDate = new Date();
@@ -179,7 +179,7 @@ export class EditPurchaseComponent implements OnInit {
     });
   }
   patchForm(data) {
-    console.log(data);
+
     this.editPurchaseForm.patchValue({
       purchaseInvoiceNumber: data.purchaseInvoiceNumber,
       supplier: data.supplier,

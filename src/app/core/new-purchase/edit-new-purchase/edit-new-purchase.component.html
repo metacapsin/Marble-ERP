@@ -909,7 +909,7 @@
                                     </h5>
                                     <div class="col-lg-7 col-md-7 col-xl-7">
                                       <p class="col-form-label" *ngIf="editNewPurchaseForm
-                                      .get('taxVendorAmount')?.value">
+                                      .get('taxVendorAmount')?.value"> 
                                         {{ '₹' + ' ' +
                                         editNewPurchaseForm
                                         .get("taxVendorAmount")?.value 
@@ -1091,9 +1091,11 @@
                                 <h4>
                                   Total Purchase Cost
                                   <span>
-                                    {{ editNewPurchaseForm.get('purchaseTotalAmount')?.value
-                                    ? (editNewPurchaseForm.get('purchaseTotalAmount')?.value | number: '1.2-2')
-                                    : null }}
+                                    {{ editNewPurchaseForm.get("totalCosting")?.value
+                                    ? ('₹ ' + (editNewPurchaseForm.get("totalCosting")?.value | indianCurrency))
+                                    : ('₹ ' + (editNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |
+                                    indianCurrency))
+                                    }}
                                   </span>
                                 </h4>
                               </div>

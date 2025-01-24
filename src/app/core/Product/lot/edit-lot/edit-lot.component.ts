@@ -76,46 +76,61 @@ export class EditLotComponent {
     private ServiceblockProcessor: blockProcessorService,
     private taxService: TaxesService
   ) {
-    this.lotEditForm = this.fb.group({
-      lotNo: ["", [Validators.required, Validators.pattern(validationRegex.oneToFiftyCharRegex)]],
-      lotName: ["",
-        [
-          Validators.required,
-          Validators.pattern(validationRegex.oneToFiftyCharRegex),
+    this.lotEditForm = this.fb.group(
+      {
+        lotNo: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(validationRegex.oneToFiftyCharRegex),
+          ],
         ],
-      ],
-      vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
-      warehouse: ["", [Validators.required]],
-      lotWeight: [
-        "",
-        [Validators.required, Validators.min(1), Validators.max(10000)],
-      ],
-      pricePerTon: [
-        "",
-        [Validators.required, Validators.min(1), Validators.max(1000000)],
-      ],
-      paidToSupplierLotCost: ["", [Validators.required]],
-      purchaseDiscount: ["", [Validators.min(0),]],
-      transportationCharge: ["", [Validators.min(0), Validators.max(100000)]],
-      royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
-      lotRowCost: [""],
-      blocksCount: [""],
-      averageWeight: [""],
-      nonTaxableAmount: [""],
-      taxableAmount: [""],
-      ItemTax: [""],
-      taxable: [""],
-      taxApplied: [""],
-      averageTransport: [""],
-      averageRoyalty: [""],
-      categoryDetail: ["", [Validators.required]],
-      subCategoryDetail: ["", [Validators.required]],
-      totalTransportationCharges: [""],
-    }, { validators: atLeastOneRequiredValidator() });
+        lotName: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(validationRegex.oneToFiftyCharRegex),
+          ],
+        ],
+        vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
+        warehouse: ["", [Validators.required]],
+        lotWeight: [
+          "",
+          [Validators.required, Validators.min(1), Validators.max(10000)],
+        ],
+        pricePerTon: [
+          "",
+          [Validators.required, Validators.min(1), Validators.max(1000000)],
+        ],
+        paidToSupplierLotCost: ["", [Validators.required]],
+        purchaseDiscount: ["", [Validators.min(0)]],
+        transportationCharge: ["", [Validators.min(0), Validators.max(100000)]],
+        royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
+        lotRowCost: [""],
+        blocksCount: [""],
+        averageWeight: [""],
+        nonTaxableAmount: [""],
+        taxableAmount: [""],
+        ItemTax: [""],
+        taxable: [""],
+        taxApplied: [""],
+        averageTransport: [""],
+        averageRoyalty: [""],
+        categoryDetail: ["", [Validators.required]],
+        subCategoryDetail: ["", [Validators.required]],
+        totalTransportationCharges: [""],
+      },
+      { validators: atLeastOneRequiredValidator() }
+    );
   }
   ngOnInit(): void {
-    this.previouslotData = this.NewPurchaseService.getFormData("stepFirstLotData");
-
+    this.previouslotData =
+      this.NewPurchaseService.getFormData("stepFirstLotData");
+      // if(this.previouslotData){
+      //   this.patchLotValue();
+      // }
+      
+console.log('this.previouslotData',this.previouslotData)
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data.map((element: any) => ({
         name: element.name,
@@ -124,7 +139,6 @@ export class EditLotComponent {
           _id: element._id,
         },
       }));
-
     });
     this.categoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
@@ -141,8 +155,16 @@ export class EditLotComponent {
     });
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.allSubCategoryList = resp.data;
-      if(this.allSubCategoryList && this.previouslotData){
-        this.findSubCategory(this.previouslotData?.categoryDetail)
+      console.log('sub cate', this.allSubCategoryList)
+      if (this.allSubCategoryList && this.previouslotData) {
+
+        if(this.previouslotData?.lotDetails){
+          this.findSubCategory(this.previouslotData?.lotDetails?.categoryDetail);
+        }else{
+          this.findSubCategory(this.previouslotData?.categoryDetail);
+        }
+
+       
       }
     });
 
@@ -182,47 +204,90 @@ export class EditLotComponent {
     // this.findSubCategory(this.previouslotData?.categoryDetail)
   }
 
-  patchLotValue() {
+  // patchLotValue() {
+  //   if (this.previouslotData) {
+  //     this.blocksDetails = this.previouslotData?.lotDetails?.blockDetails 
+  //     this.blocksDetails?.forEach((element) => {
+  //       this.totalBlocksArea += element.totalArea;
+  //     });
+  //     console.log("this.previouslotData>>", this.previouslotData);
+  //     this.lotEditForm.patchValue({
+  //       lotNo: this.previouslotData.lotDetails.lotNo,
+  //       lotName: this.previouslotData.lotDetails.lotName,
+  //       vehicleNo: this.previouslotData.lotDetails.vehicleNo,
+  //       warehouse: this.previouslotData.lotDetails.warehouseDetails,
+  //       invoiceNo: this.previouslotData.lotDetails.invoiceNo,
+  //       lotWeight: this.previouslotData.lotDetails.lotWeight,
+  //       pricePerTon: this.previouslotData.lotDetails.pricePerTon,
+  //       paidToSupplierLotCost: this.previouslotData.lotDetails.paidToSupplierLotCost,
+  //       transportationCharge:
+  //         this.previouslotData.lotDetails.transportationCharge == 0
+  //           ? null
+  //           : this.previouslotData.lotDetails.transportationCharge,
+  //       royaltyCharge:
+  //         this.previouslotData.lotDetails.royaltyCharge == 0
+  //           ? null
+  //           : this.previouslotData.lotDetails.royaltyCharge,
+  //       notes: this.previouslotData.lotDetails.notes,
+  //       blocksCount: this.previouslotData.lotDetails.blocksCount,
+  //       averageWeight: this.previouslotData.lotDetails.averageWeight,
+  //       averageTransport: this.previouslotData.lotDetails.averageTransport,
+  //       averageRoyalty: this.previouslotData.lotDetails.averageRoyalty,
+  //       averageTaxAmount: this.previouslotData.lotDetails.averageTaxAmount,
+  //       lotRowCost: this.previouslotData.lotDetails.lotRowCost,
+  //       purchaseDiscount: this.previouslotData.lotDetails.purchaseDiscount,
+  //       taxableAmount: this.previouslotData.taxableAmount,
+  //       nonTaxableAmount: this.previouslotData.lotDetails.nonTaxableAmount,
+  //       taxable: this.previouslotData.lotDetails.taxable,
+  //       ItemTax: this.previouslotData.purchaseItemTax,
+  //       taxApplied: this.previouslotData.lotDetails.taxApplied,
+  //       categoryDetail: this.previouslotData.lotDetails.categoryDetail,
+  //       subCategoryDetail: this.previouslotData.lotDetails.subCategoryDetail?._id,
+  //     });
+  //   }
+  //   this.calculateTotalAmount();
+  // }
+
+  patchLotValue(category:any) {
     if (this.previouslotData) {
-      this.blocksDetails = this.previouslotData.blockDetails;
-      this.blocksDetails.forEach((element) => {
+      this.blocksDetails = this.previouslotData?.lotDetails ? this.previouslotData?.lotDetails?.blockDetails : this.previouslotData?.blockDetails;
+      this.blocksDetails?.forEach((element) => {
         this.totalBlocksArea += element.totalArea;
       });
-
+      console.log("this.previouslotData>>", this.previouslotData);
+      const lotDetails = this.previouslotData.lotDetails || {}; // Fallback object for lotDetails
       this.lotEditForm.patchValue({
-        lotNo: this.previouslotData.lotNo,
-        lotName: this.previouslotData.lotName,
-        vehicleNo: this.previouslotData.vehicleNo,
-        warehouse: this.previouslotData.warehouseDetails,
-        invoiceNo: this.previouslotData.invoiceNo,
-        lotWeight: this.previouslotData.lotWeight,
-        pricePerTon: this.previouslotData.pricePerTon,
-        paidToSupplierLotCost: this.previouslotData.paidToSupplierLotCost,
-        transportationCharge:
-          this.previouslotData.transportationCharge == 0
-            ? null
-            : this.previouslotData.transportationCharge,
-        royaltyCharge:
-          this.previouslotData.royaltyCharge == 0 ? null : this.previouslotData.royaltyCharge,
-        notes: this.previouslotData.notes,
-        blocksCount: this.previouslotData.blocksCount,
-        averageWeight: this.previouslotData.averageWeight,
-        averageTransport: this.previouslotData.averageTransport,
-        averageRoyalty: this.previouslotData.averageRoyalty,
-        averageTaxAmount: this.previouslotData.averageTaxAmount,
-        lotRowCost: this.previouslotData.lotRowCost,
-        purchaseDiscount: this.previouslotData.purchaseDiscount,
+        lotNo: lotDetails.lotNo || this.previouslotData.lotNo,
+        lotName: lotDetails.lotName || this.previouslotData.lotName,
+        vehicleNo: lotDetails.vehicleNo || this.previouslotData.vehicleNo,
+        warehouse: lotDetails.warehouseDetails || this.previouslotData.warehouseDetails,
+        invoiceNo: lotDetails.invoiceNo || this.previouslotData.invoiceNo,
+        lotWeight: lotDetails.lotWeight || this.previouslotData.lotWeight,
+        pricePerTon: lotDetails.pricePerTon || this.previouslotData.pricePerTon,
+        paidToSupplierLotCost: lotDetails.paidToSupplierLotCost || this.previouslotData.paidToSupplierLotCost,
+        transportationCharge: lotDetails.transportationCharge || this.previouslotData.transportationCharge || null,
+        royaltyCharge: lotDetails.royaltyCharge || this.previouslotData.royaltyCharge || null,
+        notes: lotDetails.notes || this.previouslotData.notes,
+        blocksCount: lotDetails.blocksCount || this.previouslotData.blocksCount,
+        averageWeight: lotDetails.averageWeight || this.previouslotData.averageWeight,
+        averageTransport: lotDetails.averageTransport || this.previouslotData.averageTransport,
+        averageRoyalty: lotDetails.averageRoyalty || this.previouslotData.averageRoyalty,
+        averageTaxAmount: lotDetails.averageTaxAmount || this.previouslotData.averageTaxAmount,
+        lotRowCost: lotDetails.lotRowCost || this.previouslotData.lotRowCost,
+        purchaseDiscount: lotDetails.purchaseDiscount || this.previouslotData.purchaseDiscount,
         taxableAmount: this.previouslotData.taxableAmount,
-        nonTaxableAmount: this.previouslotData.nonTaxableAmount,
-        taxable: this.previouslotData.taxable,
+        nonTaxableAmount: lotDetails.nonTaxableAmount || this.previouslotData.nonTaxableAmount,
+        taxable: lotDetails.taxable || this.previouslotData.taxable,
         ItemTax: this.previouslotData.purchaseItemTax,
-        taxApplied: this.previouslotData.taxApplied,
-        categoryDetail: this.previouslotData.categoryDetail,
-        subCategoryDetail: this.previouslotData.subCategoryDetail,
+        taxApplied: lotDetails.taxApplied || this.previouslotData.taxApplied,
+        categoryDetail:category || this.previouslotData.categoryDetail,
+        subCategoryDetail: lotDetails.subCategoryDetail?._id || this.previouslotData.subCategoryDetail?._id,
       });
+      // this.previouslotData ={}
     }
     this.calculateTotalAmount();
   }
+  
   addBlockDialog() {
     this.blockNo = "";
     this.height = null;
@@ -289,24 +354,55 @@ export class EditLotComponent {
     myForm.resetForm();
   }
 
+  // findSubCategory(value: any) {
+  //   console.log('value',value)
+  //   this.lotEditForm.get("subCategoryDetail").reset();
+  //   let SubCategoryData = [];
+  
+  //   console.log('this.allSubCategoryList',this.allSubCategoryList)
+  //   let rec = this.previouslotData?.lotDetails ? this.previouslotData?.lotDetails?.subCategoryDetail : this.previouslotData?.subCategoryDetail
+  //   console.log('rec',rec)
+  //   SubCategoryData = this.allSubCategoryList?.filter(
+  //     (e) => e.categoryId._id == value?._id 
+  //   );
+
+  //   console.log('SubCategoryData',SubCategoryData)
+  //   this.subCategorListByCategory = SubCategoryData?.map((e) => ({
+  //     name: e.name,
+  //     _id: {
+  //       _id: e._id,
+  //       name: e.name,
+  //     },
+  //   }));
+
+  //   // Add by ravi for subcategory map
+  //   // this.subCategorListByCategory = this.allSubCategoryList?.filter(
+  //   //   (e) => e._id == rec?._id
+  //   // );
+  //   console.log('this.subCategorListByCategory ',this.subCategorListByCategory )
+  //   if (this.previouslotData) {
+  //     this.patchLotValue(value);
+  //   }
+  // }
+
   findSubCategory(value: any) {
+    console.log('value>',value)
     let SubCategoryData = []
     this.lotEditForm.get("subCategoryDetail").reset();
     SubCategoryData = this.allSubCategoryList?.filter(
-      (e) => e.categoryId._id == value._id
+      (e) => e.categoryId._id == value?._id
     );
+    console.log('SubCategoryData',SubCategoryData)
     this.subCategorListByCategory = SubCategoryData?.map((e) => ({
       name: e.name,
-      _id: {
-        _id: e._id,
-        name: e.name,
-      },
+      _id: e._id
     }));
+
+    console.log('this.subCategorListByCategory',this.subCategorListByCategory)
     if (this.previouslotData) {
-      this.patchLotValue()
+      this.patchLotValue(value)
     }
   }
-
 
   getblockDetails() {
     if (
@@ -322,11 +418,13 @@ export class EditLotComponent {
     this.totalArea = this.height * this.width * this.length;
   }
   calculateTotalAmount() {
+    console.log('this.lotEditForm',this.lotEditForm.value)
     const form = this.lotEditForm;
     const lotWeight = Number(form.get("lotWeight")?.value) || 0;
     const pricePerTon = Number(form.get("pricePerTon")?.value) || 0;
     const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
-    const transportationCharge = Number(form.get("transportationCharge")?.value) || 0;
+    const transportationCharge =
+      Number(form.get("transportationCharge")?.value) || 0;
     const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
     const tax = form.get("ItemTax")?.value || [];
     let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
@@ -335,9 +433,10 @@ export class EditLotComponent {
     if (lotWeight && pricePerTon) {
       const lotWeightmultiPricePerton = lotWeight * pricePerTon;
       this.rowCosting = lotWeightmultiPricePerton;
-      nonTaxableAmount = taxableAmount && taxableAmount <= lotWeightmultiPricePerton
-        ? lotWeightmultiPricePerton - taxableAmount
-        : lotWeightmultiPricePerton;
+      nonTaxableAmount =
+        taxableAmount && taxableAmount <= lotWeightmultiPricePerton
+          ? lotWeightmultiPricePerton - taxableAmount
+          : lotWeightmultiPricePerton;
 
       this.maxPurchaseAmount = lotWeightmultiPricePerton - 10000;
 
@@ -372,7 +471,9 @@ export class EditLotComponent {
     const paidToSupplierLotAmount = taxable + nonTaxableAmount;
 
     form.patchValue({
-      paidToSupplierLotCost: paidToSupplierLotAmount ? Number(paidToSupplierLotAmount).toFixed(2) : 0,
+      paidToSupplierLotCost: paidToSupplierLotAmount
+        ? Number(paidToSupplierLotAmount).toFixed(2)
+        : 0,
       lotRowCost: Number(lotRowCost),
       taxable: Number(taxable).toFixed(2),
       taxApplied: Number(taxApplied).toFixed(2),
@@ -387,9 +488,13 @@ export class EditLotComponent {
     this.blocksDetails.forEach((element: any) => {
       element.weightPerBlock = element.totalArea / averageBlocksWeight;
       element.rawCosting = element.weightPerBlock * blockPricePerTon;
-      element.transportationCosting = element.weightPerBlock * averageTransportation;
+      element.transportationCosting =
+        element.weightPerBlock * averageTransportation;
       element.royaltyCosting = element.weightPerBlock * averageRoyalty;
-      element.totalCosting = element.rawCosting + element.transportationCosting + element.royaltyCosting;
+      element.totalCosting =
+        element.rawCosting +
+        element.transportationCosting +
+        element.royaltyCosting;
     });
 
     form.patchValue({
@@ -403,9 +508,18 @@ export class EditLotComponent {
   }
 
   setValidations() {
-    this.lotEditForm.get("taxableAmount")?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
-    this.lotEditForm.get("nonTaxableAmount")?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
-    this.lotEditForm.get("purchaseDiscount")?.setValidators([Validators.min(0), Validators.max(this.maxPurchaseAmount)]);
+    this.lotEditForm
+      .get("taxableAmount")
+      ?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
+    this.lotEditForm
+      .get("nonTaxableAmount")
+      ?.setValidators([Validators.min(0), Validators.max(this.rowCosting)]);
+    this.lotEditForm
+      .get("purchaseDiscount")
+      ?.setValidators([
+        Validators.min(0),
+        Validators.max(this.maxPurchaseAmount),
+      ]);
     this.lotEditForm.get("purchaseDiscount")?.updateValueAndValidity;
     this.lotEditForm.get("nonTaxableAmount")?.updateValueAndValidity;
     this.lotEditForm.get("taxableAmount")?.updateValueAndValidity;
@@ -417,6 +531,10 @@ export class EditLotComponent {
       this.blocksDetails.forEach((e: any) => {
         this.lotTotalCost += e.totalCosting;
       });
+      console.log('formdata>>>',formData)
+
+      let subcate = this.allSubCategoryList.filter((i)=> i._id === formData?.subCategoryDetail)
+      console.log('subcate',subcate)
       const payload = {
         lotNo: formData.lotNo,
         lotName: formData.lotName,
@@ -443,9 +561,10 @@ export class EditLotComponent {
         purchaseItemTax: formData.ItemTax,
         taxApplied: Number(formData.taxApplied),
         categoryDetail: formData.categoryDetail,
-        subCategoryDetail: formData.subCategoryDetail,
+        subCategoryDetail:subcate[0],
         totalTransportationCharges: Number(formData.totalTransportationCharges),
       };
+      console.log('payload',payload)
       this.NewPurchaseService.setFormData("stepFirstLotData", payload);
     }
   }

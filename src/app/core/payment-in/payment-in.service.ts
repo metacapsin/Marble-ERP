@@ -22,12 +22,14 @@ export class PaymentInService {
   getPaymentList() {
     return this.http.get(environment.apiUrl + "/Sales/getPaymentList");
   }
-
+  getLatestPaymentList() {
+    return this.http.get(environment.apiUrl + "/DashboardController/getCombinedPaymentList");
+  }
   // getSalesByCustomerId(id: any) {
   //   return this.http.get(environment.apiUrl + "/Sales/getSalesByCustomerId/" + id)
   // }
   getSalesByCustomerId(id: any) {
-    return this.http.get(environment.apiUrl + "/Sales/getPendingSalesByCustomerId/" + id)
+    return this.http.get(environment.apiUrl + "/Dashboard/getPendingSalesByCustomerId/" + id)
   }
   
   deletePaymentById(id: any) {

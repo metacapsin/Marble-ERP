@@ -56,6 +56,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   @Input() dataById: any = [];
   @Input() dataItemsGrid: any;
   @Input() header: any;
+  @Output() formSubmitted = new EventEmitter<void>();
   @Output() callbackModalForPayment = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();
   paymentInvoiceForm: FormGroup;
@@ -101,7 +102,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       paymentMode: ["", [Validators.required]],
       note: [""],
       totalAmount: [
-        "",
+        this.dataById.salesDueAmount,
         [
           Validators.required,
           Validators.min(0),
@@ -165,13 +166,13 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   }
   // Populate taxable and non-taxable amounts when an invoice is selected
   onInvoiceNumberSelect(invoiceId: any) {
-    console.log("invoiceId on invoice number select", invoiceId);
+    // console.log("invoiceId on invoice number select", invoiceId);
     this.invoiceDataByInvoiceId = invoiceId;
-    console.log("data on invoice select", this.invoiceDataByInvoiceId);
+    // console.log("data on invoice select", this.invoiceDataByInvoiceId);
     const selectedInvoice = this.invoiceNumberList.find(
       (invoice) => invoice.value === invoiceId.value
     );
-    console.log("selected invoice", selectedInvoice);
+    // console.log("selected invoice", selectedInvoice);
     const taxablePaymentAmountControl = this.paymentInvoiceForm.get(
       "taxablePaymentAmount"
     );
@@ -183,18 +184,18 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     const customerNonTaxableDue = this.dataById.nonTaxableDue; // Customer non-taxable due
 
     if (selectedInvoice) {
-      console.log("Selected Invoice Taxable Due:", selectedInvoice.taxableDue);
-      console.log(
-        "Selected Invoice Non-Taxable Due:",
-        selectedInvoice.nonTaxableDue
-      );
-      console.log("Customer Taxable Due:", customerTaxableDue);
-      console.log("Customer Non-Taxable Due:", customerNonTaxableDue);
-      console.log("Supplier total due amount:", selectedInvoice.dueAmount);
+      // console.log("Selected Invoice Taxable Due:", selectedInvoice.taxableDue);
+      // console.log(
+      //   "Selected Invoice Non-Taxable Due:",
+      //   selectedInvoice.nonTaxableDue
+      // );
+      // console.log("Customer Taxable Due:", customerTaxableDue);
+      // console.log("Customer Non-Taxable Due:", customerNonTaxableDue);
+      // console.log("Supplier total due amount:", selectedInvoice.dueAmount);
 
       if (selectedInvoice.taxVendor) {
         // If taxVendor exists, only patch non-taxable amount
-        console.log("TaxVendor exists");
+        // console.log("TaxVendor exists");
 
         // Check if dueAmount is non-taxable
         // const isNonTaxableDue =
@@ -231,10 +232,10 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           selectedInvoice.taxableDue > 0 &&
           selectedInvoice.taxableDue < customerTaxableDue
         ) {
-          console.log(
-            "Patching taxable amount with invoice due:",
-            selectedInvoice.taxableDue
-          );
+          // console.log(
+          //   "Patching taxable amount with invoice due:",
+          //   selectedInvoice.taxableDue
+          // );
           taxablePaymentAmountControl.patchValue(
             Number(selectedInvoice.taxableDue)
           );
@@ -248,17 +249,17 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           selectedInvoice.nonTaxableDue > 0 &&
           selectedInvoice.nonTaxableDue < customerNonTaxableDue
         ) {
-          console.log(
-            "Patching non-taxable amount with invoice due:",
-            selectedInvoice.nonTaxableDue
-          );
+          // console.log(
+          //   "Patching non-taxable amount with invoice due:",
+          //   selectedInvoice.nonTaxableDue
+          // );
           nonTaxablePaymentAmountControl.patchValue(
             Number(selectedInvoice.nonTaxableDue)
           );
         } else {
-          console.log(
-            "No need to patch non-taxable amount, customer due is less or equal."
-          );
+          // console.log(
+          //   "No need to patch non-taxable amount, customer due is less or equal."
+          // );
         }
       }
     } else {
@@ -404,7 +405,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   paymentInvoiceFormSubmit() {
     const formData = this.paymentInvoiceForm.value;
 
-    if (this.dataById.isSalesReturn) {
+    if (this.dataById.isSalesReturn && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
       const payload = {
         customer: this.dataById.customer,
         paymentDate: formData.paymentDate,
@@ -440,7 +441,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       }
     }
 
-    if (this.dataById.isSales) {
+    if (this.dataById.isSales && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
       console.log("this is sales payment forms", this.paymentInvoiceForm.value);
       console.log("form status", this.paymentInvoiceForm.status); // Check if the form is invalid or valid
 
@@ -610,7 +611,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     }
     // console.log(this.dataById.isPurchase);
     // for create purchase payment
-    if (this.dataById.isPurchase) {
+    if (this.dataById.isPurchase && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
       console.log("this.dataById", this.dataById);
       console.log("dataItemsGrid", this.dataItemsGrid);
 
@@ -706,7 +707,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     }
 
     //For slab Processing Payment
-    if (this.dataById.isSlabProcessing) {
+    if (this.dataById.isSlabProcessing && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
       const payload = {
         processor: this.dataById.customer,
         paymentDate: formData.paymentDate,
@@ -744,5 +745,41 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
         console.log("invalid form");
       }
     }
+
+    if (this.dataById.salesInvoiceNumber === 'Opening Balance') {
+      const payload = {
+        _id:this.dataById.customerId,
+        paymentAmount:formData.totalAmount,
+        paymentDate: formData.paymentDate,
+        paymentMode: formData.paymentMode,
+        note: formData.note,
+      };
+      if (this.paymentInvoiceForm.valid) {
+        this.blockProcessorService
+          .createOpeningBal(payload)
+          .subscribe((resp: any) => {
+            console.log(resp);
+            if (resp) {
+              if (resp.status === "success") {
+                const message = "Opening Balance Payment has been added";
+                this.messageService.add({
+                  severity: "success",
+                  detail: message,
+                });
+                setTimeout(() => {
+                  this.close.emit();
+                  this.paymentInvoiceForm.reset();
+                }, 400);
+              } else {
+                const message = resp.message;
+                this.messageService.add({ severity: "error", detail: message });
+              }
+            }
+          });
+      } else {
+        console.log("invalid form");
+      }
+    }
+    this.formSubmitted.emit();
   }
 }

@@ -119,9 +119,17 @@
                     <div class="form-group local-forms">
                       <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
                       <div class="input-group">
-                        <input class="form-control" type="number" placeholder formControlName="creditPeriod" />
+                        <input class="form-control w-75" type="number" placeholder formControlName="creditPeriod" />
+                        
                         <div class="input-group-prepend">
-                          <span class="input-group-text" style="font-size: 12px">Days</span>
+                          
+                            <label for="creditPeriodType">Credit Period</label>
+                            <select class="form-control" id="creditPeriodType"  formControlName="creditPeriodType">
+                              <option selected value="Days">Days</option>
+                              <option value="Month">Month</option>
+                            </select>
+                         
+                          <!-- <span class="input-group-text" style="font-size: 12px">Days</span> -->
                         </div>
                       </div>
                       <div *ngIf="
@@ -143,7 +151,8 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-6 col-xl-6">
+                  <!-- hide by ravi -->
+                  <!-- <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
                       <div class="input-group">
@@ -169,13 +178,13 @@
                         Credit amount cannot not be more than 7 digit number.
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="billingAddress">Billing Address</label>
                       <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
-                        formControlName="billingAddress" rows="5"></textarea>
+                        formControlName="billingAddress" rows="2"></textarea>
 
                       <div *ngIf="
                           addSupplierGroup
@@ -185,6 +194,24 @@
                         ">
                         <span class="login-danger">Billing Address Must be between 3 to 500 characters</span>
                       </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 d-flex col-xl-6">
+                    <div class="form-group local-forms w-100">
+                      <label for="openingbalance">Opening Balance</label>
+                      <input 
+                        class="form-control" 
+                        type="Number"
+                        placeholder="Please Enter Opening Balance"
+                        formControlName="openingbalance" 
+                        rows="1" />
+                     
+                    </div>
+                    <div class="form-group local-forms w-100">
+                      <label for="balanceType">Balance Type</label>
+                      <select class="form-control" id="balanceType"  formControlName="balanceType">
+                        <option selected>Pay</option>
+                      </select>
                     </div>
                   </div>
 

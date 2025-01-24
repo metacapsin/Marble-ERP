@@ -52,14 +52,7 @@
                     <p class="col-form-label">{{ data.name }}</p>
                   </div>
                 </div>
-                <div class="form-group row mb-2" *ngIf="data.email">
-                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                    Email
-                  </h5>
-                  <div class="col-lg-8 col-md-8 col-xl-8">
-                    <p class="col-form-label">{{ data.email }}</p>
-                  </div>
-                </div>
+              
                 <div class="form-group row mb-2" *ngIf="data.creditPeriod">
                   <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Credit Period
@@ -76,7 +69,17 @@
                     <p class="col-form-label">{{ data.billingAddress }}</p>
                   </div>
                 </div>
+                <div class="form-group row mb-2" *ngIf="data.openingBalance">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                   Opening Balance
+                  </h5>
+                  <div class="col-lg-8 col-md-8 col-xl-8">
+                    <p class="col-form-label">{{ data.openingBalance }}</p>
+                  </div>
+                </div>
+              
               </div>
+           
               <div class="col-xl-6 col-lg-6 col-sm-12" *ngIf="data.phoneNo">
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
@@ -84,6 +87,22 @@
                   </h5>
                   <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.phoneNo }}</p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2" *ngIf="data.email">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                    Email
+                  </h5>
+                  <div class="col-lg-8 col-md-8 col-xl-8">
+                    <p class="col-form-label">{{ data.email }}</p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2" *ngIf="dueBalance && dueBalance.dueAmount">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                    Due Opening Balance
+                  </h5>
+                  <div class="col-lg-8 col-md-8 col-xl-8">
+                    <p class="col-form-label">{{ dueBalance.dueAmount }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.taxNo">
@@ -191,6 +210,35 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-purchase>
+              <tr class="bg-light font-weight-bold" *ngIf="dueBalance">
+                <td>Opening Balance</td>
+                <td>{{ dueBalance.createdOn | date: "dd-MMM-yyyy" }}</td>
+                <!-- <td>{{ dueBalance.creditPeriod || 0 }} Days</td> -->
+                <td *ngIf="dueBalance.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                    value="Partial Paid"></p-tag></td>
+                <td *ngIf="dueBalance.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
+                <td *ngIf="dueBalance.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
+                <td>₹ {{ dueBalance.paidAmount | indianCurrency }}</td>
+                <td>₹ {{ dueBalance.dueAmount | indianCurrency }}</td>
+                <td>₹ {{ dueBalance.totalAmount | indianCurrency }}</td>
+                <td appShowHide [roles]="['admin', 'super-admin']">
+                  <div class="action-buttons">
+                    <!-- <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"
+                      pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
+                      <p-button [text]="true" 
+                      pTooltip="View" ></p-button>
+                    <p-button *ngIf="dueBalance.paymentStatus == 'Unpaid' || dueBalance.paymentStatus ==  'Partial Paid'"
+                      [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(dueBalance._id,'duebalance')" pTooltip="Payment"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    <div *ngIf="dueBalance.paymentStatus != 'Unpaid' && dueBalance.paymentStatus != 'Partial Paid'"
+                      class="placeholder"></div>
+                      <p-button [text]="true" 
+                      pTooltip="View" ></p-button>
+                    <!-- <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteOpeningBlnc(dueBalance._id)" pTooltip="Delete"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
+                  </div>
+                </td>
+              </tr>
               <tr>
                 <td>{{ purchase.purchaseInvoiceNumber }}</td>
                 <td>{{ purchase.purchaseDate | date : "dd-MMM-yyyy" }}</td>
@@ -219,8 +267,8 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                         purchase.paymentStatus == 'Unpaid' ||
                         purchase.paymentStatus == 'Partial Paid ' ||
                         purchase.paymentStatus == 'Partial Paid'
-                      " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id)"
-                      pTooltip="Payment" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      " [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(purchase._id ,'purchase')"
+                      pTooltip="Payment" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> 
                     <div *ngIf="purchase.paymentStatus == 'Paid'" class="placeholder"></div>
                     <p-button [text]="true" icon="fa-solid fa-trash" (click)="deletePurchase(purchase._id)"
                       pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
@@ -229,7 +277,36 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
               </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
-              <tr>
+              <tr class="bg-light font-weight-bold" *ngIf="dueBalance">
+                <td>Opening Balance</td>
+                <td>{{ dueBalance.createdOn | date: "dd-MMM-yyyy" }}</td>
+                <!-- <td>{{ dueBalance.creditPeriod || 0 }} Days</td> -->
+                <td *ngIf="dueBalance.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                    value="Partial Paid"></p-tag></td>
+                <td *ngIf="dueBalance.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
+                <td *ngIf="dueBalance.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
+                <td>₹ {{ dueBalance.paidAmount | indianCurrency }}</td>
+                <td>₹ {{ dueBalance.dueAmount | indianCurrency }}</td>
+                <td>₹ {{ dueBalance.totalAmount | indianCurrency }}</td>
+                <td appShowHide [roles]="['admin', 'super-admin']">
+                  <div class="action-buttons">
+                    <!-- <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"
+                      pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
+                      <p-button [text]="true" 
+                      pTooltip="View" ></p-button>
+                    <p-button *ngIf="dueBalance.paymentStatus == 'Unpaid' || dueBalance.paymentStatus ==  'Partial Paid'"
+                      [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(dueBalance._id,'duebalance')" pTooltip="Payment"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    <div *ngIf="dueBalance.paymentStatus != 'Unpaid' && dueBalance.paymentStatus != 'Partial Paid'"
+                      class="placeholder"></div>
+                      <p-button [text]="true" 
+                      pTooltip="View" ></p-button>
+                    <!-- <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteOpeningBlnc(dueBalance._id)" pTooltip="Delete"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="!dueBalance">
                 <td colspan="8" class="text-center">
                   No purchase records found.
                 </td>
@@ -370,6 +447,39 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-product>
+              <tr *ngFor="let item of openingBalPayList">
+                <!-- <td>
+                  <p-button
+                    type="button"
+                    pRipple
+                    (onClick)="toggleRow(item)"
+                    [text]="true"
+                    [rounded]="true"
+                    [plain]="true"
+                    [icon]="
+                      item.expanded
+                        ? 'fa-solid fa-chevron-down'
+                        : 'fa-solid fa-angle-right'
+                    "
+                  ></p-button>
+                </td> -->
+                <td></td>
+                <td>{{ 'Opening Balance' }}</td>
+                <td>{{ item.transactionNo }}</td>
+                <td>{{ item.paymentDate | date: 'dd-MMM-yyyy' }}</td>
+                <td>{{ item.paymentMode }}</td>
+                <td>₹ {{ item.amount | indianCurrency }}</td>
+                <td>
+                  <p-button
+                    [text]="true"
+                    icon="fa fa-trash"
+                    (click)="deleteOpeningBalnc(item._id)"
+                    pTooltip="Delete"
+                    tooltipPosition="bottom"
+                    tooltipStyleClass="tooltip"
+                  ></p-button>
+                </td>
+              </tr>
               <tr>
                 <td>
                   <p-button type="button" pRipple (onClick)="toggleRow(product)" [text]="true" [rounded]="true"
@@ -463,7 +573,40 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
     </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
-      <tr>
+      <tr *ngFor="let item of openingBalPayList">
+        <!-- <td>
+          <p-button
+            type="button"
+            pRipple
+            (onClick)="toggleRow(item)"
+            [text]="true"
+            [rounded]="true"
+            [plain]="true"
+            [icon]="
+              item.expanded
+                ? 'fa-solid fa-chevron-down'
+                : 'fa-solid fa-angle-right'
+            "
+          ></p-button>
+        </td> -->
+        <td></td>
+        <td>{{ 'Opening Balance' }}</td>
+        <td>{{ item.transactionNo }}</td>
+        <td>{{ item.paymentDate | date: 'dd-MMM-yyyy' }}</td>
+        <td>{{ item.paymentMode }}</td>
+        <td>₹ {{ item.amount | indianCurrency }}</td>
+        <td>
+          <p-button
+            [text]="true"
+            icon="fa fa-trash"
+            (click)="deleteOpeningBalnc(item._id)"
+            pTooltip="Delete"
+            tooltipPosition="bottom"
+            tooltipStyleClass="tooltip"
+          ></p-button>
+        </td>
+      </tr>
+      <tr *ngIf="openingBalPayList.length <= 0">
         <td colspan="7" class="text-center">
           No Payment found.
         </td>
@@ -722,7 +865,7 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
 
 <app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog"
   [dataItemsGrid]="paymentInvoicePurchaseDataShowById" [dataById]="paymentObject" (callbackModal)="callBackModal()"
-  (close)="close()" [header]="header"></app-payments-invoice-dialog>
+  (close)="close()"  [header]="header" (formSubmitted)="close()"></app-payments-invoice-dialog>
 
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>

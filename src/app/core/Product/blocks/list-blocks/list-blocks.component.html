@@ -164,7 +164,7 @@
                         (onChange)="onBlockProcessorChange($event, lot.blockDetails.blockNo, lot.lotId)">
                       </p-dropdown>
                     </td>
-                    <td class="action-buttons">
+                    <td>
                       <p-button *ngIf="!lot?.blockDetails?.splitedFrom" [text]="true" icon="fa-solid fa-add" pTooltip="Block Split" tooltipPosition="left"
                         tooltipStyleClass="tooltip" (click)="visibleBlockSplitPopUp(lot)"></p-button>
                       <p-button *ngIf="lot?.blockDetails?.splitedFrom" [text]="true" icon="fa-solid fa-edit" pTooltip="Edit Splitted Block" tooltipPosition="left"

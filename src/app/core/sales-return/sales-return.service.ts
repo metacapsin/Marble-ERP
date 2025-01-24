@@ -48,6 +48,14 @@ export class SalesReturnService {
   deleteSalesReturnPayment(id: any){
     return this.http.delete(environment.apiUrl + `/Sales/deleteSalesReturnPayment/${id}`);
   }
+
+  deleteopeningBalance(id: any){
+    return this.http.delete(environment.apiUrl + `/Customer/deleteOpeningBalancePayment/${id}`);
+  }
+
+  deleteBalancePayRec(id: any){
+    return this.http.delete(environment.apiUrl + `/Customer/deleteOpeningBalancePayment/${id}`);
+  }
 }
 
  

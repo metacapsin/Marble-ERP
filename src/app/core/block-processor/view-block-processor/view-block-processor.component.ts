@@ -7,14 +7,13 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { MessageService } from "primeng/api";
 import { MatDialog } from "@angular/material/dialog";
 import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
+import { CustomersdataService } from "../../Customers/customers.service";
+import { SalesReturnService } from "../../sales-return/sales-return.service";
 
 @Component({
   selector: "app-view-block-processor",
   standalone: true,
-  imports: [
-    SharedModule,
-    PaymentsInvoiceDialogComponent,
-  ],
+  imports: [SharedModule, PaymentsInvoiceDialogComponent],
   templateUrl: "./view-block-processor.component.html",
   styleUrl: "./view-block-processor.component.scss",
   providers: [MessageService],
@@ -42,18 +41,21 @@ export class ViewBlockProcessorComponent {
   showDialoge: boolean = false; // to enable delete popup
 
   maxDate = new Date();
-
+  dueBalance: any;
+  openingBalPayList: any;
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
-
+  balanceId: any;
   constructor(
+    private customerService: CustomersdataService,
     private activeRoute: ActivatedRoute,
+    private salesReturnService: SalesReturnService,
     private blockProcessorService: blockProcessorService,
     private messageService: MessageService,
     private fb: FormBuilder,
     public dialog: MatDialog
   ) {
     this.addSlabProcessingForm = this.fb.group({
-      processingInvoiceNo: ["",[Validators.pattern(this.invoiceRegex)]],
+      processingInvoiceNo: ["", [Validators.pattern(this.invoiceRegex)]],
       processor: [""],
       slab: [""],
       processingCost: ["", [Validators.required, Validators.min(1)]],
@@ -92,6 +94,8 @@ export class ViewBlockProcessorComponent {
   }
   ngOnInit() {
     this.getBlockProcessor();
+    this.getOpeningBalance();
+    this.getOpeningBalancePayList();
     this.blockProcessorService
       .getSlabsByProcessorId(this.blockProcessor_id)
       .subscribe((resp: any) => {
@@ -121,6 +125,22 @@ export class ViewBlockProcessorComponent {
       });
   }
 
+  getOpeningBalance() {
+    this.customerService
+      .GetOpeningBalanceById(this.blockProcessor_id)
+      .subscribe((data: any) => {
+        this.dueBalance = data.data;
+      });
+  }
+
+  getOpeningBalancePayList() {
+    this.customerService
+      .GetOpeningBalancePayListById(this.blockProcessor_id)
+      .subscribe((data: any) => {
+        this.openingBalPayList = data.data;
+      });
+  }
+
   getslabProcessingList() {
     this.blockProcessorService
       .getAllSlabProcessing(this.blockProcessor_id)
@@ -142,6 +162,15 @@ export class ViewBlockProcessorComponent {
       .patchValue(value.processingCost);
   }
 
+  deletebalance(Id: any) {
+    this.balanceId = Id;
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Slab Processing Details",
+    };
+    this.showDialog = true;
+  }
+
   deleteSlabProcessing(Id: any) {
     this.slabProcessing_id = Id;
     this.modalData = {
@@ -150,8 +179,12 @@ export class ViewBlockProcessorComponent {
     };
     this.showDialog = true;
   }
-  deletePayment(Id: any) {
-    this.payment_id = Id;
+  deletePayment(Id: any, key: any) {
+    if (key === "balance") {
+      this.balanceId = Id;
+    } else {
+      this.payment_id = Id;
+    }
 
     this.modalData = {
       title: "Delete",
@@ -159,6 +192,9 @@ export class ViewBlockProcessorComponent {
     };
     this.showDialog = true;
   }
+
+
+
   callBackModal() {
     if (this.slabProcessing_id) {
       this.blockProcessorService
@@ -168,7 +204,7 @@ export class ViewBlockProcessorComponent {
           this.messageService.add({ severity: "success", detail: message });
           this.getslabProcessingList();
           this.getPaymentListByProcessorId();
-         this.slabProcessing_id = null;
+          this.slabProcessing_id = null;
 
           this.showDialog = false;
         });
@@ -185,13 +221,28 @@ export class ViewBlockProcessorComponent {
 
           this.showDialog = false;
         });
+    } else if (this.balanceId) {
+      this.salesReturnService
+        .deleteBalancePayRec(this.balanceId)
+        .subscribe((resp: any) => {
+          this.messageService.add({
+            severity: "success",
+            detail: resp.message,
+          });
+          this.getOpeningBalancePayList();
+          this.getOpeningBalance();
+          this.showDialog = false;
+         
+          this.balanceId = null;
+        });
     }
   }
 
   close() {
     this.showDialog = false;
     this.ShowPaymentInvoice = false;
-
+    this.getOpeningBalancePayList();
+    this.getOpeningBalance();
     this.getslabProcessingList();
     this.getPaymentListByProcessorId();
   }
@@ -263,7 +314,7 @@ export class ViewBlockProcessorComponent {
     }
   }
 
-  searchData(value: any) { }
+  searchData(value: any) {}
 
   openPaymentDialog(_id: any) {
     this.blockProcessorService
@@ -292,4 +343,37 @@ export class ViewBlockProcessorComponent {
       });
   }
 
+  openeningBalancepopup(Id: any) {
+    this.customerService
+      .GetOpeningBalanceById(this.blockProcessor_id)
+      .subscribe((resp: any) => {
+        this.ShowPaymentInvoice = true;
+        this.header = "Opening Balance";
+        this.paymentObject = {
+          customer: resp?.data?.customer,
+          salesId: Id,
+          customerId: this.blockProcessor_id,
+          isSales: true,
+          salesInvoiceNumber: "Opening Balance",
+          salesTotalAmount: resp?.data?.totalAmount,
+          paidAmount: resp?.data?.paidAmount,
+          salesDueAmount: resp?.data?.dueAmount,
+          salesPaidAmount: resp?.data?.paidAmount,
+          taxable: resp?.data?.taxable,
+          taxableDue: resp?.data?.taxableDue,
+          nonTaxable: resp?.data?.nonTaxable,
+          nonTaxableDue: resp?.data?.nonTaxableDue,
+        };
+        this.paymentInvoicePurchaseDataShowById.push({
+          customer: resp.data.processor,
+          slabProcessing_id: Id,
+          isSlabProcessing: true,
+          processingInvoiceNo: resp.data.processingInvoiceNo,
+          processingCost: resp.data.processingCost,
+          dueAmount: resp.data.dueAmount,
+          paidAmount: resp.data.paidAmount,
+        });
+        console.log("this is api response on payment dialog open ", resp?.data);
+      });
+  }
 }

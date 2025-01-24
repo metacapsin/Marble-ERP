@@ -231,6 +231,28 @@
                           </div>
                         </div>
 
+                        <!-- <div class="col-xl-2 col-md-4 col-sm-12 col-12">
+                          <div class="form-group local-forms">
+                            <label for="customer">HSN/SAC
+                              <span class="login-danger">*</span></label>
+                            <p-dropdown [options]="wareHousedataListsEditArray" appendTo="body"
+                              [style]="{ width: '100%' }" optionLabel="name" [filter]="true" filterBy="name"
+                              optionValue="_id" formControlName="salesWarehouseDetails" placeholder="Select Warehouse"
+                              (onChange)="onWareHouseSelect($event.value, i)"></p-dropdown>
+                            <div *ngIf="
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesWarehouseDetails')
+                                  .hasError('required') &&
+                                addSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesWarehouseDetails').touched
+                              ">
+                              <span class="login-danger">Field is required.</span>
+                            </div>
+                          </div>
+                        </div> -->
+
                         <div class="col-xl-2 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
                             <label for="customer">Product
@@ -346,6 +368,8 @@
                           </div>
                         </div>
 
+                   
+
                         <div class="col-xl-2 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
                             <label for="customer">Price / Sq. Feet
@@ -396,7 +420,7 @@
                               {{
                               addSalesForm
                               .get("salesItemDetails")
-                              .get(i + ".salesItemTotal").value
+                              .get(i + ".salesItemTotal").value | number:'1.2-2'
                               }}
                             </span>
                           </div>
@@ -467,7 +491,7 @@
                             <span class="form-control">{{
                               addSalesForm
                               .get("salesItemDetails")
-                              .get(i + ".salesItemNonTaxableAmount")?.value
+                              .get(i + ".salesItemNonTaxableAmount")?.value | number:'1.2-2'
                               }}</span>
                           </div>
                         </div>
@@ -478,7 +502,7 @@
                             <span class="form-control">{{
                               addSalesForm
                               .get("salesItemDetails")
-                              .get(i + ".salesItemSubTotal")?.value
+                              .get(i + ".salesItemSubTotal")?.value | number:'1.2-2'
                               }}</span>
                             <span
                               *ngIf="addSalesForm.get('salesItemDetails').get(i + '.salesItemAppliedTaxAmount').value  && addSalesForm.get('salesItemDetails').get(i + '.salesItemNonTaxableAmount').value"
@@ -717,9 +741,17 @@
                           <p-checkbox [binary]="true" class="m-r-10" formControlName="isShippingTax"
                             (onChange)="calculateTotalAmount()">
                           </p-checkbox>
-                          <span for="isTaxVendor" class="fs-6">Apply Tax{{ this.addSalesForm.get("isShippingTax").value
-                            ? ' (' + salesItemDetails.at(0)?.get('salesItemTax')?.value[0]?.taxRate + '%)' : '' }}
+                          <span for="isTaxVendor" class="fs-6">
+                            Apply Tax
+                            {{ 
+                              this.addSalesForm.get("isShippingTax")?.value && 
+                              salesItemDetails.at(0)?.get('salesItemTax')?.value &&
+                              salesItemDetails.at(0)?.get('salesItemTax')?.value[0]?.taxRate 
+                                ? ' (' + salesItemDetails.at(0)?.get('salesItemTax')?.value[0]?.taxRate + '%)' 
+                                : '' 
+                            }}
                           </span>
+                          
                         </div>
                         <!-- <div class="col-6 ml-3">
                           <div class="form-group local-forms">
@@ -749,8 +781,17 @@
                           <p-checkbox [binary]="true" class="m-r-10" formControlName="isOtherChargesTax"
                             (onChange)="calculateTotalAmount()">
                           </p-checkbox>
-                          <span for="isTaxVendor" class="fs-6">Apply Tax{{ this.addSalesForm.get("isOtherChargesTax").value
-                            ? ' (' + salesItemDetails.at(0)?.get('salesItemTax')?.value[0]?.taxRate + '%)' : '' }}</span>
+                          <span for="isTaxVendor" class="fs-6">
+                            Apply Tax
+                            {{ 
+                              this.addSalesForm.get("isOtherChargesTax")?.value && 
+                              salesItemDetails.at(0)?.get('salesItemTax')?.value &&
+                              salesItemDetails.at(0)?.get('salesItemTax')?.value[0]?.taxRate 
+                                ? ' (' + salesItemDetails.at(0)?.get('salesItemTax')?.value[0]?.taxRate + '%)' 
+                                : '' 
+                            }}
+                          </span>
+                          
                         </div>
                       </div>
 
