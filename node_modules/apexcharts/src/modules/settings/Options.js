@@ -23,6 +23,7 @@ export default class Options {
       decimalsInFloat: undefined,
       labels: {
         show: true,
+        showDuplicates: false,
         minWidth: 0,
         maxWidth: 160,
         offsetX: 0,
@@ -98,7 +99,7 @@ export default class Options {
         shape: 'circle',
         offsetX: 0,
         offsetY: 0,
-        radius: 2,
+        // radius: 2, // DEPRECATED
         cssClass: '',
       },
       label: {
@@ -128,7 +129,7 @@ export default class Options {
         },
       },
       customSVG: {
-        // this will be deprecated in the next major version as it is going to be replaced with a better alternative below
+        // this will be deprecated in the next major version as it is going to be replaced with a better alternative below (image)
         SVG: undefined,
         cssClass: undefined,
         offsetX: 0,
@@ -259,7 +260,6 @@ export default class Options {
       chart: {
         animations: {
           enabled: true,
-          easing: 'easeinout', // linear, easeout, easein, easeinout, swing, bounce, elastic
           speed: 800,
           animateGradually: {
             delay: 150,
@@ -270,7 +270,7 @@ export default class Options {
             speed: 350,
           },
         },
-        background: 'transparent',
+        background: '',
         locales: [en],
         defaultLocale: 'en',
         dropShadow: {
@@ -280,7 +280,7 @@ export default class Options {
           left: 2,
           blur: 4,
           color: '#000',
-          opacity: 0.35,
+          opacity: 0.7,
         },
         events: {
           animationEnd: undefined,
@@ -369,9 +369,8 @@ export default class Options {
               columnDelimiter: ',',
               headerCategory: 'category',
               headerValue: 'value',
-              dateFormatter(timestamp) {
-                return new Date(timestamp).toDateString()
-              },
+              categoryFormatter: undefined,
+              valueFormatter: undefined,
             },
             png: {
               filename: undefined,
@@ -379,6 +378,8 @@ export default class Options {
             svg: {
               filename: undefined,
             },
+            scale: undefined,
+            width: undefined,
           },
           autoSelected: 'zoom', // accepts -> zoom, pan, selection
         },
@@ -388,6 +389,7 @@ export default class Options {
           enabled: true,
           type: 'x',
           autoScaleYaxis: false,
+          allowMouseWheelZoom: true,
           zoomedArea: {
             fill: {
               color: '#90CAF9',
@@ -402,6 +404,14 @@ export default class Options {
         },
       },
       plotOptions: {
+        line: {
+          isSlopeChart: false,
+          colors: {
+            threshold: 0,
+            colorAboveThreshold: undefined,
+            colorBelowThreshold: undefined,
+          },
+        },
         area: {
           fillTo: 'origin',
         },
@@ -495,6 +505,28 @@ export default class Options {
             min: undefined,
             max: undefined,
           },
+          seriesTitle: {
+            show: true,
+            offsetY: 1,
+            offsetX: 1,
+            borderColor: '#000',
+            borderWidth: 1,
+            borderRadius: 2,
+            style: {
+              background: 'rgba(0, 0, 0, 0.6)',
+              color: '#fff',
+              fontSize: '12px',
+              fontFamily: undefined,
+              fontWeight: 400,
+              cssClass: '',
+              padding: {
+                left: 6,
+                right: 6,
+                top: 2,
+                bottom: 2,
+              },
+            },
+          },
         },
         radialBar: {
           inverseOrder: false,
@@ -581,7 +613,8 @@ export default class Options {
           },
           barLabels: {
             enabled: false,
-            margin: 5,
+            offsetX: 0,
+            offsetY: 0,
             useSeriesColors: true,
             fontFamily: undefined,
             fontWeight: 600,
@@ -703,7 +736,7 @@ export default class Options {
             left: 1,
             blur: 1,
             color: '#000',
-            opacity: 0.45,
+            opacity: 0.8,
           },
         },
         dropShadow: {
@@ -712,7 +745,7 @@ export default class Options {
           left: 1,
           blur: 1,
           color: '#000',
-          opacity: 0.45,
+          opacity: 0.8,
         },
       },
       fill: {
@@ -799,25 +832,25 @@ export default class Options {
         offsetX: -20,
         offsetY: 4,
         customLegendItems: [],
+        clusterGroupedSeries: true,
+        clusterGroupedSeriesOrientation: 'vertical',
         labels: {
           colors: undefined,
           useSeriesColors: false,
         },
         markers: {
-          width: 12,
-          height: 12,
-          strokeWidth: 0,
+          size: 7,
           fillColors: undefined,
-          strokeColor: '#fff',
-          radius: 12,
-          customHTML: undefined,
+          strokeWidth: 1,
+          shape: undefined,
           offsetX: 0,
           offsetY: 0,
+          customHTML: undefined,
           onClick: undefined,
         },
         itemMargin: {
           horizontal: 5,
-          vertical: 2,
+          vertical: 4,
         },
         onItemClick: {
           toggleDataSeries: true,
@@ -830,21 +863,17 @@ export default class Options {
         discrete: [],
         size: 0,
         colors: undefined,
-        //strokeColor: '#fff', // TODO: deprecate in major version 4.0
         strokeColors: '#fff',
         strokeWidth: 2,
         strokeOpacity: 0.9,
         strokeDashArray: 0,
         fillOpacity: 1,
         shape: 'circle',
-        width: 8, // only applicable when shape is rect/square
-        height: 8, // only applicable when shape is rect/square
-        radius: 2,
         offsetX: 0,
         offsetY: 0,
+        showNullDataPoints: true,
         onClick: undefined,
         onDblClick: undefined,
-        showNullDataPoints: true,
         hover: {
           size: undefined,
           sizeOffset: 3,
@@ -865,23 +894,15 @@ export default class Options {
       responsive: [], // breakpoints should follow ascending order 400, then 700, then 1000
       series: undefined,
       states: {
-        normal: {
-          filter: {
-            type: 'none',
-            value: 0,
-          },
-        },
         hover: {
           filter: {
             type: 'lighten',
-            value: 0.1,
           },
         },
         active: {
           allowMultipleDataPointsSelection: false,
           filter: {
             type: 'darken',
-            value: 0.5,
           },
         },
       },
@@ -915,7 +936,7 @@ export default class Options {
       },
       stroke: {
         show: true,
-        curve: 'smooth', // "smooth" / "straight" / "monotoneCubic" / "stepline"
+        curve: 'smooth', // "smooth" / "straight" / "monotoneCubic" / "stepline" / "linestep"
         lineCap: 'butt', // round, butt , square
         width: 2,
         colors: undefined, // array of colors
@@ -1097,7 +1118,7 @@ export default class Options {
             left: 0,
             top: 0,
             blur: 1,
-            opacity: 0.4,
+            opacity: 0.8,
           },
         },
         tooltip: {
@@ -1112,7 +1133,7 @@ export default class Options {
       },
       yaxis: this.yAxis,
       theme: {
-        mode: 'light',
+        mode: '',
         palette: 'palette1', // If defined, it will overwrite globals.colors variable
         monochrome: {
           // monochrome allows you to select just 1 color and fill out the rest with light/dark shade (intensity can be selected)
