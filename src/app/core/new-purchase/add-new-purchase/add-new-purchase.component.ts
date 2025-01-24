@@ -579,7 +579,8 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         taxApplied: formData.taxApplied,
         warehouseDetails:this.ItemDetails?.warehouseDetails,
         transportationCharges:this.ItemDetails?.transportationCharge,
-        otherCharges:this.ItemDetails?.royaltyCharge
+        otherCharges:this.ItemDetails?.royaltyCharge,
+        totalTransportationCharges:this.ItemDetails?.totalTransportationCharges,
       };
     } else {
       payload = {

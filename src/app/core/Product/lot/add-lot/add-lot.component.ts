@@ -211,19 +211,13 @@ export class AddLotComponent {
         lotWeight: this.previouslotData.lotWeight,
         pricePerTon: this.previouslotData.pricePerTon,
         paidToSupplierLotCost: this.previouslotData.paidToSupplierLotCost,
-        transportationCharge:
-          this.previouslotData.transportationCharge == 0
-            ? null
-            : this.previouslotData.transportationCharge,
-        royaltyCharge:
-          this.previouslotData.royaltyCharge == 0
-            ? null
-            : this.previouslotData.royaltyCharge,
+        transportationCharge:this.previouslotData.transportationCharge == 0 ? null : this.previouslotData.transportationCharge,
+        royaltyCharge:this.previouslotData.royaltyCharge == 0 ? null : this.previouslotData.royaltyCharge,
         notes: this.previouslotData.notes,
         blocksCount: this.previouslotData.blocksCount,
         averageWeight: this.previouslotData.averageWeight,
         averageTransport: this.previouslotData.averageTransport,
-        averageRoyalty: this.previouslotData.averageRoyalty,
+        averageRoyalty: this.previouslotData.averageRoyalty, 
         averageTaxAmount: this.previouslotData.averageTaxAmount,
         lotRowCost: this.previouslotData.lotRowCost,
         purchaseDiscount: this.previouslotData.purchaseDiscount,
