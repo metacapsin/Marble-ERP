@@ -198,7 +198,10 @@ export class EditPurchaseReturnComponent {
       purchaseReturnTotalAmount:
        Number( this.editPurchaseReturnForm.value.purchaseReturnTotalAmount),
       purchaseGrossTotal:Number(this.editPurchaseReturnForm.value.purchaseGrossTotal),
-      purchaseReturnItemDetails: this.GridDataForSlab,
+      // hide by ravi
+      // purchaseReturnItemDetails: this.GridDataForSlab,
+      // add by ravi for add only selected  slab
+      purchaseReturnItemDetails: this.selectedSlabs,
       purchaseReturnOrderStatus: "Static",
     };
     if (this.editPurchaseReturnForm.valid) {

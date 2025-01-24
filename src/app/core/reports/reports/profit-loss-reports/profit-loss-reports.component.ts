@@ -272,8 +272,8 @@ export class ProfitLossReportsComponent {
     if (startDate && endDate) {
       const formattedDate1 = this.formatDate(startDate);
       const formattedDate2 = this.formatDate(endDate);
-      console.log("Start Date:", formattedDate1, "End Date:", formattedDate2);
-      this.getPaymentInReportData(startDate, startDate);
+      console.log("Start Date:", startDate, "End Date:", endDate);
+      this.getPaymentInReportData(startDate, endDate);
 
       let payload = {
         filterby: value,
@@ -287,7 +287,7 @@ export class ProfitLossReportsComponent {
     }
   }
 
-  formatDate(date: Date): string {
+  formatDate(date: Date): any {
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so add 1
     const day = date.getDate().toString().padStart(2, '0');
     const year = date.getFullYear();

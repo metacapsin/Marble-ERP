@@ -321,6 +321,7 @@ export class AddsalesComponent implements OnInit {
     });
   }
   onSlabSelect(value, i) {
+    console.log('this.originalSlabData',this.originalSlabData)
     const rec = this.originalSlabData?.find(
       (item) => item._id === value._id
     )?.subCategoryDetail;

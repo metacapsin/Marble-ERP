@@ -197,10 +197,10 @@ export class EditSalsComponent implements OnInit {
           if (i === index) {
             this.slabDataList[index] = this.slabDatas;
             const control = this.salesItemDetails.at(i);
-            control.get("salesItemProduct").reset();
-            control.get("salesItemQuantity").reset();
-            control.get("salesItemUnitPrice").reset();
-            control.get("salesItemTax").reset();
+            // control.get("salesItemProduct").reset();
+            // control.get("salesItemQuantity").reset();
+            // control.get("salesItemUnitPrice").reset();
+            // control.get("salesItemTax").reset();
             this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];
@@ -337,11 +337,15 @@ export class EditSalsComponent implements OnInit {
 
     // Patch sales item details and disable product field
     data.salesItemDetails.forEach((item: any, index: number) => {
-      // this.onWareHouseSelect(item.salesWarehouseDetails,index);
+      this.onWareHouseSelect(item.salesWarehouseDetails,index);
+
+      console.log('item',item)
+
       this.totalTaxableAmount = Number(item.salesItemTaxableAmount);
-   
+
+     
       const salesItem = this.fb.group({
-        salesItemProduct: [item.salesItemProduct._id, [Validators.required]],
+        salesItemProduct: [item.salesItemProduct, [Validators.required]],
         salesItemQuantity: [
           item.salesItemQuantity,
           [
@@ -363,10 +367,8 @@ export class EditSalsComponent implements OnInit {
         salesItemPieces: [item.salesItemPieces, [Validators.required, Validators.min(0), Validators.max(100000)]],
         sqftPerPiece: [item.sqftPerPiece]
       });
-      this.onWareHouseSelect(item.salesWarehouseDetails,index)
-      setTimeout(() => {
-       this.onSlabSelect(item.salesItemProduct , index)
-      }, 300);
+     
+ 
       this.salesItemDetails.push(salesItem);
       // this.calculateTotalAmount();
     });
@@ -395,6 +397,8 @@ export class EditSalsComponent implements OnInit {
     });
   }
   onSlabSelect(value, i) {
+    console.log('value',value)
+    
 console.log('this.originalSlabData',this.originalSlabData)
     const rec = this.originalSlabData?.find(
       (item) => item._id === value._id
