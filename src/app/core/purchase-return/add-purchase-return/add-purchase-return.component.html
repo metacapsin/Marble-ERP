@@ -40,24 +40,39 @@
       <div class="col-md-12">
         <div class="card invoices-add-card">
           <div class="card-body">
-            <form [formGroup]="addPurchaseReturnForm" (ngSubmit)="addPurchaseReturnFormSubmit()">
+            <form
+              [formGroup]="addPurchaseReturnForm"
+              (ngSubmit)="addPurchaseReturnFormSubmit()"
+            >
               <div class="invoices-main-form">
                 <div class="row">
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="purchaseReturnSupplier">Supplier Name<span class="login-danger">*</span></label>
-                      <p-dropdown [style]="{ width: '100%' }" placeholder="Select Supplier" [options]="SupplierLists"
-                        optionLabel="name" optionValue="_id" display="chip" [filter]="true" filterBy="name"
-                        formControlName="purchaseReturnSupplier" [showClear]="true"
-                        (onChange)="onSuppliersSelect($event.value._id)"></p-dropdown>
-                      <div *ngIf="
+                      <label for="purchaseReturnSupplier"
+                        >Supplier Name<span class="login-danger">*</span></label
+                      >
+                      <p-dropdown
+                        [style]="{ width: '100%' }"
+                        placeholder="Select Supplier"
+                        [options]="SupplierLists"
+                        optionLabel="name"
+                        optionValue="_id"
+                        display="chip"
+                        [filter]="true"
+                        filterBy="name"
+                        formControlName="purchaseReturnSupplier"
+                        [showClear]="true"
+                        (onChange)="onSuppliersSelect($event.value._id)"
+                      ></p-dropdown>
+                      <div
+                        *ngIf="
                           addPurchaseReturnForm
                             .get('purchaseReturnSupplier')
                             ?.hasError('required') &&
-                          addPurchaseReturnForm.get(
-                            'purchaseReturnSupplier'
-                          )?.touched
-                        ">
+                          addPurchaseReturnForm.get('purchaseReturnSupplier')
+                            ?.touched
+                        "
+                      >
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
@@ -65,44 +80,64 @@
 
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="purchaseReturnInvoiceNumber">Invoice Number<span class="login-danger">*</span></label>
-                      <p-dropdown [style]="{ width: '100%' }" placeholder="--Select Invoice--"
-                        [options]="purchaseDataByInvoiceNumber" formControlName="purchaseReturnInvoiceNumber"
-                        optionLabel="purchaseInvoiceNumber" display="chip"
-                        (onChange)="onInvoiceNumber($event.value._id)" [showClear]="true"></p-dropdown>
-                        <div *ngIf="
-                        addPurchaseReturnForm
-                        .get('purchaseReturnSupplier')
-                        ?.hasError('required') &&
-                        addPurchaseReturnForm.get(
-                          'purchaseReturnSupplier'
-                          )?.touched
-                          ">
-                          <span class="login-danger">Field is required. </span>
-                        </div>
+                      <label for="purchaseReturnInvoiceNumber"
+                        >Invoice Number<span class="login-danger"
+                          >*</span
+                        ></label
+                      >
+                      <p-dropdown
+                        [style]="{ width: '100%' }"
+                        placeholder="--Select Invoice--"
+                        [options]="purchaseDataByInvoiceNumber"
+                        formControlName="purchaseReturnInvoiceNumber"
+                        optionLabel="purchaseInvoiceNumber"
+                        display="chip"
+                        (onChange)="onInvoiceNumber($event.value._id)"
+                        [showClear]="true"
+                      ></p-dropdown>
+                      <div
+                        *ngIf="
+                          addPurchaseReturnForm
+                            .get('purchaseReturnSupplier')
+                            ?.hasError('required') &&
+                          addPurchaseReturnForm.get('purchaseReturnSupplier')
+                            ?.touched
+                        "
+                      >
+                        <span class="login-danger">Field is required. </span>
                       </div>
+                    </div>
                   </div>
 
                   <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
-                      <label for="purchaseReturnDate">Purchase Return Date<span class="login-danger">*</span></label>
-                      <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                        formControlName="purchaseReturnDate" placeholder="mm/dd/yyyy"
-                        [styleClass]="'col-12'"></p-calendar>
-                        <div *ngIf="
-                        addPurchaseReturnForm
-                        .get('purchaseReturnSupplier')
-                        ?.hasError('required') &&
-                        addPurchaseReturnForm.get(
-                          'purchaseReturnSupplier'
-                          )?.touched
-                          ">
-                          <span class="login-danger">Field is required. </span>
-                        </div>
+                      <label for="purchaseReturnDate"
+                        >Purchase Return Date<span class="login-danger"
+                          >*</span
+                        ></label
+                      >
+                      <p-calendar
+                        [maxDate]="maxDate"
+                        dataType="string"
+                        appendTo="body"
+                        dateFormat="mm/dd/yy"
+                        formControlName="purchaseReturnDate"
+                        placeholder="mm/dd/yyyy"
+                        [styleClass]="'col-12'"
+                      ></p-calendar>
+                      <div
+                        *ngIf="
+                          addPurchaseReturnForm
+                            .get('purchaseReturnSupplier')
+                            ?.hasError('required') &&
+                          addPurchaseReturnForm.get('purchaseReturnSupplier')
+                            ?.touched
+                        "
+                      >
+                        <span class="login-danger">Field is required. </span>
                       </div>
+                    </div>
                   </div>
-
-
 
                   <!-- <div class="col-xl-4 col-md-6 col-sm-12 col-12"
                     *ngIf="PurchaseReturnDataById?.purchaseType == 'slab'">
@@ -117,41 +152,52 @@
                 </div>
               </div>
               <div class="invoice-add-table">
-              
+                <p-table
+                  *ngIf="GridDataForSlab?.length > 0"
+                  [value]="GridDataForSlab"
+                  styleClass="p-datatable-striped"
+                  [tableStyle]="{ 'min-width': '60rem' }"
+                  [paginator]="GridDataForSlab?.length >= 5"
+                  [rows]="10"
+                  [(selection)]="selectedSlabs"
+                  dataKey="slabNo"
+                  (selectionChange)="onCheckboxChange()"
+                >
+                  <!-- Header -->
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        <!-- Select All Checkbox -->
+                      </th>
+                      <th pSortableColumn="purchaseInvoiceNumber">
+                        Slab Number
+                      </th>
+                      <th pSortableColumn="purchaseDate">Slab Name</th>
+                      <th pSortableColumn="paidAmount">Size</th>
+                      <th pSortableColumn="purchaseOrderStatus">
+                        Total Sq. Feet
+                      </th>
+                      <th pSortableColumn="supplier.name">Purchase Cost</th>
+                    </tr>
+                  </ng-template>
 
-                <p-table *ngIf="GridDataForSlab?.length > 0" [value]="GridDataForSlab" styleClass="p-datatable-striped"
-                  [tableStyle]="{'min-width': '60rem'}" [paginator]="GridDataForSlab?.length >= 5" [rows]="10"
-                  [(selection)]="selectedSlabs" dataKey="slabNo">
-           <!-- Header -->
-           <ng-template pTemplate="header">
-             <tr>
-               <th>
-                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox> <!-- Select All Checkbox -->
-               </th>
-               <th pSortableColumn="purchaseInvoiceNumber">Slab Number</th>
-               <th pSortableColumn="purchaseDate">Slab Name</th>
-               <th pSortableColumn="paidAmount">Size</th>
-               <th pSortableColumn="purchaseOrderStatus">Total Sq. Feet</th>
-               <th pSortableColumn="supplier.name">Purchase Cost</th>
-             </tr>
-           </ng-template>
-         
-           <!-- Body -->
-           <ng-template pTemplate="body" let-purchase>
-             <tr [pSelectableRow]="purchase">
-               <td>
-                 <p-tableCheckbox [value]="purchase"></p-tableCheckbox> <!-- Single item Checkbox -->
-               </td>
-               <td>{{purchase.slabNo}}</td>
-               <td>{{purchase.slabName}}</td>
-               <td>{{purchase.slabSize}}</td>
-               <td>{{purchase.totalSQFT}}</td>
-               <td>₹ {{purchase.purchaseCost | currency:'INR'}}</td>
-             </tr>
-           </ng-template>
-         </p-table>
-         
-                
+                  <!-- Body -->
+                  <ng-template pTemplate="body" let-purchase>
+                    <tr [pSelectableRow]="purchase">
+                      <td>
+                        <p-tableCheckbox [value]="purchase"></p-tableCheckbox>
+                        <!-- Single item Checkbox -->
+                      </td>
+                      <td>{{ purchase.slabNo }}</td>
+                      <td>{{ purchase.slabName }}</td>
+                      <td>{{ purchase.slabSize }}</td>
+                      <td>{{ purchase.totalSQFT }}</td>
+                      <td>{{ purchase.purchaseCost | currency : "INR" }}</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+
                 <!-- <p-table *ngIf="GridDataForLot?.length  > 0" [value]="GridDataForLot" styleClass="p-datatable-striped"
                   [tableStyle]="{'min-width': '60rem'}" [paginator]="data?.length >= 5" [rows]="10">
                   <ng-template pTemplate="header">
@@ -189,22 +235,45 @@
                     <h4 class="field-title">More Fields</h4>
                   </div>
                   <div class="invoice-faq">
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div
+                      class="panel-group"
+                      id="accordion"
+                      role="tablist"
+                      aria-multiselectable="true"
+                    >
                       <div class="faq-tab">
                         <div class="panel panel-default">
-                          <div class="panel-heading" role="tab" id="headingThree">
+                          <div
+                            class="panel-heading"
+                            role="tab"
+                            id="headingThree"
+                          >
                             <p class="panel-title">
-                              <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion"
-                                href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                              <a
+                                class="collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-parent="#accordion"
+                                href="#collapseThree"
+                                aria-expanded="false"
+                                aria-controls="collapseThree"
+                              >
                                 <i class="fas fa-plus-circle me-1"></i> Add
                                 Notes
                               </a>
                             </p>
                           </div>
-                          <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
-                            aria-labelledby="headingThree" data-bs-parent="#accordion">
+                          <div
+                            id="collapseThree"
+                            class="panel-collapse collapse"
+                            role="tabpanel"
+                            aria-labelledby="headingThree"
+                            data-bs-parent="#accordion"
+                          >
                             <div class="panel-body">
-                              <textarea class="form-control" formControlName="purchaseReturnNotes"></textarea>
+                              <textarea
+                                class="form-control"
+                                formControlName="purchaseReturnNotes"
+                              ></textarea>
                             </div>
                           </div>
                         </div>
@@ -241,59 +310,94 @@
 
                         <div class="col-12 ml-3">
                           <div class="form-group local-forms">
-                              <label for="otherCharges">Return Other Charges </label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text">₹</span>
-                                  </div>
-                                  <input class="form-control"
-                                      (change)="calculateTotalPurchaseAmount()"
-                                      formControlName="otherCharges" type="number"
-                                      placeholder="">
+                            <label for="otherCharges"
+                              >Return Other Charges
+                            </label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
                               </div>
-                              <div
-                                  *ngIf="addPurchaseReturnForm.get('otherCharges')?.hasError('min') || addPurchaseReturnForm.get('otherCharges')?.hasError('max')  && addPurchaseReturnForm.get('otherCharges')?.touched">
-                                  <span class="login-danger">Input must be between 0 to {{ returnMaxValue }}.</span>
-                              </div>
+                              <input
+                                class="form-control"
+                                (change)="calculateTotalPurchaseAmount()"
+                                formControlName="otherCharges"
+                                type="number"
+                                placeholder=""
+                              />
+                            </div>
+                            <div
+                              *ngIf="
+                                addPurchaseReturnForm
+                                  .get('otherCharges')
+                                  ?.hasError('min') ||
+                                (addPurchaseReturnForm
+                                  .get('otherCharges')
+                                  ?.hasError('max') &&
+                                  addPurchaseReturnForm.get('otherCharges')
+                                    ?.touched)
+                              "
+                            >
+                              <span class="login-danger"
+                                >Input must be between 0 to
+                                {{ returnMaxValue }}.</span
+                              >
+                            </div>
                           </div>
-                      </div>
-
-
+                        </div>
                       </div>
 
                       <div class="invoice-total-inner">
-                        <p *ngIf="addPurchaseReturnForm.get('purchaseGrossTotal').value">
-                          Gross Total<span>₹
+                        <p
+                          *ngIf="
+                            addPurchaseReturnForm.get('purchaseGrossTotal')
+                              .value
+                          "
+                        >
+                          Gross Total<span
+                            >₹
                             {{
-                            addPurchaseReturnForm.get("purchaseGrossTotal")
-                            .value | number : "1.2-2"
-                            }}</span>
+                              addPurchaseReturnForm.get("purchaseGrossTotal")
+                                .value | number : "1.2-2" 
+                            }}</span
+                          >
                         </p>
-                        <p *ngIf="addPurchaseReturnForm.get('otherCharges').value">
-                          Return Other Charges<span>₹
+                        <p
+                          *ngIf="
+                            addPurchaseReturnForm.get('otherCharges').value
+                          "
+                        >
+                          Return Other Charges<span
+                            >₹
                             {{
-                            addPurchaseReturnForm.get("otherCharges")
-                            .value | number : "1.2-2"
-                            }}</span>
+                              addPurchaseReturnForm.get("otherCharges").value
+                                | number : "1.2-2"
+                            }}</span
+                          >
                         </p>
-
                       </div>
 
                       <div class="invoice-total-footer">
                         <h4>
                           Total Amount
-                          <span>₹                           
+                          <span
+                            >₹
                             {{
-                            addPurchaseReturnForm.get("purchaseReturnTotalAmount")
-                            .value | number : "1.2-2"
-                            }}</span>
+                              addPurchaseReturnForm.get(
+                                "purchaseReturnTotalAmount"
+                              ).value | number : "1.2-2" 
+                            }}</span
+                          >
                         </h4>
                       </div>
                     </div>
                   </div>
                   <div class="upload-sign">
                     <div class="form-group float-end mb-0">
-                      <button class="btn btn-primary" type="submit" [disabled]="!addPurchaseReturnForm.valid">
+                      <button
+                        class="btn btn-primary"
+                        type="submit"
+                        [disabled]="!addPurchaseReturnForm.valid"
+                      >
                         Save
                       </button>
                     </div>

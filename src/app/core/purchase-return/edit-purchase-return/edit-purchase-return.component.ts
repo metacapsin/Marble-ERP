@@ -48,6 +48,7 @@ export class EditPurchaseReturnComponent {
   supplier: any = [];
   returnUrl: string;
   purchaseReturnId: string = "";
+  selectedSlabs: any;
 
   constructor(
     private fb: FormBuilder,
@@ -91,12 +92,28 @@ export class EditPurchaseReturnComponent {
   //     );
   // }
 
+  onCheckboxChange(): void {
+    // Calculate the total of the purchaseCost from selected rows
+    let totalPurchaseCost = this.selectedSlabs.reduce(
+      (sum, slab) => sum + slab.purchaseCost,
+      0
+    );
+
+    this.editPurchaseReturnForm.patchValue({
+      purchaseGrossTotal: totalPurchaseCost,
+      purchaseReturnTotalAmount: totalPurchaseCost,
+    });
+    console.log("Selected Slabs:", this.selectedSlabs);
+    console.log("Total Purchase Cost:", totalPurchaseCost);
+  }
+
   onInvoiceNumber(purchaseId: any) {
     this.GridDataForSlab = [];
     this.PurchaseReturnService.GetPurchaseDataById(purchaseId).subscribe(
       (resp: any) => {
         this.PurchaseReturnDataById = resp.data;
-        this.GridDataForSlab = [resp.data.slabDetails];
+        console.log('resp.data;',resp.data)
+        this.GridDataForSlab =resp.data.slabDetails;
         // if (this.PurchaseReturnDataById.purchaseType == "slab") {
         //   const totalCosting = parseFloat(this.PurchaseReturnDataById.slabDetails.purchaseCost);
         //   if (!this.editPurchaseReturnForm.value.purchaseReturnTotalAmount) {
@@ -160,6 +177,9 @@ export class EditPurchaseReturnComponent {
       purchaseGrossTotal: data.purchaseGrossTotal,
       purchaseReturnItemDetails: data.purchaseReturnItemDetails,
     });
+
+    this.selectedSlabs =  data.purchaseReturnItemDetails
+
     this.onInvoiceNumber(data.purchaseInvoiceNumber._id);
   }
 

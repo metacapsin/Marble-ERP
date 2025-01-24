@@ -46,7 +46,7 @@ export class PurchaseReturnComponent {
     "This Year",
     "Last Year",
   ];
-  searchBy: string ="";
+  searchBy: string ="This Year";
   rangeDates: Date[] | undefined;
   cols = [];
   exportColumns = [];
@@ -89,9 +89,10 @@ export class PurchaseReturnComponent {
 
       this.rangeDates = [startDate, endDate];
       console.log("Formatted Dates:", Sdate, Edate);
-
+      console.log("Formatted this.searchBy:",this.searchBy);
+      this.onSearchByChange(this.searchBy)
     });
-    this.onSearchByChange(this.searchBy)
+   
   }
   navigateToCreatePurchaseReturn() {
     const returnUrl = this.router.url;
@@ -206,7 +207,7 @@ export class PurchaseReturnComponent {
     const today = new Date();
     let startDate,
       endDate = today;
-      switch (event) {
+      switch (event || 'This Year') {
         case "Today":
           startDate = new Date(today);
           break;
@@ -278,7 +279,7 @@ export class PurchaseReturnComponent {
     this.getPurchaseReturn(startDate, endDate);
 
     let payload = {
-      filterby: event,
+      filterby: event || 'This Year',
       endDate: endDate,
       startDate: startDate,
     };

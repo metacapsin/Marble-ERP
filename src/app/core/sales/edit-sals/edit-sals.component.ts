@@ -184,6 +184,7 @@ export class EditSalsComponent implements OnInit {
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
       (resp: any) => {
         this.originalSlabData = resp.data;
+        console.log('resp.data?>>>',resp.data)
         this.slabDatas = resp.data.map((element) => ({
           name: element.slabName,
           _id: {
@@ -338,8 +339,9 @@ export class EditSalsComponent implements OnInit {
     data.salesItemDetails.forEach((item: any, index: number) => {
       // this.onWareHouseSelect(item.salesWarehouseDetails,index);
       this.totalTaxableAmount = Number(item.salesItemTaxableAmount);
+   
       const salesItem = this.fb.group({
-        salesItemProduct: [item.salesItemProduct, [Validators.required]],
+        salesItemProduct: [item.salesItemProduct._id, [Validators.required]],
         salesItemQuantity: [
           item.salesItemQuantity,
           [
@@ -361,7 +363,10 @@ export class EditSalsComponent implements OnInit {
         salesItemPieces: [item.salesItemPieces, [Validators.required, Validators.min(0), Validators.max(100000)]],
         sqftPerPiece: [item.sqftPerPiece]
       });
-
+      this.onWareHouseSelect(item.salesWarehouseDetails,index)
+      setTimeout(() => {
+       this.onSlabSelect(item.salesItemProduct , index)
+      }, 300);
       this.salesItemDetails.push(salesItem);
       // this.calculateTotalAmount();
     });
@@ -390,6 +395,37 @@ export class EditSalsComponent implements OnInit {
     });
   }
   onSlabSelect(value, i) {
+console.log('this.originalSlabData',this.originalSlabData)
+    const rec = this.originalSlabData?.find(
+      (item) => item._id === value._id
+    )?.subCategoryDetail;
+
+    console.log("rec:", rec);
+
+    if (rec && rec?.hsnCode) {
+      const salesItemDetails = this.editSalesForm.get(
+        "salesItemDetails"
+      ) as FormArray;
+
+      salesItemDetails?.controls?.forEach((salesItemGroup: FormGroup) => {
+        const existingProduct = salesItemGroup.get("salesItemProduct")?.value;
+        console.log("Existing Product:", existingProduct);
+        // Use Object.assign to update the object without changing the reference
+      if(existingProduct){
+        Object.assign(existingProduct, {
+          hsnCode: rec?.hsnCode || null,
+        });
+      
+        salesItemGroup.patchValue({
+          salesItemProduct: existingProduct,
+        });
+      }
+      });
+      
+    } else {
+      console.error("hsnCode not found in rec:", rec);
+    }
+
     const salesItemDetailsArray = this.editSalesForm.get(
       "salesItemDetails"
     ) as FormArray;
