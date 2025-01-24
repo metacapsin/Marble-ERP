@@ -191,6 +191,7 @@ export class EditSalsComponent implements OnInit {
             _id: element._id,
             slabName: element.slabName,
             slabNo: element.slabNo,
+            hsnCode:element.subCategoryDetail?.hsnCode,
           },
         }));
         this.salesItemDetails.controls.forEach((element, index) => {
