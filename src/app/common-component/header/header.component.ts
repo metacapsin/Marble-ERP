@@ -196,7 +196,7 @@ export class HeaderComponent {
     // private salesService: SalesService,
     // private purchaseService: PurchaseService,
     private combinedPaymentService: CombinedPaymentService,
-    private paymentservice :PaymentInService
+    private paymentservice: PaymentInService
   ) {
     this.sideBar.toggleSideBar.subscribe((res: string) => {
       if (res == "true") {
@@ -238,11 +238,11 @@ export class HeaderComponent {
 
   toggleFullScreen() {
     if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
+      document.documentElement.requestFullscreen();
     } else if (document.exitFullscreen) {
-        document.exitFullscreen();
+      document.exitFullscreen();
     }
-}
+  }
   private getRoutes(route: { url: string }): void {
     const bodyTag = document.body;
 
@@ -359,14 +359,22 @@ export class HeaderComponent {
     // );
 
     this.paymentservice.getLatestPaymentList().subscribe(
-      (data: Payment[]) => {
-      console.log('object',data)
+      (data: any) => {
+        console.log("object", data);
+        this.latestPayments = data?.data.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+
+        console.log('this.latestPayments',this.latestPayments)
       },
+     
       (error) => {
         const message = error.message;
         this.messageService.add({ severity: "warn", detail: message });
         console.error("Error fetching payments:", error);
       }
+
+      
     );
   }
   public toggleSideBar(): void {

@@ -1091,8 +1091,8 @@
                                 <h4>
                                   Total Purchase Cost
                                   <span>
-                                    {{ editNewPurchaseForm.get("totalCosting")?.value
-                                    ? ('₹ ' + (editNewPurchaseForm.get("totalCosting")?.value | indianCurrency))
+                                    {{ editNewPurchaseForm.get("purchaseTotalAmount")?.value
+                                    ? ('₹ ' + (editNewPurchaseForm.get("purchaseTotalAmount")?.value | indianCurrency))
                                     : ('₹ ' + (editNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |
                                     indianCurrency))
                                     }}
