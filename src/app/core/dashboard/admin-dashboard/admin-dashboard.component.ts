@@ -257,7 +257,7 @@ export class AdminDashboardComponent {
       scales: {
         x: {
           ticks: {
-            color: "#666666",
+            color: "#666617a2b866",
             font: {
               weight: 500,
             },
@@ -510,15 +510,15 @@ export class AdminDashboardComponent {
       labels: labels,
       datasets: [
         {
-          label: "Total Sales",
-          backgroundColor: "#008000",
-          borderColor: "#008000",
+          label: "Sales",
+          backgroundColor: "#28a745",
+          borderColor: "#28a745",
           data: totalSalesData,
         },
         {
-          label: "Total Sales Return",
-          backgroundColor: "#FF0000",
-          borderColor: "#FF0000",
+          label: "Sales Return",
+          backgroundColor: "#ffc107",
+          borderColor: "#ffc107",
           data: totalSalesReturnData,
         },
         // {
@@ -539,15 +539,15 @@ export class AdminDashboardComponent {
       labels: labels,
       datasets: [
         {
-          label: "Total Purchase",
-          backgroundColor: "#008000",
-          borderColor: "#008000",
+          label: "Purchase",
+          backgroundColor: "#28a745",
+          borderColor: "#28a745",
           data: totalPurchaseData,
         },
         {
-          label: "Total Purchase Return",
-          backgroundColor: "#FF0000",
-          borderColor: "#FF0000",
+          label: "Purchase Return",
+          backgroundColor: "#ffc107",
+          borderColor: "#ffc107",
           data: totalPurchaseReturnData,
         },
         // {
@@ -683,18 +683,18 @@ export class AdminDashboardComponent {
         {
           data: this.totalCategorySlabs,
           backgroundColor: [
-            "#3b82f6",
-            "#f59e0b",
-            "#6ee7b7",
-            "#ffc107",
-            "#4caf50",
+            "#D8C3A5",
+            "#4B4E53",
+            "#C4975D",
+            "#9AA5A7",
+            "#C8B796",
           ],
           hoverBackgroundColor: [
-            "#3b82f6",
-            "#f59e0b",
-            "#6ee7b7",
-            "#ffc107",
-            "#4caf50",
+            "#D8C3A5",
+            "#4B4E53",
+            "#C4975D",
+            "#9AA5A7",
+            "#C8B796",
           ],
         },
       ],
@@ -705,38 +705,28 @@ export class AdminDashboardComponent {
         {
           data: this.totalSubCategorySlabs,
           backgroundColor: [
-            "#3b82f6", // Blue
-            "#f59e0b", // Orange
-            "#6ee7b7", // Teal
-            "#ffc107", // Amber
-            "#4caf50", // Green
-            "#e91e63", // Pink
-            "#9c27b0", // Purple
-            "#673ab7", // Deep Purple
-            "#2196f3", // Light Blue
-            "#00bcd4", // Cyan
-            "#009688", // Teal
-            "#8bc34a", // Light Green
-            "#cddc39", // Lime
-            "#ff9800", // Orange
-            "#ff5722", // Deep Orange
+            "#D8C3A5", // Italian Marble
+            "#4B4E53", // Granite
+            "#C4975D", // Onyx
+            "#9AA5A7", // Quartzite
+            "#C8B796", // Travertine
+            "#556470", // Slate
+            "#E8DED3", // Limestone
+            "#1F2124", // Basalt
+            "#D4B483", // Marfil
+            "#C3A785", // Sandstone
           ],
           hoverBackgroundColor: [
-            "#3b82f6", // Blue
-            "#f59e0b", // Orange
-            "#6ee7b7", // Teal
-            "#ffc107", // Amber
-            "#4caf50", // Green
-            "#e91e63", // Pink
-            "#9c27b0", // Purple
-            "#673ab7", // Deep Purple
-            "#2196f3", // Light Blue
-            "#00bcd4", // Cyan
-            "#009688", // Teal
-            "#8bc34a", // Light Green
-            "#cddc39", // Lime
-            "#ff9800", // Orange
-            "#ff5722", // Deep Orange
+            "#D8C3A5",
+            "#4B4E53",
+            "#C4975D",
+            "#9AA5A7",
+            "#C8B796",
+            "#556470",
+            "#E8DED3",
+            "#1F2124",
+            "#D4B483",
+            "#C3A785",
           ],
         },
       ],

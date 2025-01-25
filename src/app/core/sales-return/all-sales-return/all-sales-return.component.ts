@@ -90,6 +90,7 @@ export class AllSalesReturnComponent implements OnInit {
 
       this.rangeDates = [startDate, endDate];
       console.log("Formatted Dates:", Sdate, Edate);
+      this.onSearchByChange(this.searchBy);
 
     });
 
@@ -108,7 +109,7 @@ export class AllSalesReturnComponent implements OnInit {
     // this.rangeDates = [startDate, endDate];
     // this.GetSalesReturnData(startDate, endDate);
 
-    this.onSearchByChange(this.searchBy);
+   
 
   }
   navigateToCreateSalesReturn() {

@@ -33,7 +33,7 @@ export class AddSlabPurchaseComponent {
   maxDate = new Date();
   public routes = routes;
   activeIndex: number[] = [0];
-  slabDetails = [];
+  slabDetails: any[] = [];
   marbleName: string;
   slabNumber: string;
   category: any = {};
@@ -179,9 +179,10 @@ export class AddSlabPurchaseComponent {
         totalSQFT: this.previousSlabData.totalSQFT,
       });
     }
-    // this.calculateTotalAmount();
+    this.calculateTotalAmount();
   }
   addSlabDialog() {
+    console.log(this.slabDetails)
     this.marbleName = "";
     this.slabNumber = "";
     this.category = {};
@@ -224,6 +225,10 @@ export class AddSlabPurchaseComponent {
   addSlabDetails(myForm: NgForm) {
     this.addvisible = false;
     this.cdRef.detectChanges();
+    console.log('this.slabDetails',this.slabDetails)
+    if (!this.slabDetails) {
+      this.slabDetails = [];
+    }
 
     if (
       !this.slabNumber ||
@@ -293,7 +298,7 @@ export class AddSlabPurchaseComponent {
     }));
 
     if (this.previousSlabData) {
-      this.patchSlabValue();
+      // this.patchSlabValue();
     }
   }
 
@@ -429,6 +434,7 @@ export class AddSlabPurchaseComponent {
       totalSQFT: Number(totalSQFT),
     });
     this.slabDetails = [...calculatedDetails];
+   
     this.setValidator();
   }
 

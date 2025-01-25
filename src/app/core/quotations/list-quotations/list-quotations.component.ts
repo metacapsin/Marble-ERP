@@ -84,14 +84,14 @@ export class ListQuotationsComponent implements OnInit {
 
       this.rangeDates = [startDate, endDate];
       console.log("Formatted Dates:", Sdate, Edate);
-
+      this.onSearchByChange(this.searchBy)
     });
     // this.GetQuotationsData();
     this.currentUrl = this.router.url;
     console.log("this is current url on sales page", this.currentUrl);
     this.localStorageService.removeItem("customer");
     this.localStorageService.removeItem("returnUrl");
-    this.onSearchByChange(this.searchBy)
+   
 
   }
 
