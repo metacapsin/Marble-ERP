@@ -44,6 +44,7 @@ export class ListSlabsComponent {
   showDataLoader: boolean = false;
   slabProfitOfSlabHistory: any = [];
   slabDetailsOfSlabHistory: any = [];
+selectedLayout: any;
 
   constructor(
     public dialog: MatDialog,
@@ -67,6 +68,12 @@ export class ListSlabsComponent {
       }));
     });
   }
+
+  isViewsystemtyp = [
+    {code:'Card',value:'Card'},
+    {code:'Table',value:'Table'}
+  ]
+
   getSlabsList(): void {
     this.service.getSlabsList().subscribe((resp: any) => {
       if (resp) {
@@ -159,6 +166,12 @@ export class ListSlabsComponent {
     // Update dropdown data with the filtered data
 
     console.log(this.allSlabsDaTa);
+  }
+
+  // for change layout
+  onchangeLayout(value:any){
+    console.log('layout',value)
+
   }
 
   callBackModal() {

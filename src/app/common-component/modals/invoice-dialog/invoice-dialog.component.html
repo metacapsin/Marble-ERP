@@ -657,11 +657,11 @@
                         </p> -->
                         <p>
                           Discount
-                          <span> + ₹ 
+                          <span> 
                             {{
-                            (sales?.salesDiscount > 0 || sales?.lotDetails?.purchaseDiscount || sales?.quotationDiscount
+                            (sales?.salesDiscount > 0 || sales?.lotDetails?.purchaseDiscount || sales?.purchaseDiscount || sales?.quotationDiscount
                             > 0)
-                            ? ('- ₹ ' + ((sales?.salesDiscount || sales?.lotDetails?.purchaseDiscount ||
+                            ? ('- ₹ ' + ((sales?.salesDiscount || sales?.lotDetails?.purchaseDiscount || sales?.purchaseDiscount ||
                             sales?.quotationDiscount || 0) | indianCurrency))
                             : '0.00'
                             }}

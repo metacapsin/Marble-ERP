@@ -182,7 +182,7 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount();
   }
   addSlabDialog() {
-    console.log(this.slabDetails)
+    console.log(this.slabDetails);
     this.marbleName = "";
     this.slabNumber = "";
     this.category = {};
@@ -204,18 +204,15 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount();
   }
 
-    // for get hsn code
-    getHsnCode(event) {
-      let rec = this.allSubCategoryList.find((item) => item._id === event._id);
-      if (rec) {
-        this.subCategory.hsnCode = rec.hsnCode;
-     
-      } else {
-        console.error('No matching item found for the selected _id:', event._id);
-      }
-
-
+  // for get hsn code
+  getHsnCode(event) {
+    let rec = this.allSubCategoryList.find((item) => item._id === event._id);
+    if (rec) {
+      this.subCategory.hsnCode = rec.hsnCode;
+    } else {
+      console.error("No matching item found for the selected _id:", event._id);
     }
+  }
 
   closeSlabForm(myForm: NgForm) {
     this.addvisible = false;
@@ -225,7 +222,7 @@ export class AddSlabPurchaseComponent {
   addSlabDetails(myForm: NgForm) {
     this.addvisible = false;
     this.cdRef.detectChanges();
-    console.log('this.slabDetails',this.slabDetails)
+    console.log("this.slabDetails", this.slabDetails);
     if (!this.slabDetails) {
       this.slabDetails = [];
     }
@@ -293,7 +290,7 @@ export class AddSlabPurchaseComponent {
       _id: {
         _id: e._id,
         name: e.name,
-        hsnCode:e.hsnCode,
+        hsnCode: e.hsnCode,
       },
     }));
 
@@ -417,12 +414,21 @@ export class AddSlabPurchaseComponent {
 
     taxable = taxApplied + taxableAmount;
     const paidToSupplierSlabAmount = taxable + nonTaxableAmount;
+
+    console.log("Taxable:", taxable);
+    console.log("Non-Taxable Amount:", nonTaxableAmount);
+    console.log("Purchase Discount:", purchaseDiscount);
+    console.log("Transportation Charge:", transportationCharge);
+    console.log("Royalty Charge:", royaltyCharge);
+
     const totalCost =
       taxable +
       nonTaxableAmount +
       purchaseDiscount +
       transportationCharge +
       royaltyCharge;
+
+    console.log("Total Cost:", totalCost);
     form.patchValue({
       paidToSupplierSlabCost: paidToSupplierSlabAmount
         ? Number(paidToSupplierSlabAmount).toFixed(2)
@@ -434,7 +440,7 @@ export class AddSlabPurchaseComponent {
       totalSQFT: Number(totalSQFT),
     });
     this.slabDetails = [...calculatedDetails];
-   
+
     this.setValidator();
   }
 

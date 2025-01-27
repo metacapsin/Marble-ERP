@@ -1,182 +1,311 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.adminDashboard">Dashboard </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <!-- <li class="breadcrumb-item active">Stock</li>
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <!-- <li class="breadcrumb-item active">Stock</li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li> -->
-                        <li class="breadcrumb-item active">Slabs List</li>
-                    </ul>
-                </div>
-            </div>
+            <li class="breadcrumb-item active">Slabs List</li>
+          </ul>
         </div>
+      </div>
+    </div>
 
-
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card card-table show-entire">
-                    <div class="card-body">
-                        <div class="page-table-header mb-2">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="doctor-table-blk">
-                                        <h3>Slabs List</h3>
-                                        <div class="doctor-search-blk">
-                                            <div class="top-nav-search table-search-blk">
-                                                <input type="text" class="form-control" placeholder="Search here"
-                                                    #searchTable (input)="
-                                                dt.filterGlobal(searchTable.value, 'contains')">
-                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                            </div>
-                                            <div class="add-group textbtn">
-                                                <a appShowHide [roles]="['admin', 'super-admin']"
-                                                    [routerLink]="['/slabs/slab-add']"
-                                                    class="btn btn-primary add-pluss ms-2"><img
-                                                        src="assets/img/icons/plus.svg" alt=""> Add New</a>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp" appShowHide
-                                    [roles]="['admin', 'super-admin']">
-                                    <!-- <a href="javascript:;" class=" me-2"><img src=""
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body">
+            <div class="page-table-header mb-2">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="doctor-table-blk">
+                    <h3>Slabs List</h3>
+                    <div class="doctor-search-blk">
+                      <div class="top-nav-search table-search-blk">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Search here"
+                          #searchTable
+                          (input)="
+                            dt.filterGlobal(searchTable.value, 'contains')
+                          "
+                        />
+                        <a class="btn"
+                          ><img src="assets/img/icons/search-normal.svg" alt=""
+                        /></a>
+                      </div>
+                      <div class="add-group textbtn">
+                        <a
+                          appShowHide
+                          [roles]="['admin', 'super-admin']"
+                          [routerLink]="['/slabs/slab-add']"
+                          class="btn btn-primary add-pluss ms-2"
+                          ><img src="assets/img/icons/plus.svg" alt="" /> Add
+                          New</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-auto text-end float-end ms-auto download-grp"
+                  appShowHide
+                  [roles]="['admin', 'super-admin']"
+                >
+                  <!-- <a href="javascript:;" class=" me-2"><img src=""
                                             alt="" pTooltip="Download data in PDF file" tooltipPosition="left"
                                             tooltipStyleClass="tooltip"></a> -->
-                                    <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
+                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
                                             alt=""></a> -->
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
-                                            (click)="dt.exportCSV()" alt="" pTooltip="Download data in CSV file "
-                                            tooltipPosition="left" tooltipStyleClass="tooltip"></a>
-                                    <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+                  <a href="javascript:;" class="me-2"
+                    ><img
+                      src="assets/img/icons/pdf-icon-03.svg"
+                      (click)="dt.exportCSV()"
+                      alt=""
+                      pTooltip="Download data in CSV file "
+                      tooltipPosition="left"
+                      tooltipStyleClass="tooltip"
+                  /></a>
+                  <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
+                </div>
+              </div>
+              <div class="mt-3">
+                <div class="row card-body d-flex justify-content-between p0">
+                  <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                      <label for="warehouseDetails">Filter By</label>
+                      <p-dropdown
+                        [options]="warehouseData"
+                        styleClass=""
+                        appendTo="body"
+                        placeholder="Filter By Warehouse"
+                        [style]="{ width: '100%' }"
+                        [filter]="true"
+                        optionLabel="name"
+                        optionValue="_id"
+                        [showClear]="true"
+                        (onChange)="onSearchByChange($event.value)"
+                        [(ngModel)]="warehouseDropDown"
+                      >
+                      </p-dropdown>
+                    </div>
+                  </div>
 
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <div class="row card-body d-flex justify-content-between p0">
-                                    <div class="col-lg-4 col-md-4 h-2">
-                                        <div class="form-group local-forms">
-                                            <label for="warehouseDetails">Filter By</label>
-                                            <p-dropdown [options]="warehouseData" styleClass="" appendTo="body"
-                                                placeholder="Filter By Warehouse" [style]="{ width: '100%' }"
-                                                [filter]="true" optionLabel="name" optionValue="_id" [showClear]="true"
-                                                (onChange)="onSearchByChange($event.value)"
-                                                [(ngModel)]="warehouseDropDown">
-                                            </p-dropdown>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                  <div class="col-lg-4 col-md-4 h-2">
+                    <div class="form-group local-forms">
+                      <label for="warehouseDetails">Layout</label>
+                      <p-dropdown
+                        [options]="isViewsystemtyp"
+                        styleClass=""
+                        appendTo="body"
+                        placeholder="Choose Layout"
+                        [style]="{ width: '100%' }"
+                        [filter]="true"
+                        optionLabel="value"
+                        optionValue="code"
+                        [showClear]="true"
+                        (onChange)="onchangeLayout($event.value)"
+                        [(ngModel)]="selectedLayout"
+                      >
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                        <div class="card-body p-2">
-                            <p-table [value]="allSlabsDaTa" [tableStyle]="{'min-width': '60rem'}"
-                                [paginator]="allSlabsDaTa?.length >= 5" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
-                                styleClass="p-datatable-striped" (onPage)="onPageChange($event)"
-                                [(selection)]="selectedSlabs" #dt [columns]="cols" [exportHeader]="'customExportHeader'"
-                                exportFilename="Slabs"
-                                [globalFilterFields]="['slabNo', 'slabName','slabSize','categoryDetail?.name','subCategoryDetail?.name','totalSQFT','costPerSQFT','sellingPricePerSQFT','warehouseDetails?.name']">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th pSortableColumn="slabNo">Slab Number<p-sortIcon field="slabNo"></p-sortIcon>
-                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                                field="slabNo" display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="slabName">Slab Name<p-sortIcon
-                                                field="slabName"></p-sortIcon>
-                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                                field="slabName" display="menu"></p-columnFilter>
-                                        </th>
-                                        <th pSortableColumn="slabSize">Size<p-sortIcon field="slabSize"></p-sortIcon>
-                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                                field="slabSize" display="menu"></p-columnFilter>
+            <div class="card-body p-2">
+        
+              <p-table
+                [value]="allSlabsDaTa"
+                [tableStyle]="{ 'min-width': '60rem' }"
+                [paginator]="allSlabsDaTa?.length >= 5"
+                [rows]="10"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                styleClass="p-datatable-striped"
+                (onPage)="onPageChange($event)"
+                [(selection)]="selectedSlabs"
+                #dt
+                [columns]="cols"
+                [exportHeader]="'customExportHeader'"
+                exportFilename="Slabs"
+                [globalFilterFields]="[
+                  'slabNo',
+                  'slabName',
+                  'slabSize',
+                  'categoryDetail?.name',
+                  'subCategoryDetail?.name',
+                  'totalSQFT',
+                  'costPerSQFT',
+                  'sellingPricePerSQFT',
+                  'warehouseDetails?.name'
+                ]"
+              >
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="slabNo">
+                      Slab Number<p-sortIcon field="slabNo"></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="slabNo"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="slabName">
+                      Slab Name<p-sortIcon field="slabName"></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="slabName"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="slabSize">
+                      Size<p-sortIcon field="slabSize"></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="slabSize"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="categoryDetail?.name">
+                      Category<p-sortIcon
+                        field="categoryDetail?.name"
+                      ></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="categoryDetail?.name"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="subCategoryDetail?.name">
+                      Sub Category<p-sortIcon
+                        field="subCategoryDetail?.name"
+                      ></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="subCategoryDetail?.name"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
 
-                                        </th>
-                                        <th pSortableColumn="categoryDetail?.name">Category<p-sortIcon
-                                                field="categoryDetail?.name"></p-sortIcon>
-                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                                field="categoryDetail?.name" display="menu"></p-columnFilter>
+                    <th pSortableColumn="costPerSQFT">
+                      Cost / Sq. Feet<p-sortIcon
+                        field="costPerSQFT"
+                      ></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="costPerSQFT"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="sellingPricePerSQFT">
+                      Selling Price<p-sortIcon
+                        field="sellingPricePerSQFT"
+                      ></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="sellingPricePerSQFT"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="totalSQFT">
+                      Sq. Feet Left<p-sortIcon field="totalSQFT"></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="totalSQFT"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
+                    <th pSortableColumn="warehouseDetails?.name">
+                      Warehouse<p-sortIcon
+                        field="warehouseDetails?.name"
+                      ></p-sortIcon>
+                      <p-columnFilter
+                        matchMode="contains"
+                        hideOnClear="true"
+                        type="text"
+                        field="warehouseDetails?.name"
+                        display="menu"
+                      ></p-columnFilter>
+                    </th>
+                    <th width="5%">Action</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-slabs>
+                  <tr>
+                    <td>
+                      {{ slabs?.slabNo }}
+                    </td>
+                    <td>
+                      {{ slabs?.slabName }}
+                    </td>
+                    <td>
+                      {{ slabs?.slabSize }}
+                    </td>
+                    <td>
+                      {{ slabs?.categoryDetail?.name }}
+                    </td>
+                    <td>
+                      {{ slabs?.subCategoryDetail?.name }}
+                    </td>
 
-                                        </th>
-                                        <th pSortableColumn="subCategoryDetail?.name">Sub Category<p-sortIcon
-                                                field="subCategoryDetail?.name"></p-sortIcon>
-                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                                field="subCategoryDetail?.name" display="menu"></p-columnFilter>
-
-                                        </th>
-
-                                        <th pSortableColumn="costPerSQFT">Cost / Sq. Feet<p-sortIcon
-                                                field="costPerSQFT"></p-sortIcon>
-                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                                field="costPerSQFT" display="menu"></p-columnFilter>
-
-                                        </th>
-                                        <th pSortableColumn="sellingPricePerSQFT">Selling Price<p-sortIcon
-                                                field="sellingPricePerSQFT"></p-sortIcon>
-                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                                field="sellingPricePerSQFT" display="menu"></p-columnFilter>
-
-                                        </th>
-                                        <th pSortableColumn="totalSQFT">Sq. Feet Left<p-sortIcon
-                                                field="totalSQFT"></p-sortIcon>
-                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                                field="totalSQFT" display="menu"></p-columnFilter>
-
-                                        </th>
-                                        <th pSortableColumn="warehouseDetails?.name">Warehouse<p-sortIcon
-                                                field="warehouseDetails?.name"></p-sortIcon>
-                                            <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                                field="warehouseDetails?.name" display="menu"></p-columnFilter>
-                                        </th>
-                                        <th width="5%">Action
-                                        </th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-slabs>
-
-                                    <tr>
-                                        <td>
-                                            {{slabs?.slabNo}}
-                                        </td>
-                                        <td>
-                                            {{slabs?.slabName}}
-                                        </td>
-                                        <td>
-                                            {{slabs?.slabSize}}
-                                        </td>
-                                        <td>
-                                            {{slabs?.categoryDetail?.name}}
-                                        </td>
-                                        <td>
-                                            {{slabs?.subCategoryDetail?.name}}
-                                        </td>
-
-                                        <td>
-                                            ₹ {{slabs?.costPerSQFT | indianCurrency}}
-                                        </td>
-                                        <td>
-                                            ₹ {{slabs?.sellingPricePerSQFT | indianCurrency}}
-                                        </td>
-                                        <td>
-                                            {{slabs?.totalSQFT | indianCurrency }}
-                                        </td>
-                                        <td>
-                                            {{slabs?.warehouseDetails?.name}}
-                                        </td>
-                                        <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
-                                            <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View"
-                                                tooltipPosition="left" tooltipStyleClass="tooltip"
-                                                (click)="showSlabDetails(slabs?._id)"></p-button>
-                                            <p-button [text]="true" icon="fa-solid fa-clock-rotate-left"
-                                                (click)="showSlabHistoryDetails(slabs?._id)" pTooltip="History"
-                                                tooltipPosition="left" tooltipStyleClass="tooltip"></p-button>
-                                        </td>
-                                        <!-- <td appShowHide [roles]="['admin', 'super-admin']">
+                    <td>₹ {{ slabs?.costPerSQFT | indianCurrency }}</td>
+                    <td>₹ {{ slabs?.sellingPricePerSQFT | indianCurrency }}</td>
+                    <td>
+                      {{ slabs?.totalSQFT | indianCurrency }}
+                    </td>
+                    <td>
+                      {{ slabs?.warehouseDetails?.name }}
+                    </td>
+                    <td
+                      appShowHide
+                      [roles]="['admin', 'super-admin']"
+                      class="action-buttons"
+                    >
+                      <p-button
+                        [text]="true"
+                        icon="fa-solid fa-eye"
+                        pTooltip="View"
+                        tooltipPosition="left"
+                        tooltipStyleClass="tooltip"
+                        (click)="showSlabDetails(slabs?._id)"
+                      ></p-button>
+                      <p-button
+                        [text]="true"
+                        icon="fa-solid fa-clock-rotate-left"
+                        (click)="showSlabHistoryDetails(slabs?._id)"
+                        pTooltip="History"
+                        tooltipPosition="left"
+                        tooltipStyleClass="tooltip"
+                      ></p-button>
+                    </td>
+                    <!-- <td appShowHide [roles]="['admin', 'super-admin']">
                                             <div class="action-buttons">
 
                                                 <p-button === false" [text]="true" icon="fa fa-edit"
@@ -185,562 +314,832 @@
                                                 (click)="deleteSlabs(slabs._id)"></p-button>
                                             </div>
                                         </td> -->
-
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="emptymessage">
-                                    <tr>
-                                        <td *ngIf="!allSlabsDaTa && showDataLoader" colspan="10" class="text-center">
-                                            <p-progressSpinner ariaLabel="loading" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="10" class="text-center" *ngIf="!showDataLoader">No slabs found.
-                                        </td>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="footer">
-                                    <tr>
-                                        <td colspan="6"></td>
-                                        <td class="" *ngIf="allSlabsDaTa">Total Sq. Feet Left</td>
-                                        <td totalValueDirective [data]="allSlabsDaTa" [name]="slabsDaTa"></td>
-                                        <td colspan="2"></td>
-                                    </tr>
-                                </ng-template>
-                                <!-- <ng-template>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td
+                      *ngIf="!allSlabsDaTa && showDataLoader"
+                      colspan="10"
+                      class="text-center"
+                    >
+                      <p-progressSpinner ariaLabel="loading" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colspan="10"
+                      class="text-center"
+                      *ngIf="!showDataLoader"
+                    >
+                      No slabs found.
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                  <tr>
+                    <td colspan="6"></td>
+                    <td class="" *ngIf="allSlabsDaTa">Total Sq. Feet Left</td>
+                    <td
+                      totalValueDirective
+                      [data]="allSlabsDaTa"
+                      [name]="slabsDaTa"
+                    ></td>
+                    <td colspan="2"></td>
+                  </tr>
+                </ng-template>
+                <!-- <ng-template>
                                         <td *ngIf="!allSlabsDaTa" colspan="10" class="text-center">
                                             <p-progressSpinner ariaLabel="loading" />
                                         </td>
                                     </ng-template> -->
-                            </p-table>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class=""><p-progressSpinner ariaLabel="loading" /></div> -->
+              </p-table>
             </div>
+          </div>
         </div>
+        <!-- <div class=""><p-progressSpinner ariaLabel="loading" /></div> -->
+      </div>
     </div>
+  </div>
 </div>
 
-<app-confirm-dialog [showDialog]="showDialog" (callbackModal)="callBackModal()" (close)="close()"
-    [data]="modalData"></app-confirm-dialog>
-
+<app-confirm-dialog
+  [showDialog]="showDialog"
+  (callbackModal)="callBackModal()"
+  (close)="close()"
+  [data]="modalData"
+></app-confirm-dialog>
 
 <!-- ----------------Slab Details Pop Up --------------- -->
 
-<p-dialog header="Slab Details" [(visible)]="slabVisible" [modal]="true" [style]="{width: '80vw'}">
-    <div class="card ">
-
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="card-body ">
-                    <div class="card card-table show-entire">
-                        <div class="row practice-card p-2 m-2">
-                            <div class="col-xl-6 col-lg-6 col-sm-12">
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Slab Name
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">{{ slabDetail?.slabName}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Creation Date
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-lg-9 col-form-label">{{ slabDetail?.date | date: 'dd-MMM-yyyy'}}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Category
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ slabDetail?.categoryDetail?.name}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Size
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ slabDetail?.slabSize}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Cost / Sq. Feet
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">₹ {{ slabDetail?.costPerSQFT | indianCurrency}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Sq. Feet Left
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ slabDetail?.totalSQFT}}</p>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Total Cost
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">₹ {{ + slabDetail?.totalCosting | indianCurrency}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-sm-12">
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Slab Number
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ slabDetail?.slabNo}}</p>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Warehouse
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ slabDetail?.warehouseDetails?.name}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Sub Category
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ slabDetail?.subCategoryDetail?.name}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Thickness
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ slabDetail?.thickness}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Selling Price / Sq. Feet.
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">₹ {{ slabDetail?.sellingPricePerSQFT |
-                                            indianCurrency}}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Total Sq. Feet
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">{{ slabDetail?.totalSlabSQFT}}</p>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row mb-2">
-                                    <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                                        Slab Sales
-                                    </h5>
-                                    <div class="col-lg-9 col-md-9 col-xl-9">
-                                        <p class="col-form-label">
-                                            <span class="amount-bold">₹ {{slabProfit | indianCurrency}}
-                                            </span>
-                                            <span>( Sales : ₹
-                                                {{
-                                                + slabDetail?.totalSales | indianCurrency
-                                                }} - Sales Return : ₹
-                                                {{
-                                                slabDetail?.totalSalesReturn | indianCurrency
-                                                }})</span>
-                                        </p>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="card-body p-2">
-
-                        <div class="row mt-3">
-                            <div class="col-lg-7 col-md-6">
-                                <div class="invoice-fields">
-                                    <h4 class="field-title">More Details</h4>
-                                </div>
-                                <div class="invoice-faq">
-                                    <div class="col-lg-8 col-md-8">
-                                        <div class="invoice-terms">
-                                            <h6>Notes:</h6>
-                                            <p class="mb-0">
-                                                {{ slabDetail?.notes }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-5 col-md-6">
-                                <div class="invoice-total-card">
-                                    <h4 class="invoice-total-title">Summary</h4>
-                                    <div class="invoice-total-box">
-                                        <div class="invoice-total-inner">
-                                            <p>
-                                                Purchase Cost. <span>₹ {{ slabDetail?.purchaseCost | indianCurrency
-                                                    }}</span>
-                                            </p>
-                                            <p *ngIf="slabDetail?.transportationCharges">
-                                                Transportation Charges <span>₹ {{ slabDetail?.transportationCharges |
-                                                    indianCurrency }}</span>
-                                            </p>
-                                            <p *ngIf="slabDetail?.otherCharges">
-                                                Other Charges <span>₹ {{ slabDetail?.otherCharges | indianCurrency
-                                                    }}</span>
-                                            </p>
-                                            <p *ngIf="slabDetail?.processingFee">
-                                                Processing Fee. <span>₹ {{ slabDetail?.processingFee | indianCurrency
-                                                    }}</span>
-                                            </p>
-                                            <p *ngIf="slabDetail?.processingCost">
-                                                Processing Cost. <span>₹ {{ slabDetail?.processingCost | indianCurrency
-                                                    }}</span>
-                                            </p>
-                                        </div>
-
-                                        <div class="invoice-total-footer">
-                                            <h4>
-                                                Total Amount
-                                                <span>₹ {{ slabDetail?.totalCosting | indianCurrency }}</span>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<p-dialog
+  header="Slab Details"
+  [(visible)]="slabVisible"
+  [modal]="true"
+  [style]="{ width: '80vw' }"
+>
+  <div class="card">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="card-body">
+          <div class="card card-table show-entire">
+            <div class="row practice-card p-2 m-2">
+              <div class="col-xl-6 col-lg-6 col-sm-12">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Slab Name
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-lg-9 col-form-label">
+                      {{ slabDetail?.slabName }}
+                    </p>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Creation Date
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-lg-9 col-form-label">
+                      {{ slabDetail?.date | date : "dd-MMM-yyyy" }}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Category
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">
+                      {{ slabDetail?.categoryDetail?.name }}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Size
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{ slabDetail?.slabSize }}</p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Cost / Sq. Feet
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">
+                      ₹ {{ slabDetail?.costPerSQFT | indianCurrency }}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Sq. Feet Left
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{ slabDetail?.totalSQFT }}</p>
+                  </div>
+                </div>
 
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Total Cost
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">
+                      ₹ {{ +slabDetail?.totalCosting | indianCurrency }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-sm-12">
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Slab Number
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{ slabDetail?.slabNo }}</p>
+                  </div>
+                </div>
+
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Warehouse
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">
+                      {{ slabDetail?.warehouseDetails?.name }}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Sub Category
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">
+                      {{ slabDetail?.subCategoryDetail?.name }}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Thickness
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{ slabDetail?.thickness }}</p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Selling Price / Sq. Feet.
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">
+                      ₹ {{ slabDetail?.sellingPricePerSQFT | indianCurrency }}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Total Sq. Feet
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">
+                      {{ slabDetail?.totalSlabSQFT }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Slab Sales
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">
+                      <span class="amount-bold"
+                        >₹ {{ slabProfit | indianCurrency }}
+                      </span>
+                      <span
+                        >( Sales : ₹
+                        {{ +slabDetail?.totalSales | indianCurrency }} - Sales
+                        Return : ₹
+                        {{
+                          slabDetail?.totalSalesReturn | indianCurrency
+                        }})</span
+                      >
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body p-2">
+            <div class="row mt-3">
+              <div class="col-lg-7 col-md-6">
+                <div class="invoice-fields">
+                  <h4 class="field-title">More Details</h4>
+                </div>
+                <div class="invoice-faq">
+                  <div class="col-lg-8 col-md-8">
+                    <div class="invoice-terms">
+                      <h6>Notes:</h6>
+                      <p class="mb-0">
+                        {{ slabDetail?.notes }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-5 col-md-6">
+                <div class="invoice-total-card">
+                  <h4 class="invoice-total-title">Summary</h4>
+                  <div class="invoice-total-box">
+                    <div class="invoice-total-inner">
+                      <p>
+                        Purchase Cost.
+                        <span
+                          >₹
+                          {{ slabDetail?.purchaseCost | indianCurrency }}</span
+                        >
+                      </p>
+                      <p *ngIf="slabDetail?.transportationCharges">
+                        Transportation Charges
+                        <span
+                          >₹
+                          {{
+                            slabDetail?.transportationCharges | indianCurrency
+                          }}</span
+                        >
+                      </p>
+                      <p *ngIf="slabDetail?.otherCharges">
+                        Other Charges
+                        <span
+                          >₹
+                          {{ slabDetail?.otherCharges | indianCurrency }}</span
+                        >
+                      </p>
+                      <p *ngIf="slabDetail?.processingFee">
+                        Processing Fee.
+                        <span
+                          >₹
+                          {{ slabDetail?.processingFee | indianCurrency }}</span
+                        >
+                      </p>
+                      <p *ngIf="slabDetail?.processingCost">
+                        Processing Cost.
+                        <span
+                          >₹
+                          {{
+                            slabDetail?.processingCost | indianCurrency
+                          }}</span
+                        >
+                      </p>
+                    </div>
+
+                    <div class="invoice-total-footer">
+                      <h4>
+                        Total Amount
+                        <span
+                          >₹
+                          {{ slabDetail?.totalCosting | indianCurrency }}</span
+                        >
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </p-dialog>
-<p-dialog [(visible)]="visibleSlabHistory" [modal]="true" [draggable]="true"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '80vw', height: ' 60vh' }"
-    [resizable]="false" header="Slab History">
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card card-table show-entire">
-                <div class="page-table-header mb-2 m-3">
-                    <div class="row practice-card">
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Sales</h5>
-                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                    <p class="col-lg-9 col-form-label"
-                                        *ngIf="slabProfitOfSlabHistory[0]?.totalSales != 0 && slabProfitOfSlabHistory[0]?.totalSales!=null ">
-                                        ₹
-                                        {{ slabProfitOfSlabHistory[0]?.totalSales | indianCurrency }}
-                                    </p>
-                                    <p class="col-lg-9 col-form-label"
-                                        *ngIf="((slabProfitOfSlabHistory[0]?.totalSales == 0 || slabProfitOfSlabHistory[0]?.totalSales==null)&& (slabProfitOfSlabHistory[0] != null)) ">
-                                        0
-
-                                    </p>
-                                    <p class="col-lg-9 col-form-label" *ngIf="slabProfitOfSlabHistory[0]== null">
-                                        0
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Cost of Goods Sold (-)</h5>
-                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                    <p class="col-lg-9 col-form-label"
-                                        *ngIf="slabProfitOfSlabHistory[0]?.totalCostPerSQFT != 0 && slabProfitOfSlabHistory[0]?.totalCostPerSQFT!=null">
-                                        ₹ {{ slabProfitOfSlabHistory[0]?.totalCostPerSQFT | indianCurrency }}
-                                    </p>
-                                    <p class="col-lg-9 col-form-label"
-                                        *ngIf="((slabProfitOfSlabHistory[0]?.totalCostPerSQFT == 0 || slabProfitOfSlabHistory[0]?.totalCostPerSQFT==null)&& (slabProfitOfSlabHistory[0] != null)) ">
-                                        0
-                                    </p>
-                                    <p class="col-lg-9 col-form-label" *ngIf="slabProfitOfSlabHistory[0]== null">
-                                        0
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Tax Profit</h5>
-                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                    <p class="col-form-label"
-                                        *ngIf="slabProfitOfSlabHistory[0]?.taxProfit != 0 && slabProfitOfSlabHistory[0]?.taxProfit!=null">
-                                        ₹ {{ slabProfitOfSlabHistory[0]?.taxProfit | indianCurrency }}
-                                    </p>
-                                    <p class="col-form-label"
-                                        *ngIf="((slabProfitOfSlabHistory[0]?.taxProfit == 0 || slabProfitOfSlabHistory[0]?.taxProfit==null)&& (slabProfitOfSlabHistory[0] != null)) ">
-                                        0
-                                    </p>
-                                    <p class="col-form-label" *ngIf="slabProfitOfSlabHistory[0]== null">
-                                        0
-                                    </p>
-
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Profit / Loss</h5>
-                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                    <p class="col-form-label"
-                                        *ngIf="slabProfitOfSlabHistory[0]?.profit != null && slabProfitOfSlabHistory[0]?.profit != 0">
-                                        ₹ {{ slabProfitOfSlabHistory[0]?.profit | indianCurrency }}
-                                    </p>
-                                    <p class="col-form-label"
-                                        *ngIf="((slabProfitOfSlabHistory[0]?.profit == 0 || slabProfitOfSlabHistory[0]?.profit==null)&& (slabProfitOfSlabHistory[0] != null)) ">
-                                        0
-                                    </p>
-                                    <p class="col-form-label" *ngIf="slabProfitOfSlabHistory[0]== null">
-                                        0
-                                    </p>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Sold Slab / Sq.Feet</h5>
-                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                    <p class="col-lg-9 col-form-label">
-                                        {{ slabDetailsOfSlabHistory[0]?.soldSlabSQFT ?
-                                        slabDetailsOfSlabHistory[0]?.soldSlabSQFT : "0" }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Slab / Sq.Feet</h5>
-                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                    <p class="col-lg-9 col-form-label">
-                                        {{ slabDetailsOfSlabHistory[0]?.totalSlabSQFT ?
-                                        slabDetailsOfSlabHistory[0]?.totalSlabSQFT : "0" }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Current Slab / Sq.Feet</h5>
-                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                    <p class="col-lg-9 col-form-label">
-                                        {{ slabDetailsOfSlabHistory[0]?.currentSlabSQFT ?
-                                        slabDetailsOfSlabHistory[0]?.currentSlabSQFT : "0" }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<p-dialog
+  [(visible)]="visibleSlabHistory"
+  [modal]="true"
+  [draggable]="true"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [style]="{ width: '80vw', height: ' 60vh' }"
+  [resizable]="false"
+  header="Slab History"
+>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card card-table show-entire">
+        <div class="page-table-header mb-2 m-3">
+          <div class="row practice-card">
+            <div class="col-xl-6 col-lg-6 col-sm-12">
+              <div class="form-group row mb-2">
+                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                  Total Sales
+                </h5>
+                <div class="col-lg-8 col-md-8 col-xl-8">
+                  <p
+                    class="col-lg-9 col-form-label"
+                    *ngIf="
+                      slabProfitOfSlabHistory[0]?.totalSales != 0 &&
+                      slabProfitOfSlabHistory[0]?.totalSales != null
+                    "
+                  >
+                    ₹
+                    {{
+                      slabProfitOfSlabHistory[0]?.totalSales | indianCurrency
+                    }}
+                  </p>
+                  <p
+                    class="col-lg-9 col-form-label"
+                    *ngIf="
+                      (slabProfitOfSlabHistory[0]?.totalSales == 0 ||
+                        slabProfitOfSlabHistory[0]?.totalSales == null) &&
+                      slabProfitOfSlabHistory[0] != null
+                    "
+                  >
+                    0
+                  </p>
+                  <p
+                    class="col-lg-9 col-form-label"
+                    *ngIf="slabProfitOfSlabHistory[0] == null"
+                  >
+                    0
+                  </p>
                 </div>
+              </div>
+              <div class="form-group row mb-2">
+                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                  Cost of Goods Sold (-)
+                </h5>
+                <div class="col-lg-8 col-md-8 col-xl-8">
+                  <p
+                    class="col-lg-9 col-form-label"
+                    *ngIf="
+                      slabProfitOfSlabHistory[0]?.totalCostPerSQFT != 0 &&
+                      slabProfitOfSlabHistory[0]?.totalCostPerSQFT != null
+                    "
+                  >
+                    ₹
+                    {{
+                      slabProfitOfSlabHistory[0]?.totalCostPerSQFT
+                        | indianCurrency
+                    }}
+                  </p>
+                  <p
+                    class="col-lg-9 col-form-label"
+                    *ngIf="
+                      (slabProfitOfSlabHistory[0]?.totalCostPerSQFT == 0 ||
+                        slabProfitOfSlabHistory[0]?.totalCostPerSQFT == null) &&
+                      slabProfitOfSlabHistory[0] != null
+                    "
+                  >
+                    0
+                  </p>
+                  <p
+                    class="col-lg-9 col-form-label"
+                    *ngIf="slabProfitOfSlabHistory[0] == null"
+                  >
+                    0
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row mb-2">
+                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                  Tax Profit
+                </h5>
+                <div class="col-lg-8 col-md-8 col-xl-8">
+                  <p
+                    class="col-form-label"
+                    *ngIf="
+                      slabProfitOfSlabHistory[0]?.taxProfit != 0 &&
+                      slabProfitOfSlabHistory[0]?.taxProfit != null
+                    "
+                  >
+                    ₹
+                    {{ slabProfitOfSlabHistory[0]?.taxProfit | indianCurrency }}
+                  </p>
+                  <p
+                    class="col-form-label"
+                    *ngIf="
+                      (slabProfitOfSlabHistory[0]?.taxProfit == 0 ||
+                        slabProfitOfSlabHistory[0]?.taxProfit == null) &&
+                      slabProfitOfSlabHistory[0] != null
+                    "
+                  >
+                    0
+                  </p>
+                  <p
+                    class="col-form-label"
+                    *ngIf="slabProfitOfSlabHistory[0] == null"
+                  >
+                    0
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row mb-2">
+                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                  Profit / Loss
+                </h5>
+                <div class="col-lg-8 col-md-8 col-xl-8">
+                  <p
+                    class="col-form-label"
+                    *ngIf="
+                      slabProfitOfSlabHistory[0]?.profit != null &&
+                      slabProfitOfSlabHistory[0]?.profit != 0
+                    "
+                  >
+                    ₹ {{ slabProfitOfSlabHistory[0]?.profit | indianCurrency }}
+                  </p>
+                  <p
+                    class="col-form-label"
+                    *ngIf="
+                      (slabProfitOfSlabHistory[0]?.profit == 0 ||
+                        slabProfitOfSlabHistory[0]?.profit == null) &&
+                      slabProfitOfSlabHistory[0] != null
+                    "
+                  >
+                    0
+                  </p>
+                  <p
+                    class="col-form-label"
+                    *ngIf="slabProfitOfSlabHistory[0] == null"
+                  >
+                    0
+                  </p>
+                </div>
+              </div>
             </div>
+            <div class="col-xl-6 col-lg-6 col-sm-12">
+              <div class="form-group row mb-2">
+                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                  Sold Slab / Sq.Feet
+                </h5>
+                <div class="col-lg-8 col-md-8 col-xl-8">
+                  <p class="col-lg-9 col-form-label">
+                    {{
+                      slabDetailsOfSlabHistory[0]?.soldSlabSQFT
+                        ? slabDetailsOfSlabHistory[0]?.soldSlabSQFT
+                        : "0"
+                    }}
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row mb-2">
+                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                  Total Slab / Sq.Feet
+                </h5>
+                <div class="col-lg-8 col-md-8 col-xl-8">
+                  <p class="col-lg-9 col-form-label">
+                    {{
+                      slabDetailsOfSlabHistory[0]?.totalSlabSQFT
+                        ? slabDetailsOfSlabHistory[0]?.totalSlabSQFT
+                        : "0"
+                    }}
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row mb-2">
+                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                  Current Slab / Sq.Feet
+                </h5>
+                <div class="col-lg-8 col-md-8 col-xl-8">
+                  <p class="col-lg-9 col-form-label">
+                    {{
+                      slabDetailsOfSlabHistory[0]?.currentSlabSQFT
+                        ? slabDetailsOfSlabHistory[0]?.currentSlabSQFT
+                        : "0"
+                    }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="card">
-        <p-tabView [(activeIndex)]="activeTabIndex">
-            <p-tabPanel header="Sales">
-                <p-table selectionMode="multiple" [value]="slabHistoryData?.sales" styleClass="p-datatable-striped"
-                    [tableStyle]="{ 'min-width': '60rem' }" [paginator]="data?.length >= 5" [rows]="10"
-                    [rowsPerPageOptions]="[5, 10, 20]">
-                    <ng-template pTemplate="header">
-                        <tr class="text-center">
-                            <th pSortableColumn="salesInvoiceNumber">
-                                Invoice Number
-                                <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                    field="salesInvoiceNumber" display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="salesDate">
-                                Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="salesDate"
-                                    display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="salesOrderStatus">
-                                Sales Status
-                                <p-sortIcon field="salesOrderStatus"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                    field="salesOrderStatus" display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="paymentStatus">
-                                Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                    field="paymentStatus" display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="paidAmount">
-                                Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="paidAmount"
-                                    display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="dueAmount">
-                                Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="dueAmount"
-                                    display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="salesTotalAmount">
-                                Total Amount
-                                <p-sortIcon field="salesTotalAmount"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                    field="salesTotalAmount" display="menu"></p-columnFilter>
-                            </th>
-                            <!-- <th pSortableColumn="paymentStatus">
+  <div class="card">
+    <p-tabView [(activeIndex)]="activeTabIndex">
+      <p-tabPanel header="Sales">
+        <p-table
+          selectionMode="multiple"
+          [value]="slabHistoryData?.sales"
+          styleClass="p-datatable-striped"
+          [tableStyle]="{ 'min-width': '60rem' }"
+          [paginator]="data?.length >= 5"
+          [rows]="10"
+          [rowsPerPageOptions]="[5, 10, 20]"
+        >
+          <ng-template pTemplate="header">
+            <tr class="text-center">
+              <th pSortableColumn="salesInvoiceNumber">
+                Invoice Number
+                <p-sortIcon field="salesInvoiceNumber"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="salesInvoiceNumber"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="salesDate">
+                Sales Date <p-sortIcon field="salesDate"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="salesDate"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="salesOrderStatus">
+                Sales Status
+                <p-sortIcon field="salesOrderStatus"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="salesOrderStatus"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="paymentStatus">
+                Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="paymentStatus"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="paidAmount">
+                Paid Amount <p-sortIcon field="paidAmount"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="paidAmount"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="dueAmount">
+                Due Amount <p-sortIcon field="dueAmount"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="dueAmount"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="salesTotalAmount">
+                Total Amount
+                <p-sortIcon field="salesTotalAmount"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="salesTotalAmount"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <!-- <th pSortableColumn="paymentStatus">
                     Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                   </th> -->
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-sales>
-                        <tr>
-                            <td>{{ sales?.salesInvoiceNumber }}</td>
-                            <td>{{ sales?.salesDate | date: "dd-MMM-yyyy" }}</td>
-                            <td>{{ sales?.salesOrderStatus }}</td>
-                            <td *ngIf="sales?.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
-                                    value="Partial Paid"></p-tag></td>
-                            <td *ngIf="sales?.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag>
-                            </td>
-                            <td *ngIf="sales?.paymentStatus == 'Unpaid' "><p-tag severity="danger"
-                                    value="Unpaid"></p-tag></td>
-                            <td>₹ {{ sales?.paidAmount | indianCurrency }}</td>
-                            <td>₹ {{ sales?.dueAmount | indianCurrency }}</td>
-                            <td>₹ {{ sales?.salesTotalAmount | indianCurrency }}</td>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                        <tr>
-                            <td colspan="8" class="text-center">No sales records found.</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </p-tabPanel>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-sales>
+            <tr>
+              <td>{{ sales?.salesInvoiceNumber }}</td>
+              <td>{{ sales?.salesDate | date : "dd-MMM-yyyy" }}</td>
+              <td>{{ sales?.salesOrderStatus }}</td>
+              <td *ngIf="sales?.paymentStatus == 'Partial Paid'">
+                <p-tag severity="warning" value="Partial Paid"></p-tag>
+              </td>
+              <td *ngIf="sales?.paymentStatus == 'Paid'">
+                <p-tag severity="success" value="Paid"></p-tag>
+              </td>
+              <td *ngIf="sales?.paymentStatus == 'Unpaid'">
+                <p-tag severity="danger" value="Unpaid"></p-tag>
+              </td>
+              <td>₹ {{ sales?.paidAmount | indianCurrency }}</td>
+              <td>₹ {{ sales?.dueAmount | indianCurrency }}</td>
+              <td>₹ {{ sales?.salesTotalAmount | indianCurrency }}</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="8" class="text-center">No sales records found.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-tabPanel>
 
-            <!-- Stock Adjustment Grid -->
-            <p-tabPanel header="Stock Adjustment">
+      <!-- Stock Adjustment Grid -->
+      <p-tabPanel header="Stock Adjustment">
+        <p-table
+          selectionMode="multiple"
+          [value]="slabHistoryData?.adjustments"
+          styleClass="p-datatable-striped"
+          [tableStyle]="{ 'min-width': '60rem' }"
+          [paginator]="data?.length >= 5"
+          [rows]="10"
+          [rowsPerPageOptions]="[5, 10, 20]"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="createdOn">
+                Adjustment Date <p-sortIcon field="createdOn"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="createdOn"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="slabs?.slabName">
+                Slab Name <p-sortIcon field="slabs?.slabName"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="slabs?.slabName"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="warehouse?.name">
+                Warehouse <p-sortIcon field="warehouse?.name"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="warehouse?.name"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="adjustmentType">
+                Adjustment Type <p-sortIcon field="adjustmentType"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="adjustmentType"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="previousQty">
+                Previous Qty<p-sortIcon field="previousQty"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="previousQty"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="quantity">
+                Adjustment Qty<p-sortIcon field="quantity"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="quantity"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="currentQty">
+                Adjusted Qty<p-sortIcon field="currentQty"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="currentQty"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <!-- <th width="13%">Action</th> -->
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-stock>
+            <tr>
+              <td>{{ stock?.createdOn | date : "dd-MMM-yyyy" }}</td>
+              <td>{{ stock?.slabs?.slabName }}</td>
+              <td>{{ stock?.warehouse?.name }}</td>
+              <td>{{ stock?.adjustmentType?.toUpperCase() }}</td>
+              <td>{{ stock?.previousQty + " Sq. Feet. " }}</td>
+              <td>{{ stock?.quantity + " Sq. Feet. " }}</td>
+              <td>{{ stock?.currentQty + " Sq. Feet. " }}</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="8" class="text-center">
+                No stock adjustments found.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-tabPanel>
 
-                <p-table selectionMode="multiple" [value]="slabHistoryData?.adjustments" styleClass="p-datatable-striped"
-                    [tableStyle]="{ 'min-width': '60rem' }" [paginator]="data?.length >= 5" [rows]="10"
-                    [rowsPerPageOptions]="[5, 10, 20]">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th pSortableColumn="createdOn">Adjustment Date <p-sortIcon field="createdOn"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="createdOn"
-                                    display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="slabs?.slabName">Slab Name <p-sortIcon
-                                    field="slabs?.slabName"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                    field="slabs?.slabName" display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="warehouse?.name">Warehouse <p-sortIcon
-                                    field="warehouse?.name"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                    field="warehouse?.name" display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="adjustmentType">Adjustment Type <p-sortIcon
-                                    field="adjustmentType"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                    field="adjustmentType" display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="previousQty">Previous Qty<p-sortIcon field="previousQty"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="previousQty"
-                                    display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="quantity">Adjustment Qty<p-sortIcon field="quantity"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="quantity"
-                                    display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="currentQty">Adjusted Qty<p-sortIcon field="currentQty"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="currentQty"
-                                    display="menu"></p-columnFilter>
-                            </th>
-                            <!-- <th width="13%">Action</th> -->
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-stock>
-                        <tr>
-                            <td>{{stock?.createdOn | date: 'dd-MMM-yyyy'}}</td>
-                            <td>{{stock?.slabs?.slabName}}</td>
-                            <td>{{stock?.warehouse?.name}}</td>
-                            <td>{{stock?.adjustmentType?.toUpperCase()}}</td>
-                            <td>{{stock?.previousQty + ' Sq. Feet. '}}</td>
-                            <td>{{stock?.quantity + ' Sq. Feet. '}}</td>
-                            <td>{{stock?.currentQty + ' Sq. Feet. '}}</td>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                        <tr>
-                            <td colspan="8" class="text-center">No stock adjustments found.</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </p-tabPanel>
-
-            <!-- Transfer GRID -->
-            <p-tabPanel header="Stock Transfer">
-                <p-table selectionMode="multiple" [value]="slabHistoryData?.transfers" styleClass="p-datatable-striped"
-                    [tableStyle]="{ 'min-width': '60rem' }" [paginator]="data?.length >= 5" [rows]="10"
-                    [rowsPerPageOptions]="[5, 10, 20]">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th pSortableColumn="createdOn">Transfer Date <p-sortIcon field="createdOn"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="createdOn"
-                                    display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="slab?.slabName">Slab Name <p-sortIcon
-                                    field="slab?.slabName"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                    field="slab?.slabName" display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="fromWarehouse?.name">From-Warehouse <p-sortIcon
-                                    field="fromWarehouse?.name"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                    field="fromWarehouse?.name" display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="toWarehouse?.name">To-Warehouse <p-sortIcon
-                                    field="toWarehouse?.name"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text"
-                                    field="toWarehouse?.name" display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="transferType">Transfer-Type <p-sortIcon
-                                    field="transferType"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="transferType"
-                                    display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="transferQty">Transfer Quantity <p-sortIcon
-                                    field="transferQty"></p-sortIcon>
-                                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="transferQty"
-                                    display="menu"></p-columnFilter>
-                            </th>
-                            <!-- <th>Action</th> -->
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-stock>
-                        <tr>
-                            <td>{{stock?.createdOn | date: 'dd-MMM-yyyy'}}</td>
-                            <td>{{stock?.slab?.slabName}}</td>
-                            <td>{{stock?.fromWarehouse?.name}}</td>
-                            <td>{{stock?.toWarehouse?.name}}</td>
-                            <td>{{stock?.transferType}}</td>
-                            <td>{{stock?.transferQty + ' Sq. Feet. '}}</td>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                        <tr>
-                            <td colspan="6" class="text-center">No stock transfers found.</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </p-tabPanel>
-        </p-tabView>
-    </div>
+      <!-- Transfer GRID -->
+      <p-tabPanel header="Stock Transfer">
+        <p-table
+          selectionMode="multiple"
+          [value]="slabHistoryData?.transfers"
+          styleClass="p-datatable-striped"
+          [tableStyle]="{ 'min-width': '60rem' }"
+          [paginator]="data?.length >= 5"
+          [rows]="10"
+          [rowsPerPageOptions]="[5, 10, 20]"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="createdOn">
+                Transfer Date <p-sortIcon field="createdOn"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="createdOn"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="slab?.slabName">
+                Slab Name <p-sortIcon field="slab?.slabName"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="slab?.slabName"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="fromWarehouse?.name">
+                From-Warehouse
+                <p-sortIcon field="fromWarehouse?.name"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="fromWarehouse?.name"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="toWarehouse?.name">
+                To-Warehouse <p-sortIcon field="toWarehouse?.name"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="toWarehouse?.name"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="transferType">
+                Transfer-Type <p-sortIcon field="transferType"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="transferType"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="transferQty">
+                Transfer Quantity <p-sortIcon field="transferQty"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="transferQty"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <!-- <th>Action</th> -->
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-stock>
+            <tr>
+              <td>{{ stock?.createdOn | date : "dd-MMM-yyyy" }}</td>
+              <td>{{ stock?.slab?.slabName }}</td>
+              <td>{{ stock?.fromWarehouse?.name }}</td>
+              <td>{{ stock?.toWarehouse?.name }}</td>
+              <td>{{ stock?.transferType }}</td>
+              <td>{{ stock?.transferQty + " Sq. Feet. " }}</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="6" class="text-center">No stock transfers found.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
 </p-dialog>

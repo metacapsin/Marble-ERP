@@ -227,6 +227,11 @@ export class AddsalesComponent implements OnInit {
   }
   editAddressWithDrop() {
     this.setAddressData = this.addSalesForm.get("billingAddress")?.value;
+    console.log("setaddress", this.setAddressData);
+
+    this.addSalesForm.patchValue({
+      salesTermsAndCondition: this.setAddressData?.termsAndCondition,
+    });
   }
 
   ngOnInit() {
@@ -321,7 +326,7 @@ export class AddsalesComponent implements OnInit {
     });
   }
   onSlabSelect(value, i) {
-    console.log('this.originalSlabData',this.originalSlabData)
+    console.log("this.originalSlabData", this.originalSlabData);
     const rec = this.originalSlabData?.find(
       (item) => item._id === value._id
     )?.subCategoryDetail;
@@ -335,17 +340,16 @@ export class AddsalesComponent implements OnInit {
 
       salesItemDetails?.controls?.forEach((salesItemGroup: FormGroup) => {
         const existingProduct = salesItemGroup.get("salesItemProduct")?.value;
-      
+
         // Use Object.assign to update the object without changing the reference
         Object.assign(existingProduct, {
           hsnCode: rec?.hsnCode || null,
         });
-      
+
         salesItemGroup.patchValue({
           salesItemProduct: existingProduct,
         });
       });
-      
     } else {
       console.error("hsnCode not found in rec:", rec);
     }
@@ -549,7 +553,6 @@ export class AddsalesComponent implements OnInit {
     console.log("formData", formData);
     // console.log(object)
 
-    
     const payload = {
       customer: formData.customer,
       salesDate: formData.salesDate,

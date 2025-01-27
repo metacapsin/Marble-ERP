@@ -250,7 +250,7 @@ export class EditNewPurchaseComponent implements OnInit {
 
         if (resp.data.purchaseType === "slab") {
           this.lotTypeValue = resp.data.purchaseType;
-          this.findSubCategory(resp.data.slabDetails[0].categoryDetail);
+          this.findSubCategory(resp.data.slabDetails[0]?.categoryDetail);
           this.previousSlabValues = {
             slabNo: resp.data.slabDetails[0].slabNo,
             slabName: resp.data.slabDetails[0].slabName,
@@ -343,6 +343,7 @@ export class EditNewPurchaseComponent implements OnInit {
   }
 
   findSubCategory(value: any) {
+    console.log('val cate>>',value)
     let SubCategoryData: any = [];
     this.editNewPurchaseForm.get("subCategoryDetail").reset();
     SubCategoryData = this.subCategoryList.filter(

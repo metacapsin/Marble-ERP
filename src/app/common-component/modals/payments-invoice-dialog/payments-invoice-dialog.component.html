@@ -495,7 +495,7 @@
                                     </p>
                                     <p>
                                       Discount
-                                      <span>- ₹ {{ (sales?.salesDiscount || sales?.lotDetails?.purchaseDiscount ||
+                                      <span>- ₹ {{ (sales?.salesDiscount || sales?.lotDetails?.purchaseDiscount || sales?.purchaseDiscount ||
                                         sales?.quotationDiscount || 0) | indianCurrency }}</span>
                                     </p>
                                   </div>
@@ -517,9 +517,9 @@
                         <div class="row">
                           <div *ngIf="!((sales?.lotDetails || sales?.slabDetails))" class="col-6" [ngClass]="{'col-md-4': paymentInvoiceForm.get('supplier').value}">
                             <div class="form-group local-forms">
-                              <label for="paymentDate">Payment Date <span class="login-danger">*</span></label>
+                              <label for="paymentDate">Payment Datee <span class="login-danger">*</span></label>
                               <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                formControlName="paymentDate" placeholder="mm/dd/yyyy" [maxDate]="maxDate"
+                                formControlName="paymentDate" placeholder="mm/dd/yyyy" 
                                 [styleClass]="'col-12'"></p-calendar>
                               <div
                                 *ngIf="paymentInvoiceForm.get('paymentDate')?.hasError('required')  && paymentInvoiceForm.get('paymentDate')?.touched">
@@ -531,7 +531,7 @@
                             <div class="form-group local-forms">
                               <label for="paymentDate">Payment Date <span class="login-danger">*</span></label>
                               <p-calendar dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                                formControlName="paymentDate" placeholder="mm/dd/yyyy" [maxDate]="maxDate"
+                                formControlName="paymentDate" placeholder="mm/dd/yyyy" 
                                 [styleClass]="'col-12'"></p-calendar>
                               <div
                                 *ngIf="paymentInvoiceForm.get('paymentDate')?.hasError('required')  && paymentInvoiceForm.get('paymentDate')?.touched">

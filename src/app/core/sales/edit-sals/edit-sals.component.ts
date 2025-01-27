@@ -212,6 +212,9 @@ export class EditSalsComponent implements OnInit {
   }
   editAddressWithDrop() {
     this.setAddressData = this.editSalesForm.get("billingAddress")?.value;
+    this.editSalesForm.patchValue({
+      salesTermsAndCondition: this.setAddressData?.termsAndCondition,
+    });
   }
 
   ngOnInit() {

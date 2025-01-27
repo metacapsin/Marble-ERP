@@ -398,4 +398,11 @@ export class HeaderComponent {
       sidebar.classList.remove("opened");
     }
   }
+
+  logOut(){
+    localStorage.removeItem('lastSelectDate')
+    localStorage.removeItem('Private Key for My EMR_token')
+    localStorage.removeItem('currentUser')
+    this.router.navigate(['/login']);
+  }
 }

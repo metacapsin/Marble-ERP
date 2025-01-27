@@ -85,7 +85,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   invoiceDataByInvoiceId: any;
   supplierObject: this;
   selectedSupplier: any;
-
+  currentDate: Date = new Date();
   constructor(
     private paymentInService: PaymentInService,
     private paymentOutService: PaymentOutService,
@@ -98,7 +98,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     private PurchaseService: NewPurchaseService
   ) {
     this.paymentInvoiceForm = this.fb.group({
-      paymentDate: ["", [Validators.required]],
+      paymentDate: [this.currentDate, Validators.required],
       paymentMode: ["", [Validators.required]],
       note: [""],
       totalAmount: [
@@ -129,6 +129,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       }));
     });
   }
+
   // Fetch invoices when a supplier is selected
   onSuppliersSelect(event: any) {
     console.log("supplier id on supplier select", event);
@@ -269,22 +270,30 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   }
   onFormChanges(): void {
     this.paymentInvoiceForm.valueChanges.subscribe(() => {
-      const taxablePayment = this.paymentInvoiceForm?.get("taxablePaymentAmount")?.value;
-      const nonTaxablePayment = this.paymentInvoiceForm?.get("nonTaxablePaymentAmount")?.value;
-  
+      const taxablePayment = this.paymentInvoiceForm?.get(
+        "taxablePaymentAmount"
+      )?.value;
+      const nonTaxablePayment = this.paymentInvoiceForm?.get(
+        "nonTaxablePaymentAmount"
+      )?.value;
+
       // If either one of the amounts is filled, mark the form as valid
       if (taxablePayment || nonTaxablePayment) {
         this.paymentInvoiceForm?.get("totalAmount")?.setValidators(null); // Remove validators from totalAmount
-        this.paymentInvoiceForm?.get("totalAmount")?.updateValueAndValidity({ emitEvent: false });
+        this.paymentInvoiceForm
+          ?.get("totalAmount")
+          ?.updateValueAndValidity({ emitEvent: false });
       } else {
         // If neither is filled, keep the form invalid
-        this.paymentInvoiceForm?.get("totalAmount")
+        this.paymentInvoiceForm
+          ?.get("totalAmount")
           ?.setValidators([Validators.required, Validators.min(1)]);
-        this.paymentInvoiceForm?.get("totalAmount")?.updateValueAndValidity({ emitEvent: false });
+        this.paymentInvoiceForm
+          ?.get("totalAmount")
+          ?.updateValueAndValidity({ emitEvent: false });
       }
     });
   }
-  
 
   ngOnChanges(changes: SimpleChanges) {
     console.log("this.dataById", this.dataById);
@@ -327,6 +336,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           nonTaxablePaymentMode: "Cash",
           nonTaxablePaymentAmount: Number(this.dataById.nonTaxableDue),
           paymentMode: "Bank / Cash",
+          paymentDate: new Date(),
         });
         this.onSalesPaymentAmountChanges();
       } else if (this.dataById.isSalesReturn) {
@@ -374,17 +384,54 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   }
 
   onSalesPaymentAmountChanges() {
+    let salesDtl = this.dataItemsGrid[0];
+    const formData = this.paymentInvoiceForm.value;
+    console.log('formdata',formData)
     let totalAmount = this.paymentInvoiceForm.get("totalAmount");
+    let nontaxAmount = this.paymentInvoiceForm.get("nonTaxablePaymentAmount");
+    console.log('nontaxAmount',typeof nontaxAmount.value)
     let taxablePaymentAmount = this.paymentInvoiceForm.get(
       "taxablePaymentAmount"
     );
     let nonTaxablePaymentAmount = this.paymentInvoiceForm.get(
       "nonTaxablePaymentAmount"
     );
+
+    if (taxablePaymentAmount.value && nonTaxablePaymentAmount.value) {
+      let paymentmode = `${formData.taxablePaymentMode} / ${formData.nonTaxablePaymentMode}`;
+
+      this.paymentInvoiceForm.get("paymentMode").setValue(paymentmode);
+    } 
+
+    if (!taxablePaymentAmount.value) {
+      this.paymentInvoiceForm.get("taxablePaymentMode")?.setValue(null);
+      this.paymentInvoiceForm.get("paymentMode").setValue(formData.nonTaxablePaymentMode);
+    }
+
+    // Reset nonTaxablePaymentMode if nonTaxablePaymentAmount is cleared
+    if (!nonTaxablePaymentAmount.value) {
+      this.paymentInvoiceForm.get("nonTaxablePaymentMode")?.setValue(null);
+      this.paymentInvoiceForm.get("paymentMode").setValue(formData.taxablePaymentMode);
+    }
+
+   
+
+    let discountAmount =
+      Number(salesDtl?.salesDiscount) ||
+      Number(salesDtl?.lotDetails?.purchaseDiscount) ||
+      Number(salesDtl?.quotationDiscount);
+    // console.log("discountAmount", discountAmount);
     let total =
       Number(taxablePaymentAmount.value) +
       Number(nonTaxablePaymentAmount.value);
-    totalAmount.setValue(total);
+    // console.log("total", total);
+    let nontxAmount = Number(nontaxAmount.value) - Number(discountAmount || 0);
+    console.log('nontxAmount',nontxAmount)
+    let allTotlAmnt = Number(total) - Number(discountAmount);
+    nontaxAmount.setValue(Number(nontxAmount.toFixed(2)));
+    totalAmount.setValue(allTotlAmnt.toFixed(2));
+
+    console.log(" this.paymentInvoiceForm..", this.paymentInvoiceForm.value);
   }
   closeTheWindow() {
     this.close.emit();
@@ -405,381 +452,426 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   paymentInvoiceFormSubmit() {
     const formData = this.paymentInvoiceForm.value;
 
-    if (this.dataById.isSalesReturn && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
-      const payload = {
-        customer: this.dataById.customer,
-        paymentDate: formData.paymentDate,
-        paymentMode: formData.paymentMode,
-        salesReturnId: this.dataById.salesReturnId,
-        amount: Number(formData.totalAmount),
-        note: formData.note,
-      };
-      if (this.paymentInvoiceForm.valid) {
-        this.salesReturnService
-          .createSalesReturnPayment(payload)
-          .subscribe((resp: any) => {
-            console.log(resp);
-            if (resp) {
-              if (resp.status === "success") {
-                const message = "Payment Out has been added";
-                this.messageService.add({
-                  severity: "success",
-                  detail: message,
-                });
-                setTimeout(() => {
-                  this.close.emit();
-                  this.paymentInvoiceForm.reset();
-                }, 400);
-              } else {
-                const message = resp.message;
-                this.messageService.add({ severity: "error", detail: message });
-              }
-            }
-          });
-      } else {
-        console.log("invalid form");
-      }
-    }
-
-    if (this.dataById.isSales && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
-      console.log("this is sales payment forms", this.paymentInvoiceForm.value);
-      console.log("form status", this.paymentInvoiceForm.status); // Check if the form is invalid or valid
-
-      const payloadForCustomer = [
-        {
+    if (formData.totalAmount > 0) {
+      if (
+        this.dataById.isSalesReturn &&
+        this.dataById.salesInvoiceNumber !== "Opening Balance"
+      ) {
+        const payload = {
           customer: this.dataById.customer,
           paymentDate: formData.paymentDate,
           paymentMode: formData.paymentMode,
-          sales: [
-            {
-              _id: this.dataById.salesId,
-              amount: Number(formData.totalAmount),
-              salesInvoiceNumber: this.dataById.salesInvoiceNumber,
-            },
-          ],
-          taxablePaymentAmount: formData.taxablePaymentAmount
-            ? {
-                amount: formData.taxablePaymentAmount,
-                paymentMode: formData.taxablePaymentMode,
-              }
-            : null,
-          nonTaxablePaymentAmount: formData.nonTaxablePaymentAmount
-            ? {
-                amount: formData.nonTaxablePaymentAmount,
-                paymentMode: formData.nonTaxablePaymentMode,
-              }
-            : null,
+          salesReturnId: this.dataById.salesReturnId,
+          amount: Number(formData.totalAmount),
           note: formData.note,
-        },
-      ];
-
-      console.log("payload for customer", payloadForCustomer);
-
-      const customerTotalPayment =
-        formData.taxablePaymentAmount + formData.nonTaxablePaymentAmount;
-
-      // Calculate non-taxable and remaining payments for supplier
-      let supplierNonTaxablePayment = Math.min(
-        customerTotalPayment,
-        this.invoiceDataByInvoiceId?.nonTaxableDue || 0
-      );
-      let remainingPaymentForTaxable =
-        customerTotalPayment - supplierNonTaxablePayment;
-
-      // Conditionally set the taxable payment
-      let supplierTaxablePayment = this.invoiceDataByInvoiceId?.taxVendor
-        ? null
-        : Math.min(
-            remainingPaymentForTaxable,
-            this.invoiceDataByInvoiceId?.taxableDue || 0
-          );
-
-      // Determine the purchase amount based on conditions
-      let purchaseAmount;
-      if (this.invoiceDataByInvoiceId?.taxVendor) {
-        // Condition 1: If taxVendor exists, only use non-taxable amount
-        if (this.invoiceDataByInvoiceId?.nonTaxableDue) {
-          purchaseAmount = supplierNonTaxablePayment;
-        } else {
-          purchaseAmount = null; // Clear purchase amount if no valid non-taxable due
-        }
-      } else if (supplierNonTaxablePayment > 0 || supplierTaxablePayment > 0) {
-        // Condition 2: No taxVendor, both non-taxable and taxable payments apply
-        purchaseAmount =
-          (supplierNonTaxablePayment || 0) + (supplierTaxablePayment || 0);
-      } else {
-        // Condition 3: No due amounts, purchase amount should remain undefined or null
-        purchaseAmount = null;
-      }
-      const isNonTaxableDueValid =
-        this.invoiceDataByInvoiceId?.nonTaxableDue > 0;
-
-      // Construct the payload
-      const payloadforSupplier = [
-        {
-          supplier: this?.selectedSupplier,
-          paymentDate: formData?.paymentDate,
-          paymentMode: formData?.paymentMode,
-          purchase: purchaseAmount
-            ? [
-                {
-                  _id: this.invoiceDataByInvoiceId?.value,
-                  amount: purchaseAmount, // Conditionally set based on above logic
-                  purchaseInvoiceNumber: this.invoiceDataByInvoiceId?.label,
-                },
-              ]
-            : [], // Skip purchase field if purchaseAmount is null
-          taxablePaymentAmount: this.invoiceDataByInvoiceId?.taxVendor
-            ? null
-            : supplierTaxablePayment
-            ? {
-                amount: supplierTaxablePayment,
-                paymentMode: formData?.taxablePaymentMode,
+        };
+        if (this.paymentInvoiceForm.valid) {
+          this.salesReturnService
+            .createSalesReturnPayment(payload)
+            .subscribe((resp: any) => {
+              console.log(resp);
+              if (resp) {
+                if (resp.status === "success") {
+                  const message = "Payment Out has been added";
+                  this.messageService.add({
+                    severity: "success",
+                    detail: message,
+                  });
+                  setTimeout(() => {
+                    this.close.emit();
+                    this.paymentInvoiceForm.reset();
+                  }, 400);
+                } else {
+                  const message = resp.message;
+                  this.messageService.add({
+                    severity: "error",
+                    detail: message,
+                  });
+                }
               }
-            : null,
-          nonTaxablePaymentAmount:
-            isNonTaxableDueValid && supplierNonTaxablePayment > 0
+            });
+        } else {
+          console.log("invalid form");
+        }
+      }
+
+      if (
+        this.dataById.isSales &&
+        this.dataById.salesInvoiceNumber !== "Opening Balance"
+      ) {
+        console.log(
+          "this is sales payment forms",
+          this.paymentInvoiceForm.value
+        );
+        console.log("form status", this.paymentInvoiceForm.status); // Check if the form is invalid or valid
+
+        const payloadForCustomer = [
+          {
+            customer: this.dataById.customer,
+            paymentDate: formData.paymentDate,
+            paymentMode: formData.paymentMode,
+            sales: [
+              {
+                _id: this.dataById.salesId,
+                amount: Number(formData.totalAmount),
+                salesInvoiceNumber: this.dataById.salesInvoiceNumber,
+              },
+            ],
+            taxablePaymentAmount: formData.taxablePaymentAmount
               ? {
-                  amount: supplierNonTaxablePayment,
-                  paymentMode: formData?.nonTaxablePaymentMode,
+                  amount: formData.taxablePaymentAmount,
+                  paymentMode: formData.taxablePaymentMode,
                 }
               : null,
-          note: formData?.note,
-        },
-      ];
-      console.log("Payload for supplier", payloadforSupplier);
-
-      if (this.paymentInvoiceForm.valid) {
-        this.paymentInService
-          .createPayment(payloadForCustomer)
-          .subscribe((resp: any) => {
-            console.log(resp);
-            if (resp) {
-              if (resp.status === "success") {
-                const message = "Payment has been added";
-                this.messageService.add({
-                  severity: "success",
-                  detail: message,
-                });
-                setTimeout(() => {
-                  this.close.emit();
-                  this.paymentInvoiceForm.reset();
-                }, 400);
-              } else {
-                const message = resp.message;
-                this.messageService.add({ severity: "error", detail: message });
-              }
-            }
-          });
-        if (this.selectedSupplier) {
-          console.log(
-            "selected supplier condition is true",
-            this.selectedSupplier
-          );
-          if (purchaseAmount > 0) {
-            this.paymentOutService
-              .createPayment(payloadforSupplier)
-              .subscribe((resp: any) => {
-                console.log(resp);
-                if (resp) {
-                  if (resp.status === "success") {
-                    const message = "Payment has been added";
-                    console.log(message);
-                    // this.messageService.add({ severity: "success", detail: message });
-                    setTimeout(() => {
-                      this.close.emit();
-                      this.paymentInvoiceForm.reset();
-                    }, 400);
-                  } else {
-                    const message = resp.message;
-                    // this.messageService.add({
-                    //   severity: "error",
-                    //   detail: message,
-                    // });
-                    console.log(message);
-                  }
+            nonTaxablePaymentAmount: formData.nonTaxablePaymentAmount
+              ? {
+                  amount: formData.nonTaxablePaymentAmount,
+                  paymentMode: formData.nonTaxablePaymentMode,
                 }
-              });
-          }
-          
-        } else {
-          console.log("Supplier Is Not Select in the form");
-        }
-      } else {
-        console.log("invalid form");
-      }
-    }
-    // console.log(this.dataById.isPurchase);
-    // for create purchase payment
-    if (this.dataById.isPurchase && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
-      console.log("this.dataById", this.dataById);
-      console.log("dataItemsGrid", this.dataItemsGrid);
+              : null,
+            note: formData.note,
+          },
+        ];
 
-      const payload = [
-        {
+        console.log("payload for customer", payloadForCustomer);
+
+        const customerTotalPayment =
+          formData.taxablePaymentAmount + formData.nonTaxablePaymentAmount;
+
+        // Calculate non-taxable and remaining payments for supplier
+        let supplierNonTaxablePayment = Math.min(
+          customerTotalPayment,
+          this.invoiceDataByInvoiceId?.nonTaxableDue || 0
+        );
+        let remainingPaymentForTaxable =
+          customerTotalPayment - supplierNonTaxablePayment;
+
+        // Conditionally set the taxable payment
+        let supplierTaxablePayment = this.invoiceDataByInvoiceId?.taxVendor
+          ? null
+          : Math.min(
+              remainingPaymentForTaxable,
+              this.invoiceDataByInvoiceId?.taxableDue || 0
+            );
+
+        // Determine the purchase amount based on conditions
+        let purchaseAmount;
+        if (this.invoiceDataByInvoiceId?.taxVendor) {
+          // Condition 1: If taxVendor exists, only use non-taxable amount
+          if (this.invoiceDataByInvoiceId?.nonTaxableDue) {
+            purchaseAmount = supplierNonTaxablePayment;
+          } else {
+            purchaseAmount = null; // Clear purchase amount if no valid non-taxable due
+          }
+        } else if (
+          supplierNonTaxablePayment > 0 ||
+          supplierTaxablePayment > 0
+        ) {
+          // Condition 2: No taxVendor, both non-taxable and taxable payments apply
+          purchaseAmount =
+            (supplierNonTaxablePayment || 0) + (supplierTaxablePayment || 0);
+        } else {
+          // Condition 3: No due amounts, purchase amount should remain undefined or null
+          purchaseAmount = null;
+        }
+        const isNonTaxableDueValid =
+          this.invoiceDataByInvoiceId?.nonTaxableDue > 0;
+
+        // Construct the payload
+        const payloadforSupplier = [
+          {
+            supplier: this?.selectedSupplier,
+            paymentDate: formData?.paymentDate,
+            paymentMode: formData?.paymentMode,
+            purchase: purchaseAmount
+              ? [
+                  {
+                    _id: this.invoiceDataByInvoiceId?.value,
+                    amount: purchaseAmount, // Conditionally set based on above logic
+                    purchaseInvoiceNumber: this.invoiceDataByInvoiceId?.label,
+                  },
+                ]
+              : [], // Skip purchase field if purchaseAmount is null
+            taxablePaymentAmount: this.invoiceDataByInvoiceId?.taxVendor
+              ? null
+              : supplierTaxablePayment
+              ? {
+                  amount: supplierTaxablePayment,
+                  paymentMode: formData?.taxablePaymentMode,
+                }
+              : null,
+            nonTaxablePaymentAmount:
+              isNonTaxableDueValid && supplierNonTaxablePayment > 0
+                ? {
+                    amount: supplierNonTaxablePayment,
+                    paymentMode: formData?.nonTaxablePaymentMode,
+                  }
+                : null,
+            note: formData?.note,
+          },
+        ];
+        console.log("Payload for supplier", payloadforSupplier);
+
+        if (this.paymentInvoiceForm.valid) {
+          this.paymentInService
+            .createPayment(payloadForCustomer)
+            .subscribe((resp: any) => {
+              console.log(resp);
+              if (resp) {
+                if (resp.status === "success") {
+                  const message = "Payment has been added";
+                  this.messageService.add({
+                    severity: "success",
+                    detail: message,
+                  });
+                  setTimeout(() => {
+                    this.close.emit();
+                    this.paymentInvoiceForm.reset();
+                  }, 400);
+                } else {
+                  const message = resp.message;
+                  this.messageService.add({
+                    severity: "error",
+                    detail: message,
+                  });
+                }
+              }
+            });
+          if (this.selectedSupplier) {
+            console.log(
+              "selected supplier condition is true",
+              this.selectedSupplier
+            );
+            if (purchaseAmount > 0) {
+              this.paymentOutService
+                .createPayment(payloadforSupplier)
+                .subscribe((resp: any) => {
+                  console.log(resp);
+                  if (resp) {
+                    if (resp.status === "success") {
+                      const message = "Payment has been added";
+                      console.log(message);
+                      // this.messageService.add({ severity: "success", detail: message });
+                      setTimeout(() => {
+                        this.close.emit();
+                        this.paymentInvoiceForm.reset();
+                      }, 400);
+                    } else {
+                      const message = resp.message;
+                      // this.messageService.add({
+                      //   severity: "error",
+                      //   detail: message,
+                      // });
+                      console.log(message);
+                    }
+                  }
+                });
+            }
+          } else {
+            console.log("Supplier Is Not Select in the form");
+          }
+        } else {
+          console.log("invalid form");
+        }
+      }
+      // console.log(this.dataById.isPurchase);
+      // for create purchase payment
+      if (
+        this.dataById.isPurchase &&
+        this.dataById.salesInvoiceNumber !== "Opening Balance"
+      ) {
+        console.log("this.dataById", this.dataById);
+        console.log("dataItemsGrid", this.dataItemsGrid);
+
+        const payload = [
+          {
+            supplier: this.dataById.supplier,
+            paymentDate: formData.paymentDate,
+            paymentMode: formData.paymentMode,
+            purchase: [
+              {
+                _id: this.dataById.purchaseId,
+                amount: !this.dataItemsGrid[0]?.taxVendor
+                  ? Number(formData.totalAmount)
+                  : formData.nonTaxablePaymentAmount,
+                purchaseInvoiceNumber: this.dataById.purchaseInvoiceNumber,
+              },
+            ],
+            taxablePaymentAmount: formData.taxablePaymentAmount
+              ? {
+                  amount: !this.dataItemsGrid[0]?.taxVendor
+                    ? formData.taxablePaymentAmount
+                    : 0,
+                  paymentMode: formData.taxablePaymentMode,
+                }
+              : null,
+            nonTaxablePaymentAmount: formData.nonTaxablePaymentAmount
+              ? {
+                  amount: formData.nonTaxablePaymentAmount,
+                  paymentMode: formData.nonTaxablePaymentMode,
+                }
+              : null,
+            note: formData.note,
+          },
+        ];
+
+        if (this.paymentInvoiceForm.valid) {
+          this.paymentOutService
+            .createPayment(payload)
+            .subscribe((resp: any) => {
+              console.log(resp);
+              if (resp) {
+                if (resp.status === "success") {
+                  const message = "Payment has been added";
+                  this.messageService.add({
+                    severity: "success",
+                    detail: message,
+                  });
+                  setTimeout(() => {
+                    this.close.emit();
+                    this.paymentInvoiceForm.reset();
+                  }, 400);
+                } else {
+                  const message = resp.message;
+                  this.messageService.add({
+                    severity: "error",
+                    detail: message,
+                  });
+                }
+              }
+            });
+        } else {
+          console.log("invalid form");
+        }
+      }
+
+      // for purchase return payment
+      if (this.dataById.isPurchaseReturn) {
+        const payload = {
           supplier: this.dataById.supplier,
           paymentDate: formData.paymentDate,
           paymentMode: formData.paymentMode,
-          purchase: [
-            {
-              _id: this.dataById.purchaseId,
-              amount: !this.dataItemsGrid[0]?.taxVendor
-                ? Number(formData.totalAmount)
-                : formData.nonTaxablePaymentAmount,
-              purchaseInvoiceNumber: this.dataById.purchaseInvoiceNumber,
-            },
-          ],
-          taxablePaymentAmount: formData.taxablePaymentAmount
-            ? {
-                amount: !this.dataItemsGrid[0]?.taxVendor
-                  ? formData.taxablePaymentAmount
-                  : 0,
-                paymentMode: formData.taxablePaymentMode,
-              }
-            : null,
-          nonTaxablePaymentAmount: formData.nonTaxablePaymentAmount
-            ? {
-                amount: formData.nonTaxablePaymentAmount,
-                paymentMode: formData.nonTaxablePaymentMode,
-              }
-            : null,
-          note: formData.note,
-        },
-      ];
-
-      if (this.paymentInvoiceForm.valid) {
-        this.paymentOutService.createPayment(payload).subscribe((resp: any) => {
-          console.log(resp);
-          if (resp) {
-            if (resp.status === "success") {
-              const message = "Payment has been added";
-              this.messageService.add({ severity: "success", detail: message });
-              setTimeout(() => {
-                this.close.emit();
-                this.paymentInvoiceForm.reset();
-              }, 400);
-            } else {
-              const message = resp.message;
-              this.messageService.add({ severity: "error", detail: message });
-            }
-          }
-        });
-      } else {
-        console.log("invalid form");
-      }
-    }
-
-    // for purchase return payment
-    if (this.dataById.isPurchaseReturn) {
-      const payload = {
-        supplier: this.dataById.supplier,
-        paymentDate: formData.paymentDate,
-        paymentMode: formData.paymentMode,
-        purchaseReturnId: this.dataById.purchaseReturnId,
-        amount: Number(formData.totalAmount),
-        note: formData.note,
-      };
-      if (this.paymentInvoiceForm.valid) {
-        this.purchaseReturnPaymentService
-          .createPurchaseReturnPayment(payload)
-          .subscribe((resp: any) => {
-            console.log(resp);
-            if (resp) {
-              if (resp.status === "success") {
-                const message = "Payment In has been added";
-                this.messageService.add({
-                  severity: "success",
-                  detail: message,
-                });
-                setTimeout(() => {
-                  this.close.emit();
-                  this.paymentInvoiceForm.reset();
-                }, 400);
-              } else {
-                const message = resp.message;
-                this.messageService.add({ severity: "error", detail: message });
-              }
-            }
-          });
-      } else {
-        console.log("invalid form");
-      }
-    }
-
-    //For slab Processing Payment
-    if (this.dataById.isSlabProcessing && this.dataById.salesInvoiceNumber !== 'Opening Balance') {
-      const payload = {
-        processor: this.dataById.customer,
-        paymentDate: formData.paymentDate,
-        paymentMode: formData.paymentMode,
-        slabProcessing: {
-          _id: this.dataById.slabProcessing_id,
+          purchaseReturnId: this.dataById.purchaseReturnId,
           amount: Number(formData.totalAmount),
-        },
-        slabInvoiceNumber: this.dataById.processingInvoiceNo,
-        note: formData.note,
-      };
-      if (this.paymentInvoiceForm.valid) {
-        this.blockProcessorService
-          .createPayment(payload)
-          .subscribe((resp: any) => {
-            console.log(resp);
-            if (resp) {
-              if (resp.status === "success") {
-                const message = "Slab Processing Payment has been added";
-                this.messageService.add({
-                  severity: "success",
-                  detail: message,
-                });
-                setTimeout(() => {
-                  this.close.emit();
-                  this.paymentInvoiceForm.reset();
-                }, 400);
-              } else {
-                const message = resp.message;
-                this.messageService.add({ severity: "error", detail: message });
+          note: formData.note,
+        };
+        if (this.paymentInvoiceForm.valid) {
+          this.purchaseReturnPaymentService
+            .createPurchaseReturnPayment(payload)
+            .subscribe((resp: any) => {
+              console.log(resp);
+              if (resp) {
+                if (resp.status === "success") {
+                  const message = "Payment In has been added";
+                  this.messageService.add({
+                    severity: "success",
+                    detail: message,
+                  });
+                  setTimeout(() => {
+                    this.close.emit();
+                    this.paymentInvoiceForm.reset();
+                  }, 400);
+                } else {
+                  const message = resp.message;
+                  this.messageService.add({
+                    severity: "error",
+                    detail: message,
+                  });
+                }
               }
-            }
-          });
-      } else {
-        console.log("invalid form");
+            });
+        } else {
+          console.log("invalid form");
+        }
       }
-    }
 
-    if (this.dataById.salesInvoiceNumber === 'Opening Balance') {
-      const payload = {
-        _id:this.dataById.customerId,
-        paymentAmount:formData.totalAmount,
-        paymentDate: formData.paymentDate,
-        paymentMode: formData.paymentMode,
-        note: formData.note,
-      };
-      if (this.paymentInvoiceForm.valid) {
-        this.blockProcessorService
-          .createOpeningBal(payload)
-          .subscribe((resp: any) => {
-            console.log(resp);
-            if (resp) {
-              if (resp.status === "success") {
-                const message = "Opening Balance Payment has been added";
-                this.messageService.add({
-                  severity: "success",
-                  detail: message,
-                });
-                setTimeout(() => {
-                  this.close.emit();
-                  this.paymentInvoiceForm.reset();
-                }, 400);
-              } else {
-                const message = resp.message;
-                this.messageService.add({ severity: "error", detail: message });
+      //For slab Processing Payment
+      if (
+        this.dataById.isSlabProcessing &&
+        this.dataById.salesInvoiceNumber !== "Opening Balance"
+      ) {
+        const payload = {
+          processor: this.dataById.customer,
+          paymentDate: formData.paymentDate,
+          paymentMode: formData.paymentMode,
+          slabProcessing: {
+            _id: this.dataById.slabProcessing_id,
+            amount: Number(formData.totalAmount),
+          },
+          slabInvoiceNumber: this.dataById.processingInvoiceNo,
+          note: formData.note,
+        };
+        if (this.paymentInvoiceForm.valid) {
+          this.blockProcessorService
+            .createPayment(payload)
+            .subscribe((resp: any) => {
+              console.log(resp);
+              if (resp) {
+                if (resp.status === "success") {
+                  const message = "Slab Processing Payment has been added";
+                  this.messageService.add({
+                    severity: "success",
+                    detail: message,
+                  });
+                  setTimeout(() => {
+                    this.close.emit();
+                    this.paymentInvoiceForm.reset();
+                  }, 400);
+                } else {
+                  const message = resp.message;
+                  this.messageService.add({
+                    severity: "error",
+                    detail: message,
+                  });
+                }
               }
-            }
-          });
-      } else {
-        console.log("invalid form");
+            });
+        } else {
+          console.log("invalid form");
+        }
       }
+
+      if (this.dataById.salesInvoiceNumber === "Opening Balance") {
+        const payload = {
+          _id: this.dataById.customerId,
+          paymentAmount: formData.totalAmount,
+          paymentDate: formData.paymentDate,
+          paymentMode: formData.paymentMode,
+          note: formData.note,
+        };
+        if (this.paymentInvoiceForm.valid) {
+          this.blockProcessorService
+            .createOpeningBal(payload)
+            .subscribe((resp: any) => {
+              console.log(resp);
+              if (resp) {
+                if (resp.status === "success") {
+                  const message = "Opening Balance Payment has been added";
+                  this.messageService.add({
+                    severity: "success",
+                    detail: message,
+                  });
+                  setTimeout(() => {
+                    this.close.emit();
+                    this.paymentInvoiceForm.reset();
+                  }, 400);
+                } else {
+                  const message = resp.message;
+                  this.messageService.add({
+                    severity: "error",
+                    detail: message,
+                  });
+                }
+              }
+            });
+        } else {
+          console.log("invalid form");
+        }
+      }
+      this.formSubmitted.emit();
+    } else {
+      const message = "Oops! your Amount is less then 1 ";
+      this.messageService.add({ severity: "error", detail: message });
     }
-    this.formSubmitted.emit();
   }
 }
