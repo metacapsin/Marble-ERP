@@ -20,7 +20,7 @@
                 <div class="col-sm-12">
                   <div class=" card-table show-entire">
                     <div class="card p-3">
-                      <form [formGroup]="paymentInvoiceForm" (ngSubmit)="paymentInvoiceFormSubmit()">
+                      <form [formGroup]="paymentInvoiceForm" >
                         <div class="row">
                           <div class="col-sm-12">
                             <div class="card  ">
@@ -725,7 +725,7 @@
                                   </p>
                                   <div class="form-group d-flex flex-wrap gap-2">
                                     <button type="submit" class="btn btn-primary btn-gradient-primary w-100 w-md-auto"
-                                      >
+                                    (click)="paymentInvoiceFormSubmit()" >
                                       <!-- [disabled]="!paymentInvoiceForm.valid" -->
                                       Submit
                                     </button>

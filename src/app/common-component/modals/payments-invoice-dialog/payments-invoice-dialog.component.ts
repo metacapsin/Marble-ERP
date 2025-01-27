@@ -425,17 +425,18 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       Number(taxablePaymentAmount.value) +
       Number(nonTaxablePaymentAmount.value);
     // console.log("total", total);
-    let nontxAmount = Number(nontaxAmount.value) - Number(discountAmount || 0);
+    let nontxAmount = Number(nontaxAmount.value || 0) - Number(discountAmount || 0);
     console.log('nontxAmount',nontxAmount)
-    let allTotlAmnt = Number(total) - Number(discountAmount);
+    let allTotlAmnt = Number(total || 0) - Number(discountAmount || 0);
     nontaxAmount.setValue(Number(nontxAmount.toFixed(2)));
     totalAmount.setValue(allTotlAmnt.toFixed(2));
 
     console.log(" this.paymentInvoiceForm..", this.paymentInvoiceForm.value);
   }
   closeTheWindow() {
-    this.close.emit();
     this.paymentInvoiceForm.reset();
+    this.close.emit();
+   
   }
 
   onConfirm() {
