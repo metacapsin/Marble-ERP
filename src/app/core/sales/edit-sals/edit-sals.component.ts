@@ -17,6 +17,7 @@ import { LocalStorageService } from "src/app/shared/data/local-storage.service";
 import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { BillingAddressService } from "../../settings/billing-Address/billingAddress.service";
 import { validationRegex } from "../../validation";
+import { dashboardService } from "../../dashboard/dashboard.service";
 
 @Component({
   selector: "app-edit-sals",
@@ -43,7 +44,7 @@ export class EditSalsComponent implements OnInit {
   maxQuantity: number;
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,30})$/;
   notesRegex = /^(?:.{2,100})$/;
-  tandCRegex =  /^[\s\S]{2,100}$/;
+  tandCRegex = /^[\s\S]{2,100}$/;
   customer: any = ([] = []);
   returnUrl: string;
   wareHousedataListsEditArray: any[];
@@ -60,7 +61,10 @@ export class EditSalsComponent implements OnInit {
   salesGrossTotal: number;
   salesOrderTax: number;
   totalTaxableAmount: number = 0;
+  displayEwayBillPopup: boolean = false;
   salesId: any;
+  ewayBillForm: FormGroup;
+  vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -73,8 +77,18 @@ export class EditSalsComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private services: WarehouseService,
     private activeRoute: ActivatedRoute,
-    private SalesService: SalesService
+    private SalesService: SalesService,
+    private dashboard: dashboardService
   ) {
+    this.ewayBillForm = this.fb.group({
+      ewayBillNo: ["", Validators.required],
+      date: [null, Validators.required],
+      dispatchedThrough: ["", Validators.required],
+      transporter: ["", Validators.required],
+      vehicleNumber: ["", Validators.pattern(this.vehicleRegex)],
+      deliveryTerms: [""],
+    });
+
     this.editSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
@@ -92,7 +106,10 @@ export class EditSalsComponent implements OnInit {
               Validators.max(this.maxQuantity),
             ],
           ],
-          salesItemUnitPrice: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
+          salesItemUnitPrice: [
+            "",
+            [Validators.required, Validators.min(0), Validators.max(100000)],
+          ],
           salesItemTax: [""],
           salesItemTotal: [""],
           salesItemTaxAmount: [""],
@@ -102,8 +119,12 @@ export class EditSalsComponent implements OnInit {
           salesItemNonTaxableAmount: ["", Validators.min(0)],
           salesItemTaxableAmount: ["", Validators.min(0)],
           salesItemAppliedTaxAmount: ["", Validators.min(0)],
-          salesItemPieces: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
-          sqftPerPiece: ['']
+          salesItemPieces: [
+            "",
+            [Validators.required, Validators.min(0), Validators.max(100000)],
+          ],
+          sqftPerPiece: [""],
+          
         }),
       ]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
@@ -113,24 +134,33 @@ export class EditSalsComponent implements OnInit {
       vendorTaxApplied: ["", [Validators.max(100), Validators.min(0)]],
       vendorTaxAmount: [""],
       appliedTax: [""],
-      salesShipping: ["", [Validators.pattern(validationRegex.oneToOneLakhRegex)]],
+      salesShipping: [
+        "",
+        [Validators.pattern(validationRegex.oneToOneLakhRegex)],
+      ],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
       salesTotalAmount: ["", [Validators.min(0)]],
-      otherCharges: ["", [Validators.pattern(validationRegex.oneToOneLakhRegex)]],
+      otherCharges: [
+        "",
+        [Validators.pattern(validationRegex.oneToOneLakhRegex)],
+      ],
       taxable: [""],
       nonTaxable: [""],
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
+      eWayBill: [""],
     });
 
     // Set up a value change subscription to update the max validator for salesDiscount
-    this.editSalesForm.get('salesGrossTotal').valueChanges.subscribe(value => {
-      const salesDiscountControl = this.editSalesForm.get('salesDiscount');
-      salesDiscountControl.setValidators([
-        Validators.min(0),
-        Validators.max(value || 0)
-      ]);
-      salesDiscountControl.updateValueAndValidity();
-    });
+    this.editSalesForm
+      .get("salesGrossTotal")
+      .valueChanges.subscribe((value) => {
+        const salesDiscountControl = this.editSalesForm.get("salesDiscount");
+        salesDiscountControl.setValidators([
+          Validators.min(0),
+          Validators.max(value || 0),
+        ]);
+        salesDiscountControl.updateValueAndValidity();
+      });
 
     this.salesId = this.activeRoute.snapshot.params["id"];
   }
@@ -138,6 +168,19 @@ export class EditSalsComponent implements OnInit {
   get salesItemDetails() {
     return this.editSalesForm.controls["salesItemDetails"] as FormArray;
   }
+
+  public setValidations(formControlName: string) {
+    return (
+      this.ewayBillForm.get(formControlName)?.invalid &&
+      (this.ewayBillForm.get(formControlName)?.dirty ||
+        this.ewayBillForm.get(formControlName)?.touched)
+    );
+  }
+
+  dispatchOptions = [
+    { label: "By Road", value: "Road" },
+    { label: "By Train", value: "Train" },
+  ];
 
   deletesalesItemDetails(salesItemDetailsIndex: number) {
     this.salesItemDetails.removeAt(salesItemDetailsIndex);
@@ -164,7 +207,10 @@ export class EditSalsComponent implements OnInit {
           Validators.max(this.maxQuantity),
         ],
       ],
-      salesItemUnitPrice: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
+      salesItemUnitPrice: [
+        "",
+        [Validators.required, Validators.min(0), Validators.max(100000)],
+      ],
       salesItemTax: [""],
       salesItemTotal: [""],
       salesItemTaxAmount: [""],
@@ -174,9 +220,11 @@ export class EditSalsComponent implements OnInit {
       salesItemNonTaxableAmount: ["", Validators.min(0)],
       salesItemTaxableAmount: ["", Validators.min(0)],
       salesItemAppliedTaxAmount: ["", Validators.min(0)],
-      salesItemPieces: ["", [Validators.required, Validators.min(0), Validators.max(100000)]],
-      sqftPerPiece: ['']
-
+      salesItemPieces: [
+        "",
+        [Validators.required, Validators.min(0), Validators.max(100000)],
+      ],
+      sqftPerPiece: [""],
     });
     this.salesItemDetails.push(item);
   }
@@ -184,14 +232,14 @@ export class EditSalsComponent implements OnInit {
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
       (resp: any) => {
         this.originalSlabData = resp.data;
-        console.log('resp.data?>>>',resp.data)
+        console.log("resp.data?>>>", resp.data);
         this.slabDatas = resp.data.map((element) => ({
           name: element.slabName,
           _id: {
             _id: element._id,
             slabName: element.slabName,
             slabNo: element.slabNo,
-            hsnCode:element.subCategoryDetail?.hsnCode,
+            hsnCode: element.subCategoryDetail?.hsnCode,
           },
         }));
         this.salesItemDetails.controls.forEach((element, index) => {
@@ -215,6 +263,31 @@ export class EditSalsComponent implements OnInit {
     this.editSalesForm.patchValue({
       salesTermsAndCondition: this.setAddressData?.termsAndCondition,
     });
+  }
+
+  onSubmit() {
+    if (this.ewayBillForm.valid) {
+      console.log("E-way Bill Data:", this.ewayBillForm.value);
+      let formData = this.ewayBillForm.value;
+      let formaeDate = this.dashboard.getFormattedDate(formData.date);
+
+      let payload = {
+        date: formaeDate,
+        ewayBillNo: formData.ewayBillNo,
+        dispatchedThrough: formData.dispatchedThrough,
+        transporter: formData.transporter,
+        vehicleNumber: formData.vehicleNumber,
+        deliveryTerms: formData.deliveryTerms,
+      };
+
+      this.editSalesForm.patchValue({
+        eWayBill: payload,
+      });
+
+      this.displayEwayBillPopup = false;
+    }
+
+    console.log("E-way Bill addSalesForm:", this.editSalesForm.value);
   }
 
   ngOnInit() {
@@ -296,12 +369,14 @@ export class EditSalsComponent implements OnInit {
 
     this.services.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedataListsEditArray = [];
+     
       resp.data.forEach((element: any) => {
         this.wareHousedataListsEditArray.push({
           name: element.name,
           _id: {
             _id: element._id,
             name: element.name,
+           
           },
         });
       });
@@ -319,7 +394,7 @@ export class EditSalsComponent implements OnInit {
   }
 
   patchForm(data) {
-    console.log('data', data);
+    console.log("data>>", data);
     this.setAddressData = data.billingAddress;
     this.editSalesForm.patchValue({
       billingAddress: data.billingAddress,
@@ -337,17 +412,27 @@ export class EditSalsComponent implements OnInit {
       otherCharges: data.otherCharges,
     });
 
+    let Ebill = data?.eWayBill;
+    console.log("ebill", Ebill);
+    this.ewayBillForm.patchValue({
+      date: new Date(Ebill?.date),
+      ewayBillNo: Ebill?.ewayBillNo,
+      dispatchedThrough: Ebill?.dispatchedThrough,
+      transporter: Ebill?.transporter,
+      vehicleNumber: Ebill?.vehicleNumber,
+      deliveryTerms: Ebill?.deliveryTerms,
+    });
+    console.log(" this.ewayBillForm", this.ewayBillForm.value);
     this.salesItemDetails.clear(); // Clear existing items
 
     // Patch sales item details and disable product field
     data.salesItemDetails.forEach((item: any, index: number) => {
-      this.onWareHouseSelect(item.salesWarehouseDetails,index);
+      this.onWareHouseSelect(item.salesWarehouseDetails, index);
 
-      console.log('item',item)
+      console.log("item", item);
 
       this.totalTaxableAmount = Number(item.salesItemTaxableAmount);
 
-     
       const salesItem = this.fb.group({
         salesItemProduct: [item.salesItemProduct, [Validators.required]],
         salesItemQuantity: [
@@ -358,24 +443,53 @@ export class EditSalsComponent implements OnInit {
             Validators.max(this.maxQuantity),
           ],
         ],
-        salesItemUnitPrice: [item.salesItemUnitPrice, [Validators.required, Validators.min(0), Validators.max(100000)]],
+        salesItemUnitPrice: [
+          item.salesItemUnitPrice,
+          [Validators.required, Validators.min(0), Validators.max(100000)],
+        ],
         salesItemTax: [item.salesItemTax],
         salesItemTotal: [item.salesItemTotal],
         salesItemTaxAmount: [item.salesItemTaxAmount],
-        salesItemSubTotal: [item.salesItemSubTotal, [Validators.required, Validators.min(0)]],
+        salesItemSubTotal: [
+          item.salesItemSubTotal,
+          [Validators.required, Validators.min(0)],
+        ],
         maxQuantity: [item.maxQuantity],
-        salesWarehouseDetails: [item.salesWarehouseDetails, [Validators.required]],
-        salesItemNonTaxableAmount: [item.salesItemNonTaxableAmount, Validators.min(0)],
-        salesItemTaxableAmount: [item.salesItemTaxableAmount, Validators.min(0)],
-        salesItemAppliedTaxAmount: [item.salesItemAppliedTaxAmount, Validators.min(0)],
-        salesItemPieces: [item.salesItemPieces, [Validators.required, Validators.min(0), Validators.max(100000)]],
-        sqftPerPiece: [item.sqftPerPiece]
+        salesWarehouseDetails: [
+          item.salesWarehouseDetails,
+          [Validators.required],
+        ],
+        salesItemNonTaxableAmount: [
+          item.salesItemNonTaxableAmount,
+          Validators.min(0),
+        ],
+        salesItemTaxableAmount: [
+          item.salesItemTaxableAmount,
+          Validators.min(0),
+        ],
+        salesItemAppliedTaxAmount: [
+          item.salesItemAppliedTaxAmount,
+          Validators.min(0),
+        ],
+        salesItemPieces: [
+          item.salesItemPieces,
+          [Validators.required, Validators.min(0), Validators.max(100000)],
+        ],
+        sqftPerPiece: [item.sqftPerPiece],
       });
-     
- 
+
       this.salesItemDetails.push(salesItem);
       // this.calculateTotalAmount();
     });
+  }
+
+  openEwayBillPopup() {
+    this.displayEwayBillPopup = true;
+  }
+
+  // Close the popup (if needed)
+  closeEwayBillPopup() {
+    this.displayEwayBillPopup = false;
   }
 
   editAddress() {
@@ -401,9 +515,9 @@ export class EditSalsComponent implements OnInit {
     });
   }
   onSlabSelect(value, i) {
-    console.log('value',value)
-    
-console.log('this.originalSlabData',this.originalSlabData)
+    console.log("value", value);
+
+    console.log("this.originalSlabData", this.originalSlabData);
     const rec = this.originalSlabData?.find(
       (item) => item._id === value._id
     )?.subCategoryDetail;
@@ -419,17 +533,16 @@ console.log('this.originalSlabData',this.originalSlabData)
         const existingProduct = salesItemGroup.get("salesItemProduct")?.value;
         console.log("Existing Product:", existingProduct);
         // Use Object.assign to update the object without changing the reference
-      if(existingProduct){
-        Object.assign(existingProduct, {
-          hsnCode: rec?.hsnCode || null,
-        });
-      
-        salesItemGroup.patchValue({
-          salesItemProduct: existingProduct,
-        });
-      }
+        if (existingProduct) {
+          Object.assign(existingProduct, {
+            hsnCode: rec?.hsnCode || null,
+          });
+
+          salesItemGroup.patchValue({
+            salesItemProduct: existingProduct,
+          });
+        }
       });
-      
     } else {
       console.error("hsnCode not found in rec:", rec);
     }
@@ -454,16 +567,24 @@ console.log('this.originalSlabData',this.originalSlabData)
         }
       }
 
-      const salesItemUnitPriceControl = salesItemDetailsArray.at(i)?.get("salesItemUnitPrice");
-      const maxQuantityControl = salesItemDetailsArray.at(i)?.get("maxQuantity");
-      const sqftPerPieceControl = salesItemDetailsArray.at(i)?.get("sqftPerPiece");
+      const salesItemUnitPriceControl = salesItemDetailsArray
+        .at(i)
+        ?.get("salesItemUnitPrice");
+      const maxQuantityControl = salesItemDetailsArray
+        .at(i)
+        ?.get("maxQuantity");
+      const sqftPerPieceControl = salesItemDetailsArray
+        .at(i)
+        ?.get("sqftPerPiece");
 
       if (salesItemUnitPriceControl) {
         salesItemUnitPriceControl.patchValue(selectedSlab.sellingPricePerSQFT);
         this.calculateTotalAmount();
       }
       if (maxQuantityControl) {
-        maxQuantityControl.setValue(remainingQuantity > 0 ? remainingQuantity : 0);
+        maxQuantityControl.setValue(
+          remainingQuantity > 0 ? remainingQuantity : 0
+        );
       }
       if (sqftPerPieceControl) {
         sqftPerPieceControl.patchValue(selectedSlab.sqftPerPiece);
@@ -488,9 +609,9 @@ console.log('this.originalSlabData',this.originalSlabData)
       const sqftPerPiece = item.get("sqftPerPiece").value || 0;
 
       const pieces = quantity / sqftPerPiece;
-      console.log('quantity', quantity);
-      console.log('sqftPerPiece', sqftPerPiece);
-      console.log('pieces', pieces);
+      console.log("quantity", quantity);
+      console.log("sqftPerPiece", sqftPerPiece);
+      console.log("pieces", pieces);
 
       let totalTaxAmount = 0;
       const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value;
@@ -514,18 +635,26 @@ console.log('this.originalSlabData',this.originalSlabData)
       if (totalAmount > 0) {
         // const salesItemTaxableAmount = item.get("salesItemTaxableAmount") as FormControl
         item.get("salesItemTaxableAmount").clearValidators();
-        item.get("salesItemTaxableAmount").setValidators([Validators.max(totalAmount)]);
+        item
+          .get("salesItemTaxableAmount")
+          .setValidators([Validators.max(totalAmount)]);
         item.get("salesItemTaxableAmount").updateValueAndValidity();
 
         item.get("salesItemNonTaxableAmount").clearValidators();
-        item.get("salesItemNonTaxableAmount").setValidators([Validators.max(totalAmount)]);
+        item
+          .get("salesItemNonTaxableAmount")
+          .setValidators([Validators.max(totalAmount)]);
         item.get("salesItemNonTaxableAmount").updateValueAndValidity();
       }
       item.get("salesItemPieces").patchValue(Number(pieces.toFixed(2)));
       item.get("salesItemTotal").setValue(Number(totalAmount));
       item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount));
-      item.get("salesItemAppliedTaxAmount").setValue(Number(salesItemAppliedTaxAmount));
-      item.get("salesItemNonTaxableAmount").setValue(Number(salesItemNonTaxableAmount));
+      item
+        .get("salesItemAppliedTaxAmount")
+        .setValue(Number(salesItemAppliedTaxAmount));
+      item
+        .get("salesItemNonTaxableAmount")
+        .setValue(Number(salesItemNonTaxableAmount));
       item.get("salesItemSubTotal").setValue(Number(subtotal));
     });
 
@@ -541,7 +670,9 @@ console.log('this.originalSlabData',this.originalSlabData)
     itemTotalAmount += shipping;
     itemTotalAmount += otherCharges;
     nonTaxable = itemTotalAmount - taxable;
-    this.editSalesForm.get("salesTotalAmount").setValue(Number(itemTotalAmount));
+    this.editSalesForm
+      .get("salesTotalAmount")
+      .setValue(Number(itemTotalAmount));
     this.editSalesForm.get("taxable").setValue(Number(taxable));
     this.editSalesForm.get("nonTaxable").setValue(Number(nonTaxable));
     if (this.setAddressData?.isTaxVendor) {
@@ -552,13 +683,13 @@ console.log('this.originalSlabData',this.originalSlabData)
     const vendorTaxApplied = this.editSalesForm.get("vendorTaxApplied").value;
 
     if (vendorTaxApplied) {
-      const vendorTaxAmount = (this.totalTaxableAmount * vendorTaxApplied) / 100;
+      const vendorTaxAmount =
+        (this.totalTaxableAmount * vendorTaxApplied) / 100;
       this.editSalesForm
         .get("vendorTaxAmount")
         .setValue(Number(vendorTaxAmount));
     }
   }
-
 
   navigateToCreateCustomer() {
     const returnUrl = this.router.url;
@@ -567,6 +698,7 @@ console.log('this.originalSlabData',this.originalSlabData)
   }
 
   addSalesFormSubmit() {
+    console.log('click',this.editSalesForm.value)
     const formData = this.editSalesForm.value;
     const payload = {
       id: this.salesId,
@@ -582,13 +714,14 @@ console.log('this.originalSlabData',this.originalSlabData)
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: Number(formData.salesTotalAmount),
       otherCharges: Number(formData.otherCharges),
+      eWayBill:formData.eWayBill,
       taxVendor: this.setAddressData?.isTaxVendor
         ? {
-          _id: this.setAddressData._id,
-          companyName: this.setAddressData.companyName,
-          taxVendorAmount: Number(formData.vendorTaxAmount),
-          vendorTaxApplied: Number(formData.vendorTaxApplied),
-        }
+            _id: this.setAddressData._id,
+            companyName: this.setAddressData.companyName,
+            taxVendorAmount: Number(formData.vendorTaxAmount),
+            vendorTaxApplied: Number(formData.vendorTaxApplied),
+          }
         : null,
       salesOrderTax: Number(formData.salesOrderTax),
       taxable: Number(formData.taxable),
@@ -600,12 +733,18 @@ console.log('this.originalSlabData',this.originalSlabData)
       this.salesService.UpdateSalesData(payload).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === "success") {
-            this.messageService.add({ severity: "success", detail: resp.message });
+            this.messageService.add({
+              severity: "success",
+              detail: resp.message,
+            });
             setTimeout(() => {
               this.router.navigate(["/sales"]);
             }, 400);
           } else {
-            this.messageService.add({ severity: "error", detail: resp.message });
+            this.messageService.add({
+              severity: "error",
+              detail: resp.message,
+            });
           }
         }
       });
@@ -614,4 +753,3 @@ console.log('this.originalSlabData',this.originalSlabData)
     }
   }
 }
-

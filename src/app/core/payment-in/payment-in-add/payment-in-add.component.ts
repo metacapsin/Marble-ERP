@@ -83,7 +83,7 @@ export class PaymentInAddComponent {
               Validators.max(sale.taxableDue) // Set max value to taxableDue
             ]
           ],
-          taxablePaymentMode: ["Bank" , Validators.required],  
+          taxablePaymentMode: ["" ,],  
           nonTaxablePaymentAmount: [
             '', 
             [
@@ -92,7 +92,7 @@ export class PaymentInAddComponent {
               Validators.max(sale.nonTaxableDue) // Set max value to nonTaxableDue
             ]
           ],
-          nonTaxablePaymentMode: ["Cash" , Validators.required], 
+          nonTaxablePaymentMode: ["" , ], 
           // note:[sale.note , Validators.pattern(this.notesRegex)], 
         })
       );

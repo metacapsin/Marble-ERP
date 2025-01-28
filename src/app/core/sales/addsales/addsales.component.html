@@ -172,7 +172,6 @@
                     ></span>
                     <!-- {{ customerAddress }} -->
                   </h5>
-                 
                 </div>
               </div>
             </div>
@@ -195,11 +194,15 @@
                         "
                         style="color: #97704f; font-size: 12px"
                         >Leave it blank to generate automatically</span
-                      > <br>
-                      E-Way Bill <p-button
-                    [text]="true"
-                    icon="fa fa-plus"
-                  ></p-button>
+                      >
+                      <br />
+                      <button
+                        class="btn btn-primary"
+                        type="submit"
+                        (click)="openEwayBillPopup()"
+                      >
+                        E-Way Bill
+                      </button>
 
                       <div
                         *ngIf="
@@ -1346,6 +1349,116 @@
                     </div>
                   </div>
                 </div>
+              </p-dialog>
+
+              <p-dialog
+                header="E-Way Bill Form"
+                [(visible)]="displayEwayBillPopup"
+                [modal]="true"
+                [closable]="true"
+                [responsive]="true"
+                [style]="{ width: '45%' }"
+              >
+                <form [formGroup]="ewayBillForm" (ngSubmit)="onSubmit()">
+                  <div class="p-fluid">
+                    <!-- E-Way Bill No -->
+                    <div class="p-field mb-2">
+                      <!-- <label for="ewayBillNo">E-Way Bill No</label> -->
+                      <input
+                        id="ewayBillNo"
+                        type="text"
+                        class="form-control"
+                        placeholder="E-Way Bill No"
+                        pInputText
+                        formControlName="ewayBillNo"
+                        required
+                      />
+                    </div>
+
+                    <!-- Date -->
+                    <div class="p-field mb-2">
+                      <!-- <label for="date">Date</label> -->
+                      <p-calendar
+                        id="date"
+                        placeholder="Date"
+                        formControlName="date"
+                        [showTime]="false"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                      ></p-calendar>
+                    </div>
+
+                    <!-- Dispatched Through (Dropdown) -->
+                    <div class="p-field mb-2">
+                      <!-- <label for="dispatchedThrough">Dispatched Through</label> -->
+                      <p-dropdown
+                        id="dispatchedThrough"
+                        [style]="{ width: '100%' }"
+                        
+                        formControlName="dispatchedThrough"
+                        [options]="dispatchOptions"
+                        optionLabel="label"
+                        optionValue="value"
+                        placeholder="Select Dispatch Mode"
+                      ></p-dropdown>
+                    </div>
+
+                    <!-- Transporter -->
+                    <div class="p-field mb-2">
+                      <!-- <label for="transporter">Transporter</label> -->
+                      <input
+                        id="transporter"
+                        type="text"
+                        placeholder="Transporter"
+                        class="form-control"
+                        pInputText
+                        formControlName="transporter"
+                      />
+                    </div>
+
+                    <!-- Vehicle Number -->
+                    <div class="p-field mb-2">
+                      <!-- <label for="vehicleNumber">Vehicle Number</label> -->
+                      <input
+                        id="vehicleNumber"
+                        placeholder="Vehicle Number"
+                        type="text"
+                        class="form-control"
+                        pInputText
+                        formControlName="vehicleNumber"
+                      />
+                      <div *ngIf="setValidations('vehicleNumber')">
+                        <span class="login-danger">Invalid vehicle number format. Please correct it.</span>
+                    </div>
+                    </div>
+
+                    <!-- Delivery Terms & Conditions -->
+                    <div class="p-field mb-2">
+                      <!-- <label for="deliveryTerms"
+                        >Delivery Terms & Condition</label
+                      > -->
+                      <textarea
+                        id="deliveryTerms"
+                        placeholder="Delivery Terms & Condition"
+                        class="form-control"
+                        formControlName="deliveryTerms"
+                        rows="2"
+                        pInputTextarea
+                      ></textarea>
+                    </div>
+
+                    <!-- Save Button -->
+                   
+                      <button
+                        type="submit"
+                        class="btn btn-primary p-2"
+                        pButton
+                        
+                        [disabled]="ewayBillForm.invalid"
+                      > Save</button>
+                   
+                  </div>
+                </form>
               </p-dialog>
             </form>
           </div>

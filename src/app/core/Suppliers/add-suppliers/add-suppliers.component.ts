@@ -28,6 +28,8 @@ export class AddSuppliersComponent {
   emailRegex: string = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^(?!\s)(?!.*\s{3})(.{3,500})$/s;
   phoneRegex = /^[0-9]{10}$/;
+  panregex=/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/
+
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -51,7 +53,8 @@ export class AddSuppliersComponent {
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
       openingbalance: [0],
       balanceType: ["Pay"],
-      creditPeriodType:['Days']
+      creditPeriodType:['Days'],
+      penCardNumber:['',[Validators.pattern(this.panregex)]]
       // shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
   }
@@ -69,6 +72,7 @@ export class AddSuppliersComponent {
       creditLimit: Number(this.addSupplierGroup.value.creditLimit),
       billingAddress: this.addSupplierGroup.value.billingAddress,
       openingBalance:Number(this.addSupplierGroup.value.openingbalance),
+      penCardNumber:this.addSupplierGroup.value.penCardNumber
       // shippingAddress: this.addSupplierGroup.value.shippingAddress,
     };
     if (this.addSupplierGroup.value) {

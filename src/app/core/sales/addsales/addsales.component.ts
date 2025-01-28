@@ -15,6 +15,7 @@ import { SlabsService } from "../../Product/slabs/slabs.service";
 import { BillingAddressService } from "../../settings/billing-Address/billingAddress.service";
 import { validationRegex } from "../../validation";
 import { isArray } from "ngx-bootstrap/chronos";
+import { dashboardService } from "../../dashboard/dashboard.service";
 
 @Component({
   selector: "app-addsales",
@@ -58,6 +59,9 @@ export class AddsalesComponent implements OnInit {
   salesOrderTax: number;
   totalTaxableAmount: number = 0;
   BuyerData: any;
+  ewayBillForm: FormGroup;
+   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
+  displayEwayBillPopup: boolean = false;
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -69,8 +73,18 @@ export class AddsalesComponent implements OnInit {
     private SlabsService: SlabsService,
     private localStorageService: LocalStorageService,
     private services: WarehouseService,
-    private BillingAddressService: BillingAddressService
+    private BillingAddressService: BillingAddressService,
+    private dashboard: dashboardService,
   ) {
+    this.ewayBillForm = this.fb.group({
+      ewayBillNo: ["", Validators.required],
+      date: [null, Validators.required],
+      dispatchedThrough: ["", Validators.required],
+      transporter: ["", Validators.required],
+      vehicleNumber: ["", Validators.pattern(this.vehicleRegex)],
+      deliveryTerms: [""],
+    });
+
     this.addSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
       salesDate: ["", [Validators.required]],
@@ -130,6 +144,7 @@ export class AddsalesComponent implements OnInit {
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
       isShippingTax: [false],
       isOtherChargesTax: [false],
+      eWayBill: [""],
     });
 
     // Set up a value change subscription to update the max validator for salesDiscount
@@ -142,6 +157,19 @@ export class AddsalesComponent implements OnInit {
       salesDiscountControl.updateValueAndValidity();
     });
   }
+
+  public setValidations(formControlName: string) {
+    return (
+      this.ewayBillForm.get(formControlName)?.invalid &&
+      (this.ewayBillForm.get(formControlName)?.dirty ||
+        this.ewayBillForm.get(formControlName)?.touched)
+    );
+  }
+
+  dispatchOptions = [
+    { label: "By Road", value: "Road" },
+    { label: "By Train", value: "Train" },
+  ];
 
   get salesItemDetails() {
     return this.addSalesForm.controls["salesItemDetails"] as FormArray;
@@ -159,6 +187,41 @@ export class AddsalesComponent implements OnInit {
       console.log("salesItemDetailsIndex out of range");
     }
     this.calculateTotalAmount();
+  }
+
+  openEwayBillPopup() {
+    this.displayEwayBillPopup = true;
+  }
+
+  // Close the popup (if needed)
+  closeEwayBillPopup() {
+    this.displayEwayBillPopup = false;
+  }
+
+  // On form submit
+  onSubmit() {
+    if (this.ewayBillForm.valid) {
+      console.log("E-way Bill Data:", this.ewayBillForm.value);
+      let formData = this.ewayBillForm.value;
+      let formaeDate = this.dashboard.getFormattedDate(formData.date);
+
+      let payload = {
+        date: formaeDate,
+        ewayBillNo: formData.ewayBillNo,
+        dispatchedThrough: formData.dispatchedThrough,
+        transporter: formData.transporter,
+        vehicleNumber: formData.vehicleNumber,
+        deliveryTerms: formData.deliveryTerms,
+      };
+
+      this.addSalesForm.patchValue({
+        eWayBill: payload,
+      });
+
+      this.displayEwayBillPopup = false;
+    }
+
+    console.log("E-way Bill addSalesForm:", this.addSalesForm.value);
   }
 
   addsalesItemDetailsItem() {
@@ -310,8 +373,8 @@ export class AddsalesComponent implements OnInit {
   setCustomer() {
     const data = this.addSalesForm.get("customer").value;
     this.customerAddress = data.billingAddress;
-    this.BuyerData = data
-    console.log('  this.BuyerData',  this.BuyerData)
+    this.BuyerData = data;
+    console.log("  this.BuyerData", this.BuyerData);
   }
   getCustomer() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
@@ -558,6 +621,7 @@ export class AddsalesComponent implements OnInit {
     // console.log(object)
 
     const payload = {
+      eWayBill:formData.eWayBill,
       customer: formData.customer,
       salesDate: formData.salesDate,
       billingAddress: formData.billingAddress,

@@ -73,7 +73,7 @@
                                     <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">Total Amount:</h5>
                                     <div class="col-lg-8 col-md-8 col-xl-8">
                                       <p class="col-lg-8 col-form-label">
-                                        ₹ {{ dataById?.salesTotalAmount ? (dataById?.salesTotalAmount |
+                                        ₹ {{ dataById?.salesTotalAmount ? (dataById?.salesTotalAmount.toFixed(2) |
                                         indianCurrency) : '0' }}
                                       </p>
                                     </div>

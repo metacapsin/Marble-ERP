@@ -1,36 +1,38 @@
 <p-toast></p-toast>
 <div class="page-wrapper">
-    <div class="content">
-
-      <div class="page-header">
-        <div class="row">
-          <div class="col-sm-12">
-            <ul class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a [routerLink]="routes.adminDashboard">Dashboard </a>
-              </li>
-              <li class="breadcrumb-item">
-                <i class="feather icon-chevron-right"></i>
-              </li>
-              <li class="breadcrumb-item active">
-                <a [routerLink]="routes.suppliers">Suppliers List</a>
-              </li>
-              <li class="breadcrumb-item">
-                <i class="feather icon-chevron-right"></i>
-              </li>
-              <li class="breadcrumb-item active">Edit Supplier</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
+  <div class="content">
+    <div class="page-header">
       <div class="row">
         <div class="col-sm-12">
-          <div class="card card-table show-entire">
-            <div class="card-body p-3">
-              <form [formGroup]="editSupplierGroup" (ngSubmit)="editSupplierForm()">
-                <div class="row">
-                  <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">
+              <a [routerLink]="routes.suppliers">Suppliers List</a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Edit Supplier</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="card-body p-3">
+            <form
+              [formGroup]="editSupplierGroup"
+              (ngSubmit)="editSupplierForm()"
+            >
+              <div class="row">
+                <!-- <div class="d-flex m-b-10" style="justify-content: space-between">
                     <h3>Edit Supplier</h3>
                     <div class="settings-btns text-end m-b-10">
                       <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
@@ -42,130 +44,192 @@
                       </button>
                     </div>
                   </div> -->
-                  <div class="row mt-2 mb-2">
-                    <div class="col-md-6 col-sm-12"><h3>Edit Supplier</h3></div>
-                    <div class="col-md-6 col-sm-12 text-end mb-2"> 
-                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                        [disabled]="!editSupplierGroup.valid">
-                        Submit
-                      </button>
-                      <button class="btn btn-secondary" [routerLink]="['/suppliers']">
-                        <a class="text-white"></a>Cancel
-                      </button>
+                <div class="row mt-2 mb-2">
+                  <div class="col-md-6 col-sm-12"><h3>Edit Supplier</h3></div>
+                  <div class="col-md-6 col-sm-12 text-end mb-2">
+                    <button
+                      type="submit"
+                      class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                      [disabled]="!editSupplierGroup.valid"
+                    >
+                      Submit
+                    </button>
+                    <button
+                      class="btn btn-secondary"
+                      [routerLink]="['/suppliers']"
+                    >
+                      <a class="text-white"></a>Cancel
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="name"
+                        >Name<span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Please Enter Name"
+                        formControlName="name"
+                      />
+                      <div
+                        *ngIf="
+                          editSupplierGroup.get('name')?.hasError('required') &&
+                          editSupplierGroup.get('name')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          editSupplierGroup.get('name')?.hasError('pattern') &&
+                          editSupplierGroup.get('name')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Input Must be between 3 to 30 characters.
+                      </div>
                     </div>
                   </div>
-  
-                  <div class="row">
-  
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="form-group local-forms">
-                        <label for="name">Name<span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder="Please Enter Name" formControlName="name" />
-                        <div *ngIf="
-                            editSupplierGroup.get('name')?.hasError('required') &&
-                            editSupplierGroup.get('name')?.touched
-                          " class="login-danger Font_size">
-                          Field is required.
-                        </div>
-                        <div *ngIf="
-                            editSupplierGroup.get('name')?.hasError('pattern') &&
-                            editSupplierGroup.get('name')?.touched
-                          " class="login-danger Font_size">
-                          Input Must be between 3 to 30 characters.
-                        </div>
-                      </div>
-                    </div>
-  
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="form-group local-forms">
-                        <label for="phoneNumber">Phone Number<span class="login-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder="Please Enter Phone Number"
-                          formControlName="phoneNumber" />
-                        <div *ngIf="
-                            editSupplierGroup
-                              .get('phoneNumber')
-                              ?.hasError('required') &&
-                            editSupplierGroup.get('phoneNumber')?.touched
-                          " class="login-danger Font_size">
-                          Field is required.
-                        </div>
-                        <div *ngIf="
-                            editSupplierGroup
-                              .get('phoneNumber')
-                              ?.hasError('pattern') &&
-                            editSupplierGroup.get('phoneNumber')?.touched
-                          " class="login-danger Font_size">
-                          Please Enter 10-Digit number.
-                        </div>
-                      </div>
-                    </div>
-  
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="form-group local-forms">
-                        <label for="Email">Email</label>
-                        <input class="form-control" type="email" placeholder="Please Enter Email"
-                          formControlName="email" />
-                        <div *ngIf="
-                            editSupplierGroup.get('email')?.hasError('pattern') &&
-                            editSupplierGroup.get('email')?.touched
-                          " class="login-danger Font_size">
-                          Please enter valid Email address.
-                        </div>
-                      </div>
-                    </div>
 
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="form-group local-forms">
-                        <label for="taxNumber">Tax Number<span class="login-danger"></span></label>
-                        <input class="form-control" type="text" placeholder="Please Enter Tax Number"
-                          formControlName="taxNumber" />
-                        <div *ngIf="
-                            editSupplierGroup
-                              .get('taxNumber')
-                              ?.hasError('pattern') &&
-                            editSupplierGroup.get('taxNumber')?.touched
-                          " class="login-danger Font_size">
-                          Please Enter 15 Characters.
-                        </div>
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="phoneNumber"
+                        >Phone Number<span class="login-danger">*</span></label
+                      >
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Please Enter Phone Number"
+                        formControlName="phoneNumber"
+                      />
+                      <div
+                        *ngIf="
+                          editSupplierGroup
+                            .get('phoneNumber')
+                            ?.hasError('required') &&
+                          editSupplierGroup.get('phoneNumber')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          editSupplierGroup
+                            .get('phoneNumber')
+                            ?.hasError('pattern') &&
+                          editSupplierGroup.get('phoneNumber')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Please Enter 10-Digit number.
                       </div>
                     </div>
-  
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="form-group local-forms">
-                        <label for="creditPeriod">Credit Period<span class="login-danger"></span></label>
-                        <div class="input-group">
-                          <input class="form-control" type="number" placeholder formControlName="creditPeriod" />
-                          <div class="input-group-prepend">
-                            <label for="creditPeriodType">Credit Period</label>
-                            <select class="form-control" id="creditPeriodType"  formControlName="creditPeriodType">
-                              <option selected value="Days">Days</option>
-                              <option value="Month">Month</option>
-                            </select>
-                            <!-- <span class="input-group-text" style="font-size: 12px">Days</span> -->
-                          </div>
-                        </div>
-                        <div *ngIf="
-                            editSupplierGroup
-                              .get('creditPeriod')
-                              ?.hasError('min') &&
-                            editSupplierGroup.get('creditPeriod')?.touched
-                          " class="login-danger Font_size">
-                          Credit Period cannot be less than 0 days.
-                        </div>
-                        <div *ngIf="
-                            editSupplierGroup
-                              .get('creditPeriod')
-                              ?.hasError('max') &&
-                            editSupplierGroup.get('creditPeriod')?.touched
-                          " class="login-danger Font_size">
-                          Credit Period Must not be more than 180 days.
-                        </div>
-                      </div>
-                    </div>
-  
+                  </div>
 
-                    <!-- hide by ravi -->
-                    <!-- <div class="col-12 col-md-6 col-xl-6">
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="Email">Email</label>
+                      <input
+                        class="form-control"
+                        type="email"
+                        placeholder="Please Enter Email"
+                        formControlName="email"
+                      />
+                      <div
+                        *ngIf="
+                          editSupplierGroup.get('email')?.hasError('pattern') &&
+                          editSupplierGroup.get('email')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Please enter valid Email address.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="taxNumber"
+                        >Tax Number<span class="login-danger"></span
+                      ></label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Please Enter Tax Number"
+                        formControlName="taxNumber"
+                      />
+                      <div
+                        *ngIf="
+                          editSupplierGroup
+                            .get('taxNumber')
+                            ?.hasError('pattern') &&
+                          editSupplierGroup.get('taxNumber')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Please Enter 15 Characters.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="creditPeriod"
+                        >Credit Period<span class="login-danger"></span
+                      ></label>
+                      <div class="input-group">
+                        <input
+                          class="form-control"
+                          type="number"
+                          placeholder
+                          formControlName="creditPeriod"
+                        />
+                        <div class="input-group-prepend">
+                          <label for="creditPeriodType">Credit Period</label>
+                          <select
+                            class="form-control"
+                            id="creditPeriodType"
+                            formControlName="creditPeriodType"
+                          >
+                            <option selected value="Days">Days</option>
+                            <option value="Month">Month</option>
+                          </select>
+                          <!-- <span class="input-group-text" style="font-size: 12px">Days</span> -->
+                        </div>
+                      </div>
+                      <div
+                        *ngIf="
+                          editSupplierGroup
+                            .get('creditPeriod')
+                            ?.hasError('min') &&
+                          editSupplierGroup.get('creditPeriod')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Credit Period cannot be less than 0 days.
+                      </div>
+                      <div
+                        *ngIf="
+                          editSupplierGroup
+                            .get('creditPeriod')
+                            ?.hasError('max') &&
+                          editSupplierGroup.get('creditPeriod')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Credit Period Must not be more than 180 days.
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- hide by ravi -->
+                  <!-- <div class="col-12 col-md-6 col-xl-6">
                       <div class="form-group local-forms">
                         <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
                         <div class="input-group">
@@ -192,46 +256,82 @@
                         </div>
                       </div>
                     </div> -->
-  
-                    <div class="col-12 col-md-6 col-xl-6">
-                      <div class="form-group local-forms">
-                        <label for="billingAddress">Billing Address</label>
-                        <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
-                          formControlName="billingAddress" rows="2"></textarea>
-  
-                        <div *ngIf="
-                            editSupplierGroup
-                              .get('billingAddress')
-                              ?.hasError('pattern') &&
-                            editSupplierGroup.get('billingAddress')?.touched
-                          ">
-                          <span class="login-danger">Billing Address Must be between 3 to 500 characters</span>
-                        </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="billingAddress">Billing Address</label>
+                      <textarea
+                        class="form-control"
+                        type="text"
+                        placeholder="Please Enter Billing Address"
+                        formControlName="billingAddress"
+                        rows="2"
+                      ></textarea>
+
+                      <div
+                        *ngIf="
+                          editSupplierGroup
+                            .get('billingAddress')
+                            ?.hasError('pattern') &&
+                          editSupplierGroup.get('billingAddress')?.touched
+                        "
+                      >
+                        <span class="login-danger"
+                          >Billing Address Must be between 3 to 500
+                          characters</span
+                        >
                       </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 d-flex col-xl-6">
+                    <div class="form-group local-forms w-100">
+                      <label for="openingBalance">Opening Balance</label>
+                      <input
+                        class="form-control"
+                        type="number"
+                        placeholder="0"
+                        formControlName="openingBalance"
+                      />
                     </div>
 
-                    <div class="col-12 col-md-6 d-flex col-xl-6">
-                      <div class="form-group local-forms w-100">
-                        <label for="openingBalance">Opening Balance</label>
-                        <input 
-                          class="form-control" 
-                          type="number" 
-                          placeholder="0" 
-                          formControlName="openingBalance" 
-                        />
-                       
-                      </div>
-                     
-                      <div class="form-group local-forms w-100">
-                        <label for="balanceType">Balance Type</label>
-                        <select class="form-control" id="balanceType"  formControlName="balanceType">
-                          <option selected>Pay</option>
-                        </select>
-                      </div>
-                     
+                    <div class="form-group local-forms w-100">
+                      <label for="balanceType">Balance Type</label>
+                      <select
+                        class="form-control"
+                        id="balanceType"
+                        formControlName="balanceType"
+                      >
+                        <option selected>Pay</option>
+                      </select>
                     </div>
-  
-                    <!-- <div class="col-12 col-md-6 col-xl-6">
+                  </div>
+
+                  <div class="col-12 col-md-6 d-flex col-xl-6">
+                    <div class="form-group local-forms w-100">
+                      <label for="openingbalance">Pan Number</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Please Enter Pan Card Number"
+                        formControlName="penCardNumber"
+                      />
+                      <div
+                        *ngIf="
+                          editSupplierGroup
+                            .get('penCardNumber')
+                            ?.hasError('pattern') &&
+                          editSupplierGroup.get('penCardNumber')?.touched
+                        "
+                      >
+                        <span class="login-danger"
+                          >Please Enter Valid Pan Number</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- <div class="col-12 col-md-6 col-xl-6">
                       <div class="form-group local-forms">
                         <label for="shippingAddress">Shipping Address</label>
                         <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
@@ -247,14 +347,12 @@
                         </div>
                       </div>
                     </div> -->
-                    
-                  </div>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-      
     </div>
   </div>
+</div>

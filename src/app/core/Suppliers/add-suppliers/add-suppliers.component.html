@@ -215,6 +215,28 @@
                     </div>
                   </div>
 
+                  <div class="col-12 col-md-6 d-flex col-xl-6">
+                    <div class="form-group local-forms w-100">
+                      <label for="openingbalance">Pan Number</label>
+                      <input 
+                        class="form-control" 
+                        type="text"
+                        placeholder="Please Enter Pan Card Number"
+                        formControlName="penCardNumber" 
+                        />
+                        <div *ngIf="
+                        addSupplierGroup
+                          .get('penCardNumber')
+                          ?.hasError('pattern') &&
+                        addSupplierGroup.get('penCardNumber')?.touched
+                      ">
+                      <span class="login-danger">Please Enter Valid Pan Number</span>
+                    </div>
+                    </div>
+                    
+                  
+                    </div>
+
                   <!-- <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="shippingAddress">Shipping Address</label>
