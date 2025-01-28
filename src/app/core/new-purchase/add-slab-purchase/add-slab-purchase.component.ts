@@ -222,7 +222,7 @@ export class AddSlabPurchaseComponent {
   addSlabDetails(myForm: NgForm) {
     this.addvisible = false;
     this.cdRef.detectChanges();
-    console.log("this.slabDetails", this.slabDetails);
+  
     if (!this.slabDetails) {
       this.slabDetails = [];
     }
@@ -366,6 +366,48 @@ export class AddSlabPurchaseComponent {
       taxApplied = (taxableAmount * tax) / 100;
     }
 
+    // Check if slabDetails is empty   code  Add by ravi
+    if (this.slabDetails.length === 0) {
+      // If no data in slabDetails, clear the related fields
+      form.patchValue({
+        taxableAmount: 0,
+        nonTaxableAmount: 0,
+        paidToSupplierSlabCost: 0,
+        taxable: 0,
+        taxApplied: 0,
+        totalCost: 0,
+        totalSQFT: 0,
+      });
+      this.slabDetails = []; // Clear slabDetails data
+      const formData = this.slabAddForm.value;
+
+      const payload = {
+        warehouseDetails: formData.warehouse,
+        vehicleNo: formData.vehicleNo,
+        transportationCharge: Number(formData.transportationCharge),
+        royaltyCharge: Number(formData.royaltyCharge),
+        slabDetails: this.slabDetails || [],
+        slabTotalCost: Number(this.slabTotalCost),
+        // totalCost: Number(formData?.totalCost),
+        // paidToSupplierSlabCost: Number(formData.paidToSupplierSlabCost),
+        purchaseDiscount: Number(formData.purchaseDiscount),
+        // nonTaxableAmount: Number(formData.nonTaxableAmount),
+        // taxableAmount: Number(formData.taxableAmount),
+        // taxable: Number(formData.taxable),
+        purchaseItemTax:null,
+        taxableAmount: 0,
+        nonTaxableAmount: 0,
+        paidToSupplierSlabCost: 0,
+        taxable: 0,
+        taxApplied: 0,
+        totalCost: 0,
+        totalSQFT: 0,
+      };
+      this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
+
+      return; // Exit the function early as there's no data
+    }
+
     let calculatedDetails = this.slabDetails.map((e: any) => ({
       ...e,
       taxAmountPerSQFT: Number(
@@ -468,13 +510,14 @@ export class AddSlabPurchaseComponent {
 
   slabAddFormSubmit() {
     const formData = this.slabAddForm.value;
+    console.log('formData',formData)
     if (this.slabTotalCost) {
       const payload = {
         warehouseDetails: formData.warehouse,
         vehicleNo: formData.vehicleNo,
         transportationCharge: Number(formData.transportationCharge),
         royaltyCharge: Number(formData.royaltyCharge),
-        slabDetails: this.slabDetails,
+        slabDetails: this.slabDetails || [],
         slabTotalCost: Number(this.slabTotalCost),
         totalCost: Number(formData?.totalCost),
         paidToSupplierSlabCost: Number(formData.paidToSupplierSlabCost),

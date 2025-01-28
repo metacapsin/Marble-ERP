@@ -57,6 +57,7 @@ export class AddsalesComponent implements OnInit {
   salesGrossTotal: number;
   salesOrderTax: number;
   totalTaxableAmount: number = 0;
+  BuyerData: any;
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -309,6 +310,8 @@ export class AddsalesComponent implements OnInit {
   setCustomer() {
     const data = this.addSalesForm.get("customer").value;
     this.customerAddress = data.billingAddress;
+    this.BuyerData = data
+    console.log('  this.BuyerData',  this.BuyerData)
   }
   getCustomer() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
@@ -321,6 +324,7 @@ export class AddsalesComponent implements OnInit {
           name: element.name,
           taxNo: element.taxNo,
           billingAddress: element.billingAddress,
+          shippingAddress: element.shippingAddress,
         },
       }));
     });

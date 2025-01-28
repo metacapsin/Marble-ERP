@@ -98,7 +98,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
     private PurchaseService: NewPurchaseService
   ) {
     this.paymentInvoiceForm = this.fb.group({
-      paymentDate: [this.currentDate, Validators.required],
+      paymentDate: [this.getFormattedDate(this.currentDate), Validators.required],
       paymentMode: ["", [Validators.required]],
       note: [""],
       totalAmount: [
@@ -117,6 +117,16 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
       invoiceNumber: [],
     });
   }
+
+
+// Function to format the date in dd/ mm/yyyy format
+getFormattedDate(date: Date): string {
+  const day = String(date.getDate()).padStart(2, '0');  // Ensure 2 digits for day
+  const month = String(date.getMonth() + 1).padStart(2, '0');  // Months are 0-indexed, so add 1
+  const year = date.getFullYear();
+
+  return `${month}/${day}/${year}`;
+}
 
   ngOnInit() {
     this.onFormChanges();
@@ -336,7 +346,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
           nonTaxablePaymentMode: "Cash",
           nonTaxablePaymentAmount: Number(this.dataById.nonTaxableDue),
           paymentMode: "Bank / Cash",
-          paymentDate: new Date(),
+          paymentDate:this.getFormattedDate(this.currentDate),
         });
         this.onSalesPaymentAmountChanges();
       } else if (this.dataById.isSalesReturn) {

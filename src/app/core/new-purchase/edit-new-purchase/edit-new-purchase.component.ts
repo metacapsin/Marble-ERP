@@ -63,6 +63,7 @@ export class EditNewPurchaseComponent implements OnInit {
   returnUrl: string;
   apiResponseData: any; 
   SlabItemDetails: any = {};
+  slabdtls: any;
   constructor(
     private activeRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
@@ -176,9 +177,9 @@ export class EditNewPurchaseComponent implements OnInit {
       this.subCategoryList = resp.data;
       console.log(this.subCategoryList);
       this.SubCategoryListsEditArray = [];
-      this.subCategoryList.forEach((element: any) => {
+      this.subCategoryList?.forEach((element: any) => {
         this.SubCategoryListsEditArray.push({
-          name: element.name,
+          name: element?.name,
           _id: {
             _id: element._id,
             name: element.name,
@@ -250,28 +251,32 @@ export class EditNewPurchaseComponent implements OnInit {
 
         if (resp.data.purchaseType === "slab") {
           this.lotTypeValue = resp.data.purchaseType;
-          this.findSubCategory(resp.data.slabDetails[0]?.categoryDetail);
-          this.previousSlabValues = {
-            slabNo: resp.data.slabDetails[0].slabNo,
-            slabName: resp.data.slabDetails[0].slabName,
-            warehouseDetails: resp.data.slabDetails[0].warehouseDetails,
-            categoryDetail: resp.data.slabDetails[0].categoryDetail,
-            subCategoryDetail: resp.data.slabDetails[0].subCategoryDetail,
-            finishes: resp.data.slabDetails[0].finishes,
-            totalSQFT: resp.data.slabDetails[0].totalSQFT,
-            noOfPieces: resp.data.slabDetails[0].noOfPieces,
-            sellingPricePerSQFT: resp.data.slabDetails[0].sellingPricePerSQFT,
-            transportationCharges:
-              resp.data.slabDetails[0].transportationCharges,
-            otherCharges: resp.data.slabDetails[0].otherCharges,
-            totalCosting: resp.data.slabDetails[0].totalCosting,
-            thickness: resp.data.slabDetails[0].thickness,
-            length: resp.data.slabDetails[0].length,
-            width: resp.data.slabDetails[0].width,
-            costPerSQFT: resp.data.slabDetails[0].costPerSQFT,
-            sqftPerPiece: resp.data.slabDetails[0].sqftPerPiece || 0,
-            paidToSupplierPurchaseCost: resp.data.taxable + resp.data.nonTaxable,
-          };
+          this.slabdtls = resp.data.slabDetails || []
+         console.log('resp.data<<<',this.slabdtls)
+          if( resp.data.slabDetails.length > 0){
+            this.findSubCategory(resp.data.slabDetails[0]?.categoryDetail);
+            this.previousSlabValues = {
+              slabNo: resp.data.slabDetails[0]?.slabNo,
+              slabName: resp.data.slabDetails[0]?.slabName,
+              warehouseDetails: resp.data.slabDetails[0]?.warehouseDetails,
+              categoryDetail: resp.data.slabDetails[0]?.categoryDetail,
+              subCategoryDetail: resp.data.slabDetails[0]?.subCategoryDetail,
+              finishes: resp.data.slabDetails[0]?.finishes,
+              totalSQFT: resp.data.slabDetails[0]?.totalSQFT,
+              noOfPieces: resp.data.slabDetails[0]?.noOfPieces,
+              sellingPricePerSQFT: resp.data.slabDetails[0]?.sellingPricePerSQFT,
+              transportationCharges:
+                resp.data.slabDetails[0]?.transportationCharges,
+              otherCharges: resp.data.slabDetails[0]?.otherCharges,
+              totalCosting: resp.data.slabDetails[0]?.totalCosting,
+              thickness: resp.data.slabDetails[0]?.thickness,
+              length: resp.data.slabDetails[0]?.length,
+              width: resp.data.slabDetails[0]?.width,
+              costPerSQFT: resp.data.slabDetails[0]?.costPerSQFT,
+              sqftPerPiece: resp.data.slabDetails[0]?.sqftPerPiece || 0,
+              paidToSupplierPurchaseCost: resp.data.taxable + resp.data.nonTaxable,
+            };
+          }
 
         // }
         this.lotType(resp.data.purchaseType);
@@ -330,9 +335,9 @@ export class EditNewPurchaseComponent implements OnInit {
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
       this.subCategoryList = resp.data;
       this.SubCategoryListsEditArray = [];
-      this.subCategoryList.forEach((element: any) => {
+      this.subCategoryList?.forEach((element: any) => {
         this.SubCategoryListsEditArray.push({
-          name: element.name,
+          name: element?.name,
           _id: {
             _id: element._id,
             name: element.name,
@@ -396,7 +401,7 @@ export class EditNewPurchaseComponent implements OnInit {
         this.slabChild?.slabAddFormSubmit();
         this.SlabItemDetails =
           this.NewPurchaseService.getFormData("stepFirstSlabData");
-
+          console.log('this.this.SlabItemDetails', this.SlabItemDetails);
         this.editNewPurchaseForm.patchValue({
           paidToSupplierPurchaseCost:
             this.SlabItemDetails?.paidToSupplierSlabCost,
