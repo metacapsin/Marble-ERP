@@ -203,6 +203,7 @@ export class AddSlabPurchaseComponent {
     this.slabTotalCost -= Number(this.slabDetails[index].totalCosting);
     this.slabDetails.splice(index, 1);
     this.calculateTotalAmount();
+    this.saveClicked.emit()
   }
 
   // for get hsn code
@@ -533,5 +534,6 @@ export class AddSlabPurchaseComponent {
       };
       this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
     }
+    // this.saveClicked.emit()
   }
 }

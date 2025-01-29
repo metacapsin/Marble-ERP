@@ -157,7 +157,7 @@
                         <app-edit-lot class="col-12" ></app-edit-lot>
                       </div>
                       <div *ngIf="lotTypeValue === 'slab'">
-                        <app-add-slab-purchase class="col-12"></app-add-slab-purchase>
+                        <app-add-slab-purchase class="col-12" (saveClicked)="handleSaveClick()"></app-add-slab-purchase>
                       </div>
                       <div class="d-flex pt-4 justify-content-between">
                       <div></div>
@@ -166,7 +166,7 @@
                           (click)="nextStep(nextCallback, 'first')">
                           Next <i class="fa-solid fa-arrow-right"></i>
                         </button>
-                        <button *ngIf="lotTypeValue === 'slab'" [disabled]="!editNewPurchaseForm?.valid "
+                        <button *ngIf="lotTypeValue === 'slab'" [disabled]="!editNewPurchaseForm?.valid || !slabdtls?.length"
                           class="btn btn-primary" (click)="nextStep(nextCallback, 'first')">
                           Next <i class="fa-solid fa-arrow-right"></i>
                         </button>

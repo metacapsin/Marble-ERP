@@ -167,10 +167,10 @@ export class EditNewPurchaseComponent implements OnInit {
     this.purchaseId = this.activeRoute.snapshot.params["id"];
   }
   ngOnInit() {
-
+    // this.slabChild?.slabAddFormSubmit();
     this.returnUrl = this.localStorageService.getItem("returnUrl");
     console.log(this.returnUrl);
-    console.log("this is current url on purchase page",this.slabdtls);
+   
     // const today = new Date();
     // const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
@@ -282,6 +282,7 @@ export class EditNewPurchaseComponent implements OnInit {
         this.lotType(resp.data.purchaseType);
       }
   });
+  
     this.taxVendorsService.getTaxVendorList().subscribe((resp: any) => {
       if (resp.data) {
         this.taxVendorList = resp.data.map((element) => ({
@@ -371,6 +372,15 @@ export class EditNewPurchaseComponent implements OnInit {
     this.editNewPurchaseForm.get("taxVendor").updateValueAndValidity();
     this.editNewPurchaseForm.get("taxVendorAmount").updateValueAndValidity();
     this.editNewPurchaseForm.get("vendorTaxApplied").updateValueAndValidity();
+  }
+  handleSaveClick() {
+    this.slabChild?.slabAddFormSubmit();
+ 
+    let data =this.NewPurchaseService.getFormData("stepFirstSlabData")
+    console.log("this data>>>>>>>>>>",data);
+    this.slabdtls = data?.slabDetails
+    // console.log('Save button clicked in child!');
+   
   }
   nextStep(nextCallback: any, page: string) {
     if (page == "first") {
