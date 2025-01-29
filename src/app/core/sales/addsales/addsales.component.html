@@ -147,7 +147,7 @@
                 </div>
               </div>
 
-              <div class="buyer" style="width: 235px; text-align: right">
+              <div class="buyer" style="width: 235px; text-align: left">
                 <h3 style="color: #970">Buyer Address</h3>
                 <div>
                   <h5 *ngIf="BuyerData?.name">
@@ -218,12 +218,14 @@
                       </div>
                     </div>
                   </div>
+
                   <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="customer"
                         >Customer Name
                         <span class="login-danger">*</span></label
                       >
+                   
                       <p-dropdown
                         [style]="{ width: '100%' }"
                         placeholder="Select Customer"
@@ -234,7 +236,8 @@
                         display="chip"
                         [filter]="true"
                         filterBy="name"
-                        (onChange)="setCustomer()"
+                        appendTo="body"
+                        (onChange)="setCustomer($event)"
                       >
                       </p-dropdown>
                       <div
@@ -246,7 +249,9 @@
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
+                   
                   </div>
+               
                   <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="salesDate"

@@ -65,6 +65,7 @@ export class EditSalsComponent implements OnInit {
   salesId: any;
   ewayBillForm: FormGroup;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
+  BuyerData: any;
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -355,6 +356,7 @@ export class EditSalsComponent implements OnInit {
           name: element.name,
           taxNo: element.taxNo,
           billingAddress: element.billingAddress,
+          shippingAddress: element.shippingAddress,
         },
       }));
     });
@@ -411,7 +413,8 @@ export class EditSalsComponent implements OnInit {
       salesTotalAmount: data.salesTotalAmount,
       otherCharges: data.otherCharges,
     });
-
+    // this.BuyerData = data.customer
+    this.setCustomer(data.customer)
     let Ebill = data?.eWayBill;
     console.log("ebill", Ebill);
     this.ewayBillForm.patchValue({
@@ -422,6 +425,7 @@ export class EditSalsComponent implements OnInit {
       vehicleNumber: Ebill?.vehicleNumber,
       deliveryTerms: Ebill?.deliveryTerms,
     });
+    this.onSubmit()
     console.log(" this.ewayBillForm", this.ewayBillForm.value);
     this.salesItemDetails.clear(); // Clear existing items
 
@@ -496,8 +500,10 @@ export class EditSalsComponent implements OnInit {
     this.addressVisible = true;
   }
 
-  setCustomer() {
+  setCustomer(value:any) {
+    console.log('customer',value)
     const data = this.editSalesForm.get("customer").value;
+    this.BuyerData = data;
     this.customerAddress = data.billingAddress;
   }
   getCustomer() {

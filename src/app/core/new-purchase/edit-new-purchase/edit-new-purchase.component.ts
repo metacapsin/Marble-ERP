@@ -170,7 +170,7 @@ export class EditNewPurchaseComponent implements OnInit {
 
     this.returnUrl = this.localStorageService.getItem("returnUrl");
     console.log(this.returnUrl);
-    console.log("this is current url on purchase page", this.returnUrl);
+    console.log("this is current url on purchase page",this.slabdtls);
     // const today = new Date();
     // const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {

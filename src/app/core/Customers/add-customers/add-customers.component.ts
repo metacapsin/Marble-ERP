@@ -31,11 +31,11 @@ export class AddCustomersComponent implements OnInit {
 
   // personNameRegex = /^[A-Za-z](?!.*\s{2})[A-Za-z. ]{2,28}[A-Za-z.]$/;
   personNameRegex = /^(?=.*[A-Za-z])[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
-  taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{15}$/;
+  taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{2,20}$/;
   emailRegex: string = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^(?!\s)(?!.*\s{3})(.{3,500})$/s;
   phoneRegex = /^[0-9]{10}$/;
-
+    panregex=/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
   constructor(
     private fb: UntypedFormBuilder,
     private messageService: MessageService,
@@ -54,6 +54,7 @@ export class AddCustomersComponent implements OnInit {
       shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
       openingbalance: [0],
       balanceType: ["Received"],
+      penCardNumber:['',[Validators.pattern(this.panregex)]]
     });
   }
 
@@ -62,6 +63,12 @@ export class AddCustomersComponent implements OnInit {
   }
   onCancel(){
     this.router.navigateByUrl(this.returnUrl);
+  }
+  toUpperCase(event: any) {
+    let val = event.target.value.toUpperCase();
+    this.addcustomerGroup.patchValue({
+      penCardNumber: val,
+    });
   }
   
   addcustomerForm() {
@@ -78,6 +85,7 @@ export class AddCustomersComponent implements OnInit {
       billingAddress: this.addcustomerGroup.value.billingAddress,
       shippingAddress: this.addcustomerGroup.value.shippingAddress,
       openingBalance:Number(this.addcustomerGroup.value.openingbalance),
+      penCardNumber:this.addcustomerGroup.value.penCardNumber
     };
     console.log(payload);
 

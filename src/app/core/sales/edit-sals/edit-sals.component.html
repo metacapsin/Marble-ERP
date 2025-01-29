@@ -80,13 +80,37 @@
                                 </div>
                             </div>
 
-                            <div class="buyer" style="width: 235px; text-align: right">
+                            <div class="buyer" style="width: 235px; text-align: left">
                                 <h3 style="color: #970">Buyer Address</h3>
-                                <div>
+                                <!-- <div>
                                     <h5 title="address">
                                         <span
                                             [innerHTML]="editSalesForm.get('customer').value?.billingAddress | wordWrap : 2"></span>
                                     </h5>
+                                </div> -->
+                                <div>
+                                  <h5 *ngIf="BuyerData?.name">
+                                    {{ BuyerData?.name }}
+                                  </h5>
+                
+                                  <h5 title="Billing address" *ngIf="customerAddress">
+                                    (bill to) -
+                                    <span [innerHTML]="customerAddress | wordWrap : 2"></span>
+                                    <!-- {{ customerAddress }} -->
+                                  </h5>
+                                  <h5 *ngIf="BuyerData?.taxNo">
+                                    GST No. - {{ BuyerData?.taxNo }}
+                                  </h5>
+                                  <h5
+                                    title="Shipping address"
+                                    *ngIf="BuyerData?.shippingAddress"
+                                  >
+                                    (Ship to) -
+                                    <span
+                                      [innerHTML]="BuyerData?.shippingAddress | wordWrap : 2"
+                                    ></span>
+                                    <!-- {{ customerAddress }} -->
+                                  </h5>
                                 </div>
                             </div>
                         </div>
@@ -129,7 +153,7 @@
                                             <p-dropdown [style]="{ width: '100%' }" placeholder="Select Customer"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
                                                 optionValue="_id" display="chip" [filter]="true" filterBy="name"
-                                                (onChange)="setCustomer()">
+                                                (onChange)="setCustomer($event)">
                                             </p-dropdown>
                                             <div *ngIf="
                             editSalesForm.get('customer')?.hasError('required') &&

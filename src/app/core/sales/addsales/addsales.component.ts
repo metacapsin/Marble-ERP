@@ -370,7 +370,8 @@ export class AddsalesComponent implements OnInit {
     this.addressVisible = true;
   }
 
-  setCustomer() {
+  setCustomer(value:any) {
+    console.log('customer',this.addSalesForm.value)
     const data = this.addSalesForm.get("customer").value;
     this.customerAddress = data.billingAddress;
     this.BuyerData = data;

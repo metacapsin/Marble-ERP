@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, Output } from "@angular/core";
 import {
   FormArray,
   FormBuilder,
@@ -33,6 +33,7 @@ export class AddSlabPurchaseComponent {
   maxDate = new Date();
   public routes = routes;
   activeIndex: number[] = [0];
+  @Output() saveClicked: EventEmitter<void> = new EventEmitter();
   slabDetails: any[] = [];
   marbleName: string;
   slabNumber: string;
@@ -274,6 +275,7 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount();
 
     // Reset the form to clear validation messages
+    this.saveClicked.emit()
     myForm.resetForm();
   }
 

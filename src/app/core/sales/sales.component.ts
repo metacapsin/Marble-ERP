@@ -181,9 +181,10 @@ export class SalesComponent implements OnInit {
   showInvoiceDialoge(Id: any) {
     this.Service.GetSalesDataById(Id).subscribe((resp: any) => {
       this.header = "Sales Invoice";
-      this.showInvoiceDialog = true;
+      
       this.salesDataById = [resp.data];
       console.log("sales data by id On dialog", this.salesDataById);
+      this.showInvoiceDialog = true;
     });
 
     this.Service.getSalesPaymentList(Id).subscribe((resp: any) => {

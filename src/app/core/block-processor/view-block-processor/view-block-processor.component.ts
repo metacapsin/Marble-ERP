@@ -125,6 +125,10 @@ export class ViewBlockProcessorComponent {
       });
   }
 
+  getTotal(field: string): number {
+    return this.slabProcessingDataList?.reduce((sum, item) => sum + (item[field] || 0), 0);
+  }
+
   getOpeningBalance() {
     this.customerService
       .GetOpeningBalanceById(this.blockProcessor_id)

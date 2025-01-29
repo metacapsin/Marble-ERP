@@ -54,10 +54,13 @@ export class InvoiceDialogComponent implements OnInit {
 
   ) {}
   ngOnInit() {
+   
     this.userData.getUserProfile().subscribe((user: any) => {
       this.sellerData = user.data;
       console.log("THis is buyer data on invoice", this.sellerData);
     });
+
+    console.log('this.salesDataById',this.salesDataById);
   }
   closeTheWindow() {
     // console.log("dialog close")
