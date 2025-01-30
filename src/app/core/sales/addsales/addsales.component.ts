@@ -62,6 +62,7 @@ export class AddsalesComponent implements OnInit {
   ewayBillForm: FormGroup;
    vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   displayEwayBillPopup: boolean = false;
+EwayBill: any;
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -213,7 +214,7 @@ export class AddsalesComponent implements OnInit {
         vehicleNumber: formData.vehicleNumber,
         deliveryTerms: formData.deliveryTerms,
       };
-
+      this.EwayBill = payload;
       this.addSalesForm.patchValue({
         eWayBill: payload,
       });
@@ -273,6 +274,7 @@ export class AddsalesComponent implements OnInit {
           sqftPerPiece: element.sqftPerPiece,
           totalSQFT: element.totalSQFT,
         }));
+        console.log(' this.salesItemDetails', this.salesItemDetails)
         this.salesItemDetails.controls.forEach((element, index) => {
           if (i === index) {
             this.slabDataList[index] = this.slabDatas;
@@ -307,6 +309,7 @@ export class AddsalesComponent implements OnInit {
     });
     this.salesService.getVendorBillingList().subscribe((resp: any) => {
       this.address = resp.data;
+      console.log(' this.address', this.address)
       this.orgAddress = resp.data;
       this.dropAddress = [];
       this.orgAddress.forEach((ele) => {

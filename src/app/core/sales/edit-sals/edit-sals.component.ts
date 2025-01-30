@@ -66,6 +66,9 @@ export class EditSalsComponent implements OnInit {
   ewayBillForm: FormGroup;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   BuyerData: any;
+  EwayBill: any;
+  UpdtshippingAddress: any;
+  isUpdateAddress: boolean = false;
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -83,7 +86,7 @@ export class EditSalsComponent implements OnInit {
   ) {
     this.ewayBillForm = this.fb.group({
       ewayBillNo: ["", Validators.required],
-      date: [null, Validators.required],
+      date: [new Date(), Validators.required],
       dispatchedThrough: ["", Validators.required],
       transporter: ["", Validators.required],
       vehicleNumber: ["", Validators.pattern(this.vehicleRegex)],
@@ -125,7 +128,6 @@ export class EditSalsComponent implements OnInit {
             [Validators.required, Validators.min(0), Validators.max(100000)],
           ],
           sqftPerPiece: [""],
-          
         }),
       ]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
@@ -261,6 +263,7 @@ export class EditSalsComponent implements OnInit {
   }
   editAddressWithDrop() {
     this.setAddressData = this.editSalesForm.get("billingAddress")?.value;
+    console.log("this.setAddressData", this.setAddressData);
     this.editSalesForm.patchValue({
       salesTermsAndCondition: this.setAddressData?.termsAndCondition,
     });
@@ -281,6 +284,8 @@ export class EditSalsComponent implements OnInit {
         deliveryTerms: formData.deliveryTerms,
       };
 
+      this.EwayBill = payload;
+
       this.editSalesForm.patchValue({
         eWayBill: payload,
       });
@@ -289,6 +294,16 @@ export class EditSalsComponent implements OnInit {
     }
 
     console.log("E-way Bill addSalesForm:", this.editSalesForm.value);
+  }
+
+  UpdateShippingAddress() {
+    console.log("object", this.UpdtshippingAddress);
+
+    let payload = {
+      shippingAddress: this.UpdtshippingAddress,
+    };
+
+    this.customerService.UpDataCustomerApi(payload).subscribe((resp) => {});
   }
 
   ngOnInit() {
@@ -352,11 +367,11 @@ export class EditSalsComponent implements OnInit {
       this.customerList = this.originalCustomerData.map((element) => ({
         name: element.name,
         _id: {
-          _id: element._id,
-          name: element.name,
-          taxNo: element.taxNo,
-          billingAddress: element.billingAddress,
-          shippingAddress: element.shippingAddress,
+          _id: element._id || "",
+          name: element.name || "",
+          taxNo: element.taxNo || "",
+          billingAddress: element.billingAddress || "",
+          shippingAddress: element.shippingAddress || "",
         },
       }));
     });
@@ -371,14 +386,13 @@ export class EditSalsComponent implements OnInit {
 
     this.services.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedataListsEditArray = [];
-     
+
       resp.data.forEach((element: any) => {
         this.wareHousedataListsEditArray.push({
           name: element.name,
           _id: {
             _id: element._id,
             name: element.name,
-           
           },
         });
       });
@@ -414,18 +428,19 @@ export class EditSalsComponent implements OnInit {
       otherCharges: data.otherCharges,
     });
     // this.BuyerData = data.customer
-    this.setCustomer(data.customer)
+    this.setCustomer(data.customer);
     let Ebill = data?.eWayBill;
+    this.EwayBill = data?.eWayBill;
     console.log("ebill", Ebill);
     this.ewayBillForm.patchValue({
-      date: new Date(Ebill?.date),
+      date: Ebill?.date ? new Date(Ebill?.date) : new Date(),
       ewayBillNo: Ebill?.ewayBillNo,
       dispatchedThrough: Ebill?.dispatchedThrough,
       transporter: Ebill?.transporter,
       vehicleNumber: Ebill?.vehicleNumber,
       deliveryTerms: Ebill?.deliveryTerms,
     });
-    this.onSubmit()
+    this.onSubmit();
     console.log(" this.ewayBillForm", this.ewayBillForm.value);
     this.salesItemDetails.clear(); // Clear existing items
 
@@ -491,17 +506,22 @@ export class EditSalsComponent implements OnInit {
     this.displayEwayBillPopup = true;
   }
 
+  openShippingPopup() {
+    this.isUpdateAddress = true;
+  }
+
   // Close the popup (if needed)
   closeEwayBillPopup() {
     this.displayEwayBillPopup = false;
+    this.isUpdateAddress = true;
   }
 
   editAddress() {
     this.addressVisible = true;
   }
 
-  setCustomer(value:any) {
-    console.log('customer',value)
+  setCustomer(value: any) {
+    console.log("customer", value);
     const data = this.editSalesForm.get("customer").value;
     this.BuyerData = data;
     this.customerAddress = data.billingAddress;
@@ -704,7 +724,7 @@ export class EditSalsComponent implements OnInit {
   }
 
   addSalesFormSubmit() {
-    console.log('click',this.editSalesForm.value)
+    console.log("click", this.editSalesForm.value);
     const formData = this.editSalesForm.value;
     const payload = {
       id: this.salesId,
@@ -720,7 +740,7 @@ export class EditSalsComponent implements OnInit {
       salesTermsAndCondition: formData.salesTermsAndCondition,
       salesTotalAmount: Number(formData.salesTotalAmount),
       otherCharges: Number(formData.otherCharges),
-      eWayBill:formData.eWayBill,
+      eWayBill: formData.eWayBill,
       taxVendor: this.setAddressData?.isTaxVendor
         ? {
             _id: this.setAddressData._id,

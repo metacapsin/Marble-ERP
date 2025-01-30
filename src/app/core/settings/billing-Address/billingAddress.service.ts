@@ -30,4 +30,8 @@ export class BillingAddressService {
   deleteBillingAddressById(id:any){
     return this.http.delete(environment.apiUrl + '/Billing/deleteBillingAddressById/' + id);
   }
+
+getstates(){
+  return this.http.get(environment.apiUrl + '/Setting/getState')
+}
 }

@@ -11,10 +11,11 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { SlabsService } from "../slabs.service";
 import { DialogModule } from "primeng/dialog";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
+import { Paginator, PaginatorModule } from "primeng/paginator";
 @Component({
   selector: "app-list-slabs",
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule,PaginatorModule],
   providers: [MessageService],
   templateUrl: "./list-slabs.component.html",
   styleUrl: "./list-slabs.component.scss",
@@ -44,7 +45,7 @@ export class ListSlabsComponent {
   showDataLoader: boolean = false;
   slabProfitOfSlabHistory: any = [];
   slabDetailsOfSlabHistory: any = [];
-selectedLayout: any;
+selectedLayout: any = 'Table';
 
   constructor(
     public dialog: MatDialog,
@@ -54,6 +55,30 @@ selectedLayout: any;
     private messageService: MessageService,
     private WarehouseService: WarehouseService
   ) { }
+
+  currentPage = 0; 
+  rowsPerPage = 10;
+  totalRecords = 0;
+  pagedData: any[] = [];
+
+  paginate(event: any): void {
+    console.log('event',event)
+    this.currentPage = event.first / event.rows;
+    this.rowsPerPage = event.rows;
+  
+    this.updatePagedData();
+
+
+  }
+  
+  updatePagedData(): void {
+
+    const startIndex = this.currentPage * this.rowsPerPage;
+    const endIndex = startIndex + this.rowsPerPage;
+  
+    this.pagedData = this.allSlabsDaTa.slice(startIndex, endIndex);
+  
+  }
 
   ngOnInit(): void {
     this.showDataLoader = true;
@@ -81,6 +106,7 @@ selectedLayout: any;
 
         this.allSlabsDaTa = resp.data;
         this.originalData = resp.data;
+        this.updatePagedData();
         this.cols = [
           { field: "date", header: "Date" },
           { field: "slabNo", header: "Slab No" },
@@ -170,7 +196,8 @@ selectedLayout: any;
 
   // for change layout
   onchangeLayout(value:any){
-    console.log('layout',value)
+    this.selectedLayout =value
+    console.log('layout', this.selectedLayout)
 
   }
 

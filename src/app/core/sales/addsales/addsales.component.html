@@ -51,8 +51,8 @@
       <div class="col-md-12">
         <div class="card invoices-add-card">
           <div class="card-body">
-            <div class="col-12 col-12 d-flex justify-content-between mb-3">
-              <div class="seller">
+            <div class="row col-12 col-12 mb-3">
+              <div class="seller col-12 col-md-3">
                 <div class="d-flex gap-3 align-items-center">
                   <h3 style="color: #970; margin-bottom: 5x">Seller Address</h3>
                   <p-button
@@ -91,9 +91,9 @@
                           addressData.city
                         }}</span
                         >,
-                        <span *ngIf="addressData.state" title="State">{{
-                          addressData.state
-                        }}</span
+                        <span *ngIf="addressData?.state" title="State">{{
+                          addressData.state.name
+                        }} ({{ addressData?.state?.code}})</span
                         >,
                         <span
                           *ngIf="addressData.postalCode"
@@ -132,8 +132,8 @@
                     }}</span
                     >,
                     <span *ngIf="setAddressData.state" title="State">{{
-                      setAddressData.state
-                    }}</span
+                      setAddressData.state.name
+                    }} ({{ setAddressData?.state?.code}})</span
                     >,
                     <span
                       *ngIf="setAddressData.postalCode"
@@ -146,8 +146,90 @@
                   </h5>
                 </div>
               </div>
+              <div class="seller col-3 col-md-3">
+                <div class="d-flex gap-3 align-items-center">
+                  <h3 style="color: #970; margin-bottom: 5x">E-Way Bill</h3>
+                  <p-button
+                    [text]="true"
+                    icon="fa-solid fa-edit"
+                    (click)="openEwayBillPopup()"
+                    tooltipPosition="bottom"
+                    tooltipStyleClass="tooltip"
+                    pTooltip="Edit Seller Address"
+                  ></p-button>
+                </div>
+                <div *ngIf="EwayBill" style="line-height: 100%">
+                  <h5 *ngIf="EwayBill">
+                    {{ EwayBill.date + " ," }}
+                  </h5>
+                  <h5
+                    title="address Line 1"
+                    *ngIf="EwayBill.ewayBillNo"
+                  >
+                    {{ EwayBill.ewayBillNo + " ," }}
+                  </h5>
+                  <h5
+                    title="address Line 2"
+                    *ngIf="EwayBill.transporter
+                    "
+                  >
+                    {{ EwayBill.transporter + " ," }}
+                  </h5>
+                  <h5>
+                    <span *ngIf="EwayBill.vehicleNumber" title="City">{{
+                      EwayBill.vehicleNumber
+                    }}</span
+                    >,
+                    <span *ngIf="EwayBill?.dispatchedThrough" title="State"
+                      >{{ EwayBill.dispatchedThrough }} </span
+                    >
+                 
+                  </h5>
+                
+                </div>
+              </div>
+              <div class="buyer col-3 col-md-3" style=" text-align: left">
+                <h3 style="color: #970">Shipping Address</h3>
+                <!-- <p-button
+                [text]="true"
+                icon="fa-solid fa-edit"
+                (click)="openShippingPopup()"
+                tooltipPosition="bottom"
+                tooltipStyleClass="tooltip"
+                pTooltip="Edit Seller Address"
+              ></p-button> -->
+                <!-- <div>
+                                    <h5 title="address">
+                                        <span
+                                            [innerHTML]="editSalesForm.get('customer').value?.billingAddress | wordWrap : 2"></span>
+                                    </h5>
+                                </div> -->
+                <div>
+                  <!-- <h5 *ngIf="BuyerData?.name">
+                    {{ BuyerData?.name }}
+                  </h5>
 
-              <div class="buyer" style="width: 235px; text-align: left">
+                  <h5 title="Billing address" *ngIf="customerAddress">
+                    (bill to) -
+                    <span [innerHTML]="customerAddress | wordWrap : 2"></span>
+                    
+                  </h5>
+                  <h5 *ngIf="BuyerData?.taxNo">
+                    GST No. - {{ BuyerData?.taxNo }}
+                  </h5> -->
+                  <h5
+                    title="Shipping address"
+                    *ngIf="BuyerData?.shippingAddress"
+                  >
+                    (Ship to) -
+                    <span
+                      [innerHTML]="BuyerData?.shippingAddress | wordWrap : 2"
+                    ></span>
+                    <!-- {{ customerAddress }} -->
+                  </h5>
+                </div>
+              </div>
+              <div class="buyer col-3 col-md-3" style="width: 235px; text-align: left">
                 <h3 style="color: #970">Buyer Address</h3>
                 <div>
                   <h5 *ngIf="BuyerData?.name">
@@ -196,13 +278,13 @@
                         >Leave it blank to generate automatically</span
                       >
                       <br />
-                      <button
+                      <!-- <button
                         class="btn btn-primary"
                         type="submit"
                         (click)="openEwayBillPopup()"
                       >
                         E-Way Bill
-                      </button>
+                      </button> -->
 
                       <div
                         *ngIf="

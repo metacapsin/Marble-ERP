@@ -12,7 +12,42 @@
     <div class="d-flex justify-content-between align-items-center w-100">
       <h4>{{ header }}</h4>
       <div class="d-flex">
-        <button
+        <ul class="notification-list" *ngIf="sales?.salesDate">
+          <li
+            class="nav-item dropdown has-arrow user-profile-list"
+           
+            tooltipPosition="bottom"
+            tooltipStyleClass="tooltip"
+          >
+            <a
+              href="javascript:void(0);"
+              pTooltip="Go to Profile"
+              class="dropdown-toggle nav-link user-link mt-2"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fas fa-ellipsis-v"></i>
+            </a>
+            <div class="dropdown-menu"  style="z-index: 100;">
+              <a class="dropdown-item"   (click)="
+              downloadTaxInvoice(sales?._id, sales?.salesInvoiceNumber)
+            ">
+                <i
+                  class="fa-solid fa-download"
+                
+                ></i>
+                Tax Invoice
+              </a>
+              <a class="dropdown-item" (click)="downloadFullInvoice(sales?._id, sales?.salesInvoiceNumber)">
+                <i class="fa-solid fa-download"></i> Full Invoice
+              </a>
+            </div>
+          </li>
+        
+        </ul>
+      
+
+        <!-- <button
           *ngIf="sales?.salesDate"
           type="button"
           class="btn icon-button"
@@ -20,7 +55,7 @@
           (click)="downloadSalesFile(sales?._id, sales?.salesInvoiceNumber)"
         >
           <i class="fa-solid fa-download"></i>
-        </button>
+        </button> -->
         <button
           *ngIf="sales?.quotationInvoiceNumber"
           type="button"
@@ -801,40 +836,11 @@
               </div>
 
               <div
-                class="row align-items-cente justify-content-center invoice-sign-box"
+                class="row align-items-center justify-content-center invoice-sign-box"
               >
-              <div
-                class="invoice-terms col-12 col-md-6"
-                *ngIf="
-                  sales?.salesNotes ||
-                  sales?.purchaseNotes ||
-                  (sales?.salesItemDetails && !sales?.returnDate)
-                "
-              >
-                <h6 >Notes:</h6>
-                <p
-                  
-                  class="mb-0"
-                >
-                  {{ sales?.salesNotes || "-" }}
-                </p>
-                <p *ngIf="sales?.purchaseNotes" class="mb-0">
-                  {{ sales?.purchaseNotes }}
-                </p>
-              </div>
-              <div
-                class="invoice-terms col-6"
-                
-              >
-                <h6>Terms and Conditions:</h6>
-                <p class="mb-0">
-                  {{ sales?.salesTermsAndCondition || "-" }}
-                </p>
-              </div>
                 <div class="col-lg-6 col-md-6">
                   <div class="col-lg-8 col-md-8">
-                   
-                      <div class="invoice-total-box" *ngIf="sales?.eWayBill">
+                    <!-- <div class="invoice-total-box" *ngIf="sales?.eWayBill">
                         <div
                           class="invoice-total-inner"
                           *ngIf="sales?.eWayBill"
@@ -883,9 +889,9 @@
                             </span>
                           </p>
                         </div>
-                      </div>
-                   
-                    <!-- <div
+                      </div> -->
+
+                    <div
                       class="invoice-terms m-2"
                       *ngIf="
                         sales?.salesNotes ||
@@ -912,7 +918,7 @@
                       <p *ngIf="sales?.salesTermsAndCondition" class="mb-0">
                         {{ sales?.salesTermsAndCondition }}
                       </p>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6 col-md-6">

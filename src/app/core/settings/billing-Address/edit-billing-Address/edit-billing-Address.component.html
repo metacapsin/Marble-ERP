@@ -229,12 +229,26 @@
                       <label for="state"
                         >State<span class="login-danger">*</span></label
                       >
-                      <input
+                      <!-- <input
                         class="form-control bor"
                         type="text"
                         formControlName="state"
                         placeholder
-                      />
+                      /> -->
+                      <p-dropdown
+                      [options]="StatesList"
+                      appendTo="body"
+                      optionLabel="name"
+                      placeholder="Select Country"
+                      formControlName="state"
+                      [style]="{ width: '100%' }"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true">
+                      <ng-template let-option pTemplate="item">
+                        <div>{{ option.name }} ({{ option.code }})</div>
+                      </ng-template>
+                    </p-dropdown>
                       <div
                         *ngIf="
                           editBillingAddress

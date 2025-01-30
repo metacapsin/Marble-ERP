@@ -33,7 +33,7 @@ import { MessageService } from "primeng/api";
   ],
   templateUrl: "./invoice-dialog.component.html",
   styleUrl: "./invoice-dialog.component.scss",
-  providers:[MessageService]
+  providers: [MessageService],
 })
 export class InvoiceDialogComponent implements OnInit {
   @Input() showInvoiceDialog: boolean;
@@ -50,37 +50,47 @@ export class InvoiceDialogComponent implements OnInit {
     private purchaseService: PurchaseService,
     private quotationService: QuotationsService,
     private http: HttpClient,
-    private messageService: MessageService,
-
+    private messageService: MessageService
   ) {}
   ngOnInit() {
-   
     this.userData.getUserProfile().subscribe((user: any) => {
       this.sellerData = user.data;
       console.log("THis is buyer data on invoice", this.sellerData);
     });
 
-    console.log('this.salesDataById',this.salesDataById);
+    console.log("this.salesDataById", this.salesDataById);
   }
   closeTheWindow() {
     // console.log("dialog close")
     this.close.emit();
   }
-  clickMe(){
+  clickMe() {
     console.log(this.salesDataById);
   }
 
+  downloadTaxInvoice(id: any, invoice: any) {
+    console.log("click", id, invoice);
 
+    this.salesService.getTaxinvoice(id).subscribe((resp) => {
+      console.log("object", resp);
+    });
+  }
 
-  downloadSalesFile(id: any, invoiceNumber:string) {
-    console.log("Invoice number",invoiceNumber)
+  downloadFullInvoice(id: any, invoiceNumber: any) {
+    this.salesService.getFullInvoice(id).subscribe((resp) => {
+      console.log("object", resp);
+    });
+  }
+
+  downloadSalesFile(id: any, invoiceNumber: any) {
+    console.log("Invoice number", invoiceNumber);
     if (!id) {
       console.error("No ID provided for download");
       return;
     }
-  
+
     this.salesService.downloadSalesInvoice(id).subscribe(
-      (response: Blob) => { 
+      (response: Blob) => {
         const url = window.URL.createObjectURL(response);
         const a = document.createElement("a");
         a.href = url;
@@ -91,13 +101,13 @@ export class InvoiceDialogComponent implements OnInit {
         window.URL.revokeObjectURL(url);
       },
       (error) => {
-        const message= error.message
+        const message = error.message;
         this.messageService.add({ severity: "warn", detail: message });
       }
     );
   }
-  downloadQuotationFile(id: any,invoiceNumber:string) {
-    console.log("Invoice number",invoiceNumber)
+  downloadQuotationFile(id: any, invoiceNumber: string) {
+    console.log("Invoice number", invoiceNumber);
 
     if (!id) {
       console.error("No ID provided for download");
@@ -116,7 +126,7 @@ export class InvoiceDialogComponent implements OnInit {
         window.URL.revokeObjectURL(url);
       },
       (error) => {
-        const message= error.message
+        const message = error.message;
         this.messageService.add({ severity: "warn", detail: message });
       }
     );
