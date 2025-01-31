@@ -18,6 +18,7 @@ import { WarehouseService } from "../../settings/warehouse/warehouse.service";
 import { BillingAddressService } from "../../settings/billing-Address/billingAddress.service";
 import { validationRegex } from "../../validation";
 import { dashboardService } from "../../dashboard/dashboard.service";
+import { isArray } from "ngx-bootstrap/chronos";
 
 @Component({
   selector: "app-edit-sals",
@@ -151,6 +152,8 @@ export class EditSalsComponent implements OnInit {
       nonTaxable: [""],
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
       eWayBill: [""],
+      isShippingTax: [false],
+      isOtherChargesTax: [false],
     });
 
     // Set up a value change subscription to update the max validator for salesDiscount
@@ -297,13 +300,42 @@ export class EditSalsComponent implements OnInit {
   }
 
   UpdateShippingAddress() {
-    console.log("object", this.UpdtshippingAddress);
+    let customer = this.originalCustomerData.find(
+      (item) => item?._id === this.BuyerData?._id
+    );
+    console.log("customer", customer);
 
     let payload = {
       shippingAddress: this.UpdtshippingAddress,
+      phoneNo: customer.phoneNo,
+      name: customer.name,
+      _id: customer._id,
     };
 
-    this.customerService.UpDataCustomerApi(payload).subscribe((resp) => {});
+    this.customerService.UpDataCustomerApi(payload).subscribe((resp: any) => {
+      if (resp.status === "success") {
+        const value = this.editSalesForm.get("customer").value;
+        let data = {
+          billingAddress: value.billingAddress,
+          name: value.name,
+          shippingAddress: this.UpdtshippingAddress,
+          taxNo: value.taxNo,
+          _id: value._id,
+        };
+
+        console.log("data<<<<<", data);
+
+        // this.editSalesForm.patchValue({
+        //   customer:data
+        // })
+        console.log(" this.editSalesForm<<<<<", this.editSalesForm.value);
+
+        this.BuyerData = data;
+        this.customerAddress = data.billingAddress;
+        // this.getCustomer();
+        this.isUpdateAddress = false;
+      }
+    });
   }
 
   ngOnInit() {
@@ -426,6 +458,9 @@ export class EditSalsComponent implements OnInit {
       salesTermsAndCondition: data.salesTermsAndCondition,
       salesTotalAmount: data.salesTotalAmount,
       otherCharges: data.otherCharges,
+      isOtherChargesTax:data.isOtherChargesTax,
+      isShippingTax:data.isShippingTax,
+
     });
     // this.BuyerData = data.customer
     this.setCustomer(data.customer);
@@ -507,6 +542,7 @@ export class EditSalsComponent implements OnInit {
   }
 
   openShippingPopup() {
+    this.UpdtshippingAddress = this.BuyerData?.shippingAddress;
     this.isUpdateAddress = true;
   }
 
@@ -635,9 +671,6 @@ export class EditSalsComponent implements OnInit {
       const sqftPerPiece = item.get("sqftPerPiece").value || 0;
 
       const pieces = quantity / sqftPerPiece;
-      console.log("quantity", quantity);
-      console.log("sqftPerPiece", sqftPerPiece);
-      console.log("pieces", pieces);
 
       let totalTaxAmount = 0;
       const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value;
@@ -692,10 +725,45 @@ export class EditSalsComponent implements OnInit {
     const shipping = +this.editSalesForm.get("salesShipping").value;
     const otherCharges = +this.editSalesForm.get("otherCharges").value;
 
+    // Check for shipping tax and other charges tax
+    let shippingTaxAmount = 0;
+    let otherChargesTaxAmount = 0;
+    const isShippingTax = this.editSalesForm.get("isShippingTax").value; // checkbox value for shipping tax
+    const isOtherChargesTax = this.editSalesForm.get("isOtherChargesTax").value; // checkbox value for other charges tax
+
+    const item = salesItems.at(0);
+    let taxRate = 0;
+    if (isArray(item.get("salesItemTax")?.value))
+      taxRate = item.get("salesItemTax")?.value[0].taxRate;
+
+    if (isShippingTax) {
+      const shippingTaxRate = taxRate; // Tax rate for shipping
+      shippingTaxAmount = (shipping * shippingTaxRate) / 100;
+      taxable += shipping + shippingTaxAmount; // Add shipping and its tax to taxable amount;
+      salesOrderTax += shippingTaxAmount;
+    }
+
+    // If other charges tax is applicable
+    if (isOtherChargesTax) {
+      const otherChargesTaxRate = taxRate; // Tax rate for other charges
+      otherChargesTaxAmount = (otherCharges * otherChargesTaxRate) / 100;
+      taxable += otherCharges + otherChargesTaxAmount; // Add other charges and its tax to taxable amount
+      salesOrderTax += otherChargesTaxAmount;
+    }
+
+    // itemTotalAmount -= discount;
+    // itemTotalAmount += shipping;
+    // itemTotalAmount += otherCharges;
+    // nonTaxable = itemTotalAmount - taxable;
+    nonTaxable =
+      salesGrossTotal +
+      shipping +
+      otherCharges +
+      otherChargesTaxAmount +
+      shippingTaxAmount -
+      taxable;
+    itemTotalAmount = Number(nonTaxable) + Number(taxable);
     itemTotalAmount -= discount;
-    itemTotalAmount += shipping;
-    itemTotalAmount += otherCharges;
-    nonTaxable = itemTotalAmount - taxable;
     this.editSalesForm
       .get("salesTotalAmount")
       .setValue(Number(itemTotalAmount));
@@ -704,6 +772,8 @@ export class EditSalsComponent implements OnInit {
     if (this.setAddressData?.isTaxVendor) {
       this.taxVendorAmount();
     }
+
+    console.log(">>>>>>>>>>>>>>>", this.editSalesForm.value);
   }
   taxVendorAmount() {
     const vendorTaxApplied = this.editSalesForm.get("vendorTaxApplied").value;
@@ -723,12 +793,50 @@ export class EditSalsComponent implements OnInit {
     this.router.navigateByUrl("/customers/add-customers");
   }
 
+  onCheckboxChange(event: any) {
+    const isChecked = event.checked;
+    console.log('is checked>>>>>>',isChecked)
+    if (isChecked) {
+      this.editSalesForm.patchValue({
+        isShippingTax: true,
+      });
+    }else{
+      this.editSalesForm.patchValue({
+        isShippingTax: false,
+      });
+    }
+    // You can call the calculateTotalAmount when the checkbox is changed
+    this.calculateTotalAmount();
+  }
+
+  isOtherTaxChange(event: any) {
+    const isChecked = event.checked;
+    console.log('is checked>>>>>>',isChecked)
+    if (isChecked) {
+      this.editSalesForm.patchValue({
+        isOtherChargesTax: true,
+      });
+    }else{
+      this.editSalesForm.patchValue({
+        isOtherChargesTax: false,
+      });
+    }
+
+    this.calculateTotalAmount();
+  }
+
   addSalesFormSubmit() {
+    this.editSalesForm.patchValue({
+      customer: this.BuyerData,
+    });
     console.log("click", this.editSalesForm.value);
     const formData = this.editSalesForm.value;
+
     const payload = {
       id: this.salesId,
       customer: formData.customer,
+      isOtherChargesTax:formData.isOtherChargesTax,
+      isShippingTax:formData.isShippingTax,
       salesDate: formData.salesDate,
       billingAddress: formData.billingAddress,
       salesDiscount: Number(formData.salesDiscount),

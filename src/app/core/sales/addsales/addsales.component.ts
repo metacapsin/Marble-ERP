@@ -60,9 +60,11 @@ export class AddsalesComponent implements OnInit {
   totalTaxableAmount: number = 0;
   BuyerData: any;
   ewayBillForm: FormGroup;
-   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
+  vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   displayEwayBillPopup: boolean = false;
-EwayBill: any;
+  EwayBill: any;
+  UpdtshippingAddress: any;
+  isUpdateAddress: boolean = false;
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -75,7 +77,7 @@ EwayBill: any;
     private localStorageService: LocalStorageService,
     private services: WarehouseService,
     private BillingAddressService: BillingAddressService,
-    private dashboard: dashboardService,
+    private dashboard: dashboardService
   ) {
     this.ewayBillForm = this.fb.group({
       ewayBillNo: ["", Validators.required],
@@ -194,9 +196,82 @@ EwayBill: any;
     this.displayEwayBillPopup = true;
   }
 
+  openShippingPopup() {
+    this.UpdtshippingAddress = this.BuyerData?.shippingAddress;
+    this.isUpdateAddress = true;
+  }
+
   // Close the popup (if needed)
   closeEwayBillPopup() {
     this.displayEwayBillPopup = false;
+    this.isUpdateAddress = true;
+  }
+
+  UpdateShippingAddress() {
+    let customer = this.originalCustomerData.find(
+      (item) => item?._id === this.BuyerData?._id
+    );
+    console.log("customer", customer);
+
+    let payload = {
+      shippingAddress: this.UpdtshippingAddress,
+      phoneNo: customer.phoneNo,
+      name: customer.name,
+    };
+
+    this.customerService.UpDataCustomerApi(payload).subscribe((resp: any) => {
+      if (resp.status === "success") {
+        const value = this.addSalesForm.get("customer").value;
+        let data = {
+          billingAddress: value.billingAddress,
+          name: value.name,
+          shippingAddress: this.UpdtshippingAddress,
+          taxNo: value.taxNo,
+          _id: value._id,
+        };
+
+        this.addSalesForm.patchValue({
+          customer: data,
+        });
+
+        this.BuyerData = data;
+        this.customerAddress = data.billingAddress;
+        // this.getCustomer();
+        this.isUpdateAddress = false;
+      }
+    });
+  }
+
+  onCheckboxChange(event: any) {
+    const isChecked = event.checked;
+    console.log('is checked>>>>>>',isChecked)
+    if (isChecked) {
+      this.addSalesForm.patchValue({
+        isShippingTax: true,
+      });
+    }else{
+      this.addSalesForm.patchValue({
+        isShippingTax: false,
+      });
+    }
+    // You can call the calculateTotalAmount when the checkbox is changed
+    this.calculateTotalAmount();
+  }
+
+  isOtherTaxChange(event: any) {
+    const isChecked = event.checked;
+    console.log('is checked>>>>>>',isChecked)
+    if (isChecked) {
+      this.addSalesForm.patchValue({
+        isOtherChargesTax: true,
+      });
+    }else{
+      this.addSalesForm.patchValue({
+        isOtherChargesTax: false,
+      });
+    }
+
+    this.calculateTotalAmount();
   }
 
   // On form submit
@@ -257,6 +332,7 @@ EwayBill: any;
     });
     this.salesItemDetails.push(item);
   }
+
   onWareHouseSelect(value: any, i: number) {
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
       (resp: any) => {
@@ -274,7 +350,7 @@ EwayBill: any;
           sqftPerPiece: element.sqftPerPiece,
           totalSQFT: element.totalSQFT,
         }));
-        console.log(' this.salesItemDetails', this.salesItemDetails)
+        console.log(" this.salesItemDetails", this.salesItemDetails);
         this.salesItemDetails.controls.forEach((element, index) => {
           if (i === index) {
             this.slabDataList[index] = this.slabDatas;
@@ -283,7 +359,7 @@ EwayBill: any;
             control.get("salesItemQuantity").reset();
             control.get("salesItemUnitPrice").reset();
             control.get("salesItemTax").reset();
-            this.calculateTotalAmount();
+            // this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];
           }
@@ -309,7 +385,7 @@ EwayBill: any;
     });
     this.salesService.getVendorBillingList().subscribe((resp: any) => {
       this.address = resp.data;
-      console.log(' this.address', this.address)
+      console.log(" this.address", this.address);
       this.orgAddress = resp.data;
       this.dropAddress = [];
       this.orgAddress.forEach((ele) => {
@@ -373,8 +449,8 @@ EwayBill: any;
     this.addressVisible = true;
   }
 
-  setCustomer(value:any) {
-    console.log('customer',this.addSalesForm.value)
+  setCustomer(value: any) {
+    console.log("customer", this.addSalesForm.value);
     const data = this.addSalesForm.get("customer").value;
     this.customerAddress = data.billingAddress;
     this.BuyerData = data;
@@ -397,6 +473,23 @@ EwayBill: any;
     });
   }
   onSlabSelect(value, i) {
+    console.log("val", value);
+    console.log("this.slabDataList[i]", this.slabDataList[i]);
+    const selectedItem = this.slabDataList[i].find(
+      (item) => item._id._id === value._id
+    );
+
+    console.log("val", selectedItem);
+    const control = this.salesItemDetails.at(i);
+    // control.get("salesItemProduct").reset();
+    if (selectedItem) {
+      if (selectedItem.totalSQFT === 0) {
+        console.log("00");
+        control.get("salesItemProduct").reset();
+        return;
+      }
+    }
+
     console.log("this.originalSlabData", this.originalSlabData);
     const rec = this.originalSlabData?.find(
       (item) => item._id === value._id
@@ -585,7 +678,7 @@ EwayBill: any;
       otherChargesTaxAmount +
       shippingTaxAmount -
       taxable;
-    itemTotalAmount = nonTaxable + taxable;
+    itemTotalAmount = Number(nonTaxable) + Number(taxable);
     itemTotalAmount -= discount;
     this.addSalesForm.get("salesTotalAmount").setValue(Number(itemTotalAmount));
     this.addSalesForm.get("taxable").setValue(Number(taxable));
@@ -625,7 +718,9 @@ EwayBill: any;
     // console.log(object)
 
     const payload = {
-      eWayBill:formData.eWayBill,
+      eWayBill: formData.eWayBill,
+      isOtherChargesTax:formData.isOtherChargesTax,
+      isShippingTax:formData.isShippingTax,
       customer: formData.customer,
       salesDate: formData.salesDate,
       billingAddress: formData.billingAddress,

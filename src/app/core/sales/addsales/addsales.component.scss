@@ -11,3 +11,9 @@
   padding-top: 0;
   color: #97704f !important;
 }
+
+.disabled-item {
+  color: #ccc; 
+  pointer-events: none; 
+}
+

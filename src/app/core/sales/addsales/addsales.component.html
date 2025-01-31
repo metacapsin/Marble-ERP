@@ -54,7 +54,7 @@
             <div class="row col-12 col-12 mb-3">
               <div class="seller col-12 col-md-3">
                 <div class="d-flex gap-3 align-items-center">
-                  <h3 style="color: #970; margin-bottom: 5x">Seller Address</h3>
+                  <h4 style="color: #970; margin-bottom: 5x">Seller Address</h4>
                   <p-button
                     [text]="true"
                     icon="fa-solid fa-edit"
@@ -91,9 +91,10 @@
                           addressData.city
                         }}</span
                         >,
-                        <span *ngIf="addressData?.state" title="State">{{
-                          addressData.state.name
-                        }} ({{ addressData?.state?.code}})</span
+                        <span *ngIf="addressData?.state" title="State"
+                          >{{ addressData.state.name }} ({{
+                            addressData?.state?.code
+                          }})</span
                         >,
                         <span
                           *ngIf="addressData.postalCode"
@@ -131,9 +132,10 @@
                       setAddressData.city
                     }}</span
                     >,
-                    <span *ngIf="setAddressData.state" title="State">{{
-                      setAddressData.state.name
-                    }} ({{ setAddressData?.state?.code}})</span
+                    <span *ngIf="setAddressData.state" title="State"
+                      >{{ setAddressData.state.name }} ({{
+                        setAddressData?.state?.code
+                      }})</span
                     >,
                     <span
                       *ngIf="setAddressData.postalCode"
@@ -148,7 +150,7 @@
               </div>
               <div class="seller col-3 col-md-3">
                 <div class="d-flex gap-3 align-items-center">
-                  <h3 style="color: #970; margin-bottom: 5x">E-Way Bill</h3>
+                  <h4 style="color: #970; margin-bottom: 5x">E-Way Bill</h4>
                   <p-button
                     [text]="true"
                     icon="fa-solid fa-edit"
@@ -162,17 +164,10 @@
                   <h5 *ngIf="EwayBill">
                     {{ EwayBill.date + " ," }}
                   </h5>
-                  <h5
-                    title="address Line 1"
-                    *ngIf="EwayBill.ewayBillNo"
-                  >
+                  <h5 title="address Line 1" *ngIf="EwayBill.ewayBillNo">
                     {{ EwayBill.ewayBillNo + " ," }}
                   </h5>
-                  <h5
-                    title="address Line 2"
-                    *ngIf="EwayBill.transporter
-                    "
-                  >
+                  <h5 title="address Line 2" *ngIf="EwayBill.transporter">
                     {{ EwayBill.transporter + " ," }}
                   </h5>
                   <h5>
@@ -181,42 +176,24 @@
                     }}</span
                     >,
                     <span *ngIf="EwayBill?.dispatchedThrough" title="State"
-                      >{{ EwayBill.dispatchedThrough }} </span
-                    >
-                 
+                      >{{ EwayBill.dispatchedThrough }}
+                    </span>
                   </h5>
-                
                 </div>
               </div>
-              <div class="buyer col-3 col-md-3" style=" text-align: left">
-                <h3 style="color: #970">Shipping Address</h3>
-                <!-- <p-button
-                [text]="true"
-                icon="fa-solid fa-edit"
-                (click)="openShippingPopup()"
-                tooltipPosition="bottom"
-                tooltipStyleClass="tooltip"
-                pTooltip="Edit Seller Address"
-              ></p-button> -->
-                <!-- <div>
-                                    <h5 title="address">
-                                        <span
-                                            [innerHTML]="editSalesForm.get('customer').value?.billingAddress | wordWrap : 2"></span>
-                                    </h5>
-                                </div> -->
+              <div class="buyer col-3 col-md-3" style="text-align: left">
+                <div class="d-flex gap-3 align-items-center">
+                  <h4 style="color: #970">Shipping Address</h4>
+                  <p-button
+                    [text]="true"
+                    icon="fa-solid fa-edit"
+                    (click)="openShippingPopup()"
+                    tooltipPosition="bottom"
+                    tooltipStyleClass="tooltip"
+                    pTooltip="Edit Seller Address"
+                  ></p-button>
+                </div>
                 <div>
-                  <!-- <h5 *ngIf="BuyerData?.name">
-                    {{ BuyerData?.name }}
-                  </h5>
-
-                  <h5 title="Billing address" *ngIf="customerAddress">
-                    (bill to) -
-                    <span [innerHTML]="customerAddress | wordWrap : 2"></span>
-                    
-                  </h5>
-                  <h5 *ngIf="BuyerData?.taxNo">
-                    GST No. - {{ BuyerData?.taxNo }}
-                  </h5> -->
                   <h5
                     title="Shipping address"
                     *ngIf="BuyerData?.shippingAddress"
@@ -229,8 +206,11 @@
                   </h5>
                 </div>
               </div>
-              <div class="buyer col-3 col-md-3" style="width: 235px; text-align: left">
-                <h3 style="color: #970">Buyer Address</h3>
+              <div
+                class="buyer col-3 col-md-3"
+                style="width: 235px; text-align: left"
+              >
+                <h4 style="color: #970">Buyer Address</h4>
                 <div>
                   <h5 *ngIf="BuyerData?.name">
                     {{ BuyerData?.name }}
@@ -307,7 +287,7 @@
                         >Customer Name
                         <span class="login-danger">*</span></label
                       >
-                   
+
                       <p-dropdown
                         [style]="{ width: '100%' }"
                         placeholder="Select Customer"
@@ -331,9 +311,8 @@
                         <span class="login-danger">Field is required. </span>
                       </div>
                     </div>
-                   
                   </div>
-               
+
                   <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="salesDate"
@@ -487,18 +466,28 @@
                               <span class="login-danger">*</span></label
                             >
                             <p-dropdown
-                              [options]="slabDataList[i]"
-                              appendTo="body"
-                              [style]="{ width: '100%' }"
-                              optionLabel="name"
-                              [filter]="true"
-                              filterBy="name"
-                              optionValue="_id"
-                              name="salesItemProduct"
-                              formControlName="salesItemProduct"
-                              placeholder="Select Product"
-                              (onChange)="onSlabSelect($event.value, i)"
-                            ></p-dropdown>
+                            [options]="slabDataList[i]"
+                            appendTo="body"
+                            [style]="{ width: '100%' }"
+                            optionLabel="name"
+                            [filter]="true"
+                            filterBy="name"
+                            optionValue="_id"
+                            name="salesItemProduct"
+                            formControlName="salesItemProduct"
+                            placeholder="Select Product"
+                            (onChange)="onSlabSelect($event.value, i)">
+                            
+                            <!-- Custom item template to disable items based on the condition -->
+                            <ng-template let-option pTemplate="item">
+                              <div [ngClass]="{ 'disabled-item': option.totalSQFT === 0 }">
+                                {{ option.name }}
+                              </div>
+                            </ng-template>
+                            
+                          </p-dropdown>
+                          
+                          
                             <div
                               *ngIf="
                                 addSalesForm
@@ -1196,7 +1185,7 @@
                             [binary]="true"
                             class="m-r-10"
                             formControlName="isShippingTax"
-                            (onChange)="calculateTotalAmount()"
+                            (onChange)="onCheckboxChange($event)"
                           >
                           </p-checkbox>
                           <span for="isTaxVendor" class="fs-6">
@@ -1253,7 +1242,7 @@
                             [binary]="true"
                             class="m-r-10"
                             formControlName="isOtherChargesTax"
-                            (onChange)="calculateTotalAmount()"
+                            (onChange)="isOtherTaxChange($event)"
                           >
                           </p-checkbox>
                           <span for="isTaxVendor" class="fs-6">
@@ -1481,7 +1470,6 @@
                       <p-dropdown
                         id="dispatchedThrough"
                         [style]="{ width: '100%' }"
-                        
                         formControlName="dispatchedThrough"
                         [options]="dispatchOptions"
                         optionLabel="label"
@@ -1515,8 +1503,11 @@
                         formControlName="vehicleNumber"
                       />
                       <div *ngIf="setValidations('vehicleNumber')">
-                        <span class="login-danger">Invalid vehicle number format. Please correct it.</span>
-                    </div>
+                        <span class="login-danger"
+                          >Invalid vehicle number format. Please correct
+                          it.</span
+                        >
+                      </div>
                     </div>
 
                     <!-- Delivery Terms & Conditions -->
@@ -1535,15 +1526,15 @@
                     </div>
 
                     <!-- Save Button -->
-                   
-                      <button
-                        type="submit"
-                        class="btn btn-primary p-2"
-                        pButton
-                        
-                        [disabled]="ewayBillForm.invalid"
-                      > Save</button>
-                   
+
+                    <button
+                      type="submit"
+                      class="btn btn-primary p-2"
+                      pButton
+                      [disabled]="ewayBillForm.invalid"
+                    >
+                      Save
+                    </button>
                   </div>
                 </form>
               </p-dialog>
@@ -1555,3 +1546,40 @@
   </div>
 </div>
 <p-toast></p-toast>
+<p-dialog
+  header="Update Shipping Address"
+  [(visible)]="isUpdateAddress"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{ width: '30%' }"
+>
+  <form (ngSubmit)="UpdateShippingAddress()">
+    <div class="p-fluid mt-2">
+      <div class="col-12 col-md-12 col-xl-12">
+        <div class="form-group local-forms">
+          <label for="shippingAddress">Shipping Address</label>
+          <textarea
+            class="form-control"
+            type="text"
+            placeholder="Please Enter Shipping Address"
+            [(ngModel)]="UpdtshippingAddress"
+            rows="2"
+            name="UpdtshippingAddress"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Save Button -->
+
+      <button
+        type="submit"
+        class="btn btn-primary p-2"
+        pButton
+        [disabled]="!UpdtshippingAddress"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</p-dialog>

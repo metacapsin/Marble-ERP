@@ -51,10 +51,10 @@
       <div class="col-md-12">
         <div class="card invoices-add-card">
           <div class="card-body">
-            <div class="row col-12 col-12  mb-3">
+            <div class="row col-12 col-12 mb-3">
               <div class="seller col-3 col-md-3">
                 <div class="d-flex gap-3 align-items-center">
-                  <h3 style="color: #970; margin-bottom: 5x">Seller Address</h3>
+                  <h4 style="color: #970; margin-bottom: 5x">Seller Address</h4>
                   <p-button
                     [text]="true"
                     icon="fa-solid fa-edit"
@@ -103,7 +103,7 @@
               </div>
               <div class="seller col-3 col-md-3">
                 <div class="d-flex gap-3 align-items-center">
-                  <h3 style="color: #970; margin-bottom: 5x">E-Way Bill</h3>
+                  <h4 style="color: #970; margin-bottom: 5x">E-Way Bill</h4>
                   <p-button
                     [text]="true"
                     icon="fa-solid fa-edit"
@@ -117,17 +117,10 @@
                   <h5 *ngIf="EwayBill">
                     {{ EwayBill.date + " ," }}
                   </h5>
-                  <h5
-                    title="address Line 1"
-                    *ngIf="EwayBill.ewayBillNo"
-                  >
+                  <h5 title="address Line 1" *ngIf="EwayBill.ewayBillNo">
                     {{ EwayBill.ewayBillNo + " ," }}
                   </h5>
-                  <h5
-                    title="address Line 2"
-                    *ngIf="EwayBill.transporter
-                    "
-                  >
+                  <h5 title="address Line 2" *ngIf="EwayBill.transporter">
                     {{ EwayBill.transporter + " ," }}
                   </h5>
                   <h5>
@@ -136,42 +129,24 @@
                     }}</span
                     >,
                     <span *ngIf="EwayBill?.dispatchedThrough" title="State"
-                      >{{ EwayBill.dispatchedThrough }} </span
-                    >
-                 
+                      >{{ EwayBill.dispatchedThrough }}
+                    </span>
                   </h5>
-                
                 </div>
               </div>
-              <div class="buyer col-3 col-md-3" style=" text-align: left">
-                <h3 style="color: #970">Shipping Address</h3>
-                <!-- <p-button
-                [text]="true"
-                icon="fa-solid fa-edit"
-                (click)="openShippingPopup()"
-                tooltipPosition="bottom"
-                tooltipStyleClass="tooltip"
-                pTooltip="Edit Seller Address"
-              ></p-button> -->
-                <!-- <div>
-                                    <h5 title="address">
-                                        <span
-                                            [innerHTML]="editSalesForm.get('customer').value?.billingAddress | wordWrap : 2"></span>
-                                    </h5>
-                                </div> -->
+              <div class="buyer col-3 col-md-3" style="text-align: left">
+                <div class="d-flex gap-3 align-items-center">
+                  <h4 style="color: #970">Shipping Address</h4>
+                  <p-button
+                    [text]="true"
+                    icon="fa-solid fa-edit"
+                    (click)="openShippingPopup()"
+                    tooltipPosition="bottom"
+                    tooltipStyleClass="tooltip"
+                    pTooltip="Edit Seller Address"
+                  ></p-button>
+                </div>
                 <div>
-                  <!-- <h5 *ngIf="BuyerData?.name">
-                    {{ BuyerData?.name }}
-                  </h5>
-
-                  <h5 title="Billing address" *ngIf="customerAddress">
-                    (bill to) -
-                    <span [innerHTML]="customerAddress | wordWrap : 2"></span>
-                    
-                  </h5>
-                  <h5 *ngIf="BuyerData?.taxNo">
-                    GST No. - {{ BuyerData?.taxNo }}
-                  </h5> -->
                   <h5
                     title="Shipping address"
                     *ngIf="BuyerData?.shippingAddress"
@@ -185,8 +160,8 @@
                 </div>
               </div>
 
-              <div class="buyer col-3 col-md-3" style=" text-align: left">
-                <h3 style="color: #970">Buyer Address</h3>
+              <div class="buyer col-3 col-md-3" style="text-align: left">
+                <h4 style="color: #970">Buyer Address</h4>
                 <!-- <div>
                                     <h5 title="address">
                                         <span
@@ -1096,7 +1071,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 ml-3">
+                        <div class="col-7 ml-3">
                           <div class="form-group local-forms">
                             <label for="salesShipping">Shipping Charges</label>
                             <div class="input-group">
@@ -1123,9 +1098,34 @@
                                 >Input must be between 0 to 100000.</span
                               >
                             </div>
+                            
                           </div>
                         </div>
-                        <div class="col-12 ml-3">
+                        <div class="col-5 checkbox">
+                          <p-checkbox
+                            [binary]="true"
+                            class="m-r-10"
+                            formControlName="isShippingTax"
+                            (onChange)="onCheckboxChange($event)"
+                          >
+                          </p-checkbox>
+                          <span for="isTaxVendor" class="fs-6">
+                            Apply Tax
+                            {{
+                              this.editSalesForm.get("isShippingTax")?.value &&
+                              salesItemDetails.at(0)?.get("salesItemTax")
+                                ?.value &&
+                              salesItemDetails.at(0)?.get("salesItemTax")
+                                ?.value[0]?.taxRate
+                                ? " (" +
+                                  salesItemDetails.at(0)?.get("salesItemTax")
+                                    ?.value[0]?.taxRate +
+                                  "%)"
+                                : ""
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-7 ml-3">
                           <div class="form-group local-forms">
                             <label for="otherCharges">Other Charges</label>
                             <div class="input-group">
@@ -1134,7 +1134,7 @@
                               </div>
                               <input
                                 class="form-control"
-                                (change)="calculateTotalAmount()"
+                               (input)="calculateTotalAmount()"
                                 formControlName="otherCharges"
                                 type="text"
                                 placeholder="Enter Other Charges"
@@ -1153,6 +1153,31 @@
                               >
                             </div>
                           </div>
+                        </div>
+                        <div class="col-5 checkbox">
+                          <p-checkbox
+                            [binary]="true"
+                            class="m-r-10"
+                            formControlName="isOtherChargesTax"
+                            (onChange)="isOtherTaxChange($event)"
+                          >
+                          </p-checkbox>
+                          <span for="isTaxVendor" class="fs-6">
+                            Apply Tax
+                            {{
+                              this.editSalesForm.get("isOtherChargesTax")
+                                ?.value &&
+                              salesItemDetails.at(0)?.get("salesItemTax")
+                                ?.value &&
+                              salesItemDetails.at(0)?.get("salesItemTax")
+                                ?.value[0]?.taxRate
+                                ? " (" +
+                                  salesItemDetails.at(0)?.get("salesItemTax")
+                                    ?.value[0]?.taxRate +
+                                  "%)"
+                                : ""
+                            }}
+                          </span>
                         </div>
                       </div>
 
@@ -1435,30 +1460,28 @@
   </form>
 </p-dialog>
 
-
 <p-dialog
   header="Update Shipping Address"
   [(visible)]="isUpdateAddress"
   [modal]="true"
   [closable]="true"
   [responsive]="true"
-  [style]="{ width: '45%' }"
+  [style]="{ width: '30%' }"
 >
-  <form  (ngSubmit)="UpdateShippingAddress()">
-    <div class="p-fluid">
-      <!-- E-Way Bill No -->
-      <div class="p-field mb-2">
-        <!-- <label for="ewayBillNo">E-Way Bill No</label> -->
-        <input
-          id="shippingAddress"
-          type="text"
-          class="form-control"
-          placeholder="shippingAddress"
-          name="UpdtshippingAddress"
-          
-          [(ngModel)]="UpdtshippingAddress"
-          
-        />
+  <form (ngSubmit)="UpdateShippingAddress()">
+    <div class="p-fluid mt-2">
+      <div class="col-12 col-md-12 col-xl-12">
+        <div class="form-group local-forms">
+          <label for="shippingAddress">Shipping Address</label>
+          <textarea
+            class="form-control"
+            type="text"
+            placeholder="Please Enter Shipping Address"
+            [(ngModel)]="UpdtshippingAddress"
+            rows="2"
+            name="UpdtshippingAddress"
+          ></textarea>
+        </div>
       </div>
 
       <!-- Save Button -->
@@ -1467,7 +1490,7 @@
         type="submit"
         class="btn btn-primary p-2"
         pButton
-       
+        [disabled]="!UpdtshippingAddress"
       >
         Save
       </button>

@@ -45,7 +45,7 @@ export class ListSlabsComponent {
   showDataLoader: boolean = false;
   slabProfitOfSlabHistory: any = [];
   slabDetailsOfSlabHistory: any = [];
-selectedLayout: any = 'Table';
+selectedLayout: any = 'Card';
 
   constructor(
     public dialog: MatDialog,
