@@ -436,6 +436,13 @@ export class EditSalsComponent implements OnInit {
     });
   }
 
+  toUpperCase(event: any) {
+    let val = event.target.value.toUpperCase();
+    this.ewayBillForm.patchValue({
+      vehicleNumber: val,
+    });
+  }
+
   hasError(controlName: string, errorName: string): boolean | undefined {
     const control = this.editSalesForm.get(controlName);
     return control?.hasError(errorName) && (control.dirty || control.touched);

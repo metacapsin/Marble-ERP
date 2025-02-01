@@ -63,7 +63,7 @@ export class EditPurchaseReturnComponent {
     this.editPurchaseReturnForm = this.fb.group({
       purchaseReturnInvoiceNumber: ["", [Validators.required]],
       purchaseReturnSupplier: ["", [Validators.required]],
-      purchaseReturnDate: ["", [Validators.required]],
+      purchaseReturnDate: [new Date().toLocaleDateString("en-US"), [Validators.required]],
       purchaseReturnNotes: [""],
       purchaseReturnTotalAmount: [""],
       purchaseGrossTotal: [""],

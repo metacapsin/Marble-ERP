@@ -118,7 +118,7 @@ export class AddSlabsComponent {
       processingCost: [""],
       totalCosting: ["0"],
       costPerSQFT: [""],
-      date: ["", [Validators.required]],
+      date: [new Date().toLocaleDateString("en-US"), [Validators.required]],
       purchaseCost: [
         "",
         [Validators.required, Validators.min(0), Validators.max(10000000)],

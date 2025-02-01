@@ -68,6 +68,12 @@ export class SalesComponent implements OnInit {
         startDate = new Date(dates.startUtc);
         endDate = new Date(dates.endUtc);
         this.searchBy = dates.filterby;
+
+        let sDate = new Date(dates.startUtc);
+        let eDate = new Date(dates.endUtc);
+        let aDate = [sDate, eDate];
+
+        this.onDateChange(aDate);
       } else {
         console.log(" Dates:");
         startDate = new Date(new Date().getFullYear(), 0, 1);
@@ -181,7 +187,7 @@ export class SalesComponent implements OnInit {
   showInvoiceDialoge(Id: any) {
     this.Service.GetSalesDataById(Id).subscribe((resp: any) => {
       this.header = "Sales Invoice";
-      
+
       this.salesDataById = [resp.data];
       console.log("sales data by id On dialog", this.salesDataById);
       this.showInvoiceDialog = true;
@@ -198,6 +204,7 @@ export class SalesComponent implements OnInit {
   }
 
   onDateChange(value: any): void {
+    console.log("value", value);
     const startDate = value[0];
     const endDate = value[1];
     this.GetSalesData(startDate, endDate);
@@ -214,7 +221,7 @@ export class SalesComponent implements OnInit {
 
   onSearchByChange(event: any) {
     const today = new Date();
-    let startDate:Date,
+    let startDate: Date,
       endDate = today;
     switch (event) {
       case "Today":
@@ -279,12 +286,12 @@ export class SalesComponent implements OnInit {
         break;
 
       default:
-        startDate =new Date(today.getFullYear(), 0, 1);;
+        startDate = new Date(today.getFullYear(), 0, 1);
         endDate = new Date();
         break;
     }
     this.rangeDates = [startDate, endDate];
-    console.log(startDate,endDate)
+    console.log(startDate, endDate);
     this.GetSalesData(startDate, endDate);
 
     let payload = {

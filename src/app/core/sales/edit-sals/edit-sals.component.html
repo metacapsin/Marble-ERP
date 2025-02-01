@@ -1098,7 +1098,6 @@
                                 >Input must be between 0 to 100000.</span
                               >
                             </div>
-                            
                           </div>
                         </div>
                         <div class="col-5 checkbox">
@@ -1134,7 +1133,7 @@
                               </div>
                               <input
                                 class="form-control"
-                               (input)="calculateTotalAmount()"
+                                (input)="calculateTotalAmount()"
                                 formControlName="otherCharges"
                                 type="text"
                                 placeholder="Enter Other Charges"
@@ -1376,13 +1375,14 @@
       <!-- Date -->
       <div class="p-field mb-2">
         <!-- <label for="date">Date</label> -->
+
         <p-calendar
-          id="date"
-          placeholder="Date"
+          dataType="string"
+          appendTo="body"
+          dateFormat="mm/dd/yy"
           formControlName="date"
-          [showTime]="false"
-          [showIcon]="true"
-          dateFormat="dd/mm/yy"
+          placeholder="mm/dd/yyyy"
+          [styleClass]="'col-12'"
         ></p-calendar>
       </div>
 
@@ -1423,6 +1423,7 @@
           class="form-control"
           pInputText
           formControlName="vehicleNumber"
+          (input)="toUpperCase($event)"
         />
         <div *ngIf="setValidations('vehicleNumber')">
           <span class="login-danger"
@@ -1448,14 +1449,27 @@
 
       <!-- Save Button -->
 
-      <button
-        type="submit"
-        class="btn btn-primary p-2"
-        pButton
-        [disabled]="ewayBillForm.invalid"
-      >
-        Save
-      </button>
+      <div class="d-flex justify-content-evenly">
+        <div class="w-50"></div>
+        <div class="d-flex w-75">
+          <button
+            (click)="closeEwayBillPopup()"
+            type="submit"
+            class="btn btn-secondary w-75"
+            pButton
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary mx-2 w-75"
+            pButton
+            [disabled]="ewayBillForm.invalid"
+          >
+            Save
+          </button>
+        </div>
+      </div>
     </div>
   </form>
 </p-dialog>
@@ -1486,14 +1500,27 @@
 
       <!-- Save Button -->
 
-      <button
-        type="submit"
-        class="btn btn-primary p-2"
-        pButton
-        [disabled]="!UpdtshippingAddress"
-      >
-        Save
-      </button>
+      <div class="d-flex justify-content-evenly">
+        <div class="w-50"></div>
+        <div class="d-flex w-75">
+          <button
+            (click)="closeEwayBillPopup()"
+            type="submit"
+            class="btn btn-secondary p-3 w-75"
+            pButton
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary mx-2 w-75"
+            pButton
+            [disabled]="!UpdtshippingAddress"
+          >
+            Save
+          </button>
+        </div>
+      </div>
     </div>
   </form>
 </p-dialog>

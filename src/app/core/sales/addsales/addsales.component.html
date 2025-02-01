@@ -1433,7 +1433,7 @@
                 [modal]="true"
                 [closable]="true"
                 [responsive]="true"
-                [style]="{ width: '45%' }"
+                [style]="{ width: '35%' }"
               >
                 <form [formGroup]="ewayBillForm" (ngSubmit)="onSubmit()">
                   <div class="p-fluid">
@@ -1454,14 +1454,24 @@
                     <!-- Date -->
                     <div class="p-field mb-2">
                       <!-- <label for="date">Date</label> -->
-                      <p-calendar
+                      <!-- <p-calendar
+                      
                         id="date"
                         placeholder="Date"
                         formControlName="date"
                         [showTime]="false"
-                        [showIcon]="true"
+                        [showIcon]="false"
                         dateFormat="dd/mm/yy"
-                      ></p-calendar>
+                      ></p-calendar> -->
+                      <p-calendar
+                     
+                      dataType="string"
+                      appendTo="body"
+                      dateFormat="mm/dd/yy"
+                      formControlName="date"
+                      placeholder="mm/dd/yyyy"
+                      [styleClass]="'col-12'"
+                    ></p-calendar>
                     </div>
 
                     <!-- Dispatched Through (Dropdown) -->
@@ -1499,6 +1509,7 @@
                         placeholder="Vehicle Number"
                         type="text"
                         class="form-control"
+                        (input)="toUpperCase($event)"
                         pInputText
                         formControlName="vehicleNumber"
                       />
@@ -1527,14 +1538,28 @@
 
                     <!-- Save Button -->
 
-                    <button
+                   <div class="d-flex justify-content-evenly">
+                    <div class="w-50"></div>
+                    <div class="d-flex w-75">
+                      <button
+                      (click)="closeEwayBillPopup()"
                       type="submit"
-                      class="btn btn-primary p-2"
-                      pButton
+                      class="btn btn-secondary w-75"
+                      
+                      
+                    >
+                      Cancel
+                    </button>
+                      <button
+                      type="submit"
+                      class="btn btn-primary mx-2 w-75"
+                      
                       [disabled]="ewayBillForm.invalid"
                     >
                       Save
                     </button>
+                    </div>
+                   </div>
                   </div>
                 </form>
               </p-dialog>
@@ -1571,15 +1596,36 @@
       </div>
 
       <!-- Save Button -->
-
-      <button
+      <div class="d-flex justify-content-evenly">
+        <div class="w-50"></div>
+        <div class="d-flex w-75">
+          <button
+          (click)="closeEwayBillPopup()"
+          type="submit"
+          class="btn btn-secondary w-75"
+          
+          
+        >
+          Cancel
+        </button>
+          <button
+          type="submit"
+          class="btn btn-primary mx-2 w-75"
+          
+          [disabled]="!UpdtshippingAddress"
+        >
+          Save
+        </button>
+        </div>
+       </div>
+      <!-- <button
         type="submit"
         class="btn btn-primary p-2"
         pButton
         [disabled]="!UpdtshippingAddress"
       >
         Save
-      </button>
+      </button> -->
     </div>
   </form>
 </p-dialog>

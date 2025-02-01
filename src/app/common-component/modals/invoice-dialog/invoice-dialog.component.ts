@@ -65,7 +65,7 @@ export class InvoiceDialogComponent implements OnInit {
     this.close.emit();
   }
   clickMe() {
-    console.log(this.salesDataById);
+    console.log('salesDataById',this.salesDataById);
   }
 
   downloadTaxInvoice(id: any, invoice: any) {

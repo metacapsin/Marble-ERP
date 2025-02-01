@@ -9,43 +9,51 @@
   [style]="{ width: '80vw' }"
 >
   <ng-template pTemplate="header">
+    
     <div class="d-flex justify-content-between align-items-center w-100">
       <h4>{{ header }}</h4>
+
+      <!-- {{sales | json}} -->
       <div class="d-flex">
-        <ul class="notification-list" *ngIf="sales?.salesDate" style="margin-top: 4px;">
+        <ul
+          class="notification-list"
+          *ngIf="sales && sales?.salesDate"
+          style="margin-top: 4px"
+        >
           <li
             class="nav-item dropdown has-arrow user-profile-list"
-           
             tooltipPosition="bottom"
             tooltipStyleClass="tooltip"
           >
             <a
               href="javascript:void(0);"
-            
               class="dropdown-toggl nav-link user-link mt-2"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               <i class="fas fa-ellipsis-v"></i>
             </a>
-            <div class="dropdown-menu"  style="z-index: 100;">
-              <a class="dropdown-item"   (click)="
-              downloadTaxInvoice(sales?._id, sales?.salesInvoiceNumber)
-            ">
-                <i
-                  class="fa-solid fa-download"
-                
-                ></i>
+            <div class="dropdown-menu" style="z-index: 100">
+              <a
+                class="dropdown-item"
+                (click)="
+                  downloadTaxInvoice(sales?._id, sales?.salesInvoiceNumber)
+                "
+              >
+                <i class="fa-solid fa-download"></i>
                 Tax Invoice
               </a>
-              <a class="dropdown-item" (click)="downloadFullInvoice(sales?._id, sales?.salesInvoiceNumber)">
+              <a
+                class="dropdown-item"
+                (click)="
+                  downloadFullInvoice(sales?._id, sales?.salesInvoiceNumber)
+                "
+              >
                 <i class="fa-solid fa-download"></i> Full Invoice
               </a>
             </div>
           </li>
-        
         </ul>
-      
 
         <!-- <button
           *ngIf="sales?.salesDate"
@@ -129,7 +137,9 @@
                                 <span
                                   title="State"
                                   *ngIf="sales?.billingAddress?.state.name"
-                                  >{{ sales?.billingAddress?.state.name }} ({{sales?.billingAddress?.state.code}})</span
+                                  >{{ sales?.billingAddress?.state.name }} ({{
+                                    sales?.billingAddress?.state.code
+                                  }})</span
                                 >,
                                 <span
                                   title="Postal Code"
@@ -169,7 +179,7 @@
                     </div>
                   </div>
                   <div class="col-md-3">
-                    <div>
+                    <div *ngIf="sales && sales?.eWayBill">
                       <div
                         class="invoice-head justify-content-center text-align-center"
                       >
@@ -211,7 +221,9 @@
                                 <span
                                   title="dispatched Through"
                                   *ngIf="sales?.eWayBill?.dispatchedThrough"
-                                  >{{ sales?.eWayBill?.dispatchedThrough }}</span
+                                  >{{
+                                    sales?.eWayBill?.dispatchedThrough
+                                  }}</span
                                 >,
                                 <!-- <span
                                   title="Postal Code"
@@ -221,9 +233,7 @@
                                   }}</span
                                 > -->
                               </h5>
-                          
                             </div>
-
 
                             <!-- <h5 *ngIf="sales?.supplier?.taxNo">
                               GSTIN: {{sales?.supplier?.taxNo }}
@@ -234,7 +244,9 @@
                     </div>
                   </div>
                   <div class="col-md-3">
-                    <div>
+                    <div
+                      *ngIf="sales?.customer && sales?.customer.shippingAddress"
+                    >
                       <div
                         class="invoice-head justify-content-center text-align-center"
                       >
@@ -255,9 +267,7 @@
                               <h5 *ngIf="sales?.customer?.shippingAddress">
                                 {{ sales?.customer?.shippingAddress }}
                               </h5>
-                              
                             </div>
-
 
                             <!-- <h5 *ngIf="sales?.supplier?.taxNo">
                               GSTIN: {{sales?.supplier?.taxNo }}
@@ -994,6 +1004,7 @@
                       class="invoice-terms m-2"
                       *ngIf="
                         sales?.salesNotes ||
+                        sales?.purchaseReturnNotes ||
                         sales?.purchaseNotes ||
                         (sales?.salesItemDetails && !sales?.returnDate)
                       "
@@ -1007,6 +1018,9 @@
                       </p>
                       <p *ngIf="sales?.purchaseNotes" class="mb-0">
                         {{ sales?.purchaseNotes }}
+                      </p>
+                      <p *ngIf="sales?.purchaseReturnNotes">
+                        {{ sales?.purchaseReturnNotes }}
                       </p>
                     </div>
                     <div
@@ -1039,6 +1053,15 @@
                           </span>
                         </p>
                         <hr *ngIf="sales?.taxable" />
+
+                        <p *ngIf="sales?.returnOtherCharges">
+                          Return Other Charges : <span>{{sales?.returnOtherCharges}}</span>
+                        </p>
+
+                        <p *ngIf="sales?.returnOrderStatus">
+                          Return Status : <span>{{sales?.returnOrderStatus}}</span>
+                        </p>
+
                         <p
                           *ngIf="
                             sales?.salesGrossTotal || sales?.quotationGrossTotal
@@ -1086,7 +1109,12 @@
                             sales?.quotationShipping
                           "
                         >
-                          Shipping Charges <small *ngIf="sales?.isShippingTax" class="text-danger">(Tax Included)</small>
+                          Shipping Charges
+                          <small
+                            *ngIf="sales?.isShippingTax"
+                            class="text-danger"
+                            >(Tax Included)</small
+                          >
                           <span
                             >+ ₹
                             {{
@@ -1097,17 +1125,17 @@
                             }}</span
                           >
                         </p>
-                        <p *ngIf="!sales?.salesDate">
+                        <p *ngIf="sales?.transportationCharges || sales?.lotDetails?.transportationCharge || sales?.lotDetails?.totalTransportationCharges ">
                           Transport Charges
                           <span
                             >+ ₹
                             {{
-                              sales?.transportationCharges *
-                                sales?.lotDetails?.lotWeight ||
+                             sales?.lotDetails ?  sales?.transportationCharges *
+                                sales?.lotDetails?.lotWeight :  sales?.transportationCharges||
                                 sales?.lotDetails?.transportationCharge *
                                   sales?.lotDetails?.lotWeight ||
                                 sales?.lotDetails?.totalTransportationCharges *
-                                  sales?.lotDetails?.lotWeight ||
+                                  sales?.lotDetails?.lotWeight || 
                                 0 | indianCurrency
                             }}</span
                           >
@@ -1124,8 +1152,13 @@
                             }}
                           </span>
                         </p>
-                        <p *ngIf="!sales?.lotDetails?.royaltyCharge">
-                          Other Charges <small *ngIf="sales?.isOtherChargesTax" class="text-danger">(Tax Included)</small>
+                        <p *ngIf="sales?.otherCharges">
+                          Other Charges
+                          <small
+                            *ngIf="sales?.isOtherChargesTax"
+                            class="text-danger"
+                            >(Tax Included)</small
+                          >
                           <span
                             >+ ₹
                             {{
@@ -1153,6 +1186,9 @@
                             }}
                           </span>
                         </p>
+
+                      
+
                         <!-- <p *ngIf="sales?.salesDiscount || sales?.quotationDiscount">
                           Discount
                           <span>- ₹ {{ (sales?.salesDiscount ||
@@ -1161,7 +1197,7 @@
                             <span>0.00</span>
                           </ng-template>
                         </p> -->
-                        <p>
+                        <p *ngIf="sales?.salesDiscount || sales?.lotDetails?.purchaseDiscount || sales?.purchaseDiscount ||  sales?.quotationDiscount">
                           Discount
                           <span>
                             {{

@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, formatDate } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
@@ -36,6 +36,7 @@ export class AddPurchaseReturnComponent implements OnInit {
   purchaseDataByInvoiceNumber = [];
   GridDataForSlab: any;
   // slabValuesAdd: any[];
+  isCurrentDate = new Date();
   isProcess: any;
   supplier: any = [];
   returnUrl: string;
@@ -52,13 +53,16 @@ export class AddPurchaseReturnComponent implements OnInit {
     this.addPurchaseReturnForm = this.fb.group({
       purchaseReturnInvoiceNumber: ["", [Validators.required]],
       purchaseReturnSupplier: ["", [Validators.required]],
-      purchaseReturnDate: ["", [Validators.required]],
+      purchaseReturnDate: [new Date().toLocaleDateString("en-US"), [Validators.required]],
       purchaseReturnNotes: [""],
       purchaseReturnTotalAmount: [""],
       purchaseGrossTotal: [""],
       otherCharges: ["", [Validators.min(0), Validators.max(100000)]],
       purchaseSlab: [[]],
     });
+  }
+  formatDate(isCurrentDate: Date): any {
+    throw new Error("Method not implemented.");
   }
   onSuppliersSelect(_id: any) {
     // this.GridDataForLot = [];

@@ -64,6 +64,8 @@ export class AddCustomersComponent implements OnInit {
   onCancel(){
     this.router.navigateByUrl(this.returnUrl);
   }
+
+  
   toUpperCase(event: any) {
     let val = event.target.value.toUpperCase();
     this.addcustomerGroup.patchValue({

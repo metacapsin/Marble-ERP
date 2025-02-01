@@ -204,7 +204,15 @@ export class AddsalesComponent implements OnInit {
   // Close the popup (if needed)
   closeEwayBillPopup() {
     this.displayEwayBillPopup = false;
-    this.isUpdateAddress = true;
+    this.isUpdateAddress = false;
+  }
+
+
+  toUpperCase(event: any) {
+    let val = event.target.value.toUpperCase();
+    this.ewayBillForm.patchValue({
+      vehicleNumber: val,
+    });
   }
 
   UpdateShippingAddress() {

@@ -90,7 +90,7 @@ export class PurchaseReturnComponent {
       this.rangeDates = [startDate, endDate];
       console.log("Formatted Dates:", Sdate, Edate);
       console.log("Formatted this.searchBy:",this.searchBy);
-      this.onSearchByChange(this.searchBy)
+      this.getPurchaseReturn(startDate, endDate);
     });
    
   }

@@ -84,7 +84,7 @@ export class ListQuotationsComponent implements OnInit {
 
       this.rangeDates = [startDate, endDate];
       console.log("Formatted Dates:", Sdate, Edate);
-      this.onSearchByChange(this.searchBy)
+      this.GetQuotationsData(startDate, endDate);
     });
     // this.GetQuotationsData();
     this.currentUrl = this.router.url;
@@ -274,8 +274,7 @@ export class ListQuotationsComponent implements OnInit {
           break;
   
         default:
-          startDate = null;
-          endDate = null;
+          startDate = new Date(today.getFullYear(), 0, 1);
           break;
       }
     this.rangeDates = [startDate, endDate];

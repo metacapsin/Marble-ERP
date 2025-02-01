@@ -66,7 +66,7 @@ export class AddSalesReturnComponent {
   ) {
     this.addReturnSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
-      returnDate: ["", [Validators.required]],
+      returnDate: [new Date().toLocaleDateString("en-US"), [Validators.required]],
       salesInvoiceNumber: ["", [Validators.required]],
       salesItemDetails: this.fb.array([]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],
