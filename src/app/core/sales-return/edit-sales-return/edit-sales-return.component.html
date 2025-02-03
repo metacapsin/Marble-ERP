@@ -256,6 +256,75 @@
                                         <div class="invoice-total-box">
                                             <div class="row p-3">
                                                 <div class="col-12 mt-3">
+                                                  <div class="form-group local-forms">
+                                                    <label for="returnOrderStatus"
+                                                      >Return Sales Status
+                                                      <span class="login-danger">*</span></label
+                                                    >
+                                                    <p-dropdown
+                                                      [options]="orderStatusList"
+                                                      styleClass=""
+                                                      appendTo="body"
+                                                      optionLabel="orderStatus"
+                                                      optionValue="orderStatus"
+                                                      placeholder="Select  Status"
+                                                      [style]="{ width: '100%' }"
+                                                      formControlName="returnOrderStatus"
+                                                      [filter]="true"
+                                                      filterBy="orderStatus"
+                                                      [showClear]="true"
+                                                    >
+                                                    </p-dropdown>
+                                                    <div
+                                                      *ngIf="
+                                                        editReturnSalesForm
+                                                          .get('returnOrderStatus')
+                                                          ?.hasError('required') &&
+                                                        editReturnSalesForm.get('returnOrderStatus')
+                                                          ?.touched
+                                                      "
+                                                    >
+                                                      <span class="login-danger"
+                                                        >Field is required.</span
+                                                      >
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-12 ml-3">
+                                                  <div class="form-group local-forms">
+                                                    <label for="returnOtherCharges"
+                                                      >Return Other Charges
+                                                    </label>
+                                                    <div class="input-group">
+                                                      <div class="input-group-prepend">
+                                                        <span class="input-group-text">₹</span>
+                                                      </div>
+                                                      <input
+                                                        class="form-control"
+                                                        (change)="calculateTotalAmount()"
+                                                        formControlName="returnOtherCharges"
+                                                        type="text"
+                                                        placeholder="Enter Other Charges "
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      *ngIf="
+                                                        editReturnSalesForm
+                                                          .get('returnOtherCharges')
+                                                          ?.hasError('pattern') &&
+                                                        editReturnSalesForm.get('returnOtherCharges')
+                                                          ?.touched
+                                                      "
+                                                    >
+                                                      <span class="login-danger"
+                                                        >Input must be between 0 to 100000.</span
+                                                      >
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            <!-- <div class="row p-3">
+                                                <div class="col-12 mt-3">
                                                     <div class="form-group local-forms">
                                                         <label for="returnOrderStatus">Order Status</label>
                                                         <p-dropdown [options]="orderStatusList" styleClass=""
@@ -271,16 +340,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="col-12 mt-3">
-                                                    <div class="form-group local-forms">
-                                                        <label for="salesReturnOrderTax">Order Tax</label>
-                                                        <p-multiSelect [style]="{'width':'100%'}"
-                                                            placeholder="Select Tax" [options]="orderTaxList"
-                                                            formControlName="salesOrderTax" optionLabel="orderTaxName"
-                                                            optionValue="orderNamevalue" display="chip" (onChange)="calculateTotalAmount()">
-                                                        </p-multiSelect>
-                                                    </div>
-                                                </div> -->
+                                            
                                                 <div class="col-12 ml-3">
                                                     <div class="form-group local-forms">
                                                         <label for="salesDiscount">Discount </label>
@@ -337,14 +397,28 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                             <div class="invoice-total-inner">
                                                 <p>Gross Total<span>₹ {{ editReturnSalesForm.get('salesGrossTotal').value |
                                                     number:
                                                     '1.2-2' }}</span></p>
-                                                <!-- <p>Order Tax <span>₹ {{ addTaxTotal}}</span></p> -->
-                                                <p>Discount<span>₹ {{ editReturnSalesForm.get('salesDiscount').value |
+                                                   <p
+                                                   *ngIf="
+                                                     editReturnSalesForm.get('returnOtherCharges').value
+                                                   "
+                                                 >
+                                                   Return Other Charges<span>
+                                                     {{
+                                                       editReturnSalesForm.get("returnOtherCharges").value
+                                                         ? "- ₹ " +
+                                                           (editReturnSalesForm.get("returnOtherCharges")
+                                                             .value | number : "1.2-2")
+                                                         : null
+                                                     }}</span
+                                                   >
+                                                 </p>
+                                                <!-- <p>Discount<span>₹ {{ editReturnSalesForm.get('salesDiscount').value |
                                                         number:
                                                         '1.2-2' }}</span></p>
                                                 <p>Shipping<span>₹ {{ editReturnSalesForm.get('salesShipping').value |
@@ -352,7 +426,7 @@
                                                         '1.2-2' }}</span></p>
                                                 <p>Other Charges<span>₹ {{ editReturnSalesForm.get('otherCharges').value
                                                         | number:
-                                                        '1.2-2' }}</span></p>
+                                                        '1.2-2' }}</span></p> -->
                                             </div>
 
                                             <div class="invoice-total-footer">

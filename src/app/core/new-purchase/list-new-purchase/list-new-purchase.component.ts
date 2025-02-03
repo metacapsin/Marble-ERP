@@ -214,7 +214,7 @@ export class ListNewPurchaseComponent implements OnChanges {
       this.showInvoiceDialog = false;
       this.showDialoge = false;
       let message = resp.message;
-      this.messageService.add({ severity: "error", detail: message });
+      this.messageService.add({ severity: "success", detail: message });
       this.onSearchByChange(this.searchBy);
 
     });

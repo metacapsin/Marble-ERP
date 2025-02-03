@@ -1005,6 +1005,7 @@
                       *ngIf="
                         sales?.salesNotes ||
                         sales?.purchaseReturnNotes ||
+                        sales?.quotationNotes ||
                         sales?.purchaseNotes ||
                         (sales?.salesItemDetails && !sales?.returnDate)
                       "
@@ -1016,6 +1017,7 @@
                       >
                         {{ sales?.salesNotes || sales?.salesNotes }}
                       </p>
+                      <p>{{sales.quotationNotes}}</p>
                       <p *ngIf="sales?.purchaseNotes" class="mb-0">
                         {{ sales?.purchaseNotes }}
                       </p>
@@ -1025,11 +1027,11 @@
                     </div>
                     <div
                       class="invoice-terms m-2"
-                      *ngIf="sales?.salesTermsAndCondition"
+                      *ngIf="sales?.salesTermsAndCondition || sales?.quotationTermsAndCondition"
                     >
                       <h6>Terms and Conditions:</h6>
-                      <p *ngIf="sales?.salesTermsAndCondition" class="mb-0">
-                        {{ sales?.salesTermsAndCondition }}
+                      <p *ngIf="sales?.salesTermsAndCondition || sales?.quotationTermsAndCondition" class="mb-0">
+                        {{ sales?.salesTermsAndCondition || sales?.quotationTermsAndCondition }}
                       </p>
                     </div>
                   </div>

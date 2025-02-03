@@ -122,6 +122,9 @@ export class AllSalesReturnComponent implements OnInit {
 
     // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
+
+
+
   deleteSalesReturn(Id: any) {
     this.saleId = Id;
 

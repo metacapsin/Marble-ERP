@@ -224,7 +224,7 @@
                   <h5 *ngIf="BuyerData?.taxNo">
                     GST No. - {{ BuyerData?.taxNo }}
                   </h5>
-                  <h5
+                  <!-- <h5
                     title="Shipping address"
                     *ngIf="BuyerData?.shippingAddress"
                   >
@@ -232,8 +232,8 @@
                     <span
                       [innerHTML]="BuyerData?.shippingAddress | wordWrap : 2"
                     ></span>
-                    <!-- {{ customerAddress }} -->
-                  </h5>
+                    
+                  </h5> -->
                 </div>
               </div>
             </div>
@@ -712,7 +712,7 @@
 
                         <div class="col-xl-4 col-md-4 col-sm-12 col-12">
                           <div class="form-group local-forms">
-                            <label for="customer">Taxable Amount</label>
+                            <label for="customer">Taxable Amount <span class="login-danger" *ngIf="isrequired">*</span> </label>
                             <p-inputGroup>
                               <input
                                 type="number"

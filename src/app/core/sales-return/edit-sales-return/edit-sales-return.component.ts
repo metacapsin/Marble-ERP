@@ -8,6 +8,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
+
 import { MultiSelectModule } from "primeng/multiselect";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
@@ -82,6 +83,7 @@ export class EditSalesReturnComponent {
       salesGrossTotal: [""],
       returnOrderStatus: ["", [Validators.required]],
       salesOrderTax: [""],
+      returnOtherCharges:[''],
       appliedTax: [""],
       salesShipping: ["", [Validators.min(0)]],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
@@ -123,6 +125,7 @@ export class EditSalesReturnComponent {
           _id: {
             _id: element._id,
             name: element.name,
+            billingAddress:element.billingAddress
           },
         });
       });
@@ -160,6 +163,11 @@ export class EditSalesReturnComponent {
         //   totalTax += Number(element.taxRate);
         // });
         // this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
+
+   
+        
+
+        console.log('resp',this.editReturnSalesForm.value)
 
         this.patchForm(resp.data);
       }
@@ -202,6 +210,8 @@ export class EditSalesReturnComponent {
       .setValue(salesGrossTotal.toFixed(2));
 
     let totalAmount = salesGrossTotal;
+
+    
     const discount = +this.editReturnSalesForm.get("salesDiscount").value || 0;
     const shipping = +this.editReturnSalesForm.get("salesShipping").value || 0;
     const otherCharges =
@@ -210,12 +220,15 @@ export class EditSalesReturnComponent {
     totalAmount -= discount;
     totalAmount += shipping;
     totalAmount += otherCharges;
+    const returnOtherCharges = +this.editReturnSalesForm.get("returnOtherCharges").value || 0;
+    totalAmount -= returnOtherCharges;
 
     this.editReturnSalesForm.patchValue({
       salesTotalAmount: totalAmount.toFixed(2),
       salesDiscount: discount.toFixed(2),
       salesShipping: shipping.toFixed(2),
       otherCharges: otherCharges.toFixed(2),
+      returnOtherCharges: returnOtherCharges,
     });
   }
 
@@ -223,12 +236,13 @@ export class EditSalesReturnComponent {
     // data?.appliedTax?.forEach(element => {
     //   delete element.tenantId;
     // });
+    console.log('data>>>..',data)
     this.editReturnSalesForm.patchValue({
       salesInvoiceNumber: data.salesInvoiceNumber,
       customer: data.customer,
       returnDate: data.returnDate,
       returnOrderStatus: data.returnOrderStatus,
-      // salesOrderTax: data.appliedTax,
+      returnOtherCharges: data.returnOtherCharges,
       salesGrossTotal: data.salesGrossTotal,
       salesDiscount: data.salesDiscount,
       salesShipping: data.salesShipping,
@@ -239,6 +253,7 @@ export class EditSalesReturnComponent {
     });
 
     this.salesItemDetails.patchValue(data.salesItemDetails);
+    this.calculateTotalAmount()
   }
 
   editReturnSalesFormSubmit() {
@@ -259,7 +274,7 @@ export class EditSalesReturnComponent {
       salesNotes: formData.salesNotes,
       salesGrossTotal: Number(formData.salesGrossTotal),
       returnOrderStatus: formData.returnOrderStatus,
-      // salesOrderTax: totalTax,
+      returnOtherCharges: formData.returnOtherCharges,
       salesShipping: Number(formData.salesShipping),
       // appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,

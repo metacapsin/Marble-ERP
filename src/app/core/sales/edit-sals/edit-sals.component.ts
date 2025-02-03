@@ -70,6 +70,7 @@ export class EditSalsComponent implements OnInit {
   EwayBill: any;
   UpdtshippingAddress: any;
   isUpdateAddress: boolean = false;
+  isrequired: boolean = false;
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -266,7 +267,41 @@ export class EditSalsComponent implements OnInit {
   }
   editAddressWithDrop() {
     this.setAddressData = this.editSalesForm.get("billingAddress")?.value;
-    console.log("this.setAddressData", this.setAddressData);
+    console.log("setaddress", this.setAddressData);
+  
+    // Check if the billing address indicates that the vendor tax is applied
+    if (this.setAddressData?.isTaxVendor) {
+      this.isrequired = true;
+      // Set validators for vendorTaxApplied field
+      this.editSalesForm.get("vendorTaxApplied").setValidators([Validators.required]);
+      
+      // Set validators for salesItemTaxableAmount inside each salesItemDetails entry
+      const salesItemDetails = this.editSalesForm.get("salesItemDetails") as FormArray;
+      salesItemDetails.controls.forEach((itemGroup: FormGroup) => {
+        itemGroup.get("salesItemTaxableAmount")?.setValidators([Validators.required]);
+      });
+      
+    } else {
+      // Remove validators if isTaxVendor is false
+      this.editSalesForm.get("vendorTaxApplied").setValidators([]);
+      
+      // Remove validators for salesItemTaxableAmount inside each salesItemDetails entry
+      const salesItemDetails = this.editSalesForm.get("salesItemDetails") as FormArray;
+      salesItemDetails.controls.forEach((itemGroup: FormGroup) => {
+        itemGroup.get("salesItemTaxableAmount")?.setValidators([]);
+      });
+    }
+  
+    // Update the validity of the fields after modifying the validators
+    this.editSalesForm.get("vendorTaxApplied")?.updateValueAndValidity();
+    
+    // Iterate through the salesItemDetails array and update validity for each salesItemTaxableAmount
+    const salesItemDetails = this.editSalesForm.get("salesItemDetails") as FormArray;
+    salesItemDetails.controls.forEach((itemGroup: FormGroup) => {
+      itemGroup.get("salesItemTaxableAmount")?.updateValueAndValidity();
+    });
+  
+    // Optionally, update other fields as needed
     this.editSalesForm.patchValue({
       salesTermsAndCondition: this.setAddressData?.termsAndCondition,
     });
@@ -467,7 +502,10 @@ export class EditSalsComponent implements OnInit {
       otherCharges: data.otherCharges,
       isOtherChargesTax:data.isOtherChargesTax,
       isShippingTax:data.isShippingTax,
-
+      vendorTaxApplied:data?.taxVendor?.vendorTaxApplied,
+      companyName:data?.taxVendor?.companyName,
+      taxVendorAmount:data?.taxVendor?.taxVendorAmount
+     
     });
     // this.BuyerData = data.customer
     this.setCustomer(data.customer);
@@ -558,6 +596,9 @@ export class EditSalsComponent implements OnInit {
     this.displayEwayBillPopup = false;
     this.isUpdateAddress = true;
   }
+
+
+  
 
   editAddress() {
     this.addressVisible = true;
@@ -665,10 +706,13 @@ export class EditSalsComponent implements OnInit {
   }
   calculateTotalAmount() {
     let salesGrossTotal = 0;
-    let salesOrderTax: number = 0;
+    let salesOrderTax: number =0;
     let taxable: number = 0;
     let nonTaxable: number = 0;
     const salesItems = this.editSalesForm.get("salesItemDetails") as FormArray;
+
+
+    console.log('salesOrderTax',salesOrderTax)
 
     this.totalTaxableAmount = 0;
     salesItems.controls.forEach((item) => {
@@ -723,9 +767,8 @@ export class EditSalsComponent implements OnInit {
         .setValue(Number(salesItemNonTaxableAmount));
       item.get("salesItemSubTotal").setValue(Number(subtotal));
     });
+  
 
-    this.editSalesForm.get("salesOrderTax").setValue(Number(salesOrderTax));
-    this.editSalesForm.get("salesGrossTotal").setValue(Number(salesGrossTotal));
 
     let itemTotalAmount = salesGrossTotal;
     const discount = +this.editSalesForm.get("salesDiscount").value;
@@ -757,6 +800,9 @@ export class EditSalsComponent implements OnInit {
       taxable += otherCharges + otherChargesTaxAmount; // Add other charges and its tax to taxable amount
       salesOrderTax += otherChargesTaxAmount;
     }
+
+    this.editSalesForm.get("salesOrderTax").setValue(Number(salesOrderTax));
+    this.editSalesForm.get("salesGrossTotal").setValue(Number(salesGrossTotal));
 
     // itemTotalAmount -= discount;
     // itemTotalAmount += shipping;

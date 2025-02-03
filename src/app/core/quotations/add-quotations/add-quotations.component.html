@@ -41,7 +41,7 @@
         <div class="card invoices-add-card">
           <div class="card-body">
             <div class="col-12 col-12 d-flex justify-content-between mb-3">
-              <div class="seller">
+              <div class="seller col-md-3">
                 <div class="d-flex gap-3 align-items-center">
                   <h3 style="color: #970">Seller Address</h3>
                   <p-button [text]="true" icon="fa-solid fa-edit" (click)="editAddress()"></p-button>
@@ -59,8 +59,11 @@
                         {{ addressData.addressLine2 + ' ,' }}
                       </h5>
                       <h5>
-                        <span *ngIf="addressData.city"  title="City">{{ addressData.city }}</span>, <span *ngIf="addressData.state"  title="State">{{ addressData.state
-                          }}</span>,
+                        <span *ngIf="addressData.city"  title="City">{{ addressData.city }}</span>,  <span *ngIf="addressData?.state" title="State"
+                        >{{ addressData.state.name }} ({{
+                          addressData?.state?.code
+                        }})</span
+                      >,
                         <span *ngIf="addressData.postalCode"  title="Postal Code">{{
                           addressData.postalCode + ' ,'
                           }}</span>
@@ -80,8 +83,10 @@
                     {{ setAddressData.addressLine2 + ' ,' }}
                   </h5>
                   <h5>
-                    <span *ngIf="setAddressData.city" title="City">{{ setAddressData.city }}</span>, <span *ngIf="setAddressData.state" title="State">{{ setAddressData.state
-                      }}</span>,
+                    <span *ngIf="setAddressData.city" title="City">{{ setAddressData.city }}</span>, <span *ngIf="setAddressData.state" title="State"
+                    >{{ setAddressData.state.name }} ({{
+                      setAddressData?.state?.code
+                    }})</span>,
                     <span *ngIf="setAddressData.postalCode" title="Postal Code">{{
                       setAddressData.postalCode + ' ,'
                       }}</span>
@@ -89,13 +94,49 @@
                   <h5 *ngIf="setAddressData.country.name" title="Country">{{ setAddressData.country.name }}</h5>
                 </div>
               </div>
-
-              <div class="buyer">
+              <div class="buyer col-3 col-md-3" style="text-align: left">
+                <div class="d-flex gap-3 align-items-center">
+                  <h4 style="color: #970">Shipping Address</h4>
+                  <p-button
+                    [text]="true"
+                    icon="fa-solid fa-edit"
+                    (click)="openShippingPopup()"
+                    tooltipPosition="bottom"
+                    tooltipStyleClass="tooltip"
+                    pTooltip="Edit Seller Address"
+                  ></p-button>
+                </div>
+                <div>
+                  <h5
+                    title="Shipping address"
+                    *ngIf="BuyerData?.shippingAddress"
+                  >
+                    (Ship to) -
+                    <span
+                      [innerHTML]="BuyerData?.shippingAddress | wordWrap : 2"
+                    ></span>
+                    <!-- {{ customerAddress }} -->
+                  </h5>
+                </div>
+              </div>
+              <div class="buyer col-md-3">
                 <h3 style="color: #970">Buyer Address</h3>
                 <div>
-                  <h4 title="address">
+                  <!-- <h4 title="address">
                     {{ customerAddress }}
-                  </h4>
+                  </h4> -->
+                  <h5 *ngIf="BuyerData?.name">
+                    {{ BuyerData?.name }}
+                  </h5>
+
+                  <h5 title="Billing address" *ngIf="customerAddress">
+                    (bill to) -
+                    <span [innerHTML]="customerAddress | wordWrap : 2"></span>
+                    <!-- {{ customerAddress }} -->
+                  </h5>
+                  <h5 *ngIf="BuyerData?.taxNo">
+                    GST No. - {{ BuyerData?.taxNo }}
+                  </h5>
                 </div>
               </div>
 
@@ -574,3 +615,62 @@
 </div>
 
 <p-toast></p-toast>
+
+<p-dialog
+  header="Update Shipping Address"
+  [(visible)]="isUpdateAddress"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{ width: '30%' }"
+>
+  <form (ngSubmit)="UpdateShippingAddress()">
+    <div class="p-fluid mt-2">
+      <div class="col-12 col-md-12 col-xl-12">
+        <div class="form-group local-forms">
+          <label for="shippingAddress">Shipping Address</label>
+          <textarea
+            class="form-control"
+            type="text"
+            placeholder="Please Enter Shipping Address"
+            [(ngModel)]="UpdtshippingAddress"
+            rows="2"
+            name="UpdtshippingAddress"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Save Button -->
+      <div class="d-flex justify-content-evenly">
+        <div class="w-50"></div>
+        <div class="d-flex w-75">
+          <button
+          (click)="closeEwayBillPopup()"
+          type="submit"
+          class="btn btn-secondary w-75"
+          
+          
+        >
+          Cancel
+        </button>
+          <button
+          type="submit"
+          class="btn btn-primary mx-2 w-75"
+          
+          [disabled]="!UpdtshippingAddress"
+        >
+          Save
+        </button>
+        </div>
+       </div>
+      <!-- <button
+        type="submit"
+        class="btn btn-primary p-2"
+        pButton
+        [disabled]="!UpdtshippingAddress"
+      >
+        Save
+      </button> -->
+    </div>
+  </form>
+</p-dialog>

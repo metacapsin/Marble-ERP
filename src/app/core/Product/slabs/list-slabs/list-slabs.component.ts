@@ -46,6 +46,7 @@ export class ListSlabsComponent {
   slabProfitOfSlabHistory: any = [];
   slabDetailsOfSlabHistory: any = [];
 selectedLayout: any = 'Card';
+  totalSqFtLeft: any = 0;
 
   constructor(
     public dialog: MatDialog,
@@ -105,6 +106,9 @@ selectedLayout: any = 'Card';
 
 
         this.allSlabsDaTa = resp.data;
+        if (this.allSlabsDaTa) {
+          this.totalSqFtLeft = this.allSlabsDaTa.reduce((sum, slab) => sum + slab.totalSQFT, 0);
+        }
         this.originalData = resp.data;
         this.updatePagedData();
         this.cols = [

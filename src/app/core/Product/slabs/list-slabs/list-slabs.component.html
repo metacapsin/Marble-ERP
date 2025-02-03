@@ -205,7 +205,7 @@
                         <h4>Sales Revenue</h4>
                       </div>
                       <hr />
-                      <p><strong>Total Sales:</strong>{{ item?.totalSales }}</p>
+                      <p><strong>Total Sales:</strong>{{ item?.totalSales.toFixed(2) }}</p>
                       <p><strong>Cost Of Good Sales:</strong> 0</p>
                       <p><strong>Tax Profit:</strong> 0</p>
                       <p><strong>Profit/Loss:</strong> 0</p>
@@ -437,15 +437,14 @@
                 <ng-template pTemplate="footer">
                   <tr>
                     <td colspan="6"></td>
-                    <td class="" *ngIf="allSlabsDaTa">Total Sq. Feet Left</td>
-                    <td
-                      totalValueDirective
-                      [data]="allSlabsDaTa"
-                      [name]="slabsDaTa"
-                    ></td>
+                    <td *ngIf="allSlabsDaTa">Total Sq. Feet Left</td>
+                    <td class="total-sqft">
+                      {{ totalSqFtLeft }}
+                    </td>
                     <td colspan="2"></td>
                   </tr>
                 </ng-template>
+                
                 <!-- <ng-template>
                                         <td *ngIf="!allSlabsDaTa" colspan="10" class="text-center">
                                             <p-progressSpinner ariaLabel="loading" />
