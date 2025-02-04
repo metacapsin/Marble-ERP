@@ -81,7 +81,7 @@ export class AddsalesComponent implements OnInit {
     private dashboard: dashboardService
   ) {
     this.ewayBillForm = this.fb.group({
-      ewayBillNo: ["", Validators.required],
+      eWayBillNo: ["", Validators.required],
       date: [null, Validators.required],
       dispatchedThrough: ["", Validators.required],
       transporter: ["", Validators.required],
@@ -293,7 +293,7 @@ export class AddsalesComponent implements OnInit {
 
       let payload = {
         date: formData.date,
-        ewayBillNo: formData.ewayBillNo,
+        eWayBillNo: formData.eWayBillNo,
         dispatchedThrough: formData.dispatchedThrough,
         transporter: formData.transporter,
         vehicleNumber: formData.vehicleNumber,
@@ -381,45 +381,51 @@ export class AddsalesComponent implements OnInit {
   editAddressWithDrop() {
     this.setAddressData = this.addSalesForm.get("billingAddress")?.value;
     console.log("setaddress", this.setAddressData);
-  
+
     // Check if the billing address indicates that the vendor tax is applied
     if (this.setAddressData?.isTaxVendor) {
       this.isrequired = true;
       // Set validators for vendorTaxApplied field
-      this.addSalesForm.get("vendorTaxApplied").setValidators([Validators.required]);
-      
+      this.addSalesForm
+        .get("vendorTaxApplied")
+        .setValidators([Validators.required]);
+
       // Set validators for salesItemTaxableAmount inside each salesItemDetails entry
-      const salesItemDetails = this.addSalesForm.get("salesItemDetails") as FormArray;
+      const salesItemDetails = this.addSalesForm.get(
+        "salesItemDetails"
+      ) as FormArray;
       salesItemDetails.controls.forEach((itemGroup: FormGroup) => {
         itemGroup.get("salesItemTaxableAmount")?.setValidators([Validators.required]);
       });
-      
     } else {
       // Remove validators if isTaxVendor is false
       this.addSalesForm.get("vendorTaxApplied").setValidators([]);
-      
+
       // Remove validators for salesItemTaxableAmount inside each salesItemDetails entry
-      const salesItemDetails = this.addSalesForm.get("salesItemDetails") as FormArray;
+      const salesItemDetails = this.addSalesForm.get(
+        "salesItemDetails"
+      ) as FormArray;
       salesItemDetails.controls.forEach((itemGroup: FormGroup) => {
         itemGroup.get("salesItemTaxableAmount")?.setValidators([]);
       });
     }
-  
+
     // Update the validity of the fields after modifying the validators
     this.addSalesForm.get("vendorTaxApplied")?.updateValueAndValidity();
-    
+
     // Iterate through the salesItemDetails array and update validity for each salesItemTaxableAmount
-    const salesItemDetails = this.addSalesForm.get("salesItemDetails") as FormArray;
+    const salesItemDetails = this.addSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
     salesItemDetails.controls.forEach((itemGroup: FormGroup) => {
       itemGroup.get("salesItemTaxableAmount")?.updateValueAndValidity();
     });
-  
+
     // Optionally, update other fields as needed
     this.addSalesForm.patchValue({
       salesTermsAndCondition: this.setAddressData?.termsAndCondition,
     });
   }
-  
 
   ngOnInit() {
     const today = new Date();
@@ -618,7 +624,9 @@ export class AddsalesComponent implements OnInit {
       console.error("Slab not found!");
     }
   }
+  
   calculateTotalAmount() {
+    // this.editAddressWithDrop()
     let salesGrossTotal = 0;
     let salesOrderTax: number = 0;
     let taxable: number = 0;
@@ -664,8 +672,12 @@ export class AddsalesComponent implements OnInit {
         // const salesItemTaxableAmount = item.get("salesItemTaxableAmount") as FormControl
         item.get("salesItemTaxableAmount").clearValidators();
         item
-          .get("salesItemTaxableAmount")
-          .setValidators([Validators.max(totalAmount)]);
+        .get("salesItemTaxableAmount")
+        .setValidators([
+          Validators.required,
+          Validators.max(totalAmount)
+        ]);
+      
         item.get("salesItemTaxableAmount").updateValueAndValidity();
 
         item.get("salesItemNonTaxableAmount").clearValidators();
@@ -727,7 +739,12 @@ export class AddsalesComponent implements OnInit {
       shippingTaxAmount -
       taxable;
     itemTotalAmount = Number(nonTaxable) + Number(taxable);
-    itemTotalAmount -= discount;
+    if (nonTaxable) {
+      nonTaxable -= discount;
+    } else {
+      taxable -= discount;
+      // itemTotalAmount -= discount;
+    }
     this.addSalesForm.get("salesTotalAmount").setValue(Number(itemTotalAmount));
     this.addSalesForm.get("taxable").setValue(Number(taxable));
     this.addSalesForm.get("nonTaxable").setValue(Number(nonTaxable));
@@ -764,7 +781,6 @@ export class AddsalesComponent implements OnInit {
 
     console.log("formData", formData);
     // console.log(object)
-
     const payload = {
       eWayBill: formData.eWayBill,
       isOtherChargesTax: formData.isOtherChargesTax,

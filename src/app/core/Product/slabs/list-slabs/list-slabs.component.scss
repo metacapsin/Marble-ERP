@@ -22,6 +22,43 @@
  
 .view-more {
     padding: 5px 15px;
-    color: #8B5E34;
+    color: #8B5E34 !important;
     text-decoration: none;
 }
+
+
+.view-more-btn {
+    background-color: white;
+    border: 2px solid #e3d2c2;
+    border-radius: 15px;
+    padding: 8px 13px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #8B5E34;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .view-more-btn:hover {
+    background-color: #8B5E34;
+    color: white; 
+  }
+
+  .view-more-btn .fa {
+    margin-left: 6px;
+  }
+  .sales-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .label {
+    // font-weight: bold;
+  }
+
+  .value {
+    text-align: right;
+  }

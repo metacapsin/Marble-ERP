@@ -23,7 +23,7 @@ export class EditCustomersComponent {
   customerData: any;
   id: any;
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
-  panregex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+   panregex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
   // personNameRegex = /^[A-Za-z](?!.*\s{2})[A-Za-z. ]{2,28}[A-Za-z.]$/;
   personNameRegex =
     /^(?=.*[A-Za-z])[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
@@ -111,7 +111,7 @@ export class EditCustomersComponent {
       billingAddress: this.editCustomerGroup.value.billingAddress,
       shippingAddress: this.editCustomerGroup.value.shippingAddress,
       openingBalance: Number(this.editCustomerGroup.value.openingBalance),
-      penCardNumber: this.editCustomerGroup.value.penCardNumber.toUpperCase(),
+      penCardNumber: this.editCustomerGroup.value.penCardNumber?.toUpperCase(),
     };
     console.log(payload);
     if (this.editCustomerGroup.value) {

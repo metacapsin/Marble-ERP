@@ -47,34 +47,54 @@
                                 <div class="row">
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
-                                            <label for="salesInvoiceNumber">Invoice Number <span
-                                                class="login-danger"></span></label>
-                                            <input type="text" class="form-control"
-                                                formControlName="salesInvoiceNumber">
-                                                <!-- <div
-                                                *ngIf="editReturnSalesForm.get('salesInvoiceNumber')?.hasError('required')  && editReturnSalesForm.get('salesInvoiceNumber')?.touched">
-                                                <span class="login-danger">Field is required. </span>
-                                            </div>
-                                            <div
-                                                *ngIf="editReturnSalesForm.get('salesInvoiceNumber')?.hasError('pattern')  && editReturnSalesForm.get('salesInvoiceNumber')?.touched">
-                                                <span class="login-danger">Input must be between 3 to 50
-                                                    character.</span>
-                                            </div> -->
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
-                                        <div class="form-group local-forms">
                                             <label for="customer">Customer Name <span
                                                 class="login-danger">*</span></label>
                                             <p-dropdown [style]="{'width':'100%'}" placeholder="--Select Customer--"
                                                 [options]="customerList" formControlName="customer" optionLabel="name"
-                                                optionValue="_id" display="chip" [showClear]="true"></p-dropdown>
+                                                optionValue="_id" display="chip" [showClear]="true"  (onChange)="onCustomerSelect($event.value)"></p-dropdown>
                                                 <div
                                                 *ngIf="editReturnSalesForm.get('customer')?.hasError('required')  && editReturnSalesForm.get('customer')?.touched">
                                                 <span class="login-danger">Field is required. </span>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                        <div class="form-group local-forms">
+                                            <label for="salesInvoiceNumber">Invoice Number <span
+                                                class="login-danger"></span></label>
+                                            <input type="text" class="form-control"
+                                                formControlName="salesInvoiceNumber">
+                                             
+                                        </div>
+                                    </div> -->
+                                    <div class="col-xl-4 col-md-6 col-sm-12 col-12">
+                                        <div class="form-group local-forms">
+                                          <label for="salesInvoiceNumber"
+                                            >Invoice Number
+                                            <span class="login-danger">*</span></label
+                                          >
+                                          <p-dropdown
+                                            [style]="{ width: '100%' }"
+                                            placeholder="Select Invoice"
+                                            [options]="salesInvoiceList"
+                                            formControlName="salesInvoiceNumber"
+                                            optionLabel="salesInvoiceNumber"
+                                            display="chip"
+                                            [showClear]="true"
+                                            (onChange)="onInvoiceSelect($event.value)"
+                                          ></p-dropdown>
+                                          <div
+                                            *ngIf="
+                                              editReturnSalesForm
+                                                .get('salesInvoiceNumber')
+                                                ?.hasError('required') &&
+                                              editReturnSalesForm.get('salesInvoiceNumber')?.touched
+                                            "
+                                          >
+                                            <span class="login-danger">Field is required. </span>
+                                          </div>
+                                        </div>
+                                      </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                         <div class="form-group local-forms">
                                             <label for="returnDate">Return Date <span
@@ -96,7 +116,118 @@
                                 <h4 class="d-flex align-items-center">Item Details<p-button [text]=" true"
                                         icon="fa fa-plus" (click)="addsalesReturnItemDetailsItem()"></p-button></h4>
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-nowrap  mb-0 no-footer add-table-items">
+                                    <table
+                                    class="table table-striped table-nowrap mb-0 no-footer add-table-items"
+                                  >
+                                    <thead>
+                                      <tr>
+                                        <th>Warehouse</th>
+                                        <th>Product</th>
+                                        <th>Quantity (Sq. Feet)</th>
+                                        <th>Price / Sq. Feet</th>
+                                        <th>Tax</th>
+                                        <th>Sub Total</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody formArrayName="salesItemDetails">
+                                      <tr
+                                        class="add-row"
+                                        *ngFor="
+                                          let salesItemDetailsForm of salesItemDetails.controls;
+                                          let i = index
+                                        "
+                                        [formGroupName]="i"
+                                      >
+                                        <td class="col-md-3">
+                                          <span class="form-control">{{
+                                            editReturnSalesForm
+                                              .get("salesItemDetails")
+                                              .get(i + ".salesWarehouseDetails")?.value.name
+                                          }}</span>
+                                        </td>
+                                        <td class="col-md-3">
+                                          <span class="form-control">{{
+                                            editReturnSalesForm
+                                              .get("salesItemDetails")
+                                              .get(i + ".salesItemProduct").value.slabName
+                                          }}</span>
+                                        </td>
+                
+                                        <td class="col-md-2">
+                                          <input
+                                            type="number"
+                                            formControlName="salesItemQuantity"
+                                            (input)="calculateTotalAmount()"
+                                            class="form-control"
+                                          />
+                                          <div
+                                            *ngIf="
+                                              editReturnSalesForm
+                                                .get('salesItemDetails')
+                                                .get(i + '.salesItemQuantity')
+                                                .hasError('required') &&
+                                              editReturnSalesForm
+                                                .get('salesItemDetails')
+                                                .get(i + '.salesItemQuantity').touched
+                                            "
+                                          >
+                                            <span class="login-danger">Field is required.</span>
+                                          </div>
+                                          <div
+                                            *ngIf="
+                                              editReturnSalesForm
+                                                .get('salesItemDetails')
+                                                .get(i + '.salesItemQuantity')
+                                                .hasError('max') &&
+                                              editReturnSalesForm
+                                                .get('salesItemDetails')
+                                                .get(i + '.salesItemQuantity').touched
+                                            "
+                                          >
+                                            <span class="login-danger"
+                                              >Input Should not be more than actual
+                                              Quantity.</span
+                                            >
+                                          </div>
+                                        </td>
+                
+                                        <td class="col-md-2">
+                                          <span class="form-control">{{
+                                            editReturnSalesForm
+                                              .get("salesItemDetails")
+                                              .get(i + ".salesItemUnitPrice").value
+                                          }}</span>
+                                        </td>
+                
+                                        <td class="col-md-2">
+                                          <input
+                                            type="number"
+                                            formControlName="salesItemTaxAmount"
+                                            class="form-control"
+                                            (input)="calculateTotalAmount()"
+                                          />
+                                        </td>
+                
+                                        <td class="col-md-2">
+                                          <span class="form-control">{{
+                                            editReturnSalesForm
+                                              .get("salesItemDetails")
+                                              .get(i + ".salesItemSubTotal").value
+                                          }}</span>
+                                        </td>
+                                        <td class="add-remove">
+                                          <p-button
+                                            [text]="true"
+                                            icon="fa fa-trash"
+                                            (click)="deletesalesReturnItemDetails(i)"
+                                            (keyup.enter)="deletesalesReturnItemDetails(i)"
+                                          ></p-button>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                    <!-- <table class="table table-striped table-nowrap  mb-0 no-footer add-table-items">
                                         <thead>
                                             <tr>
                                                 <th>Product</th>
@@ -182,7 +313,7 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-                                    </table>
+                                    </table> -->
                                 </div>
                             </div>
                             <div class="row">
@@ -194,7 +325,7 @@
                                     <div class="invoice-faq">
                                         <div class="panel-group" id="accordion" role="tablist"
                                             aria-multiselectable="true">
-                                            <div class="faq-tab">
+                                            <!-- <div class="faq-tab">
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading" role="tab" id="headingTwo">
                                                         <p class="panel-title">
@@ -220,7 +351,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="faq-tab">
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading" role="tab" id="headingThree">

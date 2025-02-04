@@ -142,8 +142,9 @@ export class AllSalesReturnComponent implements OnInit {
   callBackModal() {
     this.Service.deleteSalesReturn(this.saleId).subscribe((resp: any) => {
       this.messageService.add({ severity: "success", detail: resp.message });
-      this.onSearchByChange(this.searchBy);
       this.showDialoge = false;
+      this.onSearchByChange(this.searchBy);
+      // this.showDialoge = false;
     });
   }
 

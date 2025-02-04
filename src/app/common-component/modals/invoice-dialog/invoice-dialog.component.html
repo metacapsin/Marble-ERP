@@ -202,9 +202,9 @@
                               </h5>
                               <h5
                                 title="address Line 1"
-                                *ngIf="sales?.eWayBill?.ewayBillNo"
+                                *ngIf="sales?.eWayBill?.eWayBillNo"
                               >
-                                {{ sales?.eWayBill?.ewayBillNo + " ," }}
+                                {{ sales?.eWayBill?.eWayBillNo + " ," }}
                               </h5>
                               <h5
                                 title="address Line 2"
@@ -959,7 +959,7 @@
                             E-Way Bill No
                             <span>
                               
-                              {{ sales?.eWayBill.ewayBillNo || "-" }}
+                              {{ sales?.eWayBill.eWayBillNo || "-" }}
                             </span>
                           </p>
                           <p class="">

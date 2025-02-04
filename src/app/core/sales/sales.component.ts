@@ -48,6 +48,8 @@ export class SalesComponent implements OnInit {
   cols = [];
   exportColumns = [];
   showDataLoader: boolean = false;
+  StartdDate: any;
+  enddDate: any;
   constructor(
     private messageService: MessageService,
     private router: Router,
@@ -115,7 +117,7 @@ export class SalesComponent implements OnInit {
   callBackModal() {
     this.Service.DeleteSalesData(this.saleId).subscribe((resp: any) => {
       this.messageService.add({ severity: "success", detail: resp.message });
-      this.onSearchByChange(this.searchBy);
+      this.onSearchByChange(this.searchBy || 'This Year');
       this.showDialoge = false;
     });
   }
@@ -207,6 +209,9 @@ export class SalesComponent implements OnInit {
     console.log("value", value);
     const startDate = value[0];
     const endDate = value[1];
+
+    this.StartdDate = value[0];
+    this.enddDate = value[1];
     this.GetSalesData(startDate, endDate);
 
     let payload = {

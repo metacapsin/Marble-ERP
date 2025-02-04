@@ -81,6 +81,7 @@ export class AddQuotationsComponent implements OnInit {
             [Validators.required, Validators.min(0)],
           ],
           quotationItemTax: [""],
+          quotationItempieces:[''],
           quotationItemTaxAmount: [""],
           quotationItemSubTotal: ["", [Validators.required, Validators.min(0)]],
           maxQuantity: [" "],

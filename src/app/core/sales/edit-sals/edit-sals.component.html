@@ -117,8 +117,8 @@
                   <h5 *ngIf="EwayBill">
                     {{ EwayBill.date + " ," }}
                   </h5>
-                  <h5 title="address Line 1" *ngIf="EwayBill.ewayBillNo">
-                    {{ EwayBill.ewayBillNo + " ," }}
+                  <h5 title="address Line 1" *ngIf="EwayBill.eWayBillNo">
+                    {{ EwayBill.eWayBillNo + " ," }}
                   </h5>
                   <h5 title="address Line 2" *ngIf="EwayBill.transporter">
                     {{ EwayBill.transporter + " ," }}
@@ -1360,14 +1360,14 @@
     <div class="p-fluid">
       <!-- E-Way Bill No -->
       <div class="p-field mb-2">
-        <!-- <label for="ewayBillNo">E-Way Bill No</label> -->
+        <!-- <label for="eWayBillNo">E-Way Bill No</label> -->
         <input
-          id="ewayBillNo"
+          id="eWayBillNo"
           type="text"
           class="form-control"
           placeholder="E-Way Bill No"
           pInputText
-          formControlName="ewayBillNo"
+          formControlName="eWayBillNo"
           required
         />
       </div>

@@ -96,8 +96,8 @@ selectedLayout: any = 'Card';
   }
 
   isViewsystemtyp = [
-    {code:'Card',value:'Card'},
-    {code:'Table',value:'Table'}
+    {code:'Card',value:'Card View'},
+    {code:'Table',value:'Table View'}
   ]
 
   getSlabsList(): void {

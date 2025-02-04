@@ -28,104 +28,108 @@
               <div class="row align-items-center">
                 <div class="col">
                   <div class="doctor-table-blk">
-                    <h3>Slabs List</h3>
-                    <div class="doctor-search-blk">
-                      <div class="top-nav-search table-search-blk">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Search here"
-                          #searchTable
-                          (input)="
-                            dt.filterGlobal(searchTable.value, 'contains')
-                          "
-                        />
-                        <a class="btn"
-                          ><img src="assets/img/icons/search-normal.svg" alt=""
-                        /></a>
-                      </div>
-                      <div class="add-group textbtn">
-                        <a
-                          appShowHide
-                          [roles]="['admin', 'super-admin']"
-                          [routerLink]="['/slabs/slab-add']"
-                          class="btn btn-primary add-pluss ms-2"
-                          ><img src="assets/img/icons/plus.svg" alt="" /> Add
-                          New</a
+                  <div class="d-flex col-md-3">
+                    <h3 class="mt-2">Slabs List</h3>
+                    <div class="add-group textbtn mx-3" style="border:1px solid #97704f; border-radius: none;">
+                      <a
+                        appShowHide
+                        style="border:none; border-radius: none !important;padding: 10px;"
+                        [roles]="['admin', 'super-admin']"
+                        [routerLink]="['/slabs/slab-add']"
+                        class="btn add-pluss ms-2"
+                        ><img src="assets/img/icons/plus.svg" alt="" /> Add
+                        New</a
+                      >
+                    </div>
+                  </div>
+                    <div class="doctor-search-blk col-md-6">
+                    
+                      <div class="form-group local-forms mt-3">
+                        <div
+                          class="top-nav-search table-search-blk d-flex mt-2"
+                          style="border: 1px solid #97704f; border-radius: 1px"
                         >
+                          <!-- Warehouse Dropdown -->
+                          <p-dropdown
+                            [options]="warehouseData"
+                            styleClass=""
+                            appendTo="body"
+                            placeholder="Select Warehouse"
+                            [style]="{ width: '100%',border:'none' }"
+                            [filter]="true"
+                            optionLabel="name"
+                            optionValue="_id"
+                            [showClear]="true"
+                            (onChange)="onSearchByChange($event.value)"
+                            [(ngModel)]="warehouseDropDown"
+                          ></p-dropdown>
+
+                          <!-- Search Input with Icon -->
+                          <div style="position: relative; width: 100%;">
+                            <input
+                              type="text"
+                              class="form-control bg-white"
+                              placeholder="Enter Key Word here"
+                              #searchTable
+                              (input)="
+                                dt.filterGlobal(searchTable.value, 'contains')
+                              "
+                              style="
+                               border-left: 2px solid #e8e8e8;
+                                border-radius: 0px 0 0 0px;
+                                width: 100%;
+                                padding-right: 0px;
+                              "
+                            />
+                            <!-- Search Icon -->
+                            <a
+                              class="btn"
+                              style="
+                                position: absolute;
+                                left: 84% !important;
+                                top: 49.9%;
+                                transform: translateY(-50%);
+                                background-color: #97704f;
+                                border-radius: 0px;
+                              "
+                            >
+                              <!-- <img src="assets/img/icons/search-normal.svg" alt="" /> -->
+                              <i class="fas fa-search text-white"></i>
+                            </a>
+                          </div>
+                          
+                        </div>
+                        
+                      </div>
+                   
+                      
+                    </div>
+                    <div class="col-md-2 mt-3 h-2 ">
+                      <div class="form-group local-forms">
+                        <!-- <label for="warehouseDetails">Layout</label> -->
+                        <p-dropdown
+                          [options]="isViewsystemtyp"
+                          appendTo="body"
+                          placeholder="Choose Layout"
+                          [style]="{ width: '100%', borderBottom: '1px solid #97704f', borderTop: 'none', borderLeft: 'none', borderRight: 'none' }"
+                          [filter]="true"
+                          optionLabel="value"
+                          optionValue="code"
+                          [showClear]="true"
+                          (onChange)="onchangeLayout($event.value)"
+                          [(ngModel)]="selectedLayout"
+                        >
+                        </p-dropdown>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div
-                  class="col-auto text-end float-end ms-auto download-grp"
-                  appShowHide
-                  [roles]="['admin', 'super-admin']"
-                >
-                  <!-- <a href="javascript:;" class=" me-2"><img src=""
-                                            alt="" pTooltip="Download data in PDF file" tooltipPosition="left"
-                                            tooltipStyleClass="tooltip"></a> -->
-                  <!-- <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
-                                            alt=""></a> -->
-                  <a href="javascript:;" class="me-2"
-                    ><img
-                      src="assets/img/icons/pdf-icon-03.svg"
-                      (click)="dt.exportCSV()"
-                      alt=""
-                      pTooltip="Download data in CSV file "
-                      tooltipPosition="left"
-                      tooltipStyleClass="tooltip"
-                  /></a>
-                  <!-- <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a> -->
-                </div>
+            
               </div>
-              <div class="mt-3">
-                <div class="row card-body d-flex justify-content-between p0">
-                  <div class="col-lg-4 col-md-4 h-2">
-                    <div class="form-group local-forms">
-                      <label for="warehouseDetails">Filter By</label>
-                      <p-dropdown
-                        [options]="warehouseData"
-                        styleClass=""
-                        appendTo="body"
-                        placeholder="Filter By Warehouse"
-                        [style]="{ width: '100%' }"
-                        [filter]="true"
-                        optionLabel="name"
-                        optionValue="_id"
-                        [showClear]="true"
-                        (onChange)="onSearchByChange($event.value)"
-                        [(ngModel)]="warehouseDropDown"
-                      >
-                      </p-dropdown>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-4 col-md-4 h-2">
-                    <div class="form-group local-forms">
-                      <label for="warehouseDetails">Layout</label>
-                      <p-dropdown
-                        [options]="isViewsystemtyp"
-                        styleClass=""
-                        appendTo="body"
-                        placeholder="Choose Layout"
-                        [style]="{ width: '100%' }"
-                        [filter]="true"
-                        optionLabel="value"
-                        optionValue="code"
-                        [showClear]="true"
-                        (onChange)="onchangeLayout($event.value)"
-                        [(ngModel)]="selectedLayout"
-                      >
-                      </p-dropdown>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            
             </div>
 
             <div class="card-body p-2">
-             
               <span *ngIf="selectedLayout === 'Card'" class="col-12 col-md-12">
                 <div class="container mt-4" *ngFor="let item of pagedData">
                   <div class="row">
@@ -142,12 +146,16 @@
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
-                          <a href="#" class="view-more"
+                          <!-- <a href="#" class="view-more"
                             ><i class="fa-solid fa-eye"></i
-                          ></a>
-                          <a href="#" class="view-more"
+                          ></a> -->
+                          <!-- <a  (click)="showSlabHistoryDetails(item?._id)" class="view-more"
                             ><i class="fa-solid fa-clock-rotate-left"></i
-                          ></a>
+                          ></a> -->
+                          <button class="view-more-btn" (click)="showSlabDetails(item?._id)">
+                            View More
+                            <i class="fas fa-arrow-right mx-3"></i> 
+                          </button>
                         </div>
                       </div>
                       <hr />
@@ -191,219 +199,241 @@
                         <div
                           class="progress-bar"
                           role="progressbar"
-                          style="width: 75%"
-                          aria-valuenow="75"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
+                          [style.width.%]="(item?.totalSQFT / item?.totalSlabSQFT) * 100"
+                          [attr.aria-valuenow]="item?.totalSQFT" 
+                          [attr.aria-valuemin]="0"
+                          [attr.aria-valuemax]="item?.totalSlabSQFT" 
                         ></div>
                       </div>
+                      
                     </div>
                     <div class="col-md-4 sales-revenue">
                       <div
                         class="d-flex justify-content-between align-items-center"
                       >
                         <h4>Sales Revenue</h4>
+                        <button class="view-more-btn" (click)="showSlabHistoryDetails(item?._id)">
+                          <i class="fas fa-arrow-right"></i> 
+                        </button>
                       </div>
                       <hr />
-                      <p><strong>Total Sales:</strong>{{ item?.totalSales.toFixed(2) }}</p>
-                      <p><strong>Cost Of Good Sales:</strong> 0</p>
-                      <p><strong>Tax Profit:</strong> 0</p>
-                      <p><strong>Profit/Loss:</strong> 0</p>
+                      <p class="sales-detail">
+                        <strong>Total Sales:</strong> {{ item?.totalSales.toFixed(2) }}
+                      </p>
+                      <p class="sales-detail">
+                        <span class="label">Cost Of Goods Sold:</span>
+                        <span class="value">0</span>
+                      </p>
+                      <p class="sales-detail">
+                        <span class="label">Tax Profit:</span>
+                        <span class="value">0</span>
+                      </p>
+                      <p class="sales-detail">
+                        <span class="label">Profit/Loss:</span>
+                        <span class="value">0</span>
+                      </p>
+                    
                     </div>
                   </div>
-                 
                 </div>
                 <p-paginator
-                [first]="currentPage * rowsPerPage"
-                [rows]="rowsPerPage"
-                [totalRecords]="allSlabsDaTa.length"
-                [rowsPerPageOptions]="[5, 10, 20]"
-                (onPage)="paginate($event)"
-                (onPageChange)="paginate($event)">
-              </p-paginator>
+                  [first]="currentPage * rowsPerPage"
+                  [rows]="rowsPerPage"
+                  [totalRecords]="allSlabsDaTa?.length"
+                  [rowsPerPageOptions]="[5, 10, 20]"
+                  (onPage)="paginate($event)"
+                  (onPageChange)="paginate($event)"
+                >
+                </p-paginator>
               </span>
 
-              <span [ngStyle]="{ 'display': selectedLayout === 'Card' ? 'none' : 'block' }">
-                <p-table
-                [value]="allSlabsDaTa"
-                [tableStyle]="{ 'min-width': '60rem' }"
-                [paginator]="allSlabsDaTa?.length >= 5"
-                [rows]="10"
-                [rowsPerPageOptions]="[5, 10, 20]"
-                styleClass="p-datatable-striped"
-                (onPage)="onPageChange($event)"
-                [(selection)]="selectedSlabs"
-                #dt
-                [columns]="cols"
-                [exportHeader]="'customExportHeader'"
-                exportFilename="Slabs"
-                [globalFilterFields]="[
-                  'slabNo',
-                  'slabName',
-                  'slabSize',
-                  'categoryDetail?.name',
-                  'subCategoryDetail?.name',
-                  'totalSQFT',
-                  'costPerSQFT',
-                  'sellingPricePerSQFT',
-                  'warehouseDetails?.name'
-                ]"
+              <span
+                [ngStyle]="{
+                  display: selectedLayout === 'Card' ? 'none' : 'block'
+                }"
               >
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th pSortableColumn="slabNo">
-                      Slab Number<p-sortIcon field="slabNo"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="slabNo"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="slabName">
-                      Slab Name<p-sortIcon field="slabName"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="slabName"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="slabSize">
-                      Size<p-sortIcon field="slabSize"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="slabSize"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="categoryDetail?.name">
-                      Category<p-sortIcon
-                        field="categoryDetail?.name"
-                      ></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="categoryDetail?.name"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="subCategoryDetail?.name">
-                      Sub Category<p-sortIcon
-                        field="subCategoryDetail?.name"
-                      ></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="subCategoryDetail?.name"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
+                <p-table
+                  [value]="allSlabsDaTa"
+                  [tableStyle]="{ 'min-width': '60rem' }"
+                  [paginator]="allSlabsDaTa?.length >= 5"
+                  [rows]="10"
+                  [rowsPerPageOptions]="[5, 10, 20]"
+                  styleClass="p-datatable-striped"
+                  (onPage)="onPageChange($event)"
+                  [(selection)]="selectedSlabs"
+                  #dt
+                  [columns]="cols"
+                  [exportHeader]="'customExportHeader'"
+                  exportFilename="Slabs"
+                  [globalFilterFields]="[
+                    'slabNo',
+                    'slabName',
+                    'slabSize',
+                    'categoryDetail?.name',
+                    'subCategoryDetail?.name',
+                    'totalSQFT',
+                    'costPerSQFT',
+                    'sellingPricePerSQFT',
+                    'warehouseDetails?.name'
+                  ]"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="slabNo">
+                        Slab Number<p-sortIcon field="slabNo"></p-sortIcon>
+                        <p-columnFilter
+                          matchMode="contains"
+                          hideOnClear="true"
+                          type="text"
+                          field="slabNo"
+                          display="menu"
+                        ></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="slabName">
+                        Slab Name<p-sortIcon field="slabName"></p-sortIcon>
+                        <p-columnFilter
+                          matchMode="contains"
+                          hideOnClear="true"
+                          type="text"
+                          field="slabName"
+                          display="menu"
+                        ></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="slabSize">
+                        Size<p-sortIcon field="slabSize"></p-sortIcon>
+                        <p-columnFilter
+                          matchMode="contains"
+                          hideOnClear="true"
+                          type="text"
+                          field="slabSize"
+                          display="menu"
+                        ></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="categoryDetail?.name">
+                        Category<p-sortIcon
+                          field="categoryDetail?.name"
+                        ></p-sortIcon>
+                        <p-columnFilter
+                          matchMode="contains"
+                          hideOnClear="true"
+                          type="text"
+                          field="categoryDetail?.name"
+                          display="menu"
+                        ></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="subCategoryDetail?.name">
+                        Sub Category<p-sortIcon
+                          field="subCategoryDetail?.name"
+                        ></p-sortIcon>
+                        <p-columnFilter
+                          matchMode="contains"
+                          hideOnClear="true"
+                          type="text"
+                          field="subCategoryDetail?.name"
+                          display="menu"
+                        ></p-columnFilter>
+                      </th>
 
-                    <th pSortableColumn="costPerSQFT">
-                      Cost / Sq. Feet<p-sortIcon
-                        field="costPerSQFT"
-                      ></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="costPerSQFT"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="sellingPricePerSQFT">
-                      Selling Price<p-sortIcon
-                        field="sellingPricePerSQFT"
-                      ></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="sellingPricePerSQFT"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="totalSQFT">
-                      Sq. Feet Left<p-sortIcon field="totalSQFT"></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="totalSQFT"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th pSortableColumn="warehouseDetails?.name">
-                      Warehouse<p-sortIcon
-                        field="warehouseDetails?.name"
-                      ></p-sortIcon>
-                      <p-columnFilter
-                        matchMode="contains"
-                        hideOnClear="true"
-                        type="text"
-                        field="warehouseDetails?.name"
-                        display="menu"
-                      ></p-columnFilter>
-                    </th>
-                    <th width="5%">Action</th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-slabs>
-                  <tr>
-                    <td>
-                      {{ slabs?.slabNo }}
-                    </td>
-                    <td>
-                      {{ slabs?.slabName }}
-                    </td>
-                    <td>
-                      {{ slabs?.slabSize }}
-                    </td>
-                    <td>
-                      {{ slabs?.categoryDetail?.name }}
-                    </td>
-                    <td>
-                      {{ slabs?.subCategoryDetail?.name }}
-                    </td>
+                      <th pSortableColumn="costPerSQFT">
+                        Cost / Sq. Feet<p-sortIcon
+                          field="costPerSQFT"
+                        ></p-sortIcon>
+                        <p-columnFilter
+                          matchMode="contains"
+                          hideOnClear="true"
+                          type="text"
+                          field="costPerSQFT"
+                          display="menu"
+                        ></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="sellingPricePerSQFT">
+                        Selling Price<p-sortIcon
+                          field="sellingPricePerSQFT"
+                        ></p-sortIcon>
+                        <p-columnFilter
+                          matchMode="contains"
+                          hideOnClear="true"
+                          type="text"
+                          field="sellingPricePerSQFT"
+                          display="menu"
+                        ></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="totalSQFT">
+                        Sq. Feet Left<p-sortIcon field="totalSQFT"></p-sortIcon>
+                        <p-columnFilter
+                          matchMode="contains"
+                          hideOnClear="true"
+                          type="text"
+                          field="totalSQFT"
+                          display="menu"
+                        ></p-columnFilter>
+                      </th>
+                      <th pSortableColumn="warehouseDetails?.name">
+                        Warehouse<p-sortIcon
+                          field="warehouseDetails?.name"
+                        ></p-sortIcon>
+                        <p-columnFilter
+                          matchMode="contains"
+                          hideOnClear="true"
+                          type="text"
+                          field="warehouseDetails?.name"
+                          display="menu"
+                        ></p-columnFilter>
+                      </th>
+                      <th width="5%">Action</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-slabs>
+                    <tr>
+                      <td>
+                        {{ slabs?.slabNo }}
+                      </td>
+                      <td>
+                        {{ slabs?.slabName }}
+                      </td>
+                      <td>
+                        {{ slabs?.slabSize }}
+                      </td>
+                      <td>
+                        {{ slabs?.categoryDetail?.name }}
+                      </td>
+                      <td>
+                        {{ slabs?.subCategoryDetail?.name }}
+                      </td>
 
-                    <td>₹ {{ slabs?.costPerSQFT | indianCurrency }}</td>
-                    <td>₹ {{ slabs?.sellingPricePerSQFT | indianCurrency }}</td>
-                    <td>
-                      {{ slabs?.totalSQFT | indianCurrency }}
-                    </td>
-                    <td>
-                      {{ slabs?.warehouseDetails?.name }}
-                    </td>
-                    <td
-                      appShowHide
-                      [roles]="['admin', 'super-admin']"
-                      class="action-buttons"
-                    >
-                      <p-button
-                        [text]="true"
-                        icon="fa-solid fa-eye"
-                        pTooltip="View"
-                        tooltipPosition="left"
-                        tooltipStyleClass="tooltip"
-                        (click)="showSlabDetails(slabs?._id)"
-                      ></p-button>
-                      <p-button
-                        [text]="true"
-                        icon="fa-solid fa-clock-rotate-left"
-                        (click)="showSlabHistoryDetails(slabs?._id)"
-                        pTooltip="History"
-                        tooltipPosition="left"
-                        tooltipStyleClass="tooltip"
-                      ></p-button>
-                    </td>
-                    <!-- <td appShowHide [roles]="['admin', 'super-admin']">
+                      <td>₹ {{ slabs?.costPerSQFT | indianCurrency }}</td>
+                      <td>
+                        ₹ {{ slabs?.sellingPricePerSQFT | indianCurrency }}
+                      </td>
+                      <td>
+                        {{ slabs?.totalSQFT | indianCurrency }}
+                      </td>
+                      <td>
+                        {{ slabs?.warehouseDetails?.name }}
+                      </td>
+                      <td
+                        appShowHide
+                        [roles]="['admin', 'super-admin']"
+                        class="action-buttons"
+                      >
+                        <p-button
+                          [text]="true"
+                          icon="fa-solid fa-eye"
+                          pTooltip="View"
+                          tooltipPosition="left"
+                          tooltipStyleClass="tooltip"
+                          (click)="showSlabDetails(slabs?._id)"
+                        ></p-button>
+                        <p-button
+                          [text]="true"
+                          icon="fa-solid fa-clock-rotate-left"
+                          (click)="showSlabHistoryDetails(slabs?._id)"
+                          pTooltip="History"
+                          tooltipPosition="left"
+                          tooltipStyleClass="tooltip"
+                        ></p-button>
+                      </td>
+                      <!-- <td appShowHide [roles]="['admin', 'super-admin']">
                                             <div class="action-buttons">
 
                                                 <p-button === false" [text]="true" icon="fa fa-edit"
@@ -412,48 +442,46 @@
                                                 (click)="deleteSlabs(slabs._id)"></p-button>
                                             </div>
                                         </td> -->
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="emptymessage">
-                  <tr>
-                    <td
-                      *ngIf="!allSlabsDaTa && showDataLoader"
-                      colspan="10"
-                      class="text-center"
-                    >
-                      <p-progressSpinner ariaLabel="loading" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      colspan="10"
-                      class="text-center"
-                      *ngIf="!showDataLoader"
-                    >
-                      No slabs found.
-                    </td>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="footer">
-                  <tr>
-                    <td colspan="6"></td>
-                    <td *ngIf="allSlabsDaTa">Total Sq. Feet Left</td>
-                    <td class="total-sqft">
-                      {{ totalSqFtLeft }}
-                    </td>
-                    <td colspan="2"></td>
-                  </tr>
-                </ng-template>
-                
-                <!-- <ng-template>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td
+                        *ngIf="!allSlabsDaTa && showDataLoader"
+                        colspan="10"
+                        class="text-center"
+                      >
+                        <p-progressSpinner ariaLabel="loading" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        colspan="10"
+                        class="text-center"
+                        *ngIf="!showDataLoader"
+                      >
+                        No slabs found.
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="footer">
+                    <tr>
+                      <td colspan="6"></td>
+                      <td *ngIf="allSlabsDaTa">Total Sq. Feet Left</td>
+                      <td class="total-sqft">
+                        {{ totalSqFtLeft }}
+                      </td>
+                      <td colspan="2"></td>
+                    </tr>
+                  </ng-template>
+
+                  <!-- <ng-template>
                                         <td *ngIf="!allSlabsDaTa" colspan="10" class="text-center">
                                             <p-progressSpinner ariaLabel="loading" />
                                         </td>
                                     </ng-template> -->
-              </p-table>
+                </p-table>
               </span>
-
-         
             </div>
           </div>
         </div>
@@ -1243,5 +1271,3 @@
     </p-tabView>
   </div>
 </p-dialog>
-
-

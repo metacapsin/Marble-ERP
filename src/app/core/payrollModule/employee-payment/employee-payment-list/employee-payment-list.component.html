@@ -188,6 +188,15 @@
                     <td>₹ {{ payment.totalSalary }}</td>
                     <td>{{ payment.paymentDate | date : "dd/MMM/yyyy" }}</td>
                     <td class="action-buttons">
+                     
+                      <p-button
+                      [text]="true"
+                      icon="fa-solid fa-download"
+                      (click)="download(payment._id)"
+                      pTooltip="Download"
+                      tooltipPosition="bottom"
+                      tooltipStyleClass="tooltip"
+                    ></p-button>
                       <p-button
                         [text]="true"
                         icon="fa fa-trash"

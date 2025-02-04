@@ -87,7 +87,7 @@ export class EditSalsComponent implements OnInit {
     private dashboard: dashboardService
   ) {
     this.ewayBillForm = this.fb.group({
-      ewayBillNo: ["", Validators.required],
+      eWayBillNo: ["", Validators.required],
       date: [new Date(), Validators.required],
       dispatchedThrough: ["", Validators.required],
       transporter: ["", Validators.required],
@@ -268,39 +268,48 @@ export class EditSalsComponent implements OnInit {
   editAddressWithDrop() {
     this.setAddressData = this.editSalesForm.get("billingAddress")?.value;
     console.log("setaddress", this.setAddressData);
-  
+
     // Check if the billing address indicates that the vendor tax is applied
     if (this.setAddressData?.isTaxVendor) {
       this.isrequired = true;
       // Set validators for vendorTaxApplied field
-      this.editSalesForm.get("vendorTaxApplied").setValidators([Validators.required]);
-      
+      this.editSalesForm
+        .get("vendorTaxApplied")
+        .setValidators([Validators.required]);
+
       // Set validators for salesItemTaxableAmount inside each salesItemDetails entry
-      const salesItemDetails = this.editSalesForm.get("salesItemDetails") as FormArray;
+      const salesItemDetails = this.editSalesForm.get(
+        "salesItemDetails"
+      ) as FormArray;
       salesItemDetails.controls.forEach((itemGroup: FormGroup) => {
-        itemGroup.get("salesItemTaxableAmount")?.setValidators([Validators.required]);
+        itemGroup
+          .get("salesItemTaxableAmount")
+          ?.setValidators([Validators.required]);
       });
-      
     } else {
       // Remove validators if isTaxVendor is false
       this.editSalesForm.get("vendorTaxApplied").setValidators([]);
-      
+
       // Remove validators for salesItemTaxableAmount inside each salesItemDetails entry
-      const salesItemDetails = this.editSalesForm.get("salesItemDetails") as FormArray;
+      const salesItemDetails = this.editSalesForm.get(
+        "salesItemDetails"
+      ) as FormArray;
       salesItemDetails.controls.forEach((itemGroup: FormGroup) => {
         itemGroup.get("salesItemTaxableAmount")?.setValidators([]);
       });
     }
-  
+
     // Update the validity of the fields after modifying the validators
     this.editSalesForm.get("vendorTaxApplied")?.updateValueAndValidity();
-    
+
     // Iterate through the salesItemDetails array and update validity for each salesItemTaxableAmount
-    const salesItemDetails = this.editSalesForm.get("salesItemDetails") as FormArray;
+    const salesItemDetails = this.editSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
     salesItemDetails.controls.forEach((itemGroup: FormGroup) => {
       itemGroup.get("salesItemTaxableAmount")?.updateValueAndValidity();
     });
-  
+
     // Optionally, update other fields as needed
     this.editSalesForm.patchValue({
       salesTermsAndCondition: this.setAddressData?.termsAndCondition,
@@ -315,7 +324,7 @@ export class EditSalsComponent implements OnInit {
 
       let payload = {
         date: formaeDate,
-        ewayBillNo: formData.ewayBillNo,
+        eWayBillNo: formData.eWayBillNo,
         dispatchedThrough: formData.dispatchedThrough,
         transporter: formData.transporter,
         vehicleNumber: formData.vehicleNumber,
@@ -500,21 +509,21 @@ export class EditSalsComponent implements OnInit {
       salesTermsAndCondition: data.salesTermsAndCondition,
       salesTotalAmount: data.salesTotalAmount,
       otherCharges: data.otherCharges,
-      isOtherChargesTax:data.isOtherChargesTax,
-      isShippingTax:data.isShippingTax,
-      vendorTaxApplied:data?.taxVendor?.vendorTaxApplied,
-      companyName:data?.taxVendor?.companyName,
-      taxVendorAmount:data?.taxVendor?.taxVendorAmount
-     
+      isOtherChargesTax: data.isOtherChargesTax,
+      isShippingTax: data.isShippingTax,
+      vendorTaxApplied: data?.taxVendor?.vendorTaxApplied,
+      companyName: data?.taxVendor?.companyName,
+      taxVendorAmount: data?.taxVendor?.taxVendorAmount,
     });
     // this.BuyerData = data.customer
     this.setCustomer(data.customer);
     let Ebill = data?.eWayBill;
     this.EwayBill = data?.eWayBill;
     console.log("ebill", Ebill);
+    this.editAddressWithDrop();
     this.ewayBillForm.patchValue({
       date: Ebill?.date ? new Date(Ebill?.date) : new Date(),
-      ewayBillNo: Ebill?.ewayBillNo,
+      eWayBillNo: Ebill?.eWayBillNo,
       dispatchedThrough: Ebill?.dispatchedThrough,
       transporter: Ebill?.transporter,
       vehicleNumber: Ebill?.vehicleNumber,
@@ -596,9 +605,6 @@ export class EditSalsComponent implements OnInit {
     this.displayEwayBillPopup = false;
     this.isUpdateAddress = true;
   }
-
-
-  
 
   editAddress() {
     this.addressVisible = true;
@@ -706,13 +712,12 @@ export class EditSalsComponent implements OnInit {
   }
   calculateTotalAmount() {
     let salesGrossTotal = 0;
-    let salesOrderTax: number =0;
+    let salesOrderTax: number = 0;
     let taxable: number = 0;
     let nonTaxable: number = 0;
     const salesItems = this.editSalesForm.get("salesItemDetails") as FormArray;
 
-
-    console.log('salesOrderTax',salesOrderTax)
+    console.log("salesOrderTax", salesOrderTax);
 
     this.totalTaxableAmount = 0;
     salesItems.controls.forEach((item) => {
@@ -746,8 +751,11 @@ export class EditSalsComponent implements OnInit {
         // const salesItemTaxableAmount = item.get("salesItemTaxableAmount") as FormControl
         item.get("salesItemTaxableAmount").clearValidators();
         item
-          .get("salesItemTaxableAmount")
-          .setValidators([Validators.max(totalAmount)]);
+        .get("salesItemTaxableAmount")
+        .setValidators([
+          Validators.required,
+          Validators.max(totalAmount)
+        ]);
         item.get("salesItemTaxableAmount").updateValueAndValidity();
 
         item.get("salesItemNonTaxableAmount").clearValidators();
@@ -767,8 +775,6 @@ export class EditSalsComponent implements OnInit {
         .setValue(Number(salesItemNonTaxableAmount));
       item.get("salesItemSubTotal").setValue(Number(subtotal));
     });
-  
-
 
     let itemTotalAmount = salesGrossTotal;
     const discount = +this.editSalesForm.get("salesDiscount").value;
@@ -816,7 +822,12 @@ export class EditSalsComponent implements OnInit {
       shippingTaxAmount -
       taxable;
     itemTotalAmount = Number(nonTaxable) + Number(taxable);
-    itemTotalAmount -= discount;
+    if (nonTaxable) {
+      nonTaxable -= discount;
+    } else {
+      // itemTotalAmount -= discount;
+      taxable -= discount;
+    }
     this.editSalesForm
       .get("salesTotalAmount")
       .setValue(Number(itemTotalAmount));
@@ -848,12 +859,12 @@ export class EditSalsComponent implements OnInit {
 
   onCheckboxChange(event: any) {
     const isChecked = event.checked;
-    console.log('is checked>>>>>>',isChecked)
+    console.log("is checked>>>>>>", isChecked);
     if (isChecked) {
       this.editSalesForm.patchValue({
         isShippingTax: true,
       });
-    }else{
+    } else {
       this.editSalesForm.patchValue({
         isShippingTax: false,
       });
@@ -864,12 +875,12 @@ export class EditSalsComponent implements OnInit {
 
   isOtherTaxChange(event: any) {
     const isChecked = event.checked;
-    console.log('is checked>>>>>>',isChecked)
+    console.log("is checked>>>>>>", isChecked);
     if (isChecked) {
       this.editSalesForm.patchValue({
         isOtherChargesTax: true,
       });
-    }else{
+    } else {
       this.editSalesForm.patchValue({
         isOtherChargesTax: false,
       });
@@ -888,8 +899,8 @@ export class EditSalsComponent implements OnInit {
     const payload = {
       id: this.salesId,
       customer: formData.customer,
-      isOtherChargesTax:formData.isOtherChargesTax,
-      isShippingTax:formData.isShippingTax,
+      isOtherChargesTax: formData.isOtherChargesTax,
+      isShippingTax: formData.isShippingTax,
       salesDate: formData.salesDate,
       billingAddress: formData.billingAddress,
       salesDiscount: Number(formData.salesDiscount),
