@@ -77,9 +77,27 @@ export class InvoiceDialogComponent implements OnInit {
   }
 
   downloadFullInvoice(id: any, invoiceNumber: any) {
-    this.salesService.getFullInvoice(id).subscribe((resp) => {
-      console.log("object", resp);
-    });
+    if (!id) {
+      console.error("No ID provided for download");
+      return;
+    }
+
+    this.salesService.getFullInvoice(id).subscribe(
+      (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `Sales-Invoice ${invoiceNumber}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      },
+      (error) => {
+        const message = error.message;
+        this.messageService.add({ severity: "warn", detail: message });
+      }
+    );
   }
 
   downloadSalesFile(id: any, invoiceNumber: any) {
@@ -89,7 +107,7 @@ export class InvoiceDialogComponent implements OnInit {
       return;
     }
 
-    this.salesService.downloadSalesInvoice(id).subscribe(
+    this.salesService.getTaxinvoice(id).subscribe(
       (response: Blob) => {
         const url = window.URL.createObjectURL(response);
         const a = document.createElement("a");

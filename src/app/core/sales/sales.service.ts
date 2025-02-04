@@ -55,14 +55,16 @@ export class SalesService {
   }
 
   getTaxinvoice(id: any) {
-    return this.http.get(
-      environment.apiUrl + `/SalesController/downloadTaxInvoice/${id}`
-    );
+    const url = `${environment.apiUrl}/SalesController/downloadTaxInvoice/${id}`;
+    return this.http
+      .get(url, { responseType: "blob" })
+      .pipe(catchError(this.handleError));
   }
 
   getFullInvoice(id: any) {
-    return this.http.get(
-      environment.apiUrl + `/SalesController/downloadSalesInvoice/${id}`
-    );
+    const url = `${environment.apiUrl}/SalesController/downloadSalesInvoice/${id}`;
+    return this.http
+      .get(url, { responseType: "blob" })
+      .pipe(catchError(this.handleError));
   }
 }
