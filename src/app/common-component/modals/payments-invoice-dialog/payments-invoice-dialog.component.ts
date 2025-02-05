@@ -463,6 +463,18 @@ getFormattedDate(date: Date): string {
   paymentInvoiceFormSubmit() {
     const formData = this.paymentInvoiceForm.value;
 
+    if(formData.taxablePaymentAmount && !formData.taxablePaymentMode){
+      console.log('object',formData)
+      const message = "Please Select Payment Mode";
+      this.messageService.add({ severity: "error", detail: message });
+      return
+    }
+    if(formData.nonTaxablePaymentAmount && !formData.nonTaxablePaymentMode){
+      const message = "Please Select Payment Mode";
+      this.messageService.add({ severity: "error", detail: message });
+      return
+    }
+
     if (formData.totalAmount > 0) {
       if (
         this.dataById.isSalesReturn &&

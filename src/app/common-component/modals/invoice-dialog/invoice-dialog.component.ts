@@ -69,11 +69,26 @@ export class InvoiceDialogComponent implements OnInit {
   }
 
   downloadTaxInvoice(id: any, invoice: any) {
-    console.log("click", id, invoice);
-
-    this.salesService.getTaxinvoice(id).subscribe((resp) => {
-      console.log("object", resp);
-    });
+    if (!id) {
+      console.error("No ID provided for download");
+      return;
+    }
+    this.salesService.getTaxinvoice(id).subscribe(
+      (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `Sales-Invoice ${invoice}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      },
+      (error) => {
+        const message = error.message;
+        this.messageService.add({ severity: "warn", detail: message });
+      }
+    );
   }
 
   downloadFullInvoice(id: any, invoiceNumber: any) {

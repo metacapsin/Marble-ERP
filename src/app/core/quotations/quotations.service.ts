@@ -33,9 +33,10 @@ export class QuotationsService {
 
   downloadQuotationInvoice(id: any): Observable<Blob> {
     const url = `${environment.apiUrl}/QuotationController/downloadQuotationInvoice/${id}`;
-    return this.http.post(url, {}, { responseType: 'blob' }).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+    .get(url, { responseType: "blob" })
+    .pipe(catchError(this.handleError));
+
   }
   
   private handleError(error: HttpErrorResponse): Observable<never> {

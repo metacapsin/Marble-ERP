@@ -750,12 +750,20 @@ export class EditSalsComponent implements OnInit {
       if (totalAmount > 0) {
         // const salesItemTaxableAmount = item.get("salesItemTaxableAmount") as FormControl
         item.get("salesItemTaxableAmount").clearValidators();
-        item
-        .get("salesItemTaxableAmount")
-        .setValidators([
-          Validators.required,
-          Validators.max(totalAmount)
-        ]);
+        if(this.isrequired){
+          item
+          .get("salesItemTaxableAmount")
+          .setValidators([
+            Validators.required,
+            Validators.max(totalAmount)
+          ]);
+        }else{
+          item
+          .get("salesItemTaxableAmount")
+          .setValidators([
+            Validators.max(totalAmount)
+          ]);
+        }
         item.get("salesItemTaxableAmount").updateValueAndValidity();
 
         item.get("salesItemNonTaxableAmount").clearValidators();

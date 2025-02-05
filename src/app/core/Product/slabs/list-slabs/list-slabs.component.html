@@ -55,7 +55,7 @@
                             styleClass=""
                             appendTo="body"
                             placeholder="Select Warehouse"
-                            [style]="{ width: '100%',border:'none' }"
+                            [style]="{ width: '105%',border:'none' }"
                             [filter]="true"
                             optionLabel="name"
                             optionValue="_id"
@@ -65,15 +65,14 @@
                           ></p-dropdown>
 
                           <!-- Search Input with Icon -->
-                          <div style="position: relative; width: 100%;">
+                          <div style="position: relative; width: 95%;">
                             <input
                               type="text"
                               class="form-control bg-white"
                               placeholder="Enter Key Word here"
                               #searchTable
-                              (input)="
-                                dt.filterGlobal(searchTable.value, 'contains')
-                              "
+                              (input)="dt.filterGlobal(searchTable.value, 'contains') ; onSearchInput($event)"
+
                               style="
                                border-left: 2px solid #e8e8e8;
                                 border-radius: 0px 0 0 0px;
@@ -121,6 +120,13 @@
                         >
                         </p-dropdown>
                       </div>
+                   
+                    </div>
+                    <div class="col-auto text-end float-end ms-auto download-grp" >
+                      <!-- <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""  pTooltip="Download data in PDF file" tooltipPosition="left"
+                                            tooltipStyleClass="tooltip" /></a> -->
+                      <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
+                        (click)="dt.exportCSV()"         tooltipStyleClass="tooltip" /></a>
                     </div>
                   </div>
                 </div>
@@ -146,16 +152,16 @@
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
-                          <!-- <a href="#" class="view-more"
+                          <a (click)="showSlabDetails(item?._id)" class="view-more"  pTooltip="View More" tooltipPosition="bottom"
                             ><i class="fa-solid fa-eye"></i
-                          ></a> -->
-                          <!-- <a  (click)="showSlabHistoryDetails(item?._id)" class="view-more"
+                          ></a>
+                          <a  (click)="showSlabHistoryDetails(item?._id)" class="view-more"  pTooltip="History" tooltipPosition="bottom"
                             ><i class="fa-solid fa-clock-rotate-left"></i
-                          ></a> -->
-                          <button class="view-more-btn" (click)="showSlabDetails(item?._id)">
+                          ></a>
+                          <!-- <button class="view-more-btn" (click)="showSlabDetails(item?._id)">
                             View More
                             <i class="fas fa-arrow-right mx-3"></i> 
-                          </button>
+                          </button> -->
                         </div>
                       </div>
                       <hr />
@@ -212,39 +218,48 @@
                         class="d-flex justify-content-between align-items-center"
                       >
                         <h4>Sales Revenue</h4>
-                        <button class="view-more-btn" (click)="showSlabHistoryDetails(item?._id)">
+                        <!-- <button class="view-more-btn" (click)="showSlabHistoryDetails(item?._id)">
                           <i class="fas fa-arrow-right"></i> 
-                        </button>
+                        </button> -->
                       </div>
                       <hr />
                       <p class="sales-detail">
-                        <strong>Total Sales:</strong> {{ item?.totalSales.toFixed(2) }}
+                        <strong>Total Sales:</strong> {{ item?.slabHistory?.totalSales?.toFixed(2) }}
                       </p>
                       <p class="sales-detail">
                         <span class="label">Cost Of Goods Sold:</span>
-                        <span class="value">0</span>
+                        <span class="value">{{item?.slabHistory?.totalCostPerSQFT || 0}}</span>
                       </p>
                       <p class="sales-detail">
                         <span class="label">Tax Profit:</span>
-                        <span class="value">0</span>
+                        <span class="value">{{item?.slabHistory?.taxProfit || 0}}</span>
                       </p>
                       <p class="sales-detail">
                         <span class="label">Profit/Loss:</span>
-                        <span class="value">0</span>
+                        <span class="value">{{item?.slabHistory?.profit || 0}}</span>
                       </p>
                     
                     </div>
                   </div>
                 </div>
                 <p-paginator
+                *ngIf="totalRecords > 0"
                   [first]="currentPage * rowsPerPage"
                   [rows]="rowsPerPage"
-                  [totalRecords]="allSlabsDaTa?.length"
+                  [totalRecords]="totalRecords"
                   [rowsPerPageOptions]="[5, 10, 20]"
                   (onPage)="paginate($event)"
                   (onPageChange)="paginate($event)"
                 >
                 </p-paginator>
+
+                <p
+                colspan="10"
+                class="text-center"
+                *ngIf="totalRecords <= 0"
+              >
+                No slabs found.
+              </p>
               </span>
 
               <span
