@@ -225,7 +225,7 @@ export class AdminDashboardComponent {
       if (dates.startUtc && dates.endUtc) {
         startDate = new Date(dates.startUtc);
         endDate = new Date(dates.endUtc);
-        this.data = dates.filterby || 'This Year'
+        this.data = dates.filterby
       } else {
         console.log(" Dates:");
         startDate = new Date(new Date().getFullYear(), 0, 1);

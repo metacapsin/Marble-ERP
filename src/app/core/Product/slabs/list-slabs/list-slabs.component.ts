@@ -11,10 +11,11 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { SlabsService } from "../slabs.service";
 import { DialogModule } from "primeng/dialog";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
+import { Paginator, PaginatorModule } from "primeng/paginator";
 @Component({
   selector: "app-list-slabs",
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, PaginatorModule],
   providers: [MessageService],
   templateUrl: "./list-slabs.component.html",
   styleUrl: "./list-slabs.component.scss",
@@ -44,6 +45,10 @@ export class ListSlabsComponent {
   showDataLoader: boolean = false;
   slabProfitOfSlabHistory: any = [];
   slabDetailsOfSlabHistory: any = [];
+  selectedLayout: any = "Table";
+  totalSqFtLeft: any = 0;
+  selectedDate: string | null = null;
+  searchTable: string = "";
 
   constructor(
     public dialog: MatDialog,
@@ -52,7 +57,28 @@ export class ListSlabsComponent {
     private _snackBar: MatSnackBar,
     private messageService: MessageService,
     private WarehouseService: WarehouseService
-  ) { }
+  ) {}
+
+  currentPage = 0;
+  rowsPerPage = 10;
+  totalRecords = 0;
+  pagedData: any[] = [];
+
+  paginate(event: any): void {
+    console.log("event", event);
+    this.currentPage = event.first / event.rows;
+    this.rowsPerPage = event.rows;
+
+    this.updatePagedData();
+  }
+
+  updatePagedData(): void {
+    const startIndex = this.currentPage * this.rowsPerPage;
+    const endIndex = startIndex + this.rowsPerPage;
+
+    this.pagedData = this.allSlabsDaTa.slice(startIndex, endIndex);
+    console.log(" this.pagedData", this.pagedData?.length);
+  }
 
   ngOnInit(): void {
     this.showDataLoader = true;
@@ -67,20 +93,81 @@ export class ListSlabsComponent {
       }));
     });
   }
+
+  isViewsystemtyp = [
+    { code: "Card", value: "Card View" },
+    { code: "Table", value: "Table View" },
+  ];
+
+  onSearchInput(event: any) {
+    // Get the search term directly from the event
+    const searchTerm = event.target.value;
+    console.log("Search Term:", searchTerm);
+    // Filter data based on searchTerm value
+    let filteredData = this.allSlabsDaTa?.filter(
+      (item) =>
+        item?.categoryDetail?.name
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        item?.subCategoryDetail?.name
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        item?.slabName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item?.slabNo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (item?.sellingPricePerSQFT &&
+          item?.sellingPricePerSQFT.toString().includes(searchTerm)) ||
+        (item?.costPerSQFT &&
+          item?.costPerSQFT.toString().includes(searchTerm)) ||
+        (item?.totalSQFT && item?.totalSQFT.toString().includes(searchTerm)) ||
+        // Check for size field
+        (item?.slabSize && item?.slabSize.toString().includes(searchTerm)) ||
+        item?.warehouseDetails?.name
+          ?.toLowerCase()
+          .toString()
+          .includes(searchTerm.toLowerCase())
+    );
+
+    // If selectedDate exists, apply date filtering
+    if (this.selectedDate) {
+      filteredData = filteredData.filter((item) => {
+        const itemDate = new Date(item?.slabDate); // Assuming each item has a 'slabDate' property
+        const selectedDate = new Date(this.selectedDate);
+        return itemDate.toDateString() === selectedDate.toDateString(); // Compare only the date (no time)
+      });
+    }
+
+    const startIndex = this.currentPage * this.rowsPerPage;
+    const endIndex = startIndex + this.rowsPerPage;
+    this.totalRecords = filteredData?.length;
+    this.pagedData = filteredData.slice(startIndex, endIndex);
+
+    // Optionally log the filtered data to verify
+    console.log("Filtered Data:", this.pagedData);
+  }
+
   getSlabsList(): void {
     this.service.getSlabsList().subscribe((resp: any) => {
       if (resp) {
-
-
         this.allSlabsDaTa = resp.data;
+        this.totalRecords = this.allSlabsDaTa?.length;
+        if (this.allSlabsDaTa) {
+          this.totalSqFtLeft = this.allSlabsDaTa.reduce(
+            (sum, slab) => sum + slab.totalSQFT,
+            0
+          );
+        }
         this.originalData = resp.data;
+        this.updatePagedData();
         this.cols = [
           { field: "date", header: "Date" },
           { field: "slabNo", header: "Slab No" },
           { field: "slabName", header: "Slab Name" },
           { field: "slabSize", header: "Slab Size" },
           { field: "categoryDetail.name", header: "Category Detail Name" },
-          { field: "subCategoryDetail.name", header: "Sub Category Detail Name" },
+          {
+            field: "subCategoryDetail.name",
+            header: "Sub Category Detail Name",
+          },
           { field: "costPerSQFT", header: "Cost Per SQFT" },
           { field: "sellingPricePerSQFT", header: "Selling Price Per SQFT" },
           { field: "totalSQFT", header: "Total SQFT" },
@@ -119,8 +206,8 @@ export class ListSlabsComponent {
     this.service.getSlabHistoryById(_id).subscribe((resp: any) => {
       this.visibleSlabHistory = true;
       this.slabHistoryData = resp.data;
-      this.slabProfitOfSlabHistory = resp.data.slabProfit
-      this.slabDetailsOfSlabHistory = resp.data.slabDetail
+      this.slabProfitOfSlabHistory = resp.data.slabProfit;
+      this.slabDetailsOfSlabHistory = resp.data.slabDetail;
       console.log("Slab History API", this.slabHistoryData);
     });
   }
@@ -154,11 +241,21 @@ export class ListSlabsComponent {
         return i.warehouseDetails && i.warehouseDetails._id == value._id;
       });
       this.allInDropDown = this.allSlabsDaTa;
+      const startIndex = this.currentPage * this.rowsPerPage;
+      const endIndex = startIndex + this.rowsPerPage;
+      this.totalRecords = this.allSlabsDaTa?.length;
+      this.pagedData = this.allSlabsDaTa.slice(startIndex, endIndex);
     }
 
     // Update dropdown data with the filtered data
 
     console.log(this.allSlabsDaTa);
+  }
+
+  // for change layout
+  onchangeLayout(value: any) {
+    this.selectedLayout = value;
+    console.log("layout", this.selectedLayout);
   }
 
   callBackModal() {
@@ -181,13 +278,15 @@ export class ListSlabsComponent {
     if (this.searchDataValue == "") {
       this.onSearchByChange(null);
       console.log(this.warehouseDropDown);
-      if (this.warehouseDropDown?.name == "" || this.warehouseDropDown == null) {
+      if (
+        this.warehouseDropDown?.name == "" ||
+        this.warehouseDropDown == null
+      ) {
         console.log("object");
         console.log(this.originalData);
         console.log(this.allSlabsDaTa);
-        return this.allSlabsDaTa = this.originalData;
-      }
-      else {
+        return (this.allSlabsDaTa = this.originalData);
+      } else {
         return (this.allSlabsDaTa = this.allInDropDown);
       }
     }

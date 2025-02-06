@@ -33,7 +33,7 @@ import { MessageService } from "primeng/api";
   ],
   templateUrl: "./invoice-dialog.component.html",
   styleUrl: "./invoice-dialog.component.scss",
-  providers:[MessageService]
+  providers: [MessageService],
 })
 export class InvoiceDialogComponent implements OnInit {
   @Input() showInvoiceDialog: boolean;
@@ -50,34 +50,55 @@ export class InvoiceDialogComponent implements OnInit {
     private purchaseService: PurchaseService,
     private quotationService: QuotationsService,
     private http: HttpClient,
-    private messageService: MessageService,
-
+    private messageService: MessageService
   ) {}
   ngOnInit() {
     this.userData.getUserProfile().subscribe((user: any) => {
       this.sellerData = user.data;
       console.log("THis is buyer data on invoice", this.sellerData);
     });
+
+    console.log("this.salesDataById", this.salesDataById);
   }
   closeTheWindow() {
     // console.log("dialog close")
     this.close.emit();
   }
-  clickMe(){
-    console.log(this.salesDataById);
+  clickMe() {
+    console.log('salesDataById',this.salesDataById);
   }
 
-
-
-  downloadSalesFile(id: any, invoiceNumber:string) {
-    console.log("Invoice number",invoiceNumber)
+  downloadTaxInvoice(id: any, invoice: any) {
     if (!id) {
       console.error("No ID provided for download");
       return;
     }
-  
-    this.salesService.downloadSalesInvoice(id).subscribe(
-      (response: Blob) => { 
+    this.salesService.getTaxinvoice(id).subscribe(
+      (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `Sales-Invoice ${invoice}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      },
+      (error) => {
+        const message = error.message;
+        this.messageService.add({ severity: "warn", detail: message });
+      }
+    );
+  }
+
+  downloadFullInvoice(id: any, invoiceNumber: any) {
+    if (!id) {
+      console.error("No ID provided for download");
+      return;
+    }
+
+    this.salesService.getFullInvoice(id).subscribe(
+      (response: Blob) => {
         const url = window.URL.createObjectURL(response);
         const a = document.createElement("a");
         a.href = url;
@@ -88,13 +109,38 @@ export class InvoiceDialogComponent implements OnInit {
         window.URL.revokeObjectURL(url);
       },
       (error) => {
-        const message= error.message
+        const message = error.message;
         this.messageService.add({ severity: "warn", detail: message });
       }
     );
   }
-  downloadQuotationFile(id: any,invoiceNumber:string) {
-    console.log("Invoice number",invoiceNumber)
+
+  downloadSalesFile(id: any, invoiceNumber: any) {
+    console.log("Invoice number", invoiceNumber);
+    if (!id) {
+      console.error("No ID provided for download");
+      return;
+    }
+
+    this.salesService.getTaxinvoice(id).subscribe(
+      (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `Sales-Invoice ${invoiceNumber}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      },
+      (error) => {
+        const message = error.message;
+        this.messageService.add({ severity: "warn", detail: message });
+      }
+    );
+  }
+  downloadQuotationFile(id: any, invoiceNumber: string) {
+    console.log("Invoice number", invoiceNumber);
 
     if (!id) {
       console.error("No ID provided for download");
@@ -113,7 +159,7 @@ export class InvoiceDialogComponent implements OnInit {
         window.URL.revokeObjectURL(url);
       },
       (error) => {
-        const message= error.message
+        const message = error.message;
         this.messageService.add({ severity: "warn", detail: message });
       }
     );

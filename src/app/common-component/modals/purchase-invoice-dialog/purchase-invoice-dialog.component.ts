@@ -27,7 +27,8 @@ export class PurchaseInvoiceDialogComponent {
   constructor(private purchaseService: PurchaseService) {}
 
   ngOnInit() {
-    console.log("this is purchase invoice component");
+    // console.log("this is purchase invoice component");
+    // console.log('purchaseDataById',this.purchaseDataById);
   }
 
   closeTheWindow() {

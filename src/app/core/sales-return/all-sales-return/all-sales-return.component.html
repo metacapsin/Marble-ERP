@@ -137,6 +137,8 @@
                       <p-button [text]="true" data-bs-toggle="modal" icon="fa-solid fa-eye" pTooltip="View"
                         tooltipPosition="bottom" tooltipStyleClass="tooltip"
                         (click)="showReturnInvoiceDialoge(sales._id)"></p-button>
+                        <p-button [text]="true" icon="fa-solid fa-edit" (click)="editSalesRout(sales._id)"
+                        pTooltip="Edit" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                       <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSalesReturn(sales._id)"
                         pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                     </td>

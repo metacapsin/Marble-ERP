@@ -35,4 +35,10 @@ export class EmployeepPaymentService {
   updateSalaryPayment(id: any) {
     return this.http.get(environment.apiUrl + "/PayrollController/updateSalaryPayment/" + id)
   }
+
+  downloadList(id: any) {
+    return this.http.get(environment.apiUrl + "/PayrollController/downloadSalaryInvoice/" + id)
+  }
+
+
 }

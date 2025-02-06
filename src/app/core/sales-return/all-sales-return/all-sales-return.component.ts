@@ -51,7 +51,7 @@ export class AllSalesReturnComponent implements OnInit {
     "This Year",
     "Last Year",
   ];
-  searchBy: string ="";
+  searchBy:any;
   rangeDates: Date[] | undefined;
 
   constructor(
@@ -75,7 +75,8 @@ export class AllSalesReturnComponent implements OnInit {
       if (dates.startUtc && dates.endUtc) {
         startDate = new Date(dates.startUtc);
         endDate = new Date(dates.endUtc);
-        this.searchBy = dates.filterby
+        this.searchBy = dates.filterby 
+    
       } else {
         console.log(" Dates:");
         startDate = new Date(new Date().getFullYear(), 0, 1);
@@ -88,9 +89,11 @@ export class AllSalesReturnComponent implements OnInit {
       const Sdate = this.formatDate(startDate);
       const Edate = this.formatDate(endDate);
 
-      this.rangeDates = [startDate, endDate];
+      this.rangeDates = [new Date(Sdate), new Date(Edate)];
+      // this.onDateChange(this.rangeDates);
       console.log("Formatted Dates:", Sdate, Edate);
-      this.onSearchByChange(this.searchBy);
+      this.GetSalesReturnData(new Date(Sdate), new Date(Edate));
+      // this.onSearchByChange(this.searchBy);
 
     });
 
@@ -119,6 +122,9 @@ export class AllSalesReturnComponent implements OnInit {
 
     // this.router.navigate(['/purchase/add-purchase'], { state: { returnUrl: this.currentUrl } });
   }
+
+
+
   deleteSalesReturn(Id: any) {
     this.saleId = Id;
 
@@ -136,8 +142,9 @@ export class AllSalesReturnComponent implements OnInit {
   callBackModal() {
     this.Service.deleteSalesReturn(this.saleId).subscribe((resp: any) => {
       this.messageService.add({ severity: "success", detail: resp.message });
-      this.onSearchByChange(this.searchBy);
       this.showDialoge = false;
+      this.onSearchByChange(this.searchBy);
+      // this.showDialoge = false;
     });
   }
 
@@ -221,6 +228,9 @@ export class AllSalesReturnComponent implements OnInit {
   }
 
   onSearchByChange(event: any) {
+
+    console.log('event',event)
+
     const today = new Date();
     let startDate,
       endDate = today;
@@ -288,12 +298,13 @@ export class AllSalesReturnComponent implements OnInit {
   
         default:
           startDate = null;
-          endDate = null;
+          endDate = null
           break;
+          
       }
     this.rangeDates = [startDate, endDate];
     this.GetSalesReturnData(startDate, endDate);
-
+console.log('this.rangeDates>>',this.rangeDates)
     let payload = {
       filterby: event,
       endDate: endDate,

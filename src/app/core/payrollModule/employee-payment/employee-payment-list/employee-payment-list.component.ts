@@ -82,6 +82,14 @@ export class EmployeepPaymentListComponent {
     this.showDialoge = true;
   }
 
+  download(id:any){
+
+    this.Service.downloadList(id).subscribe((resp:any)=>{
+      console.log('resp',resp)
+    })
+
+  }
+
   showNewDialog() {
     this.showDialoge = true;
   }

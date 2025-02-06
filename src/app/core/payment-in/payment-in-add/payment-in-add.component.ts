@@ -39,7 +39,6 @@ export class PaymentInAddComponent {
     {
       paymentMode: "Cheque",
     },
-    
   ];
   maxDate = new Date();
   notesRegex = /^(?:.{2,100})$/;
@@ -57,8 +56,8 @@ export class PaymentInAddComponent {
       sales: this.fb.array([]),
       customer: ["", [Validators.required]],
       paymentDate: ["", [Validators.required]],
-      taxablePaymentAmount:[''],
-      nonTaxablePaymentAmount: [''],
+      taxablePaymentAmount: [""],
+      nonTaxablePaymentAmount: [""],
       taxablePaymentMode: [""],
       nonTaxablePaymentMode: [""],
       note: ["", [Validators.pattern(this.notesRegex)]],
@@ -76,32 +75,62 @@ export class PaymentInAddComponent {
           _id: [sale._id],
           salesInvoiceNumber: [sale.salesInvoiceNumber],
           taxablePaymentAmount: [
-            '', 
+            "",
             [
-              
               Validators.min(0),
-              Validators.max(sale.taxableDue) // Set max value to taxableDue
-            ]
+              Validators.max(sale.taxableDue), // Set max value to taxableDue
+            ],
           ],
-          taxablePaymentMode: ["Bank" , Validators.required],  
+          taxablePaymentMode: [""],
           nonTaxablePaymentAmount: [
-            '', 
+            "",
             [
-              
               Validators.min(0),
-              Validators.max(sale.nonTaxableDue) // Set max value to nonTaxableDue
-            ]
+              Validators.max(sale.nonTaxableDue), // Set max value to nonTaxableDue
+            ],
           ],
-          nonTaxablePaymentMode: ["Cash" , Validators.required], 
-          // note:[sale.note , Validators.pattern(this.notesRegex)], 
+          nonTaxablePaymentMode: [""],
+          // note:[sale.note , Validators.pattern(this.notesRegex)],
         })
       );
     });
   }
 
+  fillTaxvalue(event){
+    console.log('event',event.target.value)
+
+    this.addPaymentInForm.patchValue({
+      taxablePaymentAmount:event.target.value
+    })
+  }
+  filltaxablemode(event){
+    console.log('event',event.value)
+
+    this.addPaymentInForm.patchValue({
+      taxablePaymentMode:event.value
+    })
+  }
+
+  fillNontaxvalue(event){
+    console.log('event',event.target.value)
+
+    this.addPaymentInForm.patchValue({
+      nonTaxablePaymentAmount:event.target.value
+    })
+  }
+  fillNontaxablemode(event){
+    console.log('event',event.value)
+
+    this.addPaymentInForm.patchValue({
+      nonTaxablePaymentMode:event.value
+    })
+  }
+
 
   getSalesControl(index: number): FormGroup {
-    return (this.addPaymentInForm.get('sales') as FormArray).controls[index] as FormGroup;
+    return (this.addPaymentInForm.get("sales") as FormArray).controls[
+      index
+    ] as FormGroup;
   }
   ngOnInit(): void {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
@@ -125,7 +154,7 @@ export class PaymentInAddComponent {
       (resp: any) => {
         if (resp && Array.isArray(resp.data)) {
           this.salesDataById = resp.data;
-          console.log("this is data",this.salesDataById)
+          console.log("this is data", this.salesDataById);
           if (this.salesDataById.length === 0) {
             this.noPaymentsAvailable = true; // Set flag to true if no payments are found
             console.log("No payments available for this Customer");
@@ -134,11 +163,11 @@ export class PaymentInAddComponent {
           } else {
             const today = new Date();
             const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
-        
+
             this.addPaymentInForm.patchValue({
               paymentDate: formattedDate,
             });
-        
+
             this.noPaymentsAvailable = false;
             this.addSalesControls();
             console.log("Payments found", this.salesDataById);
@@ -166,13 +195,26 @@ export class PaymentInAddComponent {
     console.log("Submitted data:", formData);
     const customerData = formData.customer;
 
+    if(formData.taxablePaymentAmount && !formData.taxablePaymentMode){
+      console.log('object',formData)
+      const message = "Please Select Payment Mode";
+      this.messageService.add({ severity: "error", detail: message });
+      return
+    }
+    if(formData.nonTaxablePaymentAmount && !formData.nonTaxablePaymentMode){
+      const message = "Please Select Payment Mode";
+      this.messageService.add({ severity: "error", detail: message });
+      return
+    }
+
     const payload = formData.sales.map((sale) => {
-      let paymentMode = '';
-    
+      let paymentMode = "";
+
       if (sale.taxablePaymentMode && sale.nonTaxablePaymentMode) {
-        paymentMode = sale.taxablePaymentMode === sale.nonTaxablePaymentMode 
-          ? sale.taxablePaymentMode 
-          : `${sale.taxablePaymentMode}/${sale.nonTaxablePaymentMode}`;
+        paymentMode =
+          sale.taxablePaymentMode === sale.nonTaxablePaymentMode
+            ? sale.taxablePaymentMode
+            : `${sale.taxablePaymentMode}/${sale.nonTaxablePaymentMode}`;
       } else {
         paymentMode = sale.taxablePaymentMode || sale.nonTaxablePaymentMode;
       }
@@ -185,10 +227,10 @@ export class PaymentInAddComponent {
         customer: {
           _id: customerData._id,
           name: customerData.name,
-          billingAddress: customerData.billingAddress || ""
+          billingAddress: customerData.billingAddress || "",
         },
         paymentDate: formData.paymentDate,
-        paymentMode: paymentMode, 
+        paymentMode: paymentMode,
         sales: [
           {
             _id: sale._id,
@@ -196,31 +238,33 @@ export class PaymentInAddComponent {
             salesInvoiceNumber: sale.salesInvoiceNumber,
           },
         ],
-        taxablePaymentAmount: taxableAmount > 0
-          ? {
-              amount: taxableAmount,
-              paymentMode: sale.taxablePaymentMode,
-            }
-          : null,
-        nonTaxablePaymentAmount: nonTaxableAmount > 0
-          ? {
-              amount: nonTaxableAmount,
-              paymentMode: sale.nonTaxablePaymentMode,
-            }
-          : null,
+        taxablePaymentAmount:
+          taxableAmount > 0
+            ? {
+                amount: taxableAmount,
+                paymentMode: sale.taxablePaymentMode,
+              }
+            : null,
+        nonTaxablePaymentAmount:
+          nonTaxableAmount > 0
+            ? {
+                amount: nonTaxableAmount,
+                paymentMode: sale.nonTaxablePaymentMode,
+              }
+            : null,
         note: formData.note,
       };
     });
 
     // Filter out any sales with zero total amount
-    const filteredPayload = payload.filter(item => item.sales[0].amount > 0);
+    const filteredPayload = payload.filter((item) => item.sales[0].amount > 0);
 
     if (this.addPaymentInForm.valid && filteredPayload.length > 0) {
       console.log("Valid form");
 
       this.Service.createPayment(filteredPayload).subscribe((resp: any) => {
         console.log(resp);
-        if (resp) {
+        
           if (resp.status === "success") {
             const message = "Payment has been added";
             this.messageService.add({ severity: "success", detail: message });
@@ -229,13 +273,18 @@ export class PaymentInAddComponent {
             }, 400);
           } else {
             const message = resp.message;
+           
             this.messageService.add({ severity: "error", detail: message });
           }
-        }
+        
+        
       });
     } else {
       console.log("Invalid form or no valid payments");
-      this.messageService.add({ severity: "error", detail: "Please enter valid payment amounts" });
+      this.messageService.add({
+        severity: "error",
+        detail: "Please enter valid payment amounts",
+      });
     }
   }
 }

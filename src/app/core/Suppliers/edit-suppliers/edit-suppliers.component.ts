@@ -27,10 +27,11 @@ export class EditSuppliersComponent implements OnInit {
 
   // personNameRegex = /^[A-Za-z](?!.*\s{2})[A-Za-z. ]{2,28}[A-Za-z.]$/;
   personNameRegex = /^(?=.*[A-Za-z])[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
-  taxNumberRegex = /^[A-Za-z0-9]{15}$/;
+  taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{2,20}$/;
   emailRegex: string = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^(?!\s)(?!.*\s{3})(.{3,500})$/s;
   phoneRegex = /^[0-9]{10}$/;
+   panregex=/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/
   constructor(
     private fb: UntypedFormBuilder,
     private router: Router,
@@ -51,7 +52,8 @@ export class EditSuppliersComponent implements OnInit {
       billingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
       openingBalance: [0],
       balanceType: ["Pay"],
-      creditPeriodType:['Days']
+      creditPeriodType:['Days'],
+      penCardNumber:['',[Validators.pattern(this.panregex)]]
       // shippingAddress:  ["", [Validators.pattern(this.billingAddressRegex)]],
     });
     this.id = this.activeRoute.snapshot.params["id"];
@@ -60,6 +62,13 @@ export class EditSuppliersComponent implements OnInit {
     this.Service.GetSupplierDataById(this.id).subscribe((data: any) => {
       this.SupplierData = data;
       this.patchForm();
+    });
+  }
+
+  toUpperCase(event: any) {
+    let val = event.target.value.toUpperCase();
+    this.editSupplierGroup.patchValue({
+      penCardNumber: val,
     });
   }
 
@@ -74,7 +83,8 @@ export class EditSuppliersComponent implements OnInit {
       creditLimit: this.SupplierData.creditLimit,
       billingAddress: this.SupplierData.billingAddress,
       openingBalance : this.SupplierData.openingBalance,
-      creditPeriodType:this.SupplierData.creditPeriodType
+      creditPeriodType:this.SupplierData.creditPeriodType,
+      penCardNumber:this.SupplierData.penCardNumber
       // shippingAddress: this.SupplierData.shippingAddress,
     });
   }
@@ -93,6 +103,7 @@ export class EditSuppliersComponent implements OnInit {
       billingAddress: this.editSupplierGroup.value.billingAddress,
       openingBalance:this.editSupplierGroup.value.openingBalance,
       creditPeriodType:this.editSupplierGroup.value.creditPeriodType,
+      penCardNumber:this.editSupplierGroup.value.penCardNumber,
       // shippingAddress: this.editSupplierGroup.value.shippingAddress,
     };
     if (this.editSupplierGroup.value) {

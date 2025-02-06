@@ -79,7 +79,7 @@
                 dataSource
                   | filter
                     : searchDataValue
-                    : ['name', 'email', 'status', 'createdOn']
+                    : ['name', 'email', 'status', 'createdOn','totalBalance']
               "
               [tableStyle]="{ 'min-width': '60rem' }"
               [paginator]="dataSource?.length >= 5"
@@ -116,13 +116,13 @@
                       display="menu"
                     ></p-columnFilter>
                   </th>
-                  <th pSortableColumn="email">
-                    Balance <p-sortIcon field="balance"></p-sortIcon>
+                  <th pSortableColumn="totalBalance">
+                    Balance <p-sortIcon field="totalBalance"></p-sortIcon>
                     <p-columnFilter
                       matchMode="contains"
                       hideOnClear="true"
                       type="text"
-                      field="balance"
+                      field="totalBalance"
                       display="menu"
                     ></p-columnFilter>
                   </th>

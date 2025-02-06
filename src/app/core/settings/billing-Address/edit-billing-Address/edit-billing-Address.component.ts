@@ -44,6 +44,7 @@ export class EditBillingAddressComponent implements OnInit {
 
   phoneRegex = /^[0-9]{10}$/;
   taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{15}$/;
+  StatesList: any;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -63,8 +64,9 @@ export class EditBillingAddressComponent implements OnInit {
       email:['',[Validators.pattern(validationRegex.emailRegex)]],
       addressLine1:['',[Validators.required,Validators.pattern(validationRegex.billingAddressRegex)]],
       addressLine2:['',[Validators.pattern(validationRegex.billingAddressRegex)]],
-      state:['',[Validators.required,Validators.pattern(validationRegex.stateRegex)]],
+      state:['',[Validators.required]],
       taxNo: ['', [Validators.pattern(this.taxNumberRegex)]],
+      termsAndCondition:['']
     });
   }
 
@@ -73,7 +75,7 @@ export class EditBillingAddressComponent implements OnInit {
       this.billingAddressData = resp.data;
       this.patchForm(this.billingAddressData);
     });
-
+this.getStates()
     this.UserEditData.getCountries().subscribe((resp: any) => {
       this.countriesList = [];
       this.orgCountriesList = resp.data
@@ -118,5 +120,11 @@ export class EditBillingAddressComponent implements OnInit {
       } else {
         console.log("Form is invalid!");
       }
+  }
+
+  getStates() {
+    this.UserEditData.getstates().subscribe((resp: any) => {
+      this.StatesList = resp.data;
+    });
   }
 }

@@ -95,7 +95,7 @@ export class ListNewPurchaseComponent implements OnChanges {
       this.rangeDates = [startDate, endDate];
       console.log("Formatted Dates:", Sdate, Edate);
 
-      // this.apiCall(Sdate, Edate);
+      this.getPurchase(startDate, endDate);
     });
 
     this.currentUrl = this.router.url;
@@ -105,7 +105,7 @@ export class ListNewPurchaseComponent implements OnChanges {
     this.localStorageService.removeItem("returnUrl");
 
     this.showDataLoader = true;
-    this.onSearchByChange(this.searchBy);
+    // this.onSearchByChange(this.searchBy);
   }
   getPurchase(startDate: Date, endDate: Date) {
     const formattedStartDate = this.formatDate(startDate);
@@ -214,7 +214,7 @@ export class ListNewPurchaseComponent implements OnChanges {
       this.showInvoiceDialog = false;
       this.showDialoge = false;
       let message = resp.message;
-      this.messageService.add({ severity: "error", detail: message });
+      this.messageService.add({ severity: "success", detail: message });
       this.onSearchByChange(this.searchBy);
 
     });

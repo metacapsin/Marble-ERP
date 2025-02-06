@@ -68,7 +68,9 @@ export class PaymentOutReportComponent {
 
     this.service.getPaymentOutReports(data).subscribe((resp: any) => {
       this.paymentOutData = resp.payments;
+      console.log('resp.payments',resp.payments)
       if (resp.payments && Array.isArray(resp.payments)) {
+       
         this.originalData = resp.payments.map((payment: any) => {
           if (payment) {
             // payment.receiver = payment?.customer?.name || payment?.supplier?.name;

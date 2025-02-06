@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, Output } from "@angular/core";
 import {
   FormArray,
   FormBuilder,
@@ -33,6 +33,7 @@ export class AddSlabPurchaseComponent {
   maxDate = new Date();
   public routes = routes;
   activeIndex: number[] = [0];
+  @Output() saveClicked: EventEmitter<void> = new EventEmitter();
   slabDetails: any[] = [];
   marbleName: string;
   slabNumber: string;
@@ -182,7 +183,7 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount();
   }
   addSlabDialog() {
-    console.log(this.slabDetails)
+    console.log(this.slabDetails);
     this.marbleName = "";
     this.slabNumber = "";
     this.category = {};
@@ -202,20 +203,18 @@ export class AddSlabPurchaseComponent {
     this.slabTotalCost -= Number(this.slabDetails[index].totalCosting);
     this.slabDetails.splice(index, 1);
     this.calculateTotalAmount();
+    this.saveClicked.emit()
   }
 
-    // for get hsn code
-    getHsnCode(event) {
-      let rec = this.allSubCategoryList.find((item) => item._id === event._id);
-      if (rec) {
-        this.subCategory.hsnCode = rec.hsnCode;
-     
-      } else {
-        console.error('No matching item found for the selected _id:', event._id);
-      }
-
-
+  // for get hsn code
+  getHsnCode(event) {
+    let rec = this.allSubCategoryList.find((item) => item._id === event._id);
+    if (rec) {
+      this.subCategory.hsnCode = rec.hsnCode;
+    } else {
+      console.error("No matching item found for the selected _id:", event._id);
     }
+  }
 
   closeSlabForm(myForm: NgForm) {
     this.addvisible = false;
@@ -225,7 +224,7 @@ export class AddSlabPurchaseComponent {
   addSlabDetails(myForm: NgForm) {
     this.addvisible = false;
     this.cdRef.detectChanges();
-    console.log('this.slabDetails',this.slabDetails)
+  
     if (!this.slabDetails) {
       this.slabDetails = [];
     }
@@ -277,6 +276,7 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount();
 
     // Reset the form to clear validation messages
+    this.saveClicked.emit()
     myForm.resetForm();
   }
 
@@ -293,7 +293,7 @@ export class AddSlabPurchaseComponent {
       _id: {
         _id: e._id,
         name: e.name,
-        hsnCode:e.hsnCode,
+        hsnCode: e.hsnCode,
       },
     }));
 
@@ -369,6 +369,48 @@ export class AddSlabPurchaseComponent {
       taxApplied = (taxableAmount * tax) / 100;
     }
 
+    // Check if slabDetails is empty   code  Add by ravi
+    if (this.slabDetails.length === 0) {
+      // If no data in slabDetails, clear the related fields
+      form.patchValue({
+        taxableAmount: 0,
+        nonTaxableAmount: 0,
+        paidToSupplierSlabCost: 0,
+        taxable: 0,
+        taxApplied: 0,
+        totalCost: 0,
+        totalSQFT: 0,
+      });
+      this.slabDetails = []; // Clear slabDetails data
+      const formData = this.slabAddForm.value;
+
+      const payload = {
+        warehouseDetails: formData.warehouse,
+        vehicleNo: formData.vehicleNo,
+        transportationCharge: Number(formData.transportationCharge),
+        royaltyCharge: Number(formData.royaltyCharge),
+        slabDetails: this.slabDetails || [],
+        slabTotalCost: Number(this.slabTotalCost),
+        // totalCost: Number(formData?.totalCost),
+        // paidToSupplierSlabCost: Number(formData.paidToSupplierSlabCost),
+        purchaseDiscount: Number(formData.purchaseDiscount),
+        // nonTaxableAmount: Number(formData.nonTaxableAmount),
+        // taxableAmount: Number(formData.taxableAmount),
+        // taxable: Number(formData.taxable),
+        purchaseItemTax:null,
+        taxableAmount: 0,
+        nonTaxableAmount: 0,
+        paidToSupplierSlabCost: 0,
+        taxable: 0,
+        taxApplied: 0,
+        totalCost: 0,
+        totalSQFT: 0,
+      };
+      this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
+
+      return; // Exit the function early as there's no data
+    }
+
     let calculatedDetails = this.slabDetails.map((e: any) => ({
       ...e,
       taxAmountPerSQFT: Number(
@@ -417,12 +459,21 @@ export class AddSlabPurchaseComponent {
 
     taxable = taxApplied + taxableAmount;
     const paidToSupplierSlabAmount = taxable + nonTaxableAmount;
+
+    console.log("Taxable:", taxable);
+    console.log("Non-Taxable Amount:", nonTaxableAmount);
+    console.log("Purchase Discount:", purchaseDiscount);
+    console.log("Transportation Charge:", transportationCharge);
+    console.log("Royalty Charge:", royaltyCharge);
+
     const totalCost =
       taxable +
       nonTaxableAmount +
       purchaseDiscount +
       transportationCharge +
       royaltyCharge;
+
+    console.log("Total Cost:", totalCost);
     form.patchValue({
       paidToSupplierSlabCost: paidToSupplierSlabAmount
         ? Number(paidToSupplierSlabAmount).toFixed(2)
@@ -434,7 +485,7 @@ export class AddSlabPurchaseComponent {
       totalSQFT: Number(totalSQFT),
     });
     this.slabDetails = [...calculatedDetails];
-   
+
     this.setValidator();
   }
 
@@ -462,13 +513,14 @@ export class AddSlabPurchaseComponent {
 
   slabAddFormSubmit() {
     const formData = this.slabAddForm.value;
+    console.log('formData',formData)
     if (this.slabTotalCost) {
       const payload = {
         warehouseDetails: formData.warehouse,
         vehicleNo: formData.vehicleNo,
         transportationCharge: Number(formData.transportationCharge),
         royaltyCharge: Number(formData.royaltyCharge),
-        slabDetails: this.slabDetails,
+        slabDetails: this.slabDetails || [],
         slabTotalCost: Number(this.slabTotalCost),
         totalCost: Number(formData?.totalCost),
         paidToSupplierSlabCost: Number(formData.paidToSupplierSlabCost),
@@ -482,5 +534,6 @@ export class AddSlabPurchaseComponent {
       };
       this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
     }
+    // this.saveClicked.emit()
   }
 }
