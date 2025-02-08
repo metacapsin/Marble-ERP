@@ -242,10 +242,18 @@ export class EditSalsComponent implements OnInit {
         console.log("resp.data?>>>", resp.data);
         this.slabDatas = resp.data.map((element) => ({
           name: element.slabName,
+          // _id: {
+          //   _id: element._id,
+          //   slabName: element.slabName,
+          //   slabNo: element.slabNo,
+          //   hsnCode: element.subCategoryDetail?.hsnCode,
+          // },
           _id: {
             _id: element._id,
             slabName: element.slabName,
             slabNo: element.slabNo,
+            costPerSQFT: element.costPerSQFT,
+            salesItemTotalQuantity: element.totalSlabSQFT,
             hsnCode: element.subCategoryDetail?.hsnCode,
           },
         }));
@@ -445,7 +453,7 @@ export class EditSalsComponent implements OnInit {
         _id: {
           _id: element._id || "",
           name: element.name || "",
-          taxNo: element.taxNo || "",
+          taxNo: element.taxNo ,
           billingAddress: element.billingAddress || "",
           shippingAddress: element.shippingAddress || "",
         },
@@ -475,7 +483,6 @@ export class EditSalsComponent implements OnInit {
     });
 
     this.SalesService.GetSalesDataById(this.salesId).subscribe((resp: any) => {
-      // this.getTotalQuantity();
       this.patchForm(resp.data);
     });
   }
@@ -617,18 +624,20 @@ export class EditSalsComponent implements OnInit {
     this.customerAddress = data.billingAddress;
   }
   getCustomer() {
-    this.customerService.GetCustomerData().subscribe((resp: any) => {
-      this.originalCustomerData = resp;
+    // this.customerService.GetCustomerData().subscribe((resp: any) => {
+    //   this.originalCustomerData = resp;
 
-      this.customerList = this.originalCustomerData.map((element) => ({
-        name: element.name,
-        _id: {
-          _id: element._id,
-          name: element.name,
-          billingAddress: element.billingAddress,
-        },
-      }));
-    });
+    //   this.customerList = this.originalCustomerData.map((element) => ({
+    //     name: element.name,
+    //     _id: {
+    //       _id: element._id,
+    //       name: element.name,
+    //       billingAddress: element.billingAddress,
+    //       taxNo: element.taxNo,
+    //       shippingAddress: element.shippingAddress,
+    //     },
+    //   }));
+    // });
   }
   onSlabSelect(value, i) {
     console.log("value", value);
@@ -729,7 +738,7 @@ export class EditSalsComponent implements OnInit {
       const pieces = quantity / sqftPerPiece;
 
       let totalTaxAmount = 0;
-      const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value;
+      const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value || 0;
       this.totalTaxableAmount += Number(salesItemTaxableAmount);
       if (Array.isArray(tax)) {
         tax.forEach((selectedTax: any) => {
@@ -797,8 +806,7 @@ export class EditSalsComponent implements OnInit {
 
     const item = salesItems.at(0);
     let taxRate = 0;
-    if (isArray(item.get("salesItemTax")?.value))
-      taxRate = item.get("salesItemTax")?.value[0].taxRate;
+    if (isArray(item.get("salesItemTax")?.value)) taxRate = item.get("salesItemTax")?.value?.[0]?.taxRate;
 
     if (isShippingTax) {
       const shippingTaxRate = taxRate; // Tax rate for shipping

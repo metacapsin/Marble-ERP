@@ -1155,7 +1155,7 @@
                             }}
                           </span>
                         </p>
-                        <p *ngIf="sales?.otherCharges">
+                        <p *ngIf="sales?.otherCharges && sales?.salesDate">
                           Other Charges
                           <small
                             *ngIf="sales?.isOtherChargesTax"
