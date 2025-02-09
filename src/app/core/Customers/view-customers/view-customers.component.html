@@ -82,7 +82,7 @@
                 </div>
                 <div class="form-group row mb-2" *ngIf="data.openingBalance">
                   <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                   Opening Balance
+                    Opening Balance
                   </h5>
                   <div class="col-lg-8 col-md-8 col-xl-8">
                     <p class="col-form-label">{{ data.openingBalance }}</p>
@@ -123,7 +123,7 @@
                     <p class="col-form-label">{{ data.shippingAddress }}</p>
                   </div>
                 </div>
-            
+
                 <div class="form-group row mb-2" *ngIf=" dueBalance && dueBalance.dueAmount">
                   <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                     Due Opening Balance
@@ -210,8 +210,8 @@
                 <th style="width: 10%;">Action</th>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-sales>
-              <tr class="bg-light font-weight-bold" *ngIf="dueBalance">
+            <ng-template pTemplate="body" let-sales let-index>
+              <!-- <tr class="bg-light font-weight-bold" *ngIf="dueBalance">
                 <td>Opening Balance</td>
                 <td>{{ dueBalance.createdOn | date: "dd-MMM-yyyy" }}</td>
                 <td>{{ dueBalance.creditPeriod || 0 }} Days</td>
@@ -235,31 +235,59 @@
                       pTooltip="View" ></p-button>
                   </div>
                 </td>
-              </tr>
+              </tr> -->
               <tr>
-                <td>{{ sales.salesInvoiceNumber }}</td>
-                <td>{{ sales.salesDate | date: "dd-MMM-yyyy" }}</td>
-                <td>{{ sales.creditPeriod || 0 }} Days</td>
-                <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
-                    value="Partial Paid"></p-tag></td>
-                <td *ngIf="sales.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
-                <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
-                <td>₹ {{ sales.paidAmount | indianCurrency }}</td>
-                <td>₹ {{ sales.dueAmount | indianCurrency }}</td>
-                <td>₹ {{ sales.salesTotalAmount | indianCurrency }}</td>
-                <td appShowHide [roles]="['admin', 'super-admin']">
-                  <div class="action-buttons">
-                    <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"
-                      pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
-                    <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'"
-                      [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)" pTooltip="Payment"
-                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
-                    <div *ngIf="sales.paymentStatus != 'Unpaid' && sales.paymentStatus != 'Partial Paid'"
-                      class="placeholder"></div>
-                    <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)" pTooltip="Delete"
-                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
-                  </div>
-                </td>
+                <ng-container *ngIf="sales?.type === 'openBalance'">
+                  <td>Opening Balance</td>
+                  <td>{{ dueBalance.createdOn | date: "dd-MMM-yyyy" }}</td>
+                  <td>{{ dueBalance.creditPeriod || 0 }} Days</td>
+                  <td *ngIf="dueBalance.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                      value="Partial Paid"></p-tag></td>
+                  <td *ngIf="dueBalance.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
+                  <td *ngIf="dueBalance.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag>
+                  </td>
+                  <td>₹ {{ dueBalance.paidAmount | indianCurrency }}</td>
+                  <td>₹ {{ dueBalance.dueAmount | indianCurrency }}</td>
+                  <td>₹ {{ dueBalance.totalAmount | indianCurrency }}</td>
+                  <td appShowHide [roles]="['admin', 'super-admin']">
+                    <div class="action-buttons">
+                      <p-button [text]="true" pTooltip="View"></p-button>
+                      <p-button
+                        *ngIf="dueBalance.paymentStatus == 'Unpaid' || dueBalance.paymentStatus ==  'Partial Paid'"
+                        [text]="true" icon="fa-solid fa-wallet" (click)="openeningBalancepopup(dueBalance._id)"
+                        pTooltip="Payment" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      <div *ngIf="dueBalance.paymentStatus != 'Unpaid' && dueBalance.paymentStatus != 'Partial Paid'"
+                        class="placeholder"></div>
+                      <p-button [text]="true" pTooltip="View"></p-button>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <ng-container *ngIf="!sales?.type">
+                  <td>{{ sales.salesInvoiceNumber }}</td>
+                  <td>{{ sales.salesDate | date: "dd-MMM-yyyy" }}</td>
+                  <td>{{ sales.creditPeriod || 0 }} Days</td>
+                  <td *ngIf="sales.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                      value="Partial Paid"></p-tag></td>
+                  <td *ngIf="sales.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
+                  <td *ngIf="sales.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
+                  <td>₹ {{ sales.paidAmount | indianCurrency }}</td>
+                  <td>₹ {{ sales.dueAmount | indianCurrency }}</td>
+                  <td>₹ {{ sales.salesTotalAmount | indianCurrency }}</td>
+                  <td appShowHide [roles]="['admin', 'super-admin']">
+                    <div class="action-buttons">
+                      <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"
+                        pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      <p-button *ngIf="sales.paymentStatus == 'Unpaid' || sales.paymentStatus ==  'Partial Paid'"
+                        [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(sales._id)"
+                        pTooltip="Payment" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                      <div *ngIf="sales.paymentStatus != 'Unpaid' && sales.paymentStatus != 'Partial Paid'"
+                        class="placeholder"></div>
+                      <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteSales(sales._id)"
+                        pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    </div>
+                  </td>
+                </ng-container>
               </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
@@ -278,15 +306,14 @@
                   <div class="action-buttons">
                     <!-- <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"
                       pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
-                      <p-button [text]="true" 
-                      pTooltip="View" ></p-button>
-                    <p-button *ngIf="dueBalance.paymentStatus == 'Unpaid' || dueBalance.paymentStatus ==  'Partial Paid'"
-                      [text]="true" icon="fa-solid fa-wallet" (click)="openeningBalancepopup(dueBalance._id)" pTooltip="Payment"
-                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    <p-button [text]="true" pTooltip="View"></p-button>
+                    <p-button
+                      *ngIf="dueBalance.paymentStatus == 'Unpaid' || dueBalance.paymentStatus ==  'Partial Paid'"
+                      [text]="true" icon="fa-solid fa-wallet" (click)="openeningBalancepopup(dueBalance._id)"
+                      pTooltip="Payment" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                     <div *ngIf="dueBalance.paymentStatus != 'Unpaid' && dueBalance.paymentStatus != 'Partial Paid'"
                       class="placeholder"></div>
-                      <p-button [text]="true" 
-                      pTooltip="View" ></p-button>
+                    <p-button [text]="true" pTooltip="View"></p-button>
                     <!-- <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteOpeningBlnc(dueBalance._id)" pTooltip="Delete"
                       tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
                   </div>
@@ -449,14 +476,8 @@
                 <td>{{ item.paymentMode }}</td>
                 <td>₹ {{ item.amount | indianCurrency }}</td>
                 <td>
-                  <p-button
-                    [text]="true"
-                    icon="fa fa-trash"
-                    (click)="deleteOpeningBalnc(item._id)"
-                    pTooltip="Delete"
-                    tooltipPosition="bottom"
-                    tooltipStyleClass="tooltip"
-                  ></p-button>
+                  <p-button [text]="true" icon="fa fa-trash" (click)="deleteOpeningBalnc(item._id)" pTooltip="Delete"
+                    tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                 </td>
               </tr>
               <tr>
@@ -576,19 +597,13 @@
         <td>{{ item.paymentMode }}</td>
         <td>₹ {{ item.amount | indianCurrency }}</td>
         <td>
-          <p-button
-            [text]="true"
-            icon="fa fa-trash"
-            (click)="deleteOpeningBalnc(item._id)"
-            pTooltip="Delete"
-            tooltipPosition="bottom"
-            tooltipStyleClass="tooltip"
-          ></p-button>
+          <p-button [text]="true" icon="fa fa-trash" (click)="deleteOpeningBalnc(item._id)" pTooltip="Delete"
+            tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
         </td>
       </tr>
-      
-     
-      <tr *ngIf="openingBalPayList.length <= 0">
+
+
+      <tr *ngIf="openingBalPayList?.length <= 0">
         <td colspan="7" class="text-center">
           No Payment found.
         </td>
@@ -795,8 +810,8 @@
   [header]="header"></app-invoice-dialog>
 
 <app-payments-invoice-dialog [ShowPaymentInvoice]="showPaymentDialog" [dataItemsGrid]="paymentInvoicesalesDataShowById"
-  [dataById]="paymentObject" [header]="header" (callbackModal)="callBackModal()"
-  (close)="close()" (formSubmitted)="close()"></app-payments-invoice-dialog>
+  [dataById]="paymentObject" [header]="header" (callbackModal)="callBackModal()" (close)="close()"
+  (formSubmitted)="close()"></app-payments-invoice-dialog>
 
 <app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
   [data]="modalData"></app-confirm-dialog>

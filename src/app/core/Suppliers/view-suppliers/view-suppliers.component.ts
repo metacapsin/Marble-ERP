@@ -99,7 +99,7 @@ export class ViewSuppliersComponent {
 
   ngOnInit() {
     this.getSuppliers();
-    this.getOpeningBalance();
+    // this.getOpeningBalance();
     this.getOpeningBalancePayList();
     this.getPurchase();
     this.getPaymentListBySupplierId();
@@ -113,6 +113,15 @@ export class ViewSuppliersComponent {
       .GetOpeningBalanceById(this.id)
       .subscribe((data: any) => {
         this.dueBalance = data.data;
+
+        if(this.purchaseTotalValues && this.dueBalance){
+          this.purchaseTotalValues.totalPaidAmount += this.dueBalance?.paidAmount; 
+          this.purchaseTotalValues.totalDueAmount += this.dueBalance?.dueAmount;
+          this.purchaseTotalValues.totalAmount += this.dueBalance?.purchaseCost;
+        }
+        this.purchaseDataShowById?.unshift({
+          type: 'openBalance'
+        });
       });
   }
 
@@ -178,10 +187,7 @@ export class ViewSuppliersComponent {
       .subscribe((resp: any) => {
         this.purchaseTotalValues = resp;
         this.purchaseDataShowById = resp.data;
-        console.log(
-          "this is purchase data by supplier id",
-          this.purchaseDataShowById
-        );
+        this.getOpeningBalance();
       });
   }
 

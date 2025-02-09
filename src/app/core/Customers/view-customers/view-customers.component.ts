@@ -120,9 +120,12 @@ export class ViewCustomersComponent implements OnInit {
       this.dueBalance = data.data
       if(this.salesTotalValues && this.dueBalance){
         this.salesTotalValues.totalPaidAmount += this.dueBalance?.paidAmount; 
-        this.salesTotalValues.totalDueAmount = this.dueBalance?.dueAmount;
-        this.salesTotalValues.totalAmount = this.dueBalance?.totalAmount;
+        this.salesTotalValues.totalDueAmount += this.dueBalance?.dueAmount;
+        this.salesTotalValues.totalAmount += this.dueBalance?.totalAmount;
       }
+      this.salesDataShowById?.unshift({
+        type: 'openBalance'
+      });
     })
   }
 
