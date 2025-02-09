@@ -241,9 +241,9 @@
                                     </div>
                                     <div class="col-12 col-md-6 col-xl-6">
                                         <div class="form-group local-forms">
-                                            <label for="taxNo">Tax Number </label>
+                                            <label for="taxNo">GST/Tax Number </label>
                                             <input class="form-control" type="text"
-                                                placeholder="Please Enter Tax Number" formControlName="taxNo" />
+                                                placeholder="Please Enter GST/Tax Number" formControlName="taxNo" />
                                             <div *ngIf="
                                 editTaxVendorForm
                                   .get('taxNo')
@@ -258,7 +258,7 @@
                                                   ?.hasError('pattern') &&
                                                   editTaxVendorForm.get('taxNo')?.touched
                                               " class="login-danger Font_size">
-                                                Tax Number should be of 15 characters and alphanumeric
+                                              GST/Tax Number should be of 15 characters and alphanumeric
                                             </div>
                                         </div>
                                     </div>
