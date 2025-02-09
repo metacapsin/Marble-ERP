@@ -94,6 +94,7 @@ export class AddBillingAddressComponent implements OnInit {
       ],
       taxNo: ["", [Validators.pattern(this.taxNumberRegex)]],
       termsAndCondition: [""],
+      subjectTo: [""],
     });
   }
   ngOnInit(): void {

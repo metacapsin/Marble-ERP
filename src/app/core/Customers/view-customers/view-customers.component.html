@@ -224,8 +224,6 @@
                 <td>₹ {{ dueBalance.totalAmount | indianCurrency }}</td>
                 <td appShowHide [roles]="['admin', 'super-admin']">
                   <div class="action-buttons">
-                    <!-- <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"
-                      pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
                       <p-button [text]="true" 
                       pTooltip="View" ></p-button>
                     <p-button *ngIf="dueBalance.paymentStatus == 'Unpaid' || dueBalance.paymentStatus ==  'Partial Paid'"
@@ -235,8 +233,6 @@
                       class="placeholder"></div>
                       <p-button [text]="true" 
                       pTooltip="View" ></p-button>
-                    <!-- <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteOpeningBlnc(dueBalance._id)" pTooltip="Delete"
-                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
                   </div>
                 </td>
               </tr>
@@ -299,7 +295,7 @@
 
               <tr *ngIf="!dueBalance">
                 <td colspan="7" class="text-center">
-                  No Payment found.
+                  No Sales found.
                 </td>
               </tr>
             </ng-template>

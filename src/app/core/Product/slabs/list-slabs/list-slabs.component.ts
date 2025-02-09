@@ -224,7 +224,7 @@ export class ListSlabsComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure want to delete this Slabs",
+      messege: "Are you sure want to delete this Slab.",
     };
     this.showDialog = true;
     this.activeTabIndex = 0; // Reset the active tab to the first tab
@@ -276,11 +276,16 @@ export class ListSlabsComponent {
   }
 
   callBackModal() {
-    this.service.deleteSlabsById(this.slabsID).subscribe((resp) => {
-      const message = "Slabs has been deleted";
-      this.messageService.add({ severity: "success", detail: message });
-      this.getSlabsList();
-      this.showDialog = false;
+    this.service.deleteSlabsById(this.slabsID).subscribe((resp:any) => {
+      if(resp){
+        if(resp?.status === 'success'){
+          this.messageService.add({ severity: "success", detail: resp?.message});
+          this.getSlabsList();
+          this.showDialog = false;
+        } else {
+          this.messageService.add({ severity: "error", detail: resp?.message });
+        }
+      }
     });
   }
   updateSlabs(id: any) {

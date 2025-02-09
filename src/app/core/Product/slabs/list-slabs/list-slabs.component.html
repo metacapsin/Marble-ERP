@@ -115,7 +115,7 @@
                           [filter]="true"
                           optionLabel="value"
                           optionValue="code"
-                          [showClear]="true"
+                          [showClear]="false"
                           (onChange)="onchangeLayout($event.value)"
                           [(ngModel)]="selectedLayout"
                         >
@@ -155,6 +155,9 @@
                         >
                           <a (click)="showSlabDetails(item?._id)" class="view-more"  pTooltip="View More" tooltipPosition="bottom"
                             ><i class="fa-solid fa-eye"></i
+                          ></a>
+                          <a (click)="deleteSlabs(item?._id)" class="view-more"  pTooltip="Delete" tooltipPosition="bottom"
+                            ><i class="fa-solid fa-trash"></i
                           ></a>
                           <a  (click)="showSlabHistoryDetails(item?._id)" class="view-more"  pTooltip="Sales History" tooltipPosition="bottom"
                             ><i class="fa-solid fa-clock-rotate-left"></i
@@ -440,6 +443,14 @@
                           tooltipPosition="left"
                           tooltipStyleClass="tooltip"
                           (click)="showSlabDetails(slabs?._id)"
+                        ></p-button>
+                        <p-button
+                          [text]="true"
+                          icon="fa-solid fa-trash"
+                          pTooltip="View"
+                          tooltipPosition="left"
+                          tooltipStyleClass="tooltip"
+                          (click)="deleteSlabs(slabs?._id)"
                         ></p-button>
                         <p-button
                           [text]="true"

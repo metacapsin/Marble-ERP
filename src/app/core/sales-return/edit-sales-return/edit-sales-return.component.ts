@@ -306,7 +306,6 @@ export class EditSalesReturnComponent {
       .get("salesGrossTotal")
       .setValue(Number(salesGrossTotal.toFixed(2)));
 
-      debugger
     let totalAmount = salesGrossTotal;
     const returnOtherCharges = +this.editReturnSalesForm.get("returnOtherCharges").value || 0;
     totalAmount -= returnOtherCharges;

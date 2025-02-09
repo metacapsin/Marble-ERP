@@ -633,7 +633,7 @@
                         (click)="nextStep(nextCallback, 'first')">
                         Next <i class="fa-solid fa-arrow-right"></i>
                       </button>
-                      <button *ngIf="lotTypeValue === 'Slab'" [disabled]="!addNewPurchaseForm?.valid"
+                      <button *ngIf="lotTypeValue === 'Slab'" [disabled]="!slabChild?.slabDetails?.length || !addNewPurchaseForm?.valid"
                         class="btn btn-primary" (click)="nextStep(nextCallback, 'first')">
                         Next <i class="fa-solid fa-arrow-right"></i>
                       </button>
