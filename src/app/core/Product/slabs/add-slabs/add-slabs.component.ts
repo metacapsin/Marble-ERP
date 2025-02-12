@@ -436,6 +436,7 @@ export class AddSlabsComponent {
         slabSize: _Size,
         sqftPerPiece: this.slabsAddForm.value.sqftPerPiece,
         stockType: this.slabsAddForm.value.stockType,
+        noOfPieces:  this.slabsAddForm.value.noOfPieces,
       };
       if (this.slabsAddForm.valid) {
         // Api call for creating slab

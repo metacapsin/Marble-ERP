@@ -356,6 +356,7 @@ export class AddsalesComponent implements OnInit {
             slabNo: element.slabNo,
             costPerSQFT: element.costPerSQFT,
             salesItemTotalQuantity: element.totalSlabSQFT,
+            hsnCode: element.subCategoryDetail?.hsnCode,
           },
           sellingPricePerSQFT: element.sellingPricePerSQFT,
           sqftPerPiece: element.sqftPerPiece,
@@ -626,6 +627,7 @@ export class AddsalesComponent implements OnInit {
   }
   
   calculateTotalAmount() {
+    // debugger
     // this.editAddressWithDrop()
     let salesGrossTotal = 0;
     let salesOrderTax: number = 0;
@@ -647,7 +649,7 @@ export class AddsalesComponent implements OnInit {
       const pieces = quantity / sqftPerPiece;
       console.log("pieces", pieces);
       let totalTaxAmount = 0;
-      const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value;
+      const salesItemTaxableAmount = item.get("salesItemTaxableAmount").value || 0;
       this.totalTaxableAmount += Number(salesItemTaxableAmount);
       if (Array.isArray(tax)) {
         tax.forEach((selectedTax: any, index: any) => {
@@ -695,7 +697,7 @@ export class AddsalesComponent implements OnInit {
           .setValidators([Validators.max(totalAmount)]);
         item.get("salesItemNonTaxableAmount").updateValueAndValidity();
       }
-      item.get("salesItemPieces").setValue(Number(pieces.toFixed(2)));
+      item.get("salesItemPieces").setValue(Number(isNaN(pieces) ? 0 : pieces.toFixed(2)));
       item.get("salesItemTotal").setValue(Number(totalAmount));
       item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount));
       item
@@ -719,8 +721,7 @@ export class AddsalesComponent implements OnInit {
 
     const item = salesItems.at(0);
     let taxRate = 0;
-    if (isArray(item.get("salesItemTax")?.value))
-      taxRate = item.get("salesItemTax")?.value[0].taxRate;
+    if (isArray(item.get("salesItemTax")?.value)) taxRate = item.get("salesItemTax")?.value?.[0]?.taxRate;
 
     if (isShippingTax) {
       const shippingTaxRate = taxRate; // Tax rate for shipping
@@ -740,12 +741,15 @@ export class AddsalesComponent implements OnInit {
     this.addSalesForm.get("salesOrderTax").setValue(Number(salesOrderTax));
     this.addSalesForm.get("salesGrossTotal").setValue(Number(salesGrossTotal));
 
+
+    console.log('--',salesGrossTotal,shipping,otherCharges,otherChargesTaxAmount,shippingTaxAmount,taxable,'--');
+    
     nonTaxable =
-      salesGrossTotal +
+      (salesGrossTotal +
       shipping +
       otherCharges +
       otherChargesTaxAmount +
-      shippingTaxAmount -
+      shippingTaxAmount) -
       taxable;
     itemTotalAmount = Number(nonTaxable) + Number(taxable);
     if (nonTaxable) {

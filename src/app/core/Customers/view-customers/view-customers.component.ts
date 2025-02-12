@@ -93,7 +93,7 @@ export class ViewCustomersComponent implements OnInit {
 
   ngOnInit() {
     this.getCoustomers();
-    this.getOpeningBalance();
+    // this.getOpeningBalance();
     this.getOpeningBalancePayList()
     this.getsales();
     this.getPaymentListByCustomerId();
@@ -118,12 +118,20 @@ export class ViewCustomersComponent implements OnInit {
   getOpeningBalance(){
     this.customerService.GetOpeningBalanceById(this.id).subscribe((data:any)=>{
       this.dueBalance = data.data
+      if(this.salesTotalValues && this.dueBalance){
+        this.salesTotalValues.totalPaidAmount += this.dueBalance?.paidAmount; 
+        this.salesTotalValues.totalDueAmount += this.dueBalance?.dueAmount;
+        this.salesTotalValues.totalAmount += this.dueBalance?.totalAmount;
+      }
+      this.salesDataShowById?.unshift({
+        type: 'openBalance'
+      });
     })
   }
 
   getOpeningBalancePayList(){
     this.customerService.GetOpeningBalancePayListById(this.id).subscribe((data:any)=>{
-      this.openingBalPayList = data.data
+      this.openingBalPayList = data.data;
     })
   }
 
@@ -134,6 +142,7 @@ export class ViewCustomersComponent implements OnInit {
       .subscribe((resp: any) => {
         this.salesTotalValues = resp;
         this.salesDataShowById = resp.data;
+        this.getOpeningBalance()
       });
   }
 

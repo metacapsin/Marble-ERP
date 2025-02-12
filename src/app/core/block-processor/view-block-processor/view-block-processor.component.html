@@ -271,7 +271,7 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="footer">
-              <tr>
+              <tr *ngIf="slabProcessingDataList?.length > 0">
                 <td colspan="3"></td>
                 <td class="text-right">Total:</td>
                 <td>₹ {{ getTotal('paidAmount') | indianCurrency }}</td>

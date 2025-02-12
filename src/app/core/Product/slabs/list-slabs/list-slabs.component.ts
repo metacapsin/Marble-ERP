@@ -45,7 +45,7 @@ export class ListSlabsComponent {
   showDataLoader: boolean = false;
   slabProfitOfSlabHistory: any = [];
   slabDetailsOfSlabHistory: any = [];
-  selectedLayout: any = "Table";
+  selectedLayout: any = "Card";
   totalSqFtLeft: any = 0;
   selectedDate: string | null = null;
   searchTable: string = "";
@@ -135,7 +135,10 @@ export class ListSlabsComponent {
         return itemDate.toDateString() === selectedDate.toDateString(); // Compare only the date (no time)
       });
     }
-
+    this.totalSqFtLeft = filteredData.reduce(
+      (sum, slab) => sum + slab.totalSQFT,
+      0
+    );
     const startIndex = this.currentPage * this.rowsPerPage;
     const endIndex = startIndex + this.rowsPerPage;
     this.totalRecords = filteredData?.length;
@@ -221,7 +224,7 @@ export class ListSlabsComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure want to delete this Slabs",
+      messege: "Are you sure want to delete this Slab.",
     };
     this.showDialog = true;
     this.activeTabIndex = 0; // Reset the active tab to the first tab
@@ -233,9 +236,19 @@ export class ListSlabsComponent {
   }
 
   onSearchByChange(value: any): void {
+    console.log("value", value);
     // If the search value is empty or null, return all original data
     if (value == null) {
       this.allSlabsDaTa = this.originalData;
+      this.allInDropDown = this.allSlabsDaTa;
+      const startIndex = this.currentPage * this.rowsPerPage;
+      const endIndex = startIndex + this.rowsPerPage;
+      this.totalRecords = this.allSlabsDaTa?.length;
+      this.pagedData = this.allSlabsDaTa.slice(startIndex, endIndex);
+      this.totalSqFtLeft = this.allSlabsDaTa.reduce(
+        (sum, slab) => sum + slab.totalSQFT,
+        0
+      );
     } else {
       this.allSlabsDaTa = this.originalData.filter((i) => {
         return i.warehouseDetails && i.warehouseDetails._id == value._id;
@@ -245,6 +258,10 @@ export class ListSlabsComponent {
       const endIndex = startIndex + this.rowsPerPage;
       this.totalRecords = this.allSlabsDaTa?.length;
       this.pagedData = this.allSlabsDaTa.slice(startIndex, endIndex);
+      this.totalSqFtLeft = this.allSlabsDaTa.reduce(
+        (sum, slab) => sum + slab.totalSQFT,
+        0
+      );
     }
 
     // Update dropdown data with the filtered data
@@ -259,11 +276,16 @@ export class ListSlabsComponent {
   }
 
   callBackModal() {
-    this.service.deleteSlabsById(this.slabsID).subscribe((resp) => {
-      const message = "Slabs has been deleted";
-      this.messageService.add({ severity: "success", detail: message });
-      this.getSlabsList();
-      this.showDialog = false;
+    this.service.deleteSlabsById(this.slabsID).subscribe((resp:any) => {
+      if(resp){
+        if(resp?.status === 'success'){
+          this.messageService.add({ severity: "success", detail: resp?.message});
+          this.getSlabsList();
+          this.showDialog = false;
+        } else {
+          this.messageService.add({ severity: "error", detail: resp?.message });
+        }
+      }
     });
   }
   updateSlabs(id: any) {

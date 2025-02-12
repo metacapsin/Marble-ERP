@@ -209,7 +209,7 @@
                                 </h5>
                                 <div class="col-lg-6 col-md-6 col-xl-6">
                                   <p class="col-lg-6 col-form-label heading-bold">
-                                    {{ editNewPurchaseForm.get("purchaseDate").value }}
+                                    {{ editNewPurchaseForm.get("purchaseDate").value | date: 'd MMM yyyy' }}
                                   </p>
                                 </div>
                               </div>

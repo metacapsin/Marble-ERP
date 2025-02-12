@@ -178,7 +178,7 @@
                         [style]="{ width: '100%' }"
                         [filter]="true"
                         filterBy="name"
-                        [showClear]="true"
+                        [showClear]="false"
                         
                       >
                       </p-dropdown>
@@ -215,7 +215,7 @@
                       [style]="{ width: '100%' }"
                       [filter]="true"
                       filterBy="name"
-                      [showClear]="true">
+                      [showClear]="false">
                       <ng-template let-option pTemplate="item">
                         <div>{{ option.name }} ({{ option.code }})</div>
                       </ng-template>
@@ -384,8 +384,8 @@
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
-                      <label for="taxNo">Tax Number<span class="login-danger"></span></label>
-                      <input class="form-control" type="text" placeholder="Please Enter Tax Number"
+                      <label for="taxNo">GST/Tax Number<span class="login-danger"></span></label>
+                      <input class="form-control" type="text" placeholder="Please Enter GST/Tax Number"
                         formControlName="taxNo" />
                       <div *ngIf="
                             addBillingAddress
@@ -393,7 +393,7 @@
                               ?.hasError('pattern') &&
                             addBillingAddress.get('taxNo')?.touched
                           " class="login-danger Font_size">
-                        Tax Number should be of 15 characters and alphanumeric
+                          GST/Tax Number should be of 15 characters and alphanumeric
                       </div>
                     </div>
                   </div>
@@ -410,6 +410,14 @@
                           " class="login-danger Font_size">
                         Tax Number should be of 15 characters and alphanumeric
                       </div> -->
+                    </div>
+                  </div>
+                 
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="subjectTo">Subject To</label>
+                      <input class="form-control" type="text" placeholder="Subject"
+                        formControlName="subjectTo" />
                     </div>
                   </div>
 

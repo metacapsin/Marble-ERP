@@ -55,11 +55,12 @@
                             styleClass=""
                             appendTo="body"
                             placeholder="Select Warehouse"
-                            [style]="{ width: '105%',border:'none' }"
+                            [style]="{border:'none', minWidth:'200px' }"
                             [filter]="true"
                             optionLabel="name"
                             optionValue="_id"
                             [showClear]="true"
+                            class="w-full md:w-56"
                             (onChange)="onSearchByChange($event.value)"
                             [(ngModel)]="warehouseDropDown"
                           ></p-dropdown>
@@ -114,7 +115,7 @@
                           [filter]="true"
                           optionLabel="value"
                           optionValue="code"
-                          [showClear]="true"
+                          [showClear]="false"
                           (onChange)="onchangeLayout($event.value)"
                           [(ngModel)]="selectedLayout"
                         >
@@ -134,9 +135,9 @@
               </div>
             
             </div>
-
             <div class="card-body p-2">
               <span *ngIf="selectedLayout === 'Card'" class="col-12 col-md-12">
+                <div class="p-2"><strong>Total Available Stock :</strong> <span  style="font-weight: 500;"> {{ totalSqFtLeft }} Sq. Feet</span></div>
                 <div class="container mt-4" *ngFor="let item of pagedData">
                   <div class="row">
                     <div class="col-md-8 container-box">
@@ -144,9 +145,9 @@
                         class="d-flex justify-content-between align-items-center"
                       >
                         <h4 class="header-text">
-                          {{ item?.categoryDetail?.name }}
+                          {{ item?.subCategoryDetail?.name }}
                           <span class="text-muted"
-                            >({{ item?.subCategoryDetail?.name }})</span
+                            >({{ item?.categoryDetail?.name }})</span
                           >
                         </h4>
                         <div
@@ -155,7 +156,10 @@
                           <a (click)="showSlabDetails(item?._id)" class="view-more"  pTooltip="View More" tooltipPosition="bottom"
                             ><i class="fa-solid fa-eye"></i
                           ></a>
-                          <a  (click)="showSlabHistoryDetails(item?._id)" class="view-more"  pTooltip="History" tooltipPosition="bottom"
+                          <a (click)="deleteSlabs(item?._id)" class="view-more"  pTooltip="Delete" tooltipPosition="bottom"
+                            ><i class="fa-solid fa-trash"></i
+                          ></a>
+                          <a  (click)="showSlabHistoryDetails(item?._id)" class="view-more"  pTooltip="Sales History" tooltipPosition="bottom"
                             ><i class="fa-solid fa-clock-rotate-left"></i
                           ></a>
                           <!-- <button class="view-more-btn" (click)="showSlabDetails(item?._id)">
@@ -175,29 +179,30 @@
                         <div class="col">
                           <strong>Size</strong><br />{{ item?.slabSize }}
                         </div>
+                   
                         <div class="col">
-                          <strong>Warehouse</strong><br />{{
-                            item?.warehouseDetails?.name
-                          }}
+                          <strong>Stock Entry Date </strong><br />
+                          {{ item?.date | date : "dd-MMM-yyyy" }}
                         </div>
                       </div>
                       <div class="row mt-3 text-muted">
                         <div class="col">
-                          <strong>Total Sq.Feet</strong><br />{{
+                          <strong>Available Stock</strong><br />{{
+                            item?.totalSQFT
+                          }} Sq. Feet
+                        </div>
+                        <div class="col">
+                          <strong>Initial Stock</strong><br />{{
                             item?.totalSlabSQFT
-                          }}
+                          }}  Sq. Feet
                         </div>
                         <div class="col">
                           <strong>Cost/Sq. Feet</strong><br />&#8377;
                           {{ item?.costPerSQFT }}
                         </div>
                         <div class="col">
-                          <strong>Selling Price</strong><br />&#8377;
-                          {{ item?.sellingPricePerSQFT }}
-                        </div>
-                        <div class="col">
-                          <strong>Sq. Feet Left</strong><br />{{
-                            item?.totalSQFT
+                          <strong>Warehouse</strong><br />{{
+                            item?.warehouseDetails?.name
                           }}
                         </div>
                       </div>
@@ -224,19 +229,19 @@
                       </div>
                       <hr />
                       <p class="sales-detail">
-                        <strong>Total Sales:</strong> {{ item?.slabHistory?.totalSales?.toFixed(2) }}
+                        <strong>Total Sales:</strong>₹ {{ item?.slabHistory?.totalSales?.toFixed(2) }}
                       </p>
                       <p class="sales-detail">
                         <span class="label">Cost Of Goods Sold:</span>
-                        <span class="value">{{item?.slabHistory?.totalCostPerSQFT || 0}}</span>
+                        <span class="value">₹ {{item?.slabHistory?.totalCostPerSQFT || 0}}</span>
                       </p>
                       <p class="sales-detail">
                         <span class="label">Tax Profit:</span>
-                        <span class="value">{{item?.slabHistory?.taxProfit || 0}}</span>
+                        <span class="value">₹ {{item?.slabHistory?.taxProfit || 0}}</span>
                       </p>
                       <p class="sales-detail">
                         <span class="label">Profit/Loss:</span>
-                        <span class="value">{{item?.slabHistory?.profit || 0}}</span>
+                        <span class="value">₹ {{item?.slabHistory?.profit || 0}}</span>
                       </p>
                     
                     </div>
@@ -441,6 +446,14 @@
                         ></p-button>
                         <p-button
                           [text]="true"
+                          icon="fa-solid fa-trash"
+                          pTooltip="View"
+                          tooltipPosition="left"
+                          tooltipStyleClass="tooltip"
+                          (click)="deleteSlabs(slabs?._id)"
+                        ></p-button>
+                        <p-button
+                          [text]="true"
                           icon="fa-solid fa-clock-rotate-left"
                           (click)="showSlabHistoryDetails(slabs?._id)"
                           pTooltip="History"
@@ -482,9 +495,9 @@
                   <ng-template pTemplate="footer">
                     <tr>
                       <td colspan="6"></td>
-                      <td *ngIf="allSlabsDaTa">Total Sq. Feet Left</td>
+                      <td *ngIf="allSlabsDaTa">Total Available Stock</td>
                       <td class="total-sqft">
-                        {{ totalSqFtLeft }}
+                        {{ totalSqFtLeft }} Sq. Feet
                       </td>
                       <td colspan="2"></td>
                     </tr>
@@ -578,10 +591,10 @@
                 </div>
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                    Sq. Feet Left
+                    Available Stock
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-form-label">{{ slabDetail?.totalSQFT }}</p>
+                    <p class="col-form-label">{{ slabDetail?.totalSQFT }} Sq. Feet</p>
                   </div>
                 </div>
 
@@ -631,7 +644,15 @@
                     Thickness
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-form-label">{{ slabDetail?.thickness }}</p>
+                    <p class="col-form-label">{{ slabDetail?.thickness }} MM</p>
+                  </div>
+                </div>
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    No of Pieces
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">{{ slabDetail?.noOfPieces }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2">
@@ -646,16 +667,16 @@
                 </div>
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                    Total Sq. Feet
+                    Initial Stock
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
                     <p class="col-form-label">
-                      {{ slabDetail?.totalSlabSQFT }}
+                      {{ slabDetail?.totalSlabSQFT }} Sq. Feet
                     </p>
                   </div>
                 </div>
 
-                <div class="form-group row mb-2">
+                <!-- <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                     Slab Sales
                   </h5>
@@ -674,7 +695,7 @@
                       >
                     </p>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -725,7 +746,7 @@
                         >
                       </p>
                       <p *ngIf="slabDetail?.processingFee">
-                        Processing Fee.
+                        Processing Fee/Ton.
                         <span
                           >₹
                           {{ slabDetail?.processingFee | indianCurrency }}</span
@@ -914,23 +935,10 @@
               </div>
             </div>
             <div class="col-xl-6 col-lg-6 col-sm-12">
+          
               <div class="form-group row mb-2">
                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                  Sold Slab / Sq.Feet
-                </h5>
-                <div class="col-lg-8 col-md-8 col-xl-8">
-                  <p class="col-lg-9 col-form-label">
-                    {{
-                      slabDetailsOfSlabHistory[0]?.soldSlabSQFT
-                        ? slabDetailsOfSlabHistory[0]?.soldSlabSQFT
-                        : "0"
-                    }}
-                  </p>
-                </div>
-              </div>
-              <div class="form-group row mb-2">
-                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                  Total Slab / Sq.Feet
+                  Initial Stock
                 </h5>
                 <div class="col-lg-8 col-md-8 col-xl-8">
                   <p class="col-lg-9 col-form-label">
@@ -938,13 +946,27 @@
                       slabDetailsOfSlabHistory[0]?.totalSlabSQFT
                         ? slabDetailsOfSlabHistory[0]?.totalSlabSQFT
                         : "0"
-                    }}
+                    }} Sq.Feet
                   </p>
                 </div>
               </div>
               <div class="form-group row mb-2">
                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                  Current Slab / Sq.Feet
+                  Sold Stock 
+                </h5>
+                <div class="col-lg-8 col-md-8 col-xl-8">
+                  <p class="col-lg-9 col-form-label">
+                    {{
+                      slabDetailsOfSlabHistory[0]?.soldSlabSQFT
+                        ? slabDetailsOfSlabHistory[0]?.soldSlabSQFT
+                        : "0"
+                    }} Sq.Feet
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row mb-2">
+                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                  Available Stock
                 </h5>
                 <div class="col-lg-8 col-md-8 col-xl-8">
                   <p class="col-lg-9 col-form-label">
@@ -952,7 +974,7 @@
                       slabDetailsOfSlabHistory[0]?.currentSlabSQFT
                         ? slabDetailsOfSlabHistory[0]?.currentSlabSQFT
                         : "0"
-                    }}
+                    }} Sq.Feet
                   </p>
                 </div>
               </div>

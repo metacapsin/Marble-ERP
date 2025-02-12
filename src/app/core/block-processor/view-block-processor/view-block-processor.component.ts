@@ -126,7 +126,8 @@ export class ViewBlockProcessorComponent {
   }
 
   getTotal(field: string): number {
-    return this.slabProcessingDataList?.reduce((sum, item) => sum + (item[field] || 0), 0);
+    const sum = this.slabProcessingDataList?.reduce((sum, item) => sum + (item[field] || 0), 0);
+    return sum + this.dueBalance?.[field === 'processingCost' ? 'totalAmount' : field];
   }
 
   getOpeningBalance() {

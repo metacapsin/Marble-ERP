@@ -1155,7 +1155,7 @@
                             }}
                           </span>
                         </p>
-                        <p *ngIf="sales?.otherCharges">
+                        <p *ngIf="sales?.otherCharges && sales?.salesDate">
                           Other Charges
                           <small
                             *ngIf="sales?.isOtherChargesTax"
@@ -1200,7 +1200,7 @@
                             <span>0.00</span>
                           </ng-template>
                         </p> -->
-                        <p *ngIf="sales?.salesDiscount || sales?.lotDetails?.purchaseDiscount || sales?.purchaseDiscount ||  sales?.quotationDiscount">
+                        <p *ngIf="sales?.salesDiscount ||  sales?.quotationDiscount">
                           Discount
                           <span>
                             {{
@@ -1209,6 +1209,25 @@
                               sales?.purchaseDiscount ||
                               sales?.quotationDiscount > 0
                                 ? "- ₹ " +
+                                  (sales?.salesDiscount ||
+                                    sales?.lotDetails?.purchaseDiscount ||
+                                    sales?.purchaseDiscount ||
+                                    sales?.quotationDiscount ||
+                                    0 | indianCurrency)
+                                : "0.00"
+                            }}
+                          </span>
+                        </p>
+
+                        <p *ngIf="sales?.lotDetails?.purchaseDiscount || sales?.purchaseDiscount">
+                          Discount
+                          <span>
+                            {{
+                              sales?.salesDiscount > 0 ||
+                              sales?.lotDetails?.purchaseDiscount ||
+                              sales?.purchaseDiscount ||
+                              sales?.quotationDiscount > 0
+                                ? "+ ₹ " +
                                   (sales?.salesDiscount ||
                                     sales?.lotDetails?.purchaseDiscount ||
                                     sales?.purchaseDiscount ||
