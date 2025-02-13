@@ -34,7 +34,7 @@ export class AddTaxesComponent {
     private dialogRef: MatDialogRef<AddTaxesComponent>
   ) {
     this.addTaxesForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      name: ["", [Validators.required]],
       taxRate: ["", [Validators.required, Validators.min(1), Validators.max(99)]],
     });
   }

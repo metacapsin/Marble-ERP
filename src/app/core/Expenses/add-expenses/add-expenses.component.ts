@@ -36,7 +36,7 @@ export class AddExpensesComponent implements OnInit {
   ];
   maxDate = new Date();
   
-  personNameRegex = /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
+  personNameRegex = /^.{3,100}$/s;
   descriptionRegex = /^.{3,500}$/s;
 
   constructor(

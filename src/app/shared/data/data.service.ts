@@ -505,7 +505,7 @@ export class DataService {
               base: routes.expensesReport,
             },
             {
-              menuValue: "Tax Vendors Expenses Reports",
+              menuValue: "Tax Vendor Billing Reports",
               route: routes.taxVendorsReports,
               base: routes.taxVendorsReports,
             },

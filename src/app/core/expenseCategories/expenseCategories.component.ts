@@ -43,11 +43,11 @@ export class ExpensesCategoriesComponent {
     private fb: FormBuilder
   ) {
     this.addExpensesCategoryForm = this.fb.group({
-      categoryName: ["", [Validators.required,Validators.pattern(validationRegex.nameREGEX)]],
+      categoryName: ["", [Validators.required]],
       categoryDescription: ["", [Validators.pattern(validationRegex.descriptionRegex)]],
     });
     this.editExpensesCategoryForm = this.fb.group({
-      categoryName: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
+      categoryName: ["", [Validators.required]],
       categoryDescription: ["", [Validators.pattern(validationRegex.descriptionRegex)]],
     });
   }
