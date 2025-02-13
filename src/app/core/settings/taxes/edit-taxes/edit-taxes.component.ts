@@ -27,7 +27,7 @@ export class EditTaxesComponent {
     @Inject(MAT_DIALOG_DATA) public _id: any,
   ){
     this.editTaxesForm = this.fb.group({      
-      name: ['',[Validators.required,Validators.pattern(this.personNameRegex)]],
+      name: ['',[Validators.required]],
       taxRate: ['', [Validators.required, Validators.min(1), Validators.max(99)]]
     })
   }

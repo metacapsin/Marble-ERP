@@ -39,7 +39,7 @@ export class EditExpensesComponent {
   maxDate = new Date();
 
 
-  personNameRegex = /^(?! )[A-Za-z](?:[A-Za-z ]{0,28}[A-Za-z])?$/;
+  personNameRegex = /^.{3,100}$/s;
 
   descriptionRegex = /^.{3,500}$/s;
 

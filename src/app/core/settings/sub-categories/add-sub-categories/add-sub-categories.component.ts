@@ -17,7 +17,6 @@ import { validationRegex } from "src/app/core/validation";
 })
 export class AddSubCategoriesComponent {
   addSubCategoryForm!: FormGroup;
-  hsnCodeRegex: RegExp = /^(?:\d{6}|\d{8}|\d{10})$/;
 
   categoriesListData = [];
   categoriesList = [];
@@ -30,7 +29,7 @@ export class AddSubCategoriesComponent {
     this.addSubCategoryForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
       categoryId: ["", [Validators.required]],
-      hsnCode:["",[Validators.required,Validators.pattern(this.hsnCodeRegex)]],
+      hsnCode:["",[Validators.required]],
       description: ["", [Validators.pattern(validationRegex.descriptionRegex)]],
     });
   }
