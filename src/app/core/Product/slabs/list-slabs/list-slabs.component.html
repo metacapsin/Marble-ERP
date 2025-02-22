@@ -1187,6 +1187,11 @@
                   display="menu"
                 ></p-columnFilter>
               </th>
+              <th pSortableColumn="note">
+                Notes<p-sortIcon field="note"></p-sortIcon>
+                <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="note"
+                  display="menu"></p-columnFilter>
+              </th>
               <!-- <th width="13%">Action</th> -->
             </tr>
           </ng-template>
@@ -1199,6 +1204,29 @@
               <td>{{ stock?.previousQty + " Sq. Feet. " }}</td>
               <td>{{ stock?.quantity + " Sq. Feet. " }}</td>
               <td>{{ stock?.currentQty + " Sq. Feet. " }}</td>
+              <td *ngIf="!stock.note"></td>
+                    <td *ngIf="stock.note" class="OverHide" (click)="op.toggle($event)" pTooltip="Click to See More"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip">
+                      {{ stock.note }}
+                      <p-overlayPanel #op>
+                        <div style="
+                            width: 25rem;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 3;
+                          ">
+                          <div>
+                            <h4>Notes</h4>
+                            <p style="
+                                word-wrap: break-word;
+                                white-space: pre-wrap;
+                              ">
+                              {{ stock.note }}
+                            </p>
+                          </div>
+                        </div>
+                      </p-overlayPanel>
+                    </td>
             </tr>
           </ng-template>
           <ng-template pTemplate="emptymessage">

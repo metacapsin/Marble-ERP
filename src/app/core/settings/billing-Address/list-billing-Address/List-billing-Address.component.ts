@@ -62,7 +62,7 @@ export class ListBillingAddressComponent implements OnInit {
         { field: "country.name", header: "Country Name" },
         { field: "addressLine1", header: "Address Line 1" },
         { field: "addressLine2", header: "Address Line 2" },
-        { field: "state", header: "State" },
+        { field: "state.name", header: "State" },
         { field: "city", header: "City" },
         { field: "phoneNumber", header: "Phone Number" },
         { field: "email", header: "Email" },
