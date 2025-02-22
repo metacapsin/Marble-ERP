@@ -1005,7 +1005,7 @@
                                     ' }}
                                   </span>
                                 </p>
-                                <p>
+                                <p *ngIf="editNewPurchaseForm.get('purchaseDiscount').value">
                                   Purchase Discount (added)
                                   <span>₹
                                     {{ editNewPurchaseForm.get("purchaseDiscount").value || 0.00 | number:'1.2-2' }}

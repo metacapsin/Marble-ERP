@@ -644,7 +644,8 @@ export class EditNewPurchaseComponent implements OnInit {
             .patchValue(this.ItemDetails.paidToSupplierLotCost)
         : this.editNewPurchaseForm
             .get("paidToSupplierPurchaseCost")
-            .patchValue(this.editNewPurchaseForm.get("nonTaxable").value);
+            .patchValue(this.editNewPurchaseForm.get("nonTaxable").value +
+            this.editNewPurchaseForm.get("taxable").value);
     }
   }
 
