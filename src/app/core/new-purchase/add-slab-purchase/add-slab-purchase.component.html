@@ -114,11 +114,31 @@
                                                                     </p>
                                                                 </div>
                                                             </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Finishes
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.finishes.name ?? ' -- ' }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-xl-6 col-lg-6 col-sm-12">
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Rate Per Sq Feet
+                                                                  Quantity (Square Feet)
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                  <p class="col-form-label">
+                                                                    {{ data?.totalSQFT ?? " -- " }}
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Rate / Sq. Feet
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">
@@ -146,23 +166,14 @@
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group row mb-2">
-                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Finishes
-                                                                </h5>
-                                                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                    <p class="col-form-label">
-                                                                        {{ data?.finishes.name ?? ' -- ' }}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
+                                                       
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                                                                     Cost Per SQFT
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">
-                                                                        {{ data?.costPerSQFT ?? ' -- '}}
+                                                                        ₹ {{ data?.costPerSQFT ?? ' -- '}}
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -325,6 +336,12 @@
                 <h4 class="invoice-total-title">Summary</h4>
                 <div class="invoice-total-box">
                     <div class="invoice-total-inner">
+                        <p *ngIf="slabAddForm.get('totalSQFT')?.value">
+                            Total Square Feet<span>
+                              {{ slabAddForm.get('totalSQFT').value }}
+
+                            </span>
+                          </p>
                         <!-- <p *ngIf="slabAddForm.get('transportationCharge')?.value" class="mt-2">
                             Transportation Charges
                             <span>
