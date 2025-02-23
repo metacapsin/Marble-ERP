@@ -150,6 +150,8 @@ export class ViewCustomersComponent implements OnInit {
   }
 
   getPaymentListByCustomerId() {
+    this.paymentListDataByCustomerId=[]
+    this.openingBalPayList=[]
     this.salesPayment
       .getPaymentListByCustomerId(this.id)
       .subscribe((resp: any) => {
@@ -272,7 +274,9 @@ export class ViewCustomersComponent implements OnInit {
     }else if(this.openingBlncId){
       this.salesReturnService.deleteopeningBalance(this.openingBlncId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
-        this.getOpeningBalance();
+        // this.getOpeningBalance();
+        this.getsales()
+        this.getPaymentListByCustomerId()
         // this.getOpeningBalancePayList();
         
         this.showDialoge = false;
@@ -281,7 +285,9 @@ export class ViewCustomersComponent implements OnInit {
     }else if(this.balanceId){
       this.salesReturnService.deleteBalancePayRec(this.balanceId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
-        this.getOpeningBalancePayList();
+        // this.getOpeningBalancePayList();
+        this.getsales()
+        this.getPaymentListByCustomerId()
         // this.getOpeningBalance();
 
         this.showDialoge = false;
