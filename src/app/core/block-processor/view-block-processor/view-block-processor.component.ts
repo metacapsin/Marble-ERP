@@ -146,6 +146,7 @@ export class ViewBlockProcessorComponent {
       .GetOpeningBalancePayListById(this.blockProcessor_id)
       .subscribe((data: any) => {
         this.openingBalPayList = data.data;
+        this.slabProcessingPaymentData = [...this.openingBalPayList, ...this.slabProcessingPaymentData];
       });
   }
 
@@ -239,8 +240,8 @@ export class ViewBlockProcessorComponent {
             severity: "success",
             detail: resp.message,
           });
-          this.getOpeningBalancePayList();
-          this.getOpeningBalance();
+          this.getslabProcessingList();
+          this.getPaymentListByProcessorId();
           this.showDialog = false;
          
           this.balanceId = null;
@@ -251,8 +252,6 @@ export class ViewBlockProcessorComponent {
   close() {
     this.showDialog = false;
     this.ShowPaymentInvoice = false;
-    this.getOpeningBalancePayList();
-    this.getOpeningBalance();
     this.getslabProcessingList();
     this.getPaymentListByProcessorId();
   }
@@ -331,7 +330,7 @@ export class ViewBlockProcessorComponent {
       .getSlabProcessingById(_id)
       .subscribe((resp: any) => {
         this.ShowPaymentInvoice = true;
-        this.header = "Slab Processing Payment ";
+        this.header = "Slab Processing Payment";
         this.paymentObject = {
           customer: resp.data.processor,
           slabProcessing_id: _id,

@@ -891,7 +891,7 @@ getFormattedDate(date: Date): string {
           console.log("invalid form");
         }
       }
-      this.formSubmitted.emit();
+      // this.formSubmitted.emit();
     } else {
       const message = "Oops! your Amount is less then 1 ";
       this.messageService.add({ severity: "error", detail: message });

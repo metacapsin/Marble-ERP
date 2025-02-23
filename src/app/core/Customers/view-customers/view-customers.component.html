@@ -454,21 +454,8 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-product>
-              <tr *ngFor="let item of openingBalPayList">
+              <!-- <tr *ngFor="let item of openingBalPayList">
                 <td>
-                  <!-- <p-button
-                    type="button"
-                    pRipple
-                    (onClick)="toggleRow(item)"
-                    [text]="true"
-                    [rounded]="true"
-                    [plain]="true"
-                    [icon]="
-                      item.expanded
-                        ? 'fa-solid fa-chevron-down'
-                        : 'fa-solid fa-angle-right'
-                    "
-                  ></p-button> -->
                 </td>
                 <td>{{ 'Opening Balance' }}</td>
                 <td>{{ item.transactionNo }}</td>
@@ -479,9 +466,10 @@
                   <p-button [text]="true" icon="fa fa-trash" (click)="deleteOpeningBalnc(item._id)" pTooltip="Delete"
                     tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                 </td>
-              </tr>
+              </tr> -->
               <tr>
-                <td>
+                <td *ngIf="product?.openingBalanceId"></td>
+                <td *ngIf="!product?.openingBalanceId">
                   <p-button type="button" pRipple (onClick)="toggleRow(product)" [text]="true" [rounded]="true"
                     [plain]="true" [icon]="
                       product.expanded
@@ -489,7 +477,11 @@
                         : 'fa-solid fa-angle-right'
                     " />
                 </td>
-                <td>
+                <td *ngIf="product?.openingBalanceId">
+                  Opening Balance
+                </td>
+
+                <td *ngIf="!product?.openingBalanceId">
                   {{ product.salesInvoiceNumber }}
 
                 </td>
@@ -498,7 +490,7 @@
                 <td>{{ product.paymentMode }}</td>
                 <td>₹ {{ product.amount | indianCurrency }}</td>
                 <td>
-                  <p-button [text]="true" icon="fa fa-trash" (click)="deleteSalesPayment(product._id)" pTooltip="Delete"
+                  <p-button [text]="true" icon="fa fa-trash" (click)="product?.openingBalanceId ? deleteOpeningBalnc(product._id) : deleteSalesPayment(product._id)" pTooltip="Delete"
                     tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                 </td>
               </tr>

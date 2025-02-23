@@ -129,9 +129,10 @@ export class ViewSuppliersComponent {
       .GetOpeningBalancePayListById(this.id)
       .subscribe((data: any) => {
         this.openingBalPayList = data.data;
-        this.purchaseDataShowById?.unshift({
-          type: 'openBalance'
-        });
+        this.paymentListDataBySupplierId = [...this.openingBalPayList, ...this.paymentListDataBySupplierId];
+        // this.purchaseDataShowById?.unshift({
+        //   type: 'openBalance'
+        // });
       });
   }
 
@@ -218,8 +219,8 @@ export class ViewSuppliersComponent {
   allApiCall() {
     console.log("All api called");
     this.getPurchase();
-    this.getPurchaseReturn();
     this.getPaymentListBySupplierId();
+    this.getPurchaseReturn();
     this.getPurchaseReturnPaymentListBySupplierId();
   }
 
@@ -376,9 +377,20 @@ export class ViewSuppliersComponent {
     this.showDialoge = false;
     this.showInvoiceDialog = false;
     this.showPaymentDialog = false;
-    this.getOpeningBalancePayList();
-    this.getOpeningBalance();
-    this.allApiCall();
+    // this.getOpeningBalancePayList();
+    // this.getOpeningBalance();
+    // this.allApiCall();
+
+    if(this.header === 'Purchase Payment'){
+      this.getPurchase();
+    this.getPaymentListBySupplierId();
+    } else if (this.header === 'Purchase Payment Return Payment') {
+      this.getPurchaseReturn();
+      this.getPurchaseReturnPaymentListBySupplierId();
+    } else {
+      this.getPurchase();
+      this.getPaymentListBySupplierId();
+    }
   }
 
   showInvoiceDialoge(Id: any) {
@@ -462,7 +474,7 @@ export class ViewSuppliersComponent {
       if (Id) {
         console.log("click2");
         this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
-          this.header = "Purchase Payment ";
+          this.header = "Purchase Payment";
           this.showPaymentDialog = true;
 
           this.paymentInvoicePurchaseDataShowById = [resp.data];
@@ -493,7 +505,7 @@ export class ViewSuppliersComponent {
         .subscribe((resp: any) => {
           this.showPaymentDialog = true;
           this.paymentInvoicePurchaseDataShowById = [resp.data];
-          this.header = "Purchase Return Payment ";
+          this.header = "Purchase Return Payment";
           this.paymentObject = {
             supplier: resp.data.supplier,
             purchaseReturnId: Id,

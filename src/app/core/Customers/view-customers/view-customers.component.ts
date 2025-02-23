@@ -94,7 +94,7 @@ export class ViewCustomersComponent implements OnInit {
   ngOnInit() {
     this.getCoustomers();
     // this.getOpeningBalance();
-    this.getOpeningBalancePayList()
+    // this.getOpeningBalancePayList()
     this.getsales();
     this.getPaymentListByCustomerId();
     this.getsalesReturn();
@@ -102,9 +102,7 @@ export class ViewCustomersComponent implements OnInit {
   }
   getCoustomers() {
     this.customerService.GetCustomerDataById(this.id).subscribe((data: any) => {
-      // console.log("Customer data by id", data);
       this.customerID = data._id;
-      // console.log("customer id", this.customerID);
       this.customerDataById = [data];
       this.customer = {
         name: this.customerDataById[0].name,
@@ -132,10 +130,15 @@ export class ViewCustomersComponent implements OnInit {
   getOpeningBalancePayList(){
     this.customerService.GetOpeningBalancePayListById(this.id).subscribe((data:any)=>{
       this.openingBalPayList = data.data;
+
+      this.paymentListDataByCustomerId = [...this.openingBalPayList,...this.paymentListDataByCustomerId]
+      console.log(this.paymentListDataByCustomerId);
+      
     })
   }
 
   getsales() {
+    this.salesDataShowById = []
     this.salesTotalDueAmount = 0;
     this.salesService
       .getAllSalesByCustomerId(this.id)
@@ -152,6 +155,7 @@ export class ViewCustomersComponent implements OnInit {
       .subscribe((resp: any) => {
         this.paymentInTotalValues = resp;
         this.paymentListDataByCustomerId = resp.data;
+        this.getOpeningBalancePayList()
       });
   }
   getsalesReturn() {
@@ -231,19 +235,19 @@ export class ViewCustomersComponent implements OnInit {
       this.salesService.DeleteSalesData(this.salesId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
         this.getsales();
-        this.getPaymentListByCustomerId();
-        this.getsalesReturn();
-        this.getSalesReturnPaymentListByCustomerId();
+        // this.getPaymentListByCustomerId();
+        // this.getsalesReturn();
+        // this.getSalesReturnPaymentListByCustomerId();
         this.showDialoge = false;
         this.salesId=null;
       });
     } else if (this.salesReturnID) {
       this.salesReturnService.deleteSalesReturn(this.salesReturnID).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
-        this.getsales();
-        this.getPaymentListByCustomerId();
+        // this.getsales();
+        // this.getPaymentListByCustomerId();
         this.getsalesReturn();
-        this.getSalesReturnPaymentListByCustomerId();
+        // this.getSalesReturnPaymentListByCustomerId();
         this.showDialoge = false;
         this.salesReturnID=null;
       });
@@ -251,7 +255,7 @@ export class ViewCustomersComponent implements OnInit {
     else if (this.salesPaymentId) {
       this.salesPayment.deletePaymentById(this.salesPaymentId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
-        this.getsales();
+        // this.getsales();
         this.getPaymentListByCustomerId();
         this.showDialoge = false;
         this.salesPaymentId=null;
@@ -260,7 +264,7 @@ export class ViewCustomersComponent implements OnInit {
     else if (this.salesReturnPaymentId) {
       this.salesReturnService.deleteSalesReturnPayment(this.salesReturnPaymentId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
-        this.getsalesReturn();
+        // this.getsalesReturn();
         this.getSalesReturnPaymentListByCustomerId();
         this.showDialoge = false;
         this.salesReturnPaymentId=null;
@@ -269,7 +273,7 @@ export class ViewCustomersComponent implements OnInit {
       this.salesReturnService.deleteopeningBalance(this.openingBlncId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
         this.getOpeningBalance();
-        this.getOpeningBalancePayList();
+        // this.getOpeningBalancePayList();
         
         this.showDialoge = false;
         this.openingBlncId=null;
@@ -278,7 +282,7 @@ export class ViewCustomersComponent implements OnInit {
       this.salesReturnService.deleteBalancePayRec(this.balanceId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
         this.getOpeningBalancePayList();
-        this.getOpeningBalance();
+        // this.getOpeningBalance();
 
         this.showDialoge = false;
         this.balanceId=null;
@@ -294,12 +298,20 @@ export class ViewCustomersComponent implements OnInit {
     this.showDialoge = false;
     this.showInvoiceDialog = false;
     this.showPaymentDialog = false;
-    this.getOpeningBalancePayList();
-    this.getOpeningBalance();
-    this.getsales();
-    this.getPaymentListByCustomerId();
-    this.getsalesReturn();
-    this.getSalesReturnPaymentListByCustomerId();
+    console.log('helo');
+    
+    if(this.header === 'Sales Payment'){
+      this.getsales();
+      this.getPaymentListByCustomerId();
+    } else if (this.header === 'Sales Return Payment') {
+      this.getsalesReturn();
+      this.getSalesReturnPaymentListByCustomerId();
+    } else {
+      this.getsales();
+      this.getPaymentListByCustomerId()
+    }
+    // this.getOpeningBalancePayList();
+    // this.getOpeningBalance();
   }
 
   showInvoiceDialoge(Id: any) {
@@ -357,7 +369,7 @@ export class ViewCustomersComponent implements OnInit {
     this.salesService.GetSalesDataById(Id).subscribe((resp: any) => {
       this.showPaymentDialog = true;
       this.paymentInvoicesalesDataShowById = [resp?.data];
-      this.header = "Sales Payment ";
+      this.header = "Sales Payment";
       this.paymentObject = {
         customer: resp?.data?.customer,
         salesId: Id,
@@ -412,7 +424,7 @@ export class ViewCustomersComponent implements OnInit {
       this.showPaymentDialog = true;
       this.paymentInvoicesalesDataShowById = [resp?.data];
 
-      this.header = "Sales Return Payment ";
+      this.header = "Sales Return Payment";
       this.paymentObject = {
         customer: resp?.data?.customer,
         salesReturnId: Id,
