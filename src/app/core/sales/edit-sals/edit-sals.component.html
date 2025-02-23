@@ -655,6 +655,21 @@
                               *ngIf="
                                 editSalesForm
                                   .get('salesItemDetails')
+                                  .get(i + '.salesItemTax')
+                                  .hasError('required') &&
+                                editSalesForm
+                                  .get('salesItemDetails')
+                                  .get(i + '.salesItemTax').touched
+                              "
+                            >
+                              <span class="login-danger"
+                                >Tax Apply Field is required.</span
+                              >
+                            </div>
+                            <div
+                              *ngIf="
+                                editSalesForm
+                                  .get('salesItemDetails')
                                   .get(i + '.salesItemTaxableAmount')
                                   .hasError('min') &&
                                 editSalesForm
