@@ -39,7 +39,7 @@ export class AllSalesReturnComponent implements OnInit {
   totalAmountValues: any = {};
   cols = [];
   exportColumns = [];
- searchByData = [
+  searchByData = [
     "Today",
     "YesterDay",
     "This Week",
@@ -51,7 +51,7 @@ export class AllSalesReturnComponent implements OnInit {
     "This Year",
     "Last Year",
   ];
-  searchBy:any;
+  searchBy: any;
   rangeDates: Date[] | undefined;
 
   constructor(
@@ -60,12 +60,12 @@ export class AllSalesReturnComponent implements OnInit {
     public dialog: MatDialog,
     private Service: SalesReturnService,
     private localStorageService: LocalStorageService,
-    private datefilter : dashboardService,
+    private datefilter: dashboardService,
   ) { }
 
   ngOnInit() {
 
-    
+
     let startDate: Date;
     let endDate: Date;
     this.datefilter.getUpdatedTime().subscribe((resp: any) => {
@@ -75,8 +75,8 @@ export class AllSalesReturnComponent implements OnInit {
       if (dates.startUtc && dates.endUtc) {
         startDate = new Date(dates.startUtc);
         endDate = new Date(dates.endUtc);
-        this.searchBy = dates.filterby 
-    
+        this.searchBy = dates.filterby
+
       } else {
         console.log(" Dates:");
         startDate = new Date(new Date().getFullYear(), 0, 1);
@@ -112,7 +112,7 @@ export class AllSalesReturnComponent implements OnInit {
     // this.rangeDates = [startDate, endDate];
     // this.GetSalesReturnData(startDate, endDate);
 
-   
+
 
   }
   navigateToCreateSalesReturn() {
@@ -216,105 +216,105 @@ export class AllSalesReturnComponent implements OnInit {
     const endDate = value[1];
     this.GetSalesReturnData(startDate, endDate);
 
-    
-    let payload = {
-      endDate: endDate,
-      startDate: startDate,
-    };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // let payload = {
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
+
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   onSearchByChange(event: any) {
 
-    console.log('event',event)
+    console.log('event', event)
 
     const today = new Date();
     let startDate,
       endDate = today;
-      switch (event) {
-        case "Today":
-          startDate = new Date(today);
-          break;
-  
-        case "YesterDay":
-          startDate = new Date(today);
-          startDate.setDate(today.getDate() - 1);
-          endDate = new Date(startDate);
-          break;
-  
-        case "This Week":
-          startDate = new Date(today);
-          startDate.setDate(today.getDate() - today.getDay() + 1); // Start from Monday
-          break;
-  
-        case "Last Week":
-          startDate = new Date(today);
-          startDate.setDate(today.getDate() - today.getDay() - 6); // Last Monday
-          endDate = new Date(today);
-          endDate.setDate(startDate.getDate() + 6); // Last Sunday
-          break;
-  
-        case "This Month":
-          startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-          break;
-  
-        case "Last Month":
-          startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-          endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of previous month
-          break;
-  
-        case "This Quarter":
-          const currentQuarter = Math.floor(today.getMonth() / 3);
-          startDate = new Date(today.getFullYear(), currentQuarter * 3, 1);
-          break;
-  
-        case "Last Quarter":
-          const lastQuarter = Math.floor(today.getMonth() / 3) - 1;
-          const yearForLastQuarter =
-            lastQuarter < 0 ? today.getFullYear() - 1 : today.getFullYear();
-          startDate = new Date(
-            yearForLastQuarter,
-            (lastQuarter < 0 ? 3 : lastQuarter) * 3,
-            1
-          );
-          endDate = new Date(
-            startDate.getFullYear(),
-            startDate.getMonth() + 3,
-            0
-          );
-          break;
-  
-        case "This Year":
-          startDate = new Date(today.getFullYear(), 0, 1);
-          break;
-  
-        case "Last Year":
-          startDate = new Date(today.getFullYear() - 1, 0, 1);
-          endDate = new Date(today.getFullYear() - 1, 11, 31);
-          break;
-  
-        default:
-          startDate = null;
-          endDate = null
-          break;
-          
-      }
+    switch (event) {
+      case "Today":
+        startDate = new Date(today);
+        break;
+
+      case "YesterDay":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 1);
+        endDate = new Date(startDate);
+        break;
+
+      case "This Week":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay() + 1); // Start from Monday
+        break;
+
+      case "Last Week":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay() - 6); // Last Monday
+        endDate = new Date(today);
+        endDate.setDate(startDate.getDate() + 6); // Last Sunday
+        break;
+
+      case "This Month":
+        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        break;
+
+      case "Last Month":
+        startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of previous month
+        break;
+
+      case "This Quarter":
+        const currentQuarter = Math.floor(today.getMonth() / 3);
+        startDate = new Date(today.getFullYear(), currentQuarter * 3, 1);
+        break;
+
+      case "Last Quarter":
+        const lastQuarter = Math.floor(today.getMonth() / 3) - 1;
+        const yearForLastQuarter =
+          lastQuarter < 0 ? today.getFullYear() - 1 : today.getFullYear();
+        startDate = new Date(
+          yearForLastQuarter,
+          (lastQuarter < 0 ? 3 : lastQuarter) * 3,
+          1
+        );
+        endDate = new Date(
+          startDate.getFullYear(),
+          startDate.getMonth() + 3,
+          0
+        );
+        break;
+
+      case "This Year":
+        startDate = new Date(today.getFullYear(), 0, 1);
+        break;
+
+      case "Last Year":
+        startDate = new Date(today.getFullYear() - 1, 0, 1);
+        endDate = new Date(today.getFullYear() - 1, 11, 31);
+        break;
+
+      default:
+        startDate = null;
+        endDate = null
+        break;
+
+    }
     this.rangeDates = [startDate, endDate];
     this.GetSalesReturnData(startDate, endDate);
-console.log('this.rangeDates>>',this.rangeDates)
-    let payload = {
-      filterby: event,
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // console.log('this.rangeDates>>',this.rangeDates)
+    //     let payload = {
+    //       filterby: event,
+    //       endDate: endDate,
+    //       startDate: startDate,
+    //     };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
-  
+    //     this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //       console.log("updt date resp", resp);
+    //     });
+
   }
 
   formatDate(date: Date): string {

@@ -197,14 +197,14 @@ export class ListQuotationsComponent implements OnInit {
     const endDate = value[1];
     this.GetQuotationsData(startDate, endDate);
 
-    let payload = {
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   onSearchByChange(event: any) {
@@ -279,15 +279,15 @@ export class ListQuotationsComponent implements OnInit {
       }
     this.rangeDates = [startDate, endDate];
     this.GetQuotationsData(startDate, endDate);
-    let payload = {
-      filterby: event,
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   filterby: event,
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   formatDate(date: Date): string {

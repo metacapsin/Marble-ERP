@@ -164,7 +164,11 @@
             </ng-template>
             <ng-template pTemplate="body" let-processing>
               <tr class="bg-light font-weight-bold" *ngIf="dueBalance">
-                <td>Opening Balance</td>
+                
+              </tr>
+              <tr>
+                <ng-container *ngIf="processing?.type === 'openBalance'">
+                  <td>Opening Balance</td>
                 <td>{{ dueBalance.createdOn | date: "dd-MMM-yyyy" }}</td>
                 <td>{{ dueBalance.creditPeriod || 0 }} Days</td>
                 <td *ngIf="dueBalance.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
@@ -191,8 +195,9 @@
                       tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
                   </div>
                 </td>
-              </tr>
-              <tr>
+                </ng-container>
+                <ng-container *ngIf="!processing?.type">
+
                 <td>
                   {{ processing?.processingInvoiceNo }}
                 </td>
@@ -232,6 +237,8 @@
                       pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                   </div>
                 </td>
+              </ng-container>
+
               </tr>
           
             </ng-template>
@@ -267,8 +274,8 @@
                 </td>
               </tr>
               <tr *ngIf="!dueBalance">
-                <td colspan="8" class="text-center">No Slab Processing records found.</td>
               </tr>
+                <td colspan="8" class="text-center">No Slab Processing records found.</td>
             </ng-template>
             <ng-template pTemplate="footer">
               <tr *ngIf="slabProcessingDataList?.length > 0">

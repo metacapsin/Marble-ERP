@@ -100,7 +100,7 @@ export class ViewSuppliersComponent {
   ngOnInit() {
     this.getSuppliers();
     // this.getOpeningBalance();
-    this.getOpeningBalancePayList();
+    // this.getOpeningBalancePayList();
     this.getPurchase();
     this.getPaymentListBySupplierId();
     this.getPurchaseReturn();
@@ -113,11 +113,10 @@ export class ViewSuppliersComponent {
       .GetOpeningBalanceById(this.id)
       .subscribe((data: any) => {
         this.dueBalance = data.data;
-
         if(this.purchaseTotalValues && this.dueBalance){
           this.purchaseTotalValues.totalPaidAmount += this.dueBalance?.paidAmount; 
           this.purchaseTotalValues.totalDueAmount += this.dueBalance?.dueAmount;
-          this.purchaseTotalValues.totalAmount += this.dueBalance?.purchaseCost;
+          this.purchaseTotalValues.totalPurchaseCost += this.dueBalance?.totalAmount;
         }
         this.purchaseDataShowById?.unshift({
           type: 'openBalance'
@@ -130,22 +129,21 @@ export class ViewSuppliersComponent {
       .GetOpeningBalancePayListById(this.id)
       .subscribe((data: any) => {
         this.openingBalPayList = data.data;
+        this.purchaseDataShowById?.unshift({
+          type: 'openBalance'
+        });
       });
   }
 
   getSuppliers() {
     this.SupplierService.GetSupplierDataById(this.id).subscribe((data: any) => {
-      console.log("supplier data by id", data);
       this.supplierID = data._id;
-      console.log("supplier id", this.supplierID);
       this.supplierDataById = [data];
-      console.log("this is supplier data by id", this.supplierDataById);
       this.supplier = {
         name: this.supplierDataById[0].name,
         billingAddress: this.supplierDataById[0].billingAddress,
         _id: this.supplierDataById[0]._id,
       };
-      console.log("this is supplier object", this.supplier);
     });
   }
 
@@ -198,10 +196,7 @@ export class ViewSuppliersComponent {
       this.paymentOutTotalValues = resp;
       // console.log("payment data of Supplier by id", resp);
       this.paymentListDataBySupplierId = resp.data;
-      console.log(
-        "this is payment list data by Supplier id",
-        this.paymentListDataBySupplierId
-      );
+      this.getOpeningBalancePayList()
     });
   }
 

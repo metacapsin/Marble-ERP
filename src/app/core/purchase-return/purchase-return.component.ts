@@ -278,15 +278,15 @@ export class PurchaseReturnComponent {
     this.rangeDates = [startDate, endDate];
     this.getPurchaseReturn(startDate, endDate);
 
-    let payload = {
-      filterby: event || 'This Year',
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   filterby: event || 'This Year',
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   formatDate(date: Date): string {

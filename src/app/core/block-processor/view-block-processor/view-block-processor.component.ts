@@ -94,8 +94,8 @@ export class ViewBlockProcessorComponent {
   }
   ngOnInit() {
     this.getBlockProcessor();
-    this.getOpeningBalance();
-    this.getOpeningBalancePayList();
+    // this.getOpeningBalance();
+    // this.getOpeningBalancePayList();
     this.blockProcessorService
       .getSlabsByProcessorId(this.blockProcessor_id)
       .subscribe((resp: any) => {
@@ -135,6 +135,9 @@ export class ViewBlockProcessorComponent {
       .GetOpeningBalanceById(this.blockProcessor_id)
       .subscribe((data: any) => {
         this.dueBalance = data.data;
+        this.slabProcessingDataList?.unshift({
+          type: 'openBalance'
+        });
       });
   }
 
@@ -151,6 +154,7 @@ export class ViewBlockProcessorComponent {
       .getAllSlabProcessing(this.blockProcessor_id)
       .subscribe((resp: any) => {
         this.slabProcessingDataList = resp.data;
+        this.getOpeningBalance();
         // this.paymentInvoicePurchaseDataShowById = resp.data;
       });
   }
@@ -159,6 +163,7 @@ export class ViewBlockProcessorComponent {
       .getPaymentListByProcessorId(this.blockProcessor_id)
       .subscribe((resp: any) => {
         this.slabProcessingPaymentData = resp.data;
+        this.getOpeningBalancePayList();
       });
   }
   onSlabSelect(value: any) {

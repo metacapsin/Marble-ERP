@@ -452,21 +452,6 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
             </ng-template>
             <ng-template pTemplate="body" let-product>
               <tr *ngFor="let item of openingBalPayList">
-                <!-- <td>
-                  <p-button
-                    type="button"
-                    pRipple
-                    (onClick)="toggleRow(item)"
-                    [text]="true"
-                    [rounded]="true"
-                    [plain]="true"
-                    [icon]="
-                      item.expanded
-                        ? 'fa-solid fa-chevron-down'
-                        : 'fa-solid fa-angle-right'
-                    "
-                  ></p-button>
-                </td> -->
                 <td></td>
                 <td>{{ 'Opening Balance' }}</td>
                 <td>{{ item.transactionNo }}</td>
@@ -485,6 +470,10 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                 </td>
               </tr>
               <tr>
+                <ng-container>
+                  
+                </ng-container>
+                <ng-container>
                 <td>
                   <p-button type="button" pRipple (onClick)="toggleRow(product)" [text]="true" [rounded]="true"
                     [plain]="true" [icon]="
@@ -505,6 +494,7 @@ hideOnClear="true"  type="text" field="purchaseOrderStatus" display="menu"></p-c
                   <p-button [text]="true" icon="fa fa-trash" (click)="deletePurchasePayment(product._id)"
                     pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                 </td>
+              </ng-container>
               </tr>
               <tr *ngIf="product.expanded">
                 <td colspan="7">

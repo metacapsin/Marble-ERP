@@ -228,14 +228,14 @@ export class ListNewPurchaseComponent implements OnChanges {
     const startDate = value[0];
     const endDate = value[1];
     this.getPurchase(startDate, endDate);
-    let payload = {
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   onSearchByChange(event: any) {
@@ -314,15 +314,15 @@ export class ListNewPurchaseComponent implements OnChanges {
    
     this.getPurchase(startDate, endDate);
    
-    let payload = {
-      filterby: event,
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   filterby: event,
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   formatDate(date: Date): string {

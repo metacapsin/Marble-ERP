@@ -103,14 +103,14 @@ export class PaymentOutReportComponent {
     const startDate = value[0];
     const endDate = value[1];
     this.getPaymentOutReportData(startDate, endDate);
-    let payload = {
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   ngOnInit(): void {
@@ -222,15 +222,15 @@ export class PaymentOutReportComponent {
     this.rangeDates = [startDate, endDate];
     this.getPaymentOutReportData(startDate, endDate);
 
-    let payload = {
-      filterby: value,
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   filterby: value,
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   formatDate(date: Date): string {

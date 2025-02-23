@@ -108,14 +108,14 @@ export class SalesReportsComponent {
     const startDate = value[0];
     const endDate = value[1];
     this.getPaymentInReportData(startDate, endDate);
-    let payload = {
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
   
 
@@ -262,15 +262,15 @@ export class SalesReportsComponent {
     this.rangeDates = [startDate, endDate];
     this.getPaymentInReportData(startDate, endDate);
 
-    let payload = {
-      filterby: value,
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   filterby: value,
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   formatDate(date: Date): string {

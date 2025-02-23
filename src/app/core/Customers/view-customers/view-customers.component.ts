@@ -49,7 +49,7 @@ export class ViewCustomersComponent implements OnInit {
   products: Product[] = [];
   expanded?: boolean;
 
-  salesDataShowById: any; // to hold sales data by customer id
+  salesDataShowById: any = []; // to hold sales data by customer id
   salesReturnDataShowById: any[] = []; // to hold sales Return data by customer id
   paymentListDataByCustomerId: any[] = []; // to hold payment data by customer id
   showInvoiceDialog: boolean = false; // to enable sales invoice popup
@@ -125,7 +125,7 @@ export class ViewCustomersComponent implements OnInit {
       }
       this.salesDataShowById?.unshift({
         type: 'openBalance'
-      });
+      });      
     })
   }
 
