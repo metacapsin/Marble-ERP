@@ -510,6 +510,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     this.addNewPurchaseForm.get("taxVendorAmount").updateValueAndValidity();
     this.addNewPurchaseForm.get("vendorTaxApplied").updateValueAndValidity();
 
+
     if (isTaxVendor) {
       this.addNewPurchaseForm
         .get("paidToSupplierPurchaseCost")
@@ -522,8 +523,10 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         : this.addNewPurchaseForm
             .get("paidToSupplierPurchaseCost")
             ?.patchValue(
-              this.addNewPurchaseForm.get("nonTaxable").value +
-                this.addNewPurchaseForm.get("taxable").value
+              (
+                Number(Number(this.addNewPurchaseForm.get("nonTaxable").value || 0).toFixed(2)) +
+                Number(Number(this.addNewPurchaseForm.get("taxable").value || 0).toFixed(2))
+              )
             );
     }
   }
@@ -566,7 +569,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         purchaseType: "lot",
         purchaseNotes: formData.purchaseNotes,
         purchaseDiscount: Number(formData.purchaseDiscount),
-        purchaseCost: Number(formData.paidToSupplierPurchaseCost),
+        purchaseCost: Number(formData.paidToSupplierPurchaseCost).toFixed(2),
         purchaseTotalAmount: Number(this.ItemDetails.lotTotalCost).toFixed(2),
         lotDetail: this.ItemDetails,
         nonTaxable: Number(formData.nonTaxable),
@@ -589,7 +592,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         purchaseDate: formData.purchaseDate,
         purchaseType: "slab",
         purchaseNotes: formData.purchaseNotes,
-        purchaseCost: Number(formData.paidToSupplierPurchaseCost),
+        purchaseCost: Number(formData.paidToSupplierPurchaseCost).toFixed(2),
         slabDetail: this.SlabItemDetails.slabDetails,
         purchaseTotalAmount: Number(formData.purchaseTotalAmount),
         totalCosting: Number(formData.totalCosting),
@@ -601,9 +604,9 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         taxVendor: this.addNewPurchaseForm.get("isTaxVendor").value
           ? taxVenoderObj
           : null,
-        taxApplied:  Number(formData.taxApplied || 0)?.toFixed(2),
-        otherCharges:  Number(formData.otherCharges || 0)?.toFixed(2),
-        transportationCharges:  Number(formData.transportationCharges || 0)?.toFixed(2),
+        taxApplied:  Number(formData?.taxApplied)?.toFixed(2), 
+        otherCharges:  Number(formData?.otherCharges)?.toFixed(2), 
+        transportationCharges:  Number(formData?.transportationCharges)?.toFixed(2),
         warehouseDetails: formData?.warehouseDetails,
         vehicleNo: formData?.vehicleNo,
         totalSQFT: formData?.totalSQFT,

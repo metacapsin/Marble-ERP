@@ -644,8 +644,12 @@ export class EditNewPurchaseComponent implements OnInit {
             .patchValue(this.ItemDetails.paidToSupplierLotCost)
         : this.editNewPurchaseForm
             .get("paidToSupplierPurchaseCost")
-            .patchValue(this.editNewPurchaseForm.get("nonTaxable").value +
-            this.editNewPurchaseForm.get("taxable").value);
+            .patchValue(
+              (
+                Number(Number(this.editNewPurchaseForm.get("nonTaxable").value || 0).toFixed(2)) +
+                Number(Number(this.editNewPurchaseForm.get("taxable").value || 0).toFixed(2))
+              )
+            );
     }
   }
 
@@ -683,7 +687,7 @@ export class EditNewPurchaseComponent implements OnInit {
         purchaseDate: formData.purchaseDate,
         purchaseType: "lot",
         purchaseNotes: formData.purchaseNotes,
-        purchaseCost: Number(formData.paidToSupplierPurchaseCost),
+        purchaseCost: Number(formData.paidToSupplierPurchaseCost).toFixed(2),
         purchaseTotalAmount: Number(this.ItemDetails.lotTotalCost).toFixed(2),
         lotDetail: this.ItemDetails,
         nonTaxable: Number(formData.nonTaxable),
@@ -709,7 +713,7 @@ export class EditNewPurchaseComponent implements OnInit {
         purchaseDate: formData.purchaseDate,
         purchaseType: "slab",
         purchaseNotes: formData.purchaseNotes,
-        purchaseCost: Number(formData.paidToSupplierPurchaseCost),
+        purchaseCost: Number(formData.paidToSupplierPurchaseCost).toFixed(2),
         slabDetail: this.SlabItemDetails.slabDetails,
         purchaseTotalAmount: Number(formData.purchaseTotalAmount),
         totalCosting: Number(formData.totalCosting),

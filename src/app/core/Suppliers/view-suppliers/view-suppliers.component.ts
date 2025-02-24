@@ -134,6 +134,7 @@ export class ViewSuppliersComponent {
           this.paymentListDataBySupplierId = [...this.openingBalPayList, ...this.paymentListDataBySupplierId];
         } else {
           this.openingBalPayList = [];
+          this.paymentListDataBySupplierId = [...this.openingBalPayList, ...this.paymentListDataBySupplierId];
         }
        
         // this.purchaseDataShowById?.unshift({
