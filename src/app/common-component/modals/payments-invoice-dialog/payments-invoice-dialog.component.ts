@@ -333,11 +333,11 @@ getFormattedDate(date: Date): string {
         ]);
         taxablePaymentAmount.setValidators([
           Validators.min(0),
-          Validators.max(this.dataById.taxableDue),
+          Validators.max(this.dataById.taxableDue.toFixed(2)),
         ]);
         nonTaxablePaymentAmount.setValidators([
           Validators.min(0),
-          Validators.max(this.dataById.nonTaxableDue),
+          Validators.max(this.dataById.nonTaxableDue.toFixed(2)),
         ]);
 
         this.paymentInvoiceForm.patchValue({
@@ -737,7 +737,7 @@ getFormattedDate(date: Date): string {
             note: formData.note,
           },
         ];
-
+   
         if (this.paymentInvoiceForm.valid) {
           this.paymentOutService
             .createPayment(payload)

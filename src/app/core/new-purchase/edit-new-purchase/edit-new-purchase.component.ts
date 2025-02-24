@@ -716,14 +716,19 @@ export class EditNewPurchaseComponent implements OnInit {
         purchaseDiscount: Number(formData.purchaseDiscount),
         nonTaxable: Number(formData.nonTaxable),
         taxableAmount: Number(formData.taxableAmount),
-        taxable: formData.taxable,
+        taxable: Number(formData.taxable)?.toFixed(2),
         purchaseItemTax: formData.purchaseItemTax,
         taxVendor: this.editNewPurchaseForm.get("isTaxVendor").value
           ? taxVenoderObj
           : null,
-        taxApplied: formData.taxApplied,
-        otherCharges: formData?.otherCharges,
-        transportationCharges: formData?.transportationCharges,
+        // taxApplied: formData.taxApplied,
+        // otherCharges: formData?.otherCharges,
+        // transportationCharges: formData?.transportationCharges,
+
+        taxApplied:  Number(formData.taxApplied || 0)?.toFixed(2),
+        otherCharges:  Number(formData.otherCharges || 0)?.toFixed(2),
+        transportationCharges:  Number(formData.transportationCharges || 0)?.toFixed(2),
+
         warehouseDetails: formData?.warehouseDetails,
         vehicleNo: formData?.vehicleNo,
         totalSQFT: formData?.totalSQFT,

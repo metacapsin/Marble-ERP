@@ -601,9 +601,9 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         taxVendor: this.addNewPurchaseForm.get("isTaxVendor").value
           ? taxVenoderObj
           : null,
-        taxApplied: formData.taxApplied?.toFixed(2),
-        otherCharges: formData?.otherCharges?.toFixed(2),
-        transportationCharges: formData?.transportationCharges?.toFixed(2),
+        taxApplied:  Number(formData.taxApplied || 0)?.toFixed(2),
+        otherCharges:  Number(formData.otherCharges || 0)?.toFixed(2),
+        transportationCharges:  Number(formData.transportationCharges || 0)?.toFixed(2),
         warehouseDetails: formData?.warehouseDetails,
         vehicleNo: formData?.vehicleNo,
         totalSQFT: formData?.totalSQFT,
