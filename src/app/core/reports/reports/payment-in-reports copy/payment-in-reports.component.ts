@@ -93,14 +93,14 @@ export class PaymentInReportComponent {
     const endDate = value[1];
     this.getPaymentInReportData(startDate, endDate);
 
-    let payload = {
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
   onFilter(value: any) {
     this.paymentInData = value.filteredValue;
@@ -220,15 +220,15 @@ export class PaymentInReportComponent {
       console.log("Start Date:", formattedDate1, "End Date:", formattedDate2);
       this.getPaymentInReportData(startDate, startDate);
 
-      let payload = {
-        filterby: value,
-        endDate: formattedDate2,
-        startDate: formattedDate1,
-      };
+      // let payload = {
+      //   filterby: value,
+      //   endDate: formattedDate2,
+      //   startDate: formattedDate1,
+      // };
 
-      this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-        console.log("updt date resp", resp);
-      });
+      // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+      //   console.log("updt date resp", resp);
+      // });
     }
   }
 

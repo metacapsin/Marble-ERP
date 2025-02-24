@@ -170,6 +170,30 @@ export class EditSalsComponent implements OnInit {
       });
 
     this.salesId = this.activeRoute.snapshot.params["id"];
+    this.handleTaxValidation();
+  }
+
+  handleTaxValidation() {
+    console.log('handleTaxValidation');
+    
+    const salesItemDetailsArray = this.editSalesForm.get("salesItemDetails") as FormArray;
+  
+    salesItemDetailsArray.controls.forEach((group) => {
+      const taxableAmountControl = group.get("salesItemTaxableAmount");
+      const taxControl = group.get("salesItemTax");
+  
+      taxableAmountControl?.valueChanges.subscribe((value) => {
+        if (value && value > 0) {
+          console.log('hey');
+          
+          taxControl?.setValidators([Validators.required]); // Make tax required
+          taxControl?.markAsTouched(); // Mark as touched if taxable amount is present
+        } else {
+          taxControl?.clearValidators(); // Remove required if no taxable amount
+        }
+        taxControl?.updateValueAndValidity(); // Update validity state
+      });
+    });
   }
 
   get salesItemDetails() {
@@ -594,7 +618,7 @@ export class EditSalsComponent implements OnInit {
       });
 
       this.salesItemDetails.push(salesItem);
-      // this.calculateTotalAmount();
+      this.handleTaxValidation()
     });
   }
 

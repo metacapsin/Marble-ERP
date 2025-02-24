@@ -100,7 +100,7 @@ export class ViewSuppliersComponent {
   ngOnInit() {
     this.getSuppliers();
     // this.getOpeningBalance();
-    this.getOpeningBalancePayList();
+    // this.getOpeningBalancePayList();
     this.getPurchase();
     this.getPaymentListBySupplierId();
     this.getPurchaseReturn();
@@ -113,11 +113,10 @@ export class ViewSuppliersComponent {
       .GetOpeningBalanceById(this.id)
       .subscribe((data: any) => {
         this.dueBalance = data.data;
-
         if(this.purchaseTotalValues && this.dueBalance){
           this.purchaseTotalValues.totalPaidAmount += this.dueBalance?.paidAmount; 
           this.purchaseTotalValues.totalDueAmount += this.dueBalance?.dueAmount;
-          this.purchaseTotalValues.totalAmount += this.dueBalance?.purchaseCost;
+          this.purchaseTotalValues.totalPurchaseCost += this.dueBalance?.totalAmount;
         }
         this.purchaseDataShowById?.unshift({
           type: 'openBalance'
@@ -130,22 +129,22 @@ export class ViewSuppliersComponent {
       .GetOpeningBalancePayListById(this.id)
       .subscribe((data: any) => {
         this.openingBalPayList = data.data;
+        this.paymentListDataBySupplierId = [...this.openingBalPayList, ...this.paymentListDataBySupplierId];
+        // this.purchaseDataShowById?.unshift({
+        //   type: 'openBalance'
+        // });
       });
   }
 
   getSuppliers() {
     this.SupplierService.GetSupplierDataById(this.id).subscribe((data: any) => {
-      console.log("supplier data by id", data);
       this.supplierID = data._id;
-      console.log("supplier id", this.supplierID);
       this.supplierDataById = [data];
-      console.log("this is supplier data by id", this.supplierDataById);
       this.supplier = {
         name: this.supplierDataById[0].name,
         billingAddress: this.supplierDataById[0].billingAddress,
         _id: this.supplierDataById[0]._id,
       };
-      console.log("this is supplier object", this.supplier);
     });
   }
 
@@ -198,10 +197,7 @@ export class ViewSuppliersComponent {
       this.paymentOutTotalValues = resp;
       // console.log("payment data of Supplier by id", resp);
       this.paymentListDataBySupplierId = resp.data;
-      console.log(
-        "this is payment list data by Supplier id",
-        this.paymentListDataBySupplierId
-      );
+      this.getOpeningBalancePayList()
     });
   }
 
@@ -223,8 +219,8 @@ export class ViewSuppliersComponent {
   allApiCall() {
     console.log("All api called");
     this.getPurchase();
-    this.getPurchaseReturn();
     this.getPaymentListBySupplierId();
+    this.getPurchaseReturn();
     this.getPurchaseReturnPaymentListBySupplierId();
   }
 
@@ -337,8 +333,9 @@ export class ViewSuppliersComponent {
             severity: "success",
             detail: resp.message,
           });
-          this.getOpeningBalancePayList();
-          this.getOpeningBalance();
+          this.allApiCall();
+          // this.getOpeningBalancePayList();
+          // this.getOpeningBalance();
           this.showDialoge = false;
           this.balanceId = null;
         });
@@ -381,9 +378,20 @@ export class ViewSuppliersComponent {
     this.showDialoge = false;
     this.showInvoiceDialog = false;
     this.showPaymentDialog = false;
-    this.getOpeningBalancePayList();
-    this.getOpeningBalance();
-    this.allApiCall();
+    // this.getOpeningBalancePayList();
+    // this.getOpeningBalance();
+    // this.allApiCall();
+
+    if(this.header === 'Purchase Payment'){
+      this.getPurchase();
+    this.getPaymentListBySupplierId();
+    } else if (this.header === 'Purchase Payment Return Payment') {
+      this.getPurchaseReturn();
+      this.getPurchaseReturnPaymentListBySupplierId();
+    } else {
+      this.getPurchase();
+      this.getPaymentListBySupplierId();
+    }
   }
 
   showInvoiceDialoge(Id: any) {
@@ -467,7 +475,7 @@ export class ViewSuppliersComponent {
       if (Id) {
         console.log("click2");
         this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
-          this.header = "Purchase Payment ";
+          this.header = "Purchase Payment";
           this.showPaymentDialog = true;
 
           this.paymentInvoicePurchaseDataShowById = [resp.data];
@@ -498,7 +506,7 @@ export class ViewSuppliersComponent {
         .subscribe((resp: any) => {
           this.showPaymentDialog = true;
           this.paymentInvoicePurchaseDataShowById = [resp.data];
-          this.header = "Purchase Return Payment ";
+          this.header = "Purchase Return Payment";
           this.paymentObject = {
             supplier: resp.data.supplier,
             purchaseReturnId: Id,

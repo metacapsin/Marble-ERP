@@ -219,28 +219,26 @@ export class AdminDashboardComponent {
     let startDate: Date;
     let endDate: Date;
     this.Service.getUpdatedTime().subscribe((resp: any) => {
-      let dates = resp.data;
-      console.log("Received Dates:", dates);
-
-      if (dates.startUtc && dates.endUtc) {
-        startDate = new Date(dates.startUtc);
-        endDate = new Date(dates.endUtc);
-        this.data = dates.filterby
+      if (resp?.status === 'success') {
+        let dates = resp.data;
+        if (dates.startUtc && dates.endUtc) {
+          startDate = new Date(dates.startUtc);
+          endDate = new Date(dates.endUtc);
+          this.data = dates.filterby
+        } else {
+          startDate = new Date(new Date().getFullYear(), 0, 1);
+          endDate = new Date();
+          this.data = "This Year";
+        }
+        const Sdate = this.formatDate(startDate);
+        const Edate = this.formatDate(endDate);
+        this.rangeDates = [startDate, endDate];
+        this.apiCall(Sdate, Edate);
       } else {
-        console.log(" Dates:");
-        startDate = new Date(new Date().getFullYear(), 0, 1);
-        endDate = new Date();
-        this.data = "This Year";
+        if(resp?.message === 'No preference found for the given user.'){
+        this.onSearchByChange({value: 'This Year'})
+        }
       }
-
-      console.log(" Dates:>>", startDate, endDate);
-      const Sdate = this.formatDate(startDate);
-      const Edate = this.formatDate(endDate);
-
-      this.rangeDates = [startDate, endDate];
-      console.log("Formatted Dates:", Sdate, Edate);
-
-      this.apiCall(Sdate, Edate);
     });
 
     this.optionsForFirstChat = {
@@ -358,7 +356,7 @@ export class AdminDashboardComponent {
         console.log("updt date resp", resp);
       });
 
-      
+
     }
   }
   apiCall(startDate, endDate): void {

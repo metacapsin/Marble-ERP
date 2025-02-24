@@ -214,14 +214,14 @@ export class SalesComponent implements OnInit {
     this.enddDate = value[1];
     this.GetSalesData(startDate, endDate);
 
-    let payload = {
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   onSearchByChange(event: any) {
@@ -299,15 +299,15 @@ export class SalesComponent implements OnInit {
     console.log(startDate, endDate);
     this.GetSalesData(startDate, endDate);
 
-    let payload = {
-      filterby: event,
-      endDate: endDate,
-      startDate: startDate,
-    };
+    // let payload = {
+    //   filterby: event,
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
 
-    this.datefilter.updAtedateRange(payload).subscribe((resp) => {
-      console.log("updt date resp", resp);
-    });
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   formatDate(date: Date): string {

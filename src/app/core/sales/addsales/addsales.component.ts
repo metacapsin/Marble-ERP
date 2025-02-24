@@ -160,6 +160,27 @@ export class AddsalesComponent implements OnInit {
       ]);
       salesDiscountControl.updateValueAndValidity();
     });
+
+  this.handleTaxValidation();
+  }
+
+  handleTaxValidation() {
+    const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
+  
+    salesItemDetailsArray.controls.forEach((group) => {
+      const taxableAmountControl = group.get("salesItemTaxableAmount");
+      const taxControl = group.get("salesItemTax");
+  
+      taxableAmountControl?.valueChanges.subscribe((value) => {
+        if (value && value > 0) {
+          taxControl?.setValidators([Validators.required]); // Make tax required
+          taxControl?.markAsTouched(); // Mark as touched if taxable amount is present
+        } else {
+          taxControl?.clearValidators(); // Remove required if no taxable amount
+        }
+        taxControl?.updateValueAndValidity(); // Update validity state
+      });
+    });
   }
 
   public setValidations(formControlName: string) {

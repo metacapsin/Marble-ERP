@@ -435,9 +435,9 @@ getFormattedDate(date: Date): string {
       Number(taxablePaymentAmount.value) +
       Number(nonTaxablePaymentAmount.value);
     // console.log("total", total);
-    let nontxAmount = Number(nontaxAmount.value || 0) - Number(discountAmount || 0);
+    let nontxAmount = Number(nontaxAmount.value || 0);
     console.log('nontxAmount',nontxAmount)
-    let allTotlAmnt = Number(total || 0) - Number(discountAmount || 0);
+    let allTotlAmnt = Number(total || 0);
     nontaxAmount.setValue(Number(nontxAmount.toFixed(2)));
     totalAmount.setValue(allTotlAmnt.toFixed(2));
 
@@ -891,7 +891,7 @@ getFormattedDate(date: Date): string {
           console.log("invalid form");
         }
       }
-      this.formSubmitted.emit();
+      // this.formSubmitted.emit();
     } else {
       const message = "Oops! your Amount is less then 1 ";
       this.messageService.add({ severity: "error", detail: message });
