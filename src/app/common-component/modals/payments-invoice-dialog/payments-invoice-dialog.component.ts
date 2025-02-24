@@ -435,9 +435,9 @@ getFormattedDate(date: Date): string {
       Number(taxablePaymentAmount.value) +
       Number(nonTaxablePaymentAmount.value);
     // console.log("total", total);
-    let nontxAmount = Number(nontaxAmount.value || 0) - Number(discountAmount || 0);
+    let nontxAmount = Number(nontaxAmount.value || 0);
     console.log('nontxAmount',nontxAmount)
-    let allTotlAmnt = Number(total || 0) - Number(discountAmount || 0);
+    let allTotlAmnt = Number(total || 0);
     nontaxAmount.setValue(Number(nontxAmount.toFixed(2)));
     totalAmount.setValue(allTotlAmnt.toFixed(2));
 

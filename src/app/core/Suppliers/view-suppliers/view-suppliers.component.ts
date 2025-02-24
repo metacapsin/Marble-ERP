@@ -333,8 +333,9 @@ export class ViewSuppliersComponent {
             severity: "success",
             detail: resp.message,
           });
-          this.getOpeningBalancePayList();
-          this.getOpeningBalance();
+          this.allApiCall();
+          // this.getOpeningBalancePayList();
+          // this.getOpeningBalance();
           this.showDialoge = false;
           this.balanceId = null;
         });

@@ -257,7 +257,7 @@ export class ViewCustomersComponent implements OnInit {
     else if (this.salesPaymentId) {
       this.salesPayment.deletePaymentById(this.salesPaymentId).subscribe((resp: any) => {
         this.messageService.add({ severity: "success", detail: resp.message });
-        // this.getsales();
+         this.getsales();
         this.getPaymentListByCustomerId();
         this.showDialoge = false;
         this.salesPaymentId=null;
