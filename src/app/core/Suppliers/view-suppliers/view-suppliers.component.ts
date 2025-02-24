@@ -79,7 +79,7 @@ export class ViewSuppliersComponent {
   PurchaseReturnPaymentId: any;
   PurchasePaymentId: any;
   dueBalance: any;
-  openingBalPayList: any;
+  openingBalPayList: any[] = [];
   balanceId: any;
   constructor(
     private SupplierService: SuppliersdataService,
@@ -128,11 +128,18 @@ export class ViewSuppliersComponent {
     this.customerService
       .GetOpeningBalancePayListById(this.id)
       .subscribe((data: any) => {
-        this.openingBalPayList = data.data;
-        this.paymentListDataBySupplierId = [...this.openingBalPayList, ...this.paymentListDataBySupplierId];
+        console.log("data.data.length", data.data.length)
+        if(data.data && data.data.length){
+          this.openingBalPayList = data.data;
+          this.paymentListDataBySupplierId = [...this.openingBalPayList, ...this.paymentListDataBySupplierId];
+        } else {
+          this.openingBalPayList = [];
+        }
+       
         // this.purchaseDataShowById?.unshift({
         //   type: 'openBalance'
         // });
+        
       });
   }
 
