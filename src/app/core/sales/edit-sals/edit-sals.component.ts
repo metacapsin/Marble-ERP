@@ -266,6 +266,7 @@ export class EditSalsComponent implements OnInit {
         console.log("resp.data?>>>", resp.data);
         this.slabDatas = resp.data.map((element) => ({
           name: element.slabName,
+          displayLabel: `${element.slabName}(${element.slabNo})`,
           // _id: {
           //   _id: element._id,
           //   slabName: element.slabName,
