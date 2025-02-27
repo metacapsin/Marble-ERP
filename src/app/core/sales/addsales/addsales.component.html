@@ -469,9 +469,9 @@
                             [options]="slabDataList[i]"
                             appendTo="body"
                             [style]="{ width: '100%' }"
-                            optionLabel="name"
+                            optionLabel="displayLabel"
                             [filter]="true"
-                            filterBy="name"
+                            filterBy="displayLabel"
                             optionValue="_id"
                             name="salesItemProduct"
                             formControlName="salesItemProduct"
@@ -481,7 +481,7 @@
                             <!-- Custom item template to disable items based on the condition -->
                             <ng-template let-option pTemplate="item">
                               <div [ngClass]="{ 'disabled-item': option.totalSQFT === 0 }">
-                                {{ option.name }}
+                                {{ option.displayLabel }}
                               </div>
                             </ng-template>
                             
