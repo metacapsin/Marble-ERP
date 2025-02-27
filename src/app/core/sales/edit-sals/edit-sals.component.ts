@@ -862,13 +862,13 @@ export class EditSalsComponent implements OnInit {
       otherChargesTaxAmount +
       shippingTaxAmount -
       taxable;
-    itemTotalAmount = Number(nonTaxable) + Number(taxable);
     if (nonTaxable) {
       nonTaxable -= discount;
     } else {
       // itemTotalAmount -= discount;
       taxable -= discount;
     }
+    itemTotalAmount = Number(nonTaxable) + Number(taxable);
     this.editSalesForm
       .get("salesTotalAmount")
       .setValue(Number(itemTotalAmount));

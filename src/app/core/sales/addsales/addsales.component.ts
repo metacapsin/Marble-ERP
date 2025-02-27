@@ -773,13 +773,13 @@ export class AddsalesComponent implements OnInit {
       otherChargesTaxAmount +
       shippingTaxAmount) -
       taxable;
-    itemTotalAmount = Number(nonTaxable) + Number(taxable);
     if (nonTaxable) {
       nonTaxable -= discount;
     } else {
       taxable -= discount;
       // itemTotalAmount -= discount;
     }
+    itemTotalAmount = Number(nonTaxable) + Number(taxable);
     this.addSalesForm.get("salesTotalAmount").setValue(Number(itemTotalAmount));
     this.addSalesForm.get("taxable").setValue(Number(taxable));
     this.addSalesForm.get("nonTaxable").setValue(Number(nonTaxable));
