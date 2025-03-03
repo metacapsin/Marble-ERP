@@ -25,6 +25,8 @@ import { TaxesService } from "../../settings/taxes/taxes.service";
 import { TaxVendorsService } from "../../tax-vendors/tax-vendors.service";
 import { blockProcessorService } from "../../block-processor/block-processor.service";
 import { AddSlabPurchaseComponent } from "../add-slab-purchase/add-slab-purchase.component";
+import * as moment from 'moment';
+
 
 @Component({
   selector: "app-add-new-purchase",
@@ -561,11 +563,11 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       } else {
         console.error("formData.paidToSupplierPurchaseCost is not defined");
       }
-
+      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,
-        purchaseDate: formData.purchaseDate,
+        purchaseDate: convertedDate,
         purchaseType: "lot",
         purchaseNotes: formData.purchaseNotes,
         purchaseDiscount: Number(formData.purchaseDiscount),
@@ -586,10 +588,11 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         totalTransportationCharges:this.ItemDetails?.totalTransportationCharges,
       };
     } else {
+      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,
-        purchaseDate: formData.purchaseDate,
+        purchaseDate: convertedDate,
         purchaseType: "slab",
         purchaseNotes: formData.purchaseNotes,
         purchaseCost: Number(formData.paidToSupplierPurchaseCost).toFixed(2),

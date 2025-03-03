@@ -74,9 +74,9 @@
                       </div>
                       <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                         <div class="form-group local-forms">
-                          <label for="purchaseDate">Purchase Date<span class="login-danger">*</span></label>
-                          <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="mm/dd/yy"
-                            formControlName="purchaseDate" placeholder="mm/dd/yyyy"
+                          <label for="purchaseDate">Purchase Date <span class="login-danger">*</span></label>
+                          <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="dd/mm/yy"
+                            formControlName="purchaseDate" placeholder="DD/MM/YYYY"
                             [styleClass]="'col-12'"></p-calendar>
                           <div *ngIf="
                               addNewPurchaseForm
@@ -676,7 +676,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("purchaseDate").value | date: 'd MMM yyyy' }}
+                                  {{ addNewPurchaseForm.get("purchaseDate").value | dateTransform | date: 'd MMM yyyy' }}
+
                                 </p>
                               </div>
                             </div>

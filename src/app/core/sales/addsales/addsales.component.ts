@@ -244,12 +244,10 @@ export class AddsalesComponent implements OnInit {
 
     let payload = {
       shippingAddress: this.UpdtshippingAddress,
-      phoneNo: customer.phoneNo,
-      name: customer.name,
       _id: customer._id,
     };
 
-    this.customerService.UpDataCustomerApi(payload).subscribe((resp: any) => {
+    this.customerService.UpdateCustomerShippingAddress(payload).subscribe((resp: any) => {
       if (resp.status === "success") {
         const value = this.addSalesForm.get("customer").value;
         let data = {

@@ -345,7 +345,7 @@ export class EditSalsComponent implements OnInit {
 
     // Optionally, update other fields as needed
     this.editSalesForm.patchValue({
-      salesTermsAndCondition: this.setAddressData?.termsAndCondition,
+      salesTermsAndCondition:  this.editSalesForm.get("salesTermsAndCondition")?.value || this.setAddressData?.termsAndCondition,
     });
   }
 
@@ -384,12 +384,10 @@ export class EditSalsComponent implements OnInit {
 
     let payload = {
       shippingAddress: this.UpdtshippingAddress,
-      phoneNo: customer.phoneNo,
-      name: customer.name,
       _id: customer._id,
     };
 
-    this.customerService.UpDataCustomerApi(payload).subscribe((resp: any) => {
+    this.customerService.UpdateCustomerShippingAddress(payload).subscribe((resp: any) => {
       if (resp.status === "success") {
         const value = this.editSalesForm.get("customer").value;
         let data = {
