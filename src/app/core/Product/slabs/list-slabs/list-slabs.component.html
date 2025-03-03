@@ -177,7 +177,7 @@
                           <strong>Slab Number</strong><br />{{ item?.slabNo }}
                         </div>
                         <div class="col">
-                          <strong>Size</strong><br />{{ item?.slabSize }}
+                          <strong>Size</strong><br />{{ formatSlabSize(item?.slabSize) }}
                         </div>
                    
                         <div class="col">
@@ -412,7 +412,7 @@
                         {{ slabs?.slabName }}
                       </td>
                       <td>
-                        {{ slabs?.slabSize }}
+                        {{ formatSlabSize(slabs?.slabSize) }}
                       </td>
                       <td>
                         {{ slabs?.categoryDetail?.name }}
@@ -576,7 +576,7 @@
                     Size
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-form-label">{{ slabDetail?.slabSize }}</p>
+                    <p class="col-form-label">{{ formatSlabSize(slabDetail?.slabSize) }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2">

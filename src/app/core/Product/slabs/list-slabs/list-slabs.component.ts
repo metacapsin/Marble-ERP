@@ -318,4 +318,14 @@ export class ListSlabsComponent {
     const endIndex = startIndex + event.rows;
     const currentPageData = this.allSlabsDaTa.slice(startIndex, endIndex);
   }
+
+
+  formatSlabSize(slabSize: string | undefined): string {
+    if (!slabSize) return 'N/A';
+  
+    return slabSize
+      .split('x') // Split by "x"
+      .map(part => part.trim() ? part.trim() : '0') // Replace empty parts with "0"
+      .join(' x '); // Join back with spaces around "x"
+  }
 }

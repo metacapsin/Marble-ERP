@@ -139,10 +139,38 @@
                     </td>
                     <td *ngIf="purchase.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag>
                     </td>
-                    <td>₹ {{ purchase.taxVendor ?  (purchase.taxVendor?.paidAmount + purchase.paidAmount) :  purchase.paidAmount }}</td>
-                    <td>₹ {{ purchase.taxVendor ?  (purchase.taxVendor?.dueAmount + purchase.dueAmount) :  purchase.dueAmount }}</td>
-                    <td>₹ {{ purchase.taxVendor ?  (purchase.taxVendor?.taxVendorAmount +  purchase.purchaseCost)  : purchase.purchaseCost  }}</td>
-                    <td>₹ {{purchase.purchaseTotalAmount | indianCurrency }}</td>
+                    <!-- <td>
+                    ₹ {{ purchase.taxVendor ? (purchase.taxVendor?.paidAmount + purchase.paidAmount) | indianCurrency :  purchase.paidAmount | indianCurrency}}
+                  </td>
+                    <td>₹ {{ purchase.taxVendor ? (purchase.taxVendor?.dueAmount + purchase.dueAmount) | indianCurrency:  purchase.dueAmount | indianCurrency }}
+                    </td>
+                    <td>₹ {{ purchase.taxVendor ? (purchase.taxVendor?.taxVendorAmount + purchase.purchaseCost) | indianCurrency  : purchase.purchaseCost | indianCurrency }}
+                    </td>
+                    <td>₹ {{purchase.purchaseTotalAmount | indianCurrency }}
+                    </td> -->
+                    <td *ngIf="purchase.taxVendor; else withoutTaxVendor">
+                      ₹ {{ (purchase.taxVendor?.paidAmount + purchase.paidAmount) | indianCurrency }}
+                    </td>
+                    <ng-template #withoutTaxVendor>
+                      <td>₹ {{ purchase.paidAmount | indianCurrency }}</td>
+                    </ng-template>
+                    
+                    <td *ngIf="purchase.taxVendor; else withoutDueAmount">
+                      ₹ {{ (purchase.taxVendor?.dueAmount + purchase.dueAmount) | indianCurrency }}
+                    </td>
+                    <ng-template #withoutDueAmount>
+                      <td>₹ {{ purchase.dueAmount | indianCurrency }}</td>
+                    </ng-template>
+                    
+                    <td *ngIf="purchase.taxVendor; else withoutTaxVendorAmount">
+                      ₹ {{ (purchase.taxVendor?.taxVendorAmount + purchase.purchaseCost) | indianCurrency }}
+                    </td>
+                    <ng-template #withoutTaxVendorAmount>
+                      <td>₹ {{ purchase.purchaseCost | indianCurrency }}</td>
+                    </ng-template>
+                    
+                    <td>₹ {{ purchase.purchaseTotalAmount | indianCurrency }}</td>
+                    
                     <td appShowHide [roles]="['admin', 'super-admin']" class="action-buttons">
                       <p-button [text]="true" icon="fa-solid fa-eye" pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"
                         (click)="showInvoiceDialoge(purchase._id)"></p-button>

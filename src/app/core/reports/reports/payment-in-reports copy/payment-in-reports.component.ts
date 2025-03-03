@@ -218,7 +218,9 @@ export class PaymentInReportComponent {
       const formattedDate1 = this.formatDate(startDate);
       const formattedDate2 = this.formatDate(endDate);
       console.log("Start Date:", formattedDate1, "End Date:", formattedDate2);
-      this.getPaymentInReportData(startDate, startDate);
+      console.log("Computed Start Date:", formattedDate1);
+      console.log("Computed End Date:", formattedDate2);
+      this.getPaymentInReportData(startDate, endDate);
 
       // let payload = {
       //   filterby: value,
