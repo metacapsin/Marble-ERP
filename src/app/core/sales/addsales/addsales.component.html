@@ -584,7 +584,9 @@
                               type="number"
                               formControlName="salesItemPieces"
                               class="form-control"
-                            />
+                              (input)="onPiecesEdit(i)"
+
+                              />
                             <div
                               *ngIf="
                                 addSalesForm
@@ -1357,6 +1359,17 @@
                               addSalesForm.get("nonTaxable").value
                                 | number : "1.2-2"
                             }}
+                          </span>
+                        </p>
+                        <p
+                          class="mt-2"
+                          *ngIf="addSalesForm.get('nonTaxable')?.value == 0"
+                        >
+                          Non-Taxable Amount
+                          <span
+                          >
+                            ₹
+                           0
                           </span>
                         </p>
                         <p *ngIf="addSalesForm.get('salesDiscount').value">

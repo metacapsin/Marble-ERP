@@ -211,6 +211,8 @@ export class AddsalesComponent implements OnInit {
     } else {
       console.log("salesItemDetailsIndex out of range");
     }
+    this.manuallyEditedPieces.splice(salesItemDetailsIndex, 1); // Remove manual edit flag
+    console.log(`Product at salesItemDetailsIndex ${salesItemDetailsIndex} deleted. Pieces will now reset.`);
     this.calculateTotalAmount();
   }
 
@@ -361,6 +363,9 @@ export class AddsalesComponent implements OnInit {
       sqftPerPiece: [""],
     });
     this.salesItemDetails.push(item);
+    this.manuallyEditedPieces.push(false); // Reset manual tracking for new item
+    console.log("New product added. Pieces will calculate automatically.");
+    this.calculateTotalAmount();
   }
 
   onWareHouseSelect(value: any, i: number) {
@@ -646,6 +651,10 @@ export class AddsalesComponent implements OnInit {
     }
   }
   
+  // isPiecesManuallyEdited: boolean = false;
+
+  manuallyEditedPieces: boolean[] = []; // Tracks which indexes have manually edited pieces
+
   calculateTotalAmount() {
     // debugger
     // this.editAddressWithDrop()
@@ -657,7 +666,7 @@ export class AddsalesComponent implements OnInit {
     const salesItems = this.addSalesForm.get("salesItemDetails") as FormArray;
 
     this.totalTaxableAmount = 0;
-    salesItems.controls.forEach((item) => {
+    salesItems.controls.forEach((item, index) => {
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];
@@ -717,7 +726,18 @@ export class AddsalesComponent implements OnInit {
           .setValidators([Validators.max(totalAmount)]);
         item.get("salesItemNonTaxableAmount").updateValueAndValidity();
       }
-      item.get("salesItemPieces").setValue(Number(isNaN(pieces) ? 0 : pieces.toFixed(2)));
+      // if (!this.isPiecesManuallyEdited) {
+      //   const pieces = quantity / sqftPerPiece;
+      //   item.get("salesItemPieces").setValue(Number(isNaN(pieces) ? 0 : pieces.toFixed(2)));
+      // }
+
+        // **Check if user manually edited pieces**
+        if (!this.manuallyEditedPieces[index]) {
+          console.log(`Auto-calculating pieces for index ${index}: ${pieces}`);
+          item.get("salesItemPieces").setValue(Number(isNaN(pieces) ? 0 : pieces.toFixed(2)), { emitEvent: false });
+      } else {
+          console.log(`Skipping recalculation for manually edited pieces at index ${index}`);
+      }
       item.get("salesItemTotal").setValue(Number(totalAmount));
       item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount));
       item
@@ -765,28 +785,108 @@ export class AddsalesComponent implements OnInit {
     console.log('--',salesGrossTotal,shipping,otherCharges,otherChargesTaxAmount,shippingTaxAmount,taxable,'--');
     
     nonTaxable =
-      (salesGrossTotal +
-      shipping +
-      otherCharges +
-      otherChargesTaxAmount +
-      shippingTaxAmount) -
-      taxable;
-    if (nonTaxable) {
-      nonTaxable -= discount;
+    salesGrossTotal +
+    shipping +
+    otherCharges +
+    otherChargesTaxAmount +
+    shippingTaxAmount -
+    taxable;
+    
+    // Logging the initial calculation values
+    console.log('Discount Calculation - Initial Values:');
+    console.log('Original Non-Taxable Amount:', nonTaxable);
+    console.log('Original Taxable Amount:', taxable);
+    console.log('Discount Amount:', discount);
+    
+    // New approach for discount calculation
+    let remainingDiscount = discount;
+    
+    console.log('Starting Discount Subtraction Process');
+    
+    // First, subtract from non-taxable amount
+    if (nonTaxable > 0) {
+    console.log(`Non-Taxable Amount before discount: ${nonTaxable}`);
+    console.log(`Remaining Discount: ${remainingDiscount}`);
+    
+    if (remainingDiscount <= nonTaxable) {
+      // If discount is less than or equal to non-taxable amount
+      console.log(`Discount (${remainingDiscount}) is less than or equal to Non-Taxable Amount (${nonTaxable})`);
+      nonTaxable -= remainingDiscount;
+      remainingDiscount = 0;
+      console.log(`Non-Taxable Amount after discount: ${nonTaxable}`);
     } else {
-      taxable -= discount;
-      // itemTotalAmount -= discount;
+      // If discount is more than non-taxable amount
+      console.log(`Discount (${remainingDiscount}) is greater than Non-Taxable Amount (${nonTaxable})`);
+      remainingDiscount -= nonTaxable;
+      nonTaxable = 0; // Explicitly set to 0
+      console.log('Non-Taxable Amount set to 0');
+      console.log(`Remaining Discount after consuming Non-Taxable: ${remainingDiscount}`);
     }
+    } else {
+    console.log('No Non-Taxable Amount to subtract discount from');
+    }
+    
+    // If there's remaining discount, subtract from taxable amount
+    if (remainingDiscount > 0) {
+    console.log(`Applying remaining discount (${remainingDiscount}) to Taxable Amount`);
+    console.log(`Taxable Amount before discount: ${taxable}`);
+    
+    taxable -= remainingDiscount;
+    
+    console.log(`Taxable Amount after discount: ${taxable}`);
+    }
+    
+    // Calculate total amount
     itemTotalAmount = Number(nonTaxable) + Number(taxable);
-    this.addSalesForm.get("salesTotalAmount").setValue(Number(itemTotalAmount));
-    this.addSalesForm.get("taxable").setValue(Number(taxable));
-    this.addSalesForm.get("nonTaxable").setValue(Number(nonTaxable));
+    
+    console.log('Final Calculation Results:');
+    console.log('Non-Taxable Amount:', nonTaxable);
+    console.log('Taxable Amount:', taxable);
+    console.log('Total Item Amount:', itemTotalAmount);
+    
+    // More robust logging for form value setting
+    try {
+    const salesTotalAmountControl = this.addSalesForm.get("salesTotalAmount");
+    const taxableControl = this.addSalesForm.get("taxable");
+    const nonTaxableControl = this.addSalesForm.get("nonTaxable");
+    
+    if (salesTotalAmountControl) {
+      salesTotalAmountControl.setValue(Number(itemTotalAmount));
+      console.log('Sales Total Amount set to:', itemTotalAmount);
+    } else {
+      console.error('Sales Total Amount control not found');
+    }
+    
+    if (taxableControl) {
+      taxableControl.setValue(Number(taxable));
+      console.log('Taxable Amount set to:', taxable);
+    } else {
+      console.error('Taxable control not found');
+    }
+    
+    if (nonTaxableControl) {
+      nonTaxableControl.setValue(Number(nonTaxable));
+      console.log('Non-Taxable Amount set to:', nonTaxable);
+    } else {
+      console.error('Non-Taxable control not found');
+    }
+    
+    console.log('Discount calculation completed and form values updated');
+    } catch (error) {
+    console.error('Error setting form values:', error);
+    }
+    
     if (this.setAddressData?.isTaxVendor) {
       this.taxVendorAmount();
     }
 
     console.log("Updated salesItemDetails:", this.addSalesForm.value);
   }
+
+  onPiecesEdit(index: number) {
+    this.manuallyEditedPieces[index] = true;
+    console.log(`User manually edited pieces at index ${index}`);
+}
 
   calculatesummaryTaxAmount(_type: any) {
     console.log(_type);

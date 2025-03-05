@@ -71,6 +71,9 @@ export class EditSalsComponent implements OnInit {
   UpdtshippingAddress: any;
   isUpdateAddress: boolean = false;
   isrequired: boolean = false;
+
+  manuallyEditedPieces: boolean[] = []; // Tracks manually edited pieces
+
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -224,6 +227,9 @@ export class EditSalsComponent implements OnInit {
     } else {
       console.log("salesItemDetailsIndex out of range");
     }
+    this.manuallyEditedPieces.splice(salesItemDetailsIndex, 1); // ✅ Remove manual edit flag
+
+    console.log(`Product at index ${salesItemDetailsIndex} deleted. Pieces will now reset.`);
     this.calculateTotalAmount();
   }
 
@@ -258,6 +264,11 @@ export class EditSalsComponent implements OnInit {
       sqftPerPiece: [""],
     });
     this.salesItemDetails.push(item);
+    this.manuallyEditedPieces.push(false); // ✅ Reset manual tracking for new item
+
+    console.log("New product added. Pieces will calculate automatically.");
+    this.calculateTotalAmount();
+    
   }
   onWareHouseSelect(value: any, i: number) {
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
@@ -507,6 +518,7 @@ export class EditSalsComponent implements OnInit {
 
     this.SalesService.GetSalesDataById(this.salesId).subscribe((resp: any) => {
       this.patchForm(resp.data);
+      console.log("resp.data", resp.data);
     });
   }
 
@@ -521,10 +533,13 @@ export class EditSalsComponent implements OnInit {
     const control = this.editSalesForm.get(controlName);
     return control?.hasError(errorName) && (control.dirty || control.touched);
   }
+  isPatchingData: boolean = false;
 
   patchForm(data) {
     console.log("data>>", data);
     this.setAddressData = data.billingAddress;
+        // Prevent recalculation while patching
+        this.isPatchingData = true; 
     this.editSalesForm.patchValue({
       billingAddress: data.billingAddress,
       customer: data.customer,
@@ -617,8 +632,12 @@ export class EditSalsComponent implements OnInit {
       });
 
       this.salesItemDetails.push(salesItem);
+      this.manuallyEditedPieces[index] = false; // Reset manual edit tracking for API patch
+
       this.handleTaxValidation()
     });
+    this.isPatchingData = false; // Re-enable recalculations after patching
+    this.calculateTotalAmount(); // Now calculate totals
   }
 
   openEwayBillPopup() {
@@ -742,17 +761,27 @@ export class EditSalsComponent implements OnInit {
       console.error("Slab not found!");
     }
   }
+  isPiecesManuallyEdited: boolean = false;
+
   calculateTotalAmount() {
     let salesGrossTotal = 0;
-    let salesOrderTax: number = 0;
+/*************  ✨ Codeium Command ⭐  *************/
+/**
+ * Calculates total amount of sales
+ * @description
+ * This function calculates total amount of sales based on the items in the salesItemDetails form array.
+ * It also calculates taxable and non-taxable amounts and updates the form accordingly.
+ */
+/******  4c30cd54-ee29-4042-bbe1-0a7b607eb872  *******/    let salesOrderTax: number = 0;
     let taxable: number = 0;
     let nonTaxable: number = 0;
     const salesItems = this.editSalesForm.get("salesItemDetails") as FormArray;
+    console.log("Starting calculation. isPatchingData:", this.isPatchingData);
 
     console.log("salesOrderTax", salesOrderTax);
 
     this.totalTaxableAmount = 0;
-    salesItems.controls.forEach((item) => {
+    salesItems.controls.forEach((item , index) => {
       const quantity = item.get("salesItemQuantity").value || 0;
       const unitPrice = item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];
@@ -804,7 +833,53 @@ export class EditSalsComponent implements OnInit {
           .setValidators([Validators.max(totalAmount)]);
         item.get("salesItemNonTaxableAmount").updateValueAndValidity();
       }
-      item.get("salesItemPieces").patchValue(Number(pieces.toFixed(2)));
+   
+const previousPieces = item.get("salesItemPieces").value;
+const previousQuantity = item.get("salesItemQuantity")?.value || 0;
+
+// ✅ Ensure recalculation when quantity is entered for new products right method
+if (!this.manuallyEditedPieces[index] && !this.isPatchingData && quantity > 0 &&  (item.get("salesItemPieces").value === null || item.get("salesItemPieces").value === undefined || item.get("salesItemPieces").value === "" && (previousPieces === null || previousPieces === undefined || previousPieces === "" || previousPieces !== pieces ))) {
+  console.log(`Auto-calculating pieces for index ${index}: ${pieces}`);
+  item.get("salesItemPieces").setValue(Number(isNaN(pieces) ? 0 : pieces.toFixed(2)), { emitEvent: false });
+} else {
+  console.log(`Skipping recalculation for index ${index}, manually edited or already set.`);
+}
+
+
+
+
+// ---------------------------------------------------------
+
+// second right method
+
+// const previousPieces = item.get("salesItemPieces").value;
+// const previousQuantity = item.get("salesItemQuantity")?.value || 0;
+
+// console.log("previousQuantity", previousQuantity);
+
+// // ✅ If user changes quantity after manually editing pieces, reset manual edit tracking
+// if (this.manuallyEditedPieces[index] && previousQuantity !== quantity) {
+//     console.log(`Quantity changed after manual edit for index ${index}, allowing recalculation.`);
+//     this.manuallyEditedPieces[index] = false; // Reset manual edit tracking
+// }
+
+// // ✅ If the quantity changes, reset pieces to trigger recalculation
+// if (!this.manuallyEditedPieces[index] && !this.isPatchingData && quantity > 0) {
+   
+
+//     // ✅ Recalculate `salesItemPieces` each time quantity changes (if not manually edited)
+//     if (item.get("salesItemPieces").value === null || item.get("salesItemPieces").value === undefined || item.get("salesItemPieces").value === "" || previousPieces !== pieces) {
+
+   
+//         console.log(`Auto-recalculating pieces for index ${index}: ${pieces}`);
+//         item.get("salesItemPieces").setValue(Number(isNaN(pieces) ? 0 : pieces.toFixed(2)), { emitEvent: false });
+//     }
+// } else {
+//     console.log(`Skipping recalculation for index ${index}, manually edited or already set.`);
+// }
+
+
+
       item.get("salesItemTotal").setValue(Number(totalAmount));
       item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount));
       item
@@ -853,31 +928,128 @@ export class EditSalsComponent implements OnInit {
     // itemTotalAmount += shipping;
     // itemTotalAmount += otherCharges;
     // nonTaxable = itemTotalAmount - taxable;
-    nonTaxable =
-      salesGrossTotal +
-      shipping +
-      otherCharges +
-      otherChargesTaxAmount +
-      shippingTaxAmount -
-      taxable;
-    if (nonTaxable) {
-      nonTaxable -= discount;
-    } else {
-      // itemTotalAmount -= discount;
-      taxable -= discount;
-    }
-    itemTotalAmount = Number(nonTaxable) + Number(taxable);
-    this.editSalesForm
-      .get("salesTotalAmount")
-      .setValue(Number(itemTotalAmount));
-    this.editSalesForm.get("taxable").setValue(Number(taxable));
-    this.editSalesForm.get("nonTaxable").setValue(Number(nonTaxable));
+    // nonTaxable =
+    //   salesGrossTotal +
+    //   shipping +
+    //   otherCharges +
+    //   otherChargesTaxAmount +
+    //   shippingTaxAmount -
+    //   taxable;
+    // if (nonTaxable ) {
+    //   nonTaxable -= discount;
+    // } else {
+    //   // itemTotalAmount -= discount;
+    //   taxable -= discount;
+    // }
+    // itemTotalAmount = Number(nonTaxable) + Number(taxable);
+
+
+  // Modify the existing discount calculation part in calculateTotalAmount method
+nonTaxable =
+salesGrossTotal +
+shipping +
+otherCharges +
+otherChargesTaxAmount +
+shippingTaxAmount -
+taxable;
+
+// Logging the initial calculation values
+console.log('Discount Calculation - Initial Values:');
+console.log('Original Non-Taxable Amount:', nonTaxable);
+console.log('Original Taxable Amount:', taxable);
+console.log('Discount Amount:', discount);
+
+// New approach for discount calculation
+let remainingDiscount = discount;
+
+console.log('Starting Discount Subtraction Process');
+
+// First, subtract from non-taxable amount
+if (nonTaxable > 0) {
+console.log(`Non-Taxable Amount before discount: ${nonTaxable}`);
+console.log(`Remaining Discount: ${remainingDiscount}`);
+
+if (remainingDiscount <= nonTaxable) {
+  // If discount is less than or equal to non-taxable amount
+  console.log(`Discount (${remainingDiscount}) is less than or equal to Non-Taxable Amount (${nonTaxable})`);
+  nonTaxable -= remainingDiscount;
+  remainingDiscount = 0;
+  console.log(`Non-Taxable Amount after discount: ${nonTaxable}`);
+} else {
+  // If discount is more than non-taxable amount
+  console.log(`Discount (${remainingDiscount}) is greater than Non-Taxable Amount (${nonTaxable})`);
+  remainingDiscount -= nonTaxable;
+  nonTaxable = 0; // Explicitly set to 0
+  console.log('Non-Taxable Amount set to 0');
+  console.log(`Remaining Discount after consuming Non-Taxable: ${remainingDiscount}`);
+}
+} else {
+console.log('No Non-Taxable Amount to subtract discount from');
+}
+
+// If there's remaining discount, subtract from taxable amount
+if (remainingDiscount > 0) {
+console.log(`Applying remaining discount (${remainingDiscount}) to Taxable Amount`);
+console.log(`Taxable Amount before discount: ${taxable}`);
+
+taxable -= remainingDiscount;
+
+console.log(`Taxable Amount after discount: ${taxable}`);
+}
+
+// Calculate total amount
+itemTotalAmount = Number(nonTaxable) + Number(taxable);
+
+console.log('Final Calculation Results:');
+console.log('Non-Taxable Amount:', nonTaxable);
+console.log('Taxable Amount:', taxable);
+console.log('Total Item Amount:', itemTotalAmount);
+
+// More robust logging for form value setting
+try {
+const salesTotalAmountControl = this.editSalesForm.get("salesTotalAmount");
+const taxableControl = this.editSalesForm.get("taxable");
+const nonTaxableControl = this.editSalesForm.get("nonTaxable");
+
+if (salesTotalAmountControl) {
+  salesTotalAmountControl.setValue(Number(itemTotalAmount));
+  console.log('Sales Total Amount set to:', itemTotalAmount);
+} else {
+  console.error('Sales Total Amount control not found');
+}
+
+if (taxableControl) {
+  taxableControl.setValue(Number(taxable));
+  console.log('Taxable Amount set to:', taxable);
+} else {
+  console.error('Taxable control not found');
+}
+
+if (nonTaxableControl) {
+  nonTaxableControl.setValue(Number(nonTaxable));
+  console.log('Non-Taxable Amount set to:', nonTaxable);
+} else {
+  console.error('Non-Taxable control not found');
+}
+
+console.log('Discount calculation completed and form values updated');
+} catch (error) {
+console.error('Error setting form values:', error);
+}
     if (this.setAddressData?.isTaxVendor) {
       this.taxVendorAmount();
     }
 
-    console.log(">>>>>>>>>>>>>>>", this.editSalesForm.value);
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    console.log("Updated Form Data:", this.editSalesForm.value);
+
   }
+  onPiecesEdit(index: number) {
+    this.manuallyEditedPieces[index] = true;
+    console.log(`User manually edited pieces at index ${index}`);
+}
+
+
   taxVendorAmount() {
     const vendorTaxApplied = this.editSalesForm.get("vendorTaxApplied").value;
 

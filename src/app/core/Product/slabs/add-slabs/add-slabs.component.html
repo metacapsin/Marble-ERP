@@ -451,6 +451,15 @@
                                 <input class="form-control" type="number" placeholder="Enter Pieces"
                                   formControlName="noOfPieces" />
                               </div>
+                              <div *ngIf="
+                                slabsAddForm
+                                  .get('noOfPieces')
+                                  ?.hasError('required') &&
+                                slabsAddForm.get('noOfPieces')
+                                  ?.touched
+                              ">
+                                <span class="login-danger">Field is required.</span>
+                              </div>
 
                               <div *ngIf="
                                   (slabsAddForm.get('noOfPieces')?.hasError('min') &&
