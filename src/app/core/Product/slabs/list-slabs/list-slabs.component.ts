@@ -12,6 +12,7 @@ import { SlabsService } from "../slabs.service";
 import { DialogModule } from "primeng/dialog";
 import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.service";
 import { Paginator, PaginatorModule } from "primeng/paginator";
+import { HttpClient } from "@angular/common/http";
 @Component({
   selector: "app-list-slabs",
   standalone: true,
@@ -56,13 +57,113 @@ export class ListSlabsComponent {
     private service: SlabsService,
     private _snackBar: MatSnackBar,
     private messageService: MessageService,
-    private WarehouseService: WarehouseService
+    private WarehouseService: WarehouseService,
+    private http: HttpClient
   ) {}
 
   currentPage = 0;
   rowsPerPage = 10;
   totalRecords = 0;
   pagedData: any[] = [];
+
+  expenses: any[] = [];
+  apiUrl = 'https://your-api-endpoint.com/update-expenses'; // Replace with actual API URL
+
+  blockProcessorList = [
+    { _id: '67a462b313c9d50980e4f76a', name: 'Siyaram Granite' },
+    { _id: '67a462b313c9d50980e4f76b', name: 'Rajdhani Marbles' },
+    { _id: '67a462b313c9d50980e4f76c', name: 'Elite Stones' }
+  ];
+
+  expenseOptions = [
+    { label: 'Other Expense', value: 'Other Expense' },
+    { label: 'Block/Slab Processing', value: 'Block/Slab Processing' }
+  ];
+
+  addExpense() {
+    this.expenses.push({
+      expenseType: '',
+      recipient: '',
+      date: '',
+      amount: null,
+      processingDate: '',
+      processingCost: null,
+      blockProcessor: { _id: '', name: '' }
+    });
+  }
+
+  removeExpense(index: number) {
+    this.expenses.splice(index, 1);
+  }
+
+  onExpenseTypeChange(expense: any) {
+    if (expense.expenseType === 'Other Expense') {
+      delete expense.processingDate;
+      delete expense.processingCost;
+      delete expense.blockProcessor;
+      expense.recipient = '';
+      expense.date = '';
+      expense.amount = null;
+    } else if (expense.expenseType === 'Block/Slab Processing') {
+      delete expense.recipient;
+      delete expense.date;
+      delete expense.amount;
+      expense.processingDate = '';
+      expense.processingCost = null;
+      expense.blockProcessor = { _id: '', name: '' };
+    }
+  }
+
+  onBlockProcessorSelect(expense: any, selectedProcessor: any) {
+    expense.blockProcessor = { _id: selectedProcessor._id, name: selectedProcessor.name };
+  }
+
+  saveExpenses() {
+    for (const expense of this.expenses) {
+      if (!expense.expenseType) {
+        alert('Please select an expense type.');
+        return;
+      }
+      if (expense.expenseType === 'Other Expense' && (!expense.recipient || !expense.date || !expense.amount)) {
+        alert('Please fill all fields for Other Expense.');
+        return;
+      }
+      if (expense.expenseType === 'Block/Slab Processing' && (!expense.processingDate || !expense.processingCost || !expense.blockProcessor._id)) {
+        alert('Please fill all fields for Block/Slab Processing.');
+        return;
+      }
+    }
+
+    const filteredExpenses = this.expenses.map(expense => {
+      if (expense.expenseType === 'Other Expense') {
+        return {
+          expenseType: expense.expenseType,
+          recipient: expense.recipient,
+          date: expense.date,
+          amount: expense.amount
+        };
+      } else if (expense.expenseType === 'Block/Slab Processing') {
+        return {
+          expenseType: expense.expenseType,
+          processingDate: expense.processingDate,
+          processingCost: expense.processingCost,
+          blockProcessor: { _id: expense.blockProcessor._id }
+        };
+      }
+      return {};
+    });
+
+    this.http.put(this.apiUrl, { expenses: filteredExpenses }).subscribe(
+      (response) => {
+        console.log('Expenses updated successfully', response);
+        alert('Expenses saved successfully!');
+      },
+      (error) => {
+        console.error('Error updating expenses', error);
+        alert('Failed to save expenses.');
+      }
+    );
+  }
 
   paginate(event: any): void {
     console.log("event", event);
