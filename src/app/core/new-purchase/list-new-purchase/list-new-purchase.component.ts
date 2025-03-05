@@ -182,6 +182,7 @@ export class ListNewPurchaseComponent implements OnChanges {
       this.showInvoiceDialog = true;
       this.PurchaseListData = [resp.data];
       this.header = "Purchase Invoice";
+      
 
       if (resp.data.lotDetail) {
         this.SlabsService.getBlockDetailByLotId(
