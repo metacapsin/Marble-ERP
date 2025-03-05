@@ -25,7 +25,7 @@
               </a>
             </li>
             <li>
-              Created On: {{blockProcessorData.createdOn | date: "dd-MMM-yyyy"}}
+              Created On: {{blockProcessorData.createdOn | date: 'dd-MMM-yyyy'}}
             </li>
           </ul>
         </div>
@@ -202,7 +202,7 @@
                   {{ processing?.processingInvoiceNo }}
                 </td>
                 <td>
-                  {{ processing?.processingDate }}
+                  {{ processing?.processingDate | date: 'dd-MMM-yyyy' }}
                 </td>
                 <td>
                   {{ processing?.slab?.slabName }}
