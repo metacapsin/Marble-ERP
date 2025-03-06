@@ -206,7 +206,7 @@ export class EditNewPurchaseComponent implements OnInit {
     this.NewPurchaseService.getPurchaseById(this.purchaseId).subscribe(
       (resp: any) => {
         console.log("data", resp.data);
-         let convertedDate =  resp.data.purchaseDate ? moment(resp.data.purchaseDate, "DD/MM/YYYY").format("DD/MM/YYYY") : null;
+         let convertedDate =  resp.data.purchaseDate ? moment(resp.data.purchaseDate, "MM/DD/YYYY").format("DD/MM/YYYY") : null;
         this.editNewPurchaseForm.patchValue({
           invoiceNumber: resp.data.purchaseInvoiceNumber,
           purchaseDate: convertedDate,

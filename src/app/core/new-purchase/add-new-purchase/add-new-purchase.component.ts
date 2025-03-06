@@ -185,7 +185,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       });
     }
     const today = new Date();
-    const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
+    const formattedDate =  moment(today).format("DD/MM/YYYY"); // Format to MM/DD/YYYY
 
     this.addNewPurchaseForm.patchValue({
       purchaseDate: formattedDate,

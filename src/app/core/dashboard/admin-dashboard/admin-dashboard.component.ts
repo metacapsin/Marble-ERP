@@ -240,6 +240,10 @@ export class AdminDashboardComponent {
         const Edate = this.formatDate(endDate);
         
         this.rangeDates = [startDate, endDate];
+        if(this.data){
+          this.onSearchByChange({value: this.data});
+
+        }
        
         this.apiCall(Sdate, Edate);
       } else {

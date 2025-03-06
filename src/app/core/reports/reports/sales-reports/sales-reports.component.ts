@@ -202,17 +202,20 @@ export class SalesReportsComponent {
           endDate = new Date(startDate);
           break;
   
-        case "This Week":
-          startDate = new Date(today);
-          startDate.setDate(today.getDate() - today.getDay() + 1); // Start from Monday
-          break;
-  
-        case "Last Week":
-          startDate = new Date(today);
-          startDate.setDate(today.getDate() - today.getDay() - 6); // Last Monday
-          endDate = new Date(today);
-          endDate.setDate(startDate.getDate() + 6); // Last Sunday
-          break;
+          case "This Week":
+            startDate = new Date(today);
+            startDate.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)); // Monday of this week
+            endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 6); // Sunday of this week
+            break;
+    
+          case "Last Week":
+            startDate = new Date(today);
+            startDate.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -13 : -6)); // Monday of last week
+            endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 6); // Sunday of last week
+            break;
+      
   
         case "This Month":
           startDate = new Date(today.getFullYear(), today.getMonth(), 1);
