@@ -576,7 +576,7 @@ export class ListSlabsComponent {
   }
 
   callBackModal() {
-    if (this.slabExpenseId && !this.slabExpenseId) {
+    if (this.slabsID && !this.slabExpenseId) {
       this.service.deleteSlabsById(this.slabsID).subscribe((resp: any) => {
         if (resp) {
           if (resp?.status === "success") {
