@@ -223,10 +223,10 @@
                 <td appShowHide [roles]="['admin', 'super-admin']">
                   <div class="action-buttons">
 
-                    <p-button *ngIf="processing.paymentStatus == 'Unpaid' " [text]="true" icon="fa fa-edit"
+                    <!-- <p-button *ngIf="processing.paymentStatus == 'Unpaid' " [text]="true" icon="fa fa-edit"
                       (click)="editSlabProcessing(processing._id)" pTooltip="Edit" tooltipPosition="bottom"
                       tooltipStyleClass="tooltip"></p-button>
-                    <div *ngIf="processing.paymentStatus != 'Unpaid'" class="placeholder"></div>
+                    <div *ngIf="processing.paymentStatus != 'Unpaid'" class="placeholder"></div> -->
                     <p-button
                       *ngIf="processing.paymentStatus == 'Unpaid' || processing.paymentStatus ==  'Partial Paid'"
                       [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(processing._id)"
@@ -449,8 +449,8 @@
             <div class="form-group local-forms">
               <label for="slab">Slab </label>
               <p-dropdown [options]="slabListData" [style]="{ width: '100%' }" styleClass="" appendTo="body"
-                (onChange)="onSlabSelect($event.value)" optionLabel="slabName" optionValue="_id"
-                placeholder="Select Slab" [filter]="true" filterBy="slabName" formControlName="slab">
+                (onChange)="onSlabSelect($event.value)" optionLabel="displayName" optionValue="_id"
+                placeholder="Select Slab" [filter]="true" filterBy="displayName" formControlName="slab">
               </p-dropdown>
             </div>
           </div>

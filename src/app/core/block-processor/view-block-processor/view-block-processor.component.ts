@@ -9,6 +9,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
 import { CustomersdataService } from "../../Customers/customers.service";
 import { SalesReturnService } from "../../sales-return/sales-return.service";
+import { SlabsService } from "../../Product/slabs/slabs.service";
 
 @Component({
   selector: "app-view-block-processor",
@@ -51,6 +52,7 @@ export class ViewBlockProcessorComponent {
     private salesReturnService: SalesReturnService,
     private blockProcessorService: blockProcessorService,
     private messageService: MessageService,
+    private slabService:SlabsService,
     private fb: FormBuilder,
     public dialog: MatDialog
   ) {
@@ -96,11 +98,13 @@ export class ViewBlockProcessorComponent {
     this.getBlockProcessor();
     // this.getOpeningBalance();
     // this.getOpeningBalancePayList();
-    this.blockProcessorService
-      .getSlabsByProcessorId(this.blockProcessor_id)
+    this.slabService
+      .getSlabsList()
       .subscribe((resp: any) => {
+        console.log(resp);
         this.slabListData = resp.data.map((e) => ({
           slabName: e.slabName,
+          displayName: `${e.slabNo} - ${e.slabName}`,
           _id: {
             _id: e._id,
             slabName: e.slabName,

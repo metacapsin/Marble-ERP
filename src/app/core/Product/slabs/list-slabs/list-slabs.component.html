@@ -700,8 +700,7 @@
             </div>
           </div>
           <div class="invoice-add-table">
-<!--  -->
-            <div class="card" >
+            <div class="card" *ngIf="mergedExpenseData?.length > 0" >
               <p-tabView>
                  <p-tabPanel header="Slab Expenses">
                   <div class="card-body p-2">
@@ -727,10 +726,9 @@
                         <td>{{ expense.recipient || expense.processorName }}</td>
                         <td>{{ expense.amount || expense.processingCost }}</td>
                         <td>
-                          <p-button [text]="true" icon="fa fa-trash"
-                            (click)="deleteExpense(expense._id, expense.type)"  
-                            pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip">
-                          </p-button>
+                          <p-button [text]="true" icon="fa fa-trash" (click)="deleteExpense(expense._id, 'expense')"
+  pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip">
+</p-button>
                         </td>
                       </tr>
                     </ng-template>
@@ -816,6 +814,8 @@
                   [options]="blockProcessorList" 
                   [(ngModel)]="expense.blockProcessor"
                   optionLabel="name"
+                  [filter]="true"
+                  filterBy="name"
                   placeholder="Select Processor"
                   (onChange)="onBlockProcessorSelect(expense, $event.value)">
                 </p-dropdown>
@@ -1531,5 +1531,3 @@
     </p-tabView>
   </div>
 </p-dialog>
-<app-confirm-dialog [showDialog]="showDialoge" (callbackModal)="callBackModal()" (close)="close()"
-  [data]="modalData"></app-confirm-dialog>

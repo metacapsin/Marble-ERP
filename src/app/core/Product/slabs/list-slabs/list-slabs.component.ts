@@ -66,9 +66,9 @@ export class ListSlabsComponent {
   searchTable: string = "";
   slabOtherExpenseData: any = [];
   slabBlockSlabProcessing: any = [];
-  showDialoge: any;
-  formVisible: boolean = true;  // Controls form visibility
-  canAddExpense: boolean = true;  // Controls the visibility of "Add Expense" button
+  public showDialoge: boolean = false;
+  formVisible: boolean = true; // Controls form visibility
+  canAddExpense: boolean = true; // Controls the visibility of "Add Expense" button
 
   constructor(
     public dialog: MatDialog,
@@ -77,8 +77,8 @@ export class ListSlabsComponent {
     private _snackBar: MatSnackBar,
     private messageService: MessageService,
     private WarehouseService: WarehouseService,
-    private blockProcessorService: blockProcessorService, 
-    
+    private blockProcessorService: blockProcessorService,
+
     private http: HttpClient
   ) {}
 
@@ -89,15 +89,11 @@ export class ListSlabsComponent {
 
   expenses: any[] = [];
 
-
-
-  blockProcessorList = [
-   {}
-  ];
+  blockProcessorList = []
 
   expenseOptions = [
-    { label: 'Other Expense', value: 'Other Expense' },
-    { label: 'Block/Slab Processing', value: 'Block/Slab Processing' }
+    { label: "Other Expense", value: "Other Expense" },
+    { label: "Block/Slab Processing", value: "Block/Slab Processing" },
   ];
 
   addExpense() {
@@ -105,17 +101,18 @@ export class ListSlabsComponent {
     //   console.warn("❌ You can only add one expense.");
     //   return; // Prevent adding more expenses
     // }
-    this.blockProcessorService.getAllBlockProcessorData().subscribe((data) => {
-      this.blockProcessorList = data as { _id: string; name: string; }[];
-    })
+    // this.blockProcessorService.getAllBlockProcessorData().subscribe((data) => {
+    //   this.blockProcessorList = data as { _id: string; name: string; }[];
+    // })
     this.expenses.push({
-      expenseType: '',
-      recipient: '',
-      date: '',
+      expenseType: "",
+      recipient: "",
+      date: "",
       amount: null,
-      processingDate: '',
+      processingDate: "",
       processingCost: null,
-      blockProcessor: { _id: '', name: '' }
+      blockProcessor: null // Start as null, not an empty object
+
     });
     this.formVisible = true; // Show the form when adding a new record
     this.canAddExpense = false; // Hide "Add Expense" button after adding
@@ -126,26 +123,46 @@ export class ListSlabsComponent {
   }
 
   onExpenseTypeChange(expense: any) {
-    if (expense.expenseType === 'Other Expense') {
+    if (expense.expenseType === "Other Expense") {
       delete expense.processingDate;
       delete expense.processingCost;
       delete expense.blockProcessor;
-      expense.recipient = '';
-      expense.date = '';
+      expense.recipient = "";
+      expense.date = "";
       expense.amount = null;
-    } else if (expense.expenseType === 'Block/Slab Processing') {
+    } else if (expense.expenseType === "Block/Slab Processing") {
       delete expense.recipient;
       delete expense.date;
       delete expense.amount;
-      expense.processingDate = '';
+      expense.processingDate = "";
       expense.processingCost = null;
-      expense.blockProcessor = { _id: '', name: '' };
+      expense.blockProcessor = { _id: "", name: "" };
     }
   }
 
+  // onBlockProcessorSelect(expense: any, selectedProcessor: any) {
+  //   console.log(selectedProcessor);
+  //   console.log(expense);
+  //   expense.blockProcessor = {
+  //     _id: selectedProcessor._id,
+  //     name: selectedProcessor.name,
+  //   };
+  // }
+
   onBlockProcessorSelect(expense: any, selectedProcessor: any) {
-    expense.blockProcessor = { _id: selectedProcessor._id, name: selectedProcessor.name };
+    console.log("Selected Processor:", selectedProcessor);
+    console.log("Before Update Expense:", expense);
+  
+    // Ensure `selectedProcessor` is an object, not just an ID
+    if (typeof selectedProcessor === "string") {
+      selectedProcessor = this.blockProcessorList.find(p => p._id === selectedProcessor) || null;
+    }
+  
+    expense.blockProcessor = selectedProcessor; // Assign full object
+  
+    console.log("Updated Expense:", expense);
   }
+  
 
   // saveExpenses() {
   //   for (const expense of this.expenses) {
@@ -194,18 +211,17 @@ export class ListSlabsComponent {
   //   );
   // }
 
-
   isFormValid(): boolean {
     if (this.expenses.length === 0) {
       return false; // No expenses to validate
     }
-  
+
     const expense = this.expenses[0]; // Since only one expense is allowed
-  
+
     if (!expense.expenseType) {
       return false; // Expense type is required
     }
-  
+
     if (expense.expenseType === "Block/Slab Processing") {
       return (
         !!expense.processingDate &&
@@ -215,88 +231,92 @@ export class ListSlabsComponent {
     } else if (expense.expenseType === "Other Expense") {
       return !!expense.recipient && !!expense.date && !!expense.amount;
     }
-  
+
     return false; // Default to invalid
   }
-  
+
   saveExpenses() {
     if (this.expenses.length === 0) {
       alert("No expenses to save.");
       return;
     }
-  
+
     const expense = this.expenses[0]; // Since only one expense is allowed
-  
+
     if (!expense.expenseType) {
       alert("Please select an expense type.");
       return;
     }
-  
+
     let payload = {}; // Initialize the payload object
-  
+
     if (expense.expenseType === "Block/Slab Processing") {
-      if (!expense.processingDate || !expense.processingCost || !expense.blockProcessor._id) {
+      if (
+        !expense.processingDate ||
+        !expense.processingCost ||
+        !expense.blockProcessor._id
+      ) {
         alert("Please fill all fields for Block/Slab Processing.");
         return;
       }
-  
+
       payload = {
         slabDetail: {
           slab: {
-            _id: this.slabDetail._id,  // Assuming `slabDetail` contains slab info
+            _id: this.slabDetail._id, // Assuming `slabDetail` contains slab info
             slabNo: this.slabDetail.slabNo,
-            slabName: this.slabDetail.slabName
+            slabName: this.slabDetail.slabName,
           },
           slabExpense: {
             expenseType: "Block/Slab Processing",
             blockProcessor: {
               _id: expense.blockProcessor._id,
-              name: expense.blockProcessor.name
+              name: expense.blockProcessor.name,
             },
             processingCost: expense.processingCost,
-            date: expense.processingDate
-          }
-        }
+            date: expense.processingDate,
+          },
+        },
       };
     } else if (expense.expenseType === "Other Expense") {
       if (!expense.recipient || !expense.date || !expense.amount) {
         alert("Please fill all fields for Other Expense.");
         return;
       }
-  
+
       payload = {
         slabDetail: {
           slab: {
-            _id: this.slabDetail._id,  // Assuming `slabDetail` contains slab info
+            _id: this.slabDetail._id, // Assuming `slabDetail` contains slab info
             slabNo: this.slabDetail.slabNo,
-            slabName: this.slabDetail.slabName
+            slabName: this.slabDetail.slabName,
           },
           slabExpense: {
             expenseType: "Other Expense",
             recipient: expense.recipient,
             amount: expense.amount,
-            date: expense.date
-          }
-        }
+            date: expense.date,
+          },
+        },
       };
     }
-  
+
     // Call the API with the correct payload
     this.service.updateSlabExpense(payload).subscribe(
       (response) => {
         console.log("Expenses updated successfully", response);
 
-         // **Hide the form after successful submission**
-      this.formVisible = false;
-      this.canAddExpense = true;
+        // **Hide the form after successful submission**
+        this.formVisible = false;
+        this.canAddExpense = true;
 
         // **Refresh the table**
-      // this.service.getSlabHistoryById(this.viewingSLabId).subscribe((resp: any) => {
-      //   this.slabOtherExpenseData = resp.data.otherExpenses;
-      //   this.slabBlockSlabProcessing = resp?.data?.slabProcessing
-      //   console.log("🔄 Updated Slab History:", this.slabOtherExpenseData);
-      // });
-        this.getSlabHistoryById(this.viewingSLabId)
+        // this.service.getSlabHistoryById(this.viewingSLabId).subscribe((resp: any) => {
+        //   this.slabOtherExpenseData = resp.data.otherExpenses;
+        //   this.slabBlockSlabProcessing = resp?.data?.slabProcessing
+        //   console.log("🔄 Updated Slab History:", this.slabOtherExpenseData);
+        // });
+        this.getSlabHistoryById(this.viewingSLabId);
       },
       (error) => {
         console.error("Error updating expenses", error);
@@ -304,7 +324,6 @@ export class ListSlabsComponent {
       }
     );
   }
-  
 
   paginate(event: any): void {
     console.log("event", event);
@@ -325,6 +344,9 @@ export class ListSlabsComponent {
   ngOnInit(): void {
     this.showDataLoader = true;
     this.getSlabsList();
+    this.blockProcessorService.getAllBlockProcessorData().subscribe((data) => {
+      this.blockProcessorList = data as { _id: string; name: string }[];
+    });
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.warehouseData = resp.data.map((element) => ({
         name: element.name,
@@ -440,60 +462,57 @@ export class ListSlabsComponent {
   }
   showSlabDetails(_id: any) {
     this.viewingSLabId = _id;
-   this.getSlabHistoryById(_id);
+    this.getSlabHistoryById(_id);
     this.slabProfit = 0;
     this.slabVisible = true;
     this.slabDetail = this.allSlabsDaTa.find((e) => e._id === _id);
     this.slabProfit =
       this.slabDetail?.totalSales - this.slabDetail?.totalSalesReturn;
-      
   }
 
-
   deleteExpense(id: any, type?: any) {
+    debugger;
     this.slabExpenseId = id;
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Purchase",
+      messege: "Are you sure you want to delete this Expense",
     };
-    this.showDialoge = true;
+    this.showDialog = true;
   }
 
   showSlabHistoryDetails(_id) {
     this.activeTabIndex = 0;
     this.service.getSlabHistoryById(_id).subscribe((resp: any) => {
-
       const otherExpenses = resp.data.otherExpenses || [];
-        const slabProcessing = resp.data.slabProcessing || [];
-    
-        // Merge both arrays into one and add a type indicator
-        this.mergedExpenseData = [
-          ...otherExpenses.map(expense => ({
-            ...expense,
-            type: "Other Expense",
-            date: expense.date,  // Keep original date
-            recipient: expense.recipient,
-            amount: expense.amount,
-            processorName: null,  // Not applicable
-            processingCost: null, // Not applicable
-          })),
-          ...slabProcessing.map(expense => ({
-            ...expense,
-            type: "Block/Slab Processing",
-            date: expense.processingDate,  // Rename to match structure
-            recipient: null, // Not applicable
-            amount: null,  // Not applicable
-            processorName: expense.processor?.name || "N/A",
-            processingCost: expense.processingCost || 0,
-          }))
-        ];
+      const slabProcessing = resp.data.slabProcessing || [];
+
+      // Merge both arrays into one and add a type indicator
+      this.mergedExpenseData = [
+        ...otherExpenses.map((expense) => ({
+          ...expense,
+          type: "Other Expense",
+          date: expense.date, // Keep original date
+          recipient: expense.recipient,
+          amount: expense.amount,
+          processorName: null, // Not applicable
+          processingCost: null, // Not applicable
+        })),
+        ...slabProcessing.map((expense) => ({
+          ...expense,
+          type: "Block/Slab Processing",
+          date: expense.processingDate, // Rename to match structure
+          recipient: null, // Not applicable
+          amount: null, // Not applicable
+          processorName: expense.processor?.name || "N/A",
+          processingCost: expense.processingCost || 0,
+        })),
+      ];
       this.visibleSlabHistory = true;
       this.slabHistoryData = resp.data;
       this.slabProfitOfSlabHistory = resp.data.slabProfit;
       this.slabDetailsOfSlabHistory = resp.data.slabDetail;
 
       console.log("Slab History API", this.slabHistoryData);
-
     });
   }
 
@@ -512,7 +531,6 @@ export class ListSlabsComponent {
     this.activeTabIndex = 0; // Reset the active tab to the first tab
   }
 
-  
   showNewDialog() {
     this.showDialog = true;
     this.activeTabIndex = 0; // Reset the active tab to the first tab
@@ -559,102 +577,82 @@ export class ListSlabsComponent {
   }
 
   callBackModal() {
-    if(this.slabExpenseId && !this.slabExpenseId){
-      this.service.deleteSlabsById(this.slabsID).subscribe((resp:any) => {
-        if(resp){
-          if(resp?.status === 'success'){
-            this.messageService.add({ severity: "success", detail: resp?.message});
+    if (this.slabExpenseId && !this.slabExpenseId) {
+      this.service.deleteSlabsById(this.slabsID).subscribe((resp: any) => {
+        if (resp) {
+          if (resp?.status === "success") {
+            this.messageService.add({
+              severity: "success",
+              detail: resp?.message,
+            });
             this.getSlabsList();
             this.showDialog = false;
           } else {
-            this.messageService.add({ severity: "error", detail: resp?.message });
+            this.messageService.add({
+              severity: "error",
+              detail: resp?.message,
+            });
           }
         }
       });
     }
-    if(this.slabExpenseId){
-      this.service.deleteSlabExpenseById(this.slabExpenseId).subscribe((resp:any) => {
-        if(resp){
-          if(resp?.status === 'success'){
-            this.messageService.add({ severity: "success", detail: resp?.message});
-            // this.getSlabsList();
-            // this.service.getSlabHistoryById(this.viewingSLabId).subscribe((resp: any) => {
-            //   if (resp?.data) {
-            //     // Extract individual arrays
-            //     const otherExpenses = resp.data.otherExpenses || [];
-            //     const slabProcessing = resp.data.slabProcessing || [];
-            
-            //     // Merge both arrays into one and add a type indicator
-            //     this.mergedExpenseData = [
-            //       ...otherExpenses.map(expense => ({
-            //         ...expense,
-            //         type: "Other Expense",
-            //         date: expense.date,  // Keep original date
-            //         recipient: expense.recipient,
-            //         amount: expense.amount,
-            //         processorName: null,  // Not applicable
-            //         processingCost: null, // Not applicable
-            //       })),
-            //       ...slabProcessing.map(expense => ({
-            //         ...expense,
-            //         type: "Block/Slab Processing",
-            //         date: expense.processingDate,  // Rename to match structure
-            //         recipient: null, // Not applicable
-            //         amount: null,  // Not applicable
-            //         processorName: expense.processor?.name || "N/A",
-            //         processingCost: expense.processingCost || 0,
-            //       }))
-            //     ];
-            
-            //     console.log("🔄 Merged Expense Data:", this.mergedExpenseData);
-            //   }
-            // });
-   this.getSlabHistoryById(this.viewingSLabId);
-            
-            this.showDialoge = false;
-          } else {
-            this.messageService.add({ severity: "error", detail: resp?.message });
+    if (this.slabExpenseId) {
+      this.service
+        .deleteSlabExpenseById(this.slabExpenseId)
+        .subscribe((resp: any) => {
+          if (resp) {
+            if (resp?.status === "success") {
+              this.messageService.add({
+                severity: "success",
+                detail: resp?.message,
+              });
+              this.getSlabHistoryById(this.viewingSLabId);
+              this.showDialoge = false; // Close the dialog
+            } else {
+              this.messageService.add({
+                severity: "error",
+                detail: resp?.message,
+              });
+            }
           }
-        }
-      })
+        });
     }
-   
   }
 
-
   getSlabHistoryById(id: any) {
-    this.service.getSlabHistoryById(this.viewingSLabId).subscribe((resp: any) => {
-      if (resp?.data) {
-        // Extract individual arrays
-        const otherExpenses = resp.data.otherExpenses || [];
-        const slabProcessing = resp.data.slabProcessing || [];
-    
-        // Merge both arrays into one and add a type indicator
-        this.mergedExpenseData = [
-          ...otherExpenses.map(expense => ({
-            ...expense,
-            type: "Other Expense",
-            date: expense.date,  // Keep original date
-            recipient: expense.recipient,
-            amount: expense.amount,
-            processorName: null,  // Not applicable
-            processingCost: null, // Not applicable
-          })),
-          ...slabProcessing.map(expense => ({
-            ...expense,
-            type: "Block/Slab Processing",
-            date: expense.processingDate,  // Rename to match structure
-            recipient: null, // Not applicable
-            amount: null,  // Not applicable
-            processorName: expense.processor?.name || "N/A",
-            processingCost: expense.processingCost || 0,
-          }))
-        ];
-    
-        console.log("🔄 Merged Expense Data:", this.mergedExpenseData);
-      }
-    });
-     
+    this.service
+      .getSlabHistoryById(this.viewingSLabId)
+      .subscribe((resp: any) => {
+        if (resp?.data) {
+          // Extract individual arrays
+          const otherExpenses = resp.data.otherExpenses || [];
+          const slabProcessing = resp.data.slabProcessing || [];
+
+          // Merge both arrays into one and add a type indicator
+          this.mergedExpenseData = [
+            ...otherExpenses.map((expense) => ({
+              ...expense,
+              type: "Other Expense",
+              date: expense.date, // Keep original date
+              recipient: expense.recipient,
+              amount: expense.amount,
+              processorName: null, // Not applicable
+              processingCost: null, // Not applicable
+            })),
+            ...slabProcessing.map((expense) => ({
+              ...expense,
+              type: "Block/Slab Processing",
+              date: expense.processingDate, // Rename to match structure
+              recipient: null, // Not applicable
+              amount: null, // Not applicable
+              processorName: expense.processor?.name || "N/A",
+              processingCost: expense.processingCost || 0,
+            })),
+          ];
+
+          console.log("🔄 Merged Expense Data:", this.mergedExpenseData);
+        }
+      });
   }
   updateSlabs(id: any) {
     this.router.navigate(["/slabs/slab-edit/" + id]);
@@ -695,13 +693,12 @@ export class ListSlabsComponent {
     const currentPageData = this.allSlabsDaTa.slice(startIndex, endIndex);
   }
 
-
   formatSlabSize(slabSize: string | undefined): string {
-    if (!slabSize) return 'N/A';
-  
+    if (!slabSize) return "N/A";
+
     return slabSize
-      .split('x') // Split by "x"
-      .map(part => part.trim() ? part.trim() : '0') // Replace empty parts with "0"
-      .join(' x '); // Join back with spaces around "x"
+      .split("x") // Split by "x"
+      .map((part) => (part.trim() ? part.trim() : "0")) // Replace empty parts with "0"
+      .join(" x "); // Join back with spaces around "x"
   }
 }
