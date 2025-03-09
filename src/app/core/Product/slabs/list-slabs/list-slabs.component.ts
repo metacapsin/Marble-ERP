@@ -471,7 +471,6 @@ export class ListSlabsComponent {
   }
 
   deleteExpense(id: any, type?: any) {
-    debugger;
     this.slabExpenseId = id;
     this.modalData = {
       title: "Delete",
@@ -607,7 +606,7 @@ export class ListSlabsComponent {
                 detail: resp?.message,
               });
               this.getSlabHistoryById(this.viewingSLabId);
-              this.showDialoge = false; // Close the dialog
+              this.showDialog = false; // Close the dialog
             } else {
               this.messageService.add({
                 severity: "error",
