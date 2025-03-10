@@ -137,7 +137,7 @@
             </div>
             <div class="card-body p-2">
               <span *ngIf="selectedLayout === 'Card'" class="col-12 col-md-12">
-                <div class="p-2"><strong>Total Available Stock :</strong> <span  style="font-weight: 500;"> {{ totalSqFtLeft }} Sq. Feet</span></div>
+                <div class="p-2"><strong>Total Available Stock :</strong> <span  style="font-weight: 500;"> {{ totalSqFtLeft.toFixed(2) }} Sq. Feet</span></div>
                 <div class="container mt-4" *ngFor="let item of pagedData">
                   <div class="row">
                     <div class="col-md-8 container-box">
@@ -153,7 +153,7 @@
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
-                          <a (click)="showSlabDetails(item?._id)" class="view-more"  pTooltip="View More" tooltipPosition="bottom"
+                          <a (click)="getSlabDetailsById(item?._id)" class="view-more"  pTooltip="View More" tooltipPosition="bottom"
                             ><i class="fa-solid fa-eye"></i
                           ></a>
                           <a (click)="deleteSlabs(item?._id)" class="view-more"  pTooltip="Delete" tooltipPosition="bottom"
@@ -198,7 +198,7 @@
                         </div>
                         <div class="col">
                           <strong>Cost/Sq. Feet</strong><br />&#8377;
-                          {{ item?.costPerSQFT }}
+                          {{ item?.costPerSQFT.toFixed(2) }}
                         </div>
                         <div class="col">
                           <strong>Warehouse</strong><br />{{
@@ -246,6 +246,13 @@
                     
                     </div>
                   </div>
+                </div>
+
+                <div *ngIf="!allSlabsDaTa && showDataLoader"
+                colspan="10"
+                class="text-center"
+              >
+                      <p-progressSpinner ariaLabel="loading" />
                 </div>
                 <p-paginator
                 *ngIf="totalRecords > 0"
@@ -442,7 +449,7 @@
                           pTooltip="View"
                           tooltipPosition="left"
                           tooltipStyleClass="tooltip"
-                          (click)="showSlabDetails(slabs?._id)"
+                          (click)="getSlabDetailsById(slabs?._id)"
                         ></p-button>
                         <p-button
                           [text]="true"
@@ -504,7 +511,7 @@
                   </ng-template>
 
                   <!-- <ng-template>
-                                        <td *ngIf="!allSlabsDaTa" colspan="10" class="text-center">
+                                        <td *ngIf="!allSlabsDaTa && showDataLoader" colspan="10" class="text-center">
                                             <p-progressSpinner ariaLabel="loading" />
                                         </td>
                                     </ng-template> -->
@@ -533,6 +540,8 @@
   [(visible)]="slabVisible"
   [modal]="true"
   [style]="{ width: '80vw' }"
+  (onHide)="closeDialog()">
+
 >
   <div class="card">
     <div class="modal-content">
@@ -817,7 +826,7 @@
                   [filter]="true"
                   filterBy="name"
                   placeholder="Select Processor"
-                  (onChange)="onBlockProcessorSelect(expense, $event.value)">
+                  (onChange)="onBlockProcessorSelect(expense, $event.value)" width="100%">
                 </p-dropdown>
               </div>
             </div>
@@ -841,7 +850,7 @@
           </ng-container>
       
           <!-- Action Buttons (Save & Delete) -->
-            <div class="col-md-6 col-sm-12 text-start mb-2" *ngIf="expense.expenseType" > 
+            <div class="col-md-12 col-sm-12 text-end mb-2" *ngIf="expense.expenseType" > 
               <button type="submit" (click)="saveExpenses()" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
               [disabled]="!isFormValid()">
                 Submit
@@ -885,6 +894,13 @@
                         <span
                           >₹
                           {{ slabDetail?.purchaseCost | indianCurrency }}</span
+                        >
+                      </p>
+                      <p *ngIf="slabDetail?.processingFeePerSQFT && slabDetail.processingFeePerSQFT >= 1">
+                        Processing Fee/ SQFT.
+                        <span
+                          >₹
+                          {{ slabDetail?.processingFeePerSQFT | indianCurrency }}</span
                         >
                       </p>
                       <p *ngIf="slabDetail?.transportationCharges">
@@ -1178,14 +1194,25 @@
                   display="menu"
                 ></p-columnFilter>
               </th>
-              <th pSortableColumn="salesOrderStatus">
-                Sales Status
-                <p-sortIcon field="salesOrderStatus"></p-sortIcon>
+              <th pSortableColumn="salesItemQuantity">
+                Quantity
+                <p-sortIcon field="salesItemQuantity"></p-sortIcon>
                 <p-columnFilter
                   matchMode="contains"
                   hideOnClear="true"
                   type="text"
-                  field="salesOrderStatus"
+                  field="salesItemQuantity"
+                  display="menu"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="salesItemUnitPrice">
+                Rate
+                <p-sortIcon field="salesItemUnitPrice"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="salesItemUnitPrice"
                   display="menu"
                 ></p-columnFilter>
               </th>
@@ -1236,10 +1263,11 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-sales>
-            <tr>
+            <tr *ngFor="let item of sales?.salesItemDetails">
               <td>{{ sales?.salesInvoiceNumber }}</td>
               <td>{{ sales?.salesDate | date : "dd-MMM-yyyy" }}</td>
-              <td>{{ sales?.salesOrderStatus }}</td>
+              <td>{{ item?.salesItemQuantity }}</td>
+              <td>{{ item?.salesItemUnitPrice }}</td>
               <td *ngIf="sales?.paymentStatus == 'Partial Paid'">
                 <p-tag severity="warning" value="Partial Paid"></p-tag>
               </td>
