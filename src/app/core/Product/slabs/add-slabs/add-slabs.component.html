@@ -443,13 +443,22 @@
                           </div>
                           <div class="col-12">
                             <div class="form-group local-forms">
-                              <label for="noOfPieces">Pieces<span class="login-danger"></span></label>
+                              <label for="noOfPieces">Pieces<span class="login-danger">*</span></label>
                               <div class="input-group">
                                 <!-- <div class="input-group-prepend">
                                   <span class="input-group-text" style="font-size: 12px">Inch</span>
                                 </div> -->
                                 <input class="form-control" type="number" placeholder="Enter Pieces"
                                   formControlName="noOfPieces" />
+                              </div>
+                              <div *ngIf="
+                                slabsAddForm
+                                  .get('noOfPieces')
+                                  ?.hasError('required') &&
+                                slabsAddForm.get('noOfPieces')
+                                  ?.touched
+                              ">
+                                <span class="login-danger">Field is required.</span>
                               </div>
 
                               <div *ngIf="

@@ -15,7 +15,7 @@
             <li class="breadcrumb-item">
               <i class="feather icon-chevron-right"></i>
             </li>
-            <li class="breadcrumb-item active">Add Sales</li>
+            <li class="breadcrumb-item active">Edit Sales</li>
           </ul>
         </div>
       </div>
@@ -501,6 +501,8 @@
                               type="number"
                               formControlName="salesItemPieces"
                               class="form-control"
+                              (input)="onPiecesEdit(i)"
+
                             />
                             <div
                               *ngIf="
@@ -1110,7 +1112,7 @@
                               "
                             >
                               <span class="login-danger"
-                                >Input must be between 0 to 100000.</span
+                                >Input must be between 0 to 10000000.</span
                               >
                             </div>
                           </div>
@@ -1163,7 +1165,7 @@
                               "
                             >
                               <span class="login-danger"
-                                >Input must be between 0 to 100000.</span
+                                >Input must be between 0 to 10000000.</span
                               >
                             </div>
                           </div>
@@ -1281,6 +1283,17 @@
                               editSalesForm.get("nonTaxable").value
                                 | number : "1.2-2"
                             }}
+                          </span>
+                        </p>
+                        <p
+                          class="mt-2"
+                          *ngIf="editSalesForm.get('nonTaxable')?.value == 0"
+                        >
+                          Non-Taxable Amount
+                          <span
+                          >
+                            ₹
+                           0
                           </span>
                         </p>
                         <h4>

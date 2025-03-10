@@ -30,6 +30,9 @@ export class CustomersdataService {
   UpDataCustomerApi(data: any) {
     return this.http.put(environment.apiUrl + `/Customer/updateCustomer`, data);
   }
+  UpdateCustomerShippingAddress(data: any) {
+    return this.http.put(environment.apiUrl + `/Customer/updateCustomerShippingAddress`, data);
+  }
   DeleteCustomerApi(id: any){
     return this.http.delete(environment.apiUrl + `/Customer/deleteCustomer/${id}`);
   }

@@ -127,7 +127,7 @@ export class AddSlabsComponent {
       width: ["", [Validators.min(1), Validators.max(100000)]],
       length: ["", [Validators.min(1), Validators.max(100000)]],
       finishes: ["", [Validators.required]],
-      noOfPieces: ["", [Validators.min(1), Validators.max(100000)]],
+      noOfPieces: ["", [Validators.required,Validators.min(1), Validators.max(100000)]],
       height: ["", [Validators.min(1), Validators.max(500)]],
       sqftPerPiece: [""],
       stockType: ["BlockToSlabConvert", Validators.required],

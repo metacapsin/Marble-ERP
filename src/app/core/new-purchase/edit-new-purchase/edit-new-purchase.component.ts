@@ -15,6 +15,9 @@ import { validationRegex } from "../../validation";
 import { SharedModule } from "src/app/shared/shared.module";
 import { EditLotComponent } from "../../Product/lot/edit-lot/edit-lot.component";
 import { AddSlabPurchaseComponent } from "../add-slab-purchase/add-slab-purchase.component";
+import { DateTransformPipe } from "src/app/core/dateTransform.pipe";
+import * as moment from 'moment';
+
 
 @Component({
   selector: "app-edit-new-purchase",
@@ -203,9 +206,10 @@ export class EditNewPurchaseComponent implements OnInit {
     this.NewPurchaseService.getPurchaseById(this.purchaseId).subscribe(
       (resp: any) => {
         console.log("data", resp.data);
+         let convertedDate =  resp.data.purchaseDate ? moment(resp.data.purchaseDate, "MM/DD/YYYY").format("DD/MM/YYYY") : null;
         this.editNewPurchaseForm.patchValue({
           invoiceNumber: resp.data.purchaseInvoiceNumber,
-          purchaseDate: resp.data.purchaseDate,
+          purchaseDate: convertedDate,
           supplier: resp.data.supplier,
           _id: resp.data._id,
           purchaseType: resp.data.purchaseType,
@@ -681,10 +685,11 @@ export class EditNewPurchaseComponent implements OnInit {
       } else {
         console.error("formData.paidToSupplierPurchaseCost is not defined");
       }
+      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,
-        purchaseDate: formData.purchaseDate,
+        purchaseDate: convertedDate,
         purchaseType: "lot",
         purchaseNotes: formData.purchaseNotes,
         purchaseCost: Number(formData.paidToSupplierPurchaseCost).toFixed(2),
@@ -707,10 +712,11 @@ export class EditNewPurchaseComponent implements OnInit {
           this.ItemDetails?.totalTransportationCharges,
       };
     } else {
+      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,
-        purchaseDate: formData.purchaseDate,
+        purchaseDate: convertedDate,
         purchaseType: "slab",
         purchaseNotes: formData.purchaseNotes,
         purchaseCost: Number(formData.paidToSupplierPurchaseCost).toFixed(2),

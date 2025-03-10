@@ -24,6 +24,8 @@ import { ShowHideDirective } from "../common-component/show-hide-directive/show-
 import { IndianCurrencyPipe } from "./directives/indian-currency.pipe";
 import { WordWrapPipe } from "./directives/word-wrap.pipe";
 import { FilterPipe } from "../core/filter.pipe";
+import { DateTransformPipe } from "../core/dateTransform.pipe";
+
 import { ToastModule } from "primeng/toast";
 import { CalendarModule } from "primeng/calendar";
 import { DialogModule } from "primeng/dialog";
@@ -106,6 +108,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     IndianCurrencyPipe,
     WordWrapPipe,
     FilterPipe,
+    DateTransformPipe,
     ToastModule,
     CalendarModule,
     DialogModule,
@@ -165,6 +168,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     IndianCurrencyPipe,
     WordWrapPipe,
     FilterPipe,
+    DateTransformPipe,
     ToastModule,
     CalendarModule,
     DialogModule,

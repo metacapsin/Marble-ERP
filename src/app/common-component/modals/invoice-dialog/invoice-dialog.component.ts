@@ -17,6 +17,7 @@ import { PurchaseService } from "src/app/core/purchase/purchase.service";
 import { RouterModule } from "@angular/router";
 import { QuotationsService } from "src/app/core/quotations/quotations.service";
 import { MessageService } from "primeng/api";
+import { SlabsService } from "src/app/core/Product/slabs/slabs.service";
 
 @Component({
   selector: "app-invoice-dialog",
@@ -42,6 +43,9 @@ export class InvoiceDialogComponent implements OnInit {
   @Input() paymentDataListById: any = [];
   @Output() callbackModal = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();
+  lotID: string;
+  public lotVisible: boolean = false;
+  blockDatabyLotId: any = [];
 
   sellerData: any;
   constructor(
@@ -50,7 +54,9 @@ export class InvoiceDialogComponent implements OnInit {
     private purchaseService: PurchaseService,
     private quotationService: QuotationsService,
     private http: HttpClient,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private SlabsService: SlabsService,
+    
   ) {}
   ngOnInit() {
     this.userData.getUserProfile().subscribe((user: any) => {
@@ -138,6 +144,15 @@ export class InvoiceDialogComponent implements OnInit {
         this.messageService.add({ severity: "warn", detail: message });
       }
     );
+  }
+
+  showLotDetails(_id: any) {
+    this.lotID = "";
+    this.SlabsService.getBlockDetailByLotId(_id).subscribe((resp: any) => {
+      this.lotVisible = true;
+      this.blockDatabyLotId = resp.data.blockDetails;
+      this.lotID = _id;
+    });
   }
   downloadQuotationFile(id: any, invoiceNumber: string) {
     console.log("Invoice number", invoiceNumber);

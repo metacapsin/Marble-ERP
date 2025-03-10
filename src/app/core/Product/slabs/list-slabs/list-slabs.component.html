@@ -177,7 +177,7 @@
                           <strong>Slab Number</strong><br />{{ item?.slabNo }}
                         </div>
                         <div class="col">
-                          <strong>Size</strong><br />{{ item?.slabSize }}
+                          <strong>Size</strong><br />{{ formatSlabSize(item?.slabSize) }}
                         </div>
                    
                         <div class="col">
@@ -412,7 +412,7 @@
                         {{ slabs?.slabName }}
                       </td>
                       <td>
-                        {{ slabs?.slabSize }}
+                        {{ formatSlabSize(slabs?.slabSize) }}
                       </td>
                       <td>
                         {{ slabs?.categoryDetail?.name }}
@@ -576,7 +576,7 @@
                     Size
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-form-label">{{ slabDetail?.slabSize }}</p>
+                    <p class="col-form-label">{{ formatSlabSize(slabDetail?.slabSize) }}</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2">
@@ -699,6 +699,164 @@
               </div>
             </div>
           </div>
+          <div class="invoice-add-table">
+            <div class="card" *ngIf="mergedExpenseData?.length > 0" >
+              <p-tabView>
+                 <p-tabPanel header="Slab Expenses">
+                  <div class="card-body p-2">
+                    <p-table [value]="mergedExpenseData" styleClass="p-datatable-striped"
+                    [tableStyle]="{ 'min-width': '60rem' }">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Date</th>
+                        <th>Slab Name</th>
+                        <th>Slab Number</th>
+                        <th>Expense Type</th>
+                        <th>Processor / Recipient </th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-expense>
+                      <tr>
+                        <td>{{ expense.date | date : "dd-MMM-yyyy" }}</td>
+                        <td>{{ expense.slab?.slabName }}</td>
+                        <td>{{ expense.slab?.slabNo }}</td>
+                        <td>{{ expense.type }}</td>
+                        <td>{{ expense.recipient || expense.processorName }}</td>
+                        <td>{{ expense.amount || expense.processingCost }}</td>
+                        <td>
+                          <p-button [text]="true" icon="fa fa-trash" (click)="deleteExpense(expense._id, 'expense')"
+  pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip">
+</p-button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                </p-tabPanel>
+              </p-tabView>
+            </div>
+          
+            <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                            (click)="addExpense()" [disabled]="!canAddExpense"  >
+                            Add Slab Expenses
+                        </button>
+          </div>
+    <div *ngIf="formVisible">
+
+      <div *ngFor="let expense of expenses; let i = index" class="expense-row">
+        <div class="row">
+          <!-- Expense Type -->
+          <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+            <div class="form-group local-forms">
+              <label>Expense Type <span class="login-danger">*</span></label>
+              <p-dropdown 
+                [options]="expenseOptions" 
+                [(ngModel)]="expense.expenseType" 
+                placeholder="Select Expense Type"
+                (onChange)="onExpenseTypeChange(expense)">
+              </p-dropdown>
+            </div>
+          </div>
+      
+          <!-- Fields for Other Expense (Row 1) -->
+          <ng-container *ngIf="expense.expenseType === 'Other Expense'">
+            
+      
+            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+              <div class="form-group local-forms">
+                <label>Date <span class="login-danger">*</span></label>
+                <p-calendar 
+                  dataType="string" 
+                  appendTo="body" 
+                  dateFormat="mm/dd/yy" 
+                  [(ngModel)]="expense.date" 
+                  placeholder="mm/dd/yyyy" 
+                  [styleClass]="'col-12'">
+                </p-calendar>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+              <div class="form-group local-forms">
+                <label>Recipient <span class="login-danger">*</span></label>
+                <input type="text" [(ngModel)]="expense.recipient" class="form-control" placeholder="Enter recipient" required />
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+              <div class="form-group local-forms">
+                <label>Amount <span class="login-danger">*</span></label>
+                <input type="number" [(ngModel)]="expense.amount" class="form-control" placeholder="Amount" required />
+              </div>
+            </div>
+          </ng-container>
+      
+          <!-- Fields for Block/Slab Processing (Row 1) -->
+          <ng-container *ngIf="expense.expenseType === 'Block/Slab Processing'">
+            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+              <div class="form-group local-forms">
+                <label>Processing Date <span class="login-danger">*</span></label>
+                <p-calendar 
+                  dataType="string" 
+                  appendTo="body" 
+                  dateFormat="mm/dd/yy" 
+                  [(ngModel)]="expense.processingDate" 
+                  placeholder="mm/dd/yyyy" 
+                  [styleClass]="'col-12'">
+                </p-calendar>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+              <div class="form-group local-forms">
+                <label>Block Processor <span class="login-danger">*</span></label>
+                <p-dropdown 
+                  [options]="blockProcessorList" 
+                  [(ngModel)]="expense.blockProcessor"
+                  optionLabel="name"
+                  [filter]="true"
+                  filterBy="name"
+                  placeholder="Select Processor"
+                  (onChange)="onBlockProcessorSelect(expense, $event.value)">
+                </p-dropdown>
+              </div>
+            </div>
+      
+            <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+              <div class="form-group local-forms">
+                <label>Processing Cost <span class="login-danger">*</span></label>
+                <input type="number" [(ngModel)]="expense.processingCost" class="form-control" placeholder="Processing Cost" required />
+              </div>
+            </div>
+
+            
+          </ng-container>
+        </div>
+      
+        <div class="row ">
+      
+          <!-- Fields for Block/Slab Processing (Row 2) -->
+          <ng-container *ngIf="expense.expenseType === 'Block/Slab Processing'">
+            
+          </ng-container>
+      
+          <!-- Action Buttons (Save & Delete) -->
+            <div class="col-md-6 col-sm-12 text-start mb-2" *ngIf="expense.expenseType" > 
+              <button type="submit" (click)="saveExpenses()" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+              [disabled]="!isFormValid()">
+                Submit
+              </button>
+              <button class="btn btn-secondary" (click)="removeExpense(i)">
+                <a class="text-white"></a>Cancel
+              </button>
+            </div>
+        </div>
+      
+        <hr />
+      </div>
+    </div>
+          
+         
 
           <div class="card-body p-2">
             <div class="row mt-3">
@@ -1332,6 +1490,43 @@
             </tr>
           </ng-template>
         </p-table>
+      </p-tabPanel>
+
+
+      <!-- slab Expenses -->
+      <p-tabPanel header="Slab Expenses">
+        <div class="card-body p-2">
+          <p-table [value]="mergedExpenseData" styleClass="p-datatable-striped"
+          [tableStyle]="{ 'min-width': '60rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Date</th>
+              <th>Slab Name</th>
+              <th>Slab Number</th>
+              <th>Expense Type</th>
+              <th>Processor / Recipient</th>
+              <th>Amount</th>
+              <!-- <th>Action</th> -->
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-expense>
+            <tr>
+              <td>{{ expense.date | date : "dd-MMM-yyyy" }}</td>
+              <td>{{ expense.slab?.slabName }}</td>
+              <td>{{ expense.slab?.slabNo }}</td>
+              <td>{{ expense.type }}</td>
+              <td>{{ expense.recipient || expense.processorName }}</td>
+              <td>{{ expense.amount || expense.processingCost }}</td>
+              <!-- <td>
+                <p-button [text]="true" icon="fa fa-trash"
+                  (click)="deleteExpense(expense._id, expense.type)"  
+                  pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip">
+                </p-button>
+              </td> -->
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
       </p-tabPanel>
     </p-tabView>
   </div>

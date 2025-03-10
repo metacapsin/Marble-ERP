@@ -222,20 +222,33 @@ export class AdminDashboardComponent {
       if (resp?.status === 'success') {
         let dates = resp.data;
         if (dates.startUtc && dates.endUtc) {
-          startDate = new Date(dates.startUtc);
-          endDate = new Date(dates.endUtc);
-          this.data = dates.filterby
+          this.data = dates.filterby;
+          if(dates.filterby){
+            let startEndDate = this.getDateByPrefrence(dates.filterby);
+            startDate = startEndDate[0];
+            endDate = startEndDate[1];
+          } else{
+            startDate = new Date(dates.startUtc);
+            endDate = new Date(dates.endUtc);
+          }
         } else {
+          this.data = "This Year";
           startDate = new Date(new Date().getFullYear(), 0, 1);
           endDate = new Date();
-          this.data = "This Year";
         }
         const Sdate = this.formatDate(startDate);
         const Edate = this.formatDate(endDate);
+        
         this.rangeDates = [startDate, endDate];
+        if(this.data){
+          this.onSearchByChange({value: this.data});
+
+        }
+       
         this.apiCall(Sdate, Edate);
       } else {
         if(resp?.message === 'No preference found for the given user.'){
+        this.data = "This Year";
         this.onSearchByChange({value: 'This Year'})
         }
       }
@@ -780,17 +793,19 @@ export class AdminDashboardComponent {
         endDate = new Date(startDate);
         break;
 
-      case "This Week":
-        startDate = new Date(today);
-        startDate.setDate(today.getDate() - today.getDay() + 1); // Start from Monday
-        break;
-
-      case "Last Week":
-        startDate = new Date(today);
-        startDate.setDate(today.getDate() - today.getDay() - 6); // Last Monday
-        endDate = new Date(today);
-        endDate.setDate(startDate.getDate() + 6); // Last Sunday
-        break;
+        case "This Week":
+          startDate = new Date(today);
+          startDate.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)); // Monday of this week
+          endDate = new Date(startDate);
+          endDate.setDate(startDate.getDate() + 6); // Sunday of this week
+          break;
+  
+        case "Last Week":
+          startDate = new Date(today);
+          startDate.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -13 : -6)); // Monday of last week
+          endDate = new Date(startDate);
+          endDate.setDate(startDate.getDate() + 6); // Sunday of last week
+          break;
 
       case "This Month":
         startDate = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -855,5 +870,85 @@ export class AdminDashboardComponent {
         console.log("updt date resp", resp);
       });
     }
+  }
+
+  getDateByPrefrence(value) {
+    const today = new Date();
+    let startDate: Date | null = null;
+    let endDate: Date | null = new Date(today);
+
+    switch (value) {
+      case "Today":
+        startDate = new Date(today);
+        break;
+
+      case "YesterDay":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 1);
+        endDate = new Date(startDate);
+        break;
+
+      case "This Week":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)); // Monday of this week
+        endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 6); // Sunday of this week
+        break;
+
+      case "Last Week":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -13 : -6)); // Monday of last week
+        endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 6); // Sunday of last week
+        break;
+
+      case "This Month":
+        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        break;
+
+      case "Last Month":
+        startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of previous month
+        break;
+
+      case "This Quarter":
+        const currentQuarter = Math.floor(today.getMonth() / 3);
+        startDate = new Date(today.getFullYear(), currentQuarter * 3, 1);
+        break;
+
+      case "Last Quarter":
+        const lastQuarter = Math.floor(today.getMonth() / 3) - 1;
+        const yearForLastQuarter =
+          lastQuarter < 0 ? today.getFullYear() - 1 : today.getFullYear();
+        startDate = new Date(
+          yearForLastQuarter,
+          (lastQuarter < 0 ? 3 : lastQuarter) * 3,
+          1
+        );
+        endDate = new Date(
+          startDate.getFullYear(),
+          startDate.getMonth() + 3,
+          0
+        );
+        break;
+
+      case "This Year":
+        startDate = new Date(today.getFullYear(), 0, 1);
+        break;
+
+      case "Last Year":
+        startDate = new Date(today.getFullYear() - 1, 0, 1);
+        endDate = new Date(today.getFullYear() - 1, 11, 31);
+        break;
+
+      default:
+        startDate = null;
+        endDate = null;
+        break;
+    }
+
+    return [startDate, endDate];
+
+   
   }
 }
