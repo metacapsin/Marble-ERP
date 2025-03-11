@@ -176,6 +176,12 @@
                   appendTo="body" formControlName="ItemTax" optionLabel="orderTaxName" optionValue="orderNamevalue"
                   display="chip" (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
               </p-inputGroup>
+              <div *ngIf="
+    lotAddForm.hasError('taxRequired') && 
+    lotAddForm.get('taxableAmount')?.touched
+  ">
+  <span class="login-danger">Please apply tax.</span>
+</div>
               <div *ngIf=" (lotAddForm.get('taxableAmount')?.hasError('min') &&
               lotAddForm.get('taxableAmount')?.touched) ||
             (lotAddForm.get('taxableAmount')?.hasError('max') &&

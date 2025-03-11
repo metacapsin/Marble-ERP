@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
-import { FormBuilder, FormGroup, NgForm, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
@@ -113,12 +113,24 @@ export class AddLotComponent {
         subCategoryDetail: ["", [Validators.required]],
         totalTransportationCharges: [""],
       },
-      { validators: atLeastOneRequiredValidator() }
+      {
+        //  validators: atLeastOneRequiredValidator(),
+        validators: this.taxSelectionValidator() 
+       }
+      
     );
   }
   ngOnInit(): void {
     this.previouslotData =
       this.NewPurchaseService.getFormData("stepFirstLotData");
+
+      this.lotAddForm.get('taxableAmount')?.valueChanges.subscribe(() => {
+        this.lotAddForm.updateValueAndValidity();  // Refreshes form validity
+      });
+    
+      this.lotAddForm.get('ItemTax')?.valueChanges.subscribe(() => {
+        this.lotAddForm.updateValueAndValidity();  // Refreshes form validity
+      });
 
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data.map((element: any) => ({
@@ -194,6 +206,18 @@ export class AddLotComponent {
     // this.findSubCategory(this.previouslotData?.categoryDetail)
   }
 
+
+  taxSelectionValidator(): ValidatorFn {
+    return (control: AbstractControl) => {
+      const taxableAmount = control.get('taxableAmount')?.value || 0;
+      const selectedTaxes = control.get('ItemTax')?.value;
+  
+      if (taxableAmount && (!selectedTaxes || selectedTaxes.length === 0)) {
+        return { taxRequired: true }; // Custom error key
+      }
+      return null;
+    };
+  }
   patchLotValue() {
     if (this.previouslotData) {
       console.log('this.previouslotData',this.previouslotData)

@@ -14,6 +14,8 @@ import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.serv
 import { Paginator, PaginatorModule } from "primeng/paginator";
 import { HttpClient } from "@angular/common/http";
 import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
+import { SalesService } from "src/app/core/sales/sales.service";
+import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 interface SlabInfo {
   _id: string;
   slabNo: string;
@@ -27,7 +29,7 @@ interface SlabDetail {
 @Component({
   selector: "app-list-slabs",
   standalone: true,
-  imports: [SharedModule, PaginatorModule],
+  imports: [SharedModule, PaginatorModule, InvoiceDialogComponent],
   providers: [MessageService],
   templateUrl: "./list-slabs.component.html",
   styleUrl: "./list-slabs.component.scss",
@@ -69,6 +71,11 @@ export class ListSlabsComponent {
   public showDialoge: boolean = false;
   formVisible: boolean = true; // Controls form visibility
   canAddExpense: boolean = true; // Controls the visibility of "Add Expense" button
+  header: string;
+  salesDataById = [];
+  showInvoiceDialog: boolean = false;
+  paymentListData = [];
+
 
   constructor(
     public dialog: MatDialog,
@@ -78,6 +85,8 @@ export class ListSlabsComponent {
     private messageService: MessageService,
     private WarehouseService: WarehouseService,
     private blockProcessorService: blockProcessorService,
+        private SalesService: SalesService,
+    
 
     private http: HttpClient
   ) {}
@@ -124,6 +133,28 @@ export class ListSlabsComponent {
         this.expenses = []; // Reset expenses
   }
 
+  viewSales(_id:any){
+console.log('sales id',_id)
+  this.SalesService.GetSalesDataById(_id).subscribe((resp: any) => {
+    this.header = "Sales Invoice";
+
+    this.salesDataById = [resp.data];
+    console.log("sales data by id On dialog", this.salesDataById);
+    this.showInvoiceDialog = true;
+  });
+
+  this.SalesService.getSalesPaymentList(_id).subscribe((resp: any) => {
+    this.paymentListData = resp.data;
+  });
+  }
+
+  callBackModalForInvoice() {
+    this.showInvoiceDialog = false;
+    
+  }
+  closeForInvocie() {
+    this.showInvoiceDialog = false;
+  }
   onExpenseTypeChange(expense: any) {
     if (expense.expenseType === "Other Expense") {
       delete expense.processingDate;
@@ -454,6 +485,12 @@ this.getSlabsList();
      
     })
   }
+
+  getTotalQuantity(sales: any): number {
+    if (!sales?.salesItemDetails) return 0;
+    return sales.salesItemDetails.reduce((total, item) => total + (item.salesItemQuantity || 0), 0);
+  }
+  
 
   deleteExpense(id: any, type?: any) {
     this.slabExpenseId = id;
