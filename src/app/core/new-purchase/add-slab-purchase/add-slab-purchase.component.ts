@@ -1,10 +1,12 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, Output } from "@angular/core";
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
   NgForm,
   NgModel,
+  ValidatorFn,
   Validators,
 } from "@angular/forms";
 import { routes } from "src/app/shared/routes/routes";
@@ -93,12 +95,35 @@ export class AddSlabPurchaseComponent {
         totalCost: [""],
         totalSQFT: [""],
       },
-      { validators: atLeastOneRequiredValidator() }
+      {
+        //  validators: atLeastOneRequiredValidator()
+        validators: this.taxSelectionValidator()    
+      }
     );
   }
+
+    taxSelectionValidator(): ValidatorFn {
+      return (control: AbstractControl) => {
+        const taxableAmount = control.get('taxableAmount')?.value || 0;
+        const selectedTaxes = control.get('ItemTax')?.value;
+    
+        if (taxableAmount && (!selectedTaxes || selectedTaxes.length === 0)) {
+          return { taxRequired: true }; // Custom error key
+        }
+        return null;
+      };
+    }
   ngOnInit(): void {
     this.previousSlabData =
       this.NewPurchaseService.getFormData("stepFirstSlabData");
+
+      this.slabAddForm.get('taxableAmount')?.valueChanges.subscribe(() => {
+        this.slabAddForm.updateValueAndValidity();  // Refreshes form validity
+      });
+    
+      this.slabAddForm.get('ItemTax')?.valueChanges.subscribe(() => {
+        this.slabAddForm.updateValueAndValidity();  // Refreshes form validity
+      });
 
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data.map((element: any) => ({
@@ -514,6 +539,9 @@ export class AddSlabPurchaseComponent {
   slabAddFormSubmit() {
     const formData = this.slabAddForm.value;
     console.log('formData',formData)
+    if(!this.slabAddForm.valid){
+      return;
+    }
     if (this.slabTotalCost) {
       const payload = {
         warehouseDetails: formData.warehouse,

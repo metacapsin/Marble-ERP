@@ -188,17 +188,17 @@
                       <div class="row mt-3 text-muted">
                         <div class="col">
                           <strong>Available Stock</strong><br />{{
-                            item?.totalSQFT
+                            item?.totalSQFT | indianCurrency
                           }} Sq. Feet
                         </div>
                         <div class="col">
                           <strong>Initial Stock</strong><br />{{
-                            item?.totalSlabSQFT
+                            item?.totalSlabSQFT | indianCurrency
                           }}  Sq. Feet
                         </div>
                         <div class="col">
                           <strong>Cost/Sq. Feet</strong><br />&#8377;
-                          {{ item?.costPerSQFT }}
+                          {{ item?.costPerSQFT | indianCurrency }}
                         </div>
                         <div class="col">
                           <strong>Warehouse</strong><br />{{

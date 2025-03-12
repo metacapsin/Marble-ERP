@@ -193,7 +193,7 @@
                   lotEditForm.get('taxable').value
                 " style="color: #97704f; font-size: 12px">
                 Tax Applied Amount:
-                {{ lotEditForm.get('taxable').value | number : "1.2-2" }}
+                {{ lotEditForm.get('taxable').value | indianCurrency }}
               </span>
             </div>
           </div>
@@ -241,15 +241,15 @@
                   lotEditForm.get('taxable').value  != 0
                 " style="color: #97704f; font-size: 12px">
                 Tax Applied Amount:
-                {{ lotEditForm.get('taxable').value | number : "1.2-2" }}
+                {{ lotEditForm.get('taxable').value | indianCurrency }}
                 + Non Taxable Amount :
                 {{
-                lotEditForm.get("nonTaxableAmount").value | number : "1.2-2"
+                lotEditForm.get("nonTaxableAmount").value | indianCurrency
                 }}
                 <span *ngIf="lotEditForm.get('purchaseDiscount').value > 0">
                   - Discount :
                   {{
-                  lotEditForm.get("purchaseDiscount").value | number : "1.2-2"
+                  lotEditForm.get("purchaseDiscount").value | indianCurrency
                   }}
                 </span>
               </span>

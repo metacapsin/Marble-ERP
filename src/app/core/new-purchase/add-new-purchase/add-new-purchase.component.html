@@ -140,11 +140,11 @@
                     <div class="d-flex pt-4 justify-content-between">
                       <div></div>
                       <button *ngIf="lotTypeValue === 'Lot'"
-                        [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid" class="btn btn-primary"
+                        [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid || !child?.lotAddForm?.valid" class="btn btn-primary"
                         (click)="nextStep(nextCallback, 'first')">
                         Next <i class="fa-solid fa-arrow-right"></i>
                       </button>
-                      <button *ngIf="lotTypeValue === 'Slab'" [disabled]="!slabChild?.slabDetails?.length || !addNewPurchaseForm?.valid"
+                      <button *ngIf="lotTypeValue === 'Slab'" [disabled]="!slabChild?.slabDetails?.length || !addNewPurchaseForm?.valid || !slabChild?.slabAddForm?.valid"
                         class="btn btn-primary" (click)="nextStep(nextCallback, 'first')">
                         Next <i class="fa-solid fa-arrow-right"></i>
                       </button>
@@ -875,7 +875,7 @@
                               addNewPurchaseForm.get('taxableAmount').value
                               " style="color: #97704f; font-size: 12px">
                                 Taxable Amount : ₹
-                                {{ addNewPurchaseForm.get('taxableAmount').value | number : "1.2-2" }}
+                                {{ addNewPurchaseForm.get('taxableAmount').value | indianCurrency }}
                               </span>
                               <div
                                 *ngIf="addNewPurchaseForm.get('taxVendor')?.hasError('required')  && addNewPurchaseForm.get('taxVendor')?.touched">
@@ -1011,7 +1011,7 @@
                               <p *ngIf="addNewPurchaseForm.get('purchaseDiscount').value">
                                 Purchase Discount (added)
                                 <span>₹
-                                  {{ addNewPurchaseForm.get("purchaseDiscount").value || 0.00 | number:'1.2-2' }}
+                                  {{ addNewPurchaseForm.get("purchaseDiscount").value || 0.00 | indianCurrency }}
 
                                 </span>
                               </p>
@@ -1046,7 +1046,7 @@
                                   ₹
                                   {{
                                   addNewPurchaseForm.get('taxable')?.value
-                                  | number : "1.2-2"
+                                  | indianCurrency
                                   }}
                                 </span>
                               </p>
@@ -1056,7 +1056,7 @@
                                   ₹
                                   {{
                                   addNewPurchaseForm.get('nonTaxable')?.value
-                                  | number : "1.2-2"
+                                  | indianCurrency
                                   }}
                                 </span>
                               </p>
@@ -1078,7 +1078,7 @@
                                   ₹
                                   {{
                                   addNewPurchaseForm.get('taxable')?.value
-                                  | number : "1.2-2"
+                                  | indianCurrency
                                   }}
                                 </span>
                               </p>
@@ -1088,7 +1088,7 @@
                                   ₹
                                   {{
                                   addNewPurchaseForm.get('nonTaxable')?.value
-                                  | number : "1.2-2"
+                                  | indianCurrency
                                   }}
                                 </span>
                               </p>
@@ -1096,7 +1096,7 @@
                                 Total Purchase Cost
                                 <span>
                                   {{ addNewPurchaseForm.get('purchaseTotalAmount')?.value
-                                  ? (addNewPurchaseForm.get('purchaseTotalAmount')?.value | number: '1.2-2')
+                                  ? (addNewPurchaseForm.get('purchaseTotalAmount')?.value | indianCurrency)
                                   : null }}
                                 </span>
                               </h4>

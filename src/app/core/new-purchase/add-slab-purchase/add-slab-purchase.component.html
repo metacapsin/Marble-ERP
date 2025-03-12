@@ -212,6 +212,12 @@
                             <span class="login-danger">Non-Taxable Amount and Taxable Amount should be equal to Total
                                 Amount (Paid to Supplier)</span>
                         </div> -->
+                        <div *ngIf="
+    slabAddForm.hasError('taxRequired') && 
+    slabAddForm.get('taxableAmount')?.touched
+  ">
+  <span class="login-danger">Please apply tax.</span>
+</div>
                         <div *ngIf=" (slabAddForm.get('taxableAmount')?.hasError('min') &&
               slabAddForm.get('taxableAmount')?.touched) ||
             (slabAddForm.get('taxableAmount')?.hasError('max') &&

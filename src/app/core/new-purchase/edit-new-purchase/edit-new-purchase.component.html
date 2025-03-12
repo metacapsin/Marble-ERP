@@ -162,11 +162,11 @@
                       <div class="d-flex pt-4 justify-content-between">
                       <div></div>
                         <button *ngIf="lotTypeValue === 'lot'"
-                          [disabled]="!child?.blocksDetails?.length || !editNewPurchaseForm?.valid" class="btn btn-primary"
+                          [disabled]="!child?.blocksDetails?.length || !editNewPurchaseForm?.valid || !child?.lotEditForm?.valid" class="btn btn-primary"
                           (click)="nextStep(nextCallback, 'first')">
                           Next <i class="fa-solid fa-arrow-right"></i>
                         </button>
-                        <button *ngIf="lotTypeValue === 'slab'" [disabled]="!editNewPurchaseForm?.valid || !slabdtls?.length"
+                        <button *ngIf="lotTypeValue === 'slab'" [disabled]="!editNewPurchaseForm?.valid || !slabdtls?.length || !slabChild?.slabAddForm?.valid"
                           class="btn btn-primary" (click)="nextStep(nextCallback, 'first')">
                           Next <i class="fa-solid fa-arrow-right"></i>
                         </button>
