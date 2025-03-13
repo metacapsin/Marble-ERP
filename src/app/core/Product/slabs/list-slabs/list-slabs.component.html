@@ -232,6 +232,10 @@
                         <strong>Total Sales:</strong>₹ {{ item?.slabHistory?.totalSales?.toFixed(2) }}
                       </p>
                       <p class="sales-detail">
+                        <span class="label">Tax Amount:</span>
+                        <span class="value">₹ {{item?.slabHistory?.totalTaxAmount ?item?.slabHistory?.totalTaxAmount.toFixed(2) : "0"}}</span>
+                      </p>
+                      <p class="sales-detail">
                         <span class="label">Cost Of Goods Sold:</span>
                         <span class="value">₹ {{item?.slabHistory?.totalCostPerSQFT.toFixed(2) || 0}}</span>
                       </p>
@@ -243,6 +247,7 @@
                         <span class="label">Profit/Loss:</span>
                         <span class="value">₹ {{item?.slabHistory?.profit || 0}}</span>
                       </p>
+                     
                     
                     </div>
                   </div>
@@ -935,6 +940,15 @@
                           }}</span
                         >
                       </p>
+                      <p *ngIf="slabDetail?.totalSlabCost
+                      ">
+                        Total Slab Cost.
+                        <span>₹
+                          {{
+                          slabDetail?.totalSlabCost
+                          | indianCurrency
+                          }}</span>
+                      </p>
                     </div>
 
                     <div class="invoice-total-footer">
@@ -986,7 +1000,12 @@
                     ₹
                     {{
                       slabProfitOfSlabHistory[0]?.totalSales | indianCurrency
-                    }}
+                    }} <span>(Tax Amount :
+                      {{
+                        slabProfitOfSlabHistory[0]?.totalTaxAmount 
+                         ? slabProfitOfSlabHistory[0]?.totalTaxAmount.toFixed(2) : "0"
+                     }} )
+                    </span>
                   </p>
                   <p
                     class="col-lg-9 col-form-label"
@@ -1148,6 +1167,19 @@
                       slabDetailsOfSlabHistory[0]?.currentSlabSQFT
                         ? slabDetailsOfSlabHistory[0]?.currentSlabSQFT
                         : "0"
+                    }} Sq.Feet
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row mb-2">
+                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                  Increased Measurement
+                </h5>
+                <div class="col-lg-8 col-md-8 col-xl-8">
+                  <p class="col-lg-9 col-form-label">
+                    {{
+                       slabProfitOfSlabHistory[0]?.increasedMeasurement 
+                        ? slabProfitOfSlabHistory[0]?.increasedMeasurement                         : "0"
                     }} Sq.Feet
                   </p>
                 </div>
