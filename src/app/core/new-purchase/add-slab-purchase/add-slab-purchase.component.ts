@@ -97,33 +97,33 @@ export class AddSlabPurchaseComponent {
       },
       {
         //  validators: atLeastOneRequiredValidator()
-        validators: this.taxSelectionValidator()    
+        validators: this.taxSelectionValidator(),
       }
     );
   }
 
-    taxSelectionValidator(): ValidatorFn {
-      return (control: AbstractControl) => {
-        const taxableAmount = control.get('taxableAmount')?.value || 0;
-        const selectedTaxes = control.get('ItemTax')?.value;
-    
-        if (taxableAmount && (!selectedTaxes || selectedTaxes.length === 0)) {
-          return { taxRequired: true }; // Custom error key
-        }
-        return null;
-      };
-    }
+  taxSelectionValidator(): ValidatorFn {
+    return (control: AbstractControl) => {
+      const taxableAmount = control.get("taxableAmount")?.value || 0;
+      const selectedTaxes = control.get("ItemTax")?.value;
+
+      if (taxableAmount && (!selectedTaxes || selectedTaxes.length === 0)) {
+        return { taxRequired: true }; // Custom error key
+      }
+      return null;
+    };
+  }
   ngOnInit(): void {
     this.previousSlabData =
       this.NewPurchaseService.getFormData("stepFirstSlabData");
 
-      this.slabAddForm.get('taxableAmount')?.valueChanges.subscribe(() => {
-        this.slabAddForm.updateValueAndValidity();  // Refreshes form validity
-      });
-    
-      this.slabAddForm.get('ItemTax')?.valueChanges.subscribe(() => {
-        this.slabAddForm.updateValueAndValidity();  // Refreshes form validity
-      });
+    this.slabAddForm.get("taxableAmount")?.valueChanges.subscribe(() => {
+      this.slabAddForm.updateValueAndValidity(); // Refreshes form validity
+    });
+
+    this.slabAddForm.get("ItemTax")?.valueChanges.subscribe(() => {
+      this.slabAddForm.updateValueAndValidity(); // Refreshes form validity
+    });
 
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data.map((element: any) => ({
@@ -228,7 +228,7 @@ export class AddSlabPurchaseComponent {
     this.slabTotalCost -= Number(this.slabDetails[index].totalCosting);
     this.slabDetails.splice(index, 1);
     this.calculateTotalAmount();
-    this.saveClicked.emit()
+    this.saveClicked.emit();
   }
 
   // for get hsn code
@@ -249,7 +249,7 @@ export class AddSlabPurchaseComponent {
   addSlabDetails(myForm: NgForm) {
     this.addvisible = false;
     this.cdRef.detectChanges();
-  
+
     if (!this.slabDetails) {
       this.slabDetails = [];
     }
@@ -301,7 +301,7 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount();
 
     // Reset the form to clear validation messages
-    this.saveClicked.emit()
+    this.saveClicked.emit();
     myForm.resetForm();
   }
 
@@ -345,7 +345,15 @@ export class AddSlabPurchaseComponent {
         this.slabAddForm.get(formControlName)?.touched)
     );
   }
+
+  originalTaxableAmount: number | null = null;
+  originalNonTaxableAmount: number | null = null;
+  originalTaxApplied: number | null = null;
+  wasDiscountApplied: boolean = false;
+
   calculateTotalAmount() {
+    console.log("=======================================");
+    console.log("🟠 Step 1: Initial Values");
     const form = this.slabAddForm;
     const slabTotalAmount = this.slabTotalCost;
     const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
@@ -360,17 +368,35 @@ export class AddSlabPurchaseComponent {
     let transportationChargesPerSlab = 0;
     let otherChargesPerSlab = 0;
 
+    console.log(`Royalty Charge: ${royaltyCharge}`);
+    console.log(`Transportation Charge: ${transportationCharge}`);
+    console.log(`Purchase Discount: ${purchaseDiscount}`);
+
+    if (
+      this.originalTaxableAmount === null ||
+      this.originalNonTaxableAmount === null ||
+      !this.wasDiscountApplied
+    ) {
+      this.originalTaxableAmount = taxableAmount;
+      this.originalNonTaxableAmount = nonTaxableAmount;
+      this.originalTaxApplied = 0;
+    }
+
     let totalSQFT = 0;
     let totalSlabAmount = 0;
     this.slabDetails.forEach((element: any) => {
       totalSQFT += element?.totalSQFT;
       totalSlabAmount += element?.totalCosting;
     });
+
+    console.log(`Total SQFT: ${totalSQFT}`);
+
     transportationAndOtherChargePerSQFT = Number(
       (transportationCharge + royaltyCharge) / totalSQFT
     );
     transportationChargesPerSlab = Number(transportationCharge / totalSQFT);
     otherChargesPerSlab = Number(royaltyCharge / totalSQFT);
+
     if (slabTotalAmount) {
       nonTaxableAmount =
         taxableAmount && taxableAmount <= slabTotalAmount
@@ -394,103 +420,97 @@ export class AddSlabPurchaseComponent {
       taxApplied = (taxableAmount * tax) / 100;
     }
 
-    // Check if slabDetails is empty   code  Add by ravi
-    if (this.slabDetails.length === 0) {
-      // If no data in slabDetails, clear the related fields
-      form.patchValue({
-        taxableAmount: 0,
-        nonTaxableAmount: 0,
-        paidToSupplierSlabCost: 0,
-        taxable: 0,
-        taxApplied: 0,
-        totalCost: 0,
-        totalSQFT: 0,
-      });
-      this.slabDetails = []; // Clear slabDetails data
-      const formData = this.slabAddForm.value;
-
-      const payload = {
-        warehouseDetails: formData.warehouse,
-        vehicleNo: formData.vehicleNo,
-        transportationCharge: Number(formData.transportationCharge),
-        royaltyCharge: Number(formData.royaltyCharge),
-        slabDetails: this.slabDetails || [],
-        slabTotalCost: Number(this.slabTotalCost),
-        // totalCost: Number(formData?.totalCost),
-        // paidToSupplierSlabCost: Number(formData.paidToSupplierSlabCost),
-        purchaseDiscount: Number(formData.purchaseDiscount),
-        // nonTaxableAmount: Number(formData.nonTaxableAmount),
-        // taxableAmount: Number(formData.taxableAmount),
-        // taxable: Number(formData.taxable),
-        purchaseItemTax:null,
-        taxableAmount: 0,
-        nonTaxableAmount: 0,
-        paidToSupplierSlabCost: 0,
-        taxable: 0,
-        taxApplied: 0,
-        totalCost: 0,
-        totalSQFT: 0,
-      };
-      this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
-
-      return; // Exit the function early as there's no data
-    }
-
-    let calculatedDetails = this.slabDetails.map((e: any) => ({
-      ...e,
-      taxAmountPerSQFT: Number(
-        ((taxApplied / this.slabTotalCost) * Number(e.totalCosting)) /
-          Number(e.totalSQFT)
-      ).toFixed(4),
-    }));
+    console.log(`Tax Applied Before Discount: ${taxApplied}`);
 
     if (purchaseDiscount) {
-      if (!nonTaxableAmount) {
-        taxableAmount -= purchaseDiscount;
-      } else {
-        nonTaxableAmount -= purchaseDiscount;
-        form.patchValue({
-          nonTaxableAmount,
-        });
-      }
-    }
+      let remainingDiscount = purchaseDiscount;
+      let discountedNonTaxableAmount = this.originalNonTaxableAmount;
+      let discountedTaxableAmount = this.originalTaxableAmount;
 
-    calculatedDetails = calculatedDetails.map((e: any, index: any) => ({
-      ...e,
-      costPerSQFT: Number(
-        Number(e.ratePerSqFeet) +
-          Number(e.taxAmountPerSQFT) +
-          Number(transportationAndOtherChargePerSQFT)
-      ).toFixed(4),
-      sellingPricePerSQFT: Number(
-        Number(e.ratePerSqFeet) +
-          Number(e.taxAmountPerSQFT) +
-          Number(transportationAndOtherChargePerSQFT)
-      ).toFixed(4),
-      transportationCharges: Number(
-        transportationChargesPerSlab * e.totalSQFT
-      ).toFixed(4),
-      otherCharges: Number(otherChargesPerSlab * e.totalSQFT).toFixed(4),
-      slabSize: `${e.width ? e.width : " "} x ${e.length ? e.length : " "} x ${
-        e.thickness ? e.thickness : " "
-      }`,
-      purchaseCost:
-        (Number(e.ratePerSqFeet) +
-          Number(e.taxAmountPerSQFT) +
-          Number(transportationAndOtherChargePerSQFT)) *
-        e.totalSQFT,
-      warehouseDetails: this.slabAddForm?.value?.warehouse,
-    }));
+      if (remainingDiscount <= discountedNonTaxableAmount) {
+        discountedNonTaxableAmount -= remainingDiscount;
+        remainingDiscount = 0;
+      } else {
+        remainingDiscount -= discountedNonTaxableAmount;
+        discountedNonTaxableAmount = 0;
+      }
+
+      // Recalculate tax with updated taxable amount
+      taxApplied = 0;
+      if (Array.isArray(tax)) {
+        tax.forEach((selectedTax: any) => {
+          taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+        });
+      } else if (tax) {
+        taxApplied = (taxableAmount * tax) / 100;
+      }
+
+      console.log(
+        `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
+      );
+
+      if (remainingDiscount > 0) {
+        discountedTaxableAmount -= remainingDiscount;
+      }
+
+      taxableAmount = discountedTaxableAmount;
+      nonTaxableAmount = discountedNonTaxableAmount;
+      this.wasDiscountApplied = true;
+
+      console.log(`Taxable Amount After Discount: ${taxableAmount}`);
+      console.log(`Non-Taxable Amount After Discount: ${nonTaxableAmount}`);
+
+      // Recalculate tax with updated taxable amount
+      taxApplied = 0;
+      if (Array.isArray(tax)) {
+        tax.forEach((selectedTax: any) => {
+          taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+        });
+      } else if (tax) {
+        taxApplied = (taxableAmount * tax) / 100;
+      }
+
+      console.log(
+        `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
+      );
+
+      form.patchValue({
+        nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+        taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+        purchaseDiscount: purchaseDiscount ? Number(purchaseDiscount).toFixed(2) : 0
+
+      });
+    } else if (this.wasDiscountApplied) {
+      taxableAmount = this.originalTaxableAmount;
+      nonTaxableAmount = this.originalNonTaxableAmount;
+      taxApplied = this.originalTaxApplied;
+      this.wasDiscountApplied = false;
+
+      console.log(`Taxable Amount Restored: ${taxableAmount}`);
+      console.log(`Non-Taxable Amount Restored: ${nonTaxableAmount}`);
+      // Recalculate tax with updated taxable amount
+      taxApplied = 0;
+      if (Array.isArray(tax)) {
+        tax.forEach((selectedTax: any) => {
+          taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+        });
+      } else if (tax) {
+        taxApplied = (taxableAmount * tax) / 100;
+      }
+
+      console.log(
+        `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
+      );
+      form.patchValue({
+        nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+        taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+        purchaseDiscount: purchaseDiscount ? Number(purchaseDiscount).toFixed(2) : 0
+
+      });
+    }
 
     taxable = taxApplied + taxableAmount;
     const paidToSupplierSlabAmount = taxable + nonTaxableAmount;
-
-    console.log("Taxable:", taxable);
-    console.log("Non-Taxable Amount:", nonTaxableAmount);
-    console.log("Purchase Discount:", purchaseDiscount);
-    console.log("Transportation Charge:", transportationCharge);
-    console.log("Royalty Charge:", royaltyCharge);
-
     const totalCost =
       taxable +
       nonTaxableAmount +
@@ -498,7 +518,8 @@ export class AddSlabPurchaseComponent {
       transportationCharge +
       royaltyCharge;
 
-    console.log("Total Cost:", totalCost);
+    console.log(`Total Cost: ${totalCost}`);
+
     form.patchValue({
       paidToSupplierSlabCost: paidToSupplierSlabAmount
         ? Number(paidToSupplierSlabAmount).toFixed(2)
@@ -509,9 +530,19 @@ export class AddSlabPurchaseComponent {
       totalCost: Number(totalCost),
       totalSQFT: Number(totalSQFT),
     });
-    this.slabDetails = [...calculatedDetails];
+
+    this.slabDetails = [
+      ...this.slabDetails.map((e: any) => ({
+        ...e,
+        transportationCharges: Number(
+          transportationChargesPerSlab * e.totalSQFT
+        ).toFixed(4),
+        otherCharges: Number(otherChargesPerSlab * e.totalSQFT).toFixed(4),
+      })),
+    ];
 
     this.setValidator();
+    console.log("=======================================");
   }
 
   trackByFn(index: number, item: any) {
@@ -538,8 +569,8 @@ export class AddSlabPurchaseComponent {
 
   slabAddFormSubmit() {
     const formData = this.slabAddForm.value;
-    console.log('formData',formData)
-    if(!this.slabAddForm.valid){
+    console.log("formData", formData);
+    if (!this.slabAddForm.valid) {
       return;
     }
     if (this.slabTotalCost) {
