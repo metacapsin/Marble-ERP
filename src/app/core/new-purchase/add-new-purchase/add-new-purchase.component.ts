@@ -467,18 +467,19 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       vendorTaxApplied: Number(formData.vendorTaxApplied),
     };
     if (this.addNewPurchaseForm.value.purchaseType == "Lot") {
+      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
+      
       if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
         this;
         this.ItemDetails.purchaseCost = Number(
           formData.paidToSupplierPurchaseCost
         );
 
-        this.ItemDetails.date = formData.purchaseDate;
+        this.ItemDetails.date = convertedDate;
         this.ItemDetails.notes = formData.purchaseNotes;
       } else {
         console.error("formData.paidToSupplierPurchaseCost is not defined");
       }
-      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,
@@ -587,6 +588,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   }
 
   addSlabPNTTT(formData?: any) {
+    console.log('formdata of slab', formData);
     let paidToSupplierPurchaseCost = 0;
     let nonTaxable = 0;
     let taxable = 0;
@@ -607,6 +609,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       slabDetails.push({
         slabName: item.slabName,
         slabNo: item.slabNumber || "",
+        warehouseDetails: item.warehouseDetails || "",
         width: Number(item.width) || "",
         length: Number(item.length) || "",
         thikness: Number(item.thickness) || "",

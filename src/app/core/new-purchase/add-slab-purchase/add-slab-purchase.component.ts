@@ -278,7 +278,7 @@ export class AddSlabPurchaseComponent {
       totalSQFT: this.quantity,
       ratePerSqFeet: this.ratePerSqFeet,
       totalCosting: this.totalAmount,
-      // purchaseCost: this.totalAmount,
+      warehouseDetails: this.slabAddForm.get("warehouse").value,
       sqftPerPiece: Number(this.quantity / this.noOfPieces).toFixed(2),
     };
 

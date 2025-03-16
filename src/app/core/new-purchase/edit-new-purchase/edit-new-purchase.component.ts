@@ -675,17 +675,17 @@ export class EditNewPurchaseComponent implements OnInit {
       vendorTaxApplied: Number(formData.vendorTaxApplied),
     };
     if (this.editNewPurchaseForm.value.purchaseType == "lot") {
+      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
       if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
         this.ItemDetails.purchaseCost = Number(
           formData.paidToSupplierPurchaseCost
         );
-        this.ItemDetails.date = formData.purchaseDate;
+        this.ItemDetails.date = convertedDate;
         this.ItemDetails.notes = formData.purchaseNotes;
         this.ItemDetails._id = formData.productId;
       } else {
         console.error("formData.paidToSupplierPurchaseCost is not defined");
       }
-      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,
