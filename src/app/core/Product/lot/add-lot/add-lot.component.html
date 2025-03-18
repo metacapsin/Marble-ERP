@@ -176,6 +176,12 @@
                   appendTo="body" formControlName="ItemTax" optionLabel="orderTaxName" optionValue="orderNamevalue"
                   display="chip" (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
               </p-inputGroup>
+              <div *ngIf="
+    lotAddForm.hasError('taxRequired') && 
+    lotAddForm.get('taxableAmount')?.touched
+  ">
+  <span class="login-danger">Please apply tax.</span>
+</div>
               <div *ngIf=" (lotAddForm.get('taxableAmount')?.hasError('min') &&
               lotAddForm.get('taxableAmount')?.touched) ||
             (lotAddForm.get('taxableAmount')?.hasError('max') &&
@@ -187,7 +193,7 @@
                   lotAddForm.get('taxable').value
                 " style="color: #97704f; font-size: 12px">
                 Tax Applied Amount:
-                {{ lotAddForm.get('taxable').value | number : "1.2-2" }}
+                {{ lotAddForm.get('taxable').value | indianCurrency }}
               </span>
             </div>
           </div>
@@ -206,7 +212,7 @@
                     <span class="input-group-text">₹</span>
                   </div>
                   <span class="form-control">{{
-                    lotAddForm.get("nonTaxableAmount").value
+                    lotAddForm.get("nonTaxableAmount").value | indianCurrency
                     }}</span>
                 </div>
               </div>
@@ -215,7 +221,7 @@
             (lotAddForm.get('nonTaxableAmount')?.hasError('max') &&
               lotAddForm.get('nonTaxableAmount')?.touched)">
                 <span class="login-danger">Non-Taxable Amount cannot be greater than Lot Weight * Price/ton
-                  ({{rowCosting}}).</span>
+                  ({{rowCosting | indianCurrency}}).</span>
               </div>
             </div>
           </div>
@@ -235,7 +241,7 @@
                   <span class="input-group-text">₹</span>
                 </div>
                 <span class="form-control">{{
-                  lotAddForm.get("paidToSupplierLotCost").value
+                  lotAddForm.get("paidToSupplierLotCost").value | indianCurrency
                   }}</span>
               </div>
               <span *ngIf="
@@ -243,15 +249,15 @@
                   lotAddForm.get('taxable').value  != 0
                 " style="color: #97704f; font-size: 12px">
                 Tax Applied Amount:
-                {{ lotAddForm.get('taxable').value | number : "1.2-2" }}
+                {{ lotAddForm.get('taxable').value | indianCurrency }}
                 + Non Taxable Amount :
                 {{
-                lotAddForm.get("nonTaxableAmount").value | number : "1.2-2"
+                lotAddForm.get("nonTaxableAmount").value | indianCurrency
                 }}
                 <span *ngIf="lotAddForm.get('purchaseDiscount').value > 0">
                   - Discount :
                   {{
-                  lotAddForm.get("purchaseDiscount").value | number : "1.2-2"
+                  lotAddForm.get("purchaseDiscount").value | indianCurrency
                   }}
                 </span>
               </span>

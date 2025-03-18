@@ -137,7 +137,7 @@
             </div>
             <div class="card-body p-2">
               <span *ngIf="selectedLayout === 'Card'" class="col-12 col-md-12">
-                <div class="p-2"><strong>Total Available Stock :</strong> <span  style="font-weight: 500;"> {{ totalSqFtLeft }} Sq. Feet</span></div>
+                <div class="p-2"><strong>Total Available Stock :</strong> <span  style="font-weight: 500;"> {{ totalSqFtLeft.toFixed(2) }} Sq. Feet</span></div>
                 <div class="container mt-4" *ngFor="let item of pagedData">
                   <div class="row">
                     <div class="col-md-8 container-box">
@@ -153,7 +153,7 @@
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
-                          <a (click)="showSlabDetails(item?._id)" class="view-more"  pTooltip="View More" tooltipPosition="bottom"
+                          <a (click)="getSlabDetailsById(item?._id)" class="view-more"  pTooltip="View More" tooltipPosition="bottom"
                             ><i class="fa-solid fa-eye"></i
                           ></a>
                           <a (click)="deleteSlabs(item?._id)" class="view-more"  pTooltip="Delete" tooltipPosition="bottom"
@@ -188,17 +188,17 @@
                       <div class="row mt-3 text-muted">
                         <div class="col">
                           <strong>Available Stock</strong><br />{{
-                            item?.totalSQFT
+                            item?.totalSQFT | indianCurrency
                           }} Sq. Feet
                         </div>
                         <div class="col">
                           <strong>Initial Stock</strong><br />{{
-                            item?.totalSlabSQFT
+                            item?.totalSlabSQFT | indianCurrency
                           }}  Sq. Feet
                         </div>
                         <div class="col">
                           <strong>Cost/Sq. Feet</strong><br />&#8377;
-                          {{ item?.costPerSQFT }}
+                          {{ item?.costPerSQFT | indianCurrency }}
                         </div>
                         <div class="col">
                           <strong>Warehouse</strong><br />{{
@@ -232,8 +232,12 @@
                         <strong>Total Sales:</strong>₹ {{ item?.slabHistory?.totalSales?.toFixed(2) }}
                       </p>
                       <p class="sales-detail">
+                        <span class="label">Tax Amount:</span>
+                        <span class="value">₹ {{item?.slabHistory?.totalTaxAmount ?item?.slabHistory?.totalTaxAmount.toFixed(2) : "0"}}</span>
+                      </p>
+                      <p class="sales-detail">
                         <span class="label">Cost Of Goods Sold:</span>
-                        <span class="value">₹ {{item?.slabHistory?.totalCostPerSQFT || 0}}</span>
+                        <span class="value">₹ {{item?.slabHistory?.totalCostPerSQFT.toFixed(2) || 0}}</span>
                       </p>
                       <p class="sales-detail">
                         <span class="label">Tax Profit:</span>
@@ -243,9 +247,17 @@
                         <span class="label">Profit/Loss:</span>
                         <span class="value">₹ {{item?.slabHistory?.profit || 0}}</span>
                       </p>
+                     
                     
                     </div>
                   </div>
+                </div>
+
+                <div *ngIf="!allSlabsDaTa && showDataLoader"
+                colspan="10"
+                class="text-center"
+              >
+                      <p-progressSpinner ariaLabel="loading" />
                 </div>
                 <p-paginator
                 *ngIf="totalRecords > 0"
@@ -442,7 +454,7 @@
                           pTooltip="View"
                           tooltipPosition="left"
                           tooltipStyleClass="tooltip"
-                          (click)="showSlabDetails(slabs?._id)"
+                          (click)="getSlabDetailsById(slabs?._id)"
                         ></p-button>
                         <p-button
                           [text]="true"
@@ -504,7 +516,7 @@
                   </ng-template>
 
                   <!-- <ng-template>
-                                        <td *ngIf="!allSlabsDaTa" colspan="10" class="text-center">
+                                        <td *ngIf="!allSlabsDaTa && showDataLoader" colspan="10" class="text-center">
                                             <p-progressSpinner ariaLabel="loading" />
                                         </td>
                                     </ng-template> -->
@@ -533,6 +545,8 @@
   [(visible)]="slabVisible"
   [modal]="true"
   [style]="{ width: '80vw' }"
+  (onHide)="closeDialog()">
+
 >
   <div class="card">
     <div class="modal-content">
@@ -817,7 +831,7 @@
                   [filter]="true"
                   filterBy="name"
                   placeholder="Select Processor"
-                  (onChange)="onBlockProcessorSelect(expense, $event.value)">
+                  (onChange)="onBlockProcessorSelect(expense, $event.value)" width="100%">
                 </p-dropdown>
               </div>
             </div>
@@ -841,7 +855,7 @@
           </ng-container>
       
           <!-- Action Buttons (Save & Delete) -->
-            <div class="col-md-6 col-sm-12 text-start mb-2" *ngIf="expense.expenseType" > 
+            <div class="col-md-12 col-sm-12 text-end mb-2" *ngIf="expense.expenseType" > 
               <button type="submit" (click)="saveExpenses()" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
               [disabled]="!isFormValid()">
                 Submit
@@ -887,6 +901,13 @@
                           {{ slabDetail?.purchaseCost | indianCurrency }}</span
                         >
                       </p>
+                      <p *ngIf="slabDetail?.processingFeePerSQFT && slabDetail.processingFeePerSQFT >= 1">
+                        Processing Fee/ SQFT.
+                        <span
+                          >₹
+                          {{ slabDetail?.processingFeePerSQFT | indianCurrency }}</span
+                        >
+                      </p>
                       <p *ngIf="slabDetail?.transportationCharges">
                         Transportation Charges
                         <span
@@ -918,6 +939,15 @@
                             slabDetail?.processingCost | indianCurrency
                           }}</span
                         >
+                      </p>
+                      <p *ngIf="slabDetail?.totalSlabCost
+                      ">
+                        Total Slab Cost.
+                        <span>₹
+                          {{
+                          slabDetail?.totalSlabCost
+                          | indianCurrency
+                          }}</span>
                       </p>
                     </div>
 
@@ -970,7 +1000,12 @@
                     ₹
                     {{
                       slabProfitOfSlabHistory[0]?.totalSales | indianCurrency
-                    }}
+                    }} <span>(Tax Amount :
+                      {{
+                        slabProfitOfSlabHistory[0]?.totalTaxAmount 
+                         ? slabProfitOfSlabHistory[0]?.totalTaxAmount.toFixed(2) : "0"
+                     }} )
+                    </span>
                   </p>
                   <p
                     class="col-lg-9 col-form-label"
@@ -1136,6 +1171,19 @@
                   </p>
                 </div>
               </div>
+              <div class="form-group row mb-2">
+                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                  Increased Measurement
+                </h5>
+                <div class="col-lg-8 col-md-8 col-xl-8">
+                  <p class="col-lg-9 col-form-label">
+                    {{
+                       slabProfitOfSlabHistory[0]?.increasedMeasurement 
+                        ? slabProfitOfSlabHistory[0]?.increasedMeasurement                         : "0"
+                    }} Sq.Feet
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1178,17 +1226,28 @@
                   display="menu"
                 ></p-columnFilter>
               </th>
-              <th pSortableColumn="salesOrderStatus">
-                Sales Status
-                <p-sortIcon field="salesOrderStatus"></p-sortIcon>
+              <!-- <th pSortableColumn="salesItemQuantity">
+                Quantity
+                <p-sortIcon field="salesItemQuantity"></p-sortIcon>
                 <p-columnFilter
                   matchMode="contains"
                   hideOnClear="true"
                   type="text"
-                  field="salesOrderStatus"
+                  field="salesItemQuantity"
                   display="menu"
                 ></p-columnFilter>
               </th>
+              <th pSortableColumn="salesItemUnitPrice">
+                Rate
+                <p-sortIcon field="salesItemUnitPrice"></p-sortIcon>
+                <p-columnFilter
+                  matchMode="contains"
+                  hideOnClear="true"
+                  type="text"
+                  field="salesItemUnitPrice"
+                  display="menu"
+                ></p-columnFilter>
+              </th> -->
               <th pSortableColumn="paymentStatus">
                 Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
                 <p-columnFilter
@@ -1230,16 +1289,22 @@
                   display="menu"
                 ></p-columnFilter>
               </th>
-              <!-- <th pSortableColumn="paymentStatus">
-                    Payment Status <p-sortIcon field="paymentStatus"></p-sortIcon>
-                  </th> -->
+              <th >
+                    Action
+                  </th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-sales>
-            <tr>
-              <td>{{ sales?.salesInvoiceNumber }}</td>
+            <tr >
+              <td style="cursor: pointer;" (click)="viewSales(sales._id)"  >{{ sales?.salesInvoiceNumber }}</td>
               <td>{{ sales?.salesDate | date : "dd-MMM-yyyy" }}</td>
-              <td>{{ sales?.salesOrderStatus }}</td>
+              <!-- <td>{{ item?.salesItemQuantity }}</td>
+              <td>{{ item?.salesItemUnitPrice }}</td> -->
+              <!-- <td>{{ getTotalQuantity(sales) }}</td>
+
+              <td>
+                {{ sales?.salesItemDetails[0]?.salesItemUnitPrice }}
+              </td> -->
               <td *ngIf="sales?.paymentStatus == 'Partial Paid'">
                 <p-tag severity="warning" value="Partial Paid"></p-tag>
               </td>
@@ -1252,6 +1317,16 @@
               <td>₹ {{ sales?.paidAmount | indianCurrency }}</td>
               <td>₹ {{ sales?.dueAmount | indianCurrency }}</td>
               <td>₹ {{ sales?.salesTotalAmount | indianCurrency }}</td>
+              <td>
+                <p-button
+                          [text]="true"
+                          icon="fa-solid fa-eye"
+                          pTooltip="View"
+                          tooltipPosition="left"
+                          tooltipStyleClass="tooltip"
+                          (click)="viewSales(sales?._id)"
+                        ></p-button>
+              </td>
             </tr>
           </ng-template>
           <ng-template pTemplate="emptymessage">
@@ -1493,10 +1568,9 @@
       </p-tabPanel>
 
 
-      <!-- slab Expenses -->
       <p-tabPanel header="Slab Expenses">
         <div class="card-body p-2">
-          <p-table [value]="mergedExpenseData" styleClass="p-datatable-striped"
+          <!-- <p-table [value]="mergedExpenseData" styleClass="p-datatable-striped"
           [tableStyle]="{ 'min-width': '60rem' }">
           <ng-template pTemplate="header">
             <tr>
@@ -1506,7 +1580,6 @@
               <th>Expense Type</th>
               <th>Processor / Recipient</th>
               <th>Amount</th>
-              <!-- <th>Action</th> -->
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-expense>
@@ -1517,17 +1590,65 @@
               <td>{{ expense.type }}</td>
               <td>{{ expense.recipient || expense.processorName }}</td>
               <td>{{ expense.amount || expense.processingCost }}</td>
-              <!-- <td>
-                <p-button [text]="true" icon="fa fa-trash"
-                  (click)="deleteExpense(expense._id, expense.type)"  
-                  pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip">
-                </p-button>
-              </td> -->
+            
             </tr>
           </ng-template>
-        </p-table>
+        </p-table> -->
+        <p-table 
+        [value]="mergedExpenseData" 
+        [paginator]="true" 
+        [rows]="10" 
+        [sortMode]="'multiple'"
+        styleClass="p-datatable-striped"
+        [tableStyle]="{ 'min-width': '60rem' }">
+      
+        <!-- 🔹 Table Header with Sorting & Filtering -->
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="date">
+              Date <p-sortIcon field="date"></p-sortIcon>
+              <p-columnFilter matchMode="contains" field="date" display="menu"></p-columnFilter>
+            </th>
+            <th pSortableColumn="slab.slabName">
+              Slab Name <p-sortIcon field="slab.slabName"></p-sortIcon>
+              <p-columnFilter matchMode="contains" field="slab.slabName" display="menu"></p-columnFilter>
+            </th>
+            <th pSortableColumn="slab.slabNo">
+              Slab Number <p-sortIcon field="slab.slabNo"></p-sortIcon>
+              <p-columnFilter matchMode="contains" field="slab.slabNo" display="menu"></p-columnFilter>
+            </th>
+            <th pSortableColumn="type">
+              Expense Type <p-sortIcon field="type"></p-sortIcon>
+              <p-columnFilter matchMode="contains" field="type" display="menu"></p-columnFilter>
+            </th>
+            <th pSortableColumn="processorName">
+              Processor / Recipient <p-sortIcon field="processorName"></p-sortIcon>
+              <p-columnFilter matchMode="contains" field="processorName" display="menu"></p-columnFilter>
+            </th>
+            <th pSortableColumn="amount">
+              Amount <p-sortIcon field="amount"></p-sortIcon>
+              <p-columnFilter matchMode="contains" field="amount" display="menu"></p-columnFilter>
+            </th>
+          </tr>
+        </ng-template>
+      
+        <!-- 🔹 Table Body -->
+        <ng-template pTemplate="body" let-expense>
+          <tr>
+            <td>{{ expense.date | date : "dd-MMM-yyyy" }}</td>
+            <td>{{ expense.slab?.slabName }}</td>
+            <td>{{ expense.slab?.slabNo }}</td>
+            <td>{{ expense.type }}</td>
+            <td>{{ expense.recipient || expense.processorName }}</td>
+            <td>{{ expense.amount || expense.processingCost }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      
       </div>
       </p-tabPanel>
     </p-tabView>
   </div>
 </p-dialog>
+<app-invoice-dialog *ngIf="showInvoiceDialog" [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="salesDataById" [header]="header"
+  [paymentDataListById]="paymentListData" (callbackModal)="callBackModalForInvoice()" (close)="closeForInvocie()"></app-invoice-dialog>

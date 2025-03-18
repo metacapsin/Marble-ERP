@@ -104,7 +104,7 @@ export class ViewBlockProcessorComponent {
         console.log(resp);
         this.slabListData = resp.data.map((e) => ({
           slabName: e.slabName,
-          displayName: `${e.slabNo} - ${e.slabName}`,
+          displayName: `${e.slabNo} (${e.slabName})`,
           _id: {
             _id: e._id,
             slabName: e.slabName,
@@ -150,7 +150,8 @@ export class ViewBlockProcessorComponent {
       .GetOpeningBalancePayListById(this.blockProcessor_id)
       .subscribe((data: any) => {
         this.openingBalPayList = data.data;
-        this.slabProcessingPaymentData = [...this.openingBalPayList, ...this.slabProcessingPaymentData];
+        this.slabProcessingPaymentData = [ ...(this.openingBalPayList || []),
+    ...(this.slabProcessingPaymentData || []) ]
       });
   }
 
@@ -158,7 +159,11 @@ export class ViewBlockProcessorComponent {
     this.blockProcessorService
       .getAllSlabProcessing(this.blockProcessor_id)
       .subscribe((resp: any) => {
-        this.slabProcessingDataList = resp.data;
+        // this.slabProcessingDataList = resp.data;
+        this.slabProcessingDataList = resp.data.map((e) => ({
+         ...e,
+          displayName: `${e.slab.slabNo} (${e.slab.slabName})`,
+        }));
         this.getOpeningBalance();
         // this.paymentInvoicePurchaseDataShowById = resp.data;
       });

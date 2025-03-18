@@ -153,9 +153,9 @@ export class EditNewPurchaseComponent implements OnInit {
         [Validators.pattern(validationRegex.address3To500Regex)],
       ],
       purchaseDiscount: ["", [Validators.min(0)]],
-      taxableAmount: ["", [Validators.min(0), Validators.max(9999999)]],
+      taxableAmount: ["", [Validators.min(0), Validators.max(999999999999)]],
       purchaseItemTax: [""],
-      nonTaxable: ["", [Validators.min(0), Validators.max(9999999)]],
+      nonTaxable: ["", [Validators.min(0), Validators.max(999999999999)]],
       taxable: [""],
       taxVendor: [""],
       taxVendorAmount: [""],
@@ -675,17 +675,18 @@ export class EditNewPurchaseComponent implements OnInit {
       vendorTaxApplied: Number(formData.vendorTaxApplied),
     };
     if (this.editNewPurchaseForm.value.purchaseType == "lot") {
+      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
+
       if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
         this.ItemDetails.purchaseCost = Number(
           formData.paidToSupplierPurchaseCost
         );
-        this.ItemDetails.date = formData.purchaseDate;
+        this.ItemDetails.date = convertedDate;
         this.ItemDetails.notes = formData.purchaseNotes;
         this.ItemDetails._id = formData.productId;
       } else {
         console.error("formData.paidToSupplierPurchaseCost is not defined");
       }
-      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,

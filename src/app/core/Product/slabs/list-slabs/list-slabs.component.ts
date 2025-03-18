@@ -14,6 +14,8 @@ import { WarehouseService } from "src/app/core/settings/warehouse/warehouse.serv
 import { Paginator, PaginatorModule } from "primeng/paginator";
 import { HttpClient } from "@angular/common/http";
 import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
+import { SalesService } from "src/app/core/sales/sales.service";
+import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 interface SlabInfo {
   _id: string;
   slabNo: string;
@@ -27,7 +29,7 @@ interface SlabDetail {
 @Component({
   selector: "app-list-slabs",
   standalone: true,
-  imports: [SharedModule, PaginatorModule],
+  imports: [SharedModule, PaginatorModule, InvoiceDialogComponent],
   providers: [MessageService],
   templateUrl: "./list-slabs.component.html",
   styleUrl: "./list-slabs.component.scss",
@@ -69,6 +71,11 @@ export class ListSlabsComponent {
   public showDialoge: boolean = false;
   formVisible: boolean = true; // Controls form visibility
   canAddExpense: boolean = true; // Controls the visibility of "Add Expense" button
+  header: string;
+  salesDataById = [];
+  showInvoiceDialog: boolean = false;
+  paymentListData = [];
+
 
   constructor(
     public dialog: MatDialog,
@@ -78,6 +85,8 @@ export class ListSlabsComponent {
     private messageService: MessageService,
     private WarehouseService: WarehouseService,
     private blockProcessorService: blockProcessorService,
+        private SalesService: SalesService,
+    
 
     private http: HttpClient
   ) {}
@@ -92,8 +101,8 @@ export class ListSlabsComponent {
   blockProcessorList = []
 
   expenseOptions = [
-    { label: "Other Expense", value: "Other Expense" },
     { label: "Block/Slab Processing", value: "Block/Slab Processing" },
+    { label: "Other Expense", value: "Other Expense" },
   ];
 
   addExpense() {
@@ -120,8 +129,32 @@ export class ListSlabsComponent {
 
   removeExpense(index: number) {
     this.expenses.splice(index, 1);
+    this.canAddExpense = true;
+        this.expenses = []; // Reset expenses
   }
 
+  viewSales(_id:any){
+console.log('sales id',_id)
+  this.SalesService.GetSalesDataById(_id).subscribe((resp: any) => {
+    this.header = "Sales Invoice";
+
+    this.salesDataById = [resp.data];
+    console.log("sales data by id On dialog", this.salesDataById);
+    this.showInvoiceDialog = true;
+  });
+
+  this.SalesService.getSalesPaymentList(_id).subscribe((resp: any) => {
+    this.paymentListData = resp.data;
+  });
+  }
+
+  callBackModalForInvoice() {
+    this.showInvoiceDialog = false;
+    
+  }
+  closeForInvocie() {
+    this.showInvoiceDialog = false;
+  }
   onExpenseTypeChange(expense: any) {
     if (expense.expenseType === "Other Expense") {
       delete expense.processingDate;
@@ -309,20 +342,29 @@ export class ListSlabsComponent {
         // **Hide the form after successful submission**
         this.formVisible = false;
         this.canAddExpense = true;
-
+        this.expenses = []; // Reset expenses
         // **Refresh the table**
         // this.service.getSlabHistoryById(this.viewingSLabId).subscribe((resp: any) => {
         //   this.slabOtherExpenseData = resp.data.otherExpenses;
         //   this.slabBlockSlabProcessing = resp?.data?.slabProcessing
         //   console.log("🔄 Updated Slab History:", this.slabOtherExpenseData);
         // });
-        this.getSlabHistoryById(this.viewingSLabId);
+        // this.getSlabHistoryById(this.viewingSLabId);
+        this.getSlabDetailsById(this.viewingSLabId)
       },
       (error) => {
         console.error("Error updating expenses", error);
         alert("Failed to save expenses.");
+        this.expenses = []; // Reset expenses
       }
     );
+  }
+
+  closeDialog() {
+    this.formVisible = false; // Show form when dialog is reopened
+    this.canAddExpense = true; // Ensure "Add Expense" button is visible
+this.getSlabsList();
+    this.expenses = []; // Reset expenses
   }
 
   paginate(event: any): void {
@@ -469,6 +511,34 @@ export class ListSlabsComponent {
     this.slabProfit =
       this.slabDetail?.totalSales - this.slabDetail?.totalSalesReturn;
   }
+  getSlabDetailsById(_id:any){
+    this.viewingSLabId = _id;
+    this.service.getSlabsById(_id).subscribe((resp:any)=>{
+      console.log('get slab by id', resp)
+      if(resp.status=== 'success'){
+        this.slabDetail=resp.data
+    this.getSlabHistoryById(_id);
+
+        this.slabProfit = 0;
+          this.slabVisible = true;
+          this.slabProfit =
+        this.slabDetail?.totalSales - this.slabDetail?.totalSalesReturn;
+      }
+      else{
+        this.messageService.add({
+          severity: "error",
+          detail: resp?.message,
+        });
+      }
+     
+    })
+  }
+
+  getTotalQuantity(sales: any): number {
+    if (!sales?.salesItemDetails) return 0;
+    return sales.salesItemDetails.reduce((total, item) => total + (item.salesItemQuantity || 0), 0);
+  }
+  
 
   deleteExpense(id: any, type?: any) {
     this.slabExpenseId = id;
@@ -605,7 +675,7 @@ export class ListSlabsComponent {
                 severity: "success",
                 detail: resp?.message,
               });
-              this.getSlabHistoryById(this.viewingSLabId);
+              this.getSlabDetailsById(this.viewingSLabId);
               this.showDialog = false; // Close the dialog
             } else {
               this.messageService.add({
@@ -661,13 +731,13 @@ export class ListSlabsComponent {
     this.showDialog = false;
   }
 
-  closeDialog() {
-    this.formVisible = true; // Show form when dialog is reopened
-    this.canAddExpense = true; // Ensure "Add Expense" button is visible
+  // closeDialog() {
+  //   this.formVisible = true; // Show form when dialog is reopened
+  //   this.canAddExpense = true; // Ensure "Add Expense" button is visible
 
-    this.expenses = []; // Reset expenses
-    this.showDialog = false;
-  }
+  //   this.expenses = []; // Reset expenses
+  //   this.showDialog = false;
+  // }
 
   searchData() {
     if (this.searchDataValue == "") {

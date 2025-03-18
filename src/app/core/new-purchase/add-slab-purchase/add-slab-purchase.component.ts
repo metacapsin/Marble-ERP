@@ -1,10 +1,12 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, Output } from "@angular/core";
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
   NgForm,
   NgModel,
+  ValidatorFn,
   Validators,
 } from "@angular/forms";
 import { routes } from "src/app/shared/routes/routes";
@@ -93,12 +95,44 @@ export class AddSlabPurchaseComponent {
         totalCost: [""],
         totalSQFT: [""],
       },
-      { validators: atLeastOneRequiredValidator() }
+      {
+        //  validators: atLeastOneRequiredValidator()
+        validators: this.taxSelectionValidator(),
+      }
     );
   }
+
+  taxSelectionValidator(): ValidatorFn {
+    return (control: AbstractControl) => {
+      const taxableAmount = control.get("taxableAmount")?.value || 0;
+      const selectedTaxes = control.get("ItemTax")?.value;
+
+      if (taxableAmount && (!selectedTaxes || selectedTaxes.length === 0)) {
+        return { taxRequired: true }; // Custom error key
+      }
+      return null;
+    };
+  }
+
+  isEditMode: boolean = false
+  discountModifiedByUser: boolean = false;
+
   ngOnInit(): void {
+    
     this.previousSlabData =
       this.NewPurchaseService.getFormData("stepFirstSlabData");
+
+      this.slabAddForm.get("taxableAmount")?.valueChanges.subscribe(() => {
+        this.slabAddForm.updateValueAndValidity(); // Refreshes form validity
+      });
+  
+      this.slabAddForm.get("ItemTax")?.valueChanges.subscribe(() => {
+        this.slabAddForm.updateValueAndValidity(); // Refreshes form validity
+      });
+  
+      this.slabAddForm.get("purchaseDiscount")?.valueChanges.subscribe(() => {
+        this.discountModifiedByUser = true;
+      });
 
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data.map((element: any) => ({
@@ -109,6 +143,9 @@ export class AddSlabPurchaseComponent {
         },
       }));
       if (this.previousSlabData) {
+        console.log('yes previous value found')
+        this.isEditMode = true
+        this.discountModifiedByUser = false; // Reset flag when editing existing data
         this.patchSlabValue();
       }
     });
@@ -180,6 +217,8 @@ export class AddSlabPurchaseComponent {
         totalSQFT: this.previousSlabData.totalSQFT,
       });
     }
+
+    
     this.calculateTotalAmount();
   }
   addSlabDialog() {
@@ -254,6 +293,8 @@ export class AddSlabPurchaseComponent {
       ratePerSqFeet: this.ratePerSqFeet,
       totalCosting: this.totalAmount,
       // purchaseCost: this.totalAmount,
+      // warehouseDetails: this.slabAddForm.get("warehouse").value,
+
       sqftPerPiece: Number(this.quantity / this.noOfPieces).toFixed(2),
     };
 
@@ -320,6 +361,12 @@ export class AddSlabPurchaseComponent {
         this.slabAddForm.get(formControlName)?.touched)
     );
   }
+
+  originalTaxableAmount: number | null = null;
+  originalNonTaxableAmount: number | null = null;
+  originalTaxApplied: number | null = null;
+  wasDiscountApplied: boolean = false;
+
   calculateTotalAmount() {
     const form = this.slabAddForm;
     const slabTotalAmount = this.slabTotalCost;
@@ -334,6 +381,19 @@ export class AddSlabPurchaseComponent {
     let transportationAndOtherChargePerSQFT = 0;
     let transportationChargesPerSlab = 0;
     let otherChargesPerSlab = 0;
+
+    if (
+      this.originalTaxableAmount === null ||
+      this.originalNonTaxableAmount === null ||
+      !this.wasDiscountApplied
+    ) {
+      this.originalTaxableAmount = taxableAmount;
+      this.originalNonTaxableAmount = nonTaxableAmount;
+      this.originalTaxApplied = 0;
+    }
+
+
+
 
     let totalSQFT = 0;
     let totalSlabAmount = 0;
@@ -369,6 +429,7 @@ export class AddSlabPurchaseComponent {
       taxApplied = (taxableAmount * tax) / 100;
     }
 
+    
     // Check if slabDetails is empty   code  Add by ravi
     if (this.slabDetails.length === 0) {
       // If no data in slabDetails, clear the related fields
@@ -419,16 +480,188 @@ export class AddSlabPurchaseComponent {
       ).toFixed(4),
     }));
 
-    if (purchaseDiscount) {
-      if (!nonTaxableAmount) {
-        taxableAmount -= purchaseDiscount;
-      } else {
-        nonTaxableAmount -= purchaseDiscount;
-        form.patchValue({
-          nonTaxableAmount,
-        });
-      }
+    // if (purchaseDiscount) {
+    //   if (!nonTaxableAmount) {
+    //     taxableAmount -= purchaseDiscount;
+    //   } else {
+    //     nonTaxableAmount -= purchaseDiscount;
+    //     form.patchValue({
+    //       nonTaxableAmount,
+    //     });
+    //   }
+    // }
+
+
+// customer to supplier branch calculation
+
+// if (purchaseDiscount) {
+//   let remainingDiscount = purchaseDiscount;
+//   let discountedNonTaxableAmount = this.originalNonTaxableAmount;
+//   let discountedTaxableAmount = this.originalTaxableAmount;
+
+//   if (remainingDiscount <= discountedNonTaxableAmount) {
+//     discountedNonTaxableAmount -= remainingDiscount;
+//     remainingDiscount = 0;
+//   } else {
+//     remainingDiscount -= discountedNonTaxableAmount;
+//     discountedNonTaxableAmount = 0;
+//   }
+
+//   // Recalculate tax with updated taxable amount
+//   taxApplied = 0;
+//   if (Array.isArray(tax)) {
+//     tax.forEach((selectedTax: any) => {
+//       taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+//     });
+//   } else if (tax) {
+//     taxApplied = (taxableAmount * tax) / 100;
+//   }
+
+//   console.log(
+//     `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
+//   );
+
+//   if (remainingDiscount > 0) {
+//     discountedTaxableAmount -= remainingDiscount;
+//   }
+
+//   taxableAmount = discountedTaxableAmount;
+//   nonTaxableAmount = discountedNonTaxableAmount;
+//   this.wasDiscountApplied = true;
+
+//   console.log(`Taxable Amount After Discount: ${taxableAmount}`);
+//   console.log(`Non-Taxable Amount After Discount: ${nonTaxableAmount}`);
+
+//   // Recalculate tax with updated taxable amount
+//   taxApplied = 0;
+//   if (Array.isArray(tax)) {
+//     tax.forEach((selectedTax: any) => {
+//       taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+//     });
+//   } else if (tax) {
+//     taxApplied = (taxableAmount * tax) / 100;
+//   }
+
+//   console.log(
+//     `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
+//   );
+
+//   form.patchValue({
+//     nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+//     taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+//     purchaseDiscount: purchaseDiscount ? Number(purchaseDiscount).toFixed(2) : 0
+
+//   });
+// } else if (this.wasDiscountApplied) {
+//   taxableAmount = this.originalTaxableAmount;
+//   nonTaxableAmount = this.originalNonTaxableAmount;
+//   taxApplied = this.originalTaxApplied;
+//   this.wasDiscountApplied = false;
+
+//   console.log(`Taxable Amount Restored: ${taxableAmount}`);
+//   console.log(`Non-Taxable Amount Restored: ${nonTaxableAmount}`);
+//   // Recalculate tax with updated taxable amount
+//   taxApplied = 0;
+//   if (Array.isArray(tax)) {
+//     tax.forEach((selectedTax: any) => {
+//       taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+//     });
+//   } else if (tax) {
+//     taxApplied = (taxableAmount * tax) / 100;
+//   }
+
+//   console.log(
+//     `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
+//   );
+//   form.patchValue({
+//     nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+//     taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+//     purchaseDiscount: purchaseDiscount ? Number(purchaseDiscount).toFixed(2) : 0
+
+//   });
+// }
+
+if (this.isEditMode && this.previousSlabData) {
+  console.log('🟡 Edit Mode - Using API Values');
+
+  const apiTaxableAmount = this.previousSlabData.taxableAmount || 0;
+  const apiPurchaseDiscount = this.previousSlabData.purchaseDiscount || 0;
+
+  // Step 1: Calculate Non-Taxable Amount as Total SQFT * Rate per SQFT
+  nonTaxableAmount = totalSlabAmount;
+
+  // Step 2: Deduct API taxable amount from calculated Non-Taxable Amount
+  nonTaxableAmount -= apiTaxableAmount;
+
+  // Step 3: Deduct the Purchase Discount following original logic
+  // let remainingDiscount = apiPurchaseDiscount;
+
+ // Step 3: Deduct the Purchase Discount following original logic
+ let remainingDiscount = this.discountModifiedByUser
+ ? purchaseDiscount  // Use user's updated discount value
+ : apiPurchaseDiscount;  // Use API's original discount value
+
+  if (nonTaxableAmount > 0) {
+    const discountApplied = Math.min(nonTaxableAmount, remainingDiscount);
+    nonTaxableAmount -= discountApplied;
+    remainingDiscount -= discountApplied;
+  }
+
+  if (remainingDiscount > 0) {
+    taxableAmount -= remainingDiscount;
+  }
+
+  form.patchValue({
+    nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+    taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+    // purchaseDiscount: apiPurchaseDiscount ? Number(apiPurchaseDiscount).toFixed(2) : 0
+    purchaseDiscount: this.discountModifiedByUser
+      ? Number(purchaseDiscount).toFixed(2) // Preserve modified value
+      : Number(apiPurchaseDiscount).toFixed(2) // Use API value if untouched
+  });
+
+} else {
+  // New Entry Mode Logic
+  console.log('🟢 New Entry Mode - Using Original Discount Logic');
+
+  nonTaxableAmount =
+    taxableAmount && taxableAmount <= slabTotalAmount
+      ? slabTotalAmount - taxableAmount
+      : slabTotalAmount;
+
+  // Discount Logic (Your Original Logic)
+  if (purchaseDiscount) {
+    let remainingDiscount = purchaseDiscount;
+
+    if (nonTaxableAmount > 0) {
+      const discountApplied = Math.min(nonTaxableAmount, remainingDiscount);
+      nonTaxableAmount -= discountApplied;
+      remainingDiscount -= discountApplied;
     }
+
+    if (remainingDiscount > 0) {
+      taxableAmount = Math.max(taxableAmount - remainingDiscount, 0);
+    }
+  }
+
+  let taxApplied = 0;
+  if (Array.isArray(tax)) {
+    tax.forEach((selectedTax: any) => {
+      taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+    });
+  } else if (tax) {
+    taxApplied = (taxableAmount * tax) / 100;
+  }
+
+  form.patchValue({
+    nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+    taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+    purchaseDiscount: purchaseDiscount ? Number(purchaseDiscount).toFixed(2) : 0,
+    taxApplied: Number(taxApplied).toFixed(2)
+  });
+}
+
+    taxable = taxApplied + taxableAmount;
 
     calculatedDetails = calculatedDetails.map((e: any, index: any) => ({
       ...e,
