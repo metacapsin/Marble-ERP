@@ -66,6 +66,9 @@ export class AddsalesComponent implements OnInit {
   UpdtshippingAddress: any;
   isUpdateAddress: boolean = false;
   isrequired: boolean = false;
+
+  manuallyEditedPieces: boolean[] = []; // Tracks which indexes have manually edited pieces
+
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -146,9 +149,9 @@ export class AddsalesComponent implements OnInit {
       taxable: [""],
       nonTaxable: [""],
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
+      eWayBill: [""],
       isShippingTax: [false],
       isOtherChargesTax: [false],
-      eWayBill: [""],
     });
 
     // Set up a value change subscription to update the max validator for salesDiscount
@@ -164,6 +167,28 @@ export class AddsalesComponent implements OnInit {
   this.handleTaxValidation();
   }
 
+  // handleTaxValidation() {
+  //   const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
+  
+  //   salesItemDetailsArray.controls.forEach((group) => {
+  //     const taxableAmountControl = group.get("salesItemTaxableAmount");
+  //     const taxControl = group.get("salesItemTax");
+  
+  //     taxableAmountControl?.valueChanges.subscribe((value) => {
+  //       if (value && value > 0) {
+  //         taxControl?.setValidators([Validators.required]); // Make tax required
+  //         taxControl?.markAsTouched(); // Mark as touched if taxable amount is present
+  //       } else {
+  //         taxControl?.clearValidators(); // Remove required if no taxable amount
+  //       }
+  //       taxControl?.updateValueAndValidity(); // Update validity state
+  //     });
+  //   });
+  // }
+
+  isSaveButtonDisabled: boolean = false; // New flag for disabling the button
+  previousButtonState: boolean = false; // Track previous state to avoid duplicate logs
+  
   handleTaxValidation() {
     const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
   
@@ -171,16 +196,38 @@ export class AddsalesComponent implements OnInit {
       const taxableAmountControl = group.get("salesItemTaxableAmount");
       const taxControl = group.get("salesItemTax");
   
-      taxableAmountControl?.valueChanges.subscribe((value) => {
-        if (value && value > 0) {
-          taxControl?.setValidators([Validators.required]); // Make tax required
-          taxControl?.markAsTouched(); // Mark as touched if taxable amount is present
-        } else {
-          taxControl?.clearValidators(); // Remove required if no taxable amount
-        }
-        taxControl?.updateValueAndValidity(); // Update validity state
-      });
+      taxableAmountControl?.valueChanges.subscribe(() => this.validateSalesItems());
+      taxControl?.valueChanges.subscribe(() => this.validateSalesItems());
     });
+  }
+  
+  validateSalesItems() {
+    const salesItemDetailsArray = this.addSalesForm.get("salesItemDetails") as FormArray;
+  
+    this.isSaveButtonDisabled = salesItemDetailsArray.controls.some((group) => {
+      const taxableAmount = group.get("salesItemTaxableAmount")?.value;
+      const tax = group.get("salesItemTax")?.value;
+  
+      const showValidationError = taxableAmount && taxableAmount > 0 && !tax;
+  
+      if (showValidationError) {
+        group.get("salesItemTax")?.setValidators([Validators.required]);
+        group.get("salesItemTax")?.markAsTouched();
+      } else {
+        group.get("salesItemTax")?.clearValidators();
+      }
+  
+      group.get("salesItemTax")?.updateValueAndValidity();
+      return showValidationError; 
+    });
+  
+    // Log only when the button state changes
+    if (this.isSaveButtonDisabled !== this.previousButtonState) {
+      // console.log(
+      //   `[STATUS CHANGE] Save Sales Button is now ${this.isSaveButtonDisabled ? 'DISABLED' : 'ENABLED'}`
+      // );
+      this.previousButtonState = this.isSaveButtonDisabled; // Update previous state
+    }
   }
 
   public setValidations(formControlName: string) {
@@ -653,7 +700,6 @@ export class AddsalesComponent implements OnInit {
   
   // isPiecesManuallyEdited: boolean = false;
 
-  manuallyEditedPieces: boolean[] = []; // Tracks which indexes have manually edited pieces
 
   calculateTotalAmount() {
     // debugger
@@ -921,27 +967,27 @@ export class AddsalesComponent implements OnInit {
       customer: formData.customer,
       salesDate: formData.salesDate,
       billingAddress: formData.billingAddress,
-      salesDiscount: Number(formData.salesDiscount),
+      salesDiscount: Number(formData.salesDiscount).toFixed(2),
       salesInvoiceNumber: formData.salesInvoiceNumber,
       salesItemDetails: formData.salesItemDetails,
       salesNotes: formData.salesNotes,
-      salesGrossTotal: Number(formData.salesGrossTotal),
-      salesShipping: Number(formData.salesShipping),
+      salesGrossTotal: Number(formData.salesGrossTotal).toFixed(2),
+      salesShipping: Number(formData.salesShipping).toFixed(2),
       salesTermsAndCondition: formData.salesTermsAndCondition,
-      salesTotalAmount: Number(formData.salesTotalAmount),
-      otherCharges: Number(formData.otherCharges),
+      salesTotalAmount: Number(formData.salesTotalAmount).toFixed(2),
+      otherCharges: Number(formData.otherCharges).toFixed(2),
       taxVendor: this.setAddressData?.isTaxVendor
-        ? {
-            _id: this.setAddressData._id,
-            companyName: this.setAddressData.companyName,
-            taxVendorAmount: Number(formData.vendorTaxAmount),
-            vendorTaxApplied: Number(formData.vendorTaxApplied),
-          }
-        : null,
-      salesOrderTax: Number(formData.salesOrderTax),
-      taxable: Number(formData.taxable),
-      nonTaxable: Number(formData.nonTaxable),
-      creditPeriod: Number(formData.creditPeriod),
+      ? {
+        _id: this.setAddressData._id,
+        companyName: this.setAddressData.companyName,
+        taxVendorAmount: Number(formData.vendorTaxAmount).toFixed(2),
+        vendorTaxApplied: Number(formData.vendorTaxApplied).toFixed(2),
+        }
+      : null,
+      salesOrderTax: Number(formData.salesOrderTax).toFixed(2),
+      taxable: Number(formData.taxable).toFixed(2),
+      nonTaxable: Number(formData.nonTaxable).toFixed(2),
+      creditPeriod: Number(formData.creditPeriod).toFixed(2),
     };
 
     if (this.addSalesForm.valid) {

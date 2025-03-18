@@ -428,6 +428,7 @@ export class EditSalsComponent implements OnInit {
     const today = new Date();
     const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
 
+    
     this.slabService.getSlabsList().subscribe((resp: any) => {
       this.slabData = resp.data;
     });

@@ -137,7 +137,7 @@
             </div>
             <div class="card-body p-2">
               <span *ngIf="selectedLayout === 'Card'" class="col-12 col-md-12">
-                <div class="p-2"><strong>Total Available Stock :</strong> <span  style="font-weight: 500;"> {{ totalSqFtLeft.toFixed(2) }} Sq. Feet</span></div>
+                <div class="p-2"><strong>Total Available Stock :</strong> <span  style="font-weight: 500;"> {{ totalSqFtLeft | indianCurrency }} Sq. Feet</span></div>
                 <div class="container mt-4" *ngFor="let item of pagedData">
                   <div class="row">
                     <div class="col-md-8 container-box">

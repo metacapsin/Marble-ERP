@@ -194,7 +194,7 @@
                 </div>
               </div>
             </div>
-            <form [formGroup]="editSalesForm">
+            <form [formGroup]="editSalesForm" (ngSubmit)="addSalesFormSubmit()">
               <div class="invoices-main-form">
                 <div class="row">
                   <div class="col-xl-3 col-md-6 col-sm-12 col-12">
@@ -654,6 +654,21 @@
                               ></p-multiSelect>
                             </p-inputGroup>
                             <div
+  *ngIf="
+    editSalesForm
+      .get('salesItemDetails')
+      .get(i + '.salesItemTax')
+      ?.hasError('required') &&
+    editSalesForm
+      .get('salesItemDetails')
+      .get(i + '.salesItemTax')
+      ?.touched
+  "
+>
+  <span class="login-danger">Please apply the tax.</span>
+</div>
+
+                            <!-- <div
                               *ngIf="
                                 editSalesForm
                                   .get('salesItemDetails')
@@ -667,7 +682,7 @@
                               <span class="login-danger"
                                 >Tax Apply Field is required.</span
                               >
-                            </div>
+                            </div> -->
                             <div
                               *ngIf="
                                 editSalesForm
@@ -1316,7 +1331,7 @@
                       <button
                         class="btn btn-primary"
                         type="submit"
-                        (click)="addSalesFormSubmit()"
+                        
                         [disabled]="!editSalesForm.valid"
                       >
                         Save Sales

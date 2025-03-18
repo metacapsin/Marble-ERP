@@ -1404,7 +1404,7 @@
                       <button
                         class="btn btn-primary"
                         type="submit"
-                        [disabled]="!addSalesForm.valid"
+                        [disabled]="!addSalesForm.valid || isSaveButtonDisabled"
                       >
                         Save Sales
                       </button>
