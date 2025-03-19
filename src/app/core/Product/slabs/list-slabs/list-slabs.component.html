@@ -231,10 +231,10 @@
                       <p class="sales-detail">
                         <strong>Total Sales:</strong>₹ {{ item?.slabHistory?.totalSales?.toFixed(2) }}
                       </p>
-                      <p class="sales-detail">
+                      <!-- <p class="sales-detail">
                         <span class="label">Tax Amount:</span>
                         <span class="value">₹ {{item?.slabHistory?.totalTaxAmount ?item?.slabHistory?.totalTaxAmount.toFixed(2) : "0"}}</span>
-                      </p>
+                      </p> -->
                       <p class="sales-detail">
                         <span class="label">Cost Of Goods Sold:</span>
                         <span class="value">₹ {{item?.slabHistory?.totalCostPerSQFT.toFixed(2) || 0}}</span>
@@ -541,13 +541,13 @@
 <!-- ----------------Slab Details Pop Up --------------- -->
 
 <p-dialog
-  header="Slab Details"
+  header="Slab Details j"
   [(visible)]="slabVisible"
   [modal]="true"
   [style]="{ width: '80vw' }"
   (onHide)="closeDialog()">
 
->
+
   <div class="card">
     <div class="modal-content">
       <div class="modal-body">
@@ -901,13 +901,13 @@
                           {{ slabDetail?.purchaseCost | indianCurrency }}</span
                         >
                       </p>
-                      <p *ngIf="slabDetail?.processingFeePerSQFT && slabDetail.processingFeePerSQFT >= 1">
+                      <!-- <p *ngIf="slabDetail?.processingFeePerSQFT && slabDetail.processingFeePerSQFT >= 1">
                         Processing Fee/ SQFT.
                         <span
                           >₹
                           {{ slabDetail?.processingFeePerSQFT | indianCurrency }}</span
                         >
-                      </p>
+                      </p> -->
                       <p *ngIf="slabDetail?.transportationCharges">
                         Transportation Charges
                         <span
@@ -956,7 +956,7 @@
                         Total Amount
                         <span
                           >₹
-                          {{ slabDetail?.totalCosting | indianCurrency }}</span
+                          {{ slabDetail?.totalSlabCost | indianCurrency }}</span
                         >
                       </h4>
                     </div>
