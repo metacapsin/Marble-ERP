@@ -541,7 +541,7 @@
 <!-- ----------------Slab Details Pop Up --------------- -->
 
 <p-dialog
-  header="Slab Details j"
+  header="Slab Details"
   [(visible)]="slabVisible"
   [modal]="true"
   [style]="{ width: '80vw' }"
@@ -611,17 +611,27 @@
                     <p class="col-form-label">{{ slabDetail?.totalSQFT }} Sq. Feet</p>
                   </div>
                 </div>
-
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
-                    Total Cost
+                    Initial Stock
+                  </h5>
+                  <div class="col-lg-9 col-md-9 col-xl-9">
+                    <p class="col-form-label">
+                      {{ slabDetail?.totalSlabSQFT }} Sq. Feet
+                    </p>
+                  </div>
+                </div>
+<!-- 
+                <div class="form-group row mb-2">
+                  <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                    Total Slab Cost
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
                     <p class="col-form-label">
                       ₹ {{ +slabDetail?.totalCosting | indianCurrency }}
                     </p>
                   </div>
-                </div>
+                </div> -->
               </div>
               <div class="col-xl-6 col-lg-6 col-sm-12">
                 <div class="form-group row mb-2">
@@ -679,7 +689,7 @@
                     </p>
                   </div>
                 </div>
-                <div class="form-group row mb-2">
+                <!-- <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                     Initial Stock
                   </h5>
@@ -688,7 +698,7 @@
                       {{ slabDetail?.totalSlabSQFT }} Sq. Feet
                     </p>
                   </div>
-                </div>
+                </div> -->
 
                 <!-- <div class="form-group row mb-2">
                   <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
@@ -940,7 +950,7 @@
                           }}</span
                         >
                       </p>
-                      <p *ngIf="slabDetail?.totalSlabCost
+                      <!-- <p *ngIf="slabDetail?.totalSlabCost
                       ">
                         Total Slab Cost.
                         <span>₹
@@ -948,7 +958,7 @@
                           slabDetail?.totalSlabCost
                           | indianCurrency
                           }}</span>
-                      </p>
+                      </p> -->
                     </div>
 
                     <div class="invoice-total-footer">
