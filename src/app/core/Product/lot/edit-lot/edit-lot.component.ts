@@ -441,276 +441,205 @@ console.log('this.previouslotData',this.previouslotData)
     }
     this.totalArea = this.height * this.width * this.length;
   }
-
   originalTaxableAmount: number | null = null;
-originalNonTaxableAmount: number | null = null;
-originalTaxApplied: number | null = null;
-// Flag to track if a discount was previously applied
-wasDiscountApplied: boolean = false;
-
-calculateTotalAmount() {
-  const form = this.lotEditForm;
-  const lotWeight = Number(form.get("lotWeight")?.value) || 0;
-  const pricePerTon = Number(form.get("pricePerTon")?.value) || 0;
-  const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
-  const transportationCharge = Number(form.get("transportationCharge")?.value) || 0;
-  const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
-  const tax = form.get("ItemTax")?.value || [];
-
-  // Get current values from form
-  let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
-  let nonTaxableAmount = Number(form.get("nonTaxableAmount")?.value) || 0;
-  let taxable = 0;
-
-  // console.log('=======================================');
-  // console.log('🟠 Step 1: Initial Values');
-  // console.log(`Lot Weight: ${lotWeight}`);
-  // console.log(`Price Per Ton: ${pricePerTon}`);
-  // console.log(`Royalty Charge: ${royaltyCharge}`);
-  // console.log(`Transportation Charge: ${transportationCharge}`);
-  // console.log(`Purchase Discount: ${purchaseDiscount}`);
-  // console.log(`Current Taxable Amount: ${taxableAmount}`);
-  // console.log(`Current Non-Taxable Amount: ${nonTaxableAmount}`);
-  // console.log(`Was Discount Applied Before: ${this.wasDiscountApplied}`);
-  // console.log(`Stored Original Taxable Amount: ${this.originalTaxableAmount}`);
-  // console.log(`Stored Original Non-Taxable Amount: ${this.originalNonTaxableAmount}`);
-  // console.log('=======================================');
-
-  // Calculate base lot cost
-  if (lotWeight && pricePerTon) {
-    const lotWeightmultiPricePerton = lotWeight * pricePerTon;
-    this.rowCosting = lotWeightmultiPricePerton;
-    this.maxPurchaseAmount = lotWeightmultiPricePerton;
-
-    // console.log('🟠 Step 2: Base Lot Cost Calculation');
-    // console.log(`Lot Weight * Price Per Ton = ${lotWeightmultiPricePerton}`);
-    
-    if (taxableAmount > 0) {
-      // If taxable amount is already set, adjust non-taxable amount
-      nonTaxableAmount = taxableAmount <= lotWeightmultiPricePerton 
-        ? lotWeightmultiPricePerton - taxableAmount 
-        : 0;
+  originalNonTaxableAmount: number | null = null;
+  originalTaxApplied: number | null = null;
+  // Flag to track if a discount was previously applied
+  wasDiscountApplied: boolean = false;
+  calculateTotalAmount() {
+    const form = this.lotEditForm;
+    const lotWeight = Number(form.get("lotWeight")?.value) || 0;
+    const pricePerTon = Number(form.get("pricePerTon")?.value) || 0;
+    const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
+    const transportationCharge = Number(form.get("transportationCharge")?.value) || 0;
+    const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
+    const tax = form.get("ItemTax")?.value || [];
+    // Get current values from form
+    let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
+    let nonTaxableAmount = Number(form.get("nonTaxableAmount")?.value) || 0;
+    let taxable = 0;
+    // Calculate base lot cost
+    if (lotWeight && pricePerTon) {
+      const lotWeightmultiPricePerton = lotWeight * pricePerTon;
+      this.rowCosting = lotWeightmultiPricePerton;
+        nonTaxableAmount =
+          taxableAmount && taxableAmount <= lotWeightmultiPricePerton
+            ? lotWeightmultiPricePerton - taxableAmount
+            : lotWeightmultiPricePerton;
+  
+        this.maxPurchaseAmount = lotWeightmultiPricePerton;
+  // Step 2: Reset Original Values to New Base Values
+  this.originalTaxableAmount = taxableAmount;
+  this.originalNonTaxableAmount = nonTaxableAmount;
+  
+        form.patchValue({
+          nonTaxableAmount,
+          paidToSupplierLotCost: lotWeightmultiPricePerton,
+          taxableAmount: taxableAmount.toFixed(2),
+        });
+      }
+  
+    // IMPORTANT: Store original values if this is the first calculation or if discount was not applied before
+    if (this.originalTaxableAmount === null || this.originalNonTaxableAmount === null || !this.wasDiscountApplied) {
+      this.originalTaxableAmount = taxableAmount;
+      this.originalNonTaxableAmount = nonTaxableAmount;
+     
+    }
+  
+    // Calculate tax before discount
+      let taxApplied = 0;
+      if (Array.isArray(tax)) {
+        tax.forEach((selectedTax: any) => {
+          taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+        });
+      } else if (tax) {
+        taxApplied = (taxableAmount * tax) / 100;
+      }
+  
+    // Store original tax applied
+    if (this.originalTaxApplied === null || !this.wasDiscountApplied) {
+      this.originalTaxApplied = taxApplied;
+      // console.log(`Stored Original Tax Applied: ${this.originalTaxApplied}`);
+    }
+  
+    // Check if discount is being applied or removed
+    if (purchaseDiscount > 0) {
       
-      // console.log(`Adjusted Non-Taxable Amount: ${nonTaxableAmount}`);
-    } else if (nonTaxableAmount === 0 && taxableAmount === 0) {
-      // If both are zero, set non-taxable to full amount
-      nonTaxableAmount = lotWeightmultiPricePerton;
-      // console.log(`Set Non-Taxable Amount to full lot cost: ${nonTaxableAmount}`);
-    }
-
-    // Update form with base values
-    form.patchValue({
-      nonTaxableAmount,
-      paidToSupplierLotCost: lotWeightmultiPricePerton,
-    });
-  }
-
-  // IMPORTANT: Store original values if this is the first calculation or if discount was not applied before
-  if (this.originalTaxableAmount === null || this.originalNonTaxableAmount === null || !this.wasDiscountApplied) {
-    this.originalTaxableAmount = taxableAmount;
-    this.originalNonTaxableAmount = nonTaxableAmount;
-    
-    // console.log('🟠 Step 3: Storing Original Values');
-    // console.log(`Stored Original Taxable Amount: ${this.originalTaxableAmount}`);
-    // console.log(`Stored Original Non-Taxable Amount: ${this.originalNonTaxableAmount}`);
-  }
-
-  // Calculate tax before discount
-  let taxApplied = 0;
-  if (Array.isArray(tax)) {
-    tax.forEach((selectedTax: any) => {
-      taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
-    });
-  } else if (tax) {
-    taxApplied = (taxableAmount * tax) / 100;
-  }
-
-  // Store original tax applied
-  if (this.originalTaxApplied === null || !this.wasDiscountApplied) {
-    this.originalTaxApplied = taxApplied;
-    // console.log(`Stored Original Tax Applied: ${this.originalTaxApplied}`);
-  }
-
-  // console.log('=======================================');
-  // console.log('🟡 Step 4: Before Discount Calculation');
-  // console.log(`Tax Applied Before Discount: ${taxApplied}`);
-  // console.log(`Taxable Amount Before Discount: ${taxableAmount}`);
-  // console.log(`Non-Taxable Amount Before Discount: ${nonTaxableAmount}`);
-  // console.log('=======================================');
-
-  // Check if discount is being applied or removed
-  if (purchaseDiscount > 0) {
-    // console.log('🟢 Step 5A: Applying Discount');
-    
-    // Use the original values for discount calculation
-    let discountedTaxableAmount = this.originalTaxableAmount;
-    let discountedNonTaxableAmount = this.originalNonTaxableAmount;
-    let totalAmount = discountedTaxableAmount + discountedNonTaxableAmount;
-    
-    // console.log(`Working with Original Values:`);
-    // console.log(`Original Taxable Amount: ${discountedTaxableAmount}`);
-    // console.log(`Original Non-Taxable Amount: ${discountedNonTaxableAmount}`);
-    // console.log(`Total Amount Available for Discount: ${totalAmount}`);
-    // console.log(`Discount to Apply: ${purchaseDiscount}`);
-
-    if (purchaseDiscount > totalAmount) {
-      console.error('❌ Discount exceeds the total taxable + non-taxable amount.');
-      alert('Discount cannot exceed the total taxable + non-taxable amount.');
+      // Use the original values for discount calculation
+      let discountedTaxableAmount = this.originalTaxableAmount;
+      let discountedNonTaxableAmount = this.originalNonTaxableAmount;
+      let totalAmount = discountedTaxableAmount + discountedNonTaxableAmount;
+      
+   
+      if (purchaseDiscount > totalAmount) {
+        console.error('❌ Discount exceeds the total taxable + non-taxable amount.');
+        alert('Discount cannot exceed the total taxable + non-taxable amount.');
+        form.patchValue({
+          purchaseDiscount: 0
+        });
+        return; // Stop further calculation
+      }
+      
+      let remainingDiscount = purchaseDiscount;
+  
+      
+      
+      // First, subtract from non-taxable amount
+      if (discountedNonTaxableAmount > 0) {
+        if (remainingDiscount <= discountedNonTaxableAmount) {
+          discountedNonTaxableAmount -= remainingDiscount;
+          remainingDiscount = 0;
+          // console.log(`Discount fully applied to Non-Taxable Amount`);
+        } else {
+          remainingDiscount -= discountedNonTaxableAmount;
+          discountedNonTaxableAmount = 0;
+          // console.log(`Non-Taxable Amount reduced to zero, remaining discount: ${remainingDiscount}`);
+        }
+      }
+  
+      // If there's remaining discount, subtract from taxable amount
+      if (remainingDiscount > 0) {
+        discountedTaxableAmount -= remainingDiscount;
+        // console.log(`Remaining discount applied to Taxable Amount`);
+      }
+  
+      // Update current values with discounted amounts
+      taxableAmount = discountedTaxableAmount;
+      nonTaxableAmount = discountedNonTaxableAmount;
+      
+      // Set flag that discount was applied
+      this.wasDiscountApplied = true;
+  
       form.patchValue({
-        purchaseDiscount: 0
+        nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+        taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
       });
-      return; // Stop further calculation
-    }
+  
+      
+      // Recalculate tax with the new taxable amount
+      taxApplied = 0;
+      if (Array.isArray(tax)) {
+        tax.forEach((selectedTax: any) => {
+          taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+        });
+      } else if (tax) {
+        taxApplied = (taxableAmount * tax) / 100;
+      }
+      
+      // console.log(`Tax Applied After Discount: ${taxApplied}`);
+      
+    } else if (this.wasDiscountApplied) { 
+      // If discount was previously applied but now removed
+      
+      // Restore original values
+      taxableAmount = this.originalTaxableAmount;
+      nonTaxableAmount = this.originalNonTaxableAmount;
+      taxApplied = this.originalTaxApplied;
+      
+      // Reset flag
+      this.wasDiscountApplied = false;
+      
+      form.patchValue({
+        nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+        taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+      });
+      
+     
+    } else {
     
-    let remainingDiscount = purchaseDiscount;
-    
-    // First, subtract from non-taxable amount
-    if (discountedNonTaxableAmount > 0) {
-      if (remainingDiscount <= discountedNonTaxableAmount) {
-        discountedNonTaxableAmount -= remainingDiscount;
-        remainingDiscount = 0;
-        // console.log(`Discount fully applied to Non-Taxable Amount`);
-      } else {
-        remainingDiscount -= discountedNonTaxableAmount;
-        discountedNonTaxableAmount = 0;
-        // console.log(`Non-Taxable Amount reduced to zero, remaining discount: ${remainingDiscount}`);
+      taxApplied = 0;
+      if (Array.isArray(tax)) {
+        tax.forEach((selectedTax: any) => {
+          taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+        });
+      } else if (tax) {
+        taxApplied = (taxableAmount * tax) / 100;
       }
     }
-
-    // If there's remaining discount, subtract from taxable amount
-    if (remainingDiscount > 0) {
-      discountedTaxableAmount -= remainingDiscount;
-      // console.log(`Remaining discount applied to Taxable Amount`);
-    }
-
-    // Update current values with discounted amounts
-    taxableAmount = discountedTaxableAmount;
-    nonTaxableAmount = discountedNonTaxableAmount;
-    
-    // Set flag that discount was applied
-    this.wasDiscountApplied = true;
-
-    form.patchValue({
-      nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
-      taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
-    });
-
-    // console.log('=======================================');
-    // console.log('🟢 Step 5B: After Discount Calculation');
-    // console.log(`Remaining Discount: ${remainingDiscount}`);
-    // console.log(`Taxable Amount After Discount: ${taxableAmount}`);
-    // console.log(`Non-Taxable Amount After Discount: ${nonTaxableAmount}`);
-    // console.log('=======================================');
-    
-    // Recalculate tax with the new taxable amount
-    taxApplied = 0;
-    if (Array.isArray(tax)) {
-      tax.forEach((selectedTax: any) => {
-        taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+  
+    // Calculate final values
+    taxable = taxApplied + taxableAmount;
+    const lotRowCost = taxable + nonTaxableAmount + (purchaseDiscount ? purchaseDiscount : 0);
+    const paidToSupplierLotAmount = taxable + nonTaxableAmount;
+  
+   
+  
+      form.patchValue({
+        paidToSupplierLotCost: paidToSupplierLotAmount
+          ? Number(paidToSupplierLotAmount).toFixed(2)
+          : 0,
+        lotRowCost: Number(lotRowCost),
+        taxable: Number(taxable).toFixed(2),
+        taxApplied: Number(taxApplied).toFixed(2),
+        taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
       });
-    } else if (tax) {
-      taxApplied = (taxableAmount * tax) / 100;
-    }
-    
-    // console.log(`Tax Applied After Discount: ${taxApplied}`);
-    
-  } else if (this.wasDiscountApplied) { 
-    // If discount was previously applied but now removed
-    // console.log('🟢 Step 5C: Removing Previously Applied Discount');
-    
-    // Restore original values
-    taxableAmount = this.originalTaxableAmount;
-    nonTaxableAmount = this.originalNonTaxableAmount;
-    taxApplied = this.originalTaxApplied;
-    
-    // Reset flag
-    this.wasDiscountApplied = false;
-    
-    form.patchValue({
-      nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
-      taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
-    });
-    
-    // console.log('=======================================');
-    // console.log('🟢 Step 5D: After Removing Discount');
-    // console.log(`Taxable Amount Restored: ${taxableAmount}`);
-    // console.log(`Non-Taxable Amount Restored: ${nonTaxableAmount}`);
-    // console.log(`Tax Applied Restored: ${taxApplied}`);
-    // console.log('=======================================');
-  } else {
-    // No discount was applied before and none now
-    // console.log('🟢 Step 5E: No Discount Processing Needed');
-    // Recalculate tax with current taxable amount
-    taxApplied = 0;
-    if (Array.isArray(tax)) {
-      tax.forEach((selectedTax: any) => {
-        taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+      const totalTransportationCharge = transportationCharge * lotWeight;
+      const averageTransportation = totalTransportationCharge / lotWeight;
+      const averageRoyalty = royaltyCharge / lotWeight;
+      const averageBlocksWeight = this.totalBlocksArea / lotWeight;
+      const blockPricePerTon = lotRowCost / lotWeight;
+  
+      this.blocksDetails.forEach((element: any) => {
+        element.weightPerBlock = element.totalArea / averageBlocksWeight;
+        element.rawCosting = element.weightPerBlock * blockPricePerTon;
+        element.transportationCosting =
+          element.weightPerBlock * averageTransportation;
+        element.royaltyCosting = element.weightPerBlock * averageRoyalty;
+        element.totalCosting =
+          element.rawCosting +
+          element.transportationCosting +
+          element.royaltyCosting;
       });
-    } else if (tax) {
-      taxApplied = (taxableAmount * tax) / 100;
+  
+      form.patchValue({
+        averageTransport: averageTransportation,
+        averageRoyalty: averageRoyalty,
+        averageWeight: averageBlocksWeight,
+        totalTransportationCharges: totalTransportationCharge,
+      });
+  
+      this.setValidations();
     }
-  }
-
-  // Calculate final values
-  taxable = taxApplied + taxableAmount;
-  const lotRowCost = taxable + nonTaxableAmount + (purchaseDiscount ? purchaseDiscount : 0);
-  const paidToSupplierLotAmount = taxable + nonTaxableAmount;
-
-  // console.log('=======================================');
-  // console.log('🟣 Step 6: Final Value Calculations');
-  // console.log(`Taxable Amount: ${taxableAmount}`);
-  // console.log(`Tax Applied: ${taxApplied}`);
-  // console.log(`Total Taxable (Amount + Tax): ${taxable}`);
-  // console.log(`Non-Taxable Amount: ${nonTaxableAmount}`);
-  // console.log(`Purchase Discount: ${purchaseDiscount}`);
-  // console.log(`Total Lot Row Cost: ${lotRowCost}`);
-  // console.log(`Paid To Supplier Amount: ${paidToSupplierLotAmount}`);
-  // console.log('=======================================');
-
-  form.patchValue({
-    paidToSupplierLotCost: paidToSupplierLotAmount
-      ? Number(paidToSupplierLotAmount).toFixed(2)
-      : 0,
-    lotRowCost: Number(lotRowCost),
-    taxable: Number(taxable).toFixed(2),
-    taxApplied: Number(taxApplied).toFixed(2),
-    taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
-  });
-
-  const totalTransportationCharge = transportationCharge * lotWeight;
-  const averageTransportation = totalTransportationCharge / lotWeight;
-  const averageRoyalty = royaltyCharge / lotWeight;
-  const averageBlocksWeight = this.totalBlocksArea / lotWeight;
-  const blockPricePerTon = lotRowCost / lotWeight;
-
-  this.blocksDetails.forEach((element: any) => {
-    element.weightPerBlock = element.totalArea / averageBlocksWeight;
-    element.rawCosting = element.weightPerBlock * blockPricePerTon;
-    element.transportationCosting = element.weightPerBlock * averageTransportation;
-    element.royaltyCosting = element.weightPerBlock * averageRoyalty;
-    element.totalCosting =
-      element.rawCosting +
-      element.transportationCosting +
-      element.royaltyCosting;
-  });
-
-  form.patchValue({
-    averageTransport: averageTransportation,
-    averageRoyalty: averageRoyalty,
-    averageWeight: averageBlocksWeight,
-    totalTransportationCharges: totalTransportationCharge,
-  });
-
-  // console.log('=======================================');
-  // console.log('🟣 Step 7: Final Calculation Results');
-  // console.log(`Total Lot Cost: ${lotRowCost}`);
-  // console.log(`Paid to Supplier Lot Amount: ${paidToSupplierLotAmount}`);
-  // console.log(`Total Transportation Charge: ${totalTransportationCharge}`);
-  // console.log('=======================================');
-
-  this.setValidations();
-}
-
 
   setValidations() {
     this.lotEditForm

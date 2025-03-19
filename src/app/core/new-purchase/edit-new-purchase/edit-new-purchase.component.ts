@@ -676,6 +676,7 @@ export class EditNewPurchaseComponent implements OnInit {
     };
     if (this.editNewPurchaseForm.value.purchaseType == "lot") {
       let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
+
       if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
         this.ItemDetails.purchaseCost = Number(
           formData.paidToSupplierPurchaseCost

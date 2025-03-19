@@ -195,6 +195,54 @@ console.log('sales id',_id)
   
     console.log("Updated Expense:", expense);
   }
+  
+
+  // saveExpenses() {
+  //   for (const expense of this.expenses) {
+  //     if (!expense.expenseType) {
+  //       alert('Please select an expense type.');
+  //       return;
+  //     }
+  //     if (expense.expenseType === 'Other Expense' && (!expense.recipient || !expense.date || !expense.amount)) {
+  //       alert('Please fill all fields for Other Expense.');
+  //       return;
+  //     }
+  //     if (expense.expenseType === 'Block/Slab Processing' && (!expense.processingDate || !expense.processingCost || !expense.blockProcessor._id)) {
+  //       alert('Please fill all fields for Block/Slab Processing.');
+  //       return;
+  //     }
+  //   }
+
+  //   const filteredExpenses = this.expenses.map(expense => {
+  //     if (expense.expenseType === 'Other Expense') {
+  //       return {
+  //         expenseType: expense.expenseType,
+  //         recipient: expense.recipient,
+  //         date: expense.date,
+  //         amount: expense.amount
+  //       };
+  //     } else if (expense.expenseType === 'Block/Slab Processing') {
+  //       return {
+  //         expenseType: expense.expenseType,
+  //         processingDate: expense.processingDate,
+  //         processingCost: expense.processingCost,
+  //         blockProcessor: { _id: expense.blockProcessor._id }
+  //       };
+  //     }
+  //     return {};
+  //   });
+
+  //   this.service.updateSlabExpense({ expenses: filteredExpenses }).subscribe(
+  //     (response) => {
+  //       console.log('Expenses updated successfully', response);
+  //       alert('Expenses saved successfully!');
+  //     },
+  //     (error) => {
+  //       console.error('Error updating expenses', error);
+  //       alert('Failed to save expenses.');
+  //     }
+  //   );
+  // }
 
   isFormValid(): boolean {
     if (this.expenses.length === 0) {
@@ -682,6 +730,14 @@ this.getSlabsList();
   close() {
     this.showDialog = false;
   }
+
+  // closeDialog() {
+  //   this.formVisible = true; // Show form when dialog is reopened
+  //   this.canAddExpense = true; // Ensure "Add Expense" button is visible
+
+  //   this.expenses = []; // Reset expenses
+  //   this.showDialog = false;
+  // }
 
   searchData() {
     if (this.searchDataValue == "") {

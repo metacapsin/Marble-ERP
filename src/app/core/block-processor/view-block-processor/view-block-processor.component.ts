@@ -150,7 +150,8 @@ export class ViewBlockProcessorComponent {
       .GetOpeningBalancePayListById(this.blockProcessor_id)
       .subscribe((data: any) => {
         this.openingBalPayList = data.data;
-        this.slabProcessingPaymentData = [...this.openingBalPayList, ...this.slabProcessingPaymentData];
+        this.slabProcessingPaymentData = [ ...(this.openingBalPayList || []),
+    ...(this.slabProcessingPaymentData || []) ]
       });
   }
 

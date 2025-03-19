@@ -113,17 +113,26 @@ export class AddSlabPurchaseComponent {
       return null;
     };
   }
+
+  isEditMode: boolean = false
+  discountModifiedByUser: boolean = false;
+
   ngOnInit(): void {
+    
     this.previousSlabData =
       this.NewPurchaseService.getFormData("stepFirstSlabData");
 
-    this.slabAddForm.get("taxableAmount")?.valueChanges.subscribe(() => {
-      this.slabAddForm.updateValueAndValidity(); // Refreshes form validity
-    });
-
-    this.slabAddForm.get("ItemTax")?.valueChanges.subscribe(() => {
-      this.slabAddForm.updateValueAndValidity(); // Refreshes form validity
-    });
+      this.slabAddForm.get("taxableAmount")?.valueChanges.subscribe(() => {
+        this.slabAddForm.updateValueAndValidity(); // Refreshes form validity
+      });
+  
+      this.slabAddForm.get("ItemTax")?.valueChanges.subscribe(() => {
+        this.slabAddForm.updateValueAndValidity(); // Refreshes form validity
+      });
+  
+      this.slabAddForm.get("purchaseDiscount")?.valueChanges.subscribe(() => {
+        this.discountModifiedByUser = true;
+      });
 
     this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.wareHousedata = resp.data.map((element: any) => ({
@@ -134,6 +143,9 @@ export class AddSlabPurchaseComponent {
         },
       }));
       if (this.previousSlabData) {
+        console.log('yes previous value found')
+        this.isEditMode = true
+        this.discountModifiedByUser = false; // Reset flag when editing existing data
         this.patchSlabValue();
       }
     });
@@ -205,6 +217,8 @@ export class AddSlabPurchaseComponent {
         totalSQFT: this.previousSlabData.totalSQFT,
       });
     }
+
+    
     this.calculateTotalAmount();
   }
   addSlabDialog() {
@@ -228,7 +242,7 @@ export class AddSlabPurchaseComponent {
     this.slabTotalCost -= Number(this.slabDetails[index].totalCosting);
     this.slabDetails.splice(index, 1);
     this.calculateTotalAmount();
-    this.saveClicked.emit();
+    this.saveClicked.emit()
   }
 
   // for get hsn code
@@ -249,7 +263,7 @@ export class AddSlabPurchaseComponent {
   addSlabDetails(myForm: NgForm) {
     this.addvisible = false;
     this.cdRef.detectChanges();
-
+  
     if (!this.slabDetails) {
       this.slabDetails = [];
     }
@@ -278,7 +292,9 @@ export class AddSlabPurchaseComponent {
       totalSQFT: this.quantity,
       ratePerSqFeet: this.ratePerSqFeet,
       totalCosting: this.totalAmount,
-      warehouseDetails: this.slabAddForm.get("warehouse").value,
+      // purchaseCost: this.totalAmount,
+      // warehouseDetails: this.slabAddForm.get("warehouse").value,
+
       sqftPerPiece: Number(this.quantity / this.noOfPieces).toFixed(2),
     };
 
@@ -301,7 +317,7 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount();
 
     // Reset the form to clear validation messages
-    this.saveClicked.emit();
+    this.saveClicked.emit()
     myForm.resetForm();
   }
 
@@ -352,8 +368,6 @@ export class AddSlabPurchaseComponent {
   wasDiscountApplied: boolean = false;
 
   calculateTotalAmount() {
-    console.log("=======================================");
-    console.log("🟠 Step 1: Initial Values");
     const form = this.slabAddForm;
     const slabTotalAmount = this.slabTotalCost;
     const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
@@ -368,10 +382,6 @@ export class AddSlabPurchaseComponent {
     let transportationChargesPerSlab = 0;
     let otherChargesPerSlab = 0;
 
-    console.log(`Royalty Charge: ${royaltyCharge}`);
-    console.log(`Transportation Charge: ${transportationCharge}`);
-    console.log(`Purchase Discount: ${purchaseDiscount}`);
-
     if (
       this.originalTaxableAmount === null ||
       this.originalNonTaxableAmount === null ||
@@ -382,21 +392,20 @@ export class AddSlabPurchaseComponent {
       this.originalTaxApplied = 0;
     }
 
+
+
+
     let totalSQFT = 0;
     let totalSlabAmount = 0;
     this.slabDetails.forEach((element: any) => {
       totalSQFT += element?.totalSQFT;
       totalSlabAmount += element?.totalCosting;
     });
-
-    console.log(`Total SQFT: ${totalSQFT}`);
-
     transportationAndOtherChargePerSQFT = Number(
       (transportationCharge + royaltyCharge) / totalSQFT
     );
     transportationChargesPerSlab = Number(transportationCharge / totalSQFT);
     otherChargesPerSlab = Number(royaltyCharge / totalSQFT);
-
     if (slabTotalAmount) {
       nonTaxableAmount =
         taxableAmount && taxableAmount <= slabTotalAmount
@@ -420,97 +429,276 @@ export class AddSlabPurchaseComponent {
       taxApplied = (taxableAmount * tax) / 100;
     }
 
-    console.log(`Tax Applied Before Discount: ${taxApplied}`);
-
-    if (purchaseDiscount) {
-      let remainingDiscount = purchaseDiscount;
-      let discountedNonTaxableAmount = this.originalNonTaxableAmount;
-      let discountedTaxableAmount = this.originalTaxableAmount;
-
-      if (remainingDiscount <= discountedNonTaxableAmount) {
-        discountedNonTaxableAmount -= remainingDiscount;
-        remainingDiscount = 0;
-      } else {
-        remainingDiscount -= discountedNonTaxableAmount;
-        discountedNonTaxableAmount = 0;
-      }
-
-      // Recalculate tax with updated taxable amount
-      taxApplied = 0;
-      if (Array.isArray(tax)) {
-        tax.forEach((selectedTax: any) => {
-          taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
-        });
-      } else if (tax) {
-        taxApplied = (taxableAmount * tax) / 100;
-      }
-
-      console.log(
-        `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
-      );
-
-      if (remainingDiscount > 0) {
-        discountedTaxableAmount -= remainingDiscount;
-      }
-
-      taxableAmount = discountedTaxableAmount;
-      nonTaxableAmount = discountedNonTaxableAmount;
-      this.wasDiscountApplied = true;
-
-      console.log(`Taxable Amount After Discount: ${taxableAmount}`);
-      console.log(`Non-Taxable Amount After Discount: ${nonTaxableAmount}`);
-
-      // Recalculate tax with updated taxable amount
-      taxApplied = 0;
-      if (Array.isArray(tax)) {
-        tax.forEach((selectedTax: any) => {
-          taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
-        });
-      } else if (tax) {
-        taxApplied = (taxableAmount * tax) / 100;
-      }
-
-      console.log(
-        `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
-      );
-
+    
+    // Check if slabDetails is empty   code  Add by ravi
+    if (this.slabDetails.length === 0) {
+      // If no data in slabDetails, clear the related fields
       form.patchValue({
-        nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
-        taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
-        purchaseDiscount: purchaseDiscount ? Number(purchaseDiscount).toFixed(2) : 0
-
+        taxableAmount: 0,
+        nonTaxableAmount: 0,
+        paidToSupplierSlabCost: 0,
+        taxable: 0,
+        taxApplied: 0,
+        totalCost: 0,
+        totalSQFT: 0,
       });
-    } else if (this.wasDiscountApplied) {
-      taxableAmount = this.originalTaxableAmount;
-      nonTaxableAmount = this.originalNonTaxableAmount;
-      taxApplied = this.originalTaxApplied;
-      this.wasDiscountApplied = false;
+      this.slabDetails = []; // Clear slabDetails data
+      const formData = this.slabAddForm.value;
 
-      console.log(`Taxable Amount Restored: ${taxableAmount}`);
-      console.log(`Non-Taxable Amount Restored: ${nonTaxableAmount}`);
-      // Recalculate tax with updated taxable amount
-      taxApplied = 0;
-      if (Array.isArray(tax)) {
-        tax.forEach((selectedTax: any) => {
-          taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
-        });
-      } else if (tax) {
-        taxApplied = (taxableAmount * tax) / 100;
-      }
+      const payload = {
+        warehouseDetails: formData.warehouse,
+        vehicleNo: formData.vehicleNo,
+        transportationCharge: Number(formData.transportationCharge),
+        royaltyCharge: Number(formData.royaltyCharge),
+        slabDetails: this.slabDetails || [],
+        slabTotalCost: Number(this.slabTotalCost),
+        // totalCost: Number(formData?.totalCost),
+        // paidToSupplierSlabCost: Number(formData.paidToSupplierSlabCost),
+        purchaseDiscount: Number(formData.purchaseDiscount),
+        // nonTaxableAmount: Number(formData.nonTaxableAmount),
+        // taxableAmount: Number(formData.taxableAmount),
+        // taxable: Number(formData.taxable),
+        purchaseItemTax:null,
+        taxableAmount: 0,
+        nonTaxableAmount: 0,
+        paidToSupplierSlabCost: 0,
+        taxable: 0,
+        taxApplied: 0,
+        totalCost: 0,
+        totalSQFT: 0,
+      };
+      this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
 
-      console.log(
-        `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
-      );
-      form.patchValue({
-        nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
-        taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
-        purchaseDiscount: purchaseDiscount ? Number(purchaseDiscount).toFixed(2) : 0
-
-      });
+      return; // Exit the function early as there's no data
     }
+
+    let calculatedDetails = this.slabDetails.map((e: any) => ({
+      ...e,
+      taxAmountPerSQFT: Number(
+        ((taxApplied / this.slabTotalCost) * Number(e.totalCosting)) /
+          Number(e.totalSQFT)
+      ).toFixed(4),
+    }));
+
+    // if (purchaseDiscount) {
+    //   if (!nonTaxableAmount) {
+    //     taxableAmount -= purchaseDiscount;
+    //   } else {
+    //     nonTaxableAmount -= purchaseDiscount;
+    //     form.patchValue({
+    //       nonTaxableAmount,
+    //     });
+    //   }
+    // }
+
+
+// customer to supplier branch calculation
+
+// if (purchaseDiscount) {
+//   let remainingDiscount = purchaseDiscount;
+//   let discountedNonTaxableAmount = this.originalNonTaxableAmount;
+//   let discountedTaxableAmount = this.originalTaxableAmount;
+
+//   if (remainingDiscount <= discountedNonTaxableAmount) {
+//     discountedNonTaxableAmount -= remainingDiscount;
+//     remainingDiscount = 0;
+//   } else {
+//     remainingDiscount -= discountedNonTaxableAmount;
+//     discountedNonTaxableAmount = 0;
+//   }
+
+//   // Recalculate tax with updated taxable amount
+//   taxApplied = 0;
+//   if (Array.isArray(tax)) {
+//     tax.forEach((selectedTax: any) => {
+//       taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+//     });
+//   } else if (tax) {
+//     taxApplied = (taxableAmount * tax) / 100;
+//   }
+
+//   console.log(
+//     `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
+//   );
+
+//   if (remainingDiscount > 0) {
+//     discountedTaxableAmount -= remainingDiscount;
+//   }
+
+//   taxableAmount = discountedTaxableAmount;
+//   nonTaxableAmount = discountedNonTaxableAmount;
+//   this.wasDiscountApplied = true;
+
+//   console.log(`Taxable Amount After Discount: ${taxableAmount}`);
+//   console.log(`Non-Taxable Amount After Discount: ${nonTaxableAmount}`);
+
+//   // Recalculate tax with updated taxable amount
+//   taxApplied = 0;
+//   if (Array.isArray(tax)) {
+//     tax.forEach((selectedTax: any) => {
+//       taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+//     });
+//   } else if (tax) {
+//     taxApplied = (taxableAmount * tax) / 100;
+//   }
+
+//   console.log(
+//     `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
+//   );
+
+//   form.patchValue({
+//     nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+//     taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+//     purchaseDiscount: purchaseDiscount ? Number(purchaseDiscount).toFixed(2) : 0
+
+//   });
+// } else if (this.wasDiscountApplied) {
+//   taxableAmount = this.originalTaxableAmount;
+//   nonTaxableAmount = this.originalNonTaxableAmount;
+//   taxApplied = this.originalTaxApplied;
+//   this.wasDiscountApplied = false;
+
+//   console.log(`Taxable Amount Restored: ${taxableAmount}`);
+//   console.log(`Non-Taxable Amount Restored: ${nonTaxableAmount}`);
+//   // Recalculate tax with updated taxable amount
+//   taxApplied = 0;
+//   if (Array.isArray(tax)) {
+//     tax.forEach((selectedTax: any) => {
+//       taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+//     });
+//   } else if (tax) {
+//     taxApplied = (taxableAmount * tax) / 100;
+//   }
+
+//   console.log(
+//     `🟡 Tax Recalculated After Discount/Restoration: ${taxApplied}`
+//   );
+//   form.patchValue({
+//     nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+//     taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+//     purchaseDiscount: purchaseDiscount ? Number(purchaseDiscount).toFixed(2) : 0
+
+//   });
+// }
+
+if (this.isEditMode && this.previousSlabData) {
+  console.log('🟡 Edit Mode - Using API Values');
+
+  const apiTaxableAmount = this.previousSlabData.taxableAmount || 0;
+  const apiPurchaseDiscount = this.previousSlabData.purchaseDiscount || 0;
+
+  // Step 1: Calculate Non-Taxable Amount as Total SQFT * Rate per SQFT
+  nonTaxableAmount = totalSlabAmount;
+
+  // Step 2: Deduct API taxable amount from calculated Non-Taxable Amount
+  nonTaxableAmount -= apiTaxableAmount;
+
+  // Step 3: Deduct the Purchase Discount following original logic
+  // let remainingDiscount = apiPurchaseDiscount;
+
+ // Step 3: Deduct the Purchase Discount following original logic
+ let remainingDiscount = this.discountModifiedByUser
+ ? purchaseDiscount  // Use user's updated discount value
+ : apiPurchaseDiscount;  // Use API's original discount value
+
+  if (nonTaxableAmount > 0) {
+    const discountApplied = Math.min(nonTaxableAmount, remainingDiscount);
+    nonTaxableAmount -= discountApplied;
+    remainingDiscount -= discountApplied;
+  }
+
+  if (remainingDiscount > 0) {
+    taxableAmount -= remainingDiscount;
+  }
+
+  form.patchValue({
+    nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+    taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+    // purchaseDiscount: apiPurchaseDiscount ? Number(apiPurchaseDiscount).toFixed(2) : 0
+    purchaseDiscount: this.discountModifiedByUser
+      ? Number(purchaseDiscount).toFixed(2) // Preserve modified value
+      : Number(apiPurchaseDiscount).toFixed(2) // Use API value if untouched
+  });
+
+} else {
+  // New Entry Mode Logic
+  console.log('🟢 New Entry Mode - Using Original Discount Logic');
+
+  nonTaxableAmount =
+    taxableAmount && taxableAmount <= slabTotalAmount
+      ? slabTotalAmount - taxableAmount
+      : slabTotalAmount;
+
+  // Discount Logic (Your Original Logic)
+  if (purchaseDiscount) {
+    let remainingDiscount = purchaseDiscount;
+
+    if (nonTaxableAmount > 0) {
+      const discountApplied = Math.min(nonTaxableAmount, remainingDiscount);
+      nonTaxableAmount -= discountApplied;
+      remainingDiscount -= discountApplied;
+    }
+
+    if (remainingDiscount > 0) {
+      taxableAmount = Math.max(taxableAmount - remainingDiscount, 0);
+    }
+  }
+
+  let taxApplied = 0;
+  if (Array.isArray(tax)) {
+    tax.forEach((selectedTax: any) => {
+      taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
+    });
+  } else if (tax) {
+    taxApplied = (taxableAmount * tax) / 100;
+  }
+
+  form.patchValue({
+    nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
+    taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
+    purchaseDiscount: purchaseDiscount ? Number(purchaseDiscount).toFixed(2) : 0,
+    taxApplied: Number(taxApplied).toFixed(2)
+  });
+}
+
+    taxable = taxApplied + taxableAmount;
+
+    calculatedDetails = calculatedDetails.map((e: any, index: any) => ({
+      ...e,
+      costPerSQFT: Number(
+        Number(e.ratePerSqFeet) +
+          Number(e.taxAmountPerSQFT) +
+          Number(transportationAndOtherChargePerSQFT)
+      ).toFixed(4),
+      sellingPricePerSQFT: Number(
+        Number(e.ratePerSqFeet) +
+          Number(e.taxAmountPerSQFT) +
+          Number(transportationAndOtherChargePerSQFT)
+      ).toFixed(4),
+      transportationCharges: Number(
+        transportationChargesPerSlab * e.totalSQFT
+      ).toFixed(4),
+      otherCharges: Number(otherChargesPerSlab * e.totalSQFT).toFixed(4),
+      slabSize: `${e.width ? e.width : " "} x ${e.length ? e.length : " "} x ${
+        e.thickness ? e.thickness : " "
+      }`,
+      purchaseCost:
+        (Number(e.ratePerSqFeet) +
+          Number(e.taxAmountPerSQFT) +
+          Number(transportationAndOtherChargePerSQFT)) *
+        e.totalSQFT,
+      warehouseDetails: this.slabAddForm?.value?.warehouse,
+    }));
 
     taxable = taxApplied + taxableAmount;
     const paidToSupplierSlabAmount = taxable + nonTaxableAmount;
+
+    console.log("Taxable:", taxable);
+    console.log("Non-Taxable Amount:", nonTaxableAmount);
+    console.log("Purchase Discount:", purchaseDiscount);
+    console.log("Transportation Charge:", transportationCharge);
+    console.log("Royalty Charge:", royaltyCharge);
+
     const totalCost =
       taxable +
       nonTaxableAmount +
@@ -518,8 +706,7 @@ export class AddSlabPurchaseComponent {
       transportationCharge +
       royaltyCharge;
 
-    console.log(`Total Cost: ${totalCost}`);
-
+    console.log("Total Cost:", totalCost);
     form.patchValue({
       paidToSupplierSlabCost: paidToSupplierSlabAmount
         ? Number(paidToSupplierSlabAmount).toFixed(2)
@@ -530,19 +717,9 @@ export class AddSlabPurchaseComponent {
       totalCost: Number(totalCost),
       totalSQFT: Number(totalSQFT),
     });
-
-    this.slabDetails = [
-      ...this.slabDetails.map((e: any) => ({
-        ...e,
-        transportationCharges: Number(
-          transportationChargesPerSlab * e.totalSQFT
-        ).toFixed(4),
-        otherCharges: Number(otherChargesPerSlab * e.totalSQFT).toFixed(4),
-      })),
-    ];
+    this.slabDetails = [...calculatedDetails];
 
     this.setValidator();
-    console.log("=======================================");
   }
 
   trackByFn(index: number, item: any) {
@@ -569,10 +746,7 @@ export class AddSlabPurchaseComponent {
 
   slabAddFormSubmit() {
     const formData = this.slabAddForm.value;
-    console.log("formData", formData);
-    if (!this.slabAddForm.valid) {
-      return;
-    }
+    console.log('formData',formData)
     if (this.slabTotalCost) {
       const payload = {
         warehouseDetails: formData.warehouse,

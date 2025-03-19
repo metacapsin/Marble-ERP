@@ -66,6 +66,9 @@ export class AddsalesComponent implements OnInit {
   UpdtshippingAddress: any;
   isUpdateAddress: boolean = false;
   isrequired: boolean = false;
+
+  manuallyEditedPieces: boolean[] = []; // Tracks which indexes have manually edited pieces
+
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -146,9 +149,9 @@ export class AddsalesComponent implements OnInit {
       taxable: [""],
       nonTaxable: [""],
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
+      eWayBill: [""],
       isShippingTax: [false],
       isOtherChargesTax: [false],
-      eWayBill: [""],
     });
 
     // Set up a value change subscription to update the max validator for salesDiscount
@@ -220,13 +223,12 @@ export class AddsalesComponent implements OnInit {
   
     // Log only when the button state changes
     if (this.isSaveButtonDisabled !== this.previousButtonState) {
-      console.log(
-        `[STATUS CHANGE] Save Sales Button is now ${this.isSaveButtonDisabled ? 'DISABLED' : 'ENABLED'}`
-      );
+      // console.log(
+      //   `[STATUS CHANGE] Save Sales Button is now ${this.isSaveButtonDisabled ? 'DISABLED' : 'ENABLED'}`
+      // );
       this.previousButtonState = this.isSaveButtonDisabled; // Update previous state
     }
   }
-  
 
   public setValidations(formControlName: string) {
     return (
@@ -698,7 +700,6 @@ export class AddsalesComponent implements OnInit {
   
   // isPiecesManuallyEdited: boolean = false;
 
-  manuallyEditedPieces: boolean[] = []; // Tracks which indexes have manually edited pieces
 
   calculateTotalAmount() {
     // debugger
