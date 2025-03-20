@@ -91,7 +91,10 @@ export class StockTransferListComponent implements OnInit {
   getStockTransferList(): void {
     this.service.getStockTransferList().subscribe((resp: any) => {
       this.stockTransferDataList = resp.data;
-      this.originalData = resp.data;
+      this.originalData =resp.data.map((element) => ({
+        ...element,
+        displayName: `${element.slab.slabName} (${element.slab.slabNo})`,
+      }));
       this.cols = [
         { field: "createdOn", header: "Created On" },
         { field: "slab.slabName", header: "Slab Name" },
@@ -147,7 +150,7 @@ export class StockTransferListComponent implements OnInit {
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
       (resp: any) => {
         this.slabData = resp.data.map((element) => ({
-          name: element.slabName,
+          name: `${element.slabName} (${element.slabNo})`,
           _id: {
             _id: element._id,
             slabName: element.slabName,

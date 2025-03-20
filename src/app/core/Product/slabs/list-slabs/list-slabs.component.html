@@ -1160,8 +1160,8 @@
                 <div class="col-lg-8 col-md-8 col-xl-8">
                   <p class="col-lg-9 col-form-label">
                     {{
-                      slabDetailsOfSlabHistory[0]?.soldSlabSQFT
-                        ? slabDetailsOfSlabHistory[0]?.soldSlabSQFT
+                      slabProfitOfSlabHistory[0]?.totalSalesItemQuantity
+                        ? slabProfitOfSlabHistory[0]?.totalSalesItemQuantity
                         : "0"
                     }} Sq.Feet
                   </p>
@@ -1189,7 +1189,8 @@
                   <p class="col-lg-9 col-form-label">
                     {{
                        slabProfitOfSlabHistory[0]?.increasedMeasurement 
-                        ? slabProfitOfSlabHistory[0]?.increasedMeasurement                         : "0"
+                        ? (slabProfitOfSlabHistory[0]?.increasedMeasurement).toFixed(2)
+                        : "0.00"                        
                     }} Sq.Feet
                   </p>
                 </div>
