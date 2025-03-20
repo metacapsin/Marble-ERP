@@ -120,7 +120,7 @@
                 <ng-template pTemplate="body" let-stock>
                   <tr>
                     <td>{{ stock.createdOn | date : "dd-MMM-yyyy" }}</td>
-                    <td>{{ stock.slab.slabName }}</td>
+                    <td>{{ stock.displayName }}</td>
                     <td>{{ stock.fromWarehouse.name }}</td>
                     <td>{{ stock.toWarehouse.name }}</td>
                     <td>{{ stock.transferType }}</td>

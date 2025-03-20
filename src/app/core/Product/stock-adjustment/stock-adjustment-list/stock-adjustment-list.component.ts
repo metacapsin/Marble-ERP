@@ -116,7 +116,10 @@ export class StockAdjustmentListComponent implements OnInit {
   
   getAdjustmentList(): void {
     this.service.getAdjustmentList().subscribe((resp: any) => {
-      this.stockAdjustmentDataList = resp.data;
+      this.stockAdjustmentDataList =resp.data.map((element) => ({
+        ...element,
+        displayName: `${element.slabs.slabName} (${element.slabs.slabNo})`,
+      }));
       this.originalData = resp.data;
       this.cols = [
         { field: "createdOn", header: "Created On" },
@@ -198,7 +201,7 @@ export class StockAdjustmentListComponent implements OnInit {
       (resp: any) => {
         this.originalSlabData = resp.data;
         this.slabData = resp.data.map((element) => ({
-          name: element.slabName,
+          name: `${element.slabName} (${element.slabNo})`,
           _id: {
             _id: element._id,
             slabName: element.slabName,
