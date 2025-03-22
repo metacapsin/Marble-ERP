@@ -600,11 +600,12 @@
                     display="menu"
                   ></p-columnFilter>
                 </th>
-                <!-- <th pSortableColumn="slabDetails.slabNo">
+                
+                <th pSortableColumn="slabDetails.slabNo">
                   Slab No <p-sortIcon field="slabDetails.slabNo"></p-sortIcon>
                   <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="slabDetails.slabNo"
                     display="menu"></p-columnFilter>
-                </th> -->
+                </th>
                 <th pSortableColumn="totalSQFT">
                   Stock Left
                   <p-sortIcon field="totalSQFT"></p-sortIcon>
@@ -645,9 +646,9 @@
                 <td>
                   {{ Product.slabDetails.slabName }}
                 </td>
-                <!-- <td>
+                <td>
                   {{ Product.slabDetails.slabNo }}
-                </td> -->
+                </td>
                 <td>{{ Product.totalSQFT }} Sq. Feet</td>
                 <td>{{ Product.percentageSold }} %</td>
                 <td>
