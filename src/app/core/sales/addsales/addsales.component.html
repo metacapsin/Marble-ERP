@@ -521,9 +521,9 @@
                             <span style="color: #97704f; font-size: 12px"
                               >Max Quantity:
                               {{
-                                addSalesForm
+                                (addSalesForm
                                   .get("salesItemDetails")
-                                  .get(i + ".maxQuantity").value || 0
+                                  .get(i + ".maxQuantity").value | indianCurrency) || 0
                               }}</span
                             >
                             <div
