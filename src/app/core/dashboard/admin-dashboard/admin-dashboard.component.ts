@@ -117,6 +117,7 @@ export class AdminDashboardComponent {
   optionsForFirstChat: any;
   dataForSecondChat: any;
   optionsForSecondChat: any;
+  optionsForSubCategoryChat:any;
   allSlabsDaTa: {
     _id: string;
     slabNo: string;
@@ -292,6 +293,23 @@ export class AdminDashboardComponent {
     this.optionsForSecondChat = {
       plugins: {
         legend: {
+          display: true,  // Set to false to hide the legend
+      position: "bottom", // Options: 'top', 'bottom', 'left', 'right'
+   //   align: "right", // Aligns the legend within its position ('start', 'center', 'end')
+          labels: {
+            usePointStyle: true,
+            color: "#000000",
+          },
+        },
+      },
+    };
+
+    this.optionsForSubCategoryChat = {
+      plugins: {
+        legend: {
+          display: true,  // Set to false to hide the legend
+          position: "bottom", // Options: 'top', 'bottom', 'left', 'right'
+   //   align: "right", // Aligns the legend within its position ('start', 'center', 'end')
           labels: {
             usePointStyle: true,
             color: "#000000",
@@ -669,6 +687,10 @@ export class AdminDashboardComponent {
       ],
     };
   }
+  getRandomColor() {
+    return "#" + Math.floor(Math.random() * 16777215).toString(16);
+  };
+
   categoryChart(data) {
     console.log(data);
     this.orgCategorySlabs = data.totalCategorySlabs;
@@ -710,35 +732,40 @@ export class AdminDashboardComponent {
         },
       ],
     };
+
     this.piDataForSecondChat = {
       labels: totalSubCategorySlabsLable,
+      
       datasets: [
         {
           data: this.totalSubCategorySlabs,
-          backgroundColor: [
-            "#D8C3A5", // Italian Marble
-            "#4B4E53", // Granite
-            "#C4975D", // Onyx
-            "#9AA5A7", // Quartzite
-            "#C8B796", // Travertine
-            "#556470", // Slate
-            "#E8DED3", // Limestone
-            "#1F2124", // Basalt
-            "#D4B483", // Marfil
-            "#C3A785", // Sandstone
-          ],
-          hoverBackgroundColor: [
-            "#D8C3A5",
-            "#4B4E53",
-            "#C4975D",
-            "#9AA5A7",
-            "#C8B796",
-            "#556470",
-            "#E8DED3",
-            "#1F2124",
-            "#D4B483",
-            "#C3A785",
-          ],
+          backgroundColor: Array(4).fill(0).map(() => this.getRandomColor()),
+          hoverBackgroundColor: Array(4).fill(0).map(() => this.getRandomColor()),
+          // backgroundColor: [
+          //   "#D8C3A5", // Italian Marble
+          //   "#4B4E53", // Granite
+          //   "#C4975D", // Onyx
+          //   "#9AA5A7", // Quartzite
+          //   "#C8B796", // Travertine
+          //   "#556470", // Slate
+          //   "#E8DED3", // Limestone
+          //   "#1F2124", // Basalt
+          //   "#D4B483", // Marfil
+          //   "#C3A785", // Sandstone
+          // ],
+         // hoverBackgroundColor:Array(4).fill(0).map(() => this.getRandomColor()),
+          // hoverBackgroundColor: [
+          //   "#D8C3A5",
+          //   "#4B4E53",
+          //   "#C4975D",
+          //   "#9AA5A7",
+          //   "#C8B796",
+          //   "#556470",
+          //   "#E8DED3",
+          //   "#1F2124",
+          //   "#D4B483",
+          //   "#C3A785",
+          // ],
         },
       ],
     };

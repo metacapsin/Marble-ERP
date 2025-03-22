@@ -75,6 +75,7 @@ export class PaymentOutReportComponent {
           if (payment) {
             // payment.receiver = payment?.customer?.name || payment?.supplier?.name;
             payment.receiver = payment?.receiver
+            payment.amount = parseFloat(payment.amount || 0).toFixed(2);
           }
           return payment;
         });
