@@ -94,6 +94,10 @@ export class StockTransferListComponent implements OnInit {
       this.originalData =resp.data.map((element) => ({
         ...element,
         displayName: `${element.slab.slabName} (${element.slab.slabNo})`,
+        transferQty: element.transferQty ? parseFloat(element.transferQty).toFixed(2) : "0.00",
+        currentQty: element.currentQty ? parseFloat(element.currentQty).toFixed(2) : "0.00",
+        transportCharges: element.transportCharges ? parseFloat(element.transportCharges).toFixed(2) : "0.00",
+        otherCharges: element.otherCharges ? parseFloat(element.otherCharges).toFixed(2) : "0.00",
       }));
       this.cols = [
         { field: "createdOn", header: "Created On" },
