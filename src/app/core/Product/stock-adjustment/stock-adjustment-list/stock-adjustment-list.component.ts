@@ -112,6 +112,11 @@ export class StockAdjustmentListComponent implements OnInit {
       this.allInDropDown = this.stockAdjustmentDataList;
     }
   }
+ 
+        
+   
+     
+   
   
   
   getAdjustmentList(): void {
@@ -119,6 +124,9 @@ export class StockAdjustmentListComponent implements OnInit {
       this.stockAdjustmentDataList =resp.data.map((element) => ({
         ...element,
         displayName: `${element.slabs.slabName} (${element.slabs.slabNo})`,
+        previousQty: element.previousQty ? parseFloat(element.previousQty).toFixed(2) : "0.00",
+        quantity: element.quantity ? parseFloat(element.quantity).toFixed(2) : "0.00",
+        currentQty: element.currentQty ? parseFloat(element.currentQty).toFixed(2) : "0.00",
       }));
       this.originalData = resp.data;
       this.cols = [
