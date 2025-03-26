@@ -987,7 +987,7 @@ export class AddsalesComponent implements OnInit {
       salesOrderTax: Number(formData.salesOrderTax).toFixed(2),
       taxable: Number(formData.taxable).toFixed(2),
       nonTaxable: Number(formData.nonTaxable).toFixed(2),
-      creditPeriod: Number(formData.creditPeriod).toFixed(2),
+      creditPeriod: Number(formData.creditPeriod),
     };
 
     if (this.addSalesForm.valid) {
