@@ -612,7 +612,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         otherCharges:  Number(formData?.otherCharges)?.toFixed(2), 
         transportationCharges:  Number(formData?.transportationCharges)?.toFixed(2),
         warehouseDetails: formData?.warehouseDetails,
-        vehicleNo: formData?.vehicleNo,
+        vehicleNo: formData?.vehicleNo.length > 0 ? formData?.vehicleNo : null,
         totalSQFT: formData?.totalSQFT,
       };
       // payload = this.slabSelected(formData) as any;

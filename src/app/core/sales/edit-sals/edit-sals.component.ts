@@ -290,6 +290,8 @@ export class EditSalsComponent implements OnInit {
             slabNo: element.slabNo,
             costPerSQFT: element.costPerSQFT,
             salesItemTotalQuantity: element.totalSlabSQFT,
+            subCategoryDetail: element.subCategoryDetail,
+            categoryDetail: element.categoryDetail, 
             hsnCode: element.subCategoryDetail?.hsnCode,
           },
         }));

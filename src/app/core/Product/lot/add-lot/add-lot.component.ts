@@ -229,7 +229,7 @@ export class AddLotComponent {
       this.lotAddForm.patchValue({
         lotNo: this.previouslotData.lotNo,
         lotName: this.previouslotData.lotName,
-        vehicleNo: this.previouslotData.vehicleNo,
+        vehicleNo: this.previouslotData?.vehicleNo?.length == 0 ? null : this.previouslotData?.vehicleNo,
         warehouse: this.previouslotData.warehouseDetails,
         invoiceNo: this.previouslotData.invoiceNo,
         lotWeight: this.previouslotData.lotWeight,
@@ -592,7 +592,7 @@ this.originalNonTaxableAmount = nonTaxableAmount;
         lotNo: formData.lotNo,
         lotName: formData.lotName,
         warehouseDetails: formData.warehouse,
-        vehicleNo: formData.vehicleNo,
+        vehicleNo: formData?.vehicleNo?.length == 0 ? null : formData?.vehicleNo,
         lotWeight: formData.lotWeight,
         pricePerTon: Number(formData.pricePerTon),
         transportationCharge: Number(formData.transportationCharge),

@@ -46,6 +46,9 @@ export class ViewBlockProcessorComponent {
   openingBalPayList: any;
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{2,15})$/;
   balanceId: any;
+  totalPaidAmount: number;
+  totalDueAmount: number;
+  totalProcessingCost: number;
   constructor(
     private customerService: CustomersdataService,
     private activeRoute: ActivatedRoute,
@@ -96,7 +99,7 @@ export class ViewBlockProcessorComponent {
   }
   ngOnInit() {
     this.getBlockProcessor();
-    // this.getOpeningBalance();
+    this.getOpeningBalance();
     // this.getOpeningBalancePayList();
     this.slabService
       .getSlabsList()
@@ -129,20 +132,104 @@ export class ViewBlockProcessorComponent {
       });
   }
 
+  // getTotal(field: string): number {
+  //   const sum = this.slabProcessingDataList?.reduce((sum, item) => sum + (item[field] || 0), 0);
+  //   return sum + this.dueBalance?.[field === 'processingCost' ? 'totalAmount' : field];
+  // }
+
+  // getTotal(field: string): number {
+  //   if (field === 'paidAmount') {
+  //     return this.totalPaidAmount;
+  //   } else if (field === 'dueAmount') {
+  //     return this.totalDueAmount;
+  //   } else if (field === 'processingCost') {
+  //     return this.totalProcessingCost;
+  //   }
+  //   return 0;
+  // }
+
+
   getTotal(field: string): number {
-    const sum = this.slabProcessingDataList?.reduce((sum, item) => sum + (item[field] || 0), 0);
-    return sum + this.dueBalance?.[field === 'processingCost' ? 'totalAmount' : field];
+    // console.log(`Fetching total for field: ${field}`);
+  
+    if (field === 'paidAmount') {
+      // console.log('Total Paid Amount:', this.totalPaidAmount);
+      return this.totalPaidAmount;
+    } else if (field === 'dueAmount') {
+      // console.log('Total Due Amount:', this.totalDueAmount);
+      return this.totalDueAmount;
+    } else if (field === 'processingCost') {
+      // console.log('Total Processing Cost:', this.totalProcessingCost);
+      return this.totalProcessingCost;
+    }
+  
+    // console.warn('Invalid field:', field);
+    return 0;
   }
 
+  // getOpeningBalance() {
+  //   this.customerService
+  //     .GetOpeningBalanceById(this.blockProcessor_id)
+  //     .subscribe((data: any) => {
+  //       this.dueBalance = data.data;
+
+  //         // Ensure dueBalance is an object, not an array
+  //     const openingBalance = this.dueBalance?.[0] || {};
+  //       this.slabProcessingDataList = [
+  //         {
+  //           type: 'openBalance',
+  //           processingInvoiceNo: 'Opening Balance',
+  //           processingDate: this.dueBalance[0]?.createdOn,
+  //           slab: ' Days',
+  //           paymentStatus: this.dueBalance[0]?.paymentStatus,
+  //           paidAmount: this.dueBalance[0]?.paidAmount,
+  //           dueAmount: this.dueBalance[0]?.dueAmount,
+  //           processingCost: this.dueBalance[0]?.totalAmount,
+  //         },
+  //         ...this.slabProcessingDataList, // Keep existing slab data if any
+  //       ];
+  //          // Update total amounts by adding opening balance values
+  //     this.totalPaidAmount += openingBalance.paidAmount || 0;
+  //     this.totalDueAmount += openingBalance.dueAmount || 0;
+  //     this.totalProcessingCost += openingBalance.totalAmount || 0;
+  //     });
+  // }
+
   getOpeningBalance() {
-    this.customerService
-      .GetOpeningBalanceById(this.blockProcessor_id)
-      .subscribe((data: any) => {
-        this.dueBalance = data.data;
-        this.slabProcessingDataList?.unshift({
-          type: 'openBalance'
-        });
-      });
+    // console.log('Fetching opening balance for blockProcessor_id:', this.blockProcessor_id);
+  
+    this.customerService.GetOpeningBalanceById(this.blockProcessor_id).subscribe((data: any) => {
+      // console.log('Opening balance API response:', data);
+  
+      this.dueBalance = data.data;
+  
+      // Ensure dueBalance is an object, not an array
+      const openingBalance = this.dueBalance|| {};
+      // console.log('Extracted opening balance:', openingBalance);
+  
+      this.slabProcessingDataList = [
+        {
+          type: 'openBalance',
+          processingInvoiceNo: 'Opening Balance',
+          processingDate: openingBalance.createdOn,
+          slab: ' Days',
+          paymentStatus: openingBalance.paymentStatus,
+          paidAmount: openingBalance.paidAmount,
+          dueAmount: openingBalance.dueAmount,
+          processingCost: openingBalance.totalAmount,
+        },
+        ...this.slabProcessingDataList, // Keep existing slab data if any
+      ];
+  
+      // console.log('Updated slabProcessingDataList:', this.slabProcessingDataList);
+  
+      // Update total amounts by adding opening balance values
+      this.totalPaidAmount += openingBalance.paidAmount || 0;
+      this.totalDueAmount += openingBalance.dueAmount || 0;
+      this.totalProcessingCost += openingBalance.totalAmount || 0;
+  
+      // console.log('Updated totals - Paid:', this.totalPaidAmount, 'Due:', this.totalDueAmount, 'Processing Cost:', this.totalProcessingCost);
+    });
   }
 
   getOpeningBalancePayList() {
@@ -155,19 +242,56 @@ export class ViewBlockProcessorComponent {
       });
   }
 
+  // getslabProcessingList() {
+  //   this.blockProcessorService
+  //     .getAllSlabProcessing(this.blockProcessor_id)
+  //     .subscribe((resp: any) => {
+  //       // this.slabProcessingDataList = resp.data;
+  //       // if(resp.status === 'success'){
+  //         this.slabProcessingDataList = resp.data.map((e) => ({
+  //           ...e,
+  //            displayName: `${e.slab.slabNo} (${e.slab.slabName})`,
+  //          }));
+
+  //             // Store the total amounts from this API response
+  //       this.totalPaidAmount = resp.totalPaidAmount || 0;
+  //       this.totalDueAmount = resp.totalDueAmount || 0;
+  //       this.totalProcessingCost = resp.totalAmount || 0;
+
+  //          this.getOpeningBalance();
+
+  //       // }
+  //       // else if(resp.status === 'error'){
+  //       //   this.slabProcessingDataList = [];
+  //       // }
+  //       // this.paymentInvoicePurchaseDataShowById = resp.data;
+  //     });
+  // }
+
   getslabProcessingList() {
-    this.blockProcessorService
-      .getAllSlabProcessing(this.blockProcessor_id)
-      .subscribe((resp: any) => {
-        // this.slabProcessingDataList = resp.data;
-        this.slabProcessingDataList = resp.data.map((e) => ({
-         ...e,
-          displayName: `${e.slab.slabNo} (${e.slab.slabName})`,
-        }));
-        this.getOpeningBalance();
-        // this.paymentInvoicePurchaseDataShowById = resp.data;
-      });
+    // console.log('Fetching slab processing list for blockProcessor_id:', this.blockProcessor_id);
+  
+    this.blockProcessorService.getAllSlabProcessing(this.blockProcessor_id).subscribe((resp: any) => {
+      // console.log('Slab processing API response:', resp);
+  
+      this.slabProcessingDataList = resp.data.map((e) => ({
+        ...e,
+        displayName: `${e.slab.slabNo} (${e.slab.slabName})`,
+      }));
+  
+      // console.log('Processed slabProcessingDataList:', this.slabProcessingDataList);
+  
+      // Store the total amounts from this API response
+      this.totalPaidAmount = resp.totalPaidAmount || 0;
+      this.totalDueAmount = resp.totalDueAmount || 0;
+      this.totalProcessingCost = resp.totalAmount || 0;
+  
+      // console.log('Initial totals from slab processing - Paid:', this.totalPaidAmount, 'Due:', this.totalDueAmount, 'Processing Cost:', this.totalProcessingCost);
+  
+      this.getOpeningBalance();
+    });
   }
+
   getPaymentListByProcessorId() {
     this.blockProcessorService
       .getPaymentListByProcessorId(this.blockProcessor_id)
@@ -221,9 +345,10 @@ export class ViewBlockProcessorComponent {
         .deleteSlabProcessing(this.slabProcessing_id)
         .subscribe((resp) => {
           const message = "Slab Processing Details has been deleted";
-          this.messageService.add({ severity: "success", detail: message });
           this.getslabProcessingList();
           this.getPaymentListByProcessorId();
+          this.messageService.add({ severity: "success", detail: message });
+          // this.getOpeningBalance();
           this.slabProcessing_id = null;
 
           this.showDialog = false;
@@ -234,9 +359,10 @@ export class ViewBlockProcessorComponent {
         .deletePayment(this.payment_id)
         .subscribe((resp) => {
           const message = "Payment Details has been deleted";
-          this.messageService.add({ severity: "success", detail: message });
           this.getslabProcessingList();
           this.getPaymentListByProcessorId();
+          this.messageService.add({ severity: "success", detail: message });
+          // this.getOpeningBalance();
           this.payment_id = null;
 
           this.showDialog = false;
@@ -245,12 +371,13 @@ export class ViewBlockProcessorComponent {
       this.salesReturnService
         .deleteBalancePayRec(this.balanceId)
         .subscribe((resp: any) => {
+          this.getslabProcessingList();
+          this.getPaymentListByProcessorId();
           this.messageService.add({
             severity: "success",
             detail: resp.message,
           });
-          this.getslabProcessingList();
-          this.getPaymentListByProcessorId();
+          // this.getOpeningBalance();
           this.showDialog = false;
          
           this.balanceId = null;
