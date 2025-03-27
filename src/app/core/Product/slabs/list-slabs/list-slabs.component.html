@@ -1654,6 +1654,11 @@
             <td>{{ expense.amount || expense.processingCost }}</td>
           </tr>
         </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="6" class="text-center">No expenses found.</td>
+          </tr>
+        </ng-template>
       </p-table>
       
       </div>

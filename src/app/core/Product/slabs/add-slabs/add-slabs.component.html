@@ -161,7 +161,8 @@
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12" *ngIf="slabsAddForm && slabsAddForm.get('stockType')?.value !== 'OpeningStock'">
                     <div class="form-group local-forms">
                       <label for="blockDetails">Block Number<span class="login-danger">*</span></label>
-                      <p-dropdown [options]="blockDropDownData" styleClass="" appendTo="body" optionLabel="blockNo"
+                      <p-dropdown [options]="blockDropDownData" styleClass="" appendTo="body" optionLabel="label"  
+                        optionValue="value"  
                         (onChange)="onBlockSelect($event.value)" placeholder="Select Block"
                         formControlName="blockDetails" [style]="{ width: '100%' }" [filter]="true" filterBy="name"
                         [showClear]="true" (change)="calculateTotalAmount()">

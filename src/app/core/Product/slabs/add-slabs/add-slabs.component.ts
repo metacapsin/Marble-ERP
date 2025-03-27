@@ -243,6 +243,7 @@ export class AddSlabsComponent {
   // Function call for on warehouse Select
   onWarehouseSelect(value: any) {
     this.Lotservice.lotByWarehouse(value._id).subscribe((resp: any) => {
+      console.log('on warehouse select response', resp);
       this.fromWareHouseLotValue = resp.data.map((e) => ({
         lotName: `${e.lotName}  [${e.lotNo}]`,
         _id: {
@@ -258,42 +259,87 @@ export class AddSlabsComponent {
     if (!value) {
       this.slabsAddForm.patchValue({
         purchaseCost: null,
+        blockDetails: null,
+        width: null,
+        height: null,
+        length: null,
+        blockProcessor: null,
       });
     } else {
       this.Service.getNotProcessedBlocksByLotId(value._id).subscribe(
         (resp: any) => {
-          this.blockDropDownData = resp.data;
+          console.log("onLotSelect", resp);
+          this.blockDropDownData = resp.data.map(block => ({
+            label: block.blockNo, // For display
+            value: block          // Full block object
+        }));
+        console.log("blockDropDownData:", this.blockDropDownData);
+  
         }
       );
     }
     this.calculateTotalAmount();
   }
   // Function call for on Block Select
+  // onBlockSelect(block: any) {
+  //   console.log("Selected block:", block); // Debug: Check the full block object
+  //   if (!block) return; // Handle null/undefined case
+
+
+  //   this.blockDropDowntotleCost = block.totalCosting;
+  //   this.blockDropDownPerBlockWeight = block.weightPerBlock;
+  //   this.originalPurchaseCost = block.totalCosting;
+  //   if (block.blockProcessor) {
+  //     console.log('block.blockProcessor', block.blockProcessor);
+      
+  //     this.slabsAddForm.patchValue({
+  //       purchaseCost: block.totalCosting ? block.totalCosting.toFixed(2) : null,
+  //       width: block.width || null,
+  //       height: block.height || null,
+  //       length: block.length || null,
+  //       blockProcessor: block.blockProcessor && Object.keys(block.blockProcessor).length > 0 
+  //       ? block.blockProcessor 
+  //       : null, // Only set if not empty object or null
+  //     });
+
+  //     this.calculateTotalAmount();
+  //   } else {
+  //     this.slabsAddForm.get("blockProcessor")?.reset();
+  //   }
+  // }
+
   onBlockSelect(block: any) {
+    console.log("Selected block:", block); // Debug: Check the full block object
+    if (!block) return; // Handle null/undefined case
+
+    // Update component properties
     this.blockDropDowntotleCost = block.totalCosting;
     this.blockDropDownPerBlockWeight = block.weightPerBlock;
-    if (block.totalCosting) {
-      // Store the original value for calculations
-      this.originalPurchaseCost = block.totalCosting;
-      this.slabsAddForm.patchValue({
-        purchaseCost: block.totalCosting.toFixed(2) || null,
-      });
-      this.calculateTotalAmount();
-    }
-    if (block.blockProcessor) {
-      console.log(block.blockProcessor);
-      this.slabsAddForm.patchValue({
-        blockProcessor: block.blockProcessor,
-        width: block.width,
-        height: block.height,
-        length: block.length,
-      });
+    this.originalPurchaseCost = block.totalCosting;
 
-      this.calculateTotalAmount();
+    // Always patch these fields regardless of blockProcessor
+    this.slabsAddForm.patchValue({
+        purchaseCost: block.totalCosting ? block.totalCosting.toFixed(2) : null,
+        width: block.width || null,
+        height: block.height || null,
+        length: block.length || null,
+    });
+
+    // Handle blockProcessor separately
+    if (block.blockProcessor) {
+        console.log('block.blockProcessor', block.blockProcessor);
+        this.slabsAddForm.patchValue({
+            blockProcessor: block.blockProcessor && Object.keys(block.blockProcessor).length > 0 
+                ? block.blockProcessor 
+                : null, // Only set if not empty object or null
+        });
     } else {
-      this.slabsAddForm.get("blockProcessor")?.reset();
+        this.slabsAddForm.get("blockProcessor")?.reset();
     }
-  }
+
+    console.log("Patched form values:", this.slabsAddForm.value); // Debug: Verify form state
+    this.calculateTotalAmount();
+}
 
   calculateTotalAmount() {
     console.log("call");
