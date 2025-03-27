@@ -118,7 +118,6 @@ export class AddSlabPurchaseComponent {
   discountModifiedByUser: boolean = false;
 
   ngOnInit(): void {
-    
     this.previousSlabData =
       this.NewPurchaseService.getFormData("stepFirstSlabData");
 
@@ -745,25 +744,26 @@ if (this.isEditMode && this.previousSlabData) {
   }
 
   slabAddFormSubmit() {
+    this.calculateTotalAmount(); // Ensure calculations are up-to-date
     const formData = this.slabAddForm.value;
     console.log('formData',formData)
     if (this.slabTotalCost) {
       const payload = {
-        warehouseDetails: formData.warehouse,
-        vehicleNo: formData.vehicleNo,
-        transportationCharge: Number(formData.transportationCharge),
-        royaltyCharge: Number(formData.royaltyCharge),
+        warehouseDetails: formData?.warehouse,
+        vehicleNo: formData?.vehicleNo ? (formData.vehicleNo.length === 0 ? null : formData.vehicleNo) : null,
+        transportationCharge: Number(formData?.transportationCharge),
+        royaltyCharge: Number(formData?.royaltyCharge),
         slabDetails: this.slabDetails || [],
         slabTotalCost: Number(this.slabTotalCost)?.toFixed(2),
         totalCost: Number(formData?.totalCost)?.toFixed(2),
-        paidToSupplierSlabCost: Number(formData.paidToSupplierSlabCost),
-        purchaseDiscount: Number(formData.purchaseDiscount)?.toFixed(2),
-        nonTaxableAmount: Number(formData.nonTaxableAmount)?.toFixed(2),
-        taxableAmount: Number(formData.taxableAmount)?.toFixed(2),
-        taxable: Number(formData.taxable)?.toFixed(2),
-        purchaseItemTax: formData.ItemTax,
-        taxApplied: Number(formData.taxApplied)?.toFixed(2),
-        totalSQFT: Number(formData.totalSQFT),
+        paidToSupplierSlabCost: Number(formData?.paidToSupplierSlabCost),
+        purchaseDiscount: Number(formData?.purchaseDiscount)?.toFixed(2),
+        nonTaxableAmount: Number(formData?.nonTaxableAmount)?.toFixed(2),
+        taxableAmount: Number(formData?.taxableAmount)?.toFixed(2),
+        taxable: Number(formData?.taxable)?.toFixed(2),
+        purchaseItemTax: formData?.ItemTax,
+        taxApplied: Number(formData?.taxApplied)?.toFixed(2),
+        totalSQFT: Number(formData?.totalSQFT),
       };
       this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
     }
