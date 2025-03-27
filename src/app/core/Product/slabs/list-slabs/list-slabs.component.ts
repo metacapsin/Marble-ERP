@@ -552,7 +552,7 @@ this.getSlabsList();
   showSlabHistoryDetails(_id) {
     this.activeTabIndex = 0;
     this.service.getSlabHistoryById(_id).subscribe((resp: any) => {
-      const otherExpenses = resp.data.otherExpenses || [];
+      const otherExpenses = resp.data.SlabExpense || [];
       const slabProcessing = resp.data.slabProcessing || [];
 
       // Merge both arrays into one and add a type indicator
@@ -694,7 +694,7 @@ this.getSlabsList();
       .subscribe((resp: any) => {
         if (resp?.data) {
           // Extract individual arrays
-          const otherExpenses = resp.data.otherExpenses || [];
+          const otherExpenses = resp.data.SlabExpense || [];
           const slabProcessing = resp.data.slabProcessing || [];
 
           // Merge both arrays into one and add a type indicator

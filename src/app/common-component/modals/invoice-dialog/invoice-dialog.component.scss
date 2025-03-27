@@ -12,3 +12,58 @@
 .dropdown-menu a{
 cursor: pointer;
 }
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.info-icon {
+  width: 20px;
+  height: 20px;
+  color: #6366f1;
+  transition: color 0.3s ease;
+  vertical-align: middle;
+}
+
+.info-icon:hover {
+  color: #4338ca;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  position: absolute;
+  z-index: 1000;
+  bottom: 100%; /* Changed from bottom: 125% */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  .tooltip-text {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+  }
+}
+
+/* Ensure tooltip doesn't get cut off */
+td {
+  position: relative;
+  overflow: visible;
+}

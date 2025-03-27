@@ -18,6 +18,7 @@ import { RouterModule } from "@angular/router";
 import { QuotationsService } from "src/app/core/quotations/quotations.service";
 import { MessageService } from "primeng/api";
 import { SlabsService } from "src/app/core/Product/slabs/slabs.service";
+import { TooltipModule } from "primeng/tooltip";
 
 @Component({
   selector: "app-invoice-dialog",
@@ -31,6 +32,8 @@ import { SlabsService } from "src/app/core/Product/slabs/slabs.service";
     TabViewModule,
     ButtonModule,
     SharedModule,
+    TooltipModule,
+    ButtonModule
   ],
   templateUrl: "./invoice-dialog.component.html",
   styleUrl: "./invoice-dialog.component.scss",
@@ -73,6 +76,15 @@ export class InvoiceDialogComponent implements OnInit {
   clickMe() {
     console.log('salesDataById',this.salesDataById);
   }
+
+// Add this method to resolve the error
+getRemainingTaxRates(taxArray: any[]): string {
+  if (!taxArray || taxArray.length <= 1) {
+    return 'No Additional Tax Rates';
+  }
+  return taxArray.slice(1).map(tax => `${tax.taxRate}%`).join(', ');
+}
+
 
   downloadTaxInvoice(id: any, invoice: any) {
     if (!id) {

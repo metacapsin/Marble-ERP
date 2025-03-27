@@ -562,11 +562,32 @@
                           <td>{{ sales?.salesItemQuantity }}</td>
                           <td>{{ sales?.salesItemPieces }}</td>
                           <td>₹ {{ sales?.salesItemUnitPrice }}</td>
-                          <td>
-                            <ng-container *ngFor="let tax of sales?.salesItemTax; let last = last">
-                              {{ tax.taxRate }}{{ last ? '' : ', ' }}
+                          <td class="relative">
+                            <ng-container *ngIf="sales?.salesItemTax?.length === 1; else multipleTaxes">
+                              {{ sales?.salesItemTax[0]?.taxRate }}%
                             </ng-container>
+                            
+                            <ng-template #multipleTaxes>
+                              <span class="mr-2">{{ sales?.salesItemTax[0]?.taxRate }}%</span>
+                              <span class="tooltip-container">
+                                <svg 
+                                  xmlns="http://www.w3.org/2000/svg" 
+                                  viewBox="0 0 24 24" 
+                                  class="info-icon inline-block"
+                                >
+                                  <path 
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" 
+                                    fill="currentColor"
+                                  />
+                                </svg>
+                                <div class="tooltip-text">
+                                  {{ getRemainingTaxRates(sales?.salesItemTax) }}
+                                </div>
+                              </span>
+                            </ng-template>
                           </td>
+                        
+                          
                           <td>
                             ₹
                             {{
