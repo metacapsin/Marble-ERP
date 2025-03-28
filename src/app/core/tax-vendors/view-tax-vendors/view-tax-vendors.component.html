@@ -224,7 +224,7 @@
                   <p-tag severity="danger" value="Unpaid"></p-tag>
                 </td>
                 <td *ngIf="sales.taxVendor.paymentStatus == 'Partial Paid'">
-                  <p-tag severity="danger" value="Partial Paid"></p-tag>
+                  <p-tag severity="warning" value="Partial Paid"></p-tag>
                 </td>
                 <td>₹ {{ sales.taxVendor.paidAmount | indianCurrency }}</td>
                 <td>₹ {{ sales.taxVendor.dueAmount | indianCurrency }}</td>

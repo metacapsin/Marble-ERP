@@ -154,7 +154,16 @@
                         <td>{{data?.customer?.name}}</td>
                         <td>{{ data?.source }}</td>
                         <td>{{ data?.taxVendor?.vendorTaxApplied }}</td>
-                        <td>{{ data?.taxVendor?.paymentStatus }}</td>
+                        <!-- <td>{{ data?.taxVendor?.paymentStatus }}</td> -->
+                        <td *ngIf="data?.taxVendor?.paymentStatus == 'Partial Paid'">
+                          <p-tag severity="warning" value="Partial Paid"></p-tag>
+                        </td>
+                        <td *ngIf="data?.taxVendor?.paymentStatus == 'Paid'">
+                          <p-tag severity="success" value="Paid"></p-tag>
+                        </td>
+                        <td *ngIf="data?.taxVendor?.paymentStatus == 'Unpaid'">
+                          <p-tag severity="danger" value="Unpaid"></p-tag>
+                        </td>
                         <td>₹ {{ data?.taxVendor?.paidAmount | indianCurrency }}</td>
                         <td>₹ {{ data.taxVendor?.dueAmount | indianCurrency }}</td>
                         <td>₹ {{ data.taxVendor?.taxVendorAmount | indianCurrency }}</td>
@@ -225,7 +234,16 @@
                         <td>{{data?.supplier.name}}</td>
                         <td>{{ data?.source }}</td>
                         <td>{{ data?.taxVendor?.vendorTaxApplied }}</td>
-                        <td>{{ data?.taxVendor?.paymentStatus }}</td>
+                        <!-- <td>{{ data?.taxVendor?.paymentStatus }}</td> -->
+                        <td *ngIf="data?.taxVendor?.paymentStatus == 'Partial Paid'">
+                          <p-tag severity="warning" value="Partial Paid"></p-tag>
+                        </td>
+                        <td *ngIf="data?.taxVendor?.paymentStatus == 'Paid'">
+                          <p-tag severity="success" value="Paid"></p-tag>
+                        </td>
+                        <td *ngIf="data?.taxVendor?.paymentStatus == 'Unpaid'">
+                          <p-tag severity="danger" value="Unpaid"></p-tag>
+                        </td>
                         <td>₹ {{ data?.taxVendor?.paidAmount | indianCurrency }}</td>
                         <td>₹ {{ data.taxVendor?.dueAmount | indianCurrency }}</td>
                         <td>₹ {{ data.taxVendor?.taxVendorAmount | indianCurrency }}</td>
