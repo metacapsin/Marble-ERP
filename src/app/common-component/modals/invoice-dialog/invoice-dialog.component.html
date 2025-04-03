@@ -965,13 +965,13 @@
                           Transport Charges
                           <span>+ ₹
                             {{
-                            sales?.lotDetails ? sales?.transportationCharges *
+                            (sales?.lotDetails ? sales?.transportationCharges *
                             sales?.lotDetails?.lotWeight : sales?.transportationCharges||
                             sales?.lotDetails?.transportationCharge *
                             sales?.lotDetails?.lotWeight ||
                             sales?.lotDetails?.totalTransportationCharges *
                             sales?.lotDetails?.lotWeight ||
-                            0 | indianCurrency
+                            0 )| indianCurrency
                             }}</span>
                         </p>
                         <p *ngIf="sales?.lotDetails?.royaltyCharge">

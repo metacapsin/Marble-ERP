@@ -65,7 +65,7 @@ export class EditBillingAddressComponent implements OnInit {
       addressLine1:['',[Validators.required,Validators.pattern(validationRegex.billingAddressRegex)]],
       addressLine2:['',[Validators.pattern(validationRegex.billingAddressRegex)]],
       state:['',[Validators.required]],
-      taxNo: ['', [Validators.pattern(this.taxNumberRegex)]],
+      taxNo: [''],
       termsAndCondition:[''],
       subjectTo: [""],
     });

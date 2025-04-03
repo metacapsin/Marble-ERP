@@ -608,7 +608,7 @@
                     Available Stock
                   </h5>
                   <div class="col-lg-9 col-md-9 col-xl-9">
-                    <p class="col-form-label">{{ slabDetail?.totalSQFT }} Sq. Feet</p>
+                    <p class="col-form-label">{{ slabDetail?.totalSQFT | indianCurrency}} Sq. Feet</p>
                   </div>
                 </div>
                 <div class="form-group row mb-2">
@@ -1148,7 +1148,7 @@
                     {{
                       slabDetailsOfSlabHistory[0]?.totalSlabSQFT
                         ? slabDetailsOfSlabHistory[0]?.totalSlabSQFT
-                        : "0"
+                        : "0"| indianCurrency
                     }} Sq.Feet
                   </p>
                 </div>
@@ -1169,14 +1169,14 @@
               </div>
               <div class="form-group row mb-2">
                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                  Available Stock
+                  Available Stockff
                 </h5>
                 <div class="col-lg-8 col-md-8 col-xl-8">
                   <p class="col-lg-9 col-form-label">
                     {{
-                      slabDetailsOfSlabHistory[0]?.currentSlabSQFT
+                     ( slabDetailsOfSlabHistory[0]?.currentSlabSQFT
                         ? slabDetailsOfSlabHistory[0]?.currentSlabSQFT
-                        : "0"
+                        : "0")| indianCurrency
                     }} Sq.Feet
                   </p>
                 </div>

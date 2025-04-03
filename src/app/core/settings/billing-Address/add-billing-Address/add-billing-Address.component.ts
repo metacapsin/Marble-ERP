@@ -92,7 +92,7 @@ export class AddBillingAddressComponent implements OnInit {
         "",
         [Validators.required],
       ],
-      taxNo: ["", [Validators.pattern(this.taxNumberRegex)]],
+      taxNo: [""],
       termsAndCondition: [""],
       subjectTo: [""],
     });
