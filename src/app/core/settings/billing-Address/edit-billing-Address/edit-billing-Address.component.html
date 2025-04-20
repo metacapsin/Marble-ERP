@@ -208,7 +208,7 @@
                         [style]="{ width: '100%' }"
                         [filter]="true"
                         filterBy="name"
-                        [showClear]="true"
+                        [showClear]="false"
                       >
                       </p-dropdown>
                       <div
@@ -229,12 +229,26 @@
                       <label for="state"
                         >State<span class="login-danger">*</span></label
                       >
-                      <input
+                      <!-- <input
                         class="form-control bor"
                         type="text"
                         formControlName="state"
                         placeholder
-                      />
+                      /> -->
+                      <p-dropdown
+                      [options]="StatesList"
+                      appendTo="body"
+                      optionLabel="name"
+                      placeholder="Select Country"
+                      formControlName="state"
+                      [style]="{ width: '100%' }"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="false">
+                      <ng-template let-option pTemplate="item">
+                        <div>{{ option.name }} ({{ option.code }})</div>
+                      </ng-template>
+                    </p-dropdown>
                       <div
                         *ngIf="
                           editBillingAddress
@@ -397,6 +411,46 @@
                       >
                       Please enter a valid email.
                       </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="taxNo">GST/Tax Number<span class="login-danger"></span></label>
+                      <input class="form-control" type="text" placeholder="Please Enter Tax Number"
+                        formControlName="taxNo" />
+                      <div *ngIf="
+                            editBillingAddress
+                              .get('taxNo')
+                              ?.hasError('pattern') &&
+                            editBillingAddress.get('taxNo')?.touched
+                          " class="login-danger Font_size">
+                          GST/Tax Number should be of 15 characters and alphanumeric
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="termsAndCondition">Terms & Conditions</label>
+                      <input class="form-control" type="text" placeholder="Terms & Conditions"
+                        formControlName="termsAndCondition" />
+                      <!-- <div *ngIf="
+                            addBillingAddress
+                              .get('termsAndCondition')
+                              ?.hasError('pattern') &&
+                            addBillingAddress.get('termsAndCondition')?.touched
+                          " class="login-danger Font_size">
+                        Tax Number should be of 15 characters and alphanumeric
+                      </div> -->
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="subjectTo">Subject To</label>
+                      <input class="form-control" type="text" placeholder="Subject"
+                        formControlName="subjectTo" />
                     </div>
                   </div>
 

@@ -101,7 +101,7 @@
 
                 <div class="col-12 col-md-6 col-xl-6">
                   <div class="form-group local-forms">
-                    <label for="taxNo">Tax Number<span class="login-danger"></span></label>
+                    <label for="taxNo">GST / Tax Number<span class="login-danger"></span></label>
                     <input class="form-control" type="text" placeholder="Please Enter Tax Number"
                       formControlName="taxNo" />
                     <div *ngIf="
@@ -115,7 +115,8 @@
                   </div>
                 </div>
 
-                <div class="col-12 col-md-6 col-xl-6">
+                <!-- comment by ravi  -->
+                <!-- <div class="col-12 col-md-6 col-xl-6">
                   <div class="form-group local-forms">
                     <label for="creditLimit">Credit Limit<span class="login-danger"></span></label>
                     <div class="input-group">
@@ -141,13 +142,13 @@
                       Credit Amount cannot not be more than 7 digit number.
                     </div>
                   </div>
-                </div>
+                </div> -->
 
                 <div class="col-12 col-md-6 col-xl-6">
                   <div class="form-group local-forms">
                     <label for="billingAddress">Billing Address</label>
                     <textarea class="form-control" type="text" placeholder="Please Enter Billing Address"
-                      formControlName="billingAddress" rows="1"></textarea>
+                      formControlName="billingAddress" rows="2"></textarea>
 
                     <div *ngIf="
                           addcustomerGroup
@@ -164,7 +165,7 @@
                   <div class="form-group local-forms">
                     <label for="shippingAddress">Shipping Address</label>
                     <textarea class="form-control" type="text" placeholder="Please Enter Shipping Address"
-                      formControlName="shippingAddress" rows="1"></textarea>
+                      formControlName="shippingAddress" rows="2"></textarea>
 
                     <div *ngIf="
                           addcustomerGroup
@@ -176,6 +177,51 @@
                     </div>
                   </div>
                 </div>
+                
+                  <div class="col-12 col-md-6 d-flex col-xl-6">
+                    <div class="form-group local-forms w-100">
+                      <label for="openingbalance">Opening Balance</label>
+                      <input 
+                        class="form-control" 
+                        type="Number"
+                        placeholder="Please Enter Opening Balance"
+                        formControlName="openingbalance" 
+                        rows="1" />
+                     
+                    </div>
+                    <div class="form-group local-forms w-100">
+                      <label for="balanceType">Balance Type</label>
+                      <select class="form-control" id="balanceType"  formControlName="balanceType">
+                        <option selected>Received</option>
+                      </select>
+                    </div>
+                  </div>
+                
+                  <div class="col-12 col-md-6 d-flex col-xl-6">
+                    <div class="form-group local-forms w-100">
+                      <label for="openingbalance">Pan Number</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        (input)="toUpperCase($event)"
+                        placeholder="Please Enter Pan Card Number"
+                        formControlName="penCardNumber"
+                      />
+                      <div
+                        *ngIf="
+                          addcustomerGroup
+                            .get('penCardNumber')
+                            ?.hasError('pattern') &&
+                          addcustomerGroup.get('penCardNumber')?.touched
+                        "
+                      >
+                        <span class="login-danger"
+                          >Please Enter Valid Pan Number</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                
               </div>
             </form>
           </div>

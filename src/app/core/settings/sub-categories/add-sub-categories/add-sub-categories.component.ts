@@ -29,6 +29,7 @@ export class AddSubCategoriesComponent {
     this.addSubCategoryForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
       categoryId: ["", [Validators.required]],
+      hsnCode:["",[Validators.required]],
       description: ["", [Validators.pattern(validationRegex.descriptionRegex)]],
     });
   }

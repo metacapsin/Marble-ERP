@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { MessageService } from "primeng/api";
+import { PaymentInService } from "src/app/core/payment-in/payment-in.service";
 import { PurchaseService } from "src/app/core/purchase/purchase.service";
 import { SalesService } from "src/app/core/sales/sales.service";
 import { AESEncryptDecryptService } from "src/app/shared/auth/AESEncryptDecryptService ";
@@ -194,7 +195,8 @@ export class HeaderComponent {
     public messageService: MessageService,
     // private salesService: SalesService,
     // private purchaseService: PurchaseService,
-    private combinedPaymentService: CombinedPaymentService
+    private combinedPaymentService: CombinedPaymentService,
+    private paymentservice: PaymentInService
   ) {
     this.sideBar.toggleSideBar.subscribe((res: string) => {
       if (res == "true") {
@@ -236,11 +238,11 @@ export class HeaderComponent {
 
   toggleFullScreen() {
     if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
+      document.documentElement.requestFullscreen();
     } else if (document.exitFullscreen) {
-        document.exitFullscreen();
+      document.exitFullscreen();
     }
-}
+  }
   private getRoutes(route: { url: string }): void {
     const bodyTag = document.body;
 
@@ -342,26 +344,37 @@ export class HeaderComponent {
   // }
 
   loadLatestPayments(): void {
-    this.combinedPaymentService.getCombinedPayments().subscribe(
-      (data: Payment[]) => {
-        console.log("This is the latest 10 payments:", data);
-        this.latestPayments = data.sort(
+    // this.combinedPaymentService.getCombinedPayments().subscribe(
+    //   (data: Payment[]) => {
+    //     console.log("This is the latest 10 payments:", data);
+    //     this.latestPayments = data.sort(
+    //       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    //     );
+    //   },
+    //   (error) => {
+    //     const message = error.message;
+    //     this.messageService.add({ severity: "warn", detail: message });
+    //     console.error("Error fetching payments:", error);
+    //   }
+    // );
+
+    this.paymentservice.getLatestPaymentList().subscribe(
+      (data: any) => {
+        console.log("object", data);
+        this.latestPayments = data?.data.sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         );
-        // this.paymentIDs = data.map((payment) => ({
-        //   salesId: payment.salesId,
-        //   purchaseId: payment.purchaseId,
-        // })); // Store salesId and purchaseId payment IDs
-        // console.log(
-        //   "This is the latest 10 sales and purchase payments ids:",
-        //   this.paymentIDs
-        // );
+
+        console.log('this.latestPayments',this.latestPayments)
       },
+     
       (error) => {
         const message = error.message;
         this.messageService.add({ severity: "warn", detail: message });
         console.error("Error fetching payments:", error);
       }
+
+      
     );
   }
   public toggleSideBar(): void {
@@ -384,5 +397,12 @@ export class HeaderComponent {
       root.classList.remove("menu-opened");
       sidebar.classList.remove("opened");
     }
+  }
+
+  logOut(){
+    localStorage.removeItem('lastSelectDate')
+    localStorage.removeItem('Private Key for My EMR_token')
+    localStorage.removeItem('currentUser')
+    this.router.navigate(['/login']);
   }
 }

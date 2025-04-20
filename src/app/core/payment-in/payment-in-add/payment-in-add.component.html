@@ -211,10 +211,10 @@
                           <div class="form-group local-forms">
                             <label for="taxablePaymentAmount">Taxable Amount</label>
                             <p-inputGroup>
-                              <input type="number" class="form-control" style="width: 50%"
+                              <input type="number" class="form-control" style="width: 50%" (change)="fillTaxvalue($event)"
                                 formControlName="taxablePaymentAmount" />
                               <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
-                                [options]="paymentModeList" appendTo="body" optionLabel="paymentMode"
+                                [options]="paymentModeList" appendTo="body" optionLabel="paymentMode" (onChange)="filltaxablemode($event)"
                                 formControlName="taxablePaymentMode" optionValue="paymentMode"></p-dropdown>
                             </p-inputGroup>
                             <span style="color: #97704f; font-size: 12px; 
@@ -239,10 +239,10 @@
                           <div class="form-group local-forms">
                             <label for="nonTaxablePaymentAmount">Non Taxable Amount</label>
                             <p-inputGroup>
-                              <input type="number" class="form-control" style="width: 50%"
+                              <input type="number" class="form-control" style="width: 50%"  (change)="fillNontaxvalue($event)"
                                 formControlName="nonTaxablePaymentAmount" />
                               <p-dropdown [style]="{ width: '100%' }" placeholder="Payment Mode"
-                                [options]="paymentModeList" appendTo="body" optionLabel="paymentMode"
+                                [options]="paymentModeList" appendTo="body" optionLabel="paymentMode" (onChange)="fillNontaxablemode($event)"
                                 formControlName="nonTaxablePaymentMode" optionValue="paymentMode"></p-dropdown>
                             </p-inputGroup>
                             <span style="color: #97704f; font-size: 12px; 

@@ -112,11 +112,22 @@ export class StockAdjustmentListComponent implements OnInit {
       this.allInDropDown = this.stockAdjustmentDataList;
     }
   }
+ 
+        
+   
+     
+   
   
   
   getAdjustmentList(): void {
     this.service.getAdjustmentList().subscribe((resp: any) => {
-      this.stockAdjustmentDataList = resp.data;
+      this.stockAdjustmentDataList =resp.data.map((element) => ({
+        ...element,
+        displayName: `${element.slabs.slabName} (${element.slabs.slabNo})`,
+        previousQty: element.previousQty ? parseFloat(element.previousQty).toFixed(2) : "0.00",
+        quantity: element.quantity ? parseFloat(element.quantity).toFixed(2) : "0.00",
+        currentQty: element.currentQty ? parseFloat(element.currentQty).toFixed(2) : "0.00",
+      }));
       this.originalData = resp.data;
       this.cols = [
         { field: "createdOn", header: "Created On" },
@@ -198,7 +209,7 @@ export class StockAdjustmentListComponent implements OnInit {
       (resp: any) => {
         this.originalSlabData = resp.data;
         this.slabData = resp.data.map((element) => ({
-          name: element.slabName,
+          name: `${element.slabName} (${element.slabNo})`,
           _id: {
             _id: element._id,
             slabName: element.slabName,

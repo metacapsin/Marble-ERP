@@ -30,14 +30,13 @@ export class TaxVendorListComponent {
   ) {}
 
   ngOnInit(): void {
-  this.getTaxVendorsList();
-
+    this.getTaxVendorsList();
   }
 
-  getTaxVendorsList(){
+  getTaxVendorsList() {
     this.TaxVendorsService.getTaxVendorList().subscribe((resp: any) => {
       this.taxVendorList = resp.data;
-
+      console.log(this.taxVendorList);
       this.cols = [
         { field: "companyName", header: "Company Name" },
         { field: "country.name", header: "Country Name" },
@@ -64,8 +63,8 @@ export class TaxVendorListComponent {
     this.router.navigate([`/tax-vendors/view-tax-vendor/${_id}`]);
   }
   deleteTaxVendors(_id: any) {
-    console.log("delete dialog open")
-    console.log(_id._id)
+    console.log("delete dialog open");
+    console.log(_id._id);
     this.taxVendorId = _id;
 
     this.modalData = {
@@ -79,13 +78,13 @@ export class TaxVendorListComponent {
     this.showDialoge = false;
   }
   callBackModal() {
-    this.TaxVendorsService.deleteTaxVendor(this.taxVendorId._id).subscribe((resp:any) => {
-      let message = "Tax Vendors has been Deleted"
-      this.messageService.add({ severity: 'success', detail:message });
-      this.getTaxVendorsList();
-      this.showDialoge = false;
-    })
-
-
+    this.TaxVendorsService.deleteTaxVendor(this.taxVendorId._id).subscribe(
+      (resp: any) => {
+        let message = "Tax Vendors has been Deleted";
+        this.messageService.add({ severity: "success", detail: message });
+        this.getTaxVendorsList();
+        this.showDialoge = false;
+      }
+    );
   }
 }

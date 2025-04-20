@@ -8,6 +8,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
+
 import { MultiSelectModule } from "primeng/multiselect";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
@@ -21,12 +22,11 @@ import { MessageService } from "primeng/api";
 import { SalesReturnService } from "../sales-return.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastModule } from "primeng/toast";
+import { SalesService } from "../../sales/sales.service";
 @Component({
   selector: "app-edit-sales-return",
   standalone: true,
-  imports: [
-    SharedModule,
-  ],
+  imports: [SharedModule],
   templateUrl: "./edit-sales-return.component.html",
   styleUrl: "./edit-sales-return.component.scss",
   providers: [MessageService],
@@ -49,14 +49,14 @@ export class EditSalesReturnComponent {
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
-  tandCRegex = /^(?:.{2,200})$/;
+  tandCRegex = /^[\s\S]{2,100}$/;
   orderStatusList = [
-    { orderStatus: "Ordered" },
-    { orderStatus: "Confirmed" },
+    { orderStatus: "Accepted" },
+    { orderStatus: "Pending" },
     { orderStatus: "Processing" },
-    { orderStatus: "Shipping" },
-    { orderStatus: "Delivered" },
+    { orderStatus: "Rejected" },
   ];
+  salesInvoiceList: any;
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
@@ -67,7 +67,8 @@ export class EditSalesReturnComponent {
     private customerService: CustomersdataService,
     private CategoriesService: CategoriesService,
     private taxService: TaxesService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private salesService: SalesService
   ) {
     this.editReturnSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
@@ -82,10 +83,11 @@ export class EditSalesReturnComponent {
       salesGrossTotal: [""],
       returnOrderStatus: ["", [Validators.required]],
       salesOrderTax: [""],
+      returnOtherCharges: [""],
       appliedTax: [""],
       salesShipping: ["", [Validators.min(0)]],
       salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
-      salesTotalAmount: ["",[Validators.min(1)]],
+      salesTotalAmount: ["", [Validators.min(1)]],
       otherCharges: ["", [Validators.min(0)]],
     });
 
@@ -123,6 +125,7 @@ export class EditSalesReturnComponent {
           _id: {
             _id: element._id,
             name: element.name,
+            billingAddress: element.billingAddress,
           },
         });
       });
@@ -161,6 +164,8 @@ export class EditSalesReturnComponent {
         // });
         // this.addTaxTotal = resp.data.salesGrossTotal * totalTax / 100;
 
+        console.log("resp", this.editReturnSalesForm.value);
+
         this.patchForm(resp.data);
       }
     );
@@ -168,7 +173,116 @@ export class EditSalesReturnComponent {
     this.calculateTotalAmount();
   }
 
+  onCustomerSelect(value: any) {
+    console.log("customer value", value);
+    this.salesItemDetails.clear();
+
+    this.salesService
+      .getAllSalesByCustomerId(value._id)
+      .subscribe((resp: any) => {
+        this.salesInvoiceList = resp.data;
+
+        console.log("All Sales", resp.data);
+      });
+  }
+  onInvoiceSelect(value: any) {
+    console.log("invoice value", value);
+    this.salesItemDetails.clear();
+    const returnOtherCharges = this.editReturnSalesForm?.get('returnOtherCharges')?.value || 0;
+    this.editReturnSalesForm.patchValue({
+      salesInvoiceNumber: value,
+    });
+    // this.addsalesReturnItemDetailsItem(value.salesItemDetails);
+    const salesArray = this.editReturnSalesForm.get(
+      "salesItemDetails"
+    ) as FormArray;
+
+    value?.salesItemDetails?.forEach((sale) => {
+      salesArray.push(
+        this.fb.group({
+          salesItemProduct: [sale.salesItemProduct],
+          salesItemQuantity: [
+            sale.salesItemQuantity,
+            [Validators.max(sale.salesItemQuantity)],
+          ],
+          salesItemSubTotal: [sale.salesItemSubTotal],
+          salesItemTax: [sale.salesItemTax],
+          salesItemTaxAmount: [sale.salesItemTaxAmount],
+          salesItemUnitPrice: [sale.salesItemUnitPrice],
+          salesWarehouseDetails: [sale.salesWarehouseDetails],
+        })
+      );
+    });
+
+    this.editReturnSalesForm.patchValue({
+      salesGrossTotal: value.salesGrossTotal,
+      billingAddress: value.billingAddress,
+      // salesDiscount: value.salesDiscount,
+      // salesShipping: value.salesShipping,
+      // otherCharges: value.otherCharges,
+      salesTotalAmount: (value.salesGrossTotal - returnOtherCharges),
+    });
+  }
+
+  // calculateTotalAmount() {
+  //   let salesGrossTotal = 0;
+
+  //   const salesItems = this.editReturnSalesForm.get(
+  //     "salesItemDetails"
+  //   ) as FormArray;
+
+  //   salesItems.controls.forEach((item: FormGroup) => {
+  //     const quantity = +item.get("salesItemQuantity").value || 0;
+  //     const unitPrice = +item.get("salesItemUnitPrice").value || 0;
+  //     const tax = item.get("salesItemTax").value || [];
+
+  //     let totalTaxAmount = 0;
+  //     if (Array.isArray(tax)) {
+  //       tax.forEach((selectedTax: any) => {
+  //         totalTaxAmount += (quantity * unitPrice * selectedTax.taxRate) / 100;
+  //       });
+  //     } else {
+  //       totalTaxAmount = (quantity * unitPrice * tax) / 100;
+  //     }
+
+  //     const subtotal = quantity * unitPrice + totalTaxAmount;
+
+  //     salesGrossTotal += subtotal;
+  //     item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2));
+  //     item.get("salesItemSubTotal").patchValue(subtotal.toFixed(2));
+  //   });
+
+  //   // Update the total gross amount
+  //   this.editReturnSalesForm
+  //     .get("salesGrossTotal")
+  //     .setValue(salesGrossTotal.toFixed(2));
+
+  //   let totalAmount = salesGrossTotal;
+
+  //   const discount = +this.editReturnSalesForm.get("salesDiscount").value || 0;
+  //   const shipping = +this.editReturnSalesForm.get("salesShipping").value || 0;
+  //   const otherCharges =
+  //     +this.editReturnSalesForm.get("otherCharges").value || 0;
+
+  //   totalAmount -= discount;
+  //   totalAmount += shipping;
+  //   totalAmount += otherCharges;
+  //   const returnOtherCharges =
+  //     +this.editReturnSalesForm.get("returnOtherCharges").value || 0;
+  //   totalAmount -= returnOtherCharges;
+
+  //   this.editReturnSalesForm.patchValue({
+  //     salesTotalAmount: totalAmount.toFixed(2),
+  //     salesDiscount: discount.toFixed(2),
+  //     salesShipping: shipping.toFixed(2),
+  //     otherCharges: otherCharges.toFixed(2),
+  //     returnOtherCharges: returnOtherCharges,
+  //   });
+  // }
+  
   calculateTotalAmount() {
+    console.log('salesGrossTotal');
+    
     let salesGrossTotal = 0;
 
     const salesItems = this.editReturnSalesForm.get(
@@ -179,43 +293,26 @@ export class EditSalesReturnComponent {
       const quantity = +item.get("salesItemQuantity").value || 0;
       const unitPrice = +item.get("salesItemUnitPrice").value || 0;
       const tax = item.get("salesItemTax").value || [];
-
-      let totalTaxAmount = 0;
-      if (Array.isArray(tax)) {
-        tax.forEach((selectedTax: any) => {
-          totalTaxAmount += (quantity * unitPrice * selectedTax.taxRate) / 100;
-        });
-      } else {
-        totalTaxAmount = (quantity * unitPrice * tax) / 100;
-      }
-
-      const subtotal = quantity * unitPrice + totalTaxAmount;
+      const salesItemTaxAmount = item.get("salesItemTaxAmount").value || 0;
+      const subtotal = quantity * unitPrice + salesItemTaxAmount;
 
       salesGrossTotal += subtotal;
-      item.get("salesItemTaxAmount").setValue(totalTaxAmount.toFixed(2));
-      item.get("salesItemSubTotal").patchValue(subtotal.toFixed(2));
+      // item.get("salesItemTaxAmount").setValue(Number(totalTaxAmount.toFixed(2)));
+      item.get("salesItemSubTotal").patchValue(Number(subtotal.toFixed(2)));
     });
 
     // Update the total gross amount
     this.editReturnSalesForm
       .get("salesGrossTotal")
-      .setValue(salesGrossTotal.toFixed(2));
+      .setValue(Number(salesGrossTotal.toFixed(2)));
 
     let totalAmount = salesGrossTotal;
-    const discount = +this.editReturnSalesForm.get("salesDiscount").value || 0;
-    const shipping = +this.editReturnSalesForm.get("salesShipping").value || 0;
-    const otherCharges =
-      +this.editReturnSalesForm.get("otherCharges").value || 0;
-
-    totalAmount -= discount;
-    totalAmount += shipping;
-    totalAmount += otherCharges;
+    const returnOtherCharges = +this.editReturnSalesForm.get("returnOtherCharges").value || 0;
+    totalAmount -= returnOtherCharges;
 
     this.editReturnSalesForm.patchValue({
-      salesTotalAmount: totalAmount.toFixed(2),
-      salesDiscount: discount.toFixed(2),
-      salesShipping: shipping.toFixed(2),
-      otherCharges: otherCharges.toFixed(2),
+      salesTotalAmount: Number(totalAmount.toFixed(2)),
+      returnOtherCharges: returnOtherCharges,
     });
   }
 
@@ -223,33 +320,35 @@ export class EditSalesReturnComponent {
     // data?.appliedTax?.forEach(element => {
     //   delete element.tenantId;
     // });
+    console.log("data>>>..", data);
     this.editReturnSalesForm.patchValue({
       salesInvoiceNumber: data.salesInvoiceNumber,
       customer: data.customer,
       returnDate: data.returnDate,
       returnOrderStatus: data.returnOrderStatus,
-      // salesOrderTax: data.appliedTax,
+      returnOtherCharges: data.returnOtherCharges,
       salesGrossTotal: data.salesGrossTotal,
       salesDiscount: data.salesDiscount,
       salesShipping: data.salesShipping,
       salesTermsAndCondition: data.salesTermsAndCondition,
       salesNotes: data.salesNotes,
       salesTotalAmount: data.salesTotalAmount,
-      otherCharges: data.otherCharges,
     });
-
     this.salesItemDetails.patchValue(data.salesItemDetails);
+    this.onCustomerSelect(data.customer);
+
+    setTimeout(()=>{
+      console.log('this.salesInvoiceList',this.salesInvoiceList)
+      let invoice =  this.salesInvoiceList?.find((item)=>item.salesInvoiceNumber === data.salesInvoiceNumber)
+      console.log('invv',invoice)
+      this.onInvoiceSelect(invoice)
+    },200)
+
+    this.calculateTotalAmount();
   }
 
   editReturnSalesFormSubmit() {
     const formData = this.editReturnSalesForm.value;
-
-    // let totalTax = 0
-    // if(formData.salesOrderTax){
-    //   formData.salesOrderTax.forEach((element) => {
-    //       totalTax = totalTax + element.taxRate;
-    //     });
-    // }
     const payload = {
       customer: formData.customer,
       returnDate: formData.returnDate,
@@ -259,7 +358,7 @@ export class EditSalesReturnComponent {
       salesNotes: formData.salesNotes,
       salesGrossTotal: Number(formData.salesGrossTotal),
       returnOrderStatus: formData.returnOrderStatus,
-      // salesOrderTax: totalTax,
+      returnOtherCharges: formData.returnOtherCharges,
       salesShipping: Number(formData.salesShipping),
       // appliedTax: formData.salesOrderTax,
       salesTermsAndCondition: formData.salesTermsAndCondition,

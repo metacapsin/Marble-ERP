@@ -36,7 +36,7 @@ export class AddQuotationsComponent implements OnInit {
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
-  tandCRegex = /^(?:.{2,200})$/;
+  tandCRegex = /^[\s\S]{2,100}$/;
   customer: any[] = [];
   returnUrl: string;
   wareHousedataListsEditArray: any[];
@@ -49,6 +49,9 @@ export class AddQuotationsComponent implements OnInit {
   dropAddress: any;
   addressVisible: boolean;
   customerAddress: any;
+  BuyerData: any;
+  UpdtshippingAddress: any;
+  isUpdateAddress: boolean;
 
   constructor(
     private router: Router,
@@ -64,9 +67,9 @@ export class AddQuotationsComponent implements OnInit {
     private BillingAddressService: BillingAddressService
   ) {
     this.addQuotationForm = this.fb.group({
-      customer: ["",[Validators.required]],
+      customer: ["", [Validators.required]],
       billingAddress: [""],
-      quotationDate: ["", [Validators.required]],
+      quotationDate: [new Date().toLocaleDateString("en-US"), [Validators.required]],
       quotationDiscount: ["", [Validators.min(0), Validators.max(100000)]],
       quotationInvoiceNumber: [""],
       quotationItemDetails: this.fb.array([
@@ -78,6 +81,7 @@ export class AddQuotationsComponent implements OnInit {
             [Validators.required, Validators.min(0)],
           ],
           quotationItemTax: [""],
+          quotationItempieces:[''],
           quotationItemTaxAmount: [""],
           quotationItemSubTotal: ["", [Validators.required, Validators.min(0)]],
           maxQuantity: [" "],
@@ -244,6 +248,55 @@ export class AddQuotationsComponent implements OnInit {
     const data = this.addQuotationForm.get("customer").value;
     console.log(data);
     this.customerAddress = data.billingAddress;
+
+    this.BuyerData = data;
+    console.log("  this.BuyerData", this.BuyerData);
+  }
+
+  openShippingPopup() {
+    this.UpdtshippingAddress = this.BuyerData?.shippingAddress;
+    this.isUpdateAddress = true;
+  }
+
+  UpdateShippingAddress() {
+    let customer = this.originalCustomerData.find(
+      (item) => item?._id === this.BuyerData?._id
+    );
+    console.log("customer", customer);
+
+    let payload = {
+      shippingAddress: this.UpdtshippingAddress,
+      phoneNo: customer.phoneNo,
+      name: customer.name,
+      _id: customer._id,
+    };
+
+    this.customerService.UpDataCustomerApi(payload).subscribe((resp: any) => {
+      if (resp.status === "success") {
+        const value = this.addQuotationForm.get("customer").value;
+        let data = {
+          billingAddress: value.billingAddress,
+          name: value.name,
+          shippingAddress: this.UpdtshippingAddress,
+          taxNo: value.taxNo,
+          _id: value._id,
+        };
+
+        // this.addSalesForm.patchValue({
+        //   customer: data,
+        // });
+
+        this.BuyerData = data;
+        this.customerAddress = data.billingAddress;
+        // this.getCustomer();
+        this.isUpdateAddress = false;
+      }
+    });
+  }
+
+  // Close the popup (if needed)
+  closeEwayBillPopup() {
+    this.isUpdateAddress = false;
   }
   getCustomer() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
@@ -254,6 +307,7 @@ export class AddQuotationsComponent implements OnInit {
           _id: element._id,
           name: element.name,
           billingAddress: element.billingAddress,
+          shippingAddress: element.shippingAddress,
         },
       }));
     });
@@ -355,9 +409,13 @@ export class AddQuotationsComponent implements OnInit {
     totalAmount += shipping;
     totalAmount += otherCharges;
     if (discount >= quotationGrossTotal) {
-      this.addQuotationForm.get("quotationDiscount").setErrors({ 'invalid': true });
+      this.addQuotationForm
+        .get("quotationDiscount")
+        .setErrors({ invalid: true });
       if (discount === quotationGrossTotal) {
-        this.addQuotationForm.get("quotationDiscount").setErrors({ 'equalToGrossTotal': true });
+        this.addQuotationForm
+          .get("quotationDiscount")
+          .setErrors({ equalToGrossTotal: true });
       }
     } else {
       this.addQuotationForm.get("quotationDiscount").setErrors(null);

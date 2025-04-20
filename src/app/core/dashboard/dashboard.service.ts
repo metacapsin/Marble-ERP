@@ -67,4 +67,24 @@ export class dashboardService {
       environment.apiUrl + "/DashboardController/getStockWarehouseWise");
   }
 
+ getUpdatedTime(){
+  return this.http.get(
+    environment.apiUrl + '/Preference/getPreference'
+  )
+ }
+
+ updAtedateRange(date:any){
+  return this.http.put(
+    environment.apiUrl + '/Preference/updatePreference',date
+  )
+ }
+
+ getFormattedDate(date: Date): any {
+  const day = String(date.getDate()).padStart(2, '0'); 
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+
+  return `${month}/${day}/${year}`;
+}
+
 }

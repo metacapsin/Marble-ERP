@@ -37,7 +37,7 @@ export class EditQuotationsComponent {
 
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
-  tandCRegex = /^(?:.{2,200})$/;
+  tandCRegex =  /^[\s\S]{2,100}$/;
   customer: any[] = [];
   returnUrl: string;
   wareHousedataListsEditArray: any[];
@@ -52,6 +52,9 @@ export class EditQuotationsComponent {
   orgAddress: any;
   dropAddress: any[];
   addQuotationForm: any;
+  UpdtshippingAddress: any;
+  isUpdateAddress: boolean;
+  BuyerData: any;
 
   constructor(
     private router: Router,
@@ -269,10 +272,50 @@ export class EditQuotationsComponent {
     this.addressVisible = true;
   }
 
-  setCustomer() {
+  setCustomer(value) {
+    console.log("customer", value);
     const data = this.editQuotationForm.get("customer").value;
-    console.log(data);
+    this.BuyerData = data;
     this.customerAddress = data.billingAddress;
+  }
+
+  UpdateShippingAddress() {
+    let customer = this.originalCustomerData.find(
+      (item) => item?._id === this.BuyerData?._id
+    );
+    console.log("customer", customer);
+
+    let payload = {
+      shippingAddress: this.UpdtshippingAddress,
+      phoneNo: customer.phoneNo,
+      name: customer.name,
+      _id: customer._id,
+    };
+
+    this.customerService.UpDataCustomerApi(payload).subscribe((resp: any) => {
+      if (resp.status === "success") {
+        const value = this.editQuotationForm.get("customer").value;
+        let data = {
+          billingAddress: value.billingAddress,
+          name: value.name,
+          shippingAddress: this.UpdtshippingAddress,
+          taxNo: value.taxNo,
+          _id: value._id,
+        };
+
+        console.log("data<<<<<", data);
+
+        // this.editQuotationForm.patchValue({
+        //   customer:data
+        // })
+        console.log(" this.editQuotationForm<<<<<", this.editQuotationForm.value);
+
+        this.BuyerData = data;
+        this.customerAddress = data.billingAddress;
+        // this.getCustomer();
+        this.isUpdateAddress = false;
+      }
+    });
   }
   getCustomer() {
     this.customerService.GetCustomerData().subscribe((resp: any) => {
@@ -286,10 +329,23 @@ export class EditQuotationsComponent {
           _id: element._id,
           name: element.name,
           billingAddress: element.billingAddress,
+          shippingAddress: element.shippingAddress,
         },
       }));
     });
   }
+
+  openShippingPopup() {
+    this.UpdtshippingAddress = this.BuyerData?.shippingAddress;
+    this.isUpdateAddress = true;
+  }
+  
+  // Close the popup (if needed)
+  closeEwayBillPopup() {
+    this.isUpdateAddress = true;
+  }
+  
+
   onSlabSelect(value, i) {
     const quotationItemDetailsArray = this.editQuotationForm.get(
       "quotationItemDetails"
@@ -413,7 +469,7 @@ export class EditQuotationsComponent {
       quotationTotalAmount: data.quotationTotalAmount,
       otherCharges: data.otherCharges,
     });
-
+    this.setCustomer(data.customer);
     this.quotationItemDetails.clear(); // Clear existing items
 
     // Patch sales item details and disable product field

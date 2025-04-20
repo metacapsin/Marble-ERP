@@ -18,7 +18,6 @@ import { IndianCurrencyPipe } from './shared/directives/indian-currency.pipe';
 
 
 @NgModule({
-  // providers: [IndianCurrencyPipe],
   declarations: [
     AppComponent
   ],

@@ -30,40 +30,55 @@ export class AddCustomersComponent implements OnInit {
   statusArray = [{ name: "Enabled" }, { name: "Disabled" }];
 
   // personNameRegex = /^[A-Za-z](?!.*\s{2})[A-Za-z. ]{2,28}[A-Za-z.]$/;
-  personNameRegex = /^(?=.*[A-Za-z])[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
-  taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{15}$/;
-  emailRegex: string = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+  personNameRegex =
+    /^(?=.*[A-Za-z])[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
+  taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{2,20}$/;
+  emailRegex: string =
+    "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^(?!\s)(?!.*\s{3})(.{3,500})$/s;
   phoneRegex = /^[0-9]{10}$/;
-
+  panregex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
   constructor(
     private fb: UntypedFormBuilder,
     private messageService: MessageService,
     private Service: CustomersdataService,
     private router: Router,
-    private localStorageService: LocalStorageService,
-
+    private localStorageService: LocalStorageService
   ) {
     this.addcustomerGroup = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(this.personNameRegex)]],
+      name: [
+        "",
+        [Validators.required, Validators.pattern(this.personNameRegex)],
+      ],
       phoneNo: ["", [Validators.required, Validators.pattern(this.phoneRegex)]],
       email: ["", [Validators.pattern(this.emailRegex)]],
       taxNo: ["", [Validators.pattern(this.taxNumberRegex)]],
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
       shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
+      openingbalance: [0],
+      balanceType: ["Received"],
+      penCardNumber: ["", [Validators.pattern(this.panregex)]],
     });
   }
 
   ngOnInit(): void {
     this.returnUrl = this.localStorageService.getItem("returnUrl");
   }
-  onCancel(){
+  onCancel() {
     this.router.navigateByUrl(this.returnUrl);
   }
-  
+
+  toUpperCase(event: any) {
+    let val = event.target.value.toUpperCase();
+    this.addcustomerGroup.patchValue({
+      penCardNumber: val,
+    });
+  }
+
   addcustomerForm() {
     console.log(this.addcustomerGroup.value);
+
     const payload = {
       name: this.addcustomerGroup.value.name, //req
       email: this.addcustomerGroup.value.email, //req
@@ -74,6 +89,8 @@ export class AddCustomersComponent implements OnInit {
       creaditLimit: Number(this.addcustomerGroup.value.creditLimit),
       billingAddress: this.addcustomerGroup.value.billingAddress,
       shippingAddress: this.addcustomerGroup.value.shippingAddress,
+      openingBalance: Number(this.addcustomerGroup.value.openingbalance),
+      penCardNumber: this.addcustomerGroup.value.penCardNumber,
     };
     console.log(payload);
 
@@ -97,5 +114,4 @@ export class AddCustomersComponent implements OnInit {
     }
   }
   // [routerLink]="['/customers/view-customers/', product._id]"
-  
 }

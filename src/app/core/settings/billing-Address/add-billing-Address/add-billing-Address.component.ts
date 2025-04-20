@@ -1,8 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-} from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { Validators } from "@angular/forms";
 import { SharedModule } from "src/app/shared/shared.module";
 import { BillingAddressService } from "../billingAddress.service";
@@ -43,83 +40,107 @@ export class AddBillingAddressComponent implements OnInit {
   countriesList: any;
   orgCountriesList: any;
 
-  ZIPcode = /^\d{5}(-\d{4})?$/
-  cityName = /^[a-zA-Z\s\-]{2,50}$/
-
+  ZIPcode = /^\d{5}(-\d{4})?$/;
+  cityName = /^[a-zA-Z\s\-]{2,50}$/;
+  taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{15}$/;
+  StatesList: any;
 
   constructor(
     private fb: UntypedFormBuilder,
     private Addusersdata: BillingAddressService,
     private router: Router,
-    private _snackBar: MatSnackBar,
-    private messageService: MessageService,
-    private service: WarehouseService
+    private messageService: MessageService
   ) {
     this.addBillingAddress = this.fb.group({
-      city: ['', [Validators.required,Validators.pattern(validationRegex.cityNameRGEX)]],
-      setAsDefault: [''],
-      companyName:['',[Validators.required, Validators.pattern(validationRegex.companyNameRGEX)]],
-      postalCode:['',[Validators.required,Validators.pattern(validationRegex.postalZipRGEX)]],
-      country: ['',[Validators.required]],
-      phoneNumber: ['',[Validators.required,Validators.pattern(validationRegex.phoneRGEX)]],
-      email:['',[Validators.pattern(validationRegex.emailRegex)]],
-      addressLine1:['',[Validators.required,Validators.pattern(validationRegex.billingAddressRegex)]],
-      addressLine2:['',[Validators.pattern(validationRegex.billingAddressRegex)]],
-      state:['',[Validators.required,Validators.pattern(validationRegex.stateRegex)]],
+      city: [
+        "",
+        [Validators.required, Validators.pattern(validationRegex.cityNameRGEX)],
+      ],
+      setAsDefault: [""],
+      companyName: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern(validationRegex.companyNameRGEX),
+        ],
+      ],
+      postalCode: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern(validationRegex.postalZipRGEX),
+        ],
+      ],
+      country: ["", [Validators.required]],
+      phoneNumber: [
+        "",
+        [Validators.required, Validators.pattern(validationRegex.phoneRGEX)],
+      ],
+      email: ["", [Validators.pattern(validationRegex.emailRegex)]],
+      addressLine1: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern(validationRegex.billingAddressRegex),
+        ],
+      ],
+      addressLine2: [
+        "",
+        [Validators.pattern(validationRegex.billingAddressRegex)],
+      ],
+      state: [
+        "",
+        [Validators.required],
+      ],
+      taxNo: [""],
+      termsAndCondition: [""],
+      subjectTo: [""],
     });
   }
   ngOnInit(): void {
+    this.getStates()
     this.Addusersdata.getCountries().subscribe((resp: any) => {
       this.countriesList = [];
-      this.orgCountriesList = resp.data
-      this.orgCountriesList.forEach((element)=>{
+      this.orgCountriesList = resp.data;
+      this.orgCountriesList.forEach((element) => {
         this.countriesList.push({
-          name:element.name,
-          iso2:element.iso2,
-        })
-      })
+          name: element.name,
+          iso2: element.iso2,
+        });
+      });
+    
       console.log(this.countriesList);
-    })
+    });
+    
   }
 
   addBillingAddressFrom() {
-    const formData = this.addBillingAddress.value;
-    console.log(formData);
-   
-      const payload = {
-      city: formData.city,
-      zip: formData.zip,
-      country: formData.country,
-      phoneNumber: formData.phoneNumber,
-      email:formData.email,
-      state:formData.state,
-      setAsDefault:formData.setAsDefault,
-      postalCode:formData.postalCode,
-      companyName:formData.companyName,
-      addressLine1:formData.addressLine1,
-      addressLine2:formData.addressLine2,
-      };
-
-      console.log(payload);
-
-      this.Addusersdata.createBillingAddress(payload).subscribe((resp: any) => {
-        console.log(resp);
-        if (resp) {
-          if (resp.status === "success") {
-            const message = "Billing Address has been added";
-            this.messageService.add({ severity: "success", detail: message });
-            setTimeout(() => {
-              this.router.navigate(["/settings/billing-Address"]);
-            }, 400);
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
-          }
+    this.Addusersdata.createBillingAddress(
+      this.addBillingAddress.value
+    ).subscribe((resp: any) => {
+      console.log(resp);
+      if (resp) {
+        if (resp.status === "success") {
+          const message = "Billing Address has been added";
+          this.messageService.add({ severity: "success", detail: message });
+          setTimeout(() => {
+            this.router.navigate(["/settings/billing-Address"]);
+          }, 400);
+        } else {
+          const message = resp.message;
+          this.messageService.add({ severity: "error", detail: message });
         }
-      });
+      }
+    });
   }
 
   togglePassword() {
     this.passwordClass = !this.passwordClass;
+  }
+
+  getStates() {
+    this.Addusersdata.getstates().subscribe((resp: any) => {
+      this.StatesList = resp.data;
+    });
   }
 }

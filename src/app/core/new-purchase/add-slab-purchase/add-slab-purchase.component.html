@@ -1,0 +1,649 @@
+<p-toast></p-toast>
+<div class="card p-3">
+    <form [formGroup]="slabAddForm" (ngSubmit)="slabAddFormSubmit()">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <h3>Add Slab Details</h3>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="vehicleNo">Vehicle Number</label>
+                            <input class="form-control" type="text" placeholder="Enter Vehicle Number"
+                                formControlName="vehicleNo" />
+                            <div *ngIf="setValidations('vehicleNo')">
+                                <span class="login-danger">Invalid vehicle number format. Please correct it.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group local-forms">
+                            <label for="warehouse">Warehouse<span class="login-danger">*</span></label>
+                            <p-dropdown [options]="wareHousedata" appendTo="body" optionLabel="name" optionValue="_id"
+                                placeholder="Select Warehouse" formControlName="warehouse" [style]="{ width: '100%' }"
+                                [filter]="true" filterBy="name" [showClear]="true">
+                            </p-dropdown>
+                            <!-- {{ slabAddForm.get('warehouse')?.value}} -->
+                            <div *ngIf="setValidations('warehouse')">
+                                <span class="login-danger">Field is required.</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12">
+                        <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10 mb-3"
+                            (click)="addSlabDialog()" [disabled]="!slabAddForm.get('warehouse')?.value">
+                            Add Slab
+                        </button>
+                        <!-- [disabled]="!slabAddForm.valid" -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row" *ngIf="slabDetails?.length > 0">
+            <div class="col-sm-12">
+                <div class="card card-table">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <div class="d-flex m-b-10" style="justify-content: space-between">
+                                <h3>Slab List</h3>
+                            </div>
+                        </div>
+
+                        <div class="row p-2">
+                            <p-accordion [activeIndex]="[0]" [multiple]="true">
+                                <p-accordionTab *ngFor="let data of slabDetails; let i = index; trackBy: trackByFn">
+                                    <ng-template pTemplate="header">
+                                        <span class="d-flex justify-content-between w-full">
+                                            <span class="font-bold white-space-nowrap">
+                                                Slab Number: {{ data?.slabNo }}
+                                            </span>
+                                            <p-button [text]="true" styleClass="w-2rem h-2rem p-0" icon="fa fa-trash"
+                                                (click)="deleteAccordian(i)"></p-button>
+                                        </span>
+                                    </ng-template>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card card-table show-entire">
+                                                <div class="page-table-header mb-2 m-3">
+                                                    <div class="row practice-card">
+                                                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Slab Name
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.slabName ?? ' -- '?? '--' }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Length (Inch)
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.length ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Width (Inch)
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">{{ data?.width ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Thickness
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.thickness ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Finishes
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.finishes.name ?? ' -- ' }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                  Quantity (Square Feet)
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                  <p class="col-form-label">
+                                                                    {{ data?.totalSQFT ?? " -- " }}
+                                                                  </p>
+                                                                </div>
+                                                              </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Rate / Sq. Feet
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        ₹ {{ data?.ratePerSqFeet ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Total Amount
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        ₹ {{ data?.totalCosting ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Number of Pieces
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.noOfPieces ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                       
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Cost Per SQFT
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        ₹ {{ data?.costPerSQFT ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-3" *ngIf="slabDetails?.length > 0">
+            <div class="col-md-12 col-sm-12 col-12">
+                <h3>More Details</h3>
+            </div>
+            <div class="mt-3 row">
+                <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="taxableAmount">Taxable Amount</label>
+                        <p-inputGroup>
+                            <input type="number" formControlName="taxableAmount" class="form-control" style="width: 50%"
+                                placeholder="Enter Taxable Amount" (change)="calculateTotalAmount()" />
+                            <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax" [options]="orderTaxList"
+                                appendTo="body" formControlName="ItemTax" optionLabel="orderTaxName"
+                                optionValue="orderNamevalue" display="chip"
+                                (onChange)="calculateTotalAmount()"></p-multiSelect>
+                        </p-inputGroup>
+                        <!-- <div *ngIf="taxableAmount">
+                            <span class="login-danger">Non-Taxable Amount and Taxable Amount should be equal to Total
+                                Amount (Paid to Supplier)</span>
+                        </div> -->
+                        <div *ngIf="
+    slabAddForm.hasError('taxRequired') && 
+    slabAddForm.get('taxableAmount')?.touched
+  ">
+  <span class="login-danger">Please apply tax.</span>
+</div>
+                        <div *ngIf=" (slabAddForm.get('taxableAmount')?.hasError('min') &&
+              slabAddForm.get('taxableAmount')?.touched) ||
+            (slabAddForm.get('taxableAmount')?.hasError('max') &&
+              slabAddForm.get('taxableAmount')?.touched)">
+                            <span class="login-danger">Taxable Amount cannot be greater than Paid To Supplier Amount
+                                ({{slabTotalCost}}).</span>
+                        </div>
+                        <span *ngIf="
+                  slabAddForm.get('taxApplied').value > 0
+                " style="color: #97704f; font-size: 12px">
+                            Applied Tax Amount:
+                            {{ slabAddForm.get('taxApplied').value | number : "1.2-2" }}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="finishes">Non-Taxable Amount</label>
+                        <!-- <input class="form-control" type="number" placeholder="Enter Non-Taxable Amount"
+                            formControlName="nonTaxableAmount" (onChange)="calculateTotalAmount()" /> -->
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <span class="form-control">{{
+                                slabAddForm.get("nonTaxableAmount").value
+                                }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="paidToSupplierPurchaseCost">Purchase Cost ( Paid to Supplier )
+                            <span class="login-danger">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <span class="form-control">{{
+                                slabAddForm.get("paidToSupplierSlabCost").value
+                                }}</span>
+                        </div>
+                        <span *ngIf="
+                   slabAddForm.get('taxable').value  > slabAddForm.get('taxableAmount').value &&
+                   slabAddForm.get('taxable').value  != 0
+                  " style="color: #97704f; font-size: 12px">
+                            Tax Applied Amount:
+                            {{ slabAddForm.get('taxable')?.value | number : "1.2-2" }}
+                            + Non Taxable Amount :
+                            {{
+                            slabAddForm.get("nonTaxableAmount")?.value | number : "1.2-2"
+                            }}
+                            <span *ngIf="slabAddForm.get('purchaseDiscount')?.value > 0">
+                                - Discount :
+                                {{
+                                slabAddForm.get("purchaseDiscount")?.value | number : "1.2-2"
+                                }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="purchaseDiscount">Discount </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <input class="form-control" type="number" placeholder="Enter Discount"
+                                (change)="calculateTotalAmount()" formControlName="purchaseDiscount" />
+                        </div>
+                        <div *ngIf="setValidations('purchaseDiscount')">
+                            <span class="login-danger">Input Must be between 1 to {{maxPurchaseAmount}}.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="transportationCharge">Transportation Charges</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <input class="form-control" type="number" placeholder="Enter Transportation Charges"
+                                (change)="calculateTotalAmount()" formControlName="transportationCharge" />
+                        </div>
+                        <div *ngIf="setValidations('transportationCharge')">
+                            <span class="login-danger">Field is required.</span>
+                        </div>
+                        <div *ngIf="setValidations('transportationCharge')">
+                            <span class="login-danger">Input Must be between 1 to 100000.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="royaltyCharge">Other Charges</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <input class="form-control" type="number" placeholder="Enter Other Charges"
+                                formControlName="royaltyCharge" (change)="calculateTotalAmount()" />
+                        </div>
+                        <div *ngIf="setValidations('royaltyCharge')">
+                            <span class="login-danger">Field is required.</span>
+                        </div>
+                        <div *ngIf="setValidations('royaltyCharge')">
+                            <span class="login-danger">Input Must be between 1 to 100000.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row" style="display: flex; justify-content: end;" *ngIf="slabAddForm.get('totalCost')?.value">
+        <div class="col-md-4">
+            <div class="invoice-total-card">
+                <h4 class="invoice-total-title">Summary</h4>
+                <div class="invoice-total-box">
+                    <div class="invoice-total-inner">
+                        <p *ngIf="slabAddForm.get('totalSQFT')?.value">
+                            Total Square Feet<span>
+                              {{ slabAddForm.get('totalSQFT').value }}
+
+                            </span>
+                          </p>
+                        <!-- <p *ngIf="slabAddForm.get('transportationCharge')?.value" class="mt-2">
+                            Transportation Charges
+                            <span>
+                                ₹
+                                {{
+                                slabAddForm.get('transportationCharge')?.value
+                                | number : "1.2-2"
+                                }}
+                            </span>
+                        </p>
+                        <p *ngIf="slabAddForm.get('royaltyCharge')?.value" class="mt-2">
+                            Other Charges
+                            <span>
+                                ₹
+                                {{
+                                slabAddForm.get('royaltyCharge')?.value
+                                | number : "1.2-2"
+                                }}
+                            </span>
+                        </p>
+                        <p *ngIf="slabAddForm.get('purchaseDiscount')?.value" class="mt-2">
+                            Discount
+                            <span>
+                                ₹
+                                {{
+                                slabAddForm.get('purchaseDiscount')?.value
+                                | number : "1.2-2"
+                                }}
+                            </span>
+                        </p> -->
+                        <!-- <p class="mt-2">
+                            Cost / Square Feet
+                            <span *ngIf="slabAddForm.get('costPerSQFT')?.value">
+                                ₹
+                                {{
+                                slabAddForm.get('costPerSQFT')?.value
+                                | number : "1.2-2"
+                                }}
+                            </span>
+                        </p> -->
+                        <h3>
+                            <p class="mt-2">
+                                Total Purchase Cost
+                                <span *ngIf="slabAddForm.get('totalCost')?.value">
+                                    ₹
+                                    {{
+                                    slabAddForm.get('totalCost')?.value
+                                    | number : "1.2-2"
+                                    }}
+                                </span>
+                            </p>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Add Slab" [(visible)]="addvisible" [modal]="true" [style]="{ width: '60%'}"
+    (onHide)="closeSlabForm(myForm)">
+    <div class="modal-content mt-2">
+        <div class="modal-body">
+            <form #myForm="ngForm">
+                <div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="slabName">Marble / Stone Name</label>
+                                <input class="form-control" type="text" placeholder="Enter Marble / Stone Name"
+                                    pattern="^.{1,50}$" name="marbleName" [(ngModel)]="marbleName"
+                                    (change)="getSlabDetails()" #MARBLENAME="ngModel" />
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="slabNumber">Slab Number <span class="login-danger">*</span></label>
+                                <input class="form-control" type="text" placeholder="Enter Slab Number"
+                                    pattern="^.{1,50}$" required name="slabNumber" [(ngModel)]="slabNumber"
+                                    (change)="getSlabDetails()" #SLABNUMBER="ngModel" />
+                                <div *ngIf="SLABNUMBER.invalid && (SLABNUMBER.dirty || SLABNUMBER.touched)">
+                                    <div *ngIf="SLABNUMBER.errors?.['required']">
+                                        <span class="login-danger">Slab Number is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="category">Category <span class="login-danger">*</span></label>
+                                <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body"
+                                    optionLabel="name" optionValue="_id" placeholder="Select Category"
+                                    [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false"
+                                    required [(ngModel)]="category" #CATEGORY="ngModel" name="category" required
+                                    (onChange)="findSubCategory($event.value)"></p-dropdown>
+                                <!-- <div *ngIf="CATEGORY.invalid && (CATEGORY.dirty || CATEGORY.touched)">
+                                        <div *ngIf="CATEGORY.errors?.['required']">
+                                            <span class="login-danger">Category is required.</span>
+                                        </div>
+                                    </div> -->
+                                <div *ngIf="CATEGORY.touched">
+                                    <span class="login-danger" *ngIf="!category?.name">Category is required.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="subCategory">Sub Category<span class="login-danger">*</span></label>
+                                <p-dropdown 
+                                [options]="subCategorListByCategory" 
+                                styleClass="" 
+                                appendTo="body"
+                                placeholder="Select Sub Category" 
+                                optionLabel="name" 
+                                optionValue="_id" 
+                                (onChange)="getHsnCode($event.value)" 
+                                [style]="{ width: '100%' }" 
+                                [filter]="true" 
+                                filterBy="name" 
+                                [showClear]="false" 
+                                required 
+                                [(ngModel)]="subCategory" 
+                                name="subCategory" 
+                                #SUBCATEGORY="ngModel">
+                              </p-dropdown>
+                              
+                                <!-- <div *ngIf="SUBCATEGORY.invalid && (SUBCATEGORY.dirty || SUBCATEGORY.touched)">
+                                        <div *ngIf="SUBCATEGORY.errors?.['required']">
+                                            <span class="login-danger">Sub Category is required.</span>
+                                        </div>
+                                    </div> -->
+                                <div *ngIf="SUBCATEGORY.touched">
+                                    <span class="login-danger" *ngIf="!subCategory?.name">Sub Category is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="noOfPieces">Number of Pieces <span class="login-danger">*</span> </label>
+                                <input class="form-control" type="number" placeholder="Enter Number of Pieces"
+                                    name="noOfPieces" (change)="getSlabDetails()" min="1" max="10000" required
+                                    [(ngModel)]="noOfPieces" #NOOFPIECES="ngModel" />
+                                <div *ngIf="NOOFPIECES.invalid && (NOOFPIECES.dirty || NOOFPIECES.touched)">
+                                    <div *ngIf="NOOFPIECES.errors?.['required']">
+                                        <span class="login-danger">Field is required.</span>
+                                    </div>
+                                    <div *ngIf="NOOFPIECES.errors?.['min'] || NOOFPIECES.errors?.['max']">
+                                        <span class="login-danger">Number Of Pieces must be between 1 and 10000.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Length Field -->
+                        <div class="col-12 col-md-6 col-xl-6 mt-2">
+                            <div class="form-group local-forms">
+                                <label for="length">Length </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Inch</span>
+                                    </div>
+                                    <input class="form-control" type="number" id="length" name="length"
+                                        (change)="getSlabDetails()" min="1" max="500" placeholder="Enter Length"
+                                        [(ngModel)]="length" #LENGTH="ngModel" />
+                                </div>
+                                <div *ngIf="LENGTH.invalid && (LENGTH.dirty || LENGTH.touched)">
+                                    <!-- <div *ngIf="LENGTH.errors?.['required']">
+                  <span class="login-danger">Field is required.</span>
+                </div> -->
+                                    <div *ngIf="LENGTH.errors?.['min'] || LENGTH.errors?.['max']">
+                                        <span class="login-danger">Length must be between 1 and 500.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Width Field -->
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="width">Width </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Inch</span>
+                                    </div>
+                                    <input class="form-control" type="number" id="width" name="width"
+                                        (change)="getSlabDetails()" min="1" max="500" placeholder="Enter Width"
+                                        [(ngModel)]="width" #WIDTH="ngModel" />
+                                </div>
+                                <div *ngIf="WIDTH.invalid && (WIDTH.dirty || WIDTH.touched)">
+                                    <!-- <div *ngIf="WIDTH.errors?.['required']">
+                  <span class="login-danger">Field is required.</span>
+                </div> -->
+                                    <div *ngIf="WIDTH.errors?.['min'] || WIDTH.errors?.['max']">
+                                        <span class="login-danger">Width must be between 1 and 500.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Height Field -->
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="thickness">Thickness </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">MM</span>
+                                    </div>
+                                    <input class="form-control" type="number" id="thickness" name="thickness"
+                                        (change)="getSlabDetails()" min="1" max="500" placeholder="Enter Thickness"
+                                        [(ngModel)]="thickness" #THISCKNESS="ngModel" />
+                                </div>
+                                <div *ngIf="THISCKNESS.invalid && (THISCKNESS.dirty || THISCKNESS.touched)">
+                                    <!-- <div *ngIf="THISCKNESS.errors?.['required']">
+                                        <span class="login-danger">Field is required.</span>
+                                    </div> -->
+                                    <div *ngIf="THISCKNESS.errors?.['min'] || THISCKNESS.errors?.['max']">
+                                        <span class="login-danger">Thickness must be between 1 and 500.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="finishes">Finishes</label>
+                                <p-dropdown [options]="finisheshList" styleClass="" appendTo="body" name="finishes"
+                                    placeholder="Select finishes" optionLabel="name" [style]="{ width: '100%' }"
+                                    [filter]="true" filterBy="name" [showClear]="true" [(ngModel)]="finishes"
+                                    #FINISHESH="ngModel">
+                                </p-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="quantity">Quantity (Sq. Feet) <span class="login-danger">*</span> </label>
+                                <input class="form-control" type="number" name="quantity" (change)="getSlabDetails()"
+                                    min="1" max="1000000" placeholder="Enter Quantity" [(ngModel)]="quantity" required
+                                    #QUANTITY="ngModel" />
+                                <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
+                                    <div *ngIf="QUANTITY.errors?.['required']">
+                                        <span class="login-danger">Quantity is required.</span>
+                                    </div>
+                                    <div *ngIf="QUANTITY.errors?.['min'] || QUANTITY.errors?.['max']">
+                                        <span class="login-danger">Quantity must be between 1 and 1000000.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="ratePerSqFeet">Rate / Sq. Feet <span class="login-danger">*</span> </label>
+                                <input class="form-control" type="number" placeholder="Enter Rate / Sq. Feet"
+                                    name="ratePerSqFeet" (change)="getSlabDetails()" min="1" max="1000000"
+                                    [(ngModel)]="ratePerSqFeet" #RATEPERSQFT="ngModel" required />
+                                <div *ngIf="RATEPERSQFT.invalid && (RATEPERSQFT.dirty || RATEPERSQFT.touched)">
+                                    <div *ngIf="RATEPERSQFT.errors?.['required']">
+                                        <span class="login-danger">Ṛate / Sq. Feet is required.</span>
+                                    </div>
+                                    <div *ngIf="RATEPERSQFT.errors?.['min'] || RATEPERSQFT.errors?.['max']">
+                                        <span class="login-danger">Rate / Sq. Feet must be between 1 and 1000000.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="totalAmount">Total Amount <span class="login-danger">*</span> </label>
+                                <input class="form-control" type="number" name="totalAmount" placeholder="Total Amount"
+                                    [disabled]="true" [(ngModel)]="totalAmount" #TOTALAMOUNT="ngModel" />
+                            </div>
+                        </div>
+
+                        <!-- check required for catgory and sub category -->
+                        <div class="col-12">
+                            <div class="settings-btns text-end m-b-10">
+                                <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                                    (click)="addSlabDetails(myForm) ; calculateTotalAmount()"
+                                    [disabled]="myForm.invalid || !subCategory?.name || !category?.name">
+                                    Save
+                                </button>
+                                <button type="button" class="btn btn-secondary" (click)="closeSlabForm(myForm)">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</p-dialog>

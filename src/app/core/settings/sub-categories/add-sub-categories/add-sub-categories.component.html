@@ -36,7 +36,19 @@
             </div>
           </div>
         </div>
+        <div class="col-md-6">
+          <div class="form-group local-forms">
+            <label for="name">HSN Code <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="hsnCode">
 
+            <div *ngIf="addSubCategoryForm.get('hsnCode')?.hasError('required') && addSubCategoryForm.get('hsnCode')?.touched">
+              <span class="login-danger">Field is required.</span>
+            </div>
+            <div *ngIf="addSubCategoryForm.get('hsnCode')?.hasError('pattern') && addSubCategoryForm.get('hsnCode')?.touched">
+              <span class="login-danger"> HSN Code must be 6, 8, or 10 digits.</span>
+            </div>
+          </div>
+        </div>
         <div class="col-12">
           <div class="form-group local-forms">
             <label for="description">Description</label>

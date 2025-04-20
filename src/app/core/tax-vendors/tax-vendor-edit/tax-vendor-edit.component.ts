@@ -17,14 +17,14 @@ import { TaxVendorsService } from "../tax-vendors.service";
   templateUrl: "./tax-vendor-edit.component.html",
   styleUrl: "./tax-vendor-edit.component.scss",
 })
-export class TaxVendorEditComponent implements OnInit{
+export class TaxVendorEditComponent implements OnInit {
   public routes = routes;
   editTaxVendorForm: FormGroup;
   wareHouseList: any = [];
   countriesList: [];
   taxVendorId: any;
-  taxVendorsData: any = {}
-
+  taxVendorsData: any = {};
+  taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{15}$/;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -60,12 +60,22 @@ export class TaxVendorEditComponent implements OnInit{
       email: ["", [Validators.pattern(validationRegex.emailRegex)]],
       addressLine1: [
         "",
-        [Validators.required, Validators.pattern(validationRegex.billingAddressRegex)],
+        [
+          Validators.required,
+          Validators.pattern(validationRegex.billingAddressRegex),
+        ],
       ],
-      addressLine2: ["", [Validators.pattern(validationRegex.billingAddressRegex)]],
+      addressLine2: [
+        "",
+        [Validators.pattern(validationRegex.billingAddressRegex)],
+      ],
       state: [
         "",
         [Validators.required, Validators.pattern(validationRegex.stateRegex)],
+      ],
+      taxNo: [
+        "",
+   
       ],
     });
     this.taxVendorId = this.activeRoute.snapshot.params["id"];
@@ -84,6 +94,7 @@ export class TaxVendorEditComponent implements OnInit{
       addressLine2: data.addressLine2,
       // setAsDefault:data.setAsDefault,
       state: data.state,
+      taxNo: data.taxNo,
     });
   }
 
@@ -97,15 +108,14 @@ export class TaxVendorEditComponent implements OnInit{
         iso2: e.iso2,
       }));
     });
-    this.getTaxVendorsById(); 
-    
+    this.getTaxVendorsById();
   }
 
   getTaxVendorsById() {
     this.TaxVendorsService.getTaxVendorById(this.taxVendorId).subscribe(
       (resp: any) => {
         console.log(resp);
-        this.taxVendorId=resp.data._id
+        this.taxVendorId = resp.data._id;
         this.taxVendorsData = resp.data;
         this.patchForm(this.taxVendorsData);
 
@@ -119,7 +129,7 @@ export class TaxVendorEditComponent implements OnInit{
     const formData = this.editTaxVendorForm.value;
 
     const payload = {
-      id:this.taxVendorId,
+      id: this.taxVendorId,
       city: formData.city,
       companyName: formData.companyName,
       postalCode: formData.postalCode,
@@ -130,6 +140,7 @@ export class TaxVendorEditComponent implements OnInit{
       addressLine2: formData.addressLine2,
       state: formData.state,
       isTaxVendor: true,
+      taxNo: formData.taxNo,
     };
     console.log(payload);
     this.TaxVendorsService.updateTaxVendor(payload).subscribe((resp: any) => {

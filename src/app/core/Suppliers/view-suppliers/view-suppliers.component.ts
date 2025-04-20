@@ -11,6 +11,8 @@ import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-
 import { PaymentsInvoiceDialogComponent } from "src/app/common-component/modals/payments-invoice-dialog/payments-invoice-dialog.component";
 import { SharedModule } from "src/app/shared/shared.module";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
+import { CustomersdataService } from "../../Customers/customers.service";
+import { SalesReturnService } from "../../sales-return/sales-return.service";
 
 interface Product {
   _id: string;
@@ -26,14 +28,13 @@ interface Product {
     name: string;
     billingAddress: string;
   };
-    purchaseInvoiceNumber: string;
+  purchaseInvoiceNumber: string;
   paymentDetails: Array<{
     amountType: string;
     amount: number;
     paymentMode: string;
   }>;
   expanded?: boolean;
-
 }
 
 @Component({
@@ -77,7 +78,9 @@ export class ViewSuppliersComponent {
   paymentInvoicePurchaseDataShowById: any; // to hold purchase data by supplier id for payment invoice
   PurchaseReturnPaymentId: any;
   PurchasePaymentId: any;
-
+  dueBalance: any;
+  openingBalPayList: any[] = [];
+  balanceId: any;
   constructor(
     private SupplierService: SuppliersdataService,
     private activeRoute: ActivatedRoute,
@@ -86,6 +89,8 @@ export class ViewSuppliersComponent {
     private purchaseService: PurchaseService,
     private purchaseReturnService: PurchaseReturnService,
     private router: Router,
+    private salesReturnService: SalesReturnService,
+    private customerService: CustomersdataService,
     private messageService: MessageService,
     private localStorageService: LocalStorageService
   ) {
@@ -94,26 +99,70 @@ export class ViewSuppliersComponent {
 
   ngOnInit() {
     this.getSuppliers();
+    // this.getOpeningBalance();
+    // this.getOpeningBalancePayList();
     this.getPurchase();
     this.getPaymentListBySupplierId();
     this.getPurchaseReturn();
     this.getPurchaseReturnPaymentListBySupplierId();
     this.currentUrl = this.router.url;
   }
+
+  getOpeningBalance() {
+    this.customerService
+      .GetOpeningBalanceById(this.id)
+      .subscribe((data: any) => {
+        this.dueBalance = data.data;
+        if(this.purchaseTotalValues && this.dueBalance){
+          this.purchaseTotalValues.totalPaidAmount += this.dueBalance?.paidAmount; 
+          this.purchaseTotalValues.totalDueAmount += this.dueBalance?.dueAmount;
+          this.purchaseTotalValues.totalPurchaseCost += this.dueBalance?.totalAmount;
+        }
+        this.purchaseDataShowById?.unshift({
+          type: 'openBalance'
+        });
+      });
+  }
+
+  getOpeningBalancePayList() {
+    this.customerService
+      .GetOpeningBalancePayListById(this.id)
+      .subscribe((data: any) => {
+        console.log("data.data.length", data.data.length)
+        if(data.data && data.data.length){
+          this.openingBalPayList = data.data;
+          this.paymentListDataBySupplierId = [...this.openingBalPayList, ...this.paymentListDataBySupplierId];
+        } else {
+          this.openingBalPayList = [];
+          this.paymentListDataBySupplierId = [...this.openingBalPayList, ...this.paymentListDataBySupplierId];
+        }
+       
+        // this.purchaseDataShowById?.unshift({
+        //   type: 'openBalance'
+        // });
+        
+      });
+  }
+
   getSuppliers() {
     this.SupplierService.GetSupplierDataById(this.id).subscribe((data: any) => {
-      console.log("supplier data by id", data);
       this.supplierID = data._id;
-      console.log("supplier id", this.supplierID);
       this.supplierDataById = [data];
-      console.log("this is supplier data by id", this.supplierDataById);
       this.supplier = {
         name: this.supplierDataById[0].name,
         billingAddress: this.supplierDataById[0].billingAddress,
         _id: this.supplierDataById[0]._id,
       };
-      console.log("this is supplier object", this.supplier);
     });
+  }
+
+  deleteOpeningBalnc(Id: any) {
+    this.balanceId = Id;
+    this.modalData = {
+      title: "Delete",
+      messege: "Are you sure you want to delete this Payment Details",
+    };
+    this.showDialoge = true;
   }
 
   // getTotalPaidAmount(arrayProperty: 'purchaseDataShowById' | 'purchaseReturnDataShowById'): number {
@@ -145,7 +194,7 @@ export class ViewSuppliersComponent {
       .subscribe((resp: any) => {
         this.purchaseTotalValues = resp;
         this.purchaseDataShowById = resp.data;
-        console.log("this is purchase data by supplier id",this.purchaseDataShowById)
+        this.getOpeningBalance();
       });
   }
 
@@ -156,10 +205,7 @@ export class ViewSuppliersComponent {
       this.paymentOutTotalValues = resp;
       // console.log("payment data of Supplier by id", resp);
       this.paymentListDataBySupplierId = resp.data;
-      console.log(
-        "this is payment list data by Supplier id",
-        this.paymentListDataBySupplierId
-      );
+      this.getOpeningBalancePayList()
     });
   }
 
@@ -178,15 +224,15 @@ export class ViewSuppliersComponent {
       });
   }
 
-  allApiCall(){
-    console.log("All api called")
+  allApiCall() {
+    console.log("All api called");
     this.getPurchase();
-    this.getPurchaseReturn();
     this.getPaymentListBySupplierId();
+    this.getPurchaseReturn();
     this.getPurchaseReturnPaymentListBySupplierId();
   }
 
-  toggleRow(product:Product) {
+  toggleRow(product: Product) {
     product.expanded = !product.expanded;
   }
   getPurchaseReturnPaymentListBySupplierId() {
@@ -206,7 +252,7 @@ export class ViewSuppliersComponent {
     this.purchaseId = Id;
     console.log(this.purchaseId);
     this.showDialoge = true;
-    console.log("first")
+    console.log("first");
     this.modalData = {
       title: "Delete",
       messege: " Are you sure you want to delete this Purchase",
@@ -228,8 +274,8 @@ export class ViewSuppliersComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Payment"
-    }
+      messege: "Are you sure you want to delete this Payment",
+    };
     this.showDialoge = true;
   }
   deletePurchaseReturnPayment(Id: any) {
@@ -237,58 +283,72 @@ export class ViewSuppliersComponent {
 
     this.modalData = {
       title: "Delete",
-      messege: "Are you sure you want to delete this Payment Details"
-    }
+      messege: "Are you sure you want to delete this Payment Details",
+    };
     this.showDialoge = true;
   }
 
   callBackModal() {
-    if(this.purchaseId){
+    if (this.purchaseId) {
       this.purchaseService
         .DeletePurchaseData(this.purchaseId)
         .subscribe((resp: any) => {
-          this.messageService.add({ severity: "success", detail: resp.message });
-          this.allApiCall();   
-            this.showDialoge = false;
+          this.messageService.add({
+            severity: "success",
+            detail: resp.message,
+          });
+          this.allApiCall();
+          this.showDialoge = false;
         });
-
-    }
-    else if(this.purchaseReturnId){
+    } else if (this.purchaseReturnId) {
       this.purchaseReturnService
-      .deletePurchaseReturn(this.purchaseReturnId)
-      .subscribe((resp: any) => {
+        .deletePurchaseReturn(this.purchaseReturnId)
+        .subscribe((resp: any) => {
+          this.messageService.add({
+            severity: "success",
+            detail: resp.message,
+          });
+          this.allApiCall();
+          this.showDialoge = false;
+        });
+    } else if (this.PurchasePaymentId) {
+      this.PaymentOutService.deletePurchasePayment(
+        this.PurchasePaymentId
+      ).subscribe((resp: any) => {
+        console.log(this.PurchasePaymentId);
         this.messageService.add({ severity: "success", detail: resp.message });
         this.allApiCall();
         this.showDialoge = false;
       });
-
-    }
-    else if(this.PurchasePaymentId){
-      this.PaymentOutService
-      .deletePurchasePayment(this.PurchasePaymentId)
-      .subscribe((resp: any) => {
-        console.log(this.PurchasePaymentId)
-        this.messageService.add({ severity: "success", detail: resp.message });
-        this.allApiCall();
-        this.showDialoge = false;
-      });
-
-    }
-    else if(this.PurchaseReturnPaymentId){
+    } else if (this.PurchaseReturnPaymentId) {
       this.purchaseReturnService
-      .deletePurchaseReturnPaymentById(this.PurchaseReturnPaymentId)
-      .subscribe((resp: any) => {
-        console.log(this.PurchaseReturnPaymentId)
+        .deletePurchaseReturnPaymentById(this.PurchaseReturnPaymentId)
+        .subscribe((resp: any) => {
+          console.log(this.PurchaseReturnPaymentId);
 
-        this.messageService.add({ severity: "success", detail: resp.message });
-        this.allApiCall();
-        this.showDialoge = false;
-      });
-
+          this.messageService.add({
+            severity: "success",
+            detail: resp.message,
+          });
+          this.allApiCall();
+          this.showDialoge = false;
+        });
+    } else if (this.balanceId) {
+      this.salesReturnService
+        .deleteBalancePayRec(this.balanceId)
+        .subscribe((resp: any) => {
+          this.messageService.add({
+            severity: "success",
+            detail: resp.message,
+          });
+          this.allApiCall();
+          // this.getOpeningBalancePayList();
+          // this.getOpeningBalance();
+          this.showDialoge = false;
+          this.balanceId = null;
+        });
     }
   }
-
-  
 
   navigateToCreatePurchase() {
     const supplier = {
@@ -326,9 +386,20 @@ export class ViewSuppliersComponent {
     this.showDialoge = false;
     this.showInvoiceDialog = false;
     this.showPaymentDialog = false;
+    // this.getOpeningBalancePayList();
+    // this.getOpeningBalance();
+    // this.allApiCall();
 
-    this.allApiCall();
-  
+    if(this.header === 'Purchase Payment'){
+      this.getPurchase();
+    this.getPaymentListBySupplierId();
+    } else if (this.header === 'Purchase Payment Return Payment') {
+      this.getPurchaseReturn();
+      this.getPurchaseReturnPaymentListBySupplierId();
+    } else {
+      this.getPurchase();
+      this.getPaymentListBySupplierId();
+    }
   }
 
   showInvoiceDialoge(Id: any) {
@@ -374,28 +445,66 @@ export class ViewSuppliersComponent {
       });
   }
 
-  openPaymentDialog(Id: any) {
-    if (Id) {
-      this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
-        this.header = "Purchase Payment ";
-      this.showPaymentDialog = true;
+  openPaymentDialog(Id: any, key: any) {
+    console.log("click", Id);
+    if (key === "duebalance") {
+      if (Id) {
+        console.log("click1");
+        this.customerService
+          .GetOpeningBalanceById(Id)
+          .subscribe((resp: any) => {
+            this.header = "Opening Balance";
+            this.showPaymentDialog = true;
 
-        this.paymentInvoicePurchaseDataShowById = [resp.data];
-        console.log("purchase data show success message" , this.paymentInvoicePurchaseDataShowById)
-        this.paymentObject = {
-          supplier: resp.data.supplier,
-          purchaseId: Id,
-          isPurchase: true,
-          purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
-          purchaseCost: resp.data.purchaseCost,
-          purchaseDueAmount: resp.data.dueAmount,
-          taxableDue: resp.data.taxableDue,
-          nonTaxableDue: resp.data.nonTaxableDue,
-          taxable: resp.data.taxable,
-          nonTaxable: resp.data.nonTaxable,
-        };
-      });
-      
+            this.paymentInvoicePurchaseDataShowById = [resp.data];
+            console.log(
+              "purchase data show success message",
+              this.paymentInvoicePurchaseDataShowById
+            );
+            this.paymentObject = {
+              supplier: resp.data.supplier,
+              purchaseId: Id,
+              isPurchase: true,
+              customerId: this.id,
+              purchaseInvoiceNumber: "Opening Balance",
+              salesInvoiceNumber: "Opening Balance",
+              supplierTotalAmount: resp?.data?.totalAmount,
+              paidAmount: resp?.data?.paidAmount,
+              purchaseCost: resp.data.purchaseCost,
+              purchaseDueAmount: resp.data.dueAmount,
+              taxableDue: resp.data.taxableDue,
+              nonTaxableDue: resp.data.nonTaxableDue,
+              taxable: resp.data.taxable,
+              nonTaxable: resp.data.nonTaxable,
+            };
+          });
+      }
+    } else {
+      if (Id) {
+        console.log("click2");
+        this.purchaseService.GetPurchaseDataById(Id).subscribe((resp: any) => {
+          this.header = "Purchase Payment";
+          this.showPaymentDialog = true;
+
+          this.paymentInvoicePurchaseDataShowById = [resp.data];
+          console.log(
+            "purchase data show success message",
+            this.paymentInvoicePurchaseDataShowById
+          );
+          this.paymentObject = {
+            supplier: resp.data.supplier,
+            purchaseId: Id,
+            isPurchase: true,
+            purchaseInvoiceNumber: resp.data.purchaseInvoiceNumber,
+            purchaseCost: resp.data.purchaseCost,
+            purchaseDueAmount: resp.data.dueAmount,
+            taxableDue: resp.data.taxableDue,
+            nonTaxableDue: resp.data.nonTaxableDue,
+            taxable: resp.data.taxable,
+            nonTaxable: resp.data.nonTaxable,
+          };
+        });
+      }
     }
   }
   openPaymentReturnDialog(Id: any) {
@@ -403,9 +512,9 @@ export class ViewSuppliersComponent {
       this.purchaseReturnService
         .getPurchaseReturnById(Id)
         .subscribe((resp: any) => {
-          this.showPaymentDialog = true; 
+          this.showPaymentDialog = true;
           this.paymentInvoicePurchaseDataShowById = [resp.data];
-          this.header = "Purchase Return Payment ";
+          this.header = "Purchase Return Payment";
           this.paymentObject = {
             supplier: resp.data.supplier,
             purchaseReturnId: Id,
@@ -420,7 +529,6 @@ export class ViewSuppliersComponent {
             this.paymentObject.purchaseReturnId
           );
         });
-      
     }
   }
 }

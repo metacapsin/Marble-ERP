@@ -82,6 +82,22 @@ export class EmployeepPaymentListComponent {
     this.showDialoge = true;
   }
 
+  download(id:any){
+
+    this.Service.downloadList(id).subscribe((response:any)=>{
+      console.log('resp',response)
+      const url = window.URL.createObjectURL(response);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Salary-Invoice.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    })
+
+  }
+
   showNewDialog() {
     this.showDialoge = true;
   }

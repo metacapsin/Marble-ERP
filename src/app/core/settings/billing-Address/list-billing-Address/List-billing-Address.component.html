@@ -105,9 +105,10 @@
                   <tr>
                     <td class="bold">{{ product.companyName }}</td>
                     <td>{{ product.country.name }}</td>
-                    <td>{{ product.state }}</td>
+                    <td *ngIf="product?.state">{{ product.state?.name }} ({{product.state?.code}})</td>
                     <td>{{ product.city }}</td>
-                    <td>{{ product.email }}</td>
+                    <td 
+                    [pTooltip]="product.email" tooltipPosition="left" tooltipStyleClass="tooltip">{{ product.email }}</td>
                     <td>{{ product.postalCode }}</td>
                     <td *ngIf="!product.setAsDefault">
                       <p-tag severity="danger" value="No"></p-tag>

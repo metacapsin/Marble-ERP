@@ -122,6 +122,7 @@
           this.addEmployeepPaymentForm.get("deduction").clearValidators();
           this.addEmployeepPaymentForm.get('deduction').setValidators([Validators.min(0),Validators.max(resp.data?.employee?.netSalary)]);
           this.addEmployeepPaymentForm.get("deduction").updateValueAndValidity();
+          this.calculateSalary();
         });
       }
     }

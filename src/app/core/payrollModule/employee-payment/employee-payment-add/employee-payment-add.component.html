@@ -49,7 +49,7 @@
                       <p-dropdown [style]="{ width: '100%' }" placeholder="Employee" [options]="employeeList"
                         optionLabel="name" optionValue="id" display="chip" [filter]="true" filterBy="name"
                         formControlName="employee" [showClear]="true"
-                        (onChange)="calculateSalary()"></p-dropdown>
+                        (onChange)="onSelect();"></p-dropdown>
                       <div *ngIf="
                           addEmployeepPaymentForm
                             .get('employee')

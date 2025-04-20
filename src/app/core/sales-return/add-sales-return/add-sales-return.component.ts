@@ -51,7 +51,7 @@ export class AddSalesReturnComponent {
   public selectedValue!: string;
   nameRegex = /^(?=[^\s])([a-zA-Z\d\/\- ]{3,50})$/;
   notesRegex = /^(?:.{2,100})$/;
-  tandCRegex = /^(?:.{2,200})$/;
+  tandCRegex =  /^[\s\S]{2,100}$/;
   customer: any = [];
   returnUrl: string;
 
@@ -66,7 +66,7 @@ export class AddSalesReturnComponent {
   ) {
     this.addReturnSalesForm = this.fb.group({
       customer: ["", [Validators.required]],
-      returnDate: ["", [Validators.required]],
+      returnDate: [new Date().toLocaleDateString("en-US"), [Validators.required]],
       salesInvoiceNumber: ["", [Validators.required]],
       salesItemDetails: this.fb.array([]),
       salesNotes: ["", [Validators.pattern(this.notesRegex)]],

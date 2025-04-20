@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { routes } from "src/app/shared/routes/routes";
 import { ReportsService } from "../reports.service";
 import { SalesService } from "src/app/core/sales/sales.service";
+import { dashboardService } from "src/app/core/dashboard/dashboard.service";
 
 @Component({
   selector: "app-sales-credit-report",
@@ -20,14 +21,17 @@ export class SalesCreditReportsComponent {
   originalData = []; 
   paymentInData = [];
   paymentOutData = [];
-  searchByData = [
+ searchByData = [
     "Today",
-    "Yesterday",
-    "Last 7 Days",
+    "YesterDay",
+    "This Week",
+    "Last Week",
     "This Month",
-    "Last 3 Months",
-    "Last 6 Months",
+    "Last Month",
+    "This Quarter",
+    "Last Quarter",
     "This Year",
+    "Last Year",
   ];
   searchBy: string;
   exportColumns: any = [];
@@ -41,6 +45,7 @@ export class SalesCreditReportsComponent {
 
   constructor(private service: ReportsService,
     private salesService: SalesService,
+    private datefilter:dashboardService
 
   ) {}
   private formatDateForFilename(date: Date): string {
@@ -101,16 +106,45 @@ export class SalesCreditReportsComponent {
     const startDate = value[0];
     const endDate = value[1];
     this.getPaymentInReportData(startDate, endDate);
+    // let payload = {
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
+
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   ngOnInit(): void {
-    const today = new Date();
-    const endDate = new Date();
-    const startDate = new Date(today.getFullYear(), 3, 1);
-    this.searchBy = "This Year";
-    this.rangeDates = [startDate, endDate];
-    console.log(this.getTotalPaidAmount())
-    this.getPaymentInReportData(startDate, endDate);
+    let startDate: Date;
+    let endDate: Date;
+    this.datefilter.getUpdatedTime().subscribe((resp: any) => {
+      let dates = resp.data;
+      console.log("Received Dates:", dates);
+
+      if (dates.startUtc && dates.endUtc) {
+        startDate = new Date(dates.startUtc);
+        endDate = new Date(dates.endUtc);
+        this.searchBy = dates.filterby
+      } else {
+        console.log(" Dates:");
+        startDate = new Date(new Date().getFullYear(), 0, 1);
+        endDate = new Date();
+        this.searchBy = "This Year";
+      }
+
+      console.log(" Dates:>>", startDate, endDate);
+      const Sdate = this.formatDate(startDate);
+      const Edate = this.formatDate(endDate);
+
+      this.rangeDates = [startDate, endDate];
+      console.log("Formatted Dates:", Sdate, Edate);
+
+      this.getPaymentInReportData(startDate, endDate);
+    });
+
+ 
   }
 
   showInvoiceDialoge(Id: any) {
@@ -143,52 +177,88 @@ export class SalesCreditReportsComponent {
     const today = new Date();
     let startDate,
       endDate = today;
-    switch (value) {
-      case "Today":
-        startDate = new Date(today);
-        endDate = new Date(today);
-        break;
-      case "Yesterday":
-        startDate = new Date(today);
-        startDate.setDate(today.getDate() - 1);
-        endDate = new Date(startDate);
-        break;
-      case "Last 7 Days":
-        startDate = new Date(today);
-        startDate.setDate(today.getDate() - 7);
-        endDate = new Date(today);
-        break;
-      case "This Month":
-        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-        endDate = new Date(today);
-        break;
-      case "Last 3 Months":
-        startDate = new Date(today);
-        startDate.setMonth(today.getMonth() - 3);
-        endDate = new Date(today);
-        break;
-      case "Last 6 Months":
-        startDate = new Date(today);
-        startDate.setMonth(today.getMonth() - 6);
-        endDate = new Date(today);
-        break;
-      case "This Year":
-        if (today.getMonth() >= 3) {
-          // Current month is April (3) or later
-          startDate = new Date(today.getFullYear(), 3, 1); // April 1st of current year
-        } else {
-          startDate = new Date(today.getFullYear() - 1, 3, 1); // April 1st of previous year
-        }
-        endDate = new Date(today);
-        break;
-      default:
-        startDate = null;
-        endDate = null;
-        break;
-    }
-
+      switch (value) {
+        case "Today":
+          startDate = new Date(today);
+          break;
+  
+        case "YesterDay":
+          startDate = new Date(today);
+          startDate.setDate(today.getDate() - 1);
+          endDate = new Date(startDate);
+          break;
+  
+          case "This Week":
+            startDate = new Date(today);
+            startDate.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)); // Monday of this week
+            endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 6); // Sunday of this week
+            break;
+    
+          case "Last Week":
+            startDate = new Date(today);
+            startDate.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -13 : -6)); // Monday of last week
+            endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 6); // Sunday of last week
+            break;
+      
+  
+        case "This Month":
+          startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+          break;
+  
+        case "Last Month":
+          startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+          endDate = new Date(today.getFullYear(), today.getMonth(), 0); // Last day of previous month
+          break;
+  
+        case "This Quarter":
+          const currentQuarter = Math.floor(today.getMonth() / 3);
+          startDate = new Date(today.getFullYear(), currentQuarter * 3, 1);
+          break;
+  
+        case "Last Quarter":
+          const lastQuarter = Math.floor(today.getMonth() / 3) - 1;
+          const yearForLastQuarter =
+            lastQuarter < 0 ? today.getFullYear() - 1 : today.getFullYear();
+          startDate = new Date(
+            yearForLastQuarter,
+            (lastQuarter < 0 ? 3 : lastQuarter) * 3,
+            1
+          );
+          endDate = new Date(
+            startDate.getFullYear(),
+            startDate.getMonth() + 3,
+            0
+          );
+          break;
+  
+        case "This Year":
+          startDate = new Date(today.getFullYear(), 0, 1);
+          break;
+  
+        case "Last Year":
+          startDate = new Date(today.getFullYear() - 1, 0, 1);
+          endDate = new Date(today.getFullYear() - 1, 11, 31);
+          break;
+  
+        default:
+          startDate = null;
+          endDate = null;
+          break;
+      }
     this.rangeDates = [startDate, endDate];
     this.getPaymentInReportData(startDate, endDate);
+
+    // let payload = {
+    //   filterby: value,
+    //   endDate: endDate,
+    //   startDate: startDate,
+    // };
+
+    // this.datefilter.updAtedateRange(payload).subscribe((resp) => {
+    //   console.log("updt date resp", resp);
+    // });
   }
 
   formatDate(date: Date): string {

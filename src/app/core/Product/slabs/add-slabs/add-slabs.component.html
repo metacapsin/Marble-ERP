@@ -31,9 +31,38 @@
                 <div class="row">
                   <div class="m-b-10 d-flex justify-content-between">
                     <h3>Add Slab</h3>
-                    <button class="btn-primary btn" (click)="navigateToCreateBlockProcessor()">
+                    <button class="btn-primary btn" (click)="navigateToCreateBlockProcessor()" *ngIf="slabsAddForm && slabsAddForm.get('stockType')?.value !== 'OpeningStock'">
                       Add Block Processor
                     </button>
+                    
+                  </div>
+                  
+                  <div class="col-12 col-md-4 col-xl-4 col-sm-12">
+                    <div class="form-group local-forms">
+                      <label for="stockType">Stock Type<span class="login-danger">*</span></label>
+                      <p-dropdown 
+                        [options]="slabTypeOptions" 
+                        styleClass="" 
+                        appendTo="body"
+                        optionLabel="label" 
+                        optionValue="value" 
+                        placeholder="Select Slab Type"
+                        formControlName="stockType" 
+                        [style]="{ width: '100%' }" 
+                        [filter]="true" 
+                        filterBy="label"
+                        [showClear]="true" 
+                        (onChange)="onSlabTypeSelect($event.value)">
+                      </p-dropdown>
+                      <div *ngIf="
+                          slabsAddForm
+                            .get('stockType')
+                            ?.hasError('required') &&
+                          slabsAddForm.get('stockType')?.touched
+                        ">
+                        <span class="login-danger">Field is required.</span>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
@@ -110,7 +139,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4 col-sm-12">
+                  <div class="col-12 col-md-4 col-xl-4 col-sm-12" *ngIf="slabsAddForm && slabsAddForm.get('stockType')?.value !== 'OpeningStock'">
                     <div class="form-group local-forms">
                       <label for="lotDetails">Lot No. <span class="login-danger">*</span></label>
                       <p-dropdown [options]="fromWareHouseLotValue" styleClass="" appendTo="body" optionLabel="lotName"
@@ -129,10 +158,11 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4 col-sm-12">
+                  <div class="col-12 col-md-4 col-xl-4 col-sm-12" *ngIf="slabsAddForm && slabsAddForm.get('stockType')?.value !== 'OpeningStock'">
                     <div class="form-group local-forms">
                       <label for="blockDetails">Block Number<span class="login-danger">*</span></label>
-                      <p-dropdown [options]="blockDropDownData" styleClass="" appendTo="body" optionLabel="blockNo"
+                      <p-dropdown [options]="blockDropDownData" styleClass="" appendTo="body" optionLabel="label"  
+                        optionValue="value"  
                         (onChange)="onBlockSelect($event.value)" placeholder="Select Block"
                         formControlName="blockDetails" [style]="{ width: '100%' }" [filter]="true" filterBy="name"
                         [showClear]="true" (change)="calculateTotalAmount()">
@@ -150,15 +180,14 @@
                   </div>
 
 
-                  <div class="col-12 col-md-4 col-xl-4 col-sm-12">
+                  <div class="col-12 col-md-4 col-xl-4 col-sm-12" *ngIf="slabsAddForm && slabsAddForm.get('stockType')?.value !== 'OpeningStock'">
                     <div class="form-group local-forms">
                       <label for="blockProcessor">Processor<span class="login-danger">*</span></label>
-                    
+
                       <!-- This dropdown will only show if no blockProcessor exists -->
-                      <p-dropdown [options]="blockProcessorArray"
-                        appendTo="body" optionLabel="name" optionValue="_id" placeholder="Select Processor"
-                        formControlName="blockProcessor" [style]="{ width: '100%' }" [filter]="true" filterBy="name"
-                        [showClear]="false">
+                      <p-dropdown [options]="blockProcessorArray" appendTo="body" optionLabel="name" optionValue="_id"
+                        placeholder="Select Processor" formControlName="blockProcessor" [style]="{ width: '100%' }"
+                        [filter]="true" filterBy="name" [showClear]="false">
                       </p-dropdown>
 
                       <div
@@ -190,10 +219,19 @@
                   <div class="col-12 col-md-4 col-xl-4">
                     <div class="form-group local-forms">
                       <label for="subCategory">Sub Category <span class="login-danger">*</span></label>
-                      <p-dropdown [options]="SubCategoryFilterArray" styleClass="" appendTo="body" optionValue="_id"
-                        placeholder="Select Sub Category" optionLabel="name" formControlName="subCategoryDetail"
-                        [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false">
-                      </p-dropdown>
+                      <p-dropdown 
+                      [options]="SubCategoryFilterArray" 
+                      optionValue="_id"
+                      placeholder="Select Sub Category" 
+                      optionLabel="name" 
+                      formControlName="subCategoryDetail" 
+                     
+                      [style]="{ width: '100%' }" 
+                      [filter]="true" 
+                      filterBy="name" 
+                      [showClear]="false">
+                    </p-dropdown>
+                    
                       <div *ngIf="
                           slabsAddForm
                             .get('subCategoryDetail')
@@ -212,13 +250,8 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" style="font-size: 12px">Inch</span>
                         </div>
-                       
-                        <input
-                        type="text"
-                        class="form-control"
-          placeholder="Enter Width" formControlName="width"
-                        
-                      />
+
+                        <input type="text" class="form-control" placeholder="Enter Width" formControlName="width" />
                       </div>
 
                       <div *ngIf="
@@ -233,7 +266,7 @@
                       </div>
                     </div>
                   </div>
-                 
+
 
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
@@ -258,7 +291,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-4 col-xl-4 col-sm-12">
+                  <!-- <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
                       <label for="height">Height<span class="login-danger"></span></label>
                       <div class="input-group">
@@ -279,11 +312,11 @@
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="col-12 col-md-4 col-xl-4 col-sm-12">
                     <div class="form-group local-forms">
-                      <label for="thickness">Thickness(mm)<span class="login-danger"></span></label>
+                      <label for="thickness">Thickness(MM)<span class="login-danger"></span></label>
                       <input class="form-control" type="number" placeholder="Enter Thickness"
                         formControlName="thickness" />
 
@@ -331,8 +364,7 @@
                           slabsAddForm.get('notes')?.hasError('pattern') &&
                           slabsAddForm.get('notes')?.touched
                         ">
-                        <span class="login-danger">Input must be between 3 and 15 characters, without using the
-                          backspace</span>
+                        <span class="login-danger">Input must be between 3 and 500 characters.</span>
                       </div>
                     </div>
                   </div>
@@ -412,14 +444,24 @@
                           </div>
                           <div class="col-12">
                             <div class="form-group local-forms">
-                              <label for="noOfPieces">Pieces<span class="login-danger"></span></label>
+                              <label for="noOfPieces">Pieces<span class="login-danger">*</span></label>
                               <div class="input-group">
                                 <!-- <div class="input-group-prepend">
                                   <span class="input-group-text" style="font-size: 12px">Inch</span>
                                 </div> -->
-                                <input class="form-control" type="number" placeholder="Enter Pieces" formControlName="noOfPieces" />
+                                <input class="form-control" type="number" placeholder="Enter Pieces"
+                                  formControlName="noOfPieces" />
                               </div>
-        
+                              <div *ngIf="
+                                slabsAddForm
+                                  .get('noOfPieces')
+                                  ?.hasError('required') &&
+                                slabsAddForm.get('noOfPieces')
+                                  ?.touched
+                              ">
+                                <span class="login-danger">Field is required.</span>
+                              </div>
+
                               <div *ngIf="
                                   (slabsAddForm.get('noOfPieces')?.hasError('min') &&
                                     slabsAddForm.get('noOfPieces')?.touched) ||
@@ -432,7 +474,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-12">
+                          <div class="col-12" *ngIf="slabsAddForm && slabsAddForm.get('stockType')?.value !== 'OpeningStock'">
                             <div class="form-group local-forms">
                               <label for="processingFee">Processing Fee / Ton<span class="login-danger">*</span></label>
                               <div class="input-group">
@@ -468,8 +510,6 @@
                               </div>
                             </div>
                           </div>
-
-                          
 
                           <div class="col-12">
                             <div class="form-group local-forms">
@@ -533,7 +573,7 @@
                           <div class="col-12 mt-1">
                             <div class="form-group local-forms">
                               <label for="totalSqrFt">Selling Price / Sq. Feet<span
-                                  class="login-danger">*</span></label>
+                                  class="login-danger"></span></label>
 
                               <div class="input-group">
                                 <div class="input-group-prepend">
@@ -591,7 +631,7 @@
                           </p>
                           <p *ngIf="BlockWeight">
                             Block Weight ( Ton )
-                            <span>{{ BlockWeight }}</span>
+                            <span>{{ BlockWeight.toFixed(2) }}</span>
                           </p>
                           <p *ngIf="slabsAddForm.get('processingCost')?.value">
                             Processing Cost<span>

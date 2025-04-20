@@ -62,7 +62,7 @@ export class ListBillingAddressComponent implements OnInit {
         { field: "country.name", header: "Country Name" },
         { field: "addressLine1", header: "Address Line 1" },
         { field: "addressLine2", header: "Address Line 2" },
-        { field: "state", header: "State" },
+        { field: "state.name", header: "State" },
         { field: "city", header: "City" },
         { field: "phoneNumber", header: "Phone Number" },
         { field: "email", header: "Email" },
@@ -111,10 +111,14 @@ export class ListBillingAddressComponent implements OnInit {
   callBackModal() {
     this.userDataService
       .deleteBillingAddressById(this.billingAddressID)
-      .subscribe((resp) => {
-        const message = "Billing Address has been deleted";
-        this.messageService.add({ severity: "success", detail: message });
-        this.getuserList();
+      .subscribe((resp:any) => {
+        if(resp?.status == 'success'){
+          const message = "Billing Address has been deleted";
+          this.messageService.add({ severity: "success", detail: message });
+          this.getuserList();
+        } else {
+          this.messageService.add({ severity: "error", detail: resp?.message });
+        }
         this.showDialog = false;
       });
   }

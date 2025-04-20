@@ -23,6 +23,7 @@ export class EditSubCategoriesComponent {
   editSubCategoryForm!: FormGroup;
   categoriesListData = [];
   subCategoryDataById = [];
+
   constructor(
     private fb: FormBuilder,
     public dialog: MatDialog,
@@ -34,6 +35,7 @@ export class EditSubCategoriesComponent {
     this.editSubCategoryForm = this.fb.group({
       name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
       categoryId: ["", [Validators.required]],
+      hsnCode:["",[Validators.required]],
       description: ["", [Validators.pattern(validationRegex.descriptionRegex)]],
     });
   }
@@ -61,6 +63,7 @@ export class EditSubCategoriesComponent {
       name: data.name,
       categoryId: data.categoryId,
       description: data.description,
+      hsnCode:data.hsnCode
     });
   }
 

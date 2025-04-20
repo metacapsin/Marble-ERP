@@ -78,7 +78,7 @@
             <div class="form-group local-forms">
               <label for="category">Category <span class="login-danger">*</span></label>
               <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body" optionLabel="name"
-                optionValue="_id" placeholder="Select Category" formControlName="categoryDetail"
+                optionValue="_id" placeholder="Select Category" formControlName="categoryDetail" name="Category"
                 [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false"
                 (onChange)="findSubCategory($event.value)">
               </p-dropdown>
@@ -95,7 +95,7 @@
 
           <div class="col-12 col-md-6">
             <div class="form-group local-forms">
-              <label for="subCategory">Sub Category <span class="login-danger">*</span></label>
+              <label for="subCategory">Sub Category<span class="login-danger">*</span></label>
               <p-dropdown [options]="subCategorListByCategory" styleClass="" appendTo="body" optionValue="_id"
                 placeholder="Select Sub Category" optionLabel="name" formControlName="subCategoryDetail"
                 [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false">
@@ -176,6 +176,12 @@
                   appendTo="body" formControlName="ItemTax" optionLabel="orderTaxName" optionValue="orderNamevalue"
                   display="chip" (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
               </p-inputGroup>
+              <div *ngIf="
+              lotEditForm.hasError('taxRequired') && 
+              lotEditForm.get('taxableAmount')?.touched
+            ">
+            <span class="login-danger">Please apply tax.</span>
+          </div>
               <div *ngIf=" (lotEditForm.get('taxableAmount')?.hasError('min') &&
               lotEditForm.get('taxableAmount')?.touched) ||
             (lotEditForm.get('taxableAmount')?.hasError('max') &&
@@ -187,7 +193,7 @@
                   lotEditForm.get('taxable').value
                 " style="color: #97704f; font-size: 12px">
                 Tax Applied Amount:
-                {{ lotEditForm.get('taxable').value | number : "1.2-2" }}
+                {{ lotEditForm.get('taxable').value | indianCurrency }}
               </span>
             </div>
           </div>
@@ -235,15 +241,15 @@
                   lotEditForm.get('taxable').value  != 0
                 " style="color: #97704f; font-size: 12px">
                 Tax Applied Amount:
-                {{ lotEditForm.get('taxable').value | number : "1.2-2" }}
+                {{ lotEditForm.get('taxable').value | indianCurrency }}
                 + Non Taxable Amount :
                 {{
-                lotEditForm.get("nonTaxableAmount").value | number : "1.2-2"
+                lotEditForm.get("nonTaxableAmount").value | indianCurrency
                 }}
                 <span *ngIf="lotEditForm.get('purchaseDiscount').value > 0">
                   - Discount :
                   {{
-                  lotEditForm.get("purchaseDiscount").value | number : "1.2-2"
+                  lotEditForm.get("purchaseDiscount").value | indianCurrency
                   }}
                 </span>
               </span>
@@ -341,7 +347,7 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="blocksDetails.length > 0">
+  <div class="row" *ngIf="blocksDetails?.length > 0">
     <div class="col-sm-12">
       <div class="card card-table">
         <div class="card-body">
@@ -358,7 +364,7 @@
                   </h5>
                   <div class="col-lg-6 col-md-6 col-xl-6">
                     <p class="col-lg-6 col-form-label heading-bold">
-                      {{ lotEditForm.get("averageWeight").value?.toFixed(3) }}
+                      {{ lotEditForm.get("averageWeight")?.value?.toFixed(3) }}
                     </p>
                   </div>
                 </div>

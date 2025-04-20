@@ -27,8 +27,17 @@ getSlabHistoryById(data: {} | null) {
 updateSlabsById(data: {}) {
   return this.http.put(environment.apiUrl + "/SlabController/updateSlab" , data);
 }
+updateSlabExpense(data: {}) {
+  return this.http.put(environment.apiUrl + "/SlabController/updateSlabExpense" , data);
+}
 
 
+
+
+
+deleteSlabExpenseById(id: string) {
+  return this.http.delete(environment.apiUrl + "/SlabController/deleteSlabExpense/" + id,);
+}
 deleteSlabsById(id: string) {
   return this.http.delete(environment.apiUrl + "/SlabController/deleteSlab/" + id,);
 }

@@ -329,11 +329,11 @@ export class DataService {
           faIcon: true,
           role: [Role.Admin, Role.Provider, Role.HelpDesk],
           subMenus: [
-            {
-              menuValue: "Lots",
-              route: routes.lot,
-              base: routes.lot,
-            },
+            // {
+            //   menuValue: "Lots",
+            //   route: routes.lot,
+            //   base: routes.lot,
+            // },
             {
               menuValue: "Blocks",
               route: routes.blocks,
@@ -505,7 +505,7 @@ export class DataService {
               base: routes.expensesReport,
             },
             {
-              menuValue: "Tax Vendors Expenses Reports",
+              menuValue: "Tax Vendor Billing Reports",
               route: routes.taxVendorsReports,
               base: routes.taxVendorsReports,
             },

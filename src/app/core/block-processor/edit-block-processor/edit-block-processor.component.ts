@@ -33,7 +33,7 @@ export class EditBlockProcessorComponent {
   id: any;
 
   personNameRegex = /^[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
-  taxNumberRegex = /^[A-Za-z0-9]{15}$/;
+  taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{2,20}$/;
   emailRegex: string = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^(?!\s)(?!.*\s{3})(.{3,500})$/s;
   phoneRegex = /^[0-9]{10}$/;
@@ -54,6 +54,8 @@ export class EditBlockProcessorComponent {
       ],
       email: ["", [Validators.pattern(this.emailRegex)]],
       address: ["", [Validators.pattern(this.billingAddressRegex)]],
+      openingBalance: [0],
+      balanceType: ["Pay"],
     });
     this.id = this.activeRoute.snapshot.params["id"];
   }
@@ -80,17 +82,19 @@ export class EditBlockProcessorComponent {
       email: this.blockProcessorData.email,
       status: true,
       address: this.blockProcessorData.address,
+      openingBalance : this.blockProcessorData.openingBalance,
     });
   }
   editBlockProcessorFormSubmit() {
 
     const payload = {
-      id: this.id,
+      _id: this.id,
       name: this.editBlockProcessorForm.value.companyName,
       phoneNo: this.editBlockProcessorForm.value.phoneNo,
       email: this.editBlockProcessorForm.value.email,
       status: this.editBlockProcessorForm.value.status,
       address: this.editBlockProcessorForm.value.address,
+      openingBalance:Number(this.editBlockProcessorForm.value.openingBalance),
     };
     if (this.editBlockProcessorForm.valid) {
       this.Service.updateBlockProcessorData(payload).subscribe((resp: any) => {

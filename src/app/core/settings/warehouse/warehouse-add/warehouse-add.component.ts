@@ -45,7 +45,7 @@ export class WarehouseAddComponent {
     private messageService: MessageService
   ) {
     this.warehouseForm = this.fb.group({
-      name: ["", [Validators.required, Validators.pattern(validationRegex.nameREGEX)]],
+      name: ["", [Validators.required]],
       // slug: [
       //   "",
       //   [

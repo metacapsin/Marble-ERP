@@ -97,7 +97,7 @@
                       addExpensesGroup.get('recipient')?.hasError('pattern') &&
                       addExpensesGroup.get('recipient')?.touched
                     " class="login-danger Font_size">
-                    Recipient Must be between 3 to 30 characters.
+                    Recipient Must be between 3 to 100 characters.
                   </div>
                     <div
                       *ngIf="addExpensesGroup.get('recipient')?.hasError('required')  && addExpensesGroup.get('recipient')?.touched">

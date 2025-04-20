@@ -25,7 +25,7 @@
               </a>
             </li>
             <li>
-              Created On: {{blockProcessorData.createdOn | date: "dd-MMM-yyyy"}}
+              Created On: {{blockProcessorData.createdOn | date: 'dd-MMM-yyyy'}}
             </li>
           </ul>
         </div>
@@ -50,6 +50,14 @@
                     <p class="col-form-label">{{blockProcessorData.email}}</p>
                   </div>
                 </div>
+                <div class="form-group row mb-2" *ngIf="blockProcessorData.openingBalance">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                   Opening Balance
+                  </h5>
+                  <div class="col-lg-8 col-md-8 col-xl-8">
+                    <p class="col-form-label">{{ blockProcessorData.openingBalance }}</p>
+                  </div>
+                </div>
               </div>
               <div class="col-xl-6 col-lg-6 col-sm-12">
                 <div class="form-group row mb-2" *ngIf="blockProcessorData?.phoneNo">
@@ -64,7 +72,14 @@
                     <p class="col-form-label">{{blockProcessorData?.address}}</p>
                   </div>
                 </div>
-
+                <div class="form-group row mb-2" *ngIf=" dueBalance && dueBalance.dueAmount">
+                  <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                    Due Opening Balance
+                  </h5>
+                  <div class="col-lg-8 col-md-8 col-xl-8">
+                    <p class="col-form-label">{{ dueBalance.dueAmount }}</p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -74,16 +89,16 @@
     </div>
     <div class="card">
       <p-tabView>
-        <p-tabPanel header="Processed List">
+        <p-tabPanel header="Job Processor">
           <div class="page-table-header mb-2">
             <div class="row align-items-center">
               <div class="col">
                 <div class="doctor-table-blk">
-                  <h3>Processed List</h3>
+                  <h3>Job Work List</h3>
                   <div class="doctor-search-blk">
                     <div class="add-group textbtn">
                       <a class="btn btn-primary add-pluss ms-2 " (click)="addSlabProcessing()"><img
-                          src="assets/img/icons/plus.svg" alt=""> Add New</a>
+                          src="assets/img/icons/plus.svg" alt="">Add New Job</a>
                     </div>
                   </div>
                 </div>
@@ -148,51 +163,128 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-processing>
+              <tr class="bg-light font-weight-bold" *ngIf="dueBalance || slabProcessingDataList?.length">
+                
+              </tr>
               <tr>
+                <ng-container *ngIf="processing?.type === 'openBalance'">
+                  <td>Opening Balance</td>
+                <td>{{ dueBalance?.createdOn | date: "dd-MMM-yyyy" }}</td>
+                <td>{{ dueBalance?.creditPeriod || 0 }} Days</td>
+                <td *ngIf="dueBalance?.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                    value="Partial Paid"></p-tag></td>
+                <td *ngIf="dueBalance?.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
+                <td *ngIf="dueBalance?.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
+                <td>₹ {{ dueBalance?.paidAmount | indianCurrency }}</td>
+                <td>₹ {{ dueBalance?.dueAmount | indianCurrency }}</td>
+                <td>₹ {{ dueBalance?.totalAmount | indianCurrency }}</td>
+                <td appShowHide [roles]="['admin', 'super-admin']">
+                  <div class="action-buttons">
+                    <!-- <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"
+                      pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
+                      <!-- <p-button [text]="true" 
+                      pTooltip="View" ></p-button> -->
+                    <p-button *ngIf="dueBalance?.paymentStatus == 'Unpaid' || dueBalance?.paymentStatus ==  'Partial Paid'"
+                      [text]="true" icon="fa-solid fa-wallet" (click)="openeningBalancepopup(dueBalance?._id)" pTooltip="Payment"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    <div *ngIf="dueBalance?.paymentStatus != 'Unpaid' && dueBalance?.paymentStatus != 'Partial Paid'"
+                      class="placeholder"></div>
+                      <!-- <p-button [text]="true" 
+                      pTooltip="View" ></p-button> -->
+                    <!-- <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteOpeningBlnc(dueBalance._id)" pTooltip="Delete"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
+                  </div>
+                </td>
+                </ng-container>
+                <ng-container *ngIf="!processing?.type">
+
                 <td>
                   {{ processing?.processingInvoiceNo }}
                 </td>
                 <td>
-                  {{ processing?.processingDate }}
+                  {{ processing?.processingDate | date: 'dd-MMM-yyyy' }}
                 </td>
                 <td>
-                  {{ processing?.slab?.slabName }}
+                  {{ processing?.displayName }}
                 </td>
-                <td *ngIf="processing.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                <td *ngIf="processing?.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
                     value="Partial Paid"></p-tag></td>
-                <td *ngIf="processing.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
-                <td *ngIf="processing.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
+                <td *ngIf="processing?.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
+                <td *ngIf="processing?.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
                 <td>
-                  ₹ {{ processing.paidAmount |indianCurrency }}
+                  ₹ {{ processing?.paidAmount |indianCurrency }}
                 </td>
                 <td>
-                  ₹ {{ processing.dueAmount |indianCurrency }}
+                  ₹ {{ processing?.dueAmount |indianCurrency }}
                 </td>
                 <td>
-                  ₹ {{ processing.processingCost |indianCurrency }}
+                  ₹ {{ processing?.processingCost |indianCurrency }}
                 </td>
                 <td appShowHide [roles]="['admin', 'super-admin']">
                   <div class="action-buttons">
 
-                    <p-button *ngIf="processing.paymentStatus == 'Unpaid' " [text]="true" icon="fa fa-edit"
-                      (click)="editSlabProcessing(processing._id)" pTooltip="Edit" tooltipPosition="bottom"
+                    <!-- <p-button *ngIf="processing?.paymentStatus == 'Unpaid' " [text]="true" icon="fa fa-edit"
+                      (click)="editSlabProcessing(processing?._id)" pTooltip="Edit" tooltipPosition="bottom"
                       tooltipStyleClass="tooltip"></p-button>
-                    <div *ngIf="processing.paymentStatus != 'Unpaid'" class="placeholder"></div>
+                    <div *ngIf="processing?.paymentStatus != 'Unpaid'" class="placeholder"></div> -->
                     <p-button
-                      *ngIf="processing.paymentStatus == 'Unpaid' || processing.paymentStatus ==  'Partial Paid'"
-                      [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(processing._id)"
+                      *ngIf="processing?.paymentStatus == 'Unpaid' || processing?.paymentStatus ==  'Partial Paid'"
+                      [text]="true" icon="fa-solid fa-wallet" (click)="openPaymentDialog(processing?._id)"
                       pTooltip="Payment" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
-                    <div *ngIf="processing.paymentStatus != 'Unpaid' && processing.paymentStatus != 'Partial Paid'"
+                    <div *ngIf="processing?.paymentStatus != 'Unpaid' && processing?.paymentStatus != 'Partial Paid'"
                       class="placeholder"></div>
-                    <p-button [text]="true" icon="fa fa-trash" (click)="deleteSlabProcessing(processing._id)"
+                    <p-button [text]="true" icon="fa fa-trash" (click)="deleteSlabProcessing(processing?._id)"
                       pTooltip="Delete" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
                   </div>
                 </td>
+              </ng-container>
+
               </tr>
+          
             </ng-template>
+          
             <ng-template pTemplate="emptymessage">
-              <tr>
+              <tr class="bg-light font-weight-bold" *ngIf="dueBalance || slabProcessingDataList?.length">
+                <td>Opening Balance</td>
+                <td>{{ dueBalance?.createdOn | date: "dd-MMM-yyyy" }}</td>
+                <td>{{ dueBalance?.creditPeriod || 0 }} Days</td>
+                <td *ngIf="dueBalance?.paymentStatus == 'Partial Paid'"><p-tag severity="warning"
+                    value="Partial Paid"></p-tag></td>
+                <td *ngIf="dueBalance?.paymentStatus == 'Paid' "><p-tag severity="success" value="Paid"></p-tag></td>
+                <td *ngIf="dueBalance?.paymentStatus == 'Unpaid' "><p-tag severity="danger" value="Unpaid"></p-tag></td>
+                <td>₹ {{ dueBalance?.paidAmount | indianCurrency }}</td>
+                <td>₹ {{ dueBalance?.dueAmount | indianCurrency }}</td>
+                <td>₹ {{ dueBalance?.totalAmount | indianCurrency }}</td>
+                <td appShowHide [roles]="['admin', 'super-admin']">
+                  <div class="action-buttons">
+                    <!-- <p-button [text]="true" icon="fa-solid fa-eye" (click)="showInvoiceDialoge(sales._id)"
+                      pTooltip="View" tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
+                      <p-button [text]="true" 
+                      pTooltip="View" ></p-button>
+                    <p-button *ngIf="dueBalance?.paymentStatus == 'Unpaid' || dueBalance?.paymentStatus ==  'Partial Paid'"
+                      [text]="true" icon="fa-solid fa-wallet" (click)="openeningBalancepopup(dueBalance?._id)" pTooltip="Payment"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                    <div *ngIf="dueBalance?.paymentStatus != 'Unpaid' && dueBalance?.paymentStatus != 'Partial Paid'"
+                      class="placeholder"></div>
+                      <p-button [text]="true" 
+                      pTooltip="View" ></p-button>
+                    <!-- <p-button [text]="true" icon="fa-solid fa-trash" (click)="deleteOpeningBlnc(dueBalance._id)" pTooltip="Delete"
+                      tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button> -->
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="!slabProcessingDataList?.length && !dueBalance">
+              </tr>
                 <td colspan="8" class="text-center">No Slab Processing records found.</td>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <tr *ngIf="slabProcessingDataList?.length > 0">
+                <td colspan="3"></td>
+                <td class="text-right">Total:</td>
+                <td>₹ {{ getTotal('paidAmount') | indianCurrency }}</td>
+                <td>₹ {{ getTotal('dueAmount') | indianCurrency }}</td>
+                <td>₹ {{ getTotal('processingCost') | indianCurrency }}</td>
+                <td></td>
               </tr>
             </ng-template>
           </p-table>
@@ -223,20 +315,68 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-payment>
+              <!-- <tr *ngFor="let item of openingBalPayList">
+                <td>{{ 'Opening Balance' }}</td>
+                <td>{{ item.paymentDate | date: 'dd-MMM-yyyy' }}</td>
+                <td>{{ item.paymentMode }}</td>
+                <td>₹ {{ item.amount | indianCurrency }}</td>
+                <td>
+                  <p-button
+                    [text]="true"
+                    icon="fa fa-trash"
+                    (click)="deletePayment(item._id ,'balance')"
+                    pTooltip="Delete"
+                    tooltipPosition="bottom"
+                    tooltipStyleClass="tooltip"
+                  ></p-button>
+                </td>
+              </tr> -->
               <tr>
-                <td class="bold">{{payment.transactionNo}}</td>
-                <td class="bold">{{payment.paymentDate | date: 'dd-MMM-yyyy'}}</td>
-                <td>{{payment.paymentMode}}</td>
-                <td>₹ {{payment.amount | indianCurrency}}</td>
+                <td class="bold">{{payment?.transactionNo}}</td>
+                <td class="bold">{{payment?.paymentDate | date: 'dd-MMM-yyyy'}}</td>
+                <td>{{payment?.paymentMode}}</td>
+                <td>₹ {{payment?.amount | indianCurrency}}</td>
                 <td class="action-buttons">
-                  <p-button [text]=" true" icon="fa fa-trash" (click)=" deletePayment(payment._id)" pTooltip="Delete"
+                  <p-button [text]=" true" icon="fa fa-trash" (click)="payment?.openingBalanceId ? deletePayment(payment._id ,'balance') : deletePayment(payment?._id,'payment')" pTooltip="Delete"
                     tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
 
                 </td>
               </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
-              <tr>
+              <tr *ngFor="let item of openingBalPayList">
+                <!-- <td>
+                  <p-button
+                    type="button"
+                    pRipple
+                    (onClick)="toggleRow(item)"
+                    [text]="true"
+                    [rounded]="true"
+                    [plain]="true"
+                    [icon]="
+                      item.expanded
+                        ? 'fa-solid fa-chevron-down'
+                        : 'fa-solid fa-angle-right'
+                    "
+                  ></p-button>
+                </td> -->
+                <td>{{ 'Opening Balance' }}</td>
+                <!-- <td>{{ item.transactionNo }}</td> -->
+                <td>{{ item?.paymentDate | date: 'dd-MMM-yyyy' }}</td>
+                <td>{{ item?.paymentMode }}</td>
+                <td>₹ {{ item?.amount | indianCurrency }}</td>
+                <td>
+                  <p-button
+                    [text]="true"
+                    icon="fa fa-trash"
+                    (click)="deletePayment(item?._id,'balance')"
+                    pTooltip="Delete"
+                    tooltipPosition="bottom"
+                    tooltipStyleClass="tooltip"
+                  ></p-button>
+                </td>
+              </tr>
+              <tr *ngIf="openingBalPayList?.length <= 0">
                 <td colspan="4" class="text-center">No payment records found.</td>
               </tr>
             </ng-template>
@@ -309,8 +449,8 @@
             <div class="form-group local-forms">
               <label for="slab">Slab </label>
               <p-dropdown [options]="slabListData" [style]="{ width: '100%' }" styleClass="" appendTo="body"
-                (onChange)="onSlabSelect($event.value)" optionLabel="slabName" optionValue="_id"
-                placeholder="Select Slab" [filter]="true" filterBy="slabName" formControlName="slab">
+                (onChange)="onSlabSelect($event.value)" optionLabel="displayName" optionValue="_id"
+                placeholder="Select Slab" [filter]="true" filterBy="displayName" formControlName="slab">
               </p-dropdown>
             </div>
           </div>
@@ -461,4 +601,6 @@
 
 <app-payments-invoice-dialog  [ShowPaymentInvoice]="ShowPaymentInvoice" [dataById]="paymentObject" [header]="header"
   [dataItemsGrid]="paymentInvoicePurchaseDataShowById" (callbackModal)="callBackModal()"
-  (close)="close()"></app-payments-invoice-dialog>
+  (close)="close()" (formSubmitted)="close()" ></app-payments-invoice-dialog>
+
+ 

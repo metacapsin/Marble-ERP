@@ -18,18 +18,18 @@ export class TotalValueDirective {
   constructor(
     private elementRef: ElementRef,
     private indianCurrencyPipe: IndianCurrencyPipe
-  ) { }
+  ) {}
   @Input() set name(value: any) {
     this._name = value;
     console.log(value);
   }
   @Input() set data(value: any) {
     this._data = value;
-    console.log(this._name,this._data);
+    console.log(this._name, this._data);
     this.totalValue = 0;
     if (this._name == "stockAdjustmentData") {
       if (this._data == false) {
-        const setvalue = 0
+        const setvalue = 0;
         this.elementRef.nativeElement.textContent = `${setvalue}`;
       }
       this._data.forEach((element) => {
@@ -46,9 +46,9 @@ export class TotalValueDirective {
         this.elementRef.nativeElement.textContent = `₹ ${setvalue}`;
       }
       this._data.forEach((element) => {
-          if (element && element?.totalSQFT) {
-            const fixedTotalSQFT = parseFloat(element?.totalSQFT.toFixed(2));
-            this.totalValue += fixedTotalSQFT;
+        if (element && element?.totalSQFT) {
+          const fixedTotalSQFT = parseFloat(element?.totalSQFT.toFixed(2));
+          this.totalValue += fixedTotalSQFT;
         }
         const setValue = this.indianCurrencyPipe.transform(this.totalValue);
         this.elementRef.nativeElement.textContent = `${setValue}`;
@@ -60,18 +60,18 @@ export class TotalValueDirective {
         this.elementRef.nativeElement.textContent = `₹ ${setvalue}`;
       }
       this._data.forEach((element) => {
-          if (element && element?.lotTotalCosting) {
-            // const fixedlotTotalCosting = parseFloat(element.lotTotalCosting.toFixed(2));
-            const fixedlotTotalCosting = Number(element?.lotTotalCosting)
-            this.totalValue += fixedlotTotalCosting;
+        if (element && element?.lotTotalCosting) {
+          // const fixedlotTotalCosting = parseFloat(element.lotTotalCosting.toFixed(2));
+          const fixedlotTotalCosting = Number(element?.lotTotalCosting);
+          this.totalValue += fixedlotTotalCosting;
         }
         const setValue = this.indianCurrencyPipe.transform(this.totalValue);
-        this.elementRef.nativeElement.textContent = `${'₹ '+setValue}`;
+        this.elementRef.nativeElement.textContent = `${"₹ " + setValue}`;
       });
     }
     if (this._name == "expensesDataName") {
       if (this._data == false) {
-        const setvalue = 0
+        const setvalue = 0;
         this.elementRef.nativeElement.textContent = `₹ ${setvalue}`;
       }
       console.log(this.data);
@@ -85,7 +85,7 @@ export class TotalValueDirective {
     }
     if (this._name == "paymentIn") {
       if (this._data == false) {
-        const setvalue = 0
+        const setvalue = 0;
         this.elementRef.nativeElement.textContent = `₹ ${setvalue}`;
       }
       this.totalValue = 0;
@@ -99,7 +99,7 @@ export class TotalValueDirective {
     }
     if (this._name == "paymentOut") {
       if (this._data == false) {
-        const setvalue = 0
+        const setvalue = 0;
         this.elementRef.nativeElement.textContent = `₹ ${setvalue}`;
       }
       this.totalValue = 0;
@@ -113,7 +113,7 @@ export class TotalValueDirective {
     }
     if (this._name == "salesTaxReports") {
       if (this._data == false) {
-        const setvalue = 0
+        const setvalue = 0;
         this.elementRef.nativeElement.textContent = `₹ ${setvalue}`;
       }
       this._data.forEach((element) => {
@@ -172,8 +172,8 @@ export class TotalValueDirective {
       if (this._data == false) {
         this.paidAmount = 0;
         this.dueAmount = 0;
-        this.purchaseCost = 0
-        this.purchaseTotalAmount = 0
+        this.purchaseCost = 0;
+        this.purchaseTotalAmount = 0;
         this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
                                                         <td>Total Amount</td>
                                                         <td>₹ ${this.paidAmount}</td>
@@ -184,12 +184,12 @@ export class TotalValueDirective {
       } else {
         this.paidAmount = 0;
         this.dueAmount = 0;
-        this.purchaseCost = 0
-        this.purchaseTotalAmount = 0
+        this.purchaseCost = 0;
+        this.purchaseTotalAmount = 0;
 
         this._data.forEach((element) => {
           if (element?.paidAmount) {
-              this.paidAmount += element?.paidAmount;
+            this.paidAmount += element?.paidAmount;
           }
           if (element?.dueAmount) {
             this.dueAmount += element?.dueAmount;
@@ -266,33 +266,84 @@ export class TotalValueDirective {
                                                         `;
       }
     }
-    if (this._name == "taxVendorsReports") {
+    // if (this._name == "taxVendorsReports") {
+    //   console.log(this._data);
+    //   if (this._data == false) {
+    //     var paidAmount = 0;
+    //     var dueAmount = 0;
+    //     var taxVendorAmount = 0;
+    //     this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
+    //                                                     <td>Total Amount</td>
+    //                                                     <td>₹ ${paidAmount}</td>
+    //                                                     <td class="text-danger-dark">₹ ${dueAmount}</td>
+    //                                                     <td >₹ ${taxVendorAmount}</td>
+    //                                                     `;
+    //   } else {
+    //     this.paidAmount = 0;
+    //     this.dueAmount = 0;
+    //     this.taxVendorAmount = 0;
+
+    //     this._data.forEach((element) => {
+    //       console.log(element);
+    //       if (element?.taxVendor?.paidAmount) {
+    //         this.paidAmount += element?.taxVendor?.paidAmount;
+    //       }
+    //       if (element?.taxVendor?.dueAmount) {
+    //         this.dueAmount += element?.taxVendor?.dueAmount;
+    //       }
+    //       if (element?.taxVendor?.taxVendorAmount) {
+    //         this.taxVendorAmount += element?.taxVendor?.taxVendorAmount;
+    //       }
+    //     });
+
+    //     const paidAmount = this.indianCurrencyPipe.transform(this.paidAmount);
+    //     const dueAmount = this.indianCurrencyPipe.transform(this.dueAmount);
+    //     const taxVendorAmount = this.indianCurrencyPipe.transform(
+    //       this.taxVendorAmount
+    //     );
+
+    //     this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
+    //                                                     <td>Total Amount</td>
+    //                                                     <td>₹ ${paidAmount}</td>
+    //                                                     <td class="text-danger-dark">₹ ${dueAmount}</td>
+    //                                                     <td >₹ ${taxVendorAmount}</td>
+    //                                                     `;
+    //   }
+    // }
+
+    if (
+      this._name === "taxVendorsReports" ||
+      this._name === "taxSalesReports" ||
+      this._name === "TaxPurchaseReports"
+    ) {
       console.log(this._data);
-      if (this._data == false) {
-        var paidAmount = 0;
-        var dueAmount = 0;
-        var taxVendorAmount = 0;
-        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
-                                                        <td>Total Amount</td>
-                                                        <td>₹ ${paidAmount}</td>
-                                                        <td class="text-danger-dark">₹ ${dueAmount}</td>
-                                                        <td >₹ ${taxVendorAmount}</td>
-                                                        `;
+      if (!this._data) {
+        const paidAmount = 0;
+        const dueAmount = 0;
+        const taxVendorAmount = 0;
+
+        this.elementRef.nativeElement.innerHTML = `
+          <td colspan="6"></td>
+          <td>Total Amount</td>
+          <td>₹ ${paidAmount}</td>
+          <td class="text-danger-dark">₹ ${dueAmount}</td>
+          <td>₹ ${taxVendorAmount}</td>
+        `;
       } else {
         this.paidAmount = 0;
         this.dueAmount = 0;
         this.taxVendorAmount = 0;
 
         this._data.forEach((element) => {
-          console.log(element)
+          console.log(element);
           if (element?.taxVendor?.paidAmount) {
-            this.paidAmount += element?.taxVendor?.paidAmount;
+            this.paidAmount += element.taxVendor.paidAmount;
           }
           if (element?.taxVendor?.dueAmount) {
-            this.dueAmount += element?.taxVendor?.dueAmount;
+            this.dueAmount += element.taxVendor.dueAmount;
           }
           if (element?.taxVendor?.taxVendorAmount) {
-            this.taxVendorAmount += element?.taxVendor?.taxVendorAmount;
+            this.taxVendorAmount += element.taxVendor.taxVendorAmount;
           }
         });
 
@@ -302,34 +353,37 @@ export class TotalValueDirective {
           this.taxVendorAmount
         );
 
-        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
-                                                        <td>Total Amount</td>
-                                                        <td>₹ ${paidAmount}</td>
-                                                        <td class="text-danger-dark">₹ ${dueAmount}</td>
-                                                        <td >₹ ${taxVendorAmount}</td>
-                                                        `;
+        this.elementRef.nativeElement.innerHTML = `
+          <td colspan="6"></td>
+          <td>Total Amount</td>
+          <td>₹ ${paidAmount}</td>
+          <td class="text-danger-dark">₹ ${dueAmount}</td>
+          <td>₹ ${taxVendorAmount}</td>
+        `;
       }
     }
-    console.log(this._name)
+
+    console.log(this._name);
     if (this._name == "purchaseDataShowBy") {
-      console.log(this._data,"purchaseDataShowBy");
+      console.log(this._data, "purchaseDataShowBy");
       if (this._data == false) {
         var paidAmount = 0;
         var dueAmount = 0;
         var taxVendorAmount = 0;
-        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
+        this.elementRef.nativeElement.innerHTML = `     <td colspan="3"></td>
                                                         <td>Total Amount</td>
                                                         <td>₹ ${paidAmount}</td>
                                                         <td class="text-danger-dark">₹ ${dueAmount}</td>
                                                         <td >₹ ${taxVendorAmount}</td>
+                                                        <td></td>
                                                         `;
       } else {
         this.paidAmount = 0;
         this.dueAmount = 0;
         this.taxVendorAmount = 0;
 
-        this._data.forEach((element) => {
-          console.log(element)
+        this._data?.forEach((element) => {
+          console.log(element);
           if (element?.taxVendor?.paidAmount) {
             this.paidAmount += element?.taxVendor?.paidAmount;
           }
@@ -347,7 +401,7 @@ export class TotalValueDirective {
           this.taxVendorAmount
         );
 
-        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
+        this.elementRef.nativeElement.innerHTML = `     <td colspan="3"></td>
                                                         <td>Total Amount</td>
                                                         <td>₹ ${paidAmount}</td>
                                                         <td class="text-danger-dark">₹ ${dueAmount}</td>
@@ -356,12 +410,12 @@ export class TotalValueDirective {
       }
     }
     if (this._name == "salesDataShowBy") {
-      console.log(this._data,"salesDataShowBy");
+      console.log(this._data, "salesDataShowBy");
       if (this._data == false) {
         var paidAmount = 0;
         var dueAmount = 0;
         var taxVendorAmount = 0;
-        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
+        this.elementRef.nativeElement.innerHTML = `     <td colspan="3"></td>
                                                         <td>Total Amount</td>
                                                         <td>₹ ${paidAmount}</td>
                                                         <td class="text-danger-dark">₹ ${dueAmount}</td>
@@ -372,8 +426,8 @@ export class TotalValueDirective {
         this.dueAmount = 0;
         this.taxVendorAmount = 0;
 
-        this._data.forEach((element) => {
-          console.log(element)
+        this._data?.forEach((element) => {
+          console.log(element);
           if (element?.taxVendor?.paidAmount) {
             this.paidAmount += element?.taxVendor?.paidAmount;
           }
@@ -391,7 +445,7 @@ export class TotalValueDirective {
           this.taxVendorAmount
         );
 
-        this.elementRef.nativeElement.innerHTML = `     <td colspan="4"></td>
+        this.elementRef.nativeElement.innerHTML = `     <td colspan="3"></td>
                                                         <td>Total Amount</td>
                                                         <td>₹ ${paidAmount}</td>
                                                         <td class="text-danger-dark">₹ ${dueAmount}</td>
@@ -400,7 +454,7 @@ export class TotalValueDirective {
       }
     }
     if (this._name == "originalDataReports") {
-      console.log(this._data,"salesDataShowBy");
+      console.log(this._data, "");
       if (this._data == false) {
         var paidAmount = 0;
         var dueAmount = 0;
@@ -417,7 +471,7 @@ export class TotalValueDirective {
         this.taxVendorAmount = 0;
 
         this._data.forEach((element) => {
-          console.log(element)
+          console.log(element);
           if (element.taxVendor.paidAmount) {
             this.paidAmount += element.taxVendor.paidAmount;
           }

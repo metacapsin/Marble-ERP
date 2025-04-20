@@ -24,10 +24,13 @@ export class AddSuppliersComponent {
   // personNameRegex = /^[A-Za-z](?!.*\s{2})[A-Za-z. ]{2,28}[A-Za-z.]$/;
   personNameRegex = /^(?=.*[A-Za-z])[A-Za-z0-9](?!.*\s{2})[A-Za-z0-9. \/_-]{2,29}$/;
   // taxNumberRegex = /^[A-Za-z0-9]{15}$/;
-  taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{15}$/;
+ taxNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{2,20}$/;
+
   emailRegex: string = "^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   billingAddressRegex = /^(?!\s)(?!.*\s{3})(.{3,500})$/s;
   phoneRegex = /^[0-9]{10}$/;
+  panregex=/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/
+
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -49,10 +52,20 @@ export class AddSuppliersComponent {
       creditPeriod: ["", [Validators.min(0), Validators.max(180)]],
       creditLimit: ["", [Validators.min(0), Validators.max(9999999)]],
       billingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
+      openingbalance: [0],
+      balanceType: ["Pay"],
+      creditPeriodType:['Days'],
+      penCardNumber:['',[Validators.pattern(this.panregex)]]
       // shippingAddress: ["", [Validators.pattern(this.billingAddressRegex)]],
     });
   }
 
+  toUpperCase(event: any) {
+    let val = event.target.value.toUpperCase();
+    this.addSupplierGroup.patchValue({
+      penCardNumber: val,
+    });
+  }
   addSupplierForm() {
     console.log(this.addSupplierGroup.value);
     const payload = {
@@ -62,8 +75,11 @@ export class AddSuppliersComponent {
       taxNo: this.addSupplierGroup.value.taxNumber,
       status: true,
       creditPeriod: this.addSupplierGroup.value.creditPeriod,
+      creditPeriodType:this.addSupplierGroup.value.creditPeriodType,
       creditLimit: Number(this.addSupplierGroup.value.creditLimit),
       billingAddress: this.addSupplierGroup.value.billingAddress,
+      openingBalance:Number(this.addSupplierGroup.value.openingbalance),
+      penCardNumber:this.addSupplierGroup.value.penCardNumber
       // shippingAddress: this.addSupplierGroup.value.shippingAddress,
     };
     if (this.addSupplierGroup.value) {
