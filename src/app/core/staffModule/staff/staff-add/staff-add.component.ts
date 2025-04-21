@@ -84,7 +84,7 @@ export class StaffAddComponent {
       idNumber: [""],
       pinCode: ["", [Validators.pattern(validationRegex.pinCodeRegex)]],
       city: ["", [Validators.pattern(validationRegex.threeTothirtyCharRegex)]],
-      upiId: ["", [Validators.pattern(validationRegex.upiIdRegex)]],
+      upiId: ["", [Validators.pattern(/^[a-zA-Z0-9._%+!\-]{2,256}@[a-zA-Z0-9.-]{2,64}$/)]],
       bankName: ["", [Validators.pattern(validationRegex.threeToFiftyCharRegex)]],
       accountNumber: ["", [Validators.pattern(validationRegex.bankAccountNumberRegex)]],
       accountName: ["", [Validators.pattern(validationRegex.threeToFiftyCharRegex)]],
