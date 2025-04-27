@@ -363,7 +363,7 @@
                               [style]="{ width: '100%' }"
                               optionLabel="name"
                               [filter]="true"
-                              filterBy="slabName"
+                              filterBy="name"
                               optionValue="_id"
                               formControlName="salesWarehouseDetails"
                               placeholder="Select Warehouse"
@@ -401,10 +401,19 @@
                               [filter]="true"
                               filterBy="displayLabel"
                               optionValue="_id"
+                              name="salesItemProduct"
                               formControlName="salesItemProduct"
                               placeholder="Select Product"
                               (onChange)="onSlabSelect($event.value, i)"
-                            ></p-dropdown>
+                            >
+
+                            <ng-template let-option pTemplate="item">
+                              <div [ngClass]="{ 'disabled-item': option.totalSQFT === 0 }">
+                                {{ option.displayLabel }}
+                              </div>
+                            </ng-template>
+
+                          </p-dropdown>
                             <div
                               *ngIf="
                                 editSalesForm

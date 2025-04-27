@@ -220,7 +220,7 @@ export class routes {
     return this.baseUrl + '/invoice/invoices-grid';
   }
   public static get allInvoice(): string {
-    return this.baseUrl + '/invoice/all-invoice';
+    return this.baseUrl + '/dashboard/admin-dashboard';
   }
   public static get invoicesCancelled(): string {
     return this.baseUrl + '/invoice/invoices-cancelled';

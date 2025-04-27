@@ -609,9 +609,9 @@
                             </ng-template>
                           </td>
                           <ng-template #noTax>
-                            0
+                            <div class="no-tax">0</div>
                           </ng-template>
-                        
+                          
                           
                           <td>
                             ₹
@@ -986,7 +986,7 @@
                             }}
                           </span>
                         </p>
-                        <p *ngIf="sales?.otherCharges && sales?.salesDate">
+                        <!-- <p *ngIf="sales?.otherCharges && sales?.salesDate">
                           Other Charges
                           <small *ngIf="sales?.isOtherChargesTax" class="text-danger">(Tax Included)</small>
                           <span>+ ₹
@@ -1018,7 +1018,7 @@
                             : "0.00"
                             }}
                           </span>
-                        </p>
+                        </p> -->
 
 
 

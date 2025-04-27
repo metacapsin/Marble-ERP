@@ -764,10 +764,15 @@ this.getSlabsList();
 
   formatSlabSize(slabSize: string | undefined): string {
     if (!slabSize) return "N/A";
-
+  
     return slabSize
-      .split("x") // Split by "x"
-      .map((part) => (part.trim() ? part.trim() : "0")) // Replace empty parts with "0"
-      .join(" x "); // Join back with spaces around "x"
+      .split("x")
+      .map((part) => {
+        const num = parseFloat(part.trim());
+        if (isNaN(num)) return "0";
+        return num.toFixed(2);
+      })
+      .join(" x "); 
   }
+  
 }

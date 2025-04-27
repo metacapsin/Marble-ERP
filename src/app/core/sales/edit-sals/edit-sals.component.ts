@@ -274,16 +274,9 @@ export class EditSalsComponent implements OnInit {
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
       (resp: any) => {
         this.originalSlabData = resp.data;
-        console.log("resp.data?>>>", resp.data);
         this.slabDatas = resp.data.map((element) => ({
           name: element.slabName,
           displayLabel: `${element.slabName}(${element.slabNo})`,
-          // _id: {
-          //   _id: element._id,
-          //   slabName: element.slabName,
-          //   slabNo: element.slabNo,
-          //   hsnCode: element.subCategoryDetail?.hsnCode,
-          // },
           _id: {
             _id: element._id,
             slabName: element.slabName,
@@ -294,16 +287,20 @@ export class EditSalsComponent implements OnInit {
             categoryDetail: element.categoryDetail, 
             hsnCode: element.subCategoryDetail?.hsnCode,
           },
+          sellingPricePerSQFT: element.sellingPricePerSQFT,
+          sqftPerPiece: element.sqftPerPiece,
+          totalSQFT: element.totalSQFT,
         }));
+        console.log(" this.salesItemDetails", this.salesItemDetails);
         this.salesItemDetails.controls.forEach((element, index) => {
           if (i === index) {
             this.slabDataList[index] = this.slabDatas;
             const control = this.salesItemDetails.at(i);
             // control.get("salesItemProduct").reset();
-            // control.get("salesItemQuantity").reset();
-            // control.get("salesItemUnitPrice").reset();
-            // control.get("salesItemTax").reset();
-            this.calculateTotalAmount();
+            control.get("salesItemQuantity").reset();
+            control.get("salesItemUnitPrice").reset();
+            control.get("salesItemTax").reset();
+            // this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];
           }
@@ -311,6 +308,47 @@ export class EditSalsComponent implements OnInit {
       }
     );
   }
+  // onWareHouseSelect(value: any, i: number) {
+  //   this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
+  //     (resp: any) => {
+  //       this.originalSlabData = resp.data;
+  //       console.log("resp.data?>>>", resp.data);
+  //       this.slabDatas = resp.data.map((element) => ({
+  //         name: element.slabName,
+  //         displayLabel: `${element.slabName}(${element.slabNo})`,
+  //         // _id: {
+  //         //   _id: element._id,
+  //         //   slabName: element.slabName,
+  //         //   slabNo: element.slabNo,
+  //         //   hsnCode: element.subCategoryDetail?.hsnCode,
+  //         // },
+  //         _id: {
+  //           _id: element._id,
+  //           slabName: element.slabName,
+  //           slabNo: element.slabNo,
+  //           costPerSQFT: element.costPerSQFT,
+  //           salesItemTotalQuantity: element.totalSlabSQFT,
+  //           subCategoryDetail: element.subCategoryDetail,
+  //           categoryDetail: element.categoryDetail, 
+  //           hsnCode: element.subCategoryDetail?.hsnCode,
+  //         },
+  //       }));
+  //       this.salesItemDetails.controls.forEach((element, index) => {
+  //         if (i === index) {
+  //           this.slabDataList[index] = this.slabDatas;
+  //           const control = this.salesItemDetails.at(i);
+  //           // control.get("salesItemProduct").reset();
+  //           // control.get("salesItemQuantity").reset();
+  //           // control.get("salesItemUnitPrice").reset();
+  //           // control.get("salesItemTax").reset();
+  //           this.calculateTotalAmount();
+  //         } else if (!this.slabDataList[index]) {
+  //           this.slabDataList[index] = [];
+  //         }
+  //       });
+  //     }
+  //   );
+  // }
   editAddressWithDrop() {
     this.setAddressData = this.editSalesForm.get("billingAddress")?.value;
     console.log("setaddress", this.setAddressData);
@@ -685,7 +723,22 @@ export class EditSalsComponent implements OnInit {
     // });
   }
   onSlabSelect(value, i) {
-    console.log("value", value);
+    console.log("val", value);
+    console.log("this.slabDataList[i]", this.slabDataList[i]);
+    const selectedItem = this.slabDataList[i].find(
+      (item) => item._id._id === value._id
+    );
+
+    console.log("val", selectedItem);
+    const control = this.salesItemDetails.at(i);
+    // control.get("salesItemProduct").reset();
+    if (selectedItem) {
+      if (selectedItem.totalSQFT === 0) {
+        console.log("00");
+        control.get("salesItemProduct").reset();
+        return;
+      }
+    }
 
     console.log("this.originalSlabData", this.originalSlabData);
     const rec = this.originalSlabData?.find(
@@ -701,27 +754,32 @@ export class EditSalsComponent implements OnInit {
 
       salesItemDetails?.controls?.forEach((salesItemGroup: FormGroup) => {
         const existingProduct = salesItemGroup.get("salesItemProduct")?.value;
-        console.log("Existing Product:", existingProduct);
-        // Use Object.assign to update the object without changing the reference
-        if (existingProduct) {
-          Object.assign(existingProduct, {
-            hsnCode: rec?.hsnCode || null,
-          });
 
-          salesItemGroup.patchValue({
-            salesItemProduct: existingProduct,
-          });
-        }
+        // Use Object.assign to update the object without changing the reference
+        Object.assign(existingProduct, {
+          hsnCode: rec?.hsnCode || null,
+        });
+
+        salesItemGroup.patchValue({
+          salesItemProduct: existingProduct,
+        });
       });
     } else {
       console.error("hsnCode not found in rec:", rec);
     }
 
+    // console.log("salesItemDetails", this.addSalesForm);
+
     const salesItemDetailsArray = this.editSalesForm.get(
       "salesItemDetails"
     ) as FormArray;
 
-    const selectedSlab = this.slabData.find((slab) => slab._id === value._id);
+    console.log("salesItemDetailsArray", salesItemDetailsArray);
+
+    const selectedSlab = this.slabDataList[i].find(
+      (slab) => slab._id?._id === value._id
+    );
+    console.log("selectedSlab", selectedSlab);
 
     if (selectedSlab) {
       let remainingQuantity = selectedSlab.totalSQFT;
@@ -757,7 +815,7 @@ export class EditSalsComponent implements OnInit {
         );
       }
       if (sqftPerPieceControl) {
-        sqftPerPieceControl.patchValue(selectedSlab.sqftPerPiece);
+        sqftPerPieceControl.setValue(selectedSlab.sqftPerPiece);
         this.calculateTotalAmount();
       }
     } else {
@@ -1062,6 +1120,10 @@ console.error('Error setting form values:', error);
       this.editSalesForm
         .get("vendorTaxAmount")
         .setValue(Number(vendorTaxAmount));
+    } else {
+      this.editSalesForm
+      .get("vendorTaxAmount")
+      .setValue(Number(0));
     }
   }
 

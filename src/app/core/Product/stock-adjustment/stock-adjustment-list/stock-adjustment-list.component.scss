@@ -2,3 +2,8 @@
     text-overflow: ellipsis;
     cursor: pointer;
 }
+
+.disabled-item {
+    color: #ccc; 
+    pointer-events: none; 
+  }

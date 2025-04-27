@@ -66,7 +66,7 @@ export class AddsalesComponent implements OnInit {
   UpdtshippingAddress: any;
   isUpdateAddress: boolean = false;
   isrequired: boolean = false;
-
+  salesTermsAndCondition:String = "";
   manuallyEditedPieces: boolean[] = []; // Tracks which indexes have manually edited pieces
 
   constructor(
@@ -511,6 +511,8 @@ export class AddsalesComponent implements OnInit {
     });
     this.salesService.getVendorBillingList().subscribe((resp: any) => {
       this.address = resp.data;
+      const defaultAddress = this.address.find((item) => item.setAsDefault);
+      this.salesTermsAndCondition = defaultAddress?.termsAndCondition;
       console.log(" this.address", this.address);
       this.orgAddress = resp.data;
       this.dropAddress = [];

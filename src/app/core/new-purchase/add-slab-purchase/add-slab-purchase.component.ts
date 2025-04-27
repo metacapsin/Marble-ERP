@@ -57,7 +57,7 @@ export class AddSlabPurchaseComponent {
   taxesListData: any;
   categoryList: any[];
   CategoryListsEditArray: any[];
-
+  nonTaxableAmount: number;
   allSubCategoryList: any = [];
   subCategorListByCategory: any = [];
   maxPurchaseAmount = 0;
@@ -367,6 +367,11 @@ export class AddSlabPurchaseComponent {
   wasDiscountApplied: boolean = false;
 
   calculateTotalAmount() {
+    this.slabAddForm.patchValue({
+      nonTaxableAmount: this.slabTotalCost -  this.slabAddForm.get('taxableAmount')?.value
+    });
+
+    this.nonTaxableAmount = this.slabAddForm.get("nonTaxableAmount").value;
     const form = this.slabAddForm;
     const slabTotalAmount = this.slabTotalCost;
     const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;

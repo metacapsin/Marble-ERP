@@ -283,7 +283,7 @@ console.log('this.previouslotData',this.previouslotData)
       this.lotEditForm.patchValue({
         lotNo: lotDetails.lotNo || this.previouslotData.lotNo,
         lotName: lotDetails.lotName || this.previouslotData.lotName,
-        vehicleNo: lotDetails?.vehicleNo?.length == 0 ? null : lotDetails?.vehicleNo || this.previouslotData?.vehicleNo?.length == 0 ? null : this.previouslotData?.vehicleNo,
+        vehicleNo: lotDetails?.vehicleNo || this.previouslotData.categoryDetail.vehicleNo,
         warehouse: lotDetails.warehouseDetails || this.previouslotData.warehouseDetails,
         invoiceNo: lotDetails.invoiceNo || this.previouslotData.invoiceNo,
         lotWeight: lotDetails.lotWeight || this.previouslotData.lotWeight,

@@ -238,6 +238,7 @@ export class AddSalesReturnComponent {
       salesNotes: formData.salesNotes,
       salesTotalAmount: Number(formData.salesTotalAmount),
       returnOtherCharges: Number(formData.returnOtherCharges),
+      salesId: formData.salesInvoiceNumber._id,
     };
     if (this.addReturnSalesForm.valid) {
       this.Service.createSalesReturn(payload).subscribe((resp: any) => {
