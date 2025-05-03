@@ -26,6 +26,7 @@ import { TaxVendorsService } from "../../tax-vendors/tax-vendors.service";
 import { blockProcessorService } from "../../block-processor/block-processor.service";
 import { AddSlabPurchaseComponent } from "../add-slab-purchase/add-slab-purchase.component";
 import * as moment from 'moment';
+import { AddBlockComponent } from "../add-block/add-block.component";
 
 
 @Component({
@@ -36,6 +37,7 @@ import * as moment from 'moment';
     AddLotComponent,
     AddSlabsComponent,
     AddSlabPurchaseComponent,
+    AddBlockComponent
   ],
   templateUrl: "./add-new-purchase.component.html",
   styleUrl: "./add-new-purchase.component.scss",

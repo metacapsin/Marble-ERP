@@ -16,3 +16,13 @@ ul {
         margin-top: 10px;
     }
 }
+
+::ng-deep{
+    .p-stepper .p-stepper-header.p-highlight .p-stepper-number {
+        background: #97704F;
+        color: #FFFFFF;
+    }
+    .p-stepper .p-stepper-header.p-highlight .p-stepper-title {
+        color: #97704F;
+    }
+} 
