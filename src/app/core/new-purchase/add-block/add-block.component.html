@@ -254,243 +254,153 @@
    
 </div>
 
-<p-dialog header="Add Block" [(visible)]="addvisible" [modal]="true" [style]="{ width: '60%'}"
-    (onHide)="closeSlabForm(myForm)">
-    <div class="modal-content mt-2">
-        <div class="modal-body">
+<p-dialog [(visible)]="addvisible" [modal]="true" [style]="{ width: '650px'}"
+    (onHide)="closeSlabForm(myForm)" styleClass="add-block-dialog" [showHeader]="false">
+    <div class="dialog-content">
+        <div class="dialog-header">
+            <div class="dialog-title"><strong>Add Block</strong></div>
+            <div class="unit-selector">
+                Unit : Inch <i class="pi pi-chevron-down"></i>
+            </div>
+            <button type="button" class="close-btn" (click)="closeSlabForm(myForm)">
+                ×
+            </button>
+        </div>
+        <div class="form-container">
             <form #myForm="ngForm">
-                <div>
-                    <div class="row">
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="slabName">Marble / Stone Name</label>
-                                <input class="form-control" type="text" placeholder="Enter Marble / Stone Name"
-                                    pattern="^.{1,50}$" name="marbleName" [(ngModel)]="marbleName"
-                                    (change)="getSlabDetails()" #MARBLENAME="ngModel" />
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="category">Category</label>
+                        <p-dropdown [options]="CategoryListsEditArray" styleClass="w-100" appendTo="body"
+                            optionLabel="name" optionValue="_id" placeholder="Select Category"
+                            [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false"
+                            required [(ngModel)]="category" #CATEGORY="ngModel" name="category" required
+                            (onChange)="findSubCategory($event.value)"></p-dropdown>
+                        <div *ngIf="CATEGORY.touched && !category?.name" class="error-message">
+                            Category is required.
+                        </div>
+                    </div>
+
+                    <div class="form-col">
+                        <label for="subCategory">Sub Category</label>
+                        <p-dropdown 
+                            [options]="subCategorListByCategory" 
+                            styleClass="w-100" 
+                            appendTo="body"
+                            placeholder="Select Sub Category" 
+                            optionLabel="name" 
+                            optionValue="_id" 
+                            (onChange)="getHsnCode($event.value)" 
+                            [style]="{ width: '100%' }" 
+                            [filter]="true" 
+                            filterBy="name" 
+                            [showClear]="false" 
+                            required 
+                            [(ngModel)]="subCategory" 
+                            name="subCategory" 
+                            #SUBCATEGORY="ngModel">
+                        </p-dropdown>
+                        <div *ngIf="SUBCATEGORY.touched && !subCategory?.name" class="error-message">
+                            Sub Category is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="blockNumber">Block Number</label>
+                        <input class="form-control" type="text" placeholder="001"
+                            pattern="^.{1,50}$" required name="slabNumber" [(ngModel)]="slabNumber"
+                            (change)="getSlabDetails()" #SLABNUMBER="ngModel" />
+                    </div>
+
+                    <div class="form-col">
+                        <label for="blockSize">Block Size (inch²)</label>
+                        <input class="form-control" type="text" placeholder="336960"
+                            name="blockSize" [(ngModel)]="blockSize" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="length">Length</label>
+                        <input class="form-control" type="number" id="length" name="length"
+                            (change)="getSlabDetails()" min="1" max="500" placeholder="120"
+                            [(ngModel)]="length" #LENGTH="ngModel" />
+                    </div>
+
+                    <div class="form-col">
+                        <label for="width">Width</label>
+                        <input class="form-control" type="number" id="width" name="width"
+                            (change)="getSlabDetails()" min="1" max="500" placeholder="36"
+                            [(ngModel)]="width" #WIDTH="ngModel" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="height">Height</label>
+                        <input class="form-control" type="number" id="thickness" name="thickness"
+                            (change)="getSlabDetails()" min="1" max="500" placeholder="78"
+                            [(ngModel)]="thickness" #THISCKNESS="ngModel" />
+                    </div>
+
+                    <div class="form-col">
+                        <label for="blockProcessor">Block Processor</label>
+                        <div class="dropdown-container">
+                            <p-dropdown [options]="finisheshList" styleClass="w-100" appendTo="body" name="blockProcessor"
+                                placeholder="Royal Edge Stone Works" optionLabel="name" [style]="{ width: '100%' }"
+                                [filter]="true" filterBy="name" [showClear]="true" [(ngModel)]="finishes"
+                                #FINISHESH="ngModel">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row no-border">
+                    <div class="form-col">
+                        <label for="blockCode">Block Code</label>
+                        <div class="block-code-container">
+                            <input class="form-control" type="text" placeholder="12355865"
+                                name="blockCode" [(ngModel)]="blockCode" />
+                            <div class="code-icons">
+                                <button pButton type="button" icon="pi pi-qrcode" class="p-button-secondary p-button-sm"></button>
+                                <button pButton type="button" icon="pi pi-camera" class="p-button-secondary p-button-sm"></button>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="slabNumber">Slab Number <span class="login-danger">*</span></label>
-                                <input class="form-control" type="text" placeholder="Enter Slab Number"
-                                    pattern="^.{1,50}$" required name="slabNumber" [(ngModel)]="slabNumber"
-                                    (change)="getSlabDetails()" #SLABNUMBER="ngModel" />
-                                <div *ngIf="SLABNUMBER.invalid && (SLABNUMBER.dirty || SLABNUMBER.touched)">
-                                    <div *ngIf="SLABNUMBER.errors?.['required']">
-                                        <span class="login-danger">Slab Number is required.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="category">Category <span class="login-danger">*</span></label>
-                                <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body"
-                                    optionLabel="name" optionValue="_id" placeholder="Select Category"
-                                    [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false"
-                                    required [(ngModel)]="category" #CATEGORY="ngModel" name="category" required
-                                    (onChange)="findSubCategory($event.value)"></p-dropdown>
-                                <!-- <div *ngIf="CATEGORY.invalid && (CATEGORY.dirty || CATEGORY.touched)">
-                                        <div *ngIf="CATEGORY.errors?.['required']">
-                                            <span class="login-danger">Category is required.</span>
-                                        </div>
-                                    </div> -->
-                                <div *ngIf="CATEGORY.touched">
-                                    <span class="login-danger" *ngIf="!category?.name">Category is required.</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="subCategory">Sub Category<span class="login-danger">*</span></label>
-                                <p-dropdown 
-                                [options]="subCategorListByCategory" 
-                                styleClass="" 
-                                appendTo="body"
-                                placeholder="Select Sub Category" 
-                                optionLabel="name" 
-                                optionValue="_id" 
-                                (onChange)="getHsnCode($event.value)" 
-                                [style]="{ width: '100%' }" 
-                                [filter]="true" 
-                                filterBy="name" 
-                                [showClear]="false" 
-                                required 
-                                [(ngModel)]="subCategory" 
-                                name="subCategory" 
-                                #SUBCATEGORY="ngModel">
-                              </p-dropdown>
-                              
-                                <!-- <div *ngIf="SUBCATEGORY.invalid && (SUBCATEGORY.dirty || SUBCATEGORY.touched)">
-                                        <div *ngIf="SUBCATEGORY.errors?.['required']">
-                                            <span class="login-danger">Sub Category is required.</span>
-                                        </div>
-                                    </div> -->
-                                <div *ngIf="SUBCATEGORY.touched">
-                                    <span class="login-danger" *ngIf="!subCategory?.name">Sub Category is
-                                        required.</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="noOfPieces">Number of Pieces <span class="login-danger">*</span> </label>
-                                <input class="form-control" type="number" placeholder="Enter Number of Pieces"
-                                    name="noOfPieces" (change)="getSlabDetails()" min="1" max="10000" required
-                                    [(ngModel)]="noOfPieces" #NOOFPIECES="ngModel" />
-                                <div *ngIf="NOOFPIECES.invalid && (NOOFPIECES.dirty || NOOFPIECES.touched)">
-                                    <div *ngIf="NOOFPIECES.errors?.['required']">
-                                        <span class="login-danger">Field is required.</span>
-                                    </div>
-                                    <div *ngIf="NOOFPIECES.errors?.['min'] || NOOFPIECES.errors?.['max']">
-                                        <span class="login-danger">Number Of Pieces must be between 1 and 10000.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Length Field -->
-                        <div class="col-12 col-md-6 col-xl-6 mt-2">
-                            <div class="form-group local-forms">
-                                <label for="length">Length </label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Inch</span>
-                                    </div>
-                                    <input class="form-control" type="number" id="length" name="length"
-                                        (change)="getSlabDetails()" min="1" max="500" placeholder="Enter Length"
-                                        [(ngModel)]="length" #LENGTH="ngModel" />
-                                </div>
-                                <div *ngIf="LENGTH.invalid && (LENGTH.dirty || LENGTH.touched)">
-                                    <!-- <div *ngIf="LENGTH.errors?.['required']">
-                  <span class="login-danger">Field is required.</span>
-                </div> -->
-                                    <div *ngIf="LENGTH.errors?.['min'] || LENGTH.errors?.['max']">
-                                        <span class="login-danger">Length must be between 1 and 500.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Width Field -->
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="width">Width </label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Inch</span>
-                                    </div>
-                                    <input class="form-control" type="number" id="width" name="width"
-                                        (change)="getSlabDetails()" min="1" max="500" placeholder="Enter Width"
-                                        [(ngModel)]="width" #WIDTH="ngModel" />
-                                </div>
-                                <div *ngIf="WIDTH.invalid && (WIDTH.dirty || WIDTH.touched)">
-                                    <!-- <div *ngIf="WIDTH.errors?.['required']">
-                  <span class="login-danger">Field is required.</span>
-                </div> -->
-                                    <div *ngIf="WIDTH.errors?.['min'] || WIDTH.errors?.['max']">
-                                        <span class="login-danger">Width must be between 1 and 500.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Height Field -->
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="thickness">Thickness </label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">MM</span>
-                                    </div>
-                                    <input class="form-control" type="number" id="thickness" name="thickness"
-                                        (change)="getSlabDetails()" min="1" max="500" placeholder="Enter Thickness"
-                                        [(ngModel)]="thickness" #THISCKNESS="ngModel" />
-                                </div>
-                                <div *ngIf="THISCKNESS.invalid && (THISCKNESS.dirty || THISCKNESS.touched)">
-                                    <!-- <div *ngIf="THISCKNESS.errors?.['required']">
-                                        <span class="login-danger">Field is required.</span>
-                                    </div> -->
-                                    <div *ngIf="THISCKNESS.errors?.['min'] || THISCKNESS.errors?.['max']">
-                                        <span class="login-danger">Thickness must be between 1 and 500.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="finishes">Finishes</label>
-                                <p-dropdown [options]="finisheshList" styleClass="" appendTo="body" name="finishes"
-                                    placeholder="Select finishes" optionLabel="name" [style]="{ width: '100%' }"
-                                    [filter]="true" filterBy="name" [showClear]="true" [(ngModel)]="finishes"
-                                    #FINISHESH="ngModel">
-                                </p-dropdown>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="quantity">Quantity (Sq. Feet) <span class="login-danger">*</span> </label>
-                                <input class="form-control" type="number" name="quantity" (change)="getSlabDetails()"
-                                    min="1" max="1000000" placeholder="Enter Quantity" [(ngModel)]="quantity" required
-                                    #QUANTITY="ngModel" />
-                                <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
-                                    <div *ngIf="QUANTITY.errors?.['required']">
-                                        <span class="login-danger">Quantity is required.</span>
-                                    </div>
-                                    <div *ngIf="QUANTITY.errors?.['min'] || QUANTITY.errors?.['max']">
-                                        <span class="login-danger">Quantity must be between 1 and 1000000.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="ratePerSqFeet">Rate / Sq. Feet <span class="login-danger">*</span> </label>
-                                <input class="form-control" type="number" placeholder="Enter Rate / Sq. Feet"
-                                    name="ratePerSqFeet" (change)="getSlabDetails()" min="1" max="1000000"
-                                    [(ngModel)]="ratePerSqFeet" #RATEPERSQFT="ngModel" required />
-                                <div *ngIf="RATEPERSQFT.invalid && (RATEPERSQFT.dirty || RATEPERSQFT.touched)">
-                                    <div *ngIf="RATEPERSQFT.errors?.['required']">
-                                        <span class="login-danger">Ṛate / Sq. Feet is required.</span>
-                                    </div>
-                                    <div *ngIf="RATEPERSQFT.errors?.['min'] || RATEPERSQFT.errors?.['max']">
-                                        <span class="login-danger">Rate / Sq. Feet must be between 1 and 1000000.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="totalAmount">Total Amount <span class="login-danger">*</span> </label>
-                                <input class="form-control" type="number" name="totalAmount" placeholder="Total Amount"
-                                    [disabled]="true" [(ngModel)]="totalAmount" #TOTALAMOUNT="ngModel" />
-                            </div>
-                        </div>
-
-                        <!-- check required for catgory and sub category -->
-                        <div class="col-12">
-                            <div class="settings-btns text-end m-b-10">
-                                <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                    (click)="addSlabDetails(myForm) ; calculateTotalAmount()"
-                                    [disabled]="myForm.invalid || !subCategory?.name || !category?.name">
-                                    Save
-                                </button>
-                                <button type="button" class="btn btn-secondary" (click)="closeSlabForm(myForm)">
-                                    Cancel
-                                </button>
+                    <div class="form-col">
+                        <label for="blockPhotos">Block Photos</label>
+                        <div class="photo-upload-area">
+                            <div class="photo-item"></div>
+                            <div class="photo-item"></div>
+                            <div class="photo-item"></div>
+                            <div class="photo-item"></div>
+                            <div class="photo-item photos-add-btn">
+                                <button pButton type="button" icon="pi pi-images" class="p-button-text p-button-rounded p-button-sm add-photos-btn"></button>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="dialog-footer">
+            <div class="footer-buttons">
+                <button type="button" class="btn-save"
+                    (click)="addSlabDetails(myForm) ; calculateTotalAmount()"
+                    >
+                    Save
+                </button>
+                <button type="button" class="btn-cancel" (click)="closeSlabForm(myForm)">
+                    Cancel
+                </button>
+            </div>
+            <div class="add-more-link">
+                <a href="javascript:void(0)" class="add-more-block">
+                    <strong>Add More Block</strong>
+                </a>
+            </div>
         </div>
     </div>
 </p-dialog>

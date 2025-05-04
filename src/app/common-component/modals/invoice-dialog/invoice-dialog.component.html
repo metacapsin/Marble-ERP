@@ -986,7 +986,7 @@
                             }}
                           </span>
                         </p>
-                        <!-- <p *ngIf="sales?.otherCharges && sales?.salesDate">
+                        <p *ngIf="sales?.otherCharges && sales?.salesDate && sales?.slabDetails">
                           Other Charges
                           <small *ngIf="sales?.isOtherChargesTax" class="text-danger">(Tax Included)</small>
                           <span>+ ₹
@@ -994,14 +994,14 @@
                             sales?.otherCharges || 0 | indianCurrency
                             }}</span>
                         </p>
-                        <p *ngIf="sales?.otherCharges && sales?.purchaseDate">
+                        <p *ngIf="sales?.otherCharges && sales?.purchaseDate && sales?.slabDetails">
                           Other Charges
                           <span>+ ₹
                             {{
                             sales?.otherCharges || 0 | indianCurrency
                             }}</span>
                         </p>
-                        <p *ngIf="
+                        <!-- <p *ngIf="
                             sales?.salesReturnOtherCharges ||
                             sales?.purchaseReturnOtherCharges
                           ">

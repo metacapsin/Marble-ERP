@@ -297,9 +297,9 @@ export class EditSalsComponent implements OnInit {
             this.slabDataList[index] = this.slabDatas;
             const control = this.salesItemDetails.at(i);
             // control.get("salesItemProduct").reset();
-            control.get("salesItemQuantity").reset();
-            control.get("salesItemUnitPrice").reset();
-            control.get("salesItemTax").reset();
+            // control.get("salesItemQuantity").reset();
+            // control.get("salesItemUnitPrice").reset();
+            // control.get("salesItemTax").reset();
             // this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];

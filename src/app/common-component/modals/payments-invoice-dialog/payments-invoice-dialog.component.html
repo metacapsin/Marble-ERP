@@ -1409,10 +1409,10 @@
 
                               <span
                                 style="color: #97704f; font-size: 12px"
-                                *ngIf="dataById.isSalesReturn"
+                                *ngIf="dataById?.salesDueAmount"
                                 >Max Value : ₹
                                 {{
-                                  dataById.salesDueAmount | indianCurrency
+                                  dataById?.salesDueAmount | indianCurrency
                                 }}</span
                               >
                               <div

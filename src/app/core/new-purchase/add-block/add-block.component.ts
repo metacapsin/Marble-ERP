@@ -49,6 +49,8 @@ export class AddBlockComponent {
   quantity: number;
   ratePerSqFeet: number;
   totalAmount: number;
+  blockSize: string;
+  blockCode: string;
   addvisible: boolean = false;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   slabTotalCost: number = 0;
@@ -268,16 +270,16 @@ export class AddBlockComponent {
       this.slabDetails = [];
     }
 
-    if (
-      !this.slabNumber ||
-      this.quantity === null ||
-      this.totalAmount === null ||
-      this.ratePerSqFeet === null
-    ) {
-      const message = "Please fill all required fields.";
-      this.messageService.add({ severity: "error", detail: message });
-      return;
-    }
+    // if (
+    //   !this.slabNumber ||
+    //   this.quantity === null ||
+    //   this.totalAmount === null ||
+    //   this.ratePerSqFeet === null
+    // ) {
+    //   const message = "Please fill all required fields.";
+    //   this.messageService.add({ severity: "error", detail: message });
+    //   return;
+    // }
 
     const newSlab = {
       slabName: this.marbleName,

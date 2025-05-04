@@ -99,7 +99,7 @@ export class PaymentsInvoiceDialogComponent implements OnInit {
   ) {
     this.paymentInvoiceForm = this.fb.group({
       paymentDate: [this.getFormattedDate(this.currentDate), Validators.required],
-      paymentMode: ["", [Validators.required]],
+      paymentMode: ["Cash", [Validators.required]],
       note: [""],
       totalAmount: [
         this.dataById.salesDueAmount,
@@ -385,6 +385,17 @@ getFormattedDate(date: Date): string {
         });
         console.log(this.paymentInvoiceForm.get("totalAmount")?.errors);
         console.log(this.paymentInvoiceForm.get("totalAmount")?.valid);
+      } else if (this.dataById.salesInvoiceNumber === "Opening Balance") {
+        // Add specific handling for Opening Balance
+        totalAmount.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(this.dataById.dueAmount || this.dataById.salesDueAmount),
+        ]);
+        this.paymentInvoiceForm.patchValue({
+          totalAmount: this.dataById.dueAmount || this.dataById.salesDueAmount,
+          paymentMode: "Cash",
+        });
       }
 
       totalAmount.updateValueAndValidity();

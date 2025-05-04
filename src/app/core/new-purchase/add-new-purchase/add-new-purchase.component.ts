@@ -77,6 +77,18 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   isProcessed: boolean = false;
   blockProcessorList: any = [];
 
+  // Expenses section properties
+  expensesExpanded: boolean = true;
+  expenses: any[] = [
+    { id: 1, type: 'Transportation Charge', payment: '400.00', paidBy: 'supplier' },
+    { id: 2, type: 'Other Charge', payment: '2000', paidBy: 'self' }
+  ];
+  expenseTypeOptions = [
+    { label: 'Transportation Charge', value: 'Transportation Charge' },
+    { label: 'Other Charge', value: 'Other Charge' },
+    { label: 'Royalty Charge', value: 'Royalty Charge' }
+  ];
+
   categoryList: any;
   finishes = [
     { name: "Polished" },
@@ -168,6 +180,10 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       vehicleNo: [""],
       totalSQFT: [""],
       isTaxVendor: [false],
+      taxGST: [""],
+      nonTaxableAmount: [""],
+      purchaseCost: [""],
+      discount: [""],
     });
   }
 
@@ -731,5 +747,32 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.handleBeforeUnload();
+  }
+
+  // Expenses section methods
+  toggleExpenses(): void {
+    this.expensesExpanded = !this.expensesExpanded;
+  }
+
+  addExpense(event: Event): void {
+    event.stopPropagation(); // Prevent the click from triggering the toggle
+    const newId = this.expenses.length > 0 ? Math.max(...this.expenses.map(e => e.id)) + 1 : 1;
+    this.expenses.push({
+      id: newId,
+      type: '',
+      payment: '',
+      paidBy: 'self'
+    });
+  }
+
+  removeExpense(index: number): void {
+    this.expenses.splice(index, 1);
+  }
+
+  removeLastExpense(event: Event): void {
+    event.stopPropagation(); // Prevent the click from triggering the toggle
+    if (this.expenses.length > 0) {
+      this.expenses.pop();
+    }
   }
 }
