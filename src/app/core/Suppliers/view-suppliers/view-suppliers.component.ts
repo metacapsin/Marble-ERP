@@ -399,6 +399,8 @@ export class ViewSuppliersComponent {
     } else {
       this.getPurchase();
       this.getPaymentListBySupplierId();
+      this.getPurchaseReturnPaymentListBySupplierId();
+      this.getPurchaseReturn();
     }
   }
 
