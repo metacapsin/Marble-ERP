@@ -97,6 +97,14 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   LotPayload: any;
   blockProcessor: any;
   slabDetails: any;
+  vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
+  expensesExpanded: boolean = true;
+  expenses: any[] = [];
+  expenseTypeOptions = [
+    { name: 'Transportation', value: 'transportation' },
+    { name: 'Royalty', value: 'royalty' },
+    { name: 'Other', value: 'other' }
+  ];
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -163,8 +171,8 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       taxApplied: [""],
       transportationCharges: [""],
       otherCharges: [""],
-      vehicleNo: [""],
-      totalSQFT: [""],
+      vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
+      warehouse: ["", [Validators.required]],      totalSQFT: [""],
       isTaxVendor: [false],
     });
   }
@@ -263,6 +271,14 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         });
       });
     });
+  }
+
+  public setValidations(formControlName: string) {
+    return (
+      this.addNewPurchaseForm.get(formControlName)?.invalid &&
+      (this.addNewPurchaseForm.get(formControlName)?.dirty ||
+        this.addNewPurchaseForm.get(formControlName)?.touched)
+    );
   }
 
   findSubCategory(value: any) {
@@ -729,5 +745,31 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.handleBeforeUnload();
+  }
+
+  toggleExpenses(): void {
+    this.expensesExpanded = !this.expensesExpanded;
+  }
+
+  addExpense(event: Event): void {
+    event.stopPropagation(); // Prevent the click from triggering the toggle
+    const newId = this.expenses.length > 0 ? Math.max(...this.expenses.map(e => e.id)) + 1 : 1;
+    this.expenses.push({
+      id: newId,
+      type: '',
+      payment: '',
+      paidBy: 'self'
+    });
+  }
+
+  removeExpense(index: number): void {
+    this.expenses.splice(index, 1);
+  }
+
+  removeLastExpense(event: Event): void {
+    event.stopPropagation(); // Prevent the click from triggering the toggle
+    if (this.expenses.length > 0) {
+      this.expenses.pop();
+    }
   }
 }

@@ -62,6 +62,7 @@ export class AddSlabPurchaseComponent {
   subCategorListByCategory: any = [];
   maxPurchaseAmount = 0;
   previousSlabData: any;
+  products: any[] = [];
 
   finisheshList = [
     { name: "Polished" },
@@ -246,6 +247,7 @@ export class AddSlabPurchaseComponent {
 
   // for get hsn code
   getHsnCode(event) {
+    this.marbleName = event.name;
     let rec = this.allSubCategoryList.find((item) => item._id === event._id);
     if (rec) {
       this.subCategory.hsnCode = rec.hsnCode;
@@ -343,14 +345,21 @@ export class AddSlabPurchaseComponent {
   }
 
   getSlabDetails() {
-    if (
-      !this.slabNumber ||
-      this.quantity === null ||
-      this.ratePerSqFeet === null
-    ) {
+    if(this.width && this.length && this.ratePerSqFeet){
+      this.quantity = this.width * this.length / 144;
+      this.totalAmount = this.quantity * this.ratePerSqFeet;
+    } else if (this.width && this.length) {
+      this.quantity = this.width * this.length / 144;
+    } else {
       return;
     }
-    this.totalAmount = this.quantity * this.ratePerSqFeet;
+    // if (
+    //   !this.slabNumber ||
+    //   this.quantity === null ||
+    //   this.ratePerSqFeet === null
+    // ) {
+    //   return;
+    // }
   }
 
   public setValidations(formControlName: string) {
@@ -774,4 +783,18 @@ if (this.isEditMode && this.previousSlabData) {
     }
     // this.saveClicked.emit()
   }
+
+  addEmptyRow() {
+    this.products.push({
+      id: this.products.length + 1,
+      code: '',
+      name: '',
+      inventoryStatus: '',
+      price: ''
+    });
+  }
+  
+
 }
+
+
