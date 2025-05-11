@@ -1,0 +1,165 @@
+// .p-stepper ul {
+//     padding-left: 0px;
+
+.p-stepper .p-stepper-panels {
+    background: #ffffff;
+    padding: 0%;
+    color: #4b5563;
+}
+
+ul {
+    padding-left: 0 !important;
+}
+
+@media only screen and (max-width: 913px) {
+    .m10 {
+        margin-top: 10px;
+    }
+}
+
+::ng-deep{
+    .p-stepper .p-stepper-header.p-highlight .p-stepper-number {
+        background: #97704F;
+        color: #FFFFFF;
+    }
+    .p-stepper .p-stepper-header.p-highlight .p-stepper-title {
+        color: #97704F;
+    }
+} 
+
+// Expenses section styles
+.expenses-section {
+    margin-top: 30px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+}
+
+.expenses-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #97704F;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+}
+
+.expenses-title {
+    font-weight: 600;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+}
+
+.expenses-title i {
+    margin-right: 10px;
+}
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.add-expense-btn, .remove-expense-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: #97704F;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-expense-btn:hover, .remove-expense-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.expenses-content {
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+.expenses-table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    th {
+        text-align: left;
+        font-weight: 600;
+        color: #555;
+        padding: 10px 5px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    td {
+        padding: 10px 5px;
+        border-bottom: 1px solid #eee;
+        
+        &:nth-child(1) {
+            width: 40%;
+        }
+        
+        &:nth-child(2) {
+            width: 20%;
+        }
+        
+        &:nth-child(3) {
+            width: 30%;
+        }
+        
+        &:nth-child(4) {
+            width: 10%;
+        }
+    }
+    
+    tr:last-child td {
+        border-bottom: none;
+    }
+}
+
+.input-with-icon {
+    position: relative;
+    
+    input {
+        width: 100%;
+        padding-right: 25px;
+    }
+}
+
+.input-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-weight: 500;
+}
+
+.radio-group {
+    display: flex;
+    align-items: center;
+}
+
+.img-file-upload {
+    width: 100px;
+    height: 100px;
+}
+
+.upload-text {
+    margin-top: 10px;
+    color: #97704F;
+    font-size: 14px;
+}
+
+.upload-bold {
+    font-weight: bold;
+}
+
+.practice-card{
+    margin-top: 30px;
+}
+

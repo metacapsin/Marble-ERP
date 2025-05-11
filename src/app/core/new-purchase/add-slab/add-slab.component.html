@@ -1,0 +1,1552 @@
+<style>
+  .p-stepper .p-stepper-panels {
+    background: #ffffff;
+    padding: 0%;
+    color: #4b5563;
+  }
+</style>
+
+<p-toast></p-toast>
+<div class="page-wrapper">
+  <div class="content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Purchases List</li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">Add Purchase</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-header invoices-page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <ul class="breadcrumb invoices-breadcrumb">
+            <li class="breadcrumb-item invoices-breadcrumb-item">
+              <a [routerLink]="routes.listNewPurchase">
+                <i class="fa fa-chevron-left"></i> Back to Purchases List
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card invoices-add-card">
+          <div class="card-body">
+            <form [formGroup]="addNewPurchaseForm" (ngSubmit)="addNewPurchaseFormSubmit()">
+              <p-stepper [linear]="true">
+                <p-stepperPanel header="Product">
+                  <ng-template 
+                  pTemplate="content" 
+                  let-prevCallback="prevCallback" 
+                  let-nextCallback="nextCallback"
+                  let-index="index"
+                >
+                      <app-add-slab-block class="col-12"></app-add-slab-block>
+                      <div class="row">
+                        <div class="col text-end">
+                          <button 
+                            class="btn btn-primary"
+                            (click)="nextStep(nextCallback, 'first')">
+                            Next <i class="fa-solid fa-arrow-right"></i>
+                          </button>
+                        </div>
+                      </div>
+                      
+                </ng-template>
+                 
+                </p-stepperPanel>
+                <p-stepperPanel header="Purchase">
+                  <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
+                    let-index="index">
+                    <!-- Purchase basic Information -->
+                    <div class="row">
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="invoiceNumber">Invoice Number<span class="login-danger"></span></label>
+                          <input type="text" class="form-control" placeholder="Enter Invoice Number"
+                            formControlName="invoiceNumber" />
+                          <span *ngIf="addNewPurchaseForm.get('invoiceNumber')?.value.length === 0"
+                            style="color: #97704f; font-size: 12px">Leave it blank to generate
+                            automatically</span>
+                          <div *ngIf="
+                            addNewPurchaseForm.get('invoiceNumber')?.hasError('pattern') &&
+                            addNewPurchaseForm.get('invoiceNumber')?.touched
+                          ">
+                            <span class="login-danger">Please Enter Valid Invoice Number. </span>
+                          </div>
+
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="purchaseDate">Purchase Date <span class="login-danger">*</span></label>
+                          <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="dd/mm/yy"
+                            formControlName="purchaseDate" placeholder="DD/MM/YYYY"
+                            [styleClass]="'col-12'"></p-calendar>
+                          <div *ngIf="
+                              addNewPurchaseForm
+                                .get('purchaseDate')
+                                ?.hasError('required') &&
+                              addNewPurchaseForm.get('purchaseDate')
+                                ?.touched
+                            ">
+                            <span class="login-danger">Field is required.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="supplier">Supplier Name<span class="login-danger">*</span></label>
+                          <p-dropdown [style]="{ width: '100%' }" placeholder="Select Supplier"
+                            [options]="SupplierLists" formControlName="supplier" optionLabel="name" optionValue="_id"
+                            display="chip" [showClear]="true"></p-dropdown>
+
+                          <div *ngIf="
+                              addNewPurchaseForm
+                                .get('supplier')
+                                ?.hasError('required') &&
+                              addNewPurchaseForm.get('supplier')?.touched
+                            ">
+                            <span class="login-danger">Field is required.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="taxableAmount">Taxable Amount <span class="login-danger"></span></label>
+                          <input type="text" class="form-control" placeholder="Enter Taxable Amount"
+                            formControlName="taxableAmount" />
+                          <div *ngIf="
+                            addNewPurchaseForm.get('taxableAmount')?.hasError('pattern') &&
+                            addNewPurchaseForm.get('taxableAmount')?.touched
+                          ">
+                            <span class="login-danger">Please Enter Valid Taxable Amount. </span>
+                          </div>
+
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="taxGST">Tax/GST<span class="login-danger"></span></label>
+                          <input type="text" class="form-control" placeholder="Enter Tax/GST"
+                            formControlName="taxGST" />
+                          <div *ngIf="
+                            addNewPurchaseForm.get('taxGST')?.hasError('pattern') &&
+                            addNewPurchaseForm.get('taxGST')?.touched
+                          ">
+                            <span class="login-danger">Please Enter Valid Tax/GST. </span>
+                          </div>
+
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="nonTaxableAmount">Non-Taxable Amount<span class="login-danger"></span></label>
+                          <input type="text" class="form-control" placeholder="Enter Non-Taxable Amount"
+                            formControlName="nonTaxableAmount" />
+                          <div *ngIf="
+                            addNewPurchaseForm.get('nonTaxableAmount')?.hasError('pattern') &&
+                            addNewPurchaseForm.get('nonTaxableAmount')?.touched
+                          ">
+                            <span class="login-danger">Please Enter Valid Non-Taxable Amount. </span>
+                          </div>
+
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="purchaseCost">Purchase Cost(Paid to supplier)<span class="login-danger"></span></label>
+                          <input type="text" class="form-control" placeholder="Enter Purchase Cost(Paid to supplier)"
+                            formControlName="purchaseCost" />
+                          <div *ngIf="
+                            addNewPurchaseForm.get('purchaseCost')?.hasError('pattern') &&
+                            addNewPurchaseForm.get('purchaseCost')?.touched
+                          ">
+                            <span class="login-danger">Please Enter Valid Purchase Cost(Paid to supplier). </span>
+                          </div>
+
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="Discount">Discount<span class="login-danger"></span></label>
+                          <input type="text" class="form-control" placeholder="Enter Discount"
+                            formControlName="discount" />
+                          <div *ngIf="
+                            addNewPurchaseForm.get('discount')?.hasError('pattern') &&
+                            addNewPurchaseForm.get('discount')?.touched
+                          ">
+                            <span class="login-danger">Please Enter Valid Discount. </span>
+                          </div>
+
+                        </div>
+                      </div>
+                      <!-- <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="lotsNo">Product Type<span class="login-danger">*</span></label>
+                          <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+                            optionLabel="name" optionValue="_id" placeholder="Select Product Type" [filter]="true"
+                            filterBy="name" [showClear]="true" (onChange)="lotType($event.value)"
+                            formControlName="purchaseType">
+                          </p-dropdown>
+                          <div *ngIf="
+                            addNewPurchaseForm
+                              .get('purchaseType')
+                              ?.hasError('required') &&
+                            addNewPurchaseForm.get('purchaseType')?.touched
+                          ">
+                            <span class="login-danger">Field is required.
+                            </span>
+                          </div>
+                        </div>
+                      </div> -->
+                    </div>
+
+                    <!-- Expenses Section -->
+                    <p-accordion  [activeIndex]="0">
+                      <p-accordionTab >
+                        <ng-template pTemplate="header">
+                          <!-- Header: Flex layout for spacing -->
+                          <div class="d-flex justify-content-between align-items-center w-100">
+                            <span class="font-bold">Expenses</span>
+                            <button pButton type="button" icon="fa fa-plus" class="p-button-text p-0" (click)="addExpense($event)"></button>
+                          </div>
+                        </ng-template>
+
+                        <div class="row">
+                          <div class="expenses-content" *ngIf="expensesExpanded">
+                            <table class="expenses-table w-100">
+                              <thead>
+                                  <tr>
+                                    <th>Type</th>
+                                    <th>Payment</th>
+                                    <th>Paid by:</th>
+                                    <th></th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let expense of expenses; let i = index">
+                                    <td>
+                                      <p-dropdown [options]="expenseTypeOptions" [(ngModel)]="expense.type" 
+                                        [ngModelOptions]="{standalone: true}" placeholder="Select Type" 
+                                        styleClass="w-100" appendTo="body"></p-dropdown>
+                                    </td>
+                                    <td>
+                                      <div class="input-with-icon">
+                                        <input type="text" pInputText [(ngModel)]="expense.payment" 
+                                          [ngModelOptions]="{standalone: true}" class="form-control">
+                                        <span class="input-icon">₹</span>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div class="radio-group">
+                                        <div class="d-flex align-items-center gap-3">
+                                          <p-radioButton name="paidBy_{{i}}" value="self" 
+                                            [(ngModel)]="expense.paidBy" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                          <label class="me-3">Self</label>
+                                          <p-radioButton name="paidBy_{{i}}" value="supplier" 
+                                            [(ngModel)]="expense.paidBy" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                          <label>Supplier</label>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td class="text-center">
+                                      <button pButton type="button" icon="fa fa-trash" 
+                                        class="p-button-text p-button-danger" 
+                                        (click)="removeExpense(i)"></button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                      </p-accordionTab>
+                  </p-accordion>
+
+                  <div class="row">
+                    <div class="col text-end">
+                      <button 
+                        class="btn btn-primary"
+                        (click)="nextStep(nextCallback, 'first')">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                    <!-- <div class="expenses-section mt-4">
+                      <div class="expenses-header" (click)="toggleExpenses()">
+                        <div class="expenses-title">
+                          <i class="pi" [ngClass]="{'pi-chevron-down': expensesExpanded, 'pi-chevron-right': !expensesExpanded}"></i>
+                          Expenses
+                        </div>
+                        <div class="header-buttons">
+                          <button type="button" class="add-expense-btn" (click)="addExpense($event)">
+                            <i class="pi pi-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <div class="expenses-content" *ngIf="expensesExpanded">
+                        <table class="expenses-table w-100">
+                          <thead>
+                            <tr>
+                              <th>Type</th>
+                              <th>Payment</th>
+                              <th>Paid by:</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let expense of expenses; let i = index">
+                              <td>
+                                <p-dropdown [options]="expenseTypeOptions" [(ngModel)]="expense.type" 
+                                  [ngModelOptions]="{standalone: true}" placeholder="Select Type" 
+                                  styleClass="w-100" appendTo="body"></p-dropdown>
+                              </td>
+                              <td>
+                                <div class="input-with-icon">
+                                  <input type="text" pInputText [(ngModel)]="expense.payment" 
+                                    [ngModelOptions]="{standalone: true}" class="form-control">
+                                  <span class="input-icon">₹</span>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="radio-group">
+                                  <div class="d-flex align-items-center gap-3">
+                                    <p-radioButton name="paidBy_{{i}}" value="self" 
+                                      [(ngModel)]="expense.paidBy" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                    <label class="me-3">Self</label>
+                                    <p-radioButton name="paidBy_{{i}}" value="supplier" 
+                                      [(ngModel)]="expense.paidBy" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                    <label>Supplier</label>
+                                  </div>
+                                </div>
+                              </td>
+                              <td class="text-center">
+                                <button pButton type="button" icon="pi pi-trash" 
+                                  class="p-button-text p-button-danger" 
+                                  (click)="removeExpense(i)"></button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div> -->
+
+                    <!-- lot Information -->
+                    <div *ngIf="lotTypeValue === 'Lot'">
+                      <app-add-lot class="col-12"></app-add-lot>
+                    </div>
+                    <div *ngIf="lotTypeValue === 'Slab'">
+                      <app-add-slab-purchase class="col-12"></app-add-slab-purchase>
+                    </div>
+                    <!-- SLAB Information -->
+                    <div class="row">
+                      <div class="col text-start">
+                        <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'first')">
+                          <i class="fa-solid fa-arrow-left"></i> Back
+                        </button>
+                      </div>
+                      <div class="col text-end">
+                        <button *ngIf="lotTypeValue === 'Lot'"
+                        [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid || !child?.lotAddForm?.valid" class="btn btn-primary"
+                        (click)="nextStep(nextCallback, 'first')">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                      </button>
+                      <button *ngIf="lotTypeValue === 'Slab'" [disabled]="!slabChild?.slabDetails?.length || !addNewPurchaseForm?.valid || !slabChild?.slabAddForm?.valid"
+                        class="btn btn-primary" (click)="nextStep(nextCallback, 'first')">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                      </button>
+                    </div>
+                    </div>
+                 
+                    <div class="d-flex pt-4 justify-content-between">
+                      <div></div>
+                     
+                     
+                   
+                    </div>
+                  </ng-template>
+                </p-stepperPanel>
+                <p-stepperPanel header="Summary">
+                  <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
+                    let-index="index">
+                    <!-- ---------------To Show Information--------------------------- -->
+                    <div class="card">
+                      <div class="card-body">
+                        <h3>Purchase Information</h3>
+                        <div class="row practice-card">
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="invoiceNumber">Invoice Number<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Invoice Number"
+                                formControlName="invoiceNumber" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('invoiceNumber')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('invoiceNumber')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Invoice Number. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="purchaseDate">Purchase Date <span class="login-danger">*</span></label>
+                              <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="dd/mm/yy"
+                                formControlName="purchaseDate" placeholder="DD/MM/YYYY"
+                                [styleClass]="'col-12'"></p-calendar>
+                              <div *ngIf="
+                                  addNewPurchaseForm
+                                    .get('purchaseDate')
+                                    ?.hasError('required') &&
+                                  addNewPurchaseForm.get('purchaseDate')
+                                    ?.touched
+                                ">
+                                <span class="login-danger">Field is required.
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="supplier">Supplier Name<span class="login-danger">*</span></label>
+                              <p-dropdown [style]="{ width: '100%' }" placeholder="Select Supplier"
+                                [options]="SupplierLists" formControlName="supplier" optionLabel="name" optionValue="_id"
+                                display="chip" [showClear]="true"></p-dropdown>
+    
+                              <div *ngIf="
+                                  addNewPurchaseForm
+                                    .get('supplier')
+                                    ?.hasError('required') &&
+                                  addNewPurchaseForm.get('supplier')?.touched
+                                ">
+                                <span class="login-danger">Field is required.
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="purchaseCost">Purchase Cost<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Purchase Cost"
+                                formControlName="purchaseCost" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('purchaseCost')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('purchaseCost')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Purchase Cost. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                        </div>
+
+                        <h3>Block Information</h3>
+                        <div class="row practice-card">
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="lotNumber">Lot Number<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Lot Number"
+                                formControlName="lotNumber" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('lotNumber')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('lotNumber')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Lot Number. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="lotName">Lot Name<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Lot Name"
+                                formControlName="lotName" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('lotName')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('lotName')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Lot Name. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="vehicleNumber">Vehicle Number<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Vehicle Number"
+                                formControlName="vehicleNumber" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('vehicleNumber')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('vehicleNumber')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Vehicle Number. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="warehouse">Warehouse<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Warehouse"
+                                formControlName="warehouse" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('warehouse')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('warehouse')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Warehouse. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="lotWeight">Lot Weight (Ton)<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Lot Weight (Ton)"
+                                formControlName="lotWeight" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('lotWeight')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('lotWeight')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Lot Weight. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="pricePerTon">Price / Ton<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Price / Ton"
+                                formControlName="pricePerTon" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('pricePerTon')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('pricePerTon')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Price / Ton. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="category">Category<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Category"
+                                formControlName="category" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('category')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('category')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Category. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="subCategory">Sub Category<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Sub Category"
+                                formControlName="subCategory" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('subCategory')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('subCategory')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Sub Category. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="purchaseCost">Purchase Cost ( Paid to Supplier )<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Purchase Cost ( Paid to Supplier )"
+                                formControlName="purchaseCost" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('purchaseCost')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('purchaseCost')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Purchase Cost. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="discount">Discount<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Discount"
+                                formControlName="discount" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('discount')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('discount')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Discount. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="transportationCharge">Transportation Charge<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Transportation Charge"
+                                formControlName="transportationCharge" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('transportationCharge')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('transportationCharge')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Transportation Charge. </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                            <div class="form-group local-forms">
+                              <label for="royalty">Royalty ( Other Charge )<span class="login-danger"></span></label>
+                              <input type="text" class="form-control" placeholder="Enter Royalty ( Other Charge )"
+                                formControlName="royalty" />
+                              <div *ngIf="
+                                addNewPurchaseForm.get('royalty')?.hasError('pattern') &&
+                                addNewPurchaseForm.get('royalty')?.touched
+                              ">
+                                <span class="login-danger">Please Enter Valid Royalty ( Other Charge ). </span>
+                              </div>
+    
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card" *ngIf="lotTypeValue === 'Lot'">
+                      <div class="card-body">
+                        <h3>{{addNewPurchaseForm.get("purchaseType").value }} Information</h3>
+                        <div class="row practice-card" *ngIf="ItemDetails">
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Lot Number
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ ItemDetails?.lotNo ? ItemDetails?.lotNo : ' - ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Lot Name
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ ItemDetails?.lotName ? ItemDetails?.lotName : ' - ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Vehicle Number
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ ItemDetails?.vehicleNo ? ItemDetails?.vehicleNo : ' - ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Warehouse
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ ItemDetails?.warehouseDetails.name ? ItemDetails?.warehouseDetails.name : ' - ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Category
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ ItemDetails?.categoryDetail.name ? ItemDetails?.categoryDetail.name : ' - ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Sub Category
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ ItemDetails?.subCategoryDetail.name ? ItemDetails?.subCategoryDetail.name : ' - '
+                                  }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Lot Weight (Ton)
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ ItemDetails?.lotWeight ? ItemDetails?.lotWeight : ' - '}}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Price / Ton
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  ₹ {{ ItemDetails?.pricePerTon |indianCurrency}}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Purchase Cost ( Paid to Supplier )
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  ₹ {{ ItemDetails?.paidToSupplierLotCost |indianCurrency}}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Discount
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  ₹ {{ ItemDetails?.purchaseDiscount |indianCurrency}}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Transportation Charge / Ton
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  ₹ {{ ItemDetails?.transportationCharge |indianCurrency }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Royalty ( Other Charge )
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  ₹ {{ ItemDetails?.royaltyCharge | indianCurrency}}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- ---------------------block-------------- -->
+                      <div class="row p-2" *ngIf="ItemDetails?.blockDetails?.length > 0">
+                        <div class="col-sm-12">
+                          <div class="card-body" style="border-top: 1px solid rgb(189 189 189);">
+                            <!-- <div class="card-body"> -->
+                            <div class="page-table-header mb-2">
+                              <div class="d-flex m-b-10" style="justify-content: space-between">
+                                <h3>Block List</h3>
+                              </div>
+
+                              <div class="row practice-card">
+                                <div class="col-xl-6 col-lg-6 col-sm-6 d-none">
+                                  <div class="form-group row mb-2">
+                                    <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                      Average Size / Ton
+                                    </h5>
+                                    <div class="col-lg-6 col-md-6 col-xl-6">
+                                      <p class="col-form-label">
+                                        {{ ItemDetails.averageWeight?.toFixed(3) }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-sm-6">
+                                  <div class="form-group row mb-2">
+                                    <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                      Purchase Row Cost
+                                    </h5>
+                                    <div class="col-lg-6 col-md-6 col-xl-6">
+                                      <p class="col-form-label">
+                                        ₹
+                                        {{
+                                        ItemDetails.lotRowCost | indianCurrency
+                                        }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-sm-6">
+                                  <div class="form-group row mb-2">
+                                    <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                      Transportation Charge / Ton
+                                    </h5>
+                                    <div class="col-lg-6 col-md-6 col-xl-6">
+                                      <p class="col-form-label">
+                                        ₹
+                                        {{
+                                        ItemDetails.averageTransport | indianCurrency
+                                        }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-sm-6">
+                                  <div class="form-group row mb-2">
+                                    <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                      Royalty Charge / Ton
+                                    </h5>
+                                    <div class="col-lg-6 col-md-6 col-xl-6">
+                                      <p class="col-form-label">
+                                        ₹
+                                        {{ ItemDetails.averageRoyaltyNumber | indianCurrency }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row p-2">
+                              <p-accordion  [activeIndex]="0" [multiple]="true">
+                                <p-accordionTab *ngFor="let data of ItemDetails.blockDetails; let i = index">
+                                  <ng-template pTemplate="header">
+                                    <span class="d-flex justify-content-between w-full">
+                                      <span class="font-bold white-space-nowrap">
+                                        Block Number: {{ data.blockNo }} ({{
+                                        data.weightPerBlock?.toFixed(3)
+                                        }}
+                                        Ton)
+                                      </span>
+                                    </span>
+                                  </ng-template>
+                                  <div class="row">
+                                    <div class="col-sm-12">
+                                      <div class="card card-table show-entire">
+                                        <div class="page-table-header mb-2 m-3">
+                                          <div class="row practice-card">
+                                            <div class="col-xl-6 col-lg-6 col-sm-12">
+                                              <div class="form-group row mb-2">
+                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                  Length (Inch)
+                                                </h5>
+                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                  <p class="col-form-label">
+                                                    {{ data.length }}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row mb-2">
+                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                  Width (Inch)
+                                                </h5>
+                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                  <p class="col-form-label">{{ data.width }}</p>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row mb-2">
+                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                  Height (Inch)
+                                                </h5>
+                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                  <p class="col-lg-9 col-form-label">
+                                                    {{ data.height }}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row mb-2">
+                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                  Block Size (Inch<sup>3</sup>)
+                                                </h5>
+                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                  <p class="col-form-label">
+                                                    {{ data.totalArea }}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row mb-2">
+                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                  Weight (Ton)
+                                                </h5>
+                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                  <p class="col-form-label">
+                                                    {{ data.weightPerBlock?.toFixed(3) }}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-sm-12">
+                                              <div *ngIf="data?.blockProcessor?.name" class="form-group row mb-2">
+                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                  Block Processor
+                                                </h5>
+                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                  <p class="col-form-label">
+                                                    {{ data.blockProcessor.name ? data.blockProcessor.name : ' - ' }}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row mb-2">
+                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                  Raw Costing
+                                                </h5>
+                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                  <p class="col-form-label">
+                                                    ₹ {{ data.rawCosting | indianCurrency }}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row mb-2">
+                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                  Transportation Costing
+                                                </h5>
+                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                  <p class="col-form-label">
+                                                    ₹
+                                                    {{ data.transportationCosting | indianCurrency }}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row mb-2">
+                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                  Royalty Costing
+                                                </h5>
+                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                  <p class="col-form-label">
+                                                    ₹
+                                                    {{ data.royaltyCosting | indianCurrency }}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row mb-2">
+                                                <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
+                                                  Total Costing
+                                                </h5>
+                                                <div class="col-lg-9 col-md-9 col-xl-9">
+                                                  <p class="col-form-label">
+                                                    ₹ {{ data.totalCosting | indianCurrency }}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </p-accordionTab>
+                              </p-accordion>
+                            </div>
+                            <!-- </div> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card" *ngIf="lotTypeValue === 'Slab'">
+                      <div class="card-body">
+                        <h3>{{ addNewPurchaseForm.get("purchaseType").value }} Information</h3>
+                        <div class="row practice-card">
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Other Charge
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ (addNewPurchaseForm.get("otherCharges")?.value | indianCurrency) ?? ' --' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Slab Number
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ addNewPurchaseForm.get("slabNo")?.value ? addNewPurchaseForm.get("slabNo")?.value :
+                                  '
+                                  - ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div> -->
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Warehouse Name
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ addNewPurchaseForm.get("warehouseDetails")?.value?.name ?? ' -- ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Transportation Charge
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ (addNewPurchaseForm.get("transportationCharges")?.value | indianCurrency) ?? ' - '
+                                  }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Slab Discount
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ (addNewPurchaseForm.get("purchaseDiscount")?.value | indianCurrency) ?? ' - ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div> -->
+                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Vehicle No
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ addNewPurchaseForm.get("vehicleNo")?.value ?? ' -- ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
+                            <div class="form-group row mb-2">
+                              <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
+                                Paid To Supplier Cost
+                              </h5>
+                              <div class="col-lg-6 col-md-6 col-xl-6">
+                                <p class="col-lg-6 col-form-label heading-bold">
+                                  {{ addNewPurchaseForm.get("slabDetails")?.value.paidToSupplierSlabCost ? addNewPurchaseForm.get("slabDetails")?.value.paidToSupplierSlabCost :
+                                  ' - ' }}
+                                </p>
+                              </div>
+                            </div>
+                          </div> -->
+                        </div>
+                      </div>
+
+                      <div class="row p-2">
+                        <p-accordion [activeIndex]="0" [multiple]="true">
+                          <p-accordionTab *ngFor="let data of SlabItemDetails?.slabDetails; let i = index">
+                            <ng-template pTemplate="header">
+                              <span class="d-flex justify-content-between w-full">
+                                <span class="font-bold white-space-nowrap">
+                                  Slab Number: {{ data?.slabNo ?? ' -- '}}
+                                </span>
+                              </span>
+                            </ng-template>
+
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <div class="card card-table show-entire">
+                                  <div class="page-table-header mb-2 m-3">
+                                    <div class="row practice-card">
+                                      <div class="col-xl-6 col-lg-6 col-sm-12">
+                                        <div class="form-group row mb-2">
+                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                            Slab Name
+                                          </h5>
+                                          <div class="col-lg-8 col-md-8 col-xl-8">
+                                            <p class="col-form-label">
+                                              {{ data?.slabName ?? ' -- ' }}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                            Length (Inch)
+                                          </h5>
+                                          <div class="col-lg-8 col-md-8 col-xl-8">
+                                            <p class="col-form-label">
+                                              {{ data.length ?? ' -- '}}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                            Width (Inch)
+                                          </h5>
+                                          <div class="col-lg-8 col-md-8 col-xl-8">
+                                            <p class="col-form-label">{{ data?.width ?? " -- " }}</p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                            Thickness
+                                          </h5>
+                                          <div class="col-lg-8 col-md-8 col-xl-8">
+                                            <p class="col-form-label">
+                                              {{ data?.thickness ?? " -- " }}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                            Quantity (Square Feet)
+                                          </h5>
+                                          <div class="col-lg-8 col-md-8 col-xl-8">
+                                            <p class="col-form-label">
+                                              {{ data?.totalSQFT ?? " -- " }}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-xl-6 col-lg-6 col-sm-12">
+                                        <div class="form-group row mb-2">
+                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                            Rate / Sq. Feet
+                                          </h5>
+                                          <div class="col-lg-8 col-md-8 col-xl-8">
+                                            <p class="col-form-label">
+                                              ₹ {{ data?.ratePerSqFeet ?? " -- "}}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                            Total Amount
+                                          </h5>
+                                          <div class="col-lg-8 col-md-8 col-xl-8">
+                                            <p class="col-form-label">
+                                              ₹ {{ data?.totalCosting?.toFixed(2) ?? " -- " }}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                            Number of Pieces
+                                          </h5>
+                                          <div class="col-lg-8 col-md-8 col-xl-8">
+                                            <p class="col-form-label">
+                                              {{ data?.noOfPieces ?? " -- " }}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                            Finishes
+                                          </h5>
+                                          <div class="col-lg-8 col-md-8 col-xl-8">
+                                            <p class="col-form-label">
+                                              {{ data?.finishes?.name ?? " -- " }}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                            Cost Per SQFT
+                                          </h5>
+                                          <div class="col-lg-8 col-md-8 col-xl-8">
+                                            <p class="col-form-label">
+                                              {{ data?.costPerSQFT ?? ' -- ' }}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </p-accordionTab>
+                        </p-accordion>
+                      </div>
+                    </div>
+
+                   
+
+                    <div class="row">
+                      <div class="col-lg-7 col-md-6">
+                        <div class="invoice-fields">
+                          <h4 class="field-title">More Fields</h4>
+                        </div>
+                        <!-- First Collapsible Panel -->
+                        <div class="invoice-faq">
+                          <div class="panel-group" id="headingTwo" role="tablist" aria-multiselectable="true">
+                            <div class="faq-tab">
+                              <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                  <p class="panel-title">
+                                    <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#headingTwo"
+                                      href="#collapseNotes" aria-expanded="false" aria-controls="collapseNotes">
+                                      <i class="fas fa-plus-circle me-1"></i> Add Notes
+                                    </a>
+                                  </p>
+                                </div>
+                                <div id="collapseNotes" class="panel-collapse collapse" role="tabpanel"
+                                  aria-labelledby="headingTwo" data-bs-parent="#headingTwo">
+                                  <div class="panel-body">
+                                    <textarea class="form-control" formControlName="purchaseNotes"></textarea>
+                                    <div
+                                      *ngIf="addNewPurchaseForm.get('purchaseNotes')?.hasError('pattern')  && addNewPurchaseForm.get('purchaseNotes')?.touched">
+                                      <span class="login-danger">Input must be between 3 to
+                                        500 characters.</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="invoice-faq">
+                          <div class="panel-group" id="headingTwo" role="tablist" aria-multiselectable="true">
+                            <div class="faq-tab">
+                              <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                  <p class="panel-title">
+                                    <a data-bs-toggle="collapse" data-bs-parent="#headingTwo"
+                                      href="#collapseFile" aria-expanded="true" aria-controls="collapseNotes">
+                                      <i class="fas fa-plus-circle me-1"></i> Attach File
+                                    </a>
+                                  </p>
+                                </div>
+                                <div id="collapseNotes" class="panel-collapse" role="tabpanel"
+                                  aria-labelledby="headingTwo" data-bs-parent="#headingTwo">
+                                  <div class="panel-body">
+                                    <div class="text-center">
+                                      <img class="img-file-upload p-2" src="../../../assets/img/file_upload.png" alt="Logo" />
+                                      <p class="upload-text"><span class="upload-bold">Click to upload</span> or drop your file here</p>
+                                    </div>
+
+                                    <!-- <textarea class="form-control" formControlName="purchaseNotes"></textarea>
+                                    <div
+                                      *ngIf="addNewPurchaseForm.get('purchaseNotes')?.hasError('pattern')  && addNewPurchaseForm.get('purchaseNotes')?.touched">
+                                      <span class="login-danger">Input must be between 3 to
+                                        500 characters.</span>
+                                    </div> -->
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row mt-4" *ngIf="addNewPurchaseForm.get('taxable')?.value">
+                          <div class="col-md-6 col-xl-6 checkbox">
+                            <p-checkbox [binary]="true" class="m-r-10" formControlName="isTaxVendor"
+                              (onChange)="changeVaidationForTaxVendor()">
+                            </p-checkbox>
+                            <label for="isTaxVendor">Tax Vendor</label>
+                          </div>
+                          <div class="col-12 col-md-6 col-xl-6" *ngIf="addNewPurchaseForm.get('isTaxVendor').value">
+                            <div class="form-group local-forms">
+                              <label for="taxVendor">Tax Vendor<span class="login-danger">*</span></label>
+                              <p-dropdown [options]="taxVendorList" styleClass="" appendTo="body" optionLabel="name"
+                                optionValue="_id" placeholder="Select TaxVendor" formControlName="taxVendor"
+                                [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="true">
+                              </p-dropdown>
+                              <span *ngIf="
+                              addNewPurchaseForm.get('taxableAmount').value
+                              " style="color: #97704f; font-size: 12px">
+                                Taxable Amount : ₹
+                                {{ addNewPurchaseForm.get('taxableAmount').value | indianCurrency }}
+                              </span>
+                              <div
+                                *ngIf="addNewPurchaseForm.get('taxVendor')?.hasError('required')  && addNewPurchaseForm.get('taxVendor')?.touched">
+                                <span class="login-danger">Field is required.</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 mt-4"
+                            *ngIf="addNewPurchaseForm.get('isTaxVendor').value && addNewPurchaseForm.get('taxVendor').value">
+                            <div class="row practice-card">
+                              <div class="col-md-6 col-sm-6 ">
+                                <div class="form-group local-forms">
+                                  <label for="customer">Applied Tax (%)
+                                    <span class="login-danger">*</span></label>
+                                  <input type="number" class="form-control" formControlName="vendorTaxApplied"
+                                    (input)="calculateTaxVendorAmount()" />
+                                  <div
+                                    *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('required')  && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
+                                    <span class="login-danger">Field is required.</span>
+                                  </div>
+                                  <div
+                                    *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('max') && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
+                                    <span class="login-danger">Applied Tax (%) must be less than 100.</span>
+                                  </div>
+                                  <div
+                                    *ngIf="addNewPurchaseForm.get('vendorTaxApplied')?.hasError('min') && addNewPurchaseForm.get('vendorTaxApplied')?.touched">
+                                    <span class="login-danger">Applied Tax (%) must be greater than 0.</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6 col-sm-6">
+                                <div class="form-group row">
+                                  <h5 class="col-lg-5 col-md-5 col-xl-5 col-form-label">
+                                    Vendor Tax Amount
+                                  </h5>
+                                  <div class="col-lg-7 col-md-7 col-xl-7">
+                                    <p class="col-form-label" *ngIf="addNewPurchaseForm
+                                    .get('taxVendorAmount')?.value">
+                                      {{ '₹' + ' ' +
+                                      addNewPurchaseForm
+                                      .get("taxVendorAmount")?.value
+                                      }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                      <div class="col-lg-5 col-md-6">
+                        <div class="invoice-total-card">
+                          <h4 class="invoice-total-title">Summary</h4>
+                          <div class="invoice-total-box">
+                            <div class="invoice-total-inner" *ngIf="lotTypeValue === 'Lot'">
+                              <p *ngIf="ItemDetails?.lotWeight">
+                                Lot Weight ( Ton )<span>
+                                  {{ ItemDetails?.lotWeight}}
+                                </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.lotWeight === undefined">
+                                Lot Weight ( Ton )<span>
+
+                                </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.pricePerTon">
+                                Price / Ton<span>
+                                  {{ ItemDetails?.pricePerTon |indianCurrency}}
+                                </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.pricePerTon  === undefined">
+                                Price / Ton<span>
+                                </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.transportationCharge === undefined">
+                                Transport Charges / Ton<span> </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.transportationCharge">
+                                Transport Charges / Ton<span>
+                                  ₹ {{ ItemDetails?.transportationCharge |indianCurrency }}
+
+                                </span>
+                              </p>
+                              <p *ngIf="addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.value">
+                                Purchase Cost ( Paid To Supplier)
+                                <span>₹
+                                  {{
+                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |indianCurrency
+                                  }}
+                                </span>
+                              </p>
+                            </div>
+                            <!-- ---------------slab--------------------------- -->
+                            <div class="invoice-total-inner" *ngIf="lotTypeValue === 'Slab'">
+                              <p *ngIf="addNewPurchaseForm.get('totalSQFT')?.value">
+                                Total Square Feet<span>
+                                  {{ addNewPurchaseForm.get('totalSQFT').value | indianCurrency }}
+
+                                </span>
+                              </p>
+                              <!-- <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
+                                Cost / Square Feet <span>
+                                  ₹ {{ addNewPurchaseForm.get('costPerSQFT').value | indianCurrency}}
+                                </span>
+                              </p> -->
+                              <!-- <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
+                                Selling Price / Square Feet <span>
+                                  ₹ {{ addNewPurchaseForm.get('sellingPricePerSQFT').value | indianCurrency}}
+                                </span>
+                              </p> -->
+                              <p *ngIf="addNewPurchaseForm.get('transportationCharges')?.value">
+                                Transport Charges<span>
+                                  ₹ {{ addNewPurchaseForm.get('transportationCharges').value | indianCurrency}}
+                                </span>
+                              </p>
+                              <p *ngIf="addNewPurchaseForm.get('otherCharges')?.value">
+                                Other Charges
+                                <span>
+                                  ₹ {{ addNewPurchaseForm.get('otherCharges').value | indianCurrency}}
+                                </span>
+                              </p>
+                              <p>
+                                Purchase Cost ( Paid To Supplier)
+                                <span>₹
+                                  {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value ? (
+                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | indianCurrency) : ' --
+                                  ' }}
+                                </span>
+                              </p>
+                              <p *ngIf="addNewPurchaseForm.get('purchaseDiscount').value">
+                                Purchase Discount (added)
+                                <span>₹
+                                  {{ addNewPurchaseForm.get("purchaseDiscount").value || 0.00 | indianCurrency }}
+
+                                </span>
+                              </p>
+                            </div>
+
+                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Lot'">
+                              <p *ngIf="ItemDetails?.transportationCharge === undefined">
+                                Transport Charges / Ton<span> </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.totalTransportationCharges">
+                                Transport Charges<span>
+                                  ₹ {{ ItemDetails?.totalTransportationCharges |indianCurrency }}
+                                </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.royaltyCharge">
+                                Royalty Charges ( Other Charge )<span>
+                                  ₹
+                                  {{
+                                  ItemDetails?.royaltyCharge |indianCurrency}}
+                                </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.royaltyCharge === undefined">
+                                Royalty Charges ( Other Charge )<span> </span>
+                              </p>
+                              <p *ngIf="ItemDetails?.purchaseDiscount > 0">
+                                Purchase Discount ( added )
+                                <span>₹ {{ ItemDetails?.purchaseDiscount |indianCurrency}} </span>
+                              </p>
+                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('taxable')?.value">
+                                Tax Applied Amount
+                                <span>
+                                  ₹
+                                  {{
+                                  addNewPurchaseForm.get('taxable')?.value
+                                  | indianCurrency
+                                  }}
+                                </span>
+                              </p>
+                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">
+                                Non-Taxable Amount
+                                <span>
+                                  ₹
+                                  {{
+                                  addNewPurchaseForm.get('nonTaxable')?.value
+                                  | indianCurrency
+                                  }}
+                                </span>
+                              </p>
+                              <h4 *ngIf="lotTypeValue === 'Lot'">
+                                Total Purchase Cost
+                                <span>
+                                  {{ ItemDetails?.lotTotalCost
+                                  ? '₹ ' + (ItemDetails.lotTotalCost | indianCurrency)
+                                  : '₹ ' + (addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |
+                                  indianCurrency)
+                                  }}
+                                </span>
+                              </h4>
+                            </div>
+                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Slab'">
+                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('taxable')?.value">
+                                Tax Applied Amount
+                                <span>
+                                  ₹
+                                  {{
+                                  addNewPurchaseForm.get('taxable')?.value
+                                  | indianCurrency
+                                  }}
+                                </span>
+                              </p>
+                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">
+                                Non-Taxable Amount
+                                <span>
+                                  ₹
+                                  {{
+                                  addNewPurchaseForm.get('nonTaxable')?.value
+                                  | indianCurrency
+                                  }}
+                                </span>
+                              </p>
+                              <h4>
+                                Total Purchase Cost
+                                <span>
+                                  {{ addNewPurchaseForm.get('purchaseTotalAmount')?.value
+                                  ? (addNewPurchaseForm.get('purchaseTotalAmount')?.value | indianCurrency)
+                                  : null }}
+                                </span>
+                              </h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="d-flex pt-4 justify-content-between">
+                      <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'Slab')">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                      </button>
+                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary"
+                        [disabled]="!addNewPurchaseForm.valid">
+                        Submit
+                      </button>
+                    </div>
+                  </ng-template>
+                </p-stepperPanel>
+              </p-stepper>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
