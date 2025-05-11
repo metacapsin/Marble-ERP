@@ -31,7 +31,7 @@ import { SubCategoriesService } from "src/app/core/settings/sub-categories/sub-c
   styleUrl: "./add-block.component.scss",
 })
 export class AddBlockComponent {
-  slabAddForm: FormGroup;
+  purchaseAddForm: FormGroup;
   maxDate = new Date();
   public routes = routes;
   activeIndex: number[] = [0];
@@ -55,7 +55,10 @@ export class AddBlockComponent {
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   slabTotalCost: number = 0;
   wareHousedata: any = [];
-  productTypedata: any = [];
+  productTypedata = [
+    { name: "Lot", _id: "Lot" },
+    { name: "Slab", _id: "Slab" },
+  ];
   orderTaxList: any[];
   taxesListData: any;
   categoryList: any[];
@@ -82,21 +85,33 @@ export class AddBlockComponent {
     private ServiceblockProcessor: blockProcessorService,
     private taxService: TaxesService
   ) {
-    this.slabAddForm = this.fb.group(
+    this.purchaseAddForm = this.fb.group(
       {
         vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
         warehouse: ["", [Validators.required]],
-        paidToSupplierSlabCost: ["", [Validators.required]],
-        taxableAmount: [""],
-        nonTaxableAmount: [""],
-        ItemTax: [""],
-        taxable: [""], // taxbale Amount + apply tax amount
-        taxApplied: [""], // tax applied ammount
-        purchaseDiscount: ["", [Validators.min(0)]],
-        transportationCharge: ["", [Validators.min(0), Validators.max(100000)]],
-        royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
-        totalCost: [""],
-        totalSQFT: [""],
+        producttype: ["", [Validators.required]],
+        lotNo: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(validationRegex.oneToFiftyCharRegex),
+          ],
+        ],
+        lotName: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(validationRegex.oneToFiftyCharRegex),
+          ],
+        ],
+        lotWeight: [
+          "",
+          [Validators.required, Validators.min(1), Validators.max(10000)],
+        ],
+        pricePerTon: [
+          "",
+          [Validators.required, Validators.min(1), Validators.max(1000000)],
+        ],
       },
       {
         //  validators: atLeastOneRequiredValidator()
@@ -124,15 +139,15 @@ export class AddBlockComponent {
     this.previousSlabData =
       this.NewPurchaseService.getFormData("stepFirstSlabData");
 
-    this.slabAddForm.get("taxableAmount")?.valueChanges.subscribe(() => {
-      this.slabAddForm.updateValueAndValidity(); // Refreshes form validity
+    this.purchaseAddForm.get("taxableAmount")?.valueChanges.subscribe(() => {
+      this.purchaseAddForm.updateValueAndValidity(); // Refreshes form validity
     });
 
-    this.slabAddForm.get("ItemTax")?.valueChanges.subscribe(() => {
-      this.slabAddForm.updateValueAndValidity(); // Refreshes form validity
+    this.purchaseAddForm.get("ItemTax")?.valueChanges.subscribe(() => {
+      this.purchaseAddForm.updateValueAndValidity(); // Refreshes form validity
     });
 
-    this.slabAddForm.get("purchaseDiscount")?.valueChanges.subscribe(() => {
+    this.purchaseAddForm.get("purchaseDiscount")?.valueChanges.subscribe(() => {
       this.discountModifiedByUser = true;
     });
 
@@ -168,10 +183,10 @@ export class AddBlockComponent {
       this.allSubCategoryList = resp.data;
     });
 
-    this.slabAddForm.get("vehicleNo")?.valueChanges.subscribe((value) => {
+    this.purchaseAddForm.get("vehicleNo")?.valueChanges.subscribe((value) => {
       if (value) {
         const upperCaseValue = value.toUpperCase();
-        this.slabAddForm
+        this.purchaseAddForm
           .get("vehicleNo")
           ?.setValue(upperCaseValue, { emitEvent: false });
       }
@@ -196,7 +211,7 @@ export class AddBlockComponent {
       this.slabTotalCost = this.previousSlabData.slabTotalCost;
       console.log("previousSlabData", this.previousSlabData);
 
-      this.slabAddForm.patchValue({
+      this.purchaseAddForm.patchValue({
         vehicleNo: this.previousSlabData.vehicleNo,
         warehouse: this.previousSlabData.warehouseDetails,
         invoiceNo: this.previousSlabData.invoiceNo,
@@ -295,7 +310,7 @@ export class AddBlockComponent {
       ratePerSqFeet: this.ratePerSqFeet,
       totalCosting: this.totalAmount,
       // purchaseCost: this.totalAmount,
-      // warehouseDetails: this.slabAddForm.get("warehouse").value,
+      // warehouseDetails: this.purchaseAddForm.get("warehouse").value,
 
       sqftPerPiece: Number(this.quantity / this.noOfPieces).toFixed(2),
     };
@@ -358,9 +373,9 @@ export class AddBlockComponent {
 
   public setValidations(formControlName: string) {
     return (
-      this.slabAddForm.get(formControlName)?.invalid &&
-      (this.slabAddForm.get(formControlName)?.dirty ||
-        this.slabAddForm.get(formControlName)?.touched)
+      this.purchaseAddForm.get(formControlName)?.invalid &&
+      (this.purchaseAddForm.get(formControlName)?.dirty ||
+        this.purchaseAddForm.get(formControlName)?.touched)
     );
   }
 
@@ -370,12 +385,12 @@ export class AddBlockComponent {
   wasDiscountApplied: boolean = false;
 
   calculateTotalAmount() {
-    this.slabAddForm.patchValue({
-      nonTaxableAmount: this.slabTotalCost - this.slabAddForm.get('taxableAmount')?.value
+    this.purchaseAddForm.patchValue({
+      nonTaxableAmount: this.slabTotalCost - this.purchaseAddForm.get('taxableAmount')?.value
     });
 
-    this.nonTaxableAmount = this.slabAddForm.get("nonTaxableAmount").value;
-    const form = this.slabAddForm;
+    this.nonTaxableAmount = this.purchaseAddForm.get("nonTaxableAmount").value;
+    const form = this.purchaseAddForm;
     const slabTotalAmount = this.slabTotalCost;
     const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
     const transportationCharge =
@@ -448,7 +463,7 @@ export class AddBlockComponent {
         totalSQFT: 0,
       });
       this.slabDetails = []; // Clear slabDetails data
-      const formData = this.slabAddForm.value;
+      const formData = this.purchaseAddForm.value;
 
       const payload = {
         warehouseDetails: formData.warehouse,
@@ -573,7 +588,7 @@ export class AddBlockComponent {
           Number(e.taxAmountPerSQFT) +
           Number(transportationAndOtherChargePerSQFT)) *
         e.totalSQFT,
-      warehouseDetails: this.slabAddForm?.value?.warehouse,
+      warehouseDetails: this.purchaseAddForm?.value?.warehouse,
     }));
 
     taxable = taxApplied + taxableAmount;
@@ -613,26 +628,26 @@ export class AddBlockComponent {
   }
 
   setValidator() {
-    this.slabAddForm
+    this.purchaseAddForm
       .get("taxableAmount")
       ?.setValidators([Validators.min(0), Validators.max(this.slabTotalCost)]);
-    this.slabAddForm
+    this.purchaseAddForm
       .get("nonTaxableAmount")
       ?.setValidators([Validators.min(0), Validators.max(this.slabTotalCost)]);
-    this.slabAddForm
+    this.purchaseAddForm
       .get("purchaseDiscount")
       ?.setValidators([
         Validators.min(0),
         Validators.max(this.maxPurchaseAmount),
       ]);
-    this.slabAddForm.get("purchaseDiscount")?.updateValueAndValidity;
-    this.slabAddForm.get("nonTaxableAmount")?.updateValueAndValidity;
-    this.slabAddForm.get("taxableAmount")?.updateValueAndValidity;
+    this.purchaseAddForm.get("purchaseDiscount")?.updateValueAndValidity;
+    this.purchaseAddForm.get("nonTaxableAmount")?.updateValueAndValidity;
+    this.purchaseAddForm.get("taxableAmount")?.updateValueAndValidity;
   }
 
-  slabAddFormSubmit() {
+  purchaseAddFormSubmit() {
     this.calculateTotalAmount(); // Ensure calculations are up-to-date
-    const formData = this.slabAddForm.value;
+    const formData = this.purchaseAddForm.value;
     console.log('formData', formData)
     if (this.slabTotalCost) {
       const payload = {

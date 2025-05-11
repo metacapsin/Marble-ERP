@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  // apiUrl: '/api',
-  apiUrl: 'http://localhost:1339',
+  apiUrl: 'https://admin.marbleledgers.com/api',
+  // apiUrl: 'http://localhost:1339',
 };
 
-/*
+/*https://admin.marbleledgers.com/api
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  *
