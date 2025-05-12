@@ -176,7 +176,7 @@
                       <div class="col-xl-4 col-md-4 col-sm-12 col-12">
                         <div class="form-group local-forms">
                           <label for="customer">Taxable Amount</label>
-                            <input type="number" formControlName="taxableAmount" (change)="calculateTotalAmount()"
+                            <input type="num  ber" formControlName="taxableAmount" (change)="calculateTotalAmount()"
                               class="form-control" placeholder="Enter Taxable Amount" />
                         </div>
                       </div>
@@ -381,13 +381,6 @@
                       </p-accordionTab>
                   </p-accordion>
 
-                  <div class="row">
-                    <div class="col text-end">
-                      <button class="btn btn-primary" (click)="nextStep(nextCallback, 'first')">
-                        Next <i class="fa-solid fa-arrow-right"></i>
-                      </button>
-                    </div>
-                  </div>
 
                     <!-- lot Information -->
                     <div *ngIf="lotTypeValue === 'Lot'">
@@ -507,7 +500,7 @@
 
                     <div class="card" *ngIf="lotTypeValue === 'Lot'">
                       <div class="card-body">
-                        <h3>{{addNewPurchaseForm.get("purchaseType").value }} Information</h3>
+                        <h3>Block Information</h3>
                         <div class="row practice-card" *ngIf="ItemDetails">
                           <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">

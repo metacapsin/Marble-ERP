@@ -41,11 +41,11 @@
                     </div> -->
                     <div class="col-12 text-end">
                         <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10 mb-3"
-                                (click)="addSlabDialog()">
-                          Add Slab
+                            (click)="addSlabDialog()">
+                            Add Slab
                         </button>
-                      </div>
-                      
+                    </div>
+
                 </div>
 
             </div>
@@ -80,7 +80,7 @@
                                                 <div class="page-table-header mb-2 m-3">
                                                     <div class="row practice-card">
                                                         <div class="col-xl-6 col-lg-6 col-sm-12">
-                                                          
+
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                                                                     Length (Inch)
@@ -131,7 +131,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="col-xl-6 col-lg-6 col-sm-12">
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
@@ -145,14 +145,14 @@
                                                             </div>
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                  Quantity (Square Feet)
+                                                                    Quantity (Square Feet)
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                  <p class="col-form-label">
-                                                                    {{ data?.totalSQFT ?? " -- " }}
-                                                                  </p>
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.totalSQFT ?? " -- " }}
+                                                                    </p>
                                                                 </div>
-                                                              </div>
+                                                            </div>
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                                                                     Rate / Sq. Feet
@@ -173,8 +173,8 @@
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                        
-                                                       
+
+
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                                                                     Cost Per SQFT
@@ -346,18 +346,18 @@
                     <div class="invoice-total-inner">
                         <p *ngIf="slabAddForm.get('totalSQFT')?.value">
                             Total Quantity (Sq. Feet)<span>
-                              {{ slabAddForm.get('totalSQFT').value }}
+                                {{ slabAddForm.get('totalSQFT').value }}
 
                             </span>
-                          </p>
-                          <div class="invoice-total-inner">
+                        </p>
+                        <div class="invoice-total-inner">
                             <p *ngIf="slabAddForm.get('ratePerSqFeet')?.value">
                                 Rate / Sq. Feet<span>
-                                  ₹ {{ slabAddForm.get('ratePerSqFeet').value }}
-    
+                                    ₹ {{ slabAddForm.get('ratePerSqFeet').value }}
+
                                 </span>
-                              </p>
-                              </div>
+                            </p>
+                        </div>
                         <!-- <p *ngIf="slabAddForm.get('transportationCharge')?.value" class="mt-2">
                             Transportation Charges
                             <span>
@@ -423,7 +423,7 @@
         <div class="modal-body">
             <form #myForm="ngForm">
                 <div>
-                    <div class="row">                     
+                    <div class="row">
 
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
@@ -447,24 +447,13 @@
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
                                 <label for="subCategory">Sub Category<span class="login-danger">*</span></label>
-                                <p-dropdown 
-                                [options]="subCategorListByCategory" 
-                                styleClass="" 
-                                appendTo="body"
-                                placeholder="Select Sub Category" 
-                                optionLabel="name" 
-                                optionValue="_id" 
-                                (onChange)="getHsnCode($event.value)" 
-                                [style]="{ width: '100%' }" 
-                                [filter]="true" 
-                                filterBy="name" 
-                                [showClear]="false" 
-                                required 
-                                [(ngModel)]="subCategory" 
-                                name="subCategory" 
-                                #SUBCATEGORY="ngModel">
-                              </p-dropdown>
-                              
+                                <p-dropdown [options]="subCategorListByCategory" styleClass="" appendTo="body"
+                                    placeholder="Select Sub Category" optionLabel="name" optionValue="_id"
+                                    (onChange)="getHsnCode($event.value)" [style]="{ width: '100%' }" [filter]="true"
+                                    filterBy="name" [showClear]="false" required [(ngModel)]="subCategory"
+                                    name="subCategory" #SUBCATEGORY="ngModel">
+                                </p-dropdown>
+
                                 <!-- <div *ngIf="SUBCATEGORY.invalid && (SUBCATEGORY.dirty || SUBCATEGORY.touched)">
                                         <div *ngIf="SUBCATEGORY.errors?.['required']">
                                             <span class="login-danger">Sub Category is required.</span>
@@ -485,14 +474,13 @@
                                     (change)="getSlabDetails()" #MARBLENAME="ngModel" />
                             </div>
                         </div>
- 
-                        
+
+
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
                                 <label for="slabNumber">Slab Number <span class="login-danger">*</span></label>
-                                <input class="form-control" type="text"
-                                    pattern="^.{1,50}$" required name="slabNumber" [(ngModel)]="slabNumber"
-                                    (change)="getSlabDetails()" #SLABNUMBER="ngModel" />
+                                <input class="form-control" type="text" pattern="^.{1,50}$" required name="slabNumber"
+                                    [(ngModel)]="slabNumber" (change)="getSlabDetails()" #SLABNUMBER="ngModel" />
                                 <div *ngIf="SLABNUMBER.invalid && (SLABNUMBER.dirty || SLABNUMBER.touched)">
                                     <div *ngIf="SLABNUMBER.errors?.['required']">
                                         <span class="login-danger">Slab Number is required.</span>
@@ -501,7 +489,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
                                 <label for="finishes">Finishes</label>
@@ -602,7 +590,85 @@
                             </div>
                         </div>
 
-                        
+                        <p-accordion>
+                            <p-accordionTab>
+                                <ng-template pTemplate="header">
+                                    <div class="header-flex">
+                                        <span>Convert to Pieces</span>
+                                        <p-button [text]="true" styleClass="p-button-text add-btn" icon="fa fa-plus"
+                                            (click)="addRow();$event.stopPropagation()"></p-button>
+                                    </div>
+                                </ng-template>
+
+                                <p-table [value]="rows" editable="true">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Piece Number</th>
+                                            <th>Length</th>
+                                            <th>Width</th>
+                                            <th>Thickness</th>
+                                            <th>Quantity</th>
+                                            <th style="width: 20%;">Finishes</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </ng-template>
+
+                                    <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+                                        <tr>
+                                            <td>
+                                                <input class="form-control" type="number" [disabled]="!rowData.isEditing"
+                                                     [(ngModel)]="rowData.pieceNumber"
+                                                    name="pieceNumber{{ri}}" />
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="number" [disabled]="!rowData.isEditing"
+                                                    [(ngModel)]="rowData.length" name="length{{ri}}" />
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="number" [disabled]="!rowData.isEditing"
+                                                    [(ngModel)]="rowData.width" name="width{{ri}}" />
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="number" [disabled]="!rowData.isEditing"
+                                                    min="1" max="500" [(ngModel)]="rowData.thickness"
+                                                    (change)="getSlabDetails()" name="thickness{{ri}}" />
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="number" [disabled]="!rowData.isEditing"
+                                                    [(ngModel)]="rowData.quantity" name="quantity{{ri}}" />
+                                            </td>
+                                            <td>
+                                                <p-dropdown [options]="finisheshList" optionLabel="name" [disabled]="!rowData.isEditing"
+                                                    [(ngModel)]="rowData.finish" name="finish{{ri}}"
+                                                    placeholder="Select Finish" appendTo="body">
+                                                </p-dropdown>
+
+                                            </td>
+                                            <td>
+  <ng-container *ngIf="!rowData.isEditing">
+    <p-button icon="fa fa-pencil" styleClass="p-button-text"  (click)="enableEdit(rowData)"></p-button>
+    <p-button icon="fa fa-trash" styleClass="p-button-text"  (click)="deleteRow(ri)"></p-button>
+  </ng-container>
+  <ng-container *ngIf="rowData.isEditing">
+    <p-button icon="fa fa-save" styleClass="p-button-text"  (click)="saveRow(rowData)"></p-button>
+    <p-button icon="fa fa-times" styleClass="p-button-text"  (click)="cancelEdit(rowData)"></p-button>
+  </ng-container>
+</td>
+
+                                            <!-- <td>
+                                                <p-button [text]="true" styleClass="p-button-text" icon="fa fa-pencil"
+                                                    (click)="addRow()"></p-button>
+                                                <p-button [text]="true" styleClass="p-button-text  p-button-danger"
+                                                    icon="fa fa-trash" (click)="deleteRow(ri)"></p-button>
+                                            </td> -->
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+
+
+
 
 
                         <h3 class="slab-specification">Price :</h3>
@@ -610,10 +676,11 @@
 
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
-                                <label for="quantity">Total Quantity (Sq. Feet) <span class="login-danger">*</span> </label>
+                                <label for="quantity">Total Quantity (Sq. Feet) <span class="login-danger">*</span>
+                                </label>
                                 <input class="form-control" type="number" name="quantity" (change)="getSlabDetails()"
-                                    min="1" max="1000000" [disabled]="true" placeholder="Enter Quantity" [(ngModel)]="quantity" required
-                                    #QUANTITY="ngModel" />
+                                    min="1" max="1000000" [disabled]="true" placeholder="Enter Quantity"
+                                    [(ngModel)]="quantity" required #QUANTITY="ngModel" />
                                 <!-- <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
                                     <div *ngIf="QUANTITY.errors?.['required']">
                                         <span class="login-danger">Quantity is required.</span>

@@ -69,6 +69,8 @@ export class AddSlabPurchaseComponent {
     { name: "Unpolished" },
     { name: "Semi polished" },
   ];
+    rows = [];
+    editedRowBackup: any = null;
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
@@ -236,6 +238,7 @@ export class AddSlabPurchaseComponent {
     this.ratePerSqFeet = null;
     this.totalAmount = null;
     this.addvisible = true;
+    this.finishes = this.finisheshList.find(f => f.name === 'Unpolished');
   }
 
   deleteAccordian(index: number) {
@@ -793,7 +796,37 @@ if (this.isEditMode && this.previousSlabData) {
       price: ''
     });
   }
-  
+
+    addRow() {
+    this.rows.push({
+      pieceNumber: null,
+      length: null,
+      width: null,
+      thickness: null,
+      quantity: null,
+      finish: null
+    });
+  }
+
+  deleteRow(index: number) {
+    this.rows.splice(index, 1);
+  }
+
+  enableEdit(row: any) {
+  row.isEditing = true;
+  this.editedRowBackup = { ...row }; // shallow copy
+}
+
+saveRow(row: any) {
+  row.isEditing = false;
+  this.editedRowBackup = null;
+}
+
+cancelEdit(row: any) {
+  Object.assign(row, this.editedRowBackup); // revert changes
+  row.isEditing = false;
+  this.editedRowBackup = null;
+}
 
 }
 

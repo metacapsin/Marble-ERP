@@ -1,14 +1,36 @@
 h3 {
-   p {
+  p {
     font-size: 16px;
     color: #97704f;
     text-align: initial;
-   }
+  }
 }
-.slab-specification{
-   font-family: poppins;
-   font-size: 16px;
-   color: #97704f;
-   text-align: initial;
-   margin-bottom: 25px;
+
+.slab-specification {
+  font-family: poppins;
+  font-size: 16px;
+  color: #97704f;
+  text-align: initial;
+  margin-bottom: 25px;
+  margin-top: 20px;
+}
+
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.add-btn {
+  margin-left: auto;
+}
+
+::ng-deep .p-accordion-header .p-accordion-header-link {
+  padding: 0.3rem 1rem;
+  /* Reduce vertical padding */
+  height: 50px;
+  /* Optional: force height */
+  font-size: 0.9rem;
+  /* Optional: smaller font */
 }
