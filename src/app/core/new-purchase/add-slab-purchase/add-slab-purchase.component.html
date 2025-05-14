@@ -7,6 +7,12 @@
                     <div class="col-md-6 col-sm-12">
                         <h3>Add Slab Details</h3>
                     </div>
+                    <div class="col-md-6 col-sm-12 text-end">
+                        <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                            (click)="addSlabDialog()">
+                            Add Slab
+                        </button>
+                    </div>
                 </div>
                 <div class="row mt-3">
                     <!-- <div class="col-12 col-md-6">
@@ -39,12 +45,12 @@
                             Add Slab
                         </button>
                     </div> -->
-                    <div class="col-12 text-end">
+                    <!-- <div class="col-12 text-end">
                         <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10 mb-3"
                             (click)="addSlabDialog()">
                             Add Slab
                         </button>
-                    </div>
+                    </div> -->
 
                 </div>
 
@@ -477,20 +483,23 @@
 
 
                         <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
+                            <div class="form-group local-forms position-relative">
                                 <label for="slabNumber">Slab Number <span class="login-danger">*</span></label>
-                                <input class="form-control" type="text" pattern="^.{1,50}$" required name="slabNumber"
-                                    [(ngModel)]="slabNumber" (change)="getSlabDetails()" #SLABNUMBER="ngModel" />
-                                <div *ngIf="SLABNUMBER.invalid && (SLABNUMBER.dirty || SLABNUMBER.touched)">
-                                    <div *ngIf="SLABNUMBER.errors?.['required']">
-                                        <span class="login-danger">Slab Number is required.</span>
-                                    </div>
+
+                                <div class="input-with-barcode">
+                                    <input class="form-control pr-5" type="text" pattern="^.{1,50}$" [disabled]="true"
+                                        name="slabNumber" [(ngModel)]="slabNumber" (change)="getSlabDetails()"
+                                        #SLABNUMBER="ngModel" />
+
+                                    <img *ngIf="slabNumber" (click)="openBarCodePopup()" src="assets/img/barcode.png"
+                                        alt="barcode" class="barcode-icon" />
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="col-12 col-md-6 col-xl-6">
+
+                        <!-- <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
                                 <label for="finishes">Finishes</label>
                                 <p-dropdown [options]="finisheshList" styleClass="" appendTo="body" name="finishes"
@@ -499,7 +508,7 @@
                                     #FINISHESH="ngModel">
                                 </p-dropdown>
                             </div>
-                        </div>
+                        </div> -->
 
 
                         <h3 class="slab-specification">Slab Specification :</h3>
@@ -604,10 +613,10 @@
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th>Piece Number</th>
-                                            <th>Length</th>
-                                            <th>Width</th>
-                                            <th>Thickness</th>
-                                            <th>Quantity</th>
+                                            <th>Length (Inch)</th>
+                                            <th>Width (Inch)</th>
+                                            <th>Thickness (MM)</th>
+                                            <th>Quantity (Sq. Feet)</th>
                                             <th style="width: 20%;">Finishes</th>
                                             <th>Actions</th>
                                         </tr>
@@ -616,44 +625,51 @@
                                     <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
                                         <tr>
                                             <td>
-                                                <input class="form-control" type="number" [disabled]="!rowData.isEditing"
-                                                     [(ngModel)]="rowData.pieceNumber"
-                                                    name="pieceNumber{{ri}}" />
+                                                <input class="form-control" type="number" [disabled]="true"
+                                                    [(ngModel)]="rowData.pieceNumber" name="pieceNumber{{ri}}" />
                                             </td>
                                             <td>
-                                                <input class="form-control" type="number" [disabled]="!rowData.isEditing"
-                                                    [(ngModel)]="rowData.length" name="length{{ri}}" />
+                                                <input class="form-control" type="number"
+                                                    [disabled]="!rowData.isEditing" [(ngModel)]="rowData.length"
+                                                    name="length{{ri}}" (input)="updateQuantity(rowData)" />
                                             </td>
                                             <td>
-                                                <input class="form-control" type="number" [disabled]="!rowData.isEditing"
-                                                    [(ngModel)]="rowData.width" name="width{{ri}}" />
+                                                <input class="form-control" type="number"
+                                                    [disabled]="!rowData.isEditing" [(ngModel)]="rowData.width"
+                                                    name="width{{ri}}" (input)="updateQuantity(rowData)" />
                                             </td>
                                             <td>
-                                                <input class="form-control" type="number" [disabled]="!rowData.isEditing"
-                                                    min="1" max="500" [(ngModel)]="rowData.thickness"
-                                                    (change)="getSlabDetails()" name="thickness{{ri}}" />
+                                                <input class="form-control" type="number"
+                                                    [disabled]="!rowData.isEditing" min="1" max="500"
+                                                    [(ngModel)]="rowData.thickness" (change)="getSlabDetails()"
+                                                    name="thickness{{ri}}" />
                                             </td>
                                             <td>
-                                                <input class="form-control" type="number" [disabled]="!rowData.isEditing"
-                                                    [(ngModel)]="rowData.quantity" name="quantity{{ri}}" />
+                                                <input class="form-control" type="number"
+                                                    [disabled]="!rowData.isEditing" [(ngModel)]="rowData.quantity"
+                                                    name="quantity{{ri}}" />
                                             </td>
                                             <td>
-                                                <p-dropdown [options]="finisheshList" optionLabel="name" [disabled]="!rowData.isEditing"
-                                                    [(ngModel)]="rowData.finish" name="finish{{ri}}"
-                                                    placeholder="Select Finish" appendTo="body">
+                                                <p-dropdown [options]="finisheshList" optionLabel="name"
+                                                    [disabled]="!rowData.isEditing" [(ngModel)]="rowData.finish"
+                                                    name="finish{{ri}}" placeholder="Select Finish" appendTo="body">
                                                 </p-dropdown>
 
                                             </td>
                                             <td>
-  <ng-container *ngIf="!rowData.isEditing">
-    <p-button icon="fa fa-pencil" styleClass="p-button-text"  (click)="enableEdit(rowData)"></p-button>
-    <p-button icon="fa fa-trash" styleClass="p-button-text"  (click)="deleteRow(ri)"></p-button>
-  </ng-container>
-  <ng-container *ngIf="rowData.isEditing">
-    <p-button icon="fa fa-save" styleClass="p-button-text"  (click)="saveRow(rowData)"></p-button>
-    <p-button icon="fa fa-times" styleClass="p-button-text"  (click)="cancelEdit(rowData)"></p-button>
-  </ng-container>
-</td>
+                                                <ng-container *ngIf="!rowData.isEditing">
+                                                    <p-button icon="fa fa-pencil" styleClass="p-button-text"
+                                                        (click)="enableEdit(rowData)"></p-button>
+                                                    <p-button icon="fa fa-trash" styleClass="p-button-text"
+                                                        (click)="deleteRow(ri)"></p-button>
+                                                </ng-container>
+                                                <ng-container *ngIf="rowData.isEditing">
+                                                    <p-button icon="fa fa-save" styleClass="p-button-text"
+                                                        (click)="saveRow(rowData)"></p-button>
+                                                    <p-button icon="fa fa-times" styleClass="p-button-text"
+                                                        (click)="cancelEdit(rowData)"></p-button>
+                                                </ng-container>
+                                            </td>
 
                                             <!-- <td>
                                                 <p-button [text]="true" styleClass="p-button-text" icon="fa fa-pencil"
@@ -679,8 +695,8 @@
                                 <label for="quantity">Total Quantity (Sq. Feet) <span class="login-danger">*</span>
                                 </label>
                                 <input class="form-control" type="number" name="quantity" (change)="getSlabDetails()"
-                                    min="1" max="1000000" [disabled]="true" placeholder="Enter Quantity"
-                                    [(ngModel)]="quantity" required #QUANTITY="ngModel" />
+                                    min="1" max="1000000" placeholder="Enter Quantity" [(ngModel)]="totalQuantity"
+                                    required #QUANTITY="ngModel" />
                                 <!-- <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
                                     <div *ngIf="QUANTITY.errors?.['required']">
                                         <span class="login-danger">Quantity is required.</span>
@@ -735,4 +751,28 @@
             </form>
         </div>
     </div>
+</p-dialog>
+
+<p-dialog header="Barcode"
+          [(visible)]="addbarcodevisible"
+          [modal]="true"
+          [style]="{ width: '30%'}"
+          (onHide)="closeBarCodeForm()">
+  <div class="modal-content mt-2">
+
+    <!-- Show the barcode image -->
+    <div class="text-center mb-3">
+      <img [src]="barcodeImage" alt="Barcode" style="max-width: 100%; height: auto;" />
+    </div>
+
+    <!-- Centered print button -->
+    <div class="col-12">
+      <div class="settings-btns text-center m-b-10">
+        <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10">
+          Print Barcode
+        </button>
+      </div>
+    </div>
+
+  </div>
 </p-dialog>

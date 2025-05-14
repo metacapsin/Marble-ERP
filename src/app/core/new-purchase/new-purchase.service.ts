@@ -39,6 +39,14 @@ export class NewPurchaseService {
     return this.http.get(environment.apiUrl + `/Purchase/getPurchaseWithSlabDetail/${id}`);
   }
 
+  generateProductCode(data: any) {
+    return this.http.post(environment.apiUrl + '/Purchase/generateProductCode', data);
+  }
+
+  generateBarCode(data: any) {
+    return this.http.post(environment.apiUrl + '/Product/generate-barcode', data);
+  }
+
   // getPurchasePaymentList(id: any){
   //   return this.http.get(environment.apiUrl + `/Purchase/getPurchasePaymentList/${id}`);
   // }

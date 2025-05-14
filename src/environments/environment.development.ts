@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://admin.marbleledgers.com/api',
-  // apiUrl: 'http://localhost:1339',
+  // apiUrl: 'https://admin.marbleledgers.com/api',
+  apiUrl: 'http://localhost:1339',
 };
 
 /*

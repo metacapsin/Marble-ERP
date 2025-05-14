@@ -22,6 +22,7 @@ import { blockProcessorService } from "src/app/core/block-processor/block-proces
 import { TaxesService } from "src/app/core/settings/taxes/taxes.service";
 import { CategoriesService } from "src/app/core/settings/categories/categories.service";
 import { SubCategoriesService } from "src/app/core/settings/sub-categories/sub-categories.service";
+import { co } from "@fullcalendar/core/internal-common";
 @Component({
   selector: "app-add-slab-purchase",
   standalone: true,
@@ -39,6 +40,7 @@ export class AddSlabPurchaseComponent {
   slabDetails: any[] = [];
   marbleName: string;
   slabNumber: string;
+  barcodeImage: string
   category: any = {};
   subCategory: any = {};
   noOfPieces: number;
@@ -50,6 +52,7 @@ export class AddSlabPurchaseComponent {
   ratePerSqFeet: number;
   totalAmount: number;
   addvisible: boolean = false;
+  addbarcodevisible: boolean = false;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   slabTotalCost: number = 0;
   wareHousedata: any = [];
@@ -71,6 +74,8 @@ export class AddSlabPurchaseComponent {
   ];
     rows = [];
     editedRowBackup: any = null;
+    totalQuantity: number = 0;
+
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
@@ -249,8 +254,50 @@ export class AddSlabPurchaseComponent {
   }
 
   // for get hsn code
+generateProductCode(){
+   const payload = {
+        category: this.category.name,
+        subCategory: this.marbleName,
+   };
+   this.NewPurchaseService.generateProductCode(payload).subscribe((resp: any) => {
+        if (resp) {
+          if (resp.status === "success") {
+            this.slabNumber = resp.data.productCode;
+            this.NewPurchaseService.clearFormData();
+            const message = "Generate Product Code has been generated";
+            this.messageService.add({ severity: "success", detail: message });
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      });
+
+}
+
+generateBarCode(){
+   const payload = {
+       productId: this.slabNumber
+   };
+   this.NewPurchaseService.generateBarCode(payload).subscribe((resp: any) => {
+        if (resp) {
+          if (resp.status === "success") {
+            this.barcodeImage = resp.data.barcodeImage;
+            this.NewPurchaseService.clearFormData();
+            const message = "Generate Product Code has been generated";
+            this.messageService.add({ severity: "success", detail: message });
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
+        }
+      });
+}
+
+
   getHsnCode(event) {
     this.marbleName = event.name;
+    this.generateProductCode();
     let rec = this.allSubCategoryList.find((item) => item._id === event._id);
     if (rec) {
       this.subCategory.hsnCode = rec.hsnCode;
@@ -262,6 +309,15 @@ export class AddSlabPurchaseComponent {
   closeSlabForm(myForm: NgForm) {
     this.addvisible = false;
     myForm.resetForm();
+  }
+
+  openBarCodePopup() {
+    this.addbarcodevisible = true;
+    this.generateBarCode();
+  }
+
+  closeBarCodeForm() {
+    this.addbarcodevisible = false;
   }
 
   addSlabDetails(myForm: NgForm) {
@@ -326,6 +382,7 @@ export class AddSlabPurchaseComponent {
   }
 
   findSubCategory(value: any) {
+    this.category = value;
     let SubCategoryData = [];
     this.subCategory = {};
 
@@ -350,11 +407,33 @@ export class AddSlabPurchaseComponent {
   getSlabDetails() {
     if(this.width && this.length && this.ratePerSqFeet){
       this.quantity = this.width * this.length / 144;
-      this.totalAmount = this.quantity * this.ratePerSqFeet;
+    this.totalAmount = +(this.quantity * this.ratePerSqFeet).toFixed(2);
     } else if (this.width && this.length) {
       this.quantity = this.width * this.length / 144;
     } else {
       return;
+    }
+    
+    this.calculateTotalQuantity();
+
+
+    // Generate rows based on noOfPieces
+    if (this.noOfPieces && this.noOfPieces > 0) {
+      // Clear existing rows
+      this.rows = [];
+      
+      // Create new rows based on noOfPieces
+      for (let i = 0; i < this.noOfPieces; i++) {
+        this.rows.push({
+          pieceNumber: i + 1,
+          length: this.length || null,
+          width: this.width || null,
+          thickness: this.thickness || null,
+          quantity: this.getFormattedQuantity(),
+          finish: this.finishes,
+          isEditing: false
+        });
+      }
     }
     // if (
     //   !this.slabNumber ||
@@ -364,6 +443,36 @@ export class AddSlabPurchaseComponent {
     //   return;
     // }
   }
+
+  getFormattedQuantity(): number | null {
+  if (this.length && this.width) {
+    const result = this.length * this.width / 144;
+    console.log("Formatted Quantity:", result);
+    
+    return parseFloat(result.toFixed(2)); // toFixed returns a string, so convert back to number
+  }
+  return null;
+}
+
+updateQuantity(row: any) {
+  const width = parseFloat(row.width) || 0;
+  const length = parseFloat(row.length) || 0;
+  
+  const calculatedQuantity = (width * length) / 144;
+  row.quantity = +calculatedQuantity.toFixed(2); // convert back to number
+   this.calculateTotalQuantity();
+}
+
+calculateTotalQuantity() {
+  this.totalQuantity = this.rows.reduce((sum, row) => {
+    const qty = parseFloat(row.quantity);
+    return sum + (isNaN(qty) ? 0 : qty);
+  }, 0);
+  
+  this.totalQuantity = +this.totalQuantity.toFixed(2);
+}
+
+
 
   public setValidations(formControlName: string) {
     return (
@@ -797,20 +906,49 @@ if (this.isEditMode && this.previousSlabData) {
     });
   }
 
-    addRow() {
-    this.rows.push({
-      pieceNumber: null,
-      length: null,
-      width: null,
-      thickness: null,
-      quantity: null,
-      finish: null
-    });
-  }
+  addRow() {
+  const lastPieceNumber = this.rows.length > 0
+    ? this.rows[this.rows.length - 1].pieceNumber
+    : 0;
 
-  deleteRow(index: number) {
-    this.rows.splice(index, 1);
-  }
+  const newRow = {
+    pieceNumber: lastPieceNumber + 1,
+    length: 0,
+    width: 0,
+    thickness: 0,
+    quantity: 0,
+    finish: null,
+    isEditing: true
+  };
+
+  this.rows.push(newRow);
+}
+
+deleteRow(index: number) {
+  this.rows.splice(index, 1);
+
+  // Reassign piece numbers after deletion
+  this.rows.forEach((row, i) => {
+    row.pieceNumber = i + 1;
+  });
+}
+
+
+
+  //   addRow() {
+  //   this.rows.push({
+  //     pieceNumber: null,
+  //     length: null,
+  //     width: null,
+  //     thickness: null,
+  //     quantity: null,
+  //     finish: null
+  //   });
+  // }
+
+  // deleteRow(index: number) {
+  //   this.rows.splice(index, 1);
+  // }
 
   enableEdit(row: any) {
   row.isEditing = true;

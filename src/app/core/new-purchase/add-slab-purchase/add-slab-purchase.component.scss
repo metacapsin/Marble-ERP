@@ -34,3 +34,20 @@ h3 {
   font-size: 0.9rem;
   /* Optional: smaller font */
 }
+
+.input-with-barcode {
+  position: relative;
+}
+
+.input-with-barcode input {
+  padding-right: 40px; /* leave space for the icon */
+}
+
+.barcode-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 50px; /* adjust as needed */
+  cursor: pointer;
+}
