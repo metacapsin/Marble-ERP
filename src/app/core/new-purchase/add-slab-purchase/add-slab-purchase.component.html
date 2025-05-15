@@ -352,7 +352,7 @@
                     <div class="invoice-total-inner">
                         <p *ngIf="slabAddForm.get('totalSQFT')?.value">
                             Total Quantity (Sq. Feet)<span>
-                                {{ slabAddForm.get('totalSQFT').value }}
+                                {{ slabAddForm.get('totalSQFT').value | number:'1.2-2' }}
 
                             </span>
                         </p>
