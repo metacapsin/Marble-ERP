@@ -98,13 +98,13 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   blockProcessor: any;
   slabDetails: any;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
-  expensesExpanded: boolean = true;
-  expenses: any[] = [];
-  expenseTypeOptions = [
-    { name: 'Transportation', value: 'transportation' },
-    { name: 'Royalty', value: 'royalty' },
-    { name: 'Other', value: 'other' }
-  ];
+  // expensesExpanded: boolean = true;
+  // expenses: any[] = [];
+  // expenseTypeOptions = [
+  //   { name: 'Transportation', value: 'transportation' },
+  //   { name: 'Royalty', value: 'royalty' },
+  //   { name: 'Other', value: 'other' }
+  // ];
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -351,7 +351,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           totalSQFT: this.SlabItemDetails?.totalSQFT,
         });
 
-        console.log('32222222222222222222',this.addNewPurchaseForm.value);
+        console.log(this.addNewPurchaseForm.value);
       }
     }
     nextCallback.emit();
@@ -407,68 +407,68 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     this.calculateTotalAmount();
   }
   calculateTotalAmount() {
-    if (this.lotTypeValue === "Slab") {
-      let totalTaxAmount: number = 0;
-      let paidToSupplierPurchaseCost =
-        this.addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value || 0;
-      let transportationCharges =
-        this.addNewPurchaseForm.get("transportationCharges")?.value || 0;
-      let otherCharges =
-        this.addNewPurchaseForm.get("otherCharges")?.value || 0;
-      let totalSQFT = this.addNewPurchaseForm.get("totalSQFT")?.value || 0;
-      let costPerSQFT = this.addNewPurchaseForm.get("costPerSQFT")?.value || 0;
-      let purchaseDiscount =
-        this.addNewPurchaseForm.get("purchaseDiscount")?.value || 0;
-      let noOfPieces = this.addNewPurchaseForm.get("noOfPieces")?.value || 1;
-      let taxableAmount =
-        this.addNewPurchaseForm.get("taxableAmount")?.value || 0;
-      let nonTaxable = this.addNewPurchaseForm.get("nonTaxable")?.value || 0;
-      let purchaseItemTax =
-        this.addNewPurchaseForm.get("purchaseItemTax")?.value;
-      let sqftPerPiece = totalSQFT / noOfPieces;
-      let taxable;
-      if (Array.isArray(purchaseItemTax)) {
-        purchaseItemTax.forEach((selectedTax: any) => {
-          totalTaxAmount += (taxableAmount * selectedTax.taxRate) / 100;
-        });
-      } else if (purchaseItemTax) {
-        totalTaxAmount = (taxableAmount * purchaseItemTax) / 100;
-      }
-      if (purchaseDiscount > 0) {
-        if (!nonTaxable) {
-          taxableAmount -= purchaseDiscount;
-        } else {
-          nonTaxable -= purchaseDiscount;
-          this.addNewPurchaseForm.get("nonTaxable").patchValue(nonTaxable);
-        }
-      }
-      taxable = taxableAmount + totalTaxAmount;
-      paidToSupplierPurchaseCost = taxable + nonTaxable;
-      const total: number =
-        transportationCharges +
-        otherCharges +
-        paidToSupplierPurchaseCost +
-        purchaseDiscount;
-      if (totalSQFT !== 0) {
-        costPerSQFT = total / totalSQFT;
-      }
-      if (total) {
-        this.addNewPurchaseForm.patchValue({
-          sellingPricePerSQFT: Number(costPerSQFT).toFixed(2),
-          costPerSQFT: Number(costPerSQFT).toFixed(2),
-          totalCosting: total,
-          sqftPerPiece: sqftPerPiece,
-          paidToSupplierPurchaseCost: paidToSupplierPurchaseCost,
-          taxable: taxable,
-          taxableAmount: taxableAmount,
-          taxApplied: totalTaxAmount,
-          nonTaxable: nonTaxable,
-        });
-      }
-      if (this.addNewPurchaseForm.get("isTaxVendor").value) {
-        this.calculateTaxVendorAmount();
-      }
-    }
+    // if (this.lotTypeValue === "Slab") {
+    //   let totalTaxAmount: number = 0;
+    //   let paidToSupplierPurchaseCost =
+    //     this.addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value || 0;
+    //   let transportationCharges =
+    //     this.addNewPurchaseForm.get("transportationCharges")?.value || 0;
+    //   let otherCharges =
+    //     this.addNewPurchaseForm.get("otherCharges")?.value || 0;
+    //   let totalSQFT = this.addNewPurchaseForm.get("totalSQFT")?.value || 0;
+    //   let costPerSQFT = this.addNewPurchaseForm.get("costPerSQFT")?.value || 0;
+    //   let purchaseDiscount =
+    //     this.addNewPurchaseForm.get("purchaseDiscount")?.value || 0;
+    //   let noOfPieces = this.addNewPurchaseForm.get("noOfPieces")?.value || 1;
+    //   let taxableAmount =
+    //     this.addNewPurchaseForm.get("taxableAmount")?.value || 0;
+    //   let nonTaxable = this.addNewPurchaseForm.get("nonTaxable")?.value || 0;
+    //   let purchaseItemTax =
+    //     this.addNewPurchaseForm.get("purchaseItemTax")?.value;
+    //   let sqftPerPiece = totalSQFT / noOfPieces;
+    //   let taxable;
+    //   if (Array.isArray(purchaseItemTax)) {
+    //     purchaseItemTax.forEach((selectedTax: any) => {
+    //       totalTaxAmount += (taxableAmount * selectedTax.taxRate) / 100;
+    //     });
+    //   } else if (purchaseItemTax) {
+    //     totalTaxAmount = (taxableAmount * purchaseItemTax) / 100;
+    //   }
+    //   if (purchaseDiscount > 0) {
+    //     if (!nonTaxable) {
+    //       taxableAmount -= purchaseDiscount;
+    //     } else {
+    //       nonTaxable -= purchaseDiscount;
+    //       this.addNewPurchaseForm.get("nonTaxable").patchValue(nonTaxable);
+    //     }
+    //   }
+    //   taxable = taxableAmount + totalTaxAmount;
+    //   paidToSupplierPurchaseCost = taxable + nonTaxable;
+    //   const total: number =
+    //     transportationCharges +
+    //     otherCharges +
+    //     paidToSupplierPurchaseCost +
+    //     purchaseDiscount;
+    //   if (totalSQFT !== 0) {
+    //     costPerSQFT = total / totalSQFT;
+    //   }
+    //   if (total) {
+    //     this.addNewPurchaseForm.patchValue({
+    //       sellingPricePerSQFT: Number(costPerSQFT).toFixed(2),
+    //       costPerSQFT: Number(costPerSQFT).toFixed(2),
+    //       totalCosting: total,
+    //       sqftPerPiece: sqftPerPiece,
+    //       paidToSupplierPurchaseCost: paidToSupplierPurchaseCost,
+    //       taxable: taxable,
+    //       taxableAmount: taxableAmount,
+    //       taxApplied: totalTaxAmount,
+    //       nonTaxable: nonTaxable,
+    //     });
+    //   }
+    //   if (this.addNewPurchaseForm.get("isTaxVendor").value) {
+    //     this.calculateTaxVendorAmount();
+    //   }
+    // }
   }
 
   calculateDiscount() {
@@ -747,29 +747,29 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     this.handleBeforeUnload();
   }
 
-  toggleExpenses(): void {
-    this.expensesExpanded = !this.expensesExpanded;
-  }
+  // toggleExpenses(): void {
+  //   this.expensesExpanded = !this.expensesExpanded;
+  // }
 
-  addExpense(event: Event): void {
-    event.stopPropagation(); // Prevent the click from triggering the toggle
-    const newId = this.expenses.length > 0 ? Math.max(...this.expenses.map(e => e.id)) + 1 : 1;
-    this.expenses.push({
-      id: newId,
-      type: '',
-      payment: '',
-      paidBy: 'self'
-    });
-  }
+  // addExpense(event: Event): void {
+  //   event.stopPropagation(); // Prevent the click from triggering the toggle
+  //   const newId = this.expenses.length > 0 ? Math.max(...this.expenses.map(e => e.id)) + 1 : 1;
+  //   this.expenses.push({
+  //     id: newId,
+  //     type: '',
+  //     payment: '',
+  //     paidBy: 'self'
+  //   });
+  // }
 
-  removeExpense(index: number): void {
-    this.expenses.splice(index, 1);
-  }
+  // removeExpense(index: number): void {
+  //   this.expenses.splice(index, 1);
+  // }
 
-  removeLastExpense(event: Event): void {
-    event.stopPropagation(); // Prevent the click from triggering the toggle
-    if (this.expenses.length > 0) {
-      this.expenses.pop();
-    }
-  }
+  // removeLastExpense(event: Event): void {
+  //   event.stopPropagation(); // Prevent the click from triggering the toggle
+  //   if (this.expenses.length > 0) {
+  //     this.expenses.pop();
+  //   }
+  // }
 }

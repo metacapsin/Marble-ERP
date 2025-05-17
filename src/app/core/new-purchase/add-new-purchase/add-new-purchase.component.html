@@ -97,9 +97,10 @@
                         </div>
                       </div>
                     </div>
-                    <div *ngIf="lotTypeValue === 'Slab'">
-                      <app-add-slab-purchase class="col-12"></app-add-slab-purchase>
-                    </div>
+                  <div *ngIf="lotTypeValue === 'Slab'">
+                    <app-add-slab-purchase class="col-12" [tab]="'product'"></app-add-slab-purchase>
+                  </div>
+
                     <div *ngIf="lotTypeValue === 'Lot'">
                       <app-add-lot class="col-12"></app-add-lot>
                     </div>
@@ -173,7 +174,7 @@
                         </div>
                       </div>
 
-                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                      <!-- <div class="col-xl-4 col-md-4 col-sm-12 col-12">
                         <div class="form-group local-forms">
                           <label for="customer">Taxable Amount</label>
                             <input type="num  ber" formControlName="taxableAmount" (change)="calculateTotalAmount()"
@@ -215,11 +216,11 @@
                         <div class="form-group local-forms">
                           <label for="nonTaxableAmount">Non-Taxable Amount </label>
                           <div class="input-group">
-                            <!-- <div class="input-group-prepend">
+                            <div class="input-group-prepend">
                               <span class="input-group-text">₹</span>
-                            </div> -->
-                            <!-- <input type="number" formControlName="nonTaxableAmount" (change)="calculateTotalAmount()"
-                              class="form-control" placeholder="Enter Non-Taxable Amount" /> -->
+                            </div>
+                            <input type="number" formControlName="nonTaxableAmount" (change)="calculateTotalAmount()"
+                              class="form-control" placeholder="Enter Non-Taxable Amount" />
                             <div class="input-group">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
@@ -287,12 +288,12 @@
                               (addNewPurchaseForm.get('purchaseDiscount')?.hasError('max') &&
                                 addNewPurchaseForm.get('purchaseDiscount')?.touched)
                             ">
-                            <!-- <span class="login-danger">Input Must be between 1 to {{maxPurchaseAmount}}.</span> -->
+                            <span class="login-danger">Input Must be between 1 to {{maxPurchaseAmount}}.</span>
                           </div>
                         </div>
                       </div>
 
-                      <!-- <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                      <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                         <div class="form-group local-forms">
                           <label for="lotsNo">Product Type<span class="login-danger">*</span></label>
                           <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
@@ -313,10 +314,9 @@
                       </div> -->
                     </div>
 
-                    <p-accordion  [activeIndex]="0">
+                    <!-- <p-accordion  [activeIndex]="0">
                       <p-accordionTab >
                         <ng-template pTemplate="header">
-                          <!-- Header: Flex layout for spacing -->
                           <div class="d-flex justify-content-between align-items-center w-100">
                             <span class="font-bold">Expenses</span>
                             <button pButton type="button" icon="fa fa-plus" class="p-button-text p-0" (click)="addExpense($event)"></button>
@@ -379,7 +379,7 @@
                             </div>
                           </div>
                       </p-accordionTab>
-                  </p-accordion>
+                  </p-accordion> -->
 
 
                     <!-- lot Information -->
@@ -387,8 +387,10 @@
                       <app-add-lot class="col-12"></app-add-lot>
                     </div>
                     <div *ngIf="lotTypeValue === 'Slab'">
-                      <app-add-slab-purchase class="col-12"></app-add-slab-purchase>
-                    </div>
+   <div *ngIf="lotTypeValue === 'Slab'">
+                    <app-add-slab-purchase class="col-12" [tab]="'purchase'"></app-add-slab-purchase>
+                  </div>
+                </div>
                     <!-- SLAB Information -->
 <div class="d-flex pt-4 justify-content-between align-items-center">
                       <div></div>

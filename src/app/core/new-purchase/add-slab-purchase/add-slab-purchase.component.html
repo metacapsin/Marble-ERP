@@ -3,7 +3,7 @@
     <form [formGroup]="slabAddForm" (ngSubmit)="slabAddFormSubmit()">
         <div class="row">
             <div class="col-sm-12">
-                <div class="row">
+                <div *ngIf="tab == 'product'" class="row">
                     <div class="col-md-6 col-sm-12">
                         <h3>Add Slab Details</h3>
                     </div>
@@ -54,6 +54,208 @@
 
                 </div>
 
+            </div>
+        </div>
+
+                <p-accordion *ngIf="tab == 'purchase'" [activeIndex]="0">
+            <p-accordionTab>
+                <ng-template pTemplate="header">
+                    <!-- Header: Flex layout for spacing -->
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <span class="font-bold">Expenses</span>
+                        <button pButton type="button" icon="fa fa-plus" class="p-button-text p-0"
+                            (click)="addExpense($event)"></button>
+                    </div>
+                </ng-template>
+
+                <div class="row">
+                    <div class="expenses-content" *ngIf="expensesExpanded">
+                        <table class="expenses-table w-100">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Payment</th>
+                                    <th>Paid by:</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let expense of expenses; let i = index">
+                                    <td>
+                                        <p-dropdown [options]="expenseTypeOptions" [(ngModel)]="expense.type"
+                                            [ngModelOptions]="{standalone: true}" placeholder="Select Type" (onChange)="calculateTotalAmount()"
+                                            optionLabel="name" optionValue="value" styleClass="w-100" appendTo="body">
+                                        </p-dropdown>
+
+                                    </td>
+                                    <td>
+                                        <div class="input-with-icon">
+                                            <input type="text" pInputText  [(ngModel)]="expense.payment" (change)="calculateTotalAmount()"
+                                                [ngModelOptions]="{standalone: true}" class="form-control">
+                                            <span class="input-icon">₹</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="radio-group">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <p-radioButton name="paidBy_{{i}}" value="self"
+                                                    [(ngModel)]="expense.paidBy" (ngModelChange)="calculateTotalAmount()"
+                                                    [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                                <label class="me-3">Self</label>
+                                                <p-radioButton name="paidBy_{{i}}" value="supplier"
+                                                    [(ngModel)]="expense.paidBy" (ngModelChange)="calculateTotalAmount()"
+                                                    [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                                <label>Supplier</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button pButton type="button" icon="fa fa-trash"
+                                            class="p-button-text p-button-danger" (click)="removeExpense(i)"></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </p-accordionTab>
+        </p-accordion>
+
+        <div class="row mt-3" *ngIf="slabDetails?.length > 0 && tab == 'purchase'">
+            <!-- <div class="col-md-12 col-sm-12 col-12">
+                <h3>Purchase</h3>
+            </div> -->
+            <div class="mt-3 row">
+                <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="taxableAmount">Taxable Amount</label>
+                        <p-inputGroup>
+                            <input type="number" formControlName="taxableAmount" class="form-control" style="width: 50%"
+                                placeholder="Enter Taxable Amount" (change)="calculateTotalAmount()" />
+                            <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax" [options]="orderTaxList"
+                                appendTo="body" formControlName="ItemTax" optionLabel="orderTaxName"
+                                optionValue="orderNamevalue" display="chip"
+                                (onChange)="calculateTotalAmount()"></p-multiSelect>
+                        </p-inputGroup>
+                        <div *ngIf="
+    slabAddForm.hasError('taxRequired') && 
+    slabAddForm.get('taxableAmount')?.touched
+  ">
+                            <span class="login-danger">Please apply tax.</span>
+                        </div>
+                        <div *ngIf=" (slabAddForm.get('taxableAmount')?.hasError('min') &&
+              slabAddForm.get('taxableAmount')?.touched) ||
+            (slabAddForm.get('taxableAmount')?.hasError('max') &&
+              slabAddForm.get('taxableAmount')?.touched)">
+                            <span class="login-danger">Taxable Amount cannot be greater than Paid To Supplier Amount
+                                ({{slabTotalCost}}).</span>
+                        </div>
+                        <span *ngIf="
+                  slabAddForm.get('taxApplied').value > 0
+                " style="color: #97704f; font-size: 12px">
+                            Applied Tax Amount:
+                            {{ slabAddForm.get('taxApplied').value | number : "1.2-2" }}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="finishes">Non-Taxable Amount</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <span class="form-control">{{
+                                slabAddForm.get("nonTaxableAmount").value
+                                }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="paidToSupplierPurchaseCost">Purchase Cost ( Paid to Supplier )
+                            <span class="login-danger">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <span class="form-control">{{
+                                slabAddForm.get("paidToSupplierSlabCost").value
+                                }}</span>
+                        </div>
+                        <span *ngIf="
+                   slabAddForm.get('taxable').value  > slabAddForm.get('taxableAmount').value &&
+                   slabAddForm.get('taxable').value  != 0
+                  " style="color: #97704f; font-size: 12px">
+                            Tax Applied Amount:
+                            {{ slabAddForm.get('taxable')?.value | number : "1.2-2" }}
+                            + Non Taxable Amount :
+                            {{
+                            slabAddForm.get("nonTaxableAmount")?.value | number : "1.2-2"
+                            }}
+                            <span *ngIf="slabAddForm.get('purchaseDiscount')?.value > 0">
+                                - Discount :
+                                {{
+                                slabAddForm.get("purchaseDiscount")?.value | number : "1.2-2"
+                                }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="purchaseDiscount">Discount </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <input class="form-control" type="number" placeholder="Enter Discount"
+                                (change)="calculateTotalAmount()" formControlName="purchaseDiscount" />
+                        </div>
+                        <div *ngIf="setValidations('purchaseDiscount')">
+                            <span class="login-danger">Input Must be between 1 to {{maxPurchaseAmount}}.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="transportationCharge">Transportation Charges</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <input class="form-control" type="number" placeholder="Enter Transportation Charges"
+                                (change)="calculateTotalAmount()" formControlName="transportationCharge" />
+                        </div>
+                        <div *ngIf="setValidations('transportationCharge')">
+                            <span class="login-danger">Field is required.</span>
+                        </div>
+                        <div *ngIf="setValidations('transportationCharge')">
+                            <span class="login-danger">Input Must be between 1 to 100000.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                        <label for="royaltyCharge">Other Charges</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <input class="form-control" type="number" placeholder="Enter Other Charges"
+                                formControlName="royaltyCharge" (change)="calculateTotalAmount()" />
+                        </div>
+                        <div *ngIf="setValidations('royaltyCharge')">
+                            <span class="login-danger">Field is required.</span>
+                        </div>
+                        <div *ngIf="setValidations('royaltyCharge')">
+                            <span class="login-danger">Input Must be between 1 to 100000.
+                            </span>
+                        </div>
+                    </div>
+                </div> -->
             </div>
         </div>
 
@@ -151,11 +353,12 @@
                                                             </div>
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Quantity (Square Feet)
+                                                                    Quantity / Sq. Feet
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">
-                                                                        {{ data?.totalSQFT ?? " -- " }}
+                                                                        {{ data?.totalSQFT ? (data.totalSQFT |
+                                                                        number:'1.2-2') : '--' }}
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -206,143 +409,6 @@
         </div>
 
 
-        <!-- <div class="row mt-3" *ngIf="slabDetails?.length > 0">
-            <div class="col-md-12 col-sm-12 col-12">
-                <h3>More Details</h3>
-            </div>
-            <div class="mt-3 row">
-                <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="taxableAmount">Taxable Amount</label>
-                        <p-inputGroup>
-                            <input type="number" formControlName="taxableAmount" class="form-control" style="width: 50%"
-                                placeholder="Enter Taxable Amount" (change)="calculateTotalAmount()" />
-                            <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax" [options]="orderTaxList"
-                                appendTo="body" formControlName="ItemTax" optionLabel="orderTaxName"
-                                optionValue="orderNamevalue" display="chip"
-                                (onChange)="calculateTotalAmount()"></p-multiSelect>
-                        </p-inputGroup>
-                        <div *ngIf="
-    slabAddForm.hasError('taxRequired') && 
-    slabAddForm.get('taxableAmount')?.touched
-  ">
-  <span class="login-danger">Please apply tax.</span>
-</div>
-                        <div *ngIf=" (slabAddForm.get('taxableAmount')?.hasError('min') &&
-              slabAddForm.get('taxableAmount')?.touched) ||
-            (slabAddForm.get('taxableAmount')?.hasError('max') &&
-              slabAddForm.get('taxableAmount')?.touched)">
-                            <span class="login-danger">Taxable Amount cannot be greater than Paid To Supplier Amount
-                                ({{slabTotalCost}}).</span>
-                        </div>
-                        <span *ngIf="
-                  slabAddForm.get('taxApplied').value > 0
-                " style="color: #97704f; font-size: 12px">
-                            Applied Tax Amount:
-                            {{ slabAddForm.get('taxApplied').value | number : "1.2-2" }}
-                        </span>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="finishes">Non-Taxable Amount</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                            </div>
-                            <span class="form-control">{{
-                                nonTaxableAmount
-                                }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="paidToSupplierPurchaseCost">Purchase Cost ( Paid to Supplier )
-                            <span class="login-danger">*</span></label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                            </div>
-                            <span class="form-control">{{
-                                slabAddForm.get("paidToSupplierSlabCost").value
-                                }}</span>
-                        </div>
-                        <span *ngIf="
-                   slabAddForm.get('taxable').value  > slabAddForm.get('taxableAmount').value &&
-                   slabAddForm.get('taxable').value  != 0
-                  " style="color: #97704f; font-size: 12px">
-                            Tax Applied Amount:
-                            {{ slabAddForm.get('taxable')?.value | number : "1.2-2" }}
-                            + Non Taxable Amount :
-                            {{
-                            slabAddForm.get("nonTaxableAmount")?.value | number : "1.2-2"
-                            }}
-                            <span *ngIf="slabAddForm.get('purchaseDiscount')?.value > 0">
-                                - Discount :
-                                {{
-                                slabAddForm.get("purchaseDiscount")?.value | number : "1.2-2"
-                                }}
-                            </span>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="purchaseDiscount">Discount </label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                            </div>
-                            <input class="form-control" type="number" placeholder="Enter Discount"
-                                (change)="calculateTotalAmount()" formControlName="purchaseDiscount" />
-                        </div>
-                        <div *ngIf="setValidations('purchaseDiscount')">
-                            <span class="login-danger">Input Must be between 1 to {{maxPurchaseAmount}}.
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="transportationCharge">Transportation Charges</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                            </div>
-                            <input class="form-control" type="number" placeholder="Enter Transportation Charges"
-                                (change)="calculateTotalAmount()" formControlName="transportationCharge" />
-                        </div>
-                        <div *ngIf="setValidations('transportationCharge')">
-                            <span class="login-danger">Field is required.</span>
-                        </div>
-                        <div *ngIf="setValidations('transportationCharge')">
-                            <span class="login-danger">Input Must be between 1 to 100000.
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="royaltyCharge">Other Charges</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                            </div>
-                            <input class="form-control" type="number" placeholder="Enter Other Charges"
-                                formControlName="royaltyCharge" (change)="calculateTotalAmount()" />
-                        </div>
-                        <div *ngIf="setValidations('royaltyCharge')">
-                            <span class="login-danger">Field is required.</span>
-                        </div>
-                        <div *ngIf="setValidations('royaltyCharge')">
-                            <span class="login-danger">Input Must be between 1 to 100000.
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </form>
     <div class="row" style="display: flex; justify-content: end;" *ngIf="slabAddForm.get('totalCost')?.value">
         <div class="col-md-4">
@@ -603,7 +669,7 @@
                             <p-accordionTab>
                                 <ng-template pTemplate="header">
                                     <div class="header-flex">
-                                        <span>Convert to Pieces</span>
+                                        <span>Slab Details</span>
                                         <p-button [text]="true" styleClass="p-button-text add-btn" icon="fa fa-plus"
                                             (click)="addRow();$event.stopPropagation()"></p-button>
                                     </div>
@@ -737,7 +803,7 @@
                         <div class="col-12">
                             <div class="settings-btns text-end m-b-10">
                                 <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                    (click)="addSlabDetails(myForm) ; calculateTotalAmount()"
+                                    (click)="calculateTotalAmount(); addSlabDetails(myForm)"
                                     [disabled]="myForm.invalid || !subCategory?.name || !category?.name">
                                     Save
                                 </button>
@@ -753,26 +819,23 @@
     </div>
 </p-dialog>
 
-<p-dialog header="Barcode"
-          [(visible)]="addbarcodevisible"
-          [modal]="true"
-          [style]="{ width: '30%'}"
-          (onHide)="closeBarCodeForm()">
-  <div class="modal-content mt-2">
+<p-dialog header="Barcode" [(visible)]="addbarcodevisible" [modal]="true" [style]="{ width: '30%'}"
+    (onHide)="closeBarCodeForm()">
+    <div class="modal-content mt-2">
 
-    <!-- Show the barcode image -->
-    <div class="text-center mb-3">
-      <img [src]="barcodeImage" alt="Barcode" style="max-width: 100%; height: auto;" />
+        <!-- Show the barcode image -->
+        <div class="text-center mb-3">
+            <img [src]="barcodeImage" alt="Barcode" style="max-width: 100%; height: auto;" />
+        </div>
+
+        <!-- Centered print button -->
+        <div class="col-12">
+            <div class="settings-btns text-center m-b-10">
+                <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10">
+                    Print Barcode
+                </button>
+            </div>
+        </div>
+
     </div>
-
-    <!-- Centered print button -->
-    <div class="col-12">
-      <div class="settings-btns text-center m-b-10">
-        <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10">
-          Print Barcode
-        </button>
-      </div>
-    </div>
-
-  </div>
 </p-dialog>
