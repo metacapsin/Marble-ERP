@@ -97,9 +97,9 @@
                         </div>
                       </div>
                     </div>
-                  <div *ngIf="lotTypeValue === 'Slab'">
-                    <app-add-slab-purchase class="col-12" [tab]="'product'"></app-add-slab-purchase>
-                  </div>
+                    <div *ngIf="lotTypeValue === 'Slab'">
+                      <app-add-slab-purchase class="col-12" [tab]="'product'"></app-add-slab-purchase>
+                    </div>
 
                     <div *ngIf="lotTypeValue === 'Lot'">
                       <app-add-lot class="col-12"></app-add-lot>
@@ -387,27 +387,36 @@
                       <app-add-lot class="col-12"></app-add-lot>
                     </div>
                     <div *ngIf="lotTypeValue === 'Slab'">
-   <div *ngIf="lotTypeValue === 'Slab'">
-                    <app-add-slab-purchase class="col-12" [tab]="'purchase'"></app-add-slab-purchase>
-                  </div>
-                </div>
-                    <!-- SLAB Information -->
-<div class="d-flex pt-4 justify-content-between align-items-center">
-                      <div></div>
-                           <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'Slab')">
-                        <i class="fa-solid fa-arrow-left"></i> Back
-                      </button>
-                      <button *ngIf="lotTypeValue === 'Lot'"
-                        [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid || !child?.lotAddForm?.valid"
-                        class="btn btn-primary" (click)="nextStep(nextCallback, 'first')">
-                        Next <i class="fa-solid fa-arrow-right"></i>
-                      </button>
-                      <button *ngIf="lotTypeValue === 'Slab'"
-                        [disabled]="!slabChild?.slabDetails?.length || !addNewPurchaseForm?.valid || !slabChild?.slabAddForm?.valid"
-                        class="btn btn-primary" (click)="nextStep(nextCallback, 'first')">
-                        Next <i class="fa-solid fa-arrow-right"></i>
-                      </button>
+                      <div *ngIf="lotTypeValue === 'Slab'">
+                        <app-add-slab-purchase class="col-12" [tab]="'purchase'"></app-add-slab-purchase>
+                      </div>
                     </div>
+                    <!-- SLAB Information -->
+                  <div class="d-flex justify-content-between align-items-center pt-4">
+  <!-- Left aligned Back button -->
+  <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'Slab')">
+    <i class="fa-solid fa-arrow-left"></i> Back
+  </button>
+
+  <!-- Right aligned Next button -->
+  <ng-container *ngIf="lotTypeValue === 'Lot'">
+    <button
+      [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid || !child?.lotAddForm?.valid"
+      class="btn btn-primary"
+      (click)="nextStep(nextCallback, 'first')">
+      Next <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="lotTypeValue === 'Slab'">
+    <button
+      class="btn btn-primary"
+      (click)="nextStep(nextCallback, 'first')">
+      Next <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </ng-container>
+</div>
+
                   </ng-template>
                 </p-stepperPanel>
                 <p-stepperPanel header="Summary">
@@ -897,7 +906,7 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("warehouseDetails")?.value?.name ?? ' -- ' }}
+                                  {{ getSelectedWarehouseName() }}
                                 </p>
                               </div>
                             </div>
@@ -1123,8 +1132,8 @@
                               <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingTwo">
                                   <p class="panel-title">
-                                    <a data-bs-toggle="collapse" data-bs-parent="#headingTwo"
-                                      href="#collapseFile" aria-expanded="true" aria-controls="collapseNotes">
+                                    <a data-bs-toggle="collapse" data-bs-parent="#headingTwo" href="#collapseFile"
+                                      aria-expanded="true" aria-controls="collapseNotes">
                                       <i class="fas fa-plus-circle me-1"></i> Attach File
                                     </a>
                                   </p>
@@ -1133,8 +1142,10 @@
                                   aria-labelledby="headingTwo" data-bs-parent="#headingTwo">
                                   <div class="panel-body">
                                     <div class="text-center">
-                                      <img class="img-file-upload p-2" src="../../../assets/img/file_upload.png" alt="Logo" />
-                                      <p class="upload-text"><span class="upload-bold">Click to upload</span> or drop your file here</p>
+                                      <img class="img-file-upload p-2" src="../../../assets/img/file_upload.png"
+                                        alt="Logo" />
+                                      <p class="upload-text"><span class="upload-bold">Click to upload</span> or drop
+                                        your file here</p>
                                     </div>
                                   </div>
                                 </div>

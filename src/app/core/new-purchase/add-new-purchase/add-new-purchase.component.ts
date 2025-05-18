@@ -347,7 +347,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           otherCharges: this.SlabItemDetails?.royaltyCharge,
           transportationCharges: this.SlabItemDetails?.transportationCharge,
           warehouseDetails: this.SlabItemDetails?.warehouseDetails,
-          vehicleNo: this.SlabItemDetails?.vehicleNo,
+          vehicleNo: this.addNewPurchaseForm.get("vehicleNo")?.value,
           totalSQFT: this.SlabItemDetails?.totalSQFT,
         });
 
@@ -746,6 +746,13 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.handleBeforeUnload();
   }
+
+  getSelectedWarehouseName(): string {
+  const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
+  const selectedWarehouse = this.wareHousedata.find(w => w._id === selectedId);
+  return selectedWarehouse ? selectedWarehouse.name : '--';
+}
+
 
   // toggleExpenses(): void {
   //   this.expensesExpanded = !this.expensesExpanded;

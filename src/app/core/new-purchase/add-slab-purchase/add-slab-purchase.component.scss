@@ -188,4 +188,8 @@ h3 {
     margin-top: 30px;
 }
 
+.scrollable-table-wrapper {
+  max-height: 250px; /* adjust this based on row height */
+  overflow-y: auto;
+}
 

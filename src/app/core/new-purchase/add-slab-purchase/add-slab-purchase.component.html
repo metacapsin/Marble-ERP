@@ -57,69 +57,90 @@
             </div>
         </div>
 
-                <p-accordion *ngIf="tab == 'purchase'" [activeIndex]="0">
-            <p-accordionTab>
-                <ng-template pTemplate="header">
-                    <!-- Header: Flex layout for spacing -->
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <span class="font-bold">Expenses</span>
-                        <button pButton type="button" icon="fa fa-plus" class="p-button-text p-0"
-                            (click)="addExpense($event)"></button>
-                    </div>
-                </ng-template>
+            <form [formGroup]="expensesForm">
+  <p-accordion *ngIf="tab == 'purchase'" [activeIndex]="0">
+    <p-accordionTab>
+      <ng-template pTemplate="header">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <span class="font-bold">Expenses</span>
+          <button pButton type="button" icon="fa fa-plus" class="p-button-text p-0" (click)="addExpense($event)"></button>
+        </div>
+      </ng-template>
 
-                <div class="row">
-                    <div class="expenses-content" *ngIf="expensesExpanded">
-                        <table class="expenses-table w-100">
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Payment</th>
-                                    <th>Paid by:</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let expense of expenses; let i = index">
-                                    <td>
-                                        <p-dropdown [options]="expenseTypeOptions" [(ngModel)]="expense.type"
-                                            [ngModelOptions]="{standalone: true}" placeholder="Select Type" (onChange)="calculateTotalAmount()"
-                                            optionLabel="name" optionValue="value" styleClass="w-100" appendTo="body">
-                                        </p-dropdown>
+      <div class="row">
+        <div class="expenses-content" *ngIf="expensesExpanded">
+          <table class="expenses-table w-100" formArrayName="expenses">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Payment</th>
+                <th>Paid by:</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let expense of expenses.controls; let i = index" [formGroupName]="i">
+                <td>
+                  <p-dropdown 
+                    [options]="expenseTypeOptions" 
+                    formControlName="type"
+                    placeholder="Select Type"
+                    (onChange)="calculateTotalAmount()"
+                    optionLabel="name"
+                    optionValue="value"
+                    styleClass="w-100"
+                    appendTo="body">
+                  </p-dropdown>
+                </td>
+                <td>
+                  <div class="input-with-icon">
+                    <input 
+                      type="text" 
+                      pInputText 
+                      formControlName="payment"
+                      (change)="calculateTotalAmount()"
+                      class="form-control">
+                    <span class="input-icon">₹</span>
+                  </div>
+                </td>
+                <td>
+                <div class="d-flex align-items-center gap-3">
+  <p-radioButton
+    name="paidBy_{{i}}"
+    [value]="'self'"
+    [formControlName]="'paidBy'"
+    (onClick)="updatePaidBy(i, 'self')">
+  </p-radioButton>
+  <label class="me-3">Self</label>
 
-                                    </td>
-                                    <td>
-                                        <div class="input-with-icon">
-                                            <input type="text" pInputText  [(ngModel)]="expense.payment" (change)="calculateTotalAmount()"
-                                                [ngModelOptions]="{standalone: true}" class="form-control">
-                                            <span class="input-icon">₹</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="radio-group">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <p-radioButton name="paidBy_{{i}}" value="self"
-                                                    [(ngModel)]="expense.paidBy" (ngModelChange)="calculateTotalAmount()"
-                                                    [ngModelOptions]="{standalone: true}"></p-radioButton>
-                                                <label class="me-3">Self</label>
-                                                <p-radioButton name="paidBy_{{i}}" value="supplier"
-                                                    [(ngModel)]="expense.paidBy" (ngModelChange)="calculateTotalAmount()"
-                                                    [ngModelOptions]="{standalone: true}"></p-radioButton>
-                                                <label>Supplier</label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <button pButton type="button" icon="fa fa-trash"
-                                            class="p-button-text p-button-danger" (click)="removeExpense(i)"></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </p-accordionTab>
-        </p-accordion>
+  <p-radioButton
+    name="paidBy_{{i}}"
+    [value]="'supplier'"
+    [formControlName]="'paidBy'"
+    (onClick)="updatePaidBy(i, 'supplier')">
+  </p-radioButton>
+  <label>Supplier</label>
+</div>
+
+                </td>
+                <td class="text-center">
+                  <button 
+                    pButton 
+                    type="button" 
+                    icon="fa fa-trash" 
+                    class="p-button-text p-button-danger" 
+                    (click)="removeExpense(i)">
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+</form>
+
 
         <div class="row mt-3" *ngIf="slabDetails?.length > 0 && tab == 'purchase'">
             <!-- <div class="col-md-12 col-sm-12 col-12">
@@ -277,7 +298,7 @@
                                             <span class="font-bold white-space-nowrap">
                                                 Slab Number: {{ data?.slabNo }}
                                             </span>
-                                            <p-button [text]="true" styleClass="w-2rem h-2rem p-0" icon="fa fa-trash"
+                                            <p-button *ngIf="tab == 'product'" [text]="true" styleClass="w-2rem h-2rem p-0" icon="fa fa-trash"
                                                 (click)="deleteAccordian(i)"></p-button>
                                         </span>
                                     </ng-template>
@@ -543,7 +564,7 @@
                                 <label for="slabName">Stone Name</label>
                                 <input class="form-control" type="text" placeholder="Enter Marble / Stone Name"
                                     pattern="^.{1,50}$" name="marbleName" [(ngModel)]="marbleName"
-                                    (change)="getSlabDetails()" #MARBLENAME="ngModel" />
+                                    (change)="getSlabDetails(true)" #MARBLENAME="ngModel" />
                             </div>
                         </div>
 
@@ -554,7 +575,7 @@
 
                                 <div class="input-with-barcode">
                                     <input class="form-control pr-5" type="text" pattern="^.{1,50}$" [disabled]="true"
-                                        name="slabNumber" [(ngModel)]="slabNumber" (change)="getSlabDetails()"
+                                        name="slabNumber" [(ngModel)]="slabNumber" (change)="getSlabDetails(true)"
                                         #SLABNUMBER="ngModel" />
 
                                     <img *ngIf="slabNumber" (click)="openBarCodePopup()" src="assets/img/barcode.png"
@@ -583,7 +604,7 @@
                             <div class="form-group local-forms">
                                 <label for="noOfPieces">Number of Pieces <span class="login-danger">*</span> </label>
                                 <input class="form-control" type="number" placeholder="Enter Number of Pieces"
-                                    name="noOfPieces" (change)="getSlabDetails()" min="1" max="10000" required
+                                    name="noOfPieces" (change)="getSlabDetails(true)" min="1" max="10000" required
                                     [(ngModel)]="noOfPieces" #NOOFPIECES="ngModel" />
                                 <div *ngIf="NOOFPIECES.invalid && (NOOFPIECES.dirty || NOOFPIECES.touched)">
                                     <div *ngIf="NOOFPIECES.errors?.['required']">
@@ -605,7 +626,7 @@
                                         <span class="input-group-text">Inch</span>
                                     </div>
                                     <input class="form-control" type="number" id="length" name="length"
-                                        (ngchange)="getSlabDetails()" min="1" max="500" placeholder="Enter Length"
+                                        (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Length"
                                         [(ngModel)]="length" #LENGTH="ngModel" />
                                 </div>
                                 <div *ngIf="LENGTH.invalid && (LENGTH.dirty || LENGTH.touched)">
@@ -628,7 +649,7 @@
                                         <span class="input-group-text">Inch</span>
                                     </div>
                                     <input class="form-control" type="number" id="width" name="width"
-                                        (change)="getSlabDetails()" min="1" max="500" placeholder="Enter Width"
+                                        (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Width"
                                         [(ngModel)]="width" #WIDTH="ngModel" />
                                 </div>
                                 <div *ngIf="WIDTH.invalid && (WIDTH.dirty || WIDTH.touched)">
@@ -651,7 +672,7 @@
                                         <span class="input-group-text">MM</span>
                                     </div>
                                     <input class="form-control" type="number" id="thickness" name="thickness"
-                                        (change)="getSlabDetails()" min="1" max="500" placeholder="Enter Thickness"
+                                        (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Thickness"
                                         [(ngModel)]="thickness" #THISCKNESS="ngModel" />
                                 </div>
                                 <div *ngIf="THISCKNESS.invalid && (THISCKNESS.dirty || THISCKNESS.touched)">
@@ -665,7 +686,7 @@
                             </div>
                         </div>
 
-                        <p-accordion>
+<p-accordion [activeIndex]="rows.length > 0 ? 0 : null">
                             <p-accordionTab>
                                 <ng-template pTemplate="header">
                                     <div class="header-flex">
@@ -674,6 +695,7 @@
                                             (click)="addRow();$event.stopPropagation()"></p-button>
                                     </div>
                                 </ng-template>
+    <div class="scrollable-table-wrapper">
 
                                 <p-table [value]="rows" editable="true">
                                     <ng-template pTemplate="header">
@@ -707,7 +729,7 @@
                                             <td>
                                                 <input class="form-control" type="number"
                                                     [disabled]="!rowData.isEditing" min="1" max="500"
-                                                    [(ngModel)]="rowData.thickness" (change)="getSlabDetails()"
+                                                    [(ngModel)]="rowData.thickness" (change)="getSlabDetails(true)"
                                                     name="thickness{{ri}}" />
                                             </td>
                                             <td>
@@ -746,6 +768,7 @@
                                         </tr>
                                     </ng-template>
                                 </p-table>
+                                </div>
                             </p-accordionTab>
                         </p-accordion>
 
@@ -760,7 +783,7 @@
                             <div class="form-group local-forms">
                                 <label for="quantity">Total Quantity (Sq. Feet) <span class="login-danger">*</span>
                                 </label>
-                                <input class="form-control" type="number" name="quantity" (change)="getSlabDetails()"
+                                <input class="form-control" type="number" name="quantity" (change)="getSlabDetails(false)"
                                     min="1" max="1000000" placeholder="Enter Quantity" [(ngModel)]="totalQuantity"
                                     required #QUANTITY="ngModel" />
                                 <!-- <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
@@ -778,7 +801,7 @@
                             <div class="form-group local-forms">
                                 <label for="ratePerSqFeet">Rate / Sq. Feet <span class="login-danger">*</span> </label>
                                 <input class="form-control" type="number" placeholder="Enter Rate / Sq. Feet"
-                                    name="ratePerSqFeet" (change)="getSlabDetails()" min="1" max="1000000"
+                                    name="ratePerSqFeet" (change)="getSlabDetails(false)" min="1" max="1000000"
                                     [(ngModel)]="ratePerSqFeet" #RATEPERSQFT="ngModel" required />
                                 <div *ngIf="RATEPERSQFT.invalid && (RATEPERSQFT.dirty || RATEPERSQFT.touched)">
                                     <div *ngIf="RATEPERSQFT.errors?.['required']">

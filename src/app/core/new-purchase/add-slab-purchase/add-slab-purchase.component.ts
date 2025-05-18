@@ -34,6 +34,7 @@ import { co } from "@fullcalendar/core/internal-common";
 export class AddSlabPurchaseComponent {
    @Input() tab!: string;
   slabAddForm: FormGroup;
+  expensesForm: FormGroup;
   maxDate = new Date();
   public routes = routes;
   activeIndex: number[] = [0];
@@ -77,7 +78,7 @@ export class AddSlabPurchaseComponent {
     editedRowBackup: any = null;
     totalQuantity: number = 0;
   expensesExpanded: boolean = true;
-  expenses: any[] = [];
+  // expenses: any[] = [];
     expenseTypeOptions = [
     { name: 'Transportation Charges', value: 'transportationCharge' },
     { name: 'Royalty Charges', value: 'royaltyCharges' },
@@ -135,6 +136,10 @@ export class AddSlabPurchaseComponent {
   discountModifiedByUser: boolean = false;
 
   ngOnInit(): void {
+    this.expensesForm = this.fb.group({
+      expenses: this.fb.array([])
+    });
+     this.addExpense();
     this.previousSlabData =
       this.NewPurchaseService.getFormData("stepFirstSlabData");
 
@@ -413,8 +418,10 @@ generateBarCode(){
       // this.patchSlabValue();
     }
   }
+  
 
-  getSlabDetails() {
+  getSlabDetails(calculateTotalQTY:boolean) {
+    console.log("getSlabDetails",calculateTotalQTY);
     if(this.width && this.length && this.ratePerSqFeet){
       this.quantity = this.width * this.length / 144;
     this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(2);
@@ -423,9 +430,6 @@ generateBarCode(){
     } else {
       return;
     }
-    
-    this.calculateTotalQuantity();
-
 
     // Generate rows based on noOfPieces
     if (this.noOfPieces && this.noOfPieces > 0) {
@@ -445,6 +449,13 @@ generateBarCode(){
         });
       }
     }
+
+        if (calculateTotalQTY) {
+      setTimeout(() => {
+    this.calculateTotalQuantity();
+      }, 500);
+    }
+
     // if (
     //   !this.slabNumber ||
     //   this.quantity === null ||
@@ -497,7 +508,7 @@ calculateTotalQuantity() {
   originalTaxApplied: number | null = null;
   wasDiscountApplied: boolean = false;
 
-  calculateExpenseCharges() {
+calculateExpenseCharges() {
   let transportationChargesBySupplier = 0;
   let transportationChargesBySelf = 0;
   let royaltyChargesBySupplier = 0;
@@ -505,17 +516,19 @@ calculateTotalQuantity() {
   let otherByChargesSupplier = 0;
   let otherByChargesSelf = 0;
 
-  this.expenses.forEach(exp => {
-    const payment = Number(exp.payment) || 0;
+  this.expenses.controls.forEach((expenseGroup: any) => {
+    const type = expenseGroup.get('type')?.value;
+    const paidBy = expenseGroup.get('paidBy')?.value;
+    const payment = Number(expenseGroup.get('payment')?.value) || 0;
 
-    if (exp.paidBy === 'supplier') {
-      if (exp.type === 'transportationCharge') transportationChargesBySupplier += payment;
-      if (exp.type === 'royaltyCharges') royaltyChargesBySupplier += payment;
-      if (exp.type === 'otherCharges') otherByChargesSupplier += payment;
-    } else if (exp.paidBy === 'self') {
-      if (exp.type === 'transportationCharge') transportationChargesBySelf += payment;
-      if (exp.type === 'royaltyCharges') royaltyChargesBySelf += payment;
-      if (exp.type === 'otherCharges') otherByChargesSelf += payment;
+    if (paidBy === 'supplier') {
+      if (type === 'transportationCharge') transportationChargesBySupplier += payment;
+      if (type === 'royaltyCharges') royaltyChargesBySupplier += payment;
+      if (type === 'otherCharges') otherByChargesSupplier += payment;
+    } else if (paidBy === 'self') {
+      if (type === 'transportationCharge') transportationChargesBySelf += payment;
+      if (type === 'royaltyCharges') royaltyChargesBySelf += payment;
+      if (type === 'otherCharges') otherByChargesSelf += payment;
     }
   });
 
@@ -523,21 +536,20 @@ calculateTotalQuantity() {
   const totalRoyalty = royaltyChargesBySupplier + royaltyChargesBySelf;
   const totalOther = otherByChargesSupplier + otherByChargesSelf;
 
-  // Optional: update form if needed
-  this.slabAddForm.patchValue({
+  // Optional: update parent form (if required)
+  this.expensesForm.patchValue({
     transportationCharge: totalTransportation,
     royaltyCharge: totalRoyalty,
-    otherCharge: totalOther, // if applicable
+    otherCharge: totalOther,
   });
 
   console.log('--- Expense Breakdown ---');
-console.log('Transportation by Supplier:', transportationChargesBySupplier);
-console.log('Transportation by Self:', transportationChargesBySelf);
-console.log('Royalty by Supplier:', royaltyChargesBySupplier);
-console.log('Royalty by Self:', royaltyChargesBySelf);
-console.log('Other by Supplier:', otherByChargesSupplier);
-console.log('Other by Self:', otherByChargesSelf);
-
+  console.log('Transportation by Supplier:', transportationChargesBySupplier);
+  console.log('Transportation by Self:', transportationChargesBySelf);
+  console.log('Royalty by Supplier:', royaltyChargesBySupplier);
+  console.log('Royalty by Self:', royaltyChargesBySelf);
+  console.log('Other by Supplier:', otherByChargesSupplier);
+  console.log('Other by Self:', otherByChargesSelf);
 
   return {
     transportation: { supplier: transportationChargesBySupplier, self: transportationChargesBySelf },
@@ -551,6 +563,10 @@ console.log('Other by Self:', otherByChargesSelf);
   };
 }
 
+get expenseControls(): FormGroup[] {
+  return this.expenses.controls as FormGroup[];
+}
+
 
   calculateTotalAmount() {
       const expenseBreakdown = this.calculateExpenseCharges();
@@ -560,14 +576,15 @@ console.log('Other by Self:', otherByChargesSelf);
     // });
 
     // this.nonTaxableAmount = this.slabAddForm.get("nonTaxableAmount").value;
+    const totalSupplierExpenses = expenseBreakdown.royalty.supplier + expenseBreakdown.transportation.supplier + expenseBreakdown.other.supplier
     const form = this.slabAddForm;
     const slabTotalAmount = this.slabTotalCost;
     // const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
-    const royaltyCharge = expenseBreakdown.royalty.supplier || expenseBreakdown.royalty.self;
-    const otherCharge = expenseBreakdown.other.supplier || expenseBreakdown.other.self;
+    const royaltyCharge = expenseBreakdown.royalty.self;
+    const otherCharge = expenseBreakdown.other.self;
     // const transportationCharge =
     //   Number(form.get("transportationCharge")?.value) || 0;
-    const transportationCharge = expenseBreakdown.transportation.supplier || expenseBreakdown.transportation.self;
+    const transportationCharge = expenseBreakdown.transportation.self;
     const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
     const tax = form.get("ItemTax")?.value || [];
     let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
@@ -607,8 +624,8 @@ console.log('Other by Self:', otherByChargesSelf);
     if (slabTotalAmount) {
       nonTaxableAmount =
         taxableAmount && taxableAmount <= slabTotalAmount
-          ? slabTotalAmount - taxableAmount
-          : slabTotalAmount;
+          ? slabTotalAmount - taxableAmount + totalSupplierExpenses
+          : slabTotalAmount - 0 + totalSupplierExpenses;
 
       this.maxPurchaseAmount = slabTotalAmount;
 
@@ -702,8 +719,10 @@ if (this.isEditMode && this.previousSlabData) {
 
    nonTaxableAmount =
     taxableAmount && taxableAmount <= slabTotalAmount
-      ? slabTotalAmount - taxableAmount
-      : slabTotalAmount;
+      ? slabTotalAmount - taxableAmount + totalSupplierExpenses
+      : slabTotalAmount - 0 + totalSupplierExpenses;
+
+
 
         if (nonTaxableAmount > 0) {
     const discountApplied = Math.min(nonTaxableAmount, remainingDiscount);
@@ -716,6 +735,7 @@ if (this.isEditMode && this.previousSlabData) {
     taxableAmount -= remainingDiscount;
   }
 
+  
 
   form.patchValue({
     nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
@@ -732,8 +752,8 @@ if (this.isEditMode && this.previousSlabData) {
 
   nonTaxableAmount =
     taxableAmount && taxableAmount <= slabTotalAmount
-      ? slabTotalAmount - taxableAmount
-      : slabTotalAmount;
+      ? slabTotalAmount - taxableAmount + totalSupplierExpenses
+      : slabTotalAmount - 0 + totalSupplierExpenses;
 
   // Discount Logic (Your Original Logic)
   if (purchaseDiscount) {
@@ -954,28 +974,56 @@ cancelEdit(row: any) {
     this.expensesExpanded = !this.expensesExpanded;
   }
 
-  addExpense(event: Event): void {
-    event.stopPropagation(); // Prevent the click from triggering the toggle
-    const newId = this.expenses.length > 0 ? Math.max(...this.expenses.map(e => e.id)) + 1 : 1;
-    this.expenses.push({
-      id: newId,
-      type: '',
-      payment: '',
-      paidBy: 'self'
+get expenses(): FormArray {
+  return this.expensesForm.get('expenses') as FormArray;
+}
+
+updatePaidBy(index: number, value: string) {
+  const expenseControl = this.expenses.at(index);
+  if (expenseControl) {
+    expenseControl.get('paidBy')?.setValue(value);
+    this.calculateTotalAmount();
+  }
+}
+
+
+
+  createExpense(): FormGroup {
+    return this.fb.group({
+      type: ['', Validators.required],
+      payment: ['', Validators.required],
+      paidBy: ['self', Validators.required]
     });
   }
 
+  addExpense(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.expenses.push(this.createExpense());
+  }
+
   removeExpense(index: number): void {
-    this.expenses.splice(index, 1);
+    this.expenses.removeAt(index);
     this.calculateTotalAmount();
   }
 
-  removeLastExpense(event: Event): void {
-    event.stopPropagation(); // Prevent the click from triggering the toggle
-    if (this.expenses.length > 0) {
-      this.expenses.pop();
-    }
-  }
+
+  // addExpense(event: Event): void {
+  //   event.stopPropagation(); // Prevent the click from triggering the toggle
+  //   const newId = this.expenses.length > 0 ? Math.max(...this.expenses.map(e => e.id)) + 1 : 1;
+  //   this.expenses.push({
+  //     id: newId,
+  //     type: '',
+  //     payment: '',
+  //     paidBy: 'self'
+  //   });
+  // }
+
+  // removeExpense(index: number): void {
+  //   this.expenses.splice(index, 1);
+  //   this.calculateTotalAmount();
+  // }
 
 }
 
