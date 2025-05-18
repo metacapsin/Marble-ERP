@@ -1,0 +1,148 @@
+.file-upload-container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+
+  .upload-zone {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background: #f9f9f9;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #666;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .upload-label {
+      cursor: pointer;
+      display: block;
+      
+      &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      i {
+        font-size: 24px;
+        color: #666;
+        margin-bottom: 8px;
+      }
+
+      span {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+      }
+
+      .upload-limits {
+        color: #999;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .selected-files {
+    .file-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      padding: 10px;
+      background: #fff;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 5px;
+      border-radius: 4px;
+      background: #f9f9f9;
+
+      &:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+
+      &.error {
+        background: #fff2f2;
+        border-color: #ffdbdb;
+      }
+
+      .file-info {
+        display: flex;
+        align-items: center;
+        flex: 1;
+
+        i {
+          font-size: 20px;
+          margin-right: 10px;
+          color: #666;
+        }
+
+        .file-details {
+          flex: 1;
+
+          .file-name {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 2px;
+          }
+
+          .file-size {
+            color: #666;
+            margin-right: 10px;
+          }
+
+          .upload-status {
+            font-size: 12px;
+            
+            &.pending {
+              color: #f59e0b;
+            }
+            
+            &.uploading {
+              color: #3b82f6;
+            }
+            
+            &.success {
+              color: #10b981;
+            }
+            
+            &.error {
+              color: #ef4444;
+            }
+
+            .error-message {
+              color: #ef4444;
+            }
+          }
+        }
+      }
+
+      .actions {
+        button {
+          padding: 5px;
+          
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+
+          i {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+} 

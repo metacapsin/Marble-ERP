@@ -337,46 +337,59 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-xl-3 col-md-6 col-sm-12 col-12">
-                    <div class="form-group local-forms">
-                      <label for="creditPeriod"
-                        >Credit Period <span class="login-danger"></span
-                      ></label>
-                      <div class="input-group">
-                        <input
-                          class="form-control"
-                          type="number"
-                          placeholder
-                          formControlName="creditPeriod"
-                        />
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" style="font-size: 12px"
-                            >Days</span
-                          >
+                                    <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                      <div class="form-group local-forms">
+                        <label for="creditPeriod">
+                          Credit Period <span class="login-danger"></span>
+                        </label>
+                        <div class="input-group">
+                          <input
+                            class="form-control"
+                            type="number"
+                            placeholder
+                            formControlName="creditPeriod"
+                          />
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" style="font-size: 12px">Days</span>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="
+                            addSalesForm.get('creditPeriod')?.hasError('min') &&
+                            addSalesForm.get('creditPeriod')?.touched
+                          "
+                        >
+                          <span class="login-danger">Credit Period cannot be less than 0 days.</span>
+                        </div>
+                        <div
+                          *ngIf="
+                            addSalesForm.get('creditPeriod')?.hasError('max') &&
+                            addSalesForm.get('creditPeriod')?.touched
+                          "
+                        >
+                          <span class="login-danger">Credit Period Must not be more than 180 days.</span>
                         </div>
                       </div>
-                      <div
-                        *ngIf="
-                          addSalesForm.get('creditPeriod')?.hasError('min') &&
-                          addSalesForm.get('creditPeriod')?.touched
-                        "
-                      >
-                        <span class="login-danger"
-                          >Credit Period cannot be less than 0 days.</span
-                        >
-                      </div>
-                      <div
-                        *ngIf="
-                          addSalesForm.get('creditPeriod')?.hasError('max') &&
-                          addSalesForm.get('creditPeriod')?.touched
-                        "
-                      >
-                        <span class="login-danger"
-                          >Credit Period Must not be more than 180 days.</span
-                        >
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                      <div class="form-group local-forms">
+                        <label for="salesPerson">Salesperson </label>
+                        <p-multiSelect
+                          [options]="salesPersonList"
+                          [style]="{ width: '100%' }"
+                          placeholder="Select Sales Person"
+                          formControlName="salesPerson"
+                          optionLabel="name"
+                          display="chip"
+                          [filter]="true"
+                          filterBy="name"
+                          appendTo="body"
+                          [maxSelectedLabels]="3"
+                        ></p-multiSelect>
+                   
                       </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -913,6 +926,44 @@
                       role="tablist"
                       aria-multiselectable="true"
                     >
+                    <div class="faq-tab">
+                      <div class="panel panel-default">
+                        <div
+                          class="panel-heading"
+                          role="tab"
+                          id="headingThree"
+                        >
+                          <p class="panel-title">
+                            <a
+                              class="collapsed"
+                              data-bs-toggle="collapse"
+                              data-bs-parent="#accordion"
+                              href="#collapseFour"
+                              aria-expanded="false"
+                              aria-controls="collapseFour"
+                            >
+                              <i class="fas fa-plus-circle me-1"></i> Add
+                              Attachments
+                            </a>
+                          </p>
+                        </div>
+                        <div
+                          id="collapseFour"
+                          class="panel-collapse collapse"
+                          role="tabpanel"
+                          aria-labelledby="headingThree"
+                          data-bs-parent="#accordion"
+                        >
+                          <div class="panel-body">
+                          <app-file-upload 
+                            type="sales" 
+                            (filesChanged)="salesFilesChangedHandler($event)"
+                            (uploadComplete)="salesUploadCompleteHandler($event)">
+                          </app-file-upload>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                       <div class="faq-tab">
                         <div class="panel panel-default">
                           <div class="panel-heading" role="tab" id="headingTwo">
@@ -1011,6 +1062,7 @@
                           </div>
                         </div>
                       </div>
+                     
                     </div>
                     <div
                       class="invoice-fields mt-4"

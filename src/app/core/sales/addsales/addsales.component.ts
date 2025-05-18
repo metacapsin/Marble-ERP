@@ -7,6 +7,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { TaxesService } from "../../settings/taxes/taxes.service";
 import { CustomersdataService } from "../../Customers/customers.service";
 import { SalesService } from "../sales.service";
+import { staffService } from "../../staff/staff.service";
 import { MessageService } from "primeng/api";
 import { Router } from "@angular/router";
 import { LocalStorageService } from "src/app/shared/data/local-storage.service";
@@ -40,8 +41,8 @@ export class AddsalesComponent implements OnInit {
   public itemDetails: number[] = [0];
   maxQuantity: number;
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,30})$/;
-  notesRegex = /^[\s\S]{2,100}$/;
-  tandCRegex = /^[\s\S]{2,100}$/;
+  notesRegex = /^[\s\S]{2,2000}$/;
+  tandCRegex = /^[\s\S]{2,2000}$/;
   customer: any = ([] = []);
   returnUrl: string;
   wareHousedataListsEditArray: any[];
@@ -68,11 +69,14 @@ export class AddsalesComponent implements OnInit {
   isrequired: boolean = false;
   salesTermsAndCondition:String = "";
   manuallyEditedPieces: boolean[] = []; // Tracks which indexes have manually edited pieces
+  attachments: any[] = [];
+  salesPersonList: any[] = []; // Array to hold sales persons
 
   constructor(
     private router: Router,
     private messageService: MessageService,
     private salesService: SalesService,
+    private staffService: staffService,
     private customerService: CustomersdataService,
     private slabService: SlabsService,
     private taxService: TaxesService,
@@ -98,6 +102,7 @@ export class AddsalesComponent implements OnInit {
       billingAddress: [""],
       salesDiscount: ["", [Validators.min(0)]],
       salesInvoiceNumber: ["", [Validators.pattern(this.invoiceRegex)]],
+      salesPerson: [[]], // New form control for sold by field
       salesItemDetails: this.fb.array([
         this.fb.group({
           salesItemProduct: ["", [Validators.required]],
@@ -140,7 +145,7 @@ export class AddsalesComponent implements OnInit {
         "",
         [Validators.pattern(validationRegex.oneToOneLakhRegex)],
       ],
-      salesTermsAndCondition: ["", [Validators.pattern(this.tandCRegex)]],
+      salesTermsAndCondition: [""],
       salesTotalAmount: ["", [Validators.min(0)]],
       otherCharges: [
         "",
@@ -209,6 +214,9 @@ export class AddsalesComponent implements OnInit {
       const tax = group.get("salesItemTax")?.value;
   
       const showValidationError = taxableAmount && taxableAmount > 0 && !tax;
+      console.log("showValidationError", showValidationError);
+      console.log("tax", tax);
+      console.log("taxableAmount", taxableAmount);
   
       if (showValidationError) {
         group.get("salesItemTax")?.setValidators([Validators.required]);
@@ -505,6 +513,17 @@ export class AddsalesComponent implements OnInit {
   ngOnInit() {
     const today = new Date();
     const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
+
+    // Initialize sales person list
+    this.staffService.getStaffData().subscribe((resp: any) => {
+      console.log("resp", resp);
+      if (resp && resp.length > 0) {
+        this.salesPersonList = resp.map((staff: any) => ({
+          name: staff.firstName + " " + staff.lastName,
+          _id: staff._id
+        }));
+      }
+    });
 
     this.addSalesForm.patchValue({
       salesDate: formattedDate,
@@ -963,7 +982,6 @@ export class AddsalesComponent implements OnInit {
     const formData = this.addSalesForm.value;
 
     console.log("formData", formData);
-    // console.log(object)
     const payload = {
       eWayBill: formData.eWayBill,
       isOtherChargesTax: formData.isOtherChargesTax,
@@ -971,6 +989,7 @@ export class AddsalesComponent implements OnInit {
       customer: formData.customer,
       salesDate: formData.salesDate,
       billingAddress: formData.billingAddress,
+      salesPerson: formData.salesPerson, // Include soldBy in the payload
       salesDiscount: Number(formData.salesDiscount).toFixed(2),
       salesInvoiceNumber: formData.salesInvoiceNumber,
       salesItemDetails: formData.salesItemDetails,
@@ -992,6 +1011,7 @@ export class AddsalesComponent implements OnInit {
       taxable: Number(formData.taxable).toFixed(2),
       nonTaxable: Number(formData.nonTaxable).toFixed(2),
       creditPeriod: Number(formData.creditPeriod),
+      attachments: this.attachments
     };
 
     if (this.addSalesForm.valid) {
@@ -1015,6 +1035,27 @@ export class AddsalesComponent implements OnInit {
       });
     } else {
       console.log("Invalid form");
+    }
+  }
+
+  salesFilesChangedHandler(files: File[]) {
+    console.log('Files changed:', files);
+  }
+
+  salesUploadCompleteHandler(response: any) {
+    console.log('Upload complete:', response);
+    if (response && response.status === 'success' && response.data) {
+      // Store the attachment data
+      this.attachments.push(...response.data);
+      this.messageService.add({
+        severity: 'success',
+        detail: 'File uploaded successfully'
+      });
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        detail: 'Failed to upload file'
+      });
     }
   }
 }
