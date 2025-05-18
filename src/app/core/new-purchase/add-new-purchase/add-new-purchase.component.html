@@ -1125,28 +1125,28 @@
                             </div>
                           </div>
                         </div>
+                        
 
                         <div class="invoice-faq">
-                          <div class="panel-group" id="headingTwo" role="tablist" aria-multiselectable="true">
+                          <div class="panel-group" id="attachFile" role="tablist" aria-multiselectable="true">
                             <div class="faq-tab">
                               <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="headingTwo">
+                                <div class="panel-heading" role="tab" id="attachFile">
                                   <p class="panel-title">
-                                    <a data-bs-toggle="collapse" data-bs-parent="#headingTwo" href="#collapseFile"
-                                      aria-expanded="true" aria-controls="collapseNotes">
+                                    <a data-bs-toggle="collapse" data-bs-parent="#attachFile" href="#collapseattachFile"
+                                      aria-expanded="true" aria-controls="collapseattachFile">
                                       <i class="fas fa-plus-circle me-1"></i> Attach File
                                     </a>
                                   </p>
                                 </div>
-                                <div id="collapseNotes" class="panel-collapse" role="tabpanel"
-                                  aria-labelledby="headingTwo" data-bs-parent="#headingTwo">
+                                <div id="collapseattachFile" class="panel-collapse" role="tabpanel"
+                                  aria-labelledby="attachFile" data-bs-parent="#attachFile">
                                   <div class="panel-body">
-                                    <div class="text-center">
-                                      <img class="img-file-upload p-2" src="../../../assets/img/file_upload.png"
-                                        alt="Logo" />
-                                      <p class="upload-text"><span class="upload-bold">Click to upload</span> or drop
-                                        your file here</p>
-                                    </div>
+                                   <app-file-upload 
+                            type="purchase" 
+                            (filesChanged)="salesFilesChangedHandler($event)"
+                            (uploadComplete)="salesUploadCompleteHandler($event)">
+                          </app-file-upload>
                                   </div>
                                 </div>
                               </div>

@@ -98,6 +98,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   blockProcessor: any;
   slabDetails: any;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
+  attachments: any[] = [];
   // expensesExpanded: boolean = true;
   // expenses: any[] = [];
   // expenseTypeOptions = [
@@ -779,4 +780,25 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   //     this.expenses.pop();
   //   }
   // }
+
+    salesFilesChangedHandler(files: File[]) {
+    console.log('Files changed:', files);
+  }
+
+  salesUploadCompleteHandler(response: any) {
+    console.log('Upload complete:', response);
+    if (response && response.status === 'success' && response.data) {
+      // Store the attachment data
+      this.attachments.push(...response.data);
+      // this.messageService.add({
+      //   severity: 'success',
+      //   detail: 'File uploaded successfully'
+      // });
+    } else {
+      // this.messageService.add({
+      //   severity: 'error',
+      //   detail: 'Failed to upload file'
+      // });
+    }
+  }
 }
