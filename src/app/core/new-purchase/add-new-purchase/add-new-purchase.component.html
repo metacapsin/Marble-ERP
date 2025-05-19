@@ -873,7 +873,7 @@
                       <div class="card-body">
                         <h3>{{ addNewPurchaseForm.get("purchaseType").value }} Information</h3>
                         <div class="row practice-card">
-                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                          <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
                                 Other Charge
@@ -884,7 +884,7 @@
                                 </p>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                           <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
@@ -911,7 +911,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                          <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
                                 Transportation Charge
@@ -923,7 +923,7 @@
                                 </p>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                           <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
@@ -1090,6 +1090,39 @@
                           </p-accordionTab>
                         </p-accordion>
                       </div>
+
+                      <form [formGroup]="expensesForm">
+                         <p-accordion [activeIndex]="0">
+    <p-accordionTab>
+      <ng-template pTemplate="header">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <span class="font-bold">Expenses</span>
+        </div>
+      </ng-template>
+
+      <div class="row">
+  <table class="table table-bordered" formArrayName="expenses">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Payment</th>
+        <th>Paid By</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let group of expenses.controls; let i = index" [formGroupName]="i">
+             <td>{{ group.get('type')?.value }}</td>
+          <td>{{ group.get('payment')?.value }}</td>
+          <td>{{ group.get('paidBy')?.value }}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  </p-accordionTab>
+  </p-accordion>
+</form>
+
+
                     </div>
 
                     <div class="row">
@@ -1154,7 +1187,7 @@
                           </div>
                         </div>
 
-                        <div class="row mt-4" *ngIf="addNewPurchaseForm.get('taxable')?.value">
+                        <!-- <div class="row mt-4" *ngIf="addNewPurchaseForm.get('taxable')?.value">
                           <div class="col-md-6 col-xl-6 checkbox">
                             <p-checkbox [binary]="true" class="m-r-10" formControlName="isTaxVendor"
                               (onChange)="changeVaidationForTaxVendor()">
@@ -1222,7 +1255,7 @@
 
                             </div>
                           </div>
-                        </div>
+                        </div> -->
 
 
                       </div>
@@ -1406,8 +1439,7 @@
                       <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'Slab')">
                         <i class="fa-solid fa-arrow-left"></i> Back
                       </button>
-                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary"
-                        [disabled]="!addNewPurchaseForm.valid">
+                        <button type="submit" class="border-0 btn btn-primary btn-gradient-primary">
                         Submit
                       </button>
                     </div>

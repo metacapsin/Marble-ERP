@@ -9,7 +9,7 @@ import {
 import { Router } from "@angular/router";
 import { routes } from "src/app/shared/routes/routes";
 import { SharedModule } from "src/app/shared/shared.module";
-import { FormBuilder, FormGroup, NgForm } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, NgForm } from "@angular/forms";
 import { AddLotComponent } from "../../Product/lot/add-lot/add-lot.component";
 import { AddSlabsComponent } from "../../Product/slabs/add-slabs/add-slabs.component";
 import { WarehouseService } from "../../settings/warehouse/warehouse.service";
@@ -99,6 +99,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   slabDetails: any;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   attachments: any[] = [];
+  expensesForm: FormGroup;
   // expensesExpanded: boolean = true;
   // expenses: any[] = [];
   // expenseTypeOptions = [
@@ -184,6 +185,11 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     }
   };
   ngOnInit() {
+    this.expensesForm = this.fb.group({
+    expenses: this.fb.array([])
+  });
+
+  
     window.addEventListener("beforeunload", this.handleBeforeUnload);
     this.NewPurchaseService.clearFormData();
     this.supplier = this.localStorageService.getItem("supplier");
@@ -309,6 +315,19 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   }
   nextStep(nextCallback: any, page: string) {
     console.log(this.ItemDetails);
+    setTimeout(() => {
+  const expensesData = this.NewPurchaseService.getFormData("expensesData");
+  console.log("expensesData", expensesData);
+  if (expensesData) {
+    while (this.expenses.length !== 0) {
+  this.expenses.removeAt(0);
+}
+
+      expensesData.forEach(data => {
+    this.expenses.push(this.createExpenseGroup(data));
+  });
+  }
+    }, 1000);
     if (page == "first") {
       if (this.lotTypeValue == "Lot") {
         this.child?.LotAddFormSubmit();
@@ -555,6 +574,10 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     console.log('Selected Sub Category:', event);
   }
   
+  getSelectedWarehouseDetails(): any {
+  const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
+  return this.wareHousedata.find(w => w._id === selectedId);
+}
   
 
   addNewPurchaseFormSubmit() {
@@ -628,14 +651,22 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         taxApplied:  Number(formData?.taxApplied)?.toFixed(2), 
         otherCharges:  Number(formData?.otherCharges)?.toFixed(2), 
         transportationCharges:  Number(formData?.transportationCharges)?.toFixed(2),
-        warehouseDetails: formData?.warehouseDetails,
+        warehouseDetails: this.getSelectedWarehouseDetails(),
         vehicleNo: formData?.vehicleNo?.length > 0 ? formData?.vehicleNo : null,
         totalSQFT: formData?.totalSQFT,
+        purchaseExpenses: this.expensesForm.value.expenses,
+        attachments: this.attachments,
+        sellingPricePerSQFT: this.SlabItemDetails.sellingPricePerSQFT,
+        costPerSQFT: this.SlabItemDetails.costPerSQFT,
+        sqftPerPiece: this.SlabItemDetails.sqftPerPiece,
+        slabSize: this.SlabItemDetails.slabSize,
+        taxAmountPerSQFT: this.SlabItemDetails.taxAmountPerSQFT,
+        processingFeePerSQFT: this.SlabItemDetails.processingFeePerSQFT,
       };
       // payload = this.slabSelected(formData) as any;
       console.log(payload);
     }
-    if (this.addNewPurchaseForm.valid) {
+    // if (this.addNewPurchaseForm.valid) {
       this.NewPurchaseService.createPurchase(payload).subscribe((resp: any) => {
         if (resp) {
           if (resp.status === "success") {
@@ -651,9 +682,9 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           }
         }
       });
-    } else {
-      console.log("form is not valid");
-    }
+    // } else {
+    //   console.log("form is not valid");
+    // }
   }
 
   slabSelected(formData?: any): any {
@@ -801,4 +832,17 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       // });
     }
   }
+
+  get expenses(): FormArray {
+  return this.expensesForm.get('expenses') as FormArray;
+}
+
+createExpenseGroup(data?: any): FormGroup {
+  return this.fb.group({
+    type: [data?.type || ''],
+    payment: [data?.payment || ''],
+    paidBy: [data?.paidBy || '']
+  });
+}
+
 }
