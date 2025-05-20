@@ -17,7 +17,8 @@ export class FileUploadService {
     const formData = new FormData();
     formData.append('type', type);
     files.forEach(file => {
-      formData.append("fileName", file.name);
+      const fileName = file.name.replace(/(\.[^.]+)$/, `-${new Date().getTime()}$1`);
+      formData.append("fileName", fileName);
       formData.append('files', file);
     });
     return this.http.post(`${this.apiUrl}/Purchase/upload-attachments`, formData);

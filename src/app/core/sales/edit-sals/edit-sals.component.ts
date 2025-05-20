@@ -8,7 +8,7 @@ import { CalendarModule } from "primeng/calendar";
 import { TaxesService } from "../../settings/taxes/taxes.service";
 import { CustomersdataService } from "../../Customers/customers.service";
 import { SalesService } from "../sales.service";
-import { MessageService } from "primeng/api";
+import { MessageService, ConfirmationService } from "primeng/api";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastModule } from "primeng/toast";
 import { MultiSelectModule } from "primeng/multiselect";
@@ -19,14 +19,16 @@ import { BillingAddressService } from "../../settings/billing-Address/billingAdd
 import { validationRegex } from "../../validation";
 import { dashboardService } from "../../dashboard/dashboard.service";
 import { isArray } from "ngx-bootstrap/chronos";
+import { FileUploadService } from "src/app/shared/components/file-upload/file-upload.service";
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: "app-edit-sals",
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, ConfirmDialogModule],
   templateUrl: "./edit-sals.component.html",
   styleUrl: "./edit-sals.component.scss",
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
 })
 export class EditSalsComponent implements OnInit {
   editSalesForm!: FormGroup;
@@ -44,8 +46,8 @@ export class EditSalsComponent implements OnInit {
   public itemDetails: number[] = [0];
   maxQuantity: number;
   invoiceRegex = /^(?=[^\s])([a-zA-Z\d\/\-_ ]{1,30})$/;
-  notesRegex = /^(?:.{2,100})$/;
-  tandCRegex = /^[\s\S]{2,100}$/;
+  notesRegex = /^[\s\S]{2,2000}$/;
+  tandCRegex = /^[\s\S]{2,2000}$/;
   customer: any = ([] = []);
   returnUrl: string;
   wareHousedataListsEditArray: any[];
@@ -71,8 +73,11 @@ export class EditSalsComponent implements OnInit {
   UpdtshippingAddress: any;
   isUpdateAddress: boolean = false;
   isrequired: boolean = false;
-
-  manuallyEditedPieces: boolean[] = []; // Tracks manually edited pieces
+  salesTermsAndCondition: String = "";
+  manuallyEditedPieces: boolean[] = []; // Tracks which indexes have manually edited pieces
+  attachments: any[] = []; // Add attachments array
+  displayDeleteConfirmDialog: boolean = false;
+  attachmentToDelete: any = null;
 
   constructor(
     private router: Router,
@@ -87,7 +92,9 @@ export class EditSalsComponent implements OnInit {
     private services: WarehouseService,
     private activeRoute: ActivatedRoute,
     private SalesService: SalesService,
-    private dashboard: dashboardService
+    private dashboard: dashboardService,
+    private confirmationService: ConfirmationService,
+    private fileUploadService: FileUploadService
   ) {
     this.ewayBillForm = this.fb.group({
       eWayBillNo: ["", Validators.required],
@@ -579,8 +586,10 @@ export class EditSalsComponent implements OnInit {
   patchForm(data) {
     console.log("data>>", data);
     this.setAddressData = data.billingAddress;
-        // Prevent recalculation while patching
-        this.isPatchingData = true; 
+    // Store attachments from API response
+    this.attachments = data.attachments || [];
+    // Prevent recalculation while patching
+    this.isPatchingData = true; 
     this.editSalesForm.patchValue({
       billingAddress: data.billingAddress,
       customer: data.customer,
@@ -1201,6 +1210,7 @@ console.error('Error setting form values:', error);
       taxable: Number(formData.taxable).toFixed(2),
       nonTaxable: Number(formData.nonTaxable).toFixed(2),
       creditPeriod: Number(formData.creditPeriod),
+      attachments: this.attachments // Add attachments to payload
     };
 
     if (this.editSalesForm.valid) {
@@ -1225,5 +1235,71 @@ console.error('Error setting form values:', error);
     } else {
       console.log("Invalid form");
     }
+  }
+
+  // Add file handling methods
+  salesFilesChangedHandler(files: File[]) {
+    console.log('Files changed:', files);
+  }
+
+  salesUploadCompleteHandler(response: any) {
+    console.log('Upload complete:', response);
+    if (response && response.status === 'success' && response.data) {
+      // Store the attachment data
+      this.attachments.push(...response.data);
+      this.messageService.add({
+        severity: 'success',
+        detail: 'File uploaded successfully'
+      });
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        detail: 'Failed to upload file'
+      });
+    }
+  }
+
+  deleteAttachment(attachment: any) {
+    this.attachmentToDelete = attachment;
+    this.displayDeleteConfirmDialog = true;
+  }
+
+  confirmDelete() {
+    if (this.attachmentToDelete) {
+      this.fileUploadService.deleteFile(this.attachmentToDelete.name, this.attachmentToDelete.path)
+        .subscribe({
+          next: (response) => {
+            if (response.status === 'success') {
+              const index = this.attachments.findIndex(a => a._id === this.attachmentToDelete._id);
+              if (index > -1) {
+                this.attachments.splice(index, 1);
+                this.messageService.add({
+                  severity: 'success',
+                  detail: 'Attachment removed successfully'
+                });
+              }
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                detail: response.message || 'Failed to delete attachment'
+              });
+            }
+          },
+          error: (error) => {
+            this.messageService.add({
+              severity: 'error',
+              detail: 'Failed to delete attachment. Please try again.'
+            });
+          },
+          complete: () => {
+            this.closeDeleteConfirmDialog();
+          }
+        });
+    }
+  }
+
+  closeDeleteConfirmDialog() {
+    this.displayDeleteConfirmDialog = false;
+    this.attachmentToDelete = null;
   }
 }

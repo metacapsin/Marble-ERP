@@ -861,6 +861,59 @@
                     >
                       <div class="faq-tab">
                         <div class="panel panel-default">
+                          <div class="panel-heading" role="tab" id="headingThree">
+                            <p class="panel-title">
+                              <a
+                                class="collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-parent="#accordion"
+                                href="#collapseFour"
+                                aria-expanded="false"
+                                aria-controls="collapseFour"
+                              >
+                                <i class="fas fa-plus-circle me-1"></i> Add
+                                Attachments
+                              </a>
+                            </p>
+                          </div>
+                          <div
+                            id="collapseFour"
+                            class="panel-collapse collapse"
+                            role="tabpanel"
+                            aria-labelledby="headingThree"
+                            data-bs-parent="#accordion"
+                          >
+                            <div class="panel-body">
+                              <!-- Display existing attachments -->
+                              <div class="existing-attachments mb-3" *ngIf="attachments.length > 0">
+                                <h6 class="mb-2">Existing Attachments:</h6>
+                                <div class="attachment-list">
+                                  <div class="attachment-item d-flex align-items-center mb-2" *ngFor="let attachment of attachments">
+                                    <i class="fas fa-file me-2"></i>
+                                    <span class="attachment-name">{{ attachment.name }}</span>
+                                    <div class="ms-auto">
+                                      <a [href]="attachment.path" target="_blank" class="btn btn-sm btn-info me-2">
+                                        <i class="fas fa-eye"></i>
+                                      </a>
+                                      <button class="btn btn-sm btn-danger" (click)="deleteAttachment(attachment)">
+                                        <i class="fas fa-trash"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- File upload component -->
+                              <app-file-upload 
+                                type="sales" 
+                                (filesChanged)="salesFilesChangedHandler($event)"
+                                (uploadComplete)="salesUploadCompleteHandler($event)">
+                              </app-file-upload>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="faq-tab">
+                        <div class="panel panel-default">
                           <div class="panel-heading" role="tab" id="headingTwo">
                             <p class="panel-title">
                               <a
@@ -1403,6 +1456,7 @@
   </div>
 </div>
 <p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
 
 <p-dialog
   header="E-Way Bill Form"
@@ -1579,4 +1633,41 @@
       </div>
     </div>
   </form>
+</p-dialog>
+
+<p-dialog
+  header="Delete Attachment"
+  [(visible)]="displayDeleteConfirmDialog"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{ width: '30%' }"
+>
+  <div class="p-fluid mt-2">
+    <div class="col-12 col-md-12 col-xl-12">
+      <p>Are you sure you want to delete this attachment?</p>
+    </div>
+
+    <div class="d-flex justify-content-evenly">
+      <div class="w-50"></div>
+      <div class="d-flex w-75">
+        <button
+          (click)="closeDeleteConfirmDialog()"
+          type="button"
+          class="btn btn-secondary w-75"
+          pButton
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger mx-2 w-75"
+          pButton
+          (click)="confirmDelete()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
 </p-dialog>
