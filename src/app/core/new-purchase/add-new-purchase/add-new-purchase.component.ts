@@ -102,11 +102,13 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   expensesForm: FormGroup;
   // expensesExpanded: boolean = true;
   // expenses: any[] = [];
-  // expenseTypeOptions = [
-  //   { name: 'Transportation', value: 'transportation' },
-  //   { name: 'Royalty', value: 'royalty' },
-  //   { name: 'Other', value: 'other' }
-  // ];
+  expenseTypeOptions = [
+    { name: 'Transportation Charges', value: 'transportationCharge' },
+    { name: 'Royalty Charges', value: 'royaltyCharges' },
+    { name: 'Other Charges', value: 'otherCharges' }
+  ];
+  piecesDetails = [];
+  addSlabData: any;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -315,6 +317,8 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   }
   nextStep(nextCallback: any, page: string) {
     console.log(this.ItemDetails);
+      this.piecesDetails =  this.NewPurchaseService.getFormData("piecesDetails");
+      console.log(this.piecesDetails, "piecesDetails");
     setTimeout(() => {
   const expensesData = this.NewPurchaseService.getFormData("expensesData");
   console.log("expensesData", expensesData);
@@ -574,11 +578,12 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     console.log('Selected Sub Category:', event);
   }
   
-  getSelectedWarehouseDetails(): any {
+getSelectedWarehouseDetails(): { _id: string; name: string } | null {
   const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
-  return this.wareHousedata.find(w => w._id === selectedId);
+  const warehouse = this.wareHousedata.find(w => w._id === selectedId);
+  return warehouse ? { _id: warehouse._id, name: warehouse.name } : null;
 }
-  
+
 
   addNewPurchaseFormSubmit() {
     const formData = this.addNewPurchaseForm.value;
@@ -651,6 +656,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         taxApplied:  Number(formData?.taxApplied)?.toFixed(2), 
         otherCharges:  Number(formData?.otherCharges)?.toFixed(2), 
         transportationCharges:  Number(formData?.transportationCharges)?.toFixed(2),
+        royaltycharges: Number(formData?.royaltyCharge)?.toFixed(2),
         warehouseDetails: this.getSelectedWarehouseDetails(),
         vehicleNo: formData?.vehicleNo?.length > 0 ? formData?.vehicleNo : null,
         totalSQFT: formData?.totalSQFT,
@@ -662,6 +668,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         slabSize: this.SlabItemDetails.slabSize,
         taxAmountPerSQFT: this.SlabItemDetails.taxAmountPerSQFT,
         processingFeePerSQFT: this.SlabItemDetails.processingFeePerSQFT,
+        piecesDetails: this.piecesDetails,
       };
       // payload = this.slabSelected(formData) as any;
       console.log(payload);
@@ -834,7 +841,13 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   }
 
   get expenses(): FormArray {
+  console.log(this.expensesForm.get('expenses'), 'FormArray');
   return this.expensesForm.get('expenses') as FormArray;
+}
+
+getExpenseTypeName(value: string): string {
+  const option = this.expenseTypeOptions.find(opt => opt.value === value);
+  return option ? option.name : value; // fallback to value if not found
 }
 
 createExpenseGroup(data?: any): FormGroup {
@@ -843,6 +856,20 @@ createExpenseGroup(data?: any): FormGroup {
     payment: [data?.payment || ''],
     paidBy: [data?.paidBy || '']
   });
+}
+
+capitalizeFirstLetter(value: string): string {
+  return value ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() : '';
+}
+
+onVehicleInput(event: Event) {
+  const input = event.target as HTMLInputElement;
+  const uppercaseValue = input.value.toUpperCase();
+  this.addNewPurchaseForm.get('vehicleNo')?.setValue(uppercaseValue, { emitEvent: false });
+}
+
+onnextBtnDisabled(data:any){
+  this.addSlabData = data.controls;
 }
 
 }

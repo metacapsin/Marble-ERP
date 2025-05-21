@@ -33,6 +33,7 @@ import { co } from "@fullcalendar/core/internal-common";
 })
 export class AddSlabPurchaseComponent {
   @Input() tab!: string;
+  @Input() addSlabdisableBtn: boolean = false;
   slabAddForm: FormGroup;
   expensesForm: FormGroup;
   maxDate = new Date();
@@ -84,6 +85,7 @@ export class AddSlabPurchaseComponent {
     { name: 'Royalty Charges', value: 'royaltyCharges' },
     { name: 'Other Charges', value: 'otherCharges' }
   ];
+  @Output() nextBtnDisabled = new EventEmitter<any>();
 
 
   constructor(
@@ -371,7 +373,7 @@ export class AddSlabPurchaseComponent {
 
     if (
       !this.slabNumber ||
-      this.quantity === null ||
+      this.totalQuantity === null ||
       this.totalAmount === null ||
       this.ratePerSqFeet === null
     ) {
@@ -453,7 +455,9 @@ export class AddSlabPurchaseComponent {
       this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(2);
     } else if (this.width && this.length) {
       this.quantity = this.width * this.length / 144;
-    } else {
+    } else if (this.ratePerSqFeet && this.totalQuantity) {
+      this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(2);
+    } else{
       return;
     }
 
@@ -595,6 +599,7 @@ export class AddSlabPurchaseComponent {
 
 
   calculateTotalAmount() {
+      this.nextBtnDisabled.emit(this.slabAddForm);
     const expenseBreakdown = this.calculateExpenseCharges();
 
     // this.slabAddForm.patchValue({
@@ -606,11 +611,11 @@ export class AddSlabPurchaseComponent {
     const form = this.slabAddForm;
     const slabTotalAmount = this.slabTotalCost;
     // const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
-    const royaltyCharge = expenseBreakdown.royalty.self;
-    const otherCharge = expenseBreakdown.other.self;
+    const royaltyCharge = expenseBreakdown.royalty.self || expenseBreakdown.royalty.supplier;
+    const otherCharge = expenseBreakdown.other.self || expenseBreakdown.other.supplier;
     // const transportationCharge =
     //   Number(form.get("transportationCharge")?.value) || 0;
-    const transportationCharge = expenseBreakdown.transportation.self;
+    const transportationCharge = expenseBreakdown.transportation.self || expenseBreakdown.transportation.supplier;
     const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
     const tax = form.get("ItemTax")?.value || [];
     let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
@@ -718,7 +723,7 @@ export class AddSlabPurchaseComponent {
       taxAmountPerSQFT: Number(
         ((taxApplied / this.slabTotalCost) * Number(e.totalCosting)) /
         Number(e.totalSQFT)
-      ).toFixed(4),
+      ).toFixed(2),
     }));
 
     if (this.isEditMode && this.previousSlabData) {
@@ -821,17 +826,17 @@ export class AddSlabPurchaseComponent {
         Number(e.ratePerSqFeet) +
         Number(e.taxAmountPerSQFT) +
         Number(transportationAndOtherChargePerSQFT)
-      ).toFixed(4),
+      ).toFixed(2),
       sellingPricePerSQFT: Number(
         Number(e.ratePerSqFeet) +
         Number(e.taxAmountPerSQFT) +
         Number(transportationAndOtherChargePerSQFT)
-      ).toFixed(4),
+      ).toFixed(2),
       transportationCharges: Number(
         transportationChargesPerSlab * e.totalSQFT
-      ).toFixed(4),
-      royaltyCharges: Number(royaltyChargesPerSlab * e.totalSQFT).toFixed(4),
-      otherCharges: Number(otherChargesPerSlab * e.totalSQFT).toFixed(4),
+      ).toFixed(2),
+      royaltyCharges: Number(royaltyChargesPerSlab * e.totalSQFT).toFixed(2),
+      otherCharges: Number(otherChargesPerSlab * e.totalSQFT).toFixed(2),
       slabSize: `${e.width ? e.width : " "} x ${e.length ? e.length : " "} x ${e.thickness ? e.thickness : " "
         }`,
       purchaseCost:
@@ -1033,22 +1038,13 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount();
   }
 
+  logSlabDetails(): void {
+    console.log("rows", this.rows);
+    
+  this.NewPurchaseService.setFormData("piecesDetails", this.rows);
+}
 
-  // addExpense(event: Event): void {
-  //   event.stopPropagation(); // Prevent the click from triggering the toggle
-  //   const newId = this.expenses.length > 0 ? Math.max(...this.expenses.map(e => e.id)) + 1 : 1;
-  //   this.expenses.push({
-  //     id: newId,
-  //     type: '',
-  //     payment: '',
-  //     paidBy: 'self'
-  //   });
-  // }
 
-  // removeExpense(index: number): void {
-  //   this.expenses.splice(index, 1);
-  //   this.calculateTotalAmount();
-  // }
 
 }
 

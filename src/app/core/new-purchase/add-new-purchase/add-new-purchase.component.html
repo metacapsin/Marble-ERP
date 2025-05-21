@@ -76,8 +76,8 @@
                       <div class="col-12 col-md-4">
                         <div class="form-group local-forms">
                           <label for="vehicleNo">Vehicle Number</label>
-                          <input class="form-control" type="text" placeholder="Enter Vehicle Number"
-                            formControlName="vehicleNo" />
+                          <input class="form-control" type="text" (input)="onVehicleInput($event)"
+                            placeholder="Enter Vehicle Number" formControlName="vehicleNo" />
                           <div *ngIf="setValidations('vehicleNo')">
                             <span class="login-danger">Invalid vehicle number format. Please correct it.</span>
                           </div>
@@ -98,7 +98,7 @@
                       </div>
                     </div>
                     <div *ngIf="lotTypeValue === 'Slab'">
-                      <app-add-slab-purchase class="col-12" [tab]="'product'"></app-add-slab-purchase>
+                      <app-add-slab-purchase  [addSlabdisableBtn]="!addNewPurchaseForm.get('warehouse')?.value" class="col-12" [tab]="'product'"></app-add-slab-purchase>
                     </div>
 
                     <div *ngIf="lotTypeValue === 'Lot'">
@@ -388,34 +388,31 @@
                     </div>
                     <div *ngIf="lotTypeValue === 'Slab'">
                       <div *ngIf="lotTypeValue === 'Slab'">
-                        <app-add-slab-purchase class="col-12" [tab]="'purchase'"></app-add-slab-purchase>
+                        <app-add-slab-purchase (nextBtnDisabled)="onnextBtnDisabled($event)" class="col-12" [tab]="'purchase'"></app-add-slab-purchase>
                       </div>
                     </div>
                     <!-- SLAB Information -->
-                  <div class="d-flex justify-content-between align-items-center pt-4">
-  <!-- Left aligned Back button -->
-  <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'Slab')">
-    <i class="fa-solid fa-arrow-left"></i> Back
-  </button>
+                    <div class="d-flex justify-content-between align-items-center pt-4">
+                      <!-- Left aligned Back button -->
+                      <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'Slab')">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                      </button>
 
-  <!-- Right aligned Next button -->
-  <ng-container *ngIf="lotTypeValue === 'Lot'">
-    <button
-      [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid || !child?.lotAddForm?.valid"
-      class="btn btn-primary"
-      (click)="nextStep(nextCallback, 'first')">
-      Next <i class="fa-solid fa-arrow-right"></i>
-    </button>
-  </ng-container>
+                      <!-- Right aligned Next button -->
+                      <ng-container *ngIf="lotTypeValue === 'Lot'">
+                        <button
+                          [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid || !child?.lotAddForm?.valid"
+                          class="btn btn-primary" (click)="nextStep(nextCallback, 'first')" [disabled]="!addNewPurchaseForm.get('purchaseDate')?.value || !addNewPurchaseForm.get('supplier')?.value || addSlabData.get('taxableAmount')?.touched && addSlabData.get('taxApplied')?.value > 0">
+                          Next <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                      </ng-container>
 
-  <ng-container *ngIf="lotTypeValue === 'Slab'">
-    <button
-      class="btn btn-primary"
-      (click)="nextStep(nextCallback, 'first')">
-      Next <i class="fa-solid fa-arrow-right"></i>
-    </button>
-  </ng-container>
-</div>
+                      <ng-container *ngIf="lotTypeValue === 'Slab'">
+                        <button class="btn btn-primary" (click)="nextStep(nextCallback, 'first')"  [disabled]="!addNewPurchaseForm.get('purchaseDate')?.value || !addNewPurchaseForm.get('supplier')?.value">
+                          Next <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                      </ng-container>
+                    </div>
 
                   </ng-template>
                 </p-stepperPanel>
@@ -1092,35 +1089,35 @@
                       </div>
 
                       <form [formGroup]="expensesForm">
-                         <p-accordion [activeIndex]="0">
-    <p-accordionTab>
-      <ng-template pTemplate="header">
-        <div class="d-flex justify-content-between align-items-center w-100">
-          <span class="font-bold">Expenses</span>
-        </div>
-      </ng-template>
+                        <p-accordion [activeIndex]="0">
+                          <p-accordionTab>
+                            <ng-template pTemplate="header">
+                              <div class="d-flex justify-content-between align-items-center w-100">
+                                <span class="font-bold">Expenses</span>
+                              </div>
+                            </ng-template>
 
-      <div class="row">
-  <table class="table table-bordered" formArrayName="expenses">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Payment</th>
-        <th>Paid By</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let group of expenses.controls; let i = index" [formGroupName]="i">
-             <td>{{ group.get('type')?.value }}</td>
-          <td>{{ group.get('payment')?.value }}</td>
-          <td>{{ group.get('paidBy')?.value }}</td>
-      </tr>
-    </tbody>
-  </table>
-  </div>
-  </p-accordionTab>
-  </p-accordion>
-</form>
+                            <div class="row">
+                              <table class="table table-bordered" formArrayName="expenses">
+                                <thead>
+                                  <tr>
+                                    <th>Type</th>
+                                    <th>Payment</th>
+                                    <th>Paid By</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let expense of expenses.controls; let i = index" [formGroupName]="i">
+                                    <td>{{ getExpenseTypeName(expense.get('type')?.value) }}</td>
+                                    <td>{{ expense.get('payment')?.value }}</td>
+                                    <td>{{ capitalizeFirstLetter(expense.get('paidBy')?.value) }}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </p-accordionTab>
+                        </p-accordion>
+                      </form>
 
 
                     </div>
@@ -1158,7 +1155,7 @@
                             </div>
                           </div>
                         </div>
-                        
+
 
                         <div class="invoice-faq">
                           <div class="panel-group" id="attachFile" role="tablist" aria-multiselectable="true">
@@ -1175,11 +1172,9 @@
                                 <div id="collapseattachFile" class="panel-collapse" role="tabpanel"
                                   aria-labelledby="attachFile" data-bs-parent="#attachFile">
                                   <div class="panel-body">
-                                   <app-file-upload 
-                            type="purchase" 
-                            (filesChanged)="salesFilesChangedHandler($event)"
-                            (uploadComplete)="salesUploadCompleteHandler($event)">
-                          </app-file-upload>
+                                    <app-file-upload type="purchase" (filesChanged)="salesFilesChangedHandler($event)"
+                                      (uploadComplete)="salesUploadCompleteHandler($event)">
+                                    </app-file-upload>
                                   </div>
                                 </div>
                               </div>
@@ -1345,6 +1340,27 @@
 
                                 </span>
                               </p>
+                                <p *ngIf="addNewPurchaseForm.get('otherCharges').value">
+                                Other Charges
+                                <span>
+                                  ₹
+                                  {{ addNewPurchaseForm.get("otherCharges").value || 0.00 | indianCurrency }}
+                                  </span>
+                              </p>
+                               <p *ngIf="addNewPurchaseForm.get('transportationCharges').value">
+                                Transportation Charges
+                                <span>
+                                  ₹
+                                  {{ addNewPurchaseForm.get("transportationCharges").value || 0.00 | indianCurrency }}
+                                  </span>
+                              </p>
+                               <p *ngIf="addNewPurchaseForm.get('royaltyCharge').value">
+                                Royalty Charges
+                                <span>
+                                  ₹
+                                  {{ addNewPurchaseForm.get("royaltyCharge").value || 0.00 | indianCurrency }}
+                                  </span>
+                              </p>
                             </div>
 
                             <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Lot'">
@@ -1439,7 +1455,7 @@
                       <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'Slab')">
                         <i class="fa-solid fa-arrow-left"></i> Back
                       </button>
-                        <button type="submit" class="border-0 btn btn-primary btn-gradient-primary">
+                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary">
                         Submit
                       </button>
                     </div>
