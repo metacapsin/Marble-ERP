@@ -31,4 +31,13 @@ export class FileUploadService {
     };
     return this.http.post(`${this.apiUrl}/Purchase/delete-attachment`, payload);
   }
+
+  downloadFile(path: string, filename: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/Purchase/downloadAttachment?path=${encodeURIComponent(path)}`, {
+      responseType: 'blob',
+      // headers: {
+      //   'Content-Disposition': `attachment; filename="${filename}"`
+      // }
+    });
+  }
 } 

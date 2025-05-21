@@ -19,6 +19,9 @@ import { QuotationsService } from "src/app/core/quotations/quotations.service";
 import { MessageService } from "primeng/api";
 import { SlabsService } from "src/app/core/Product/slabs/slabs.service";
 import { TooltipModule } from "primeng/tooltip";
+import { FileUploadService } from "src/app/shared/components/file-upload/file-upload.service";
+import { environment } from "src/environments/environment";
+import { SafePipe } from "src/app/shared/pipes/safe.pipe";
 
 @Component({
   selector: "app-invoice-dialog",
@@ -33,7 +36,8 @@ import { TooltipModule } from "primeng/tooltip";
     ButtonModule,
     SharedModule,
     TooltipModule,
-    ButtonModule
+    ButtonModule,
+    SafePipe
   ],
   templateUrl: "./invoice-dialog.component.html",
   styleUrl: "./invoice-dialog.component.scss",
@@ -51,6 +55,12 @@ export class InvoiceDialogComponent implements OnInit {
   blockDatabyLotId: any = [];
 
   sellerData: any;
+  displayFilePreviewDialog: boolean = false;
+  previewFileUrl: string = '';
+  previewFileName: string = '';
+  previewFileType: string = '';
+  private apiUrl = environment.apiUrl;
+
   constructor(
     private userData: AuthService,
     private salesService: SalesService,
@@ -59,7 +69,7 @@ export class InvoiceDialogComponent implements OnInit {
     private http: HttpClient,
     private messageService: MessageService,
     private SlabsService: SlabsService,
-    
+    private fileUploadService: FileUploadService
   ) {}
   ngOnInit() {
     this.userData.getUserProfile().subscribe((user: any) => {
@@ -197,6 +207,59 @@ getRemainingTaxRates(taxArray: any[]): string {
   }
   print() {
     window.print();
+  }
+
+  viewAttachment(attachment: any) {
+    this.fileUploadService.downloadFile(attachment.path, attachment.name).subscribe(
+      (blob: Blob) => {
+        // Create a new blob with the correct MIME type
+        const fileType = this.getFileType(attachment.name);
+        const mimeType = fileType === 'pdf' ? 'application/pdf' : blob.type;
+        const newBlob = new Blob([blob], { type: mimeType });
+        
+        const fileUrl = window.URL.createObjectURL(newBlob);
+        this.previewFileName = attachment.name;
+        this.previewFileUrl = fileUrl;
+        this.previewFileType = fileType;
+        this.displayFilePreviewDialog = true;
+      },
+      (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load file'
+        });
+      }
+    );
+  }
+
+  getFileType(filename: string): string {
+    const extension = filename.split('.').pop()?.toLowerCase();
+    if (extension === 'pdf') {
+      return 'pdf';
+    } else if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
+      return 'image';
+    }
+    return 'other';
+  }
+
+  closeFilePreview() {
+    this.displayFilePreviewDialog = false;
+    if (this.previewFileUrl) {
+      window.URL.revokeObjectURL(this.previewFileUrl);
+      this.previewFileUrl = '';
+    }
+  }
+
+  downloadPreviewFile() {
+    if (this.previewFileUrl) {
+      const link = document.createElement('a');
+      link.href = this.previewFileUrl;
+      link.download = this.previewFileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 }
 

@@ -21,11 +21,14 @@ import { dashboardService } from "../../dashboard/dashboard.service";
 import { isArray } from "ngx-bootstrap/chronos";
 import { FileUploadService } from "src/app/shared/components/file-upload/file-upload.service";
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { environment } from "src/environments/environment.development";
+import { HttpClient } from "@angular/common/http";
+import { SafePipe } from "src/app/shared/pipes/safe.pipe";
 
 @Component({
   selector: "app-edit-sals",
   standalone: true,
-  imports: [SharedModule, ConfirmDialogModule],
+  imports: [SharedModule, ConfirmDialogModule, SafePipe],
   templateUrl: "./edit-sals.component.html",
   styleUrl: "./edit-sals.component.scss",
   providers: [MessageService, ConfirmationService],
@@ -78,6 +81,11 @@ export class EditSalsComponent implements OnInit {
   attachments: any[] = []; // Add attachments array
   displayDeleteConfirmDialog: boolean = false;
   attachmentToDelete: any = null;
+  private apiUrl = environment.apiUrl;
+  displayFilePreviewDialog: boolean = false;
+  previewFileUrl: string = '';
+  previewFileName: string = '';
+  previewFileType: string = '';
 
   constructor(
     private router: Router,
@@ -94,7 +102,8 @@ export class EditSalsComponent implements OnInit {
     private SalesService: SalesService,
     private dashboard: dashboardService,
     private confirmationService: ConfirmationService,
-    private fileUploadService: FileUploadService
+    private fileUploadService: FileUploadService,
+    private http: HttpClient
   ) {
     this.ewayBillForm = this.fb.group({
       eWayBillNo: ["", Validators.required],
@@ -1301,5 +1310,57 @@ console.error('Error setting form values:', error);
   closeDeleteConfirmDialog() {
     this.displayDeleteConfirmDialog = false;
     this.attachmentToDelete = null;
+  }
+
+  viewAttachment(attachment: any) {
+    this.fileUploadService.downloadFile(attachment.path, attachment.name).subscribe({
+      next: (blob: Blob) => {
+        // Create a blob URL with the correct MIME type
+        const fileType = this.getFileType(attachment.name);
+        const mimeType = fileType === 'pdf' ? 'application/pdf' : blob.type;
+        const blobWithType = new Blob([blob], { type: mimeType });
+        const fileUrl = window.URL.createObjectURL(blobWithType);
+        
+        this.previewFileName = attachment.name;
+        this.previewFileUrl = fileUrl;
+        this.previewFileType = fileType;
+        this.displayFilePreviewDialog = true;
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          detail: 'Failed to load the file. Please try again.'
+        });
+      }
+    });
+  }
+
+  getFileType(filename: string): string {
+    const extension = filename.split('.').pop()?.toLowerCase();
+    if (['pdf'].includes(extension)) {
+      return 'pdf';
+    } else if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
+      return 'image';
+    }
+    return 'other';
+  }
+
+  closeFilePreview() {
+    this.displayFilePreviewDialog = false;
+    if (this.previewFileUrl) {
+      window.URL.revokeObjectURL(this.previewFileUrl);
+      this.previewFileUrl = '';
+      this.previewFileName = '';
+      this.previewFileType = '';
+    }
+  }
+
+  downloadPreviewFile() {
+    const link = document.createElement('a');
+    link.href = this.previewFileUrl;
+    link.download = this.previewFileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }
