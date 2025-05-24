@@ -56,11 +56,21 @@
               </div>
             </div>
             <div class="card-body p-2">
-              <p-table [value]="
-                  dataSource" [globalFilterFields]=" ['companyName', 'country.name','state','city','email','postalCode','setAsDefault']
-                " styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '60rem' }" [columns]="cols" #dt [exportHeader]="'customExportHeader'" exportFilename="Billing Address"  [paginator]="dataSource?.length >= 5" 
-                [rows]="10" selectionMode="multiple" [rowsPerPageOptions]="[5, 10, 20]" (onPage)="onPageChange($event)"
-                [(selection)]="selectedProducts">
+              <p-table [value]="dataSource" 
+                [globalFilterFields]="['companyName', 'country.name','state','city','email','postalCode','setAsDefault','associatedBankAccount.bankName']"
+                styleClass="p-datatable-striped" 
+                [tableStyle]="{ 'min-width': '60rem' }" 
+                [columns]="cols" 
+                #dt 
+                [exportHeader]="'customExportHeader'" 
+                exportFilename="Billing Address"  
+                [paginator]="dataSource?.length >= 5" 
+                [rows]="10" 
+                selectionMode="multiple" 
+                [rowsPerPageOptions]="[5, 10, 20]" 
+                (onPage)="onPageChange($event)"
+                [(selection)]="selectedProducts"
+                >
                 <ng-template pTemplate="header">
                   <tr>
                     <th pSortableColumn="companyName">
@@ -83,11 +93,6 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="city"
                         display="menu"></p-columnFilter>
                     </th>
-                    <th pSortableColumn="email">
-                      Email<p-sortIcon field="email"></p-sortIcon>
-                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="email"
-                        display="menu"></p-columnFilter>
-                    </th>
                     <th pSortableColumn="postalCode">
                       Postal Code<p-sortIcon field="postalCode"></p-sortIcon>
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="postalCode"
@@ -98,17 +103,22 @@
                       <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="setAsDefault"
                         display="menu"></p-columnFilter>
                     </th>
+                    <th pSortableColumn="associatedBankAccount">
+                      Associated Bank<p-sortIcon field="associatedBankAccount"></p-sortIcon>
+                      <p-columnFilter matchMode="contains" hideOnClear="true" type="text" field="associatedBankAccount.bankName"
+                        display="menu"></p-columnFilter>
+                    </th>
                     <th width="10%">Action</th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-product>
                   <tr>
-                    <td class="bold">{{ product.companyName }}</td>
+                    <td>{{ product.companyName }}</td>
                     <td>{{ product.country.name }}</td>
                     <td *ngIf="product?.state">{{ product.state?.name }} ({{product.state?.code}})</td>
                     <td>{{ product.city }}</td>
-                    <td 
-                    [pTooltip]="product.email" tooltipPosition="left" tooltipStyleClass="tooltip">{{ product.email }}</td>
+                    <!-- <td 
+                    [pTooltip]="product.email" tooltipPosition="left" tooltipStyleClass="tooltip">{{ product.email }}</td> -->
                     <td>{{ product.postalCode }}</td>
                     <td *ngIf="!product.setAsDefault">
                       <p-tag severity="danger" value="No"></p-tag>
@@ -116,11 +126,12 @@
                     <td *ngIf="product.setAsDefault">
                       <p-tag severity="success" value="Yes"></p-tag>
                     </td>
+                    <td>{{ product.associatedBankAccount ? (product.associatedBankAccount.bankName + ' (' + product.associatedBankAccount.accountNumber.slice(-4) + ')') : '-' }}</td>
                     <td class="action-buttions" appShowHide [roles]="['admin', 'super-admin']">
                       <p-button [text]="true" icon="fa-solid fa-edit" (click)="edit(product._id)" pTooltip="Edit"
-                        tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                        tooltipPosition="top"></p-button>
                       <p-button [text]="true" icon="fa-solid fa-trash" (click)="delete(product)" pTooltip="Delete"
-                        tooltipPosition="bottom" tooltipStyleClass="tooltip"></p-button>
+                        tooltipPosition="top"></p-button>
                     </td>
                   </tr>
                 </ng-template>
