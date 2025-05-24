@@ -106,7 +106,7 @@
                     </div>
                     <div class="row">
                       <div class="col text-end">
-                        <button class="btn btn-primary" (click)="nextStep(nextCallback, 'first')">
+                        <button class="btn btn-primary" [disabled]="!addNewPurchaseForm.get('purchaseType')?.value || !addNewPurchaseForm.get('warehouse')?.value || slabDetailsLength == 0" (click)="nextStep(nextCallback, 'first')">
                           Next <i class="fa-solid fa-arrow-right"></i>
                         </button>
                       </div>

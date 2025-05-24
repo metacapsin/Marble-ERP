@@ -9,6 +9,8 @@ import { an } from '@fullcalendar/core/internal-common';
 })
 
 export class NewPurchaseService {
+    public slabDetailsLength = new BehaviorSubject<number>(0);
+
   constructor(private http: HttpClient) { }
   // Purchase APIS
   createPurchase(data: any) {
@@ -68,6 +70,10 @@ export class NewPurchaseService {
   }
   clearFormData() {
     this.formData = {};
+  }
+
+  slabDetailsLengthCount(length: number) {
+    this.slabDetailsLength.next(length); // Update value
   }
 
   // private formDataSubject = new Subject<any>();

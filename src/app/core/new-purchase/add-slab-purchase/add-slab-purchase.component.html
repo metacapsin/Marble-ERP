@@ -703,12 +703,12 @@
                                                 <td>
                                                     <input class="form-control" type="number"
                                                         [disabled]="!rowData.isEditing" [(ngModel)]="rowData.length"
-                                                        name="length{{ri}}" (input)="updateQuantity(rowData)" />
+                                                        name="length{{ri}}" (input)="updateQuantity(rowData); calculateTotalQuantity()" />
                                                 </td>
                                                 <td>
                                                     <input class="form-control" type="number"
                                                         [disabled]="!rowData.isEditing" [(ngModel)]="rowData.width"
-                                                        name="width{{ri}}" (input)="updateQuantity(rowData)" />
+                                                        name="width{{ri}}" (input)="updateQuantity(rowData); calculateTotalQuantity()" />
                                                 </td>
                                                 <td>
                                                     <input class="form-control" type="number"
@@ -719,7 +719,7 @@
                                                 <td>
                                                     <input class="form-control" type="number"
                                                         [disabled]="!rowData.isEditing" [(ngModel)]="rowData.quantity"
-                                                        name="quantity{{ri}}" />
+                                                        name="quantity{{ri}}"  (input)="calculateTotalQuantity()" />
                                                 </td>
                                                 <td>
                                                     <p-dropdown [options]="finisheshList" optionLabel="name"
@@ -810,7 +810,7 @@
                         <div class="col-12">
                             <div class="settings-btns text-end m-b-10">
                                 <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                    (click)="logSlabDetails(); calculateTotalAmount(); addSlabDetails(myForm);"
+                                    (click)="logSlabDetails(myForm);"
                                     [disabled]="myForm.invalid || !subCategory?.name || !category?.name">
                                     Save
                                 </button>

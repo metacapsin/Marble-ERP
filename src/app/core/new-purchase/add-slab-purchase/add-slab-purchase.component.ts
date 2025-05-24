@@ -292,6 +292,7 @@ export class AddSlabPurchaseComponent {
   deleteAccordian(index: number) {
     this.slabTotalCost -= Number(this.slabDetails[index].totalCosting);
     this.slabDetails.splice(index, 1);
+    this.NewPurchaseService.slabDetailsLengthCount(this.slabDetails?.length);
     this.calculateTotalAmount();
     this.saveClicked.emit()
   }
@@ -402,6 +403,7 @@ export class AddSlabPurchaseComponent {
     };
 
     this.slabDetails.push(newSlab);
+    this.NewPurchaseService.slabDetailsLengthCount(this.slabDetails?.length);
     this.slabTotalCost += Number(this.totalAmount);
 
     this.marbleName = "";
@@ -450,13 +452,14 @@ export class AddSlabPurchaseComponent {
 
   getSlabDetails(calculateTotalQTY: boolean) {
     console.log("getSlabDetails", calculateTotalQTY);
-    if (this.width && this.length && this.ratePerSqFeet) {
+    if (this.ratePerSqFeet && this.totalQuantity) {
+      this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(2);
+    }
+    else if (this.width && this.length && this.ratePerSqFeet) {
       this.quantity = this.width * this.length / 144;
       this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(2);
     } else if (this.width && this.length) {
       this.quantity = this.width * this.length / 144;
-    } else if (this.ratePerSqFeet && this.totalQuantity) {
-      this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(2);
     } else{
       return;
     }
@@ -965,6 +968,7 @@ export class AddSlabPurchaseComponent {
     this.rows.forEach((row, i) => {
       row.pieceNumber = i + 1;
     });
+    this.calculateTotalQuantity(); // Recalculate total quantity after deletion
   }
 
 
@@ -1038,10 +1042,11 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount();
   }
 
-  logSlabDetails(): void {
-    console.log("rows", this.rows);
-    
+  logSlabDetails(myForm:NgForm): void {
+    console.log("<<<<<<<<<<<<<<<<<<<<<rows:", this.rows);
   this.NewPurchaseService.setFormData("piecesDetails", this.rows);
+  this.calculateTotalAmount(); 
+   this.addSlabDetails(myForm);
 }
 
 

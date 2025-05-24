@@ -109,6 +109,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   ];
   piecesDetails = [];
   addSlabData: any;
+  slabDetailsLength: number = 0;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -176,7 +177,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       transportationCharges: [""],
       otherCharges: [""],
       vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
-      warehouse: ["", [Validators.required]],      totalSQFT: [""],
+      warehouse: ["", [Validators.required]], totalSQFT: [""],
       isTaxVendor: [false],
     });
   }
@@ -188,10 +189,12 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   };
   ngOnInit() {
     this.expensesForm = this.fb.group({
-    expenses: this.fb.array([])
-  });
+      expenses: this.fb.array([])
+    });
+    this.NewPurchaseService.slabDetailsLength.subscribe(length => {
+      this.slabDetailsLength = length;
+    });
 
-  
     window.addEventListener("beforeunload", this.handleBeforeUnload);
     this.NewPurchaseService.clearFormData();
     this.supplier = this.localStorageService.getItem("supplier");
@@ -202,7 +205,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       });
     }
     const today = new Date();
-    const formattedDate =  moment(today).format("DD/MM/YYYY"); // Format to MM/DD/YYYY
+    const formattedDate = moment(today).format("DD/MM/YYYY"); // Format to MM/DD/YYYY
 
     this.addNewPurchaseForm.patchValue({
       purchaseDate: formattedDate,
@@ -317,20 +320,20 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   }
   nextStep(nextCallback: any, page: string) {
     console.log(this.ItemDetails);
-      this.piecesDetails =  this.NewPurchaseService.getFormData("piecesDetails");
-      console.log(this.piecesDetails, "piecesDetails");
+    this.piecesDetails = this.NewPurchaseService.getFormData("piecesDetails");
+    console.log(this.piecesDetails, "piecesDetails");
     setTimeout(() => {
-  const expensesData = this.NewPurchaseService.getFormData("expensesData");
-  console.log("expensesData", expensesData);
-  if (expensesData) {
-    while (this.expenses.length !== 0) {
-  this.expenses.removeAt(0);
-}
+      const expensesData = this.NewPurchaseService.getFormData("expensesData");
+      console.log("expensesData", expensesData);
+      if (expensesData) {
+        while (this.expenses.length !== 0) {
+          this.expenses.removeAt(0);
+        }
 
-      expensesData.forEach(data => {
-    this.expenses.push(this.createExpenseGroup(data));
-  });
-  }
+        expensesData.forEach(data => {
+          this.expenses.push(this.createExpenseGroup(data));
+        });
+      }
     }, 1000);
     if (page == "first") {
       if (this.lotTypeValue == "Lot") {
@@ -560,16 +563,16 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     } else {
       this.lotTypeValue === "Lot"
         ? this.addNewPurchaseForm
-            .get("paidToSupplierPurchaseCost")
-            ?.patchValue(this.ItemDetails.paidToSupplierLotCost)
+          .get("paidToSupplierPurchaseCost")
+          ?.patchValue(this.ItemDetails.paidToSupplierLotCost)
         : this.addNewPurchaseForm
-            .get("paidToSupplierPurchaseCost")
-            ?.patchValue(
-              (
-                Number(Number(this.addNewPurchaseForm.get("nonTaxable").value || 0).toFixed(2)) +
-                Number(Number(this.addNewPurchaseForm.get("taxable").value || 0).toFixed(2))
-              )
-            );
+          .get("paidToSupplierPurchaseCost")
+          ?.patchValue(
+            (
+              Number(Number(this.addNewPurchaseForm.get("nonTaxable").value || 0).toFixed(2)) +
+              Number(Number(this.addNewPurchaseForm.get("taxable").value || 0).toFixed(2))
+            )
+          );
     }
   }
 
@@ -577,12 +580,12 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   selectSubCate(event: any): void {
     console.log('Selected Sub Category:', event);
   }
-  
-getSelectedWarehouseDetails(): { _id: string; name: string } | null {
-  const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
-  const warehouse = this.wareHousedata.find(w => w._id === selectedId);
-  return warehouse ? { _id: warehouse._id, name: warehouse.name } : null;
-}
+
+  getSelectedWarehouseDetails(): { _id: string; name: string } | null {
+    const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
+    const warehouse = this.wareHousedata.find(w => w._id === selectedId);
+    return warehouse ? { _id: warehouse._id, name: warehouse.name } : null;
+  }
 
 
   addNewPurchaseFormSubmit() {
@@ -628,13 +631,14 @@ getSelectedWarehouseDetails(): { _id: string; name: string } | null {
           ? taxVenoderObj
           : null,
         taxApplied: formData.taxApplied,
-        warehouseDetails:this.ItemDetails?.warehouseDetails,
-        transportationCharges:this.ItemDetails?.transportationCharge,
-        otherCharges:this.ItemDetails?.royaltyCharge,
-        totalTransportationCharges:this.ItemDetails?.totalTransportationCharges,
+        warehouseDetails: this.ItemDetails?.warehouseDetails,
+        transportationCharges: this.ItemDetails?.transportationCharge,
+        otherCharges: this.ItemDetails?.royaltyCharge,
+        totalTransportationCharges: this.ItemDetails?.totalTransportationCharges,
       };
     } else {
       let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
+      this.SlabItemDetails.slabDetails.warehouseDetails = this.getSelectedWarehouseDetails();
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,
@@ -653,10 +657,10 @@ getSelectedWarehouseDetails(): { _id: string; name: string } | null {
         taxVendor: this.addNewPurchaseForm.get("isTaxVendor").value
           ? taxVenoderObj
           : null,
-        taxApplied:  Number(formData?.taxApplied)?.toFixed(2), 
-        otherCharges:  Number(formData?.otherCharges)?.toFixed(2), 
-        transportationCharges:  Number(formData?.transportationCharges)?.toFixed(2),
-        royaltycharges: Number(formData?.royaltyCharge)?.toFixed(2),
+        taxApplied: Number(formData?.taxApplied)?.toFixed(2),
+        otherCharges: isNaN(Number(formData?.otherCharges)) ? "0.00" : Number(formData?.otherCharges).toFixed(2),
+        transportationCharges: isNaN(Number(formData?.transportationCharges)) ? "0.00" : Number(formData?.transportationCharges).toFixed(2),
+        royaltycharges: isNaN(Number(formData?.royaltyCharge)) ? "0.00" : Number(formData?.royaltyCharge).toFixed(2),
         warehouseDetails: this.getSelectedWarehouseDetails(),
         vehicleNo: formData?.vehicleNo?.length > 0 ? formData?.vehicleNo : null,
         totalSQFT: formData?.totalSQFT,
@@ -674,21 +678,21 @@ getSelectedWarehouseDetails(): { _id: string; name: string } | null {
       console.log(payload);
     }
     // if (this.addNewPurchaseForm.valid) {
-      this.NewPurchaseService.createPurchase(payload).subscribe((resp: any) => {
-        if (resp) {
-          if (resp.status === "success") {
-            this.NewPurchaseService.clearFormData();
-            const message = "Purchase has been added";
-            this.messageService.add({ severity: "success", detail: message });
-            setTimeout(() => {
-              this.router.navigateByUrl(this.returnUrl);
-            }, 400);
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
-          }
+    this.NewPurchaseService.createPurchase(payload).subscribe((resp: any) => {
+      if (resp) {
+        if (resp.status === "success") {
+          this.NewPurchaseService.clearFormData();
+          const message = "Purchase has been added";
+          this.messageService.add({ severity: "success", detail: message });
+          setTimeout(() => {
+            this.router.navigateByUrl(this.returnUrl);
+          }, 400);
+        } else {
+          const message = resp.message;
+          this.messageService.add({ severity: "error", detail: message });
         }
-      });
+      }
+    });
     // } else {
     //   console.log("form is not valid");
     // }
@@ -762,9 +766,8 @@ getSelectedWarehouseDetails(): { _id: string; name: string } | null {
         quantity: Number(item.quantity),
         ratePerSqFeet: item.ratePerSqFeet,
         totalAmount: Number(item.totalAmount) || "",
-        slabSize: `${item.width ? item.width : " "} x ${
-          item.length ? item.length : " "
-        } x ${item.thickness ? item.thickness : " "}`,
+        slabSize: `${item.width ? item.width : " "} x ${item.length ? item.length : " "
+          } x ${item.thickness ? item.thickness : " "}`,
         noOfPieces: Number(item.noOfPieces) || "",
       });
       squarefeet += item.quantity;
@@ -787,10 +790,10 @@ getSelectedWarehouseDetails(): { _id: string; name: string } | null {
   }
 
   getSelectedWarehouseName(): string {
-  const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
-  const selectedWarehouse = this.wareHousedata.find(w => w._id === selectedId);
-  return selectedWarehouse ? selectedWarehouse.name : '--';
-}
+    const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
+    const selectedWarehouse = this.wareHousedata.find(w => w._id === selectedId);
+    return selectedWarehouse ? selectedWarehouse.name : '--';
+  }
 
 
   // toggleExpenses(): void {
@@ -819,7 +822,7 @@ getSelectedWarehouseDetails(): { _id: string; name: string } | null {
   //   }
   // }
 
-    salesFilesChangedHandler(files: File[]) {
+  salesFilesChangedHandler(files: File[]) {
     console.log('Files changed:', files);
   }
 
@@ -841,35 +844,35 @@ getSelectedWarehouseDetails(): { _id: string; name: string } | null {
   }
 
   get expenses(): FormArray {
-  console.log(this.expensesForm.get('expenses'), 'FormArray');
-  return this.expensesForm.get('expenses') as FormArray;
-}
+    console.log(this.expensesForm.get('expenses'), 'FormArray');
+    return this.expensesForm.get('expenses') as FormArray;
+  }
 
-getExpenseTypeName(value: string): string {
-  const option = this.expenseTypeOptions.find(opt => opt.value === value);
-  return option ? option.name : value; // fallback to value if not found
-}
+  getExpenseTypeName(value: string): string {
+    const option = this.expenseTypeOptions.find(opt => opt.value === value);
+    return option ? option.name : value; // fallback to value if not found
+  }
 
-createExpenseGroup(data?: any): FormGroup {
-  return this.fb.group({
-    type: [data?.type || ''],
-    payment: [data?.payment || ''],
-    paidBy: [data?.paidBy || '']
-  });
-}
+  createExpenseGroup(data?: any): FormGroup {
+    return this.fb.group({
+      type: [data?.type || ''],
+      payment: [data?.payment || ''],
+      paidBy: [data?.paidBy || '']
+    });
+  }
 
-capitalizeFirstLetter(value: string): string {
-  return value ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() : '';
-}
+  capitalizeFirstLetter(value: string): string {
+    return value ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() : '';
+  }
 
-onVehicleInput(event: Event) {
-  const input = event.target as HTMLInputElement;
-  const uppercaseValue = input.value.toUpperCase();
-  this.addNewPurchaseForm.get('vehicleNo')?.setValue(uppercaseValue, { emitEvent: false });
-}
+  onVehicleInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const uppercaseValue = input.value.toUpperCase();
+    this.addNewPurchaseForm.get('vehicleNo')?.setValue(uppercaseValue, { emitEvent: false });
+  }
 
-onnextBtnDisabled(data:any){
-  this.addSlabData = data.controls;
-}
+  onnextBtnDisabled(data: any) {
+    this.addSlabData = data.controls;
+  }
 
 }
