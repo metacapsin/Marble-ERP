@@ -1,4 +1,4 @@
-<mat-dialog-content class="mat-typography mat-lg" style="width: 100%;">
+<mat-dialog-content class="mat-typography mat-lg" style="width: 100%;" >
   <div class="m-b-20">
     <h3>{{isEditMode ? 'Edit' : 'Add'}} Bank Account</h3>
   </div>
@@ -36,14 +36,14 @@
 
         <div class="col-md-6">
           <div class="form-group local-forms">
-            <label for="ifscCode">IFSC Code <span class="login-danger">*</span></label>
-            <input class="form-control" type="text" placeholder="" formControlName="ifscCode">
+            <label for="accountHolderName">Account Holder Name <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="accountHolderName">
 
-            <div *ngIf="bankAccountForm.get('ifscCode')?.hasError('required') && bankAccountForm.get('ifscCode')?.touched">
+            <div *ngIf="bankAccountForm.get('accountHolderName')?.hasError('required') && bankAccountForm.get('accountHolderName')?.touched">
               <span class="login-danger">Field is required.</span>
             </div>
-            <div *ngIf="bankAccountForm.get('ifscCode')?.hasError('pattern') && bankAccountForm.get('ifscCode')?.touched">
-              <span class="login-danger">Please enter a valid IFSC code.</span>
+            <div *ngIf="bankAccountForm.get('accountHolderName')?.hasError('pattern') && bankAccountForm.get('accountHolderName')?.touched">
+              <span class="login-danger">Account holder name must be between 3 to 30 characters.</span>
             </div>
           </div>
         </div>
@@ -61,17 +61,16 @@
             </div>
           </div>
         </div>
-
         <div class="col-md-6">
           <div class="form-group local-forms">
-            <label for="accountHolderName">Account Holder Name <span class="login-danger">*</span></label>
-            <input class="form-control" type="text" placeholder="" formControlName="accountHolderName">
+            <label for="ifscCode">IFSC Code <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="ifscCode">
 
-            <div *ngIf="bankAccountForm.get('accountHolderName')?.hasError('required') && bankAccountForm.get('accountHolderName')?.touched">
+            <div *ngIf="bankAccountForm.get('ifscCode')?.hasError('required') && bankAccountForm.get('ifscCode')?.touched">
               <span class="login-danger">Field is required.</span>
             </div>
-            <div *ngIf="bankAccountForm.get('accountHolderName')?.hasError('pattern') && bankAccountForm.get('accountHolderName')?.touched">
-              <span class="login-danger">Account holder name must be between 3 to 30 characters.</span>
+            <div *ngIf="bankAccountForm.get('ifscCode')?.hasError('pattern') && bankAccountForm.get('ifscCode')?.touched">
+              <span class="login-danger">Please enter a valid IFSC code.</span>
             </div>
           </div>
         </div>
