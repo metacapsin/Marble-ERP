@@ -39,6 +39,18 @@
                     >Profile</a
                   >
                 </li>
+                <li
+                appShowHide
+                [roles]="['admin', 'super-admin']"
+                class="nav-item pe-2 {{ isRouteActive('users') }}"
+              >
+                <a
+                  class="nav-link"
+                  [routerLink]="routes.listUsers"
+                  (click)="findPageName('User')"
+                  >Users</a
+                >
+              </li>
                 <li class="nav-item pe-2 {{ isRouteActive('warehouse') }}">
                   <a
                     class="nav-link"
@@ -47,18 +59,7 @@
                     >Warehouse</a
                   >
                 </li>
-                <li
-                  appShowHide
-                  [roles]="['admin', 'super-admin']"
-                  class="nav-item pe-2 {{ isRouteActive('users') }}"
-                >
-                  <a
-                    class="nav-link"
-                    [routerLink]="routes.listUsers"
-                    (click)="findPageName('User')"
-                    >Users</a
-                  >
-                </li>
+          
                 <li
                   class="nav-item pe-2 {{ isRouteActive('categories') }}"
                   [ngClass]="{
@@ -86,6 +87,28 @@
                   >
                 </li>
                 <li
+                class="nav-item pe-2 {{ isRouteActive('taxes') }}"
+                [ngClass]="{ active: this.currentRoute === routes.taxes }"
+              >
+                <a
+                  class="nav-link"
+                  [routerLink]="routes.taxes"
+                  (click)="findPageName('Taxes')"
+                  >Taxes</a
+                >
+              </li>
+                <li
+                class="nav-item pe-2 {{ isRouteActive('bank-accounts') }}"
+                [ngClass]="{ active: this.currentRoute === routes.bankAccounts }"
+              >
+                <a
+                  class="nav-link"
+                  [routerLink]="routes.bankAccounts"
+                  (click)="findPageName('Bank Accounts')"
+                  >Bank Accounts</a
+                >
+              </li>
+                <li
                   class="nav-item pe-2 {{ isRouteActive('billing-Address') }}"
                   [ngClass]="{
                     active: this.currentRoute === routes.billingAddress
@@ -98,17 +121,8 @@
                     >Billing Address</a
                   >
                 </li>
-                <li
-                  class="nav-item pe-2 {{ isRouteActive('taxes') }}"
-                  [ngClass]="{ active: this.currentRoute === routes.taxes }"
-                >
-                  <a
-                    class="nav-link"
-                    [routerLink]="routes.taxes"
-                    (click)="findPageName('Taxes')"
-                    >Taxes</a
-                  >
-                </li>
+               
+              
                 <!-- <li class="nav-item pe-2" [ngClass]="{'active': this.currentRoute===routes.unitsList}">
                                     <a class="nav-link " [routerLink]="routes.unitsList">Units</a>
                                 </li> -->

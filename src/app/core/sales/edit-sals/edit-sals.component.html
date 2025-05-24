@@ -261,6 +261,7 @@
                       </div>
                     </div>
                   </div>
+                
                   <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="salesDate"
@@ -325,6 +326,23 @@
                           >Credit Period Must not be more than 180 days.</span
                         >
                       </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                    <div class="form-group local-forms">
+                      <label for="salesPerson">Salesperson</label>
+                      <p-multiSelect
+                          [options]="salesPersonList"
+                          [style]="{ width: '100%' }"
+                          placeholder="Select Sales Person"
+                          formControlName="salesPerson"
+                          optionLabel="name"
+                          display="chip"
+                          [filter]="true"
+                          filterBy="name"
+                          appendTo="body"
+                          [maxSelectedLabels]="3"
+                        ></p-multiSelect>
                     </div>
                   </div>
                 </div>

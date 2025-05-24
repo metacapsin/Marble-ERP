@@ -62,6 +62,9 @@ export class SettingsComponent {
       case "taxes":
         this.text = "Taxes";
         break;
+      case "bank-accounts":
+        this.text = "Bank Accounts";
+        break;
       default:
         this.text = "Profile Information"; // Default case
         break;

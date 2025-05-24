@@ -24,6 +24,12 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { environment } from "src/environments/environment.development";
 import { HttpClient } from "@angular/common/http";
 import { SafePipe } from "src/app/shared/pipes/safe.pipe";
+import { staffService } from "../../../core/staff/staff.service";
+
+interface SalesPerson {
+  name: string;
+  _id: string;
+}
 
 @Component({
   selector: "app-edit-sals",
@@ -86,6 +92,7 @@ export class EditSalsComponent implements OnInit {
   previewFileUrl: string = '';
   previewFileName: string = '';
   previewFileType: string = '';
+  salesPersonList: SalesPerson[] = [];
 
   constructor(
     private router: Router,
@@ -103,7 +110,8 @@ export class EditSalsComponent implements OnInit {
     private dashboard: dashboardService,
     private confirmationService: ConfirmationService,
     private fileUploadService: FileUploadService,
-    private http: HttpClient
+    private http: HttpClient,
+    private staffService: staffService
   ) {
     this.ewayBillForm = this.fb.group({
       eWayBillNo: ["", Validators.required],
@@ -174,6 +182,7 @@ export class EditSalsComponent implements OnInit {
       eWayBill: [""],
       isShippingTax: [false],
       isOtherChargesTax: [false],
+      salesPerson: [""],
     });
 
     // Set up a value change subscription to update the max validator for salesDiscount
@@ -577,6 +586,8 @@ export class EditSalsComponent implements OnInit {
       this.patchForm(resp.data);
       console.log("resp.data", resp.data);
     });
+
+    this.getSalesPersonList();
   }
 
   toUpperCase(event: any) {
@@ -618,6 +629,7 @@ export class EditSalsComponent implements OnInit {
       vendorTaxApplied: data?.taxVendor?.vendorTaxApplied,
       companyName: data?.taxVendor?.companyName,
       taxVendorAmount: data?.taxVendor?.taxVendorAmount,
+      salesPerson: data.salesPerson || [],
     });
     // this.BuyerData = data.customer
     this.setCustomer(data.customer);
@@ -1219,6 +1231,7 @@ console.error('Error setting form values:', error);
       taxable: Number(formData.taxable).toFixed(2),
       nonTaxable: Number(formData.nonTaxable).toFixed(2),
       creditPeriod: Number(formData.creditPeriod),
+      salesPerson: formData.salesPerson,
       attachments: this.attachments // Add attachments to payload
     };
 
@@ -1363,4 +1376,17 @@ console.error('Error setting form values:', error);
     link.click();
     document.body.removeChild(link);
   }
+
+  getSalesPersonList() {
+    this.staffService.getStaffData().subscribe((resp: any) => {
+      if (resp && resp.length > 0) {
+        this.salesPersonList = resp.map((staff: any) => ({
+          name: staff.firstName + " " + staff.lastName,
+          _id: staff._id
+        }));
+      }
+    });
+  }
+
+  
 }

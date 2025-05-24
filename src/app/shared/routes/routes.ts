@@ -1,4 +1,3 @@
-
 export class routes {
 
   private static Url = '';
@@ -740,5 +739,9 @@ export class routes {
   }
   public static get editbillingAddress(): string {
     return this.baseUrl + '/settings/billing-Address/edit-billing-Address';
+  }
+
+  public static get bankAccounts(): string {
+    return this.baseUrl + '/settings/bank-accounts';
   }
 }

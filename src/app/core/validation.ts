@@ -9,7 +9,6 @@ export const validationRegex = {
   billingAddressRegex: /^(?!\s)(?!.*\s{3})(?=.*[a-zA-Z])(.{3,100})$/s,
   descriptionRegex: /^(?=.*[a-zA-Z]).{3,500}$/s,
 
-
   // staff mostly 
   aadharRegex: /^\d{4}\s\d{4}\s\d{4}$/,
   passportRegex: /^[A-Z][1-9]\d\s?\d{4}[1-9]$/,
@@ -33,11 +32,14 @@ export const validationRegex = {
   address3To500Regex: /^(?!\s)(?!.*\s{3})(.{3,500})$/s,     // 3 to 500 characters
   pinCodeRegex: /^[1-9][0-9]{2}\s?[0-9]{3}$/,
   emailRegex: /^(?!.*\\s)[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,   // email regex
-  oneToOneLakhRegex:/^(0|[1-9][0-9]{0,6})(\.\d+)?$/
+  oneToOneLakhRegex:/^(0|[1-9][0-9]{0,6})(\.\d+)?$/,
 
-
-
-
+  // Bank account specific regex
+  bankName: /^(?=.*[a-zA-Z])[a-zA-Z0-9\s\.\-]{3,50}$/,
+  accountNumber: /^[0-9]{9,18}$/,
+  ifscCode: /^[A-Z]{4}0[A-Z0-9]{6}$/,
+  branchName: /^(?=.*[a-zA-Z])[a-zA-Z0-9\s\.\-]{3,100}$/,
+  accountHolderName: /^(?=.*[a-zA-Z])[a-zA-Z\s\.\-]{3,50}$/
 };
 
 export function atLeastOneRequiredValidator(): ValidatorFn {

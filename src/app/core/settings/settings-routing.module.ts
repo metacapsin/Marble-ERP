@@ -112,7 +112,13 @@ const routes: Routes = [
             (m) => m.BillingAddressModule
           ),
       },
-      
+      {
+        path: 'bank-accounts',
+        loadChildren: () =>
+          import('./bank-accounts/bank-accounts.module').then(
+            (m) => m.BankAccountsModule
+          ),
+      },
     ],
   },
 ];

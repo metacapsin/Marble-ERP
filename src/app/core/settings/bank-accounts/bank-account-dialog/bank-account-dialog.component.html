@@ -1,0 +1,89 @@
+<mat-dialog-content class="mat-typography mat-lg" style="width: 100%;">
+  <div class="m-b-20">
+    <h3>{{isEditMode ? 'Edit' : 'Add'}} Bank Account</h3>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="bankAccountForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group local-forms">
+            <label for="bankName">Bank Name <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="bankName">
+
+            <div *ngIf="bankAccountForm.get('bankName')?.hasError('required') && bankAccountForm.get('bankName')?.touched">
+              <span class="login-danger">Field is required.</span>
+            </div>
+            <div *ngIf="bankAccountForm.get('bankName')?.hasError('pattern') && bankAccountForm.get('bankName')?.touched">
+              <span class="login-danger">Bank name must be between 3 to 30 characters.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group local-forms">
+            <label for="accountNumber">Account Number <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="accountNumber">
+
+            <div *ngIf="bankAccountForm.get('accountNumber')?.hasError('required') && bankAccountForm.get('accountNumber')?.touched">
+              <span class="login-danger">Field is required.</span>
+            </div>
+            <div *ngIf="bankAccountForm.get('accountNumber')?.hasError('pattern') && bankAccountForm.get('accountNumber')?.touched">
+              <span class="login-danger">Please enter a valid account number.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group local-forms">
+            <label for="ifscCode">IFSC Code <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="ifscCode">
+
+            <div *ngIf="bankAccountForm.get('ifscCode')?.hasError('required') && bankAccountForm.get('ifscCode')?.touched">
+              <span class="login-danger">Field is required.</span>
+            </div>
+            <div *ngIf="bankAccountForm.get('ifscCode')?.hasError('pattern') && bankAccountForm.get('ifscCode')?.touched">
+              <span class="login-danger">Please enter a valid IFSC code.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group local-forms">
+            <label for="branchName">Branch Name <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="branchName">
+
+            <div *ngIf="bankAccountForm.get('branchName')?.hasError('required') && bankAccountForm.get('branchName')?.touched">
+              <span class="login-danger">Field is required.</span>
+            </div>
+            <div *ngIf="bankAccountForm.get('branchName')?.hasError('pattern') && bankAccountForm.get('branchName')?.touched">
+              <span class="login-danger">Branch name must be between 3 to 30 characters.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group local-forms">
+            <label for="accountHolderName">Account Holder Name <span class="login-danger">*</span></label>
+            <input class="form-control" type="text" placeholder="" formControlName="accountHolderName">
+
+            <div *ngIf="bankAccountForm.get('accountHolderName')?.hasError('required') && bankAccountForm.get('accountHolderName')?.touched">
+              <span class="login-danger">Field is required.</span>
+            </div>
+            <div *ngIf="bankAccountForm.get('accountHolderName')?.hasError('pattern') && bankAccountForm.get('accountHolderName')?.touched">
+              <span class="login-danger">Account holder name must be between 3 to 30 characters.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="settings-btns text-end m-b-10">
+            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+              [disabled]="!bankAccountForm.valid">{{isEditMode ? 'Update' : 'Submit'}}</button>
+            <button type="button" class="btn btn-secondary" [mat-dialog-close]="true">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content> 
