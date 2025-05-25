@@ -1,10 +1,13 @@
 .container-box {
     background: #F8F5F2;
-    padding: 20px;
+    padding: 15px;
     border-radius: 10px 0px 0px 10px;
+    display: flex;
+    flex-direction: column;
 }
  
 .header-text {
+    margin-top: 10px;
     font-weight: bold;
     color: #8B5E34;
 }
@@ -117,4 +120,81 @@
   .save-btn:hover {
     background: #218838;
   }
+  :host ::ng-deep .p-carousel-content {
+    .p-carousel-indicators {
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+      margin-top: 0 !important;
+    }
+  }
+  
+.slab-carousel {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+
+
+  .carousel-item {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    padding: 0;
+  }
+
+  .no-media-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    color: #bfa77a;
+    padding: 0;
+
+    .no-media-icon {
+      font-size: 20px;
+      margin-bottom: 2px;
+      opacity: 0.4;
+    }
+    .no-media-text {
+      font-size: 11px;
+      margin: 0;
+      color: #bfa77a;
+      opacity: 0.5;
+    }
+  }
+}
+
+// Adjust row spacing
+.row.text-muted {
+  margin-top: 10px;
+}
+
+// Adjust progress bar spacing
+.progress {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+// Responsive styles
+@media screen and (max-width: 768px) {
+  .slab-carousel {
+    .carousel-item {
+      height: 250px;
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .slab-carousel {
+    .carousel-item {
+      height: 200px;
+    }
+  }
+}
   

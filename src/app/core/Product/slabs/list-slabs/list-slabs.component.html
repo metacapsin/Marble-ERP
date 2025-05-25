@@ -141,6 +141,20 @@
                 <div class="container mt-4" *ngFor="let item of pagedData">
                   <div class="row">
                     <div class="col-md-8 container-box">
+                      <!-- Image/Video Carousel -->
+                      <div class="slab-carousel mb-0">
+                        <p-carousel [value]="getSlabMedia(item)" [numVisible]="3" [numScroll]="1" [circular]="true" [autoplayInterval]="3000" [showIndicators]="true" [showNavigators]="true">
+                          <ng-template let-media pTemplate="item">
+                            <div class="carousel-item">
+                              <div class="no-media-container">
+                                <i class="fas fa-image no-media-icon"></i>
+                                <p class="no-media-text">No Slab Image Preview</p>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </p-carousel>
+                      </div>
+
                       <div
                         class="d-flex justify-content-between align-items-center"
                       >

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
@@ -16,6 +16,8 @@ import { HttpClient } from "@angular/common/http";
 import { blockProcessorService } from "src/app/core/block-processor/block-processor.service";
 import { SalesService } from "src/app/core/sales/sales.service";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
+import { ConfirmDialogComponent } from "src/app/common-component/modals/confirm-dialog/confirm-dialog.component";
+
 interface SlabInfo {
   _id: string;
   slabNo: string;
@@ -26,6 +28,11 @@ interface SlabDetail {
   slabInfo: SlabInfo;
 }
 
+interface SlabMedia {
+  type: 'image' | 'video' | 'no-media';
+  url: string;
+}
+
 @Component({
   selector: "app-list-slabs",
   standalone: true,
@@ -34,7 +41,7 @@ interface SlabDetail {
   templateUrl: "./list-slabs.component.html",
   styleUrl: "./list-slabs.component.scss",
 })
-export class ListSlabsComponent {
+export class ListSlabsComponent implements OnInit {
   public routes = routes;
   data: any = null;
   originalData: any = [];
@@ -76,6 +83,14 @@ export class ListSlabsComponent {
   showInvoiceDialog: boolean = false;
   paymentListData = [];
 
+  // Static media for demonstration
+  private staticMedia: { [key: string]: SlabMedia[] } = {
+    'default': [
+      { type: 'image', url: 'assets/img/slabs/slab1.jpg' },
+      { type: 'image', url: 'assets/img/slabs/slab2.jpg' },
+      { type: 'video', url: 'assets/videos/slab1.mp4' }
+    ]
+  };
 
   constructor(
     public dialog: MatDialog,
@@ -85,9 +100,7 @@ export class ListSlabsComponent {
     private messageService: MessageService,
     private WarehouseService: WarehouseService,
     private blockProcessorService: blockProcessorService,
-        private SalesService: SalesService,
-    
-
+    private SalesService: SalesService,
     private http: HttpClient
   ) {}
 
@@ -106,13 +119,6 @@ export class ListSlabsComponent {
   ];
 
   addExpense() {
-    // if (this.expenses.length >= 1) {
-    //   console.warn("❌ You can only add one expense.");
-    //   return; // Prevent adding more expenses
-    // }
-    // this.blockProcessorService.getAllBlockProcessorData().subscribe((data) => {
-    //   this.blockProcessorList = data as { _id: string; name: string; }[];
-    // })
     this.expenses.push({
       expenseType: "",
       recipient: "",
@@ -121,7 +127,6 @@ export class ListSlabsComponent {
       processingDate: "",
       processingCost: null,
       blockProcessor: null // Start as null, not an empty object
-
     });
     this.formVisible = true; // Show the form when adding a new record
     this.canAddExpense = false; // Hide "Add Expense" button after adding
@@ -130,27 +135,26 @@ export class ListSlabsComponent {
   removeExpense(index: number) {
     this.expenses.splice(index, 1);
     this.canAddExpense = true;
-        this.expenses = []; // Reset expenses
+    this.expenses = []; // Reset expenses
   }
 
   viewSales(_id:any){
-console.log('sales id',_id)
-  this.SalesService.GetSalesDataById(_id).subscribe((resp: any) => {
-    this.header = "Sales Invoice";
+    console.log('sales id',_id)
+    this.SalesService.GetSalesDataById(_id).subscribe((resp: any) => {
+      this.header = "Sales Invoice";
 
-    this.salesDataById = [resp.data];
-    console.log("sales data by id On dialog", this.salesDataById);
-    this.showInvoiceDialog = true;
-  });
+      this.salesDataById = [resp.data];
+      console.log("sales data by id On dialog", this.salesDataById);
+      this.showInvoiceDialog = true;
+    });
 
-  this.SalesService.getSalesPaymentList(_id).subscribe((resp: any) => {
-    this.paymentListData = resp.data;
-  });
+    this.SalesService.getSalesPaymentList(_id).subscribe((resp: any) => {
+      this.paymentListData = resp.data;
+    });
   }
 
   callBackModalForInvoice() {
     this.showInvoiceDialog = false;
-    
   }
   closeForInvocie() {
     this.showInvoiceDialog = false;
@@ -172,15 +176,6 @@ console.log('sales id',_id)
       expense.blockProcessor = { _id: "", name: "" };
     }
   }
-
-  // onBlockProcessorSelect(expense: any, selectedProcessor: any) {
-  //   console.log(selectedProcessor);
-  //   console.log(expense);
-  //   expense.blockProcessor = {
-  //     _id: selectedProcessor._id,
-  //     name: selectedProcessor.name,
-  //   };
-  // }
 
   onBlockProcessorSelect(expense: any, selectedProcessor: any) {
     console.log("Selected Processor:", selectedProcessor);
@@ -775,4 +770,28 @@ this.getSlabsList();
       .join(" x "); 
   }
   
+  getSlabMedia(slab: any): any[] {
+    // Return a simple no-media placeholder
+    return [{
+      type: 'no-media',
+      url: ''
+    },
+    {
+      type: 'no-media',
+      url: ''
+    },
+    {
+      type: 'no-media',
+      url: ''
+    },
+    {
+      type: 'no-media',
+      url: ''
+    },
+    {
+      type: 'no-media',
+      url: ''
+    }
+  ];
+  }
 }
