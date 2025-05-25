@@ -110,6 +110,8 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   piecesDetails = [];
   addSlabData: any;
   slabDetailsLength: number = 0;
+  taxableAmount: number = 0;
+  itemTax: any[] = [];
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -125,6 +127,9 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     private taxService: TaxesService,
     private taxVendorsService: TaxVendorsService
   ) {
+    this.expensesForm = this.fb.group({
+      expenses: this.fb.array([])
+    });
     this.addNewPurchaseForm = this.fb.group({
       paidToSupplierPurchaseCost: [""],
 
@@ -187,12 +192,21 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       localStorage.removeItem("slabAddForm");
     }
   };
-  ngOnInit() {
-    this.expensesForm = this.fb.group({
-      expenses: this.fb.array([])
-    });
+  ngOnInit(): void {
+    // Initialize expenses with default transportation charge
+    const expensesArray = this.expensesForm.get('expenses') as FormArray;
+    expensesArray.push(this.createExpenseGroup({type: 'transportationCharge', payment: '100', paidBy: 'Self'}));
+    // You can add more default expenses here if needed
+    // expensesArray.push(this.createExpenseGroup({type: 'otherCharges', payment: '200', paidBy: 'Self'}));
     this.NewPurchaseService.slabDetailsLength.subscribe(length => {
       this.slabDetailsLength = length;
+    });
+    this.NewPurchaseService.taxableAmount.subscribe(amount => {
+      this.taxableAmount = Number(amount) || 0; ;
+      console.log(this.taxableAmount, "taxableAmount");
+    });
+    this.NewPurchaseService.itemTax.subscribe(amount => {
+      this.itemTax = amount;
     });
 
     window.addEventListener("beforeunload", this.handleBeforeUnload);
@@ -638,7 +652,15 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       };
     } else {
       let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
-      this.SlabItemDetails.slabDetails.warehouseDetails = this.getSelectedWarehouseDetails();
+      // Set warehouse details for each slab in the array
+      if (Array.isArray(this.SlabItemDetails.slabDetails)) {
+        this.SlabItemDetails.slabDetails = this.SlabItemDetails.slabDetails.map(slab => {
+          return {
+            ...slab,
+            warehouseDetails: this.getSelectedWarehouseDetails()
+          };
+        });
+      }
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,

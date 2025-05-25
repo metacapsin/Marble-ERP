@@ -408,7 +408,7 @@
                       </ng-container>
 
                       <ng-container *ngIf="lotTypeValue === 'Slab'">
-                        <button class="btn btn-primary" (click)="nextStep(nextCallback, 'first')"  [disabled]="!addNewPurchaseForm.get('purchaseDate')?.value || !addNewPurchaseForm.get('supplier')?.value">
+                        <button class="btn btn-primary" (click)="nextStep(nextCallback, 'first')"  [disabled]="!addNewPurchaseForm.get('purchaseDate')?.value || !addNewPurchaseForm.get('supplier')?.value || (taxableAmount > 0 && itemTax.length === 0)">
                           Next <i class="fa-solid fa-arrow-right"></i>
                         </button>
                       </ng-container>
@@ -1354,13 +1354,28 @@
                                   {{ addNewPurchaseForm.get("transportationCharges").value || 0.00 | indianCurrency }}
                                   </span>
                               </p>
-                               <p *ngIf="addNewPurchaseForm.get('royaltyCharge').value">
+                               <p *ngIf="addNewPurchaseForm.get('royaltyCharge')?.value">
                                 Royalty Charges
                                 <span>
                                   ₹
                                   {{ addNewPurchaseForm.get("royaltyCharge").value || 0.00 | indianCurrency }}
                                   </span>
                               </p>
+                              <!-- Expenses Section -->
+                              <ng-container *ngIf="expenses && expenses.length > 0">
+                                <div class="mt-3 mb-2">
+                                  <h5 class="expenses-title">Expenses</h5>
+                                </div>
+                                <ng-container *ngFor="let expense of expenses.controls; let i = index">
+                                  <p>
+                                    {{ getExpenseTypeName(expense.get('type')?.value) }}
+                                    <small class="text-muted ml-1">({{ expense.get('paidBy')?.value }})</small>
+                                    <span>
+                                      ₹ {{ expense.get('payment')?.value || 0.00 | indianCurrency }}
+                                    </span>
+                                  </p>
+                                </ng-container>
+                              </ng-container>
                             </div>
 
                             <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Lot'">

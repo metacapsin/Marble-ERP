@@ -465,7 +465,7 @@ export class AddSlabPurchaseComponent {
     }
 
     // Generate rows based on noOfPieces
-    if (this.noOfPieces && this.noOfPieces > 0) {
+    if (this.noOfPieces && this.noOfPieces > 0 && this.ratePerSqFeet == null) {
       // Clear existing rows
       this.rows = [];
 
@@ -602,8 +602,11 @@ export class AddSlabPurchaseComponent {
 
 
   calculateTotalAmount() {
-      this.nextBtnDisabled.emit(this.slabAddForm);
+    this.nextBtnDisabled.emit(this.slabAddForm);
     const expenseBreakdown = this.calculateExpenseCharges();
+    this.NewPurchaseService.taxableAmountFun(this.slabAddForm.get('taxableAmount')?.value);
+    console.log(this.slabAddForm.get('ItemTax')?.value, "ItemTax");
+    this.NewPurchaseService.taxFun(this.slabAddForm.get('ItemTax')?.value);
 
     // this.slabAddForm.patchValue({
     //   nonTaxableAmount: this.slabTotalCost -  this.slabAddForm.get('taxableAmount')?.value
@@ -959,6 +962,9 @@ export class AddSlabPurchaseComponent {
     };
 
     this.rows.push(newRow);
+    this.noOfPieces = this.rows.length;
+    this.calculateTotalQuantity();
+    this.getSlabDetails(false);
   }
 
   deleteRow(index: number) {
@@ -968,7 +974,9 @@ export class AddSlabPurchaseComponent {
     this.rows.forEach((row, i) => {
       row.pieceNumber = i + 1;
     });
-    this.calculateTotalQuantity(); // Recalculate total quantity after deletion
+    this.noOfPieces = this.rows.length;
+    this.calculateTotalQuantity();
+    this.getSlabDetails(false);
   }
 
 
@@ -996,6 +1004,7 @@ export class AddSlabPurchaseComponent {
   saveRow(row: any) {
     row.isEditing = false;
     this.editedRowBackup = null;
+    this.getSlabDetails(false);
   }
 
   cancelEdit(row: any) {
@@ -1044,10 +1053,14 @@ export class AddSlabPurchaseComponent {
 
   logSlabDetails(myForm:NgForm): void {
     console.log("<<<<<<<<<<<<<<<<<<<<<rows:", this.rows);
-  this.NewPurchaseService.setFormData("piecesDetails", this.rows);
-  this.calculateTotalAmount(); 
-   this.addSlabDetails(myForm);
-}
+    // First make a deep copy of the rows data to preserve it
+    const rowsCopy = JSON.parse(JSON.stringify(this.rows));
+    // Calculate total amount and add slab details
+    this.calculateTotalAmount();
+    this.addSlabDetails(myForm);
+    // Set form data after processing is complete, using the preserved copy
+    this.NewPurchaseService.setFormData("piecesDetails", rowsCopy);
+  }
 
 
 
